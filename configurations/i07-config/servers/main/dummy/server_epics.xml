@@ -213,8 +213,6 @@
     </bean> -->
 
     <!--  ============================== Epics Enum Positioner definition section ============== -->
-    <!-- DCM crystal selection Positioner -->
-    <bean id="dcmxtal" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <!-- White beam attenuators A1 Positioner -->
     <bean id="a1" class="gda.device.enumpositioner.DummyEnumPositioner"/>
@@ -243,14 +241,6 @@
     <bean id="vfmstripe" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <!--  ============================== Epics Control Point definition section ============== -->
-    <!-- DCM fine pitch and roll Control Point, should be replaced by motor now -->
-<!--    
-    <bean id="dcm1froll" class="gda.device.controlpoint.EpicsControlPoint">
-    </bean>
-    
-    <bean id="dcm1fpitch" class="gda.device.controlpoint.EpicsControlPoint">
-    </bean>
--->
     
     <!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
     <bean id="dac1" class="gda.device.controlpoint.DummyControlPoint"/>
@@ -307,15 +297,6 @@
 
     <bean id="dcdc2" class="gda.device.monitor.DummyEpicsMonitor"/>
 
-    <!--DCM1 Absolute roll1 value -->
-    <bean id="dcm1xtal1roll_lvdt" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <!--DCM1 Absolute pitch value -->
-    <bean id="dcm1xtal2pitch_lvdt" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <!--DCM1 Absolute roll2 value -->
-    <bean id="dcm1xtal2roll_lvdt" class="gda.device.monitor.DummyEpicsMonitor"/>
-
     <!--Hexapod 1 Pivot values-->
 <!--    
     <bean id="hex1pivotx" class="gda.device.monitor.DummyEpicsMonitor">
@@ -345,44 +326,15 @@
 
     <bean id="s1t8" class="gda.device.monitor.DummyEpicsMonitor"/>
 
-    <!-- DCM1 Temperatures  -->
+    <bean id="dcm1t1h" class="gda.device.monitor.DummyEpicsMonitor"/>
+
     <bean id="dcm1t1" class="gda.device.monitor.DummyEpicsMonitor"/>
 
+    <bean id="dcm1tgap" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="dcm1t2h" class="gda.device.monitor.DummyEpicsMonitor"/>
+
     <bean id="dcm1t2" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t3" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t4" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t5" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t6" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t7" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t8" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t9" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t10" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t11" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t12" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t13" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t14" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t15" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t16" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t17" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t18" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="dcm1t19" class="gda.device.monitor.DummyEpicsMonitor"/>
 
     <!-- Patch Panel U1 Analog Input Monitor -->
     <bean id="adc11" class="gda.device.monitor.DummyEpicsMonitor"/>
@@ -543,25 +495,14 @@
     <!--Offset -->
     <bean id="MotorOffset_DCM1" class="gda.device.motor.DummyMotor"/>
 
-    <!--Crystal change -->
-    <bean id="MotorChange1_DCM1" class="gda.device.motor.DummyMotor"/>
+    <!--Crystal roll (second crystal) -->
+    <bean id="MotorRoll_DCM1" class="gda.device.motor.DummyMotor"/>
 
-    <!--First crystal roll -->
-    <bean id="MotorRoll1_DCM1" class="gda.device.motor.DummyMotor"/>
+    <!--Crystal pitch (second crystal) -->
+    <bean id="MotorPitch_DCM1" class="gda.device.motor.DummyMotor"/>
 
-    <!--Second crystal roll -->
-    <bean id="MotorRoll2_DCM1" class="gda.device.motor.DummyMotor"/>
-
-    <!--Second crystal pitch -->
-    <bean id="MotorPitch2_DCM1" class="gda.device.motor.DummyMotor"/>
-
-    <!--Second crystal perpendicular -->
-    <bean id="MotorPerpendicular2_DCM1" class="gda.device.motor.DummyMotor"/>
-
-    <!-- Fine Pitch and Fine Roll -->
-    <bean id="MotorFinePitch_DCM1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorFineRoll_DCM1" class="gda.device.motor.DummyMotor"/>
+    <!--Crystal perpendicular (second crystal) -->
+    <bean id="MotorPerpendicular_DCM1" class="gda.device.motor.DummyMotor"/>
 
     <!-- Beam Position Monitor QBPM1 (D2) Motors -->
     <!--Screen change motor -->

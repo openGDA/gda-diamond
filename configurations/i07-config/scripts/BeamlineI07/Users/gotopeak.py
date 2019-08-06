@@ -142,7 +142,8 @@ def peakFindCommon(args, textDesc):
     data = gda.analysis.ScanFileHolder()
 #    data.loadSRS("/dls/i07/data/2012/si7264-1/84876.dat")
 #    data.loadSRS(lastscan)
-    data.loadSRS(i07.getLastScanFile())
+#    data.loadSRS(i07.getLastScanFile())
+    data.loadSRS(i07.getLastSrsScanFile())
     headings = data.getHeadings()
 
     newMotor = False

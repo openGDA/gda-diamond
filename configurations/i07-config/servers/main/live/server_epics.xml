@@ -296,10 +296,7 @@
 
 	<!-- ============================== Epics Enum Positioner definition section 
 		============== -->
-	<!-- DCM crystal selection Positioner -->
-	<bean id="dcmxtal" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="recordName" value="BL07I-OP-DCM-01:MP" />
-	</bean>
+
 
 	<!-- White beam attenuators A1 Positioner -->
 	<bean id="a1" class="gda.device.enumpositioner.EpicsPositioner">
@@ -426,20 +423,6 @@
 		<property name="pvName" value="BL07I-OP-DCD-01:DIODE2" />
 	</bean>
 
-	<!--DCM1 Absolute roll1 value -->
-	<bean id="dcm1xtal1roll_lvdt" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:ROLL1:LVDT" />
-	</bean>
-
-	<!--DCM1 Absolute pitch value -->
-	<bean id="dcm1xtal2pitch_lvdt" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:PITCH2:LVDT" />
-	</bean>
-
-	<!--DCM1 Absolute roll2 value -->
-	<bean id="dcm1xtal2roll_lvdt" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:ROLL2:LVDT" />
-	</bean>
 
 	<!--Hexapod 1 Pivot values -->
 	<!-- <bean id="hex1pivotx" class="gda.device.monitor.EpicsMonitor">
@@ -483,65 +466,23 @@
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP8" />
 	</bean>
 
-
-	<!-- DCM1 Temperatures -->
+	<bean id="dcm1t1h" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-DCM-01:PT100-1" />
+	</bean>
 	<bean id="dcm1t1" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP13" />
+		<property name="pvName" value="BL07I-DI-DCM-01:PT100-2" />
+	</bean>
+	<bean id="dcm1tgap" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-DCM-01:TC-1" />
+	</bean>
+	<bean id="dcm1t2h" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-DCM-01:PT100-4" />
 	</bean>
 	<bean id="dcm1t2" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP14" />
+		<property name="pvName" value="BL07I-DI-DCM-01:PT100-3" />
 	</bean>
-	<bean id="dcm1t3" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP15" />
-	</bean>
-	<bean id="dcm1t4" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP16" />
-	</bean>
-	<bean id="dcm1t5" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP1" />
-	</bean>
-	<bean id="dcm1t6" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP2" />
-	</bean>
-	<bean id="dcm1t7" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP3" />
-	</bean>
-	<bean id="dcm1t8" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP4" />
-	</bean>
-	<bean id="dcm1t9" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP5" />
-	</bean>
-	<bean id="dcm1t10" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP6" />
-	</bean>
-	<bean id="dcm1t11" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP7" />
-	</bean>
-	<bean id="dcm1t12" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP8" />
-	</bean>
-	<bean id="dcm1t13" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP9" />
-	</bean>
-	<bean id="dcm1t14" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP10" />
-	</bean>
-	<bean id="dcm1t15" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP11" />
-	</bean>
-	<bean id="dcm1t16" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP12" />
-	</bean>
-	<bean id="dcm1t17" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP17" />
-	</bean>
-	<bean id="dcm1t18" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP18" />
-	</bean>
-	<bean id="dcm1t19" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-DCM-01:TEMP19" />
-	</bean>
+
+
 
 
 	<!-- Patch Panel U1 Analog Input Monitor -->
@@ -586,6 +527,11 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<!-- Beam intensity from D5 (this PV also appears in the D5 EpicsBpmController) -->
+	<bean id="d5i" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-PHDGN-05:INTEN" />
 	</bean>
 
 
@@ -748,47 +694,31 @@
 	<!-- Double Crystal Monochromator (DCM) Motors -->
 	<!--Bragg Angle -->
 	<bean id="MotorBraggAngle_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:BRAGG" />
+		<property name="pvName" value="BL07I-MO-DCM-01:BRAGG" />
 	</bean>
 	<!--Bragg Energy -->
 	<bean id="MotorBraggEnergy_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:ENERGY" />
+		<property name="pvName" value="BL07I-MO-DCM-01:ENERGY" />
 	</bean>
 	<!--Lambda (Wavelength) -->
 	<bean id="MotorLambda_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:LAMBDA" />
+		<property name="pvName" value="BL07I-MO-DCM-01:LAMBDA" />
 	</bean>
 	<!--Offset -->
 	<bean id="MotorOffset_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:OFFSET" />
+		<property name="pvName" value="BL07I-MO-DCM-01:OFFSET" />
 	</bean>
-	<!--Crystal change -->
-	<bean id="MotorChange1_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:X" />
+	<!--Crystal roll (second crystal) -->
+	<bean id="MotorRoll_DCM1" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DCM-01:ROLL" />
 	</bean>
-	<!--First crystal roll -->
-	<bean id="MotorRoll1_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:XTAL1:ROLL" />
+	<!--Crystal pitch (second crystal) -->
+	<bean id="MotorPitch_DCM1" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DCM-01:PITCH" />
 	</bean>
-	<!--Second crystal roll -->
-	<bean id="MotorRoll2_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:XTAL2:ROLL" />
-	</bean>
-	<!--Second crystal pitch -->
-	<bean id="MotorPitch2_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:XTAL2:PITCH" />
-	</bean>
-	<!--Second crystal perpendicular -->
-	<bean id="MotorPerpendicular2_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:T2" />
-	</bean>
-
-	<!-- Fine Pitch and Fine Roll -->
-	<bean id="MotorFinePitch_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:FPITCH" />
-	</bean>
-	<bean id="MotorFineRoll_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCM-01:FROLL" />
+	<!--Crystal perpendicular (second crystal) -->
+	<bean id="MotorPerpendicular_DCM1" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DCM-01:PERP" />
 	</bean>
 
 

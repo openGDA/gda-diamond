@@ -1,7 +1,0 @@
-<JEPQuantityConverter>
-<ExpressionStoT>12.3985/(6.2712*sin(X*3.14159265/180))</ExpressionStoT>
-<ExpressionTtoS>180/3.14159265*asin(12.3985/(X*6.2712))</ExpressionTtoS>
-<AcceptableSourceUnits>Deg</AcceptableSourceUnits>
-<AcceptableTargetUnits>keV</AcceptableTargetUnits>
-<SourceMinIsTargetMax>true</SourceMinIsTargetMax>
-</JEPQuantityConverter>

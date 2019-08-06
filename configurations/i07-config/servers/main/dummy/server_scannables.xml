@@ -167,57 +167,27 @@
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <!--Crystal change -->
-    <bean id="dcm1xtalchange" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorChange1_DCM1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    
-    <!--First crystal roll -->
-    <bean id="dcm1xtal1roll" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorRoll1_DCM1" />
+    </bean>    
+    <!--Crystal roll -->
+    <bean id="dcm1xtalroll" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorRoll_DCM1" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mRad" />
         <property name="hardwareUnitString" value="mRad" />
     </bean>
-    <!--Second crystal roll -->
-    <bean id="dcm1xtal2roll" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorRoll2_DCM1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mRad" />
-        <property name="hardwareUnitString" value="mRad" />
-    </bean>
-    <!--Second crystal pitch -->
-    <bean id="dcm1xtal2pitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorPitch2_DCM1" />
+    <!--Crystal pitch -->
+    <bean id="dcm1xtalpitch" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorPitch_DCM1" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mRad" />
         <property name="hardwareUnitString" value="mRad" />
     </bean>
     <!--Second crystal perpendicular -->
     <bean id="dcm1sep" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorPerpendicular2_DCM1" />
+        <property name="motor" ref="MotorPerpendicular_DCM1" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
-    </bean>
-    
-    <!--Fine pitch and roll -->
-    
-    <bean id="dcm1fpitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorFinePitch_DCM1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="V" />
-        <property name="hardwareUnitString" value="V" />
-    </bean>
-    <bean id="dcm1froll" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorFineRoll_DCM1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="V" />
-        <property name="hardwareUnitString" value="V" />
     </bean>
     
     <bean id="DCM1" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -227,51 +197,27 @@
                 <ref bean="dcm1bragg" />
                 <ref bean="dcm1lambda" />
                 <ref bean="dcm1offset" />
-                <ref bean="dcm1xtal1roll" />
-                <ref bean="dcm1xtal2roll" />
-                <ref bean="dcm1xtal2pitch" />
+                <ref bean="dcm1xtalroll" />
+                <ref bean="dcm1xtalpitch" />
                 <ref bean="dcm1sep" />
-                <ref bean="dcm1xtalchange" />
-                <ref bean="dcmxtal" />
-                
-                <ref bean="dcm1fpitch" />
-                <ref bean="dcm1froll" />
-                
-                <ref bean="dcm1xtal1roll_lvdt" />
-                <ref bean="dcm1xtal2pitch_lvdt" />
-                <ref bean="dcm1xtal2roll_lvdt" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
-    <bean id="DCM1TEMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
+
+            <bean id="DCM1TEMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
+                <ref bean="dcm1t1h" />
                 <ref bean="dcm1t1" />
+                <ref bean="dcm1tgap" />
+                <ref bean="dcm1t2h" />
                 <ref bean="dcm1t2" />
-                <ref bean="dcm1t3" />
-                <ref bean="dcm1t4" />
-                <ref bean="dcm1t5" />
-                <ref bean="dcm1t6" />
-                <ref bean="dcm1t7" />
-                <ref bean="dcm1t8" />
-                <ref bean="dcm1t9" />
-                <ref bean="dcm1t10" />
-                <ref bean="dcm1t11" />
-                <ref bean="dcm1t12" />
-                <ref bean="dcm1t13" />
-                <ref bean="dcm1t14" />
-                <ref bean="dcm1t15" />
-                <ref bean="dcm1t16" />
-                <ref bean="dcm1t17" />
-                <ref bean="dcm1t18" />
-                <ref bean="dcm1t19" />
-            </list>
-        </property>
-        <property name="protectionLevel" value="0" />
-    </bean>
-    
+             </list>
+         </property>
+         <property name="protectionLevel" value="0" />
+     </bean>
+        
     <!-- Beam Poistion Monitor QBPM1 (D2)-->
     <bean id="qbpm1y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorFoil_D2" />
@@ -1515,17 +1461,15 @@
                 <ref bean="dcm1bragg" />
                 <ref bean="dcm1lambda" />
                 <ref bean="dcm1offset" />
-                <ref bean="dcm1xtal1roll" />
-                <ref bean="dcm1xtal2roll" />
-                <ref bean="dcm1xtal2pitch" />
+                <ref bean="dcm1xtalroll" />
+                <ref bean="dcm1xtalpitch" />
                 <ref bean="dcm1sep" />
-                <ref bean="dcm1xtalchange" />
-                <ref bean="dcmxtal" />
-                <ref bean="dcm1fpitch" />
-                <ref bean="dcm1froll" />
-                <ref bean="dcm1xtal1roll_lvdt" />
-                <ref bean="dcm1xtal2pitch_lvdt" />
-                <ref bean="dcm1xtal2roll_lvdt" />
+                <ref bean="dcm1t1h" />
+                <ref bean="dcm1t1" />
+                <ref bean="dcm1tgap" />
+                <ref bean="dcm1t2h" />
+                <ref bean="dcm1t2" />
+
                 
                 <!-- QBPM1 -->
                 <ref bean="qbpm1y" />

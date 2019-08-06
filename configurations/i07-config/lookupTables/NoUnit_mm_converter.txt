@@ -1,4 +1,0 @@
-#NoUnit to mm converter - simple 1-1 that changes the units to empty
-Units "" mm
-0.0	0.0
-10000.0	10000.0

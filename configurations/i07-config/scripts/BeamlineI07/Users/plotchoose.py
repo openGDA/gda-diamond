@@ -45,7 +45,7 @@ def xplot(*args):
 def findCols(args):
     # load the data file
     data = ScanFileHolder()
-    data.loadSRS(lastscan())
+    data.loadSRS(i07.getLastSrsScanFile())
     headings = data.getHeadings()
     retstring = ""
 

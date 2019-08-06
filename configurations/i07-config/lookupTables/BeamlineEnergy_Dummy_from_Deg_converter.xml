@@ -1,7 +1,0 @@
-<JEPQuantityConverter>
-<ExpressionStoT>5</ExpressionStoT>
-<ExpressionTtoS>5</ExpressionTtoS>
-<AcceptableSourceUnits>keV</AcceptableSourceUnits>
-<AcceptableTargetUnits>mrad</AcceptableTargetUnits>
-<SourceMinIsTargetMax>true</SourceMinIsTargetMax>
-</JEPQuantityConverter>

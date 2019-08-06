@@ -183,4 +183,7 @@
         <property name="lowerTemp" value = "0"/>
     </bean>
 
+    <!-- Monitor for Pyrometer temperature -->
+    <bean id="pyrotemp" class="gda.device.monitor.DummyEpicsMonitor" />
+
 </beans>

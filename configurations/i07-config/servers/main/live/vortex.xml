@@ -7,7 +7,7 @@
 		<property name="basePVName" value="ME13C-EA-DET-01:HDF:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="ME13C-EA-DET-01:HDF:" />
+				<property name="basePVName" value="ME13C-EA-DET-01:HDF5:" />
 				<property name="initialAutoIncrement" value="0" />
 				<property name="initialAutoSave" value="0" />
 				<property name="initialWriteMode" value="0" />
@@ -16,7 +16,7 @@
 				<property name="initialFileTemplate" value="%s%s-%d.h5" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="ME13C-EA-DET-01:HDF:" />
+						<property name="basePVName" value="ME13C-EA-DET-01:HDF5:" />
 					</bean>
 				</property>
 			</bean>
@@ -235,4 +235,12 @@
 		<property name="slave" value="false" />
 		<property name="configFileName" value="${gda.config}/xml/vortex_parameters.xml" />
 	</bean>
+
+	<bean id="xmapFluorescenceDetector"
+			class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter">
+		<constructor-arg index="0" ref="xmapMca" />
+		<constructor-arg index="1" value="1" />
+		<property name="name" value="xmapFluorescenceDetector" />
+	</bean>
+
 </beans>

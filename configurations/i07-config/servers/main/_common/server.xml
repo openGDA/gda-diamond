@@ -30,6 +30,7 @@
     </bean>
 
 	<import resource="ebe.xml" />
+	<import resource="dcm.xml" />
 
     <bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
 
