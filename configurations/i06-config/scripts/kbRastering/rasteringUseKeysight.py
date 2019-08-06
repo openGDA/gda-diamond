@@ -4,7 +4,7 @@ Module define and create KB Mirror Rastering Control Scannables:
 
 Fix Issue: I06-620
 Created on 5 Mar 2019
-
+#hello
 @author: fy65
 '''
 from gda.device.scannable import PVScannable, ScannableMotionBase,\
@@ -40,7 +40,7 @@ class KBMirrorRasteringStateControl(ScannableMotionBase):
     control Rastering state and direction: vert,horiz,roff,undefined
     '''
 
-    def __init__(self, name, vraststatus, hraststatus):
+    def __init__(self, name, vraststatus, hraststatus, vrastamplitude, hrastamplitude):
         '''
         Constructor
         '''
@@ -49,30 +49,49 @@ class KBMirrorRasteringStateControl(ScannableMotionBase):
         self.setOutputFormat(["%s"])
         self.vraststatus=vraststatus
         self.hraststatus=hraststatus
+        self.vrastamplitude=vrastamplitude
+        self.hrastamplitude=hrastamplitude
+        self.cached_vrastamplitude=0.1
+        self.cached_hrastamplitude=0.1
         
     def getPosition(self):
-        if self.vraststatus.getPosition()=='On' and self.hraststatus.getPosition()=='Off':
+        if self.vrastamplitude.getPosition()>0.001 and self.hrastamplitude.getPosition()<0.002:
             return vert
-        elif self.vraststatus.getPosition()=='Off' and self.hraststatus.getPosition()=='On':
+        elif self.vrastamplitude.getPosition()<0.002 and self.hrastamplitude.getPosition()>0.001:
             return horiz
-        elif self.vraststatus.getPosition()=='Off' and self.hraststatus.getPosition()=='Off':
+        elif self.vrastamplitude.getPosition()<0.002 and self.hrastamplitude.getPosition()<0.002:
             return roff
-        elif self.vraststatus.getPosition()=='On' and self.hraststatus.getPosition()=='On':
+        elif self.vrastamplitude.getPosition()>0.001 and self.hrastamplitude.getPosition()>0.001:
             return undefined
         
     def asynchronousMoveTo(self, newpos):
         try:
             if newpos == vert:
-                self.vraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['On'])
-                self.hraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
+                if not self.getPosition() == roff:
+                    self.cached_hrastamplitude=float(self.hrastamplitude.getPosition())
+                self.hrastamplitude.asynchronousMoveTo(0.0)
+#                 self.hraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
+                self.vrastamplitude.asynchronousMoveTo(self.cached_vrastamplitude)
+#                 self.vraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['On'])
+                
             elif newpos == horiz:
-                self.vraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
-                self.hraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['On'])
+                if not self.getPosition() == roff:
+                    self.cached_vrastamplitude=float(self.vrastamplitude.getPosition())
+                self.vrastamplitude.asynchronousMoveTo(0.0)
+#                 self.vraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
+                self.hrastamplitude.asynchronousMoveTo(self.cached_hrastamplitude)
+#                 self.hraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['On'])
             elif newpos == roff:
-                self.vraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
-                self.hraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
+                if self.getPosition() == horiz:
+                    self.cached_hrastamplitude=float(self.hrastamplitude.getPosition())
+                if self.getPosition() == vert:
+                    self.cached_vrastamplitude=float(self.vrastamplitude.getPosition())
+                self.hrastamplitude.asynchronousMoveTo(0.0)
+                self.vrastamplitude.asynchronousMoveTo(0.0)
+#                 self.vraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
+#                 self.hraststatus.asynchronousMoveTo(KEYSIGHT_OUTPUT_VALUE['Off'])
             else:
-                raise "Input value: %s is not supported" % newpos
+                raise Exception("Input value: %s is not supported" % newpos)
         except:
             raise
     
@@ -80,7 +99,7 @@ class KBMirrorRasteringStateControl(ScannableMotionBase):
         return self.vraststatus.isBusy() or self.hraststatus.isBusy()
     
 
-raster=KBMirrorRasteringStateControl("raster",vraststatus, hraststatus)
+raster=KBMirrorRasteringStateControl("raster",vraststatus, hraststatus, vrastamplitude, hrastamplitude)
 
 class BeamSize(ScannableMotionBase):
     
@@ -109,16 +128,21 @@ class BeamSize(ScannableMotionBase):
             if bsize < 6.0:
                 self.vrastamplitude.asynchronousMoveTo(0)
                 self.hrastamplitude.asynchronousMoveTo(0)
-                self.raster.asynchronousMoveTo(roff)
-                self.s4ygap.asynchronousMoveTo(0.025)
+#                 self.raster.asynchronousMoveTo(roff)
+                self.s4ygap.asynchronousMoveTo(25.0)
             elif bsize>=6.0 and bsize <= 10.0:
-                self.vrastamplitude.asynchronousMoveTo(-0.15+0.025*float(self.fov.getPosition()))
-                self.raster.asynchronousMoveTo(vert)
-                self.s4ygap.asynchronousMoveTo(0.025)
+                self.vrastamplitude.asynchronousMoveTo(-0.15+0.025*bsize)
+                self.hrastamplitude.asynchronousMoveTo(0)
+#                 self.vrastamplitude.asynchronousMoveTo(-0.15+0.025*float(self.fov.getPosition()))
+#                 self.raster.asynchronousMoveTo(vert)
+                self.s4ygap.asynchronousMoveTo(25.0)
             elif bsize > 10.0:
-                self.hrastamplitude.asynchronousMoveTo(-0.17+0.033*float(self.fov.getPosition()))
-                self.raster.asynchronousMoveTo(horiz)
-                self.s4ygap.asynchronousMoveTo(-87+8.4*float(self.fov.getPosition()))
+                self.hrastamplitude.asynchronousMoveTo(-0.17+0.033*bsize)
+                self.vrastamplitude.asynchronousMoveTo(0)
+#                 self.hrastamplitude.asynchronousMoveTo(-0.17+0.033*float(self.fov.getPosition()))
+#                 self.raster.asynchronousMoveTo(horiz)
+                self.s4ygap.asynchronousMoveTo(-59.0+8.4*bsize)
+#                 self.s4ygap.asynchronousMoveTo(-87+8.4*float(self.fov.getPosition()))
             self.beamsize=bsize
         except:
             raise
