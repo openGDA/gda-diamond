@@ -178,6 +178,13 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          unpack="false"/>
 
       <plugin
+         id="uk.ac.gda.devices.xspress3"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
          id="uk.ac.gda.devices.xspress3.epics"
          download-size="0"
          install-size="0"
