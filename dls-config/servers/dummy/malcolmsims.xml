@@ -5,7 +5,7 @@
 
 	<!-- To run the scans:	*Run GDA AreaDetector Simulation from the diamond launcher
 							*To run the scans type the following in a terminal:*
-							/dls_sw/work/R3.14.12.7/support/TS-BUILDER/etc/malcolm/MALCOLM-SIMULATIONS.yaml     -->
+							/dls_sw/prod/R3.14.12.7/support/TS-BUILDER/3-1/etc/malcolm/MALCOLM-SIMULATIONS.yaml     -->
 
 	<import resource="malcolmsims_scans.xml"/>
 	<import resource="malcolmsims_axes.xml"/>
