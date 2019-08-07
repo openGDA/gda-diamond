@@ -6,7 +6,6 @@
 <!-- Xspress3 configuration added 7June 2019 -->
 
 	<bean id="DAServerXspress3" class="gda.device.detector.xstrip.DummyXStripDAServer">
-		<property name="local" value="True" />
 		<property name="host" value="localhost" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">

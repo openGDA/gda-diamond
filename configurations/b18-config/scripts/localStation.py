@@ -177,7 +177,8 @@ qexafs_xspress.setUseNexusTreeWriter(True)
 samplewheel_names.setPositions( samplewheel.getFilterNames() )
 
 # Set the zebra PC_pulse output for triggering the TFG. 3/4/2019
-CAClient.put("BL18B-OP-DCM-01:ZEBRA:OUT1_TTL", 31)
+zebra_device = Finder.getInstance().find("zebra_device")
+zebra_device.setOutTTL(1, 31)
 
 # Setup the plugin listst used to control the medipix ROI
 run("medipix_functions.py")

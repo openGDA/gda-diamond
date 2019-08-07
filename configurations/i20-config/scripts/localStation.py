@@ -15,9 +15,6 @@ from vortex_elements import VortexElements
 from xes.xes_offsets import XESOffsets
 from xes.xes_calculate import XESCalculate
 
-from org.jscience.physics.amount import Amount
-from org.jscience.physics.units import Unit
-
 from gda.configuration.properties import LocalProperties
 from gda.data.scan.datawriter import NexusDataWriter
 from gda.device.scannable import DummyScannable
