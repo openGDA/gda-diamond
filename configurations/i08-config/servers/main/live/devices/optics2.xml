@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Optics devices specific to the I branch -->
+	<!-- The motors associated to optics are listed in the same order as in EPICs synoptics -->
+
+	<!-- Mirror4 -->
+	<bean id="m4_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:X" />
+	</bean>
+
+	<bean id="m4_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:PITCH" />
+	</bean>
+
+	<bean id="m4_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:Y" />
+	</bean>
+
+	<bean id="m4_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:YAW" />
+	</bean>
+
+	<bean id="m4_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:ROLL" />
+	</bean>
+
+	<bean id="m4_ellipticity_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:ELLIP" />
+	</bean>
+
+	<bean id="m4_curvature_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:CURVE" />
+	</bean>
+
+	<!-- Slit2: Secondary slit -->
+	<!-- AP (“aperture”) refers to a plate containing a single aperture. -->
+	<!-- SS refers to a plate containing an array of apertures. -->
+	<!-- The two plates can be moved independently. -->
+	<bean id="s2_ap_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-AL-SLITS-02:AP:X" />
+	</bean>
+
+	<bean id="s2_ap_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-AL-SLITS-02:AP:Y" />
+	</bean>
+
+	<bean id="s2_ss_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-AL-SLITS-02:SS:X" />
+	</bean>
+
+	<bean id="s2_ss_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-AL-SLITS-02:SS:Y" />
+	</bean>
+
+	<bean id="s2_ss_presets" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL08I-AL-SLITS-02:SS:MP" />
+	</bean>
+
+	<bean id="s2_shutter" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL08I-AL-SLITS-02:CHOP:MP" />
+	</bean>
+
+	<bean id="s2_ztranslation_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-AL-SLITS-02:Z" />
+	</bean>
+
+</beans>
