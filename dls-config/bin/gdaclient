@@ -20,15 +20,17 @@ Environment:
     GDA_CLIENT_LOG_DIR      Override default ErrorFile location
 
 OPTIONS:
-    --help      Print this help and exit.
-    --data X    Set the workspace to X.
-    --reset     Delete the workspace. Either the default location or the
-                location specified by the --data option.
-    --keep      Keep (rename) the old workspace rather than deleting it.
-    --log       Don't start the log client when the GDA client is started.
-    --nohup Y   Start the client using nohup, redirecting output to file Y.
-    --client Z  Use client Z, overriding default and GDA_CLIENT variable.
-    --          End argument parsing, send remaining options to the GDA client.
+    --help             Print this help and exit.
+    --data X           Set the workspace to X.
+    --reset            Delete the workspace. Either the default location or the
+                       location specified by the --data option.
+    --keep             Keep (rename) the old workspace rather than deleting it.
+    --log              Don't start the log client when the GDA client is started.
+    --nohup Y          Start the client using nohup, redirecting output to file Y.
+    --client Z         Use client Z, overriding default and GDA_CLIENT variable.
+    --springprofiles P Use the given spring profiles when loading configuration.
+                       Overrides values in properties files.
+    --                 End argument parsing, send remaining options to the GDA client.
 
 EXAMPLES:
 
@@ -76,7 +78,7 @@ CONFIG_PARENT=/scratch/gda_configs
 # eg /scratch/gda_workspaces/abc12345_gda-9.12
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)_$(basename ${GDA_WORKSPACE_PARENT})
 
-ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,nohup:,client: -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
@@ -131,6 +133,13 @@ while true; do
         if [ -n "$1" ]; then
           GDA_CLIENT="$1"
           shift;
+        fi
+      ;;
+    --springprofiles)
+        shift;
+        if [ -n "$1" ]; then
+            GDA_SPRING_PROFILES="-Dgda.spring.profiles.active=$1"
+            shift;
         fi
       ;;
     --)
@@ -207,7 +216,7 @@ PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG
 #   http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html
 
 # Fatal Error Log (see http://www.oracle.com/technetwork/java/javase/felog-138657.html#felog)
-VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
+VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_SPRING_PROFILES $GDA_CLIENT_VMARGS"
 
 # see http://wiki.eclipse.org/Eclipse.ini
 COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs -Dgda.install.git.loc=$GDA_INSTALL_GIT_LOC/ $VMARGS"
