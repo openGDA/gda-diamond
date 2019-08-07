@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="pilatus_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="pilatus_camera_control" />
+	</bean>
+	<bean id="pilatus_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="pilatus_histogramTopUI" />
+	</bean>
+
+	<bean id="pilatus_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Pilatus" />
+		<property name="arrayPv" value="BL16B-EA-DET-04:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="pilatus_histogramTopUI" />
+		<property name="bottomUi" ref="pilatus_histogramBottomUI" />
+	</bean>
+	
+	
+	
+	<bean id="pcoedge_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="pcoedge_camera_control" />
+	</bean>
+	<bean id="pcoedge_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="pcoedge_histogramTopUI" />
+	</bean>
+
+	<bean id="pcoedge_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="PCO Edge" />
+		<property name="arrayPv" value="BL16B-EA-DET-08:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="pcoedge_histogramTopUI" />
+		<property name="bottomUi" ref="pcoedge_histogramBottomUI" />
+	</bean>
+	
+	<bean id="pco4000_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="pco4000_camera_control" />
+	</bean>
+	<bean id="pco4000_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="pco4000_histogramTopUI" />
+	</bean>
+
+	<bean id="pco4000_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="PCO 4000" />
+		<property name="arrayPv" value="BL16B-EA-DET-03:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="pco4000_histogramTopUI" />
+		<property name="bottomUi" ref="pco4000_histogramBottomUI" />
+	</bean>
+	
+	<bean id="psl_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="psl_camera_control" />
+	</bean>
+	<bean id="psl_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="psl_histogramTopUI" />
+	</bean>
+
+	<bean id="psl_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="PSL SCMOS" />
+		<property name="arrayPv" value="BL16B-EA-DET-07:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="psl_histogramTopUI" />
+		<property name="bottomUi" ref="psl_histogramBottomUI" />
+	</bean>
+	
+	<bean id="medipix_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="medipix_camera_control" />
+	</bean>
+	<bean id="medipix_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="medipix_histogramTopUI" />
+	</bean>
+
+	<bean id="medipix_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Medipix Merlin" />
+		<property name="arrayPv" value="BL16B-EA-DET-06:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="medipix_histogramTopUI" />
+		<property name="bottomUi" ref="medipix_histogramBottomUI" />
+	</bean>
+	
+	<bean id="medipix4_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="medipix4_camera_control" />
+	</bean>
+	<bean id="medipix4_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="medipix4_histogramTopUI" />
+	</bean>
+
+	<bean id="medipix4_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Medipix Quad" />
+		<property name="arrayPv" value="BL16B-EA-DET-20:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="medipix4_histogramTopUI" />
+		<property name="bottomUi" ref="medipix4_histogramBottomUI" />
+	</bean>
+
+</beans>

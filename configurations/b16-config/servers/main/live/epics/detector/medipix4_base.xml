@@ -11,5 +11,19 @@
     <bean id="medipix4_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
         <property name="pvProvider" ref="medipix4_adbase_pvProvider" />
     </bean>
+    
+    <bean id="medipix4_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+    	<property name="basePVName" value="BL16B-EA-DET-20:ROI:" />
+    	<property name="pluginBase">
+        	<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+            	<property name="basePVName" value="BL16B-EA-DET-20:ROI:" />
+        	</bean>
+    	</property>
+	</bean>
+	
+	<bean id="medipix4_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+	    <constructor-arg ref="medipix_adbase" />
+	    <constructor-arg ref="medipix_roi" />
+	</bean>
 
 </beans>

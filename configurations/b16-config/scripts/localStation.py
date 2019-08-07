@@ -6,7 +6,6 @@ vararg_alias("scannp") #@UndefinedVariable
 print "*** Creating scan with no processing: scannp"
 from gda.analysis import ScanFileHolder
 from gda.analysis.io import PilatusTiffLoader, SRSLoader
-from uk.ac.diamond.scisoft.analysis.io.emulated import FileSystemEmulatingTIFFImageLoader
 from gda.configuration.properties import LocalProperties
 from gda.device.monitor import EpicsMonitor
 from gda.device.scannable import PseudoDevice
@@ -94,7 +93,7 @@ laserxray = LaserShutterPulseController('laserxray', daserver)
 ###############################################################################
 ###                          Print environmental info                       ###
 ###############################################################################
-printJythonEnvironment()
+#printJythonEnvironment()
 
 ###############################################################################
 ###                  Add useful functions and scan commands                 ###
@@ -128,6 +127,8 @@ scan_processor.processors.append(CenFromSPEC())
 #from gdascripts.scannable.installStandardScannableMetadataCollection import *
 meta.rootNamespaceDict=globals()
 note.rootNamespaceDict=globals()
+
+add_default(meta)
 
 
 print "Adding dummy devices x,y and z"
@@ -414,10 +415,15 @@ if installation.isLive():
 ###                                 A3 XIA Filters                          ###
 ###############################################################################
 if installation.isLive():
-	att3a = XiaFilter('att3a', 'BL16B-OP-ATTN-03', 1, timeout=5)
-	att3b = XiaFilter('att3b', 'BL16B-OP-ATTN-03', 2, timeout=5)
-	att3c = XiaFilter('att3c', 'BL16B-OP-ATTN-03', 3, timeout=5)
-	att3d = XiaFilter('att3d', 'BL16B-OP-ATTN-03', 4, timeout=5)
+	print("Creating XIA Filter objects")
+	try:
+		att3a = XiaFilter('att3a', 'BL16B-OP-ATTN-03', 1, timeout=5)
+		att3b = XiaFilter('att3b', 'BL16B-OP-ATTN-03', 2, timeout=5)
+		att3c = XiaFilter('att3c', 'BL16B-OP-ATTN-03', 3, timeout=5)
+		att3d = XiaFilter('att3d', 'BL16B-OP-ATTN-03', 4, timeout=5)
+	except Exception as e:
+		print("ERROR: Could not initialise XIA Filters")
+		print(e)
 
 ###############################################################################
 ###                      Setting device levels and formats                  ###
@@ -507,11 +513,11 @@ if installation.isLive() and ENABLE_PILATUS:
 									None,
 									_pilatus_for_snaps,
 									[],
-									panel_name_rcp='Plot 1',
+									panel_name_rcp='pil',
 									iFileLoader=PilatusTiffLoader,
-									fileLoadTimout=60,
+									fileLoadTimout=120,
 									printNfsTimes=False,
-									returnPathAsImageNumberOnly=True)
+									returnPathAsImageNumberOnly=False)
 
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
@@ -560,7 +566,7 @@ if installation.isLive():
 																		None,
 																		_medipix_for_snaps,
 																		[],
-																		panel_name_rcp='Plot 1',
+																		panel_name_rcp='medipix',
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
 																		printNfsTimes=False,
@@ -602,7 +608,7 @@ if installation.isLive():
 																		None,
 																		_medipix4_for_snaps,
 																		[],
-																		panel_name_rcp='Plot 1',
+																		panel_name_rcp='medipix4',
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
 																		printNfsTimes=False,
@@ -639,7 +645,7 @@ if installation.isLive():
 			                                                             None,
 			                                                             _psl_for_snaps,
 			                                                             [],
-			                                                             panel_name_rcp='Plot 1',
+			                                                             panel_name_rcp='psl',
 			                                                             fileLoadTimout=60,
 			                                                             printNfsTimes=False,
 			                                                             returnPathAsImageNumberOnly=True)
@@ -651,7 +657,7 @@ if installation.isLive():
 			                                                       _psl_for_snaps,
 			                                                       "BL16B-EA-DET-07:CAM:RESET.PROC",
 			                                                       [],
-			                                                       panel_name_rcp='Plot 1',
+			                                                       panel_name_rcp='psl',
 			                                                       fileLoadTimout=60,
 			                                                       printNfsTimes=False,
 			                                                       returnPathAsImageNumberOnly=True)
@@ -710,36 +716,28 @@ if installation.isLive():
 ###############################################################################
 
 if USE_YOU_DIFFCALC_ENGINE:
-	run('example/startup/b16fourcircle_you_engine.py')
+	#run('example/startup/b16fourcircle_you_engine.py')
+	print("Diffcalc scripts have been deleted")
 else:
-	run('example/startup/b16fivecircle.py')
-energy.setLevel(4)
-hkl.setLevel(5) #@UndefinedVariable
+	#run('example/startup/b16fivecircle.py')
+	print("Diffcalc scripts have been deleted")
+energy.setLevel(4) # Not sure if need this when there is no diffcalc
+#hkl.setLevel(5) #@UndefinedVariable
 
 
 ###############################################################################
 ###                          IPP image processor                            ###
 ###############################################################################
 if not installation.isLive():
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name_rcp="Plot 1")
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name_rcp="ipp")
 	#setIPPWrapperDir( '/scratch/ws/trunk/plugins/uk.ac.gda.core/scripts/gdascripts/scannable/detector/dummy/focused_beam_dataset//') #@UndefinedVariable
 	ipp.returnPathAsImageNumberOnly = True
-	def emulateSlowFileSystem(makeSlow = True):
-		if makeSlow:
-			ipp.iFileLoader = FileSystemEmulatingTIFFImageLoader
-			FileSystemEmulatingTIFFImageLoader.setEmulatedFileAvailabilityLatencyMillis(2000)
-			FileSystemEmulatingTIFFImageLoader.setEmulatedFileLoadTimeMillis(1000)
-			print "Emulating file system for ipp:"
-			print "   File availability latency is 2s"
-			print "   File load time is 1s"
-		else:
-			print "*Not* emulating file system for ipp"
 
 else:
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='ipp')
+	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='ipp2')
 #	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
-	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 2')
+	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='ipp3')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
@@ -766,19 +764,20 @@ ipppeak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
 ippmax2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
 ippintensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
 
-ipp2peak2d = DetectorDataProcessorWithRoi('ipp2peak2d', ipp2, [TwodGaussianPeak()])
-ipp2max2d = DetectorDataProcessorWithRoi('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
-ipp2intensity2d = DetectorDataProcessorWithRoi('ipp2intensity2d', ipp2, [PixelIntensity()])
-
-ipp2roi1 = DetectorDataProcessorWithRoi('ipp2roi1', ipp2, [SumMaxPositionAndValue()])
-ipp2roi2 = DetectorDataProcessorWithRoi('ipp2roi2', ipp2, [SumMaxPositionAndValue()])
-ipp2roi3 = DetectorDataProcessorWithRoi('ipp2roi3', ipp2, [SumMaxPositionAndValue()])
-#ipp2roi1.setRoi(0,0,50,50)
-
-
-ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
-ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
-ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
+if installation.isLive():
+	ipp2peak2d = DetectorDataProcessorWithRoi('ipp2peak2d', ipp2, [TwodGaussianPeak()])
+	ipp2max2d = DetectorDataProcessorWithRoi('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
+	ipp2intensity2d = DetectorDataProcessorWithRoi('ipp2intensity2d', ipp2, [PixelIntensity()])
+	
+	ipp2roi1 = DetectorDataProcessorWithRoi('ipp2roi1', ipp2, [SumMaxPositionAndValue()])
+	ipp2roi2 = DetectorDataProcessorWithRoi('ipp2roi2', ipp2, [SumMaxPositionAndValue()])
+	ipp2roi3 = DetectorDataProcessorWithRoi('ipp2roi3', ipp2, [SumMaxPositionAndValue()])
+	#ipp2roi1.setRoi(0,0,50,50)
+	
+	
+	ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
+	ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
+	ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
 
 
 
@@ -817,7 +816,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='pcoedge',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
@@ -833,7 +832,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='pcoedge',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
@@ -850,7 +849,7 @@ if installation.isLive() and ENABLE_PCO4000:
 		None,
 		_pco4000_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='pco4000',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
@@ -1165,32 +1164,33 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #medipix.returnPathAsImageNumberOnly = True
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 
-print "Setting up Zylar detector from I16"
-zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-		'zylar',
-		_zylar,
-		None,
-		_zylar_for_snaps,
-		[],
-		panel_name_rcp='Plot 2',
-		fileLoadTimout=60,
-		printNfsTimes=False,
-		returnPathAsImageNumberOnly=True)
-
-zylar.display_image = True
-zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
-zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
-
-#zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-#zylar needs scaling factors?
-#zylar.processors[0].processors[1].setScalingFactors(1, 1)
-
-zylarroi1 = DetectorDataProcessorWithRoi('zylarroi1', zylar, [SumMaxPositionAndValue()])
-zylarroi2 = DetectorDataProcessorWithRoi('zylarroi2', zylar, [SumMaxPositionAndValue()])
-zylarroi3 = DetectorDataProcessorWithRoi('zylarroi3', zylar, [SumMaxPositionAndValue()])
-#zylarroi1.setRoi(0,0,50,50)
-
-print "zylar setup"
+if installation.isLive():
+	print "Setting up Zylar detector from I16"
+	zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+			'zylar',
+			_zylar,
+			None,
+			_zylar_for_snaps,
+			[],
+			panel_name_rcp='Plot 2',
+			fileLoadTimout=60,
+			printNfsTimes=False,
+			returnPathAsImageNumberOnly=True)
+	
+	zylar.display_image = True
+	zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
+	zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
+	
+	#zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+	#zylar needs scaling factors?
+	#zylar.processors[0].processors[1].setScalingFactors(1, 1)
+	
+	zylarroi1 = DetectorDataProcessorWithRoi('zylarroi1', zylar, [SumMaxPositionAndValue()])
+	zylarroi2 = DetectorDataProcessorWithRoi('zylarroi2', zylar, [SumMaxPositionAndValue()])
+	zylarroi3 = DetectorDataProcessorWithRoi('zylarroi3', zylar, [SumMaxPositionAndValue()])
+	#zylarroi1.setRoi(0,0,50,50)
+	
+	print "zylar setup"
 
 
 ######################################################################################################################################

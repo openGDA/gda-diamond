@@ -36,7 +36,7 @@ class SetBinaryPvAndWaitForFeadbackViaStatePV(PseudoDevice):
 		elif pos=='0':
 			return 0
 		else:
-			raise Exception
+			raise Exception("Expected 0 or 1 for getPosition but got: {} (device={}, pvTrigger={}, pvState={})".format(pos, self.name, self.trigger.getPvName(), self.state.getPvName()))
 
 	def isBusy(self):
 		if time.time() > (self.moveTriggeredTime + self.timeout):

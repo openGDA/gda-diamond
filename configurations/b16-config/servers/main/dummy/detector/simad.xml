@@ -5,29 +5,32 @@
 
 	<!-- AD hardware -->
 
+	<!-- #{sim_pvbase} defined in sim_area_detector.xml from dls-config -->
+
+
 	<bean id="simad_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL07I-TST-DET-01:CAM:" />
+		<property name="basePVName" value="#{sim_pvbase}:CAM:" />
 	</bean>
 
 	<bean id="simad_ndfile_tiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL07I-TST-DET-01:TIFF:" />
+		<property name="basePVName" value="#{sim_pvbase}:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL07I-TST-DET-01:TIFF:" />
+				<property name="basePVName" value="#{sim_pvbase}:TIFF:" />
 			</bean>
 		</property>
 	</bean>
 
 	<bean id="simad_ndfile_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL07I-TST-DET-01:HDF5:" />
+		<property name="basePVName" value="#{sim_pvbase}:HDF5:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="BL07I-TST-DET-01:HDF5:" />
+				<property name="basePVName" value="#{sim_pvbase}:HDF5:" />
 				<property name="resetToInitialValues" value="false" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL07I-TST-DET-01:HDF5:" />
+						<property name="basePVName" value="#{sim_pvbase}:HDF5:" />
 					</bean>
 				</property>
 			</bean>
@@ -73,5 +76,23 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="ix"/>
+	</bean>
+	<bean id="iy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="iy"/>
+	</bean>
+
 
 </beans>

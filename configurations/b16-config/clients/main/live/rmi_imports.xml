@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pcoedge_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="pco4000_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="pilatus_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="psl_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="medipix_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="medipix4_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+
+</beans>

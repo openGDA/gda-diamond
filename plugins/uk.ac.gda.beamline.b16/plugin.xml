@@ -44,13 +44,19 @@
             id="uk.ac.gda.beamline.b16.B16PcoPerspective"
             name="PCO Perspective">
       </perspective>
+      <perspective
+            class="uk.ac.gda.beamline.b16.B16ScanPerspective"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.gda.beamline.b16.B16ScanPerspective"
+            name="B16 Scan Perspective">
+      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="*">
          <perspectiveShortcut
-               id="uk.ac.gda.beamline.b16.B16PcoPerspective">
+               id="uk.ac.gda.beamline.b16.B16ScanPerspective">
          </perspectiveShortcut>
       </perspectiveExtension>
    </extension>
@@ -59,48 +65,6 @@
             allPopups="false"
             locationURI="menu:window?after=showView">
          <menu
-               label="Area Detectors">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="PCO 4000 (live)"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//PCO//BL16B-EA-DET-03@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="PCO 4000 (array)"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//PCO//BL16B-EA-DET-03@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="SCMOS Camera (live)"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//PSL//BL16B-EA-DET-07@">
-               </parameter>
-            </command>
-         </menu>
-         <menu
                label="Fluorescence detectors">
             <command
                   commandId="org.eclipse.ui.views.showView"
@@ -108,11 +72,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="xmapFluorescenceDetector">
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector">
                </parameter>
             </command>
          </menu>
@@ -128,7 +88,7 @@
          point="org.eclipse.ui.views">
       <view
             class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
-            id="uk.ac.gda.beamline.b16.FluorescenceDetector"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector"
             name="Xmap Fluorescence Detector"
             restorable="true">
       </view>

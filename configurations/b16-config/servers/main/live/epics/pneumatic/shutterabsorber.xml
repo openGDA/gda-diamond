@@ -17,9 +17,9 @@
 	 -->
 
 	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="pvBase" value="FE16B-CS-BEAM-01" />
+		<property name="statusPv" value="FE16B-CS-BEAM-01:STA" />
+		<property name="controlPv" value="FE16B-CS-BEAM-01:BLCON" />
 		<property name="readOnly" value="true"/>
-
 	</bean>
 
 
@@ -31,7 +31,8 @@
 	
 	 -->
 	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="pvBase" value="FE16B-RS-ABSB-02" />
+		<property name="statusPv" value="FE16B-RS-ABSB-02:STA" />
+		<property name="controlPv" value="FE16B-RS-ABSB-02:BLCON" />
 	</bean>
 
 </beans>
