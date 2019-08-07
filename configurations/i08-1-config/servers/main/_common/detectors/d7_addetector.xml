@@ -38,7 +38,6 @@
 		<property name="adBase" ref="d7_adbase" />
 		<property name="ndFile" ref="d7_ndfile" />
 		<property name="ndArray" ref="d7_ndarray" />
-		<property name="ndStats" ref="d7_stats" />
 		<property name="fileWriter" ref="d7_hdf5_writer" />
 		<property name="collectionStrategy" ref="d7_collection_strategy"/>
 		<property name="computeStats" value="false" />

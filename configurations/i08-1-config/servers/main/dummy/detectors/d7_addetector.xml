@@ -5,7 +5,6 @@
 
 
 	<alias name="sim_adbase" alias="d7_adbase"/>
-	<alias name="sim_stats" alias="d7_stats"/>
 	<alias name="sim_array" alias="d7_ndarray" />
 	<alias name="sim_file_hdf5" alias="d7_ndfile" />
 	<alias name="sim_hdf5" alias="d7_hdf5" />
