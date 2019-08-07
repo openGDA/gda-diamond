@@ -497,7 +497,7 @@ public class TimeResolvedExperimentParameters {
 					edeExperiment.addScannableToMonitorDuringScan(name);
 				} else {
 					// PV to monitor and name to use for scannable
-					edeExperiment.addScannableToMonitorDuringScan(name, nameOfPv);
+					edeExperiment.addScannableToMonitorDuringScan(nameOfPv, name);
 				}
 			}
 		}

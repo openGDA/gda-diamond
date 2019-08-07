@@ -59,5 +59,9 @@
 		<property name="timeToMove" value="0" />
 		<property name="position" value="false" />
 	</bean>
-</beans>
+
+	<bean id="time_utc" class="gda.device.scannable.TimeScannable" >
+		<property name="useUtcMillis" value="true" />
+	</bean>
+</beans> 
 

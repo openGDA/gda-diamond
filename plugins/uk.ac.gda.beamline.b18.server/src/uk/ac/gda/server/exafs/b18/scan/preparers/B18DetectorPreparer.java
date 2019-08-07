@@ -1,7 +1,14 @@
 package uk.ac.gda.server.exafs.b18.scan.preparers;
 
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -24,6 +31,8 @@ import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
 import gda.scan.StaticScan;
+import uk.ac.gda.beans.exafs.DetectorGroup;
+import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IExperimentDetectorParameters;
@@ -61,6 +70,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private IOutputParameters outputBean;
 	private B18SamplePreparer samplePreparer;
 
+	/** Map to go from name of detector to name of corresponding buffered detector object to use in QExafs scans */
+	private Map<String, String> bufferedDetectorNameMap = new LinkedHashMap<>();
+
 	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
 			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers,
@@ -76,6 +88,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		this.xspressSystem = xspressSystem;
 		this.vortexConfig = vortexConfig;
 		this.xspress3Detector = xspress3Config;
+		bufferedDetectorNameMap = getDefaultBufferedDetectorNameMap();
 	}
 
 	@Override
@@ -314,30 +327,63 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
-		String expt_type = detectorBean.getExperimentType();
-		if (expt_type.equals("Transmission")) {
+		String experimentType = detectorBean.getExperimentType();
+		logger.debug("Getting QEXafs detectors for experiment type '{}'", experimentType);
 
+		List<String> bufferedDetectorNames;
+		if (experimentType.equals(DetectorParameters.TRANSMISSION_TYPE)) {
+			// Detectors for transmission measurement
 			if (gmsd_enabled) {
-				return createBufferedDetArray(new String[] { "qexafs_counterTimer01_gmsd" });
+				bufferedDetectorNames = Arrays.asList("qexafs_counterTimer01_gmsd");
 			} else if (additional_channels_enabled) {
-				return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_counterTimer01_gmsd" });
+				bufferedDetectorNames = Arrays.asList("qexafs_counterTimer01", "qexafs_counterTimer01_gmsd");
 			} else {
-				return createBufferedDetArray(new String[] { "qexafs_counterTimer01" });
+				String detectorGroup = detectorBean.getTransmissionParameters().getDetectorType();
+				bufferedDetectorNames = getBufferedDetectorsForGroup(detectorGroup);
 			}
-		}
-
-		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
-			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xmap", "VortexQexafsFFI0" });
-		} else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) {
-			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3",
-					"qexafs_FFI0_xspress3" });
 		} else {
-			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress", "QexafsFFI0" });
+			// Detectors for fluorescence measurement
+			String detectorGroup = detectorBean.getFluorescenceParameters().getDetectorType();
+			bufferedDetectorNames = getBufferedDetectorsForGroup(detectorGroup);
 		}
 
+		if (bufferedDetectorNames.isEmpty()) {
+			logger.warn("Couldn't determine buffered detector names to use for detector group {}", experimentType);
+		}
+		logger.debug("Detectors to use in scan : {}", bufferedDetectorNames);
+		return createBufferedDetArray(bufferedDetectorNames);
 	}
 
-	protected BufferedDetector[] createBufferedDetArray(String[] names) throws Exception {
+	/**
+	 * Generate a list of names of buffered detectors for a detector group.
+	 * i.e. Loop over the detector names in the named group and replace each with corresponding
+	 * one from {@link #bufferedDetectorNameMap}
+	 *
+	 * @param detectorGroupName
+	 * @return list of names of buffered detectors
+	 */
+	private List<String> getBufferedDetectorsForGroup(String detectorGroupName) {
+		logger.debug("Getting buffered detectors for detector group {}", detectorGroupName);
+		Optional<String[]> detectors = detectorBean.getDetectorGroups().stream().
+			filter(detGroup -> detGroup.getName().equalsIgnoreCase(detectorGroupName)).
+			map(DetectorGroup::getDetector).
+			findFirst();
+
+		if (detectors.isPresent()) {
+			List<String> detectorList = Arrays.asList(detectors.get());
+			// Create list of buffered detector name in same order as stored in the map
+			// (i.e. ionchambers first, FFI0s last)
+			return bufferedDetectorNameMap.entrySet().stream().
+					filter(bufDet -> detectorList.contains(bufDet.getKey())).
+					map(Entry::getValue).
+					collect(Collectors.toList());
+
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	protected BufferedDetector[] createBufferedDetArray(List<String> names) throws Exception {
 		BufferedDetector[] dets = new BufferedDetector[] {};
 		for (String name : names) {
 			Object detector = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(name);
@@ -375,4 +421,47 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		this.samplePreparer = samplePreparer;
 	}
 
+	/**
+	 * @return Default map from detector name to buffered detector name
+	 */
+	private Map<String, String> getDefaultBufferedDetectorNameMap() {
+		Map<String, String> map = new LinkedHashMap<>();
+		map.put("counterTimer01", "qexafs_counterTimer01");
+		map.put("xmapMca", "qexafs_xmap");
+		map.put("xspress2system", "qexafs_xspress");
+		map.put("xspress3", "qexafs_xspress3");
+		map.put("medipix", "qexafs_medipix");
+		map.put("FFI0", "QexafsFFI0");
+		map.put("FFI0_vortex", "VortexQexafsFFI0");
+		map.put("FFI0_xspress3", "qexafs_FFI0_xspress3");
+		return map;
+	}
+
+	/**
+	 * Add mapping from detector name to name of corresponding buffered detector
+	 *
+	 * @param detName name of detector
+	 * @param bufferedDetName name of buffered detector
+	 */
+	public void addDetectorNameMapping(String detName, String bufferedDetName) {
+		bufferedDetectorNameMap.put(detName, bufferedDetName);
+	}
+
+	/**
+	 * Add mapping from detector name to name of corresponding buffered detector
+	 *
+	 * @param det detector object
+	 * @param bufferedDet buffered detector object
+	 */
+	public void addDetectorNameMapping(Scannable det, Scannable bufferedDet) {
+		bufferedDetectorNameMap.put(det.getName(), bufferedDet.getName());
+	}
+
+	public Map<String, String> getDetectorNameMap() {
+		return bufferedDetectorNameMap;
+	}
+
+	public void setDetectorNameMap(Map<String, String> map) {
+		bufferedDetectorNameMap = new LinkedHashMap<>(map);
+	}
 }

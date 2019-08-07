@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +66,7 @@ public class AsciiWriter {
 	private String[] dataToRead = {};
 	private String nexusFilename;
 	private String asciiFilename;
+	private boolean ignoreNaNs = true;
 
 	public AsciiWriter() {
 	}
@@ -81,7 +80,7 @@ public class AsciiWriter {
 	private List<String> getDetectorNamesFromFile(String filename) throws NexusException {
 		List<String> detectorNamesList = new ArrayList<>();
 
-		try(NexusFile file = NexusFileHDF5.openNexusFile(filename)) {
+		try(NexusFile file = NexusFileHDF5.openNexusFileReadOnly(filename)) {
 			Collection<String> nodeNames = file.getGroup("/entry1", false).getNames();
 			for (String nodeName : nodeNames) {
 				try {
@@ -125,8 +124,16 @@ public class AsciiWriter {
 	 * @throws NexusException
 	 * @throws DatasetException
 	 */
-	public Map<String, ILazyDataset> getAllValidDatasets(NexusFile file, String groupName, int[] expectedShape ) throws NexusException, DatasetException {
-		Map<String, ILazyDataset> datasetNames = new HashMap<>();
+	public Map<String, ILazyDataset> getDatasetsMatchingShape(NexusFile file, String groupName, int[] expectedShape ) throws NexusException, DatasetException {
+		Map<String, ILazyDataset> datasetNames = new LinkedHashMap<>();
+
+		// First attempt to get names for a group fails when group has link to MCA data (e.g. Xspress3).
+		// Second attempt work though...
+		try {
+			file.getGroup(groupName, false).getNames();
+		} catch(NexusException e) {
+			logger.debug("possible problem getting dataset name for {} : {}.", groupName, e.getMessage());
+		}
 		try {
 			List<DataNode> nodes = file.getGroup(groupName, false).getDataNodes();
 			for(DataNode node : nodes) {
@@ -137,7 +144,7 @@ public class AsciiWriter {
 				}
 			}
 		}catch(NexusException ne) {
-			logger.warn("Problem getting list of data for detector at {} : {}", groupName, ne.getMessage());
+			logger.warn("Problem getting list of data for detector at {} : {}", groupName, ne.getMessage(), ne);
 		}
 		return datasetNames;
 	}
@@ -159,37 +166,25 @@ public class AsciiWriter {
 	}
 
 	/**
-	 * Return new map of datasets; datasets with specified name are put into new map if corresponding data has not already
-	 * been added under a different key.
+	 * Return new map of datasets; datasets with specified name are put into new map.
 	 * @param datasetNames - full path of each dataset required
-	 * @param originalMap - all available datasets to copy from (key=full path to dataset, value=dataset)
+	 * @param allValidDatasets - all valid datasets (key=full path to dataset, value=dataset).
 	 * @return
 	 * @throws DatasetException
 	 */
-	private Map<String, IDataset> getValidDatasets(String[] datasetNames, Map<String, ILazyDataset> originalMap) throws DatasetException {
-
+	private Map<String, IDataset> getValidDatasets(String[] datasetNames, Map<String, ILazyDataset> allValidDatasets) {
 		Map<String, IDataset> datasets = new LinkedHashMap<>();
 		for (String datasetName : datasetNames) {
-			if (originalMap.containsKey(datasetName)) {
-				IDataset dataset = originalMap.get(datasetName).getSlice((SliceND)null);
-
-				// Check the same dataset has not already been added to the map
-				boolean dataAlreadyInMap = false;
-				Iterator<IDataset> iter = datasets.values().iterator();
-				IDataset lastCheckedDataset = null;
-				while(iter.hasNext() && !dataAlreadyInMap) {
-					lastCheckedDataset = iter.next();
-					if  (lastCheckedDataset.equals(dataset)) {
-						dataAlreadyInMap = true;
-					}
-				}
-
-				if (!dataAlreadyInMap) {
+			if (allValidDatasets.containsKey(datasetName)) {
+				try {
 					logger.info("Adding dataset {}", datasetName);
+					IDataset dataset = allValidDatasets.get(datasetName).getSlice((SliceND) null);
 					datasets.put(datasetName, dataset);
-				} else {
-					logger.info("Not adding dataset {} to map - dataset matches {}", datasetName, lastCheckedDataset.getName());
+				} catch (DatasetException de) {
+					logger.warn("Problem adding dataset {}. {}", datasetName, de.getMessage(), de);
 				}
+			} else {
+				logger.warn("Not adding dataset {} - it does not match required shape", datasetName);
 			}
 		}
 		return datasets;
@@ -210,7 +205,7 @@ public class AsciiWriter {
 	 * @param stringBuilder
 	 * @return
 	 */
-	public List<String> createColumnInfo(NexusFile file, Map<String, IDataset> datasets, StringBuilder stringBuilder) {
+	public List<String> createColumnInfo(NexusFile file, Collection<String> datasetNames, StringBuilder stringBuilder) {
 		String detectorEntry = "/entry1/"+detectorNames[0]+"/";
 
 		IDataset spectrumIndex = getDatasetFromFile(file, detectorEntry+TurboXasNexusTree.SPECTRUM_INDEX);
@@ -224,7 +219,7 @@ public class AsciiWriter {
 		columnNames.add(TurboXasNexusTree.POSITION_COLUMN_NAME);
 		columnNames.add(TurboXasNexusTree.ENERGY_COLUMN_NAME);
 		for(int i=0; i<numSpectra; i++) {
-			for (String datasetName : datasets.keySet()) {
+			for (String datasetName : datasetNames) {
 				columnNames.add(String.format("%s_(%d,%d)", datasetName.replace("/entry1/",""), spectrumGroup.getInt(i), spectrumIndex.getInt(i)));
 			}
 		}
@@ -246,7 +241,7 @@ public class AsciiWriter {
 	 * @throws Exception
 	 */
 	public String createDataString() throws Exception {
-		try(NexusFile file = NexusFileHDF5.openNexusFile(nexusFilename)) {
+		try(NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename)) {
 
 			if (detectorNames==null || detectorNames.length==0) {
 				logger.warn("Names of detectors to read data from in Nexus file have not been set.\n"+
@@ -261,19 +256,19 @@ public class AsciiWriter {
 
 			// Make map of all 'valid' datasets available for each detector (i.e. datasets with shape matching expectedShape)
 			// (key = full path to dataset, value = IDataset )
-			Map<String, ILazyDataset> allValidDatasets = new LinkedHashMap<>();
+			Map<String, ILazyDataset> allDatasetsWithCorrectShape = new LinkedHashMap<>();
 			for(String detectorName : detectorNames) {
-				Map<String, ILazyDataset> datasetPaths = getAllValidDatasets(file, "/entry1/"+detectorName+"/", expectedShape);
-				allValidDatasets.putAll(datasetPaths);
+				Map<String, ILazyDataset> datasetPaths = getDatasetsMatchingShape(file, "/entry1/"+detectorName+"/", expectedShape);
+				allDatasetsWithCorrectShape.putAll(datasetPaths);
 			}
 
 			// If no dataset names have been set, add names of *all* valid datasets
 			if (dataToRead.length == 0) {
-				dataToRead = allValidDatasets.keySet().toArray(new String[] {});
+				dataToRead = allDatasetsWithCorrectShape.keySet().toArray(new String[] {});
 			}
 
 			// Make map from specified dataset name to the dataset to be written to file
-			Map<String, IDataset> datasets = getValidDatasets(dataToRead, allValidDatasets);
+			Map<String, IDataset> datasets = getValidDatasets(dataToRead, allDatasetsWithCorrectShape);
 
 			// String, number formats; fixed length format to try and keep things aligned in columns.
 			final String numFormat = "%25.5e\t";
@@ -282,7 +277,7 @@ public class AsciiWriter {
 
 			// Print the list of column name and indices ...
 			StringBuilder strBuilder = new StringBuilder();
-			List<String> columnNames = createColumnInfo(file, datasets, strBuilder);
+			List<String> columnNames = createColumnInfo(file, datasets.keySet(), strBuilder);
 			for(String columnName : columnNames) {
 				strBuilder.append(String.format(strFormat, columnName));
 			}
@@ -294,16 +289,31 @@ public class AsciiWriter {
 			int numSpectra = expectedShape[0];
 			int numReadouts = expectedShape[1];
 			for(int i=0; i<numReadouts; i++) {
+
+				// Build row of values of detector data, record if the row contains any NaNs
+				boolean hasNaNs = false;
+				StringBuilder spectraValues = new StringBuilder();
+				for(int j=0; j<numSpectra; j++) {
+					for(IDataset dataset : datasets.values()) {
+						double value = dataset.getDouble(j, i);
+						spectraValues.append(String.format(numFormat, value));
+						if (Double.isNaN(value) ) {
+							hasNaNs = true;
+						}
+					}
+				}
+
+				if (hasNaNs && ignoreNaNs) {
+					logger.debug("Missing out row {} - contains NaNs", i);
+					continue;
+				}
+
 				// energy position index, position, energy values
 				strBuilder.append(String.format(intFormat, i));
 				strBuilder.append(String.format(numFormat, positionDataset.getDouble(i)));
 				strBuilder.append(String.format(numFormat, energyDataset.getDouble(i)));
-				// detector data
-				for(int j=0; j<numSpectra; j++) {
-					for(IDataset dataset : datasets.values()) {
-						strBuilder.append(String.format(numFormat, dataset.getDouble(j, i)));
-					}
-				}
+				strBuilder.append(spectraValues);
+
 				strBuilder.append(System.lineSeparator());
 			}
 
@@ -389,5 +399,13 @@ public class AsciiWriter {
 
 	public void setAsciiFilename(String asciiFilename) {
 		this.asciiFilename = asciiFilename;
+	}
+
+	public boolean isIgnoreNaNs() {
+		return ignoreNaNs;
+	}
+
+	public void setIgnoreNaNs(boolean ignoreNaNs) {
+		this.ignoreNaNs = ignoreNaNs;
 	}
 }

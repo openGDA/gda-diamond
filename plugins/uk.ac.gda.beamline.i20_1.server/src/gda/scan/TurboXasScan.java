@@ -130,6 +130,7 @@ public class TurboXasScan extends ContinuousScan {
 	 */
 	private XasNexusDataWriter createDataWriter() {
 		XasNexusDataWriter dataWriter = new XasNexusDataWriter();
+		setScanNumber(dataWriter.getCurrentScanIdentifier());
 		String filenameTemplate = "nexus/%d";
 		String sampleName = turboXasMotorParams.getScanParameters().getSampleName();
 		if (StringUtils.isNotEmpty(sampleName)) {
@@ -607,7 +608,12 @@ public class TurboXasScan extends ContinuousScan {
 
 		@Override
 		public boolean detectorsAreBusy() throws DeviceException {
-			return getScanDetectors()[0].isBusy();
+			logger.debug("Number of captured Zebra pulses = {}", detectorFunctions.getNumCapturedZebraPulses());
+			if (detectorFunctions.getNumCapturedZebraPulses()==0) {
+				return true;
+			} else {
+				return getScanDetectors()[0].isBusy();
+			}
 		}
 	}
 

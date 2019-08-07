@@ -76,8 +76,8 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 			if (scanType == ScanType.TurboXas) {
 				detectorNames.add(scalerForZebraGroup);
 
-				// Check for dataset called 'MCAs' (link to dataset in HDF file)  to determine if Xspress3 data is available.
-				String xspress3GroupName = findParentOfDataNode(entryGroup, "MCAs");
+				// Check for dataset called 'FF_sumI0' to determine if Xspress3 data is available.
+				String xspress3GroupName = findParentOfDataNode(entryGroup, TurboXasNexusTree.FF_SUM_IO_NAME);
 				if (!xspress3GroupName.isEmpty()) {
 					detectorNames.add(xspress3GroupName);
 				}

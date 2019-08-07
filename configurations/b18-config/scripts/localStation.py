@@ -112,12 +112,12 @@ if (LocalProperties.get("gda.mode") == 'live'):
     sample_temperature.setName("sample_temperature")
     sample_temperature.setExtraNames(["sample_temperature"])
     sample_temperature.setPvName("ME08G-EA-GIR-01:TEMP1")
-    
+
     blower_temperature = EpicsMonitor()
     blower_temperature.setName("blower_temperature")
     blower_temperature.setExtraNames(["blower_temperature"])
     blower_temperature.setPvName("ME08G-EA-GIR-01:TCTRL1:PV:RBV")
-    
+
     add_default(topupMonitor)
     add_default(beamMonitor)
     add_default(detectorMonitorDataProvider)
@@ -128,7 +128,7 @@ else :
     print "...moves done";
     print "Switching off Xspress3 file writing"
     xspress3.setWriteHDF5Files(False)
-    
+
 
 # TODO move this to Spring config?
 from uk.ac.gda.beamline.b18.scannable import SimpleEpicsTemperatureController
@@ -156,7 +156,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
         # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
         controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
         CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
-    except : 
+    except :
         print "Problem setting Xspress3 PVs - see log for more information"
 
 #Set the path to empty so default visit directory (and subdirectory) is used for hdf files
@@ -179,18 +179,9 @@ samplewheel_names.setPositions( samplewheel.getFilterNames() )
 # Set the zebra PC_pulse output for triggering the TFG. 3/4/2019
 CAClient.put("BL18B-OP-DCM-01:ZEBRA:OUT1_TTL", 31)
 
-# Function for setting exposure time and setting continuous acquisition
-# Called in ADControllerBase.setExposure(time) - see client side medipixADController bean
-# (injected using setExposureTimeCmd )
-def setMedipixExposureAndStart(exposureTime) :
-    continuousModeIndex = 2 # ImageMode.CONTINUOUS.ordinal()
-    adbase = medipix_addetector.getAdBase()
-
-    adbase.setAcquireTime(exposureTime);
-    adbase.setAcquirePeriod(0.0);
-    adbase.setImageMode(continuousModeIndex);
-    adbase.startAcquiring();
-
+# Setup the plugin listst used to control the medipix ROI
+run("medipix_functions.py")
+setUseMedipixRoiFromGui(True)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"

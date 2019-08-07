@@ -85,21 +85,60 @@ public class TrajectoryScanPreparerTest {
 		int numSpectra = parameters.getTimingGroups().stream().mapToInt(TurboSlitTimingGroup::getNumSpectra).sum();
 		int numTrajectoryPoints = numSpectra * 4 + 1; // 4 points per spectrum, plus move to initial position at the
 														// start
-
-		assertEquals(numTrajectoryPoints, trajScanPrep.getTrajectoryTimesList().size());
-		assertEquals(numTrajectoryPoints, trajScanPrep.getTrajectoryPositionsList().size());
-		assertEquals(numTrajectoryPoints, trajScanPrep.getTrajectoryVelocityModesList().size());
+		checkProfileNumPoints(trajScanPrep, numTrajectoryPoints);
 
 		// Send trajectory scan values to epics, check arrays match expected size
 		trajScanPrep.sendProfileValues();
 
-		assertEquals(numTrajectoryPoints, controller.getProfileNumPointsToBuild());
-		// assertEquals(numTrajectoryPoints, (int) profileNumPointsCapture.getValue());
+		checkControllerNumPoints(trajScanPrep, numTrajectoryPoints);
+	}
 
-		assertEquals(numTrajectoryPoints, controller.getProfileTimeArray().length);
-		assertEquals(numTrajectoryPoints, controller.getAxisPoints(0).length);
-		assertEquals(numTrajectoryPoints, controller.getProfileVelocityModeArray().length);
-		assertEquals(numTrajectoryPoints, controller.getProfileUserArray().length);
+	@Test
+	public void testBuildsTrajectoryFromGroupsTwoWay() throws Exception {
+		TurboXasParameters parameters = getTurboXasParameters();
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 1.0, 0.5, 5));
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 2.0, 0.5, 7));
+
+		TrajectoryScanPreparer trajScanPrep = getTrajectoryScanPreparer();
+		trajScanPrep.setTwoWayScan(true);
+		trajScanPrep.setUseFixedTurnaroundDistance(true);
+		trajScanPrep.setTurnaroundDistance(1.0);
+
+		trajScanPrep.addPointsForTimingGroups(parameters.getMotorParameters());
+		int numSpectra = parameters.getTimingGroups().stream().mapToInt(TurboSlitTimingGroup::getNumSpectra).sum();
+		int numTrajectoryPoints = numSpectra * 4 + 1; // 4 points per spectrum (including 1 for the wait at turnaround) + 1 extra from move to initial position
+
+		checkProfileNumPoints(trajScanPrep, numTrajectoryPoints);
+
+		// Send trajectory scan values to epics, check arrays match expected size
+		trajScanPrep.sendProfileValues();
+
+		checkControllerNumPoints(trajScanPrep, numTrajectoryPoints);
+	}
+
+	/**
+	 * Check trajectory profile has expected number of points
+	 * @param trajScanPrep
+	 * @param expectedNumPoints
+	 */
+	private void checkProfileNumPoints(TrajectoryScanPreparer trajScanPrep, int expectedNumPoints) {
+		assertEquals(expectedNumPoints, trajScanPrep.getTrajectoryTimesList().size());
+		assertEquals(expectedNumPoints, trajScanPrep.getTrajectoryPositionsList().size());
+		assertEquals(expectedNumPoints, trajScanPrep.getTrajectoryVelocityModesList().size());
+	}
+	/**
+	 * Check the expected number of points have been set on the trajectory scan controller
+	 * @param trajScanPrep
+	 * @param expectedNumPoints
+	 * @throws Exception
+	 */
+	private void checkControllerNumPoints(TrajectoryScanPreparer trajScanPrep, int expectedNumPoints) throws Exception {
+		TrajectoryScanController controller = trajScanPrep.getTrajectoryScanController();
+		assertEquals(expectedNumPoints, controller.getProfileNumPointsToBuild());
+		assertEquals(expectedNumPoints, controller.getProfileTimeArray().length);
+		assertEquals(expectedNumPoints, controller.getAxisPoints(0).length);
+		assertEquals(expectedNumPoints, controller.getProfileVelocityModeArray().length);
+		assertEquals(expectedNumPoints, controller.getProfileUserArray().length);
 	}
 
 	@Test

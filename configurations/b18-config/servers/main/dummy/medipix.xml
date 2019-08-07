@@ -1,0 +1,96 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- Medipix area detector configuration for dummy mode -->
+
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
+	<bean id="hostName" class="java.lang.String">
+		<constructor-arg value="#{localhostInetAddress.hostName.split('\.')[0]}" />
+	</bean>
+
+	<!-- AD hardware -->
+	<bean id="medipixBasePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	</bean>
+
+	<bean id="medipixCamPort" class="java.lang.String">
+		<constructor-arg value="CAM.CAM" />
+	</bean>
+
+	<bean id="medipixRoiPort" class="java.lang.String">
+		<constructor-arg value="CAM.roi" />
+	</bean>
+
+	<bean id="medipixBaseRoiPv" class="java.lang.String">
+		<constructor-arg value="#{medipixBasePv}:ROI:" />
+	</bean>
+
+	<bean id="medipixBaseStatPv" class="java.lang.String">
+		<constructor-arg value="#{medipixBasePv}:STAT:" />
+	</bean>
+
+	<bean id="medipix_adbase"
+		class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{medipixBasePv}:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="medipix_nxcollectionstrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="medipix_adbase" />
+								<property name="readoutTime" value="0" />
+							</bean>
+						</property>
+
+					</bean>
+				</property>
+
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="medipix_multiple_nxcollectionstrategy" class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="medipix_adbase" />
+								<property name="readoutTime" value="0" />
+							</bean>
+						</property>
+
+					</bean>
+				</property>
+
+			</bean>
+		</property>
+	</bean>
+
+<!-- Plugin chain and NXDetector objects are created in _common/medipix.xml  -->
+
+</beans>
+

@@ -63,7 +63,7 @@ public class DetectorFunctions  {
 	private Map<String, String> xspressAttributeMap = Collections.emptyMap();
 	private String pathToAttributeData = "/entry/instrument/NDAttributes";
 
-	private boolean useXspress3SwmrReadout;
+	private boolean useXspress3SwmrReadout = true;
 
 	private int totalNumReadoutsForDummy = 0;
 
@@ -242,7 +242,8 @@ public class DetectorFunctions  {
 		if (xspress3BufferedDetector != null) {
 			Xspress3Controller controller = xspress3BufferedDetector.getController();
 
-			int totNumReadouts = numSpectra*numReadoutsPerSpectrum;
+			// Last frame is missing (no rising edge after final captured pulse to end collection of final Xspress3 frame).
+			int totNumReadouts = numSpectra*numReadoutsPerSpectrum - 1;
 
 			controller.doStopSavingFiles();
 			controller.doStop();
@@ -301,4 +302,13 @@ public class DetectorFunctions  {
 	public void setDetectors(BufferedDetector[] detectors) {
 		this.detectors = detectors;
 	}
+
+	public boolean isUseXspress3SwmrReadout() {
+		return useXspress3SwmrReadout;
+	}
+
+	public void setUseXspress3SwmrReadout(boolean useXspress3SwmrReadout) {
+		this.useXspress3SwmrReadout = useXspress3SwmrReadout;
+	}
+
 }

@@ -67,9 +67,10 @@ import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerStatus;
 import gda.jython.JythonStatus;
 import gda.observable.IObserver;
+import gda.scan.Scan.ScanStatus;
+import gda.scan.ScanEvent;
 import gda.scan.ede.datawriters.ScanDataHelper;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.beamline.i20_1.Activator;
@@ -217,6 +218,9 @@ public class XHControlComposite extends Composite implements IObserver {
 				logger.debug("Updating live view to use {} detector", detector.getName());
 			}
 		});
+
+		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(this);
+
 	}
 
 	private void setupEnergySpectrumTraceLine() {
@@ -480,15 +484,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (storedLiveNumAccumulations < 1) {
 			storedLiveNumAccumulations = 1;
 		}
+
 		detectorControlModel.setLiveNumberOfAccumulations(storedLiveNumAccumulations);
-
-		// Live mode 'show I0It'.
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_MODE_SHOW_I0IT, event -> {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODESHOWI0IT, (boolean) event.getNewValue());
-		});
-		boolean storedLiveI0It = Activator.getDefault().getPreferenceStore().getBoolean(I20_1PreferenceInitializer.LIVEMODESHOWI0IT);
-		detectorControlModel.setLiveModeShowI0It(storedLiveI0It);
-
+		detectorControlModel.setLiveModeShowI0It(false);
 
 		// ... Setup the widgets and initialise using values from preference store
 
@@ -549,7 +547,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			}
 		};
 		showLiveI0ItCheckbox.addSelectionListener(listener);
-		showLiveI0ItCheckbox.setSelection(storedLiveI0It);
+		showLiveI0ItCheckbox.setSelection(detectorControlModel.getLiveModeShowI0It());
 		liveModeIsRunning = false;
 
 		// 'Start' live mode button
@@ -767,17 +765,34 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	@Override
 	public void update(Object source, Object arg) {
-		if (arg instanceof JythonServerStatus) {
-			JythonServerStatus status = (JythonServerStatus) arg;
+		if (arg instanceof ScanEvent) {
+			ScanEvent scanEvent = (ScanEvent) arg;
+			ScanStatus status = scanEvent.getLatestStatus();
 
-			boolean canContinue = true;
-			if (status.scanStatus != JythonStatus.IDLE || status.scriptStatus != JythonStatus.IDLE) {
-				canContinue = false;
+			// disable start, stop buttons at scan start/if scan is running
+			Boolean enable = false;
+			if (status.isRunning()) { // NB isRunning == *false* when cscan is running! (status = 'Not started')
+				// stop the live collection loop
+				if (continueLiveLoop) {
+					stopCollectingRates();
+				}
+			} else 	if (status.isComplete() || status.isAborting()) {
+				// enable start/stop buttons at end of scan
+				enable = true;
 			}
-			startLiveModeButton.setEnabled(canContinue);
-			stopLiveModeButton.setEnabled(canContinue);
-			takeSnapShotButton.setEnabled(canContinue);
-			takeSnapShotAndSaveButton.setEnabled(canContinue);
+
+			final boolean enableWidgets = enable;
+			logger.debug("update' called : Scan status {}, Enable widgets ? : {}", status, enableWidgets);
+			runInGuiThread(() -> {
+				if (startLiveModeButton.getEnabled() != enableWidgets
+				    || stopLiveModeButton.getEnabled() != enableWidgets) {
+					logger.debug("Updating widget enabled state in GUI");
+					startLiveModeButton.setEnabled(enableWidgets);
+					stopLiveModeButton.setEnabled(enableWidgets);
+					takeSnapShotButton.setEnabled(enableWidgets);
+					takeSnapShotAndSaveButton.setEnabled(enableWidgets);
+				}
+			});
 		}
 	}
 

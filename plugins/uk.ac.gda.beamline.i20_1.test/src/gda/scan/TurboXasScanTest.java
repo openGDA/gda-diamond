@@ -89,11 +89,11 @@ public class TurboXasScanTest extends EdeTestBase {
 	public static final String[] BUFFERED_SCALER_FIELDS = { "frame_time", "I0", "It", "Iref" };
 
 	public static final String BUFFERED_XSPRESS3_NAME = "xspress3bufferedDetector";
-	public static final String[] BUFFERED_XSPRESS3_FIELDS = new String[] {"FF", TurboXasNexusTree.FF_SUM_IO_NAME };
+	public static final String[] BUFFERED_XSPRESS3_FIELDS = new String[] {"Chan0", "FF", TurboXasNexusTree.FF_SUM_IO_NAME };
 
 	private static final String XSPRESS3_METADATA_NAME = "Xspress3";
 	private static final String TURBOXAS_METADATA_NAME = "TurboXasParameters";
-	
+
 	@AfterClass
 	public static void tearDownClass() {
 		// Remove factories from Finder so they do not affect other tests
@@ -183,6 +183,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		xspress3detector.setName("xspress3detector");
 		xspress3detector.setController(controllerForDetector);
 		xspress3detector.configure();
+		xspress3detector.setWriteHDF5Files(true);
 
 		xspress3bufferedDetector = new Xspress3BufferedDetector();
 		xspress3bufferedDetector.setName(BUFFERED_XSPRESS3_NAME);
@@ -301,7 +302,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectra");
 		TurboXasParameters parameters = getTurboXasParameters();
 		addTimingGroups(parameters);
-
+		parameters.setTwoWayScan(true);
 
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
 		int numSpectra = getNumSpectra(parameters);
@@ -310,7 +311,6 @@ public class TurboXasScanTest extends EdeTestBase {
 		motorParameters.setMotorParametersForTimingGroup(0);
 		turboXasScannable.setMotorParameters(motorParameters);
 		TurboXasScan scan = new TurboXasScan(turboXasScannable, motorParameters, new BufferedDetector[]{bufferedScaler});
-		scan.setTwoWayScan(true);
 		runScan(scan);
 
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
@@ -428,7 +428,12 @@ public class TurboXasScanTest extends EdeTestBase {
 		scan.setWriteAsciiDataAfterScan(true);
 		runScan(scan);
 
-		int numEnergies = getNumPointsPerSpectrum(parameters);
+		// Reduce the number of expected spectrum points to account for NaNs removed when writing to Ascii.
+		int numEnergies = getNumPointsPerSpectrum(parameters)-1;
+		if (parameters.isTwoWayScan()) {
+			numEnergies--;
+		}
+
 		int numSpectra = parameters.getTotalNumSpectra();
 		int numFields = bufferedScaler.getExtraNames().length + xspress3bufferedDetector.getExtraNames().length + 1; // Xspress3 has extra value : FF_sum/I0
 		int numAxisColumns = 3; // index, position, energy

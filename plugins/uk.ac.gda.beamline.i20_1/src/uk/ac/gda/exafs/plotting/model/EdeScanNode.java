@@ -104,6 +104,8 @@ public class EdeScanNode extends ScanNode {
 	}
 
 	public RGB getNextColour() {
-		return XYGraph.DEFAULT_TRACES_COLOR[ (colourIndex++) % XYGraph.DEFAULT_TRACES_COLOR.length];
+		// Make next colour completely random. 3/4/2019
+		colourIndex = new Random().nextInt(XYGraph.DEFAULT_TRACES_COLOR.length);
+		return XYGraph.DEFAULT_TRACES_COLOR[colourIndex];
 	}
 }
