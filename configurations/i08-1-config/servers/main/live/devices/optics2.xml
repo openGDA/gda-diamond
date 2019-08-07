@@ -3,7 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Optics devices specific to the J branch -->
+	<!-- The motors associated to optics are listed in the same order as in EPICs synoptics -->
 
+	<!-- Mirror6 -->
 	<bean id="m6_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-OP-HFM-06:YAW" />
 	</bean>
