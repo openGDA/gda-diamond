@@ -40,7 +40,7 @@
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
 				<property name="defaultOuterScannables">
 					<list>
-						<value>zone_plate_z</value>
+						<value>ZonePlateZ</value>
 					</list>
 				</property>
 			</bean>

@@ -24,8 +24,10 @@
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/andor_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d6.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/frontEnd.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics.xml" />
+	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/frontEnd.xml" />
+	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/optics1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics2.xml" />
+	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/opticsShutter.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/photodiode.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
@@ -47,8 +49,10 @@
  	<import resource="file:${gda.config}/servers/main/_common/devices/andor_stage.xml" />
  	<import resource="file:${gda.config}/servers/main/_common/devices/beam_watchdogs.xml"/>
  	<import resource="file:${gda.config}/servers/main/_common/devices/d6.xml"/>
- 	<import resource="file:${gda.config}/servers/main/_common/devices/frontEnd.xml"/>
- 	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables.xml" />
+ 	<import resource="file:${gda.config.shared}/servers/_common/devices/energyFocus.xml"/>
+ 	<import resource="file:${gda.config.shared}/servers/_common/devices/frontEnd.xml"/>
+ 	<import resource="file:${gda.config.shared}/servers/_common/devices/opticsScannables1.xml" />
+ 	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables2.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
 

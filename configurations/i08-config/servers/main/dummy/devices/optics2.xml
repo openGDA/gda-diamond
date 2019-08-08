@@ -1,0 +1,120 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Optics devices specific to the I branch -->
+
+	<bean id="m4_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="-1.1162" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="-1.2838" />
+	 	<property name="unitString" value="mrad"/>
+	</bean>
+
+	<bean id="m4_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="-0.053" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="m4_yaw_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9.8" />
+		<property name="maxPosition" value="9.1" />
+		<property name="position" value="-0.0054629" />
+	 	<property name="unitString" value="mrad"/>
+	</bean>
+
+	<bean id="m4_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9.6" />
+		<property name="maxPosition" value="9.6" />
+		<property name="position" value="-5.9531" />
+	 	<property name="unitString" value="mrad"/>
+	</bean>
+
+	<bean id="m4_ellipticity_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8.0" />
+		<property name="maxPosition" value="8.0" />
+		<property name="position" value="1.5002" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="m4_curvature_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.014" />
+		<property name="maxPosition" value="16.0" />
+		<property name="position" value="10.0" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s2_ap_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="3.455" />
+		<property name="maxPosition" value="8.405" />
+		<property name="position" value="1.45" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s2_ap_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8.0" />
+		<property name="maxPosition" value="8.14" />
+		<property name="position" value="-7.76" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s2_ss_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="4.32" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s2_ss_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="-2.55" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s2_ss_presets" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>5 um</value>
+				<value>10 um</value>
+				<value>15 um</value>
+				<value>20 um</value>
+				<value>25 um</value>
+				<value>30 um</value>
+				<value>35 um</value>
+				<value>40 um</value>
+				<value>45 um</value>
+				<value>50 um</value>
+				<value>60 um</value>
+				<value>70 um</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s2_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Closed</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s2_ztranslation_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-7.62" />
+		<property name="maxPosition" value="25.4" />
+		<property name="position" value="0.4" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+</beans>

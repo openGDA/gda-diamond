@@ -4,8 +4,14 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="shutter1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="pvBase" value="BL08I-PS-SHTR-01"/>
+	<bean id="opticsShutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
 	</bean>
 
 </beans>

@@ -3,7 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Optics devices specific to the J branch -->
+	<!-- The motors associated to optics are listed in the same order as in EPICs synoptics -->
 
+	<!-- Mirror6 -->
 	<bean id="m6_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m6_yaw_motor" />
@@ -37,6 +40,39 @@
 				<ref bean="m6_roll" />
 				<ref bean="m6_curvature" />
 				<ref bean="m6_ellipsticity" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Slit3: Exit slits -->
+	<bean id="s3_xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s3_xsize_motor" />
+	</bean>
+
+	<bean id="s3_xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s3_xcentre_motor" />
+	</bean>
+
+	<bean id="s3_ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s3_ysize_motor" />
+	</bean>
+
+	<bean id="s3_ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s3_ycentre_motor" />
+	</bean>
+
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3_xsize" />
+				<ref bean="s3_xcentre" />
+				<ref bean="s3_ysize" />
+				<ref bean="s3_ycentre" />
+				<ref bean="s3_shutter" />
 			</list>
 		</property>
 	</bean>

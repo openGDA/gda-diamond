@@ -3,17 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-	<bean id="opticsShutter" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-				<value>Reset</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="shutter1" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>

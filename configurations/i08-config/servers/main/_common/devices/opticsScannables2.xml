@@ -1,0 +1,99 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Optics devices specific to the I branch -->
+	<!-- The scannables associated to optics are listed in the same order as in EPICs synoptics -->
+
+	<!-- Mirror4 -->
+	<bean id="m4_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_x_motor" />
+	</bean>
+
+	<bean id="m4_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_pitch_motor" />
+	</bean>
+
+	<bean id="m4_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_y_motor" />
+	</bean>
+
+	<bean id="m4_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_yaw_motor" />
+	</bean>
+
+	<bean id="m4_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_roll_motor" />
+	</bean>
+
+	<bean id="m4_curvature" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_curvature_motor" />
+	</bean>
+
+	<bean id="m4_ellipticity" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m4_ellipticity_motor" />
+	</bean>
+
+	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m4_x" />
+				<ref bean="m4_pitch" />
+				<ref bean="m4_yaw" />
+				<ref bean="m4_roll" />
+				<ref bean="m4_y" />
+				<ref bean="m4_curvature" />
+				<ref bean="m4_ellipticity" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Slit2: Secondary Slit -->
+	<bean id="s2_ap_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s2_ap_x_motor" />
+	</bean>
+
+	<bean id="s2_ap_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s2_ap_y_motor" />
+	</bean>
+
+	<bean id="s2_ss_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s2_ss_x_motor" />
+	</bean>
+
+	<bean id="s2_ss_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s2_ss_y_motor" />
+	</bean>
+
+	<bean id="s2_ztranslation" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s2_ztranslation_motor" />
+	</bean>
+
+	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s2_ap_x" />
+				<ref bean="s2_ap_y" />
+				<ref bean="s2_ss_x" />
+				<ref bean="s2_ss_y" />
+				<ref bean="s2_ss_presets" />
+				<ref bean="s2_shutter" />
+				<ref bean="s2_ztranslation" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
