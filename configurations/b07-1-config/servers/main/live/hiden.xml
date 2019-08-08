@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    	http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="hidenrga_controller" class="gda.device.hidenrga.HidenRGAController">
+		<constructor-arg name="epicsPrefix" value="BL07C-VA-RGA-25"/>
+		<property name="numberOfMassChannels" value="16"/>
+	</bean>
+   	
+   	<bean id="rga" class="gda.device.hidenrga.HidenRGAScannable">
+		<property name="controller" ref="hidenrga_controller" />
+		<property name="useAuxiliaryInputs" value="false" />
+		<property name="collectionRate" value="60" />
+	</bean>
+</beans>
