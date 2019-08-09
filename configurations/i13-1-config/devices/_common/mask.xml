@@ -47,5 +47,15 @@
 		</property>
 	</bean>
 
+	<!-- zone-plate aperture -->
+	<bean id="zpa" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mask_x" />
+				<ref bean="mask_y" />
+				<ref bean="mask_z" />
+			</list>
+		</property>
+	</bean>
 </beans>
 
