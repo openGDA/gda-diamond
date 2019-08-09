@@ -7,6 +7,16 @@
 		<property name="prefix" value="BL13I-EA-DET-01:CAM:" />
 	</bean>
 
+	<bean id="pco1_cam_base_caller" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetObject" ref="pco1_cam_base" />
+	    <property name="targetMethod" value="setBasePVName" />
+	     <property name="arguments">
+	        <list>
+	            <value>BL13I-EA-DET-01</value>
+	        </list>
+	    </property>
+	</bean>
+	
 	<bean id="pco1_arr" class="gda.spring.V17NDArrayFactoryBean">
 		<property name="prefix" value="BL13I-EA-DET-01:ARR:" />
 	</bean>
