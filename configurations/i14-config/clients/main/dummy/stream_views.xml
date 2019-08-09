@@ -19,4 +19,29 @@
 		</property>
 	</bean>
 
+	<!--
+		Camera configuration with control GUI and calibration
+	-->
+	<bean id="sim_cam_with_controls_and_calibration" parent="sim_cam">
+		<property name="displayName" value="Simulated Area Detector (with controls and calibration)" />
+		<property name="calibratedAxesProvider" ref="sim_cam_beam_position_calibration" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraAndCalibrationControls">
+				<constructor-arg name="cameraControl" ref="sim_camera_control" />
+				<constructor-arg name="calibration" ref="sim_cam_beam_position_calibration" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sim_cam_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
+		<constructor-arg name="xAxisScannable" ref="stage1_x"/>
+	    <constructor-arg name="yAxisScannable" ref="stage1_y"/>
+	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>
+	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
+	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
+	</bean>
+
 </beans>
