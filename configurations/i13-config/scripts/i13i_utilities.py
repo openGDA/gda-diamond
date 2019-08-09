@@ -130,13 +130,14 @@ def getVisitPath():
     
 import smtplib
 from email.mime.text import MIMEText
-def send_email(whoto, subject, body):
+def send_email(whoto, subject, body, verbose=False):
     """
     To send an e-mail from the beamline's GDA server to one or more recipients
     
     whoto - the list of e-mail addresses of the intended recipients (list of strings, eg ['user_name@diamond.ac.uk'] or ["user_name_one@diamond.ac.uk", "user_name_two@gmail.com"])
     subject - the subject of the e-mail to be send (string)
     body - the content of the e-mail to be send (string)
+    verbose - if True, a short message is displayed when e-mail is successful sent  
     
     Example:
     send_email(["user_name_one@diamond.ac.uk", "user_name_two@gmail.com"], "Update on myscript's relentless progress...", "myscript completed without errors - hurrah!")
@@ -160,7 +161,8 @@ def send_email(whoto, subject, body):
         s = smtplib.SMTP('localhost')
         s.sendmail(whofrom, whoto, msg.as_string())
         s.quit()
-        print "E-mail successfully sent!"
+        if verbose:
+            print "E-mail successfully sent!"
     except smtplib.SMTPException, ex:
         print "Failed to send e-mail: %s!" %(str(ex))
 
@@ -258,6 +260,7 @@ def createScannableFromPV( name, pv, addToNameSpace=True, getAsString=True, hasU
 class StringDisplayEpicsPVClass(ScannableMotionBase):
     '''Create PD to display single EPICS PV which returns a string (label)'''
     def __init__(self, name, pvstring):
+        self.pvstring = pvstring
         self.setName(name);
         self.setInputNames([name])
         self.setLevel(8)
@@ -280,6 +283,11 @@ class StringDisplayEpicsPVClass(ScannableMotionBase):
     
     def rawIsBusy(self):
         return 0
+    
+    def set_pvstring(self, pvstring):
+        if self.outcli.isConfigured():
+            self.outcli.clearup()
+        self.pvstring = pvstring
     
 class StringListDisplayEpicsPVClass(ScannableMotionBase):
     '''Create PD to display single EPICS PV which returns a string (label)'''
@@ -327,9 +335,11 @@ pco_cam_model = StringDisplayEpicsPVClass("pco_cam_model", "BL13I-EA-DET-01:CAM:
 pco_focus_prefix = "BL13I-MO-CAM-02:FOCUS"
 pco_edge_focus_label = StringDisplayEpicsPVClass("focus_pco_edge_label", pco_focus_prefix + ":MP:RBV:CURPOS")
 pco_edge_focus = StringDisplayEpicsPVClass("focus_pco_edge", pco_focus_prefix + ".RBV")
+pco_edge_turret = StringDisplayEpicsPVClass("turret_pco_edge", "BL13I-MO-CAM-02:TURRET:P:UPD.D")
 
-pco_4000_focus_label = StringDisplayEpicsPVClass("focus_pco_4000_label", "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS")
-pco_4000_focus = StringDisplayEpicsPVClass("focus_pco_4000", "BL13I-MO-STAGE-02:FOCUS.RBV")
+pco_4000_focus_label = StringDisplayEpicsPVClass("focus_pco_4000_label", "BL13I-MO-STAGE-01:FOCUS:MP:RBV:CURPOS")
+pco_4000_focus = StringDisplayEpicsPVClass("focus_pco_4000", "BL13I-MO-STAGE-01:FOCUS.RBV")
+pco_4000_turret = StringDisplayEpicsPVClass("turret_pco_4000", "BL13I-MO-CAM-01:TURRET:P:UPD.D")
 
 filter_stick_1 = finder.find("f1_Stick1")
 filter_stick_2 = finder.find("f1_Stick2")
@@ -339,9 +349,19 @@ filter_stick_5 = finder.find("f1_Stick5")
 
 dcm_mode = finder.find("dcm_mode")
 
-ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13I-DI-FEMTO-06:GAINHIGHSPEED", addToNameSpace=True, getAsString=True, hasUnits=False)
+ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13I-DI-FEMTO-06:GAIN", addToNameSpace=True, getAsString=True, hasUnits=False)
 ionc_gainmode = createScannableFromPV("ionc_gainmode", "BL13I-DI-FEMTO-06:GAINMODE", addToNameSpace=True, getAsString=True, hasUnits=False)
 ionc_acdc = finder.find("ionc_acdc")
+
+try:
+    ionc_cfg = ScannableGroup()
+    ionc_cfg.setName("ionc_cfg")        
+    ionc_cfg.addGroupMember(ionc_A_over_V_gain)
+    ionc_cfg.addGroupMember(ionc_gainmode)
+    ionc_cfg.addGroupMember(ionc_acdc)
+    ionc_cfg.configure()
+except Exception, ex:
+    print "Failed to create the ionc_prm group: ", str(ex)
     
 try:
     pco_edge_agg = ScannableGroup()
@@ -390,7 +410,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
     Args:
         nScans - initial number of scans, which is then repeated ad infinitum
         pathToVisit - path to the visit directory
-        filesys - "na" for NetApp and "gpfs" for GPFS01
+        filesys - "na" for NetApp and "gpfs" for GPFS03
          
     Notes: 
         (1) all scan files will be saved in the tmp sub-directory of the input visit directory
@@ -401,7 +421,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
     print "Executing stressTest..."
     datadir_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
     
-    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "t:\\i13\\data\\"}
+    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "g:\\i13\\data\\"}
     flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
     #windowsSubString_saved = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     #print "windowsSubString_saved = %s" %(windowsSubString_saved)
@@ -431,7 +451,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
     
     
     
-def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i13/data/2016/cm14467-4", filesys="na"):
+def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i13/data/2019/cm22976-3", filesys="gpfs"):
     """
     Fn to collect a series of fly scans for testing purposes with the following:
 	dummy translation stage is expected to be used!
@@ -444,10 +464,10 @@ def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     stop = last rotation angle
     step = rotation step size
     pathToVisitDir = path to a directory which GDA can use for writing log files, ie /dls/i13/data/2016/cm14467-4
-    filesys = 'na' for NetApp and 'gpfs' for GPFS01
+    filesys = 'na' for NetApp and 'gpfs' for GPFS03
     """
     _fn = stressfly13.__name__
-    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "t:\\i13\\data\\"}
+    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "g:\\i13\\data\\"} 	# was "t:\\i13\\data\\"} for GPFS01
     flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
     #windowsSubString_saved = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     #print "windowsSubString_saved = %s" %(windowsSubString_saved)
@@ -466,7 +486,7 @@ def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
             msg="Failed to create sub-directory %s: " %(log_dir_path)
             raise Exception(msg + str(e))
     log_file_name = _fn
-    timestr_template = "%d-%m-%Y-%H-%M-%S"
+    timestr_template = "%Y-%m-%dT%H-%M-%S"
     timestr = time.strftime(timestr_template)
     log_file_name += ("_%s_" %(filesys))
     log_file_name += timestr
@@ -507,6 +527,7 @@ def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
             #msg = "%d/%d \t %d \t %s \t %s \t %f \t %s \t %s \t %s" %((i+1), nscans, cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:RunTime"])), str(caget(pv_after_scan["HDF5:DroppedArrays"])))
             #fh.write(msg+"\n")
             csv_writer.writerow(("%d/%d" %((i+1), nscans), cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:RunTime"])), str(caget(pv_after_scan["HDF5:DroppedArrays"]))))
+            fh.flush()
             print "Finished scan iter %d (of %d), end time: %s." %(i+1, nscans, timestr_end)
             interruptable()             # for breaking this loop when GDA Abort button is pressed
     except Exception, e:
@@ -523,17 +544,18 @@ def interruptable():
     """
     GeneralCommands.pause()
 
-def use_storage(storage_name, notify=False, comment=''):
+def use_storage(storage_name, notify=False, comment='', verbose=False):
     """
     Fn to select a storage place, NetApp or GPGS01, for saving GDA scan files. After executing this command, any subsequent GDA scans will save their scan files on the selected storage.
     Note: this command needs to be excuted again if GDA servers are re-started
     
     Arg(s)
-    storage_is (String) - short name of the storage place to be used for GDA saving scan files:
+    storage_name (String) - short name of the storage place to be used for GDA saving scan files:
         "na" - NetApp local storage 
-        "gpfs" - GPFS01 central storage
-    notify (boolean) - if True, a notification is sent to a number of stakelders
-    comment (String) - a user-provided justification for changing storage, to be included in all e-mail notifications to stakeholders   
+        "gpfs" - GPFS03 central storage
+    notify (boolean) - if True, an e-mail notification is sent to relevant stakelders
+    comment (String) - a user-provided justification for changing storage, to be included in all e-mail notifications to stakeholders
+    verbose (String) - if True, e-mail addresses are reported at the time e-mail notifications are sent out      
     """
     #assert na or gpfs
 
@@ -549,8 +571,8 @@ def use_storage(storage_name, notify=False, comment=''):
     detector_objs.update({'flyScanDetectorNoChunking': 'flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(%s)'})
 
     storage_name_ = storage_name.lower()
-    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "t:\\i13\\data\\"}
-    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "g:\\i13\\data\\"}
+    windowsSubString_rvr_dct = {"d": "NetApp", "g": "GPFS03"}
 
     storage_path = windowsSubString_dct[storage_name_]
     setn_out_str = "Setting %s to use %s (%s)..."
@@ -654,12 +676,13 @@ def use_storage(storage_name, notify=False, comment=''):
         print msg
 
 
-    pretty_print_dct = {'na': 'NetApp', 'gpfs': 'GPFS01'}
+    pretty_print_dct = {'na': 'NetApp', 'gpfs': 'GPFS03'}
 
     if notify and len(emails)>0:
-        print('Sending an e-mail notification to:')
-        for eml in emails:
-            print(eml) 
+        if verbose:
+            print('Sending an e-mail notification to:')
+            for eml in emails:
+                print(eml) 
         #send e-mail, specifying: time, visit's path (with beamline id)
         storage_name = pretty_print_dct[storage_name_]
         hst = socket.gethostname()
@@ -672,7 +695,7 @@ def use_storage(storage_name, notify=False, comment=''):
             bdy += '\n' + comment
         else:
             bdy += ' No comment provided.'
-        send_email(emails, subject=sbj, body=bdy)
+        send_email(emails, subject=sbj, body=bdy, verbose=verbose)
 
     print "\n * Finished configuring beamline storage to %s!" %(storage_name_)
     
@@ -683,7 +706,7 @@ def report_storage():
     Desc:
     Fn to report current storage configuration for saving scan files on the beamline.
     """
-    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+    windowsSubString_rvr_dct = {"d": "NetApp", "g": "GPFS03"}
     
     #curr_out_str = "Current windowsSubString for %s is %s (%s)."
     curr_out_str = "%s is currently configured to use the %s storage (on %s)."
@@ -784,4 +807,133 @@ class TopupProtector(TopupChecker):
         
 #bm = WaitWhileScannableBelowThresholdMonitorOnly("bm", ring_current, minimumThreshold=200.0, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=1)
 
+
+from gda.device.scannable import ScannableBase
+from gda.jython import InterfaceProvider
+from gda.epics import CAClient
+
+class PseudoScannable(ScannableBase):
+    def __init__(self, name, obj):
+        self.name = name
+        self.inputNames = [name]
+        self.extraNames = []
+        self.outputFormat = ["%s"]
+        self.obj = obj
+        
+    def getPosition(self):
+        return str(self.obj)
+    
+    def isBusy(self):
+        return False
+    
+class DetCfg(ScannableBase):
+    _dct = {}
+    _dct.update({'BL13I-EA-DET-01': {}}) # pco 4000
+    _dct['BL13I-EA-DET-01'].update({'model': ('BL13I-EA-DET-01:CAM:Model_RBV', "%s")})
+    _dct['BL13I-EA-DET-01'].update({'focus_name': ('BL13I-MO-CAM-01:FOCUS:MP:RBV:CURPOS',"%s")})
+    _dct['BL13I-EA-DET-01'].update({'focus': ('BL13I-MO-CAM-01:FOCUS.RBV',"%s")})
+    _dct['BL13I-EA-DET-01'].update({'turret': ('BL13I-MO-CAM-01:TURRET:P:UPD.D',"%s")})
+    _dct['BL13I-EA-DET-01'].update({'turret': ('BL13I-MO-CAM-01:TURRET:P:UPD.D',"%s")})
+    _dct['BL13I-EA-DET-01'].update({'pixel_rate': ('BL13I-EA-DET-01:CAM:PIX_RATE',"%s")})
+    _dct['BL13I-EA-DET-01'].update({'adc_mode': ('BL13I-EA-DET-01:CAM:ADC_MODE',"%s")})
+
+    _dct.update({'BL13I-EA-DET-02': {}}) # pco EDGE
+    _dct['BL13I-EA-DET-02'].update({'model': ('BL13I-EA-DET-02:CAM:Model_RBV',"%s")})
+    _dct['BL13I-EA-DET-02'].update({'focus_name': ('BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS',"%s")})
+    _dct['BL13I-EA-DET-02'].update({'focus': ('BL13I-MO-CAM-02:FOCUS.RBV',"%s")})
+    _dct['BL13I-EA-DET-02'].update({'turret': ('BL13I-MO-CAM-02:TURRET:P:UPD.D',"%s")})
+    _dct['BL13I-EA-DET-02'].update({'pixel_rate': ('BL13I-EA-DET-02:CAM:PIX_RATE',"%s")})
+    _dct['BL13I-EA-DET-02'].update({'adc_mode': ('BL13I-EA-DET-02:CAM:ADC_MODE',"%s")})
+    
+    def __init__(self, name):
+        self.name = name
+        self.inputNames = []
+        self.extraNames = []
+        self.outputFormat = []
+        self.det_base_pv = None
+        self.cac_dct = {}
+        
+    def atScanStart(self):
+        print("***************** atScanStart")
+        inputNames = []
+        outputFormat = []
+        det_names = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation().getDetectorNames()
+        if len(det_names)>0:
+            det_name = det_names[0]
+            try:
+                det_obj = finder.find(det_name)
+                self.det_base_pv = det_obj.getCollectionStrategy().getAdBase().getBasePVName()
+                print self.det_base_pv
+            except Exception, e:
+                print("Error in atScanStart: %s" %(str(e)))
+            for k, v in type(self)._dct[self.det_base_pv].iteritems():
+                print k, v #, v[0], v[1]
+                self.cac_dct.update({k: CAClient(v[0])})
+                #self.extraNames.append(k)
+                inputNames.append(k)
+                #self.outputFormat.append(v[1])
+                outputFormat.append(v[1])
+            #self.extraNames = kzkz
+            #print kzkz
+            print inputNames
+            print outputFormat
+            self.inputNames = inputNames
+            self.outputFormat = outputFormat
+            self.configure()
+                
+    def configure(self):
+        for k, v in self.cac_dct.iteritems():
+            self.cac_dct[k].configure()
+    
+    def isBusy(self):
+        return False
+    
+    def getPosition(self):
+        pos_out = []
+        for k, cac in self.cac_dct.iteritems():
+            pos_out.append(cac.caget())
+        return pos_out
+            
+
+# simultaneous cameras 
+def set_sim_cam_step(mode):
+    det = finder.find("pco1_hw_hdf_nochunking")
+    cs = det.getCollectionStrategy()
+    if mode == 0:
+        # original set-up
+        cs.setNoLongerBusyTriggerSetupCommand('tfg setup-trig start adc5 alternate 1')
+        cs.setExposeTriggerOutVal(64)
+        cs.setNoLongerBusyTriggerInVal(39) #dead port for the old cam
+    else:
+        cs.setNoLongerBusyTriggerSetupCommand('tfg setup-trig start adc2 alternate 1')
+        cs.setExposeTriggerOutVal(16) # 80 to send triggers to both cameras at the same time
+        cs.setNoLongerBusyTriggerInVal(34) #dead port for the new cam (CLHS/maxipix)
+
+def get_sim_cam_step():
+    det = finder.find("pco1_hw_hdf_nochunking")
+    cs = det.getCollectionStrategy()
+    cmdBusy = cs.getNoLongerBusyTriggerSetupCommand()
+    exposeOut = cs.getExposeTriggerOutVal()
+    busyIn = cs.getNoLongerBusyTriggerInVal()
+    print "(cmdBusy, exposeOut, busyIn) = ('%s', %s, %s)"%(cmdBusy, exposeOut, busyIn)
+
+def set_sim_cam_fly(mode, exposeTriggerOut=16, noLongerBusyTriggerIn=34):
+    det = finder.find("flyScanDetectorNoChunking")
+    cs = det.getCollectionStrategy()
+    if mode == 0:
+        # original set-up
+        cs.setExposeTriggerOutVal(64)
+        cs.setNoLongerBusyTriggerInVal(39)
+    else:
+        cs.setExposeTriggerOutVal(exposeTriggerOut) # 80 to send triggers to both cameras at the same time
+        cs.setNoLongerBusyTriggerInVal(0) #(noLongerBusyTriggerIn) #set dead port to 0 if waiting for cam busy signal to go down is not required (appears to be needed for fly scans in the switchable/swappable simultaneous-cameras set-up, otherwise some triggers appear to be missed (eg zebra says it issued 1801 but the cam says it collected only 1687 
+
+def get_sim_cam_fly():
+    det = finder.find("flyScanDetectorNoChunking")
+    cs = det.getCollectionStrategy()
+    exposeOut = cs.getExposeTriggerOutVal()
+    busyIn = cs.getNoLongerBusyTriggerInVal()
+    print "(exposeOut, busyIn) = (%s, %s)"%(exposeOut, busyIn)
+    
+    
 print "Finished running i13i_utilities.py!"
