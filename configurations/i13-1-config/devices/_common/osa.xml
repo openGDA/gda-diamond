@@ -2,20 +2,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
+	<!-- order-sorting aperture -->
+	
 	<bean id="osa_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="osa_x_motor" />
-		<property name="userUnits" value="mm"/>
+		<property name="userUnits" value="um"/>
 	</bean>
 
 	<bean id="osa_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="osa_y_motor" />
-		<property name="userUnits" value="mm"/>
+		<property name="userUnits" value="um"/>
 	</bean>
 
 	<bean id="osa_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="osa_z_motor" />
-		<property name="userUnits" value="mm"/>
+		<property name="userUnits" value="um"/>
 	</bean>
 	
 	<bean id="osa" class="gda.device.scannable.scannablegroup.ScannableGroup">

@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+    <!-- order-sorting-aperture motors -->
+    
+	<bean id="misc_smaract_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8000.000" />
+		<property name="maxPosition" value="8000.000" />
+		<property name="position" value="-6520.307" />
+	</bean>
+           
+	<bean id="misc_smaract_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9000.000" />
+		<property name="maxPosition" value="9000.000" />
+		<property name="position" value="-4884.000" />
+	</bean>
+           
+	<bean id="misc_smaract_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9800.000" />
+		<property name="maxPosition" value="16122.000" />
+		<property name="position" value="1495.102" />
+	</bean>
+
+</beans>

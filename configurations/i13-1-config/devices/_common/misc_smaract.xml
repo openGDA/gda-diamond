@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- order-sorting aperture -->
+	
+	<bean id="misc_smaract_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="misc_smaract_x_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="misc_smaract_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="misc_smaract_y_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="misc_smaract_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="misc_smaract_z_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	
+	<bean id="misc_smaract" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="misc_smaract_x" />
+				<ref bean="misc_smaract_y" />
+				<ref bean="misc_smaract_z" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="misc_smaract_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="misc_smaract_x" />
+				<ref bean="misc_smaract_y" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>

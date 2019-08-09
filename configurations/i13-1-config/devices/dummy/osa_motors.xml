@@ -3,6 +3,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
            
+    <!-- order-sorting-aperture motors -->
+    
 	<bean id="osa_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-98000.000" />
 		<property name="maxPosition" value="11292.000" />

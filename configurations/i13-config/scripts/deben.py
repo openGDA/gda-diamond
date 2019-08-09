@@ -4,7 +4,7 @@ from epics_scripts.pv_scannable_utils import createPVScannable
 
 #def __init__(self, name, pvinstring, pvoutstring, pvstopstring, tolerance, unitstring, formatstring):
 
-print("\t Adding Deben objects and methods...")
+print("\n Adding Deben objects and methods...")
 
 dbn_pv_prefix = "BL13I-EA-DOF-01:RIG:"
 

@@ -3,18 +3,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- central-stop motors -->
+	<!-- zone-plate motors -->
 
-	<bean id="cs_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-SMAR-01:CS:X"/>
+	<bean id="zp_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-SMAR-01:ZP:X"/>
 		<property name="local" value="true" />
 	</bean>
-	<bean id="cs_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-SMAR-01:CS:Y"/>
+	<bean id="zp_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-SMAR-01:ZP:Y"/>
 		<property name="local" value="true" />
 	</bean>
-	<bean id="cs_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-SMAR-01:CS:Z"/>
+	<bean id="zp_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-SMAR-01:ZP:Z"/>
 		<property name="local" value="true" />
 	</bean>
 </beans>	

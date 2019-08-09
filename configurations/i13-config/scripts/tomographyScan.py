@@ -32,6 +32,7 @@ from gda.configuration.properties import LocalProperties
 from gda.commandqueue import JythonScriptProgressProvider
 from gda.commandqueue import JythonCommandCommandProvider
 from org.slf4j import LoggerFactory
+import i13i_utilities
 
 finder = Finder.getInstance()
 
@@ -207,7 +208,7 @@ def reportJythonNamespaceMapping(modality='micro', verbose=False):
         available options: 'all', 'micro', 'heli', 'xgi' or their first letters (all case insensitive)
     verbose - if True, PV names are displayed wherever appropriate
     """
-    def get_pv_name_raw(obj):
+    def _get_pv_name(obj):
         out = None
         if isinstance(obj, gda.device.scannable.ScannableMotor):
             try:
@@ -231,7 +232,7 @@ def reportJythonNamespaceMapping(modality='micro', verbose=False):
         return out
     
     def get_pv_name(obj,verbose):
-        name = get_pv_name_raw(obj)
+        name = _get_pv_name(obj)
         return '(%s)' %(name) if verbose and (not name is None) else ''
     
     m = modality.lower()
@@ -636,6 +637,71 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         zebra.encCopyMotorPosToZebra(pcEnc+1)
         meta_add( camera_stage)
         meta_add( sample_stage)
+        
+        try:
+            from i13i_utilities import StringDisplayEpicsPVClass
+            from gda.device.scannable import DummyScannable
+            from gda.jython import InterfaceProvider
+            _dct = {}
+            _dct.update({'BL13I-EA-DET-01': {}}) # pco 4000
+            _dct['BL13I-EA-DET-01'].update({'model': 'BL13I-EA-DET-01:CAM:Model_RBV'})
+            _dct['BL13I-EA-DET-01'].update({'focus_name': 'BL13I-MO-CAM-01:FOCUS:MP:RBV:CURPOS'})
+            _dct['BL13I-EA-DET-01'].update({'focus': 'BL13I-MO-CAM-01:FOCUS.RBV'})
+            _dct['BL13I-EA-DET-01'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
+            _dct['BL13I-EA-DET-01'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
+            _dct['BL13I-EA-DET-01'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
+            _dct['BL13I-EA-DET-01'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
+
+            _dct.update({'BL13I-EA-DET-02': {}}) # pco EDGE
+            _dct['BL13I-EA-DET-02'].update({'model': 'BL13I-EA-DET-02:CAM:Model_RBV'})
+            _dct['BL13I-EA-DET-02'].update({'focus_name': 'BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS'})
+            _dct['BL13I-EA-DET-02'].update({'focus': 'BL13I-MO-CAM-02:FOCUS.RBV'})
+            _dct['BL13I-EA-DET-02'].update({'turret': 'BL13I-MO-CAM-02:TURRET:P:UPD.D'})
+            _dct['BL13I-EA-DET-02'].update({'pixel_rate': 'BL13I-EA-DET-02:CAM:PIX_RATE'})
+            _dct['BL13I-EA-DET-02'].update({'adc_mode': 'BL13I-EA-DET-02:CAM:ADC_MODE'})
+
+            det_base_pv=tomography_flyscan_det.getCollectionStrategy().getAdBase().getBasePVName()
+            #meta_add(_dct[det_base_pv])
+            #det_base_pv='BL13I-EA-DET-02'
+            try:
+                meta_rm = jns.meta_rm
+                meta_rm(det_cfg)
+                del det_cfg
+            except Exception, e:
+                print("from del: %s" %(str(e)))
+                
+            det_cfg = ScannableGroup()
+            det_cfg.setName("det_cfg")
+            for k, v in _dct[det_base_pv].iteritems():
+                print k,v
+                det_cfg.addGroupMember(StringDisplayEpicsPVClass(k,v))
+            
+            readout_time_sbl = DummyScannable('readout_time', tomography_flyscan_det.getReadOutTime())
+            readout_time_sbl.setLowerGdaLimits(0)
+            det_cfg.addGroupMember(readout_time_sbl)
+            det_cfg.configure()
+            cmdSrvr = InterfaceProvider.getJythonNamespace()
+            cmdSrvr.placeInJythonNamespace("det_cfg",det_cfg)
+            meta_add(det_cfg)
+            
+            from i13i_utilities import PseudoScannable 
+            flyscan_cfg = ScannableGroup()
+            flyscan_cfg.setName("flyscan_cfg")
+            flyscan_cfg.addGroupMember(PseudoScannable('tomography_flyscan_det',tomography_flyscan_det.getName()))
+            flyscan_cfg.addGroupMember(PseudoScannable('tomography_theta',tomography_theta.getName()))
+            flyscan_cfg.addGroupMember(PseudoScannable('tomography_translation',tomography_translation.getName()))
+            flyscan_cfg.addGroupMember(PseudoScannable('tomography_shutter',tomography_shutter.getName()))
+            flyscan_cfg.configure()
+            cmdSrvr.placeInJythonNamespace("flyscan_cfg",flyscan_cfg)
+            meta_add(flyscan_cfg)
+            
+            #print "before added" 
+            #print det_cfg()
+            #print "added!!!!!!!!!!!"
+        except:
+            exceptionType, exception, traceback = sys.exc_info()
+            handle_messages.log(None, "Error in tomoFlyScan", exceptionType, exception, traceback, True)
+            #raise Exception("Error in tomoFlyScan" + repr(exception))
                
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
@@ -713,13 +779,26 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         handle_messages.log(None, "Error in tomoFlyScan", exceptionType, exception, traceback, True)
         raise Exception("Error in tomoFlyScan" + repr(exception))
     finally :
+        try:
+            meta_rm(flyscan_cfg)
+            meta_rm(det_cfg)
+            del det_cfg     # local
+            del flyscan_cfg # local
+            # need to find it and delete it?
+            #det_cfg = finder.find("det_cfg")
+            #del det_cfg
+            cmdSrvr = InterfaceProvider.getJythonNamespace()
+            cmdSrvr.placeInJythonNamespace("det_cfg", PseudoScannable("det_cfg","det_cfg"))                 # or None?
+            cmdSrvr.placeInJythonNamespace("flyscan_cfg", PseudoScannable("flyscan_cfg","flyscan_cfg"))     # or None?
+        except:
+            pass
         atTomoFlyScanEnd(**kwargs)
         endTm = datetime.datetime.now()
         elapsedTm = endTm - startTm
         jns=beamline_parameters.JythonNameSpaceMapping()
         if isLive():
             print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
-        print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
+        print("Elapsed time [D day[s], ][H]H:MM:SS[.UUUUUU]: %s" %(str(elapsedTm)))
 
 
 
@@ -964,7 +1043,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         jns=beamline_parameters.JythonNameSpaceMapping()
         if isLive():
             print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
-        print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
+        print("Elapsed time [D day[s], ][H]H:MM:SS[.UUUUUU]: %s" %(str(elapsedTm)))
 
 def restore_path(**kwargs):
     if kwargs.has_key("sendDataToTempDirectory") and (kwargs["sendDataToTempDirectory"] is not None) and kwargs["sendDataToTempDirectory"]:

@@ -3,6 +3,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- order-sorting-aperture motors -->
+
 	<bean id="osa_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-SMAR-01:OSA:X"/>
 	</bean>

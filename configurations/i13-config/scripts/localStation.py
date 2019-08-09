@@ -20,7 +20,7 @@ from tomographyHelicalScan import tomoHelicalScan
 
 from i13i_utilities import isLive, interruptable
 from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_stick_1, filter_stick_2, filter_stick_3, filter_stick_4, filter_stick_5, dcm_mode
-from i13i_utilities import ionc_A_over_V_gain, ionc_gainmode, ionc_acdc
+from i13i_utilities import ionc_cfg		# ionc_A_over_V_gain, ionc_gainmode, ionc_acdc, ionc_prm
 
 section_sep = "-"*128
 class ExperimentShutterEnumPositioner(ScannableBase):
@@ -84,6 +84,7 @@ def meta_add_i13i():
 	meta_scannables.append(s2)
 	meta_scannables.append(s3)
 	meta_scannables.append(s4)
+	meta_scannables.append(hex)
 	
 	for s in meta_scannables:
 		meta_add(s)
@@ -94,9 +95,10 @@ def meta_add_i13i():
 	#meta_add("filter_stick_4", filter_stick_4())
 	#meta_add("filter_stick_5", filter_stick_5())
 	#meta_add("dcm_mode", dcm_mode())
-	meta_add("ionc_A_over_V_gain", ionc_A_over_V_gain())
-	meta_add("ionc_gainmode", ionc_gainmode())
-	meta_add("ionc_acdc", ionc_acdc())
+	#meta_add("ionc_A_over_V_gain", ionc_A_over_V_gain())
+	#meta_add("ionc_gainmode", ionc_gainmode())
+	#meta_add("ionc_acdc", ionc_acdc())
+	meta_add(ionc_cfg)
 	
 	print "\n Finished adding meta-data items!"
 
@@ -164,25 +166,25 @@ try:
 			position6="4x Pink"
 			position7="2x Pink"
 
-			turret_prefix = "BL13I-MO-CAM-01:TURRET"
-			caput(turret_prefix + ":DEMAND.0",position1)
-			caput(turret_prefix + ":CURPOS.0", position1)
-			caput(turret_prefix + ":DEMAND.1", position2)
-			caput(turret_prefix + ":CURPOS.1", position2)
-			caput(turret_prefix + ":DEMAND.2", position3)
-			caput(turret_prefix + ":CURPOS.2", position3)
-			caput(turret_prefix + ":DEMAND.3", position4)
-			caput(turret_prefix + ":CURPOS.3", position4)
-			caput(turret_prefix + ":DEMAND.4", position5)
-			caput(turret_prefix + ":CURPOS.4", position5)
-			caput(turret_prefix + ":DEMAND.5", position6)
-			caput(turret_prefix + ":CURPOS.5", position6)
-			caput(turret_prefix + ":DEMAND.6", position7)
-			caput(turret_prefix + ":CURPOS.6", position7)
+			#turret_prefix = "BL13I-MO-CAM-01:TURRET"
+			#caput(turret_prefix + ":DEMAND.0",position1)
+			#caput(turret_prefix + ":CURPOS.0", position1)
+			#caput(turret_prefix + ":DEMAND.1", position2)
+			#caput(turret_prefix + ":CURPOS.1", position2)
+			#caput(turret_prefix + ":DEMAND.2", position3)
+			#caput(turret_prefix + ":CURPOS.2", position3)
+			#caput(turret_prefix + ":DEMAND.3", position4)
+			#caput(turret_prefix + ":CURPOS.3", position4)
+			#caput(turret_prefix + ":DEMAND.4", position5)
+			#caput(turret_prefix + ":CURPOS.4", position5)
+			#caput(turret_prefix + ":DEMAND.5", position6)
+			#caput(turret_prefix + ":CURPOS.5", position6)
+			#caput(turret_prefix + ":DEMAND.6", position7)
+			#caput(turret_prefix + ":CURPOS.6", position7)
 
 
 			#make the lens re-read its list of positions following setting them in EPICS above
-			cam01_objective.initializationCompleted()
+			#cam01_objective.initializationCompleted()
 
 		except:
 			exceptionType, exception, traceback = sys.exc_info()
@@ -261,19 +263,23 @@ try:
 		#reverse the camera image so that the image is as looking upstream
 		caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
 		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+			print "detected PCO 4000" 
 			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
 			pco4000_readout=0.21
 			flyScanDetector.readOutTime=pco4000_readout
 			flyScanDetectorNoChunking.readOutTime=pco4000_readout
 			p2r_flyScanDetector.getCollectionStrategy().setReadoutTime(pco4000_readout)
 			p2r_flyScanDetector.readOutTime=pco4000_readout		
-		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+		elif( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+			print "detected PCO Edge" 
 			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 			pcoEdge_readout=0.011
 			flyScanDetector.readOutTime=pcoEdge_readout
 			flyScanDetectorNoChunking.readOutTime=pcoEdge_readout
 			p2r_flyScanDetector.getCollectionStrategy().setReadoutTime(pcoEdge_readout)
 			p2r_flyScanDetector.readOutTime=pcoEdge_readout
+		else:
+			print("Unhandled camera model: %s!" %(caget("BL13I-EA-DET-01:CAM:Model_RBV")))
 	
 		# Ensure rot speed is set in case GDA has crashed during fly scan.
 		ss1_rot.motor.speed=45
@@ -310,7 +316,9 @@ try:
 		if _stressTesting:
 			from i13i_utilities import stressTest
 			LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
-
+		
+		print "---"*30
+		print "Local-station initialisation completed - GDA ready for use!"
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)

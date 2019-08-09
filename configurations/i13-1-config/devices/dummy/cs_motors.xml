@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<!-- central-stop motors -->
+	
+	<bean id="cs_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-80000.000" />
+		<property name="maxPosition" value="80000.000" />
+		<property name="position" value="5070.0010" />
+	</bean>
+           
+	<bean id="cs_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-80000.000" />
+		<property name="maxPosition" value="80000.000" />
+		<property name="position" value="5000.2850" />
+	</bean>
+           
+	<bean id="cs_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="7995.000" />
+		<property name="maxPosition" value="8005.000" />
+		<property name="position" value="-0.0640" />
+	</bean>
+
+</beans>

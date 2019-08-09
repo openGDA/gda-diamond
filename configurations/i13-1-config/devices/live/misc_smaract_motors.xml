@@ -3,18 +3,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- central-stop motors -->
+	<!-- order-sorting-aperture motors -->
 
-	<bean id="cs_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-SMAR-01:CS:X"/>
+	<bean id="misc_smaract_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-SMAR-01:MISCX"/>
 		<property name="local" value="true" />
 	</bean>
-	<bean id="cs_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-SMAR-01:CS:Y"/>
+	<bean id="misc_smaract_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-SMAR-01:MISCY"/>
 		<property name="local" value="true" />
 	</bean>
-	<bean id="cs_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-SMAR-01:CS:Z"/>
+	<bean id="misc_smaract_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-SMAR-01:MISCZ"/>
 		<property name="local" value="true" />
 	</bean>
 </beans>	

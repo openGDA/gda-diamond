@@ -2,6 +2,7 @@
 # Expects a parameter line that can be passed on to the gda launch script
 # Also expects the BEAMLINE variable to be set
 
+export SWT_GTK3=0
 export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
 
 # Set the value that the BEAMLINE environment variable should be to correctly start from this configuration
