@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="s5_xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_xsize_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+	<bean id="s5_xcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_xcenter_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+	<bean id="s5_ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_ysize_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+	<bean id="s5_ycenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_ycenter_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+	
+	<bean id="s5_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_xplus_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+	<bean id="s5_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_xminus_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+	<bean id="s5_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_yplus_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+	<bean id="s5_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5_yminus_motor" />
+<!-- 		<property name="userUnits" value="mm"/>
+ -->	</bean>
+
+	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s5_xcenter" />
+				<ref bean="s5_xminus" />
+				<ref bean="s5_xplus" />
+				<ref bean="s5_xsize" />
+				<ref bean="s5_ycenter" />
+				<ref bean="s5_yminus" />
+				<ref bean="s5_yplus" />
+				<ref bean="s5_ysize" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
