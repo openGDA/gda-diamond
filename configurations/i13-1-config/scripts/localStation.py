@@ -492,37 +492,44 @@ except:
 
 excalibur_config_normal_vds.getCollectionStrategy().scriptFileName='/dls_sw/prod/common/python/RHEL6-x86_64/vds-gen/0-3-1/prefix/bin/versioned/dls-vds-gen-0.3.1.py'
 print(section_sep)
+try:
+	print "Adding Pycho scripts..."
+	run("/dls_sw/i13-1/scripts/Pycho/pycho/controls/beamlineAlignment.py")
+	run("/dls_sw/i13-1/scripts/Pycho/pycho/controls/pycho_collect.py")
+except:
+	print "Failed to add Pycho scripts!"
+print(section_sep)
 # localStationUser.py should be run at the very end of this localStation.py
 if not LocalProperties.check("gda.dummy.mode"):
 	run("localStationUser.py")
 
-zp = ScannableGroup()
-zp.addGroupMember(zp_x)
-zp.addGroupMember(zp_y)
-zp.addGroupMember(zp_z)
-zp.setName("zp")
-zp.configure()
+#zp = ScannableGroup()
+#zp.addGroupMember(zp_x)
+#zp.addGroupMember(zp_y)
+#zp.addGroupMember(zp_z)
+#zp.setName("zp")
+#zp.configure()
 
-osa = ScannableGroup()
-osa.addGroupMember(osa_x)
-osa.addGroupMember(osa_y)
-osa.addGroupMember(osa_z)
-osa.setName("osa")
-osa.configure()
+#osa = ScannableGroup()
+#osa.addGroupMember(osa_x)
+#osa.addGroupMember(osa_y)
+#osa.addGroupMember(osa_z)
+#osa.setName("osa")
+#osa.configure()
 
-cs = ScannableGroup()	#central stop
-cs.addGroupMember(cs_x)
-cs.addGroupMember(cs_y)
-cs.addGroupMember(cs_z)
-cs.setName("cs")
-cs.configure()
+#cs = ScannableGroup()	#central stop
+#cs.addGroupMember(cs_x)
+#cs.addGroupMember(cs_y)
+#cs.addGroupMember(cs_z)
+#cs.setName("cs")
+#cs.configure()
 
-zpa = ScannableGroup()
-zpa.addGroupMember(mask_x)
-zpa.addGroupMember(mask_y)
-zpa.addGroupMember(mask_z)
-zpa.setName("zpa")
-zpa.configure()
+#zpa = ScannableGroup()
+#zpa.addGroupMember(mask_x)
+#zpa.addGroupMember(mask_y)
+#zpa.addGroupMember(mask_z)
+#zpa.setName("zpa")
+#zpa.configure()
 
 optics_zp = ScannableGroup()
 optics_zp.addGroupMember(zp)
