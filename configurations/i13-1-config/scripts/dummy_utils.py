@@ -77,7 +77,7 @@ class DummyDet(NXDetector):
         #print "@getCollectionTime!"
         return self.getCollectionStrategy().collectionTime # instead of that getCollectionTime in DetectorBase
 
-    def set_hdfpath(hdfpath):
+    def set_hdfpath(self, hdfpath):
         self.hdfpath = hdfpath
 
 class DummyADTriggerringStrategy(AbstractADTriggeringStrategy):
