@@ -73,6 +73,10 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/m2_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/pin_motors.xml"/>
  	<import resource="file:${gda.config}/devices/${gda.mode}/mask_motors.xml"/>
+ 	<import resource="file:${gda.config}/devices/${gda.mode}/osa_motors.xml"/>
+ 	<import resource="file:${gda.config}/devices/${gda.mode}/cs_motors.xml"/>
+ 	<import resource="file:${gda.config}/devices/${gda.mode}/zp_motors.xml"/>
+ 	<import resource="file:${gda.config}/devices/${gda.mode}/misc_smaract_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/diffractometer_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/s6_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/sample_stage_t1_motors.xml"/>
@@ -148,6 +152,10 @@
 	<import resource="file:${gda.config}/devices/_common/m2.xml"/>
 	<!-- <import resource="file:${gda.config}/devices/_common/pin.xml"/> -->
  	<import resource="file:${gda.config}/devices/_common/mask.xml"/>
+ 	<import resource="file:${gda.config}/devices/_common/osa.xml" />
+	<import resource="file:${gda.config}/devices/_common/cs.xml" />
+	<import resource="file:${gda.config}/devices/_common/zp.xml" />
+	<import resource="file:${gda.config}/devices/_common/misc_smaract.xml" />
 	<import resource="file:${gda.config}/devices/_common/s6.xml" />
 	<import resource="file:${gda.config}/devices/_common/dcm.xml" />
 
