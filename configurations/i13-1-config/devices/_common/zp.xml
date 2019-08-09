@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- zone plate -->
+	
+	<bean id="zp_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zp_x_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="zp_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zp_y_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="zp_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zp_z_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	
+	<bean id="zp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="zp_x" />
+				<ref bean="zp_y" />
+				<ref bean="zp_z" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="zp_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="zp_x" />
+				<ref bean="zp_y" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>
