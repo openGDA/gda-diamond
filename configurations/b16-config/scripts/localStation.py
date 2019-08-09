@@ -467,7 +467,7 @@ if installation.isLive():
 
 
 if installation.isLive():
-	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 10, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
+	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 5, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
 	checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkshtr1 = WaitForScannableState('checkshtr1', shtr1, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])

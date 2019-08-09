@@ -19,11 +19,11 @@
 <!--<import resource="transient/motion_tower.xml"/> -->
 
 <!-- BL16B-MO-BRICK-02 - Geobrick 2 user motion --> 
-<!-- <import resource="transient/geo2.xml"/> -->
+<import resource="transient/geo2.xml"/>
 
 <!-- <import resource="transient/bend.xml" /> -->
 
-<!--<import resource="transient/geo3.xml" /> -->
+<import resource="transient/geo3.xml" />
 
 <!--<import resource="transient/geo4.xml"/> -->
 
