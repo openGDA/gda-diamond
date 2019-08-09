@@ -63,10 +63,7 @@ import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
-import uk.ac.gda.tomography.controller.TomographyControllerException;
-import uk.ac.gda.tomography.model.TomographyScanParameters;
-import uk.ac.gda.tomography.scan.editor.ITomographyEditorController;
-import uk.ac.gda.tomography.scan.editor.TomographyConfigurationController;
+import uk.ac.gda.tomography.scan.editor.TomographyAcquisitionController;
 import uk.ac.gda.tomography.scan.editor.TomographySWTElements;
 import uk.ac.gda.tomography.scan.editor.view.TomographyMessages;
 import uk.ac.gda.tomography.service.TomographyServiceException;
@@ -77,12 +74,18 @@ import uk.ac.gda.tomography.service.TomographyServiceException;
 public class ExperimentSetup extends LayoutUtilities {
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentSetup.class);
 
-	private TomographyConfigurationController tomographyConfigurationController;
+	private TomographyAcquisitionController tomographyConfigurationController;
 
-	private static final Map<String, String> PERSPECTIVES_MAP = ImmutableMap.of("Point and Shoot",
-			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", "Particle Tracking",
-			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", "Fully Automated",
-			"uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective", "Plain Tomography",
+	private static final String POINT_AND_SHOOT = "Point and Shoot";
+	private static final String PARTICLE_TRACKING = "Particle Tracking";
+	private static final String FULLY_AUTOMATED = "Fully Automated";
+	private static final String TOMOGRAPHY = "Plain Tomography";
+	private static final String[] modes = new String[] { POINT_AND_SHOOT, PARTICLE_TRACKING, FULLY_AUTOMATED, TOMOGRAPHY };
+
+	private static final Map<String, String> PERSPECTIVES_MAP = ImmutableMap.of(POINT_AND_SHOOT,
+			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", PARTICLE_TRACKING,
+			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", FULLY_AUTOMATED,
+			"uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective", TOMOGRAPHY,
 			"uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective");
 
 	private static final int NOTES_BOX_LINES = 7;
@@ -105,7 +108,7 @@ public class ExperimentSetup extends LayoutUtilities {
 
 	private Composite panelComposite;
 	private Text nameText;
-	private String mode = "Point and Shoot";
+	private String mode = POINT_AND_SHOOT;
 
 	public ExperimentSetup() {
 		stageGroupService = Finder.getInstance().find("diadStageGroupService");
@@ -202,7 +205,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		final Combo modeCombo = new Combo(composite, SWT.READ_ONLY);
 		modeCombo.setToolTipText(
 				"Select the experiment mode to determine the controls and measurement views that will be displayed");
-		modeCombo.setItems("Point and Shoot", "Particle Tracking", "Fully Automated", "Plain Tomography");
+		modeCombo.setItems(modes);
 		modeCombo.select(0);
 		fillGrab().indent(5, 0).applyTo(modeCombo);
 
@@ -222,7 +225,7 @@ public class ExperimentSetup extends LayoutUtilities {
 			 */
 			@Override
 			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
-				if (!PERSPECTIVES_MAP.get(mode).equals(perspective.getId())) {
+				if (!PERSPECTIVES_MAP.get(getMode()).equals(perspective.getId())) {
 					setModeComboSelection(perspective.getId(), modeCombo);
 				}
 			}
@@ -244,8 +247,8 @@ public class ExperimentSetup extends LayoutUtilities {
 		if (PERSPECTIVES_MAP.containsValue(perspectiveId)) {
 			for (Entry<String, String> entry : PERSPECTIVES_MAP.entrySet()) {
 				if (perspectiveId.equals(entry.getValue())) {
-					mode = entry.getKey();
-					modeCombo.setText(mode);
+					setMode(entry.getKey());
+					modeCombo.setText(getMode());
 					break;
 				}
 			}
@@ -377,22 +380,22 @@ public class ExperimentSetup extends LayoutUtilities {
 		});
 
 		addExperimentDriverButton(content);
-		buildTomographyConfigurationDialog(content, composite);
+		//buildTomographyConfigurationDialog(content, composite);
 	}
 
-	private void buildTomographyConfigurationDialog(Composite content, Composite composite) {
-		Button button = addConfigurationDialogButton(content, "Tomography Setup");
-		button.addListener(SWT.Selection, event -> {
-			try {
-				if (getTomographyConfigurationController().getData() == null) {
-					getTomographyConfigurationController().createNewData();
-				}
-				getTomographyConfigurationController().showConfigurationDialog(composite.getDisplay());
-			} catch (Exception e) {
-				logger.error("TODO put description of error here", e);
-			}
-		});
-	}
+//	private void buildTomographyConfigurationDialog(Composite content, Composite composite) {
+//		Button button = addConfigurationDialogButton(content, "Tomography Setup");
+//		button.addListener(SWT.Selection, event -> {
+//			try {
+//				if (getTomographyConfigurationController().getData() == null) {
+//					getTomographyConfigurationController().createNewData();
+//				}
+//				getTomographyConfigurationController().showConfigurationDialog(composite.getDisplay());
+//			} catch (Exception e) {
+//				logger.error("TODO put description of error here", e);
+//			}
+//		});
+//	}
 
 	/**
 	 * Returns, or instantiates if <code>null</code>, the controller associated with the tomography configuration
@@ -400,17 +403,17 @@ public class ExperimentSetup extends LayoutUtilities {
 	 * @return
 	 * @throws TomographyServiceException
 	 */
-	private ITomographyEditorController<TomographyScanParameters> getTomographyConfigurationController()
-			throws TomographyServiceException {
-		if (tomographyConfigurationController == null) {
-			synchronized (BANNER_FONT_DATA) {
-				if (tomographyConfigurationController == null) {
-					tomographyConfigurationController = new TomographyConfigurationController();
-				}
-			}
-		}
-		return tomographyConfigurationController;
-	}
+//	private AcquisitionEditorController<TomographyAcquisition> getTomographyConfigurationController()
+//			throws TomographyServiceException {
+//		if (tomographyConfigurationController == null) {
+//			synchronized (BANNER_FONT_DATA) {
+//				if (tomographyConfigurationController == null) {
+//					tomographyConfigurationController = new TomographyAcquisitionController();
+//				}
+//			}
+//		}
+//		return tomographyConfigurationController;
+//	}
 
 	private LiveStreamConnection getLiveStreamConnection() {
 		return new LiveStreamConnection(getCameraConfiguration(), StreamType.EPICS_ARRAY);
@@ -438,21 +441,21 @@ public class ExperimentSetup extends LayoutUtilities {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildFileComposite(final Composite parent) {
-		Button load = TomographySWTElements.createButton(parent, TomographyMessages.LOAD, SWT.PUSH);
+		Button load = TomographySWTElements.createButton(parent, SWT.PUSH, TomographyMessages.LOAD, null);
 		load.setImage(getImage("icons/open.png"));
-		Button save = TomographySWTElements.createButton(parent, TomographyMessages.SAVE, SWT.PUSH);
+		Button save = TomographySWTElements.createButton(parent, SWT.PUSH, TomographyMessages.SAVE, null);
 		save.setImage(getImage("icons/save.png"));
-		Button run = TomographySWTElements.createButton(parent, TomographyMessages.RUN, SWT.PUSH);
+		Button run = TomographySWTElements.createButton(parent, SWT.PUSH, TomographyMessages.RUN, null);
 		run.setImage(getImage("icons/run_small.png"));
 
 		// THIS IS JUST A STUB UNTIL ARE AVAILABLE OTHER CONTRLLLERS (DIFFRACTION/IMAGING/OTHER...)
-		run.addListener(SWT.Selection, event -> {
-			try {
-				getTomographyConfigurationController().runAcquisition();
-			} catch (TomographyControllerException | TomographyServiceException e) {
-				logger.error("TODO put description of error here", e);
-			}
-		});
+//		run.addListener(SWT.Selection, event -> {
+//			try {
+//				getTomographyConfigurationController().runAcquisition();
+//			} catch (AcquisitionControllerException | TomographyServiceException e) {
+//				logger.error("TODO put description of error here", e);
+//			}
+//		});
 	}
 
 	/**
@@ -485,10 +488,10 @@ public class ExperimentSetup extends LayoutUtilities {
 	public void setMode(String mode) {
 		this.mode = mode;
 		try {
-			String id = PERSPECTIVES_MAP.get(mode);
+			String id = PERSPECTIVES_MAP.get(getMode());
 			workbench.showPerspective(id, activeWindow);
 		} catch (WorkbenchException e) {
-			logger.error("Could get get perspective for mode {} ", mode, e);
+			logger.error("Could get get perspective for mode {} ", getMode(), e);
 		}
 	}
 }
