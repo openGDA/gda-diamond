@@ -150,5 +150,22 @@
 		<property name="description"
 			value="Scan of Excalibur and ion chambers over T3 X (fast) and fine theta (slow)" />
 	</bean>
-
+	
+	<bean id="combinedScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
+		<property name="label" value="Xspress3 + Excalibur" />
+		<property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
+	</bean>
+	
+	<bean id="combinedScanModel" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
+		<property name="name" value="BL18I-ML-SCAN-09" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	 
+	<bean id="combinedScanDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
+		<property name="name" value="BL18I-ML-SCAN-09" />
+		<property name="model" ref="combinedScanModel" />
+		<property name="deviceInformation" ref="combinedScanInfo" />
+		<property name="activated" value="false" />
+	</bean>
 </beans>
