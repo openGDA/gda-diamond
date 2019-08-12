@@ -11,6 +11,7 @@ from org.slf4j import LoggerFactory
 from gda.epics import CAClient
 from utils.ExceptionLogs import localStation_exception
 import sys
+from gda.jython import InterfaceProvider
 
 class EpicsPVThresholdMonitorListener(MonitorListener):
     ''' a Threshold Monitor Listener used to monitor any PV value changes
@@ -125,18 +126,25 @@ class PauseDetectorScannable(ScannableMotionBase):
         self.incli.configure()
         self.outcli.configure()
         self.statecli.configure()
+        self.pausedByMe=False 
         
     def pause(self):
         if (int(self.statecli.caget())==1): #currently acquire
             self.incli.caput(1)
+            self.pauseByMe=True
             print "%s: Pause '%s'" % (self.getName(), self.detector.getName())
             self.logger.info("{}: Pause '{}'", self.getName(), self.detector.getName())
        
     def resume(self):
         if (int(self.statecli.caget())==1): #currently acquire
-            self.incli.caput(0)
-            print "%s: Resume '%s'" % (self.getName(), self.detector.getName())
-            self.logger.info("{}: Resume '{}'", self.getName(), self.detector.getName())
+            if self.pausedByMe: # allow users to pause detector manually outside GDA
+                jython_server_status = InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
+                while jython_server_status.isScriptOrScanPaused():
+                    sleep(0.1) #wait while scan or script running is paused
+                self.incli.caput(0)
+                self.pausedByMe=False
+                print "%s: Resume '%s'" % (self.getName(), self.detector.getName())
+                self.logger.info("{}: Resume '{}'", self.getName(), self.detector.getName())
         
     def isPaused(self):
         return int(self.outcli.caget())==1
