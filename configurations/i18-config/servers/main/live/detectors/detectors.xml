@@ -16,7 +16,6 @@
 	</bean>
 
 	<bean id="xspress3_daserver" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
 		<property name="host" value="bl18i-ea-serv-01" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
