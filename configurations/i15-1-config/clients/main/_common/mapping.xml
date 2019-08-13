@@ -189,8 +189,8 @@
 	<!-- The mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
 	     includes a beam size field which is used when showing the current beam position on the map plot -->
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
-		<property name="plotXAxisName" ref="x_axis_name" />
-		<property name="plotYAxisName" ref="y_axis_name" />
+		<property name="activeFastScanAxis" ref="x_axis_name" />
+		<property name="activeSlowScanAxis" ref="y_axis_name" />
 		<property name="beamSize" value="beam" />
 	</bean>
 	<!-- Register the mapping stage info bean as an OSGi service. Do this Twice 
