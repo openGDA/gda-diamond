@@ -78,7 +78,7 @@ CONFIG_PARENT=/scratch/gda_configs
 # eg /scratch/gda_workspaces/abc12345_gda-9.12
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)_$(basename ${GDA_WORKSPACE_PARENT})
 
-ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,mode:,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
@@ -142,9 +142,22 @@ while true; do
             shift;
         fi
       ;;
+    --mode)
+        shift;
+        if [ -n "$1" ]; then
+            # this has most likely already been set by the gda_client_core script
+            # but setting again can't hurt...
+            export GDA_MODE="$1"
+            shift;
+        fi
+      ;;
     --)
         shift;
         break;
+      ;;
+    *)
+        echo "gdaclient" "Ignoring option $1"
+        shift;
       ;;
   esac
 done
