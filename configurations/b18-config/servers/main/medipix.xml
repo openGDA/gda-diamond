@@ -28,10 +28,12 @@
 	</bean>
 
 <!-- ROI providers and plugins -->
-	<bean id="medipix_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="medipix" />
-		<constructor-arg value="1" />
-	</bean>
+	<bean id="medipix_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+
+<!-- 	<bean id="medipix_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider"> -->
+<!-- 		<constructor-arg value="medipix" /> -->
+<!-- 		<constructor-arg value="1" /> -->
+<!-- 	</bean> -->
 
 	<bean id="medipix_roi" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
 		<property name="xstart" value="0" />
@@ -48,11 +50,14 @@
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean
-				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="medipix_plotserver_roi_provider" />
-				<constructor-arg value="0" />
-			</bean>
+		 <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="medipix_plotserver_roi_provider" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+<!-- 			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 				<constructor-arg ref="medipix_plotserver_roi_provider" /> -->
+<!-- 				<constructor-arg value="0" /> -->
+<!-- 			</bean> -->
 		</property>
 	</bean>
 
@@ -136,22 +141,8 @@
 		</property>
 	</bean>
 
-<!-- Stats plugin - takes data from the ROI plugin  -->
-	<bean id="medipix_ndstats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="#{medipixBaseStatPv}" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="#{medipixBaseStatPv}" />
-				<property name="initialArrayPort" value="#{medipixRoiPort}" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="medipix_addetector" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="medipix_adbase" />
-		<property name="ndArray" ref="medipix_ndarray" />
-		<property name="ndStats" ref="medipix_ndstats" />
-		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy" />
-		<property name="fileWriter" ref="medipix_hdf5" />
+	<bean id="medipix_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="medipix_adbase" />
+		<constructor-arg ref="medipix_ndroi" />
 	</bean>
 </beans>
