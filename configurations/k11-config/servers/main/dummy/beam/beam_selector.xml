@@ -3,11 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="beam_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="beam_selector" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Imaging</value>
-				<value>Diffraction</value>
+				<value>All beams through</value>
+				<value>Mono imaging beam</value>
+				<value>Diffraction beam</value>
+				<value>Pink imaging beam</value>
+				<value>No beam</value>
 			</list>
 		</property>
 	</bean>
