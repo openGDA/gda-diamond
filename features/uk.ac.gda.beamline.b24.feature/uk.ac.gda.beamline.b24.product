@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline B24" uid="uk.ac.gda.beamline.b24.product" id="uk.ac.gda.beamline.b24.product" application="uk.ac.gda.client.application" version="9.14.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Light Source Beamline B24" uid="uk.ac.gda.beamline.b24.product" id="uk.ac.gda.beamline.b24.product" application="uk.ac.gda.client.application" version="9.15.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
