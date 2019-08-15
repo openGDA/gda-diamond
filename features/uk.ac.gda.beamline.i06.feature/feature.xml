@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i06.feature"
       label="i06 Feature"
-      version="9.14.0.qualifier"
+      version="9.15.0.qualifier"
       provider-name="Diamond Light Source"
       plugin="uk.ac.gda.beamline.i06"
       exclusive="true">
