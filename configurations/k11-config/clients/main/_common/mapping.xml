@@ -75,8 +75,8 @@
 							<bean class="org.eclipse.scanning.api.points.models.SinglePointModel">
 								<property name="x" value="0" />
 								<property name="y" value="0" />
-								<property name="fastAxisName" value="beam_x" />
-								<property name="slowAxisName" value="beam_y" />
+								<property name="xAxisName" value="beam_x" />
+								<property name="yAxisName" value="beam_y" />
 							</bean>
 						</property>
 					</bean>

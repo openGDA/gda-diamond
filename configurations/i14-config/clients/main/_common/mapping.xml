@@ -155,8 +155,8 @@
 					<property name="snake" value="true" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.RasterModel">
-					<property name="fastAxisStep" value="0.0001" />
-					<property name="slowAxisStep" value="0.0001" />
+					<property name="xAxisStep" value="0.0001" />
+					<property name="yAxisStep" value="0.0001" />
 					<property name="snake" value="false" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.SpiralModel">
@@ -198,8 +198,8 @@
 	<bean id="initialLengthUnits" class="uk.ac.diamond.daq.mapping.ui.experiment.InitialLengthUnits">
 		<constructor-arg>
 			<map>
-				<entry key="fastAxisStep" value="nm" />
-				<entry key="slowAxisStep" value="nm" />
+				<entry key="xAxisStep" value="nm" />
+				<entry key="yAxisStep" value="nm" />
 				<entry key="xStart" value="mm" />
 				<entry key="yStart" value="mm" />
 				<entry key="xStop" value="mm" />

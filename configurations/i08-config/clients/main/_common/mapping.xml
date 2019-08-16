@@ -157,8 +157,8 @@
 	<bean id="initialLengthUnits" class="uk.ac.diamond.daq.mapping.ui.experiment.InitialLengthUnits">
 		<constructor-arg>
 			<map>
-				<entry key="fastAxisStep" value="µm" />
-				<entry key="slowAxisStep" value="µm" />
+				<entry key="xAxisStep" value="µm" />
+				<entry key="yAxisStep" value="µm" />
 				<entry key="xStart" value="mm" />
 				<entry key="yStart" value="mm" />
 				<entry key="xStop" value="mm" />
