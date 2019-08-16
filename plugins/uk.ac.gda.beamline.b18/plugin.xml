@@ -343,14 +343,6 @@
             point="org.eclipse.ui.perspectiveExtensions">
          <perspectiveExtension
                targetID="uk.ac.gda.client.experimentdefinition.experimentperspective">
-            <view
-                  id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
-                  minimized="false"
-                  relationship="top"
-                  relative="gda.rcp.jythonterminalview"
-                  showTitle="true"
-                  visible="true">
-			</view>
             <hiddenToolBarItem
                   id="uk.ac.gda.client.exafs.StopAllCommand">
             </hiddenToolBarItem>
@@ -390,21 +382,6 @@
          </perspectiveExtension>
          <perspectiveExtension
                targetID="org.diamond.exafs.ui.PlottingPerspective">
-             <view
-                  id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
-                  minimized="false"
-                  relationship="top"
-                  relative="gda.rcp.jythonterminalview"
-                  showTitle="true"
-                  visible="true">
-			</view>
-            <view
-                  id="uk.ac.gda.client.simplescanview"
-                  minimized="false"
-                  relationship="top"
-                  relative="gda.rcp.jythonterminalview"
-                  visible="true">
-            </view>
             <hiddenToolBarItem
                   id="uk.ac.gda.client.exafs.StopAllCommand">
             </hiddenToolBarItem>
