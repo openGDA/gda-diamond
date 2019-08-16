@@ -5,16 +5,11 @@
            
 	<!-- AD hardware -->
 
-	<bean id="medipix_ndfiletif_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL16B-EA-DET-06:TIFF:" />
-	</bean>
-
 	<bean id="medipix_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="medipix_ndfiletif_pvProvider" />
+		<property name="basePVName" value="BL16B-EA-DET-06:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="medipix_ndfiletif_pvProvider" />
+				<property name="basePVName" value="BL16B-EA-DET-06:TIFF:" />
 			</bean>
 		</property>
 		<property name="resetToInitialValues" value="false"/>
