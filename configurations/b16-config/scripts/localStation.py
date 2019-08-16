@@ -1145,6 +1145,12 @@ try:
 except:
 	print "WARNING: Could not ensure xmapMca settings are correct"
 
+# Create scannable to check that the nexus writer is enabled when the xmapMca is used
+# If only dat files are written then the full spectrum is not recorded
+from scannable.utility.check_data_writer import CheckDataWriter
+_xmapNexusDataWriterChecker = CheckDataWriter('_xmapNexusDataWriterChecker', 'xmapMca', 'NexusDataWriter')
+add_default(_xmapNexusDataWriterChecker)
+
 def pcoedge_multi_n(n):
 	pcoedge_multi.detector.collectionStrategy.numberOfImagesPerCollection = n
 
