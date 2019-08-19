@@ -23,7 +23,6 @@
 -Dgda.mode=dummy
 -Dgda.propertiesFile=${project_loc:b16-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:b16-config}/properties/dummy/JCALibrary.properties
--Declipse.pluginCustomization=${project_loc:b16-config}/clients/main/_common/pluginCustomization.ini
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dorg.dawnsci.mapping.ui.processing.off=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
@@ -84,7 +83,7 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
    </configurations>
 
    <preferencesInfo>
-      <targetfile overwrite="false"/>
+      <targetfile overwrite="false" path="/uk.ac.gda.beamline.b16/plugin_customization.ini"/>
    </preferencesInfo>
 
    <cssInfo>
