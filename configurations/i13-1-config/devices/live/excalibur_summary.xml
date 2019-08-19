@@ -1,37 +1,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-
-	<bean id="excalibur_summary_hdf_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:MASTER:HDF:"></property>
+	<bean id="excalibur_summary_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:MASTER:HDF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:MASTER:HDF:" />
+			</bean>
+		</property>
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.excalibur.NodeFilePathConverter">
+				<property name="intSubString" value="/data/excalibur/nodes/node1" />
+				<property name="extSubString" value="/data/excalibur/data" />
+			</bean>
+		</property>
 	</bean>
 
-			<bean id="excalibur_summary_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="pvProvider" ref="excalibur_summary_hdf_pvprovider" />
-				<property name="pluginBase">
-					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="pvProvider" ref="excalibur_summary_hdf_pvprovider" />
-					</bean>
-				</property>
-				<property name="resetToInitialValues" value="false" />
-				<property name="filePathConverter">
-					<bean class="uk.ac.gda.excalibur.NodeFilePathConverter">
-						<property name="intSubString" value="/data/excalibur/nodes/node1" />
-						<property name="extSubString" value="/data/excalibur/data" />
-					</bean>
-				</property>
-			</bean>
-
-
-	<bean id="excalibur_summary_hdf"
-		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="pvProvider" ref="excalibur_summary_hdf_pvprovider" />
+	<bean id="excalibur_summary_hdf" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:MASTER:HDF:" />
 		<property name="file" ref="excalibur_summary_ndfile"/>
-	</bean> 
+	</bean>
 
 <!-- 	<bean id="excalibur_summary_tiff_pvprovider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
@@ -47,9 +39,6 @@
 		</property>
 		<property name="resetToInitialValues" value="false" />
 	</bean> -->
-
-
-
 
 	<bean id="excalibur_summary" class="gda.device.FindableObjectHolder">
 		<property name="map">
@@ -67,7 +56,6 @@
 		</property>
 	</bean>
 
-
 	<bean id="excalibur_summary_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="excalibur_summary_hdf" />
 		<property name="fileNameTemplate" value="excalibur"/>
@@ -79,8 +67,6 @@
 		<property name="colChunks" value="0"/>
 		<property name="lazyOpen" value="true"/>
 	</bean>
-
-
 
 	<bean id="excalibur_summary_cam_normal" class="gda.device.detector.NXDetector">
 		<property name="name" value="excalibur_summary_cam_normal" />

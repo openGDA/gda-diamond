@@ -1,15 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
-						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="adFem" class="uk.ac.gda.devices.excalibur.impl.AdFem">
-		<property name="basePVName"
-			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
+		<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
 	</bean>
- 
-
-
 
 	<bean id="excalibur_sync_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
@@ -20,15 +15,12 @@
 		<property name="pvProvider" ref="excalibur_sync_pvProvider" />
 	</bean>
 
-
-
 	<bean id="excalibur_config_nxs_tree_provider"
 		class="uk.ac.gda.excalibur.config.model.util.ExcaliburConfigNxsTreeProvider">
 		<property name="detectorName" value="excalibur" />
 		<property name="excaliburSummaryAdbase" ref="excalibur_summary_adbase" />
 		<property name="readoutNodeWrappers" ref="readoutNodesWrapperList" />
 	</bean>
-
 
 	<bean id="excalibur_config_hdfbase" class="gda.spring.V17NDFileFactoryBean">
 		<!-- <property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:HDF:" /> -->
@@ -40,68 +32,54 @@
 		<property name="ndFileImpl" ref="excalibur_config_hdfbase" />
 	</bean>
 
-
-	<bean id="excalibur_config_phdf_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:PHDF:"></property>
-	</bean>
-
-
-	<bean id="excalibur_config_phdf"
-		class="gda.device.detector.areadetector.v17.impl.NDParallelHDFImpl">
-		<property name="pvProvider" ref="excalibur_config_phdf_pvprovider" />
+	<bean id="excalibur_config_phdf" class="gda.device.detector.areadetector.v17.impl.NDParallelHDFImpl">
+		<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:PHDF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="excalibur_config_phdf_pvprovider" />
+				<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:PHDF:" />
 			</bean>
 		</property>
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
-
-	<bean id="excalibur_config_gap_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:GAP:"></property>
+	<bean id="excalibur_config_gap_pvprovider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:GAP:" />
 	</bean>
 
 	<bean id="excalibur_config_gap" class="uk.ac.gda.devices.excalibur.impl.GapImpl">
 		<property name="pvProvider" ref="excalibur_config_gap_pvprovider" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="excalibur_config_gap_pvprovider" />
+				<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:GAP:" />
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="excalibur_config_mst_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix"
-			value="${gda.epics.excalibur.pvprefix}:CONFIG:MASTER:"></property>
+	<bean id="excalibur_config_mst_pvprovider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:MASTER:" />
 	</bean>
 
 	<bean id="excalibur_config_mst" class="uk.ac.gda.devices.excalibur.impl.MasterImpl">
 		<property name="pvProvider" ref="excalibur_config_mst_pvprovider" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="excalibur_config_mst_pvprovider" />
+				<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:MASTER:" />
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="excalibur_config_fix_pvprovider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:FIX:"></property>
+	<bean id="excalibur_config_fix_pvprovider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:FIX:" />
 	</bean>
 
 	<bean id="excalibur_config_fix" class="uk.ac.gda.devices.excalibur.impl.ConfigFixImpl">
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="excalibur_config_fix_pvprovider"></property>
+				<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:FIX:" />
 			</bean>
 		</property>
 		<property name="pvProvider" ref="excalibur_config_fix_pvprovider" />
 	</bean>
-
 
 	<bean id="excalibur_config_phdf5_filewriter" class="uk.ac.gda.devices.excalibur.ExcaliburMultipleImagesPerParallelHDF5FileWriter">
 		<property name="ndFilePHDF5" ref="excalibur_config_phdf" />
@@ -138,7 +116,6 @@
 		<property name="gapEnabledPVName" value="BL13J-EA-EXCBR-01:CONFIG:GAP:EnableCallbacks"/>
 		<!-- <property name="checkPathExists" value="false"/> -->
 	</bean>
-	
 
 	<bean id="excalibur_burstmode" class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
@@ -149,12 +126,11 @@
 
 	<bean id="excalibur_normalmode" class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
-		<property name="operationModePVName"
-			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
+		<property name="operationModePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
 		<property name="burst" value="False" />
 		<property name="softwareTrigger" value="true"/>
 	</bean>
-	
+
 	<bean id="excalibur_dacscanmode" class="uk.ac.gda.devices.ExcaliburDacScanCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
 		<constructor-arg value="BL13J-EA-EXCBR-01" />
@@ -166,8 +142,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+				<bean class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
 					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
 				</bean>
 			</list>
@@ -180,22 +155,20 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+				<bean class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
 					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="excalibur_config_normal_vds" class="gda.device.detector.NXDetector">
 		<property name="name" value="excalibur_config_normal_vds" />
 		<property name="collectionStrategy" ref="excalibur_normalmode" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_hdf5_filewriter" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+				<bean class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
 					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
 				</bean>
 			</list>
@@ -208,8 +181,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+				<bean class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
 					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
 				</bean>
 			</list>
@@ -219,8 +191,7 @@
 	<bean id="excalibur_burstmode_extTrigger" class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
 		<property name="burst" value="True" />
-		<property name="operationModePVName"
-			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
+		<property name="operationModePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
 		<property name="triggerMode" value="1"/>
 	</bean>
 
@@ -230,8 +201,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+				<bean class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
 					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
 				</bean>
 			</list>
@@ -240,21 +210,21 @@
 
 	<bean id="continousScannable" class="gda.device.continuouscontroller.CSViacontrollerScannable">
 		<property name="currentPosition">
-		<bean class="java.lang.Double">
-		  <constructor-arg value="0.0"/>
-		</bean>
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
 		</property>
-		<property name="inputNames" value="ix"/>	
-		<property name="cmc" ref="tfg2CVMoveController"/>
+		<property name="inputNames" value="ix" />
+		<property name="cmc" ref="tfg2CVMoveController" />
 	</bean>
 
 	<bean id="tfg2CVMoveController" class="gda.device.detector.addetector.triggering.TFG2CVmoveController"/>
 
 	<bean id="tfgCollectionStrategy" class="gda.device.detector.addetector.triggering.TFG2NXCollectionStrategy">
-	<constructor-arg ref="excalibur_config_base"/>
-	<constructor-arg ref="tfg"/>
+		<constructor-arg ref="excalibur_config_base" />
+		<constructor-arg ref="tfg" />
 	</bean>
-	
+
 	<bean id="excalibur_config_tfg" class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="excalibur_config_tfg" />
 		<property name="hardwareTriggerProvider" ref="tfg2CVMoveController"/>
@@ -262,8 +232,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+				<bean class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
 					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
 				</bean>
 			</list>
@@ -272,7 +241,7 @@
 
 
 	<bean id="excaliburDev" class="gda.epics.CachedLazyPVFactory">
-	<constructor-arg value="BL13J-EA-EXCBR-01:"/>
+		<constructor-arg value="BL13J-EA-EXCBR-01:" />
 	</bean>
 
 	<import resource="excalibur_summary.xml" />

@@ -1,21 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
-						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="excalibur_config_base_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix"
-			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
-	</bean>
-
-	<bean id="excalibur_config_base"
-		class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl">
-		<property name="pvProvider" ref="excalibur_config_base_pvProvider" />
+	<bean id="excalibur_config_base" class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl">
+		<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
 		<property name="arrayCounts">
-			<bean
-				class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl.ArrayCountsImpl">
+			<bean class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl.ArrayCountsImpl">
 				<property name="pvProvider">
 					<bean class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
 						<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:" />
@@ -36,17 +27,11 @@
 	<bean id="excalibur_config_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:ROI:" />
 	</bean>
-	
-	<bean id="excalibur_summary_adbase_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:MASTER:SLAVES:" />
-	</bean>  
 
-	<bean id="excalibur_summary_adbase"
-		class="uk.ac.gda.devices.excalibur.impl.ExcaliburSummaryAdbaseImpl">
-		<property name="pvProvider" ref="excalibur_summary_adbase_pvProvider"></property>
+	<bean id="excalibur_summary_adbase" class="uk.ac.gda.devices.excalibur.impl.ExcaliburSummaryAdbaseImpl">
+		<property name="basePVName" value="${gda.epics.excalibur.pvprefix}:MASTER:SLAVES:" />
 	</bean>
-	
+
 	<bean id="excalibur_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:MASTER:PROC:" />
 	</bean>
@@ -61,5 +46,5 @@
 	</bean>
 	<bean id="excalibur_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
 		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:MASTER:FFMPEG:" />
-	</bean>	
+	</bean>
 </beans>

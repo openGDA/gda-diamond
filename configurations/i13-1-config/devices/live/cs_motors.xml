@@ -7,14 +7,11 @@
 
 	<bean id="cs_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-SMAR-01:CS:X"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="cs_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-SMAR-01:CS:Y"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="cs_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-SMAR-01:CS:Z"/>
-		<property name="local" value="true" />
 	</bean>
-</beans>	
+</beans>
