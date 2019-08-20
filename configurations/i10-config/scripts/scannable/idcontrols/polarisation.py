@@ -80,7 +80,7 @@ class Polarisation(ScannableBase):
         self.amIBusy=True # need to block to ensure any script run complete before any other actions
         #need to delete energy and laa before set it to another scannable due to 'Cannot overwrite scannable
         try:
-            exec('__maim__.energy=None;__main__.energycontroller=None;__main__.laa=None')
+            exec('__main__.energy=None;__main__.energycontroller=None;__main__.laa=None')
         except:
             pass
         if mode == SourceMode.SOURCE_MODES[0]:

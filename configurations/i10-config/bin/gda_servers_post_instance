@@ -1,0 +1,30 @@
+bashlog debug "gda_servers_post_instance" "Entered"
+
+# Since the gda_servers_* scripts are run on both the client machine and on the
+# server machine in live mode, don't start the client on the server machine.
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "stop" ]]; then
+
+  echo Moving GDA Log Panel...
+  wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+
+  # If SERVERS_SSH_PID isn't defined then we will have already waited for the servers to start
+  if [ -n "${SERVERS_SSH_PID-}" ] ; then
+    # look for the output file which will tell us when the servers have started or ssh process completing
+    ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME $SERVERS_SSH_PID
+  fi
+
+  zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+
+  if [ $? == 0 ] ; then # 0=Ok, 1=Cancel
+    echo Starting GDA RCP Client...
+    echo
+    bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client &
+    # Note that we don't want to source here, since this is already being run from gda_core
+    # and using source will switch COMPONENT from servers to client!
+    echo
+    echo
+    for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
+  fi
+fi
+
+bashlog debug "gda_servers_post_instance" "Exited"
