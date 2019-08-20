@@ -5,6 +5,7 @@
 #run "beamline/average.py"
 #run "beamline/Virtual_Detectors.py"
 #run "beamline/VirtualMirrors.py"
+run "beamline/ZPE.py"
 
 #d7current.setUpperThreshold(9.5)
 #d7average.setUpperThreshold(9.5)
