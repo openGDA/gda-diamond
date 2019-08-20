@@ -12,7 +12,7 @@
 	    <property name="targetMethod" value="setBasePVName" />
 	     <property name="arguments">
 	        <list>
-	            <value>BL13I-EA-DET-01</value>
+	            <value>BL13I-EA-DET-01:CAM:</value>
 	        </list>
 	    </property>
 	</bean>
