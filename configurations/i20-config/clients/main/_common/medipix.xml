@@ -7,6 +7,25 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<bean id="medipix_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{medipixBasePv}:CAM:" />
+	</bean>
+	<bean id="medipix_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="#{medipixBasePv}:ARR:" />
+	</bean>
+	<bean id="medipix_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{medipixBasePv}:STAT:" />
+	</bean>
+	<bean id="medipix_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="#{medipixBasePv}:PROC:" />
+	</bean>
+	<bean id="medipix_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{medipixBasePv}:ROI:" />
+	</bean>
+	<bean id="medipix_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="#{medipixBasePv}:MJPG:" />
+	</bean>
+
 	<bean id="medipixADController"
 		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
 		<property name="serviceName" value="medipix"/>
@@ -33,4 +52,19 @@
 		<property name="service" ref="medipixADController" />
 		<property name="properties" ref="medipixdictionary" />
 	</bean>
+
+	<bean id="medipix_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="medipix_plotserver_roi_provider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="Medipix_camera" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Medipix camera" />
+		<property name="arrayPv" value="#{medipixBasePv}:ARR" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="medipix_camera_control" />
+			</bean>
+		</property>
+		<property name="roiProvider" ref="medipix_plotserver_roi_provider" />
+	</bean>
+
 </beans>

@@ -514,15 +514,6 @@
 	         locationURI="menu:window?after=showView">
 	      <menu
 	            label="Detectors">
-	         <command
-	               commandId="org.eclipse.ui.views.showView"
-	               label="medipix"
-	               style="push">
-	            <parameter
-	                  name="org.eclipse.ui.views.showView.viewId"
-	                  value="uk.ac.gda.epics.adviewer.twodArrayView:medipix">
-	            </parameter>
-	         </command>
           <command
                 commandId="org.eclipse.ui.views.showView"
                 label="Vortex"
@@ -701,12 +692,6 @@
             class="gda.rcp.views.ViewFactoryFinder:xspress4ViewFactory"
             id="uk.ac.gda.exafs.ui.views.xspress4View"
             name="Xspress4 view"
-            restorable="true">
-      </view>
-      <view
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:medipix"
-            name="Medipix view"
             restorable="true">
       </view>
       <view

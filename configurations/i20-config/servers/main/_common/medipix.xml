@@ -1,0 +1,153 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+<!-- Plugin chain and NXDetector objects for medipix detector (common to live and dummy mode)  -->
+	<bean id="medipix_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean id="medipix_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="#{medipixBasePv}:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="medipix_hdf5" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="medipix_ndfilehdf5" />
+		<property name="fileNameTemplate" value="medipix" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
+	</bean>
+
+<!-- ROI providers and plugins -->
+	<bean id="medipix_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+
+<!-- 	<bean id="medipix_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider"> -->
+<!-- 		<constructor-arg value="medipix" /> -->
+<!-- 		<constructor-arg value="1" /> -->
+<!-- 	</bean> -->
+
+	<bean id="medipix_roi" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+
+	<bean id="medipix_roistat_plotserver" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="#{medipixBaseRoiPv}" />
+		<property name="baseStatsPVName" value="#{medipixBaseStatPv}" />
+		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
+		<property name="enabledBasicStats" value="MaxValue,Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="legacyTSpvs" value="false"/> <!--  use new time series PVs after RHEL7 upgrade -->
+		<property name="roiProvider">
+		 <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="medipix_plotserver_roi_provider" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+<!-- 			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 				<constructor-arg ref="medipix_plotserver_roi_provider" /> -->
+<!-- 				<constructor-arg value="0" /> -->
+<!-- 			</bean> -->
+		</property>
+	</bean>
+
+	<bean id="medipix_roistat_mutable" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="#{medipixBaseRoiPv}" />
+		<property name="baseStatsPVName" value="#{medipixBaseStatPv}" />
+		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
+		<property name="enabledBasicStats" value="MaxValue,Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="legacyTSpvs" value="false"/> <!--  use new time series PVs after RHEL7 upgrade -->
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi" ref="medipix_roi" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--  New plugin added to calculate roi counts over I0 from ionchambers. imh 4/2/2015 -->
+	<bean id="medipix_FFI0"	class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
+		<property name="counterTimer" ref="I1" />
+		<property name="nxDetector" ref="medipix" />
+	</bean>
+
+<!--  Make some lists of nx plugins to use for the medipix -->
+	<util:list id="plugins_plotserver_roi">
+		<ref bean="medipix_roistat_plotserver" />
+		<ref bean="medipix_FFI0" />
+		<ref bean="medipix_hdf5" />
+	</util:list>
+
+	<util:list id="plugins_mutable_roi">
+		<ref bean="medipix_roistat_mutable" />
+		<ref bean="medipix_FFI0" />
+		<ref bean="medipix_hdf5" />
+	</util:list>
+
+<!-- Put plugins into a findable so they can be retrieved easily later on -->
+	<bean id="medipix_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="plugins_plotserver_roi" value-ref="plugins_plotserver_roi" />
+				<entry key="plugins_mutable_roi" value-ref="plugins_mutable_roi" />
+				<entry key="medipix_basePvName" value="#{medipixBasePv}" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="medipix" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipix" />
+		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy" />
+<!-- 		<property name="additionalPluginList" ref="plugins_plotserver_roi" /> -->
+		<property name="additionalPluginList" ref="plugins_mutable_roi" />
+	</bean>
+
+	<bean id="qexafs_medipix" class="gda.device.detector.nxdetector.BufferedNXDetector">
+		<property name="detector" ref="medipix" />
+		<property name="collectionStrategy" ref="medipix_multiple_nxcollectionstrategy" />
+		<property name="baseRoiPvName" value="#{medipixBaseRoiPv}" />
+		<property name="baseStatPvName" value="#{medipixBaseStatPv}" />
+	</bean>
+
+<!-- Plugins for ADDetector -->
+<!-- Array view plugin - takes data from CAM plugin -->
+<!-- 	<bean id="medipix_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl"> -->
+<!-- 		<property name="basePVName" value="#{medipixBasePv}:ARR:" /> -->
+<!-- 		<property name="pluginBase"> -->
+<!-- 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl"> -->
+<!-- 				<property name="basePVName" value="#{medipixBasePv}:ARR:" /> -->
+<!-- 				<property name="initialArrayPort" value="#{medipixCamPort}" /> -->
+<!-- 				<property name="initialEnableCallbacks" value="1" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!-- 	ROI plugin - takes data from CAM plugin  -->
+	<bean id="medipix_ndroi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="basePVName" value="#{medipixBaseRoiPv}" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{medipixBaseRoiPv}" />
+				<property name="initialArrayPort" value="#{medipixCamPort}" />
+				<property name="initialEnableCallbacks" value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="medipix_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="medipix_adbase" />
+		<constructor-arg ref="medipix_ndroi" />
+	</bean>
+</beans>

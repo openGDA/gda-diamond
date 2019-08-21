@@ -22,7 +22,6 @@
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
 	</bean>
 
-	<import resource="medipix_device.xml" />
-	<import resource="../_common/medipix.xml" />
+	<import resource="medipix.xml" />
 
 </beans>
