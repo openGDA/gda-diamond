@@ -1,7 +1,7 @@
 
 
 def disable_nexus():
-        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SixdSrsDataWriter")
+        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
 
 def enable_nexus():
         LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
