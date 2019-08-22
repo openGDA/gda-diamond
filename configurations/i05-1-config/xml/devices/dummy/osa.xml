@@ -15,16 +15,4 @@
 	<bean id="osaz_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="mm" />
 	</bean>
-
-	<bean id="osax_lut_motor" class="gda.device.motor.DummyMotor">
-		<property name="unitString" value="mm" />
-	</bean>
-
-	<bean id="osay_lut_motor" class="gda.device.motor.DummyMotor">
-		<property name="unitString" value="mm" />
-	</bean>
-
-	<bean id="osaz_lut_motor" class="gda.device.motor.DummyMotor">
-		<property name="unitString" value="mm" />
-	</bean>
 </beans>
