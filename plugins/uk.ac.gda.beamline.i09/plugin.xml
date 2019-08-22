@@ -42,4 +42,44 @@
          </property>
       </product>
    </extension>
+   <extension
+         id="dummy_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="GDA for Diamond Light Source Beamline I09">
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="GDA for DLS SISA I09.&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
+         </property>
+         <property
+               name="appName"
+               value="GDA for Diamond Light Source Beamline I09">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
 </plugin>

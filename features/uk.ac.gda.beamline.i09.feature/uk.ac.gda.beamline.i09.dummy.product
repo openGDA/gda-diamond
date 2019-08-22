@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.dummy" id="uk.ac.gda.beamline.i09.dummy_product" application="uk.ac.gda.client.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <text>
+         GDA for DLS SISA I09.
+
+Build id: 
+
+Copyright © 2009 Diamond Light Source Ltd.
+
+http://www.opengda.org
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Drun.in.eclipse=false 
+-Dgda.instance.dir=${project_loc:i09-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Declipse.pluginCustomization=${project_loc:i09-config}/plugin_customization_dummy.ini
+-Dgda.config=${project_loc:i09-config}
+-Dgda.propertiesFile=${project_loc:i09-config}/properties/dummy/dummy_instance_java.properties
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-config}/properties/dummy/JCALibrary.properties
+-Dgda.logs.dir=/scratch/logs
+-Dgda.data=/scratch/2018
+-Dgda.gui.beans.xml=${project_loc:i09-config}/clients/main/dummy/client.xml
+-Dgda.var=/scratch/gda_versions/var
+-Dgda.mode=dummy
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.client.jython.automatic.interpreter=1
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Xms512m
+-Xmx4g
+-Dpydev.funding.hide=true
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i09"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
+   <launcher name="gda-i09">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2009 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+      <plugin id="ch.qos.logback.classic"/>
+      <plugin id="ch.qos.logback.core"/>
+      <plugin id="com.fasterxml.jackson.core.jackson-annotations"/>
+      <plugin id="com.fasterxml.jackson.core.jackson-core"/>
+      <plugin id="com.fasterxml.jackson.core.jackson-databind"/>
+      <plugin id="com.globalphasing.gcal.aux"/>
+      <plugin id="com.globalphasing.sdcp.common"/>
+      <plugin id="com.google.gson"/>
+      <plugin id="com.google.guava"/>
+      <plugin id="com.googlecode.efficient-java-matrix-library.core"/>
+      <plugin id="com.h2database"/>
+      <plugin id="com.ibm.icu"/>
+      <plugin id="com.python.pydev.analysis"/>
+      <plugin id="com.springsource.javax.media.jai.codec"/>
+      <plugin id="com.springsource.javax.media.jai.core"/>
+      <plugin id="com.springsource.net.sf.cglib"/>
+      <plugin id="com.springsource.org.castor"/>
+      <plugin id="com.sun.mail.javax.mail"/>
+      <plugin id="com.thoughtworks.xstream"/>
+      <plugin id="hdf.hdf5lib"/>
+      <plugin id="javassist"/>
+      <plugin id="javax.activation"/>
+      <plugin id="javax.annotation"/>
+      <plugin id="javax.ejb"/>
+      <plugin id="javax.inject"/>
+      <plugin id="javax.jms"/>
+      <plugin id="javax.management"/>
+      <plugin id="javax.management.j2ee-api"/>
+      <plugin id="javax.measure.unit-api"/>
+      <plugin id="javax.servlet"/>
+      <plugin id="javax.transaction" fragment="true"/>
+      <plugin id="javax.vecmath"/>
+      <plugin id="javax.xml"/>
+      <plugin id="javax.xml.rpc"/>
+      <plugin id="javax.xml.soap"/>
+      <plugin id="javax.xml.stream"/>
+      <plugin id="jaxb-api"/>
+      <plugin id="jcl.over.slf4j"/>
+      <plugin id="jul.to.slf4j"/>
+      <plugin id="log4j.over.slf4j"/>
+      <plugin id="me.moocar.logback-gelf" fragment="true"/>
+      <plugin id="org.aopalliance"/>
+      <plugin id="org.apache.activemq.activemq-osgi"/>
+      <plugin id="org.apache.aries.blueprint.core"/>
+      <plugin id="org.apache.aries.proxy.api"/>
+      <plugin id="org.apache.batik.css"/>
+      <plugin id="org.apache.batik.dom"/>
+      <plugin id="org.apache.batik.dom.svg"/>
+      <plugin id="org.apache.batik.ext.awt"/>
+      <plugin id="org.apache.batik.parser"/>
+      <plugin id="org.apache.batik.svggen"/>
+      <plugin id="org.apache.batik.util"/>
+      <plugin id="org.apache.batik.util.gui"/>
+      <plugin id="org.apache.batik.xml"/>
+      <plugin id="org.apache.commons.beanutils"/>
+      <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.commons.collections"/>
+      <plugin id="org.apache.commons.configuration"/>
+      <plugin id="org.apache.commons.httpclient"/>
+      <plugin id="org.apache.commons.io"/>
+      <plugin id="org.apache.commons.jexl"/>
+      <plugin id="org.apache.commons.jxpath"/>
+      <plugin id="org.apache.commons.lang"/>
+      <plugin id="org.apache.commons.lang3"/>
+      <plugin id="org.apache.commons.math"/>
+      <plugin id="org.apache.commons.math3"/>
+      <plugin id="org.apache.derby"/>
+      <plugin id="org.apache.derby.fragment.daq.persistence" fragment="true"/>
+      <plugin id="org.apache.felix.gogo.command"/>
+      <plugin id="org.apache.felix.gogo.runtime"/>
+      <plugin id="org.apache.felix.scr"/>
+      <plugin id="org.apache.httpcomponents.httpclient"/>
+      <plugin id="org.apache.httpcomponents.httpcore"/>
+      <plugin id="org.apache.log4j"/>
+      <plugin id="org.apache.lucene.analyzers-common"/>
+      <plugin id="org.apache.lucene.analyzers-smartcn"/>
+      <plugin id="org.apache.lucene.core"/>
+      <plugin id="org.apache.lucene.misc"/>
+      <plugin id="org.apache.sshd.core"/>
+      <plugin id="org.apache.xerces"/>
+      <plugin id="org.apache.xml.resolver"/>
+      <plugin id="org.apache.xml.serializer"/>
+      <plugin id="org.dawb.common.ui"/>
+      <plugin id="org.dawb.common.util"/>
+      <plugin id="org.dawnsci.boofcv"/>
+      <plugin id="org.dawnsci.common.widgets"/>
+      <plugin id="org.dawnsci.conversion"/>
+      <plugin id="org.dawnsci.datavis.api"/>
+      <plugin id="org.dawnsci.datavis.model"/>
+      <plugin id="org.dawnsci.january.model"/>
+      <plugin id="org.dawnsci.january.ui"/>
+      <plugin id="org.dawnsci.jexl"/>
+      <plugin id="org.dawnsci.persistence"/>
+      <plugin id="org.dawnsci.plotting"/>
+      <plugin id="org.dawnsci.plotting.histogram"/>
+      <plugin id="org.dawnsci.plotting.jreality"/>
+      <plugin id="org.dawnsci.plotting.services"/>
+      <plugin id="org.dawnsci.slicing.tools"/>
+      <plugin id="org.ddogleg"/>
+      <plugin id="org.eclipse.compare"/>
+      <plugin id="org.eclipse.compare.core"/>
+      <plugin id="org.eclipse.core.commands"/>
+      <plugin id="org.eclipse.core.contenttype"/>
+      <plugin id="org.eclipse.core.databinding"/>
+      <plugin id="org.eclipse.core.databinding.beans"/>
+      <plugin id="org.eclipse.core.databinding.observable"/>
+      <plugin id="org.eclipse.core.databinding.property"/>
+      <plugin id="org.eclipse.core.expressions"/>
+      <plugin id="org.eclipse.core.filebuffers"/>
+      <plugin id="org.eclipse.core.filesystem"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.jobs"/>
+      <plugin id="org.eclipse.core.net"/>
+      <plugin id="org.eclipse.core.net.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.resources"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.core.variables"/>
+      <plugin id="org.eclipse.dawnsci.analysis.api"/>
+      <plugin id="org.eclipse.dawnsci.analysis.dataset"/>
+      <plugin id="org.eclipse.dawnsci.analysis.dataset.test" fragment="true"/>
+      <plugin id="org.eclipse.dawnsci.analysis.tree"/>
+      <plugin id="org.eclipse.dawnsci.hdf5"/>
+      <plugin id="org.eclipse.dawnsci.hdf5.editor"/>
+      <plugin id="org.eclipse.dawnsci.hdf5.test" fragment="true"/>
+      <plugin id="org.eclipse.dawnsci.json"/>
+      <plugin id="org.eclipse.dawnsci.json.test" fragment="true"/>
+      <plugin id="org.eclipse.dawnsci.nexus"/>
+      <plugin id="org.eclipse.dawnsci.nexus.template"/>
+      <plugin id="org.eclipse.dawnsci.nexus.test"/>
+      <plugin id="org.eclipse.dawnsci.plotting.api"/>
+      <plugin id="org.eclipse.dawnsci.remotedataset.client"/>
+      <plugin id="org.eclipse.dawnsci.remotedataset.core"/>
+      <plugin id="org.eclipse.dawnsci.remotedataset.server"/>
+      <plugin id="org.eclipse.dawnsci.remotedataset.test"/>
+      <plugin id="org.eclipse.dawnsci.slicing.api"/>
+      <plugin id="org.eclipse.dawnsci.xdi"/>
+      <plugin id="org.eclipse.debug.core"/>
+      <plugin id="org.eclipse.debug.ui"/>
+      <plugin id="org.eclipse.draw2d"/>
+      <plugin id="org.eclipse.e4.core.commands"/>
+      <plugin id="org.eclipse.e4.core.contexts"/>
+      <plugin id="org.eclipse.e4.core.di"/>
+      <plugin id="org.eclipse.e4.core.di.annotations"/>
+      <plugin id="org.eclipse.e4.core.di.extensions"/>
+      <plugin id="org.eclipse.e4.core.di.extensions.supplier"/>
+      <plugin id="org.eclipse.e4.core.services"/>
+      <plugin id="org.eclipse.e4.emf.xpath"/>
+      <plugin id="org.eclipse.e4.ui.bindings"/>
+      <plugin id="org.eclipse.e4.ui.css.core"/>
+      <plugin id="org.eclipse.e4.ui.css.swt"/>
+      <plugin id="org.eclipse.e4.ui.css.swt.theme"/>
+      <plugin id="org.eclipse.e4.ui.di"/>
+      <plugin id="org.eclipse.e4.ui.model.workbench"/>
+      <plugin id="org.eclipse.e4.ui.services"/>
+      <plugin id="org.eclipse.e4.ui.swt.gtk" fragment="true"/>
+      <plugin id="org.eclipse.e4.ui.widgets"/>
+      <plugin id="org.eclipse.e4.ui.workbench"/>
+      <plugin id="org.eclipse.e4.ui.workbench.addons.swt"/>
+      <plugin id="org.eclipse.e4.ui.workbench.renderers.swt"/>
+      <plugin id="org.eclipse.e4.ui.workbench.swt"/>
+      <plugin id="org.eclipse.e4.ui.workbench3"/>
+      <plugin id="org.eclipse.emf.common"/>
+      <plugin id="org.eclipse.emf.common.ui"/>
+      <plugin id="org.eclipse.emf.ecore"/>
+      <plugin id="org.eclipse.emf.ecore.change"/>
+      <plugin id="org.eclipse.emf.ecore.xmi"/>
+      <plugin id="org.eclipse.equinox.app"/>
+      <plugin id="org.eclipse.equinox.bidi"/>
+      <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.eclipse.equinox.ds"/>
+      <plugin id="org.eclipse.equinox.http.jetty"/>
+      <plugin id="org.eclipse.equinox.http.servlet"/>
+      <plugin id="org.eclipse.equinox.p2.core"/>
+      <plugin id="org.eclipse.equinox.p2.engine"/>
+      <plugin id="org.eclipse.equinox.p2.metadata"/>
+      <plugin id="org.eclipse.equinox.p2.metadata.repository"/>
+      <plugin id="org.eclipse.equinox.p2.repository"/>
+      <plugin id="org.eclipse.equinox.preferences"/>
+      <plugin id="org.eclipse.equinox.registry"/>
+      <plugin id="org.eclipse.equinox.security"/>
+      <plugin id="org.eclipse.equinox.security.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.equinox.util"/>
+      <plugin id="org.eclipse.help"/>
+      <plugin id="org.eclipse.help.base"/>
+      <plugin id="org.eclipse.help.ui"/>
+      <plugin id="org.eclipse.january"/>
+      <plugin id="org.eclipse.january.asserts"/>
+      <plugin id="org.eclipse.jdt.junit.runtime"/>
+      <plugin id="org.eclipse.jetty.client"/>
+      <plugin id="org.eclipse.jetty.continuation"/>
+      <plugin id="org.eclipse.jetty.http"/>
+      <plugin id="org.eclipse.jetty.io"/>
+      <plugin id="org.eclipse.jetty.security"/>
+      <plugin id="org.eclipse.jetty.server"/>
+      <plugin id="org.eclipse.jetty.servlet"/>
+      <plugin id="org.eclipse.jetty.util"/>
+      <plugin id="org.eclipse.jetty.websocket.api"/>
+      <plugin id="org.eclipse.jetty.websocket.client"/>
+      <plugin id="org.eclipse.jetty.websocket.common"/>
+      <plugin id="org.eclipse.jetty.websocket.server"/>
+      <plugin id="org.eclipse.jetty.websocket.servlet"/>
+      <plugin id="org.eclipse.jetty.xml"/>
+      <plugin id="org.eclipse.jface"/>
+      <plugin id="org.eclipse.jface.databinding"/>
+      <plugin id="org.eclipse.jface.text"/>
+      <plugin id="org.eclipse.ltk.core.refactoring"/>
+      <plugin id="org.eclipse.ltk.ui.refactoring"/>
+      <plugin id="org.eclipse.nebula.widgets.gallery"/>
+      <plugin id="org.eclipse.nebula.widgets.nattable.core"/>
+      <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.eclipse.osgi.compatibility.state" fragment="true"/>
+      <plugin id="org.eclipse.osgi.services"/>
+      <plugin id="org.eclipse.osgi.util"/>
+      <plugin id="org.eclipse.richbeans.annot"/>
+      <plugin id="org.eclipse.richbeans.api"/>
+      <plugin id="org.eclipse.richbeans.binding"/>
+      <plugin id="org.eclipse.richbeans.examples"/>
+      <plugin id="org.eclipse.richbeans.test"/>
+      <plugin id="org.eclipse.richbeans.widgets"/>
+      <plugin id="org.eclipse.richbeans.widgets.file"/>
+      <plugin id="org.eclipse.richbeans.xml"/>
+      <plugin id="org.eclipse.scanning.api"/>
+      <plugin id="org.eclipse.scanning.command"/>
+      <plugin id="org.eclipse.scanning.connector.activemq"/>
+      <plugin id="org.eclipse.scanning.connector.activemq.test" fragment="true"/>
+      <plugin id="org.eclipse.scanning.connector.epics"/>
+      <plugin id="org.eclipse.scanning.device"/>
+      <plugin id="org.eclipse.scanning.device.ui"/>
+      <plugin id="org.eclipse.scanning.event"/>
+      <plugin id="org.eclipse.scanning.event.ui"/>
+      <plugin id="org.eclipse.scanning.example"/>
+      <plugin id="org.eclipse.scanning.malcolm.core"/>
+      <plugin id="org.eclipse.scanning.points"/>
+      <plugin id="org.eclipse.scanning.sequencer"/>
+      <plugin id="org.eclipse.scanning.server"/>
+      <plugin id="org.eclipse.scanning.test"/>
+      <plugin id="org.eclipse.search"/>
+      <plugin id="org.eclipse.swt"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swtbot.eclipse.core"/>
+      <plugin id="org.eclipse.swtbot.eclipse.finder"/>
+      <plugin id="org.eclipse.swtbot.junit4_x"/>
+      <plugin id="org.eclipse.swtbot.swt.finder"/>
+      <plugin id="org.eclipse.team.core"/>
+      <plugin id="org.eclipse.team.ui"/>
+      <plugin id="org.eclipse.text"/>
+      <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.browser"/>
+      <plugin id="org.eclipse.ui.cheatsheets"/>
+      <plugin id="org.eclipse.ui.console"/>
+      <plugin id="org.eclipse.ui.editors"/>
+      <plugin id="org.eclipse.ui.forms"/>
+      <plugin id="org.eclipse.ui.ide"/>
+      <plugin id="org.eclipse.ui.intro"/>
+      <plugin id="org.eclipse.ui.navigator"/>
+      <plugin id="org.eclipse.ui.navigator.resources"/>
+      <plugin id="org.eclipse.ui.views"/>
+      <plugin id="org.eclipse.ui.views.properties.tabbed"/>
+      <plugin id="org.eclipse.ui.workbench"/>
+      <plugin id="org.eclipse.ui.workbench.texteditor"/>
+      <plugin id="org.epics.jca"/>
+      <plugin id="org.epics.jca.fragment.gov.aps.jca.event" fragment="true"/>
+      <plugin id="org.epics.ntypes"/>
+      <plugin id="org.epics.pvaccess"/>
+      <plugin id="org.epics.pvaclient"/>
+      <plugin id="org.epics.pvdata"/>
+      <plugin id="org.epics.pvdatabase"/>
+      <plugin id="org.georegression"/>
+      <plugin id="org.hamcrest.core"/>
+      <plugin id="org.hamcrest.library"/>
+      <plugin id="org.jline"/>
+      <plugin id="org.junit"/>
+      <plugin id="org.mariadb.jdbc"/>
+      <plugin id="org.mockito"/>
+      <plugin id="org.mockito.mockito-core"/>
+      <plugin id="org.objectweb.asm"/>
+      <plugin id="org.objenesis"/>
+      <plugin id="org.osgi.service.blueprint"/>
+      <plugin id="org.python.pydev"/>
+      <plugin id="org.python.pydev.ast"/>
+      <plugin id="org.python.pydev.core"/>
+      <plugin id="org.python.pydev.debug"/>
+      <plugin id="org.python.pydev.jython"/>
+      <plugin id="org.python.pydev.parser"/>
+      <plugin id="org.python.pydev.shared_core"/>
+      <plugin id="org.python.pydev.shared_interactive_console"/>
+      <plugin id="org.python.pydev.shared_ui"/>
+      <plugin id="org.tukaani.xz"/>
+      <plugin id="org.uncommons.maths"/>
+      <plugin id="org.w3c.css.sac"/>
+      <plugin id="org.w3c.dom.events"/>
+      <plugin id="org.w3c.dom.smil"/>
+      <plugin id="org.w3c.dom.svg"/>
+      <plugin id="org.xmlpull"/>
+      <plugin id="org.yaml.snakeyaml"/>
+      <plugin id="si.uom.si-quantity"/>
+      <plugin id="si.uom.si-units"/>
+      <plugin id="slf4j.api"/>
+      <plugin id="tec.units.indriya"/>
+      <plugin id="tec.uom.lib.uom-lib-common"/>
+      <plugin id="uk.ac.diamond.CBFlib"/>
+      <plugin id="uk.ac.diamond.com.jidesoft.common"/>
+      <plugin id="uk.ac.diamond.com.jidesoft.docking"/>
+      <plugin id="uk.ac.diamond.com.mindprod.ledatastream"/>
+      <plugin id="uk.ac.diamond.connect"/>
+      <plugin id="uk.ac.diamond.daq.client.gui.rcpcontroller"/>
+      <plugin id="uk.ac.diamond.daq.guigenerator"/>
+      <plugin id="uk.ac.diamond.daq.guigenerator.test" fragment="true"/>
+      <plugin id="uk.ac.diamond.daq.jython.api"/>
+      <plugin id="uk.ac.diamond.daq.msgbus"/>
+      <plugin id="uk.ac.diamond.daq.msgbus.test" fragment="true"/>
+      <plugin id="uk.ac.diamond.daq.persistence"/>
+      <plugin id="uk.ac.diamond.daq.persistence.test" fragment="true"/>
+      <plugin id="uk.ac.diamond.datamodel"/>
+      <plugin id="uk.ac.diamond.dna"/>
+      <plugin id="uk.ac.diamond.gnu.regexp"/>
+      <plugin id="uk.ac.diamond.jama"/>
+      <plugin id="uk.ac.diamond.jython"/>
+      <plugin id="uk.ac.diamond.org.apache.ws.commons.util"/>
+      <plugin id="uk.ac.diamond.org.apache.xmlrpc.client"/>
+      <plugin id="uk.ac.diamond.org.apache.xmlrpc.common"/>
+      <plugin id="uk.ac.diamond.org.apache.xmlrpc.server"/>
+      <plugin id="uk.ac.diamond.org.jscience4"/>
+      <plugin id="uk.ac.diamond.org.nfunk.jep"/>
+      <plugin id="uk.ac.diamond.org.powermock"/>
+      <plugin id="uk.ac.diamond.org.springframework"/>
+      <plugin id="uk.ac.diamond.org.springframework.fragment.i19-shared-config" fragment="true"/>
+      <plugin id="uk.ac.diamond.org.springframework.fragment.org.eclipse.scanning.device" fragment="true"/>
+      <plugin id="uk.ac.diamond.rxtx"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.plotclient"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.plotserver"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.processing"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.rcp"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.rcp.contributions" fragment="true"/>
+      <plugin id="uk.ac.diamond.scisoft.analysis.xmlrpc"/>
+      <plugin id="uk.ac.diamond.scisoft.deprecated"/>
+      <plugin id="uk.ac.diamond.scisoft.deprecated.rcp"/>
+      <plugin id="uk.ac.diamond.scisoft.imagegrid"/>
+      <plugin id="uk.ac.gda.analysis"/>
+      <plugin id="uk.ac.gda.analysis.test" fragment="true"/>
+      <plugin id="uk.ac.gda.api"/>
+      <plugin id="uk.ac.gda.api.test" fragment="true"/>
+      <plugin id="uk.ac.gda.beamline.i09"/>
+      <plugin id="uk.ac.gda.beamline.i19.server.api"/>
+      <plugin id="uk.ac.gda.beamline.i19.server.common"/>
+      <plugin id="uk.ac.gda.client"/>
+      <plugin id="uk.ac.gda.client.closeactions"/>
+      <plugin id="uk.ac.gda.client.test" fragment="true"/>
+      <plugin id="uk.ac.gda.common"/>
+      <plugin id="uk.ac.gda.common.client"/>
+      <plugin id="uk.ac.gda.common.rcp"/>
+      <plugin id="uk.ac.gda.common.rcp.test" fragment="true"/>
+      <plugin id="uk.ac.gda.common.test" fragment="true"/>
+      <plugin id="uk.ac.gda.component.beamline"/>
+      <plugin id="uk.ac.gda.component.beamline.common"/>
+      <plugin id="uk.ac.gda.component.model"/>
+      <plugin id="uk.ac.gda.component.model.core"/>
+      <plugin id="uk.ac.gda.component.samplehandling"/>
+      <plugin id="uk.ac.gda.core"/>
+      <plugin id="uk.ac.gda.core.test" fragment="true"/>
+      <plugin id="uk.ac.gda.dls"/>
+      <plugin id="uk.ac.gda.dls.test" fragment="true"/>
+      <plugin id="uk.ac.gda.epics"/>
+      <plugin id="uk.ac.gda.epics.test" fragment="true"/>
+      <plugin id="uk.ac.gda.eventbus"/>
+      <plugin id="uk.ac.gda.eventbus.api"/>
+      <plugin id="uk.ac.gda.logging.dependencies.fragment" fragment="true"/>
+      <plugin id="uk.ac.gda.mx"/>
+      <plugin id="uk.ac.gda.mx.api"/>
+      <plugin id="uk.ac.gda.mx.ispyb"/>
+      <plugin id="uk.ac.gda.mx.ispyb.api"/>
+      <plugin id="uk.ac.gda.mx.ispyb.test" fragment="true"/>
+      <plugin id="uk.ac.gda.mx.test" fragment="true"/>
+      <plugin id="uk.ac.gda.nexus"/>
+      <plugin id="uk.ac.gda.nexus.test" fragment="true"/>
+      <plugin id="uk.ac.gda.px"/>
+      <plugin id="uk.ac.gda.px.test" fragment="true"/>
+      <plugin id="uk.ac.gda.service.hutch"/>
+      <plugin id="uk.ac.gda.services"/>
+      <plugin id="uk.ac.gda.services.common"/>
+      <plugin id="uk.ac.gda.services.common.core"/>
+      <plugin id="uk.ac.gda.services.impl"/>
+      <plugin id="uk.ac.gda.stage.attenuator"/>
+      <plugin id="uk.ac.gda.stage.hutch"/>
+      <plugin id="uk.ac.gda.test.helpers"/>
+      <plugin id="uk.ac.gda.video"/>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i09.feature" installMode="root"/>
+   </features>
+
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

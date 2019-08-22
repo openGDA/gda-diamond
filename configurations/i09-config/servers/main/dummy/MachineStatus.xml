@@ -32,17 +32,17 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="feabsorber" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Fault</value>
-				<value>Open</value>
-				<value>Opening</value>
-				<value>Closed</value>
-				<value>Closing</value>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="feabsorber" class="gda.device.enumpositioner.DummyEnumPositioner"> -->
+<!-- 		<property name="positions"> -->
+<!-- 			<list> -->
+<!-- 				<value>Fault</value> -->
+<!-- 				<value>Open</value> -->
+<!-- 				<value>Opening</value> -->
+<!-- 				<value>Closed</value> -->
+<!-- 				<value>Closing</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	<bean id="portshutterstatus" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
