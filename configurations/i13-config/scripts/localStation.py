@@ -262,7 +262,7 @@ try:
 	
 		#reverse the camera image so that the image is as looking upstream
 		caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
-		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "pco.4000"):
 			print "detected PCO 4000" 
 			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
 			pco4000_readout=0.21
@@ -270,7 +270,7 @@ try:
 			flyScanDetectorNoChunking.readOutTime=pco4000_readout
 			p2r_flyScanDetector.getCollectionStrategy().setReadoutTime(pco4000_readout)
 			p2r_flyScanDetector.readOutTime=pco4000_readout		
-		elif( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+		elif( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "pco.edge"):
 			print "detected PCO Edge" 
 			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 			pcoEdge_readout=0.011
