@@ -152,7 +152,7 @@
 		<property name="twoDPaths">
 			<list>
 				<bean class="org.eclipse.scanning.api.points.models.GridModel">
-					<property name="snake" value="true" />
+					<property name="snake" value="false" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.RasterModel">
 					<property name="fastAxisStep" value="0.0001" />
