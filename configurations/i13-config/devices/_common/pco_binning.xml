@@ -8,20 +8,20 @@
 		<property name="selector" ref="pco_model_rbv" />
 		<property name="mappers">
 			<map>
-				<entry key="PCO.Camera Edge">
+				<entry key="pco.edge">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 						<entry key="x2" value="2" />
 						<entry key="x4" value="4" />
 					</map>
 				</entry>
-				<entry key="PCO.Camera 4000">
+				<entry key="pco.4000">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 						<entry key="x2" value="2" />
 					</map>
 				</entry>
-				<entry key="PCO.Camera Dimax">
+				<entry key="pco.dimax">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 					</map>
@@ -41,14 +41,14 @@
 		<property name="selector" ref="pco_model_rbv" />
 		<property name="mappers">
 			<map>
-				<entry key="PCO.Camera Edge">
+				<entry key="pco.edge">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 						<entry key="x2" value="2" />
 						<entry key="x4" value="4" />
 					</map>
 				</entry>
-				<entry key="PCO.Camera 4000">
+				<entry key="pco.4000">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 						<entry key="x2" value="2" />
@@ -56,7 +56,7 @@
 						<entry key="x8" value="8" />
 					</map>
 				</entry>
-				<entry key="PCO.Camera Dimax">
+				<entry key="pco.dimax">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 					</map>

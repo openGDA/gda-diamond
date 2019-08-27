@@ -5,7 +5,7 @@
 
 
 	<bean id="pco_model_rbv" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition" value="PCO.Camera Edge" />
+		<property name="currentPosition" value="pco.edge" />
 	</bean>
 
 	<bean id="pco_binx_rbv" class="gda.device.scannable.SimpleScannable">
