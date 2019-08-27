@@ -16,9 +16,10 @@
 	</bean>
 
 	<bean id="pgm_grat_pitch_motor" class="gda.device.motor.DummyMotor" >
-		<property name="minPosition" value="84.0000" />
-		<property name="maxPosition" value="90.501" />
-		<property name="speed" value="0.018" />
+		<property name="minPosition" value="82.9866" />
+		<property name="maxPosition" value="92.0" />
+		<property name="position" value="88.0"/>
+		<property name="speed" value="1" />
 		<property name="unitString" value="deg"/>
 	</bean>
 	
@@ -29,8 +30,9 @@
 		<property name="unitString" value="mm"/>
 	</bean>	
 	<bean id="pgm_m2_pitch_motor" class="gda.device.motor.DummyMotor" >
-		<property name="minPosition" value="82.9866" />
-		<property name="maxPosition" value="92.0" />
+		<property name="minPosition" value="84.000" />
+		<property name="maxPosition" value="90.501" />
+		<property name="position" value="88.48"/> <!-- at about energy 931 eV -->
 		<property name="speed" value="1" />
 		<property name="unitString" value="deg"/>
 	</bean>	

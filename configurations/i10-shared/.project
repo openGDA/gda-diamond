@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>uk.ac.diamond.daq.detectors.addetector</project>
+		<project>uk.ac.diamond.daq.mapping</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.epics.adviewer</project>
