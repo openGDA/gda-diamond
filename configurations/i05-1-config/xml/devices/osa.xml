@@ -28,39 +28,12 @@
 		<property name="upperGdaLimits" value="15000" />
 	</bean>
 
-		<bean id="osax_lut" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="osax_lut_motor" />
-		<property name="initialUserUnits" value="micron" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-1500" />
-		<property name="upperGdaLimits" value="8000" />
-	</bean>
-
-	<bean id="osay_lut" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="osay_lut_motor" />
-		<property name="initialUserUnits" value="micron" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-7000" />
-		<property name="upperGdaLimits" value="6800" />
-	</bean>
-
-	<bean id="osaz_lut" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="osaz_lut_motor" />
-		<property name="initialUserUnits" value="micron" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-13500" />
-		<property name="upperGdaLimits" value="15000" />
-	</bean>
-
 	<bean id="osa" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="osax" />
 				<ref bean="osay" />
 				<ref bean="osaz" />
-				<ref bean="osax_lut" />
-				<ref bean="osay_lut" />
-				<ref bean="osaz_lut" />
 			</list>
 		</property>
 	</bean>

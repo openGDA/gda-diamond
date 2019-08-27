@@ -15,17 +15,4 @@
 	<bean id="zpz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-ZP-01:Z" />
 	</bean>
-
-	<bean id="zpx_lut_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL05J-EA-ZP-01:LUT:X" />
-	</bean>
-
-	<bean id="zpy_lut_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL05J-EA-ZP-01:LUT:Y" />
-	</bean>
-
-	<bean id="zpz_lut_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL05J-EA-ZP-01:LUT:Z" />
-	</bean>
-
 </beans>

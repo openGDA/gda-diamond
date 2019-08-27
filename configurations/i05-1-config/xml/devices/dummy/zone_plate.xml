@@ -15,16 +15,4 @@
 	<bean id="zpz_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="mm" />
 	</bean>
-
-	<bean id="zpx_lut_motor" class="gda.device.motor.DummyMotor">
-		<property name="unitString" value="mm" />
-	</bean>
-
-	<bean id="zpy_lut_motor" class="gda.device.motor.DummyMotor">
-		<property name="unitString" value="mm" />
-	</bean>
-
-	<bean id="zpz_lut_motor" class="gda.device.motor.DummyMotor">
-		<property name="unitString" value="mm" />
-	</bean>
 </beans>
