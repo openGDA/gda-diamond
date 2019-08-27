@@ -18,6 +18,11 @@ from gdaserver import ebe
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
 userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
 
+def disable_nexus():
+        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
+
+def enable_nexus():
+        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 	
 def try_execfile(filepath, description=None, full_log=False, absolute=False):
 	print "-------------------------------------------------------------------"
