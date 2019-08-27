@@ -58,11 +58,17 @@ run 'xspress4_dtc_energy_scannable.py'
 # Create and setup the monoOptimiser scannable
 run "mono_optimisation.py"
 
+# Create some functions useful for setting up and controlling the medipix ROIs
+run "medipix_functions.py"
+
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
 # detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 detectorPreparer.setFFI1(FFI1)
+detectorPreparer.setPluginsForMutableRoi(plugins_mutable_roi)
+detectorPreparer.setMutableRoi(medipix_roi)
+detectorPreparer.setMedipixDefaultBasePvName(medipix_basePvName)
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
