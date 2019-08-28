@@ -36,8 +36,6 @@
 		</property>
 	</bean>
 
-	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
-
 	<!-- this is used to populate the Elements view in the Microfocus perspective -->
 	<bean id="elementListScriptController" class="gda.jython.scriptcontroller.ScriptControllerBase">
 		<property name="command" value="" />
