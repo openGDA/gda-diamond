@@ -9,8 +9,6 @@
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
-	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
