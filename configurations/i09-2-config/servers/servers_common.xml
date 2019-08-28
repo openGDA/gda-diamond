@@ -14,9 +14,6 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 
-	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
-	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
-
 	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
 		<property name="enable" value="false" />
 	</bean>
