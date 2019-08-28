@@ -14,8 +14,6 @@
 
 	<gda:rbac />
 
-	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
-
 	<context:property-placeholder/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
