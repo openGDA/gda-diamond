@@ -34,4 +34,5 @@
 	<import resource="dataFileMonitor.xml" />
 	<import resource="RCPController.xml" />
 	<import resource="commandQueueProcessor.xml"/>
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 </beans>
