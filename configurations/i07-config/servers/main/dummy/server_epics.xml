@@ -133,6 +133,8 @@
         <property name="bpmName" value="bpm1"/>
     </bean>
 
+    <bean id="qbpm1range" class="gda.device.monitor.DummyMonitor" />
+
     <!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="bpm2qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -142,6 +144,8 @@
         <property name="currAmpQuadName" value="bpm2qca"/>
         <property name="bpmName" value="bpm2"/>
     </bean>
+
+    <bean id="qbpm2range" class="gda.device.monitor.DummyMonitor" />
     
     <!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="bpm3qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
@@ -152,6 +156,8 @@
         <property name="currAmpQuadName" value="bpm3qca"/>
         <property name="bpmName" value="bpm3"/>
     </bean>
+
+    <bean id="qbpm3range" class="gda.device.monitor.DummyMonitor" />
     
     <!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs1qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
@@ -163,6 +169,8 @@
         <property name="bpmName" value="mbs1bpm"/>
     </bean>
 
+    <bean id="mbs1qbpmrange" class="gda.device.monitor.DummyMonitor" />
+
     <!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs2qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -173,6 +181,8 @@
         <property name="bpmName" value="mbs2bpm"/>
     </bean>
 
+    <bean id="mbs2qbpmrange" class="gda.device.monitor.DummyMonitor" />
+
     <!-- MBS3 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs3qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -182,6 +192,8 @@
         <property name="currAmpQuadName" value="mbs3qca"/>
         <property name="bpmName" value="mbs3bpm"/>
     </bean>
+
+    <bean id="mbs3qbpmrange" class="gda.device.monitor.DummyMonitor" />
     
     <!--  ==================== Single Channel Current Amplifier definition section ===================== -->
     <!-- D1 Current Amplifier-->
@@ -207,10 +219,12 @@
 
     <bean id="adcbpm" class="gda.device.monitor.DummyMonitor"/>
 
-   <!--  <bean id="adcqbpm" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="adcqca"/>
-        <property name="bpmController" ref="adcbpm"/>
-    </bean> -->
+	<bean id="adcqbpm" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="adcqca"/>
+        <property name="bpmName" value="adcbpm"/>
+    </bean>
+
+    <bean id="adcqbpmrange" class="gda.device.monitor.DummyMonitor" />
 
     <!--  ============================== Epics Enum Positioner definition section ============== -->
 
