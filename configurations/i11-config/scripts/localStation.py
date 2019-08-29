@@ -19,6 +19,7 @@ try:
 except:
     pass
 
+from userlogging import UserLog
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
