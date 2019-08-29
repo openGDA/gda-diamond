@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<alias name="sim_adbase" alias="xraycam_adbase" />
+	<alias name="sim_stats" alias="xraycam_stats" />
+	<alias name="sim_array" alias="xraycam_ndarray" />
+	<alias name="sim_hdf5" alias="xraycam_hdf5" />
+
+	<bean id="xraycam_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_file_hdf5">
+		<property name="initialFileName" value="xraycam" />
+	</bean>
+	
+</beans>

@@ -81,6 +81,8 @@
 	<import resource="fleacamera5_09.xml" />
 	<import resource="fleacamera4_06.xml" />
 	
+	<import resource="detectors/xraycam.xml" />
+	
 	<import resource="server_core.xml" />
 	<import resource="../_common/server.xml" />
 	
