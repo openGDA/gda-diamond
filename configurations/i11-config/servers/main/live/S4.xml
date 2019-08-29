@@ -22,7 +22,9 @@
 	</bean>
 	<bean id="s4_bpm" class="gda.device.monitor.EpicsBpmController">
 		<property name="poll" value="true" />
-		<property name="pvName" value="BL11I-AL-SLITS-04" />
+		<property name="intensityPvName" value="BL11I-EA-COUNT-02.S18" />
+		<property name="xposPvName" value="BL11I-AL-SLITS-04:XPOS" />
+		<property name="yposPvName" value="BL11I-AL-SLITS-04:YPOS" />
 	</bean>
 
 	<!-- S4 Motors (individual Motions) -->
