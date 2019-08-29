@@ -151,7 +151,7 @@
 		<property name="bpmController" ref="bpm1" />
 	</bean>
 	<bean id="qbpm1range" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-DI-PHDGN-02:RANGE" />
+		<property name="pvName" value="BL07I-DI-PHDGN-02:MRREADBACK" />
 	</bean>
 
 	<!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
@@ -174,7 +174,7 @@
 		<property name="bpmController" ref="bpm2" />
 	</bean>
 	<bean id="qbpm2range" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-DI-PHDGN-03:RANGE" />
+		<property name="pvName" value="BL07I-DI-PHDGN-03:MRREADBACK" />
 	</bean>
 
 	<!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
@@ -197,7 +197,7 @@
 		<property name="bpmController" ref="bpm3" />
 	</bean>
 	<bean id="qbpm3range" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-DI-PHDGN-05:RANGE" />
+		<property name="pvName" value="BL07I-DI-PHDGN-05:MRREADBACK" />
 	</bean>
 
 	<!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
@@ -220,7 +220,7 @@
 		<property name="bpmController" ref="mbs1bpm" />
 	</bean>
 	<bean id="mbs1qbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-AL-SLITS-02:RANGE" />
+		<property name="pvName" value="BL07I-AL-SLITS-02:MRREADBACK" />
 	</bean>
 
 	<!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
@@ -243,7 +243,7 @@
 		<property name="bpmController" ref="mbs2bpm" />
 	</bean>
 	<bean id="mbs2qbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-AL-SLITS-03:RANGE" />
+		<property name="pvName" value="BL07I-AL-SLITS-03:MRREADBACK" />
 	</bean>
 
 
@@ -267,7 +267,7 @@
 		<property name="bpmController" ref="mbs3bpm" />
 	</bean>
 	<bean id="mbs3qbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-AL-SLITS-04:RANGE" />
+		<property name="pvName" value="BL07I-AL-SLITS-04:MRREADBACK" />
 	</bean>
 
 	<!-- ==================== Single Channel Current Amplifier definition section 
@@ -313,7 +313,7 @@
 		<property name="bpmController" ref="adcbpm" />
 	</bean>
 	<bean id="adcqbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-IONC-01:RANGE" />
+		<property name="pvName" value="BL07I-OP-IONC-01:MRREADBACK" />
 	</bean>
 
 	<!-- ============================== Epics Enum Positioner definition section 
