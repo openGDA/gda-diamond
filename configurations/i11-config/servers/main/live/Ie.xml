@@ -6,11 +6,21 @@
 
 	<bean id="Ie" class="gda.device.detector.etldetector.ETLDetector">
 		<property name="scaler" ref="scaler2" />
+		<property name="inputNames" value="Ie" />
 		<property name="detector" ref="Iet" />
 		<property name="scalerChannelIndex" value="17" />
 	</bean>
 	<bean id="Iet" class="gda.device.detector.etldetector.EpicsETLController">
 		<property name="pvRoot" value="BL11I-DI-IMON-02:E1" />
+	</bean>
+	<bean id="Ie2" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2" />
+		<property name="inputNames" value="Ie" />
+		<property name="detector" ref="Ie2_controller" />
+		<property name="scalerChannelIndex" value="20" />
+	</bean>
+	<bean id="Ie2_controller" class="gda.device.detector.etldetector.EpicsETLController">
+		<property name="pvRoot" value="BL11J-DI-IMON-01:E1" />
 	</bean>
 
 </beans>
