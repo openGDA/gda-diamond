@@ -18,43 +18,48 @@
 		</property>
 	</bean>
 
+	<import resource="../_common/server.xml"/>
+
 	<context:property-placeholder/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="../_common/required_at_start.xml"/>
+	<!-- Motors -->
 
-	<import resource="epics/motor/atten.xml" />
-	<import resource="epics/motor/dcm.xml" />
-	<import resource="epics/motor/diag.xml" />
-	<import resource="epics/motor/id.xml" />
-	<import resource="epics/motor/m1.xml" />
-	<import resource="epics/motor/m2.xml" />
-	<import resource="epics/motor/p2.xml" />
-	<import resource="epics/motor/pa.xml" />
-	<import resource="epics/motor/ppr.xml" />
-	<import resource="epics/motor/qsys.xml" />
-	<import resource="epics/motor/s1.xml" />
-	<import resource="epics/motor/s2.xml" />
-	<import resource="epics/motor/s3.xml" />
-	<import resource="epics/motor/s4.xml" />
-	<import resource="epics/motor/s5.xml" />
-	<import resource="epics/motor/s6.xml" />
-	<import resource="epics/motor/s7.xml" />
-	<import resource="epics/motor/sixc.xml" />
-	<import resource="epics/motor/sixcbase.xml" />
-	<import resource="epics/motor/sixcsample.xml" />
+	<import resource="motor/atten.xml" />
+	<import resource="motor/dcm.xml" />
+	<import resource="motor/diag.xml" />
+	<import resource="motor/id.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/m2.xml" />
+	<import resource="motor/p2.xml" />
+	<import resource="motor/pa.xml" />
+	<import resource="motor/ppr.xml" />
+	<import resource="motor/qsys.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
+	<import resource="motor/sixc.xml" />
+	<import resource="motor/sixcbase.xml" />
+	<import resource="motor/sixcsample.xml" />
 
 	<import resource="transient/kbmbase.xml" />
-	<!--<import resource="transient/smargon.xml" />-->
+	<!--
+	<import resource="transient/smargon.xml" />
+	 -->
 
-	<import resource="../_common/scannable/motors.xml" />
-	<import resource="../live/epics/pie725_raster.xml" />
-	<import resource="../live/epics/detector/rasterpil1.xml" />
+	<import resource="motor/pie725_raster.xml" />
+	<import resource="detector/rasterpil1.xml" />
 
-	<import resource="epics/monitor/currentamps.xml" />
-	<import resource="epics/monitor/machine.xml" />
-	<import resource="epics/monitor/sixc.xml" />
+	<!-- Monitors -->
+
+	<import resource="monitor/currentamps.xml" />
+	<import resource="monitor/machine.xml" />
+	<import resource="monitor/sixc.xml" />
 
 	<bean id="ic1monitor_" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
@@ -65,63 +70,50 @@
 		<property name="poll" value="true" />
 	</bean>
 
-	<!--<import resource="epics/detector/vortex.xml" />-->
-	<import resource="epics/detector/pilatus100k.xml" />
-	<import resource="epics/detector/pilatus3_100k.xml" />
-<!-- 	<import resource="epics/detector/fastpil1.xml" /> -->
-	<import resource="epics/detector/pilatus2M.xml" />
-	<import resource="epics/detector/andor1.xml" />
-	<import resource="epics/detector/cam1.xml" />
-	<import resource="epics/detector/cam2.xml" />
-	<import resource="epics/detector/cam5.xml" />
-	<!-- <import resource="epics/detector/medipix.xml" />-->
-	<import resource="epics/detector/merlin.xml" />
-	<import resource="epics/detector/c10.xml" />
-	<import resource="epics/detector/xeye.xml" />
-	<import resource="epics/detector/zebra1.xml" />
-	<import resource="epics/detector/zebra2.xml" />
-	<import resource="epics/detector/zylar.xml" />
+	<!-- Detectors -->
 
-	<import resource="../_common/abstract_command_server.xml"/>
+	<!--
+	<import resource="detector/vortex.xml" />
+	 -->
+	<import resource="detector/pilatus100k.xml" />
+	<import resource="detector/pilatus3_100k.xml" />
+	<!--
+	<import resource="detector/fastpil1.xml" />
+	 -->
+	<import resource="detector/pilatus2M.xml" />
+	<import resource="detector/andor1.xml" />
+	<import resource="detector/cam1.xml" />
+	<import resource="detector/cam2.xml" />
+	<import resource="detector/cam5.xml" />
+	<!-- 
+	<import resource="detector/medipix.xml" />
+	 -->
+	<import resource="detector/merlin.xml" />
+	<import resource="detector/c10.xml" />
+	<import resource="detector/xeye.xml" />
+	<import resource="detector/zebra1.xml" />
+	<import resource="detector/zebra2.xml" />
+	<import resource="detector/zylar.xml" />
 
-	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
-
-	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.config}/scripts/livetest/startUp"/>
-		<property name="name" value="Scripts: Tests" />
-		<property name="type" value="CONFIG" />
-	</bean>
-
-	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths" parent="common_script_paths_with_diffcalc">
-		<property name="projects">
-			<list merge="true">
-				<ref bean ="beamline_test_suite" />
-			</list>
-		</property>
-		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
-	</bean>
-
-	<bean id="command_server" parent="abstract_command_server">
-		<property name="jythonScriptPaths" ref="script_paths"/>
-		<property name="stopJythonScannablesOnStopAll" value="false" />
-		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
-	</bean>
-
-	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"/>
-
-	<import resource="../_common/terminal_logger.xml" />
-
-
-	<!-- live only -->
+	<bean id="terminallog_path_provider"
+		class="gda.data.SimpleObservablePathProvider"/>
 
 	<import resource="metadata.xml" />
-	<import resource="../_common/nxmetadata.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
+
+	<bean id="mandelbrot" class="gda.device.detector.DummyMandelbrotMappingDetector">
+		<property name="realAxisPositioner" ref="stage_x" />
+		<property name="imaginaryAxisPositioner" ref="stage_y" />
+		<property name="outputDimensions" value="ONE_D" />
+		<!-- Works:
+		<property name="outputDimensions" value="TWO_D" />
+		 -->
+	</bean>
 
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
@@ -149,8 +141,8 @@
 		</property>
 	</bean>
 
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>

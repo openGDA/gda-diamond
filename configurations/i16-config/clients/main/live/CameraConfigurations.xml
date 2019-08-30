@@ -20,6 +20,9 @@
 		<property name="displayName" value="Pilatus 3 100k" />
 		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8092/pilatus2.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-EA-PILAT-03:ARR" />
+		<!-- This doesn't seem to work, and it causes logging to die!
+		<property name="withHistogram" value="true"/>
+		 -->
 	</bean>
 
 	<bean id="mpx1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">

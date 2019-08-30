@@ -5,4 +5,20 @@ Opening the Mapping Perspective before opening the Scanning Perspective doesn't.
 
 >>> from mapping_scan_commands import mscan, grid, detector
 >>> mscan(path=[grid(axes=('stage_x', 'stage_y'), start=(-1.5, -1.0), stop=(0.5, 1.0), count=(25, 25), snake=False, continuous=False)], det=[detector('mandelbrot', 0.1, maxIterations=500, escapeRadius=10.0, columns=301, rows=241, points=1000, maxRealCoordinate=1.5, maxImaginaryCoordinate=1.2, realAxisName='stage_x', imaginaryAxisName='stage_y', enableNoise=False, noiseFreeExposureTime=5.0, saveImage=True, saveSpectrum=True, saveValue=True)])
+>>> mscan(monitorsPerScan=[mrwolf], path=[grid(axes=('stage_x', 'stage_y'), start=(-1.5, -1.0), stop=(0.5, 1.0), count=(25, 25), snake=False, continuous=False)], det=[detector('mandelbrot', 0.1, maxIterations=500, escapeRadius=10.0, columns=301, rows=241, points=1000, maxRealCoordinate=1.5, maxImaginaryCoordinate=1.2, realAxisName='stage_x', imaginaryAxisName='stage_y', enableNoise=False, noiseFreeExposureTime=5.0, saveImage=True, saveSpectrum=True, saveValue=True)])
+>>> meta_add mrwolf
+>>> mscan(path=[grid(axes=('stage_x', 'stage_y'), start=(-1.5, -1.0), stop=(0.5, 1.0), count=(25, 25), snake=False, continuous=False)], det=[detector('mandelbrot', 0.1, maxIterations=500, escapeRadius=10.0, columns=301, rows=241, points=1000, maxRealCoordinate=1.5, maxImaginaryCoordinate=1.2, realAxisName='stage_x', imaginaryAxisName='stage_y', enableNoise=False, noiseFreeExposureTime=5.0, saveImage=True, saveSpectrum=True, saveValue=True)])
 
+New scanning syntax
+
+mscan(grid(axes=(stage_x, stage_y), step=(1,1), start=(0,0), stop=(10,4), snake=false, det=detector('mic', 0.1)))
+= mscan stage_x stage_y 0 0 10 4 1 1 mic 0.1
+
+from gdascripts.mscanHandler import *
+
+mscan(path=[grid(axes=('stage_x', 'stage_y'), start=(-1.5, -1.0), stop=(0.5, 1.0), count=(25, 25), snake=False, continuous=False)], det=[detector('mandelbrot', 0.1, maxIterations=500, escapeRadius=10.0, columns=301, rows=241, points=1000, maxRealCoordinate=1.5, maxImaginaryCoordinate=1.2, realAxisName='stage_x', imaginaryAxisName='stage_y', enableNoise=False, noiseFreeExposureTime=5.0, saveImage=True, saveSpectrum=True, saveValue=True)])
+X= mscan stage_x stage_y -1.5, -1 .5,1 .08,.08 mandelbrot 0.1
+X= mscan stage_x stage_y -1.5, -1 .5,1 .08,.08 dummyMandelbrotMappingDetector2D 0.1
+
+Creating a 'mandelbrot' detector with the same definition as 'dummyMandelbrotMappingDetector2D' allowed 'mscan stage_x stage_y -1.5, -1 .5,1 .08,.08 mandelbrot 0.1' to work
+Doing the same with 'dummyMandelbrotMappingDetector1D'

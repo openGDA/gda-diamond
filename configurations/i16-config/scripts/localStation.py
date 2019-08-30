@@ -176,8 +176,8 @@ from element_library import *
 from scannable.toggleBinaryPvAndWaitScannable import ToggleBinaryPvAndWait
 from misc_functions import list_scannables, listprint, frange, attributes, caput, caget, cagetArray, add, mult
 import pd_offset
-from analysis_FindScanPeak import FindScanPeak
-from analysis_FindScanCentroid import findCentroidPoint, FindScanCentroid, readSRSDataFile
+from analysis.FindScanPeak import FindScanPeak
+from analysis.FindScanCentroid import findCentroidPoint, FindScanCentroid, readSRSDataFile
 from device_serial import SerialDevice
 from device_serial_ace import ace
 from device_tca import TCA
