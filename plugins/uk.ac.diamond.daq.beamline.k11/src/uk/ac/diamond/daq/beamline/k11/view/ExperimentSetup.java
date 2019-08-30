@@ -63,18 +63,14 @@ import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
-import uk.ac.gda.tomography.scan.editor.TomographyAcquisitionController;
-import uk.ac.gda.tomography.scan.editor.TomographySWTElements;
 import uk.ac.gda.tomography.scan.editor.view.TomographyMessages;
-import uk.ac.gda.tomography.service.TomographyServiceException;
+import uk.ac.gda.tomography.ui.tool.TomographySWTElements;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
  */
 public class ExperimentSetup extends LayoutUtilities {
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentSetup.class);
-
-	private TomographyAcquisitionController tomographyConfigurationController;
 
 	private static final String POINT_AND_SHOOT = "Point and Shoot";
 	private static final String PARTICLE_TRACKING = "Particle Tracking";
@@ -380,40 +376,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		});
 
 		addExperimentDriverButton(content);
-		//buildTomographyConfigurationDialog(content, composite);
 	}
-
-//	private void buildTomographyConfigurationDialog(Composite content, Composite composite) {
-//		Button button = addConfigurationDialogButton(content, "Tomography Setup");
-//		button.addListener(SWT.Selection, event -> {
-//			try {
-//				if (getTomographyConfigurationController().getData() == null) {
-//					getTomographyConfigurationController().createNewData();
-//				}
-//				getTomographyConfigurationController().showConfigurationDialog(composite.getDisplay());
-//			} catch (Exception e) {
-//				logger.error("TODO put description of error here", e);
-//			}
-//		});
-//	}
-
-	/**
-	 * Returns, or instantiates if <code>null</code>, the controller associated with the tomography configuration
-	 *
-	 * @return
-	 * @throws TomographyServiceException
-	 */
-//	private AcquisitionEditorController<TomographyAcquisition> getTomographyConfigurationController()
-//			throws TomographyServiceException {
-//		if (tomographyConfigurationController == null) {
-//			synchronized (BANNER_FONT_DATA) {
-//				if (tomographyConfigurationController == null) {
-//					tomographyConfigurationController = new TomographyAcquisitionController();
-//				}
-//			}
-//		}
-//		return tomographyConfigurationController;
-//	}
 
 	private LiveStreamConnection getLiveStreamConnection() {
 		return new LiveStreamConnection(getCameraConfiguration(), StreamType.EPICS_ARRAY);
@@ -447,15 +410,6 @@ public class ExperimentSetup extends LayoutUtilities {
 		save.setImage(getImage("icons/save.png"));
 		Button run = TomographySWTElements.createButton(parent, SWT.PUSH, TomographyMessages.RUN, null);
 		run.setImage(getImage("icons/run_small.png"));
-
-		// THIS IS JUST A STUB UNTIL ARE AVAILABLE OTHER CONTRLLLERS (DIFFRACTION/IMAGING/OTHER...)
-//		run.addListener(SWT.Selection, event -> {
-//			try {
-//				getTomographyConfigurationController().runAcquisition();
-//			} catch (AcquisitionControllerException | TomographyServiceException e) {
-//				logger.error("TODO put description of error here", e);
-//			}
-//		});
 	}
 
 	/**

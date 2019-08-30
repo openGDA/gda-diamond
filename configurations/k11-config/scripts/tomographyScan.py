@@ -113,5 +113,5 @@ else:
 
 print 'task: ' + task
 print tomoConfig
-slave = TomographySlave(tomoConfig, task)
+slave = TomographySlave(tomoConfig['acquisitionConfiguration']['acquisitionParameters'], task)
 slave.doTask()            
