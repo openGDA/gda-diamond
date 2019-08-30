@@ -3,16 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
-	<!--for an 'empty' configuration, remove the imports below, and the other xml files and directories inside the xml/server directory-->
-	<import resource="file://${gda.facility.dir}/servers/dummy/det.xml" />
-	<import resource="file://${gda.facility.dir}/servers/dummy/mic.xml" />
-	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
-
 	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> <!-- Contains all configuration for the malcolm simulations -->
 
-	<import resource="dummy_devices.xml"/>
-
-	<!--  <import resource="malcolm.xml"/> -->   <!-- Uncomment this line to enable a locally checked out malcolm device, see malcolm.xml -->
+	<import resource="stages/tomography_stack_motors.xml"/>
 
 	<!-- Do not remove anything below here -->
 	<import resource="../../main/_common/server.xml" />

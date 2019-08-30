@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="scan01model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL45P-ML-SCAN-01" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	
+	<bean id="scan01info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="BL45P-ML-SCAN-01" />
+		<property name="description" value="Tomography scan" /> 
+	</bean>
+	
+	<bean id="scan01device" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL45P-ML-SCAN-01" />
+		<property name="model" ref="scan01model" />
+		<property name="deviceInformation" ref="scan01info" />
+	</bean>
+	
+	<bean id="scan02model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL45P-ML-SCAN-02" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	
+	<bean id="scan02info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="BL45P-ML-SCAN-02" />
+		<property name="description" value="Under development" /> 
+	</bean>
+	
+	<bean id="scan02device" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL45P-ML-SCAN-02" />
+		<property name="model" ref="scan02model" />
+		<property name="deviceInformation" ref="scan02info" />
+	</bean>
+	
+	<bean id="scan03model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL45P-ML-SCAN-03" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	
+	<bean id="scan03info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="BL45P-ML-SCAN-03" />
+		<property name="description" value="Dark" /> 
+	</bean>
+	
+	<bean id="scan03device" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL45P-ML-SCAN-03" />
+		<property name="model" ref="scan03model" />
+		<property name="deviceInformation" ref="scan03info" />
+	</bean>
+	
+	<bean id="scan04model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL45P-ML-SCAN-04" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	
+	<bean id="scan04info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="BL45P-ML-SCAN-04" />
+		<property name="description" value="Under development" /> 
+	</bean>
+	
+	<bean id="scan04device" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL45P-ML-SCAN-04" />
+		<property name="model" ref="scan04model" />
+		<property name="deviceInformation" ref="scan04info" />
+	</bean>
+	
+</beans>
+
