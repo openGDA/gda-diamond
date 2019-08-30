@@ -38,19 +38,11 @@
                         <value>uk.ac.gda.client.scripting.JythonPerspective</value>
                     </list>
                 </entry>
-                <entry key="mfPerspectives">
-                    <list value-type="java.lang.String">
-                        <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
-                        <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
-                        <value>gda.rcp.ncd.perspectives.SaxsPerspective</value>
-                        <value>uk.ac.gda.client.scripting.JythonPerspective</value>
-                    </list>
-                </entry>
                 <entry key="mapPerspectives">
                     <list value-type="java.lang.String">
                         <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
                         <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
-                        <value>gda.rcp.ncd.perspectives.GridScanPerspective</value>
+                        <value>uk.ac.diamond.daq.mapping.ui.experiment.MappingExperimentView</value>
                         <value>gda.rcp.ncd.perspectives.SaxsPerspective</value>
                         <value>uk.ac.gda.client.scripting.JythonPerspective</value>
                     </list>
