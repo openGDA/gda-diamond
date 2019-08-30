@@ -19,8 +19,7 @@
 package uk.ac.gda.exafs.data;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.runtime.AssertionFailedException;
-
-import junit.framework.Assert;
+import org.junit.Assert;
 public class RealmTester {
 
 

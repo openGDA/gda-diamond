@@ -18,6 +18,7 @@
 
 package uk.ac.gda.server.exafs.scan;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -25,7 +26,6 @@ import org.powermock.api.mockito.PowerMockito;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.device.Scannable;
 import gda.jython.scriptcontroller.logging.LoggingScriptController;
-import junit.framework.Assert;
 
 public class XesScanFactoryTest {
 
