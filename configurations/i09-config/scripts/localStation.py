@@ -225,9 +225,12 @@ functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 extraDetectors = ""
 
 #check beam scannables
-from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector 
+from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
 #create 'move' command
 run("/dls_sw/i09/software/gda/config/scripts/command/checkedMotion.py")
+
+from scannable.continuous.continuous_energy_scannables import cenergy, mcs2, mcs3, mcs4, mcs5  # @UnusedImport
+from scan.cvscan import cvscan  # @UnusedImport
 
 print
 print "=================================================================================================================";

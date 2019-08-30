@@ -164,7 +164,7 @@ class SoftEnergy(ScannableMotionBase):
 
     def rawGetPosition(self):
         """returns the current position of the beam energy."""
-        return self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
+        return self.scannables.getGroupMember(self.scannableNames[0]).getPosition()/1000.0
 
     def calc(self, energy, order):
         return self.idgap(energy, order)
