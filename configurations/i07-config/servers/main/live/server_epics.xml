@@ -312,7 +312,7 @@
 		<property name="currAmpController" ref="adcqca" />
 		<property name="bpmController" ref="adcbpm" />
 	</bean>
-	<bean id="adcqbpmrange" class="gda.device.monitor.EpicsMonitor">
+	<bean id="ioncrange" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07I-OP-IONC-01:MRREADBACK" />
 	</bean>
 

@@ -9,7 +9,6 @@ from gdascripts.scannable.installStandardScannableMetadataCollection import meta
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 
 blList = [beamenergy, ringcurrent]
-qcaList = [adcqca]
 idList = [idgap]
 energyList = [dcm1energy]
 
@@ -61,12 +60,12 @@ diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect,
         diff2basey1, diff2basey2, diff2basepitch]
 
 tabList = [tab1x, tab1y]
-qbpmList = [qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
+
+qbpmList = [ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
         qbpm1range, qbpm2range, qbpm3range]
 
 metadata = []
 metadata += blList
-metadata += qcaList
 metadata += idList
 metadata += energyList
 metadata += dcmList

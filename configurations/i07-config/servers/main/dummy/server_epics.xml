@@ -224,7 +224,7 @@
         <property name="bpmName" value="adcbpm"/>
     </bean>
 
-    <bean id="adcqbpmrange" class="gda.device.monitor.DummyMonitor" />
+    <bean id="ioncrange" class="gda.device.monitor.DummyMonitor" />
 
     <!--  ============================== Epics Enum Positioner definition section ============== -->
 
