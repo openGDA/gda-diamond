@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="pgm_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-PGM-01:ENERGY" />
+	</bean>
+	
+	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-PGM-01:CFF" />
+	</bean>
+
+	<bean id="pgm_mirror_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-PGM-01:MIR:PITCH" />
+	</bean>
+	
+	<bean id="pgm_mirror_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-PGM-01:MIR:X" />
+	</bean>
+
+	<bean id="pgm_grating_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-PGM-01:GRT:PITCH" />
+	</bean>
+
+	<bean id="pgm_grating_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-PGM-01:GRT:X" />
+	</bean>
+
+	<bean id="pgm_grating" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07B-OP-PGM-01:GRATINGSELECT" />
+	</bean>
+
+	<bean id="pgm_mirror" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07B-OP-PGM-01:MIRRORSELECT" />
+	</bean>
+
+	<bean id="pgm_override" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07B-OP-PGM-01:MVTYPEOVRD:RAPIDALL:CMD" />
+		<property name="positions">
+			<list>
+				<value>No Override</value>
+				<value>Override</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pgm_pressure" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-VA-GAUGE-04:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+	<bean id="pgm_t1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-OP-PGM-01:GRT:TEMP1" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-PGM-01:GRT:TEMP2" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-PGM-01:GRT:TEMP3" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-PGM-01:MIR:TEMP1" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t5" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-PGM-01:TEMP1" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+</beans>

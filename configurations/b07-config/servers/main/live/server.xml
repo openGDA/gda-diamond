@@ -5,9 +5,13 @@
 
 	<!-- Slits -->
 	<import resource="s1b.xml"/>
+	<import resource="s2b.xml"/>
+	<import resource="s3b.xml"/>
+	<import resource="s4b.xml"/>
 
 	<!-- Mirrors -->
 	<import resource="m1b.xml"/>
+	<import resource="m3b.xml"/>
 
 	<!-- Diagnostics -->
 	<import resource="d1b.xml"/>
@@ -16,8 +20,12 @@
 	<import resource="d4b.xml"/>
 	<import resource="d5b.xml"/>
 	<import resource="d6b.xml"/>
+	<import resource="d7b.xml"/>
 	<import resource="d8b.xml"/>
 	<import resource="d9b.xml"/>
+
+	<!-- Monochromators -->
+	<import resource="pgm.xml"/>
 	
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />

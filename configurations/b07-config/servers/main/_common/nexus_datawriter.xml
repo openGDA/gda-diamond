@@ -13,15 +13,32 @@
 				<!-- s1b -->
 				<value>s1b_xcentre</value>
 				<value>s1b_xsize</value>
+				<value>s1b_ysize</value>
 				<value>s1b_xpos</value>
 				<value>s1b_xneg</value>
+				<!-- s2b -->
+				<value>s2b_xsize</value>
+				<value>s2b_ysize</value>
+				<!-- s3b -->
+				<value>s3b_xsize</value>
+				<value>s3b_ysize</value>
+				<!-- s4b -->
+				<value>s4b</value>
 				<!-- m1b -->
 				<value>m1b_x</value>
-				<value>m1b_y</value>
-				<value>m1b_pitch</value>
-				<value>m1b_roll</value>
-				<value>m1b_yaw</value>
-				<value>m1b_mask_temp</value>
+				<!-- m3b -->
+				<value>m1b_x</value>
+				<!-- d1b -->
+				<value>d1b_y</value>
+				<!-- d2b -->
+				<value>d2b_y</value>
+				<!-- d5b -->
+				<value>d5b_y_positioner</value>
+				<!-- d6b -->
+				<value>d6b_y_positioner</value>
+				<!-- d7b -->
+				<value>d7b_y_positioner</value>
+
 			</set>
 		</property>
 	</bean>

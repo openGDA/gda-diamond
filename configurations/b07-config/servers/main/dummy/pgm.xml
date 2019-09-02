@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="500" />
+		<property name="unitString" value="eV" />
+	</bean>
+	
+	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="2.3" />
+	</bean>
+	
+	<bean id="pgm_mirror_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="83.3" />
+	</bean>
+	
+	<bean id="pgm_mirror_x_motor" class="gda.device.motor.DummyMotor"/>
+	
+	<bean id="pgm_grating_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="58.9" />
+	</bean>
+
+	<bean id="pgm_grating_x_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="pgm_grating" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>400 lines/mm</value>
+				<value>600 lines/mm</value>
+				<value>1200 lines/mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pgm_mirror" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Pt Stripe</value>
+				<value>Rh Stripe</value>
+				<value>Mirror Out</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pgm_pressure" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar"/>
+		<property name="value">
+			<value type="double">0.235e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="pgm_override" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>No Override</value>
+				<value>Override</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pgm_t1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">31</value>
+		</property>
+		<property name="lowerLimit" value="15" />
+		<property name="upperLimit" value="64" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="pgm_t2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">31</value>
+		</property>
+		<property name="lowerLimit" value="15" />
+		<property name="upperLimit" value="64" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="pgm_t3" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">31</value>
+		</property>
+		<property name="lowerLimit" value="15" />
+		<property name="upperLimit" value="64" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="pgm_t4" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">31</value>
+		</property>
+		<property name="lowerLimit" value="15" />
+		<property name="upperLimit" value="64" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="pgm_t5" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">31</value>
+		</property>
+		<property name="lowerLimit" value="15" />
+		<property name="upperLimit" value="64" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+</beans>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Size and centre scannable motors -->
+	<bean id="s4b_xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4b_xgap_motor" />
+	</bean>
+
+	<bean id="s4b_xgapsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4b_xsize_motor" />
+	</bean>
+
+	<bean id="s4b_ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4b_ygap_motor" />
+	</bean>
+
+	<bean id="s4b_ygapsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4b_ysize_motor" />
+	</bean>
+
+	<!-- Slits z along the beam -->
+	<bean id="s4b_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4b_z_motor" />
+	</bean>
+
+	<bean id="s4b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4b_xgap" />
+				<ref bean="s4b_xgapsize" />
+				<ref bean="s4b_ygap" />
+				<ref bean="s4b_ygapsize" />
+				<ref bean="s4b_z" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

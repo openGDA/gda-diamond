@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m3b_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3b_x_motor" />
+	</bean>
+
+	<bean id="m3b_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3b_y_motor" />
+	</bean>
+
+	<bean id="m3b_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3b_pitch_motor" />
+	</bean>
+
+	<bean id="m3b_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3b_roll_motor" />
+	</bean>
+
+	<bean id="m3b_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3b_yaw_motor" />
+	</bean>
+
+	<bean id="m3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m3b_x" />
+				<ref bean="m3b_y" />
+				<ref bean="m3b_pitch" />
+				<ref bean="m3b_roll" />
+				<ref bean="m3b_yaw" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

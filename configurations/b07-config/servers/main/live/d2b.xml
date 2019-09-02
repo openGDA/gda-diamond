@@ -7,6 +7,10 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<bean id="d2b_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-DI-PHDGN-02:Y" />
+	</bean>
+
 	<!-- D2B cam plugin -->
 	<bean id="d2b_cam1_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL07B-DI-PHDGN-02:DCAM1:CAM:" />

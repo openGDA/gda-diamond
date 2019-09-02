@@ -7,6 +7,11 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<!-- Positioner -->
+	<bean id="d4b_y_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07B-DI-PHDGN-04:Y:MP" />
+	</bean>
+
 	<!-- D4B cam plugin -->
 	<bean id="d4b_cam1_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL07B-DI-PHDGN-04:DCAM1:CAM:" />
