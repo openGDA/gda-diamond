@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	
-	<bean id="xraycam_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="xraycam_hdf5" />
+	<bean id="xrayeye_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="xrayeye_hdf5" />
 		<property name="fileTemplate" value="%s%s.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileNameTemplate" value="" />
@@ -13,7 +13,7 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
- 	<bean id="xraycam_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+	<bean id="xrayeye_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
         <property name="restoreAcquireTime" value="true" />
         <property name="decoratee">
             <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
@@ -22,7 +22,7 @@
                     <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
                         <property name="decoratee">
                             <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-                                <property name="adBase" ref="xraycam_adbase" />
+                                <property name="adBase" ref="xrayeye_adbase" />
                                 <property name="restoreAcquireState" value="true"/>
                             </bean>
                         </property>
@@ -34,24 +34,24 @@
     </bean>
 
 	<!-- Main area detector - does not compute stats -->
-	<bean id="xraycam_det" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="xraycam_adbase" />
-		<property name="ndFile" ref="xraycam_ndfile" />
-		<property name="ndArray" ref="xraycam_ndarray" />
-		<property name="ndStats" ref="xraycam_stats" />
-		<property name="fileWriter" ref="xraycam_hdf5_writer" />
-		<property name="collectionStrategy" ref="xraycam_collection_strategy"/>
+	<bean id="xrayeye_det" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="xrayeye_adbase" />
+		<property name="ndFile" ref="xrayeye_ndfile" />
+		<property name="ndArray" ref="xrayeye_ndarray" />
+		<property name="ndStats" ref="xrayeye_stats" />
+		<property name="fileWriter" ref="xrayeye_hdf5_writer" />
+		<property name="collectionStrategy" ref="xrayeye_collection_strategy"/>
 		<property name="computeStats" value="false" />
 	</bean>
 
 	<!-- Stats-computing version -->
-	<bean id="xraycam_det_stat" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="xraycam_adbase" />
-		<property name="ndFile" ref="xraycam_ndfile" />
-		<property name="ndArray" ref="xraycam_ndarray" />
-		<property name="ndStats" ref="xraycam_stats" />
-		<property name="fileWriter" ref="xraycam_hdf5_writer" />
-		<property name="collectionStrategy" ref="xraycam_collection_strategy"/>
+	<bean id="xrayeye_det_stat" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="xrayeye_adbase" />
+		<property name="ndFile" ref="xrayeye_ndfile" />
+		<property name="ndArray" ref="xrayeye_ndarray" />
+		<property name="ndStats" ref="xrayeye_stats" />
+		<property name="fileWriter" ref="xrayeye_hdf5_writer" />
+		<property name="collectionStrategy" ref="xrayeye_collection_strategy"/>
 		<property name="computeStats" value="true" />
 	</bean>
 
