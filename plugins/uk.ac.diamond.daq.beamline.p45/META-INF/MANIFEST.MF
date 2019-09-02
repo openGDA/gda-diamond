@@ -4,4 +4,5 @@ Bundle-Name: Test rig beamline P45
 Bundle-SymbolicName: uk.ac.diamond.daq.beamline.p45;singleton:=true
 Bundle-Version: 9.8.0.qualifier
 Bundle-Vendor: Diamond Light Source
-Require-Bundle: org.eclipse.equinox.app
+Require-Bundle: org.eclipse.equinox.app,
+ uk.ac.diamond.daq.beamline.k11;bundle-version="1.0.0"
