@@ -867,4 +867,12 @@
 
     <bean id="s20_motor_ysize" class="gda.device.motor.DummyMotor"/>
 
+    <!-- xyz Stage for the Pilatus 2M -->
+
+    <bean id="stagex_motor" class="gda.device.motor.DummyMotor" />
+
+    <bean id="stagey_motor" class="gda.device.motor.DummyMotor" />
+
+    <bean id="stagez_motor" class="gda.device.motor.DummyMotor" />
+
 </beans>

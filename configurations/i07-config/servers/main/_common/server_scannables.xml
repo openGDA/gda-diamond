@@ -1453,6 +1453,34 @@
         <property name="pvName" value="BL07I-OP-FILT-01:FILTER13:CTRL" />
     </bean>
 
+    <!-- xyz Stage for the Pilatus 2M -->
+
+    <bean id="stagex" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="stagex" />
+        <property name="motor" ref="stagex_motor" />
+    </bean>
+
+    <bean id="stagey" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="stagey" />
+        <property name="motor" ref="stagey_motor" />
+    </bean>
+
+    <bean id="stagez" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="stagez" />
+        <property name="motor" ref="stagez_motor" />
+    </bean>
+
+    <bean id="STAGE" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="name" value="STAGE" />
+        <property name="groupMembers">
+            <list>
+                <ref bean="stagex" />
+                <ref bean="stagey" />
+                <ref bean="stagez" />
+            </list>
+        </property>
+    </bean>
+
     <bean id="ALL_MOTORS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -1641,7 +1669,11 @@
                 <ref bean="dcdxcenter" />
                 <ref bean="dcdxrotoffset" />
                 <ref bean="dcdxtilt" />
-                
+
+                <!-- P2M Addidional Stage -->
+                <ref bean="stagex" />
+                <ref bean="stagey" />
+                <ref bean="stagez" />
                 
             </list>
         </property>
