@@ -1,0 +1,8 @@
+# Setup specific to this instance, that is done before the client is started
+
+# Unless overridden, limit Malloc arena memory usage to 512MB (4x 128MB):
+
+export MALLOC_ARENA_MAX=${MALLOC_ARENA_MAX:-4}
+
+# Without this, Malloc arena memory usage to will rise to 128MB per thread, up
+# to 8x number of CPU hyperthreads (so 8GB on a 4C8T cpu). See I16-677
