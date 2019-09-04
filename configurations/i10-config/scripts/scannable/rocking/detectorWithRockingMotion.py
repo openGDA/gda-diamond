@@ -7,7 +7,7 @@ Created on 2 Aug 2019
 '''
 from gda.device.detector import NXDetector
 import math
-
+from gda.device import DeviceException
 ADJUST_MOTOR_SPEED=False
 ROCKING_RANGE_CENTRE=0.0
 
@@ -41,30 +41,40 @@ class NXDetectorWithRockingMotion(NXDetector):
             start_motor_angle=ROCKING_RANGE_CENTRE-motor_range/2.0
             end_motor_angle=ROCKING_RANGE_CENTRE+motor_range/2.0
             
-            if (start_motor_angle/2.0) < self.motor.getLowerMotorLimit():
+            if start_motor_angle < self.motor.getLowerMotorLimit():
                 raise Exception("start rocking angle is outside hardware low limit")
-            if (end_motor_angle/2.0) > self.motor.getUpperMotorLimit():
+            if end_motor_angle > self.motor.getUpperMotorLimit():
                 raise Exception("end rocking angle is outside hardware high limit")
         else:
+            # there is minimum exposure time implied here
             motorspeed=(self.motor.getUpperMotorLimit() - self.motor.getLowerMotorLimit())/self.detector.getCollectionTime()
-            #Need to check if motor speed is valid or not
+            if motorspeed < 0.0 or motorspeed > 1.388889 :
+                raise DeviceException("motor speed %f calculated is outside allowed range [0.0, 1.388889]" % motorspeed)
             self.motor.setSpeed(motorspeed)
             start_motor_angle = self.motor.getLowerMotorLimit()
             end_motor_angle = self.motor.getUpperMotorLimit()
         return start_motor_angle, end_motor_angle
 
     def atScanStart(self):
-        self.detector.atScanStart()
         self.start_motor_angle,self.end_motor_angle = self.calculateStartStopPosition(ADJUST_MOTOR_SPEED)
+        print("move theta to start position %f at Scan Start ..." % self.start_motor_angle)
         self.motor.moveTo(self.start_motor_angle)
+        self.detector.atScanStart()
+        self.point_count=1
         
     def collectData(self):
+#         print("Acquiring image %d" % self.point_count)
+        if self.motor.isBusy():
+            self.motor.waitWhileBusy()
         curpos = float(self.motor.getPosition())
         if math.fabs(curpos - self.start_motor_angle) < math.fabs(curpos - self.end_motor_angle): 
+            print("move theta to end position %f while collecting image number %d ..." % (self.end_motor_angle, self.point_count))
             self.motor.asynchronousMoveTo(self.end_motor_angle)
         else:
+            print("move theta to start position %f while collecting image number %d ..." % (self.start_motor_angle, self.point_count))
             self.motor.asynchronousMoveTo(self.start_motor_angle)
-        self.collectData()
+        self.detector.collectData()
+        self.point_count=self.point_count+1
     
     def readout(self):
         self.motor.stop()
@@ -73,6 +83,12 @@ class NXDetectorWithRockingMotion(NXDetector):
     def stop(self):
         self.detector.stop()
         self.motor.stop()
+        
+    def setCollectionTime(self,time):
+        self.detector.setCollectionTime(time)
+        
+    def getCollectionTime(self):
+        return self.detector.getCollectionTime()
         
     def atCommandFailure(self):
         self.detector.atCommandFailure()
@@ -152,10 +168,4 @@ class NXDetectorWithRockingMotion(NXDetector):
         
     def atScanEnd(self):
         self.detector.atScanEnd()
-        
-    
-    
-
-    
-    
         

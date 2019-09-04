@@ -3,7 +3,7 @@ Created on 2 Aug 2019
 
 @author: fy65
 '''
-from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion
+from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion, ROCKING_RANGE_CENTRE, ADJUST_MOTOR_SPEED
 from gdaserver import pimte, th, pixis
 
 thpimte=NXDetectorWithRockingMotion("thpimte", th, pimte)

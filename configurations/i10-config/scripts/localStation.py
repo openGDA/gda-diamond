@@ -226,14 +226,14 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from data_process.scanDataProcess import *  # @UnusedWildImport
 
 #Continuous Scan scannables and commands
-from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
-from scan.cvscan import cvscan, cvscan2 # @UnusedImport
 from scannable.id_energys.idu_energy_gap import * # @UnusedWildImport
 from scannable.id_energys.idd_energy_gap import *  # @UnusedWildImport
 from scannable.id_energys.idu_energy_jawphase import *  # @UnusedWildImport
 from scannable.id_energys.idd_lin_energy import * # @UnusedWildImport
 from scannable.id_energys.idu_switchable import *  # @UnusedWildImport
 from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
+from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
+from scan.cvscan import cvscan, cvscan2 # @UnusedImport
 alias('cvscan')
 #create 'smode', 'pol', and 'enenry'
 from scannable.idcontrols.mode_polarisation_energy_instances import *  # @UnusedWildImport
@@ -264,13 +264,19 @@ except:
 alias('wa')
 
 print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
-wherescannables=[tth,th,chi,phi,h,k,l,en]
+wherescannables=[tth,th,chi,phi,h,k,l,en]  # @UndefinedVariable
 try:
     wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
 except:
     localStation_exception(sys.exc_info(), "create wh error.")
 
 alias('wh')
+
+from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion, ROCKING_RANGE_CENTRE, ADJUST_MOTOR_SPEED  # @UnusedImport
+from gdaserver import pimte, pixis
+
+thpimte=NXDetectorWithRockingMotion("thpimte", th, pimte)
+thpixis=NXDetectorWithRockingMotion("thpixis", th, pixis)
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
