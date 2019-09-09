@@ -15,6 +15,9 @@
 	<bean id="simy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref ="simy_motor"/>
 	</bean>
+	<bean id="simz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref ="simz_motor"/>
+	</bean>
 	<!-- simtheta is used in the simulated tomography scan -->
 	<bean id="simtheta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="simtheta_motor" />

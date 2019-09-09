@@ -5,20 +5,48 @@
 
 	<description>
 		To use the Simulated Area detector in dummy mode:
-			1) Launch the Utilities > GDA SWMR AreaDetector Simulation
-				on the local machine and start the IOC in localhost.
+		1) Launch the Utilities > GDA SWMR AreaDetector Simulation
+		on the local machine and start the IOC in localhost.
 	</description>
 
-	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	<!-- <bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/> -->
+
+	<!-- <bean id="mic_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration"> -->
+	<!-- <property name="displayName" value="Simulated Area Detector" /> -->
+	<!-- <property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" /> -->
+	<!-- If you want the EPICS array stream option add this. Commented out by 
+		default as WORKSTATION might not be set -->
+	<!-- <property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] 
+		}-AD-SIM-01:ARR" /> -->
+	<!-- <property name="roiProvider" ref="mic_roi" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="mic_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" /> -->
+
+	<!-- scannables to calibrate live stream axes -->
+	<bean id="beam_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="beam_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	
-	<bean id="mic_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Area Detector" />
-		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
-		<!-- If you want the EPICS array stream option add this. Commented out by default as WORKSTATION might not be set -->
-		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
-		<property name="roiProvider" ref="mic_roi" />
+	<bean id="my_calibration" class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+                <constructor-arg name="xAxisScannable" ref="beam_x"/>
+                <constructor-arg name="yAxisScannable" ref="beam_y"/>
+                <constructor-arg name="xAxisPixelScaling" value="0.004"/> <!-- Number of pixels per scannable unit in x axis  -->
+                <constructor-arg name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
+                <constructor-arg name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+                <constructor-arg name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
 	</bean>
-		 
-	<bean id="mic_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-		 
+	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />
+	<bean id="workstation" class="java.lang.String">
+		<constructor-arg value="#{ localhostname.hostName.split('\.')[0] }" />
+	</bean>
+ 	<bean id="sim_pvbase" class="java.lang.String">
+		<constructor-arg value="#{workstation}-AD-SIM-01" />
+	</bean>
+	<bean id="d2_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D2" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="calibratedAxesProvider" ref="my_calibration" />
+	</bean>
+
 </beans>

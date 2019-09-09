@@ -1,13 +1,23 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> <!-- Contains all configuration for the malcolm simulations -->
+	<!-- Contains all configuration for the malcolm simulations -->
+	<import
+		resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
+	<import	resource="file:${gda.config}/servers/main/dummy/sim_area_detector.xml" />
+	<alias name="sim_adbase" alias="cam_adbase" />
+	<alias name="sim_roi" alias="cam_roi" />
+	<bean id="imaging_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="cam_adbase" />
+		<constructor-arg ref="cam_roi" />
+	</bean>
 
-	<import resource="stages/tomography_stack_motors.xml"/>
+
 
 	<!-- Do not remove anything below here -->
-	<import resource="../../main/_common/server.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>

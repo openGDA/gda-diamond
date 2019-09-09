@@ -1,67 +1,214 @@
+#from gdaserver import theta
 from gdaserver import *
 from localStation import *
 import time
+#from gdascripts.mscanHandler import *
 
+#import importlib
+#motor_name = 'theta'
+#motor = importlib.import_module('gdaserver.%s' % motor_name)
+#print motor
+
+#mscan(motor, 'points', 0,10, 'step', 0.1)
 #print('hello there from the script')
 
 #print(beam_x)
 #print(beam_y)
 #mscan(path=grid((beam_x, beam_y), (1,1), (0,0), (10,4)), dev=('mandelbrot'))
 
+#print locals()['simx']
+
+#def testMscan(motor):
+#    malc = getRunnableDeviceService().getRunnableDevice("ws157-ML-SCAN-01")
+    #malc.model.getExposureTime()
+    #dir(malc)
+#    print "MY MOTOR"
+#    print motor
+#    print malc
+#    mscan motor axis 0 10 step 0.2 malc
+    #mscan motor axis 0 10 step 0.2
+    #pos stagex 20
+    #mymotor = locals()['theta']
+    #mscan mymotor 'axis'
+    
+#testMscan(locals()['simx'])
+
 class MissingParameter(Exception):
-    pass
+    def __init__(self, parameter, msg=None):
+        if msg is None:
+            # Set some default useful error message
+            self.msg = "Missing parameter %s" % parameter
+        else:
+            self.msg = msg
+        self.parameter = parameter
+        print self.msg
+
+# Better would be to have a class to deserialize the message but for now this looks more handy
+class TomographyJSON:    
+    START_OBJ = 'start'
+    START_ANGLE = 'start'      
+    
+    END_OBJ = 'end'
+    RANGE_TYPE = 'rangeType'
+    RANGE_180 = 'RANGE_180'
+    RANGE_360 = 'RANGE_360'
+    RANGE_CUSTOM = 'RANGE_CUSTOM'
+    CUSTOM_ANGLE = 'customAngle'
+    
+    
+    IMAGE_CALIBRATION = 'imageCalibration'
+    DARK_EXPOSURE = 'darkExposure'
+    FLAT_EXPOSURE = 'flatExposure'
+    
+    PROJECTIONS = 'projections'
+    ANGULAR_STEP = 'angularStep'
+    
+    MULTIPLE_SCANS = 'multipleScans'
+
+    EXPOSURE = 'EXPOSURE'
+
+    STAGE_ROT_Y = 'MOTOR_STAGE_ROT_Y'
+    
+    MODE = 'mode'
+    MOTORS = 'motors'
+    METADATA = 'metadata'
+    MALCOLM_TOMO = 'MALCOLM_TOMO'
+    
+    MOTOR_POSITIONS = 'motorPositions'
+    START = 'START'
+    OUT_OF_BEAM = 'OUT_OF_BEAM'
+    
     
 class TomographySlave:      
 
-    def __init__(self, configuration, task):
-        self.configuration = configuration
+    def __init__(self, configuration, mode, motorPositions, task, env):
+        if (configuration is None):
+            raise MissingParameter()
+        self.configuration = configuration.get('acquisitionParameters', {})
+        self.mode = mode
+        self.motorPositions = motorPositions
         self.task = task
+        self.env = env
+        self._malcolmTomographyDevice = None
+
+    def _getObjectParameter(self, object, parameterName):
+        if (not object.has_key(parameterName)):
+            raise MissingParameter(parameterName)
+        return object.get(parameterName)
 
     def _getImageCalibration(self):
-        if (not tomoConfig.has_key('imageCalibration')):
-            raise MissingParameter()
-        return tomoConfig['imageCalibration']
+        return self._getObjectParameter(self.configuration, TomographyJSON.IMAGE_CALIBRATION)
 
     def _getProjections(self):
-        if (not tomoConfig.has_key('projections')):
-            raise MissingParameter()
-        return tomoConfig['projections']
+        return self._getObjectParameter(self.configuration, TomographyJSON.PROJECTIONS)
     
     def _getMultipleScans(self):
-        if (not tomoConfig.has_key('multipleScans')):
-            raise MissingParameter()
-        return tomoConfig['multipleScans']
+        return self._getObjectParameter(self.configuration, TomographyJSON.MULTIPLE_SCANS)
+    
+    def _getStartObject(self):
+        return self._getObjectParameter(self.configuration, TomographyJSON.START_OBJ)
+    
+    def _getEndObject(self):
+        return self._getObjectParameter(self.configuration, TomographyJSON.END_OBJ)    
+    
+    def _getMotors(self):
+        return self._getObjectParameter(self.mode, TomographyJSON.MOTORS)
+    
+    def _getModeMetadata(self):
+        return self._getObjectParameter(self.mode, TomographyJSON.METADATA)
+    
+    def _closeShutter(self):
+        print 'closeShutter'
+    
+    def _openShutter(self):
+        print 'openShutter'
+    
+    def _movesToPosition(self, definedPosition):
+        oobPositions = self._getObjectParameter(self.motorPositions, definedPosition)
+        for position in oobPositions:
+            self._moveMotor(position.get('name'), position.get('value'))
+        
+    def _moveMotor(self, name, value):        
+        motor = self._getMotorInstance(name);
+        if (motor is not None):
+            pos motor value
+    
+    def _getMotorInstance(self, name):
+        if (self._getMotors().has_key(name)):
+            return self.env[self._getMotors().get(name).get('name', None)]
     
     def _takeDarkImage(self):
         imageCalibration = self._getImageCalibration()
-        print 'takeDarkImage'
+        numImages = imageCalibration.get('numberDark',0)
+        if (numImages > 0):
+            self._closeShutter()
+            malc = self._getMalcolmTomographyDevice()
+            self._setMalcolmTomographyDeviceExposure(malc, imageCalibration.get(TomographyJSON.DARK_EXPOSURE, 0))
+            print "DARK exposure " + str(malc.model.getExposureTime())
+        for index in range(0, numImages):
+            print 'takeDarkImage'
+        self._openShutter()
+        
     
     def _takeFlatImage(self):
         imageCalibration = self._getImageCalibration()
-        print 'takeFlatImage'
+        numImages = imageCalibration.get('numberFlat',0)
+        if (numImages > 0):
+            print 'Goes out of beam'
+            self._movesToPosition(TomographyJSON.OUT_OF_BEAM)
+            malc = self._getMalcolmTomographyDevice()
+            self._setMalcolmTomographyDeviceExposure(malc, imageCalibration.get(TomographyJSON.FLAT_EXPOSURE, 0))
+            print "FLAT exposure " + str(malc.model.getExposureTime())
+        for index in range(0, numImages):
+            print 'takeFlatImage'
+        if (numImages > 0):      
+            print 'Restores start position'      
+            self._movesToPosition(TomographyJSON.START)
+
+    def _getMalcolmTomographyDeviceName(self):
+        return self._getModeMetadata().get(TomographyJSON.MALCOLM_TOMO, None)
+
+    def _acquireDarkAndFlat(self):
+        self._takeDarkImage()
+        self._takeFlatImage()
     
+    def _getMalcolmTomographyDevice(self):
+        if (self._malcolmTomographyDevice is None):
+            self._malcolmTomographyDevice = getRunnableDeviceService().getRunnableDevice(self._getMalcolmTomographyDeviceName())
+        return self._malcolmTomographyDevice
+    
+    def _setMalcolmTomographyDeviceExposure(self, malc, exposureTime):
+        malc.model.setExposureTime(exposureTime)
 
-
-    def _acquireDarkAndFlat(self, imageCalibration): 
-        for index in range(0, imageCalibration['numberDark']):
-            self._takeDarkImage()
-        for index in range(0, imageCalibration['numberFlat']):
-            self._takeFlatImage()
+    def _getEndAngle(self, range):
+        if (range == TomographyJSON.RANGE_180):
+            return 180.0
+        if (range == TomographyJSON.RANGE_360):
+            return 360.0
+        return self._getEndObject().get(TomographyJSON.CUSTOM_ANGLE)         
+    
+    def _getCameraExposure(self):
+        return float(self._getModeMetadata().get(TomographyJSON.EXPOSURE, 100))
     
     def _acquire(self):
-        print 'acquire'
-        mscan(beam_x, beam_y, rect, 0, 0, 10, 10, rast, 1, 1, mandelbrot)
+        rotStage = self._getMotorInstance(TomographyJSON.STAGE_ROT_Y)
+        malc = self._getMalcolmTomographyDevice()
+        exposureTime = self._getCameraExposure()/1000 # exposure is in seconds while UI return in milliseconds
+        self._setMalcolmTomographyDeviceExposure(malc, exposureTime)
+        start_angle = self._getStartObject().get(TomographyJSON.START_ANGLE)
+        end_angle = self._getEndAngle(self._getEndObject().get(TomographyJSON.RANGE_TYPE))
+        angularStep = self._getProjections().get(TomographyJSON.ANGULAR_STEP) 
+        #mscan rotStage axis 0 10 step 0.2 malc
+        mscan rotStage axis start_angle end_angle step angularStep malc
 
-    def _doAcquisition(self):
-        projections = self._getProjections()
-        imageCalibration = self._getImageCalibration()      
-        if (imageCalibration['beforeAcquisition']):
-            self._acquireDarkAndFlat(imageCalibration)                
+    def _doAcquisition(self):     
+        if (self._getImageCalibration().get('beforeAcquisition', False)):
+            self._acquireDarkAndFlat()                
 
         self._acquire()
         
-        if (imageCalibration['afterAcquisition']):
-            self._acquireDarkAndFlat(imageCalibration)
+        if (self._getImageCalibration().get('afterAcquisition', False)):
+            self._acquireDarkAndFlat()
 
     def _doAcquisitions(self):
         print 'startAcquisitions'
@@ -113,5 +260,5 @@ else:
 
 print 'task: ' + task
 print tomoConfig
-slave = TomographySlave(tomoConfig['acquisitionConfiguration']['acquisitionParameters'], task)
+slave = TomographySlave(tomoConfig['acquisition']['acquisitionConfiguration'], tomoConfig[TomographyJSON.MODE], tomoConfig[TomographyJSON.MOTOR_POSITIONS], task, locals())
 slave.doTask()            

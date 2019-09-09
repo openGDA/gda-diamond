@@ -63,7 +63,7 @@ import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
-import uk.ac.gda.tomography.scan.editor.view.TomographyMessages;
+import uk.ac.gda.tomography.service.message.TomographyMessages;
 import uk.ac.gda.tomography.ui.tool.TomographySWTElements;
 
 /**

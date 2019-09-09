@@ -20,4 +20,6 @@
 	<import resource="file://${gda.facility.dir}/clients/_common/stage_controls_tree.xml"/>
 	<import resource="mapping.xml"/>
 
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml"/>
+
 </beans>

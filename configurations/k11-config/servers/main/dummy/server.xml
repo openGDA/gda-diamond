@@ -8,6 +8,8 @@
 	<import resource="file:${gda.config}/servers/main/dummy/detectors/simulation/mandelbrot_detectors.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
-<!-- 	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> Contains all configuration for the malcolm simulations -->
+	
+	<!-- Contains all configuration for the malcolm simulations -->
+	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> 
 
 </beans>
