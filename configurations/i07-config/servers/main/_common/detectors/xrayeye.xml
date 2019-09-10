@@ -55,4 +55,6 @@
 		<property name="computeStats" value="true" />
 	</bean>
 
+	<alias name="xrayeye" alias="xrayeye_png" />
+
 </beans>
