@@ -14,8 +14,7 @@
       <vmArgs>-Dgda.root=${project_loc:uk.ac.gda.core}/../                        -Dgda.config=${project_loc:i15-1-config}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git       -Dgda.logs.dir=${workspace_loc}/../logs
 -Dgda.instance.dir=${project_loc:i15-1-config}                       -Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
--Djacorb.config.dir=${project_loc:i15-1-config}/properties/live/jacorb              -Dgda.mode=live
+-Dgda.core.dir=${project_loc:core-config}                                -Dgda.mode=live
 -Dgda.propertiesFile=${project_loc:i15-1-config}/properties/live/live_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i15-1-config}/properties/live/JCALibrary.properties
 -Declipse.pluginCustomization=${project_loc:i15-1-config}/clients/main/_common/pluginCustomization.ini
