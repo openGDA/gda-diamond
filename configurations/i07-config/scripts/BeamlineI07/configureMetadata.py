@@ -8,6 +8,11 @@ from gdascripts.scannable.installStandardScannableMetadataCollection import meta
 # defined in i07-config required_at_start.xml
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 
+# Temp workaround to retain order of insertion
+# Can be deleted once change 22260 is merged
+from java.util import LinkedHashSet
+NexusDataWriter.setMetadatascannables(LinkedHashSet())
+
 blList = [beamenergy, ringcurrent]
 idList = [idgap]
 energyList = [dcm1energy]
