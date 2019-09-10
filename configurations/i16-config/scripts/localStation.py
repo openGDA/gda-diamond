@@ -40,14 +40,6 @@ except Exception as e:
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
-localStation_print("Importing * from gdaserver.py...", 10)
-try:
-	from gdaserver import * # @UnusedWildImport
-except Exception as e:
-	localStation_exception("importing * from gdaserver.py" , e)
-
-localStation_print("... * imported from gdaserver.py", 10)
-
 global Finder, pos, finder, add_default, meta
 
 global sixckappa_cryo, cryophi
@@ -176,8 +168,8 @@ from element_library import *
 from scannable.toggleBinaryPvAndWaitScannable import ToggleBinaryPvAndWait
 from misc_functions import list_scannables, listprint, frange, attributes, caput, caget, cagetArray, add, mult
 import pd_offset
-from analysis_FindScanPeak import FindScanPeak
-from analysis_FindScanCentroid import findCentroidPoint, FindScanCentroid, readSRSDataFile
+from analysis.FindScanPeak import FindScanPeak
+from analysis.FindScanCentroid import findCentroidPoint, FindScanCentroid, readSRSDataFile
 from device_serial import SerialDevice
 from device_serial_ace import ace
 from device_tca import TCA
@@ -1254,22 +1246,25 @@ if installation.isLive():
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
-try:
-	if not USE_DIFFCALC:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, PPR,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
-				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
-				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
-	else:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, PPR,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
-				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
-				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
 
-	addedInSpring = [sixckappa] + [delta_axis_offset]
-	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
+try:
+	from gdascripts.parameters import beamline_parameters
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+except e:
+	localStation_exception("creating jythonNameMap", e)
+
+try:
+	meta_scannable_names = ['dummypd', 'mrwolf', 'diffractometer_sample', 'sixckappa']
+	if not USE_DIFFCALC:
+		meta_scannable_names += ['xtalinfo']
+	meta_scannable_names += ['source', 'jjslits', 'pa', 'PPR',
+			  'positions', 'gains_atten', 'mirrors', 'beamline_slits', 'mono', 'frontend', 'lakeshore', 'offsets',
+			  's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans',
+			  'ppy', 'ppx', 'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
+			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp']
+
+	addedInSpring = ['sixckappa', 'delta_axis_offset']
+	meta_scannable_names = [ _x for _x in meta_scannable_names if _x != None and not _x in addedInSpring ]
 
 	from gdascripts.scannable.metadata import _is_scannable
 
@@ -1279,10 +1274,10 @@ try:
 		except:
 			pass
 		localStation_print("Adding metadata:")
-		for item in toadd:
-			if _is_scannable(item):
-				meta_add(item)
-				localStation_print("  %s added" % item.name)
+		for item in meta_scannable_names:
+			if _is_scannable(jythonNameMap[item]):
+				meta_add(jythonNameMap[item])
+				localStation_print("  %s added" % item)
 			else:
 				localStation_print("  %s was not scannable and could not be entered as metadata" % item.name)
 	else:

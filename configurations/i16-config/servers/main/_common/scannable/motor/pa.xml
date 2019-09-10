@@ -9,6 +9,7 @@
 
 	<bean id="thp" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="PAThetaMotor" />
+		<property name="outputFormat" value="%.7g" />
 	</bean>
 
 	<bean id="tthp" class="gda.device.scannable.ScannableMotor">
