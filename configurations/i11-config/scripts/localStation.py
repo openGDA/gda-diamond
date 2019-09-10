@@ -322,6 +322,19 @@ csb2_p_monitor = CsbPidMonitor(csb2, upper=251, lower=249, high_p=150, low_p=300
 csb2.addIObserver(csb2_p_monitor)
 add_reset_hook(lambda obs=csb2_p_monitor: csb2.deleteIObserver(obs))
 
+from config_tests.spin_check import ScanSpinCheck, SpinCheck
+_cvscan_detector = cvscan
+_scan_listener_spin_check = ScanSpinCheck(spin)
+def autoSpinOn():
+    global cvscan
+    cvscan, _ = SpinCheck(_cvscan_detector, spin), 0 # Scannable overwriting awkwardness
+    add_default(_scan_listener_spin_check)
+
+def autoSpinOff():
+    global cvscan
+    cvscan, _ = _cvscan_detector, 0
+    remove_default(_scan_listener_spin_check)
+
 from gdascripts.scan import gdascans
 from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
 from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import GaussianPeakAndBackground
