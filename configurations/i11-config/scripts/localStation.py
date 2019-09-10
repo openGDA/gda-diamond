@@ -335,6 +335,13 @@ def autoSpinOff():
     cvscan, _ = _cvscan_detector, 0
     remove_default(_scan_listener_spin_check)
 
+from config_tests import rebinning
+macRebinner = rebinning.MacRebinner('/dls_sw/apps/i11/hrpd.git/scripts/rebin', '--no-sum', '--rebin', e='.xye')
+cvscan.scriptController.addIObserver(macRebinner)
+add_reset_hook(lambda c=cvscan.scriptController, x=macRebinner: c.deleteIObserver(x))
+macRebinner.step_size = []
+print 'Set up automatic mac rebinning. To set step sizes: >>> macRebinner.step_size = [0.001]'
+
 from gdascripts.scan import gdascans
 from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
 from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import GaussianPeakAndBackground
