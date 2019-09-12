@@ -107,7 +107,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 	protected void createSections(final SashForm parentComposite) {
 		createExperimentPropertiesComposite(parentComposite);
 		createStartStopScanSection(parentComposite);
-		int[] weights = new int[] {10, 2};
+		int[] weights = new int[] {8, 1};
 		parentComposite.setWeights(weights);
 	}
 
@@ -139,7 +139,15 @@ public class TimeResolvedExperimentView extends ViewPart {
 		scrolledform.setText("Time-resolved studies");
 		createExperimentDetailsSection(form.getBody());
 		createGroupSection(form.getBody());
+		createCalibrationSection(form.getBody());
 		form.layout();
+	}
+
+	private SingleSpectrumCollectionWidgets singleSpectrumWidgets;
+	private void createCalibrationSection(Composite parent) {
+		singleSpectrumWidgets = new SingleSpectrumCollectionWidgets();
+		singleSpectrumWidgets.setToolkit(toolkit);
+		singleSpectrumWidgets.createEnergyCalibrationSection(parent);
 	}
 
 	protected void createStartStopScanSection(Composite parent) {
@@ -218,6 +226,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
+			SingleSpectrumCollectionWidgets.updateCalibrationDetails(params);
 			getModel().setupFromParametersBean(params);
 		}
 	}
@@ -328,6 +337,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 	public void dispose() {
 		sampleMotorsComposite.dispose();
 		dataBindingCtx.dispose();
+		singleSpectrumWidgets.dispose();
 		super.dispose();
 	}
 }

@@ -85,6 +85,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	@Expose
 	private boolean useTopupCheckerForIt;
 
+	public static final String CALIBRATION_DETAILS = "calibrationDetails";
 	private CalibrationDetails calibrationDetails;
 
 	private ScanJob job;
@@ -216,7 +217,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		experimentDataModel.setScannablesToMonitor(params.getScannablesToMonitorDuringScan());
 		setMultipleItModelParmeters(params);
 
-		calibrationDetails = params.createEnergyCalibration();
+		setCalibrationDetails(params.createEnergyCalibration());
 	}
 
 	private void setMultipleItModelParmeters(TimeResolvedExperimentParameters params) {
@@ -445,7 +446,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	public void setCalibrationDetails(CalibrationDetails calibrationDetails) {
-		this.calibrationDetails = calibrationDetails;
+		this.firePropertyChange(CALIBRATION_DETAILS, this.calibrationDetails, this.calibrationDetails = calibrationDetails);
 	}
 
 	public void save() throws DetectorUnavailableException {

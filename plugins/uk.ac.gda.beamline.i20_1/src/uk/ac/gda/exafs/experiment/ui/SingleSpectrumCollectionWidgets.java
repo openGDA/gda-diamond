@@ -77,6 +77,8 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 	private SampleDetailsSection sampleDetailComposite;
 	private ScannablePositionsComposite scannablePositions;
 	private SampleStageMotorsComposite sampleStageSectionsParent;
+	private EnergyCalibrationComposite energyCalComposite;
+
 	private IJythonServerStatusObserver serverObserver;
 
 	public SingleSpectrumCollectionWidgets() {
@@ -144,7 +146,6 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 		singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 	}
 
-	EnergyCalibrationComposite energyCalComposite;
 	public void createEnergyCalibrationSection(Composite parent) {
 		energyCalComposite = new EnergyCalibrationComposite(parent);
 		energyCalComposite.setShowPositions(false);
@@ -152,19 +153,36 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 
 		// Get calibration from detector, update the model and gui
 		CalibrationDetails currentDetectorCalibration = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
-		getModel().setCalibrationDetails(currentDetectorCalibration);
+
+		// always want to deal with SingleSpectrumCollection model for the calibration details
+		final SingleSpectrumCollectionModel modelForEnergyCalibration = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+
+		modelForEnergyCalibration.setCalibrationDetails(currentDetectorCalibration);
 		updateCalibrationGui(currentDetectorCalibration);
 
 		// Update the detector and model after calibration has completed.
 		energyCalComposite.setAfterCalibrationRunnable(() -> {
 			CalibrationDetails calibration = energyCalComposite.getCalibrationDetails();
 			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibration);
-			getModel().setCalibrationDetails(calibration);
+			modelForEnergyCalibration.setCalibrationDetails(calibration);
+		});
+
+		// Listener to automatically update the GUI when the calibration model changes
+		modelForEnergyCalibration.addPropertyChangeListener(SingleSpectrumCollectionModel.CALIBRATION_DETAILS, event -> {
+			CalibrationDetails calibration = (CalibrationDetails) event.getNewValue();
 			updateCalibrationGui(calibration);
+
+			// Also set the calibration for SingleSpectrumCollectionWithMapping to match the new one.
+			if (model == ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentMappingModel()) {
+				model.setCalibrationDetails(calibration);
+			}
 		});
 	}
 
 	private void updateCalibrationGui(CalibrationDetails calibrationDetails) {
+		if( energyCalComposite.getSampleFileTextbox().isDisposed()) {
+			return;
+		}
 		if (calibrationDetails != null) {
 			energyCalComposite.setPolynomialString(calibrationDetails.getFormattedPolinormal());
 			energyCalComposite.setSampleFileName(calibrationDetails.getSampleDataFileName());
@@ -204,6 +222,9 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 	}
 
 	private void updateScannablePositionsGui() {
+		if (scannablePositions == null) {
+			return;
+		}
 		logger.debug("Update scannable positions GUI from model");
 		ExperimentDataModel dataModel = getModel().getExperimentDataModel();
 		scannablePositions.setCollectMultipleSpectra(dataModel.isCollectMultipleItSpectra());
@@ -308,31 +329,44 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
-
-			CalibrationDetails currentCalibration = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
-			String currentPoly = currentCalibration == null ? "" : currentCalibration.getFormattedPolinormal();
-
-			CalibrationDetails newCalibration = params.createEnergyCalibration();
-			String newPoly = newCalibration == null ? "" : newCalibration.getFormattedPolinormal();
-
-			boolean updateDetectorCalibration = true;
-			if (!currentPoly.isEmpty() && !newPoly.equals(currentPoly)){
-				String message = "Replace current energy calibration polynomial : \n\t '"+currentPoly+"'\n "+
-								 "with the one from the file : \n\t'"+newPoly+"' ?";
-				updateDetectorCalibration = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Replace detector energy polynomial", message);
-			}
-
+			updateCalibrationDetails(params);
 			getModel().setupFromParametersBean(params);
-
-			// Update the detector with the new calibration if required
-			if (updateDetectorCalibration) {
-				DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(newCalibration);
-			} else {
-				// set the model back to the old calibration
-				getModel().setCalibrationDetails(currentCalibration);
-			}
-			updateCalibrationGui(getModel().getCalibrationDetails());
 			updateScannablePositionsGui();
+		}
+	}
+
+	/**
+	 * Update the SingleSpectrum energy calibration with new value from {@link TimeResolvedExperimentParameters}; check with user to confirm first.
+	 * The new calibration details in the {@code params} are overwritten with the current values if the user wants
+	 * to keep the current settings.
+	 * @param params
+	 */
+	public static void updateCalibrationDetails(TimeResolvedExperimentParameters params) {
+		CalibrationDetails currentCalibration = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
+		String currentPoly = currentCalibration == null ? "" : currentCalibration.getFormattedPolinormal();
+
+		CalibrationDetails newCalibration = params.createEnergyCalibration();
+		String newPoly = newCalibration == null ? "" : newCalibration.getFormattedPolinormal();
+
+		logger.debug("Checking whether to update energy calibration polynomical : old value = {}, new value = {}",currentPoly, newPoly);
+
+		boolean updateDetectorCalibration = true;
+		if (!currentPoly.isEmpty() && !newPoly.equals(currentPoly)){
+			String message = "Replace current energy calibration polynomial : \n\t '"+currentPoly+"'\n "+
+							 "with the one from the file : \n\t'"+newPoly+"' ?";
+			updateDetectorCalibration = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Replace detector energy polynomial", message);
+		}
+
+		SingleSpectrumCollectionModel model = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+
+		// Update the model and detector with the new calibration if required
+		if (updateDetectorCalibration) {
+			logger.debug("Updating energy calibration polynomial to : {}", newPoly);
+			model.setCalibrationDetails(newCalibration);
+			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(newCalibration);
+		} else {
+			// change the parameters to have the old calibration
+			params.setCalibrationDetails(currentCalibration);
 		}
 	}
 

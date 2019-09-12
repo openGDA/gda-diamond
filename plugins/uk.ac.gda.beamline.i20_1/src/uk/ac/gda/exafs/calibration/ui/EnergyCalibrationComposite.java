@@ -70,7 +70,7 @@ import uk.ac.gda.exafs.data.DataPaths;
  * <li> the methods {@link #getPolynomialString()}, {@link #getCalibrationMinPosition()}, {@link #getCalibrationMinPosition()},
  * {@link #getSampleFileName()}, {@link #getReferenceFileName()} (and corresponding setters)
  * can be used to access/set calibration parameters.
- * 
+ *
  * @since 8/2/2019 (refactored from TurboXasExperimentView)
  */
 public class EnergyCalibrationComposite {
@@ -273,7 +273,7 @@ public class EnergyCalibrationComposite {
 	 * calibration filename, min and max energy,
 	 */
 	public void updateGuiFromParameters() {
-		logger.debug("Updating GUI to show stored calibration parameters");
+		logger.debug("Updating GUI to show stored calibration parameters. Polynomial = {}", polynomialString);
 		sampleFileTextbox.setText(sampleFileName);
 
 		if (!StringUtils.isEmpty(lastScanFilename)) {
