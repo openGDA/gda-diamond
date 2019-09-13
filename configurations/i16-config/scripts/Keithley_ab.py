@@ -15,7 +15,7 @@ class KeithleyMM(PseudoDevice):
 			self.port='BL16I-EA-SPARE-03:asyn.'
 		print self.port
 
-		self.setName('name');
+		self.setName(name);
 		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
 		self.setInputNames([])
 		self.setExtraNames(['keithley']);
