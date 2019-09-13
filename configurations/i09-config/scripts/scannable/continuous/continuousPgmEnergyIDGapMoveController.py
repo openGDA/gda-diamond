@@ -15,7 +15,7 @@ import threading, time
 import installation
 from time import sleep
 
-ID_GAP_END_OFFSET=0.03 # value used to make sure ID gap stops at the same time as PGM Energy
+ID_GAP_END_OFFSET=0.00 # value used to make sure ID gap stops at the same time as PGM Energy
 
 class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, DeviceBase):
     '''Controller for constant velocity scan moving both PGM Energy and ID Gap at same time at constant speed respectively.
@@ -114,9 +114,9 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         
         ### Calculate ramp distance from required speed and ramp times
         #check speed within limits
-        if self._id_gap_speed<0.005 or self._id_gap_speed>1.0:
-            print ("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.005, 1.0))
-            raise DeviceException("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.005, 1.0))
+        if self._id_gap_speed<0.01 or self._id_gap_speed>1.0:
+            print ("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.01, 1.0))
+            raise DeviceException("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.01, 1.0))
         if installation.isLive():
             #Cannot set id_gap.speed through soft motor which in EPICS is read-only 
             self.idpvs['vel'].caput(self._id_gap_speed)
@@ -221,9 +221,9 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         if self.verbose: self.logger.info('...waitWhileMoving()')
 
     def stopAndReset(self):
+        if self.verbose: self.logger.info('stopAndReset()')
         self._start_time = None
         self._start_event.clear()
-        if self.verbose: self.logger.info('stopAndReset()')
         if self.isPGMMoveEnabled():
             self._pgm_energy.stop()
         if self.isIDMoveEnabled():
@@ -262,7 +262,62 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
 
     def getIDGapMoveDirectionPositive(self):
         return (self._id_gap_end - self._id_gap_start) > 0
+    
+    class DelayableCallable(Callable):
+    
+        def __init__(self, controller, demand_position):
+            #self.start_event = threading.Event()
+            self.start_event = controller._start_event
+            self._controller, self._demand_position = controller, demand_position
+            self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyIDGapMoveController:%s:DelayableCallable[%r]" % (controller.name, demand_position))
+            if self._controller.verbose:
+                self.logger.info('__init__(%r, %r)...' % (controller.name, demand_position))
+    
+        def call(self):
+            if self._controller.verbose: self.logger.info('call...')
+            # Wait for controller to start all motors moving and set start time
+            if self._controller._start_time:
+                if self._controller.verbose: self.logger.info('start_time=%r' % (self._controller._start_time))
+            else:
+                if self._controller.verbose: self.logger.info('wait()...')
+                timeout=60
+                self.start_event.wait(timeout)
+                if not self.start_event.isSet():
+                    raise Exception("%rs timeout waiting for startMove() to be called on %s at position %r." % (timeout, self._controller.name, self._demand_position))
+                if self._controller.verbose: self.logger.info('...wait()')
+            # Wait for delay before actually move start and then a time given by
+            # how far through the scan this point is
+            
+            complete = abs( (self._demand_position - self._controller._move_start) /
+                            (self._controller._move_end - self._controller._move_start) )
+            sleeptime_s = (self._controller._pgm_runupdown_time + (complete * self._controller.getTotalTime()))
+            
+            delta = datetime.now() - self._controller._start_time
+            delta_s = delta.seconds + delta.microseconds/1000000.
+            if delta_s > sleeptime_s:
+                self.logger.warn('Sleep time already past!!! sleeptime_s=%r, delta_s=%r, sleeptime_s-delta_s=%r' % (sleeptime_s, delta_s, sleeptime_s-delta_s))
+            else:
+                if self._controller.verbose:
+                    self.logger.info('sleeping... sleeptime_s=%r, delta_s=%r, sleeptime_s-delta_s=%r' % (sleeptime_s, delta_s, sleeptime_s-delta_s))
+                time.sleep(sleeptime_s-delta_s)
+            
+            energy = self._controller._pgm_energy()
 
+            if self._controller.verbose:
+                self.logger.info('...DelayableCallable:call returning %r, %r' % (self._demand_position, energy))
+            return self._demand_position, energy
+
+    def getPositionCallableExtraNames(self):
+        return ['readback']
+
+    def getPositionCallableFormat(self):
+        return ['%f', '%f']
+
+    # public Callable<T> getPositionCallable() throws DeviceException;
+    def getPositionCallableFor(self, position):
+        if self.verbose: self.logger.info('getPositionCallableFor(%r)...' % position)
+        return self.DelayableCallable(self, position)
+    
     def _restore_orig_speed(self):
         if self.isPGMMoveEnabled():
             if self._pgm_energy_speed_orig:

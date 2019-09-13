@@ -71,6 +71,7 @@ class McsWaveformChannelController(object):
                 self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceExternal)
             self.pv_erasestart.caput(TIMEOUT, 1)
         else:
+            #Scaler not used in Dummy mode
             pass
         # Since the mca NORD value could take some time to be updated and will continue returning the NORD of the last acquire,
         # wait before setting started to True, so WaveformChannelPollingInputStream doesn't try to use stale data.
@@ -87,9 +88,10 @@ class McsWaveformChannelController(object):
         if installation.isLive():
             self.pv_stop.caput(1)
         else:
+            #MCA not available in Dummy mode
             pass
-        if self.stream is not None:
-            self.stream.stop() # enable stop the element polling loop when stop is called.
+        if self.stream:
+            self.stream.stop() # stop waveform polling stream.
         self.started = False
         if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))
 

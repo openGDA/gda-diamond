@@ -30,7 +30,6 @@ class WaveformChannelPollingInputStream(PositionInputStream):
             self.pv_count.configure()
         else:
             self.logger.info("DUMMY mode: pv_count at configure() is %r" % self.pv_count)
-            self.logger.info("DUMMY mode: set hardware trigger provider")
 
     def reset(self):
         if self.verbose: self.logger.info('reset()...')
@@ -38,19 +37,19 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         self.elements_read = 0
         
     def stop(self):
+        #flag to stop polling loop
         self.stoppedExplicitly=True
 
     # Implement the PositionInputStream:read
 
     def read(self, max_to_read_in_one_go):
         if self.verbose: self.logger.info('read(%r)...  elements_read=%r' % (max_to_read_in_one_go, self.elements_read))
+        if self.hardwareTriggerProvider is None:
+            self.hardwareTriggerProvider=self._controller.getHardwareTriggerProvider()
+        new_available = self._waitForNewElements()
         if installation.isLive():
-            new_available = self._waitForNewElements()
             all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         else:
-            if self.hardwareTriggerProvider is None:
-                self.hardwareTriggerProvider=self._controller.getHardwareTriggerProvider()
-            new_available = self._waitForNewElements()
             if self.channel in ['B1:','B2:']:
                 if self.channel == 'B2:':
 #                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.id_gap_positions)
@@ -86,7 +85,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
                 elements_available = sum(x<=float(self.hardwareTriggerProvider._energy.getPosition()) for x in self.hardwareTriggerProvider.pgm_energy_positions)
             # Some waveform PVs keep returning old data for a short time even after a new acq is started and even retain the old count
             # for some time after the new acq has started, so check with the controller before trusting the count
-            acquiring = self._controller.getChannelInputStreamAcquiring()
+            acquiring = self._controller.getChannelInputStreamAcquiring() and self.hardwareTriggerProvider._start_event.isSet()
             if acquiring:
                 if acquiring_old <> acquiring:
                     self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring now %r, was %r' % (

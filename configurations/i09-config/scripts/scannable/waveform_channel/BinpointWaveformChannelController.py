@@ -58,7 +58,7 @@ class BinpointWaveformChannelController(object):
     def stop(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'stop()...'))
         # Binpoint has no stop, since it is slaved from the MCA.
-        if self.stream is not None:
+        if self.stream:
             self.stream.stop()
         self.started = False # added after I10-145
         if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))

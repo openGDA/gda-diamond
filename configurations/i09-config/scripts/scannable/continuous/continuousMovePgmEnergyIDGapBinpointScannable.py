@@ -19,7 +19,7 @@ from scannable.continuous.continuousPgmEnergyIDGapMoveController import Continuo
 from gda.device import DeviceException
 
 class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
-    """ Since the bin points are slaved from a multi channel scaler card, motion will fail if the
+    """ Since the bin points are slaved from a multi channel scaler card, motion will fail if there is
         no scaler channels are specified in the scan.
         
         Also, since this scannable takes over starting the bin point mechanism, it may not work if
@@ -76,16 +76,16 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         self.mybusy=True
         if self.verbose: self.logger.info('asynchronousMoveTo(%r)...' % position)
         position = float(position)
+        self._last_requested_position = position
         if self._operating_continuously:
             if installation.isLive():
-                self._last_requested_position = position
+                pass
             else:
-                self._last_requested_position = position
+                #in dummy mode, it needs to keep or cache all the positions so it can be returned during continuous move
                 id_gap_requested=self._move_controller._energy.idgap(position, 1)
                 self._move_controller.pgm_energy_positions.append(position)
                 self._move_controller.id_gap_positions.append(id_gap_requested)
         else:
-            self._last_requested_position = position
             if isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
                 self._move_controller._energy.asynchronousMoveTo(position)
             else:
@@ -95,6 +95,11 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
     def stop(self):
         self._binpointIdGap.stop()
         self._binpointPgmEnergy.stop()
+        self._move_controller.stopAndReset()
+        self.mybusy=False
+        
+    def atCommandFailure(self):
+        self.stop()
         
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
@@ -115,9 +120,6 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         if self._operating_continuously:
             self._binpointIdGap.atScanLineEnd()
             self._binpointPgmEnergy.atScanLineEnd()
-            # TODO: This race condition should be fixed in gda-8.44
-            # There is a race condition here, where if the motion completes before all position callables
-            # have been returned, the detector will be told to shut down.
         else:
             self.stream_indexer=None
 
@@ -125,26 +127,18 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         if self.verbose: self.logger.info('getPosition()...')
         if self._operating_continuously:
             raise DeviceException("%s: getPosition() is not supported during continuous operation" % self.name)
-            # Should be using getPositionCallable
-            #return self._last_requested_position
         else:
             return self._move_controller._energy.getPosition()
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
-        if self._operating_continuously:
-            while self.isBusy():
-                sleep(0.1)
-            return 
-            #self._move_controller.waitWhileMoving()
-        else:
-            while self.isBusy():
-                sleep(0.1)
-            return 
+        while self.isBusy():
+            sleep(0.1)
+        return 
 
     def isBusy(self):
         if self._operating_continuously:
-            return self.mybusy  #or self._move_controller.isBusy()
+            return self.mybusy  #cannot call self._move_controller.isBusy() in continuous moving mode 
         else:
             return self._move_controller._energy.isBusy()
 
@@ -160,10 +154,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
     # when the scan line completes.
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()... _operating_continuously=%r' % self._operating_continuously)
-        if self._operating_continuously:
-            self._move_controller.atScanEnd()
-        else:
-            self._move_controller.atScanEnd()
+        self._move_controller.atScanEnd()
     
     # we have to implement following scannable interface for it to work outside continuous scanning
     def getExtraNames(self):
@@ -180,19 +171,20 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
 
 class GapCalculatingCallable(Callable):
     def __init__(self, 
-               parent,       demand_position,       pgmEnergyCallable,      idGapCallable):
+               parent,       demand_position,       pgmEnergyCallable,       idGapCallable):
         (self._parent, self._demand_position, self._pgmEnergyCallable, self._idGapCallable) = (
-               parent,       demand_position,       pgmEnergyCallable,      idGapCallable)
+               parent,       demand_position,       pgmEnergyCallable,       idGapCallable)
 
     def call(self):
-        pgmEnergy = self._pgmEnergyCallable.call()
+        if installation.isLive():
+            pgmEnergy = self._pgmEnergyCallable.call()/1000 #EPICS unit is eV, beamline wants keV
+        else:
+            pgmEnergy = self._pgmEnergyCallable.call()
         idGap     = self._idGapCallable.call()
         
         idGap_demand = self._parent._move_controller._energy.idgap(self._demand_position, 1)
         
         self._parent.logger.info('pgmenergy=%r, energy_demand=%r, idgap=%r, idgad_demand=%r' % (pgmEnergy, self._demand_position, idGap, idGap_demand))
-        # Do we also want to return the motor positions too, given that using this
-        # scannable prevents us from adding the binpoint scannables individually?
         return pgmEnergy, self._demand_position, self._demand_position-pgmEnergy, idGap, idGap_demand, idGap_demand-idGap
 
     @staticmethod

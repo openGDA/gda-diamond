@@ -12,7 +12,6 @@ from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating  # @Unresolv
 from time import sleep
 import installation
 from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import ContinuousPgmGratingIDGapEnergyMoveController
-from scannable.continuous.ContinuousPgmGratingEnergyMoveController import ContinuousPgmGratingEnergyMoveController
 import java
 
 """ This scannable uses the motor controller to just control the motor and calculates the
@@ -56,14 +55,6 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
     def setOperatingContinuously(self, b):
         if self.verbose: self.logger.info('setOperatingContinuously(%r) was %r' % (b, self._operating_continuously))
-        if installation.isDummy():
-            if self._operating_continuously:
-                print "Data Capture completed. Please wait for data writer to complete ..."
-                sleep(60) #Time delay required for data writer to completed writing scan data point to file
-        else:
-            if self._operating_continuously:
-#                 sleep(2) #https://jira.diamond.ac.uk/browse/I10-300?focusedCommentId=151522&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-151522
-                pass
         self._operating_continuously = b
 
     def isOperatingContinously(self):
@@ -126,6 +117,11 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             else:
                 raise Exception("asynchronousMoveTo only supports Continuous operation")
         self.mybusy=False
+        
+    def stop(self):
+        self._binpointGrtPitch.stop()
+        self._binpointMirPitch.stop()
+        self._binpointPgmEnergy.stop()
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')

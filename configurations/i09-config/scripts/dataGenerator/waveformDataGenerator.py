@@ -30,9 +30,10 @@ class WaveformDataGenerator(object):
         if self.useGaussian:
             for i in range(numofpoints):
                 self.resetGaussian(i)
-                self.baseValue+=self.gaussian.yAtX((i+1)*10)*i
-#                 print channel, baseValue, i
-                self.data.append(channel*1000 + self.round((self.baseValue + channel*100) * (1.0 + self.noiseLevel * (3.0 * Math.random()))*(i+1)))
+                self.baseValue+=self.gaussian.yAtX((i+1)*10)
+                self.data.append(channel*1000 + self.round((self.baseValue + channel*100) * (1.0 + self.noiseLevel * (2.0 * Math.random()-1.0))*(i+1)))
+#                 baseValue=self.gaussian.yAtX(i+1)
+#                 self.data.append(self.round((baseValue + channel) * (1.0 + self.noiseLevel * (2.0 * Math.random() - 1.0))))
         else:
             for i in range(numofpoints):
                 self.data.append(self.round(int(Math.random() * 10.0) * (i+1)))

@@ -111,7 +111,8 @@ class SoftEnergy(ScannableMotionBase):
             if (Ep < 0.104 or Ep > 1.2):
                 raise ValueError("Polarisation = LH  but the demanding energy is outside the valid range between 0.104 and 1.2 keV!")
 #            gap=3.06965 +177.99974*Ep -596.79184*Ep**2 +1406.28911*Ep**3 -2046.90669*Ep**4 +1780.26621*Ep**5 -844.81785*Ep**6 +168.99039*Ep**7
-            gap=2.75529 + 184.24255*Ep - 639.07279*Ep**2 +1556.23192*Ep**3 -2340.01233*Ep**4 +2100.81252*Ep**5 -1027.88771*Ep**6 +211.47063*Ep**7
+#            gap=2.75529 + 184.24255*Ep - 639.07279*Ep**2 +1556.23192*Ep**3 -2340.01233*Ep**4 +2100.81252*Ep**5 -1027.88771*Ep**6 +211.47063*Ep**7
+ 	    gap=0.52071 + 238.56372*Ep - 1169.06966*Ep**2 +4273.03275*Ep**3 -10497.36261*Ep**4 +17156.91928*Ep**5 -18309.05195*Ep**6 +12222.50318*Ep**7 -4623.70738*Ep**8 +755.90853*Ep**9
             if (gap < 16 or gap > 60):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
 

@@ -5,7 +5,6 @@ from gda.device.scannable import PositionCallableProvider, PositionStreamIndexer
 from gda.device import Detector, DeviceException
 from org.slf4j import LoggerFactory
 from threading import Timer
-import installation
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
@@ -31,9 +30,6 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
     def stop(self):
         self.waveform_channel_controller.stop()
         
-#     def getController(self):
-#         return  self.waveform_channel_controller
-    
     def collectData(self):
         if self.verbose: self.logger.info('collectData()...')
         # Here we need to wait for the motor run_up to complete when our Trigger_able Detector is actually
@@ -72,8 +68,10 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
-        if installation.isDummy():
-            self.waveform_channel_controller.setHardwareTriggerProvider(self.getHardwareTriggerProvider())
+        
+        #pass hardware trigger provider to waveform channel controller so WaveformChannelPollingInputStream can access to its property
+        self.waveform_channel_controller.setHardwareTriggerProvider(self.getHardwareTriggerProvider())
+        
         self.waveform_channel_controller.erase() # Prevent a race condition which results in stale data being returned
         self.channel_input_stream.reset()
         self.stream_indexer = PositionStreamIndexer(self.channel_input_stream);
@@ -82,6 +80,7 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
     def atScanLineEnd(self):
         if self.verbose: self.logger.info('...atScanLineEnd()')
+        # Don't call self.waveform_channel_controller.stop() here as PositionCallable may have not completed yet
         
     def getPositionCallable(self):
         if self.verbose: self.logger.info('getPositionCallable()... number_of_positions=%i' % self.number_of_positions)
