@@ -383,7 +383,10 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
+    <!-- Beam intensity from D5 -->
+    <bean id="d5i" class="gda.device.monitor.DummyMonitor" />
+
 
     <!--  ============================== Shutter and Valve definition section ============================== -->
     <!-- Front End Shutter 1, the Port Shutter-->
