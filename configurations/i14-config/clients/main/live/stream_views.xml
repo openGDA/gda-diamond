@@ -82,9 +82,11 @@
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/DTAB.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-OP-DCAM-10:ARR" />
 		<property name="sleepTime" value="5" />
+		<property name="calibratedAxesProvider" ref="sample_dtab_beam_position_calibration" />
 		<property name="topUi">
-			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
-				<constructor-arg ref="sample_dtab_camera_control" />
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraAndCalibrationControls">
+				<constructor-arg name="cameraControl" ref="sample_dtab_camera_control" />
+				<constructor-arg name="calibration" ref="sample_dtab_beam_position_calibration" />
 				<property name="cameraResetScannable" ref="sample_dtab_reset" />
 			</bean>
 		</property>
@@ -92,6 +94,16 @@
 
 	<bean id="sample_dtab_reset" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL14I-OP-DCAM-10:CAM:RESET" />
+	</bean>
+
+	<bean id="sample_dtab_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
+		<constructor-arg name="xAxisScannable" ref="stage1_x"/>
+	    <constructor-arg name="yAxisScannable" ref="stage1_y"/>
+	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>
+	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
+	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
 	</bean>
 
 </beans>

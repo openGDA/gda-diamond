@@ -19,6 +19,8 @@
 	<bean id="sample_dtab_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="sample_dtab_adbase" />
 		<constructor-arg ref="sample_dtab_roi" />
+		<property name="ndOverlay" ref="sample_dtab_overlay" />
+		<property name="iocHasOverlayCentrePvs" value="true" />
 	</bean>
 
 	<bean id="sample_dtab_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
