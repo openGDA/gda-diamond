@@ -135,6 +135,13 @@ try_execfile("BeamlineI07/Users/MainHutch.py")
 try_execfile("BeamlineI07/htc_temp.py")
 htc = TemperatureSocketDevice('htc', 'localhost', 10002)
 
+try:
+	from gdaserver import d5i
+	add_default(d5i)
+except:
+	print('Could not find d5i to add as a default scannable')
+
+
 #pieX = pie.pieX
 #pieY = pie.pieY
 #pieZ = pie.pieZ
