@@ -9,7 +9,7 @@ from time import sleep
 class KeithleyMM(PseudoDevice):
 	'''Device to control Keithley 2000 Multimeter \n Connect to X31'''
 	def __init__(self, name, help=None):
-		self.setName('name');
+		self.setName(name);
 		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
 		self.setInputNames([])
 		self.setExtraNames(['keithley']);
