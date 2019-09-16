@@ -22,8 +22,6 @@
 
 	<bean id="command_server" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="GDAMetadata" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="SimpleServlet" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="ScanDataStore" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
