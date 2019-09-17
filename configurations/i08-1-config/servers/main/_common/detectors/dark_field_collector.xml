@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+	<bean id="darkFieldCollector" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector">
+		<constructor-arg name="beamlineConfiguration">
+			<map>
+				<entry key="shutter1" value="Close" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="nexusFieldName" value="dark" />
+		<constructor-arg name="malcolmDetectorNames">
+			<map>
+			</map>
+		</constructor-arg>
+	</bean>
+
+</beans>

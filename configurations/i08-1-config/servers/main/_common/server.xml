@@ -49,6 +49,7 @@
 	<!-- Detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d7_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d8_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/dark_field_collector.xml" />
 
 	<!-- Devices -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
