@@ -15,7 +15,9 @@ def idgap_calc(Ep, polarisation):
             elif pgmGratingSelect.getPosition()=="VPG2":
                 #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
-                gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
+                #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
+                gap = 18.04823999 + 0.02423148*Ep  #Corrected for VPG2 at 930 eV on 2019/07/21
+
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 18.5611846 + 0.02369966*Ep #Corrected for VPG3 on 2017/09/20
             else:
@@ -29,7 +31,8 @@ def idgap_calc(Ep, polarisation):
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
                 #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
                 #gap = 18.0444241 + 0.02478207*Ep  #Corrected for VPG2 around 550 eV on 2018/01/16
-                gap = 18.0784061 + 0.02466737*Ep  #Corrected for VPG2 on 2019/02/11
+                #gap = 18.0784061 + 0.02466737*Ep  #Corrected for VPG2 on 2019/02/11
+                gap = 17.94704524 + 0.02501413*Ep  #Corrected for VPG2 on 2019/07/21
             elif pgmGratingSelect.getPosition()=="VPG3":
                 #gap = 18.0112254 + 0.02490918*Ep #Corrected for VPG3 on 2018/01/20
                 gap = 18.0365707 + 0.02483224*Ep  #Corrected for VPG3 on 2019/02/11
@@ -44,7 +47,8 @@ def idgap_calc(Ep, polarisation):
                 #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
                 #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
-                gap = 18.9256730 + 0.02327420*Ep  #Corrected for VPG2 around 550 eV on 2018/06/22
+                #gap = 18.9256730 + 0.02327420*Ep  #Corrected for VPG2 around 550 eV on 2018/06/22
+                gap = 19.10375129 + 0.02309419*Ep  #Corrected for VPG2 around 680 eV on 2019/07/28
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 18.9464110 + 0.02331950*Ep #Corrected for VPG3 on 2018/06/22                
             else:
@@ -171,7 +175,8 @@ def idgap_calc(Ep, polarisation):
                 #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
                 #gap = 11.5139582 + 0.01858746*Ep  #Corrected for VPG2 around 550 eV on 2018/01/15
-                gap = 11.5248060 + 0.01849955*Ep  #Corrected for VPG2 on 2019/02/11
+                #gap = 11.5248060 + 0.01849955*Ep  #Corrected for VPG2 on 2019/02/11
+                gap = 11.40989969 + 0.01877971*Ep  #Corrected for VPG3 on 2019/07/21
             elif pgmGratingSelect.getPosition()=="VPG3":
                 #gap = 11.4731251 + 0.01873832*Ep #Corrected for VPG3 on 2017/10/09
                 #gap = 11.4922997 + 0.01867722*Ep #Corrected for VPG3 on 2018/01/20
@@ -186,7 +191,8 @@ def idgap_calc(Ep, polarisation):
                 #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
                 #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
-                gap = 12.0417084 + 0.01768560*Ep  #Corrected for VPG2 around 550 eV on 2018/06/22
+                #gap = 12.0417084 + 0.01768560*Ep  #Corrected for VPG2 around 550 eV on 2018/06/22
+                gap = 11.97497963 + 0.01783092*Ep  #Corrected for VPG2 around 660 eV on 2019/07/28
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 12.0035701 + 0.01780733*Ep #Corrected for VPG3 on 2018/06/22
                 

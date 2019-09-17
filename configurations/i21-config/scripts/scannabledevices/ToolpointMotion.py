@@ -6,7 +6,9 @@ from diffcalc.util import TORAD
 
 # Manipulator position where all rotation axes
 # intersect in a single point in the middle of the beam
-AXES_ZERO = (6.1, -0.3878, -0.111)
+#AXES_ZERO = (6.1, -0.3878, -0.111)
+#AXES_ZERO = (6.12, -0.2189, 0.9214)
+AXES_ZERO = (6.12, -0.3141, 0.9214)
 
 
 class ToolpointMotion(ScannableMotionWithScannableFieldsBase):

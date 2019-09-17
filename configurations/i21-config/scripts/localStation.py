@@ -241,9 +241,10 @@ from scannabledevices.samplePoistioner_instance import smp_positioner  # @Unused
 ENABLE_ENCODER_LIGHT_CONTROL=False
 # ENCODER_POSITION_AFTER_LIGHT_OFF=None
 # repeat acquire at a fixed point
+
 def acquireImages(n, det, exposure_time, *args):
     try:
-        newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
+        newargs=[ds,1,n,1,det,exposure_time] # @UndefinedVariable
         for arg in args:
             newargs.append(arg)
         if ENABLE_ENCODER_LIGHT_CONTROL:
@@ -257,7 +258,7 @@ def acquireImages(n, det, exposure_time, *args):
             caput("BL21I-OP-SGM-01:TVLR:ENC_POWER",1)
         scan([e for e in newargs])
     finally:
-        if ENABLE_ENCODER_LIGHT_CONTROL: 
+        if ENABLE_ENCODER_LIGHT_CONTROL:
             # switch on encoder power
             caput("BL21I-OP-SGM-01:TVLR:ENC_POWER",0)
             sleep(0.1)
@@ -266,7 +267,6 @@ def acquireImages(n, det, exposure_time, *args):
             if ENCODER_POSITION_BEFORE_LIGHT_OFF is not None:
                 sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
 
-                
 def acquireRIXS(n, det, exposure_time, *args):
     if det is andor:  # @UndefinedVariable
         primary()
@@ -274,14 +274,14 @@ def acquireRIXS(n, det, exposure_time, *args):
         polarimeter()
     fastshutter("Open")
     acquireImages(n, det, exposure_time, *args)
-    
+
 alias("acquireRIXS")
 
 def acquiredark(n, det, exposure_time, *args):
     fastshutter("Closed")
     erio()
     acquireImages(n, det, exposure_time, *args)
-    
+
 alias("acquiredark")
 
 def clearEncoderLoss():

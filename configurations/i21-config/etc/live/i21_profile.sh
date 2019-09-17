@@ -6,7 +6,7 @@ if [ ! -n "$BEAMLINE" ]; then
 fi
 
 # Set up path and mode
-export PATH=/dls_sw/prod/etc/Launcher:/dls_sw/$BEAMLINE/software/gda/config/bin:/dls_sw/$BEAMLINE/software/gda/pythonscript:${PATH}
+export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:/dls_sw/$BEAMLINE/software/gda/pythonscript:${PATH}
 export LD_LIBRARY_PATH=/dls_sw/i21/software/anaconda2/plugins/platforms:${LD_LIBRARY_PATH}
 export GDA_MODE=live
 
