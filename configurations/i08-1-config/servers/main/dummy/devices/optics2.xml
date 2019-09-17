@@ -7,6 +7,20 @@
 	<!-- The motors associated to optics are listed in the same order as in EPICs synoptics -->
 
 	<!-- Mirror6 -->
+	<bean id="m6_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8.0" />
+		<property name="maxPosition" value="13.0" />
+		<property name="position" value="-0.8262" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="m6_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-13.0" />
+		<property name="maxPosition" value="12.0" />
+		<property name="position" value="-0.7108" />
+		<property name="unitString" value="mm" />
+	</bean>
+
 	<bean id="m6_yaw_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0.0" />
 		<property name="maxPosition" value="360.0" />

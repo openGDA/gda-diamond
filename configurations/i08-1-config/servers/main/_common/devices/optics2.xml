@@ -7,6 +7,16 @@
 	<!-- The motors associated to optics are listed in the same order as in EPICs synoptics -->
 
 	<!-- Mirror6 -->
+	<bean id="m6_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m6_x_motor" />
+	</bean>
+
+	<bean id="m6_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m6_y_motor" />
+	</bean>
+
 	<bean id="m6_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m6_yaw_motor" />
@@ -35,6 +45,8 @@
 	<bean id="m6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="m6_x" />
+				<ref bean="m6_y" />
 				<ref bean="m6_yaw" />
 				<ref bean="m6_pitch" />
 				<ref bean="m6_roll" />
