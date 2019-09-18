@@ -22,37 +22,37 @@
 	</bean>
 
 	<bean id="m6_yaw_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0" />
-		<property name="maxPosition" value="360.0" />
-		<property name="position" value="7.25" />
+		<property name="minPosition" value="-5.0" />
+		<property name="maxPosition" value="5.0" />
+		<property name="position" value="0.4981" />
 		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="m6_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0" />
-		<property name="maxPosition" value="360.0" />
-		<property name="position" value="1.28" />
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="position" value="0.1543" />
 		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="m6_roll_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0" />
-		<property name="maxPosition" value="360.0" />
-		<property name="position" value="15.7" />
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="position" value="0.0272" />
 		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="m6_curvature_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
-		<property name="position" value="37" />
+		<property name="position" value="3.8767" />
 		<property name="unitString" value="kct" />
 	</bean>
 
 	<bean id="m6_ellipsticity_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
-		<property name="position" value="-9" />
+		<property name="position" value="-0.5223" />
 		<property name="unitString" value="kct" />
 	</bean>
 
