@@ -1261,9 +1261,10 @@ try:
 			  'positions', 'gains_atten', 'mirrors', 'beamline_slits', 'mono', 'frontend', 'lakeshore', 'offsets',
 			  's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans',
 			  'ppy', 'ppx', 'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
-			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp']
+			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2']
 
-	addedInSpring = ['sixckappa', 'delta_axis_offset']
+	addedInSpring = ['sixckappa', 'delta_axis_offset'] # See /i16-config/servers/main/_common/nxmetadata.xml
+
 	meta_scannable_names = [ _x for _x in meta_scannable_names if _x != None and not _x in addedInSpring ]
 
 	from gdascripts.scannable.metadata import _is_scannable
