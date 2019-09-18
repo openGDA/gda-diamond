@@ -96,7 +96,7 @@
 				<value>Andor</value>
 			</list>
 		</property>
- 		<property name="defaultFocusScanDevice" value="Malcolm focus scan (photodiode)" />
+ 		<property name="defaultFocusScanDevice" value="Photodiode" />
 		<property name="energyFocusBean">
 			<bean class="uk.ac.diamond.daq.mapping.api.EnergyFocusBean">
 				<property name="energyFocusConfigPath" value="${gda.var}/energyFocusFunction.json" />
