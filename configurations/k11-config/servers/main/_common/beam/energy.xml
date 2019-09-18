@@ -6,5 +6,54 @@
 	<bean id="energy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="beam_energy_motor" />
 	</bean>
-
+	
+	<bean id="energyRangeService" class="uk.ac.diamond.daq.beamline.configuration.RangeLookupService">
+		<constructor-arg name="csvFile">
+			<bean class="java.io.File">
+				<constructor-arg value="${gda.function.columnDataFile.lookupDir}/m1lookup.csv" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="lowColumn" value="bandStart" />
+		<constructor-arg name="highColumn" value="bandEnd" />
+	</bean>
+	
+	<bean id="m1-workflow-item" class="uk.ac.diamond.daq.beamline.configuration.LookupTableBasedItem">
+	 	<constructor-arg name="inputProperty" value="energy" />
+	 	<constructor-arg name="scannables">
+			<map>
+				<entry key="M1 X"     value-ref="m1_x"     />
+				<entry key="M1 Y"     value-ref="m1_y"     />
+				<entry key="M1 Roll"  value-ref="m1_roll"  />
+				<entry key="M1 Pitch" value-ref="m1_pitch" />
+				<entry key="M1 Yaw"   value-ref="m1_yaw"   />
+			</map>
+	 	</constructor-arg>
+		<constructor-arg name="motorPositionLookupService" ref="energyRangeService" />
+	</bean>
+	
+	<bean id="s1_x_workflow_item" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script">
+			<bean class="java.io.File">
+				<constructor-arg value="${gda.function.columnDataFile.lookupDir}/s1_functions.py" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="s1_xsize" value="to_xsize"/>
+				<entry key-ref="s1_ysize" value="to_ysize"/>
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+		
+	</bean>
+	
+	<bean id="diffractionMonoWorkflow" class="uk.ac.diamond.daq.beamline.configuration.DefaultConfigurationWorkflow">
+		<constructor-arg name="workflowItems">
+			<list>
+				<ref bean="m1-workflow-item" />
+				<ref bean="s1_x_workflow_item" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
 </beans>
