@@ -12,12 +12,12 @@ from time import sleep  # @UnusedImport
 
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-
-from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnresolvedImport
-
+from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick,\
+    fastshutter
 import gdascripts
 from utils.ExceptionLogs import localStation_exception
 from gda.device.scannable import DummyScannable
+from calibration.Energy2Gap4ID import idgap_calc
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
@@ -338,6 +338,22 @@ GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checked
 # alias("move")
 # alias("asynmove")
 
+def goLH(en_val_std):
+    LH_id_std=idgap_calc(en_val_std, "LH")
+    from gdaserver import idscannable
+    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",0)
+    idscannable.moveTo([LH_id_std, 'LH', 0])
+    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)
+    energy.moveTo(en_val_std)
+
+def goLV(en_val_std):
+    LV_id_std=idgap_calc(en_val_std, "LV")
+    from gdaserver import idscannable
+    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",0)
+    idscannable.moveTo([LV_id_std, 'LV', 28])
+    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)
+    energy.moveTo(en_val_std)
+    
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
