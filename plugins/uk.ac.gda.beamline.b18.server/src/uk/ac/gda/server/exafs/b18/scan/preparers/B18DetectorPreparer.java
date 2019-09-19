@@ -112,10 +112,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
 			if (detType.equals("Germanium")) {
 				xspressSystem.setConfigFileName(xmlFileName);
-				xspressSystem.configure();
+				xspressSystem.reconfigure();
 			} else if (detType.equals("Silicon")) {
 				vortexConfig.setConfigFileName(xmlFileName);
-				vortexConfig.configure();
+				vortexConfig.reconfigure();
 			} else if (detType.equals("Xspress3")) {
 				xspress3Detector.setConfigFileName(xmlFileName);
 				xspress3Detector.loadConfigurationFromFile();
