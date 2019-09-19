@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="stv" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:START:VOLTAGE" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:START:VOLTAGE:RBV" />
+	</bean>
+	<bean id="obj" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:OBJECTIVE" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:OBJECTIVE:RBV" />
+	</bean>
+	<bean id="objStigmA" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:OBJSTIGMA" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:OBJSTIGMA:RBV" />
+	</bean>
+	<bean id="objStigmB" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:OBJSTIGMB" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:OBJSTIGMB:RBV" />
+	</bean>
+	<bean id="fov" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-EA-LEEM-01:FOV:RBV"/>
+	</bean>	
+	<bean id="p3AlignX" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:P3ALIGNX" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:P3ALIGNX:RBV" />
+	</bean>
+	<bean id="p3AlignY" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:P3ALIGNY" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:P3ALIGNY:RBV" />
+	</bean>
+	<bean id="TL" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:TRANSFER:LENS" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:TRANSFER:LENS:RBV" />
+	</bean>
+	<bean id="temp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:SAMPLE:TEMP" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:SAMPLE:TEMP:RBV" />
+	</bean>
+	
+</beans>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.9.8.201903260659-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.9.9.201906180643-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -50,6 +50,7 @@
 		<config>clients/main/dummy/client.xml</config>
 		<config>servers/main/_common/scannables/pco.xml</config>
 		<config>servers/main/live/devices/pco.xml</config>
+		<config>servers/main/live/devices/leem.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
