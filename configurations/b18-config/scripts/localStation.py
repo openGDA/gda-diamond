@@ -138,47 +138,6 @@ generic_cryostat.setSetPointPVName("BL18B-EA-TEMPC-06:TTEMP")  # currently OxIns
 generic_cryostat.setReadBackPVName("BL18B-EA-TEMPC-06:STEMP")
 generic_cryostat.configure()
 
-# Set some scannables for Mythen, so they are added to header of output file
-try :
-    mythen.addScannableForHeader(qexafs_energy)
-    mythen.addScannableForHeader(user1)
-    mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
-    mythenEpics.addScannableForHeader(user1, "Motor angle")
-except NameError:
-    pass
-
-# Reset XSPress3 settings : enable ROI and deadtime corrections, set to 'TTL Veto only' trigger mode
-from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
-from gda.epics import CAClient
-if (LocalProperties.get("gda.mode") == 'live'):
-    try :
-        controller=xspress3.getController()
-        # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
-        controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
-        CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
-    except :
-        print "Problem setting Xspress3 PVs - see log for more information"
-
-#Set the path to empty so default visit directory (and subdirectory) is used for hdf files
-xspress3.setFilePath("")
-
-#Setup xspress4
-if (LocalProperties.get("gda.mode") == 'live'):
-    try :
-        basePv = xspress4.getController().getBasePv()
-        CAClient.putStringAsWaveform(basePv+":HDF5:FileTemplate", "%s%s%d.h5")
-        CAClient.put(basePv+":HDF5:FileWriteMode", 2) #'stream' capture mode
-        CAClient.put(basePv+":HDF5:AutoIncrement", 0) # auto increment off
-        
-        for channel in range(0, xspress4.getNumberOfElements()) :
-            CAClient.put(basePv+":C"+str(channel+1)+"_SCAS:EnableCallbacks", 1) # auto increment off
-    
-        xspress4.setTriggerMode(0) # software trigger mode
-        from uk.ac.gda.devices.detector.xspress4.Xspress4Detector import TriggerMode
-        bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
-    except :
-        print "Problem setting Xspress4 PVs - see log for more information"
-
 print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
     print "Trying to reconnect to DAServer..."
@@ -200,6 +159,11 @@ zebra_device.setOutTTL(1, 31)
 # Setup the plugin listst used to control the medipix ROI
 run("medipix_functions.py")
 setUseMedipixRoiFromGui(True)
+
+run("detector_setup_functions.py")
+run_in_try_catch(setupXspress3)
+run_in_try_catch(setupXspress4)
+run_in_try_catch(setupMythen)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"
