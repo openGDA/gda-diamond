@@ -162,6 +162,23 @@ if (LocalProperties.get("gda.mode") == 'live'):
 #Set the path to empty so default visit directory (and subdirectory) is used for hdf files
 xspress3.setFilePath("")
 
+#Setup xspress4
+if (LocalProperties.get("gda.mode") == 'live'):
+    try :
+        basePv = xspress4.getController().getBasePv()
+        CAClient.putStringAsWaveform(basePv+":HDF5:FileTemplate", "%s%s%d.h5")
+        CAClient.put(basePv+":HDF5:FileWriteMode", 2) #'stream' capture mode
+        CAClient.put(basePv+":HDF5:AutoIncrement", 0) # auto increment off
+        
+        for channel in range(0, xspress4.getNumberOfElements()) :
+            CAClient.put(basePv+":C"+str(channel+1)+"_SCAS:EnableCallbacks", 1) # auto increment off
+    
+        xspress4.setTriggerMode(0) # software trigger mode
+        from uk.ac.gda.devices.detector.xspress4.Xspress4Detector import TriggerMode
+        bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
+    except :
+        print "Problem setting Xspress4 PVs - see log for more information"
+
 print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
     print "Trying to reconnect to DAServer..."
