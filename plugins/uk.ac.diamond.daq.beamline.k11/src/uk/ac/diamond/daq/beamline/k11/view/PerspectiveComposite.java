@@ -38,8 +38,8 @@ import org.eclipse.ui.WorkbenchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.tomography.service.message.TomographyMessages;
-import uk.ac.gda.tomography.ui.tool.TomographySWTElements;
+import uk.ac.gda.ui.tool.ClientMessages;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 /**
  * Drop-down list to switch between different perspectives
@@ -100,8 +100,8 @@ public class PerspectiveComposite {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildModeComposite() {
-		TomographySWTElements.createLabel(getParent(), SWT.NONE, TomographyMessages.MODE);
-		modeCombo = TomographySWTElements.createCombo(parent, SWT.READ_ONLY, getTypes(), TomographyMessages.MODE_TP);
+		ClientSWTElements.createLabel(getParent(), SWT.NONE, ClientMessages.MODE);
+		modeCombo = ClientSWTElements.createCombo(parent, SWT.READ_ONLY, getTypes(), ClientMessages.MODE_TP);
 		comboModeSelectionListener();
 		setModeComboSelection(getActiveWindow().getActivePage().getPerspective().getId());
 

@@ -48,7 +48,8 @@ Require-Bundle: uk.ac.gda.common,
  org.eclipse.dawnsci.analysis.api,
  org.eclipse.dawnsci.plotting.api,
  uk.ac.gda.tomography.scan.editor,
- uk.ac.gda.tomography
+ uk.ac.gda.tomography,
+ uk.ac.gda.client;bundle-version="9.15.0"
 Export-Package: uk.ac.diamond.daq.beamline.k11
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
 Service-Component: OSGI-INF/*.xml

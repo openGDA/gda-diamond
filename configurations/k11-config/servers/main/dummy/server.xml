@@ -3,13 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
+	<!-- Contains all configuration for the malcolm simulations -->
+	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> 
+	<import resource="file://${gda.config}/servers/main/dummy/sim_area_detector.xml" />
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
 	<import resource="file:${gda.config}/servers/main/dummy/detectors/simulation/mandelbrot_detectors.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
-	
-	<!-- Contains all configuration for the malcolm simulations -->
-	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> 
-
 </beans>

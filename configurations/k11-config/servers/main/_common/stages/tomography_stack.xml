@@ -3,27 +3,53 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="tomo_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tomo_y_motor" />
+	<bean id="stagex" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_x_motor" />
+	</bean>
+
+	<bean id="stagey" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_y_motor" />
+	</bean>
+
+	<bean id="stagez" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_z_motor" />
 	</bean>
 	
-	<bean id="tomo_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tomo_rot_motor" />
+	<bean id="theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_theta_motor" />
 	</bean>
+
+	<bean id="chopperHor" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="chopper_hor_motor" />
+	</bean>
+
+	<bean id="chopperVer" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="chopper_ver_motor" />
+	</bean>
+
+
+
+<!-- 	<bean id="tomo_y" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="tomo_y_motor" /> -->
+<!-- 	</bean> -->
 	
-	<bean id="tomo_centring_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tomo_centring_x_motor" />
-	</bean>
+<!-- 	<bean id="tomo_rot" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="stage_theta_motor" /> -->
+<!-- 	</bean> -->
 	
-	<bean id="tomo_centring_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tomo_centring_z_motor" />
-	</bean>
+<!-- 	<bean id="tomo_centring_x" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="stage_x_motor" /> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="tomo_centring_z" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="tomo_centring_z_motor" /> -->
+<!-- 	</bean> -->
 	
 	<bean id="tomo_centring_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="tomo_centring_x" />
-				<ref bean="tomo_centring_z" />
+				<ref bean="stagex" />
+				<ref bean="stagez" />
 			</list>
 		</property>
 	</bean>
@@ -31,8 +57,8 @@
 	<bean id="tomo_stack" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="tomo_y" />
-				<ref bean="tomo_rot" />
+				<ref bean="stagey" />
+				<ref bean="theta" />
 				<ref bean="tomo_centring_stage" />
 			</list>
 		</property>

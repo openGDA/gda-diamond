@@ -62,8 +62,8 @@ import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
-import uk.ac.gda.tomography.service.message.TomographyMessages;
-import uk.ac.gda.tomography.ui.tool.TomographySWTElements;
+import uk.ac.gda.ui.tool.ClientMessages;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -126,7 +126,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		buildStageComposite(experimentComposite);
 		buildConfigurationComposite(experimentComposite);
 		buildPreviousExperimentsComposite(experimentComposite);
-		buildFileComposite(TomographySWTElements.createComposite(experimentComposite, SWT.NONE, 3));
+		buildFileComposite(ClientSWTElements.createComposite(experimentComposite, SWT.NONE, 3));
 	}
 
 	/**
@@ -401,11 +401,11 @@ public class ExperimentSetup extends LayoutUtilities {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildFileComposite(final Composite parent) {
-		Button load = TomographySWTElements.createButton(parent, SWT.PUSH, TomographyMessages.LOAD, null);
+		Button load = ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.LOAD, null);
 		load.setImage(getImage("icons/open.png"));
-		Button save = TomographySWTElements.createButton(parent, SWT.PUSH, TomographyMessages.SAVE, null);
+		Button save = ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.SAVE, null);
 		save.setImage(getImage("icons/save.png"));
-		Button run = TomographySWTElements.createButton(parent, SWT.PUSH, TomographyMessages.RUN, null);
+		Button run = ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.RUN, null);
 		run.setImage(getImage("icons/run_small.png"));
 	}
 

@@ -29,41 +29,42 @@ import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 
+/**
+ * @author Maurizio Nagni
+ */
 public class Tomography  implements IPerspectiveFactory {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective";
+
+	private static final String TOMO_MAIN_VIEW = "uk.ac.diamond.daq.beamline.k11.tomography";
+	private static final String LIVE_VIEW = "uk.ac.diamond.daq.client.gui.camera.liveview.SimpleLiveStreamView";
+	private static final String CAMERA_CONTROLLER_VIEW = "uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView";
+	private static final String JYTON_CONSOLE_VIEW = "gda.rcp.jythonterminalview";
 
 	private static final Logger logger = LoggerFactory.getLogger(Tomography.class);
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
-
+		String editorArea = layout.getEditorArea();
 		logger.trace("Building K11 Tomography perspective");
 		layout.setEditorAreaVisible(false);
 
-		final IFolderLayout left = layout.createFolder("tomographymanagement", IPageLayout.RIGHT, 0.2f, IPageLayout.ID_EDITOR_AREA);
-		left.addView("uk.ac.diamond.daq.beamline.k11.tomography");
-		IViewLayout vLayout = layout.getViewLayout("uk.ac.diamond.daq.beamline.k11.tomography");
-		vLayout.setCloseable(false);
+		String tomoMain = "tomographyManagement";
+		final IFolderLayout mainFolder = layout.createFolder(tomoMain, IPageLayout.LEFT, 0.20f, editorArea);
+		mainFolder.addView(TOMO_MAIN_VIEW);
+		IViewLayout topViewLayout = layout.getViewLayout(TOMO_MAIN_VIEW);
+		topViewLayout.setCloseable(false);
 
-//		final IFolderLayout planProgressLayout = layout.createFolder("planprogress", IPageLayout.RIGHT, 0.2f, "tomographymanagement");
-//		planProgressLayout.addView("uk.ac.diamond.daq.experiment.ui.plan.progressPlotView");
-//		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.progressPlotView");
-//		vLayout.setCloseable(false);
-//
-//		final IFolderLayout planOverview = layout.createFolder("planoverview", IPageLayout.RIGHT, 0.58f, "planprogress");
-//		planOverview.addView("uk.ac.diamond.daq.experiment.ui.plan.overview");
-//		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.overview");
-//		vLayout.setCloseable(false);
-////
-////
-//		final IFolderLayout planOutputLayout = layout.createFolder("planoutput", IPageLayout.BOTTOM, 0.5f, "planprogress");
-//		planOutputLayout.addView("org.dawnsci.mapping.ui.spectrumview");
-//		vLayout = layout.getViewLayout("org.dawnsci.mapping.ui.spectrumview");
-//		vLayout.setCloseable(false);
-//
-		final IFolderLayout folderLayout = layout.createFolder("console_folder", IPageLayout.BOTTOM, 0.65f, "planoverview");
-		folderLayout.addView("gda.rcp.jythonterminalview");
+		String tomoTools = "tomographyTools";
+		final IFolderLayout toolsFolder = layout.createFolder(tomoTools, IPageLayout.RIGHT, 0.75f, editorArea);
+		toolsFolder.addView(LIVE_VIEW);
+		toolsFolder.addView(CAMERA_CONTROLLER_VIEW);
+		IViewLayout topRightLayout = layout.getViewLayout(CAMERA_CONTROLLER_VIEW);
+		topRightLayout.setCloseable(false);
+
+		String tomoMonitor = "tomographyMonitors";
+		final IFolderLayout monitorLayout = layout.createFolder(tomoMonitor, IPageLayout.BOTTOM, 0.75f, tomoTools);
+		monitorLayout.addView(JYTON_CONSOLE_VIEW);
 		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),
 				"org.eclipse.scanning.api",
 				"org.eclipse.scanning.api.event.status.StatusBean",
@@ -72,7 +73,7 @@ public class Tomography  implements IPerspectiveFactory {
 
 
 		queueViewId = queueViewId + "partName=Queue";
-		folderLayout.addView(queueViewId);
+		monitorLayout.addView(queueViewId);
 
 
 		logger.trace("Finished building K11 Tomography perspective");
