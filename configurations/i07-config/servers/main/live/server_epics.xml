@@ -1302,4 +1302,20 @@
 		<property name="pvName" value="BL07I-MO-WA-01:Z" />
 	</bean>
 
+
+	<bean id="claspshutter" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="claspshutter" />
+		<property name="pvName" value="BL07I-OP-FILT-01:FILTER13:CTRL" />
+	</bean>
+
+	<bean id="syringeleftvalve" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="syringe_left_valve" />
+		<property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
+	</bean>
+
+	<bean id="syringerightvalve" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="syringe_right_valve" />
+		<property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
+	</bean>
+
 </beans>

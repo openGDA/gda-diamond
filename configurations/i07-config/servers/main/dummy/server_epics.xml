@@ -878,4 +878,16 @@
 
     <bean id="stagez_motor" class="gda.device.motor.DummyMotor" />
 
+    <bean id="claspshutter" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="claspshutter" />
+    </bean>
+
+    <bean id="syringeleftvalve" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="syringe_left_valve" />
+    </bean>
+
+    <bean id="syringerightvalve" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="syringe_right_valve" />
+    </bean>
+
 </beans>
