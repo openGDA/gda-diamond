@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="tomographyStageGroup" class="uk.ac.diamond.daq.stage.StageGroup">
+		<constructor-arg name="name" value="Tomography" />
+		<constructor-arg name="stages">
+			<list>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="diadStageGroupService" class="uk.ac.diamond.daq.stage.impl.DefaultStageGroupService">
+		<constructor-arg name="stageGroups">
+			<list>
+				<ref bean="tomographyStageGroup" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="diadMultipleStagePositioningService" class="uk.ac.diamond.daq.stage.impl.DefaultMultipleStagePositioningService">
+		<constructor-arg name="stageGroups">
+			<list>
+				<ref bean="tomographyStageGroup" />
+			</list>
+		</constructor-arg>
+		<constructor-arg name="stageGroupService" ref="diadStageGroupService" />
+	</bean>
+</beans>

@@ -34,6 +34,13 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/kb_mirrors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/beam/kb_mirrors.xml" />
 
+	
+	<!-- The following import is required for the rendering of the Stage select section -->
+	<import resource="stage_manager.xml" />
+	
+	<!-- Experiment service, plan request handler -->
+	<import resource="experiment.xml" />
+	
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
