@@ -11,28 +11,38 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<bean class="uk.ac.gda.client.ServerFileListener">
-		<property name="clientFileAnnouncerName" value="client_file_announcer" />
+		<property name="clientFileAnnouncerName"
+			value="client_file_announcer" />
 	</bean>
 
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-	
-	<bean id="live_stream_connection_manager" class="uk.ac.gda.client.live.stream.LiveStreamConnectionManager" />
-	
+
+	<bean id="live_stream_connection_manager"
+		class="uk.ac.gda.client.live.stream.LiveStreamConnectionManager" />
+
+	<!-- ExperimentService -->
+	<bean id="clientExperimentService"
+		class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
+
 	<!-- =========================================================== -->
 	<!-- ===================== MODE SPECIFIC ======================= -->
 	<!-- =========================================================== -->
-	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
-	
+	<import
+		resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
+
 	<!-- =========================================================== -->
 	<!-- ===================== SHARED FILES ======================== -->
 	<!-- =========================================================== -->
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-	
-	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
-	
-	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
-	
-	<import resource="mapping.xml"/>
+	<import
+		resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+
+	<import
+		resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
+
+	<import
+		resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
+
+	<import resource="mapping.xml" />
 
 </beans>

@@ -6,129 +6,183 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder/>
+	<context:property-placeholder />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+	<!-- This must be included early on, as configuration of ROI/Stats modules 
+		requires plot service -->
+	<import
+		resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
 	<!-- Command Server -->
-	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
 
-	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+	<bean id="GDAHashtable"
+		class="gda.util.findableHashtable.FindableHashtable" />
 
 	<!-- =========================================================== -->
-	<!-- 	mode specific files -->
+	<!-- mode specific files -->
 	<!-- =========================================================== -->
-	
+
 	<!-- beam -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/kb_mirrors_motors.xml" />
-	
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/beam/kb_mirrors_motors.xml" />
+
 	<!-- slits -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits/s1_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits/s2_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits/s3_motors.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s1_motors.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s2_motors.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s3_motors.xml" />
 
 	<!-- mirrors -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4_motors.xml" />
-	
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2_motors.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3_motors.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4_motors.xml" />
+
 	<!-- stages -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/tomography_stack_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/tr6_motors.xml" />
-	
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/stages/tomography_stack_motors.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/stages/tr6_motors.xml" />
+
 	<!-- detectors -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_motion.xml" />
-	
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_motion.xml" />
-	
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_motion.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_motion.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d3_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d11_addetector.xml" />
-	
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_motion.xml" />
+
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_motion.xml" />
+
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_motion.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_motion.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d3_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d11_addetector.xml" />
+
 	<!-- other devices -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
-	
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
+
 	<!-- file registration -->
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
-	
-	<!-- ExperimentService (dummy for now) -->
-	<bean id="experimentService" class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
-	
+	<import
+		resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
+	<!-- ExperimentService -->
+	<bean id="serverExperimentService"
+		class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
+
 	<!-- Plan request handler -->
-	<bean id="planRequestHandler" class="uk.ac.diamond.daq.experiment.plan.BasicPlanRequestHandler" />
+	<bean id="planRequestHandler"
+		class="uk.ac.diamond.daq.experiment.plan.BasicPlanRequestHandler" />
 
 	<!-- =========================================================== -->
-	<!-- 	shared files -->
+	<!-- shared files -->
 	<!-- =========================================================== -->
-	
+
 	<!-- beam -->
-	<import resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/beam/kb_mirrors.xml" />
-	
+	<import
+		resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/beam/kb_mirrors.xml" />
+
 	<!-- slits -->
-	<import resource="file:${gda.config}/servers/main/_common/slits/s1.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/slits/s2.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/slits/s3.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/slits/s1.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/slits/s2.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/slits/s3.xml" />
 
 	<!-- mirrors -->
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
-	
+	<import
+		resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
+
 	<!-- stages -->
-	<import resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/stages/stage_manager.xml"/>
+	<import
+		resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/stages/stage_manager.xml" />
 
 	<!-- detectors -->
-	<import resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_scannables.xml" />
-	
-	<import resource="file:${gda.config}/servers/main/_common/detectors/diffraction/det_addetector.xml" />
-	
-	<import resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d1_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d2_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d3_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d11_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_scannables.xml" />
 
-	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diffraction/det_addetector.xml" />
 
-	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d1_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d2_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d3_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d11_addetector.xml" />
+
+	<import
+		resource="file:${gda.config}/servers/main/_common/metadata.xml" />
+
+	<import
+		resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 
 	<!-- file registration -->
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
-	
+	<import
+		resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
+
 
 	<!-- Dummies -->
-	
-	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-	
-	<import resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
 
-	<!--
-		Mapping scans
-		IMPORTANT: this will start processing the scanning queue.
-		Detectors must be created before doing this.
-		ADVISED: do it last or towards the end, scan will now start to run!
-	 -->
-	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml"/>
+	<bean id="DashboardObserver"
+		class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
- 	<!-- Initialise Jython late on, as localStation refers to beans -->
+	<import
+		resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
+
+	<!-- Mapping scans IMPORTANT: this will start processing the scanning queue. 
+		Detectors must be created before doing this. ADVISED: do it last or towards 
+		the end, scan will now start to run! -->
+	<import
+		resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml" />
+
+	<!-- Initialise Jython late on, as localStation refers to beans -->
 	<import resource="jythonServerFacade.xml" />
 
 	<!-- Exports objects over RMI -->

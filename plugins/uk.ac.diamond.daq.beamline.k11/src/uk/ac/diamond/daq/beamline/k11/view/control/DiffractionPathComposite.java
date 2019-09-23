@@ -256,7 +256,7 @@ public class DiffractionPathComposite extends Composite {
 		// updateRegionShapeBindings (which is called by updateView) uses the controller cached version of ScanRegion
 		// Shape so this too must be up to date by then
 
-		Optional<IMappingExperimentBean> bean = smController.loadScan(filename);
+		Optional<IMappingExperimentBean> bean = smController.loadScanMappingBean(filename);
 		if (bean.isPresent()) {
 
 			// after this point we have now received a newly loaded mapping bean which will need to be substituted for
