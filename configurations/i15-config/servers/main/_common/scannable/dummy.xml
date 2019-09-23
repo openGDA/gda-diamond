@@ -30,8 +30,12 @@
 	<bean id="ccdFloodDistance" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ccdFloodDistanceMotor" />
 	</bean>
-	
+
 	<bean id="exposure" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="exposure" />
+	</bean>
+
+	<bean id="frame" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="frame" />
 	</bean>
 </beans>
