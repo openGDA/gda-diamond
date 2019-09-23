@@ -718,9 +718,22 @@ try:
 	from gda.util.converters import JEPConverterHolder
 	from gda.device.scannable import ConvertorScannable
 
+	def createConvertorScannable(name, theScannable, theConvertor):
+		scannable = ConvertorScannable()
+		scannable.setName(name);
+		scannable.setInputNames([ name ])
+		scannable.setScannable(theScannable)
+
+		# set up the units component for this object based on the underlying scannable
+		scannable.setConvertor(theConvertor)
+		scannable.setScannableName(theScannable.getName())
+
+		scannable.configure()
+		return scannable
+
 	try:
 		energy_calibration = JEPConverterHolder("energy_calibration", "calibrated_energy.xml")
-		calibrated_energy = ConvertorScannable("ConvertorScannable", dcmenergy, energy_calibration)
+		calibrated_energy = createConvertorScannable("ConvertorScannable", dcmenergy, energy_calibration)
 	except:
 		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
 
