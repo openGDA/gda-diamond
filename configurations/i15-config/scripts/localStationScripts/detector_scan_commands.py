@@ -182,9 +182,10 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 
 	return hardwareTriggeredNXDetector
 
-def _darkExpose(detector, exposureTime=1, 
-		sampleSuffix="expose_test", d1out=True, d2out=True, d3out=True):
-	
+def _darkExpose(detector,
+		exposeSuppressOpenDetectorShieldAtScanStart, exposeSuppressCloseDetectorShieldAtScanEnd,
+		exposureTime=1, sampleSuffix="expose_test", d1out=True, d2out=True, d3out=True):
+
 	_configureDetector(detector, exposureTime, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
 
 	darkSubtractionPVs = _darkSubtractionPVs(detector)
@@ -200,9 +201,12 @@ def _darkExpose(detector, exposureTime=1,
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	detectorShield = jythonNameMap.ds
-	numExposuresPD = DummyPD("exposure")
+	detectorShield.suppressOpenDetectorShieldAtScanStart = exposeSuppressOpenDetectorShieldAtScanStart
+	detectorShield.suppressCloseDetectorShieldAtScanEnd = exposeSuppressCloseDetectorShieldAtScanEnd
 
-	scan = ConcurrentScan([numExposuresPD, 1, 1, 1,
+	exposure = jythonNameMap.exposure
+
+	scan = ConcurrentScan([exposure, 1, 1, 1,
 						   detectorShield,
 						   DiodeController(d1out, d2out, d3out, exposeDarkFlag=True),
 						   detector, exposureTime ])
