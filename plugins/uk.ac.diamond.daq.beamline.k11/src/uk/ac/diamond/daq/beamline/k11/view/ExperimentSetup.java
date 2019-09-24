@@ -56,7 +56,6 @@ import gda.factory.Finder;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
-import uk.ac.diamond.daq.experiment.api.ExperimentService;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
@@ -97,7 +96,6 @@ public class ExperimentSetup extends LayoutUtilities {
 	private static final String TABEL_STAGE = "Platform";
 
 	private final StageGroupService stageGroupService;
-	private final ExperimentService experimentService;
 	private final DataBindingContext dbc = new DataBindingContext();
 	private final IWorkbench workbench = PlatformUI.getWorkbench();
 	private final IWorkbenchWindow activeWindow = workbench.getActiveWorkbenchWindow();
@@ -108,7 +106,6 @@ public class ExperimentSetup extends LayoutUtilities {
 
 	public ExperimentSetup() {
 		stageGroupService = Finder.getInstance().find("diadStageGroupService");
-		experimentService = Finder.getInstance().findSingleton(ExperimentService.class);
 	}
 
 	/**
@@ -390,7 +387,7 @@ public class ExperimentSetup extends LayoutUtilities {
 	private void addExperimentDriverButton(Composite content) {
 		Button experimentDriverButton = addConfigurationDialogButton(content, "Environmental Experiment Driver");
 		experimentDriverButton.addListener(SWT.Selection, event -> {
-			ExperimentDriverWizard driverWizard = new ExperimentDriverWizard(experimentService, nameText.getText());
+			ExperimentDriverWizard driverWizard = new ExperimentDriverWizard(nameText.getText());
 			WizardDialog wizardDialog = new WizardDialog(content.getShell(), driverWizard);
 			wizardDialog.setPageSize(driverWizard.getPreferredPageSize());
 			wizardDialog.open();
