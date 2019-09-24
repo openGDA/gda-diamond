@@ -40,6 +40,7 @@
 	
 	<!-- Experiment service, plan request handler -->
 	<import resource="experiment.xml" />
+	<import resource="experiment_driver.xml" />
 	
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
