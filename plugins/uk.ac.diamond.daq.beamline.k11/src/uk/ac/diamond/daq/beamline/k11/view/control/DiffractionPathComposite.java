@@ -107,7 +107,7 @@ public class DiffractionPathComposite extends Composite {
 
 	private static final Map<Shape, String[]> PROPERTIES_FOR_SHAPE = ImmutableMap.of(// use IObservableValues instead
 			Shape.POINT, new String[] {},
-			Shape.CENTRED_RECTANGLE, new String[] {"fastAxisPoints", "slowAxisPoints"},
+			Shape.CENTRED_RECTANGLE, new String[] {"xAxisPoints", "yAxisPoints"},
 			Shape.LINE, new String[] {"points"}
 			);
 
@@ -248,7 +248,7 @@ public class DiffractionPathComposite extends Composite {
 		// When load is called, the existing mapping bean has bindings from
 		// 1. its region shape to selectedShapeObservable
 		// 2. its scanpath to the corresponding mutator checkboxes and the summary text
-		// 3. its fastaxis points count to the readout, scale and summary text
+		// 3. its xaxis points count to the readout, scale and summary text
 		// all under regionDBC which will need to be released along with the associated observable values.
 		// This happens automatically in updateView i.e. when the RegionAndPathController's RegionSelector Listener is
 		// triggered which in turn happens as a result of setting the value of selectedMSRSObservable. When this happens,
