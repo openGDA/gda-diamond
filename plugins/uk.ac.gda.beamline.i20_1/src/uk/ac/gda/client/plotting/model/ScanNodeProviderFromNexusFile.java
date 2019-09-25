@@ -150,7 +150,7 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 	}
 
 	private void addDetectorDataToTree(Node detectorNode, DoubleDataset energyData, DoubleDataset positionData,
-			IDataset groupIndex, IDataset spectrumIndex, ILazyDataset fullDataset, int[] expectedShape) {
+			Dataset groupIndex, IDataset spectrumIndex, ILazyDataset fullDataset, int[] expectedShape) {
 
 		try {
 			logger.debug("\tAdding dataset {} to tree", fullDataset.getName());
@@ -173,7 +173,7 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 	 * @param fullDataset full dataset. dimensions=[num spectra, num energies]
 	 * @throws DatasetException
 	 */
-	private void addDataToTree(Node detectorNode, DoubleDataset energyAxis, DoubleDataset uncalibratedAxis, IDataset groupNumber, IDataset spectrumNumber,
+	private void addDataToTree(Node detectorNode, DoubleDataset energyAxis, DoubleDataset uncalibratedAxis, Dataset groupNumber, IDataset spectrumNumber,
 			ILazyDataset fullDataset) throws DatasetException {
 
 		// Don't add datasets that have strings as elements
@@ -182,7 +182,7 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 		}
 
 		int[] shape = fullDataset.getShape();
-		int numSpectra = groupNumber.getShape()[0];
+		int numSpectra = groupNumber.getShapeRef()[0];
 
 		final SpectraNode newNode = new SpectraNode(detectorNode, fullDataset.getName(), fullDataset.getName());
 		newNode.setUncalibratedXAxisData(uncalibratedAxis);
@@ -232,8 +232,8 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 	}
 
 	private Dataset getDataset(GroupNode groupNode, String name) throws DatasetException {
-		Dataset data = (Dataset) groupNode.getDataNode(name).getDataset().getSlice((SliceND)null);
-		if (data.getShape().length > 1) {
+		Dataset data = DatasetUtils.sliceAndConvertLazyDataset(groupNode.getDataNode(name).getDataset());
+		if (data.getRank() > 1) {
 			data = data.squeeze();
 		}
 		return data;
