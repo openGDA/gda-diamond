@@ -7,7 +7,7 @@ from commands import getoutput
 
 def createUserSetup():
     userdir = "/".join(i07.getDataPath().split("/",6)[0:6])
-#    userdir = PathConstructor.createFromDefaultProperty()
+#    userdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 
     if not path.isdir(userdir):
         print "Error: user directory " + userdir + " does not exist"
@@ -28,7 +28,7 @@ def setPilPaths():
     pil1.setFile("pilatus1","p100kImage")
     pil2.setFile("pilatus2","p2mImage")
     pil3.setFile("pilatus3","p3Image")    
-#    pil3.setFilePath(PathConstructor.createFromDefaultProperty()+"/pilatus3")
+#    pil3.setFilePath(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"/pilatus3")
 #    pil3.setFileName("p3Image")
 #    print "pil3 path: " + pil3.getFilePath()
 #    print "p100k path: " + pil1.getFullFileName()

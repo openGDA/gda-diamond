@@ -7,10 +7,10 @@ raise DeprecationWarning("This script is no longer supported (as of November 201
 try:
 	import diffcalc
 except ImportError:
-	from gda.data.PathConstructor import createFromProperty
+	from gda.jython import InterfaceProvider
 	import sys
 	# XXX: this is pointing to diffcalc_trunk, not diffcalc
-	diffcalc_path = createFromProperty("gda.install.git.loc") + '/diffcalc_trunk' 
+	diffcalc_path = InterfaceProvider.getPathConstructor().createFromProperty("gda.install.git.loc") + '/diffcalc_trunk' 
 	sys.path = [diffcalc_path] + sys.path
 	print diffcalc_path + ' added to GDA Jython path.'
 	import diffcalc #@UnusedImport

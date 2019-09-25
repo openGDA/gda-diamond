@@ -1406,9 +1406,9 @@ run('localStationScripts/FlipperClass')
 # Restore data directory
 setDatadirPropertyFromPersistanceDatabase()
 showlm()
-import gda.data.PathConstructor
+from gda.jython import InterfaceProvider
 print "======================================================================"
-localStation_print("Current data directory: %r" % gda.data.PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir"))
+localStation_print("Current data directory: %r" % InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir"))
 print "======================================================================"
 if USE_DUMMY_IDGAP_MOTOR or type(idgap.getMotor())==gda.device.motor.DummyMotor:
 	print "!"*80

@@ -18,7 +18,7 @@ import ShelveIO
 from string import *
 import beamline_info as BLi
 import installation
-import gda.data.PathConstructor
+from gda.jython import InterfaceProvider
 ## The class manages the reflection list, using shelveIO
 #
 class Reflmanagement(java.lang.Object):
@@ -31,7 +31,7 @@ class Reflmanagement(java.lang.Object):
       self.ref=[]
       self.SIO=ShelveIO.ShelveIO()
       if installation.isDummy():
-         f=open(os.path.join(gda.data.PathConstructor.createFromProperty('gda.var'), 'reffilename.log'),'r')
+         f=open(os.path.join(InterfaceProvider.getPathConstructor().createFromProperty('gda.var'), 'reffilename.log'),'r')
       else:
          f=open('/dls_sw/i16/var/reffilename.log','r')
       
@@ -72,7 +72,7 @@ class Reflmanagement(java.lang.Object):
    #
    def setReflectionsFileName(self,fname):
       if installation.isDummy():
-         f=open(os.path.join(gda.data.PathConstructor.createFromProperty('gda.var'), 'reffilename.log'),'a')
+         f=open(os.path.join(InterfaceProvider.getPathConstructor().createFromProperty('gda.var'), 'reffilename.log'),'a')
       else:
          f=open('/dls_sw/i16/var/reffilename.log','a')
       

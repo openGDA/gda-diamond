@@ -1,6 +1,6 @@
 from gda.device.scannable import PseudoDevice
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 import subprocess
 
 class RSRemapAutorun(PseudoDevice):
@@ -15,7 +15,7 @@ class RSRemapAutorun(PseudoDevice):
 		self.numTracker = NumTracker("scanbase_numtracker")
 
 	def getCurrentFileName(self):
-		file = PathConstructor.createFromDefaultProperty()
+		file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 		file = file + "/" + `numTracker.getCurrentFileNumber()`+".nxs"
 		return(file)
 

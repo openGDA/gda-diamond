@@ -27,7 +27,7 @@ checkbeam = WaitBelowAndShutter('checkbeam', scannableToMonitor=rc, minimumThres
 try_execfile("BeamlineI07/Users/gotopeak.py")
 
 # find the root data directory for the visit
-# this replaces PathConstructor.createFromDefaultProperty()
+# this replaces InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 #visitRoot = "/".join(i07.getDataPath().split("/",6)[0:6])
 
 # set operation link to be the same as current data directory

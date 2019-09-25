@@ -8,7 +8,7 @@ from gda.jython import InterfaceProvider
 import time
 import java.lang.Boolean
 import gda.observable.Predicate
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 import os
 
 
@@ -25,7 +25,7 @@ def _get_current_scan_number():
 
 
 def _get_datadir():
-    return PathConstructor.createFromDefaultProperty()
+    return InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 
 
 class IsFalsePredicate(gda.observable.Predicate):

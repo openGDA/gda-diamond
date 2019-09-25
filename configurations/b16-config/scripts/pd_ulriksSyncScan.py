@@ -1,6 +1,7 @@
 from gda.device.scannable import PseudoDevice
 from gdascripts.pd.time_pds import tictoc
 from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from os import popen
 import gda
 
@@ -9,7 +10,7 @@ class UlriksSyncScan(PseudoDevice):
 	moved in scans.'''
 	
 	def __init__(self):
-		self.directory = gda.data.PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
+		self.directory = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")
 		self.name = 'ionsync'
 		self.setInputNames(['time'])
 		self.setExtraNames(['pointno'])

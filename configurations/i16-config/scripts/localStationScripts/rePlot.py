@@ -3,17 +3,17 @@
 from gda.analysis.io import *
 import math
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 import random
 
 numTracker = NumTracker("scanbase_numtracker")
 def replot(relativefilenumber,axis1,axis2):
 	if relativefilenumber > 0:
-		file = PathConstructor.createFromDefaultProperty()	
+		file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()	
 		file = file + "/" + `relativefilenumber`+".dat"
 		filenumber=relativefilenumber
 	else:
-		file = PathConstructor.createFromDefaultProperty()
+		file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 		file = file + "/" + `int(numTracker.getCurrentFileNumber()+relativefilenumber)`+".dat"
 		filenumber=int(numTracker.getCurrentFileNumber()+relativefilenumber)
 	data = ScanFileHolder()

@@ -7,7 +7,7 @@ from java.io import File
 from java.lang import System
 from gda.configuration.properties import LocalProperties
 from jarray import array
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.data.scan.datawriter import XasAsciiDataWriter
 from gda.data.scan.datawriter import NexusDataWriter
 #import rastermap.rastermap
@@ -132,7 +132,7 @@ class MicroFocusEnvironment:
     def getScriptFolder(self):
         if MicroFocusEnvironment.testScriptFolder != None:
             return MicroFocusEnvironment.testScriptFolder
-        dataDirectory = PathConstructor.createFromDefaultProperty()
+        dataDirectory = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         return dataDirectory + "/xml/"
 
     testScannable=None

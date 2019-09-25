@@ -2,7 +2,8 @@ from __future__ import with_statement
 from gda.device.detector import PseudoDetector
 from gda.device.scannable import PseudoDevice
 import os.path
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker 
+from gda.jython import InterfaceProvider
 import time
 
 # For example::
@@ -120,7 +121,7 @@ class FileWritingXmap(PseudoDetector):
 ###
     def __getDirectory(self):
         scannumber = int(self.scanNumTracker.getCurrentFileNumber())
-        return os.path.join(PathConstructor.createFromDefaultProperty(), 'mca', `scannumber`, 'row' +`self.row`)
+        return os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(), 'mca', `scannumber`, 'row' +`self.row`)
     
     def __getFilename(self):
         scannumber = int(self.scanNumTracker.getCurrentFileNumber())

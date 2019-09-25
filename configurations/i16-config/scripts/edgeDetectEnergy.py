@@ -2,7 +2,7 @@
 import scisoftpy as dnp
 from gda.analysis.io import *
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.analysis import ScanFileHolder
 from org.eclipse.january.dataset import DatasetUtils
 from uk.ac.diamond.scisoft.analysis.fitting.functions import CubicSpline
@@ -11,20 +11,20 @@ import traceback
 numTracker = NumTracker("scanbase_numtracker")
 def get_file(relativefilenumber=0):
     if relativefilenumber > 0:
-        file = PathConstructor.createFromDefaultProperty()    
+        file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()    
         file = file + "/" + `relativefilenumber`+".dat"
     else:
-        file = PathConstructor.createFromDefaultProperty()
+        file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         file = file + "/" + `int(numTracker.getCurrentFileNumber()+relativefilenumber)`+".dat"
     return file
 
 def eEdge(relativefilenumber=0,axis1='energy2',axis2='ic1'):
     if relativefilenumber > 0:
-        file = PathConstructor.createFromDefaultProperty()    
+        file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()    
         file = file + "/" + `relativefilenumber`+".dat"
         filenumber=relativefilenumber
     else:
-        file = PathConstructor.createFromDefaultProperty()
+        file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         file = file + "/" + `int(numTracker.getCurrentFileNumber()+relativefilenumber)`+".dat"
         filenumber=int(numTracker.getCurrentFileNumber()+relativefilenumber)
     print(file)

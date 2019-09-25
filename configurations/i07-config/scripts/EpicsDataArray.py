@@ -4,7 +4,7 @@ from java import lang
 #from gda.device import Scannable
 from gda.epics import CAClient
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 #import gda
 from gda.analysis import Plotter
 

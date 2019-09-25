@@ -1,9 +1,9 @@
 import scisoftpy as dnp
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 def restorerois(scan):
     if type(scan) == int:
-        f = dnp.io.load(PathConstructor.createFromDefaultProperty()+"/"+ str(scan) + ".dat")
+        f = dnp.io.load(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"/"+ str(scan) + ".dat")
     else:
         f = dnp.io.load(scan)
     roi = 0

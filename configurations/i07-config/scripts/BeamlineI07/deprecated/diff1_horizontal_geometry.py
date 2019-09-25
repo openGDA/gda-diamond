@@ -9,10 +9,10 @@ print "<<< Running  /i07-config/scripts/BeamlineI07/diff1_horizontal_geometry.py
 try:
 	import diffcalc
 except ImportError:
-	from gda.data.PathConstructor import createFromProperty
+	from gda.jython import InterfaceProvider
 	import sys
 	# XXX: this is pointing to diffcalc_trunk, not diffcalc
-	diffcalc_path = createFromProperty("gda.install.git.loc") + '/diffcalc_trunk'
+	diffcalc_path = InterfaceProvider.getPathConstructor().createFromProperty("gda.install.git.loc") + '/diffcalc_trunk'
 	sys.path = [diffcalc_path] + sys.path
 	print diffcalc_path + ' added to GDA Jython path.'
 	import diffcalc #@UnusedImport
