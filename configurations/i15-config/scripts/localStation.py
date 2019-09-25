@@ -228,6 +228,19 @@ try:
 		localStation_exception(sys.exc_info(), "creating cryojet scannable")
 
 	try:
+		caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
+		caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
+		caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
+		caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
+		caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
+		caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
+	except:
+		localStation_exception(sys.exc_info(), "correcting pe area detector pipeline...")
+
+	try:
 		global pe
 		pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
 		pe1.processors=[DetectorDataProcessorWithRoi(
