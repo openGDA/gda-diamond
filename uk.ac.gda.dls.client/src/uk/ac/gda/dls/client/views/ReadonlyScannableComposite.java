@@ -94,7 +94,7 @@ public class ReadonlyScannableComposite extends Composite {
 
 		setTextRunnable = () -> {
 			if (text.isDisposed()) {
-				logger.warn("Attempting to update text for disposed widget {}", scannableName);
+				logger.trace("Attempting to update text for disposed widget {}", scannableName);
 				return;
 			}
 			beforeUpdateText(text, val);
