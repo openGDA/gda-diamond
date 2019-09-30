@@ -359,9 +359,6 @@
                   id="uk.ac.gda.client.exafs.OpenFolderCommand">
             </hiddenToolBarItem>
             <hiddenToolBarItem
-                  id="uk.ac.gda.client.exafs.resetperspective">
-            </hiddenToolBarItem>
-            <hiddenToolBarItem
                   id="org.eclipse.ui.edit.text.gotoLastEditPosition">
             </hiddenToolBarItem>
             <hiddenToolBarItem
@@ -396,9 +393,6 @@
             </hiddenToolBarItem>
             <hiddenToolBarItem
                   id="uk.ac.gda.client.exafs.OpenFolderCommand">
-            </hiddenToolBarItem>
-            <hiddenToolBarItem
-                  id="uk.ac.gda.client.exafs.resetperspective">
             </hiddenToolBarItem>
             <hiddenToolBarItem
                   id="org.eclipse.ui.edit.text.gotoLastEditPosition">
