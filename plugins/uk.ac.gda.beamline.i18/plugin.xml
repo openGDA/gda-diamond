@@ -316,15 +316,6 @@
   <extension
         point="org.eclipse.ui.handlers">
      <handler
-           class="uk.ac.gda.exafs.ui.actions.I18DataCollectionModeHandler"
-           commandId="uk.ac.gda.client.exafs.dataCollectionCommand">
-
-        <activeWhen>
-            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
-        </activeWhen>
-
-     </handler>
-     <handler
            class="uk.ac.gda.client.experimentdefinition.ui.handlers.RunExperimentNewQueueCommandHandler"
            commandId="uk.ac.gda.client.experimentdefinition.RunSingleScanOnlyCommand">
 

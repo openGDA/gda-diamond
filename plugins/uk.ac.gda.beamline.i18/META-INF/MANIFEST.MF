@@ -55,12 +55,7 @@ Export-Package: gda.exfas.ui.validation;
    org.eclipse.ui.plugin,
    org.osgi.framework",
  uk.ac.gda.beamline.i18.startup;uses:="org.eclipse.ui",
- uk.ac.gda.beamline.i18.views;uses:="org.eclipse.ui.part,org.eclipse.swt.widgets",
- uk.ac.gda.exafs.ui.actions;
-  uses:="org.eclipse.jface.action,
-   org.eclipse.ui,
-   org.eclipse.jface.viewers,
-   org.eclipse.core.commands"
+ uk.ac.gda.beamline.i18.views;uses:="org.eclipse.ui.part,org.eclipse.swt.widgets"
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition,  uk.ac.gda.client.exafs
 Import-Package: org.dawnsci.plotting.jreality.impl,
