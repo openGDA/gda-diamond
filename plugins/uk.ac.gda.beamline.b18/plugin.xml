@@ -344,9 +344,6 @@
          <perspectiveExtension
                targetID="uk.ac.gda.client.experimentdefinition.experimentperspective">
             <hiddenToolBarItem
-                  id="uk.ac.gda.client.exafs.StopAllCommand">
-            </hiddenToolBarItem>
-            <hiddenToolBarItem
                   id="uk.ac.gda.client.exafs.switchScanType">
             </hiddenToolBarItem>
             <hiddenToolBarItem
@@ -373,9 +370,6 @@
          </perspectiveExtension>
          <perspectiveExtension
                targetID="org.diamond.exafs.ui.PlottingPerspective">
-            <hiddenToolBarItem
-                  id="uk.ac.gda.client.exafs.StopAllCommand">
-            </hiddenToolBarItem>
             <hiddenToolBarItem
                   id="uk.ac.gda.client.exafs.switchScanType">
             </hiddenToolBarItem>
