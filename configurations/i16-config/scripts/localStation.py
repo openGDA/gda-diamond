@@ -27,11 +27,11 @@ try:
 	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
 except Exception as e:
 	USE_CRYO_GEOMETRY = False
-	USE_DIFFCALC = False
+	USE_DIFFCALC = True
 	USE_DUMMY_IDGAP_MOTOR = False
 	USE_NEXUS = True
 	USE_NEXUS_METADATA_COMMANDS = True
-	USE_XMAP= True
+	USE_XMAP= False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
 		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,"+
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r" % 
@@ -1156,9 +1156,9 @@ localStation_print("-------------------------------MERLIN INIT COMPLETE---------
 ###############################################################################
 ###                              Configure Xmap                            ###
 ###############################################################################
-from scannable.detector.dxp import DxpSingleChannelRoiOnly
 if USE_XMAP:
-	pass#Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
+	from scannable.detector.dxp import DxpSingleChannelRoiOnly
+	Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
 ###############################################################################
 ###                             Configure firecam                           ###
 ###############################################################################
