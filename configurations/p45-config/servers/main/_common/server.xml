@@ -21,11 +21,18 @@
 		<property name="name" value="metashop"/>
 	</bean>
 
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> 
 	<import resource="command_queue_processor.xml"/>
 	<import resource="jython_server_facade.xml" />
-	<import resource="stages/tomography_stack.xml"/>
 	<import resource="logging_script_controller.xml"/>
+
+	<!-- Instantiates epics then scannable motors -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/tomography_stack.xml"/>
+	<import resource="stages/tomography_stack.xml"/>
+
+	<!-- beam -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/kb_mirrors.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/beam/kb_mirrors.xml" />
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />

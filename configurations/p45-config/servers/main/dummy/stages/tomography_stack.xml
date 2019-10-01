@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		ScannableMotors for UI sake
+	</description>
+
+	<!-- It could be loaded through 
+		through file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" in dummy/server.xml file 
+		but they would have a different ref names for _common/stages/tomography_stack.xml 
+		-->
+
+	<bean id="stage_x_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{workstation}-MO-SIM-01:M1" />
+	</bean>
+	
+	<bean id="stage_y_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{workstation}-MO-SIM-01:M2" />
+	</bean>
+
+	<bean id="stage_z_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{workstation}-MO-SIM-01:M3" />
+	</bean>
+	<bean id="stage_theta_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{workstation}-MO-SIM-01:M4" />		
+	</bean>
+
+</beans>

@@ -1,0 +1,59 @@
+{
+	"uuid": null,
+	"name": null,
+	"description": null,
+	"executionPeriod": null,
+	"script": null,
+	"acquisitionConfiguration": {
+		"devices": {
+			"devices": [
+				{
+					"_class": "stagex"
+				},
+				{
+					"_class": "stagey"
+				},
+				{
+					"_class": "stagez"
+				},
+				{
+					"_class": "theta"
+				}
+			]
+		},
+		"acquisitionParameters": {
+			"name": "Default name",
+			"scanType": "FLY",
+			"start": {
+				"start": 0.0,
+				"useCurrentAngle": false,
+				"currentAngle": 4.9E-324
+			},
+			"end": {
+				"rangeType": "RANGE_180",
+				"numberRotation": 1,
+				"customAngle": 0.0
+			},
+			"projections": {
+				"totalProjections": 1,
+				"anglarStep": 0.0
+			},
+			"imageCalibration": {
+				"numberDark": 0,
+				"darkExposure": 0.0,
+				"numberFlat": 0,
+				"flatExposure": 0.0,
+				"beforeAcquisition": false,
+				"afterAcquisition": false
+			},
+			"multipleScans": {
+				"multipleScansType": "REPEAT_SCAN",
+				"numberRepetitions": 1,
+				"waitingTime": 0,
+				"enabled": false
+			}
+		},
+		"metadata": null
+	},
+	"logs": null
+}
