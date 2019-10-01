@@ -339,8 +339,8 @@ w=waittime	#abreviated name
 mrwolf=mrwolfClass('mrwolf')
 
 ### Create offset devices
-localStation_print("Running startup_offsets.py: Starting database system...")
-run("startup_offsets")
+localStation_print("Running localStationScripts/startup_offsets.py: Starting database system...")
+run("localStationScripts/startup_offsets")
 localStation_print("...Database system started")
 offsetshelf=LocalJythonShelfManager.open('offsets')
 localStation_print("  use 'offsetshelf' to see summary of offsets")
@@ -367,9 +367,9 @@ def _gdahelp(o):
 alias("help")
 
 ### Create datadir functions
-localStation_print("Running startup_dataDirFunctions.py")
+localStation_print("Running localStationScripts/startup_dataDirFunctions.py")
 localStation_print("  use 'datadir' to read the current directory or 'datadir name' to change it")
-run("startup_dataDirFunctions") # depends on globals pil2mdet and pil100kdet
+run("localStationScripts/startup_dataDirFunctions") # depends on globals pil2mdet and pil100kdet
 alias('datadir')
 
 ### Pipeline	
@@ -446,7 +446,7 @@ if USE_CRYO_GEOMETRY:
 	exec("delta=euler.delta")
 	exec("gam=euler.gam")
 else:
-	run("startup_diffractometer_euler")
+	run("localStationScripts/startup_diffractometer_euler")
 
 """ PA motors now defined in spring
 if installation.isLive():
@@ -456,7 +456,7 @@ if installation.isLive():
 """
 
 if not USE_DIFFCALC:
-	run("startup_diffractometer_hkl")
+	run("localStationScripts/startup_diffractometer_hkl")
 	azihkl=AzihklClass('aziref')
 	azihkl.azir_function = azir
 	psi.setInputNames(['psi'])
@@ -548,7 +548,7 @@ except NameError as e:
 #
 if installation.isDummy():
 	localStation_print("Running localStation.test_only.py ...")
-	run("localStation.test_only")
+	run("localStationScripts/localStation.test_only")
 	localStation_print("... completed localStation.test_only.py")
 	print
 	setDatadirPropertyFromPersistanceDatabase()
@@ -564,7 +564,7 @@ if installation.isDummy():
 ###                          Tune finepitch using QBPM                      ###
 ###############################################################################
 localStation_print("Tuning finepitch using QBPM *Use with care*")
-run("pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos 
+run("localStationScripts/pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos 
 pitchup=pitchupClass()
 
 
@@ -594,19 +594,19 @@ pitchup=pitchupClass()
 if installation.isLive():
 
 	### Various ###
-	localStation_print("   running startup_epics_monitors.py")      # [TODO: Replace with imports]
-	run("startup_epics_monitors")
+	localStation_print("   running localStationScripts/startup_epics_monitors.py")      # [TODO: Replace with imports]
+	run("localStationScripts/startup_epics_monitors")
 	global ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp
 
-	localStation_print("   running startup_epics_positioners.py")
-	run("startup_epics_positioners")
+	localStation_print("   running localStationScripts/startup_epics_positioners.py")
+	run("localStationScripts/startup_epics_positioners")
 
-	localStation_print("   running startup_cryocooler.py")          #[NOTE: Also creates commands]
-	run("startup_cryocooler")
+	localStation_print("   running localStationScripts/startup_cryocooler.py")          #[NOTE: Also creates commands]
+	run("localStationScripts/startup_cryocooler")
 
 	localStation_print("   running pd_femto_adc_current2.py")
 	try:
-		run("pd_femto_adc_current2.py")
+		run("localStationScripts/pd_femto_adc_current2.py")
 	except java.lang.IllegalStateException, e:
 		localStation_exception(" Could not run pd_femto_adc_current2.py ", e)
 
@@ -616,7 +616,7 @@ if installation.isLive():
 	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
 
 	localStation_print("   creating ion pump scannables")
-	run("startup_ionpumps")
+	run("localStationScripts/startup_ionpumps")
 	
 	localStation_print("   creating shutter scannable")
 	shutter= Epics_Shutter('shutter','BL16I-PS-SHTR-01:CON')
@@ -757,8 +757,8 @@ mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d
 
 ### Homebrew groups
 localStation_print("Creating OD current amplifier monitors")
-run("startup_currents")
-run("startup_currents2")
+run("localStationScripts/startup_currents")
+run("localStationScripts/startup_currents2")
 sleep(1)
 
 
@@ -813,7 +813,7 @@ if installation.isLive():
 ###                                 Energy                                  ###
 ###############################################################################
 import beamline_info as BLi #contains energy and wavelength
-run("startup_energy_related")
+run("localStationScripts/startup_energy_related")
 #defaults changed by SPC on 29/6/11 comment out next two lines to go back to previous settings
 energy.maxEnergyChangeBeforeMovingMirrors=0.01	#energy value to prevent mirrors or diffractomter moving for small energy step
 energy.moveDiffWhenNotMovingMirrors=True	#set this to True to move diffractometer to compensate for inverted beam movement
@@ -836,7 +836,7 @@ gam.setOutputFormat(['%.5f'])
 ###                               Peak Optimiser                            ###
 ###############################################################################
 if installation.isLive():
-	run("OptimizePeak") #--> ptimizePeak, OP2, OP3 commands
+	run("localStationScripts/OptimizePeak") #--> ptimizePeak, OP2, OP3 commands
 
 
 
@@ -849,7 +849,7 @@ from limits import * #@UnusedWildImport
 limits.ROOT_NAMESPACE = globals()
 localStation_print("Setting user limits (running ConfigureLimits.py)")
 try:
-	run("ConfigureLimits")
+	run("localStationScripts/ConfigureLimits")
 except Exception as e:
 	localStation_exception("configuring limits", e)
 
@@ -1201,7 +1201,7 @@ if installation.isLive():
 ###############################################################################
 localStation_print("Configuring metadata capture")
 
-run('Sample_perpMotion')
+run('localStationScripts/Sample_perpMotion')
 
 if installation.isLive():
 	if not USE_DIFFCALC:
@@ -1325,28 +1325,28 @@ beamline = finder.find("Beamline")
 
 #run('Sample_perpMotion') #move to before metadata
 
-run('Struck_with_fastshutter')
+run('localStationScripts/Struck_with_fastshutter')
 
 #ADC optics table XMAP
-run('pd_adc_table')
+run('localStationScripts/pd_adc_table')
 
-run('enable_xps_gda.py')
+run('localStationScripts/enable_xps_gda.py')
 
 from edgeDetectRobust import edgeDetectRobust as edge
 from edgeDetectEnergy import eEdge as eedge
 
-run('rePlot')
+run('localStationScripts/rePlot')
 
-run('whynobeam')
+run('localStationScripts/whynobeam')
 
 localStation_print("New minimirrors function - type help minimirrors")
-run('minimirrors')
+run('localStationScripts/minimirrors')
 
 if USE_DIFFCALC == False:
 	localStation_print("run possiblehkl_new")
-	run('possiblehkl_new')
+	run('localStationScripts/possiblehkl_new')
 	localStation_print("run Space Group Interpreter")
-	run('SGinterpreter')
+	run('localStationScripts/SGinterpreter')
 
 
 
@@ -1369,7 +1369,7 @@ def open_valves():
 ###############################################################################
 
 # This depends on lcroi
-run('FlipperClass')
+run('localStationScripts/FlipperClass')
 
 
 
@@ -1431,28 +1431,28 @@ from scannable.detector import pilatuscbfswitcher
 ###############################################################################
 
 
-run('bpm')
-run('align1')
-run('select_and_move_detector')
-run('showdiff')
-run('showdiff_new')
+run('localStationScripts/bpm')
+run('localStationScripts/align1')
+run('localStationScripts/select_and_move_detector')
+run('localStationScripts/showdiff')
+run('localStationScripts/showdiff_new')
 # bpmroi1 is now defined in the localStationStaff.py user script
 #run('pd_searchref2') #put at the end as it gave some errors
-run('pd_read_list')	#to make PD's that can scan a list
-run('pd_function')	#to make PD's that return a variable
+run('localStationScripts/pd_read_list')	#to make PD's that can scan a list
+run('localStationScripts/pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
 print "==========================="
 localStation_print("Setting up continuous scans")
-run("setup_cvscan")
+run("localStationScripts/setup_cvscan")
 localStation_print("Continuous scans setup")
 print "==========================="
 
 if installation.isLive():
 	try:
-		run("startup_pie725")
+		run("localStationScripts/startup_pie725")
 	except Exception as e:
-		localStation_exception("running startup_pie725 script", e)
+		localStation_exception("running localStationScripts/startup_pie725 script", e)
 
 if USE_NEXUS:
 	run("datawriting/i16_nexus")
@@ -1490,7 +1490,7 @@ if SMARGON:
 	sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
 	exec("del hkl")
 	exec("del euler")
-	run("SmargonTopClass")	
+	run("localStationScripts/SmargonTopClass")	
 	from diffractometer.scannable import HklSmargon,EulerSmargonPseudoDevice 
 	reload(HklSmargon) 
 	reload(EulerSmargonPseudoDevice)
