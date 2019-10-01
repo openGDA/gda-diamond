@@ -306,6 +306,9 @@
     <!-- D4 scatter diode" name="D4.SCATTER" -->
     <bean id="d4s" class="gda.device.monitor.DummyEpicsMonitor"/>
 
+    <!-- Range/gain setting for D4 Inline -->
+    <bean id="d4range" class="gda.device.monitor.DummyEpicsMonitor" />
+
     <!-- "DCD Diode 1 and 2 current" name="DCD.DIODE1" -->
     <bean id="dcdc1" class="gda.device.monitor.DummyEpicsMonitor"/>
 

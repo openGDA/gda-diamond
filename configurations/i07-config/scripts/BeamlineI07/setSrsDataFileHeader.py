@@ -32,7 +32,7 @@ mbs4List=[mbs4xsize, mbs4xcentre, mbs4ysize, mbs4ycentre]
 diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect, diff2prot, diff2dets4rot, diff2dets3rot, diff2basex, diff2basey, diff2basey1, diff2basey2, diff2basepitch];
 
 tabList = [tab1x, tab1y]
-qbpmList = [ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x, qbpm1range, qbpm2range, qbpm3range]
+qbpmList = [d4range, ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x, qbpm1range, qbpm2range, qbpm3range]
 
 
 #fileHeader.remove([testMotor2]);

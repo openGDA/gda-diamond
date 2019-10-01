@@ -435,6 +435,11 @@
 		<property name="pvName" value="BL07I-DI-PHDGN-04:SCATTER:I" />
 	</bean>
 
+	<!-- Range/gain setting for D4 Inline -->
+	<bean id="d4range" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-PHDGN-04:INLINE:GAIN" />
+	</bean>
+
 
 	<!-- "DCD Diode 1 and 2 current" name="DCD.DIODE1" -->
 	<bean id="dcdc1" class="gda.device.monitor.EpicsMonitor">

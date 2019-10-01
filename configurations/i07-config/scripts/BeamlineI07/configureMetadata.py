@@ -66,7 +66,7 @@ diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect,
 
 tabList = [tab1x, tab1y]
 
-qbpmList = [ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
+qbpmList = [d4range, ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
         qbpm1range, qbpm2range, qbpm3range]
 
 metadata = []
