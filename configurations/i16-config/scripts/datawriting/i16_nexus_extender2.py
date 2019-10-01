@@ -564,6 +564,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         NexusUtils.writeAttribute(nFile, data, "depends_on","/entry1/instrument/transformations/gamma")
 
     def writeStuffToFile(self, fileName):
+        self.logger.debug("writeStuffToFile(fileName={})", fileName)
         nFile = NexusFileHDF5(fileName)
         nFile.openToWrite(False)
         try:
@@ -571,22 +572,30 @@ class I16NexusExtender(DataWriterExtenderBase):
             metadataGroup = nFile.getGroup("/entry1/before_scan", False)
             self.writeTitle(nFile, entry, NEXUS_TITLE)
             if DIFFCALC is not None:
+                crystalInfo = None
                 if DIFFCALC.ub.ub.ubcalc._state.name is None:
+                    self.logger.debug("DIFFCALC.ub.ub.ubcalc._state.name is None, so crystalInfo = None")
                     print "** Require UB calculation to write sample information. **"
                     print "** Nexus file will not contain sample information. **"
-                    crystalInfo = None
                 else:
-                    ubMat = DIFFCALC.ub.ub.ubcalc.UB.tolist()
-                    #diffcalc's UB matrix is scaled up by 2*PI
-                    ubMat = [ [_u * 0.5/math.pi for _u in _r] for _r in ubMat ]
-                    xtal = DIFFCALC.ub.ub.ubcalc._state.crystal.getLattice()
-                    latParams = list(xtal[1:])
-                    crystalInfo = (latParams, ubMat)
+                    # I16-181 (9.16) Fix Scans throw exception without UB matrix
+                    try:
+                        ubMat = DIFFCALC.ub.ub.ubcalc.UB.tolist()
+                        #diffcalc's UB matrix is scaled up by 2*PI
+                        ubMat = [ [_u * 0.5/math.pi for _u in _r] for _r in ubMat ]
+                        xtal = DIFFCALC.ub.ub.ubcalc._state.crystal.getLattice()
+                        latParams = list(xtal[1:])
+                        crystalInfo = (latParams, ubMat)
+                    except:
+                        self.logger.error('writeStuffToFile() failed to get all crystalInfo so returning none:\n {}',
+                            ''.join(traceback.format_exception(*sys.exc_info())) )
             else:
                 crystalInfo = self.parseCrystalInfo(nFile, metadataGroup)
             sample = nFile.getGroup("/entry1/sample", False)
             if crystalInfo is not None:
                 self.writeCrystalInfo(nFile, sample, crystalInfo[0], crystalInfo[1])
+            else:
+                self.logger.debug("crystalInfo is None, DIFFCALC is {}", DIFFCALC)
             beam = nFile.getGroup("/entry1/sample/beam", False)
             self.writeIncidentWavelength(nFile, beam)
             sampleDependsOn = "/entry1/sample/transformations/" + ("cryophi" if USE_CRYO_GEOMETRY else "phi")
@@ -597,6 +606,8 @@ class I16NexusExtender(DataWriterExtenderBase):
             self.writeFeatures(nFile, entry, [GDA_SCAN, NXMX, SAMPLE_GEOMETRY])
             transmission = self.extractTransmission(nFile, metadataGroup)
             self.writeTransmission(nFile, instrument, transmission)
+        except:
+            self.logger.error('writeStuffToFile() failed:\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
         finally:
             nFile.close()
 
