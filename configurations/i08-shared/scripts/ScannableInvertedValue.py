@@ -10,15 +10,14 @@ class PositionInvertedValue(PseudoDevice):
         self.iambusy = 0
         self.setInputNames([name])
         self.currentposition = abs((float)(self.scannable.getPosition()))
-       
-       
+
     def getPosition(self):
         self.currentposition = abs((float)(self.scannable.getPosition()))
         return [self.currentposition]
-   
+
     def isBusy(self):
         return self.iambusy
-   
+
     def rawAsynchronousMoveTo(self,new_position):
         self.iambusy = 1
         self.currentposition = new_position
