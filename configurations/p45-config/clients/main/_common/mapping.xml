@@ -36,6 +36,21 @@
 						</bean>
 					</list>
 				</property>
+				<property name="mappingScanRegion">
+					<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanRegion">
+			        	<property name="region">
+			            	<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
+			            </property>
+			            <property name="scanPath">
+			            	<bean class="org.eclipse.scanning.api.points.models.SinglePointModel">
+			                    <property name="x" value="0" />
+			                    <property name="y" value="0" />
+			                    <property name="xAxisName" value="stagex" />
+			                	<property name="yAxisName" value="stagey" />
+			            	</bean>
+						</property>
+	    			</bean>
+	    		</property>
 			</bean>
 		</property>
 		<property name="templateFilePaths">
@@ -54,6 +69,7 @@
 		<property name="plotXAxisName" ref="x_axis_name" />
 		<property name="plotYAxisName" ref="y_axis_name" />
 		<property name="beamSize" value="beam" />
+		<property name="defaultStreamSourceConfig" value="pointAndShootBackground" />
 	</bean>
 	
 	<!-- The mapping region manager lists the choice of available region types and scan paths which are presented to

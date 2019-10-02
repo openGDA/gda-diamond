@@ -11,6 +11,25 @@
  	<bean id="det_pvbase" class="java.lang.String">
 		<constructor-arg value="BL45P-EA-MAP-01" />
 	</bean>
+	
+	<bean id="stagex" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+    <bean id="stagey" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+    <bean id="calibration_stagexy" class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+        <constructor-arg name="xAxisScannable" ref="stagex" />
+        <constructor-arg name="xAxisPixelScaling" value="0.03165" />
+        <constructor-arg name="xAxisOffset" value="0" />
+        <constructor-arg name="yAxisScannable" ref="stagey" />
+        <constructor-arg name="yAxisPixelScaling" value="0.03165" />
+        <constructor-arg name="yAxisOffset" value="0" />
+    </bean>
+
+    <bean id="pointAndShootBackground" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+        <property name="displayName" value="Microscope" />
+        <property name="url" value="http://bl45p-ea-serv-01.diamond.ac.uk:8080/DET.mjpg.mjpg" />
+        <property name="sleepTime" value="5" />
+        <property name="calibratedAxesProvider" ref="calibration_stagexy" />
+    </bean>
 
 	<bean id="mic_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Microscope" />
