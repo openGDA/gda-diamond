@@ -69,6 +69,7 @@
 		<property name="plotXAxisName" ref="x_axis_name" />
 		<property name="plotYAxisName" ref="y_axis_name" />
 		<property name="beamSize" value="beam" />
+		<property name="defaultStreamSourceConfig" value="pointAndShootBackground" />
 	</bean>
 	
 	<!-- The mapping region manager lists the choice of available region types and scan paths which are presented to

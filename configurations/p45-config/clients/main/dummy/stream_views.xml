@@ -48,5 +48,7 @@
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 		<property name="calibratedAxesProvider" ref="my_calibration" />
 	</bean>
+	
+	<alias name="d2_cam_config" alias="pointAndShootBackground"/>
 
 </beans>
