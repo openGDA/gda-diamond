@@ -28,7 +28,7 @@
 	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/optics1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics2.xml" />
 	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/opticsShutter.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/photodiode.xml" />
+	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/photodiode.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate_motors.xml" />
