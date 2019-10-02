@@ -61,6 +61,7 @@ class TomographyJSON:
     FLAT_EXPOSURE = 'flatExposure'
     
     PROJECTIONS = 'projections'
+    TOTAL_PROJECTIONS = 'totalProjections'
     ANGULAR_STEP = 'angularStep'
     
     MULTIPLE_SCANS = 'multipleScans'
@@ -193,13 +194,16 @@ class TomographySlave:
     def _acquire(self):
         rotStage = self._getMotorInstance(TomographyJSON.STAGE_ROT_Y)
         malc = self._getMalcolmTomographyDevice()
-        exposureTime = self._getCameraExposure()/1000 # exposure is in seconds while UI return in milliseconds
-        self._setMalcolmTomographyDeviceExposure(malc, exposureTime)
+        exposureTime = self._getCameraExposure() # exposure is in seconds while UI return in milliseconds
+        #self._setMalcolmTomographyDeviceExposure(malc, exposureTime)
         start_angle = self._getStartObject().get(TomographyJSON.START_ANGLE)
         end_angle = self._getEndAngle(self._getEndObject().get(TomographyJSON.RANGE_TYPE))
-        angularStep = self._getProjections().get(TomographyJSON.ANGULAR_STEP) 
-        #mscan rotStage axis 0 10 step 0.2 malc
-        mscan rotStage axis start_angle end_angle step angularStep malc
+        angularStep = self._getProjections().get(TomographyJSON.ANGULAR_STEP)
+        mscan rotStage axis start_angle end_angle step angularStep malc exposureTime
+        
+        #totalProjections = self._getProjections().get(TomographyJSON.TOTAL_PROJECTIONS)
+        #mscan rotStage axis start_angle end_angle points totalProjections malc exposureTime
+        
 
     def _doAcquisition(self):     
         if (self._getImageCalibration().get('beforeAcquisition', False)):

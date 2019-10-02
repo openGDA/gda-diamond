@@ -29,10 +29,10 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
 import uk.ac.gda.tomography.base.TomographyParameterAcquisition;
-import uk.ac.gda.tomography.scan.editor.TomographyResourceManager;
 import uk.ac.gda.tomography.scan.editor.view.TomographyAcquisitionComposite;
 import uk.ac.gda.tomography.ui.controller.TomographyPerspectiveController;
-import uk.ac.gda.tomography.ui.tool.TomographySWTElements;
+import uk.ac.gda.ui.tool.ClientResourceManager;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -48,9 +48,9 @@ public class TomographySetup extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		final Composite composite = TomographySWTElements.createComposite(parent, SWT.NONE, 1);
-		TomographySWTElements.createLabel(composite, SWT.NONE, "DIAD",
-				FontDescriptor.createFrom(TomographyResourceManager.getDefaultFont(), 14, SWT.BOLD));
+		final Composite composite = ClientSWTElements.createComposite(parent, SWT.NONE, 1);
+		ClientSWTElements.createLabel(composite, SWT.NONE, "DIAD",
+				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
 
 		PerspectiveComposite.buildModeComposite(composite, PerspectiveType.TOMOGRAPHY);
 
