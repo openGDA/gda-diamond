@@ -29,7 +29,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.data.PathConstructor;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.client.experimentdefinition.ui.handlers.RefreshProjectCommandHandler;
 import uk.ac.gda.util.io.FileUtils;
 
@@ -54,7 +54,7 @@ public class CopyTemplateFiles {
 		}
 
 		// Create paths to source and destination directories :
-		Path destDir = Paths.get(PathConstructor.getVisitDirectory(), templateFilesDestDir);
+		Path destDir = Paths.get(InterfaceProvider.getPathConstructor().getVisitDirectory(), templateFilesDestDir);
 		Path sourceDir = Paths.get(templateFilesSourceDir);
 
 		// If destination and source directories are the same, do nothing
