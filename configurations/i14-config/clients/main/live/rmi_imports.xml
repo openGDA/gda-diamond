@@ -10,6 +10,8 @@
 
 	<bean id="sample_dtab_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
+	<bean id="sample_microscope_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
 	<bean id="xreye_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="xsp3_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
