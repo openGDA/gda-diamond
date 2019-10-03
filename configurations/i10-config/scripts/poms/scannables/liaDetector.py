@@ -6,10 +6,12 @@ David Burn - 18/10/17
 
 #from java.lang import Thread, Runnable
 #from gda.jython import InterfaceProvider
-#from gda.data import NumTracker, PathConstructor
+#from gda.data import NumTracker
+#from gda.jython import InterfaceProvider
 
 from other_devices.rs232Device import rs232Device
 from gda.device.detector import DetectorBase
+from gda.jython import InterfaceProvider
 import time
 
 #ca = device()
@@ -62,7 +64,7 @@ class liaDetector(DetectorBase):
 		filenumber = NumTracker("i10").getCurrentFileNumber();
 		filename = "i10-%06d-%s_%04d.dat"   % (filenumber, self.getName(), self.pointNum)
 		print "writing file: " + filename
-		waveformfilename=str(PathConstructor.createFromDefaultProperty())+"anritsu/"+filename
+		waveformfilename=str(InterfaceProvider.getPathConstructor().createFromDefaultProperty())+"anritsu/"+filename
 		datafile=open(waveformfilename, 'w')
 
 		data = dnp.array(data,  dtype=dnp.float)

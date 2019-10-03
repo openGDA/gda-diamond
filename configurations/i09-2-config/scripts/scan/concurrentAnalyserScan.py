@@ -22,7 +22,7 @@ from gda.jython.commands.GeneralCommands import alias
 from org.opengda.detector.electronanalyser.nxdetector import EW4000,\
     EW4000CollectionStrategy
 from gda.factory import Finder
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
 from time import sleep
@@ -66,7 +66,7 @@ def analyserpathscan(scannables, path, *args):
         i=i+1
         if isinstance( arg,  EW4000 ):
             controller = Finder.getInstance().find("SequenceFileObserver")
-            xmldir = PathConstructor.createFromDefaultProperty()+"xml"+os.sep;
+            xmldir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"xml"+os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")
@@ -101,7 +101,7 @@ def analyserpathscan_v1(scannables, path, *args):
         i=i+1
         if isinstance( arg,  RegionScannable ):
             controller = Finder.getInstance().find("SequenceFileObserver")
-            xmldir = PathConstructor.createFromDefaultProperty()+"xml"+os.sep;
+            xmldir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"xml"+os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")

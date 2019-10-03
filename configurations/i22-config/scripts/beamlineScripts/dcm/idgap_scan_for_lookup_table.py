@@ -4,7 +4,7 @@ print "running the harmonic script"
 import time
 import scisoftpy as dnp
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 i22NumTracker = NumTracker("i22");
 i22NumTracker.getCurrentFileNumber()
 
@@ -25,7 +25,7 @@ for e in dnp.arange(21.2, 23.5, 0.4):
 	
 	# save the data back out
 	filenum = i22NumTracker.getCurrentFileNumber()
-	file = open(PathConstructor.createFromDefaultProperty()+"harmonic_parameters_"+time.strftime("%Y-%m-%d")+".dat","a")
+	file = open(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"harmonic_parameters_"+time.strftime("%Y-%m-%d")+".dat","a")
 	file.write("%f, %f , %f , %d \n" % (e, bragg.getPosition() , position, filenum))
 	file.close()
 	

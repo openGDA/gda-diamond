@@ -6,7 +6,7 @@ from java.io import File
 from java.lang import System
 from gda.configuration.properties import LocalProperties
 from jarray import array
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.factory import Finder
 from java.io import File
 from gdascripts.messages import handle_messages

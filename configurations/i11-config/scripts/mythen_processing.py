@@ -8,7 +8,7 @@ from gda.device.detector.mythen.data import DataConverter
 from gda.device.detector.mythen.data import FileBadChannelProvider
 from gda.device.detector.mythen.data import MythenRawDataset
 from gda.device.detector.mythen.data import AngularCalibrationParametersFile
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from uk.ac.diamond.scisoft.analysis.io import SRSLoader
 from gda.configuration.properties import LocalProperties
 from uk.ac.diamond.daq.concurrent import Async
@@ -182,7 +182,7 @@ def _load_srs_file_data(file_path, delta='delta', detector='smythen'):
 
 def _visit_directory_for(visit):
     # return '/scratch/sample/i11'
-    return PathConstructor.createFromProperty(LocalProperties.GDA_VISIT_DIR, {'visit': visit})
+    return InterfaceProvider.getPathConstructor().createFromProperty(LocalProperties.GDA_VISIT_DIR, {'visit': visit})
 
 def _process_scan(number, visit, output_directory, flatfield, bad_channels, angular_offsets, suffix=''):
     visit_directory = _visit_directory_for(visit)

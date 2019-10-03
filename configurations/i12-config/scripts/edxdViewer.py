@@ -1,6 +1,7 @@
 from gda.analysis import ScanFileHolder, RCPPlotter
 from org.eclipse.january.dataset import DatasetFactory
-from gda.data import PathConstructor,NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.data.nexus.tree import NexusTreeNodeSelection
 from uk.ac.diamond.scisoft.analysis.io import NexusLoader
 
@@ -10,7 +11,7 @@ def plotAll(point) :
 	s = ScanFileHolder()
 
 	# create the location of the last file
-	filename = "%s/%d.nxs" % (PathConstructor.createFromDefaultProperty(), NumTracker("i12").getCurrentFileNumber())
+	filename = "%s/%d.nxs" % (InterfaceProvider.getPathConstructor().createFromDefaultProperty(), NumTracker("i12").getCurrentFileNumber())
 	s.load(NexusLoader(filename, st, st, None))
 
 	plots = []
@@ -31,7 +32,7 @@ def plotOne(Number) :
 	s = ScanFileHolder()
 
 	# create the location of the last file
-	filename = "%s/%d.nxs" % (PathConstructor.createFromDefaultProperty(), NumTracker("i12").getCurrentFileNumber())
+	filename = "%s/%d.nxs" % (InterfaceProvider.getPathConstructor().createFromDefaultProperty(), NumTracker("i12").getCurrentFileNumber())
 	s.load(NexusLoader(filename, st, st, None))
 
 	name = "EDXD_Element_%02d"% (Number)

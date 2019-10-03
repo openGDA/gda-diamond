@@ -23,7 +23,7 @@ from gda.jython.commands.ScannableCommands import scan
 import scisoftpy as dnp
 
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.util import PropertyUtils
 import org.eclipse.dawnsci.analysis.dataset.impl.Image as Image
 import uk.ac.gda.tomography.TomographyResourceUtil
@@ -264,14 +264,14 @@ def getPathToReconstructionPythonScript(scriptBasename='tomodo.py'):
 def getPathToNXSFile():
     numTracker = NumTracker(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME))
     # the line below uses GDA_DATAWRITER_DIR
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     scan_number = numTracker.getCurrentFileNumber()
     file_path = os.path.join(dir, str(scan_number))
     return file_path + '.nxs'
 
 def getPathToOutputDir(outDirBasename='processing'):
     # the line below uses GDA_DATAWRITER_DIR
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     outputdir_path = os.path.join(os.path.dirname(dir), outDirBasename)
     return outputdir_path
 

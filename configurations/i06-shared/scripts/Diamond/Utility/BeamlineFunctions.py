@@ -20,7 +20,7 @@ from gda.jython.commands import GeneralCommands
 from gda.jython import JythonServerFacade;
 
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
 
@@ -220,7 +220,7 @@ class BeamlineFunctionClass(object):
 		
 	def getLastSrsScanFile(self, extension="tmp"):
 		nt=NumTracker(extension);
-		lastSRSFileName= PathConstructor.createFromDefaultProperty() + File.separator + str(nt.getCurrentFileNumber()) + ".dat";
+		lastSRSFileName= InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator + str(nt.getCurrentFileNumber()) + ".dat";
 
 		
 		return lastSRSFileName;
@@ -231,14 +231,14 @@ class BeamlineFunctionClass(object):
 		print "New data path: %s" %( self.getDataPath() );
 
 	def setTerminalLogger(self, newLoggerName="gda_terminal.log"):
-		tlPath=PathConstructor.createFromDefaultProperty();
+		tlPath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
 		
 		tlFile = os.path.join(tlPath, newLoggerName);
 		tlpp=finder.find("terminallog_path_provider")
 		tlpp.setTemplate( str(tlFile) );
 
 	def getDataPath(self):
-		dataPath=PathConstructor.createFromDefaultProperty();
+		dataPath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
 		return dataPath;
 	
 	def registerForPathUpdate(self, observerObject):

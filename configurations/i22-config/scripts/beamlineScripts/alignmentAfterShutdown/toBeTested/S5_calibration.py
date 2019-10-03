@@ -20,12 +20,12 @@ Function:   Script performs knife edge scans with each slit blade in turn (Y+, Y
 
 import time
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 i22NumTracker = NumTracker("i22");
 
 print "Calibrating s5"
 
-file = open(PathConstructor.createFromDefaultProperty()+"s5_calibration_"+time.strftime("%Y-%m-%d")+".txt","a")
+file = open(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"s5_calibration_"+time.strftime("%Y-%m-%d")+".txt","a")
 file.write("Slits 5 calibration on "+time.strftime("%Y-%m-%d")+"\n\n")
 
 d10d2gain.setFixed(False)

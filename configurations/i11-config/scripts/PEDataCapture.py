@@ -8,7 +8,8 @@ Created on 2 Dec 2011 for TFG2 driven experiment
 
 @author: fy65
 '''
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias
 from peloop.adc import ADC
 from peloop.functiongenerator import FunctionGenerator
@@ -54,7 +55,7 @@ def pescan(func=2,freq=0.125,amp=5.0,shift=0.0,symmetry=50.0,trig=1,bmode=0,bncy
     peobject.setNumberOfGates(ng)
 
     #setup file name
-    directory=PathConstructor.createFromDefaultProperty()
+    directory=InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     scanNumber=scanNumTracker.incrementNumber()
     peobject.setFilename(directory+(str(scanNumber)))
 

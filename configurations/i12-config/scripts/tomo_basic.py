@@ -12,7 +12,7 @@ from java.io import File
 
 from gda.factory import Finder
 
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.data import NumTracker
 
 #from uk.ac.gda.client.tomo.basic import BasicTomoTask

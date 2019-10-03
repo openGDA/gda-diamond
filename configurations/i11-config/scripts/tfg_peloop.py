@@ -19,7 +19,8 @@ At fast ramping rate a single diffraction pattern must be collected over multipl
 For longer exposure time multiple frames collection are required and the data are summed together post the data collection.
 Created on 27 Jan 2012 for TFG2 driven experiment
 @author: fy65 '''
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.factory import Finder
 from gda.jython.commands import GeneralCommands
@@ -200,7 +201,7 @@ class PELoop(ScannableBase):
             sleep(0.1)
         print "TFG frames configuration completed!"
     def pescan(self, frequency=0.1,exposure=0.5,amplitude=5.0,numPoints=40, function=2, bncycle=1):
-        self.directory=PathConstructor.createFromDefaultProperty()
+        self.directory=InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         self.scanNumber=scanNumTracker.incrementNumber()
         self.filename=self.directory+(str(self.scanNumber))
         print self.filename
@@ -330,7 +331,7 @@ class PELoop(ScannableBase):
         self.sampleConditioning()
     def atScanStart(self):
         self.collectionNumber=0
-        self.directory=PathConstructor.createFromDefaultProperty()
+        self.directory=InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         self.scanNumber=scanNumTracker.getCurrentFileNumber()
         self.filename=self.directory+(str(self.scanNumber))
     def atPointStart(self):

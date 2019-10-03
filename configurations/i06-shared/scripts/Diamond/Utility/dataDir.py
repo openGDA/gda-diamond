@@ -21,7 +21,7 @@ from java.io import File;
 
 from gda.configuration.properties import LocalProperties;
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 #define the beamline commissioning proposal
 bpDict={'i02':'mx0', 'i03':'mx0', 'i04':'mx0', 'i06':'cm1895', 'i06-1':'cm1907', 'i07':'cm1896', 'i11':'ee0', 'i15':'ee0', 'i16':'mt0', 'i18':'sp0', 'i22':'sm0'};
@@ -60,7 +60,7 @@ def setDir(proposal=None, visit=1):
 def getDir(proposal=None, visit=1):
 	
 	if proposal is None: # the default commissioning proposal
-		userDir=PathConstructor.createFromDefaultProperty() + File.separator;
+		userDir=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
 		print "Current User Data Directory: " + userDir;
 	else:
 		#	get current Year
@@ -72,7 +72,7 @@ def getDir(proposal=None, visit=1):
 
 def lastscan(extension="tmp"):
 	nt=NumTracker(extension);
-	lastSRSFileName= PathConstructor.createFromDefaultProperty() + File.separator + str(nt.getCurrentFileNumber()) + ".dat";
+	lastSRSFileName= InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator + str(nt.getCurrentFileNumber()) + ".dat";
 	del nt;
 	return lastSRSFileName;
 
@@ -90,7 +90,7 @@ def	getSrsFileName(scanNumber = None):
 		sn = getScanNumber()
 	else:
 		sn = scanNumber;
-	srsPath = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir");
+	srsPath = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
 	srsFileName = srsPath + File.separator + str(sn) + ".dat";
 	
 	print "srs file name is: " + srsFileName;

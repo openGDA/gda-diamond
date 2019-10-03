@@ -1,7 +1,7 @@
 from gdascripts.messages import handle_messages
 from gda.data import NumTracker
 import os
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.factory import Finder
 import sys
 import gda.device.scannable.DummyScannable
@@ -25,14 +25,14 @@ finder = Finder.getInstance()
 ca=CAClient()
 
 def wd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     return dir
     
 
 
 # function to find the last file path
 def pwd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i12NumTracker.getCurrentFileNumber();
     return os.path.join(dir, str(filenumber))
     
@@ -40,7 +40,7 @@ def pwd():
 
 # function to find the next file path
 def nwd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i12NumTracker.getCurrentFileNumber();
     return os.path.join(dir, str(filenumber + 1))
     

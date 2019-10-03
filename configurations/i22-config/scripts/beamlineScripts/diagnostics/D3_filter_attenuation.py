@@ -1,4 +1,4 @@
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 filters= {
 	13.75 : "Clear",
@@ -31,7 +31,7 @@ while (energyC <= energyEnd):
 		print "Energy "+energyC.__str__()+" position "+position.__str__()+", filter "+filter.__str__()+", diode "+diode.__str__()
 		
 	nResults = len(results)
-	file = open(PathConstructor.createFromDefaultProperty()+"filterind3.csv","a")
+	file = open(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"filterind3.csv","a")
 	file.write("%f ," % (energyC) )
 	for i in range(nResults) :
 		file.write("%f , " % (results[i]) )

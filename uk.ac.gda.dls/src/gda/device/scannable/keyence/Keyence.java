@@ -42,10 +42,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-import gda.data.PathConstructor;
 import gda.device.DeviceException;
 import gda.device.scannable.ScannableBase;
 import gda.factory.FactoryException;
+import gda.jython.InterfaceProvider;
 
 /**
  * Provides Ethernet communications a Keyence Camera Controller
@@ -218,7 +218,7 @@ public class Keyence extends ScannableBase {
 	}
 
 	private String writeImage(BufferedImage image) throws IOException {
-		String fileName = PathConstructor.createFromDefaultProperty()+"/"+getName()+"-"+dateFormat.format(new Date())+"."+imageFormat;
+		String fileName = InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"/"+getName()+"-"+dateFormat.format(new Date())+"."+imageFormat;
 		File imageFile = new File(fileName );
 		ImageIO.write(image, imageFormat, imageFile);
 		return fileName;

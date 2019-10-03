@@ -1,7 +1,7 @@
 from gda.data import NumTracker
 import os
 from time import sleep, strftime
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.factory import Finder
 from gda.jython import InterfaceProvider, Jython
 from gda.device.scannable import EpicsScannable
@@ -33,14 +33,14 @@ def nfn():
 
 # function to output the last file path
 def pwd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i13jNumTracker.getCurrentFileNumber();
     return os.path.join(dir, str(filenumber))
     
 
 # function to output the next file path
 def nwd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i13jNumTracker.getCurrentFileNumber();
     return os.path.join(dir, str(filenumber + 1))
 

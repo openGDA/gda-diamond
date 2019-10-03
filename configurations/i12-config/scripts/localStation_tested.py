@@ -7,7 +7,7 @@ print "Performing I12 specific initialisation code"
 print "------------------------------------------------"
 
 from gda.jython.commands.GeneralCommands import alias
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.data import NumTracker
 
 from uk.ac.gda.client.tomo import ReconManager
@@ -33,14 +33,14 @@ print "create comands for folder operations: wd, pwd, nwd, nfn, setSubdirectory(
 print "----------------------------------------------------------------------------------------"
 # function to find the last file path
 def wd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     return dir
     
 alias("wd")
 
 # function to find the last file path
 def pwd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i12NumTracker.getCurrentFileNumber();
     return os.path.join(dir,str(filenumber))
     
@@ -48,7 +48,7 @@ alias("pwd")
 
 # function to find the next file path
 def nwd():
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i12NumTracker.getCurrentFileNumber();
     return os.path.join(dir,str(filenumber+1))
     

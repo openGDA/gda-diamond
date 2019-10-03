@@ -7,7 +7,6 @@ from gda.device.detector import DetectorBase
 from gda.epics import LazyPVFactory
 import time
 from gda.jython import InterfaceProvider
-from gda.data import PathConstructor
 import os.path
 import os
 from gda.scan import ScanBase
@@ -62,7 +61,7 @@ class AndorMCD(DetectorBase):
         return bool(self._busypv.get() > 1.)  # On is about 3v
 
     def _get_target_directory(self):
-        datadir = PathConstructor.createFromDefaultProperty()
+        datadir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         return os.path.join(datadir, '%05i-%s-files' % (self.scannumber, self.name)) 
 
     def readout(self):
@@ -84,7 +83,7 @@ class AndorMCD(DetectorBase):
             print "writing saveinfo file for directory:", self._get_target_directory()
         saveinfofilepath = os.path.join(PARAMETER_FILES_PATH, "saveinfo.txt")
         saveinfofile = open(saveinfofilepath, mode='w')
-        paths = "Z:" + PathConstructor.createFromDefaultProperty()[10:]
+        paths = "Z:" + InterfaceProvider.getPathConstructor().createFromDefaultProperty()[10:]
         savepath = os.path.join( paths, "%05i-%s-files" % (self.scannumber, self.name) )
         saveinfofile.write( savepath + "/\r\n%05d" % self._next_image_number )
         saveinfofile.close()

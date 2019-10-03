@@ -9,13 +9,14 @@ from gda.epics import CAClient
 from gov.aps.jca.event import MonitorListener
 from threading import Timer
 import scisoftpy as dnp
-from gda.data import PathConstructor, NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 import os
 
 i09NumTracker = NumTracker("i09");
 def nextDataFile():
     '''query the absolute path of the next working file'''
-    curdir = PathConstructor.createFromDefaultProperty()
+    curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i09NumTracker.incrementNumber();
     return os.path.join(curdir,str(filenumber)+".txt")
     

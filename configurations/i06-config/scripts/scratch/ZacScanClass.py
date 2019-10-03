@@ -19,7 +19,7 @@ import os
 import jarray
 from java.util import Date
 from java.text import SimpleDateFormat
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 # ========================================
 # EXAFS SCAN
@@ -62,7 +62,7 @@ class I18ExafsScanClass(ScriptBase):
 		self.runext='.dat'
 		self.fileno=self.runs.getCurrentFileNumber()+1
 		self.runs.incrementNumber()
-		self.datadir=PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
+		self.datadir=InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")
 		self.datafilename=self.datadir+'/'+str(self.fileno)+self.runext
 		if(detectorList!=None):
 			self.detectorMask=detectorList
@@ -766,7 +766,7 @@ class I18ExafsScanClass(ScriptBase):
 	def incrementFilename(self):
 		self.fileno=self.runs.getCurrentFileNumber()+1
 		self.runs.incrementNumber()
-		self.datadir=PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
+		self.datadir=InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")
 		self.datafilename=self.datadir+'/'+str(self.fileno)+self.runext
 		self.mcadir=self.datadir+'/mca/'+str(self.fileno)+'/'
 		self.mcarootname=self.mcadir+str(self.fileno)

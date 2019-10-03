@@ -1,6 +1,5 @@
 from uk.ac.gda.server.ncd.subdetector import NcdSubDetector
 from gda.jython import InterfaceProvider
-from gda.data import PathConstructor
 
 class AdCam(NcdSubDetector):
     """
@@ -50,7 +49,7 @@ class AdCam(NcdSubDetector):
         frames = ncddetectors.getTimer().getFramesets().get(0).getFrameCount()
 
         scanNumber = csc.getScanNumber()
-        self.thisFile = "%s/%s" %(PathConstructor.createFromDefaultProperty(), self.fileTemplate %scanNumber)
+        self.thisFile = "%s/%s" %(InterfaceProvider.getPathConstructor().createFromDefaultProperty(), self.fileTemplate %scanNumber)
         filename = [ord(x) for x in self.thisFile]+[0]
 
         caput(self.hdfFileName, filename) #set hdf5 filename

@@ -4,7 +4,7 @@ from java import lang
 #from gda.device import Scannable
 from gda.epics import CAClient
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 #import gda
 from org.eclipse.january.dataset import DatasetFactory
 from gda.analysis import Plotter
@@ -243,7 +243,7 @@ class FastEnergyScanClass:
 			runs=NumTracker("tmp")
 			nextNum = runs.getCurrentFileNumber()
 			#nextNum = runs.incrementNumber()
-			path = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
+			path = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")
 			fileName = path + "/" + str(nextNum+1) + ".dat"
 			print fileName
 			fh=open(fileName, 'w');

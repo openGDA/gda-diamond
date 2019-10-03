@@ -13,7 +13,8 @@ Created on 6 Dec 2011 for pixium driven acquisition.
 
 @author: fy65
 '''
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from positioncapturer import PositionCapturer
 from gatedtheta import GatedTheta
 from gda.device.scannable import ScannableMotionBase
@@ -55,7 +56,7 @@ and write images out when motor stops. It takes pixium detector and rotation the
         self.thetastarter.setNumberOfCycles(num)
     
         scanNumTracker = NumTracker("i12");
-        directory=PathConstructor.createFromDefaultProperty()
+        directory=InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         scanNumber=scanNumTracker.getCurrentFileNumber()
         self.risingedge.setFilename(directory+File.separator+(str(scanNumber+1)))
         self.fallingedge.setFilename(directory+File.separator+(str(scanNumber+1)))

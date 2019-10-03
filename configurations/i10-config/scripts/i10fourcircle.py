@@ -5,7 +5,7 @@
 try:
 	import diffcalc
 except ImportError:
-	#from gda.data.PathConstructor import createFromProperty
+	#from uk.ac.gda.api.io.PathConstructor import createFromProperty
 	from gda.configuration.properties import LocalProperties
 	import sys
 	#diffcalc_path = createFromProperty("gda.root").split('/plugins')[0] + '/diffcalc' 

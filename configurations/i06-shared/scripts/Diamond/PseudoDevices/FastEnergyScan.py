@@ -30,7 +30,7 @@ from gda.jython import ScriptBase
 
 import scisoftpy as dnp
 from gda.configuration.properties import LocalProperties
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from java.io import File
 
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
@@ -282,7 +282,7 @@ class FastEnergyScanControlClass(object):
 				datawriter=each
 				datawriter.getNdFile().getPluginBase().disableCallbacks()
 				datawriter.getNdFile().getPluginBase().setBlockingCallbacks(0)
-				filePathUsed = PathConstructor.createFromDefaultProperty() + "/"
+				filePathUsed = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/"
 				f=File(filePathUsed)
 				if not f.exists():
 					if not f.mkdirs():
@@ -310,7 +310,7 @@ class FastEnergyScanControlClass(object):
 			elif isinstance(each, SingleImagePerFileWriter):
 				datawriter=each
 				datawriter.getNdFile().getPluginBase().disableCallbacks()
-				filePathUsed = PathConstructor.createFromDefaultProperty() + "/" + str(scanNumber) + "_PCOImage/"
+				filePathUsed = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/" + str(scanNumber) + "_PCOImage/"
 				f=File(filePathUsed)
 				if not f.exists():
 					if not f.mkdirs():

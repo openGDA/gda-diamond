@@ -1,9 +1,10 @@
 import re
+from gda.jython import InterfaceProvider
 
 metadata=finder.find("GDAMetadata")
 
 def pwd():
-        print gda.data.PathConstructor.createFromDefaultProperty()
+        print InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 
 alias("pwd")
 
@@ -14,6 +15,6 @@ def cwd(subdir=None):
 		sane=re.compile("[^a-zA-Z0-9-_:]")
 		subdir=sane.sub("",subdir)
 		metadata.setMetadataValue("subdirectory",subdir)
-        print gda.data.PathConstructor.createFromDefaultProperty()
+        print InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 	
 alias("cwd")

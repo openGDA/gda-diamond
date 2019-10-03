@@ -6,7 +6,7 @@ from java.io import File;
 import os
 from time import sleep;
 
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 from gda.data import NumTracker
 
@@ -189,7 +189,7 @@ class SrsFileFilterClass(object):
 			sn = self.getScanNumber()
 		else:
 			sn = scanNumber;
-		srsPath = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir");
+		srsPath = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
 		srsFileName = srsPath + File.separator + str(sn) + ".dat";
 		
 		return srsFileName;

@@ -7,7 +7,8 @@
 print "=================================================================================================================";
 print "Performing beamline I11 specific initialisation.";
 print
-from gda.data import PathConstructor, NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
@@ -39,7 +40,7 @@ i11NumTracker = NumTracker("i11");
 # function to find the working directory
 def pwd():
     '''return the working directory'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     return cwd
 
 alias("pwd")
@@ -47,7 +48,7 @@ alias("pwd")
 # function to find the last working file path
 def lwf():
     '''return the last working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i11NumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber))
 
@@ -56,7 +57,7 @@ alias("lwf")
 # function to find the next working file path
 def nwf():
     '''query the next working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i11NumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber+1))
 

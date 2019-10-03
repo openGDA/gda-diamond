@@ -1,5 +1,5 @@
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 i22NumTracker = NumTracker("i22");
 i22NumTracker.getCurrentFileNumber()
 
@@ -7,7 +7,7 @@ i22NumTracker.getCurrentFileNumber()
 The purpose of this script is to determine Mono roll position that doesn't impart a lateral shift on the beam when changing energy
 '''
 
-file = open(PathConstructor.createFromDefaultProperty()+"roll_parameters_"+time.strftime("%Y-%m-%d")+".csv","a")
+file = open(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"roll_parameters_"+time.strftime("%Y-%m-%d")+".csv","a")
 file.write("File, Energy , Roll, edge_position\n")
 file.close()
 
@@ -27,7 +27,7 @@ for energyPos in (7.5, 15.0):
         edgePos = edge.result.pos
         pos s3_xplus 15
         fileNumber = int(i22NumTracker.getCurrentFileNumber())
-        file = open(PathConstructor.createFromDefaultProperty()+"roll_parameters_"+time.strftime("%Y-%m-%d")+".csv","a")
+        file = open(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"roll_parameters_"+time.strftime("%Y-%m-%d")+".csv","a")
         file.write("%6.0f, %f , %f, %f\n" % (fileNumber, energyPos, rollposition, edgePos))
         file.close()
 

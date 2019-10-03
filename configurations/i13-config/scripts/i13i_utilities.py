@@ -7,7 +7,7 @@ import socket
 from time import sleep
 from gda.data import NumTracker
 from gdascripts.messages import handle_messages
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.factory import Finder
 from gda.commandqueue import JythonCommandCommandProvider
 from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm
@@ -33,7 +33,7 @@ def wd():
     """
     Method to get working directory for the current visit in GDA
     """
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     return dir
 
 # to get the current file (scan) number
@@ -57,7 +57,7 @@ def pwd():
     """
     Method to get the last file path used by GDA, eg /dls/i13/data/2015/cm12165-1/raw/61192
     """
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i13iNumTracker.getCurrentFileNumber()
     return os.path.join(dir, str(filenumber))
 
@@ -66,7 +66,7 @@ def nwd():
     """
     Method to get the next file path, eg /dls/i13/data/2015/cm12165-1/raw/61192
     """
-    dir = PathConstructor.createFromDefaultProperty()
+    dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i13iNumTracker.getCurrentFileNumber()
     return os.path.join(dir, str(filenumber + 1))
 

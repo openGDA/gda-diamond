@@ -8,7 +8,8 @@ commands for directory/file operations: "
    >>>getSubdirectory() - return the current sub-directory setting if exist"
 Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
 '''
-from gda.data import PathConstructor, NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.factory import Finder
 import os
 import sys
@@ -20,20 +21,20 @@ finder=Finder.getInstance()
 # function to find the working directory
 def pwd():
     '''return the current working directory'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     return cwd
  
 # function to find the last working file path
 def lwf():
     '''return the last working file path'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = numTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber))
      
 # function to find the next working file path
 def nwf():
     '''query the next working file path'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = numTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber+1))
      

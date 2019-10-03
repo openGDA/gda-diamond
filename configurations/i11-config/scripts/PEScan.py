@@ -6,7 +6,8 @@ Created on 15 Feb 2011
 from peloop.adcchannel import voltage, electrometer
 from peloop.eventreceiver import EventReceiver
 from peloop.functiongenerator import FunctionGenerator
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.scannable.timerelated import _Timer
 from gdascripts.utils import frange
@@ -41,7 +42,7 @@ def pescan(starttime=pre_condition_time, stoptime=stop_time, gatewidth=gate_widt
     electrometer.setNumberOfGates(ng)
     voltage.addMonitor(1)
     electrometer.addMonitor(1)
-    directory=PathConstructor.createFromDefaultProperty()
+    directory=InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     scanNumber=scanNumTracker.incrementNumber()
     voltage.setFilename(directory+("/")+(str(scanNumber)))
     electrometer.setFilename(directory+("/")+(str(scanNumber)))

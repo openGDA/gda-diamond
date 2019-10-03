@@ -7,7 +7,7 @@ from org.opengda.detector.electronanalyser.scan import RegionScannable, RegionPo
 from gda.jython.commands.ScannableCommands import scan
 from gda.factory import Finder
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 import os
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.nxdetector import EW4000,\
@@ -49,7 +49,7 @@ def analyserscancheck(*args):
     regionValidator=finder.find("regionvalidator")
     dcmenergy=finder.find("dcmenergy")
     pgmenergy=finder.find("pgmenergy")
-    xmldir = PathConstructor.getVisitSubdirectory('xml') +os.sep;
+    xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') +os.sep;
     i=0
     arg=args[i]
     i=i+1
@@ -176,7 +176,7 @@ def analyserscan(*args):
         i=i+1
         if isinstance( arg,  EW4000 ):
             controller = Finder.getInstance().find("SequenceFileObserver")
-            xmldir = PathConstructor.getVisitSubdirectory('xml') +os.sep;
+            xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') +os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")
@@ -209,7 +209,7 @@ def analyserscan_v1(*args):
         i=i+1
         if isinstance( arg,  RegionScannable ):
             controller = Finder.getInstance().find("SequenceFileObserver")
-            xmldir = PathConstructor.createFromDefaultProperty()+"xml"+os.sep;
+            xmldir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"xml"+os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")

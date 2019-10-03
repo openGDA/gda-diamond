@@ -10,7 +10,7 @@ from gda.analysis.io import PilatusTiffLoader, JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
 from gda.analysis import RCPPlotter;
 
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 from Diamond.Objects.Shutter import ShutterDeviceClass
 
@@ -193,8 +193,8 @@ class PilatusPseudoDeviceClass(DetectorBase, ShutterDeviceClass):
 ## Pilatus Implementation
 	def setFile(self, subDir, newFilePrefix):
 		"""Set file path and name"""
-		pilatusDataDir = PathConstructor.createFromDefaultProperty();
-#		pilatusDataDir = PathConstructor.createFromProperty("gda.pilatus.datadir");
+		pilatusDataDir = InterfaceProvider.getPathConstructor().createFromDefaultProperty();
+#		pilatusDataDir = InterfaceProvider.getPathConstructor().createFromProperty("gda.pilatus.datadir");
 		
 		
 		fullPath = os.path.join(pilatusDataDir, subDir);

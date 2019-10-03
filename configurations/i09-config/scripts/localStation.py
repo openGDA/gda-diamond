@@ -5,7 +5,8 @@
 import os
 from gda.factory import Finder
 import java
-from gda.data import PathConstructor, NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.jython.commands import GeneralCommands
 from calibration.soft_energy_class import SoftEnergy
 from calibration.hard_energy_class import HardEnergy
@@ -51,7 +52,7 @@ print "    pwd : present working directory;"
 # function to find the working directory
 def pwd():
     '''return the current working directory'''
-    curdir = PathConstructor.createFromDefaultProperty()
+    curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     return curdir
     
 alias("pwd")
@@ -59,7 +60,7 @@ print "    lwf : last working file path;"
 # function to find the last working file path
 def lwf():
     '''return the absolute path of the last working file'''
-    curdir = PathConstructor.createFromDefaultProperty()
+    curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i09NumTracker.getCurrentFileNumber();
     return os.path.join(curdir,str(filenumber))
     
@@ -68,7 +69,7 @@ print "    nwf : next working file path;"
 # function to find the next working file path
 def nwf():
     '''query the absolute path of the next working file'''
-    curdir = PathConstructor.createFromDefaultProperty()
+    curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i09NumTracker.getCurrentFileNumber();
     return os.path.join(curdir,str(filenumber+1))
     

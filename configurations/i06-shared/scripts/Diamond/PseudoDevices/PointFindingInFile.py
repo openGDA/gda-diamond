@@ -3,7 +3,7 @@ from java.io import File;
 from gda.configuration.properties import LocalProperties;
 from gda.device.scannable import ScannableBase
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 from org.eclipse.january.dataset import DatasetUtils
 
@@ -22,7 +22,7 @@ import scisoftpy as dnp;
 #	else:
 #		sn = scanNumber;
 #	if srsPath is None:
-#		srsPath = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir");
+#		srsPath = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
 #		
 #	srsFileName = srsPath + File.separator + str(sn) + ".dat";
 
@@ -93,7 +93,7 @@ class PointFindingInFileClass(ScannableBase):
 			sn = scanNumber;
 			
 		if srsPath is None:
-			srsPath = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir");
+			srsPath = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
 			
 		srsFileName = srsPath + File.separator + str(sn) + ".dat";
 		

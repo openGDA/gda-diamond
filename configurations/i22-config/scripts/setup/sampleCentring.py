@@ -1,10 +1,11 @@
-from gda.data import PathConstructor, NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 import scisoftpy as dnp
 from uk.ac.gda.server.ncd.optimiser import LadderSampleFinder as LSF
 
 def _getAxes(file, dir=None):
     if dir is None:
-        dir = PathConstructor.createFromDefaultProperty()
+        dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     
     data = dnp.io.load(dir + file)
     

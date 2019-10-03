@@ -12,7 +12,7 @@ from gda.jython.commands.ScannableCommands import add_default
 from gda.device.scannable import ScannableBase
 from gda.device.scannable.scannablegroup import ScannableGroup
 from i13j_utilities import createScannableFromPV, clear_defaults
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 section_sep = "-"*128
 

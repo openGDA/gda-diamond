@@ -1,7 +1,7 @@
 import time
 import scisoftpy as dnp
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 i22NumTracker = NumTracker("i22");
 i22NumTracker.getCurrentFileNumber()
 
@@ -57,5 +57,5 @@ for k in range(0,18,1):
         scan s2_yplus 1 -1 0.02 d4d1
         pos s2_yplus 1
         filenum = i22NumTracker.getCurrentFileNumber()
-        file = open(PathConstructor.createFromDefaultProperty()+"harmonic_shapes_"+time.strftime("%Y-%m-%d")+".dat","a")
+        file = open(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"harmonic_shapes_"+time.strftime("%Y-%m-%d")+".dat","a")
         file.write("%d, %.3f , %.4f\n" % (harmonic, energy_start, filenum))

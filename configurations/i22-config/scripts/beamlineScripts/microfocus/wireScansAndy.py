@@ -2,7 +2,7 @@ print "running the wire scan script"
 
 # set up some things first
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 import scisoftpy as dnp
 i22NumTracker = NumTracker("i22");
 

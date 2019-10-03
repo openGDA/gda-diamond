@@ -18,7 +18,7 @@ from gda.device import Detector
 from gda.analysis.io import JPEGLoader, TIFFImageLoader, PNGLoader
 from gda.analysis import ScanFileHolder
 from uk.ac.diamond.scisoft.analysis.dataset.function import MakeMask;
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 #from org.eclipse.january.dataset import DoubleDataset
 from org.eclipse.january.dataset import DatasetUtils

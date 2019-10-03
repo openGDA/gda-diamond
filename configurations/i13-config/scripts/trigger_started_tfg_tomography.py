@@ -156,10 +156,11 @@ def doscan(nsteps=1800,exposure=0.3,readout=0.4):
     
 def tfgscan(nproj, exposure):
     global cac
-    from gda.data import NumTracker, PathConstructor
+    from gda.data import NumTracker
+    from gda.jython import InterfaceProvider
     scanNumTracker = NumTracker("i12");
     #setup file name 
-    directory=PathConstructor.createFromDefaultProperty()
+    directory=InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     scanNumber=scanNumTracker.incrementNumber()
     
     folderstr=directory

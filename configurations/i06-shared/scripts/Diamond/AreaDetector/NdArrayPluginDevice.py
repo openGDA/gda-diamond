@@ -12,7 +12,7 @@ from math import *
 
 
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 from gda.device.detector import DetectorBase
 from gda.device.detector.areadetector.v17 import NDPluginBase;
@@ -101,7 +101,7 @@ class NdArrayPluginDeviceClass(DetectorBase):
 		"""Set file path and name based on current scan run number"""
 		nextNum = NumTracker("tmp").getCurrentFileNumber();
 		
-		basePath=PathConstructor.createFromDefaultProperty() + File.separator;
+		basePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
 		subDir="%d_%s"%(nextNum, self.pathPostfix); 
 		newImagePath = os.path.join(basePath, subDir);
 

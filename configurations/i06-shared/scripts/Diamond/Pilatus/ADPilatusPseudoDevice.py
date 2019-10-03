@@ -12,7 +12,7 @@ from gda.analysis import ScanFileHolder
 #from gda.analysis import RCPPlotter;
 from uk.ac.diamond.scisoft.analysis import SDAPlotter
 
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.data import ObservablePathConstructor
 
 from gda.observable import IObserver
@@ -265,8 +265,8 @@ class ADPilatusPseudoDeviceClass(DetectorBase, ShutterDeviceClass, MetadataConsu
 
 ## Pilatus Implementation
 	def getDataDir_Old(self):
-		dataDir = PathConstructor.createFromDefaultProperty();
-#		dataDir = PathConstructor.createFromProperty("gda.pilatus.datadir");
+		dataDir = InterfaceProvider.getPathConstructor().createFromDefaultProperty();
+#		dataDir = InterfaceProvider.getPathConstructor().createFromProperty("gda.pilatus.datadir");
 		return dataDir;
 		
 	def getDataDir(self):
@@ -283,7 +283,7 @@ class ADPilatusPseudoDeviceClass(DetectorBase, ShutterDeviceClass, MetadataConsu
 #			self.subDir=str(subDir);
 #			self.filePrefix = str(newFilePrefix);
 			
-		pilatusDataDir = PathConstructor.createFromDefaultProperty();
+		pilatusDataDir = InterfaceProvider.getPathConstructor().createFromDefaultProperty();
 		
 		fullPath = os.path.join(pilatusDataDir, self.subDir);
 		if fullPath != self.getFilePath():
@@ -297,7 +297,7 @@ class ADPilatusPseudoDeviceClass(DetectorBase, ShutterDeviceClass, MetadataConsu
 		if newFilePrefix is not None:
 			self.filePrefix = str(newFilePrefix);
 			
-		pilatusDataDir = PathConstructor.createFromDefaultProperty();
+		pilatusDataDir = InterfaceProvider.getPathConstructor().createFromDefaultProperty();
 		
 		fullPath = os.path.join(pilatusDataDir, self.subDir);
 		

@@ -1,4 +1,4 @@
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.data import NumTracker
 
 print "Script started"
@@ -32,7 +32,7 @@ for i in range(lensPoints) :
 	print str(position)+" , "+str(edge.result.fwhm)+" , "+str(edge.result.slope)+" , "+str(edge.result.pos)+" , "+str(fileNumber)
 	
 		# save the data back out
-	file = open(PathConstructor.createFromDefaultProperty()+"lens_scan_prep.csv","a")
+	file = open(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"lens_scan_prep.csv","a")
 	file.write("%f , %f , %f , %f , %d\n" % (position, edge.result.fwhm, edge.result.slope, edge.result.pos , fileNumber) )
 	file.close()
 

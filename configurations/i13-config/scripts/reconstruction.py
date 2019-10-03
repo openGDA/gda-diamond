@@ -28,7 +28,7 @@ import subprocess
 from gdascripts.configuration.properties.localProperties import LocalProperties
 
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.util import PropertyUtils
 
 

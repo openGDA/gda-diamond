@@ -9,7 +9,8 @@ from java.io import File
 print "=================================================================================================================";
 print "Performing beamline I11-1 specific initialisation.";
 print
-from gda.data import PathConstructor, NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
@@ -41,7 +42,7 @@ i11JNumTracker = NumTracker("i11-1");
 # function to find the working directory
 def pwd():
     '''return the working directory'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     return cwd
 
 alias("pwd")
@@ -49,7 +50,7 @@ alias("pwd")
 # function to find the last working file path
 def lwf():
     '''return the last working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i11JNumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber))
 
@@ -58,7 +59,7 @@ alias("lwf")
 # function to find the next working file path
 def nwf():
     '''query the next working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
+    cwd = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
     filenumber = i11JNumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber+1))
 
@@ -94,7 +95,7 @@ def cdd(dirname):
         propertyValue=LocalProperties.get(LocalProperties.GDA_DATAWRITER_DIR)
         if propertyValue.contains("$subdirectory$"):
             propertyValue=propertyValue.replace("$subdirectory$", "")
-        visitdir=PathConstructor.createFromTemplate(propertyValue)
+        visitdir=InterfaceProvider.getPathConstructor().createFromTemplate(propertyValue)
         dirname=os.path.realpath(os.path.join(visitdir, "..", dirname))
         LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, dirname)
     eventAdmin=Finder.getInstance().find("eventadmin")

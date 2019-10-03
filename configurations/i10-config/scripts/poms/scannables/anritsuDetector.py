@@ -14,7 +14,8 @@ import scisoftpy as dnp
 
 from java.lang import Thread, Runnable
 from gda.jython import InterfaceProvider
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.device.detector import DetectorBase
 
 
@@ -72,7 +73,7 @@ class anritsuDetector(DetectorBase):
         self.loop = False
 
     def writeDataToFile(self, data=[]):
-        path = str(PathConstructor.createFromDefaultProperty())+"/anritsu/"
+        path = str(InterfaceProvider.getPathConstructor().createFromDefaultProperty())+"/anritsu/"
         if not os.path.exists(path): os.makedirs(path)
 
         filenumber = NumTracker("i10").getCurrentFileNumber();

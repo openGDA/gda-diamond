@@ -13,7 +13,8 @@ updateed to add "DataPlot" panel, 06 Dec 2010
 from gda.analysis import ScanFileHolder
 from gda.analysis.io import MACLoader, SRSLoader
 from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias
 from java.io import IOException, File #@UnresolvedImport
 import java #@UnresolvedImport
@@ -172,7 +173,7 @@ def loadSRSData(filename):
             sfh.load(SRSLoader(_getCurrentFileName(int(filename))))
         elif not filename.startswith(File.separator):
             #filename with extension
-            sfh.load(SRSLoader(os.path.join(PathConstructor.createFromDefaultProperty(),filename)))
+            sfh.load(SRSLoader(os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),filename)))
         else:
             #absolute file path
             sfh.load(SRSLoader(filename))
@@ -193,7 +194,7 @@ def loadMythenSRSFile(filename):
             filenamelist=MythenSrsFileLoader().load(_getCurrentFileName(int(filename)))
         elif not str(filename).startswith(File.separator):
             #filename with extension
-            filenamelist=MythenSrsFileLoader().load(os.path.join(PathConstructor.createFromDefaultProperty(),filename))
+            filenamelist=MythenSrsFileLoader().load(os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),filename))
         else:
             #absolute file path
             filenamelist=MythenSrsFileLoader().load(filename)
@@ -212,7 +213,7 @@ def loadMythenRawData(filename):
             print "Fail to load data file: "+filename
         return dataset
     try:
-        dataset = MythenRawDataset(java.io.File(os.path.join(PathConstructor.createFromDefaultProperty(),str(filename))))
+        dataset = MythenRawDataset(java.io.File(os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),str(filename))))
     except:
         print "Fail to load data file: "+filename
     return dataset
@@ -231,22 +232,22 @@ def loadMythenData(filename):
         if str(filename).find("summed") == -1:
             #Not merged file or it is mythen data file
             try:
-                dataset = MythenProcessedDataset(java.io.File(os.path.join(PathConstructor.createFromDefaultProperty(),str(filename))))
+                dataset = MythenProcessedDataset(java.io.File(os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),str(filename))))
             except:
-                dataset = MythenMergedDataset(java.io.File(os.path.join(PathConstructor.createFromDefaultProperty(),str(filename))))
+                dataset = MythenMergedDataset(java.io.File(os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),str(filename))))
         else:
-            dataset = MythenMergedDataset(java.io.File(os.path.join(PathConstructor.createFromDefaultProperty(),str(filename))))
+            dataset = MythenMergedDataset(java.io.File(os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),str(filename))))
         return dataset
     else:
         #externally merged file in 'processing' sub-folder
-        dataset = MythenMergedDataset(java.io.File(os.path.join(PathConstructor.createFromDefaultProperty(),str(filename))))
+        dataset = MythenMergedDataset(java.io.File(os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),str(filename))))
         return dataset
 
 def _getCurrentFileName(filenumber):
     ''' convert relative file number to its absolute path to the file with file extension as ".dat"'''
     filename = str(filenumber)
     if long(filenumber) < 0:
-        filename = os.path.join(PathConstructor.createFromDefaultProperty(),str(int(NumTracker(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)).getCurrentFileNumber()+int(filenumber)))+".dat")
+        filename = os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),str(int(NumTracker(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)).getCurrentFileNumber()+int(filenumber)))+".dat")
     else:
-        filename = os.path.join(PathConstructor.createFromDefaultProperty(),str(filenumber)+ ".dat")
+        filename = os.path.join(InterfaceProvider.getPathConstructor().createFromDefaultProperty(),str(filenumber)+ ".dat")
     return filename

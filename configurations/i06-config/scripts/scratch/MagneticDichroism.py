@@ -10,7 +10,7 @@ from gda.analysis.io import PilatusTiffLoader, JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
 from gda.analysis import RCPPlotter;
 
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.data import NumTracker;
 
 #Introduce the script logger
@@ -110,7 +110,7 @@ class MagneticDichroismDevice(object):
     def createPrecessingDir(self, subDir):
         """Set file path and name"""
         #Get the current data directory
-        dataDir = PathConstructor.createFromDefaultProperty();
+        dataDir = InterfaceProvider.getPathConstructor().createFromDefaultProperty();
         
         fullPath = os.path.join(dataDir, "processing", subDir);
         

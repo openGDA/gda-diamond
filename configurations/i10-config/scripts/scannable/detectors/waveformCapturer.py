@@ -6,7 +6,8 @@ Created on 13 May 2016
 from gda.device.detector import DetectorBase
 from gda.epics import CAClient
 from gda.jython import InterfaceProvider
-from gda.data import NumTracker, PathConstructor
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 
 class WaveformCapturer(DetectorBase):
     '''
@@ -60,7 +61,7 @@ class WaveformCapturer(DetectorBase):
     
     def writeDataToFile(self, data=[]):
         filenumber = NumTracker("i10").getCurrentFileNumber();
-        waveformfilename=str(PathConstructor.createFromDefaultProperty())+"/"+ str("i10-")+str(filenumber)+"-"+str(self.getName())+"_"+str(self.pointNumber)+".dat"
+        waveformfilename=str(InterfaceProvider.getPathConstructor().createFromDefaultProperty())+"/"+ str("i10-")+str(filenumber)+"-"+str(self.getName())+"_"+str(self.pointNumber)+".dat"
         print waveformfilename
         datafile=open(waveformfilename, 'w')
         for value in data:

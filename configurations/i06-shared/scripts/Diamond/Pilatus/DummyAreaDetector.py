@@ -10,7 +10,7 @@ from gda.device.detector import DetectorBase
 
 #from gda.device.detector import NXDetectorDataWithFilepathForSrs
 
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 from gda.analysis.io import JPEGLoader, TIFFImageLoader, PilatusTiffLoader
 import scisoftpy as dnp;
@@ -183,7 +183,7 @@ class DummyAreaDetectorClass(DetectorBase, ShutterDeviceClass, MetadataConsumerC
 	def checkPath(self):
 #			self.subDir=str(subDir);
 #			self.filePrefix = str(newFilePrefix);
-		imagePath=PathConstructor.createFromDefaultProperty();
+		imagePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
 		fullPath = os.path.join(imagePath, self.subDir);
 		if fullPath != self.getFilePath():
 			self.setFile();
@@ -196,9 +196,9 @@ class DummyAreaDetectorClass(DetectorBase, ShutterDeviceClass, MetadataConsumerC
 		if newFilePrefix is not None:
 			self.filePrefix = str(newFilePrefix);
 			
-#		imagePath = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir");
-#		imagePath=PathConstructor.createFromDefaultProperty() + File.separator;
-		imagePath=PathConstructor.createFromDefaultProperty();
+#		imagePath = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
+#		imagePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
+		imagePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
 		
 		fullPath = os.path.join(imagePath, self.subDir);
 		print "Image path for %s is set to %s." %(self.getName(), fullPath);

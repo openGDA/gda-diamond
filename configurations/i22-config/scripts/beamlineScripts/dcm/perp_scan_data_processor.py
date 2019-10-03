@@ -1,6 +1,6 @@
 import scisoftpy as dnp
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.analysis.io import NexusLoader
 from math import cos
 from math import acos
@@ -20,7 +20,7 @@ dcm_pitch scans done on D3 inline diode
 dcm_perp scans done on D4 Inline Diode HFM position
 '''
 # 
-# filePath = (PathConstructor.createFromDefaultProperty()+"/perp_parameters_"+time.strftime("%Y-%m-%d-%H_%M")+".csv")
+# filePath = (InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"/perp_parameters_"+time.strftime("%Y-%m-%d-%H_%M")+".csv")
 # outfile = open(filePath,"a")
 # outfile.write("File, Energy , bragg, 1/cos(bragg), dcm_perp1, dcm_perp2, dcm_perp3, pitch1, pitch2\n")
 # 

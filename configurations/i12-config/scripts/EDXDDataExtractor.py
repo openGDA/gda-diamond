@@ -6,7 +6,7 @@ Created on 12 May 2010
 
 import os
 import string
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.data import NumTracker
 from gda.analysis import ScanFileHolder
 from gda.analysis.io import NexusLoader
@@ -115,7 +115,7 @@ class EDXDDataExtractor(Thread):
         
         # get the current working directory
         i12NumTracker = NumTracker("i12");
-        dir = PathConstructor.createFromDefaultProperty()
+        dir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         filenumber = i12NumTracker.getCurrentFileNumber();
         pathname = os.path.join(dir,str(filenumber))
         nexusfile = os.path.join(dir,"%d.nxs"%filenumber)

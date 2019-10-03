@@ -1,8 +1,8 @@
 import gda.device.scannable.ScannableBase
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 def flux(filename, numberOfCount):
-	file=PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")+"/"+filename
+	file=InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")+"/"+filename
 	fid=open(file,'w')
 
 	processD1(fid, numberOfCount , bsdiode)

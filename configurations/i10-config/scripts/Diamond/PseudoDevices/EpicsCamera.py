@@ -22,7 +22,7 @@ from math import *
 
 from gda.epics import CAClient
 from gda.data import NumTracker
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 
 from gda.device.scannable import PseudoDevice
 from gda.device.detector import PseudoDetector
@@ -34,7 +34,6 @@ from gda.analysis import RCPPlotter;
 from gda.analysis.io import PNGLoader, PNGSaver;
 
 from gda.data import NumTracker
-from gda.data import PathConstructor
 
 from gov.aps.jca.event import PutEvent;
 from gov.aps.jca.event import PutListener;
@@ -141,8 +140,8 @@ class EpicsCameraClass(PseudoDetector):
 
 	def setFile(self, subDir, newFilePrefix):
 		"""Set file path and name"""
-#		imagePath = PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir");
-		imagePath=PathConstructor.createFromDefaultProperty() + File.separator;
+#		imagePath = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
+		imagePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
 		newFilePath = os.path.join(imagePath, subDir);
 
 		if not os.path.exists(newFilePath):
