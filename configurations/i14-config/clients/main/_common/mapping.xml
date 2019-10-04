@@ -136,15 +136,15 @@
 	<bean id="mapping_region_manager" class="uk.ac.diamond.daq.mapping.region.MappingRegionManager">
 		<property name="regions">
 			<list>
+				<bean class="uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion">
+					<property name="xRange" value="0.005" />
+					<property name="yRange" value="0.005" />
+				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.region.RectangularMappingRegion">
 					<property name="xStart" value="0" />
 					<property name="xStop" value="0.005" />
 					<property name="yStart" value="0" />
 					<property name="yStop" value="0.005" />
-				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion">
-					<property name="xRange" value="0.005" />
-					<property name="yRange" value="0.005" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.region.CircularMappingRegion">
 					<property name="radius" value="0.0015" />
