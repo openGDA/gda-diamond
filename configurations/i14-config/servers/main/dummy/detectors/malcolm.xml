@@ -61,8 +61,8 @@
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
 			<list>
-				<value>stage1_xf</value>
-				<value>stage1_yf</value>
+				<value>SampleX</value>
+				<value>SampleY</value>
 			</list>
 		</property>
 	</bean>
@@ -80,8 +80,8 @@
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
 			<list>
-				<value>stage1_x</value>
-				<value>stage1_y</value>
+				<value>SampleX</value>
+				<value>SampleY</value>
 			</list>
 		</property>
 	</bean>
@@ -99,8 +99,8 @@
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
 			<list>
-				<value>stage1_x</value>
-				<value>stage1_y</value>
+				<value>SampleX</value>
+				<value>SampleY</value>
 			</list>
 		</property>
 	</bean>
@@ -118,8 +118,8 @@
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
 			<list>
-				<value>stage1_x</value>
-				<value>stage1_y</value>
+				<value>SampleX</value>
+				<value>SampleY</value>
 			</list>
 		</property>
 	</bean>
@@ -174,8 +174,8 @@
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
 			<list>
-				<value>stage1_x</value>
-				<value>stage1_y</value>
+				<value>SampleX</value>
+				<value>SampleY</value>
 			</list>
 		</property>
 	</bean>
@@ -212,8 +212,8 @@
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
 			<list>
-				<value>stage1_x</value>
-				<value>stage1_y</value>
+				<value>SampleX</value>
+				<value>SampleY</value>
 			</list>
 		</property>
 	</bean>

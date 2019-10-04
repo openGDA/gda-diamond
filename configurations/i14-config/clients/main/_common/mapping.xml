@@ -17,8 +17,8 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stage1_x"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stage1_y"/></bean>
+	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="SampleX"/></bean>
+	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="SampleY"/></bean>
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
@@ -98,6 +98,8 @@
 	<bean id="mapping_stage_options" class="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" >
 		<property name="fastAxes">
 			<list>
+				<value>SampleX</value>
+				<value>SampleY</value>
 				<value>stage1_xf</value>
 				<value>stage1_yf</value>
 				<value>stage1_x</value>
@@ -107,6 +109,8 @@
 		</property>
 		<property name="slowAxes">
 			<list>
+				<value>SampleX</value>
+				<value>SampleY</value>
 				<value>stage1_xf</value>
 				<value>stage1_yf</value>
 				<value>stage1_x</value>
