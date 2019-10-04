@@ -18,13 +18,20 @@
 
 package gda.scan;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
@@ -104,6 +111,10 @@ public class TurboXasScan extends ContinuousScan {
 	private List<String> datasetNamesToAverage = Collections.emptyList();
 	private Optional<Scannable> scannableToMove = Optional.empty();
 	private List<Object> positionsForScan = Collections.emptyList();
+
+	private Future<?> spectrumEventProcessing = null;
+	private SortedMap<Integer, List<SpectrumEvent>> spectrumEventMap = new TreeMap<>();
+	private int spectrumEventTimeoutSecs = 600;
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
@@ -252,6 +263,8 @@ public class TurboXasScan extends ContinuousScan {
 		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
 		detectorReadoutRunnable.setLastFrameRead(lastFrameRead);
 		Async.execute(detectorReadoutRunnable);
+
+		startSpectrumEventsThread();
 
 		moveShutter(ValvePosition.OPEN);
 
@@ -445,6 +458,11 @@ public class TurboXasScan extends ContinuousScan {
 			nexusTree.addDataAtEndOfScan(getDataWriter().getCurrentFileName(), getScanDetectors());
 		} catch (Exception e) {
 			logger.warn("Problem adding time axis data at end of scan", e);
+		}
+
+		if (spectrumEventProcessing != null && !spectrumEventProcessing.isDone()) {
+			logger.warn("Spectrum event processing has not finished yet - stopping it now");
+			spectrumEventProcessing.cancel(true);
 		}
 
 		try {
@@ -919,5 +937,118 @@ public class TurboXasScan extends ContinuousScan {
 
 	public void setPositionsForScan(List<Object> positionsForScan) {
 		this.positionsForScan = positionsForScan;
+	}
+
+	public static class SpectrumEvent {
+		private final int spectrumNumber;
+		private final Scannable scannable;
+		private final Object position;
+
+		public SpectrumEvent(int spectrumNumber, Scannable scannable, Object position) {
+			this.spectrumNumber = spectrumNumber;
+			this.scannable = scannable;
+			this.position = position;
+		}
+
+		public int getSpectrumNumber() {
+			return spectrumNumber;
+		}
+
+		public Scannable getScannable() {
+			return scannable;
+		}
+
+		public Object getPosition() {
+			return position;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("Spectrum %d : %s to position %s", spectrumNumber, scannable.getName(), position);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SpectrumEvent other = (SpectrumEvent) obj;
+			if (position == null) {
+				if (other.position != null)
+					return false;
+			} else if (!position.equals(other.position))
+				return false;
+			if (scannable == null) {
+				if (other.scannable != null)
+					return false;
+			} else if (!scannable.getName().equals(other.scannable.getName()))
+				return false;
+			return spectrumNumber == other.spectrumNumber;
+		}
+	}
+
+	public Map<Integer, List<SpectrumEvent>> getSpectrumEvents() {
+		return spectrumEventMap;
+	}
+
+	public void addSpectrumEvent(int spectrumNumber, Scannable scannable, Object position) {
+		if (!spectrumEventMap.containsKey(spectrumNumber)) {
+			spectrumEventMap.put(spectrumNumber, new ArrayList<>());
+		}
+		spectrumEventMap.get(spectrumNumber).add(new SpectrumEvent(spectrumNumber, scannable, position));
+	}
+
+	private void startSpectrumEventsThread() {
+		spectrumEventProcessing = Async.submit(this::processSpectrumEvents);
+	}
+
+	private void processSpectrumEvents() {
+		if (spectrumEventMap.isEmpty()) {
+			return; // nothing to do
+		}
+
+		logger.info("Starting the spectrum events loop...");
+		for (Entry<Integer, List<SpectrumEvent>> entry : spectrumEventMap.entrySet()) {
+			int numSpectra = entry.getKey();
+			try {
+				logger.info("Waiting for {} spectra to be captured by zebra(s)...", numSpectra);
+				detectorFunctions.waitForCapturedZebraPulses(numSpectra, numReadoutsPerSpectrum, spectrumEventTimeoutSecs);
+
+				// Process the events : move each scannable to the specified position, catch any exception to avoid exiting too early.
+				for (SpectrumEvent event : entry.getValue()) {
+					Scannable scn = event.getScannable();
+					Object position = event.getPosition();
+					logger.info("Moving {} to position {}", scn.getName(), position);
+					try {
+						if (scn.isBusy()) {
+							logger.warn("Cannot move {} - it is already busy moving!", scn.getName());
+						} else {
+							scn.asynchronousMoveTo(position);
+						}
+					} catch (DeviceException e) {
+						logger.error("Problem moving {}", scn.getName(), e);
+					}
+				}
+			} catch (IllegalStateException | IOException | TimeoutException e) {
+				logger.error("Problem waiting for {} spectra to be captured by zebra(s)", numSpectra, e);
+			} catch (InterruptedException e) {
+				// Deal with interrupted exception thrown when future.cancel(true) is called on the thread
+				logger.error("Interrupted waiting for {} spectra to be captured by zebra(s). Exiting the spectrum event loop early", numSpectra, e);
+				Thread.currentThread().interrupt();
+				break;
+			}
+		}
+		logger.info("Finished spectrum events loop.");
+	}
+
+	public int getSpectrumEventTimeoutSecs() {
+		return spectrumEventTimeoutSecs;
+	}
+
+	public void setSpectrumEventTimeoutSecs(int spectrumEventTimeoutSecs) {
+		this.spectrumEventTimeoutSecs = spectrumEventTimeoutSecs;
 	}
 }

@@ -19,11 +19,13 @@
 package gda.scan;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.nexus.NexusException;
@@ -114,6 +116,52 @@ public class DetectorFunctions  {
 		} catch (Exception e) {
 			throw new DeviceException("Problem getting number of captured pulses from zebra(s)", e);
 		}
+	}
+
+	/**
+	 * Wait for a zebra to capture at least the specified number of points
+	 * @param zebra
+	 * @param numPoints
+	 * @param timeOut
+	 * @throws IllegalStateException
+	 * @throws TimeoutException
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	private void waitForZebra(Zebra zebra, int numPoints, int timeOut) throws TimeoutException, IOException, InterruptedException {
+		logger.debug("Waiting up to {} secs for zebra to capture >= {} points...", timeOut, numPoints);
+		try {
+			zebra.getNumberOfPointsCapturedPV().waitForValue(numCaptured -> numCaptured >= numPoints, timeOut);
+		} finally {
+			zebra.getNumberOfPointsCapturedPV().setValueMonitoring(false);
+		}
+		logger.debug("Captured >= {} points", numPoints);
+	}
+
+	/**
+	 * Wait for zebra(s) to capture number of points each corresponding to a number of spectra
+	 * @param numSpectra
+	 * @param numPointsPerSpectrum
+	 * @param timeOutSeconds
+	 * @throws IllegalStateException
+	 * @throws TimeoutException
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public void waitForCapturedZebraPulses(int numSpectra, int numPointsPerSpectrum, int timeOutSeconds) throws TimeoutException, IOException, InterruptedException {
+		if (!useTwoZebras) {
+			int capturedPoints = numSpectra * numPointsPerSpectrum;
+			logger.debug("Waiting for zebra1 to capture points for {} spectra", numSpectra);
+			waitForZebra(zebra1, capturedPoints, timeOutSeconds);
+			return;
+		}
+
+		int numSpectraZebra1 = numSpectra/2 + numSpectra%2;
+		int numSpectraZebra2 = numSpectra - numSpectraZebra1;
+		logger.debug("Waiting for (zebra1, zebra2) to capture points for ({}, {}) spectra...", numSpectraZebra1, numSpectraZebra2);
+		waitForZebra(zebra1, numSpectraZebra1*numPointsPerSpectrum, timeOutSeconds);
+		logger.debug("Zebra1 finished, now waiting for zebra2...");
+		waitForZebra(zebra2, numSpectraZebra2*numPointsPerSpectrum, timeOutSeconds);
 	}
 
 	/**
