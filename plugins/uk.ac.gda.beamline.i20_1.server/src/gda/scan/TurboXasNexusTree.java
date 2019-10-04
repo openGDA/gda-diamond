@@ -44,11 +44,7 @@ import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
-import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.DoubleDataset;
-import org.eclipse.january.dataset.ILazyDataset;
-import org.eclipse.january.dataset.IntegerDataset;
-import org.eclipse.january.dataset.LongDataset;
 import org.eclipse.january.dataset.RunningAverage;
 import org.eclipse.january.dataset.Slice;
 import org.slf4j.Logger;
@@ -91,6 +87,8 @@ public class TurboXasNexusTree {
 	public static final String POSITION_UNITS = "cm";
 	public static final String I0_LABEL = "I0";
 	public static final String FF_SUM_IO_NAME = "FF_sumI0";
+	public static final String FF_SUM_NAME = "FF_sum";
+
 	private boolean reverseDetectorReadout = false;
 
 	// Dataset names for spectrum and timing group index (to match Ede scan data names...)
@@ -110,91 +108,10 @@ public class TurboXasNexusTree {
 	private List<String> datasetsNamesToAverage = Collections.emptyList();
 	private Map<String, RunningAverage> runningAverageDatasets = new HashMap<>();
 
-	/**
-	 * Add time axis dataset to Nexus file (after scan has finished).
-	 * This creates a new dataset with the start time for each spectrum, based on cumulative
-	 * sum of time frame length for each readout of each spectrum.
-	 * @param filename
-	 * @param detectorName
-	 * @throws NexusException
-	 * @throws DatasetException
-	 */
-	public void addTimeAxis(NexusFile file, String detectorName) throws NexusException, DatasetException {
-		// Read 'frame_time' and 'time between spectra' datasets from Nexus file
-		String detectorEntry = "/entry1/"+detectorName+"/";
+	private int groupNumber;
+	private int spectrumNumber;
 
-		ILazyDataset times = file.getData(detectorEntry+frameTimeFieldName).getDataset();
-		ILazyDataset timeBetweenSpectra = file.getData(detectorEntry+TIME_BETWEEN_SPECTRA_COLUMN_NAME).getDataset();
-		DoubleDataset timeBetweenSpectraVals = (DoubleDataset) timeBetweenSpectra.getSlice(null, null, null).squeeze();
-
-		int numSpectra = times.getShape()[0];
-		int numReadouts = times.getShape()[1];
-
-		// Create datasets to store start time of each spectrum :
-
-		// Time relative to start of first spectrum [seconds]
-		Dataset absoluteTime = DatasetFactory.zeros(DoubleDataset.class, numSpectra);
-
-		// Absolute start time of each spectrum [UTC, milliseconds]
-		Dataset absoluteTimeUtc = DatasetFactory.zeros(LongDataset.class, numSpectra);
-
-		// First spectrum starts at t=0
-		double timeAtSpectrumStart = 0;
-		absoluteTime.set(timeAtSpectrumStart, 0);
-		absoluteTimeUtc.set(startTimeUtcMillis, 0);
-
-		// Calculate start time for each spectrum
-		for (int i = 0; i < numSpectra - 1; i++) {
-			// Take slice along time for current spectrum, find sum and add to time-between-spectra
-			Dataset row = DatasetUtils.convertToDataset(times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null));
-			double rowSum = ((Number) row.sum(true)).doubleValue();
-			double timeForSpectra = rowSum + timeBetweenSpectraVals.get(i);
-			timeAtSpectrumStart += timeForSpectra;
-			absoluteTime.set(timeAtSpectrumStart, i + 1);
-			absoluteTimeUtc.set(timeAtSpectrumStart*1000+startTimeUtcMillis, i+1);
-		}
-		file.createData(detectorEntry, TIME_COLUMN_NAME, absoluteTime, true);
-		file.createData(detectorEntry, TIME_UTC_COLUMN_NAME, absoluteTimeUtc, true);
-	}
-
-
-	/**
-	 * Add sum of topup scaler counts for each spectrum :
-	 * 2D topup data ([numspectra, numReadouts]) is read from TOPUP_FIELD_NAME in detector entry
-	 * and counts for each spectrum summed, creating 1D new data entry TOPUP_FIELD_NAME+"_counts" [numspectra]
-	 * @param file
-	 * @param detectorName
-	 * @throws NexusException
-	 * @throws DatasetException
-	 */
-	public void addTopupData(NexusFile file, String detectorName) throws NexusException, DatasetException {
-		String detectorEntry = "/entry1/"+detectorName+"/";
-		String topupEntry = detectorEntry+TOPUP_FIELD_NAME;
-		ILazyDataset topupScalerValues = null;
-		try {
-			if (file.isPathValid(topupEntry)) {
-				topupScalerValues = file.getData(topupEntry).getDataset();
-			} else {
-				logger.info("Not processing topup scaler counts for spectra. Topup data {} not in Nexus file.", topupScalerValues);
-			}
-		}catch(NexusException ne) {
-			logger.info("Problem getting topup dataset {} from Nexus file", topupEntry, ne);
-		}
-		if (topupScalerValues!=null) {
-			DoubleDataset topupValues = (DoubleDataset) topupScalerValues.getSlice(null, null, null);
-			int numSpectra = topupValues.getShape()[0];
-			int numReadouts = topupValues.getShape()[1];
-
-			Dataset topupValuePerSpectra = DatasetFactory.zeros(DoubleDataset.class, numSpectra);
-			for(int i=0; i<numSpectra; i++) {
-				Dataset row = topupValues.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null);
-				double sum = ((Number)row.sum()).doubleValue();
-				topupValuePerSpectra.set(sum, i);
-			}
-
-			file.createData(detectorEntry, TOPUP_FIELD_NAME+"_counts", topupValuePerSpectra, true);
-		}
-	}
+	private double timeAtSpectrumStart;
 
 	/**
 	 * Add link to external xspress3 hdf file containing detector data
@@ -206,45 +123,15 @@ public class TurboXasNexusTree {
 	 */
 	public void addDetectorDataLink(NexusFile nexusFile, Xspress3BufferedDetector detector) throws URISyntaxException, DeviceException, NexusException {
 		if (detector != null) {
+			logger.debug("Adding link to {} MCA data", detector.getName());
 			URI hdfFile = new URI(detector.getController().getFullFileName() + "#entry/data/data");
 			String nexusLinkName = "/entry1/" + detector.getName() + "/MCAs";
 			nexusFile.linkExternal(hdfFile, nexusLinkName, false);
 		}
 	}
 
-	public void addGroupData(NexusFile nexusFile, String detectorName) throws NexusException {
-		TurboXasMotorParameters motorParams = getMotorParameters();
-		if (motorParams==null) {
-			return;
-		}
-		List<TurboSlitTimingGroup> timingGroups = motorParams.getScanParameters().getTimingGroups();
-
-		String detectorEntry = "/entry1/"+detectorName+"/";
-
-		// Determine total number of spectra recorded in Nexus file from shape of timeframe data
-		int[] shape = nexusFile.getData(detectorEntry+frameTimeFieldName).getDataset().getShape();
-		int totNumSpectra = shape[0];
-
-		// Create datasets of spectrum index and timing group index.
-		Dataset groupIndexDataset = DatasetFactory.zeros(IntegerDataset.class, totNumSpectra);
-		Dataset spectrumIndexDataset = DatasetFactory.zeros(IntegerDataset.class, totNumSpectra);
-		int startIndex = 0;
-		for(int timingIndex = 0; timingIndex<timingGroups.size(); timingIndex++) {
-			int endIndex = startIndex + timingGroups.get(timingIndex).getNumSpectra();
-			endIndex = Math.min(totNumSpectra, endIndex);
-			for(int i=startIndex; i<endIndex; i++) {
-				spectrumIndexDataset.set(i-startIndex, i);
-				groupIndexDataset.set(timingIndex, i);
-			}
-			startIndex = endIndex;
-		}
-
-		// Write to Nexus file
-		nexusFile.createData(detectorEntry, SPECTRUM_INDEX, spectrumIndexDataset, true);
-		nexusFile.createData(detectorEntry, SPECTRUM_GROUP, groupIndexDataset, true);
-	}
-
 	public void addDataAtEndOfScan(String filename, BufferedDetector[] bufferedDetectors) throws URISyntaxException, DeviceException, NexusException, DatasetException {
+		logger.debug("Adding data at end of scan");
 		String bufferedScalerName = "";
 		BufferedScaler bufferedScaler = null;
 		Xspress3BufferedDetector xspress3Detector = null;
@@ -260,9 +147,6 @@ public class TurboXasNexusTree {
 
 		try(NexusFile file = NexusFileHDF5.openNexusFile(filename)) {
 			if (!bufferedScalerName.isEmpty() && bufferedScaler != null) {
-				addTimeAxis(file, bufferedScalerName);
-				addGroupData(file, bufferedScalerName);
-				addTopupData(file, bufferedScalerName);
 				addNxDataEntry(file, bufferedScaler);
 			}
 			addDetectorDataLink(file, xspress3Detector);
@@ -278,6 +162,7 @@ public class TurboXasNexusTree {
 	 * @throws NexusException
 	 */
 	private void addNxDataEntry(NexusFile file, BufferedScaler bufferedScaler) throws NexusException {
+		logger.debug("Adding NXData entry for {}", bufferedScaler.getName());
 		String[] datasetNames = bufferedScaler.getExtraNames();
 		boolean defaultHasBeenSet = false;
 		for(String datasetName : datasetNames) {
@@ -457,11 +342,11 @@ public class TurboXasNexusTree {
 	 */
 	private NXDetectorData createNXDetectorData(Xspress3BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException, ScanFileHolderException {
 
+		logger.debug("Adding Xspress3 detector data");
+
 		NXDetectorData frame = createAxisData(detector, lowFrame, highFrame);
 
 		INexusTree detTree = frame.getDetTree(detector.getName());
-
-		Dataset ffSum = null;
 
 		if (xspress3FileReader!=null) {
 			// Add detector data from xspress3 hdf file
@@ -484,15 +369,14 @@ public class TurboXasNexusTree {
 					logger.debug("Detector elements excluded from FF sum : {}", exludedElementSuffixList);
 				}
 
-				ffSum = DatasetFactory.zeros(highFrame - lowFrame -1);
-				ffSum.setName("FF_sum");
+				// Calculate the FF sum over non excluded detector elements
+				Dataset ffSum = DatasetFactory.zeros(highFrame - lowFrame -1);
+				ffSum.setName(FF_SUM_NAME);
 				for (Dataset dataset : xspress3FileReader.readDatasets(start, shape, step)) {
 					NXDetectorData.addData(detTree, dataset.getName(), createDetectorNexusGroupData(dataset), "counts", 1);
 					if (dataset.getName().startsWith("FF")) {
 						boolean excludeInSum = exludedElementSuffixList.stream()
-							.filter(elementSuffix -> dataset.getName().endsWith(elementSuffix))
-							.findFirst().isPresent();
-
+							.anyMatch(elementSuffix -> dataset.getName().endsWith(elementSuffix));
 						if (!excludeInSum) {
 							ffSum.iadd(dataset);
 						}
@@ -517,21 +401,13 @@ public class TurboXasNexusTree {
 				}
 				NXDetectorData.addData(detTree, dataset.getName(), createDetectorNexusGroupData(dataset), "counts", 1);
 
-				// last dataset from readFrames is total FF (i.e. sum over all detector elements)
+				// Last dataset is FF_sum dataset (i.e. sum over all detector elements)
 				if (i==names.length-1) {
-					ffSum = dataset;
+					NXDetectorData.addData(detTree, FF_SUM_NAME, createDetectorNexusGroupData(dataset), "counts", 1);
 				}
 			}
 		}
 
-		// Add ff/I0 values
-		if (ffSum!=null && i0Data!=null) {
-			int numI0Values = i0Data.getShape()[0];
-			Dataset ffSumSlice = ffSum.getSlice(null, new int[]{numI0Values}, null).squeeze();
-			Dataset ffi0 = ffSumSlice.idivide(i0Data);
-			ffi0.setName(FF_SUM_IO_NAME);
-			NXDetectorData.addData(detTree, ffi0.getName(), createDetectorNexusGroupData(ffi0), "counts", 1);
-		}
 		return frame;
 	}
 
@@ -546,7 +422,7 @@ public class TurboXasNexusTree {
 	private NXDetectorData createNXDetectorData(BufferedScaler detector, int lowFrame, int highFrame) throws DeviceException {
 		logger.debug("Adding data from Tfg scaler readout");
 
-		int readoutsPerCycle = ((BufferedScaler)detector).getContinuousParameters().getNumberDataPoints();
+		int readoutsPerCycle = detector.getContinuousParameters().getNumberDataPoints();
 		int cycleNumber = (int) Math.floor(lowFrame/readoutsPerCycle);
 		if (cycleNumber > 0) {
 			int absFrameCycleStart = cycleNumber * readoutsPerCycle;
@@ -558,51 +434,47 @@ public class TurboXasNexusTree {
 
 		int numFramesRead = highFrame - lowFrame;
 		int numFrames = numReadoutsPerSpectrum;
-//
-//		// Number of frames to be stored in Nexus file
-//		// Don't record last frame of data (this corresponds to the long timeframe when
-//		// the motor moves back to start position)
-		int numFramesToStore = numFramesRead-1;
 
-		NXDetectorData frame = createAxisData(detector, lowFrame, highFrame);
-
-		// Frame data from detector
+		// Store the frame data from detector
 		Object[] detectorFrameData = detector.readFrames(lowFrame, highFrame);
+		double[][] frameDataArray = (double[][]) detectorFrameData;
 
 		// clear the frames (ready for next cycle)
 		detector.clearMemoryFrames(lowFrame,  highFrame);
 
-		double[][] frameDataArray = (double[][]) detectorFrameData;
-
 		// Names of data fields on the detector
 		String[] fieldNames = detector.getExtraNames();
 
-		String frameTimeName = getFrameTimeFieldName();
+		// Number of frames of scaler data to be stored in Nexus file. Don't record last
+		// frame of data (this is the long timeframe between spectra)
+		int numFramesToStore = numFramesRead-1;
 
 		// Copy data for each field and add to detector data
+		NXDetectorData frame = createAxisData(detector, lowFrame, highFrame);
 		INexusTree detTree = frame.getDetTree(detector.getName());
 		int maxField = Math.min(fieldNames.length, frameDataArray[0].length);
-		i0Data = null;
-		for(int fieldIndex=0; fieldIndex<maxField; fieldIndex++) {
+		for (int fieldIndex = 0; fieldIndex < maxField; fieldIndex++) {
 			double[] detData = new double[numFramesToStore];
-			for(int i=0; i<numFramesToStore; i++) {
+			for (int i = 0; i < numFramesToStore; i++) {
 				detData[i] = frameDataArray[i][fieldIndex];
 			}
 			String fieldName = fieldNames[fieldIndex];
-			String units = fieldName.equals(frameTimeName) ? TIME_UNITS : COUNT_UNITS;
+			String units = fieldName.equals(frameTimeFieldName) ? TIME_UNITS : COUNT_UNITS;
 			NXDetectorData.addData(detTree, fieldName, createDetectorNexusGroupData(detData), units, 1);
-
-			// Save the I0 dataset, so can calculate (and plot) FF/I0 after xspress3 data has been collected
-			if (fieldName.equals(I0_LABEL)){
-				i0Data = DatasetFactory.createFromObject(detData);
-			}
 		}
 
-		// Store the length of last timeframe as separate dataset ('time between spectra')
-		int timeFieldIndex = Arrays.asList(fieldNames).indexOf(frameTimeName);
-		if (timeFieldIndex>-1) {
-			double[] timeBetweenSpectra = new double[] {frameDataArray[numFrames-1][timeFieldIndex]};
+		// Store the time between spectra and spectrum start time values.
+		int timeFieldIndex = Arrays.asList(fieldNames).indexOf(frameTimeFieldName);
+		if (timeFieldIndex > -1) {
+			double timeBetweenSpectra = frameDataArray[numFrames - 1][timeFieldIndex];
 			NXDetectorData.addData(detTree, TIME_BETWEEN_SPECTRA_COLUMN_NAME, new NexusGroupData(timeBetweenSpectra), TIME_UNITS, 1);
+			NXDetectorData.addData(detTree, TIME_COLUMN_NAME, new NexusGroupData(timeAtSpectrumStart), TIME_UNITS, 1);
+			long absoluteTimeUtc = (long)(timeAtSpectrumStart*1000)+startTimeUtcMillis;
+			NXDetectorData.addData(detTree, TIME_UTC_COLUMN_NAME, new NexusGroupData(absoluteTimeUtc), TIME_UNITS, 1);
+
+			// Update start time - this is start time of the *next* spectrum
+			double timeForSpectrum = ((Number)detTree.getNode(frameTimeFieldName).getData().toDataset().sum(true)).doubleValue();
+			timeAtSpectrumStart += timeBetweenSpectra + timeForSpectrum;
 		}
 
 		// Add XML string of motor parameters
@@ -611,6 +483,62 @@ public class TurboXasNexusTree {
 			NXDetectorData.addData(detTree, MOTOR_PARAMS_COLUMN_NAME, new NexusGroupData(motorParams.toXML()), "", 1);
 		}
 		return frame;
+	}
+
+	/**
+	 * Save the buffered scaler I0 values from Nexus tree into a dataset, so FF_sum/I0
+	 * can be calculated after xspress3 data has been collected (using {@link #addFFSumI0Data(INexusTree)}).
+	 *
+	 * @param detTree
+	 */
+	private void storeI0Data(INexusTree detTree) {
+		if (detTree.getNode(I0_LABEL) != null){
+			logger.debug("Storing I0 data from {}", detTree.getNodePath());
+			i0Data = detTree.getNode(I0_LABEL).getData().toDataset();
+		}
+	}
+
+	/**
+	 * Add Xspress3 FFsum/I0 values to the Nexus tree. The I0 dataset should be present
+	 * in the Nexus tree (from the buffered scaler data by first calling {@link #storeI0Data(INexusTree)}.
+	 *
+	 * @param detTree
+	 */
+	public void addFFSumI0Data(INexusTree detTree) {
+		// Add the ff_sum/I0 values
+		if (detTree.getNode(FF_SUM_NAME) != null && i0Data != null) {
+			Dataset ffSum = detTree.getNode(FF_SUM_NAME).getData().toDataset();
+			int numI0Values = i0Data.getShape()[0];
+			Dataset ffSumSlice = ffSum.getSlice(null, new int[]{numI0Values}, null).squeeze();
+			Dataset ffi0 = ffSumSlice.idivide(i0Data);
+			ffi0.setName(FF_SUM_IO_NAME);
+			NXDetectorData.addData(detTree, ffi0.getName(), NexusGroupData.createFromDataset(ffi0), "counts", 1);
+		}
+	}
+
+	/**
+	 * Add topup counts value for the current spectrum to Nexus tree
+	 * (i.e. sum over topup counts for each time frame in the spectrum).
+	 * @param detTree
+	 */
+	public void addTopupData(INexusTree detTree) {
+		// Add the scaler counts for the topup signal for the spectrum *sum over counts for the frames)
+		if (detTree.getNode(TOPUP_FIELD_NAME) != null) {
+			Dataset topupCountsForFrames = detTree.getNode(TOPUP_FIELD_NAME).getData().toDataset();
+			double topupCountsForSpectrum = ((Number)topupCountsForFrames.sum(true)).doubleValue();
+			NXDetectorData.addData(detTree, TOPUP_FIELD_NAME+"_counts", new NexusGroupData(topupCountsForSpectrum), TIME_UNITS, 1);
+		}
+	}
+
+	/**
+	 * Add indices of current spectrum group and number to Nexus tree.
+	 * @param detectorData
+	 * @param detectorName
+	 * @throws NexusException
+	 */
+	public void addGroupData(INexusTree detTree) {
+		NXDetectorData.addData(detTree, SPECTRUM_INDEX, new NexusGroupData(spectrumNumber), TIME_UNITS, 1);
+		NXDetectorData.addData(detTree, SPECTRUM_GROUP, new NexusGroupData(groupNumber), TIME_UNITS, 1);
 	}
 
 	private void addAverages(INexusTree detectorTree) {
@@ -649,13 +577,20 @@ public class TurboXasNexusTree {
 	public NexusTreeProvider[] readFrames(BufferedDetector detector, int lowFrame, int highFrame) throws Exception, DeviceException {
 		NexusTreeProvider[] results = new NexusTreeProvider[1];
 		if (detector instanceof BufferedScaler) {
-			results[0] = createNXDetectorData( (BufferedScaler)detector, lowFrame, highFrame);
+			results[0] = createNXDetectorData((BufferedScaler) detector, lowFrame, highFrame);
+			INexusTree detTree = ((NXDetectorData) results[0]).getDetTree(detector.getName());
+			addGroupData(detTree);
+			addTopupData(detTree);
+			storeI0Data(detTree);
 		} else if (detector instanceof Xspress3BufferedDetector) {
-			results[0] = createNXDetectorData( (Xspress3BufferedDetector)detector, lowFrame, highFrame);
+			results[0] = createNXDetectorData((Xspress3BufferedDetector) detector, lowFrame, highFrame);
+			INexusTree detTree = ((NXDetectorData) results[0]).getDetTree(detector.getName());
+			addFFSumI0Data(detTree);
 		}
+
 		if (datasetsNamesToAverage != null && !datasetsNamesToAverage.isEmpty()) {
 			if (lowFrame==0) {
-				// remove average datasets for this detector on first readout
+				// remove stored average datasets for this detector on first readout
 				runningAverageDatasets.entrySet().removeIf(entry -> entry.getKey().contains(detector.getName()));
 			}
 			INexusTree detectorTree = ((NXDetectorData)results[0]).getDetTree(detector.getName());
@@ -709,6 +644,7 @@ public class TurboXasNexusTree {
 	 * @param startTimeUtcMillis
 	 */
 	public void setStartTime(long startTimeUtcMillis) {
+		timeAtSpectrumStart = 0;
 		this.startTimeUtcMillis = startTimeUtcMillis;
 	}
 
@@ -742,5 +678,10 @@ public class TurboXasNexusTree {
 
 	public void clearRunningAverages() {
 		runningAverageDatasets.clear();
+	}
+
+	public void setGroupSpectrumNumber(int groupNumber, int spectrumNumber) {
+		this.spectrumNumber = spectrumNumber;
+		this.groupNumber = groupNumber;
 	}
 }

@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.ede.EdeDataConstants;
@@ -66,44 +67,40 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 				file.getGroup("/entry1/"+entry.getKey(), false);
 			}
 
-			// See if Nexus file is from turboxas scan by looking for motor parameters dataset
-			String scalerForZebraGroup = findParentOfDataNode(entryGroup, TurboXasNexusTree.MOTOR_PARAMS_COLUMN_NAME);
-			ScanType scanType = scalerForZebraGroup.isEmpty() ? ScanType.Ede : ScanType.TurboXas;
-
 			String uncalibratedAxisName;
-			logger.info("Nexus file scan type : {}", scanType);
-			List<String> detectorNames = new ArrayList<>();
-			if (scanType == ScanType.TurboXas) {
-				detectorNames.add(scalerForZebraGroup);
-
-				// Check for dataset called 'FF_sumI0' to determine if Xspress3 data is available.
-				String xspress3GroupName = findParentOfDataNode(entryGroup, TurboXasNexusTree.FF_SUM_IO_NAME);
-				if (!xspress3GroupName.isEmpty()) {
-					detectorNames.add(xspress3GroupName);
-				}
+			boolean isTurboXasScan = isTurboXasScan(entryGroup);
+			if (isTurboXasScan) {
+				logger.info("Nexus file scan type : TurboXas");
 				uncalibratedAxisName = TurboXasNexusTree.POSITION_COLUMN_NAME;
 			} else {
-				detectorNames = Arrays.asList( EdeDataConstants.LN_I0_IT_COLUMN_NAME,
-						EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,
-						EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME,
-						EdeDataConstants.LN_I0_IT_INTERP_I0S_COLUMN_NAME);
+				logger.info("Nexus file scan type : Ede");
 				uncalibratedAxisName = EdeDataConstants.PIXEL_COLUMN_NAME;
 			}
+			List<String> detectorNames = getDetectorNames(entryGroup);
+			logger.info("Detector group names : {}", detectorNames);
 
-			DoubleDataset energyAxisData = (DoubleDataset) findDataset(entryGroup, TurboXasNexusTree.ENERGY_COLUMN_NAME);
-			DoubleDataset positionAxisData = DatasetUtils.cast(DoubleDataset.class, findDataset(entryGroup, uncalibratedAxisName));
-			Dataset groupIndexDataset = findDataset(entryGroup, TurboXasNexusTree.SPECTRUM_GROUP);
-			Dataset spectrumIndexDataset = findDataset(entryGroup, TurboXasNexusTree.SPECTRUM_INDEX); // num spectra
+			GroupNode detectorGroup = entryGroup.getGroupNode(detectorNames.get(0));
+			DoubleDataset energyAxisData = (DoubleDataset) getDataset(detectorGroup, TurboXasNexusTree.ENERGY_COLUMN_NAME);
+			DoubleDataset positionAxisData = DatasetUtils.cast(DoubleDataset.class, getDataset(detectorGroup, uncalibratedAxisName));
+			Dataset groupIndexDataset = getDataset(detectorGroup, TurboXasNexusTree.SPECTRUM_GROUP);
 			int[] expectedShape = {groupIndexDataset.getShape()[0], energyAxisData.getShape()[0]};
+			Dataset spectrumIndexDataset = DatasetFactory.createRange(DoubleDataset.class, 0, expectedShape[0], 1.0);
+			logger.info("Expected 1d, 2d data shapes : {}, {}", expectedShape[0], Arrays.toString(expectedShape));
 
-			if (scanType==ScanType.Ede) {
+			if (!isTurboXasScan) {
 				// spectrum index dataset is for *all* collected spectra (i.e.  dark I0, dark It as well as light It).
 				// Extract values for just lightIt spectrum measurements as these are the ones being plotted.
 
-				String frelonGroupName = findParentOfDataNode(entryGroup, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
-				GroupNode frelonGroupNode = entryGroup.getGroupNode(frelonGroupName);
-				int firstLighIt = getLightItStartIndex(frelonGroupNode);
-				spectrumIndexDataset = spectrumIndexDataset.getSlice(new int[] {firstLighIt}, new int[] {firstLighIt+expectedShape[0]}, null);
+				Optional<Entry<String, GroupNode>> frelonGroup = findGroupNodeContainingDataNode(entryGroup, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
+				if (frelonGroup.isPresent()) {
+					GroupNode frelonGroupNode = frelonGroup.get().getValue();
+					Dataset fullSpectrumIndexDataset = getDataset(frelonGroupNode, TurboXasNexusTree.SPECTRUM_INDEX);
+					int firstLighIt = getLightItStartIndex(frelonGroupNode);
+					spectrumIndexDataset = fullSpectrumIndexDataset.getSlice(new int[] {firstLighIt}, new int[] {firstLighIt+expectedShape[0]}, null);
+				} else {
+					logger.warn("Could not find {} data for frelon detector. Using automatically generated spectrum"
+							+ "numbering instead (this will be incorrect for multiple timing groups)", EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
+				}
 			}
 
 			// Create the EdeScan node - all data is child of this
@@ -112,10 +109,13 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 			this.firePropertyChange(ExperimentRootNode.SCAN_ADDED_PROP_NAME, null, newNode);
 
 			for (String detectorName : detectorNames) {
-				List<String> datasetsAdded = new ArrayList<>();
 
 				String groupName = "/entry1/" + detectorName;
 
+				if (!file.isPathValid(groupName)) {
+					logger.info("Not adding data from {} - group does not exist", groupName);
+					continue;
+				}
 				logger.info("Adding data from group {}", groupName);
 
 				// Add new node to the tree to contain all the data from the detector
@@ -127,21 +127,15 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 				Map<String, DataNode> detDataMap = detGroup.getDataNodeMap();
 
 				// Add new node to tree for each suitable dataset in detector group node
-				for (Entry<String, DataNode> entryitem : detDataMap.entrySet()) {
-					ILazyDataset fullDataset = entryitem.getValue().getDataset();
+				for (DataNode dataNode : detDataMap.values()) {
+					ILazyDataset fullDataset = dataNode.getDataset();
 					logger.debug("\tDataset {} has shape = {}", fullDataset.getName(), Arrays.toString(fullDataset.getShape()));
-
-					int[] shape = fullDataset.getShape();
-					boolean shapeOk = Arrays.equals(shape, expectedShape) || shape.length == 1 && shape[0] == expectedShape[0];
-
-					if (!shapeOk || datasetsAdded.contains(fullDataset.getName()) ) {
+					if (!shapeIsOk(fullDataset, expectedShape )) {
+						logger.debug("\tDataset shape does not match expected 1d, 2d shapes");
 						continue;
 					}
-					datasetsAdded.add(fullDataset.getName());
-
-					logger.debug("\tAdding dataset {}", fullDataset.getName());
-					// Add nodes to tree, one for each spectrum of data
-					addDataToTree(detectorNode, energyAxisData, positionAxisData, groupIndexDataset, spectrumIndexDataset, fullDataset);
+					addDetectorDataToTree(detectorNode, energyAxisData, positionAxisData, groupIndexDataset,
+							spectrumIndexDataset, fullDataset, expectedShape);
 				}
 			}
 
@@ -149,6 +143,24 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 			logger.warn("Problem loading Nexus data from file", e);
 		}
 	}
+
+	private boolean shapeIsOk(ILazyDataset dataset, int[] expectedShape) {
+		int[] shape = dataset.getShape();
+		return Arrays.equals(shape, expectedShape) || shape.length == 1 && shape[0] == expectedShape[0];
+	}
+
+	private void addDetectorDataToTree(Node detectorNode, DoubleDataset energyData, DoubleDataset positionData,
+			IDataset groupIndex, IDataset spectrumIndex, ILazyDataset fullDataset, int[] expectedShape) {
+
+		try {
+			logger.debug("\tAdding dataset {} to tree", fullDataset.getName());
+			addDataToTree(detectorNode, energyData, positionData, groupIndex, spectrumIndex, fullDataset);
+		} catch (DatasetException e) {
+			logger.error("Problem adding dataset {} to tree,", fullDataset.getName(), e);
+		}
+
+	}
+
 
 	/**
 	 * Add new nodes to EdeScan node from fullDataset. Each row of values from fullDataset is added as new node to tree.
@@ -161,7 +173,7 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 	 * @param fullDataset full dataset. dimensions=[num spectra, num energies]
 	 * @throws DatasetException
 	 */
-	private void addDataToTree(Node detectorNode, DoubleDataset energyAxis, DoubleDataset uncalibratedAxis, Dataset groupNumber, Dataset spectrumNumber,
+	private void addDataToTree(Node detectorNode, DoubleDataset energyAxis, DoubleDataset uncalibratedAxis, IDataset groupNumber, IDataset spectrumNumber,
 			ILazyDataset fullDataset) throws DatasetException {
 
 		// Don't add datasets that have strings as elements
@@ -178,14 +190,20 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 		detectorNode.addChildNode(newNode);
 
 		EdeScanNode edeScanNode = (EdeScanNode) detectorNode.getParent();
+
+		// Get full dataset into memory if it is 1-dimensional. Much faster to do getDouble lots of times than take lots of 1-element slices
+		IDataset fullData = null;
+		if (shape.length == 1) {
+			fullData = fullDataset.getSlice((SliceND)null);
+		}
+
 		// iterate over rows in the dataset, add value(s) in each each row as new node in the tree
 		for(int i=0; i< numSpectra; i++) {
 			// Get value(s) from row in the full dataset
 			DoubleDataset dblDataset = null;
 			if (shape.length==1) {
-				double val = fullDataset.getSlice((SliceND)null).getDouble(i);
 				dblDataset = DatasetFactory.zeros(1);
-				dblDataset.set(val, 0);
+				dblDataset.setItem(fullData.getDouble(i));
 			} else if (shape.length==2) {
 				dblDataset = (DoubleDataset) fullDataset.getSlice(new int[] {i,0}, new int[] {i+1, shape[1]}, (int[]) null).squeeze();
 			}
@@ -196,11 +214,11 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 			// plotLabel is used for the spectrum label in the tree view.
 			String plotLabel = "Group " + groupNumber.getInt(i) + " spectrum " + spectrumNumber.getInt(i);
 
-			ScanDataItemNode dataItemNode = newNode.updateData(dblDataset, plotIdentifier, plotLabel, fullDataset.equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME));
+			ScanDataItemNode dataItemNode = newNode.updateData(dblDataset, plotIdentifier, plotLabel, false);
 			setTraceStyle(dataItemNode, edeScanNode);
 
-			firePropertyChange(ExperimentRootNode.DATA_ADDED_PROP_NAME, null, edeScanNode);
 		}
+		firePropertyChange(ExperimentRootNode.DATA_ADDED_PROP_NAME, null, edeScanNode);
 	}
 
 	private void setTraceStyle(ScanDataItemNode dataItemNode, EdeScanNode scanNode) {
@@ -213,64 +231,64 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 			dataItemNode.setTraceStyle(traceStyle);
 	}
 
-	private Dataset findDataset(GroupNode entryNode, String name) throws DatasetException {
-		DataNode dataNode = findDataNode(entryNode, name);
-		if (dataNode != null) {
-			ILazyDataset lazyDataset = dataNode.getDataset().getSlice((SliceND)null);
-
-			Dataset dataset = (Dataset) dataNode.getDataset().getSlice((SliceND)null).squeeze();
-			// Workaround for new behaviour in January (bug?) - squeezing a 1-dimensional dataset that has
-			// 1 element sets the shape to empty array for some reason...
-			if (dataset.getSize()==1) {
-				dataset.setShape(1);
-			}
-			return dataset;
-		}
-		return null;
-	}
-
-	/**
-	 * Find named DataNode by searching through nodes belonging to each of the groups in entryNode
-	 * @param entryNode
-	 * @param name
-	 * @return DataNode with specified name
-	 */
-	private DataNode findDataNode(GroupNode entryNode, String name) {
-		for(Entry<String, GroupNode> entry : entryNode.getGroupNodeMap().entrySet() ) {
-			DataNode dataNode = entry.getValue().getDataNodeMap().get(name);
-			if (dataNode != null) {
-				return dataNode;
-			}
-		}
-		return null;
-	}
-
 	private Dataset getDataset(GroupNode groupNode, String name) throws DatasetException {
-		return (Dataset) groupNode.getDataNode(name).getDataset().getSlice((SliceND)null).squeeze();
+		Dataset data = (Dataset) groupNode.getDataNode(name).getDataset().getSlice((SliceND)null);
+		if (data.getShape().length > 1) {
+			data = data.squeeze();
+		}
+		return data;
 	}
 
 	/**
-	 *
+	 * Search all child group nodes of entryNode, and return name of group Node containing named data node.
 	 * @param entryNode
-	 * @param name name of datanode to search for
+	 * @param nameOfDataNode name of datanode to search for
 	 * @return String name of GroupNode containing specified DataNode
 	 */
-	private String findParentOfDataNode(GroupNode entryNode, String name) {
+	private Optional<Entry<String, GroupNode>> findGroupNodeContainingDataNode(GroupNode entryNode, String nameOfDataNode) {
 		for(Entry<String, GroupNode> entry : entryNode.getGroupNodeMap().entrySet() ) {
-			DataNode dataNode = entry.getValue().getDataNodeMap().get(name);
+			DataNode dataNode = entry.getValue().getDataNodeMap().get(nameOfDataNode);
 			if (dataNode != null) {
-				return entry.getKey();
+				return Optional.of(entry);
 			}
 		}
-		return "";
+		return Optional.empty();
 	}
 
-	private enum ScanType {TurboXas, Ede}
+	private boolean isTurboXasScan(GroupNode entryGroup) {
+		Optional<Entry<String,GroupNode>> scalerForZebraGroup = getScalarForZebraGroup(entryGroup);
+		return scalerForZebraGroup.isPresent();
+	}
 
+	private Optional<Entry<String,GroupNode>> getScalarForZebraGroup(GroupNode entryGroup) {
+		return findGroupNodeContainingDataNode(entryGroup, TurboXasNexusTree.MOTOR_PARAMS_COLUMN_NAME);
+	}
 
-	private int getLightItStartIndex(GroupNode entryGroup) throws DatasetException {
-		IDataset beamInOutDataset = getDataset(entryGroup, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
-		IDataset itDataset = getDataset(entryGroup, EdeDataConstants.IT_COLUMN_NAME);
+	private List<String> getDetectorNames(GroupNode entryGroup) {
+
+		Optional<Entry<String,GroupNode>> scalerForZebraGroup = getScalarForZebraGroup(entryGroup);
+		if (scalerForZebraGroup.isPresent()) {
+			List<String> detectorNames = new ArrayList<>();
+			detectorNames.add(scalerForZebraGroup.get().getKey());
+
+			// Check for dataset called 'FF_sumI0' to determine if Xspress3 data is available.
+			Optional<Entry<String,GroupNode>> xspress3Group = findGroupNodeContainingDataNode(entryGroup, TurboXasNexusTree.FF_SUM_IO_NAME);
+			if (xspress3Group.isPresent()) {
+				detectorNames.add(xspress3Group.get().getKey());
+			}
+			return detectorNames;
+
+		} else {
+			return Arrays.asList( EdeDataConstants.LN_I0_IT_COLUMN_NAME,
+					EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,
+					EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME,
+					EdeDataConstants.LN_I0_IT_INTERP_I0S_COLUMN_NAME);
+		}
+	}
+
+	private int getLightItStartIndex(GroupNode frelonDetectorGroup) throws DatasetException {
+		IDataset beamInOutDataset = getDataset(frelonDetectorGroup, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
+		IDataset itDataset = getDataset(frelonDetectorGroup, EdeDataConstants.IT_COLUMN_NAME);
 		if (beamInOutDataset == null || itDataset == null) {
 			logger.warn("Unable to get lightIt start spectrum index - could not get required data from Nexus file");
 			return 0;

@@ -227,6 +227,11 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 		clearPlotOnStartOfScanToolItem.setSelection(clearPlotOnStartOfScan);
 		clearPlotOnStartOfScanToolItem.setToolTipText("Clear plot on start of scan");
 		clearPlotOnStartOfScanToolItem.addListener(SWT.Selection, event -> clearPlotOnStartOfScan = ((ToolItem) event.widget).getSelection() );
+
+		ToolItem loadDataFromFile = new ToolItem(toolbar, SWT.NONE);
+		loadDataFromFile.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER));
+		loadDataFromFile.setToolTipText("Load data from Nexus file");
+		loadDataFromFile.addListener(SWT.Selection, event -> dataTreeViewer.loadNexusDataFromFile());
 	}
 
 	private void setupDataTreeViewer(final SashForm parent) {

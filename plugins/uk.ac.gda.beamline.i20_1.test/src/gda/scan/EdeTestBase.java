@@ -51,10 +51,13 @@ import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
+import gda.device.MotorException;
 import gda.device.detector.DetectorBase;
 import gda.device.enumpositioner.DummyEnumPositioner;
+import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Factory;
+import gda.factory.FactoryException;
 import gda.factory.Finder;
 
 public class EdeTestBase {
@@ -75,6 +78,23 @@ public class EdeTestBase {
 		Mockito.when(energy_scannable.getPosition()).thenReturn(position);
 
 		return energy_scannable;
+	}
+
+	public static ScannableMotor createScannableMotor(String name) throws MotorException, FactoryException {
+		DummyMotor dummyMotor = new DummyMotor();
+		dummyMotor.setName("dummyMotor");
+		dummyMotor.setMinPosition(0);
+		dummyMotor.setMaxPosition(100000);
+		dummyMotor.setPosition(0);
+		dummyMotor.setSpeed(1000000);
+		dummyMotor.configure();
+
+		ScannableMotor scnMotor = new ScannableMotor();
+		scnMotor.setName(name);
+		scnMotor.setMotor(dummyMotor);
+		scnMotor.configure();
+
+		return scnMotor;
 	}
 
 	/**
@@ -149,9 +169,14 @@ public class EdeTestBase {
 		return shutter2;
 	}
 
+	public static void assertDimensions(IDataset dataset, int[] expectedDims) throws NexusException {
+		assertArrayEquals("Shape of "+dataset.getName()+" is not correct", expectedDims,  dataset.getShape());
+		logger.info("Shape of {} dataset is ok ", dataset.getName());
+	}
+
 	public static void assertDimensions(String filename, String groupName, String dataName, int[] expectedDims) throws NexusException {
 		int[] shape = getDataset(filename, groupName, dataName).getShape();
-		assertArrayEquals(expectedDims,  shape);
+		assertArrayEquals("Shape of "+groupName+"/"+dataName+" is not correct", expectedDims,  shape);
 		logger.info("Shape of {}/{} is ok ", groupName, dataName);
 	}
 

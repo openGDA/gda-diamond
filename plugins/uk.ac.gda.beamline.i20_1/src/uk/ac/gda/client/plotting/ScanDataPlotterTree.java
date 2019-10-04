@@ -179,19 +179,23 @@ public class ScanDataPlotterTree {
 		return new Action("Load data from Nexus file...") {
 			@Override
 			public void run() {
-				FileDialog dialog = new FileDialog(parentComposite.getShell(), SWT.OPEN|SWT.MULTI);
-				dialog.setFilterNames(new String[] { "xml files", "All Files (*.*)" });
-				dialog.setFilterExtensions(new String[] { "*.nxs", "*.*" });
-				dialog.open();
-
-				// Create list of full absolute path for selected files
-				List<String> filenames = new ArrayList<String>();
-				for (String filename : dialog.getFileNames()) {
-					filenames.add(Paths.get(dialog.getFilterPath(), filename).toString());
-				}
-				((ExperimentRootNode) rootDataNode).update(null, filenames.toArray(new String[] {}));
+				loadNexusDataFromFile();
 			}
 		};
+	}
+
+	public void loadNexusDataFromFile() {
+		FileDialog dialog = new FileDialog(parentComposite.getShell(), SWT.OPEN|SWT.MULTI);
+		dialog.setFilterNames(new String[] { "xml files", "All Files (*.*)" });
+		dialog.setFilterExtensions(new String[] { "*.nxs", "*.*" });
+		dialog.open();
+
+		// Create list of full absolute path for selected files
+		List<String> filenames = new ArrayList<String>();
+		for (String filename : dialog.getFileNames()) {
+			filenames.add(Paths.get(dialog.getFilterPath(), filename).toString());
+		}
+		((ExperimentRootNode) rootDataNode).update(null, filenames.toArray(new String[] {}));
 	}
 
 	private Action getRemoveAllAction() {

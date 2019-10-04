@@ -20,6 +20,7 @@ package gda.scan;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,13 +69,10 @@ public abstract class DetectorReadout implements Runnable {
 		currentTimingGroupIndex=0;
 		numSpectraCollectedForGroup=0;
 		numSpectraCollected=0;
-		lastFrameRead = 0;
 
 		logger.debug("Readout loop started");
 		try {
 			while (numSpectraCollected < totalNumSpectraToCollect) {
-
-				Thread.sleep(pollIntervalMillis);
 
 				int numAvailableFrames = getNumAvailableFrames();
 
@@ -116,6 +114,11 @@ public abstract class DetectorReadout implements Runnable {
 					numSpectraCollected++;
 					lastFrameRead += numFramesPerSpectrum;
 				}
+
+				// Wait a short time for more frames of data to become available before looping again
+				if ( (numAvailableFrames - lastFrameRead) < numFramesPerSpectrum ) {
+					Thread.sleep(pollIntervalMillis);
+				}
 			}
 		} catch (Exception e) {
 			logger.error("ReadoutThread encountered an error during data collection.", e);
@@ -131,13 +134,33 @@ public abstract class DetectorReadout implements Runnable {
 	 * @param maxWaitTime
 	 * @throws InterruptedException
 	 */
-	public void waitForFrame(int frameNumber, double maxWaitTime) throws InterruptedException {
-		logger.info("Waiting up to {} seconds for {} frames to be collected", maxWaitTime, frameNumber);
-		double timeWaited = 0;
-		while (lastFrameRead<frameNumber && timeWaited<maxWaitTime) {
-			logger.debug("Last frame read = {}", lastFrameRead);
-			Thread.sleep(1000);
-			timeWaited += 1.0;
+	public void waitForFrame(int frameNumber, double maxWaitTimeSecs) throws InterruptedException {
+		logger.info("Waiting up to {} seconds for {} frames to be collected", maxWaitTimeSecs, frameNumber);
+		waitWhileConditionIsTrue(() -> {return lastFrameRead < frameNumber;}, maxWaitTimeSecs);
+	}
+
+	/**
+	 * Wait until all spectra have been collected.
+	 * @throws InterruptedException
+	 */
+	public void waitForAllSpectra(double maxWaitTimeSecs) throws InterruptedException {
+		logger.info("Waiting up to {} seconds for all {} spectra to be collected", maxWaitTimeSecs, totalNumSpectraToCollect);
+		waitWhileConditionIsTrue( () -> {return !runMethodFinished;}, maxWaitTimeSecs);
+	}
+
+	/**
+	 * Wait in a loop while the condition returns true. Waiting will continue up to maximum time of maxWaitTime (seconds);
+	 * Time interval between loop repetitions is {@link #pollIntervalMillis}.
+	 *
+	 * @param condition - Supplier with condition to be evaluated
+	 * @param maxWaitTimeSecs
+	 * @throws InterruptedException
+	 */
+	private void waitWhileConditionIsTrue(Supplier<Boolean> condition, double maxWaitTimeSecs) throws InterruptedException {
+		int timeWaited = 0;
+		while(condition.get() && timeWaited<maxWaitTimeSecs*1000) {
+			Thread.sleep(pollIntervalMillis);
+			timeWaited += pollIntervalMillis;
 		}
 	}
 
@@ -155,6 +178,10 @@ public abstract class DetectorReadout implements Runnable {
 
 	public int getLastFrameRead() {
 		return lastFrameRead;
+	}
+
+	public void setLastFrameRead(int lastFrameRead) {
+		this.lastFrameRead = lastFrameRead;
 	}
 
 	public void setTotalNumSpectraToCollect(int totalNumSpectraToCollect) {

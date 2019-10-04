@@ -61,6 +61,7 @@ public class PlotUpdater {
 	private List<String> dataNamesToIgnore = new ArrayList<>();
 	private String positionColumnName;
 	private String dataNameToSelectInPlot = EdeDataConstants.LN_I0_IT_COLUMN_NAME;
+	private String extraLabel = "";
 
 	public String getFilename() {
 		return filename;
@@ -167,6 +168,19 @@ public class PlotUpdater {
 		dataNamesToIgnore.clear();
 	}
 
+	public String getExtraLabel() {
+		return extraLabel;
+	}
+
+	public void setExtraLabel(String extraLabel) {
+		this.extraLabel = extraLabel;
+	}
+
+	private String createPlotLabel() {
+		String groupSpectrumLabel = String.format("Group %d Spectrum %d %s", currentGroupNumber, currentSpectrumNumber, extraLabel == null ? "" : extraLabel);
+		return groupSpectrumLabel.trim();
+	}
+
 	public void sendDataToController() {
 
 		if (controller==null) {
@@ -182,6 +196,8 @@ public class PlotUpdater {
 		// Create progress beans and notify plot controller
 		EdeScanProgressBean scanProgressBean = new EdeScanProgressBean(currentGroupNumber, currentSpectrumNumber,
 				EdeScanType.LIGHT, EdePositionType.INBEAM, filename);
+
+		scanProgressBean.setCustomLabelForSDP(createPlotLabel());
 
 		for (String dataName : dataSets.keySet()) {
 			// Don't plot position column or energy datasets

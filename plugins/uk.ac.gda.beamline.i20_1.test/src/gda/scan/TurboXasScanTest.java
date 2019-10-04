@@ -84,6 +84,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	private ScannableMotor testMotor;
 	private boolean twoWayScan;
 	private final double timePerSpectrum = 0.01;
+	private ScannableMotor dummyScannableMotor;
 
 	public static final String BUFFERED_SCALER_NAME = "bufferedScaler";
 	public static final String[] BUFFERED_SCALER_FIELDS = { "frame_time", "I0", "It", "Iref" };
@@ -154,6 +155,9 @@ public class TurboXasScanTest extends EdeTestBase {
 		setupXSpress3();
 
 		testMotor = createMotor("testMotor", 4.20);
+
+		dummyScannableMotor = createScannableMotor("dummyScannableMotor");
+		dummyScannableMotor.setName("dummyScannableMotor");
 
 		setupFinder();
 	}
@@ -346,7 +350,7 @@ public class TurboXasScanTest extends EdeTestBase {
 			}
 		}
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
-		IDataset frameTimes = getDataset(scan.getDataWriter().getCurrentFileName(), bufferedScaler.getName(), "frame_time");
+		IDataset frameTimes = getDataset(scan.getDataWriter().getCurrentFileName(), bufferedScaler.getName(), BUFFERED_SCALER_FIELDS[0]);
 		int numSpectra = frameTimes.getShape()[0];
 		checkScalerNexusData(scan.getDataWriter().getCurrentFileName(), numSpectra, numPointsPerSpectrum);
 	}
@@ -369,6 +373,18 @@ public class TurboXasScanTest extends EdeTestBase {
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
 		checkDetectorNexusData(nexusFilename, xspress3bufferedDetector.getName(), numSpectra, numPointsPerSpectrum);
+
+		// Check FF sums have been added to Nexus file
+		assertDimensions(nexusFilename, xspress3bufferedDetector.getName(), TurboXasNexusTree.FF_SUM_NAME, new int[]{numSpectra, numPointsPerSpectrum});
+		assertDimensions(nexusFilename, xspress3bufferedDetector.getName(), TurboXasNexusTree.FF_SUM_IO_NAME, new int[]{numSpectra, numPointsPerSpectrum});
+		Dataset i0Data = (Dataset) getDataset(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.I0_LABEL);
+		Dataset ffSumData = (Dataset) getDataset(nexusFilename, xspress3bufferedDetector.getName(), TurboXasNexusTree.FF_SUM_NAME);
+		Dataset ffSumI0Data = (Dataset) getDataset(nexusFilename, xspress3bufferedDetector.getName(), TurboXasNexusTree.FF_SUM_IO_NAME);
+		for(int i=0; i<numSpectra; i++) {
+			for(int j=0; j<numPointsPerSpectrum; j++) {
+				assertEquals(ffSumData.getDouble(i,j)/i0Data.getDouble(i,j), ffSumI0Data.getDouble(i,j), 1e-6);
+			}
+		}
 		checkMetaData(nexusFilename, parameters);
 	}
 
@@ -435,7 +451,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		}
 
 		int numSpectra = parameters.getTotalNumSpectra();
-		int numFields = bufferedScaler.getExtraNames().length + xspress3bufferedDetector.getExtraNames().length + 1; // Xspress3 has extra value : FF_sum/I0
+		int numFields = bufferedScaler.getExtraNames().length + xspress3bufferedDetector.getExtraNames().length + 2; // Xspress3 has 2 extra values : FF_sum, FF_sum/I0
 		int numAxisColumns = 3; // index, position, energy
 
 		String asciiFileName = scan.getAsciiDataWriter().getAsciiFilename();
@@ -501,17 +517,52 @@ public class TurboXasScanTest extends EdeTestBase {
 	}
 
 	private void checkScalerNexusData(String nexusFilename, int numSpectra, int numPointsPerSpectrum) throws NexusException {
+		// Check scaler datasets are present and have correct shape
+		for(String scalerField : BUFFERED_SCALER_FIELDS) {
+			assertDimensions(nexusFilename, bufferedScaler.getName(), scalerField, new int[]{numSpectra, numPointsPerSpectrum});
+		}
+
 		// Check shape and content of scaler output (should be all >0 when not also producing lnI0It values)
 		checkDetectorNexusData(nexusFilename, bufferedScaler.getName(), numSpectra, numPointsPerSpectrum);
 
 		// Check the extra datasets written at end of scan to show spectrum index and group for each spectra, time between spectra etc.
-		assertDimensions(nexusFilename, bufferedScaler.getName(), "frame_time", new int[]{numSpectra, numPointsPerSpectrum});
 		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.TIME_BETWEEN_SPECTRA_COLUMN_NAME, new int[]{numSpectra});
 		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.TIME_COLUMN_NAME, new int[]{numSpectra});
 		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.SPECTRUM_INDEX, new int[]{numSpectra});
 		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.SPECTRUM_GROUP, new int[]{numSpectra});
+		checkTimeData(nexusFilename);
 	}
 
+	/**
+	 * Check spectrum start times are calculated correctly correctly and have consistent shapes.
+	 * @param nexusFilename
+	 * @throws NexusException
+	 */
+	private void checkTimeData(String nexusFilename) throws NexusException {
+		IDataset timeBetweenSpectra = getDataset(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.TIME_BETWEEN_SPECTRA_COLUMN_NAME);
+		IDataset startTimes = getDataset(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.TIME_COLUMN_NAME);
+		IDataset frameTime = getDataset(nexusFilename, bufferedScaler.getName(), BUFFERED_SCALER_FIELDS[0]);
+		IDataset startTimesUtc = getDataset(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.TIME_UTC_COLUMN_NAME);
+
+		int numSpectra = frameTime.getShape()[0];
+		int numPoints= frameTime.getShape()[1];
+		assertDimensions(startTimes, new int[] {numSpectra});
+		assertDimensions(startTimesUtc, new int[] {numSpectra});
+		assertDimensions(timeBetweenSpectra, new int[] {numSpectra});
+
+		double startTime = 0;
+		long startTimeUtc = startTimesUtc.getLong(0);
+
+		for(int i=0; i<numSpectra; i++) {
+			assertEquals("Start time data for spectrum "+i+" is not currect", startTime, startTimes.getDouble(i), 1e-6);
+			assertEquals("UTC start time data for spectrum "+i+" is not currect", startTimeUtc, startTimesUtc.getLong(i));
+			Dataset dat = (Dataset) frameTime.getSlice(new int[] { i, 0 }, new int[] { i + 1, numPoints }, null).squeeze();
+			double timeForSpectrum = ((Number) dat.sum(true)).doubleValue();
+			double timeBetweenSpectrumStart = timeForSpectrum + timeBetweenSpectra.getDouble(i);
+			startTime += timeBetweenSpectrumStart;
+			startTimeUtc = (long) (startTime * 1000) + startTimesUtc.getLong(0);
+		}
+	}
 
 	/**
 	 * Check that NXData group has been created for each set of data produced by buffered scaler;
@@ -592,6 +643,42 @@ public class TurboXasScanTest extends EdeTestBase {
 				assertDatasetsMatch(avgComputed, avgFromScan, 1e-6);
 			}
 		}
+	}
+
+	@Test
+	public void testWithMotorMove() throws Exception {
+		setup(TurboXasScan.class, "testWithMotorMove");
+		TurboXasParameters parameters = getTurboXasParameters();
+		addTimingGroups(parameters);
+		TurboXasScan scan = parameters.createScan();
+		scan.setScannableToMove(dummyScannableMotor);
+		scan.addScannableToMonitor(dummyScannableMotor);
+		List<Object> positionsForScan = Arrays.asList(1, 2, 3, 4, 5);
+		scan.setPositionsForScan(positionsForScan);
+
+		scan.runScan();
+		String nexusFilename = scan.getDataWriter().getCurrentFileName();
+
+		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
+		int numSpectraPerPosition = getNumSpectra(parameters);
+		int numSpectra = numSpectraPerPosition * scan.getPositionsForScan().size();
+
+		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
+		checkDetectorNexusData(nexusFilename, xspress3bufferedDetector.getName(), numSpectra, numPointsPerSpectrum);
+		checkNXDataGroups(nexusFilename, numSpectra, numPointsPerSpectrum);
+
+		// Check data for the scannable being moved is present and has correct dimensionss
+		assertDimensions(nexusFilename, bufferedScaler.getName(), dummyScannableMotor.getName(), new int[]{numSpectra});
+		IDataset dataset = getDataset(nexusFilename, bufferedScaler.getName(), dummyScannableMotor.getName());
+		assertArrayEquals(dataset.getShape(), new int[] {numSpectra});
+		// Check there are correct number of values (numSpectraPerPosition) at each position.
+		for(int i=0; i<numSpectra; i++) {
+			int posIndex = i/numSpectraPerPosition;
+			double expectedVal = Double.parseDouble(positionsForScan.get(posIndex).toString());
+			assertEquals(expectedVal, dataset.getDouble(i), 1e-5);
+		}
+		checkMetaData(nexusFilename, parameters);
+
 	}
 
 	/**
