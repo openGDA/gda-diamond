@@ -50,62 +50,6 @@
 		</property>
 	</bean>
 
-	<bean id="sample_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Sample camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/TAB.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-09:ARR" />
-		<property name="sleepTime" value="5" />
-		<property name="calibratedAxesProvider">
-            <bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-                <constructor-arg name="xAxisScannable" ref="SampleX"/>
-                <constructor-arg name="yAxisScannable" ref="SampleY"/>
-                <constructor-arg name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
-                <constructor-arg name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
-                <constructor-arg name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
-                <constructor-arg name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
-            </bean>
-        </property>
-		<property name="topUi">
-			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
-				<constructor-arg ref="sample_camera_control" />
-				<property name="cameraResetScannable" ref="sample_reset" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="sample_reset" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL14I-OP-DCAM-09:CAM:RESET" />
-	</bean>
-
-	<bean id="sample_dtab_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Sample DTAB camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/DTAB.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-10:ARR" />
-		<property name="sleepTime" value="5" />
-		<property name="calibratedAxesProvider" ref="sample_dtab_beam_position_calibration" />
-		<property name="topUi">
-			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraAndCalibrationControls">
-				<constructor-arg name="cameraControl" ref="sample_dtab_camera_control" />
-				<constructor-arg name="calibration" ref="sample_dtab_beam_position_calibration" />
-				<property name="cameraResetScannable" ref="sample_dtab_reset" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="sample_dtab_reset" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL14I-OP-DCAM-10:CAM:RESET" />
-	</bean>
-
-	<bean id="sample_dtab_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
-		<constructor-arg name="xAxisScannable" ref="SampleX"/>
-	    <constructor-arg name="yAxisScannable" ref="SampleY"/>
-	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
-	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
-	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>
-	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
-	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
-	</bean>
-
 	<bean id="sample_microscope_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample microscope camera" />
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/CAM12.mjpg.mjpg" />
