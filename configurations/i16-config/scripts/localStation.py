@@ -41,6 +41,10 @@ except Exception as e:
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r" % 
 		(USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR, USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP) , e)
 
+if USE_NEXUS_METADATA_COMMANDS and not USE_NEXUS:
+	localStation_exception("trying to use USE_NEXUS_METADATA_COMMANDS when USE_NEXUS = False, setting USE_NEXUS_METADATA_COMMANDS = False", None)
+	USE_NEXUS_METADATA_COMMANDS = False
+
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
@@ -1289,7 +1293,7 @@ try:
 			else:
 				localStation_print("  %s was not scannable and could not be entered as metadata" % item.name)
 	else:
-		meta.add(*toadd)
+		meta.add(*[jythonNameMap[item] for item in meta_scannable_names])
 	
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
