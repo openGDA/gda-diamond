@@ -35,8 +35,8 @@
 	</bean>
 
 	<bean id="sim_cam_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
-		<constructor-arg name="xAxisScannable" ref="stage1_x"/>
-	    <constructor-arg name="yAxisScannable" ref="stage1_y"/>
+		<constructor-arg name="xAxisScannable" ref="SampleX"/>
+	    <constructor-arg name="yAxisScannable" ref="SampleY"/>
 	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
 	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
 	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>

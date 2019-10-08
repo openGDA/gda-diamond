@@ -16,4 +16,7 @@
 	<bean id="stage1_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="stage1_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
+	<bean id="SampleX" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="SampleY" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
 </beans>
