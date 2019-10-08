@@ -42,7 +42,7 @@ LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
 global Finder, pos, finder, add_default, meta
 
-global sixckappa_cryo, cryophi
+global sixckappa, euler_cryo, sixckappa_cryo, cryophi
 global delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
@@ -204,14 +204,6 @@ from spechelp import * # aliases man objects
 from scannable.MoveThroughOrigin import MoveThroughOriginScannable
 from gda.device.scannable.scannablegroup import DeferredScannableGroup
 
-# Configure here as nested beans are not configured
-if USE_CRYO_GEOMETRY:
-	eulerNames = ["phi", "chi", "eta", "mu", "delta", "gam"]
-	for motor, name in zip(euler_cryo.getScannableMotors(), eulerNames):
-		motor.name = name
-		motor.configure()
-
-##CHANGED TO USE LIMIT CRYOPHI
 if USE_CRYO_GEOMETRY:
 	_cryophi = euler_cryo.phi
 	_cryophi.setUpperGdaLimits(165)
@@ -219,7 +211,7 @@ if USE_CRYO_GEOMETRY:
 	exec("cryophi = MoveThroughOriginScannable(euler_cryo.phi)")
 	#cryophi.name = "cryophi"
 	exec("sixckappa_cryo = DeferredScannableGroup()")
-	sixckappa_cryo.setGroupMembers([cryophi, kap, kth, kmu, kdelta, kgam])
+	sixckappa_cryo.setGroupMembers([cryophi, sixckappa.kap, sixckappa.kth, sixckappa.kmu, sixckappa.kdelta, sixckappa.kgam])
 	sixckappa_cryo.setName("sixckappa_cryo")
 	sixckappa_cryo.deferredControlPoint = sixckappa.getDeferredControlPoint()
 	sixckappa_cryo.deferOnValue = sixckappa.deferOnValue
@@ -268,9 +260,6 @@ if USE_CRYO_GEOMETRY:
 	# Diffcalc instructions here: http://confluence.diamond.ac.uk/display/I16/Diffcalc or http://confluence.diamond.ac.uk/x/855TAQ
 else:
 	sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
-if USE_CRYO_GEOMETRY:	
-	pass # TThere is already a cryophi
-else:
 	exec("kphi=sixc.kphi")
 	
 exec("kap=sixc.kap")
@@ -436,8 +425,8 @@ if USE_CRYO_GEOMETRY:
 	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
 	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
 	euler.deferOnValue = sixckappa.deferOnValue
-	euler.numberToMoveControlPoint = sixckappa.getNumberToMoveControlPoint()
-	euler.checkStartControlPoint = sixckappa.getCheckStartControlPoint()
+	#euler.numberToMoveControlPoint = sixckappa.getNumberToMoveControlPoint()
+	#euler.checkStartControlPoint = sixckappa.getCheckStartControlPoint()
 	euler.configure()
 	phi = euler.phi
 	chi = euler.chi
@@ -1204,11 +1193,25 @@ localStation_print("Configuring metadata capture")
 run('localStationScripts/Sample_perpMotion')
 
 if installation.isLive():
+	diffractometer_sample_scannables = [delta, eta, chi, phi, gam, mu, hkl]
 	if not USE_DIFFCALC:
-		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, psi, en, kphi, azihkl, beta, delta_axis_offset])
+		diffractometer_sample_scannables += [psi]
 		xtal_info=ReadPDGroupClass('xtal_info',[xtalinfo])
+
+	diffractometer_sample_scannables += [en]
+
+	if USE_CRYO_GEOMETRY:
+		diffractometer_sample_scannables += [cryophi]
 	else:
-		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, en, kphi, delta_axis_offset])
+		diffractometer_sample_scannables += [kphi]
+
+	if not USE_DIFFCALC:
+		diffractometer_sample_scannables += [azihkl, beta]
+
+	diffractometer_sample_scannables += [delta_axis_offset]
+		
+	d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample', diffractometer_sample_scannables)
+
 	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])
 	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y])
 	jjslits=ReadPDGroupClass('jjslits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
@@ -1224,7 +1227,7 @@ if installation.isLive():
 	#pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
-	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
+	#xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
 	dummypd=ReadPDGroupClass('dummypd',[x,y,z])
 	kbm_offsets=ReadPDGroupClass('kbm_offsets',[vmtrans_offset, hmtrans_offset, vmpitch_offset, hmpitch_offset, kbmx_offset, kbmroll_offset])
 	try:
@@ -1261,7 +1264,7 @@ try:
 			  'positions', 'gains_atten', 'mirrors', 'beamline_slits', 'mono', 'frontend', 'lakeshore', 'offsets',
 			  's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans',
 			  'ppy', 'ppx', 'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
-			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2']
+			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans']
 
 	addedInSpring = ['sixckappa', 'delta_axis_offset'] # See /i16-config/servers/main/_common/nxmetadata.xml
 
@@ -1310,13 +1313,23 @@ except NameError, e:
 	print "!*"*40
 	localStation_exception("trying to set up metadata, metadata will not be properly written to files.", e)
 
-###Default Scannables###
-default_scannable_list = [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]
 if USE_CRYO_GEOMETRY:
-	default_scannable_list.append(cryophi)
-for _x in default_scannable_list:
-	add_default(_x)
+	try:
+		test=meta_ls()
+	except java.lang.IllegalStateException, e:
+		localStation_exception("testing meta_ls() when USE_CRYO_GEOMETRY = True, /i16-config/servers/main/_common/nxmetadata.xml is probably configured for kphi not cryophi.", e)
 
+###Default Scannables###
+try:
+	if USE_CRYO_GEOMETRY:
+		default_scannable_names = ["cryophi"]
+	else:
+		default_scannable_names = ["kphi"]
+	default_scannable_names += ["kap", "kth", "kmu", "kdelta", "kgam", "delta_axis_offset"]
+	for scannable_name in default_scannable_names:
+		add_default(jythonNameMap[scannable_name])
+except:
+	localStation_exception("setting default scannables", e)
 
 ###############################################################################
 ###                          Recent developments                            ###
@@ -1347,9 +1360,6 @@ if USE_DIFFCALC == False:
 	run('localStationScripts/possiblehkl_new')
 	localStation_print("run Space Group Interpreter")
 	run('localStationScripts/SGinterpreter')
-
-
-
 
 #### temp fix for valves closing due to img03#######################
 gv1= Epics_Shutter('gv1','BL16I-VA-VALVE-01:CON')
@@ -1534,8 +1544,6 @@ def pilout():
     pos(do, 0)
     pos(s6ygap, 2.8)
     pos(s6ytrans, 0)
-
-meta.add(dettrans) # should go in a better place
 
 print "*"*80
 localStation_print("Attempting to run localStationStaff.py from user scripts directory")

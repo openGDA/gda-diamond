@@ -4,15 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- Transient only -->
-	<!-- Note that even if cryophi is uncommented here, sixcCryoPhiMotor may have been defined as a DummyMotor
-		 in live/motor/sixc.xml since it is also referenced by live/motor/sixc.xml below.
-	<bean id="cryophi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sixcCryoPhiMotor" />
-		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
-	-->
 
 	<bean id="sixc_additional_position_validators" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -98,37 +89,31 @@
 	<bean id="euler_cryo" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<bean class="gda.device.scannable.ScannableMotor">
-					<property name="name" value="phi" />
+				<bean id="phi" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcCryoPhiMotor" />
 					<property name="returnDemandPosition" value="true" />
 					<property name="demandPositionTolerance" value=".01" />
 					<property name="logMoveRequestsWithInfo" value="true" />
 				</bean>
-				<bean class="gda.device.scannable.ScannableMotor">
-					<property name="name" value="chi" />
+				<bean id="chi" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="dummy_chi" />
 				</bean>
-				<bean class="gda.device.scannable.ScannableMotor">
-					<property name="name" value="eta" />
+				<bean id="eta" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="dummy_eta" />
 				</bean>
-				<bean class="gda.device.scannable.ScannableMotor">
-					<property name="name" value="mu" />
+				<bean id="mu" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcMuMotor" />
 					<property name="returnDemandPosition" value="true" />
 					<property name="demandPositionTolerance" value=".01" />
 					<property name="logMoveRequestsWithInfo" value="true" />
 				</bean>
-				<bean class="gda.device.scannable.ScannableMotor">
-					<property name="name" value="delta" />
+				<bean id="delta" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcDeltaMotor" />
 					<property name="returnDemandPosition" value="true" />
 					<property name="demandPositionTolerance" value=".01" />
 					<property name="logMoveRequestsWithInfo" value="true" />
 				</bean>
-				<bean class="gda.device.scannable.ScannableMotor">
-					<property name="name" value="gam" />
+				<bean id="gam" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcGammaMotor" />
 					<property name="returnDemandPosition" value="true" />
 					<property name="demandPositionTolerance" value=".01" />
