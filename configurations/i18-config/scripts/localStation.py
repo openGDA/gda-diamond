@@ -15,6 +15,8 @@ from stageSelector import StageSelector
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
 from gda.jython.commands.ScannableCommands import add_default
 
+from mapping_scan_commands import static
+
 print "Initialization Started";
 
 live_mode = (LocalProperties.get("gda.mode") == 'live')
