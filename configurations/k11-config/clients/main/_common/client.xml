@@ -9,7 +9,7 @@
 	<!-- This line should be promoted to core-config to avoid repeating it in each beam line -->
 	<!-- This line assures that Spring scans and initialises beans using annotations instead of explicit XML declarations -->
 	<context:component-scan base-package="uk.ac.gda.tomography"></context:component-scan>
-
+		
 	<context:property-placeholder />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
@@ -24,10 +24,6 @@
 
 	<bean id="live_stream_connection_manager"
 		class="uk.ac.gda.client.live.stream.LiveStreamConnectionManager" />
-
-	<!-- ExperimentService -->
-	<bean id="clientExperimentService"
-		class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
 
 	<!-- =========================================================== -->
 	<!-- ===================== MODE SPECIFIC ======================= -->
@@ -45,6 +41,7 @@
 	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
 	
 	<import resource="mapping.xml"/>
+	<import resource="experiment.xml" />
 	
 	<import resource="workflow_controllers.xml" />
 

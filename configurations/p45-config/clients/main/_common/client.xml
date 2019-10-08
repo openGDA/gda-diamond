@@ -23,7 +23,7 @@
 	<import resource="stage_controls.xml"/>  <!--  TODO Remove the current stage controls and replace with tree edit as in scanning perspective -->
 	<import resource="file://${gda.facility.dir}/clients/_common/stage_controls_tree.xml"/>
 	<import resource="mapping.xml"/>
-	<bean id="clientExperimentService" class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
+	<import resource="experiment.xml" />
 
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml"/>
 
