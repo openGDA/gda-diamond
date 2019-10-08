@@ -186,5 +186,9 @@
 	</bean>
 	
 	<bean id="sample_shutter" class="gda.device.enumpositioner.DummyValve" />
+	
+	<!-- CCD -->
+	<bean id="ccd_x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ccd_y_motor" class="gda.device.motor.DummyMotor" />
 
 </beans>

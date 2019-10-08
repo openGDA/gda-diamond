@@ -644,5 +644,13 @@
 	<bean id="thor_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="thor_y_motor" />
 	</bean>
+	
+	<bean id="ccd_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ccd_x_motor" />
+	</bean>
+	
+	<bean id="ccd_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ccd_y_motor" />
+	</bean>
 
 </beans>

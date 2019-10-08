@@ -341,5 +341,14 @@
 	<bean id="sample_shutter" class="gda.device.enumpositioner.EpicsValve">
 		<property name="epicsRecordName" value="BL18I-EA-SHTR-01" />
 	</bean>
+	
+	<!-- CCD -->
+	<bean id="ccd_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-EA-DET-01:X" />
+	</bean>
+
+	<bean id="ccd_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-EA-DET-01:Y" />
+	</bean>
 
 </beans>
