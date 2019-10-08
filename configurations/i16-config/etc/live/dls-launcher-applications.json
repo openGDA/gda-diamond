@@ -1,45 +1,64 @@
 [
     {
-        "command": "startgdaservers.sh", 
+        "args": "servers", 
+        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
         "icon": "sgda.png", 
         "text": "GDA Servers", 
         "type": "button"
     }, 
     {
-        "command": "launcher-gdaclient", 
+        "args": "client", 
+        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
         "icon": "cgda.png", 
         "text": "GDA Client", 
         "type": "button"
     }, 
     {
-        "command": "launcher-gdaclient-reset", 
+        "args": "client --reset", 
+        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
         "icon": "cgda.png", 
-        "text": "GDA Client with fresh workspace (gdaclient --reset)", 
+        "text": "GDA Client with fresh workspace (gda client --reset)", 
         "type": "button"
     }, 
     {
-        "command": "launcher-gdalog", 
-        "icon": "cgda.png", 
+        "args": "logpanel", 
+        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
+        "icon": "lgda.png", 
         "text": "GDA Log Panel", 
         "type": "button"
     }, 
     {
-        "command": "launcher-dawn", 
-        "text": "Dawn", 
+        "args": "-c 'module load dawn; dawn'",
+        "command": "/usr/bin/env bash", 
+        "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
+        "text": "Dawn Stable", 
         "type": "button"
     }, 
     {
-        "command": "/usr/bin/firefox -new-window http://diffcalc.readthedocs.org/en/latest/user/contents.html", 
+        "args": "-c 'module load dawn; dawn --reset'",
+        "command": "/usr/bin/env bash", 
+        "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
+        "text": "Dawn Stable with fresh workspace (dawn --reset)", 
+        "type": "button"
+    }, 
+    {
+        "args": "-new-window http://diffcalc.readthedocs.org/en/latest",
+        "command": "/usr/bin/firefox", 
+        "icon": "firefox",
         "text": "Diffcalc Manual", 
         "type": "button"
     }, 
     {
-        "command": "/usr/bin/firefox -new-window http://confluence.diamond.ac.uk/display/$BEAMLINE/Webcams", 
+        "args": "-new-window http://confluence.diamond.ac.uk/display/$BEAMLINE/Webcams",
+        "command": "/usr/bin/firefox", 
+        "icon": "firefox",
         "text": "Webcams", 
         "type": "button"
     }, 
     {
-        "command": "/usr/bin/firefox -new-window http://confluence.diamond.ac.uk/display/$BEAMLINE", 
+        "args": "-new-window http://confluence.diamond.ac.uk/display/$BEAMLINE",
+        "command": "/usr/bin/firefox", 
+        "icon": "firefox",
         "text": "Beamline Wiki", 
         "type": "button"
     }
