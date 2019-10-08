@@ -28,7 +28,7 @@ def localStation_print(msg, pause=0):
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
 	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
-	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
+	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP, USE_SMARGON # @UnresolvedImport
 except Exception as e:
 	USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
@@ -36,14 +36,21 @@ except Exception as e:
 	USE_NEXUS = True
 	USE_NEXUS_METADATA_COMMANDS = True
 	USE_XMAP= False
+	USE_SMARGON = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,"+
-		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r" % 
-		(USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR, USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP) , e)
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r, USE_SMARGON=%r" %
+				(USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP, USE_SMARGON)
+		, e)
 
 if USE_NEXUS_METADATA_COMMANDS and not USE_NEXUS:
 	localStation_exception("trying to use USE_NEXUS_METADATA_COMMANDS when USE_NEXUS = False, setting USE_NEXUS_METADATA_COMMANDS = False", None)
 	USE_NEXUS_METADATA_COMMANDS = False
+
+if USE_DIFFCALC and USE_SMARGON:
+	localStation_exception("trying to both USE_DIFFCALC and USE_SMARGON, setting USE_DIFFCALC = False", None)
+	USE_DIFFCALC = False
 
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
@@ -1498,11 +1505,7 @@ from sz_cryo import szCryoCompensation
 cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
 szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
 
-
-
-SMARGON = False
-
-if SMARGON: 
+if USE_SMARGON: 
 	sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
 	sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
 	sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
