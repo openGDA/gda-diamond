@@ -8,10 +8,14 @@ localStation_logger = LoggerFactory.getLogger("localStation.py")
 
 localStation_exceptions = []
 
-def localStation_exception(msg, exception):
+def localStation_exception(msg, exception=None):
+	import java, sys, traceback
 	localStation_exceptions.append("    %s" % msg)
 	print "! Failure %s !" % msg
-	localStation_logger.error(msg, exception)
+	if isinstance(exception, java.lang.Exception) or exception == None:
+		localStation_logger.error(msg, exception)
+	else:
+		localStation_logger.error(msg + ':\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
 
 def localStation_print(msg, pause=0):
 	#if (pause > 0):
