@@ -25,6 +25,7 @@
 		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
+		<property name="configureAtStartup" value="false" />
 	</bean>
 
 
