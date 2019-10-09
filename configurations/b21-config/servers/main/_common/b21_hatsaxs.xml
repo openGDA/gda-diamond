@@ -27,16 +27,31 @@
 		<constructor-arg index="0" value="I"/>
 		<constructor-arg index="1" value="8"/>
 		<constructor-arg index="2" value="12"/>
+		<property name="properties" >
+			<map>
+				<entry key="rgb" value="#{new org.eclipse.swt.graphics.RGB(0,0,255)}" />
+			</map>
+		</property>
 	</bean>
 	<bean id="plate2" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
 		<constructor-arg index="0" value="II"/>
 		<constructor-arg index="1" value="4"/>
 		<constructor-arg index="2" value="11"/>
+		<property name="properties" >
+			<map>
+				<entry key="rgb" value="#{new org.eclipse.swt.graphics.RGB(0,255,0)}" />
+			</map>
+		</property>
 	</bean>
 	<bean id="plate3" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
 		<constructor-arg index="0" value="III"/>
 		<constructor-arg index="1" value="8"/>
 		<constructor-arg index="2" value="12"/>
+		<property name="properties" >
+			<map>
+				<entry key="rgb" value="#{new org.eclipse.swt.graphics.RGB(255,0,0)}" />
+			</map>
+		</property>
 	</bean>
 
 	<bean id="hplcPlates" class="uk.ac.gda.devices.hatsaxs.beans.PlateConfig">
