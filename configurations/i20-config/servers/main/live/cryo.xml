@@ -23,6 +23,7 @@
 	
 	<bean id="cryostat" class="uk.ac.gda.beamline.i20.scannable.Lakeshore340Scannable">
 		<property name="controller" ref="cryostat_controller" />
+		<property name="tolerance" value="300" /> <!--  so that 'moveTo' returns immediately -->
 	</bean>
     
 	<bean id="cryo_setpoint1" class="gda.device.controlpoint.EpicsControlPoint">
@@ -159,6 +160,12 @@
 	<bean id="PFR_temp_current" class="gda.device.scannable.PVScannable">
 		<property name="name" value="PFR_temp" />
 		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:PV:RBV" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="ucl_temp" class="gda.device.scannable.PVScannable">
+		<property name="name" value="ucl_temp" />
+		<property name="pvName" value="BL20I-EA-TEMPC-08:LOOP1:WSP:RBV" />
 		<property name="canMove" value="false" />
 	</bean>
 

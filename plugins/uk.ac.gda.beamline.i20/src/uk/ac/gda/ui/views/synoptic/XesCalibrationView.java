@@ -19,8 +19,6 @@
 package uk.ac.gda.ui.views.synoptic;
 
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Map;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -123,9 +121,9 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 
 	private void applyCalibration(String expectedEnergy) {
 		try {
-			Double energy = (Double) NumberFormat.getInstance().parse(expectedEnergy);
+			Double energy = Double.parseDouble(expectedEnergy);
 			offsets.applyFromLive(energy);
-		} catch (ParseException e) {
+		} catch (NumberFormatException e) {
 			String message = "Could not run offset calculation - expected energy " + expectedEnergy	+ " is not recognised as a number";
 			MessageDialog.openWarning(parent.getShell(), "Problem starting offset calculation", message);
 		} catch (DeviceException | IOException e) {

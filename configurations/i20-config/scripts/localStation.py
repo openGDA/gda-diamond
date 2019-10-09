@@ -58,11 +58,17 @@ run 'xspress4_dtc_energy_scannable.py'
 # Create and setup the monoOptimiser scannable
 run "mono_optimisation.py"
 
+# Create some functions useful for setting up and controlling the medipix ROIs
+run "medipix_functions.py"
+
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
 # detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 detectorPreparer.setFFI1(FFI1)
+detectorPreparer.setPluginsForMutableRoi(plugins_mutable_roi)
+detectorPreparer.setMutableRoi(medipix_roi)
+detectorPreparer.setMedipixDefaultBasePvName(medipix_basePvName)
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
@@ -129,6 +135,13 @@ print "Creating scannable 'w' which will delay scan points until a time has been
 w = showtimeClass("w")
 w.setLevel(10)
 
+def stopCryostat() :
+    setpoint = cryostat.getController().getSetpoint()
+    print "Stopping cryostat status thread and reapplying the original setpoint ("+str(setpoint)+" K)"
+    cryostat.stop() ## to stop the monitor thread; also overwrites setpoint with current temperature
+    # Re-apply the original setpoint value
+    cryostat.getController().setSetpointControl( setpoint )
+
 def machineMode() :
     try :
         return machineMode()
@@ -149,7 +162,7 @@ if LocalProperties.get("gda.mode") == "live":
         remove_default([topupChecker])
         remove_default([absorberChecker])
         remove_default([shutterChecker])
-        cryostat.stop()
+        stopCryostat()
     else:
         add_default([topupChecker])
         add_default([absorberChecker])
@@ -157,13 +170,6 @@ if LocalProperties.get("gda.mode") == "live":
 else:
     remove_default([topupChecker])
     remove_default([absorberChecker])
-
-#
-# XES offsets section
-#
-#from xes import offsetsStore, setOffsets
-#offsetsStore = offsetsStore.XESOffsets()
-#offsetsStore.removeAllOffsets()
 
 # Make sure xes offset start at zero every time
 xes_offsets.removeAll()
@@ -181,13 +187,8 @@ else :
     pos xtal_x 1000.0
     pos radius 1000.0
 
-    #Set medupux base PV name (using areadetector)
-    simulated_addetector_pv=medipix_addetector.getAdBase().getBasePVName()
-    detectorPreparer.setMedipixDefaultBasePvName(simulated_addetector_pv)
-    # PVs to use for ROI and STAT area detector plugins (real detector usings ROI1, STAT1,
-    # which are not available in simulated area detector)
+    # Set ROI plugin base pv name : real detector uses 'ROI1', simulated area detector uses 'ROI:'
     detectorPreparer.setRoiPvName("ROI:")
-    detectorPreparer.setStatPvName("STAT:")
 
 
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
@@ -202,15 +203,27 @@ from gda.epics import CAClient
 ## Set file path and filename format if using 'real' XSpress4 detector
 hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
 if xspress4.isConfigured() == True and xspress4.getXspress3Controller().isConfigured() and LocalProperties.get("gda.mode") == "live" :
+     print "Setting up XSpress4 : "
+     print "  Trigger mode = 'TTL Veto Only'"
      xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
+     # Set the default deadtime correction energy if not already non-zero
+     if xspress4.getDtcEnergyKev() == 0 :
+         print "  Setting deadtime correction energy to 10Kev"
+         xspress4.setDtcEnergyKev(10)
      ## Set to empty string, so that at scan start path is set to current visit directory.
      xspress4.setFilePath("");
      basename = xspress4.getController().getBasePv()
      for key in hdf5Values :
         pv = basename+":HDF5:"+key
-        print "Setting "+pv+" to "+hdf5Values[key]
+        print "  Setting "+pv+" to "+hdf5Values[key]
         CAClient.putStringAsWaveform(pv, hdf5Values[key])
 
+     # Dimensions of data are not known by Epics ROI and HDF plugins after IOC restart and need to be set by collecting 1 frame of software triggered data.
+     nDimensions = CAClient.get(basename+":ROI:NDimensions_RBV")
+     if int(nDimensions) == 0 :
+         print "  Collecting 1 frame of data to make sure ROI and HDF Epics plugins have correct data dimensions"
+         v = xspress4.getMCAData(500)
+    
 # Set default output format xspress4 ascii numbers
 xspress4.setOutputFormat(["%.6g"])
 
@@ -231,17 +244,6 @@ def reconnect_daserver() :
     print "Ignore this error (it's 'normal'...)"
     ionchambers.getScaler().clear()
 
-# Function for setting exposure time and setting continuous acquisition
-# Called in ADControllerBase.setExposure(time) - see client side medipixADController bean
-# (injected using setExposureTimeCmd )
-def setMedipixExposureAndStart(exposureTime) :
-    continuousModeIndex = 2 # ImageMode.CONTINUOUS.ordinal()
-    adbase = medipix_addetector.getAdBase()
-
-    adbase.setAcquireTime(exposureTime);
-    adbase.setAcquirePeriod(0.0);
-    adbase.setImageMode(continuousModeIndex);
-    adbase.startAcquiring();
 
 # Set initial values of allowedToMove scannables for XES spectrometer crystals
 for scn in [ minusCrystalAllowedToMove, centreCrystalAllowedToMove, plusCrystalAllowedToMove ] :
@@ -259,9 +261,9 @@ if LocalProperties.isDummyModeEnabled() == False :
         from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
         xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
 
-	basePvName = xspress3Controller.getEpicsTemplate()
-        detPort = CAClient.get(basePvName+":PortName_RBV")
-        print "  HDF5 array port name = ", detPort
-        CAClient.put(basePvName+":HDF5:NDArrayPort", detPort)
+    basePvName = xspress3Controller.getEpicsTemplate()
+    detPort = CAClient.get(basePvName+":PortName_RBV")
+    print "  HDF5 array port name = ", detPort
+    CAClient.put(basePvName+":HDF5:NDArrayPort", detPort)
 
 print "****GDA startup script complete.****\n\n"

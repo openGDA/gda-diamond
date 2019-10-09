@@ -7,12 +7,6 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<import resource="../_common/client.xml" />
-
-
-<!-- 	<bean id="rga" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}rga" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.HidenRGA" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
-
+	<import resource="medipix.xml" />
+	
 </beans>

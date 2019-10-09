@@ -33,18 +33,11 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorHdfFunctions;
 import gda.device.detector.NXDetector;
-import gda.device.detector.addetector.triggering.AbstractADTriggeringStrategy;
 import gda.device.detector.areadetector.v17.NDPluginBase;
-import gda.device.detector.areadetector.v17.impl.ADBaseImpl;
-import gda.device.detector.areadetector.v18.NDStatsPVs.BasicStat;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.nxdetector.NXCollectionStrategyPlugin;
 import gda.device.detector.nxdetector.NXPluginBase;
-import gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPair;
-import gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory;
 import gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI;
-import gda.device.detector.nxdetector.roi.RectangularROI;
-import gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider;
+import gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI;
 import gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter;
 import gda.device.detector.xmap.TfgXMapFFoverI0;
 import gda.device.detector.xmap.Xmap;
@@ -97,14 +90,17 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	private String medipixDefaultBasePvName="BL20I-EA-DET-05";
 	private String roiPvName = "ROI1:";
-	private String statPvName = "STAT1:";
-	private boolean configureMedipixRois = true;
-	private List<NXPluginBase> originalMedipixPlugins = null;
 	private String medipixHdfPathTemplate = "";
 
 	// Full path to xml folder containing experiment xml files
 	private String experimentXmlFullPath;
 	private String hdfFilePathBeforeScan;
+
+	// Plugins for setting ROI on medipix
+	private boolean configureMedipixRois = true;
+	private List<NXPluginBase> originalMedipixPlugins = null;
+	private List<NXPluginBase> pluginsForMutableRoi = null;
+	private MutableRectangularIntegerROI mutableRoi = null;
 
 	private boolean xesMode = false;
 
@@ -286,71 +282,36 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			}
 		}
 	}
-
 	/**
-	 * Create ROI using parameters from XML file, setup Medipix NXPlugin list to use new ROI rather than the one from plotserver.
+	 * Setup medipix ROI using values from xml file.
+	 * The medipix detector 'additional plugin' list is set to use one with mutable ROI.
+	 * Original plugin list is restored at end of the scan.
 	 *
 	 * @param xmlFileName
 	 * @throws Exception
-	 * @since 24/8/2016
 	 */
-	private void configureMedipix( String xmlFileName ) throws Exception {
-		// --- Create ROI using parameters from XML file :
-
+	private void configureMedipix(String xmlFileName) throws Exception {
 		// Create bean from XML
-		MedipixParameters param = (MedipixParameters) XMLHelpers.createFromXML(MedipixParameters.mappingURL, MedipixParameters.class, MedipixParameters.schemaURL, new File(xmlFileName));
+		MedipixParameters param = XMLHelpers.createFromXML(MedipixParameters.mappingURL, MedipixParameters.class, MedipixParameters.schemaURL, new File(xmlFileName));
 
 		// Create region using first ROI only - currently camera uses only one ROI
 		ROIRegion region1 = param.getRegionList().get(0);
-		int xstart = region1.getXRoi().getRoiStart(),
-			xsize = region1.getXRoi().getRoiEnd() - xstart;
+		int xstart = region1.getXRoi().getRoiStart();
+		int xsize = region1.getXRoi().getRoiEnd() - xstart;
+		int ystart = region1.getYRoi().getRoiStart();
+		int ysize = region1.getYRoi().getRoiEnd() - ystart;
 
-		int ystart = region1.getYRoi().getRoiStart(),
-			ysize = region1.getYRoi().getRoiEnd() - ystart;
-
-		RectangularROI<Integer> roi = new ImutableRectangularIntegerROI(xstart, ystart, xsize, ysize, region1.getRoiName() ) ;
-
-		// --- Create new NXPlugin for ROI :
-
-		// First try to get plotserver ROI NXPlugin from detector - so we can extract PV names necessary to create the new plugin
-		ADRoiStatsPair plotserverRoiPlugin = getRoiPlugin("roistats1");
-
-		if ( plotserverRoiPlugin == null ) {
-			logger.warn("Not able to set up ROI for scan - could not find ADRoiStatsPair NXPlugin for detector ",medipix.getName() );
-			return;
-		}
-
-		String arrayPortName = plotserverRoiPlugin.getRoiInputPort();
-
-		// Try to get camera base PV name from collection strategy
-
-		String basePvName = medipixDefaultBasePvName;
-		NXCollectionStrategyPlugin collectionStrategy = medipix.getCollectionStrategy();
-		if ( collectionStrategy!=null && collectionStrategy instanceof AbstractADTriggeringStrategy ) {
-			ADBaseImpl baseImpl = (ADBaseImpl) ( (AbstractADTriggeringStrategy) collectionStrategy ).getAdBase();
-			basePvName = baseImpl.getBasePVName();
-		}
-		basePvName = basePvName.replace(":CAM:", ":");
-
-		// Create new NXPlugin with ROI from XML settings (same PV names as plotserver ROI).
-		// use same enabled stats as original plugin
-		List<BasicStat> enabledStats = plotserverRoiPlugin.getEnabledBasicStats();
-		ADRoiStatsPair roistatPair = getNXRoiStatPair( basePvName, arrayPortName, roi, enabledStats );
-
-		// --- Setup additionalPluginList : copy old list but replace plotserver ROI plugin with new one with ROI from XML settings :
-
-		// Store current NXPlugin list so we can return it to the original state at the end of the scan
+		// Save the original additional plugin list, so it can be restored at end of the scan
 		originalMedipixPlugins = medipix.getAdditionalPluginList();
 
-		// Make new plugin list
-		List<NXPluginBase> newPluginList = new ArrayList<NXPluginBase>();
-		for(NXPluginBase plugin : originalMedipixPlugins ) {
-			if( plugin == plotserverRoiPlugin ) {
-				newPluginList.add( roistatPair );
-			} else
-				newPluginList.add( plugin );
-		}
-		medipix.setAdditionalPluginList(newPluginList);
+		// Set the plugin list to use one with a mutable ROI
+		medipix.setAdditionalPluginList(pluginsForMutableRoi);
+
+		// Set the ROI
+		mutableRoi.setROI(new ImutableRectangularIntegerROI(xstart, ystart, xsize, ysize, region1.getRoiName() ));
+
+		// Set ROI min callback time to zero (otherwise might start to miss frames if acquisition time is < callback time)
+		CAClient.put(medipixDefaultBasePvName+":"+roiPvName+NDPluginBase.MinCallbackTime, 0);
 
 		// Set medipix acquisition time for XES scan in dummy mode - so scans work properly and frames stay in sync with scan.
 		// Readout time should also be set to zero, so that exposure time = acquisition time. 12/7/2017
@@ -360,55 +321,11 @@ public class I20DetectorPreparer implements DetectorPreparer {
 				medipix.setCollectionTime(xesIntegrationTime);
 			}
 		}
-		// Set ROI min callback time to zero (otherwise might start to miss frames if acquisition time is < callback time)
-		CAClient.put(basePvName+roiPvName+NDPluginBase.MinCallbackTime, 0);
-	}
-
-	/**
-	 * Get ADRoiStatPair plugin with given name from detector.
-	 * @param searchName
-	 * @return
-	 */
-	private ADRoiStatsPair getRoiPlugin( String searchName ) {
-		for( NXPluginBase plugin : medipix.getAdditionalPluginList() ) {
-			if ( plugin instanceof ADRoiStatsPair && plugin.getName().equals( searchName ))
-				return (ADRoiStatsPair) plugin;
-		}
-		return null;
 	}
 
 	private void setupMedipixHdfPaths() throws DeviceException {
 		String newPathTemplate = experimentXmlFullPath.replaceFirst("(.*)xml", "\\$datadir\\$") + "nexus/";
 		medipixHdfPathTemplate = DetectorHdfFunctions.setHdfFilePath(medipix, newPathTemplate);
-	}
-
-	/**
-	 * Make a new ADRoiStatsPair NXPlugin using provided ROI and PV names; 'MaxValue' and 'Total' basic stats enabled.
-	 *
-	 * @param basePvName
-	 * @param arrayPortName
-	 * @param roi
-	 * @return
-	 * @throws Exception
-	 */
-	private ADRoiStatsPair getNXRoiStatPair( String basePvName, String arrayPortName, RectangularROI<Integer> roi, List<BasicStat> stats ) throws Exception {
-
-		ADRoiStatsPairFactory fac = new ADRoiStatsPairFactory();
-		fac.setPluginName("roistats");
-		fac.setBaseRoiPVName(basePvName+roiPvName);
-		fac.setBaseStatsPVName(basePvName+statPvName);
-		fac.setRoiInputNdArrayPort(arrayPortName);
-
-		fac.setEnabledBasicStats(stats);
-		fac.setOneTimeSeriesCollectionPerLine(false);
-		fac.setLegacyTSpvs(false);
-
-		SimpleRectangularROIProvider roiProvider = new SimpleRectangularROIProvider();
-		roiProvider.setRoi(roi);
-
-		fac.setRoiProvider(roiProvider);
-
-		return fac.getObject();
 	}
 
 	@Override
@@ -627,14 +544,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	public void setRoiPvName(String roiPvName) {
 		this.roiPvName = roiPvName;
-	}
-
-	public String getStatPvName() {
-		return statPvName;
-	}
-
-	public void setStatPvName(String statPvName) {
-		this.statPvName = statPvName;
 	}
 
 	public String getMedipixDefaultBasePvName() {
@@ -886,4 +795,11 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		this.xesMode = xesMode;
 	}
 
+	public void setPluginsForMutableRoi(List<NXPluginBase> pluginsForMutableRoi) {
+		this.pluginsForMutableRoi = pluginsForMutableRoi;
+	}
+
+	public void setMutableRoi(MutableRectangularIntegerROI mutableRoi) {
+		this.mutableRoi = mutableRoi;
+	}
 }

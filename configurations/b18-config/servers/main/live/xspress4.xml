@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- Controllers for XSpress4  -->
+	<bean id="xspress3ControllerForXspress4"
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
+		<property name="epicsTemplate" value="BL18B-EA-XSP4-01" />
+		<property name="numberOfChannels" value="36"/>
+		<property name="useErasePv" value="false" />
+	</bean>
+
+	<bean id="xspress4Controller"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL18B-EA-XSP4-01" />
+		<property name="numElements" value="36" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+	</bean>
+
+<!--  DAServer for XSPRESS4 36 element for debugging only. -->
+ 	<bean id="DAServer_xspress4" class="gda.device.detector.DAServer"> 
+ 		<property name="host" value="b18-xspress4" /> 
+ 		<property name="port" value="1972" />
+ 		<property name="startupCommands"> 
+ 			<list> 
+ 				<value>~config</value> 
+ 			</list>
+ 		</property>
+ 		<property name="dataPort" value="20031" /> 
+ 		<property name="replyTimeOut" value="5000" /> 
+ 		<property name="configureAtStartup" value="false" />
+ 	</bean> 
+
+</beans>

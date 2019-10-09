@@ -195,7 +195,8 @@ public class B18DetectorPreparerTest {
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 
 			Mockito.verify(xspressSystem).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
-			Mockito.verify(xspressSystem).configure();
+			Mockito.verify(xspressSystem).reconfigure();
+
 			Mockito.verifyZeroInteractions(vortexConfig);
 			Mockito.verifyZeroInteractions(xspress3Detector);
 
@@ -208,7 +209,7 @@ public class B18DetectorPreparerTest {
 			fluoParams.setDetectorType("Silicon");
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 			Mockito.verify(vortexConfig).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
-			Mockito.verify(vortexConfig).configure();
+			Mockito.verify(vortexConfig).reconfigure();
 
 		} catch (Exception e) {
 			fail(e.getMessage());

@@ -19,9 +19,11 @@
 package gda.scan;
 
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.nexus.NexusException;
@@ -75,8 +77,7 @@ public class DetectorFunctions  {
 	 * @throws NexusException
 	 */
 	public int getNumAvailableFrames() throws Exception {
-		int minNumFrames = getNumCapturedZebraPulses();
-		logger.debug("Number of frames of data available on zebra(s) : {}", minNumFrames);
+		int minNumFrames = Integer.MAX_VALUE;
 		for (BufferedDetector detector : detectors) {
 			int numFramesAvailable = detector.getNumberFrames();
 			if (detector instanceof BufferedScaler) {
@@ -84,7 +85,6 @@ public class DetectorFunctions  {
 			} else if (detector instanceof Xspress3BufferedDetector) {
 				numFramesAvailable = getNumXspress3Frames((Xspress3BufferedDetector) detector);
 			}
-
 			logger.debug("Number of frames of data available for {} : {}", detector.getName(), numFramesAvailable);
 			minNumFrames = Math.min(minNumFrames, numFramesAvailable);
 		}
@@ -212,6 +212,14 @@ public class DetectorFunctions  {
 				prepareXSpress3(numSpectra, numReadoutsPerSpectra);
 			}
 		}
+	}
+
+	public boolean isTfgArmed() throws DeviceException {
+		Optional<BufferedScaler> scaler = Arrays.stream(detectors).
+				filter(d -> d instanceof BufferedScaler).
+				map(d -> (BufferedScaler)d).
+				findFirst();
+		return scaler.isPresent() && scaler.get().isWaitingForTrigger();
 	}
 
 	public Xspress3BufferedDetector getXspress3Detector() {

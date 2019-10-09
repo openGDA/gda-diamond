@@ -245,7 +245,7 @@
 
 		<property name="columnNameMap">
 			<map>
-				<entry key="roi1_total" value="FF" />
+				<entry key="medipix_roi_total" value="FF" />
 			</map>
 		</property>	
 
@@ -489,7 +489,7 @@
 		</property>
 		<property name="columnNameMap">
 			<map>
-				<entry key="roi1_total" value="FF" />
+				<entry key="medipix_roi_total" value="FF" />
 			</map>
 		</property>	
 	</bean>

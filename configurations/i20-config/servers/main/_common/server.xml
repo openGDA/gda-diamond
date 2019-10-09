@@ -43,6 +43,7 @@
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/medipix.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/medipix.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/cryo.xml" />
 
