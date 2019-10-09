@@ -3,7 +3,6 @@ from gda.data.scan.datawriter import DataWriterExtenderBase
 from gda.device.detector import NexusDetector
 from gda.factory import Finder
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
-from jarray import array, zeros
 from org.eclipse.dawnsci.nexus import NexusUtils
 from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 import org.eclipse.january.dataset.DatasetFactory as DF
@@ -458,16 +457,16 @@ class I16NexusExtender(DataWriterExtenderBase):
         self.logger.debug("parseCrystalInfo(nFile={}, metadataGroup={})", nFile, metadataGroup)
         xtalinfo = nFile.getGroup(metadataGroup, "xtalinfo", "NXcollection", False)
         self.logger.debug("parseCrystalInfo() xtalinfo={}", xtalinfo)
-        orientationMatrix = [0] * 9
+        ubMatrix = [0] * 9
         latticeVals = [0] * 6
         for i in xrange(0, 3):
             for j in xrange(0, 3):
                 ubval = "UB" + str(i + 1) + str(j + 1)
                 try:
                     self.logger.debug("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0))
-                    orientationMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)
+                    ubMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)
                 except:
-                    orientationMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()
+                    ubMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()
                     self.logger.error("parseCrystalInfo() coudn't get nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0) use getDouble() instead")
                     self.logger.debug("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble())
         for i, val in zip(xrange(0, 6), ["a", "b", "c", "alpha1", "alpha2", "alpha3"]):
@@ -479,8 +478,8 @@ class I16NexusExtender(DataWriterExtenderBase):
                 latticeVals[i] = nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble()
                 self.logger.error("parseCrystalInfo() coudn't get nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0) use getDouble() instead")
                 self.logger.debug("parseCrystalInfo() nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble())
-        self.logger.info("parseCrystalInfo() returning latticeVals={}, orientationMatrix={}", latticeVals, orientationMatrix)
-        return (latticeVals, orientationMatrix)
+        self.logger.info("parseCrystalInfo() returning latticeVals={}, ubMatrix={}", latticeVals, ubMatrix)
+        return (latticeVals, ubMatrix)
 
     def extractTransmission(self, nFile, metadataGroup):
         atten = nFile.getGroup(metadataGroup, "gains_atten", "NXcollection", False)
@@ -500,17 +499,17 @@ class I16NexusExtender(DataWriterExtenderBase):
         data = nFile.createData(group, unit_cell)
         NexusUtils.writeAttribute(nFile, data, "angle_units", "deg")
         NexusUtils.writeAttribute(nFile, data, "length_units", "angstrom")
-        orientationMatrix = DF.createFromObject(ubMatrix)
-        orientationMatrix.shape = [3, 3]
+        ub_matrix = DF.createFromObject(ubMatrix)
+        ub_matrix.shape = [3, 3]
 
         #transform by [[1, 0, 0], [0, 0, -1], [0, 1, 0]] to get UB in lab frame
-        orientationMatrix = LA.dotProduct(
+        ub_matrix = LA.dotProduct(
                 DF.createFromObject([[1, 0, 0], [0, 0, -1], [0, 1, 0]]),
-                orientationMatrix)
-        orientationMatrix.shape = [1, 3, 3]
-        orientationMatrix.name = "orientation_matrix"
+                ub_matrix)
+        ub_matrix.shape = [1, 3, 3]
+        ub_matrix.name = "ub_matrix"
 
-        nFile.createData(group, orientationMatrix)
+        nFile.createData(group, ub_matrix)
 
     def writeIncidentWavelength(self, nFile, group):
         self.logger.info("writeIncidentWavelength(nFile={}, group={})", nFile, group)
