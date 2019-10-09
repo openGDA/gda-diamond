@@ -23,10 +23,9 @@ import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
+import gda.device.detector.DetectorHdfFunctions;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.mythen.MythenDetectorImpl;
-import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
@@ -42,7 +41,7 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
+import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class B18DetectorPreparer implements QexafsDetectorPreparer {
@@ -51,14 +50,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	private Scannable energy_scannable;
 	private MythenDetectorImpl mythen_scannable;
-	private Scannable[] sensitivities;
-	private Scannable[] sensitivity_units;
-	private Scannable[] offsets;
-	private Scannable[] offset_units;
+
 	private List<Scannable> ionc_gas_injector_scannables;
-	private Xspress2Detector xspressSystem;
-	private Xmap vortexConfig;
-	private Xspress3Detector xspress3Detector;
+
+	protected Detector selectedDetector;
+	private String experimentXmlFullPath;
+	private String hdfFilePath;
+
 	private IScanParameters scanBean;
 	private TfgScalerWithFrames ionchambers;
 	private IDetectorParameters detectorBean;
@@ -72,22 +70,19 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	/** Map to go from name of detector to name of corresponding buffered detector object to use in QExafs scans */
 	private Map<String, String> bufferedDetectorNameMap = new LinkedHashMap<>();
+	private DetectorPreparerFunctions detectorPreparerFunctions = new DetectorPreparerFunctions();
 
 	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
-			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers,
-			Xspress2Detector xspressSystem, Xmap vortexConfig, Xspress3Detector xspress3Config) {
+			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers) {
 		this.energy_scannable = energy_scannable;
 		this.mythen_scannable = mythen_scannable;
-		this.sensitivities = sensitivities;
-		this.sensitivity_units = sensitivity_units;
-		this.offsets = offsets;
-		this.offset_units = offset_units;
+		detectorPreparerFunctions.setSensitivities(sensitivities);
+		detectorPreparerFunctions.setSensitivityUnits(sensitivity_units);
+		detectorPreparerFunctions.setOffsets(offsets);
+		detectorPreparerFunctions.setOffsetUnits(offset_units);
 		this.ionc_gas_injector_scannables = ionc_gas_injector_scannables;
 		this.ionchambers = ionchambers;
-		this.xspressSystem = xspressSystem;
-		this.vortexConfig = vortexConfig;
-		this.xspress3Detector = xspress3Config;
 		bufferedDetectorNameMap = getDefaultBufferedDetectorNameMap();
 	}
 
@@ -102,43 +97,20 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		this.experimentFullPath = experimentFullPath;
 		this.outputBean = outputBean;
 
-		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
+		if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.FLUORESCENCE_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
-		//  Mythen data is now collected just before first repetition, i.e. after sample environment has been set up.
-//			if (fluoresenceParameters.isCollectDiffractionImages()) {
-//				control_mythen(fluoresenceParameters, outputBean, experimentFullPath);
-//			}
-			String detType = fluoresenceParameters.getDetectorType();
-			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
-			if (detType.equals("Germanium")) {
-				xspressSystem.setConfigFileName(xmlFileName);
-				xspressSystem.reconfigure();
-			} else if (detType.equals("Silicon")) {
-				vortexConfig.setConfigFileName(xmlFileName);
-				vortexConfig.reconfigure();
-			} else if (detType.equals("Xspress3")) {
-				xspress3Detector.setConfigFileName(xmlFileName);
-				xspress3Detector.loadConfigurationFromFile();
-				// save current file path (so can set it back at end of scan)
-				xspress3HdfPath = xspress3Detector.getController().getFilePath();
+			String xmlFileName = Paths.get(experimentXmlFullPath, fluoresenceParameters.getConfigFileName()).toString();
+			selectedDetector = detectorPreparerFunctions.configureDetector(xmlFileName);
 
-				// set the file path to the new location
-				String dirForXspress3 = Paths.get(getDataFolderFullPath(), "xspress3").toString();
-				xspress3Detector.setFilePath(dirForXspress3);
-				xspress3Detector.getController().setFilePath(dirForXspress3);
-			}
+			String dirForHdfFile = Paths.get(getDataFolderFullPath(), selectedDetector.getName()).toString();
+			hdfFilePath = DetectorHdfFunctions.setHdfFilePath(selectedDetector, dirForHdfFile);
 			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
-		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
+		} else if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.TRANSMISSION_TYPE)) {
+			selectedDetector = null;
 			TransmissionParameters transmissionParameters = detectorBean.getTransmissionParameters();
-//			if (transmissionParameters.isCollectDiffractionImages()) {
-//				control_mythen(transmissionParameters, outputBean, experimentFullPath);
-//			}
 			control_all_ionc(transmissionParameters.getIonChamberParameters());
 		}
 	}
-
-	private String experimentXmlFullPath;
-	private String xspress3HdfPath;
 
 	private String getDataFolderFullPath() {
 		String folder = experimentXmlFullPath.replace("/xml/", "/");
@@ -159,9 +131,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	private IExperimentDetectorParameters getDetectorParameters() {
-		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
+		if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.FLUORESCENCE_TYPE)) {
 			return detectorBean.getFluorescenceParameters();
-		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
+		} else if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.TRANSMISSION_TYPE)) {
 			return detectorBean.getTransmissionParameters();
 		}
 		else
@@ -205,10 +177,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	public void completeCollection() {
 		try {
 			// Set filepath for hdf file writer back to the original value
-			xspress3Detector.setFilePath(xspress3HdfPath);
-			xspress3Detector.getController().setFilePath(xspress3HdfPath);
+			DetectorHdfFunctions.setHdfFilePath(selectedDetector, hdfFilePath);
 		} catch (DeviceException e) {
-			logger.error("Problem setting xspress3 path to {} at end of scan", xspress3HdfPath);
+			logger.error("Problem setting xspress3 path to {} at end of scan", hdfFilePath);
 		}
 	}
 
@@ -220,7 +191,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	protected void control_ionc(List<IonChamberParameters> ion_chambers_bean, int ion_chamber_num) throws Exception {
 		IonChamberParameters ion_chamber = ion_chambers_bean.get(ion_chamber_num);
-		setup_amp_sensitivity(ion_chamber, ion_chamber_num);
+		detectorPreparerFunctions.setupAmplifierSensitivity(ion_chamber, ion_chamber_num);
 		boolean autoGas = ion_chamber.getAutoFillGas();
 		if (autoGas) {
 			double gas_fill1_pressure = ion_chamber.getPressure() * 1000.0;
@@ -251,33 +222,6 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			ionc_gas_injector_scannables.get(ion_chamber_num).moveTo(
 					new Object[] { purge_pressure, purge_period, gas_fill1_pressure, gas_fill1_period,
 							gas_fill2_pressure, gas_fill2_period, gas_select_val, flushString });
-		}
-	}
-
-	protected void setup_amp_sensitivity(IonChamberParameters ionChamberParams, int index) throws Exception {
-		if (ionChamberParams.getChangeSensitivity()) {
-			if (ionChamberParams.getGain() == null || ionChamberParams.getGain().equals("")) {
-				return;
-			}
-			String[] gainStringParts = ionChamberParams.getGain().split(" ");
-			String[] ampStringParts = ionChamberParams.getOffset().split(" ");
-			try {
-				InterfaceProvider.getTerminalPrinter().print(
-						"Changing sensitivity of " + ionChamberParams.getName() + " to " + ionChamberParams.getGain());
-
-				sensitivities[index].moveTo(gainStringParts[0]);
-				sensitivity_units[index].moveTo(gainStringParts[1]);
-				offsets[index].moveTo(ampStringParts[0]);
-				offset_units[index].moveTo(ampStringParts[1]);
-			} catch (Exception e) {
-				InterfaceProvider.getTerminalPrinter().print(
-						"Exception while trying to change the sensitivity of ion chamber" + ionChamberParams.getName());
-				InterfaceProvider
-						.getTerminalPrinter()
-						.print("Set the ion chamber sensitivity manually, uncheck the box in the Detector Parameters editor and restart the scan");
-				InterfaceProvider.getTerminalPrinter().print("Please report this problem to Data Acquisition");
-				throw e;
-			}
 		}
 	}
 
@@ -430,6 +374,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		map.put("xmapMca", "qexafs_xmap");
 		map.put("xspress2system", "qexafs_xspress");
 		map.put("xspress3", "qexafs_xspress3");
+		map.put("xspress4", "qexafs_xspress4");
 		map.put("medipix", "qexafs_medipix");
 		map.put("FFI0", "QexafsFFI0");
 		map.put("FFI0_vortex", "VortexQexafsFFI0");
@@ -463,5 +408,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	public void setDetectorNameMap(Map<String, String> map) {
 		bufferedDetectorNameMap = new LinkedHashMap<>(map);
+	}
+
+	public Detector getSelectedDetector() {
+		return selectedDetector;
 	}
 }
