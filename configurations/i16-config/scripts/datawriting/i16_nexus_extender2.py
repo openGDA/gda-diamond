@@ -3,7 +3,6 @@ from gda.data.scan.datawriter import DataWriterExtenderBase
 from gda.device.detector import NexusDetector
 from gda.factory import Finder
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
-from jarray import array, zeros
 from org.eclipse.dawnsci.nexus import NexusUtils
 from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 import org.eclipse.january.dataset.DatasetFactory as DF
@@ -406,7 +405,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         self.writeDetectorProperties(nFile, group, name)
 
     def writeTifPaths(self, nFile, group, detName, fileTemplate):
-        self.logger.info("writeTifPaths({}, {}, {}, {})", nFile, group, detName, fileTemplate)
+        self.logger.debug("writeTifPaths({}, {}, {}, {})", nFile, group, detName, fileTemplate)
         numberDataset = nFile.getData(group, "path").getDataset().getSlice()
         dimensions = numberDataset.shape
         length = 1
@@ -439,12 +438,11 @@ class I16NexusExtender(DataWriterExtenderBase):
             try: # Rather than checking type, just try to call the function
                 #path = det.getFilepathRelativeToRootDataDir().split('/')[0] + "/"
                 pathTemplate = det.getFilepathRelativeToRootDataDir()
-            except Exception, e:
-                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir() [Exception]", det, e)
             except java.lang.Exception, e:
                 self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir() [Java.lang.Exception]", det, e)
             except:
-                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir( [except])", det, sys.exc_info())
+                self.logger.error('writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir( [except]):\n {}',
+                    ''.join(traceback.format_exception(*sys.exc_info())) )
             if pathTemplate:
                 self.logger.debug("writeDynamicDetectors() pathTemplate={}", pathTemplate)
                 #remove the "last" instance of 5 digits with "%05d" for template purposes
@@ -494,6 +492,7 @@ class I16NexusExtender(DataWriterExtenderBase):
 
 
     def writeCrystalInfo(self, nFile, group, latticeParams, ubMatrix):
+        self.logger.debug("writeCrystalInfo(nFile=%r, group=%r, latticeParams=%r, ubMatrix=%r)" %(nFile, group, latticeParams, ubMatrix))
         unit_cell = DF.createFromObject(latticeParams)
         unit_cell.name = "unit_cell"
         unit_cell.shape = [1, 6]
@@ -513,14 +512,16 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, orientationMatrix)
 
     def writeIncidentWavelength(self, nFile, group):
-        self.logger.info("writeIncidentWavelength(nFile={}, group={})", nFile, group)
+        self.logger.debug("writeIncidentWavelength(nFile={}, group={})", nFile, group)
         try:
-            self.logger.debug("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0)={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0))
+            self.logger.debug("writeIncidentWavelength() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0)={}",
+                     nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0) )
             energy = nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0)
         except:
             energy = nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble()
-            self.logger.error("parseCrystalInfo() coudn't get nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0) use getDouble() instead")
-            self.logger.debug("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble()={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble())
+            self.logger.error("writeIncidentWavelength() coudn't get nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0) use getDouble() instead")
+            self.logger.debug("writeIncidentWavelength() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble()={}",
+                     nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble() )
         wavelength = 1e9 * PLANCK * LIGHTSPEED / (energy * 1000 * EVOLT_TO_JOULE)
         dataset = DF.createFromObject(wavelength)
         dataset.name = "incident_wavelength"
@@ -546,13 +547,13 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, data)
 
     def writeDeltaOffset(self, nFile, transformations, metadata):
-        self.logger.info("writeDeltaOffset(nFile={}, transformations={}, metadata={})", nFile, transformations, metadata)
+        self.logger.debug("writeDeltaOffset(nFile={}, transformations={}, metadata={})", nFile, transformations, metadata)
         diffGroup = nFile.getGroup(metadata, "diffractometer_sample", "NXcollection", False)
         try:
             offsetValue = nFile.getData(diffGroup, "delta_axis_offset").getDataset().getSlice().getDouble(0)
         except:
             offsetValue = nFile.getData(diffGroup, "delta_axis_offset").getDataset().getSlice().getDouble()
-            self.logger.error("parseCrystalInfo() coudn't get nFile.getData(diffGroup, delta_axis_offset').getDataset().getSlice().getDouble() use getDouble() instead")
+            self.logger.error("writeDeltaOffset() coudn't get nFile.getData(diffGroup, delta_axis_offset').getDataset().getSlice().getDouble() use getDouble() instead")
         offsetData = DF.createFromObject([offsetValue])
         offsetData.name = "offsetdelta"
         data = nFile.createData(transformations, offsetData)
@@ -564,6 +565,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         NexusUtils.writeAttribute(nFile, data, "depends_on","/entry1/instrument/transformations/gamma")
 
     def writeStuffToFile(self, fileName):
+        self.logger.debug("writeStuffToFile(fileName={})", fileName)
         nFile = NexusFileHDF5(fileName)
         nFile.openToWrite(False)
         try:
@@ -571,22 +573,30 @@ class I16NexusExtender(DataWriterExtenderBase):
             metadataGroup = nFile.getGroup("/entry1/before_scan", False)
             self.writeTitle(nFile, entry, NEXUS_TITLE)
             if DIFFCALC is not None:
+                crystalInfo = None
                 if DIFFCALC.ub.ub.ubcalc._state.name is None:
+                    self.logger.debug("DIFFCALC.ub.ub.ubcalc._state.name is None, so crystalInfo = None")
                     print "** Require UB calculation to write sample information. **"
                     print "** Nexus file will not contain sample information. **"
-                    crystalInfo = None
                 else:
-                    ubMat = DIFFCALC.ub.ub.ubcalc.UB.tolist()
-                    #diffcalc's UB matrix is scaled up by 2*PI
-                    ubMat = [ [_u * 0.5/math.pi for _u in _r] for _r in ubMat ]
-                    xtal = DIFFCALC.ub.ub.ubcalc._state.crystal.getLattice()
-                    latParams = list(xtal[1:])
-                    crystalInfo = (latParams, ubMat)
+                    # I16-181 (9.16) Fix Scans throw exception without UB matrix
+                    try:
+                        ubMat = DIFFCALC.ub.ub.ubcalc.UB.tolist()
+                        #diffcalc's UB matrix is scaled up by 2*PI
+                        ubMat = [ [_u * 0.5/math.pi for _u in _r] for _r in ubMat ]
+                        xtal = DIFFCALC.ub.ub.ubcalc._state.crystal.getLattice()
+                        latParams = list(xtal[1:])
+                        crystalInfo = (latParams, ubMat)
+                    except:
+                        self.logger.error('writeStuffToFile() failed to get all crystalInfo so returning none:\n {}',
+                            ''.join(traceback.format_exception(*sys.exc_info())) )
             else:
                 crystalInfo = self.parseCrystalInfo(nFile, metadataGroup)
             sample = nFile.getGroup("/entry1/sample", False)
             if crystalInfo is not None:
                 self.writeCrystalInfo(nFile, sample, crystalInfo[0], crystalInfo[1])
+            else:
+                self.logger.debug("crystalInfo is None, DIFFCALC is {}", DIFFCALC)
             beam = nFile.getGroup("/entry1/sample/beam", False)
             self.writeIncidentWavelength(nFile, beam)
             sampleDependsOn = "/entry1/sample/transformations/" + ("cryophi" if USE_CRYO_GEOMETRY else "phi")
@@ -597,6 +607,8 @@ class I16NexusExtender(DataWriterExtenderBase):
             self.writeFeatures(nFile, entry, [GDA_SCAN, NXMX, SAMPLE_GEOMETRY])
             transmission = self.extractTransmission(nFile, metadataGroup)
             self.writeTransmission(nFile, instrument, transmission)
+        except:
+            self.logger.error('writeStuffToFile() failed:\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
         finally:
             nFile.close()
 
@@ -608,5 +620,5 @@ class I16NexusExtender(DataWriterExtenderBase):
                 self.writeStuffToFile(self.scanFileName)
         except Exception, e:
             self.logger.error("completeCollection({}) failed", dwParent, e)
-            traceback.print_exc()
+            self.logger.error('completeCollection() failed:\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
         DataWriterExtenderBase.completeCollection(self, dwParent)

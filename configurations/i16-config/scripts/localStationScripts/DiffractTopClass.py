@@ -3,28 +3,28 @@ import beamline_objects as BLobjects
 from Jama import Matrix
 # 
 
-import UBmatrix
+from diffractometer.calc import UBmatrix
 reload(UBmatrix)
-import Reflmanagement
+from diffractometer.calc import Reflmanagement
 reload(Reflmanagement)
-import Crystal
+from diffractometer.calc import Crystal
 reload(Crystal)
-import StoredAngles
+from diffractometer.calc import StoredAngles
 reload(StoredAngles)
-import gettth
+from diffractometer.calc import gettth
 reload(gettth)
-import RecSpace
+from diffractometer.calc import RecSpace
 import beamline_info as BLi
 reload(BLi)
-import Azimuth
+from diffractometer.calc import Azimuth
 reload(Azimuth)
-import CalcAngles
+from diffractometer.calc import CalcAngles
 reload(CalcAngles)
 
 
 
 CA = CalcAngles.CalcAngles()
-san = StoredAngles.StoredAngles('smargon')
+san = StoredAngles.StoredAngles()
 ub = UBmatrix.UBmatrix()
 rr = Reflmanagement.Reflmanagement()
 az = Azimuth.Azimuth()

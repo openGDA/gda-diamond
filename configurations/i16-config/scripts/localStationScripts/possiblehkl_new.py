@@ -1,9 +1,9 @@
-import Diffractometer as Gonio
+from diffractometer.calc import Diffractometer as Gonio
 import java
 import Jama
 from Jama import Matrix
 from math import *
-from Orthonormalize import orthonormalize as orto
+from diffractometer.calc.Orthonormalize import orthonormalize as orto
 
 
 

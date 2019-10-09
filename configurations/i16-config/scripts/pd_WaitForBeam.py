@@ -1,7 +1,6 @@
 from gda.device.scannable import PseudoDevice
 from time import sleep
-import sys, time
-import java.lang.IllegalStateException
+import java, sys, time, traceback
 from pd_epics import DisplayEpicsPVClass
 
 class WaitForBeamPDClass(PseudoDevice):
@@ -46,7 +45,7 @@ class WaitForBeamPDClass(PseudoDevice):
 				#next two lines replace previous section and allow more flexibillity. change back if problem
 				eval(self.command_string)
 				sleep(self.sleeptime)
-	
+
 	def isBusy(self):
 		return 0	
 
@@ -71,13 +70,10 @@ class TimeToMachineInjectionClass(DisplayEpicsPVClass):
 			print "Problem in %s.getPosition() timetoinjection was %f raising Exception" % (self.getName(), self.timetoinjection)
 			self.logger.error("{}.getPosition() IllegalStateException while getting timetoinjection (was {}): ", self.getName(), self.timetoinjection, e)
 			raise Exception("Problem in %s.getPosition():" % self.getName() ,e)
-		except Exception, e:
-			print "Problem in %s.getPosition() timetoinjection was %f returning 88888 (Exception)" % (self.getName(), self.timetoinjection)
-			self.logger.error("{}.getPosition() Exception while getting timetoinjection (was {} now 88888): ", self.getName(), self.timetoinjection, e)
-			self.timetoinjection=88888
 		except:
 			print "Problem in %s.getPosition() timetoinjection was %f returning 88888" % (self.getName(), self.timetoinjection)
-			self.logger.error("{}.getPosition() exception while getting timetoinjection (was {} now 88888): {}", self.getName(), self.timetoinjection, sys.exc_info())
+			self.logger.error("{}.getPosition() exception while getting timetoinjection (was {} now 88888):\n {}",
+							self.getName(), self.timetoinjection, ''.join(traceback.format_exception(*sys.exc_info())))
 			self.timetoinjection=88888
 
 		if self.timetoinjection>=0:
@@ -168,4 +164,3 @@ class WaitForInjectionPDClass2(PseudoDevice):
 
 	def atScanStart(self):
 		print '===Injection mode pausing is enabled: '+self.pd.getName()+' must exceed '+str(self.due) 
-

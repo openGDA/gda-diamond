@@ -76,6 +76,7 @@
 						</property>
 					</bean>
 				</entry>
+				<!-- Comment out kphi when USE_CRYO_GEOMETRY = True  -->
 				<entry key="kphi">
 					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
 						<property name="paths"
@@ -136,6 +137,7 @@
 						</property>
 					</bean>
 				</entry>
+				<!-- Comment out cryophi when USE_CRYO_GEOMETRY = False -->
 				<!-- uncomment when the NXMeta thing is fixed or cryophi is online
 				<entry key="cryophi">
 					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">

@@ -11,10 +11,12 @@ NOMINAL_LIMITS = {phi : (-999, 999),
 				mu : (-1, 80),
 				delta : (-1, 110),
 				gam : (-1, 120),
-				kphi : (-91, 271),
 				kth : (-90, 212),
 				kap: (-180, 180),
 				}
+
+if not USE_CRYO_GEOMETRY:
+	NOMINAL_LIMITS[kphi] = (-91, 271)
 
 kgam_minus_kmu_min = -1
 #kth_minus_kdelta_max_MODE1 = 80
