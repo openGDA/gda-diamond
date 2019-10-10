@@ -109,6 +109,8 @@
 				<value>SR830_time_constant</value>
 				<value>SR830_channel_one</value>
 				<value>SR830_channel_two</value>
+				<!-- Hiden RGA -->
+				<value>rga</value>
 			</set>
 		</property>
 	</bean>
