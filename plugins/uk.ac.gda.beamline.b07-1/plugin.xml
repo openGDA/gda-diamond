@@ -20,10 +20,6 @@
                name="appName"
                value="Beamline B07-1">
          </property>
-         <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>
       </product>
    </extension>
 </plugin>
