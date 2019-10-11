@@ -15,7 +15,7 @@ def run_xanes_scan_request(scanRequest, xanesEdgeParams):
 def run_scan_request(scanRequest, xanesEdgeParams):
     print("Running XANES scan")
     print("scanRequest = {}".format(scanRequest))
-    print("xanesEdgeParams = {}".format(xanesEdgeParams))
+    print(u'xanesEdgeParams = {}'.format(xanesEdgeParams))
 
     compound_model = scanRequest.getCompoundModel()
     print("Original compound model: {}".format(compound_model))
@@ -78,7 +78,7 @@ def run_scan_request(scanRequest, xanesEdgeParams):
 
         # Submit scans for this start/step/step combination
         dcm_value = dcm_start
-        while dcm_value <= (dcm_stop + 0.00001): # allow for inaccuracies in floating-point comparisons
+        while dcm_value <= (dcm_stop + 0.00000001): # allow for inaccuracies in floating-point comparisons
             map_box.setxAxisStart(x_axis_start)
             map_box.setyAxisStart(y_axis_start)
 
