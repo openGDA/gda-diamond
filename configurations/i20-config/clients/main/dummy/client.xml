@@ -8,27 +8,6 @@
 
 	<import resource="../_common/client.xml" />
 
-<!-- 	<bean id="cam1" class="uk.ac.gda.video.views.CameraParameters"> -->
-<!-- 		<property name="name" value="cam1" /> -->
-<!-- 		<property name="mjpegURL" -->
-<!-- 			value="http://ws088.diamond.ac.uk:8080/det.ffmpeg.mjpg" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig"> -->
-<!-- 		<property name="cameras"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="cam1" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="plotViewID" value="uk.ac.diamond.scisoft.analysis.rcp.plotView"></property> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean class="gda.util.osgi.OSGiServiceRegister"> -->
-<!-- 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" /> -->
-<!-- 		<property name="service" ref="camera_config" /> -->
-<!-- 	</bean> -->
-
-	<import resource="medipix_device.xml" />
-	<import resource="../_common/medipix.xml" />
+	<import resource="medipix.xml" />
 
 </beans>

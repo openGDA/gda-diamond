@@ -149,5 +149,7 @@
 	<bean id="medipix_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
 		<constructor-arg ref="medipix_adbase" />
 		<constructor-arg ref="medipix_ndroi" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
+
 </beans>

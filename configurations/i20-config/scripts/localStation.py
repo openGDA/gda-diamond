@@ -1,40 +1,26 @@
-from gda.device.detector import DetectorMonitorDataProvider
 print "\n\n****Running the I20 startup script****\n\n"
 
 from time import sleep
 
-from devices import RealBlades
-from devices.RealBlades import BladeAngle
-from devices.RealBlades import SubtractAngle
-from devices.RealBlades import AverageAngle
-# from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+from gda.device.detector import DetectorMonitorDataProvider
+
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 from gdascripts.pd.time_pds import showtimeClass, waittime
 #import mono_calibration 
 from vortex_elements import VortexElements
-from xes.xes_offsets import XESOffsets
-from xes.xes_calculate import XESCalculate
 
 from gda.configuration.properties import LocalProperties
 from gda.data.scan.datawriter import NexusDataWriter
-from gda.device.scannable import DummyScannable
 from gda.device.scannable import TwoDScanPlotter
-from gda.jython import JythonServerFacade
-from gda.scan import ScanBase
+
 from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory, XasScanFactory
 from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
 
-
 DAServer = finder.find("DAServer")
-rcpController = finder.find("RCPController")
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
-commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
-ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
-original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 
 datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
-original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 metashop = Finder.getInstance().find("metashop")
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
@@ -77,9 +63,6 @@ beamlinePreparer = I20BeamlinePreparer()
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
-store_dir = LocalProperties.getVarDir() +"xes_offsets/"
-xes_offsets = XESOffsets(store_dir, spectrometer)
-xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 xesOffsets=Finder.getInstance().find("XesOffsets")
 
 theFactory = XesScanFactory();
@@ -87,12 +70,10 @@ theFactory.setBeamlinePreparer(beamlinePreparer);
 theFactory.setDetectorPreparer(detectorPreparer);
 theFactory.setSamplePreparer(samplePreparer);
 theFactory.setOutputPreparer(outputPreparer);
-# theFactory.setCommandQueueProcessor(commandQueueProcessor);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-# theFactory.setOriginal_header(original_header);
 theFactory.setScanName("xas")
 theFactory.setAnalyserAngle(XESBragg)
 theFactory.setXes_energy(XESEnergy)
@@ -108,8 +89,6 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-#theFactory.setQexafsDetectorPreparer(detectorPreparer);
-#theFactory.setQexafsEnergyScannable(qexafs_energy);
 theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
@@ -172,7 +151,7 @@ else:
     remove_default([absorberChecker])
 
 # Make sure xes offset start at zero every time
-xes_offsets.removeAll()
+xesOffsets.removeAll()
 
 
 if LocalProperties.get("gda.mode") == "live":
@@ -223,7 +202,7 @@ if xspress4.isConfigured() == True and xspress4.getXspress3Controller().isConfig
      if int(nDimensions) == 0 :
          print "  Collecting 1 frame of data to make sure ROI and HDF Epics plugins have correct data dimensions"
          v = xspress4.getMCAData(500)
-    
+
 # Set default output format xspress4 ascii numbers
 xspress4.setOutputFormat(["%.6g"])
 
@@ -250,6 +229,11 @@ for scn in [ minusCrystalAllowedToMove, centreCrystalAllowedToMove, plusCrystalA
     if scn.getPosition() == None :
         print "Setting initial value of {0} to true".format(scn.getName())
         scn.moveTo("true")
+
+for scn in [ cut1, cut2, cut3 ] :
+    if scn.getPosition() == None :
+        print "Setting initial value of {0} to 1".format(scn.getName())
+        scn.moveTo(1)
 
 #Set xspress3 triggermode to TTL veto and array port for HDF5 writing
 # (this is copied from i20-1's localStation ...)  imh 4/7/2019
