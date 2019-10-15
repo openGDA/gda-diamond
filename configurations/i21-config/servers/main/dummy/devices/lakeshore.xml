@@ -9,8 +9,8 @@
 		<property name="inputNames" value="demand" />
 		<property name="extraNames">
 			<list>
-				<value>"sample"</value>
 				<value>"shield"</value>
+				<value>"sample"</value>
 				<value>"cryostat"</value>
 				<value>"heater"</value>
 				<value>"heater_range"</value>
