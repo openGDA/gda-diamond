@@ -51,9 +51,11 @@ else
 		fi
 		# create Desktop Links
 		if [ -d "/dls_sw/$1/var/Desktop" ]; then
-			ln -s /dls_sw/$1/var/Desktop $HOME/Desktop/GDA_Launchers
+			cp -Rf /dls_sw/$1/var/Desktop/gda-client-i06.desktop $HOME/Desktop/.
+			cp -Rf /dls_sw/$1/var/Desktop/gda-client-i06-1.desktop $HOME/Desktop/.
 		elif [ -d "/dls_sw/$BEAMLINE/software/gda/config/Desktop" ]; then
-			ln -s /dls_sw/$BEAMLINE/software/gda/config/Desktop $HOME/Desktop/GDA_Launchers
+			cp -Rf /dls_sw/$BEAMLINE/software/gda/config/Desktop/gda-client-i06.desktop $HOME/Desktop/.
+			cp -Rf /dls_sw/$BEAMLINE/software/gda/config/Desktop/gda-client-i06-1.desktop $HOME/Desktop/.
 		fi
 		
 		#To add the applet once everything has been setup
