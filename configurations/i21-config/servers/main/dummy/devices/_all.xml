@@ -82,5 +82,6 @@
 <!-- 	<import resource="smpcam4_nx.xml"/> -->
 	<import resource="dummysmp_m5tth.xml" />
 	<import resource="topup.xml" />
+	<import resource="feedback.xml"/>
 
 </beans>

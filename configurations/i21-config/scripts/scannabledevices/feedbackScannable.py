@@ -43,7 +43,7 @@ class FeedbackScannable(ScannableBase):
     
     def atScanEnd(self):
         if self.IChangedMode:
-            self.mode.caput(self.exisitingMode) #put tne mode back to what I found before scan
+            self.mode.caput(self.exisitingMode) #put the mode back to what I found before scan
     
     def atPointStart(self):
         self.start.caputWait(1) #Start Feedback and wait callback
@@ -86,7 +86,7 @@ class FeedbackOffScannable(ScannableBase):
     def atScanStart(self):
         self.exisitingMode=int(self.mode.caget()) #cache existing EPICS mode
         if self.exisitingMode!=0:
-            self.mode.caput(0) #set to "Post-Capture AutoPV mode" during scan
+            self.mode.caput(0) #set to off
             self.IChangedMode=True
     
     def atScanEnd(self):

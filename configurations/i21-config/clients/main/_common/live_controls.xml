@@ -81,18 +81,45 @@
 	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
 		<property name="buttonText" value="Screws" />
-		<property name="group" value="Sample Positioner" />
+		<property name="group" value="Sample" />
 	</bean>
 	<bean id="transfer_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Transfer')" />
 		<property name="buttonText" value="Transfer" />
-		<property name="group" value="Sample Positioner" />
+		<property name="group" value="Sample" />
 	</bean>
 	<bean id="rixs_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('RIXS')" />
 		<property name="buttonText" value="RIXS" />
-		<property name="group" value="Sample Positioner" />
+		<property name="group" value="Sample" />
 	</bean>
+	<bean id="feedback_state" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="State" />
+		<property name="group" value="Feedback" />
+		<property name="scannableName" value="feedbackState" />
+		<property name="textWidth" value="85"/>
+		<property name="userUnits" value="" />
+		<property name="readOnly" value="true"/>
+	</bean>	
+	<bean id="start_feedback" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="feedbackStart.asynchronousMoveTo(1)" />
+		<property name="buttonText" value="Start" />
+		<property name="group" value="Feedback" />
+	</bean>
+	<bean id="feedback_time" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Time" />
+		<property name="group" value="Feedback" />
+		<property name="scannableName" value="feedbackTime" />
+		<property name="textWidth" value="20"/>
+		<property name="userUnits" value="s" />
+	</bean>	
+	<bean id="feedback_mode" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Mode" />
+		<property name="group" value="Feedback" />
+		<property name="scannableName" value="feedbackMode" />
+		<property name="textWidth" value="100"/>
+		<property name="userUnits" value="" />
+	</bean>	
 
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -110,6 +137,10 @@
 				<ref bean="transfer_position" />
 				<ref bean="rixs_position" />
 				<ref bean="sample_temperature_display" />
+				<ref bean="feedback_state" />
+				<ref bean="start_feedback" />
+				<ref bean="feedback_time" />
+				<ref bean="feedback_mode" />
 			</list>
 		</property>
 	</bean>
