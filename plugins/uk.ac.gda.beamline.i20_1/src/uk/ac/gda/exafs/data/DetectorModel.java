@@ -331,4 +331,15 @@ public class DetectorModel extends ObservableModel {
 		return accumulationReadoutTime;
 	}
 
+	/**
+	 * Units to use in the GUI for accumulation time  (milliseconds for Frelon, microseconds for XH/XStrip)
+	 * @return ExperimentUnit.MILLI_SEC or ExperimentUnit.MICRO_SEC
+	 */
+	public ExperimentUnit getUnitForAccumulationTime() {
+		if (DetectorModel.INSTANCE.getCurrentDetector().getDetectorSetupType() == DetectorSetupType.FRELON) {
+			return ExperimentUnit.MILLI_SEC;
+		} else {
+			return ExperimentUnit.MIRCO_SEC;
+		}
+	}
 }

@@ -801,6 +801,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			integrationTimeValueText.setModel(group, TimingGroupUIModel.INTEGRATION_TIME_PROP_NAME);
 			integrationTimeValueText.setConverters(new IConverter() {
+				private final ExperimentUnit unitForTextbox = DetectorModel.INSTANCE.getUnitForAccumulationTime();
+
 				@Override
 				public Object getFromType() {
 					return double.class;
@@ -811,9 +813,11 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				}
 				@Override
 				public Object convert(Object fromObject) {
-					return ExperimentUnit.MILLI_SEC.convertFromDefaultUnit((double) fromObject);
+					return unitForTextbox.convertFromDefaultUnit((double) fromObject);
 				}
 			}, new IConverter() {
+				private final ExperimentUnit unitForTextbox = DetectorModel.INSTANCE.getUnitForAccumulationTime();
+
 				@Override
 				public Object getFromType() {
 					return String.class;
@@ -824,10 +828,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				}
 				@Override
 				public Object convert(Object fromObject) {
-					return Double.toString(ExperimentUnit.MILLI_SEC.convertToDefaultUnit(Double.parseDouble((String) fromObject)));
+					return Double.toString(unitForTextbox.convertToDefaultUnit(Double.parseDouble((String) fromObject)));
 				}
 			});
-			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+			integrationTimeValueText.setUnit(DetectorModel.INSTANCE.getUnitForAccumulationTime().getUnitText());
 			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 			if ( showAccumulationReadoutControls ) {
