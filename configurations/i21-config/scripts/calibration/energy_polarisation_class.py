@@ -1,16 +1,16 @@
 import sys
 import csv
 from time import sleep
+import logging
+logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable.scannablegroup import ScannableGroup
-from lookup.threeKeysLookupTable import loadLookupTable
+from lookup.fourKeysLookupTable import loadLookupTable
 import numbers
 
-
-#from gda.function.lookupTable import LookupTable
-def getFittingCoefficents(polarisation_mode, Ep, lut={}):
+def getFittingCoefficents(polarisation_mode, Ep, vpg, lut={}):
     lowEnergies=sorted([e[1] for e in lut.keys() if e[0]==polarisation_mode])
     highEnergies=sorted([e[2] for e in lut.keys() if e[0]==polarisation_mode])
     minEnergy=min(lowEnergies)
@@ -21,7 +21,7 @@ def getFittingCoefficents(polarisation_mode, Ep, lut={}):
     else:
         for low, high in limits:
             if (Ep>=low and Ep<high): 
-                return lut[(polarisation_mode, low, high)]
+                return lut[(polarisation_mode, low, high, vpg)]
 
 def loadDataset(filename):
     '''loads a CSV with the provided filename 
@@ -43,7 +43,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         instance.
         '''
         
-    def __init__(self, name, idctrl, pgmenergy, idlamlookup, lut="IDEnergy2GapCalibrations.txt", energyConstant=False, polarisationConstant=False):
+    def __init__(self, name, idctrl, pgmenergy, idlamlookup, lut="IDEnergy2GapCalibrations.cvs", energyConstant=False, polarisationConstant=False):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut=loadLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.idscannable=idctrl
@@ -57,7 +57,6 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.setInputNames([name])
         self.setExtraNames([])
         self.order=1
-        self.energy=500.0
         self.polarisation=0.0
         self.gap=50
         self.polarisationMode='UNKNOWN'
@@ -69,6 +68,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             raise Exception("Cannot create an instance with both energy and polarisation being constant.")
         self.isConfigured=False
         self.inputSignSwitched=False
+        self.logger = logger.getChild(self.__class__.__name__)
     
     def configure(self):
         if self.idscannable is not None:
@@ -88,10 +88,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         return (self.gap, self.polarisationMode, self.phase)
     
     def showFittingCoefficentsLookupTable(self):
-        formatstring="%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s"
-        print (formatstring % ("Mode", "Min Energy", "Max Energy", "Coefficent0", "Coefficent1", "Coefficent2", "Coefficent3", "Coefficent4"))
+        formatstring="%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s"
+        print (formatstring % ("Mode", "Min Energy", "Max Energy", "Grating", "Coefficent0", "Coefficent1", "Coefficent2", "Coefficent3", "Coefficent4", "Coefficent5", "Coefficent6", "Coefficent7"))
         for key, value in sorted(self.lut.iteritems()):
-            print (formatstring % (key[0],key[1],key[2],value[0],value[1],value[2],value[3],value[4]))
+            print (formatstring % (key[0],key[1],key[2],key[3],value[0],value[1],value[2],value[3],value[4],value[5],value[6],value[7]))
     
     def showLinearAngleLookupTable(self):
         dataset=loadDataset(self.idlamlookup.lut)
@@ -117,21 +117,20 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             #polarisation is constant in these modes
             coef=getFittingCoefficents(mode, Ep, self.lut)
             gap = coef[0] + coef[1]*Ep + coef[2]*Ep**2 +coef[3]*Ep**3 + coef[4]*Ep**4 + coef[5]*Ep**5 + coef[6]*Ep**6 + coef[7]*Ep**7
+            
             if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
                 raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s)!" % (gap, self.minGap, self.maxGap))
+            
             if mode == "LH":
                 phase = 0.0
-            if mode == "LV":
+            elif mode == "LV":
                 phase=self.maxPhase
-            if mode in ["CR", "CL"]:
-                beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
-                if (beamlinename=="i09" or beamlinename=="i09-2"):
-                    phase=15.0
-                else:
-                    phase = 12.92907548 +  0.37353288*gap + -0.00614332*gap**2 + 5.3209E-06*gap**3 + 2.00631E-06*gap**4 + -3.9185E-08*gap**5 + 3.17986E-10*gap**6 + -9.93646E-13*gap**7
+            elif mode in ["CR", "CL"]:
+                phase = 12.92907548 +  0.37353288*gap + -0.00614332*gap**2 + 5.3209E-06*gap**3 + 2.00631E-06*gap**4 + -3.9185E-08*gap**5 + 3.17986E-10*gap**6 + -9.93646E-13*gap**7
+                
         elif mode in ["LAP","LAN"]:
             if self.polarisationConstant: 
-                #constant polarisation
+                #move energy only
                 #print self.phase, self.gap
                 if (self.phase<0): #row phase can be negative in EPICS but lookup table only has positive phase values.
                     polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, -self.phase)
@@ -144,7 +143,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 gap, phase = self.idlamlookup.getGapPhase(Ep, polarisation) #only energy changes, keep existing polarisation
                 #print gap, phase
             elif self.energyConstant:
-                #constant energy
+                #move polarisation angle only
                 #print self.phase, self.gap
                 if (self.phase<0):
                     polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, -self.phase)
@@ -180,35 +179,36 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         elif self.getName() == "dummypolarisation":
             return self.polarisation
         else:
-            self.gap, self.polarisationMode, self.phase = self.getIDPositions()
-            beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
-            if (beamlinename=="i09" or beamlinename=="i09-2"):
-                self.energy=self.pgmenergy.getPosition()/1000.0
-            else:
-                self.energy=self.pgmenergy.getPosition()
-            self.polarisation=self.polarisationMode
-            if self.polarisationMode in ["LH","LV","CR","CL"]:
+            gap, polarisationMode, phase = self.getIDPositions()
+            energy=self.pgmenergy.getPosition()
+            polarisation=polarisationMode
+            if polarisationMode in ["LH","LV","CR","CL"]:
                 if self.polarisationConstant:
-                    return self.energy
+                    return energy
                 elif self.energyConstant:
                     self.setOutputFormat(["%s"])
-                    return self.polarisation
+                    self.polarisation=polarisation
+                    return polarisation
                 else:
                     self.setOutputFormat(["%10.6f","%s"])
-                    return self.energy, self.polarisation
+                    self.polarisation=polarisation
+                    return energy, polarisation
                     
-            elif self.polarisationMode in ["LAP", "LAN"]:
-                self.polarisation = self.idlamlookup.getEnergyPolarisation(self.gap, self.phase)[0]
+            elif polarisationMode in ["LAP", "LAN"]:
+                polarisation = self.idlamlookup.getEnergyPolarisation(gap, phase)[0]
                 if self.inputSignSwitched:
-                    self.polarisation=-self.polarisation
+                    polarisation=-polarisation
                     self.inputSignSwitched=False
                 if self.polarisationConstant:
-                    return self.energy
+                    return energy
                 elif self.energyConstant:
-                    return self.polarisation
+                    self.setOutputFormat(["%5.2f"])
+                    self.polarisation=polarisation
+                    return polarisation
                 else:
                     self.setOutputFormat(["%10.6f","%5.2f"])
-                    return self.energy, self.polarisation
+                    self.polarisation=polarisation
+                    return energy, polarisation
             
 
     def validatePolarisation(self, polarisation):
