@@ -6,6 +6,10 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<!-- This line should be promoted to core-config to avoid repeating it in each beam line -->
+	<!-- This line assures that Spring scans and initialises beans using annotations instead of explicit XML declarations -->
+	<context:component-scan base-package="uk.ac.gda.tomography"></context:component-scan>
+
 	<context:property-placeholder />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />

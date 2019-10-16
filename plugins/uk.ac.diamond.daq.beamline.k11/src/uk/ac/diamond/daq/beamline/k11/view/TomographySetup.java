@@ -24,12 +24,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
-import uk.ac.gda.tomography.base.TomographyParameterAcquisition;
 import uk.ac.gda.tomography.scan.editor.view.TomographyAcquisitionComposite;
+import uk.ac.gda.tomography.ui.TomographySpringApplicationContextProxy;
 import uk.ac.gda.tomography.ui.controller.TomographyPerspectiveController;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -38,12 +36,7 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
  * The main Experiment configuration view visible in all k11 perspectives
  */
 public class TomographySetup extends ViewPart {
-	private static final Logger logger = LoggerFactory.getLogger(TomographySetup.class);
-
 	private TomographyAcquisitionComposite acquisitionCompose;
-
-	private final TomographyPerspectiveController perspectiveController = new TomographyPerspectiveController();
-
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -54,19 +47,13 @@ public class TomographySetup extends ViewPart {
 
 		PerspectiveComposite.buildModeComposite(composite, PerspectiveType.TOMOGRAPHY);
 
-		acquisitionCompose = new TomographyAcquisitionComposite(composite, perspectiveController.getTomographyAcquisitionController());
+		acquisitionCompose = new TomographyAcquisitionComposite(composite,
+				getPerspectiveController().getTomographyAcquisitionController());
 	}
-
-	private TomographyParameterAcquisition getAcquisition() {
-		// For now is just a dummy method
-		return new TomographyParameterAcquisition();
-	}
-
-
 
 	@Override
 	public void setFocus() {
-//		experimentCompose.setFocus();
+		// experimentCompose.setFocus();
 	}
 
 	/**
@@ -80,5 +67,8 @@ public class TomographySetup extends ViewPart {
 		return AbstractUIPlugin.imageDescriptorFromPlugin("uk.ac.diamond.daq.beamline.k11", path).createImage();
 	}
 
+	private TomographyPerspectiveController getPerspectiveController() {
+		return TomographySpringApplicationContextProxy.getTomographyPerspectiveController();
+	}
 
 }
