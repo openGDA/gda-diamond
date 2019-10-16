@@ -220,14 +220,14 @@ print
 print "*"*80
 #DiffCalc
 print "import DIFFCALC support for I21"
+# Import toolpoint scannables into namespace
+from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw
+
 try:
     from startup.i21 import *  # @UnusedWildImport
-    toolpoint_off()  # @UndefinedVariable
+    #toolpoint_off()  # @UndefinedVariable
 except:
     localStation_exception(sys.exc_info(), "import diffcalc error.")
-
-# Import toolpoint scannables into namespace
-from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi
 
 #Mapping scan
 #from mapping_scan_commands import *
@@ -345,6 +345,7 @@ def goLH(en_val_std):
     idscannable.moveTo([LH_id_std, 'LH', 0])
     caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)
     energy.moveTo(en_val_std)
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, "LH"))
 
 def goLV(en_val_std):
     LV_id_std=idgap_calc(en_val_std, "LV")
@@ -353,6 +354,7 @@ def goLV(en_val_std):
     idscannable.moveTo([LV_id_std, 'LV', 28])
     caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)
     energy.moveTo(en_val_std)
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, "LV"))
     
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

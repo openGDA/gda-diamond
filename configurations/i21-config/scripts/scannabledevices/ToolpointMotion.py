@@ -32,6 +32,34 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase):
         self.completeInstantiation()
         self.setAutoCompletePartialMoveToTargets(True)
 
+    def checkPositionValid(self, pos):
+        if len(pos) != 5: raise ValueError('Toolpoint device expects five inputs')
+        nu, nv, nw, ps_chi, ps_phi = pos
+        
+        str_chi = chi.checkPositionValid(ps_chi)
+        if str_chi:
+            return str_chi
+        str_phi = phi.checkPositionValid(ps_phi)
+        if str_phi:
+            return str_phi
+
+        chi_pos = ps_chi * TORAD
+        phi_pos = ps_phi * TORAD
+        sx = self.x0 + nu*cos(chi_pos) + nv*sin(chi_pos)*sin(phi_pos) + nw*cos(phi_pos)*sin(chi_pos)
+        sy = self.y0 + nv*cos(phi_pos) - nw*sin(phi_pos)
+        sz = self.z0 - nu*sin(chi_pos) + nv*cos(chi_pos)*sin(phi_pos) + nw*cos(chi_pos)*cos(phi_pos)
+
+        str_x = x.checkPositionValid(sx)
+        if str_x:
+           return str_x
+        str_y = y.checkPositionValid(sy)
+        if str_y:
+           return str_y
+        str_z = z.checkPositionValid(sz)
+        if str_z:
+           return str_z
+        return None
+
     def rawAsynchronousMoveTo(self, pos):
         if len(pos) != 5: raise ValueError('Toolpoint device expects five inputs')
         nu, nv, nw, ps_chi, ps_phi = pos
@@ -70,3 +98,26 @@ tp = ToolpointMotion('tp', x, y, z, chi, phi, AXES_ZERO)
 
 u, v, w, ps_chi, ps_phi = tp.u, tp.v, tp.w, tp.ps_chi, tp.ps_phi
 
+u.setLowerGdaLimits([x.getLowerInnerLimit() - AXES_ZERO[0],])
+u.setUpperGdaLimits([x.getUpperInnerLimit() - AXES_ZERO[0],])
+v.setLowerGdaLimits([y.getLowerInnerLimit() - AXES_ZERO[1],])
+v.setUpperGdaLimits([y.getUpperInnerLimit() - AXES_ZERO[1],])
+w.setLowerGdaLimits([z.getLowerInnerLimit() - AXES_ZERO[2],])
+w.setUpperGdaLimits([z.getUpperInnerLimit() - AXES_ZERO[2],])
+ps_chi.setLowerGdaLimits([chi.getLowerInnerLimit(),])
+ps_chi.setUpperGdaLimits([chi.getUpperInnerLimit(),])
+ps_phi.setLowerGdaLimits([phi.getLowerInnerLimit(),])
+ps_phi.setUpperGdaLimits([phi.getUpperInnerLimit(),])
+
+u.limitsComponent.setInternalLower([x.getLowerInnerLimit() - AXES_ZERO[0],])
+u.limitsComponent.setInternalUpper([x.getUpperInnerLimit() - AXES_ZERO[0],])
+v.limitsComponent.setInternalLower([y.getLowerInnerLimit() - AXES_ZERO[1],])
+v.limitsComponent.setInternalUpper([y.getUpperInnerLimit() - AXES_ZERO[1],])
+w.limitsComponent.setInternalLower([z.getLowerInnerLimit() - AXES_ZERO[2],])
+w.limitsComponent.setInternalUpper([z.getUpperInnerLimit() - AXES_ZERO[2],])
+ps_chi.limitsComponent.setInternalLower([chi.getLowerInnerLimit(),])
+ps_chi.limitsComponent.setInternalUpper([chi.getUpperInnerLimit(),])
+ps_phi.limitsComponent.setInternalLower([phi.getLowerInnerLimit(),])
+ps_phi.limitsComponent.setInternalUpper([phi.getUpperInnerLimit(),])
+
+uvw = ScannableGroup('uvw', (u, v, w))
