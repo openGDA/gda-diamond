@@ -23,29 +23,29 @@
 	<bean id="medipix_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="NumFilter" />
 		<property name="group" value="medipix PROC" />
-		<property name="scannableName" value="medipixProcNumFilterWithResetBefore" />
+		<property name="scannableName" value="medipixProcNumFilterWithResetEnableAfter" />
 		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
 	</bean>
 
 	<!-- medipix mode control -->
-	<bean id="medipixpreview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="medipixpreview.stop();sleep(1);medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); medipixpreview.collectData()" />
-		<property name="buttonText" value="Preview" />
-		<property name="group" value="medipix Mode" />
-	</bean>
-	<bean id="medipiximaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="medipiximaging.stop();sleep(1);medipiximaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); medipiximaging.collectData()" />
-		<property name="buttonText" value="Imaging" />
-		<property name="group" value="medipix Mode" />
-	</bean>
+<!-- 	<bean id="medipixpreview" class="uk.ac.gda.client.livecontrol.JythonCommandControl"> -->
+<!-- 		<property name="jythonCommand" value="medipixpreview.stop();sleep(1);medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); medipixpreview.collectData()" /> -->
+<!-- 		<property name="buttonText" value="Preview" /> -->
+<!-- 		<property name="group" value="medipix Mode" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="medipiximaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl"> -->
+<!-- 		<property name="jythonCommand" value="medipiximaging.stop();sleep(1);medipiximaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); medipiximaging.collectData()" /> -->
+<!-- 		<property name="buttonText" value="Imaging" /> -->
+<!-- 		<property name="group" value="medipix Mode" /> -->
+<!-- 	</bean> -->
 
 	<!-- medipix image rotation control -->
 	<bean id="medipix_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Rot.Ang" />
 		<property name="group" value="medipix Rotation" />
 		<property name="scannableName" value="medipixRotationAngle" />
-		<property name="textWidth" value="30" />
+		<property name="textWidth" value="40" />
 		<property name="userUnits" value="deg"/>
 	</bean>
 	<bean id="medipixunrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
@@ -70,8 +70,8 @@
 					<list>
 						<ref bean="medipix_expsure_time_control" />
 						<ref bean="medipix_acquire_period_control"/>
-						<ref bean="medipixpreview" />
-						<ref bean="medipiximaging" />
+<!-- 						<ref bean="medipixpreview" /> -->
+<!-- 						<ref bean="medipiximaging" /> -->
 						<ref bean="medipix_proc_num_filter_control" />
 						<ref bean="medipix_image_rotation_angle_control" />
 						<ref bean="medipixunrotate"/>
