@@ -1,0 +1,1 @@
+export BEAMLINE=i06; source /dls_sw/i06/etc/i06_profile.sh; gdaclient --reset &

@@ -39,10 +39,11 @@ sudo chmod -R 777 /dls_sw/$1/var/Desktop
 
 # create desktop links and menu links
 sudo ln -sf /dls_sw/$1/var/Desktop/gda-client.desktop /usr/share/applications/gda-client.desktop
-sudo ln -sf /dls_sw/$1/var/Desktop/gda-servers.desktop /usr/share/applications/gda-servers.desktop
-sudo ln -sf /dls_sw/$1/var/Desktop/gda-logpanel.desktop /usr/share/applications/gda-logpanel.desktop
-sudo ln -sf /dls_sw/$1/var/Desktop/gda-logfile.desktop /usr/share/applications/gda-logfile.desktop
-sudo ln -sf /dls_sw/$1/var/Desktop/grab2log.desktop /usr/share/applications/grab2log.desktop
+sudo ln -sf /dls_sw/$1/var/Desktop/gda-client-i06-1.desktop /usr/share/applications/gda-client-i06-1.desktop
+#sudo ln -sf /dls_sw/$1/var/Desktop/gda-servers.desktop /usr/share/applications/gda-servers.desktop
+#sudo ln -sf /dls_sw/$1/var/Desktop/gda-logpanel.desktop /usr/share/applications/gda-logpanel.desktop
+#sudo ln -sf /dls_sw/$1/var/Desktop/gda-logfile.desktop /usr/share/applications/gda-logfile.desktop
+#sudo ln -sf /dls_sw/$1/var/Desktop/grab2log.desktop /usr/share/applications/grab2log.desktop
 
 sudo ln -sf /dls_sw/$1/var/Desktop/gda.directory /usr/share/desktop-directories/gda.directory
 sudo ln -sf /dls_sw/$1/var/Desktop/gda.menu /etc/xdg/menus/applications-merged/gda.menu
