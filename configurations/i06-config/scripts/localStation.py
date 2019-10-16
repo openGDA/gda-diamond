@@ -100,6 +100,15 @@ if installation.isLive():
     mpxmode.configure()
     
     from kbRastering.rasteringUseKeysight import *  # @UnusedWildImport
+    
+    def average(avg):
+        caput('BL06I-EA-DET-02:PROCB:NumFilter',avg)
+        sleep(0.1)
+        caput('BL06I-EA-DET-02:PROCB:ResetFilter',1)
+        sleep(0.1)
+        caput('BL06I-EA-DET-02:PROCB:EnableFilter','Enable')
+    
+    alias("average")
 else:
     def medipix_unrotate():
         raise RuntimeError("EPICS PV and IOC required!")
