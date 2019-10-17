@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="d7b_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out of Beam</value>
+				<value>Gas Cell Wire</value>
+				<value>Diode</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- This is to move the motor underneath the positioner to make scans. Maybe can be removed after commissioning-->
+	<bean id="d7b_y_motor" class="gda.device.motor.DummyMotor"/>
+
+</beans>

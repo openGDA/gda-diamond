@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Size and centre scannable motors -->
+	<bean id="s2b_xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_xcentre_motor" />
+	</bean>
+
+	<bean id="s2b_xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_xsize_motor" />
+	</bean>
+
+	<bean id="s2b_ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_ycentre_motor" />
+	</bean>
+
+	<bean id="s2b_ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_ysize_motor" />
+	</bean>
+
+	<!-- Individual blade scannable motors -->
+	<bean id="s2b_xring" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_xring_motor" />
+	</bean>
+
+	<bean id="s2b_xhall" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_xhall_motor" />
+	</bean>
+	
+	<bean id="s2b_ytop" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_ytop_motor" />
+	</bean>
+	
+	<bean id="s2b_ybottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s2b_ybottom_motor" />
+	</bean>
+
+	<bean id="s2b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s2b_xsize" />
+				<ref bean="s2b_ycentre" />
+				<ref bean="s2b_ysize" />
+				<ref bean="s2b_xring" />
+				<ref bean="s2b_xhall" />
+				<ref bean="s2b_ytop" />
+				<ref bean="s2b_ybottom" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

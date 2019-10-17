@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pgm_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgm_energy_motor" />
+		<property name="outputFormat" value="%8.8g" />
+	</bean>
+
+	<bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgm_cff_motor" />
+	</bean>
+
+	<bean id="pgm_mirror_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgm_mirror_pitch_motor" />
+	</bean>
+
+	<bean id="pgm_mirror_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgm_mirror_x_motor" />
+	</bean>
+
+	<bean id="pgm_grating_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgm_grating_pitch_motor" />
+	</bean>
+
+	<bean id="pgm_grating_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgm_grating_x_motor" />
+	</bean>
+
+	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pgm_energy" />
+				<ref bean="pgm_cff" />
+				<ref bean="pgm_grating_pitch" />
+				<ref bean="pgm_grating_x" />
+				<ref bean="pgm_mirror_pitch" />
+				<ref bean="pgm_mirror_x" />
+				<ref bean="pgm_grating" />
+				<ref bean="pgm_mirror" />
+				<ref bean="pgm_pressure" />
+				<ref bean="pgm_override" />
+				<ref bean="pgm_t1" />
+				<ref bean="pgm_t2" />
+				<ref bean="pgm_t3" />
+				<ref bean="pgm_t4" />
+				<ref bean="pgm_t5" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

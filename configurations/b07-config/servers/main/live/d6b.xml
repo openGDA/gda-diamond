@@ -7,6 +7,14 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<bean id="d6b_y_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07B-DI-PHDGN-06:Y:MP" />
+	</bean>
+	
+	<bean id="d6b_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-DI-PHDGN-06:Y" />
+	</bean>
+
 	<!-- D6B cam1 plugin -->
 	<bean id="d6b_cam1_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL07B-DI-PHDGN-06:DCAM1:CAM:" />

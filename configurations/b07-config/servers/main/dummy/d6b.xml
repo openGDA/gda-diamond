@@ -19,4 +19,16 @@
 		</property>
 	</bean>
 
+	<bean id="d6c_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out of Beam</value>
+				<value>Screen</value>
+				<value>Mesh</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d6c_y_motor" class="gda.device.motor.DummyMotor"/>
+
 </beans>

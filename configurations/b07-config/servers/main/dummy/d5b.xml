@@ -31,4 +31,13 @@
 		</property>
 	</bean>
 
+	<bean id="d5b_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

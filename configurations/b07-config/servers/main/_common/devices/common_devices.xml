@@ -6,12 +6,25 @@
 
 	<!-- Slits -->
 	<import resource="s1b.xml"/>
+	<import resource="s2b.xml"/>
+	<import resource="s3b.xml"/>
+	<import resource="s4b.xml"/>
 
 	<!-- Mirrors -->
 	<import resource="m1b.xml"/>
+	<import resource="m3b.xml"/>
 
 	<!-- Diagnostics -->
 	<import resource="d1b.xml"/>
+	<import resource="d2b.xml"/>
+	<import resource="d3b.xml"/>
+	<import resource="d4b.xml"/>
+	<import resource="d5b.xml"/>
+	<import resource="d6b.xml"/>
+	<import resource="d7b.xml"/>
+
+	<!-- Monochromator -->
+	<import resource="pgm.xml"/>
 
 	<!-- Dummy devices -->
 	<import resource="dummy.xml"/>
