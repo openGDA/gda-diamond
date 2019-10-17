@@ -2,9 +2,6 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -13,7 +10,6 @@ import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
-import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -25,14 +21,11 @@ import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector;
+import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
-	private static final Logger logger = LoggerFactory.getLogger(I18DetectorPreparer.class);
-
-	private final Scannable[] sensitivities;
-	private final Scannable[] sensitivityUnits;
 	private final TfgScalerWithFrames counterTimer01;
 
 	private IScanParameters scanBean;
@@ -41,13 +34,14 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	private Xspress3BufferedDetector qexafsXspress3;
 	private Xspress3 xspress3;
 	private Xspress3FFoverI0BufferedDetector qexafsFFI0Xspress3;
+	private DetectorPreparerFunctions detectorPreparerFunctions = new DetectorPreparerFunctions();
 
 	public I18DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivityUnits, TfgScalerWithFrames ionchambers,
 			Xspress3 xspress3, BufferedDetector qexafsCounterTimer01,
 			Xspress3BufferedDetector qexafsXspress3,
 			Xspress3FFoverI0BufferedDetector qexafsFFI0Xspress3) {
-		this.sensitivities = sensitivities;
-		this.sensitivityUnits = sensitivityUnits;
+		detectorPreparerFunctions.setSensitivities(sensitivities);
+		detectorPreparerFunctions.setSensitivityUnits(sensitivityUnits);
 		this.counterTimer01 = ionchambers;
 		this.xspress3 = xspress3;
 		this.qexafsXspress3 = qexafsXspress3;
@@ -102,7 +96,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		}
 		throw new UnsupportedOperationException("Detector type not supported");
 	}
-	
+
 	@Override
 	public Detector[] getExtraDetectors() {
 		return new Detector[0];
@@ -119,36 +113,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 	private void controlAllIonC(List<IonChamberParameters> ionChambersBean) throws DeviceException {
 		for (int index = 0; index < ionChambersBean.size(); index++) {
-			controlIonc(ionChambersBean, index);
+			detectorPreparerFunctions.setupAmplifierSensitivity(ionChambersBean.get(index), index);
 		}
 	}
-
-	private void controlIonc(List<IonChamberParameters> ionChambersBean, int ionChamberNum) throws DeviceException {
-		IonChamberParameters ionChamber = ionChambersBean.get(ionChamberNum);
-		setupAmpSensitivity(ionChamber, ionChamberNum);
-	}
-
-	private void setupAmpSensitivity(IonChamberParameters ionChamberParams, int index) throws DeviceException {
-		if (ionChamberParams.getChangeSensitivity()) {
-			if (ionChamberParams.getGain() == null || ionChamberParams.getGain().equals("")) {
-				return;
-			}
-
-			try {
-				InterfaceProvider.getTerminalPrinter().print(
-						"Changing sensitivity of " + ionChamberParams.getName() + " to " + ionChamberParams.getGain());
-				String[] gain = ionChamberParams.getGain().split(" ");
-				sensitivities[index].moveTo(gain[0]);
-				sensitivityUnits[index].moveTo(gain[1]);
-			} catch (DeviceException e) {
-				logger.error("Exception while trying to change the sensitivity of ion chamber {}", ionChamberParams.getName(), e);
-				InterfaceProvider
-						.getTerminalPrinter()
-						.print("Set the ion chamber sensitivity manually, uncheck the box in the Detector Parameters editor and restart the scan");
-				InterfaceProvider.getTerminalPrinter().print("Please report this problem to Data Acquisition");
-				throw e;
-			}
-		}
-	}
-
 }
