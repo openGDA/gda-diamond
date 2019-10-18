@@ -83,7 +83,10 @@ def exposeDark(exposeTime, fileName):
 	if len(verification)>0:
 		return verification
 	
-	_darkExpose(detector=_exposeDetector(), exposureTime=exposeTime, sampleSuffix=fileName)
+	_darkExpose(detector=_exposeDetector(),
+			exposeSuppressOpenDetectorShieldAtScanStart = _exposeSuppressOpenDetectorShieldAtScanStart(),
+			exposeSuppressCloseDetectorShieldAtScanEnd  = _exposeSuppressCloseDetectorShieldAtScanEnd(),
+			exposureTime=exposeTime, sampleSuffix=fileName)
 
 exposeDark.__doc__ += _exposeHelp
 aliasList.append("exposeDark")
