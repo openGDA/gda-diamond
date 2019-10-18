@@ -358,6 +358,12 @@
 				<value>s3ypos</value>
 				<value>s3xpos</value>
 				<value>energy</value>
+				<value>ccd_x</value>
+				<value>ccd_y</value>
+				<value>It_stanford_sensitivity</value>
+				<value>It_stanford_sensitivity_units</value>
+				<value>I0_stanford_sensitivity</value>
+				<value>I0_stanford_sensitivity_units</value>
 			</set>
 		</property>
 	</bean>

@@ -26,6 +26,7 @@
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
+					<property name="shownByDefault" value="false" />
 				</bean>
 			</list>
 		</property>
