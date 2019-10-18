@@ -73,19 +73,19 @@ def run_scan_request(scanRequest, xanesEdgeParams):
         print("Step model: dcm_start: {}, dcm_stop: {}, dcm_step: {}".format(dcm_start, dcm_stop, dcm_step))
 
         # Simulate drift correction by changing start points for each axis
-        fast_axis_start = map_box.getFastAxisStart()
-        slow_axis_start = map_box.getSlowAxisStart()
+        x_axis_start = map_box.getxAxisStart()
+        y_axis_start = map_box.getyAxisStart()
 
         # Submit scans for this start/step/step combination
         dcm_value = dcm_start
         while dcm_value <= (dcm_stop + 0.00001): # allow for inaccuracies in floating-point comparisons
-            map_box.setFastAxisStart(fast_axis_start)
-            map_box.setSlowAxisStart(slow_axis_start)
+            map_box.setxAxisStart(x_axis_start)
+            map_box.setyAxisStart(y_axis_start)
 
             scan_number = scan_number + 1
             scan_name = "XANES scan {} of {}".format(scan_number, total_scans)
 
-            print("{}, dcm_value: {}, fast_axis_start: {}, slow_axis_start: {}".format(scan_name, dcm_value, fast_axis_start, slow_axis_start))
+            print("{}, dcm_value: {}, x_axis_start: {}, y_axis_start: {}".format(scan_name, dcm_value, x_axis_start, y_axis_start))
             #print("scan request: {}".format(scanRequest))
 
             dcm_enrg.moveTo(dcm_value)
@@ -93,5 +93,5 @@ def run_scan_request(scanRequest, xanesEdgeParams):
 
             # Set up for next scan
             dcm_value = dcm_value + dcm_step
-            fast_axis_start = fast_axis_start + 0.002
-            slow_axis_start = slow_axis_start + 0.001
+            x_axis_start = x_axis_start + 0.002
+            y_axis_start = y_axis_start + 0.001
