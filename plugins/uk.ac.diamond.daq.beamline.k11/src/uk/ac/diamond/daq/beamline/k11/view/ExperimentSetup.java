@@ -53,6 +53,7 @@ import com.google.common.collect.ImmutableMap;
 
 import gda.configuration.properties.LocalProperties;
 import gda.factory.Finder;
+import uk.ac.diamond.daq.beamline.k11.dialog.BeamEnergyDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
@@ -373,6 +374,12 @@ public class ExperimentSetup extends LayoutUtilities {
 		});
 
 		addExperimentDriverButton(content);
+
+		button = addConfigurationDialogButton(content, "Energy");
+		button.addListener(SWT.Selection, event -> {
+			BeamEnergyDialog beamEnergyDialog = new BeamEnergyDialog(composite.getShell());
+			beamEnergyDialog.open();
+		});
 	}
 
 	private LiveStreamConnection getLiveStreamConnection() {

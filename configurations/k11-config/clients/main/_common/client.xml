@@ -38,15 +38,14 @@
 	<!-- =========================================================== -->
 	<!-- ===================== SHARED FILES ======================== -->
 	<!-- =========================================================== -->
-	<import
-		resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-
-	<import
-		resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
-
-	<import
-		resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
-
-	<import resource="mapping.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	
+	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
+	
+	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
+	
+	<import resource="mapping.xml"/>
+	
+	<import resource="workflow_controllers.xml" />
 
 </beans>
