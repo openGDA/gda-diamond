@@ -7,11 +7,8 @@ from threading import Timer
 import installation
 from detectors.CounterTimer import countTimer
 from dataGenerator.waveformDataGenerator import WaveformDataGenerator
-from datetime import datetime
-
 
 TIMEOUT = 5
-
     
 class McsWaveformChannelController(object):
     # e.g. mca_root_pv = BL16I-EA-DET-01:MCA-01
@@ -37,6 +34,7 @@ class McsWaveformChannelController(object):
         self.number_of_positions = 0
         self.started = False
         self.hardware_trigger_provider=None
+        self.stream=None
         
     def setHardwareTriggerProvider(self, hardwareTriggerProvider):
         self.hardware_trigger_provider=hardwareTriggerProvider
@@ -74,6 +72,7 @@ class McsWaveformChannelController(object):
                 self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceExternal)
             self.pv_erasestart.caput(TIMEOUT, 1)
         else:
+            #Scaler not used in Dummy mode
             pass
         # Since the mca NORD value could take some time to be updated and will continue returning the NORD of the last acquire,
         # wait before setting started to True, so WaveformChannelPollingInputStream doesn't try to use stale data.
@@ -90,8 +89,10 @@ class McsWaveformChannelController(object):
         if installation.isLive():
             self.pv_stop.caput(1)
         else:
+            #MCA not available in Dummy mode
             pass
-        self.stream.stop() # enable stop the element polling loop when stop is called.
+        if self.stream:
+            self.stream.stop() # enable stop the element polling loop when stop is called.
         self.started = False
         if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))
 

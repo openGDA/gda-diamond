@@ -102,6 +102,15 @@ class EnergyScannableBase(ScannableMotionBase):
             self.id_jawphase.name, self.pgm_energy.name,
             self.gap_from_energy, self.rowphase1_from_energy, self.rowphase2_from_energy,
             self.rowphase3_from_energy, self.rowphase4_from_energy, self.jawphase_from_energy)
+        
+    def stop(self):
+        self.id_gap.stop()
+        self.id_rowphase1.stop()
+        self.id_rowphase2.stop()
+        self.id_rowphase3.stop()
+        self.id_rowphase4.stop()
+        self.id_jawphase.stop()
+        self.pgm_energy.stop()        
 
     def isBusy(self):
 #         print "id_gap is busy: %s" % (self.id_gap.isBusy())
