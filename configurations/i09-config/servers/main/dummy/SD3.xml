@@ -28,12 +28,12 @@
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
 	<bean id="sd3_cam" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
-		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="collectionStrategy" ref="eavCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="simRoiStats1" />
-				<ref bean="simRoiStats2" />
-				<ref bean="simHdf5Filewriter" />
+				<ref bean="eav_roiStats" />
+				<ref bean="eav_roiStats2" />
+				<ref bean="eavHdf5Filewriter" />
 			</list>
 		</property>
 	</bean>

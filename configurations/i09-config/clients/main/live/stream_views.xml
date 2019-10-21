@@ -33,10 +33,20 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-		<!-- Analyser Cam -->
+	<!-- Analyser Cam -->
 	<bean id="analyser_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="topUi" ref="topBean" />
 		<property name="displayName" value="Analyser Cam" />
 		<property name="url" value="http://bl09j-di-serv-01.diamond.ac.uk:8081/EAV.MJPG.mjpg" />
+		<property name="arrayPv" value="BL09I-DI-EAN-01:ARR" />
+		<property name="roiProvider" ref="analyser_eav_roi" />
+	</bean>
+
+	<bean id="topBean" class="uk.ac.gda.client.live.stream.view.SisaLiveStreamCustomUi" >
+	</bean>
+
+	<!-- Import the server side object over RMI -->
+	<bean id="analyser_eav_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy">
 	</bean>
 
 </beans>

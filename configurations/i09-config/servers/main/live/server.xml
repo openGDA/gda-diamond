@@ -10,7 +10,8 @@
 	<context:property-placeholder />
 
 	<import resource="GDAMetadata.xml" />
-	<!-- <import resource="FrontEndShutter.xml"/> -->
+	<import resource="analyser_eav.xml"/>
+	<import resource="analyser.xml"/>
 	<!-- <import resource="FrontEndAperture.xml"/> -->
 	<import resource="ID.xml" />
 	<import resource="DCM.xml" />
