@@ -5,5 +5,5 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="DiffractionDichroism.xml"/>
-
+	<import resource="pixis_live_controls.xml"/>
 </beans>

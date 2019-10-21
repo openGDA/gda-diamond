@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.9.5.201807030714-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.9.4.201804120850-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -49,6 +49,8 @@
 		<config>servers/main/_common/scannables/userMotors.xml</config>
 		<config>servers/main/_common/scannables/valves.xml</config>
 		<config>servers/main/_common/beanAdder.xml</config>
+		<config>clients/main/live/pixis_live_controls.xml</config>
+		<config>clients/main/_common/pixis_live_controls.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
