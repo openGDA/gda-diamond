@@ -66,6 +66,7 @@ class CryostatWarmUp(ScannableBase, Runnable):
         self.finished=False
         self.firstTime=False
         self.temperatutePrintIntervalInSeconds=10.0
+        self.warmup=True
         
     def setSleepTime(self, t):
         self.sleepTime=t
@@ -81,10 +82,12 @@ class CryostatWarmUp(ScannableBase, Runnable):
             self.thread.start()
             self.cryostat.asynchronousMoveTo(new_temp)
             self.firstTime=True
+            self.warmup=True
         elif new_temp < existingTemperature:
             self.cryostat.setRampRate(100.0)
             self.cryostat.asynchronousMoveTo(new_temp)
             self.firstTime=True
+            self.warmup=False
         else:
             self.printMessage("Already at the requested temperature")
         
