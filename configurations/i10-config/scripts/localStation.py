@@ -272,7 +272,7 @@ except:
 
 alias('wh')
 
-from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion, ROCKING_RANGE_CENTRE, ADJUST_MOTOR_SPEED  # @UnusedImport
+from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion  # @UnusedImport
 from gdaserver import pimte, pixis
 
 thpimte=NXDetectorWithRockingMotion("thpimte", th, pimte)

@@ -8,8 +8,6 @@ Created on 2 Aug 2019
 from gda.device.detector import NXDetector
 import math
 from gda.device import DeviceException
-ADJUST_MOTOR_SPEED=False
-ROCKING_RANGE_CENTRE=0.0
 
 class NXDetectorWithRockingMotion(NXDetector):
     '''
@@ -30,6 +28,20 @@ class NXDetectorWithRockingMotion(NXDetector):
             raise Exception("The input detector is not NXDetector!")
         self.detector=detector
         self.start_motor_angle,self.end_motor_angle = 0.0, 0.0
+        self.rockingCentre=0.0
+        self.changeSpeed=False
+        
+    def setRockingCentre(self, value):
+        self.rockingCentre=value
+    
+    def getRockingCentre(self):
+        return self.rockingCentre
+    
+    def setChangeSpeed(self, b):
+        self.changeSpeed=b
+        
+    def isChangeSpeed(self):
+        return self.changeSpeed
         
     def calculateStartStopPosition(self,changeSpeed):
         if not changeSpeed:
@@ -38,8 +50,8 @@ class NXDetectorWithRockingMotion(NXDetector):
             if motor_range > (self.motor.getUpperMotorLimit()-self.motor.getLowerMotorLimit()):
                 raise Exception("motor rocking range is greater than hardware limits permitted")
             
-            start_motor_angle=ROCKING_RANGE_CENTRE-motor_range/2.0
-            end_motor_angle=ROCKING_RANGE_CENTRE+motor_range/2.0
+            start_motor_angle=self.rockingCentre-motor_range/2.0
+            end_motor_angle=self.rockingCentre+motor_range/2.0
             
             if start_motor_angle < self.motor.getLowerMotorLimit():
                 raise Exception("start rocking angle is outside hardware low limit")
@@ -56,7 +68,7 @@ class NXDetectorWithRockingMotion(NXDetector):
         return start_motor_angle, end_motor_angle
 
     def atScanStart(self):
-        self.start_motor_angle,self.end_motor_angle = self.calculateStartStopPosition(ADJUST_MOTOR_SPEED)
+        self.start_motor_angle,self.end_motor_angle = self.calculateStartStopPosition(self.changeSpeed)
         print("move theta to start position %f at Scan Start ..." % self.start_motor_angle)
         self.motor.moveTo(self.start_motor_angle)
         self.detector.atScanStart()
