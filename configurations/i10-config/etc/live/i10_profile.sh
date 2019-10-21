@@ -13,7 +13,7 @@ fi
 #export GDA_WORKSPACE_PARENT=/dls_sw/$BEAMLINE/software/gda
 #export GDA_INSTANCE_CONFIG=${GDA_WORKSPACE_PARENT}/config
 
-export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:/dls_sw/prod/etc/Launcher:${PATH}
+export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:${PATH}
 export LD_LIBRARY_PATH=/dls_sw/i21/software/anaconda2/plugins/platforms:${LD_LIBRARY_PATH}
 export GDA_MODE=live
 

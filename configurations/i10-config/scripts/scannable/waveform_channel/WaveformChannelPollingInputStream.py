@@ -31,8 +31,6 @@ class WaveformChannelPollingInputStream(PositionInputStream):
             self.pv_count.configure()
         else:
             self.logger.info("DUMMY mode: pv_count at configure() is %r" % self.pv_count)
-            self.logger.info("DUMMY mode: set hardware trigger provider")
-
 
     def reset(self):
         if self.verbose: self.logger.info('reset()...')
@@ -41,21 +39,19 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         self.startTimeSet = False
         
     def stop(self):
+        #flag to stop polling loop
         self.stoppedExplicitly=True
 
     # Implement the PositionInputStream:read
 
     def read(self, max_to_read_in_one_go):
         if self.verbose: self.logger.info('read(%r)...  elements_read=%r' % (max_to_read_in_one_go, self.elements_read))
-        #if self.elements_read == -1:
-        #    self.elements_read = 0
-        #    ##return java.util.Vector([0])
+        if self.hardwareTriggerProvider is None:
+            self.hardwareTriggerProvider=self._controller.getHardwareTriggerProvider()
         if installation.isLive():
             new_available = self._waitForNewElements()
             all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         else:
-            if self.hardwareTriggerProvider is None:
-                self.hardwareTriggerProvider=self._controller.getHardwareTriggerProvider()
             if self.hardwareTriggerProvider._start_time is not None and not self.startTimeSet:
                 self.start_time = time.time()
                 self.startTimeSet=True
@@ -71,7 +67,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
 #                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.pgm_energy_positions)
                     all_data=self.hardwareTriggerProvider.pgm_energy_positions[:self.elements_read + new_available]
             else:
-                all_data = self.pv_waveform.generateData(self.channel,new_available)
+                all_data = self.pv_waveform.generateData(self.channel, self.elements_read + new_available)
                 self.logger.debug("DUMMY mode: generate %r elements" % (new_available))
         new_data = all_data[self.elements_read:self.elements_read + new_available]
         self.elements_read += new_available
@@ -88,13 +84,15 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         sleep_time = exposure_time if exposure_time > 0.2 else 0.2
         log_timeout = exposure_time + 5
         log_time = last_element_time = datetime.now()
-        new_element_timeout = exposure_time + 5.0 # it takes about 200 second to complete a full range move of pgm_grit_pitch.
+        new_element_timeout = exposure_time + 20.0 
         
         while True and not self.stoppedExplicitly:
             if installation.isLive():
                 elements_available = int(float(self.pv_count.caget()))
             else:
                 self.logger.info("DUMMY mode: number of positions set in WaveformChannelScannable to its controller is %r" % self._controller.number_of_positions)
+                #the following line does not ensure cvscan complete 100%
+                #elements_available = sum(x<=float(self.hardwareTriggerProvider._pgm_grat_pitch.getPosition()/1000.0) for x in self.hardwareTriggerProvider.grating_pitch_positions)
                 if not self.startTimeSet:
                     elements_available = int(self._controller.number_of_positions)
                 else:
@@ -108,7 +106,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
             #print "element_available = %d" % elements_available
             # Some waveform PVs keep returning old data for a short time even after a new acq is started and even retain the old count
             # for some time after the new acq has started, so check with the controller before trusting the count
-            acquiring = self._controller.getChannelInputStreamAcquiring()
+            acquiring = self._controller.getChannelInputStreamAcquiring() and self.hardwareTriggerProvider._start_event.isSet()
             if acquiring:
                 if acquiring_old <> acquiring:
                     self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring now %r, was %r' % (

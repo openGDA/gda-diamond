@@ -30,6 +30,7 @@ class BinpointWaveformChannelController(object):
         self.number_of_positions = 0
         self.started = False
         self.hardware_trigger_provider=None
+        self.stream=None
         
     def setHardwareTriggerProvider(self, hardwareTriggerProvider):
         self.hardware_trigger_provider=hardwareTriggerProvider
@@ -57,7 +58,8 @@ class BinpointWaveformChannelController(object):
 
     def stop(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'stop()...'))
-        self.stream.stop()
+        if self.stream:
+            self.stream.stop()
         self.started = False # added after I10-145
         if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))
         # Binpoint has no stop, since it is slaved from the MCA.

@@ -7,7 +7,7 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- This configuration requires beans from PIXIS.XML-->
+	<!-- This configuration requires beans from PIMTE.XML-->
 	<bean id="pimte_adproc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
 		<property name="basePVName" value="BL10I-EA-PIMTE-01:PROC:" /> 
 		<property name="pluginBase">

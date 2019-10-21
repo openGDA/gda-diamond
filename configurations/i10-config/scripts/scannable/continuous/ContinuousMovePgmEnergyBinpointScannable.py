@@ -119,10 +119,18 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         self.mybusy=False
         
     def stop(self):
+        self._binpointPgmEnergy.stop()
         self._binpointGrtPitch.stop()
         self._binpointMirPitch.stop()
+        self._move_controller.stopAndReset()
+        self.mybusy=False
+    
+    def atCommandFailure(self):
         self._binpointPgmEnergy.stop()
-
+        self._binpointGrtPitch.stop()
+        self._binpointMirPitch.stop()
+        self._move_controller.stopAndReset()
+        
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
         if self._operating_continuously:
@@ -174,14 +182,9 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
-        if self._operating_continuously:
-            while self.isBusy():
-                sleep(0.1)
-            return # self._move_controller.waitWhileMoving()
-        else:
-            while self.isBusy():
-                sleep(0.1)
-            return 
+        while self.isBusy():
+            sleep(0.1)
+        return # self._move_controller.waitWhileMoving()
 
     def isBusy(self):
         if self._operating_continuously:
@@ -203,11 +206,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     # when the scan line completes.
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()... _operating_continuously=%r' % self._operating_continuously)
-        if self._operating_continuously:
-            self._move_controller.atScanEnd()
-        else:
-            #raise Exception()
-            self._move_controller.atScanEnd()
+        self._move_controller.atScanEnd()
     
     # we have to implement following scannable interface for it to work outside continuous scanning
     def getExtraNames(self):
