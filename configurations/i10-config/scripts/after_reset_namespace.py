@@ -109,9 +109,6 @@ scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from data_process.scanDataProcess import *  # @UnusedWildImport
 
-#Continuous Scan scannables and commands
-from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
-from scan.cvscan import cvscan, cvscan2, cvscan_traj # @UnusedImport
 
 from scannable.id_energys.idu_energy_gap import * # @UnusedWildImport
 from scannable.id_energys.idd_energy_gap import *  # @UnusedWildImport
@@ -119,6 +116,9 @@ from scannable.id_energys.idu_energy_jawphase import *  # @UnusedWildImport
 from scannable.id_energys.idd_lin_energy import * # @UnusedWildImport
 from scannable.id_energys.idu_switchable import *  # @UnusedWildImport
 from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
+#Continuous Scan scannables and commands
+from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
+from scan.cvscan import cvscan, cvscan2, cvscan_traj # @UnusedImport
 
 #create 'smode', 'pol', and 'enenry'
 from scannable.idcontrols.mode_polarisation_energy_instances import *  # @UnusedWildImport
