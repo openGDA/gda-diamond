@@ -78,7 +78,7 @@ CONFIG_PARENT=/scratch/gda_configs
 # eg /scratch/gda_workspaces/abc12345_gda-9.12
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)_$(basename ${GDA_WORKSPACE_PARENT})
 
-ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,mode:,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o \? -l help,data:,reset,debug,log,start,keep,mode:,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
@@ -102,6 +102,10 @@ while true; do
     --reset)
         shift;
         GDA_RESET=1
+      ;;
+    --debug)
+        shift;
+        GDA_DEBUG=1
       ;;
     --data)
         shift;
@@ -230,6 +234,11 @@ PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG
 
 # Fatal Error Log (see http://www.oracle.com/technetwork/java/javase/felog-138657.html#felog)
 VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_SPRING_PROFILES $GDA_CLIENT_VMARGS"
+
+if [ ! -z $GDA_DEBUG ] ; then
+    VMARGS=" -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8001 $VMARGS"
+    echo "Client starting in debug mode, connect on port 8001"
+fi
 
 # see http://wiki.eclipse.org/Eclipse.ini
 COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs -Dgda.install.git.loc=$GDA_INSTALL_GIT_LOC/ $VMARGS"
