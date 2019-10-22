@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<import resource="detectors/malcolm.xml"/>
+
 	<!-- Contains all configuration for the malcolm simulations -->
 	<import
 		resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
