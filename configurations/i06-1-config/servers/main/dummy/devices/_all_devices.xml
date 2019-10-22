@@ -28,7 +28,7 @@
 	<import resource="dd_cam6.xml"/>
 	<import resource="peem_cam3.xml"/>
 <!-- 	<import resource="mobilerack_cam1.xml"/> -->
-	<import resource="pixis.xml"/>
+	<import resource="PIXIS.xml"/>
 	<import resource="DiffractionDichroism.xml"/>
 	<import resource="magnet.xml"/>
 	

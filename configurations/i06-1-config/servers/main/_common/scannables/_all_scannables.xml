@@ -23,6 +23,7 @@
 	<!-- mobile end station devices below -->
 	<import resource="endStationDD.xml"/>
 	<import resource="laser_ec2.xml"/>
+	<import resource="PIXIS.xml"/>
 <!-- 	<import resource="magnet.xml"/> -->
 <!-- 	<import resource="mobilerack.xml"/> -->
 <!-- 	<import resource="polarimeter.xml"/> -->

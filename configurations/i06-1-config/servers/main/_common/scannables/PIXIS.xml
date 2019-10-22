@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- NXDetector -->
+ 	<bean id="pixis" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixis" />
+		<property name="collectionStrategy" ref="pixisCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixis_RoiStats1" />
+				<ref bean="pixis_RoiStats2" />
+				<ref bean="pixis_RoiStats3" />
+				<ref bean="pixis_RoiStats4" />
+				<ref bean="pixis_RoiStats5" />
+				<ref bean="pixis_RoiStats6" />
+				<ref bean="pixisHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="pixistiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixistiff" />
+		<property name="collectionStrategy" ref="pixisCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixis_RoiStats1" />
+				<ref bean="pixis_RoiStats2" />
+				<ref bean="pixis_RoiStats3" />
+				<ref bean="pixis_RoiStats4" />
+				<ref bean="pixis_RoiStats5" />
+				<ref bean="pixis_RoiStats6" />
+				<ref bean="pixisTiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ADDetector used in new scanning -->
+	<bean id="pixis_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="pixisCollectionStrategy"/>
+		<property name="adBase" ref="pixis_adbase" />
+		<property name="ndFile" ref="pixis_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="pixis_ndarray" />
+		<property name="ndStats" ref="pixis_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="pixisHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="pixisModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="pixis_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="pixisInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i10.pixis.DeviceInformation" />
+		<property name="label" value="PIXIS" />
+		<property name="description" value="PIXIS Detector" />
+	</bean>
+
+	<bean id="pixis_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="pixis_addetector" />
+		<property name="model" ref="pixisModel" />
+		<property name="deviceInformation" ref="pixisInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+</beans>
