@@ -49,6 +49,10 @@
 				<ref bean="s3b_xhall" />
 				<ref bean="s3b_ytop" />
 				<ref bean="s3b_ybottom" />
+				<ref bean="ca5" />
+				<ref bean="ca6" />
+				<ref bean="ca7" />
+				<ref bean="ca8" />
 			</list>
 		</property>
 	</bean>

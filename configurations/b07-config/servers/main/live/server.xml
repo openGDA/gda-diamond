@@ -23,6 +23,7 @@
 	<import resource="d7b.xml"/>
 	<import resource="d8b.xml"/>
 	<import resource="d9b.xml"/>
+	<import resource="femtos.xml"/>
 
 	<!-- Monochromators -->
 	<import resource="pgm.xml"/>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<util:map id="gainMap">
+		<entry key="Low Noise">
+			<util:map>
+				<!-- Note: 1e3 means 1x10^3 -->
+    			<entry key="1e3" value="10^3 low noise" />
+    			<entry key="1e4" value="10^4 low noise" />
+    			<entry key="1e5" value="10^5 low noise" />
+    			<entry key="1e6" value="10^6 low noise" />
+    			<entry key="1e7" value="10^7 low noise" />
+    			<entry key="1e8" value="10^8 low noise" />
+    			<entry key="1e9" value="10^9 low noise" />
+			</util:map>
+		</entry>
+		<entry key="High Speed">
+			<util:map>
+    			<entry key="1e5" value="10^5 high speed" />
+    			<entry key="1e6" value="10^6 high speed" />
+    			<entry key="1e7" value="10^7 high speed" />
+    			<entry key="1e8" value="10^8 high speed" />
+    			<entry key="1e9" value="10^9 high speed" />
+    			<entry key="1e10" value="10^10 high spd" />
+    			<entry key="1e11" value="10^11 high spd" />
+			</util:map>	
+		</entry>
+	</util:map>
+
+	<bean id="ca1" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca2" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca3" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca4" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca5" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca6" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca7" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca8" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca9" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca10" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca11" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca12" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca13" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca14" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca15" class="gda.device.scannable.DummyScannable" />
+</beans>
