@@ -182,9 +182,6 @@
 		<property name="stopAquiringInPreparation" value="true" />
 	</bean>
 	<bean id="kbRasteringPeriod" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
-		<!-- Hytec  -->
-<!-- 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH:FREQ" />  -->
-<!--    		<property name="expression" value="1/#acquireTime lt 10.0 ? 1/#acquireTime : 10.0"/> -->
    		<!-- Keysight33500B Channel2 -->
 		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
    		<property name="expression" value="#acquireTime gt 0.1 ? #acquireTime : 0.1"/>
