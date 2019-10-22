@@ -1,6 +1,7 @@
 #localStation.py
 #For beamline specific initialisation code.
 from scannables.EnumPVScannable import EnumPVScannable
+from gdaserver import medipix
 
 print "===================================================================";
 print "Performing Beamline I06 specific initialisation code (localStation.py).";
@@ -71,6 +72,14 @@ def picture(acqTime):
 from gda.jython.commands.GeneralCommands import alias
 alias("picture")
 #
+def enableRastering():
+    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(True)
+alias("enableRastering")
+
+def disableRatsering():
+    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(False)
+alias("disableRatsering")
+  
 if installation.isLive():
     def medipix_unrotate():
         caput("BL06I-EA-DET-02:ROT:Angle",0)
