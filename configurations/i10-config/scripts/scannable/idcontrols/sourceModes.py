@@ -21,7 +21,7 @@ class SourceMode(ScannableBase):
     Instance of this Scannable set/get source mode value in GDA only.
     It opens up the ID that is not used to generate X-ray beam! 
     '''
-    SOURCE_MODES=['idd','idu']
+    SOURCE_MODES=['idd','idu', 'unknown']
     
     def __init__(self, name, idu_gap, idd_gap, opengap=200, defaultmode=None):
         '''

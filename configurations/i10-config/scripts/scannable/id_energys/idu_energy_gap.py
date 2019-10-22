@@ -75,7 +75,7 @@ try:
     idu_lin_ver_energy.concurrentRowphaseMoves=True
     idu_lin_ver_energy.energyMode=True
 
-    print "    'idu_lin_hor_energy','idu_lin_hor3_energy_follower' - IDU Linear Horizontal polarisation gap energy  and follower for 3rd harmonic"
+    print "    'idu_lin_hor3_energy','idu_lin_hor3_energy_follower' - IDU Linear Horizontal polarisation gap energy  and follower for 3rd harmonic"
     idu_lin_hor3_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idu_lin_hor3_energy2gap.csv"))
     idu_lin_hor3_energy = EnergyScannableLookup('idu_lin_hor3_energy', idu_gap,
             idu_rowphase1, idu_rowphase2, idu_rowphase3, idu_rowphase4, idu_jawphase, pgm_energy,

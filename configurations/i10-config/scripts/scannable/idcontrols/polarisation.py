@@ -48,7 +48,7 @@ class Polarisation(ScannableBase):
     Scannable to set the polarisation of the X-ray beam in GDA ONLY. 
     It switches 'energy' scannable reference based on current source mode and polarisation set here.
     '''
-    POLARISATIONS=['pc','nc', 'lh', 'lv', 'la', 'lh3']
+    POLARISATIONS=['pc','nc', 'lh', 'lv', 'la', 'lh3','unknown']
     
     def __init__(self, name, smode, defaultPolarisation=None):
         '''
