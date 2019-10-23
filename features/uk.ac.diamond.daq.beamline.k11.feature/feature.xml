@@ -31,19 +31,6 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
-<!-- This should be re-instated when it is removed from uk.ac.diamond.daq.mapping.ui -->
-   <!-- plugin
-         id="uk.ac.diamond.daq.experiment.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/ -->
-
-   <plugin
-         id="uk.ac.diamond.daq.experiment.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.scanning.device.ui"
@@ -156,6 +143,25 @@
 
    <plugin
          id="uk.ac.diamond.daq.beamline.configuration.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.experiment.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.experiment.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.experiment.scans"
          download-size="0"
          install-size="0"
          version="0.0.0"
