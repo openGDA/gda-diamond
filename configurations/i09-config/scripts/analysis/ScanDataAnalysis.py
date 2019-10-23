@@ -7,7 +7,7 @@ def FindScanPeak(ordinateName, printNameList=[], abscissaNameList=[], scanID=0, 
 	Keyword arguements:
 	ordinateName -- the header name of the value whose peak is to be found
 	printNameList -- a list of header names to print (if enabled),
-                  abscissaNameList --  NOT USED. may later be used for more advanced peak finding algorithms
+    abscissaNameList --  NOT USED. may later be used for more advanced peak finding algorithms
 	scanID -- leave empty to read most recent scan. Else a scan number or an absolute
 		file path. If negative (-n), will find the peak of the scan n scans old.
 	ToPrint -- Set to 0 to disable printing
@@ -17,7 +17,7 @@ def FindScanPeak(ordinateName, printNameList=[], abscissaNameList=[], scanID=0, 
 	names as keys
 
 	Example:
-	run FindScanPeak  (as import is dodgy!)
+	run FindScanPeak  (as import is unreliable!)
 	peakValues = FindScanPeak("y", ["x","y"], scanID = 15) #loads scan number 15, finds max y,
 		prints x and y, and returns all values.
 

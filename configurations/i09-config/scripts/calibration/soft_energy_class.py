@@ -66,13 +66,13 @@ class SoftEnergy(ScannableMotionBase):
 
         # Move back to the current position i.e. the correct gap for the new polarisation
         # Note this also causes the ID to actually move, if the gap demand is exactly the same it will never!
-        self.asynchronousMoveTo(self.getPosition() / 1000)
+        self.asynchronousMoveTo(self.getPosition())
         while (self.isBusy()) :
             sleep(0.5)
 
     def getPolarisation(self):
         """Returns the current polarisation (cached in object not directly from EPICS)"""
-        return self.polarisation
+        return self.polarisation 
 
     def harmonicEnergyRanges(self):
         """Prints out a table of harmonics with corresponding min and max energies"""
@@ -119,7 +119,7 @@ class SoftEnergy(ScannableMotionBase):
 
         # Linear Horizontal 3rd Harmonic for 400 line/mm grating
         elif (self.getPolarisation()=="LH3"):
-            if (Ep<0.7 or Ep > 1.9):
+            if (Ep<0.7 or Ep > 1.95):
                 raise ValueError("Polarisation = LH3  but the demanding energy is outside the valid range between 0.7 and 1.9 keV!")
             gap=10.98969 + 25.8301*Ep - 9.36535*Ep**2 + 1.74461*Ep**3
             if (gap < 16 or gap > 60):

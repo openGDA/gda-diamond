@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="es1scaler" class="gda.device.epicsdevice.FindableEpicsDevice">
+		<property name="recordPVs">
+			<map>
+				<entry key="RECORD" value="BL09I-EA-SCLR-01" />
+			</map>
+		</property>
+	</bean>
+	<bean id="scaler1" class="gda.device.detector.EpicsScalerSimple">
+		<property name="epicsDevice" ref="es1scaler" />
+		<property name="channelsToBeRead">
+			<list>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+				<value>5</value>
+			</list>
+		</property>
+		<property name="extraNames" value="hm3amp20,sm5amp8,smpmamp39,rfdamp10" />
+		<property name="outputFormat" value="%s,%s,%s,%s" />
+	</bean>
+	<bean id="hm3amp20_1" class="gda.device.detector.EpicsScalerSimple">
+		<property name="epicsDevice" ref="es1scaler" />
+		<property name="channelsToBeRead">
+			<list>
+				<value>2</value>
+			</list>
+		</property>
+		<property name="extraNames" value="hm3amp20" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+	<bean id="sm5amp8_1" class="gda.device.detector.EpicsScalerSimple">
+		<property name="epicsDevice" ref="es1scaler" />
+		<property name="channelsToBeRead">
+			<list>
+				<value>3</value>
+			</list>
+		</property>
+		<property name="extraNames" value="sm5amp8" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+	<bean id="smpmamp39_1" class="gda.device.detector.EpicsScalerSimple">
+		<property name="epicsDevice" ref="es1scaler" />
+		<property name="channelsToBeRead">
+			<list>
+				<value>4</value>
+			</list>
+		</property>
+		<property name="extraNames" value="smpmamp39" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+	<bean id="rfdamp10_1" class="gda.device.detector.EpicsScalerSimple">
+		<property name="epicsDevice" ref="es1scaler" />
+		<property name="channelsToBeRead">
+			<list>
+				<value>5</value>
+			</list>
+		</property>
+		<property name="extraNames" value="rfdamp10" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+</beans>

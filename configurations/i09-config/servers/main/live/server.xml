@@ -54,11 +54,12 @@
 	<import resource="ChannelCutCrystal.xml" />
 	<import resource="SMPM.xml" />
 	<import resource="ES2.xml" />
-	<import resource="ES3.xml" />
+<!-- 	<import resource="ES3.xml" /> -->
 	<import resource="FastShutter.xml" />
 	<import resource="topup.xml" />
 	<import resource="RFDMotors.xml" />
-	<import resource="Scaler2.xml" />
+	<import resource="Scaler1.xml" />
+	<import resource="Scaler2.xml" /> 
 	<import resource="Lakeshore.xml" />
 	<import resource="ring.xml"/>
 	<import resource="frontEnd.xml"/>

@@ -59,7 +59,7 @@
 	<import resource="analyser.xml"/>
 	<import resource="RegionScannable.xml"/>
 	<import resource="ES2.xml"/>
-	<import resource="ES3.xml"/>
+<!-- 	<import resource="ES3.xml"/> -->
 	<import resource="RFD.xml"/>
 
 	<import resource="../servers_common.xml" />

@@ -6,3 +6,4 @@ Bundle-Version: 9.4.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
 Automatic-Module-Name: uk.ac.gda.beamline.i09
+Require-Bundle: org.eclipse.equinox.app
