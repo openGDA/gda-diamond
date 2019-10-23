@@ -48,6 +48,10 @@
 				<ref bean="s2b_xhall" />
 				<ref bean="s2b_ytop" />
 				<ref bean="s2b_ybottom" />
+				<ref bean="ca1" />
+				<ref bean="ca2" />
+				<ref bean="ca3" />
+				<ref bean="ca4" />
 			</list>
 		</property>
 	</bean>
