@@ -45,24 +45,6 @@
         <property name="protectionLevel" value="2"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="I0">
-        <property name="detectorType" value="CALIB"/>
-        <property name="memory" ref="CalibMemory"/>
-        <property name="units" value="counts"/>
-        <property name="channel" value="1"/>
-        <property name="label" value="data"/>
-        <property name="scalingAndOffset" ref="d4d2gain"/>
-    </bean>
-
-    <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="It">
-        <property name="detectorType" value="CALIB"/>
-        <property name="memory" ref="CalibMemory"/>
-        <property name="units" value="counts"/>
-        <property name="channel" value="3"/>
-        <property name="label" value="data"/>
-        <property name="scalingAndOffset" ref="bs2diodegain"/>
-    </bean>
-
     <bean class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset" id="sao1">
         <property name="offset" value="0"/>
         <property name="scaling" value="1"/>

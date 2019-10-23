@@ -6,5 +6,10 @@
     <bean id="bco_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
     <bean id="bco_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
     <bean id="bco_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bco_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor" />
+    <bean id="exitwindow_x_motor" class="gda.device.motor.ThreadlessDummyMotor" />
+    <bean id="exitwindow_y_motor" class="gda.device.motor.ThreadlessDummyMotor" />
+
+
 
 </beans>
