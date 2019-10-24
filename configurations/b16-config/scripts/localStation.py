@@ -1316,4 +1316,9 @@ if DebenRigEnabled:
 	from scannable.hw.user.debenRig import DebenRig
 	deben = DebenRig('deben', 'BL16B-EA-DEBEN-01:')
 
-
+# From 1/10 Experiment
+# scan dummyx 0 20 1 bo1trig 0.1 waitForDetectorStart waitForDetectorStop w 10
+waitForDetectorStart = scannable.condition.WaitForCondition('waitForDetectorStart', zebra_pulse1_input, 'val>0')
+waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop', zebra_pulse1_input, 'val<1')
+waitForDetectorStop.setLevel(11)
+w.setLevel(12)
