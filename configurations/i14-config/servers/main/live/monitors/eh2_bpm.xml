@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="eh2_bpm_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-IONC-01:BPM:XPOS" />
+	</bean>
+
+	<bean id="eh2_bpm_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-IONC-01:BPM:YPOS" />
+	</bean>
+
+	<bean id="eh2_fb_setpoint_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PPID-01:FBX:SETPOINT" />
+	</bean>
+
+	<bean id="eh2_fb_setpoint_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PPID-01:FBY:SETPOINT" />
+	</bean>
+
+	<bean id="eh2_bpm_intensity" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-BEST-01:BPM0:Int" />
+	</bean>
+
+</beans>

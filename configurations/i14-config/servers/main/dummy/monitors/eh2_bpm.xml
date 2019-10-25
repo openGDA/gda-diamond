@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="eh2_bpm_x" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="-0.018" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="eh2_bpm_y" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.01" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="eh2_fb_setpoint_x" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="-0.02" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="eh2_fb_setpoint_y" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.012" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Beam intensity from BEST in micro-amps -->
+	<bean id="eh2_bpm_intensity" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="6.0" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>
