@@ -51,15 +51,16 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableMap;
 
-import gda.configuration.properties.LocalProperties;
 import gda.factory.Finder;
 import uk.ac.diamond.daq.beamline.k11.dialog.BeamEnergyDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
+import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
+import uk.ac.gda.client.live.stream.IConnectionFactory;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
@@ -383,12 +384,11 @@ public class ExperimentSetup extends LayoutUtilities {
 	}
 
 	private LiveStreamConnection getLiveStreamConnection() {
-		return new LiveStreamConnection(getCameraConfiguration(), StreamType.EPICS_ARRAY);
+		return IConnectionFactory.getLiveStreamConnection(getCameraConfiguration(), StreamType.EPICS_ARRAY);
 	}
 
 	private CameraConfiguration getCameraConfiguration() {
-		String cameraName = LocalProperties.get("imaging.camera.name");
-		return Finder.getInstance().find(cameraName);
+		return CameraHelper.getCameraConfiguration(0);
 	}
 
 	private void addExperimentDriverButton(Composite content) {
