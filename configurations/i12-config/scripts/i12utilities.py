@@ -353,6 +353,7 @@ from gdascripts.parameters import beamline_parameters
 
 def atTomoFlyScanStart():
     print "atTomoFlyScanStart"
+    caput("BL12I-EA-DET-02:CAM:ArrayCounter", 0)
     jns = beamline_parameters.JythonNameSpaceMapping(InterfaceProvider.getJythonNamespace())
     tomography_theta=jns.tomography_theta
     if tomography_theta is None:
