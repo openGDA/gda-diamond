@@ -18,11 +18,11 @@
 				
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="instrument.source.type" />
-					<property name="value" value="Synchrotron X-Ray Source" />
+					<property name="value" value="Synchrotron X-ray Source" />
 				</bean>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="instrument.source.probe" />
-					<property name="value" value="X-ray" />
+					<property name="value" value="x-ray" />
 				</bean>
 
 				<bean id="facility.mode" class="gda.data.metadata.EpicsMetadataEntry">
