@@ -148,5 +148,103 @@ class ScanPtScriptRunner(ScannableBase):
         self.current_idx = self.min_idx_inc
 
 pilatus_dawn=ScanPtScriptRunner('pilatus_dawn', '/dls_sw/i12/software/gda/config/scripts/gen_dawn_linkingfile.py')
+
+
+from gda.epics import CAClient
+from gda.device.scannable import PseudoDevice
+
+class CamArrayCallbacksHandler(PseudoDevice):
+    # constructor
+    def __init__(self, name, pvname="BL12I-EA-PILAT-01:CAM:ArrayCallbacks", pvvalue=1):
+        self.setName(name)
+        self.setInputNames([name])
+        self.setExtraNames([])
+        self.setOutputFormat(["%d"])
+        self.pvvalue=int(pvvalue)
+        self.pvname=pvname
+        self.cli=CAClient(pvname)
+        self.cli_timeout=CAClient("BL12I-EA-PILAT-01:CAM:ImageFileTmot")
+        self.backup_pos=None
+        self.current_pos=None
+        self.timeout_backup_pos=None
+        self.timeout_current_pos=None
+        self.warning_printed=False
+        
+    def reset(self):
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        if self.backup_pos is not None:
+            self.cli.caput(self.backup_pos)
+            self.current_pos=self.backup_pos
+        if not self.cli_timeout.isConfigured():
+            self.cli_timeout.configure() 
+        if self.timeout_backup_pos is not None:
+            self.cli_timeout.caput(self.timeout_backup_pos)
+            self.timeout_current_pos=self.timeout_backup_pos
+
+    # returns the value this scannable represents
+    def rawGetPosition(self):
+        return self.current_pos
+
+    # Does the operation this Scannable represents
+    def rawAsynchronousMoveTo(self, new_position=False):
+        print "rawAsynchronousMoveTo"
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        self.backup_pos=self.cli.caget() 
+        self.current_pos=self.backup_pos
+        
+        if new_position is not None:
+            self.current_pos=int(new_position)
+            self.cli.caput(self.current_pos)
+        return
+
+    # Returns the status of this Scannable
+#    def rawIsBusy(self):
+#        #print "hello from rawIsBusy"
+#        sleep(1)
+#        return
+
+    def isBusy(self):
+        return False
+    
+    def atScanStart(self):
+        #print "atScanStart"
+        self.warning_printed=False
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        self.backup_pos=self.cli.caget() 
+        self.current_pos=self.backup_pos
+        #self.cli.caput(self.pvvalue)           # exclude early frames set to OFF
+        if not self.cli_timeout.isConfigured():
+            self.cli_timeout.configure()
+        self.timeout_backup_pos=self.cli_timeout.caget() 
+        self.timeout_current_pos=self.timeout_backup_pos
+        self.cli_timeout.caput(0.1)
+
+    def atPointStart(self):
+        #print "atPointStart"
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        self.cli.caput(self.pvvalue)
+        if not self.cli_timeout.isConfigured():
+            self.cli_timeout.configure()
+        self.cli_timeout.caput(0.1)
+        
+    def atPointEnd(self):
+        pass
+    
+    def stop(self):
+        self.reset()
+    
+    def atScanEnd(self):
+        self.reset()
+    
+    def atCommandFailure(self):
+        self.reset()
+        
+
+pilatus_preview_on=CamArrayCallbacksHandler('pilatus_preview_on', pvname="BL12I-EA-PILAT-01:CAM:ArrayCallbacks", pvvalue=1)
+
         
 print "finished loading 'pilatus_utilities'"

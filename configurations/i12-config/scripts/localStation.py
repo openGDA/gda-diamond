@@ -806,7 +806,7 @@ def stressTestNetApp(nScans=100, exposureTime=.05, startAng=0.0, stopAng=180.0, 
     print "Finished executing stressTestNetApp - bye!"
     
     
-def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i12/data/2016/cm14465-4", filesys="na"):
+def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i12/data/2016/cm14465-4", filesys="na", delay_sec=0):
     """
     Fn to collect a series of fly scans for testing purposes with the following:
         dummy translation stage is expected to be used!
@@ -819,7 +819,8 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     stop = last rotation angle
     step = rotation step size
     pathToVisitDir = path to a directory which GDA can use for writing log files, ie /dls/i12/data/2016/cm14465-4
-    filesys = 'na' for NetApp and 'gpfs' for GPFS01
+    filesys = 'na' for NetApp and 'gpfs' for GPFS03
+    delay_sec = delay time in seconds between any two consecutive scans
     """
     _fn = stressfly12.__name__
     setSubdirectory("tmp")
@@ -874,6 +875,7 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
             #msg = "scan iter: %d/%d, scan number: %d, start time: %s" %((i+1), nscans, nfn(), timestr_start)
             #fh.write(msg+"\n")
             start_time = time.time()
+            caput("BL12I-EA-DET-02:CAM:ArrayCounter", 0)
             i12tomoFlyScan(description=title_tmp, inBeamPosition=0., outOfBeamPosition=1., exposureTime=exposureTime, \
                                        start=start, stop=stop, step=step, \
                                        imagesPerDark=0, imagesPerFlat=0)
@@ -886,6 +888,10 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
             csv_writer.writerow(("%d/%d" %((i+1), nscans), cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:RunTime"])), str(caget(pv_after_scan["HDF5:DroppedArrays"]))))
             fh.flush()
             print "Finished scan iter %d (of %d), end time: %s." %(i+1, nscans, timestr_end)
+            if (delay_sec > 0) and (i < nscans-1):
+                print "Sleeping for %.3f sec between scans..." %(delay_sec)
+                time.sleep(delay_sec)
+                print "Finished sleeping for %.3f sec" %(delay_sec)
             interruptable()             # for breaking this loop when GDA Abort button is pressed
     except Exception, e:
         msg = "Scan %d (of %d) has failed: " %(i+1, nscans)
@@ -1053,7 +1059,7 @@ if isLive():
 #    from deben import *
 #    deben_configure()
     from miro import miro_xgraph
-    from pilatus_utilities import pilatus_dawn
+    from pilatus_utilities import pilatus_dawn, pilatus_preview_on
 
 
 print 
