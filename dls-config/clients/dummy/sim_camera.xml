@@ -23,6 +23,7 @@
 		<property name="displayName" value="Simulated Area Detector (with calibration)" />
 		<property name="url" ref="sim_mjpg_url" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="pvAccessPv" value="#{sim_pvbase}:PVA:ARRAY" />
 		<property name="calibratedAxesProvider">
 			<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 				<constructor-arg name="xAxisScannable" ref="ix"/>
@@ -39,6 +40,7 @@
 		<property name="displayName" value="Simulated Area Detector (no calibration)" />
 		<property name="url" ref="sim_mjpg_url" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="pvAccessPv" value="#{sim_pvbase}:PVA:ARRAY" />
 	</bean>
 
 </beans>
