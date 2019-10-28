@@ -290,6 +290,12 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	private void mainShutterMoveTo(String position) throws DeviceException, InterruptedException {
 		logger.info("Moving {} to position {}", shutter.getName(), position);
+
+		if (shutterChecker == null) {
+			logger.debug("Shutter checker is not present - not moving shutter");
+			return;
+		}
+
 		if (shutter.getPosition().equals(position)) {
 			logger.debug("{} is already in position", shutter.getName());
 			return;

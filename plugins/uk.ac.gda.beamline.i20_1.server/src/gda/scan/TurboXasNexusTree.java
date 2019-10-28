@@ -32,6 +32,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NXdata;
@@ -173,10 +174,45 @@ public class TurboXasNexusTree {
 			if (!defaultHasBeenSet && !defaultName.isEmpty()) {
 				addNxDataEntry(file, bufferedScaler.getName(), datasetName, true);
 				defaultHasBeenSet = true;
+
+				// Add attributes to the original NXdata group written during scan
+				NXroot rootNode = NexusNodeFactory.createNXroot();
+				NXentry entryNode = NexusNodeFactory.createNXentry();
+				rootNode.setEntry("entry1", entryNode);
+				NXdata nxDataNode = createNXdataNode(datasetName);
+				entryNode.addGroupNode(bufferedScaler.getName(), nxDataNode);
+				file.addNode("/", rootNode);
 			} else {
 				addNxDataEntry(file, bufferedScaler.getName(), datasetName, false);
 			}
 		}
+	}
+
+	private Map<String, Integer> getAttributeDataNames() {
+		Map<String, Integer> dataNames = new LinkedHashMap<>();
+		dataNames.put(TIME_COLUMN_NAME, 0);
+		dataNames.put(SPECTRUM_INDEX, 0);
+		dataNames.put(ENERGY_COLUMN_NAME, 1);
+		dataNames.put(POSITION_COLUMN_NAME, 1);
+		return dataNames;
+	}
+
+	private NXdata createNXdataNode(String signalName) {
+		// Create NXdata nodes ...
+		NXdata nxDataNode = NexusNodeFactory.createNXdata();
+
+		// Set attributes
+		nxDataNode.setAttributeSignal(signalName);
+
+		List<String> axesList = Arrays.asList(TIME_COLUMN_NAME, ENERGY_COLUMN_NAME);
+		List<Attribute> attributes = new ArrayList<>();
+		attributes.add(TreeFactory.createAttribute(NexusConstants.DATA_AXES, axesList.toArray(new String[] {})));
+
+		getAttributeDataNames().forEach((dataName, axisIndex) ->
+			attributes.add(TreeFactory.createAttribute(dataName + NexusConstants.DATA_INDICES_SUFFIX, axisIndex)));
+
+		attributes.forEach( nxDataNode::addAttribute );
+		return nxDataNode;
 	}
 
 	/**
@@ -190,36 +226,24 @@ public class TurboXasNexusTree {
 	 * @param file NexusFile handle
 	 * @param detGroupName name of detector group (in /entry1/) to read data from
 	 * @param datasetName name of dataset to read in detector group
-	 * @param setDefaultAttributes - if true, set the default attribute of the parent group and root node
+	 * @param setDefaultAttributes - if true, set the default attribute of the parent group
 	 * @throws NexusException
 	 */
 	private void addNxDataEntry(NexusFile file, String detGroupName, String datasetName, boolean setDefaultAttributes) throws NexusException {
 		// Name of new NXdata entry to be created
 		String entryName = detGroupName+"_"+datasetName;
 		String sourceGroupName = "/entry1/"+detGroupName;
-		List<String> axesList = Arrays.asList(TIME_COLUMN_NAME, ENERGY_COLUMN_NAME);
-		Map<String, Integer> dataNames = new LinkedHashMap<>();
-		dataNames.put(TIME_COLUMN_NAME, 0);
-		dataNames.put(SPECTRUM_INDEX, 0);
-		dataNames.put(ENERGY_COLUMN_NAME, 1);
-		dataNames.put(POSITION_COLUMN_NAME, 1);
 
-		// Create new nxData node to contain the data links and set its attributes
-		NXdata nxDataNode = NexusNodeFactory.createNXdata();
-		nxDataNode.setAttributeSignal(datasetName);
-		nxDataNode.addAttribute(TreeFactory.createAttribute(NexusConstants.DATA_AXES, axesList.toArray(new String[] {})));
-		dataNames.forEach((dataName, axisIndex) ->
-			nxDataNode.addAttribute(TreeFactory.createAttribute(dataName + NexusConstants.DATA_INDICES_SUFFIX, axisIndex)));
-
-		// Create parent nodes ...
 		NXroot rootNode = NexusNodeFactory.createNXroot();
 		NXentry entryNode = NexusNodeFactory.createNXentry();
 		rootNode.setEntry("entry1", entryNode);
+
+		// Create NXdata node ...
+		NXdata nxDataNode = createNXdataNode(datasetName);
 		entryNode.addGroupNode(entryName, nxDataNode);
 
-		// Set default attribute of root node to point to the newly created NXdata node
+		// Set default attribute of node to point to the newly created NXdata node
 		if (setDefaultAttributes) {
-			rootNode.setAttributeDefault(entryName);
 			entryNode.setAttributeDefault(entryName);
 		}
 
@@ -229,7 +253,7 @@ public class TurboXasNexusTree {
 		// Datasets to link to inside NXdata group
 		List<String> datasetNamesToLink = new ArrayList<>();
 		datasetNamesToLink.add(datasetName);
-		datasetNamesToLink.addAll(dataNames.keySet() );
+		datasetNamesToLink.addAll(getAttributeDataNames().keySet());
 		datasetNamesToLink.addAll(extraScannables);
 		// Add links to original datasets
 		for(String name : datasetNamesToLink) {

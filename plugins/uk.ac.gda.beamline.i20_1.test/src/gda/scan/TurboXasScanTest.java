@@ -63,6 +63,7 @@ import gda.device.zebra.controller.impl.ZebraDummy;
 import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
+import gda.scan.TurboXasScan.SpectrumEvent;
 import gda.scan.ede.datawriters.AsciiWriterTest;
 import uk.ac.gda.beans.vortex.Xspress3Parameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
@@ -679,6 +680,39 @@ public class TurboXasScanTest extends EdeTestBase {
 		}
 		checkMetaData(nexusFilename, parameters);
 
+	}
+
+	@Test
+	public void testSpectrumEventMap() throws Exception {
+		setup(TurboXasScan.class, "testSpectrumEventMap");
+
+		TurboXasScan scan = new TurboXasScan(turboXasScannable, 0.0, 10.0, 1000, 1.0, new BufferedDetector[] {bufferedScaler});
+
+		assertEquals(0, scan.getSpectrumEvents().size());
+
+		// add some events to the map (order should not matter)
+		scan.addSpectrumEvent(20, testMotor, 3);
+		scan.addSpectrumEvent( 5, testMotor, 1);
+		scan.addSpectrumEvent(10, testMotor, 10);
+		scan.addSpectrumEvent(10, dummyScannableMotor, 50);
+
+		// Keys should be automatically sorted into ascending order
+		Map<Integer, List<SpectrumEvent>> events = scan.getSpectrumEvents();
+		assertArrayEquals(new Integer[] {5, 10, 20}, events.keySet().toArray(new Integer[] {}));
+
+		// Check scannables and positions are correct for each time
+		int spectrumNumber = 5;
+		assertEquals(1, events.get(spectrumNumber).size());
+		assertEquals(events.get(spectrumNumber).get(0), new SpectrumEvent(spectrumNumber, testMotor, 1));
+
+		spectrumNumber = 10;
+		assertEquals(2, events.get(spectrumNumber).size());
+		assertEquals(new SpectrumEvent(spectrumNumber, testMotor, 10), events.get(spectrumNumber).get(0));
+		assertEquals(new SpectrumEvent(spectrumNumber, dummyScannableMotor, 50), events.get(spectrumNumber).get(1));
+
+		spectrumNumber = 20;
+		assertEquals(1, events.get(spectrumNumber).size());
+		assertEquals(new SpectrumEvent(spectrumNumber, testMotor, 3), events.get(spectrumNumber).get(0));
 	}
 
 	/**
