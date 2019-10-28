@@ -58,10 +58,14 @@
 		<property name="rgb" value="true" />
 		<property name="calibratedAxesProvider" ref="sample_microscope_beam_position_calibration" />
 		<property name="topUi">
-			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraAndCalibrationControls">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg name="cameraControl" ref="sample_microscope_camera_control" />
-				<constructor-arg name="calibration" ref="sample_microscope_beam_position_calibration" />
 				<property name="cameraResetScannable" ref="sample_microscope_reset" />
+				<property name="extension">
+					<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
+						<property name="calibration" ref="sample_microscope_beam_position_calibration" />
+					</bean>
+				</property>
 			</bean>
 		</property>
 	</bean>

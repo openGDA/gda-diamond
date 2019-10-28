@@ -26,10 +26,14 @@
 		<property name="displayName" value="Simulated Area Detector (with controls and calibration)" />
 		<property name="calibratedAxesProvider" ref="sim_cam_beam_position_calibration" />
 		<property name="topUi">
-			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraAndCalibrationControls">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg name="cameraControl" ref="sim_camera_control" />
-				<constructor-arg name="calibration" ref="sim_cam_beam_position_calibration" />
 				<property name="cameraResetScannable" ref="sim_camera_reset" />
+				<property name="extension">
+					<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
+						<property name="calibration" ref="sim_cam_beam_position_calibration" />
+					</bean>
+				</property>
 			</bean>
 		</property>
 	</bean>
