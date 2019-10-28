@@ -477,16 +477,40 @@ excalibur_config_normal_vds.getCollectionStrategy().scriptEnabled=True
 excalibur_config_normal_vds.getCollectionStrategy().scriptFileName="/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py"
 excalibur_config_normal_vds.getAdditionalPluginList()[0].fileTemplate="%s%s-%d.hdf"
 
+
+try:
+	print "Adding metadata system for DAT files (b16)..."
+	from gdascripts.scannable.installStandardScannableMetadataCollection import *
+	meta.rootNamespaceDict=globals()
+	note.rootNamespaceDict=globals()
+except:
+	print "Failed to add metadata system for DAT files (b16)!"
+
 try:
 	print "Installing attocube axes from epics BL13J-EA-ECC..."
 	from ecc100axis import createEcc100Axis
-	attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-01:ACT0:")
-	attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-01:ACT1:")
-	attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-01:ACT2:")
+	#attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-01:ACT0:")
+	#attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-01:ACT1:")
+	#attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-01:ACT2:")
 
-	attor1 = createEcc100Axis("attor1", "BL13J-EA-ECC-02:ACT0:")
-	attor2 = createEcc100Axis("attor2", "BL13J-EA-ECC-02:ACT1:")
-	attor3 = createEcc100Axis("attor3", "BL13J-EA-ECC-02:ACT2:")
+	#attor1 = createEcc100Axis("attor1", "BL13J-EA-ECC-02:ACT0:")
+	#attor2 = createEcc100Axis("attor2", "BL13J-EA-ECC-02:ACT1:")
+	#attor3 = createEcc100Axis("attor3", "BL13J-EA-ECC-02:ACT2:")
+	attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-04:ACT0:")
+	attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-04:ACT1:")
+	attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-04:ACT2:")
+
+	attoltilt1 = createEcc100Axis("attoltilt1", "BL13J-EA-ECC-02:ACT0:")
+	attoutilt1 = createEcc100Axis("attoutilt1", "BL13J-EA-ECC-02:ACT1:")
+	attorot1   = createEcc100Axis("attorot1",   "BL13J-EA-ECC-02:ACT2:")
+
+	attoltilt2 = createEcc100Axis("attoltilt2", "BL13J-EA-ECC-01:ACT0:")
+	attoutilt2 = createEcc100Axis("attoutilt2", "BL13J-EA-ECC-01:ACT1:")
+	attorot2   = createEcc100Axis("attorot2",   "BL13J-EA-ECC-01:ACT2:")
+
+	attol4 = createEcc100Axis("attol4", "BL13J-EA-ECC-03:ACT0:")
+	attol5 = createEcc100Axis("attol5", "BL13J-EA-ECC-03:ACT1:")
+	attol6   = createEcc100Axis("attol6",   "BL13J-EA-ECC-03:ACT2:")	
 except:
 	print "Failed to create attocube axes!"
 

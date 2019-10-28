@@ -1,0 +1,84 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- 	<bean id="kohzuTiltMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS1" />
+	</bean> -->
+
+	<bean id="kbvfmTiltMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS2" />
+	</bean>
+	
+	<bean id="kbhfmTiltMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS3" />
+	</bean>
+	
+	<bean id="kbphYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS4" />
+	</bean>
+	
+	<bean id="kbphXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS5" />
+	</bean>
+	
+	<bean id="kbwireXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS6" />
+	</bean>
+	
+	<bean id="kbwireYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS7" />
+	</bean>
+	
+	<bean id="aerotech_tiltMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-STEP-04:AXIS8" />
+	</bean>
+
+<!-- 	<bean id="kohzu_tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kohzuTiltMotor" />
+	</bean> -->
+
+	<bean id="kbvfmTilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbvfmTiltMotor" />
+	</bean>
+	
+	<bean id="kbhfmTilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbhfmTiltMotor" />
+	</bean>
+	
+	<bean id="kbphY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbphYMotor" />
+	</bean>
+	
+	<bean id="kbphX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbphXMotor" />
+	</bean>
+	
+	<bean id="kbwireX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbwireXMotor" />
+	</bean>
+	
+	<bean id="kbwireY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbwireYMotor" />
+	</bean>
+	
+	<bean id="kb" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<property name="groupMembers">
+		<list>
+			<ref bean="kbvfmTilt" />
+			<ref bean="kbhfmTilt" />
+			<ref bean="kbphX" />
+			<ref bean="kbphY" />
+			<ref bean="kbwireX" />
+			<ref bean="kbwireY" />
+		</list>
+	</property>
+	</bean>
+
+<!-- 	<bean id="aerotech_tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="aerotech_tiltMotor" />
+	</bean> -->
+
+</beans>
+

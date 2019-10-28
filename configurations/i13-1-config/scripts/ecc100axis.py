@@ -1,5 +1,3 @@
-# copy of b16's ecc100axis.py
-
 from gda.device import DeviceException
 from gda.device.scannable import ScannableBase
 from gda.epics import CAClient
@@ -10,7 +8,7 @@ class Ecc100Axis(ScannableBase):
         self.name = name
         self.inputNames = [name]
         self.extraNames = []
-        self.outputFormat = ["%5.5g"]
+        self.outputFormat = ["%.6f"]
         self.pv_root = pvroot
         self.ca_freq = CAClient(self.pv_root + "CMD:FREQ")
         self.ca_freq_rbv = CAClient(self.pv_root + "CLC_FREQ")
@@ -30,9 +28,7 @@ class Ecc100Axis(ScannableBase):
 
     def isBusy(self):
         #"is busy" status is a little slow to update
-        print time()
         if time() < self.time_at_move + self.min_delay:
-            #print "early out in isBusy!"
             return True
         if int(self.ca_hlimit.caget()) == 1:
             raise DeviceException("%s is on a high limit" % self.name)
@@ -41,13 +37,11 @@ class Ecc100Axis(ScannableBase):
         return int(self.ca_inposition.caget()) != 1
 
     def getPosition(self):
-        return self.ca_position_rbv.caget()
+        return float(self.ca_position_rbv.caget())
 
     def asynchronousMoveTo(self, pos):
-        #print "asynchronousMoveTo"
         self.ca_position.caput(pos)
         self.time_at_move = time()
-        print self.time_at_move
 
     def configure(self):
         configurables = [self.ca_freq, self.ca_freq_rbv,
