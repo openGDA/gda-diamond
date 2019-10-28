@@ -9,7 +9,7 @@
 
 	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
 
-	<bean id="polarimeter" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<bean id="andor2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Polarimeter" />
 		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8098/ANDOR2.mjpg.mjpg" />
 		<property name="arrayPv" value="BL21I-EA-DET-02:ARR" />
