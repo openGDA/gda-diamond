@@ -13,11 +13,13 @@ Start the GDA client with the default workspace: ${WORKSPACE}
 
 Environment:
   Required:
-    BEAMLINE                Used to determine default directory locations
+    BEAMLINE                     Used to determine default directory locations
   Optional:
-    GDA_CLIENT              Override the default client executable
-    GDA_CLIENT_VMARGS       Specify additional -vmargs to append
-    GDA_CLIENT_LOG_DIR      Override default ErrorFile location
+    GDA_CLIENT                   Override the default client executable
+    GDA_CLIENT_VMARGS            Specify additional -vmargs to append
+    GDA_CLIENT_LOG_DIR           Override default ErrorFile location
+    GDA_CLIENT_WORKSPACE_PARENT  Override the default workspace parent dir
+    GDA_CLIENT_CONFIG_PARENT     Override the default configuration parent dir
 
 OPTIONS:
     --help             Print this help and exit.
@@ -68,11 +70,17 @@ if [ -z $BEAMLINE ] ; then
 fi
 
 # ensure directory containing workspaces exists, and is writable by everyone
-WORKSPACE_PARENT=/scratch/gda_workspaces
+WORKSPACE_PARENT=$GDA_CLIENT_WORKSPACE_PARENT
+if [ -z "$WORKSPACE_PARENT" ]; then
+	WORKSPACE_PARENT=/scratch/gda_workspaces
+fi
 [ -d $WORKSPACE_PARENT ] || mkdir -m 777 $WORKSPACE_PARENT
 
 # ensure directory containing configs exists, and is writable by everyone
-CONFIG_PARENT=/scratch/gda_configs
+CONFIG_PARENT=$GDA_CLIENT_CONFIG_PARENT
+if [ -z "$CONFIG_PARENT" ]; then
+	CONFIG_PARENT=/scratch/gda_configs
+fi
 [ -d $CONFIG_PARENT ] || mkdir -m 777 $CONFIG_PARENT
 
 # eg /scratch/gda_workspaces/abc12345_gda-9.12
