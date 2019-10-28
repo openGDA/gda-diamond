@@ -61,10 +61,25 @@
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg name="cameraControl" ref="sample_microscope_camera_control" />
 				<property name="cameraResetScannable" ref="sample_microscope_reset" />
-				<property name="extension">
-					<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
-						<property name="calibration" ref="sample_microscope_beam_position_calibration" />
-					</bean>
+				<property name="extensions">
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
+							<property name="calibration" ref="sample_microscope_beam_position_calibration" />
+						</bean>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
+							<constructor-arg name="controlScannable">
+								<bean class="gda.device.scannable.SimplePVScannable">
+									<property name="pvName" value="BL14I-OP-DCAM-12:OVER:1:Use" />
+									<property name="textInput" value="true" />
+								</bean>
+							</constructor-arg>
+							<constructor-arg name="monitorScannable">
+								<bean class="gda.device.monitor.EpicsMonitor">
+									<property name="pvName" value="BL14I-OP-DCAM-12:OVER:1:Use" />
+								</bean>
+							</constructor-arg>
+						</bean>
+					</list>
 				</property>
 			</bean>
 		</property>
