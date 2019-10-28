@@ -130,7 +130,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i21.polarimeter.live.stream.view.LiveStreamViewWithHistogram">
+            locationURI="toolbar:uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamViewWithHistogram">
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
@@ -141,7 +141,7 @@
                <with
                      variable="activePartId">
                   <equals
-                        value="uk.ac.gda.beamline.i21.polarimeter.live.stream.view.LiveStreamViewWithHistogram">
+                        value="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamViewWithHistogram">
                   </equals>
                </with>
             </visibleWhen>
@@ -155,7 +155,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i21.polarimeter.live.stream.active">
+                     variable="i21.andor2.live.stream.active">
                   <equals
                         value="STOPPED">
                   </equals>
@@ -171,7 +171,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i21.polarimeter.live.stream.active">
+                     variable="i21.andor2.live.stream.active">
                   <equals
                         value="RUNNING">
                   </equals>
@@ -187,7 +187,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i21.polarimeter.live.stream.active">
+                     variable="i21.andor2.live.stream.active">
                   <equals
                         value="RUNNING">
                   </equals>
@@ -197,7 +197,7 @@
          <command
                commandId="uk.ac.gda.client.live.stream.controls.crosshair"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/crosshairs.png"
-               id="uk.ac.gda.beamline.i21.polarimeter.live.stream.view.crosshair.toolbar.command"
+               id="uk.ac.gda.beamline.i21.andor2.live.stream.view.crosshair.toolbar.command"
                label="Crosshair"
                style="pulldown"
                tooltip="Enable/Disable crosshair">
@@ -266,7 +266,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:uk.ac.gda.beamline.i21.polarimeter.live.stream.view.crosshair.toolbar.command">
+            locationURI="menu:uk.ac.gda.beamline.i21.andor2.live.stream.view.crosshair.toolbar.command">
          <command
                commandId="uk.ac.gda.client.live.stream.controls.crosshair"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/add.png"
@@ -479,9 +479,9 @@
             restorable="true">
       </view>
       <view
-            class="gda.rcp.views.ViewFactoryFinder:polarimeterControlWidgetFactory"
-            id="uk.ac.gda.beamline.i21.polarimeter.live.stream.view.LiveStreamViewWithHistogram"
-            name="Polarimeter"
+            class="gda.rcp.views.ViewFactoryFinder:andor2ControlWidgetFactory"
+            id="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamViewWithHistogram"
+            name="Andor2"
             restorable="true">
       </view>
       <view
@@ -542,7 +542,7 @@
                priorityLevel="workbench">
          </variable>
          <variable
-               name="i21.polarimeter.live.stream.active"
+               name="i21.andor2.live.stream.active"
                priorityLevel="workbench">
          </variable>
          <variable

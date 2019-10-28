@@ -41,8 +41,8 @@
 		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
 		<property name="updateIntervalInSeconds" value="1"/>
 	</bean>	
-	<!-- Polarimeter controls -->
-	<bean id="polarimeterExposureTime" class="gda.device.scannable.EpicsScannable">
+	<!-- Polariser controls -->
+	<bean id="andor2ExposureTime" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
 		<property name="useNameAsInputName" value="true"/>
 		<property name="hasUnits" value="false"/>
@@ -52,7 +52,7 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="polarimeterAcquirePeriod" class="gda.device.scannable.EpicsScannable">
+	<bean id="andor2AcquirePeriod" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
 		<property name="useNameAsInputName" value="true"/>	
 		<property name="hasUnits" value="false"/>	
@@ -62,13 +62,13 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="polarimeterCountdown" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimer" init-method="init" destroy-method="destroy">
+	<bean id="andor2Countdown" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimer" init-method="init" destroy-method="destroy">
 		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
 		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
 		<property name="updateIntervalInSeconds" value="1"/>
 		<property name="timeFormatInSeconds" value="%4d"/>
 	</bean>	
-	<bean id="polarimeterCountdownProgress" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimerProgress" init-method="init" destroy-method="destroy">
+	<bean id="andor2CountdownProgress" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimerProgress" init-method="init" destroy-method="destroy">
 		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
 		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
 		<property name="updateIntervalInSeconds" value="1"/>
