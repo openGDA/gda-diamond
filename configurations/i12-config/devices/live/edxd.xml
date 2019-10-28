@@ -953,6 +953,7 @@
 				<entry key="TLIVETIME22" value="BL12I-EA-DET-03:DXP22:ElapsedTriggerLiveTime" />
 				<entry key="TLIVETIME23" value="BL12I-EA-DET-03:DXP23:ElapsedTriggerLiveTime" />
 				<entry key="TLIVETIME24" value="BL12I-EA-DET-03:DXP24:ElapsedTriggerLiveTime" />
+				<entry key="DeadTime" value="BL12I-EA-DET-03:DeadTime" />
 			</map>
 		</property>
 	</bean>

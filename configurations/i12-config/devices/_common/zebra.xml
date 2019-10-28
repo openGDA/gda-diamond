@@ -25,6 +25,8 @@
 		<property name="mode" value="1" />
 		<property name="scannableMotor" ref="ss1_theta" />
 		<property name="zebraMotorInfoProvider" ref="zebraSM1" />
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="pcPulseTriggerWidth" value="0.01" />
 	</bean>
 
 	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
@@ -33,19 +35,11 @@
 		<property name="scurveTimeToVelocity" value="5"/> <!--  read from weight system -->
 	</bean>
 	
-	<bean id="zebra_group" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="zebraContinuousMoveController" />
-				<ref bean="zebraSM1" />
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.PCOHWTriggerBase">
 		<constructor-arg ref="pco.cam" />
 		<constructor-arg ref="pco_hdf_adDriverPco" />
 		<property name="timeStamp" value="2"/>
+		<property name="timeFormat" value="%.5f"/>
 	</bean>
 		
 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
@@ -64,6 +58,7 @@
 		<constructor-arg ref="pco.cam" />
 		<constructor-arg ref="pco_hdf_adDriverPco" />
 		<constructor-arg value=".03" />
+		<property name="timeFormat" value="%.5f"/>
 	</bean>
 	
 	<bean id="flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
@@ -97,17 +92,6 @@
 			</list>
 		</property>
 	</bean>	
-	
-	<bean id="flyScan" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="flyScanDetector" />
-				<ref bean="flyScanDetectorTIF" />
-				<ref bean="flyScanFlatDarkDetector" />
-				<ref bean="flyScanFlatDarkDetectorTIF" />
-			</list>
-		</property>
-	</bean>
 
 	<bean id="pixium_flyScanCollectionStrategy"	class="gda.device.detector.addetector.triggering.HardwareTriggeredPixium">
 		<constructor-arg ref="pixium10_cam_base" />
@@ -159,17 +143,6 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pixium10_hdf_fileWriter" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="pixium" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="pixium_flyScanDetector" />
-				<ref bean="pixium_flyScanDetectorTIF" />
-				<ref bean="pixium_flyScanFlatDarkDetector" />
-				<ref bean="pixium_flyScanFlatDarkDetectorTIF" />
 			</list>
 		</property>
 	</bean>
