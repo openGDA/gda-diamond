@@ -142,7 +142,7 @@ class ExcaliburOdinXgraph():
         #self.outdirpath = "t:\\i12\\data\\\\2018\\cm19662-1\\rawdata\\%d\\projections\\" %(self.scan_number)
         #self.outdirpath = os.path.join(wd(), str(self.scan_number), "projections")
         #self.outdirpath = "/dls/i13-1/data/2018/cm19663-3/tmp"
-        self.outdirpath = "/dls/i13-1/data/2019/cm22975-1/raw"
+        self.outdirpath = "/dls/i13-1/data/2019/cm22975-4/raw"
         if self.outdirpath is None:
             #self.outdirpath = wd()
             pass
