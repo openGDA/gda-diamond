@@ -60,9 +60,6 @@ class ExcaliburOdinSoftwareTriggeredNXDet(NXDetector):
         #print "from readout: %s" %(output)
         #return output
         return dataTree
-        #outpath = '/dls/i13-1/data/2019/cm22975-4/raw/259871.nxs'
-        #print "**************", outpath
-        #return outpath
     
     def getCollectionTime(self):
         #print "@getCollectionTime!"
@@ -107,8 +104,7 @@ class ExcaliburOdinSoftwareADTriggerringStrategy(AbstractADTriggeringStrategy):
         print "\t acquisition period: %s s" %(acq_period_sec_eff)
         self.acq_period_rbv = float(acq_period_sec_eff)
 
-        #caput_wait("BL13J-EA-EXCBR-02:CAM:ImageMode", 1)        		#0=Single, 1=Multiple
-        caput_wait("BL13J-EA-EXCBR-02:CAM:ImageMode", 0)
+        caput_wait("BL13J-EA-EXCBR-02:CAM:ImageMode", 1)        		#0=Single, 1=Multiple
         caput_wait("BL13J-EA-EXCBR-02:CAM:TriggerMode", 0)    			#0=Internal, 1=External, 2=Sync 
 
         image_mode_eff = caget("BL13J-EA-EXCBR-02:CAM:ImageMode_RBV")
@@ -128,14 +124,11 @@ class ExcaliburOdinSoftwareADTriggerringStrategy(AbstractADTriggeringStrategy):
         print "\t Acquire stop!"
 
     def _set_hdf5_writer(self, outdirpath, scan_number, nimages=1):    ## add filename_prefix_hdf and template? change to configure?
-        print("*** ExcaliburOdinSoftwareADTriggerringStrategy._set_hdf5_writer called!")
         caput_wait("BL13J-EA-EXCBR-02:OD:Capture", 0) # Stop previous writing if any | 0=Done, 1=Capture
 
         caputStringAsWaveform("BL13J-EA-EXCBR-02:OD:FilePath", outdirpath) #, timeout=10)	# File Directory
-        #fname = self.filename_template %(self.filename_prefix, scan_number)
-        fname = self.filename_prefix
-        caputStringAsWaveform("BL13J-EA-EXCBR-02:OD:FileName", fname)
-        caput_wait("BL13J-EA-EXCBR-02:OD:OFF:Adjustment", scan_number)        
+        fname = self.filename_template %(self.filename_prefix, scan_number)
+        caputStringAsWaveform("BL13J-EA-EXCBR-02:OD:FileName", fname)        
         
         #caput("BL12I-EA-DET-02:TIF:EnableCallbacks", 1)
 #        caput_wait("BL13J-EA-EXCBR-02:OD:FileNumber", scan_number, timeout=10)    #was 0
@@ -187,7 +180,6 @@ class ExcaliburOdinSoftwareADTriggerringStrategy(AbstractADTriggeringStrategy):
             #self.outdirpath = os.path.join(wd(), str(self.scan_number), "projections")
             #self.outdirpath = "/dls/i13-1/data/2018/cm19663-3/tmp"
             #self.outdirpath = "/dls/i13-1/data/2019/mg21652-1/raw"
-            #self.outdirpath = "/dls/i13-1/data/2019/cm22975-4/raw/"
             self.outdirpath = "/dls/i13-1/data/2019/cm22975-4/raw/excalibur-odin-%d-files" %(self.scan_number)
             outdirpath = VisitPath.getVisitPath()
             print("outdirpath (pre) = %s" %(outdirpath))
@@ -198,9 +190,9 @@ class ExcaliburOdinSoftwareADTriggerringStrategy(AbstractADTriggeringStrategy):
             if self.outdirpath is None:
                 #self.outdirpath = wd()
                 pass
-            print("\t outdirpath = %s" %(self.outdirpath))
+            print "\t outdirpath = %s" %(self.outdirpath)
         
-            #self._set_hdf5_writer(self.outdirpath, self.image_idx, self.nimages)    # remove args?
+            #self._set_hdf5_writer(self.outdirpath, self.scan_number, self.nimages)    # remove args?
             self.file_writer_configured = True
         self._set_hdf5_writer(self.outdirpath, self.image_idx, self.nimages)
         
@@ -225,12 +217,6 @@ class ExcaliburOdinSoftwareADTriggerringStrategy(AbstractADTriggeringStrategy):
         print "\t Image captured!"
         self.image_idx += 1
         return                  # is it needed?
-
-
-#    def configureAcquireAndPeriodTimes(self, collectionTime):
-#        print("**** ExcaliburOdinSoftwareADTriggerringStrategy.configureAcquireAndPeriodTimes called!")
-#        print "\t @configureAcquireAndPeriodTimes:", collectionTime
-        
 
     def prepareForCollection(self, collectionTime, numImages, scanInfo):
         print("**** ExcaliburOdinSoftwareADTriggerringStrategy.prepareForCollection called!")
@@ -280,7 +266,7 @@ class ExcaliburOdinSoftwareADTriggerringStrategy(AbstractADTriggeringStrategy):
 
 
 excalibur_odin_sw_cs=ExcaliburOdinSoftwareADTriggerringStrategy()
-excalibur_odin_sw_det=ExcaliburOdinSoftwareTriggeredNXDet("excalibur_odin_sw_det", excalibur_odin_sw_cs)
+excalibur_odin_sw_det0=ExcaliburOdinSoftwareTriggeredNXDet("excalibur_odin_sw_det0", excalibur_odin_sw_cs)
 
 
 
