@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<groupId>uk.ac.diamond</groupId>
+<artifactId>gda-dls-beamlines-xas</artifactId>
+<version>1.0.0-SNAPSHOT</version>
+<packaging>pom</packaging>
+
+<parent>
+<groupId>uk.ac.diamond</groupId>
+<artifactId>uk.ac.diamond.aggregator</artifactId>
+<version>1.0.0-SNAPSHOT</version>
+</parent>
+
+<modules>
+<!-- Not plug-ins. Are these still needed?
+<module>b18</module>
+<module>i18</module>
+<module>i20</module>
+<module>i20-1</module>
+ -->
+<module>uk.ac.diamond.daq.beamline.i18.controls</module>
+<module>uk.ac.diamond.daq.beamline.i18.controls.test</module>
+<module>uk.ac.gda.beamline.b18</module>
+<module>uk.ac.gda.beamline.b18.feature</module>
+<module>uk.ac.gda.beamline.b18.server</module>
+<module>uk.ac.gda.beamline.b18.site</module>
+<!-- 
+<module>uk.ac.gda.beamline.b18.test</module>
+ -->
+<module>uk.ac.gda.beamline.i18</module>
+<module>uk.ac.gda.beamline.i18.feature</module>
+<module>uk.ac.gda.beamline.i18.site</module>
+<module>uk.ac.gda.beamline.i20</module>
+<module>uk.ac.gda.beamline.i20_1</module>
+<module>uk.ac.gda.beamline.i20_1.feature</module>
+<module>uk.ac.gda.beamline.i20_1.server</module>
+<module>uk.ac.gda.beamline.i20_1.site</module>
+<!-- 
+<module>uk.ac.gda.beamline.i20_1.test</module>
+<module>uk.ac.gda.beamline.i20.test</module>
+ -->
+<module>uk.ac.gda.beamline.i20.feature</module>
+<module>uk.ac.gda.beamline.i20.server</module>
+<module>uk.ac.gda.beamline.i20.site</module>
+</modules>
+</project>
