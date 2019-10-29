@@ -1324,16 +1324,6 @@
         <property name="motor" ref="MotorSyringe_right" />
     </bean>
 
-    <bean id="syringeleftvalve" class="gda.device.scannable.SimplePVScannable">
-        <property name="name" value="syringe_left_valve" />
-        <property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
-    </bean>
-
-    <bean id="syringerightvalve" class="gda.device.scannable.SimplePVScannable">
-        <property name="name" value="syringe_right_valve" />
-        <property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
-    </bean>
-
     <bean id="syringes" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="name" value="syringes" />
         <property name="groupMembers">
@@ -1448,9 +1438,33 @@
         <property name="motor" ref="s20_motor_beamstopv" />
     </bean>
 
-    <bean id="claspshutter" class="gda.device.scannable.SimplePVScannable">
-        <property name="name" value="claspshutter" />
-        <property name="pvName" value="BL07I-OP-FILT-01:FILTER13:CTRL" />
+
+    <!-- xyz Stage for the Pilatus 2M -->
+
+    <bean id="stagex" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="stagex" />
+        <property name="motor" ref="stagex_motor" />
+    </bean>
+
+    <bean id="stagey" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="stagey" />
+        <property name="motor" ref="stagey_motor" />
+    </bean>
+
+    <bean id="stagez" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="stagez" />
+        <property name="motor" ref="stagez_motor" />
+    </bean>
+
+    <bean id="STAGE" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="name" value="STAGE" />
+        <property name="groupMembers">
+            <list>
+                <ref bean="stagex" />
+                <ref bean="stagey" />
+                <ref bean="stagez" />
+            </list>
+        </property>
     </bean>
 
     <bean id="ALL_MOTORS" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -1641,7 +1655,11 @@
                 <ref bean="dcdxcenter" />
                 <ref bean="dcdxrotoffset" />
                 <ref bean="dcdxtilt" />
-                
+
+                <!-- P2M Addidional Stage -->
+                <ref bean="stagex" />
+                <ref bean="stagey" />
+                <ref bean="stagez" />
                 
             </list>
         </property>

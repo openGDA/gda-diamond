@@ -37,6 +37,7 @@ class DiffcalcHeaders(PseudoDevice):
 diffcalchdr = DiffcalcHeaders("diffcalchdr")
 fileHeader.add([diffcalchdr])
 pilatusHeader.add([diffcalchdr])
+meta_add(diffcalchdr)
 
 
 # ubcalc._state.crystal._a3

@@ -133,6 +133,8 @@
         <property name="bpmName" value="bpm1"/>
     </bean>
 
+    <bean id="qbpm1range" class="gda.device.monitor.DummyMonitor" />
+
     <!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="bpm2qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -142,6 +144,8 @@
         <property name="currAmpQuadName" value="bpm2qca"/>
         <property name="bpmName" value="bpm2"/>
     </bean>
+
+    <bean id="qbpm2range" class="gda.device.monitor.DummyMonitor" />
     
     <!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="bpm3qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
@@ -152,6 +156,8 @@
         <property name="currAmpQuadName" value="bpm3qca"/>
         <property name="bpmName" value="bpm3"/>
     </bean>
+
+    <bean id="qbpm3range" class="gda.device.monitor.DummyMonitor" />
     
     <!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs1qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
@@ -163,6 +169,8 @@
         <property name="bpmName" value="mbs1bpm"/>
     </bean>
 
+    <bean id="mbs1qbpmrange" class="gda.device.monitor.DummyMonitor" />
+
     <!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs2qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -173,6 +181,8 @@
         <property name="bpmName" value="mbs2bpm"/>
     </bean>
 
+    <bean id="mbs2qbpmrange" class="gda.device.monitor.DummyMonitor" />
+
     <!-- MBS3 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs3qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -182,6 +192,8 @@
         <property name="currAmpQuadName" value="mbs3qca"/>
         <property name="bpmName" value="mbs3bpm"/>
     </bean>
+
+    <bean id="mbs3qbpmrange" class="gda.device.monitor.DummyMonitor" />
     
     <!--  ==================== Single Channel Current Amplifier definition section ===================== -->
     <!-- D1 Current Amplifier-->
@@ -207,10 +219,12 @@
 
     <bean id="adcbpm" class="gda.device.monitor.DummyMonitor"/>
 
-   <!--  <bean id="adcqbpm" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="adcqca"/>
-        <property name="bpmController" ref="adcbpm"/>
-    </bean> -->
+	<bean id="adcqbpm" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="adcqca"/>
+        <property name="bpmName" value="adcbpm"/>
+    </bean>
+
+    <bean id="ioncrange" class="gda.device.monitor.DummyMonitor" />
 
     <!--  ============================== Epics Enum Positioner definition section ============== -->
 
@@ -292,6 +306,9 @@
     <!-- D4 scatter diode" name="D4.SCATTER" -->
     <bean id="d4s" class="gda.device.monitor.DummyEpicsMonitor"/>
 
+    <!-- Range/gain setting for D4 Inline -->
+    <bean id="d4range" class="gda.device.monitor.DummyEpicsMonitor" />
+
     <!-- "DCD Diode 1 and 2 current" name="DCD.DIODE1" -->
     <bean id="dcdc1" class="gda.device.monitor.DummyEpicsMonitor"/>
 
@@ -369,7 +386,10 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
+    <!-- Beam intensity from D5 -->
+    <bean id="d5i" class="gda.device.monitor.DummyMonitor" />
+
 
     <!--  ============================== Shutter and Valve definition section ============================== -->
     <!-- Front End Shutter 1, the Port Shutter-->
@@ -852,5 +872,25 @@
     <bean id="s20_motor_ycentre" class="gda.device.motor.DummyMotor"/>
 
     <bean id="s20_motor_ysize" class="gda.device.motor.DummyMotor"/>
+
+    <!-- xyz Stage for the Pilatus 2M -->
+
+    <bean id="stagex_motor" class="gda.device.motor.DummyMotor" />
+
+    <bean id="stagey_motor" class="gda.device.motor.DummyMotor" />
+
+    <bean id="stagez_motor" class="gda.device.motor.DummyMotor" />
+
+    <bean id="claspshutter" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="claspshutter" />
+    </bean>
+
+    <bean id="syringeleftvalve" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="syringe_left_valve" />
+    </bean>
+
+    <bean id="syringerightvalve" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="syringe_right_valve" />
+    </bean>
 
 </beans>

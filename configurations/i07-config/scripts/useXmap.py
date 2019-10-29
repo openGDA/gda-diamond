@@ -1,11 +1,3 @@
-
-
-def disable_nexus():
-        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SixdSrsDataWriter")
-
-def enable_nexus():
-        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
-
 try:
         caput("ME13C-EA-DET-01:CollectMode", 0) #MCA Spectra
         caput("ME13C-EA-DET-01:PresetMode", 1) #Real mode

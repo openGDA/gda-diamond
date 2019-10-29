@@ -18,6 +18,11 @@ from gdaserver import ebe
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
 userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
 
+def disable_nexus():
+        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
+
+def enable_nexus():
+        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 	
 def try_execfile(filepath, description=None, full_log=False, absolute=False):
 	print "-------------------------------------------------------------------"
@@ -121,11 +126,21 @@ try_execfile("BeamlineI07/useDummyCam.py")
 
 try_execfile("BeamlineI07/useEuroThermo.py")
 
+# Replaces metadata set up in setSrsDataFileHeader.py
+try_execfile("BeamlineI07/configureMetadata.py")
+
 #try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
 try_execfile("BeamlineI07/Users/MainHutch.py")
 
 try_execfile("BeamlineI07/htc_temp.py")
 htc = TemperatureSocketDevice('htc', 'localhost', 10002)
+
+try:
+	from gdaserver import d5i
+	add_default(d5i)
+except:
+	print('Could not find d5i to add as a default scannable')
+
 
 #pieX = pie.pieX
 #pieY = pie.pieY

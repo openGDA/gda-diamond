@@ -6,8 +6,11 @@ Created on 20 Mar 2012
 import time
 
 from gda.device.scannable import ScannableBase
+#import org.slf4j.Logger
+from org.slf4j import LoggerFactory
 
 DEBUG = False
+logger = LoggerFactory.getLogger("b16WaitForCondition")
 
 class WaitForCondition(ScannableBase):
     """Blocks while reading out, so as to require no input from user. Condition should act on
@@ -34,6 +37,7 @@ class WaitForCondition(ScannableBase):
         
     def waitWhileBusy(self):
         val = self.scannable()
+        logger.debug("{}: waiting for contition: {}".format(self.name, self.condition))
         while not eval(self.condition, {'val': val}):
             time.sleep(.1)
             val = self.scannable()

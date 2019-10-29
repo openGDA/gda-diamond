@@ -321,6 +321,7 @@
 
 	<bean id="ebcbv" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL07I-EA-EBC-01:BombardmentVoltage" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 
 	<bean id="ebcfc" class="gda.device.scannable.MultiPVScannable">
@@ -345,6 +346,7 @@
 
 	<bean id="ebcsetpoint" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL07I-EA-EBC-01:PID.VAL" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 
 

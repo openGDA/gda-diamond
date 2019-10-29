@@ -44,6 +44,7 @@
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:KPHI" />
 	</bean>
 
+	<!-- Use DummyMotor when USE_CRYO_GEOMETRY = False and EpicMotor when True -->
 	<bean id="sixcCryoPhiMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />

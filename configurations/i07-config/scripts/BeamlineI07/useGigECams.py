@@ -3,6 +3,5 @@ from Diamond.AreaDetector.NdArrayPluginDevice import NdArrayWithStatPluginDevice
 print "---------------------------------------------------------"
 print("Use xraycamstats for the Stats plugin of xraycam")
 
-xraycamstats = NdArrayWithStatPluginDeviceClass('xraycamstats', xraycam_ad)
-
-
+xrayeyestats = NdArrayWithStatPluginDeviceClass('xrayeyestats', xrayeye_det)
+dcam8stats = NdArrayWithStatPluginDeviceClass('dcam8stats', dcam8_det)

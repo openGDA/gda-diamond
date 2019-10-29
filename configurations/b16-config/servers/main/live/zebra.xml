@@ -9,4 +9,15 @@
 		<property name="armPutNoWait" value="true" />
 	</bean>
 
+	<bean id="zebra_pulse1_out" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:PULSE1_OUT" />
+		<property name="poll" value="true" />
+	</bean>
+
+
+	<bean id="zebra_pulse1_input" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:PULSE1_INP:STA" />
+		<property name="poll" value="true" />
+	</bean>
+
 </beans>

@@ -8,10 +8,14 @@ localStation_logger = LoggerFactory.getLogger("localStation.py")
 
 localStation_exceptions = []
 
-def localStation_exception(msg, exception):
+def localStation_exception(msg, exception=None):
+	import java, sys, traceback
 	localStation_exceptions.append("    %s" % msg)
 	print "! Failure %s !" % msg
-	localStation_logger.error(msg, exception)
+	if isinstance(exception, java.lang.Exception) or exception == None:
+		localStation_logger.error(msg, exception)
+	else:
+		localStation_logger.error(msg + ':\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
 
 def localStation_print(msg, pause=0):
 	#if (pause > 0):
@@ -24,33 +28,36 @@ def localStation_print(msg, pause=0):
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
 	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
-	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
+	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP, USE_SMARGON # @UnresolvedImport
 except Exception as e:
 	USE_CRYO_GEOMETRY = False
-	USE_DIFFCALC = False
+	USE_DIFFCALC = True
 	USE_DUMMY_IDGAP_MOTOR = False
 	USE_NEXUS = True
 	USE_NEXUS_METADATA_COMMANDS = True
-	USE_XMAP= True
+	USE_XMAP= False
+	USE_SMARGON = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,"+
-		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r" % 
-		(USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR, USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP) , e)
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r, USE_SMARGON=%r" %
+				(USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP, USE_SMARGON)
+		, e)
+
+if USE_NEXUS_METADATA_COMMANDS and not USE_NEXUS:
+	localStation_exception("trying to use USE_NEXUS_METADATA_COMMANDS when USE_NEXUS = False, setting USE_NEXUS_METADATA_COMMANDS = False", None)
+	USE_NEXUS_METADATA_COMMANDS = False
+
+if USE_DIFFCALC and USE_SMARGON:
+	localStation_exception("trying to both USE_DIFFCALC and USE_SMARGON, setting USE_DIFFCALC = False", None)
+	USE_DIFFCALC = False
 
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
-localStation_print("Importing * from gdaserver.py...", 10)
-try:
-	from gdaserver import * # @UnusedWildImport
-except Exception as e:
-	localStation_exception("importing * from gdaserver.py" , e)
-
-localStation_print("... * imported from gdaserver.py", 10)
-
 global Finder, pos, finder, add_default, meta
 
-global sixckappa_cryo, cryophi
+global sixckappa, euler_cryo, sixckappa_cryo, cryophi
 global delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
@@ -176,8 +183,8 @@ from element_library import *
 from scannable.toggleBinaryPvAndWaitScannable import ToggleBinaryPvAndWait
 from misc_functions import list_scannables, listprint, frange, attributes, caput, caget, cagetArray, add, mult
 import pd_offset
-from analysis_FindScanPeak import FindScanPeak
-from analysis_FindScanCentroid import findCentroidPoint, FindScanCentroid, readSRSDataFile
+from analysis.FindScanPeak import FindScanPeak
+from analysis.FindScanCentroid import findCentroidPoint, FindScanCentroid, readSRSDataFile
 from device_serial import SerialDevice
 from device_serial_ace import ace
 from device_tca import TCA
@@ -212,14 +219,6 @@ from spechelp import * # aliases man objects
 from scannable.MoveThroughOrigin import MoveThroughOriginScannable
 from gda.device.scannable.scannablegroup import DeferredScannableGroup
 
-# Configure here as nested beans are not configured
-if USE_CRYO_GEOMETRY:
-	eulerNames = ["phi", "chi", "eta", "mu", "delta", "gam"]
-	for motor, name in zip(euler_cryo.getScannableMotors(), eulerNames):
-		motor.name = name
-		motor.configure()
-
-##CHANGED TO USE LIMIT CRYOPHI
 if USE_CRYO_GEOMETRY:
 	_cryophi = euler_cryo.phi
 	_cryophi.setUpperGdaLimits(165)
@@ -227,7 +226,7 @@ if USE_CRYO_GEOMETRY:
 	exec("cryophi = MoveThroughOriginScannable(euler_cryo.phi)")
 	#cryophi.name = "cryophi"
 	exec("sixckappa_cryo = DeferredScannableGroup()")
-	sixckappa_cryo.setGroupMembers([cryophi, kap, kth, kmu, kdelta, kgam])
+	sixckappa_cryo.setGroupMembers([cryophi, sixckappa.kap, sixckappa.kth, sixckappa.kmu, sixckappa.kdelta, sixckappa.kgam])
 	sixckappa_cryo.setName("sixckappa_cryo")
 	sixckappa_cryo.deferredControlPoint = sixckappa.getDeferredControlPoint()
 	sixckappa_cryo.deferOnValue = sixckappa.deferOnValue
@@ -276,9 +275,6 @@ if USE_CRYO_GEOMETRY:
 	# Diffcalc instructions here: http://confluence.diamond.ac.uk/display/I16/Diffcalc or http://confluence.diamond.ac.uk/x/855TAQ
 else:
 	sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
-if USE_CRYO_GEOMETRY:	
-	pass # TThere is already a cryophi
-else:
 	exec("kphi=sixc.kphi")
 	
 exec("kap=sixc.kap")
@@ -347,8 +343,8 @@ w=waittime	#abreviated name
 mrwolf=mrwolfClass('mrwolf')
 
 ### Create offset devices
-localStation_print("Running startup_offsets.py: Starting database system...")
-run("startup_offsets")
+localStation_print("Running localStationScripts/startup_offsets.py: Starting database system...")
+run("localStationScripts/startup_offsets")
 localStation_print("...Database system started")
 offsetshelf=LocalJythonShelfManager.open('offsets')
 localStation_print("  use 'offsetshelf' to see summary of offsets")
@@ -375,9 +371,9 @@ def _gdahelp(o):
 alias("help")
 
 ### Create datadir functions
-localStation_print("Running startup_dataDirFunctions.py")
+localStation_print("Running localStationScripts/startup_dataDirFunctions.py")
 localStation_print("  use 'datadir' to read the current directory or 'datadir name' to change it")
-run("startup_dataDirFunctions") # depends on globals pil2mdet and pil100kdet
+run("localStationScripts/startup_dataDirFunctions") # depends on globals pil2mdet and pil100kdet
 alias('datadir')
 
 ### Pipeline	
@@ -444,8 +440,8 @@ if USE_CRYO_GEOMETRY:
 	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
 	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
 	euler.deferOnValue = sixckappa.deferOnValue
-	euler.numberToMoveControlPoint = sixckappa.getNumberToMoveControlPoint()
-	euler.checkStartControlPoint = sixckappa.getCheckStartControlPoint()
+	#euler.numberToMoveControlPoint = sixckappa.getNumberToMoveControlPoint()
+	#euler.checkStartControlPoint = sixckappa.getCheckStartControlPoint()
 	euler.configure()
 	phi = euler.phi
 	chi = euler.chi
@@ -454,7 +450,7 @@ if USE_CRYO_GEOMETRY:
 	exec("delta=euler.delta")
 	exec("gam=euler.gam")
 else:
-	run("startup_diffractometer_euler")
+	run("localStationScripts/startup_diffractometer_euler")
 
 """ PA motors now defined in spring
 if installation.isLive():
@@ -464,7 +460,7 @@ if installation.isLive():
 """
 
 if not USE_DIFFCALC:
-	run("startup_diffractometer_hkl")
+	run("localStationScripts/startup_diffractometer_hkl")
 	azihkl=AzihklClass('aziref')
 	azihkl.azir_function = azir
 	psi.setInputNames(['psi'])
@@ -556,7 +552,7 @@ except NameError as e:
 #
 if installation.isDummy():
 	localStation_print("Running localStation.test_only.py ...")
-	run("localStation.test_only")
+	run("localStationScripts/localStation.test_only")
 	localStation_print("... completed localStation.test_only.py")
 	print
 	setDatadirPropertyFromPersistanceDatabase()
@@ -572,7 +568,7 @@ if installation.isDummy():
 ###                          Tune finepitch using QBPM                      ###
 ###############################################################################
 localStation_print("Tuning finepitch using QBPM *Use with care*")
-run("pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos 
+run("localStationScripts/pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos 
 pitchup=pitchupClass()
 
 
@@ -602,19 +598,19 @@ pitchup=pitchupClass()
 if installation.isLive():
 
 	### Various ###
-	localStation_print("   running startup_epics_monitors.py")      # [TODO: Replace with imports]
-	run("startup_epics_monitors")
+	localStation_print("   running localStationScripts/startup_epics_monitors.py")      # [TODO: Replace with imports]
+	run("localStationScripts/startup_epics_monitors")
 	global ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp
 
-	localStation_print("   running startup_epics_positioners.py")
-	run("startup_epics_positioners")
+	localStation_print("   running localStationScripts/startup_epics_positioners.py")
+	run("localStationScripts/startup_epics_positioners")
 
-	localStation_print("   running startup_cryocooler.py")          #[NOTE: Also creates commands]
-	run("startup_cryocooler")
+	localStation_print("   running localStationScripts/startup_cryocooler.py")          #[NOTE: Also creates commands]
+	run("localStationScripts/startup_cryocooler")
 
 	localStation_print("   running pd_femto_adc_current2.py")
 	try:
-		run("pd_femto_adc_current2.py")
+		run("localStationScripts/pd_femto_adc_current2.py")
 	except java.lang.IllegalStateException, e:
 		localStation_exception(" Could not run pd_femto_adc_current2.py ", e)
 
@@ -624,7 +620,7 @@ if installation.isLive():
 	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
 
 	localStation_print("   creating ion pump scannables")
-	run("startup_ionpumps")
+	run("localStationScripts/startup_ionpumps")
 	
 	localStation_print("   creating shutter scannable")
 	shutter= Epics_Shutter('shutter','BL16I-PS-SHTR-01:CON')
@@ -765,8 +761,8 @@ mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d
 
 ### Homebrew groups
 localStation_print("Creating OD current amplifier monitors")
-run("startup_currents")
-run("startup_currents2")
+run("localStationScripts/startup_currents")
+run("localStationScripts/startup_currents2")
 sleep(1)
 
 
@@ -821,7 +817,7 @@ if installation.isLive():
 ###                                 Energy                                  ###
 ###############################################################################
 import beamline_info as BLi #contains energy and wavelength
-run("startup_energy_related")
+run("localStationScripts/startup_energy_related")
 #defaults changed by SPC on 29/6/11 comment out next two lines to go back to previous settings
 energy.maxEnergyChangeBeforeMovingMirrors=0.01	#energy value to prevent mirrors or diffractomter moving for small energy step
 energy.moveDiffWhenNotMovingMirrors=True	#set this to True to move diffractometer to compensate for inverted beam movement
@@ -844,7 +840,7 @@ gam.setOutputFormat(['%.5f'])
 ###                               Peak Optimiser                            ###
 ###############################################################################
 if installation.isLive():
-	run("OptimizePeak") #--> ptimizePeak, OP2, OP3 commands
+	run("localStationScripts/OptimizePeak") #--> ptimizePeak, OP2, OP3 commands
 
 
 
@@ -857,7 +853,7 @@ from limits import * #@UnusedWildImport
 limits.ROOT_NAMESPACE = globals()
 localStation_print("Setting user limits (running ConfigureLimits.py)")
 try:
-	run("ConfigureLimits")
+	run("localStationScripts/ConfigureLimits")
 except Exception as e:
 	localStation_exception("configuring limits", e)
 
@@ -1164,9 +1160,9 @@ localStation_print("-------------------------------MERLIN INIT COMPLETE---------
 ###############################################################################
 ###                              Configure Xmap                            ###
 ###############################################################################
-from scannable.detector.dxp import DxpSingleChannelRoiOnly
 if USE_XMAP:
-	pass#Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
+	from scannable.detector.dxp import DxpSingleChannelRoiOnly
+	Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
 ###############################################################################
 ###                             Configure firecam                           ###
 ###############################################################################
@@ -1209,14 +1205,28 @@ if installation.isLive():
 ###############################################################################
 localStation_print("Configuring metadata capture")
 
-run('Sample_perpMotion')
+run('localStationScripts/Sample_perpMotion')
 
 if installation.isLive():
+	diffractometer_sample_scannables = [delta, eta, chi, phi, gam, mu, hkl]
 	if not USE_DIFFCALC:
-		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, psi, en, kphi, azihkl, beta, delta_axis_offset])
+		diffractometer_sample_scannables += [psi]
 		xtal_info=ReadPDGroupClass('xtal_info',[xtalinfo])
+
+	diffractometer_sample_scannables += [en]
+
+	if USE_CRYO_GEOMETRY:
+		diffractometer_sample_scannables += [cryophi]
 	else:
-		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, en, kphi, delta_axis_offset])
+		diffractometer_sample_scannables += [kphi]
+
+	if not USE_DIFFCALC:
+		diffractometer_sample_scannables += [azihkl, beta]
+
+	diffractometer_sample_scannables += [delta_axis_offset]
+		
+	d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample', diffractometer_sample_scannables)
+
 	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])
 	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y])
 	jjslits=ReadPDGroupClass('jjslits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
@@ -1232,7 +1242,7 @@ if installation.isLive():
 	#pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
-	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
+	#xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
 	dummypd=ReadPDGroupClass('dummypd',[x,y,z])
 	kbm_offsets=ReadPDGroupClass('kbm_offsets',[vmtrans_offset, hmtrans_offset, vmpitch_offset, hmpitch_offset, kbmx_offset, kbmroll_offset])
 	try:
@@ -1254,22 +1264,26 @@ if installation.isLive():
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
-try:
-	if not USE_DIFFCALC:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, PPR,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
-				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
-				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
-	else:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, PPR,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
-				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
-				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
 
-	addedInSpring = [sixckappa] + [delta_axis_offset]
-	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
+try:
+	from gdascripts.parameters import beamline_parameters
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+except e:
+	localStation_exception("creating jythonNameMap", e)
+
+try:
+	meta_scannable_names = ['dummypd', 'mrwolf', 'diffractometer_sample', 'sixckappa']
+	if not USE_DIFFCALC:
+		meta_scannable_names += ['xtalinfo']
+	meta_scannable_names += ['source', 'jjslits', 'pa', 'PPR',
+			  'positions', 'gains_atten', 'mirrors', 'beamline_slits', 'mono', 'frontend', 'lakeshore', 'offsets',
+			  's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans',
+			  'ppy', 'ppx', 'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
+			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans']
+
+	addedInSpring = ['sixckappa', 'delta_axis_offset'] # See /i16-config/servers/main/_common/nxmetadata.xml
+
+	meta_scannable_names = [ _x for _x in meta_scannable_names if _x != None and not _x in addedInSpring ]
 
 	from gdascripts.scannable.metadata import _is_scannable
 
@@ -1279,14 +1293,14 @@ try:
 		except:
 			pass
 		localStation_print("Adding metadata:")
-		for item in toadd:
-			if _is_scannable(item):
-				meta_add(item)
-				localStation_print("  %s added" % item.name)
+		for item in meta_scannable_names:
+			if _is_scannable(jythonNameMap[item]):
+				meta_add(jythonNameMap[item])
+				localStation_print("  %s added" % item)
 			else:
 				localStation_print("  %s was not scannable and could not be entered as metadata" % item.name)
 	else:
-		meta.add(*toadd)
+		meta.add(*[jythonNameMap[item] for item in meta_scannable_names])
 	
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
@@ -1314,13 +1328,23 @@ except NameError, e:
 	print "!*"*40
 	localStation_exception("trying to set up metadata, metadata will not be properly written to files.", e)
 
-###Default Scannables###
-default_scannable_list = [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]
 if USE_CRYO_GEOMETRY:
-	default_scannable_list.append(cryophi)
-for _x in default_scannable_list:
-	add_default(_x)
+	try:
+		test=meta_ls()
+	except java.lang.IllegalStateException, e:
+		localStation_exception("testing meta_ls() when USE_CRYO_GEOMETRY = True, /i16-config/servers/main/_common/nxmetadata.xml is probably configured for kphi not cryophi.", e)
 
+###Default Scannables###
+try:
+	if USE_CRYO_GEOMETRY:
+		default_scannable_names = ["cryophi"]
+	else:
+		default_scannable_names = ["kphi"]
+	default_scannable_names += ["kap", "kth", "kmu", "kdelta", "kgam", "delta_axis_offset"]
+	for scannable_name in default_scannable_names:
+		add_default(jythonNameMap[scannable_name])
+except:
+	localStation_exception("setting default scannables", e)
 
 ###############################################################################
 ###                          Recent developments                            ###
@@ -1329,31 +1353,28 @@ beamline = finder.find("Beamline")
 
 #run('Sample_perpMotion') #move to before metadata
 
-run('Struck_with_fastshutter')
+run('localStationScripts/Struck_with_fastshutter')
 
 #ADC optics table XMAP
-run('pd_adc_table')
+run('localStationScripts/pd_adc_table')
 
-run('enable_xps_gda.py')
+run('localStationScripts/enable_xps_gda.py')
 
 from edgeDetectRobust import edgeDetectRobust as edge
 from edgeDetectEnergy import eEdge as eedge
 
-run('rePlot')
+run('localStationScripts/rePlot')
 
-run('whynobeam')
+run('localStationScripts/whynobeam')
 
 localStation_print("New minimirrors function - type help minimirrors")
-run('minimirrors')
+run('localStationScripts/minimirrors')
 
 if USE_DIFFCALC == False:
 	localStation_print("run possiblehkl_new")
-	run('possiblehkl_new')
+	run('localStationScripts/possiblehkl_new')
 	localStation_print("run Space Group Interpreter")
-	run('SGinterpreter')
-
-
-
+	run('localStationScripts/SGinterpreter')
 
 #### temp fix for valves closing due to img03#######################
 gv1= Epics_Shutter('gv1','BL16I-VA-VALVE-01:CON')
@@ -1373,7 +1394,7 @@ def open_valves():
 ###############################################################################
 
 # This depends on lcroi
-run('FlipperClass')
+run('localStationScripts/FlipperClass')
 
 
 
@@ -1435,28 +1456,28 @@ from scannable.detector import pilatuscbfswitcher
 ###############################################################################
 
 
-run('bpm')
-run('align1')
-run('select_and_move_detector')
-run('showdiff')
-run('showdiff_new')
+run('localStationScripts/bpm')
+run('localStationScripts/align1')
+run('localStationScripts/select_and_move_detector')
+run('localStationScripts/showdiff')
+run('localStationScripts/showdiff_new')
 # bpmroi1 is now defined in the localStationStaff.py user script
 #run('pd_searchref2') #put at the end as it gave some errors
-run('pd_read_list')	#to make PD's that can scan a list
-run('pd_function')	#to make PD's that return a variable
+run('localStationScripts/pd_read_list')	#to make PD's that can scan a list
+run('localStationScripts/pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
 print "==========================="
 localStation_print("Setting up continuous scans")
-run("setup_cvscan")
+run("localStationScripts/setup_cvscan")
 localStation_print("Continuous scans setup")
 print "==========================="
 
 if installation.isLive():
 	try:
-		run("startup_pie725")
+		run("localStationScripts/startup_pie725")
 	except Exception as e:
-		localStation_exception("running startup_pie725 script", e)
+		localStation_exception("running localStationScripts/startup_pie725 script", e)
 
 if USE_NEXUS:
 	run("datawriting/i16_nexus")
@@ -1484,17 +1505,13 @@ from sz_cryo import szCryoCompensation
 cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
 szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
 
-
-
-SMARGON = False
-
-if SMARGON: 
+if USE_SMARGON: 
 	sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
 	sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
 	sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
 	exec("del hkl")
 	exec("del euler")
-	run("SmargonTopClass")	
+	run("localStationScripts/SmargonTopClass")	
 	from diffractometer.scannable import HklSmargon,EulerSmargonPseudoDevice 
 	reload(HklSmargon) 
 	reload(EulerSmargonPseudoDevice)
@@ -1538,8 +1555,6 @@ def pilout():
     pos(do, 0)
     pos(s6ygap, 2.8)
     pos(s6ytrans, 0)
-
-meta.add(dettrans) # should go in a better place
 
 print "*"*80
 localStation_print("Attempting to run localStationStaff.py from user scripts directory")

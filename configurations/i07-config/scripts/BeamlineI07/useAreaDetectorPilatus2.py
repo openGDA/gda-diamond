@@ -26,14 +26,17 @@ pil2.setFile("pilatus2", "p2mImage")
 print "Usage: use pil2sum to find the integration"
 pil2sum = AnalyserDetectorClass("pil2sum", pil2, [SumProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
 pil2sum.setAlive(True);
+pil2sum.readoutNexus = True
 
 print "Usage: use pil2stats to find the key statistics values such as minium, maxium  with locations, sum, mean and standard deviation"
 pil2stats = AnalyserDetectorClass("pil2stats", pil2, [MinMaxSumMeanDeviationProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
 pil2stats.setAlive(True);
+pil2stats.readoutNexus = True
 
 print "Usage: use pil2fit for peak fitting"
 pil2fit = AnalyserDetectorClass("pil2fit", pil2, [TwodGaussianPeak()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
 pil2fit.setAlive(True);
+pil2fit.readoutNexus = True
 
 print "Usage: use pilroi for Region Of Interest operations"
 print "For example: pil2roi.setRoi(starX, starY, width, height) to set up the ROI"
@@ -43,6 +46,7 @@ print "             pil2roi.setAlive(True) to enable the data display on GUI pan
 print "             pil2roi.setAlive(False) to stop data update on GUI panel"
 pil2roi = AnalyserWithRectangularROIClass("pil2roi", pil2, [MinMaxSumMeanDeviationProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
 pil2roi.setAlive(True);
+pil2roi.readoutNexus = True
 #pil2roi.clearRoi();
 #pil2roi.setRoi(0,0,100,100);
 #pil2roi.addRoi(100, 100, 50, 50);
@@ -51,6 +55,7 @@ pil2roi.setAlive(True);
 
 pil2roisum = AnalyserWithRectangularROIClass("pil2roisum", pil2, [SumProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
 pil2roisum.setAlive(True);
+pil2roisum.readoutNexus = True
 
 print "Use pilatusHeader as all Pilatus detector metadata holder"
 pil2.setMetadataDevice(pilatusHeader);

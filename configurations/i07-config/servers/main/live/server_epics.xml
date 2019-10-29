@@ -151,7 +151,7 @@
 		<property name="bpmController" ref="bpm1" />
 	</bean>
 	<bean id="qbpm1range" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-DI-PHDGN-02:RANGE" />
+		<property name="pvName" value="BL07I-DI-PHDGN-02:MRREADBACK" />
 	</bean>
 
 	<!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
@@ -174,7 +174,7 @@
 		<property name="bpmController" ref="bpm2" />
 	</bean>
 	<bean id="qbpm2range" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-DI-PHDGN-03:RANGE" />
+		<property name="pvName" value="BL07I-DI-PHDGN-03:MRREADBACK" />
 	</bean>
 
 	<!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
@@ -197,7 +197,7 @@
 		<property name="bpmController" ref="bpm3" />
 	</bean>
 	<bean id="qbpm3range" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-DI-PHDGN-05:RANGE" />
+		<property name="pvName" value="BL07I-DI-PHDGN-05:MRREADBACK" />
 	</bean>
 
 	<!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
@@ -220,7 +220,7 @@
 		<property name="bpmController" ref="mbs1bpm" />
 	</bean>
 	<bean id="mbs1qbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-AL-SLITS-02:RANGE" />
+		<property name="pvName" value="BL07I-AL-SLITS-02:MRREADBACK" />
 	</bean>
 
 	<!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
@@ -243,7 +243,7 @@
 		<property name="bpmController" ref="mbs2bpm" />
 	</bean>
 	<bean id="mbs2qbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-AL-SLITS-03:RANGE" />
+		<property name="pvName" value="BL07I-AL-SLITS-03:MRREADBACK" />
 	</bean>
 
 
@@ -267,7 +267,7 @@
 		<property name="bpmController" ref="mbs3bpm" />
 	</bean>
 	<bean id="mbs3qbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-AL-SLITS-04:RANGE" />
+		<property name="pvName" value="BL07I-AL-SLITS-04:MRREADBACK" />
 	</bean>
 
 	<!-- ==================== Single Channel Current Amplifier definition section 
@@ -312,8 +312,8 @@
 		<property name="currAmpController" ref="adcqca" />
 		<property name="bpmController" ref="adcbpm" />
 	</bean>
-	<bean id="adcqbpmrange" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-OP-IONC-01:RANGE" />
+	<bean id="ioncrange" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-OP-IONC-01:MRREADBACK" />
 	</bean>
 
 	<!-- ============================== Epics Enum Positioner definition section 
@@ -433,6 +433,11 @@
 	<!-- D4 scatter diode" name="D4.SCATTER" -->
 	<bean id="d4s" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07I-DI-PHDGN-04:SCATTER:I" />
+	</bean>
+
+	<!-- Range/gain setting for D4 Inline -->
+	<bean id="d4range" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-PHDGN-04:INLINE:GAIN" />
 	</bean>
 
 
@@ -1287,4 +1292,35 @@
 	<bean id="s20_motor_ysize" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:Y:SIZE" />
 	</bean>
+
+	<!-- xyz Stage for the Pilatus 2M -->
+
+	<bean id="stagex_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-WA-01:X" />
+	</bean>
+
+	<bean id="stagey_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-WA-01:Y" />
+	</bean>
+
+	<bean id="stagez_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-WA-01:Z" />
+	</bean>
+
+
+	<bean id="claspshutter" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="claspshutter" />
+		<property name="pvName" value="BL07I-OP-FILT-01:FILTER13:CTRL" />
+	</bean>
+
+	<bean id="syringeleftvalve" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="syringe_left_valve" />
+		<property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
+	</bean>
+
+	<bean id="syringerightvalve" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="syringe_right_valve" />
+		<property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
+	</bean>
+
 </beans>

@@ -18,13 +18,13 @@
 		</property>
 	</bean>
 
+	<import resource="../_common/server.xml"/>
+
 	<context:property-placeholder/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
-
-	<import resource="../_common/required_at_start.xml"/>
+	<!-- Motors -->
 
 	<import resource="motor/atten.xml" />
 	<import resource="motor/dcm.xml" />
@@ -48,50 +48,31 @@
 	<import resource="motor/sixcsample.xml" />
 
 	<import resource="transient/kbmbase.xml" />
+	<!--
+	<import resource="transient/smargon.xml" />
+	 -->
 
-	<import resource="../_common/scannable/motors.xml" />
-	<import resource="../live/epics/pie725_raster.xml" />
-	<import resource="../live/epics/detector/labcam.xml" />
+	<import resource="../live/motor/pie725_raster.xml" />
+	<import resource="../live/detector/labcam.xml" />
+
+	<!-- Monitors -->
 
 	<import resource="monitor/currentamps.xml" />
 	<import resource="monitor/machine.xml" />
 	<import resource="monitor/sixc.xml" />
 
+	<!-- Detectors -->
+
 	<import resource="detector/vortex.xml" />
 
-	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
+	<!--
+	<import resource="../live/detector/pilatus100k.xml" />
+	 -->
 
-	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.config}/scripts/livetest/startUp"/>
-		<property name="name" value="Scripts: I16 Tests" />
-		<property name="type" value="CONFIG" />
-	</bean>
+	<bean id="terminallog_path_provider"
+		class="gda.data.SimpleObservablePathProvider"/>
 
-	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths" parent="common_script_paths_with_diffcalc">
-		<property name="projects">
-			<list merge="true">
-				<ref bean ="beamline_test_suite" />
-			</list>
-		</property>
-		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
-	</bean>
-
-	<bean id="command_server" parent="abstract_command_server">
-		<property name="jythonScriptPaths" ref="script_paths"/>
-		<property name="stopJythonScannablesOnStopAll" value="false" />
-		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
-	</bean>
-
-	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"/>
-
-	<import resource="../_common/terminal_logger.xml" />
-	<import resource="../_common/abstract_command_server.xml"/>
-
-	<!-- dummy only -->
-
-	<import resource="../_common/nxmetadata.xml" />
-
-<!-- 	<import resource="../live/epics/detector/pilatus100k.xml" /> -->
+	<import resource="metadata.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
@@ -99,12 +80,23 @@
 	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
 
+	<bean id="mandelbrot" class="gda.device.detector.DummyMandelbrotMappingDetector">
+		<property name="realAxisPositioner" ref="stage_x" />
+		<property name="imaginaryAxisPositioner" ref="stage_y" />
+		<property name="outputDimensions" value="ONE_D" />
+		<!-- Works:
+		<property name="outputDimensions" value="TWO_D" />
+		 -->
+	</bean>
+
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
 	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
+
+	<!-- No file registrar, icat xml creator or Beamline in dummy -->
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DefaultDataWriterFactory" />
@@ -116,4 +108,6 @@
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>

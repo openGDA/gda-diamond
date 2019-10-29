@@ -75,6 +75,15 @@
                      value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector">
                </parameter>
             </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XMap2"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector2">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -90,6 +99,12 @@
             class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
             id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector"
             name="Xmap Fluorescence Detector"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector2"
+            name="Xmap Fluorescence Detector 2"
             restorable="true">
       </view>
    </extension>

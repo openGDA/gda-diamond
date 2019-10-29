@@ -1133,6 +1133,32 @@ xmapRoiPlot6.name = "xmapRoiPlot6"
 xmapRoiPlot6.setPlotViewname("Plot 6")
 xmapRoiPlot6.z_colName = "Roi6"
 
+
+xmap2RoiPlot1 = gda.device.scannable.TwoDScanPlotter()
+xmap2RoiPlot1.name = "xmap2RoiPlot1"
+xmap2RoiPlot1.setPlotViewname("Plot 1")
+xmap2RoiPlot1.z_colName = "Roi1"
+xmap2RoiPlot2 = gda.device.scannable.TwoDScanPlotter()
+xmap2RoiPlot2.name = "xmap2RoiPlot2"
+xmap2RoiPlot2.setPlotViewname("Plot 2")
+xmap2RoiPlot2.z_colName = "Roi2"
+xmap2RoiPlot3 = gda.device.scannable.TwoDScanPlotter()
+xmap2RoiPlot3.name = "xmap2RoiPlot3"
+xmap2RoiPlot3.setPlotViewname("Plot 3")
+xmap2RoiPlot3.z_colName = "Roi3"
+xmap2RoiPlot4 = gda.device.scannable.TwoDScanPlotter()
+xmap2RoiPlot4.name = "xmap2RoiPlot4"
+xmap2RoiPlot4.setPlotViewname("Plot 4")
+xmap2RoiPlot4.z_colName = "Roi4"
+xmap2RoiPlot5 = gda.device.scannable.TwoDScanPlotter()
+xmap2RoiPlot5.name = "xmap2RoiPlot5"
+xmap2RoiPlot5.setPlotViewname("Plot 5")
+xmap2RoiPlot5.z_colName = "Roi5"
+xmap2RoiPlot6 = gda.device.scannable.TwoDScanPlotter()
+xmap2RoiPlot6.name = "xmap2RoiPlot6"
+xmap2RoiPlot6.setPlotViewname("Plot 6")
+xmap2RoiPlot6.z_colName = "Roi6"
+
 #ensure xmapMca settings are correct (no epics screen) - one off
 try:
 	caput("ME13C-EA-DET-01:CollectMode", 0) #MCA Spectra
@@ -1144,6 +1170,28 @@ try:
 	caput("ME13C-EA-DET-01:DXP4:MaxEnergy", 20.48)
 except:
 	print "WARNING: Could not ensure xmapMca settings are correct"
+
+
+#ensure xmapMca2 settings are correct (no epics screen) - one off
+try:
+	caput("BL16B-EA-XMAP-02:CollectMode", 0) #MCA Spectra
+	caput("BL16B-EA-XMAP-02:PresetMode", 1) #Real mode
+	caput("BL16B-EA-XMAP-02:MCA1.NUSE", 2048) #binning
+	caput("BL16B-EA-XMAP-02:DXP1:MaxEnergy", 20.48)
+	caput("BL16B-EA-XMAP-02:DXP2:MaxEnergy", 20.48)
+	caput("BL16B-EA-XMAP-02:DXP3:MaxEnergy", 20.48)
+	caput("BL16B-EA-XMAP-02:DXP4:MaxEnergy", 20.48)
+except:
+	print "WARNING: Could not ensure xmapMca settings are correct"
+
+
+
+
+# Create scannable to check that the nexus writer is enabled when the xmapMca is used
+# If only dat files are written then the full spectrum is not recorded
+from scannable.utility.check_data_writer import CheckDataWriter
+_xmapNexusDataWriterChecker = CheckDataWriter('_xmapNexusDataWriterChecker', 'xmapMca', 'NexusDataWriter')
+add_default(_xmapNexusDataWriterChecker)
 
 def pcoedge_multi_n(n):
 	pcoedge_multi.detector.collectionStrategy.numberOfImagesPerCollection = n
@@ -1268,4 +1316,9 @@ if DebenRigEnabled:
 	from scannable.hw.user.debenRig import DebenRig
 	deben = DebenRig('deben', 'BL16B-EA-DEBEN-01:')
 
-
+# From 1/10 Experiment
+# scan dummyx 0 20 1 bo1trig 0.1 waitForDetectorStart waitForDetectorStop w 10
+waitForDetectorStart = scannable.condition.WaitForCondition('waitForDetectorStart', zebra_pulse1_input, 'val>0')
+waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop', zebra_pulse1_input, 'val<1')
+waitForDetectorStop.setLevel(11)
+w.setLevel(12)

@@ -50,13 +50,15 @@ public class B16ScanPerspective implements IPerspectiveFactory {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		IWorkbenchPage page = window.getActivePage();
-		try {
-			for (String plotView : PLOT_VIEW_IDS) {
-				page.showView(plotView);
+		workbench.getDisplay().asyncExec(() -> {
+			try {
+				for (String plotView : PLOT_VIEW_IDS) {
+					page.showView(plotView);
+				}
+			} catch (PartInitException e) {
+				logger.warn("Problem initialising plot views");
 			}
-		} catch (PartInitException e) {
-			logger.warn("Problem initialising plot views");
-		}
+		});
 	}
 
 	private void addViews(IPageLayout layout) {

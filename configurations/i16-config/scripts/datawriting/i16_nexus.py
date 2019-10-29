@@ -9,7 +9,10 @@ alias title
 alias sample
 
 Energy = en
-meta_add Energy
+if USE_NEXUS_METADATA_COMMANDS:
+	meta_add(Energy)
+else:
+	meta.add(Energy)
 
 writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 ddwf = writerMap.get("DefaultDataWriterFactory")
