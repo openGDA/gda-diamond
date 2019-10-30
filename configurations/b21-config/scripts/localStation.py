@@ -74,8 +74,6 @@ saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center
 saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
 saxs_mask = DetectorMetaString('saxs_mask', ncddetectors, 'SAXS', 'maskFile')
 
-run("energy.py")
-
 import metadatatweaks
 getTitle = metadatatweaks.getTitle
 alias("getTitle")
