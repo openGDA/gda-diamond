@@ -24,6 +24,9 @@
 	<import resource="d8.xml" />
 	<import resource="eiger.xml" />
 
+	<import resource="t3.xml" />
+	<import resource="bs.xml" />
+	<import resource="biotable.xml" />
 	<import resource="t5.xml" />
 
 	<import resource="m1.xml" />
