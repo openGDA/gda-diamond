@@ -72,6 +72,7 @@
 		<property name="blocking" value="false" />
 		<property name="setChunking" value="false" />
 		<property name="lazyOpen" value="true" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 
 	<bean id="merlin_nxfilewriter_for_snaps"
