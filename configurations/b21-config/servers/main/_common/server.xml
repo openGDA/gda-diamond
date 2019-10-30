@@ -31,6 +31,20 @@
 
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider"/>
 
+	<bean id="hatsaxs_state" class="java.util.concurrent.atomic.AtomicBoolean" />
+
+	<bean id="BSSCRunner" class="gda.util.SingleCommandRunner" >
+		<property name="runner" ref="command_server" />
+		<property name="command" value="import BSSC;BSSC.BSSCRun('%s').run()" />
+		<property name="sharedState" ref="hatsaxs_state" />
+	</bean>
+
+	<bean id="HPLCRunner" class="gda.util.SingleCommandRunner" >
+		<property name="runner" ref="command_server" />
+		<property name="command" value="import HPLC;HPLC.HPLC('%s').run()" />
+		<property name="sharedState" ref="hatsaxs_state" />
+	</bean>
+
 	<gda:rbac />
 	<context:property-placeholder />
 	<import resource="devices/*.xml" />
