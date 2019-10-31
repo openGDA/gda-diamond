@@ -43,6 +43,7 @@ import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
+import uk.ac.gda.devices.detector.xspress4.Xspress4Detector;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class B18DetectorPreparer implements QexafsDetectorPreparer {
@@ -57,6 +58,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private Scannable[] offset_units;
 	private List<Scannable> ionc_gas_injector_scannables;
 	private Xspress2Detector xspressSystem;
+	private Optional<Xspress4Detector> xspress4 = Optional.empty();
+
 	private Xmap vortexConfig;
 	private Xspress3Detector xspress3Detector;
 	private IScanParameters scanBean;
@@ -111,6 +114,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			String detType = fluoresenceParameters.getDetectorType();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
 			if (detType.equals("Germanium")) {
+				logger.info("Configuring {} using parameter file {}", xspressSystem.getName(), xmlFileName);
 				xspressSystem.setConfigFileName(xmlFileName);
 				xspressSystem.reconfigure();
 			} else if (detType.equals("Silicon")) {
@@ -126,6 +130,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 				String dirForXspress3 = Paths.get(getDataFolderFullPath(), "xspress3").toString();
 				xspress3Detector.setFilePath(dirForXspress3);
 				xspress3Detector.getController().setFilePath(dirForXspress3);
+			} else if (detType.equals("Xspress4") && xspress4.isPresent()) {
+				logger.info("Configuring {} using parameter file {}", xspress4.get().getName(), xmlFileName);
+				xspress4.get().loadConfigurationFromFile(xmlFileName);
+				xspress4.get().applyConfigurationParameters();
 			}
 			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
 		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
@@ -430,6 +438,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		map.put("xmapMca", "qexafs_xmap");
 		map.put("xspress2system", "qexafs_xspress");
 		map.put("xspress3", "qexafs_xspress3");
+		map.put("xspress4", "qexafs_xspress4");
 		map.put("medipix", "qexafs_medipix");
 		map.put("FFI0", "QexafsFFI0");
 		map.put("FFI0_vortex", "VortexQexafsFFI0");
@@ -463,5 +472,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	public void setDetectorNameMap(Map<String, String> map) {
 		bufferedDetectorNameMap = new LinkedHashMap<>(map);
+	}
+
+	public Xspress4Detector getXspress4() {
+		return xspress4.orElse(null);
+	}
+
+	public void setXspress4(Xspress4Detector xspress4) {
+		this.xspress4 = Optional.ofNullable(xspress4);
 	}
 }
