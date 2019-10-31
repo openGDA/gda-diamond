@@ -371,7 +371,7 @@
 	</bean>
 
 	<bean id="dcm_epics_energy_control" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="epicsRecordName" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
+		<property name="pvName" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
 		<property name="positions">
 			<list>
 				<value>Off</value>
@@ -381,7 +381,7 @@
 	</bean>
 
 	<bean id="dcm_crystal" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="epicsRecordName" value="BL18B-OP-DCM-01:XTAL_SWITCH" />
+		<property name="pvName" value="BL18B-OP-DCM-01:XTAL_SWITCH" />
 		<property name="positions">
 			<list>
 				<value>Si(111)</value>
@@ -391,7 +391,7 @@
 	</bean>
 
 	<bean id="dcm_fixed_exit_mode" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="epicsRecordName" value="BL18B-OP-DCM-01:FIXEDEXIT_SWITCH" />
+		<property name="pvName" value="BL18B-OP-DCM-01:FIXEDEXIT_SWITCH" />
 		<property name="positions">
 			<list>
 				<value>No</value>
@@ -401,7 +401,7 @@
 	</bean>
 
 	<bean id="dcm_branch" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="epicsRecordName" value="BL18B-OP-DCM-01:BRANCH_SWITCH" />
+		<property name="pvName" value="BL18B-OP-DCM-01:BRANCH_SWITCH" />
 		<property name="positions">
 			<list>
 				<value>Chromium</value>
@@ -411,7 +411,7 @@
 	</bean>
 
 	<bean id="dcm_energy_status" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="epicsRecordName" value="BL18B-OP-DCM-01:BY_DONE" />
+		<property name="pvName" value="BL18B-OP-DCM-01:BY_DONE" />
 		<property name="positions">
 			<list>
 				<value>Done</value>
@@ -422,7 +422,7 @@
 	</bean>
 
 	<bean id="dcm_yclash_status" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="epicsRecordName" value="BL18B-OP-DCM-01:CLASHSTA" />
+		<property name="pvName" value="BL18B-OP-DCM-01:CLASHSTA" />
 		<property name="positions">
 			<list>
 				<value>No Clash</value>

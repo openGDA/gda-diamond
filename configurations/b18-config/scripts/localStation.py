@@ -44,7 +44,7 @@ daServer = Finder.getInstance().find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
-
+detectorPreparer.setXspress4(xspress4)
 
 # TODO this could all be done in Sping XML
 theFactory = XasScanFactory();

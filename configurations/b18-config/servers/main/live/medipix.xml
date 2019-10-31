@@ -37,6 +37,7 @@
 		<constructor-arg ref="medipix_adbase" />
 		<constructor-arg value="0" />
 		<property name="readAcquisitionTime" value="false" />
+		<property name="collectionTime" value="0.000001" /> 
 	</bean>
 
 	<alias name="medipix_nxcollectionstrategy" alias="medipix_multiple_nxcollectionstrategy"/>

@@ -20,7 +20,7 @@
 		<property name="counterTimer" ref="counterTimer01" />
 	</bean>
 
-	<bean id="bufferedXspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4BufferedDetector" >
+	<bean id="qexafs_xspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4BufferedDetector" >
 		<property name="xspress4Detector" ref="xspress4" />
 	</bean>
 

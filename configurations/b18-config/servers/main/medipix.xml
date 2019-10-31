@@ -49,6 +49,7 @@
 		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="legacyTSpvs" value="false" />
 		<property name="roiProvider">
 		 <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
 	            <property name="liveStreamRoiProvider" ref="medipix_plotserver_roi_provider" />
@@ -68,6 +69,7 @@
 		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="legacyTSpvs" value="false" />
 		<property name="roiProvider">
 			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
 				<property name="roi" ref="medipix_roi" />
@@ -116,6 +118,7 @@
 		<property name="collectionStrategy" ref="medipix_multiple_nxcollectionstrategy" />
 		<property name="baseRoiPvName" value="#{medipixBaseRoiPv}" />
 		<property name="baseStatPvName" value="#{medipixBaseStatPv}" />
+		<property name="currentPointPvName" value="TS:TSCurrentPoint" />
 	</bean>
 
 <!-- Plugins for ADDetector -->
