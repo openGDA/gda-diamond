@@ -55,7 +55,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram">
+            locationURI="toolbar:uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView">
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
@@ -66,7 +66,7 @@
                <with
                      variable="activePartId">
                   <equals
-                        value="uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram">
+                        value="uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView">
                   </equals>
                </with>
             </visibleWhen>
@@ -130,7 +130,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamViewWithHistogram">
+            locationURI="toolbar:uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView">
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
@@ -141,7 +141,7 @@
                <with
                      variable="activePartId">
                   <equals
-                        value="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamViewWithHistogram">
+                        value="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView">
                   </equals>
                </with>
             </visibleWhen>
@@ -388,7 +388,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamViewWithHistogram">
+            locationURI="toolbar:uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamView">
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
@@ -399,7 +399,7 @@
                <with
                      variable="activePartId">
                   <equals
-                        value="uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamViewWithHistogram">
+                        value="uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamView">
                   </equals>
                </with>
             </visibleWhen>
@@ -473,20 +473,20 @@
             restorable="true">
       </view>
       <view
-            class="gda.rcp.views.ViewFactoryFinder:andorControlWidgetFactory"
-            id="uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView"
             name="Andor"
             restorable="true">
       </view>
       <view
-            class="gda.rcp.views.ViewFactoryFinder:andor2ControlWidgetFactory"
-            id="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamViewWithHistogram"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView"
             name="Andor2"
             restorable="true">
       </view>
       <view
-            class="gda.rcp.views.ViewFactoryFinder:smp_cam_3ControlWidgetFactory"
-            id="uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamViewWithHistogram"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamView"
             name="Sample Camera 3"
             restorable="true">
       </view>
