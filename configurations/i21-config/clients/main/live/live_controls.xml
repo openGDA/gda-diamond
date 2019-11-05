@@ -6,20 +6,16 @@
 	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
 	
 	<!-- Andor controls -->
-	<bean id="andorExposureTime" class="gda.device.scannable.EpicsScannable">
+	<bean id="andorExposureTime" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AcquireTime"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
 			</list>
 		</property>	
 	</bean>
-	<bean id="andorAcquirePeriod" class="gda.device.scannable.EpicsScannable">
+	<bean id="andorAcquirePeriod" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AcquirePeriod"/>
-		<property name="useNameAsInputName" value="true"/>	
-		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -40,20 +36,16 @@
 	</bean>	
 	
 	<!-- Polariser controls -->
-	<bean id="andor2ExposureTime" class="gda.device.scannable.EpicsScannable">
+	<bean id="andor2ExposureTime" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AcquireTime"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
 			</list>
 		</property>	
 	</bean>
-	<bean id="andor2AcquirePeriod" class="gda.device.scannable.EpicsScannable">
+	<bean id="andor2AcquirePeriod" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AcquirePeriod"/>
-		<property name="useNameAsInputName" value="true"/>	
-		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>

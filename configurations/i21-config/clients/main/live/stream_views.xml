@@ -9,32 +9,66 @@
 
 	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
 
-	<bean id="andor2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Polarimeter" />
-		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8098/ANDOR2.mjpg.mjpg" />
-		<property name="arrayPv" value="BL21I-EA-DET-02:ARR" />
-		<property name="roiProvider" ref="andor2_roi" />
-		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
-		<property name="withHistogram" value="true"/>
-	</bean>
 	<bean id="andor2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}andor2Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<import resource="../_common/andor2_controls.xml"/>
+	<bean id="andor2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Andor2" />
+		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8098/ANDOR2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL21I-EA-DET-02:ARR" />
+		<property name="roiProvider" ref="andor2_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="andor2_expsure_time_control" />
+						<ref bean="andor2_acquire_period_control"/>
+						<ref bean="andor2ShutterOpen" />
+						<ref bean="andor2ShutterClose" />
+						<ref bean="andor2_time_remaining" />
+						<ref bean="andor2_time_remaining_progress" />
+						<ref bean="andor2_stick_control" />
+						<ref bean="andor2_gamma_control" />
+					</list>
+				</property>
+				<property name="cameraState" ref="andor2CameraState"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="andor_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}andorRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<import resource="../_common/andor_controls.xml"/>
 	<bean id="andor" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Andor" />
 		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8099/ANDOR.mjpg.mjpg" />
 		<property name="arrayPv" value="BL21I-EA-DET-01:ARR" />
 		<property name="roiProvider" ref="andor_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
-		<property name="withHistogram" value="true"/>
-	</bean>
-	<bean id="andor_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}andorRoi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="andor_expsure_time_control" />
+						<ref bean="andor_acquire_period_control"/>
+						<ref bean="andorShutterOpen" />
+						<ref bean="andorShutterClose" />
+						<ref bean="andor_time_remaining" />
+						<ref bean="andor_time_remaining_progress" />
+					</list>				
+				</property>
+				<property name="cameraState" ref="andorCameraState"/>
+			</bean>
+		</property>
 	</bean>
 	
 	<bean id="dgn_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">

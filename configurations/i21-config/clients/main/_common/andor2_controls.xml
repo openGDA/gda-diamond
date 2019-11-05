@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Polariser Controls -->
+	<bean id="andor2_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
+		<property name="displayName" value="Time Remain"/>
+		<property name="group" value="andor2" />
+		<property name="observable" ref="andor2Countdown" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="andor2_time_remaining_progress" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownProgressBarControl">
+		<property name="displayName" value=""/>
+		<property name="group" value="andor2" />
+		<property name="observable" ref="andor2CountdownProgress" />
+		<property name="barWidth" value="110"/>
+	</bean>
+	<bean id="andor2_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="andor2" />
+		<property name="scannableName" value="andor2ExposureTime" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="andor2_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="andor2" />
+		<property name="scannableName" value="andor2AcquirePeriod" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="andor2ShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor2shutter.moveTo('Open')" />
+		<property name="buttonText" value="Open Shutter" />
+		<property name="group" value="andor2" />
+	</bean>
+	<bean id="andor2ShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor2shutter.moveTo('Close')" />
+		<property name="buttonText" value="Close Shutter" />
+		<property name="group" value="andor2" />
+	</bean>
+	<bean id="andor2_stick_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stick" />
+		<property name="group" value="Polariser" />
+		<property name="scannableName" value="polariserstick" />
+		<property name="increment" value="1" />
+	</bean>
+	<bean id="andor2_gamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gamma" />
+		<property name="group" value="Polariser" />
+		<property name="scannableName" value="polarisergamma" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="andor2CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="andor2"/>
+		<property name="stateVariableName" value="i21.andor2.live.stream.active"/>
+	</bean>
+
+</beans>
