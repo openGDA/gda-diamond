@@ -79,9 +79,6 @@ public class ExperimentDataPlotView extends ViewPart {
 						StringBuilder text = new StringBuilder();
 						try {
 							text.append("Use uncalibrated X axis");
-							if (!((String) value).isEmpty() && DetectorModel.INSTANCE.getCurrentDetector() != null) {
-								text.append(" (Energy calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
-							}
 						} catch (Exception e) {
 							logger.error("Unable to get calibration data", e);
 							UIHelper.showError("Unable to get calibration data", e.getMessage());

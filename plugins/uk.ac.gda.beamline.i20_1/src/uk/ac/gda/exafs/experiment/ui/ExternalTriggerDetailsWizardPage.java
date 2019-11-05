@@ -138,7 +138,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 
 		TableViewerColumn viewerDelayColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 1);
 		layout.setColumnData(viewerDelayColumn.getColumn(), new ColumnWeightData(1));
-		viewerDelayColumn.getColumn().setText("Delay after Topup");
+		viewerDelayColumn.getColumn().setText("Delay");
 		viewerDelayColumn.getColumn().addSelectionListener( new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -309,7 +309,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 
 			Label xhDelayLabel = new Label(xhParent, SWT.None);
 			xhDelayLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			xhDelayLabel.setText("Delay after Topup: ");
+			xhDelayLabel.setText("Delay : ");
 			xhDelayText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetectorDataCollection(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
 			xhDelayText.setUnit(TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText());
 			xhDelayText.setDigits(6);
