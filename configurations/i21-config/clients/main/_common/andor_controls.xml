@@ -41,9 +41,5 @@
 		<property name="buttonText" value="Close Shutter" />
 		<property name="group" value="Andor" />
 	</bean>
-	<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="andor"/>
-		<property name="stateVariableName" value="i21.andor.live.stream.active"/>
-	</bean>
 	
 </beans>
