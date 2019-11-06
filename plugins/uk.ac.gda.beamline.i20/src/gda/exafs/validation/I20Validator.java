@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import gda.exafs.scan.ExafsValidator;
+import gda.exafs.scan.ScanObject;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
@@ -33,7 +34,6 @@ import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
-import uk.ac.gda.exafs.ui.data.ScanObject;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**

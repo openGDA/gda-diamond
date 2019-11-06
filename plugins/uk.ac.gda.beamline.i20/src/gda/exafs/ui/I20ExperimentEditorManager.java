@@ -22,11 +22,11 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
+import gda.exafs.scan.ScanObject;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.client.experimentdefinition.ExperimentEditorManager;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
-import uk.ac.gda.exafs.ui.data.ScanObject;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 
 public class I20ExperimentEditorManager extends ExperimentEditorManager {
