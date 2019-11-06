@@ -19,11 +19,11 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.scannable.scannablegroup.ScannableGroup;
+import gda.device.scannable.scannablegroup.IScannableGroupNamed;
 import gda.jython.JythonServerFacade;
 public class Ln2Scannable extends ScannableBase {
 
-	private ScannableGroup cryo;
+	private IScannableGroupNamed cryo;
 	private String cylinderType;
 	private double height;
 	private double angle;
@@ -64,8 +64,8 @@ public class Ln2Scannable extends ScannableBase {
 			Thread.yield();
 		}
 
-		double heightReadback =(Double)cryo.getGroupMember("cryox").getPosition();
-		double angleReadback =(Double)cryo.getGroupMember("cryorot").getPosition();
+		double heightReadback =(Double)cryo.getGroupMemberByName("cryox").getPosition();
+		double angleReadback =(Double)cryo.getGroupMemberByName("cryorot").getPosition();
 
 		JythonServerFacade.getInstance().print("Move complete: "+heightReadback+", "+angleReadback);
 
@@ -104,11 +104,11 @@ public class Ln2Scannable extends ScannableBase {
 		this.angleCalibration = angleCalibration;
 	}
 
-	public ScannableGroup getCryo() {
+	public IScannableGroupNamed getCryo() {
 		return cryo;
 	}
 
-	public void setCryo(ScannableGroup cryo) {
+	public void setCryo(IScannableGroupNamed cryo) {
 		this.cryo = cryo;
 	}
 }

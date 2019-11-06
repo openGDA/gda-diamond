@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.LoggerFactory;
 
 import gda.device.IScannableMotor;
-import gda.device.scannable.scannablegroup.IScannableGroup;
+import gda.device.scannable.scannablegroup.IScannableGroupNamed;
 import gda.exafs.xes.IXesOffsets;
 import gda.factory.Finder;
 
@@ -44,7 +44,7 @@ public class XesOffsetsView extends HardwareDisplayComposite {
 
 		private static final org.slf4j.Logger logger = LoggerFactory.getLogger(XesOffsetsView.class);
 
-		private IScannableGroup spectrometerGroup;
+		private IScannableGroupNamed spectrometerGroup;
 		private List<IScannableMotor> spectrometerMotors;
 		private Map<IScannableMotor, Text> textBoxes;
 
@@ -62,7 +62,7 @@ public class XesOffsetsView extends HardwareDisplayComposite {
 				// get the spectrometer group and make list of spectrometer scannables
 				spectrometerGroup = Finder.getInstance().find(offsets.getSpectrometerGroupName());
 				spectrometerMotors = new ArrayList<>();
-				for(String name : spectrometerGroup.getGroupMemberNames()) {
+				for(String name : spectrometerGroup.getGroupMembersNamesAsArray()) {
 					spectrometerMotors.add(Finder.getInstance().find(name));
 				}
 			}

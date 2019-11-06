@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 import gda.device.Scannable;
-import gda.device.scannable.scannablegroup.IScannableGroup;
+import gda.device.scannable.scannablegroup.IScannableGroupNamed;
 import gda.factory.Finder;
 
 public class HutchFilterView extends HardwareDisplayComposite {
@@ -39,14 +39,14 @@ public class HutchFilterView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("Experimental Hutch Filters");
 
-		IScannableGroup atn5group = Finder.getInstance().find("atn5group");
+		IScannableGroupNamed atn5group = Finder.getInstance().find("atn5group");
 
 		Group group = new Group(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
 		group.setText("Experimental Hutch Filters");
 
 		if (atn5group!=null) {
-			String[] groupNames = atn5group.getGroupMemberNames();
+			String[] groupNames = atn5group.getGroupMembersNamesAsArray();
 
 			for(int i=0; i<groupNames.length; i+=2) {
 				Scannable nameScannable = Finder.getInstance().find(groupNames[i]);
