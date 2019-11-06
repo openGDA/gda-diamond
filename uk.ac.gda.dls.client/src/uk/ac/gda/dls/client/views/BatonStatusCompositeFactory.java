@@ -195,7 +195,9 @@ class BatonStatusComposite extends Composite {
 								batonCanvas.setToolTipText(BATON_HELD_UDC_TOOL_TIP);
 							} else {
 								currentColor = BATON_NOT_HELD_COLOR;
-								batonCanvas.setToolTipText(BATON_NOT_HELD_TOOL_TIP);
+								if (batonCanvas != null && !batonCanvas.isDisposed()) {
+									batonCanvas.setToolTipText(BATON_NOT_HELD_TOOL_TIP);
+								}
 							}
 							updateBatonCanvas();
 						}
@@ -269,8 +271,10 @@ class BatonStatusComposite extends Composite {
 
 			@Override
 			public void run() {
-				batonCanvas.redraw();
-				batonCanvas.update();
+				if (batonCanvas != null && !batonCanvas.isDisposed()) {
+					batonCanvas.redraw();
+					batonCanvas.update();
+				}
 			}
 		});
 	}
