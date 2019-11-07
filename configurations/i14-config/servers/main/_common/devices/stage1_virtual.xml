@@ -11,13 +11,18 @@
 		<property name="motor" ref="SampleY_motor" />
 	</bean>
 
+	<bean id="SampleZ" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleZ_motor" />
+	</bean>
+
 	<bean id="stage1_virtual" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="SampleX" />
 				<ref bean="SampleY" />
+				<ref bean="SampleZ" />
 			</list>
 		</property>
-	</bean>	
+	</bean>
 
 </beans>
