@@ -62,17 +62,10 @@
 		<property name="pathErrorSuppressed" value="true"></property>
 	</bean>
 
-
-	<bean id="pilatus_eh2_ndfiletif_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL12I-EA-PILAT-02:TIFF:" />
-	</bean>
-
 	<bean id="pilatus_eh2_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="pilatus_eh2_ndfiletif_pvProvider" />
+		<property name="basePVName" value="BL12I-EA-PILAT-02:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<!-- <property name="pvProvider" ref="pilatus_eh2_ndfiletif_pvProvider" /> -->
 				<property name="basePVName" value="BL12I-EA-PILAT-02:TIFF:" />
 				<property name="initialArrayPort" value="pilatus.cam" />
 				<property name="initialArrayAddress" value="0" />
@@ -131,18 +124,11 @@
 			</list>
 		</property>
 	</bean> -->
-	
-	
-	<bean id="pilatus_eh2_ndfile_cbf_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL12I-EA-PILAT-02:CAM:" />
-	</bean>
 
 	<bean id="pilatus_eh2_ndfile_cbf" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="pilatus_eh2_ndfile_cbf_pvProvider" />
+		<property name="basePVName" value="BL12I-EA-PILAT-02:CAM:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<!-- <property name="pvProvider" ref="pilatus_eh2_ndfiletif_pvProvider" /> -->
 				<property name="basePVName" value="BL12I-EA-PILAT-02:CAM:" />
 				<!-- <property name="initialArrayPort" value="pilatus.cam" />
 				<property name="initialArrayAddress" value="0" />
@@ -152,7 +138,7 @@
 		</property>
 		<property name="resetToInitialValues" value="false" />
 	</bean>
-	
+
 	<bean id="pilatus_eh2_singleImageFileWriter_cbf"
 		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus"/>
