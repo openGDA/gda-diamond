@@ -44,6 +44,7 @@
 	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
 	
 	<import resource="mapping.xml"/>
+
 	<import resource="experiment.xml" />
 	
 	<import resource="workflow_controllers.xml" />

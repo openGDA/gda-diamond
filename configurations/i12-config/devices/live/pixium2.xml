@@ -6,11 +6,8 @@
 	<!-- Set up the Area Detector base class which will manage the pix.cam -->
 
 	<!-- Pixium10 uses NXDetector -->
-	<bean id="pixium10_cam_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL12I-EA-DET-10:CAM:" />
-	</bean>
 	<bean id="pixium10_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="pvProvider" ref="pixium10_cam_pvProvider" />
+		<property name="basePVName" value="BL12I-EA-DET-10:CAM:" />
 	</bean>
 	<bean id="pixium10_hdf_file" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL12I-EA-DET-10:HDF5:" />
@@ -75,16 +72,11 @@
 		</property>
 	</bean>
 
-	<bean id="pixium10_ndfiletif_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL12I-EA-DET-10:TIFF:" />
-	</bean>
-
 	<bean id="pixium10_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="pvProvider" ref="pixium10_ndfiletif_pvProvider" />
+		<property name="basePVName" value="BL12I-EA-DET-10:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="pvProvider" ref="pixium10_ndfiletif_pvProvider" />
+				<property name="basePVName" value="BL12I-EA-DET-10:TIFF:" />
 			</bean>
 		</property>
 		<property name="resetToInitialValues" value="false" />

@@ -8,6 +8,59 @@
 	<import resource="file://${gda.config}/servers/main/dummy/sim_area_detector.xml" />
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
 	<import resource="file:${gda.config}/servers/main/dummy/detectors/simulation/mandelbrot_detectors.xml" />
-
+	
+	<bean id="dcm1_y" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dcm1_bragg_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.126" />
+		<property name="maxPosition" value="6.974" />
+		<property name="position" value="-2.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+	
+	<bean id="dcm1_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.126" />
+		<property name="maxPosition" value="15.974" />
+		<property name="position" value="-2.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+	
+	<bean id="dcm1_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.126" />
+		<property name="maxPosition" value="15.974" />
+		<property name="position" value="-2.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+	
+	<bean id="dcm1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.126" />
+		<property name="maxPosition" value="15.974" />
+		<property name="position" value="-2.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+		
+	<bean id="dcm1_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm1_bragg_motor" />
+	</bean>
+	
+	<bean id="dcm1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm1_z_motor" />
+	</bean>
+	
+	<bean id="dcm1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm1_roll_motor" />
+	</bean>
+	
+	<bean id="dcm1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm1_pitch_motor" />
+	</bean>
+	
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 </beans>
