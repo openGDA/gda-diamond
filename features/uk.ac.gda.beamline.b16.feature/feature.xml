@@ -84,37 +84,11 @@
          version="0.0.0"/>
 
    <plugin
-         id="uk.ac.gda.server.exafs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.xspress2"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="uk.ac.gda.epics.adviewer"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.xspress3"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.exafs.datawriter"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="com.github.tschoonj.xraylib"
@@ -150,40 +124,5 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.xspress4"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.xspress3.epics"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-  <plugin
-         id="uk.ac.gda.devices.xmap"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-  <plugin
-        id="uk.ac.gda.devices.xmap.api"
-        download-size="0"
-        install-size="0"
-        version="0.0.0"
-        unpack="false"/>
-
-  <plugin
-        id="uk.ac.diamond.daq.detectors.addetector"
-        download-size="0"
-        install-size="0"
-        version="0.0.0"
-        unpack="false" />
 
 </feature>
