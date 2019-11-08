@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+	
+    <description>
+        EpicsMotors to control the mapping test rig stage
+    </description>
+
+    <bean id="stage_x_motor"
+            class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="${PV_PREFIX}-MO-MAP-01:STAGE:X" />
+    </bean>
+
+    <bean id="stage_a_motor"
+            class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="${PV_PREFIX}-MO-MAP-01:STAGE:A" />
+    </bean>
+
+</beans>

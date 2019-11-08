@@ -30,5 +30,6 @@
         <cs:dependency name="k11-config" componentType="buckminster"/>
         <cs:dependency name="p45-config" componentType="buckminster"/>
         <cs:dependency name="p99-config" componentType="buckminster"/>
+		<cs:dependency name="htss-config" componentType="buckminster"/>
     </cs:dependencies>
 </cs:cspec>
