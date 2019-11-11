@@ -34,13 +34,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
-import gda.data.PathConstructor;
 import gda.epics.CAClient;
 import gda.factory.FactoryException;
 import gda.factory.FindableBase;
 import gda.images.camera.I18MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.ImageListener;
 import gda.images.camera.VideoReceiver;
+import gda.jython.InterfaceProvider;
 import gov.aps.jca.CAException;
 import uk.ac.gda.beamline.i18.I18BeamlineActivator;
 import uk.ac.gda.client.microfocus.views.BeamCentreFigure;
@@ -62,7 +62,7 @@ public class CameraView extends ViewPart {
 	private BeamCentreFigure beamCentreFigure;
 	private boolean layoutReset;
 	private Action snap;
-	private String snapDirectory = PathConstructor.createFromProperty("gda.cameraview.snapshot.dir");
+	private String snapDirectory = InterfaceProvider.getPathConstructor().createFromProperty("gda.cameraview.snapshot.dir");
 
 	public CameraView() {
 	}

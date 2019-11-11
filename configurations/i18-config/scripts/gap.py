@@ -1,6 +1,6 @@
 import threading
 from time import sleep
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.factory import Finder
 import datetime
 from gda.epics import CAClient

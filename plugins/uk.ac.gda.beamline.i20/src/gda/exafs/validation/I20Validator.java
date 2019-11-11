@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import gda.data.PathConstructor;
 import gda.exafs.scan.ExafsValidator;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
@@ -157,7 +157,7 @@ public class I20Validator extends ExafsValidator {
 
 		} else { // Fixed XES and XAS or XANES
 			if (bean != null) {
-				String xmlFolderName = PathConstructor.createFromDefaultProperty() + "/xml/"
+				String xmlFolderName = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/xml/"
 						+ bean.getFolder().getName() + "/";
 				checkFileExists("Scan file name", x.getScanFileName(), xmlFolderName, errors);
 

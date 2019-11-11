@@ -1,4 +1,4 @@
-from gda.data import PathConstructor
+from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.util import OSCommandRunner
 #from gdascripts.parameters import beamline_parameters
@@ -51,7 +51,7 @@ class ScanEndScriptRunner(ScannableBase):
 
 
     def run_exe(self):
-        #path = PathConstructor.createFromDefaultProperty()
+        #path = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
         #filenumber = "scan_filename_unknown"
         #fpath = os.path.join(path, str(filenumber)) + '.nxs'
         if self.isRunProcessing() :
