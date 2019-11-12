@@ -17,6 +17,7 @@
 		<project>uk.ac.diamond.daq.mapping</project>
 		<project>uk.ac.diamond.scisoft.jython</project>
 		<project>uk.ac.diamond.scisoft.python</project>
+		<project>uk.ac.gda.beamline.i21</project>
 		<project>uk.ac.gda.beamline.synoptics</project>
 		<project>uk.ac.gda.client.live.stream</project>
 		<project>uk.ac.gda.client.live.stream.controls</project>

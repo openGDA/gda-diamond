@@ -36,7 +36,18 @@
 						<ref bean="andor2_gamma_control" />
 					</list>
 				</property>
-				<property name="cameraState" ref="andor2CameraState"/>
+				<property name="cameraState">
+					<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="pvName" value="BL21I-EA-DET-02:CAM:Acquire"/>
+						<property name="stateVariableName" value="i21.andor2.live.stream.active"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="bottomUi">
+			<bean class="uk.ac.gda.beamline.i21.views.RixsSpectrumView">
+				<property name="xSizeHint" value="100"/>
+				<property name="ySizeHint" value="250"/>
 			</bean>
 		</property>
 	</bean>
@@ -66,7 +77,18 @@
 						<ref bean="andor_time_remaining_progress" />
 					</list>				
 				</property>
-				<property name="cameraState" ref="andorCameraState"/>
+				<property name="cameraState">
+					<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="pvName" value="BL21I-EA-DET-01:CAM:Acquire"/>
+						<property name="stateVariableName" value="i21.andor.live.stream.active"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="bottomUi">
+			<bean class="uk.ac.gda.beamline.i21.views.RixsSpectrumView">
+				<property name="xSizeHint" value="100"/>
+				<property name="ySizeHint" value="250"/>
 			</bean>
 		</property>
 	</bean>
