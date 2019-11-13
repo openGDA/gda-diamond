@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Hardware-Triggered Scanning Stack (htss) beamline
+Bundle-SymbolicName: uk.ac.diamond.daq.beamline.htss;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Require-Bundle: org.eclipse.equinox.app

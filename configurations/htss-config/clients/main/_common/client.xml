@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd" >
+
+	<!-- This line should be promoted to core-config to avoid repeating it in each beam line -->
+	<!-- This line assures that Spring scans and initialises beans using annotations instead of explicit XML declarations -->
+	<context:component-scan base-package="uk.ac.gda.tomography"></context:component-scan>
+
+	<context:property-placeholder/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
+	<import resource="command_queue_processor.xml"/>
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	
+	<!-- Defines x_axis_name and y_axis_name -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/mapping_axes_names.xml" />
+	<import resource="mapping.xml"/>
+
+</beans>

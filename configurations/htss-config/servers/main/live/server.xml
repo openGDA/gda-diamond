@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+	<import resource="mapping_motors.xml" />
+	<import resource="mapping_scannables.xml" />
+	<import resource="malcolm.xml"/>
+
+<!-- Do not remove anything below here -->
+	<import resource="../../main/_common/server.xml" />
+
+</beans>
