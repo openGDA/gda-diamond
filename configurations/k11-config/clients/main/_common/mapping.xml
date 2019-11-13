@@ -116,7 +116,7 @@
 		<property name="twoDPaths">
 			<list>
 				<bean class="org.eclipse.scanning.api.points.models.GridModel">
-					<property name="snake" value="true" />
+					<property name="alternating" value="true" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.RandomOffsetGridModel" />
 			</list>

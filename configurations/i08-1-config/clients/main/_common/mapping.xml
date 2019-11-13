@@ -76,10 +76,10 @@
 		<property name="twoDPaths">
 			<list>
 				<bean class="org.eclipse.scanning.api.points.models.GridModel">
-					<property name="snake" value="false" />
+					<property name="alternating" value="false" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.RasterModel">
-					<property name="snake" value="false" />
+					<property name="alternating" value="false" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.SpiralModel" />
 				<bean class="org.eclipse.scanning.api.points.models.LissajousModel" />
