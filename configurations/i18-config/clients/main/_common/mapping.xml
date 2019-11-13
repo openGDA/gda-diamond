@@ -59,10 +59,10 @@
 				<bean class="org.eclipse.scanning.api.points.models.RasterModel">
 					<property name="xAxisStep" value="0.01" />
 					<property name="yAxisStep" value="0.01" />
-					<property name="snake" value="false" />
+					<property name="alternating" value="false" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.GridModel">
-					<property name="snake" value="false" />
+					<property name="alternating" value="false" />
 				</bean>
 				<bean class="org.eclipse.scanning.api.points.models.SpiralModel" />
 				<bean class="org.eclipse.scanning.api.points.models.LissajousModel" />
