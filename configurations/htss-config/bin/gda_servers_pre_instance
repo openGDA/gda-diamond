@@ -1,0 +1,15 @@
+bashlog debug "gda_servers_pre_instance" "Entered"
+
+
+if [ -n "${BEAMLINE-}" ]; then
+    # Normally set the control machine name in gda_servers_pre_facility at Diamond
+    # Set CONTROL_MACHINE_NAME in gda_servers_pre_instance if non-standard
+    export CONTROL_MACHINE_NAME=$(uname -n)
+    export GDA_IN_REMOTE_STARTUP=false
+    bashlog debug "gda_servers_pre_facility" "CONTROL_MACHINE_NAME = $CONTROL_MACHINE_NAME"
+else
+    bashlog error "gda_servers_pre_facility" "BEAMLINE environment variable must be set"
+    exit 1
+fi
+
+bashlog debug "gda_servers_pre_instance" "Exited"
