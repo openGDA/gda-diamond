@@ -4,6 +4,8 @@
 
 	<alias name="sim_adbase" alias="sample_microscope_adbase" />
 	<alias name="sim_array" alias="sample_microscope_array" />
+	<alias name="sim_stats" alias="sample_microscope_stats" />
+	<alias name="sim_python_autofocus" alias="sample_microscope_python_autofocus" />
 	<alias name="sim_overlay_simple1" alias="sample_microscope_overlay" />
 
 </beans>
