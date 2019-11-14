@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+
+	<!-- Simple area detector for autofocus -->
+	<bean id="autofocus_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="sample_microscope_adbase" />
+		<property name="ndArray" ref="sample_microscope_array" />
+		<property name="ndStats" ref="sample_microscope_stats" />
+		<property name="ndPython" ref="sample_microscope_python_autofocus" />
+	</bean>
+
+</beans>
