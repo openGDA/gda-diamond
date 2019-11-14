@@ -27,21 +27,6 @@
 						</bean>
 					</list>
 				</property>
-				<property name="mappingScanRegion">
-					<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanRegion">
-			        	<property name="region">
-			            	<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
-			            </property>
-			            <property name="scanPath">
-			            	<bean class="org.eclipse.scanning.api.points.models.SinglePointModel">
-			                    <property name="x" value="0" />
-			                    <property name="y" value="0" />
-			                    <property name="xAxisName" ref="x_axis_name" />
-			                	<property name="yAxisName" ref="y_axis_name" />
-			            	</bean>
-						</property>
-	    			</bean>
-	    		</property>
 			</bean>
 		</property>
 		<property name="templateFilePaths">
