@@ -47,9 +47,8 @@ import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
-import org.eclipse.scanning.api.points.models.GridModel;
+import org.eclipse.scanning.api.points.models.AbstractPointsModel;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
-import org.eclipse.scanning.api.points.models.SinglePointModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
@@ -102,7 +101,7 @@ public class DiffractionPathComposite extends Composite {
 
 	private static final Map<String, String> MODES_MAP = ImmutableMap.of(
 			"Continuous", "Select Continuous scan mode",
-			"Snake", "Select Snake scan mode",
+			"Alternating", "Select Alternating scan mode",
 			"Random", "Add random offsets to scan points");
 
 	private static final Map<Shape, String[]> PROPERTIES_FOR_SHAPE = ImmutableMap.of(// use IObservableValues instead
@@ -482,7 +481,7 @@ public class DiffractionPathComposite extends Composite {
 	 */
 	@SuppressWarnings("unchecked")
 	private void updatePathMutatorBindings(final IScanPathModel newPathValue) {
-		if (!newPathValue.getClass().equals(SinglePointModel.class)) {
+		if (AbstractPointsModel.supportsContinuous(newPathValue.getClass())) {
 			IObservableValue<Boolean> pathContinuousObservableValue = BeanProperties.value("continuous").observe(newPathValue);
 			regionDBC.bindValue(mutatorObservableValues.get("Continuous"), pathContinuousObservableValue);
 
@@ -490,10 +489,10 @@ public class DiffractionPathComposite extends Composite {
 					PojoProperties.value("continuous").observe(summaryHolder), pathContinuousObservableValue);
 			// would have handling for random offset here were it a proper mutator instead of a separate model
 		}
-		if (newPathValue instanceof GridModel) {
-			IObservableValue<Boolean> pathSnakeObservableValue = BeanProperties.value("snake").observe(newPathValue);
-			regionDBC.bindValue(mutatorObservableValues.get("Snake"), pathSnakeObservableValue);
-			bindFromModelToTarget(regionDBC, summaryHolder.getSnakeObservableValue(), pathSnakeObservableValue);
+		if (AbstractPointsModel.supportsAlternating(newPathValue.getClass())) {
+			IObservableValue<Boolean> pathAlternatingObservableValue = BeanProperties.value("alternating").observe(newPathValue);
+			regionDBC.bindValue(mutatorObservableValues.get("Alternating"), pathAlternatingObservableValue);
+			bindFromModelToTarget(regionDBC, summaryHolder.getAlternatingObservableValue(), pathAlternatingObservableValue);
 		}
 	}
 

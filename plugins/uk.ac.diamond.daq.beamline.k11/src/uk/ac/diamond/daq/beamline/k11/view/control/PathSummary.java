@@ -47,13 +47,13 @@ public class PathSummary {
 	private double vertOrigin = 0;
 	private int density = 25;
 	private boolean continuous = false;
-	private boolean snake = false;
+	private boolean alternating = false;
 	private boolean random = false;
 
 	private IObservableValue<Integer> densityObservableValue;
 	private IObservableValue<Shape> shapeObservableValue;
 	private IObservableValue<Boolean> continuousObservableValue;
-	private IObservableValue<Boolean> snakeObservableValue;
+	private IObservableValue<Boolean> alternatingObservableValue;
 	private IObservableValue<Boolean> randomObservableValue;
 
 	private List<IObservableValue<Double>> shapeCoordinateObservableValues;
@@ -91,7 +91,7 @@ public class PathSummary {
 		densityObservableValue = PojoProperties.value("density").observe(this);
 		shapeObservableValue = PojoProperties.value("shape").observe(this);
 		continuousObservableValue = PojoProperties.value("continuous").observe(this);
-		snakeObservableValue = PojoProperties.value("snake").observe(this);
+		alternatingObservableValue = PojoProperties.value("alternating").observe(this);
 		randomObservableValue = PojoProperties.value("random").observe(this);
 		shapeCoordinateObservableValues = Arrays.asList(
 				PojoProperties.value("horizOrigin").observe(this),
@@ -130,7 +130,7 @@ public class PathSummary {
 				text.append(String.format("%s %s %s",
 						continuous ? "Continuous" : "Stepped",
 						random ? " Randomised" : "",
-						snake ? " Snake" : ""));
+						alternating ? " Snake" : ""));
 				break;
 			case LINE:
 				text.append(String.format("Line, %.1f x %.1f, to %.1f, %.1f\n",
@@ -218,12 +218,12 @@ public class PathSummary {
 		update();
 	}
 
-	public boolean getSnake() {
-		return snake;
+	public boolean getAlternating() {
+		return alternating;
 	}
 
-	public void setSnake(boolean snake) {
-		this.snake = snake;
+	public void setAlternating(boolean alternating) {
+		this.alternating = alternating;
 		update();
 	}
 
@@ -240,8 +240,8 @@ public class PathSummary {
 		return continuousObservableValue;
 	}
 
-	public  IObservableValue<Boolean> getSnakeObservableValue() {
-		return snakeObservableValue;
+	public  IObservableValue<Boolean> getAlternatingObservableValue() {
+		return alternatingObservableValue;
 	}
 
 	public  IObservableValue<Boolean> getRandomOffsetObservableValue() {
@@ -269,8 +269,8 @@ public class PathSummary {
 		shapeObservableValue = null;
 		continuousObservableValue.dispose();
 		continuousObservableValue = null;
-		snakeObservableValue.dispose();
-		snakeObservableValue = null;
+		alternatingObservableValue.dispose();
+		alternatingObservableValue = null;
 		randomObservableValue.dispose();
 		randomObservableValue = null;
 
