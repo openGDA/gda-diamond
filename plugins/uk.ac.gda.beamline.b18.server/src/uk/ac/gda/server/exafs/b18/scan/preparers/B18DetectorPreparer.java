@@ -443,6 +443,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		map.put("FFI0", "QexafsFFI0");
 		map.put("FFI0_vortex", "VortexQexafsFFI0");
 		map.put("FFI0_xspress3", "qexafs_FFI0_xspress3");
+		map.put("xspress4FFI0", "qexafs_FFI0_xspress4");
 		return map;
 	}
 
