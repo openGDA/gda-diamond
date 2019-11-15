@@ -229,7 +229,7 @@
 		</property>
 		<property name="slave" value="false" />
 		<property name="saveRawSpectrum" value="true" />
-		<property name="configFileName" value="${gda.config}/templates/Xia_parameters.xml" />
+		<property name="configFileName" value="${gda.config}/templates/xmapMca2_parameters.xml" />
 		<property name="sumAllElementData" value="true" />
 		<property name="calculateUnifiedRois" value="true" />
 	</bean>
