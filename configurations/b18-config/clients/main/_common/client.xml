@@ -79,4 +79,30 @@
 		<property name="detectorName" value="xspress3" />
 	</bean>
 
+	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
+		<property name="detectorGroupsMap">
+			<map>
+				<entry key="Fluorescence">
+					<list>
+						<value>XMap</value>
+						<value>Xspress2</value>
+						<value>Xspress3</value>
+						<value>Xspress4</value>
+<!-- 						<value>Medipix</value> -->
+					</list>
+				</entry>
+			</map>
+		</property>
+
+		<property name="detectorTemplateMap">
+			<map>
+				<entry key="xmapMca" value="${gda.config}/templates/Vortex_Parameters.xml"/>
+				<entry key="medipix" value="${gda.config}/var/templates/Medipix_Parameters.xml"/>
+				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/>
+				<entry key="xspress3" value="${gda.config}/templates/Xspress3_Parameters.xml" />
+				<entry key="xspress4" value="${gda.config}/templates/Xspress4_Parameters_36Ge.xml" />
+			</map>
+		</property>
+	</bean>
+
 </beans>

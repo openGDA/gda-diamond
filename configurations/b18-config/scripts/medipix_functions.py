@@ -56,9 +56,6 @@ def showMedipixRoi() :
     global medipix_roi
     print "Medipix Jython ROI : start = (%d, %d), size = (%d, %d)"%(medipix_roi.getXstart(), medipix_roi.getYstart(),  medipix_roi.getXsize(), medipix_roi.getYsize())
 
-CAClient.put("BL18B-EA-DET-18:ARR:NDArrayPort", "MPX.DET")
-CAClient.put("BL18B-EA-DET-18:ARR:EnableCallbacks", 1)
-
 setupMedipixPlugins()
 print "Set Medipix to use ROI from GUI : 'setUseMedipixRoiFromGui(True)'. Set to False to use ROI from Jython"
 print "Set Medipix Jython ROI : 'setMedipixRoi(xstart, xsize, ystart, ysize)'"

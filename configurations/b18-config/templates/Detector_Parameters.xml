@@ -6,22 +6,32 @@
         <detector>counterTimer01</detector>
     </detectorGroup>
     <detectorGroup>
-        <name>Silicon</name>
-        <detector>FFI0_vortex</detector>
+        <name>XMap</name>
         <detector>xmapMca</detector>
+        <detector>FFI0_vortex</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
     <detectorGroup>
-        <name>Germanium</name>
-        <detector>counterTimer02_nocorr</detector>
-        <detector>FFI0</detector>
+        <name>Xspress2</name>
         <detector>xspress2system</detector>
+        <detector>FFI0</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
     <detectorGroup>
         <name>Xspress3</name>
         <detector>xspress3</detector>
         <detector>FFI0_xspress3</detector>
+        <detector>counterTimer01</detector>
+    </detectorGroup>
+    <detectorGroup>
+        <name>Xspress4</name>
+        <detector>xspress4</detector>
+        <detector>xspress4FFI0</detector>
+        <detector>counterTimer01</detector>
+    </detectorGroup>    
+    <detectorGroup>
+        <name>Medipix</name>
+        <detector>medipix</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
     <experimentType>Transmission</experimentType>

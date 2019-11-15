@@ -297,6 +297,10 @@
             class="uk.ac.gda.beans.exafs.b18.B18SampleParameters"
             describer="uk.ac.gda.exafs.ui.describers.B18SampleParametersDescriber">
       </bean>
+      <bean
+            class="uk.ac.gda.beans.exafs.i20.MedipixParameters"
+            describer="uk.ac.gda.exafs.ui.describers.MedipixDescriber">
+      </bean>
    </extension>
 
    <extension
@@ -309,7 +313,14 @@
             name="B18 Sample"
             template="B18Sample_Parameters"
             type="Sample">
-      </describer> 
+      </describer>
+      <describer
+            bean="uk.ac.gda.beans.exafs.i20.MedipixParameters"
+            includeInNew="true"
+            name="Medipix parameters"
+            template="Medipix_Parameters"
+            type="MedipixParameters">
+      </describer>
    </extension>
       <extension
          point="uk.ac.gda.client.experimentdefinition">

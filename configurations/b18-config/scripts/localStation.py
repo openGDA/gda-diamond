@@ -161,6 +161,7 @@ run("medipix_functions.py")
 setUseMedipixRoiFromGui(True)
 
 run("detector_setup_functions.py")
+run_in_try_catch(setupMedipix)
 run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMythen)

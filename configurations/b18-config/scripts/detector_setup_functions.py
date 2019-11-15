@@ -48,6 +48,13 @@ def setupXspress4() :
     # bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
     bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.TtlVeto)
 
+
+def setupMedipix() :
+    if LocalProperties.isDummyModeEnabled() :
+        return
+    CAClient.put("BL18B-EA-DET-18:ARR:NDArrayPort", "MPX.DET")
+    CAClient.put("BL18B-EA-DET-18:ARR:EnableCallbacks", 1)
+
 def run_in_try_catch(function):
     logger = LoggerFactory.getLogger("run_in_try_catch")
 
