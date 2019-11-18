@@ -87,6 +87,15 @@
 		<property name="scriptFiles">
 			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
 		</property>
+		<property name="scanDefinition">
+			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
+				<property name="defaultOuterScannables">
+					<list>
+						<value>dcm_enrg</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<!-- Create a mapping experiment bean provider -->
