@@ -202,6 +202,8 @@
 		<property name="elementOffset" value="1" />
 		<property name="numberOfElements" value="1" />
 		<property name="aquisitionTimeOn" value="True" />
+		<property name="waitAfterCaput" value="True" />
+		<property name="caputSleepTime" value="500" />
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
