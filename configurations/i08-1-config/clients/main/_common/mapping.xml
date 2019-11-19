@@ -38,7 +38,7 @@
 		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
-				<property name="defaultOuterScannables">
+				<property name="permittedOuterScannables">
 					<list>
 						<value>ZonePlateZ</value>
 					</list>
