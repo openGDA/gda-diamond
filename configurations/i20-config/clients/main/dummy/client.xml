@@ -28,7 +28,6 @@
 <!-- 		<property name="service" ref="camera_config" /> -->
 <!-- 	</bean> -->
 
-	<import resource="medipix_device.xml" />
-	<import resource="../_common/medipix.xml" />
+	<import resource="medipix.xml" />
 
 </beans>

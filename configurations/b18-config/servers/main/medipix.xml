@@ -49,7 +49,7 @@
 		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="legacyTSpvs" value="false" />
+		<property name="legacyTSpvs" value="#{legacyTSPvs}"/>
 		<property name="roiProvider">
 		 <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
 	            <property name="liveStreamRoiProvider" ref="medipix_plotserver_roi_provider" />
@@ -69,7 +69,7 @@
 		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="legacyTSpvs" value="false" />
+		<property name="legacyTSpvs" value="#{legacyTSPvs}"/>
 		<property name="roiProvider">
 			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
 				<property name="roi" ref="medipix_roi" />
@@ -102,6 +102,7 @@
 			<util:map>
 				<entry key="plugins_plotserver_roi" value-ref="plugins_plotserver_roi" />
 				<entry key="plugins_mutable_roi" value-ref="plugins_mutable_roi" />
+				<entry key="medipix_basePvName" value="#{medipixBasePv}" />
 			</util:map>
 		</property>
 	</bean>
@@ -147,5 +148,6 @@
 	<bean id="medipix_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
 		<constructor-arg ref="medipix_adbase" />
 		<constructor-arg ref="medipix_ndroi" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 </beans>

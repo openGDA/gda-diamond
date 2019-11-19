@@ -50,10 +50,10 @@ def setupXspress4() :
 
 
 def setupMedipix() :
-    if LocalProperties.isDummyModeEnabled() :
-        return
-    CAClient.put("BL18B-EA-DET-18:ARR:NDArrayPort", "MPX.DET")
-    CAClient.put("BL18B-EA-DET-18:ARR:EnableCallbacks", 1)
+    CAClient.put(medipix_basePvName+":ARR:EnableCallbacks", 1)
+    CAClient.put(medipix_basePvName+":ARR:MinCallbackTime", 0)
+    cam_port = CAClient.get(medipix_basePvName+":CAM:PortName_RBV")
+    CAClient.put(medipix_basePvName+":ARR:NDArrayPort", cam_port)
 
 def run_in_try_catch(function):
     logger = LoggerFactory.getLogger("run_in_try_catch")
