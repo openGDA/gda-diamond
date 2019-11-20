@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.i14.views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -130,7 +131,7 @@ class BeamlineReadinessDisplay extends ThreeStateDisplay {
 			} else if (!isInPosition((double) yPosition.getPosition(), (double) ySetpoint.getPosition(), displayParams.getyTolerance())) {
 				state = ReadinessState.OUT_OF_POSITION_Y;
 			} else {
-				final double eh2Intensity = (double) intensity.getPosition();
+				final double eh2Intensity = getIntensity();
 				final double targetIntensity = getTargetIntensity((double) energy.getPosition());
 				state = (eh2Intensity >= targetIntensity) ? ReadinessState.READY : ReadinessState.INTENSITY_TOO_LOW;
 			}
@@ -157,6 +158,16 @@ class BeamlineReadinessDisplay extends ThreeStateDisplay {
 		double targetIntensity = beamIntensityFunction.value(energy);
 		targetIntensity *= (1.0 - (displayParams.getIntensityTolerance() / 100.0));
 		return targetIntensity;
+	}
+
+	private double getIntensity() throws DeviceException {
+		final Object intensityVal = intensity.getPosition();
+		if (intensityVal instanceof Double) {
+			return (double) intensityVal;
+		} else if (intensityVal instanceof double[]) {
+			return Arrays.stream((double[]) intensityVal).average().orElse(0);
+		}
+		return 0.0;
 	}
 
 	private void setDisplay() {

@@ -37,11 +37,15 @@
 	</bean>
 
 	<!-- Beam intensity from BEST in micro-amps -->
-	<bean id="eh2_bpm_intensity" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="eh2_bpm_intensity" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value">
-			<bean class="java.lang.Double">
-				<constructor-arg value="6.0" />
-			</bean>
+ 			<list value-type="java.lang.Double">
+				<value>5.6022e-06</value>
+				<value>5.60681e-06</value>
+				<value>5.60453e-06</value>
+				<value>5.60246e-06</value>
+				<value>5.60909e-06</value>
+			</list>
 		</property>
 	</bean>
 
