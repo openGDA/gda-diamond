@@ -83,6 +83,7 @@
 
 	<import resource="detectors/xrayeye.xml" />
 	<import resource="detectors/dcam8.xml" />
+	<import resource="detectors/xmap.xml" />
 
 	<import resource="server_core.xml" />
 	
@@ -93,7 +94,6 @@
 
 	<import resource="lakeshore.xml" />
 	
-	<import resource="vortex.xml"/>
 	<!--
 	<import resource="pie.xml" />
 	<import resource="zone_plates.xml" />

@@ -83,6 +83,7 @@
 	
 	<import resource="detectors/xrayeye.xml" />
 	<import resource="detectors/dcam8.xml" />
+	<import resource="detectors/xmap.xml" />
 
 	<import resource="server_core.xml" />
 	
