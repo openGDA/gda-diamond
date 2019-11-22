@@ -316,7 +316,7 @@ public class EdeTestBase {
 		NXMetaDataProvider metaShop = new NXMetaDataProvider();
 		metaShop.setName("metaShop");
 		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, metaShop.getName());
-		final Factory factory = TestHelpers.createTestFactory("test");
+		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(metaShop);
 		Finder.getInstance().addFactory(factory);
 	}

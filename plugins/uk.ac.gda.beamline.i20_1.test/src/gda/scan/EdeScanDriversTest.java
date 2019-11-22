@@ -90,7 +90,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 		topupMonitor.setName("topup");
 		topupMonitor.setValue(120.0);
 
-		final Factory factory = TestHelpers.createTestFactory("test");
+		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(xh);
 		factory.addFindable(alignment_stage);
 		factory.addFindable(sample_x);

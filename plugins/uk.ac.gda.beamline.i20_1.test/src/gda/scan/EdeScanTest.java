@@ -151,7 +151,7 @@ public class EdeScanTest extends EdeTestBase {
 		Dataset dataset = DatasetFactory.createRange(DoubleDataset.class, 0.0, 100.0, 1.0);
 		detArrayReadout = new DetectorArrayReadout("detArrayReadout", dataset);
 
-		final Factory factory = TestHelpers.createTestFactory("test");
+		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(xh);
 		factory.addFindable(dummyEdeDetector);
 		factory.addFindable(topupMonitor);

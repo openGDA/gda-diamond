@@ -160,7 +160,7 @@ public class I20DetectorPreparerTest {
 		// Findables the server needs to know about
 		Findable[] findables = new Findable[] { xspressSystem, xmpaMca, medipix, ionchambers, I1, ffI1, xmapFluoDetector };
 
-		final Factory factory = TestHelpers.createTestFactory("test");
+		final Factory factory = TestHelpers.createTestFactory();
 		for(Findable f : findables) {
 			factory.addFindable(f);
 			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(f.getName(), f);

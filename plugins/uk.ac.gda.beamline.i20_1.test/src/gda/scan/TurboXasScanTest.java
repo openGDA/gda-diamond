@@ -197,7 +197,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	}
 
 	private void setupFinder() {
-		final Factory factory = TestHelpers.createTestFactory("test");
+		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(turboXasScannable);
 		factory.addFindable(bufferedScaler);
 		factory.addFindable(xspress3bufferedDetector);
