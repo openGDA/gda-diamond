@@ -108,7 +108,7 @@ print "load time utilities for creating timer objects."
 from gdascripts.pd.time_pds import * #@UnusedWildImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
+print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
 print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
 from gdascripts.utils import * #@UnusedWildImport
 print

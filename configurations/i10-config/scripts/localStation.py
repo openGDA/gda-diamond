@@ -47,7 +47,7 @@ from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc, showtimeCla
 wait = waittime
 showtime.setLevel(4) # so it is operated before anything else in a scan
 print "-"*100
-print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
+print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
 print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
 from gdascripts.utils import * #@UnusedWildImport
 print "-"*100

@@ -21,7 +21,7 @@ from timerelated import clock, t, dt, w #@UnusedImport
 from gdascripts.scannable.timerelated import TimeSinceScanStart
 timeScannable = TimeSinceScanStart('timeScannable')
 
-print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)"
+print "Load utilities: caget(pv), caput(pv,value), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)"
 from gdascripts.utils import * #@UnusedWildImport
 
 print "Installing standard scans with processing"
