@@ -27,7 +27,7 @@ from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDe
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
 from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImport
 from gdascripts.scannable.dummy import SingleInputDummy #@UnusedImport
-from gdascripts.utils import caget, caput, printJythonEnvironment #@UnusedImport
+from gdascripts.utils import caget, caput #@UnusedImport
 from gdascripts.visit import VisitSetter, PilatusAdapter, IPPAdapter, ProcessingDetectorWrapperAdapter, FileWritingDetectorAdapter
 #from init.init_scan_commands_and_processing import * #@UnusedWildImport
 from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
@@ -89,11 +89,6 @@ laserxray = LaserShutterPulseController('laserxray', daserver)
 #	caput('BL16B-EA-EVR-01:SELECT-FPS2','External')
 #	caput('BL16B-EA-EVR-01:FRONT-ENABLE:SET','Enabled')
 #	caput('BL16B-EA-EVR-01:FRONT-POLARITY:SET', 'Normal')
-
-###############################################################################
-###                          Print environmental info                       ###
-###############################################################################
-#printJythonEnvironment()
 
 ###############################################################################
 ###                  Add useful functions and scan commands                 ###
