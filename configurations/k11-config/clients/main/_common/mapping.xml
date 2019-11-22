@@ -72,7 +72,7 @@
 							<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
 						</property>
 						<property name="scanPath">
-							<bean class="org.eclipse.scanning.api.points.models.SinglePointModel">
+							<bean class="org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel">
 								<property name="x" value="0" />
 								<property name="y" value="0" />
 								<property name="xAxisName" value="beam_x" />
@@ -115,20 +115,20 @@
 		</property>
 		<property name="twoDPaths">
 			<list>
-				<bean class="org.eclipse.scanning.api.points.models.GridModel">
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisGridPointsModel">
 					<property name="alternating" value="true" />
 				</bean>
-				<bean class="org.eclipse.scanning.api.points.models.RandomOffsetGridModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisGridPointsRandomOffsetModel" />
 			</list>
 		</property>
 		<property name="oneDPaths">
 			<list>
-				<bean class="org.eclipse.scanning.api.points.models.OneDEqualSpacingModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel" />
 			</list>
 		</property>
 		<property name="zeroDPaths">
 			<list>
-				<bean class="org.eclipse.scanning.api.points.models.SinglePointModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel" />
 			</list>
 		</property>
 	</bean>

@@ -77,27 +77,27 @@
 		</property>
 		<property name="twoDPaths">
 			<list>
-				<bean class="org.eclipse.scanning.api.points.models.GridModel">
-					<property name="alternating" value="true" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisGridPointsModel">
+					<property name="alternating" value="false" />
 				</bean>
-				<bean class="org.eclipse.scanning.api.points.models.RasterModel">
-					<property name="alternating" value="true" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisGridStepModel">
+					<property name="alternating" value="false" />
 				</bean>
-				<bean class="org.eclipse.scanning.api.points.models.SpiralModel" />
-				<bean class="org.eclipse.scanning.api.points.models.LissajousModel" />
-				<bean class="org.eclipse.scanning.api.points.models.RandomOffsetGridModel" />
-				<bean class="org.eclipse.scanning.api.points.models.PtychographyGridModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisSpiralModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisLissajousModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisGridPointsRandomOffsetModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisPtychographyModel" />
 			</list>
 		</property>
 		<property name="oneDPaths">
 			<list>
-				<bean class="org.eclipse.scanning.api.points.models.OneDEqualSpacingModel" />
-				<bean class="org.eclipse.scanning.api.points.models.OneDStepModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisLineStepModel" />
 			</list>
 		</property>
 		<property name="zeroDPaths">
 			<list>
-				<bean class="org.eclipse.scanning.api.points.models.SinglePointModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel" />
 			</list>
 		</property>
 	</bean>

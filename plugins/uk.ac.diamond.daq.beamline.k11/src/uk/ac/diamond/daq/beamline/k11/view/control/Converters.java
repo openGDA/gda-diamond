@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
-import org.eclipse.scanning.api.points.models.RandomOffsetGridModel;
+import org.eclipse.scanning.api.points.models.TwoAxisGridPointsRandomOffsetModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
@@ -61,7 +61,7 @@ class Converters {
 			mappingRegionShape -> Shape.fromMappingScanRegion((IMappingScanRegionShape)mappingRegionShape));
 
 	IConverter scanPathToRandomised = IConverter.create(IScanPathModel.class, Boolean.class,
-			scanPathModel -> scanPathModel.getClass().equals(RandomOffsetGridModel.class));
+			scanPathModel -> scanPathModel.getClass().equals(TwoAxisGridPointsRandomOffsetModel.class));
 
 	IConverter stringToInteger = IConverter.create(String.class, Integer.class,
 			string -> Integer.valueOf((String)string));
