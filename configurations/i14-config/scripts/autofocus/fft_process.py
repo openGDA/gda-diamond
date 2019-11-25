@@ -63,3 +63,6 @@ class FftProcess(AdPythonPlugin):
 		return np.mean(fft_abs[
 			int(0.05 * h) : int(0.95 * h)-1,
 			int(0.05 * w) : -1])
+
+	def _endArrayProcess(self):
+		pass

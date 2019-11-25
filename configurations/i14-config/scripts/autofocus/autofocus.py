@@ -28,7 +28,7 @@ def run_autofocus(detector):
     # Acquire a single image
     detector_ad_base.setImageModeWait(ImageMode.SINGLE, 500)
     python_plugin_base.enableCallbacks()
-    python_plugin.putParam("strips", num_strips)
+    python_plugin.putParam("Strips", num_strips)
 
     detector_ad_base.startAcquiringWait()
     detector_ad_base.stopAcquiring()
