@@ -47,6 +47,10 @@
 								<property name="edge" value="K" />
 							</bean>
 							<bean class="uk.ac.diamond.daq.mapping.xanes.ui.ElementAndEdges">
+								<property name="elementName" value="Ni" />
+								<property name="edge" value="K" />
+							</bean>
+							<bean class="uk.ac.diamond.daq.mapping.xanes.ui.ElementAndEdges">
 								<property name="elementName" value="Cu" />
 								<property name="edge" value="K" />
 							</bean>
