@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MedipixParameters>
+	<roiRegion>
+		<roiName>roi1</roiName>
+		<xRoi>
+			<roiName>xRoi</roiName>
+			<roiStart>100</roiStart>
+			<roiEnd>200</roiEnd>
+		</xRoi>
+		<yRoi>
+			<roiName>yRoi</roiName>
+			<roiStart>100</roiStart>
+			<roiEnd>200</roiEnd>
+		</yRoi>
+	</roiRegion>
+</MedipixParameters>

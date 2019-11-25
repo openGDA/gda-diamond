@@ -1,5 +1,7 @@
 print "Running medipix_functions.py"
 
+from gda.epics import CAClient
+
 # Function for setting exposure time and setting continuous acquisition
 # Called in ADControllerBase.setExposure(time) - see client side medipixADController bean
 # (injected using setExposureTimeCmd )
@@ -17,6 +19,7 @@ def setupMedipixPlugins() :
     global plugins_plotserver_roi
     global plugins_mutable_roi
     global medipix_roi
+    global medipix_basePvName
 
     #  Get the findable map containing the additional plugin lists
     medipix_plugins = Finder.getInstance().find("medipix_plugins")
@@ -24,6 +27,7 @@ def setupMedipixPlugins() :
     # Get the two plugin lists
     plugins_plotserver_roi = medipix_plugins.get("plugins_plotserver_roi")
     plugins_mutable_roi = medipix_plugins.get("plugins_mutable_roi")
+    medipix_basePvName = medipix_plugins.get("medipix_basePvName")
 
     # get the mutable roi used by plugins_mutable_roi
     medipix_roi = Finder.getInstance().find("medipix_roi")

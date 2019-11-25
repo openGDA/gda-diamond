@@ -41,10 +41,19 @@ def setupXspress4() :
     for channel in range(0, xspress4.getNumberOfElements()) :
         CAClient.put(basePv+":C"+str(channel+1)+"_SCAS:EnableCallbacks", 1)
 
-    xspress4.setTriggerMode(0) # software trigger mode
-    from uk.ac.gda.devices.detector.xspress4.Xspress4Detector import TriggerMode
-    bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
+    # xspress4.setTriggerMode(0) # software trigger mode
+    xspress4.setTriggerMode(3) # TTL veto only trigger mode
 
+    from uk.ac.gda.devices.detector.xspress4.Xspress4Detector import TriggerMode
+    # bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
+    bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.TtlVeto)
+
+
+def setupMedipix() :
+    CAClient.put(medipix_basePvName+":ARR:EnableCallbacks", 1)
+    CAClient.put(medipix_basePvName+":ARR:MinCallbackTime", 0)
+    cam_port = CAClient.get(medipix_basePvName+":CAM:PortName_RBV")
+    CAClient.put(medipix_basePvName+":ARR:NDArrayPort", cam_port)
 
 def run_in_try_catch(function):
     logger = LoggerFactory.getLogger("run_in_try_catch")

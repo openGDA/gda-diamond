@@ -25,6 +25,10 @@
 		<constructor-arg value="#{medipixBasePv}:STAT1:" />
 	</bean>
 
+	<bean id="legacyTSPvs" class="java.lang.Boolean">
+		<constructor-arg value="false" />
+	</bean>
+
 	<bean id="medipix_adbase"
 		class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="#{medipixBasePv}:CAM:" />
@@ -37,6 +41,7 @@
 		<constructor-arg ref="medipix_adbase" />
 		<constructor-arg value="0" />
 		<property name="readAcquisitionTime" value="false" />
+		<property name="collectionTime" value="0.000001" /> 
 	</bean>
 
 	<alias name="medipix_nxcollectionstrategy" alias="medipix_multiple_nxcollectionstrategy"/>

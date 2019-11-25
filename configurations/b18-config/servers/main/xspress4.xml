@@ -20,8 +20,14 @@
 		<property name="counterTimer" ref="counterTimer01" />
 	</bean>
 
-	<bean id="bufferedXspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4BufferedDetector" >
+	<bean id="qexafs_xspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4BufferedDetector" >
 		<property name="xspress4Detector" ref="xspress4" />
+	</bean>
+
+	<bean id="qexafs_FFI0_xspress4"	class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
+		<property name="qexafsXspress" ref="qexafs_xspress4" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="i0_channel" value="1" />
 	</bean>
 
 </beans>

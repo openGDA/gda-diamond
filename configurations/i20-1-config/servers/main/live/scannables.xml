@@ -24,6 +24,12 @@
 		<property name="configureAtStartup" value="false" />
 	</bean>
 
+	<bean id="industrialGasRigValve" class="gda.device.enumpositioner.EpicsValve">
+		<property name="name" value="gasRigValve" />
+		<property name="epicsRecordName" value="ME08G-EA-GAS-01:VICI" />
+		<property name="configureAtStartup" value="false" />
+	</bean>
+
 	<bean id="PFR_temp" class="gda.device.scannable.PVScannable">
 		<property name="name" value="PFR_temp" />
 		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:SP" />

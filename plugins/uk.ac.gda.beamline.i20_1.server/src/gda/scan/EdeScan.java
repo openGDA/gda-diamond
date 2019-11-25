@@ -386,6 +386,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 						Thread.sleep(100);
 					}
 					collectDetectorData();
+					logger.info("Status = {}", getStatus());
+					if (isFinishEarlyRequested()) {
+						logger.info("Stopping motor move loop before all positions have been reached - 'finishing early' requested");
+						break;
+					}
 				}
 			} else {
 				collectDetectorData();

@@ -49,7 +49,7 @@
 		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="legacyTSpvs" value="false"/> <!--  use new time series PVs after RHEL7 upgrade -->
+		<property name="legacyTSpvs" value="#{legacyTSPvs}"/> <!--  use new time series PVs after RHEL7 upgrade -->
 		<property name="roiProvider">
 		 <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
 	            <property name="liveStreamRoiProvider" ref="medipix_plotserver_roi_provider" />
@@ -69,7 +69,7 @@
 		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="legacyTSpvs" value="false"/> <!--  use new time series PVs after RHEL7 upgrade -->
+		<property name="legacyTSpvs" value="#{legacyTSPvs}"/> <!--  use new time series PVs after RHEL7 upgrade -->
 		<property name="roiProvider">
 			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
 				<property name="roi" ref="medipix_roi" />

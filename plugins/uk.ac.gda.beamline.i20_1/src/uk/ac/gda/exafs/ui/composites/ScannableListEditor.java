@@ -1,7 +1,7 @@
 package uk.ac.gda.exafs.ui.composites;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -265,8 +265,8 @@ public class ScannableListEditor extends Dialog {
 	}
 
 	public Map<String,String> getScannableMapFromList() {
-		Map<String,String> scannableMap = new HashMap<>();
-		scannableInfoList.forEach((scnInfo) -> scannableMap.put(scnInfo.getName(), scnInfo.getPvName()));
+		Map<String,String> scannableMap = new LinkedHashMap<>();
+		scannableInfoList.forEach(scnInfo -> scannableMap.put(scnInfo.getName(), scnInfo.getPvName()));
 		return scannableMap;
 	}
 
@@ -277,7 +277,7 @@ public class ScannableListEditor extends Dialog {
 	public void setScannableInfoFromMap(Map<String, String> map) {
 		scannableInfoList.clear();
 		if (map != null) {
-			map.keySet().forEach((key) -> scannableInfoList.add(new ScannableInfo(key, map.get(key))));
+			map.keySet().forEach(key -> scannableInfoList.add(new ScannableInfo(key, map.get(key))));
 		}
 	}
 

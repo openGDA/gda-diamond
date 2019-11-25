@@ -309,7 +309,7 @@
             name="B18 Sample"
             template="B18Sample_Parameters"
             type="Sample">
-      </describer> 
+      </describer>
    </extension>
       <extension
          point="uk.ac.gda.client.experimentdefinition">

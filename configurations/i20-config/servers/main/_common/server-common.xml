@@ -35,7 +35,7 @@
 				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
 				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
 				<value>uk.ac.gda.beans.vortex.Xspress3Parameters</value>
-				<value>uk.ac.gda.beans.exafs.i20.MedipixParameters</value>
+				<value>uk.ac.gda.beans.medipix.MedipixParameters</value>
 			</util:list>
 		</property>
 	</bean>
