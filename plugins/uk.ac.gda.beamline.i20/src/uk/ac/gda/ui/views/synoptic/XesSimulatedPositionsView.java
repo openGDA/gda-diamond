@@ -38,14 +38,14 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.IScannableMotor;
 import gda.device.Scannable;
-import gda.device.scannable.scannablegroup.IScannableGroup;
+import gda.device.scannable.scannablegroup.IScannableGroupNamed;
 import gda.factory.Finder;
 
 public class XesSimulatedPositionsView extends HardwareDisplayComposite {
 
 	private static final org.slf4j.Logger logger = LoggerFactory.getLogger(XesSimulatedPositionsView.class);
 
-	private IScannableGroup spectrometerGroup;
+	private IScannableGroupNamed spectrometerGroup;
 	private Scannable xesEnergy;
 	private Scannable xesBragg;
 
@@ -76,7 +76,7 @@ public class XesSimulatedPositionsView extends HardwareDisplayComposite {
 		spectrometerGroup = Finder.getInstance().find("dummy_spectrometer");
 		if (spectrometerGroup != null) {
 			spectrometerMotors = new ArrayList<>();
-			for (String name : spectrometerGroup.getGroupMemberNames()) {
+			for (String name : spectrometerGroup.getGroupMembersNamesAsArray()) {
 				spectrometerMotors.add(Finder.getInstance().find(name));
 			}
 		}

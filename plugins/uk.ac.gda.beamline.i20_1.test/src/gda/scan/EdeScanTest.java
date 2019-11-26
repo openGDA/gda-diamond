@@ -380,7 +380,7 @@ public class EdeScanTest extends EdeTestBase {
 	private class ScannableGroupWithTracking extends ScannableGroup {
 		private List<Object> positions = new ArrayList<>();
 
-		public ScannableGroupWithTracking(String name, Scannable[] scannables) {
+		public ScannableGroupWithTracking(String name, Scannable[] scannables) throws FactoryException {
 			super(name, scannables);
 		}
 
