@@ -142,17 +142,17 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		double energyDis = Double.parseDouble(energyDispersion.getText());
 		double rslope = Double.parseDouble(slope.getText());
 		double roffset = Double.parseDouble(offset.getText());
-		Dataset[] spectrum = RixsImageReductionBase.makeSpectrum(transpose, 0.0, rslope==0.0?0.000001:rslope, roffset, true);
+		Dataset[] spectrum = RixsImageReductionBase.makeSpectrum(transpose, 0, rslope, roffset, true);
+
 		//apply energy calibration
-		Dataset elastic = spectrum[0].imultiply(energyDis);
-		Dataset slice = elastic.getSlice(new int[] {0}, new int[] {spectrum[1].getSize()},new int[] {1});
+		Dataset elastic = RixsImageReductionBase.makeEnergyScale(spectrum, 0, energyDis);
 		if (energyDis==1.0) {
-			slice.setName("Pixels");
+			elastic.setName("Pixels");
 		} else {
-			slice.setName("Energy loss");
+			elastic.setName("Energy loss");
 		}
 		spectrum[1].setName("Intensity");
-		spectrumPlot.updatePlot1D(slice, Arrays.asList(spectrum[1]), "Live Spectrum - Frame "+frameCounter.incrementAndGet(),new NullProgressMonitor());
+		spectrumPlot.updatePlot1D(elastic, Arrays.asList(spectrum[1]), "Live Spectrum - Frame "+frameCounter.incrementAndGet(),new NullProgressMonitor());
 		if (spectrumPlot.isRescale()) {
 			spectrumPlot.setRescale(false);
 		}
