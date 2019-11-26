@@ -8,19 +8,19 @@
     {
         "type": "button",
         "text": "GDA Client",
-        "command": "gda --start client",
+        "command": "/usr/bin/env gda --start client",
         "icon": "cgda.png"
     },
     {
         "type": "button",
         "text": "GDA Client with fresh workspace (gda --reset client)",
-        "command": "gda --reset client",
+        "command": "/usr/bin/env gda --reset client",
         "icon": "cgda.png"
     },
     {
         "type": "button",
         "text": "GDA Log Panel",
-        "command": "gda logpanel",
+        "command": "/usr/bin/env gda logpanel",
         "icon": "cgda.png"
     },
     {
