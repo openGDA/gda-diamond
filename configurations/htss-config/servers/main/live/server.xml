@@ -6,6 +6,7 @@
 	<import resource="mapping_motors.xml" />
 	<import resource="mapping_scannables.xml" />
 	<import resource="malcolm.xml"/>
+	<import resource="detector.xml" />
 
 <!-- Do not remove anything below here -->
 	<import resource="../../main/_common/server.xml" />
