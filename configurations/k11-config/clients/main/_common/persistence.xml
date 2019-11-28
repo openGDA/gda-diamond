@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="classLoaderService" class="uk.ac.diamond.daq.persistence.classloader.PersistenceClassLoader" />
+	
+	<bean id="persistenceServiceWrapper" class="uk.ac.diamond.daq.persistence.manager.PersistenceServiceWrapper">
+		<constructor-arg name="persistenceServiceFactory" ref="persistenceServiceFactory" />
+	</bean> 
+	
+</beans>

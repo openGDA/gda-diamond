@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<import resource="../_common/persistence.xml"/>
+	
+	<bean id="visitService" class="uk.ac.diamond.daq.persistence.manager.GDAVisitService">
+		<property name="currentVisitId" value="current" />
+	</bean>
+	
+	<alias alias="persistenceServiceFactory" name="mongoPersistenceServiceFactory" />
+	<bean id="mongoPersistenceServiceFactory" class="uk.ac.diamond.daq.application.persistence.factory.impl.MongoPersistenceServiceFactory">
+		<constructor-arg name="databaseUrl" value="mongodb://k11-control" />
+		<constructor-arg name="databaseName" value="gda" />
+		<constructor-arg name="classLoaderService" ref="classLoaderService" />
+		<constructor-arg name="visitService" ref="visitService" />
+	</bean>
+	
+</beans>

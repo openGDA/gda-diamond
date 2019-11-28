@@ -124,6 +124,8 @@ public class DiffractionPathComposite extends Composite {
 	private static final int MIN_POINT_DENSITY = 1;
 	private static final int MAX_POINT_DENSITY = 50;
 
+	private static final long INVALID_ID = 0;
+
 	private PathSummary summaryHolder;
 
 	// Composite observable values for the state of the shape selection radio buttons based on the Shape enum and
@@ -228,22 +230,11 @@ public class DiffractionPathComposite extends Composite {
 	}
 
 	/**
-	 * Saves the current mapping bean state using the supplied {@link String} to build a filename which decribes the
-	 * scan content.
-	 *
-	 * @param body	The base name to be used for the reulting filename
-	 */
-	public void save(final String body) {
-		smController.saveScan(smController.buildDescriptiveFilename(body));
-	}
-
-	/**
 	 * Loads the content of the file identified by the fully qualified filename parameter into the mapping bean and
 	 * refreshes the UI to dispay the changes. An update of any linked UIs will also be triggered by the controllers
 	 *
-	 * @param filename	The fully qualified filename of the file to be loaded
 	 */
-	public void load(final String filename) {
+	public void load (Optional<IMappingExperimentBean> bean) {
 		// When load is called, the existing mapping bean has bindings from
 		// 1. its region shape to selectedShapeObservable
 		// 2. its scanpath to the corresponding mutator checkboxes and the summary text
@@ -255,7 +246,6 @@ public class DiffractionPathComposite extends Composite {
 		// updateRegionShapeBindings (which is called by updateView) uses the controller cached version of ScanRegion
 		// Shape so this too must be up to date by then
 
-		Optional<IMappingExperimentBean> bean = smController.loadScanMappingBean(filename);
 		if (bean.isPresent()) {
 
 			// after this point we have now received a newly loaded mapping bean which will need to be substituted for
