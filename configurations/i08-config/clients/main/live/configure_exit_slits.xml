@@ -5,7 +5,7 @@
 
 	<bean id="exit_slit_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D6 camera" />
-		<property name="url" value="http://bl08i-di-serv-01.diamond.ac.uk:8080/D6.CAM1.MJPG.mjpg" />
+		<property name="url" value="http://bl08i-di-serv-01.diamond.ac.uk:8080/D6.CAM1.mjpg.mjpg" />
 		<property name="arrayPv" value="BL08I-DI-PHDGN-06:CAM1:ARR" />
 		<property name="sleepTime" value="5" />
 	</bean>
