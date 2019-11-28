@@ -130,6 +130,8 @@ note.rootNamespaceDict=globals()
 
 add_default(meta)
 
+from misc_functions import createVisitSubDir
+
 
 print "Adding dummy devices x,y and z"
 x=SingleInputDummy("x")
