@@ -5,32 +5,32 @@ import time
 
 print("Running tomo_scan.py to define functions")
 
-def run_tomo_scan(tomo_params, scan_request):
+def run_tomo_scan(scan_request, tomo_params):
     try:
-        run_tomo_scan_internal(tomo_params, scan_request)
+        run_tomo_scan_internal(scan_request, tomo_params)
         print("Tomography scan completed")
     except (KeyboardInterrupt):
         print("Tomography scan interrupted by user")
     except:
         print("Tomography scan terminated abnormally: {}".format(sys.exc_info()[0]))
 
-def run_tomo_scan_internal(tomo_params, scan_request):
-    print("Running tomography scan")
-    print("tomo_params = {}".format(tomo_params))
-    print("scan_request = {}".format(scan_request))
+def run_tomo_scan_internal(scan_request, tomo_params):
+    print("Running tomography scan\n")
+    print("scan_request = {}\n".format(scan_request))
+    print("tomo_params = {}\n".format(tomo_params))
     time.sleep(5)
 
-def run_tomo_dry_run(tomo_params, scan_request):
+def run_tomo_dry_run(scan_request, tomo_params):
     try:
-        run_tomo_dry_run_internal(tomo_params, scan_request)
+        run_tomo_dry_run_internal(scan_request, tomo_params)
         print("Tomography dry run completed")
     except (KeyboardInterrupt):
         print("Tomography dry run interrupted by user")
     except:
         print("Tomography dry run terminated abnormally: {}".format(sys.exc_info()[0]))
 
-def run_tomo_dry_run_internal(tomo_params, scan_request):
+def run_tomo_dry_run_internal(scan_request, tomo_params):
     print("Running tomography dry run")
-    print("tomo_params = {}".format(tomo_params))
-    print("scan_request = {}".format(scan_request))
+    print("scan_request = {}\n".format(scan_request))
+    print("tomo_params = {}\n".format(tomo_params))
     time.sleep(5)

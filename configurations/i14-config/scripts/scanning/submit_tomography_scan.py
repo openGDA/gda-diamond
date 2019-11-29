@@ -4,6 +4,6 @@ import json
 
 print("Running submit_tomography_scan.py")
 
-tomo_params = json.loads(tomoParamsJson)
 scan_request = json.loads(scanRequestJson)
-run_tomo_scan(tomo_params, scan_request)
+tomo_params = json.loads(tomoParamsJson)
+run_tomo_scan(scan_request, tomo_params)
