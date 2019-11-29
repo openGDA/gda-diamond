@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+	<logger name="org.mongodb.driver.cluster" level="INFO" />
+	<logger name="org.mongodb.driver.protocol.command" level="INFO" />
+</included>
