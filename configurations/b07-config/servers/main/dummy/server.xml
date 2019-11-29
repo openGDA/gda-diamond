@@ -23,6 +23,8 @@
 	<import resource="d7b.xml"/>
 	<import resource="d8b.xml"/>
 	<import resource="d9b.xml"/>
+	<import resource="d10b.xml"/>
+	<import resource="d21b.xml"/>
 	<import resource="femtos.xml"/>
 
 	<!-- Simulated Area Detector -->
@@ -30,6 +32,10 @@
 
 	<!-- Monochromators -->
 	<import resource="pgm.xml"/>
+
+	<!-- Endstations -->
+	<import resource="es2b_cam1.xml"/>
+	<import resource="es2b_cam2.xml"/>
 
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />

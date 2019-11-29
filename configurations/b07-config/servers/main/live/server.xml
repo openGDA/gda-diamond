@@ -23,11 +23,16 @@
 	<import resource="d7b.xml"/>
 	<import resource="d8b.xml"/>
 	<import resource="d9b.xml"/>
+	<import resource="d10b.xml"/>
+	<import resource="d21b.xml"/>
 	<import resource="femtos.xml"/>
 
 	<!-- Monochromators -->
 	<import resource="pgm.xml"/>
 	
+	<!-- End station -->
+	<import resource="endstation.xml"/>
+
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
