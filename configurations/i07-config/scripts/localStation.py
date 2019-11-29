@@ -98,9 +98,6 @@ try_execfile("BeamlineI07/setFastScan.py", "Fast scan setup")
 
 try_execfile("BeamlineI07/setSrsDataFileHeader.py", "Metadata Header setup")
 
-# Changes everything to %8.3f without saying why
-try_execfile("BeamlineI07/setOutputFormat.py", "Change the default output format according to I07 requirements")
-
 try_execfile("BeamlineI07/createAlias.py")
 
 #try_execfile("BeamlineI07/useEpicsPilatus100K.py")
