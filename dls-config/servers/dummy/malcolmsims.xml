@@ -3,15 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- To run the scans:	*Run GDA AreaDetector Simulation from the diamond launcher
-							*To run the scans type the following in a terminal:*
-							/dls_sw/prod/R3.14.12.7/support/TS-BUILDER/3-1/etc/malcolm/MALCOLM-SIMULATIONS.yaml     -->
+	<!-- To run the scans:	* Run GDA AreaDetector Simulation from the Diamond launcher
+							* Press 'Start IOC' button
+							* Press 'Start Malcolm' button     -->
 
 	<import resource="malcolmsims_scans.xml"/>
 	<import resource="malcolmsims_axes.xml"/>
 
-	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
-	<bean id="workstation" class="java.lang.String">
-		<constructor-arg value="#{ localhostInetAddress.hostName.split('\.')[0] }" />
+	<bean id="localhostname_malcolmsims" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	<bean id="workstation_malcolmsims" class="java.lang.String">
+		<constructor-arg value="#{ localhostname_malcolmsims.hostName.split('\.')[0] }" />
 	</bean>
 </beans>
