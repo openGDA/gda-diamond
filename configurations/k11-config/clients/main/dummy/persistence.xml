@@ -10,12 +10,12 @@
 	</bean>
 	
 	<!-- alias alias="persistenceServiceFactory" name="mongoPersistenceServiceFactory" /-->
-	<bean id="mongoPersistenceServiceFactory" class="uk.ac.diamond.daq.application.persistence.factory.impl.MongoPersistenceServiceFactory">
+	<!-- bean id="mongoPersistenceServiceFactory" class="uk.ac.diamond.daq.application.persistence.factory.impl.MongoPersistenceServiceFactory">
 		<constructor-arg name="databaseUrl" value="mongodb://localhost" />
 		<constructor-arg name="databaseName" value="gda" />
 		<constructor-arg name="classLoaderService" ref="classLoaderService" />
 		<constructor-arg name="visitService" ref="visitService" />
-	</bean>
+	</bean-->
 	
 	<alias alias="persistenceServiceFactory" name="filePersistenceServiceFactory" />
 	<bean id="filePersistenceServiceFactory" class="uk.ac.diamond.daq.application.persistence.factory.impl.FilePersistenceServiceFactory">
