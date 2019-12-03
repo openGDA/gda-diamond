@@ -1,7 +1,7 @@
 # Scripts for running XANES scanning in dummy mode
 
 import sys
-from org.eclipse.scanning.api.points.models import StepModel, MultiStepModel
+from org.eclipse.scanning.api.points.models import AxialStepModel, AxialMultiStepModel
 from org.eclipse.scanning.api.device.models import ClusterProcessingModel
 
 def run_xanes_scan_request(scanRequest, xanesEdgeParams):
@@ -27,9 +27,9 @@ def run_scan_request(scanRequest, xanesEdgeParams):
 
     # Extract step model(s) for dcm_enrg
     dcm_enrg_model = models.get(0)
-    if isinstance(dcm_enrg_model, StepModel):
+    if isinstance(dcm_enrg_model, AxialStepModel):
         step_models = [dcm_enrg_model]
-    elif isinstance(dcm_enrg_model, MultiStepModel):
+    elif isinstance(dcm_enrg_model, AxialMultiStepModel):
         step_models = dcm_enrg_model.getStepModels()
 
     # Extract bounding box for map
