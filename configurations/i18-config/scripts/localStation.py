@@ -167,7 +167,7 @@ else:
     initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Internal", "Single")
 
 from mapping_scan_commands import mscan, grid, detector, mstep, rect
-from org.eclipse.scanning.api.points.models import StepModel
+from org.eclipse.scanning.api.points.models import AxialStepModel
 
 print "Initialization Complete"
 
