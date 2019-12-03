@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="dcdx_rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:ARCANGLE" />
+	</bean>
+
+	<bean id="dcdx_gap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:GAP" />
+	</bean>
+
+	<bean id="dcdx_center_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:CENTER" />
+	</bean>
+
+	<bean id="dcdx_rot_offset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:ARCOFFSET" />
+	</bean>
+
+	<bean id="dcdx_tilt_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:TILT" />
+	</bean>
+
+	<bean id="dcdx_rot_real_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:ROT2" />
+	</bean>
+
+	<bean id="dcdx_slit_rot_real_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:ROTSLIT" />
+	</bean>
+
+	<bean id="dcdx_filter_wheel_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-OP-DCD-02:FILTER" />
+	</bean>
+
+	<bean id="dcdx_filter" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07I-OP-DCD-02:MP" />
+	</bean>
+
+	<import resource="../../_common/transient/dcdx.xml" />
+
+</beans>

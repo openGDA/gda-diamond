@@ -1698,47 +1698,6 @@
         <property name="protectionLevel" value="0" />
     </bean>
 
-
-    <bean id="dcdxrot" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_rot_motor" />
-    </bean>
-    <bean id="dcdxgap" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_gap_motor" />
-    </bean>
-    <bean id="dcdxcenter" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_center_motor" />
-    </bean>
-    <bean id="dcdxrotoffset" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_rot_offset_motor" />
-    </bean>
-    <bean id="dcdxtilt" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_tilt_motor" />
-    </bean>
-
-    <bean id="dcdx" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="groupMembers">
-            <list>
-                <ref bean="dcdxrot" />
-                <ref bean="dcdxgap" />
-                <ref bean="dcdxcenter" />
-                <ref bean="dcdxrotoffset" />
-                <ref bean="dcdxtilt" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="dcdxrotreal" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_rot_real_motor" />
-    </bean>
-
-    <bean id="dcdxslitrotreal" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_slit_rot_real_motor" />
-    </bean>
-
-    <bean id="dcdxfilterwheel" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcdx_filter_wheel_motor" />
-    </bean>
-
     <bean id="sampchange" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorYogurt" />
         <property name="protectionLevel" value="0" />
@@ -1766,136 +1725,6 @@
         </property>
     </bean>
 
-    <bean id="gwxsize" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="gw_xgap" />
-        <property name="motor" ref="gsax_horiz_gap" />
-    </bean>
-
-    <bean id="gwysize" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="gw_ygap" />
-        <property name="motor" ref="gsax_vert_gap" />
-    </bean>
-
-    <bean id="gwxpos" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="gw_xpos" />
-        <property name="motor" ref="gsax_horiz_pos" />
-    </bean>
-
-    <bean id="gwypos" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="gw_ypos" />
-        <property name="motor" ref="gsax_vert_pos" />
-    </bean>
-
-    <bean id="gwbsx" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="gw_bsx" />
-        <property name="motor" ref="gsax_beamstop_x" />
-    </bean>
-
-    <bean id="gwbsy" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="gw_bsy" />
-        <property name="motor" ref="gsax_beamstop_y" />
-    </bean>
-
-    <bean id="gwy" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="gw_y" />
-        <property name="motor" ref="gsax_blade_y" />
-    </bean>
-    
-    
-    	<bean id="GW" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="name" value="GW" />
-		<property name="groupMembers">
-			<list>
-				<ref bean="gwxsize" />
-				<ref bean="gwysize" />
-				<ref bean="gwxpos" />
-				<ref bean="gwypos" />
-				<ref bean="gwbsx" />
-				<ref bean="gwbsy" />
-				<ref bean="gwy" />
-			</list>
-		</property>
-	</bean>
-
-
-    <bean id="claspycentre" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspycentre" />
-        <property name="motor" ref="s20_motor_ycentre" />
-    </bean>
-
-    <bean id="claspysize" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspysize" />
-        <property name="motor" ref="s20_motor_ysize" />
-    </bean>
-
-    <bean id="claspyplus" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspyplus" />
-        <property name="motor" ref="s20_motor_yplus" />
-    </bean>
-
-    <bean id="claspyminus" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspyminus" />
-        <property name="motor" ref="s20_motor_yminus" />
-    </bean>
-
-    <bean id="claspxcentre" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspxcentre" />
-        <property name="motor" ref="s20_motor_xcentre" />
-    </bean>
-
-    <bean id="claspxsize" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspxsize" />
-        <property name="motor" ref="s20_motor_xsize" />
-    </bean>
-
-    <bean id="claspxplus" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspyplus" />
-        <property name="motor" ref="s20_motor_xplus" />
-    </bean>
-
-    <bean id="claspxminus" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspyminus" />
-        <property name="motor" ref="s20_motor_xminus" />
-    </bean>
-
-    <bean id="clasphstop" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="clasphstop" />
-        <property name="motor" ref="s20_motor_beamstoph" />
-    </bean>
-
-    <bean id="claspvstop" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="claspvstop" />
-        <property name="motor" ref="s20_motor_beamstopv" />
-    </bean>
-
-
-    <!-- xyz Stage for the Pilatus 2M -->
-
-    <bean id="stagex" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="stagex" />
-        <property name="motor" ref="stagex_motor" />
-    </bean>
-
-    <bean id="stagey" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="stagey" />
-        <property name="motor" ref="stagey_motor" />
-    </bean>
-
-    <bean id="stagez" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="stagez" />
-        <property name="motor" ref="stagez_motor" />
-    </bean>
-
-    <bean id="STAGE" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="name" value="STAGE" />
-        <property name="groupMembers">
-            <list>
-                <ref bean="stagex" />
-                <ref bean="stagey" />
-                <ref bean="stagez" />
-            </list>
-        </property>
-    </bean>
 
     <bean id="ALL_MOTORS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -2079,18 +1908,7 @@
                 
                 <!-- Yogurt Pot -->
                 <ref bean="sampchange" />
-                
-                <ref bean="dcdxrot" />
-                <ref bean="dcdxgap" />
-                <ref bean="dcdxcenter" />
-                <ref bean="dcdxrotoffset" />
-                <ref bean="dcdxtilt" />
 
-                <!-- P2M Addidional Stage -->
-                <ref bean="stagex" />
-                <ref bean="stagey" />
-                <ref bean="stagez" />
-                
             </list>
         </property>
         <property name="protectionLevel" value="0" />

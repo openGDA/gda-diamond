@@ -815,71 +815,10 @@
     <!-- Yogurt Pot -->
     <bean id="MotorYogurt" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="dcdx_rot_motor" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="dcdx_gap_motor" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="dcdx_center_motor" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="dcdx_rot_offset_motor" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="dcdx_tilt_motor" class="gda.device.motor.DummyMotor"/>
-
-    <!-- ><bean id="dcdx_filter" class="gda.device.enumpositioner.EpicsPositionerCallback">
-        <property name="recordName" value="BL07I-OP-DCD-02:MP" />
-    </bean> -->
-
-    <bean id="dcdx_rot_real_motor" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="dcdx_slit_rot_real_motor" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="dcdx_filter_wheel_motor" class="gda.device.motor.DummyMotor"/>
-
     <bean id="MotorSyringe_left" class="gda.device.motor.DummyMotor"/>
 
     <bean id="MotorSyringe_right" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="gsax_horiz_gap" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="gsax_horiz_pos" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="gsax_vert_gap" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="gsax_vert_pos" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="gsax_blade_y" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="gsax_beamstop_y" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="gsax_beamstop_x" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_yplus" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_yminus" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_xplus" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_xminus" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_beamstoph" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_beamstopv" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_xcentre" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_xsize" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_ycentre" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="s20_motor_ysize" class="gda.device.motor.DummyMotor"/>
-
-    <!-- xyz Stage for the Pilatus 2M -->
-
-    <bean id="stagex_motor" class="gda.device.motor.DummyMotor" />
-
-    <bean id="stagey_motor" class="gda.device.motor.DummyMotor" />
-
-    <bean id="stagez_motor" class="gda.device.motor.DummyMotor" />
 
     <bean id="claspshutter" class="gda.device.scannable.DummyScannable">
         <property name="name" value="claspshutter" />

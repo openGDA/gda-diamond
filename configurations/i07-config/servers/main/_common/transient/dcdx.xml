@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcdxrot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_rot_motor" />
+	</bean>
+	<bean id="dcdxgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_gap_motor" />
+	</bean>
+	<bean id="dcdxcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_center_motor" />
+	</bean>
+	<bean id="dcdxrotoffset" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_rot_offset_motor" />
+	</bean>
+	<bean id="dcdxtilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_tilt_motor" />
+	</bean>
+
+	<bean id="dcdxrotreal" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_rot_real_motor" />
+	</bean>
+
+	<bean id="dcdxslitrotreal" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_slit_rot_real_motor" />
+	</bean>
+
+	<bean id="dcdxfilterwheel" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcdx_filter_wheel_motor" />
+	</bean>
+
+		<bean id="dcdx" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcdxrot" />
+				<ref bean="dcdxgap" />
+				<ref bean="dcdxcenter" />
+				<ref bean="dcdxrotoffset" />
+				<ref bean="dcdxtilt" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

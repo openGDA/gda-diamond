@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="claspycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspycentre" />
+		<property name="motor" ref="s20_motor_ycentre" />
+	</bean>
+
+	<bean id="claspysize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspysize" />
+		<property name="motor" ref="s20_motor_ysize" />
+	</bean>
+
+	<bean id="claspyplus" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspyplus" />
+		<property name="motor" ref="s20_motor_yplus" />
+	</bean>
+
+	<bean id="claspyminus" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspyminus" />
+		<property name="motor" ref="s20_motor_yminus" />
+	</bean>
+
+	<bean id="claspxcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspxcentre" />
+		<property name="motor" ref="s20_motor_xcentre" />
+	</bean>
+
+	<bean id="claspxsize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspxsize" />
+		<property name="motor" ref="s20_motor_xsize" />
+	</bean>
+
+	<bean id="claspxplus" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspyplus" />
+		<property name="motor" ref="s20_motor_xplus" />
+	</bean>
+
+	<bean id="claspxminus" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspyminus" />
+		<property name="motor" ref="s20_motor_xminus" />
+	</bean>
+
+	<bean id="clasphstop" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="clasphstop" />
+		<property name="motor" ref="s20_motor_beamstoph" />
+	</bean>
+
+	<bean id="claspvstop" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="claspvstop" />
+		<property name="motor" ref="s20_motor_beamstopv" />
+	</bean>
+
+	<bean id="CLASP" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="CLASP" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="claspycentre" />
+				<ref bean="claspysize" />
+				<ref bean="claspyplus" />
+				<ref bean="claspyminus" />
+				<ref bean="claspxcentre" />
+				<ref bean="claspxsize" />
+				<ref bean="claspxplus" />
+				<ref bean="claspxminus" />
+				<ref bean="clasphstop" />
+				<ref bean="claspvstop" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
