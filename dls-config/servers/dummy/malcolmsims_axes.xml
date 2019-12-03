@@ -26,28 +26,28 @@
 	<!-- simload is used in the simulated load scan -->
 	<!-- simload is a monitor rather than a scannable -->
 	<bean id="simload" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="#{workstation}-MO-SIM-01:M5.RBV" />
+		<property name="pvName" value="#{workstation_malcolmsims}-MO-SIM-01:M5.RBV" />
 	</bean>
 	
 	<!-- The following are the motors for simx, simy, simz and simtheta -->
 	<!-- These all point to epics pvs -->
 	<bean id="simx_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="#{workstation}-MO-SIM-01:M1" />
+		<property name="pvName" value="#{workstation_malcolmsims}-MO-SIM-01:M1" />
 	</bean>
 
 	<bean id="simy_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="#{workstation}-MO-SIM-01:M2" />
+		<property name="pvName" value="#{workstation_malcolmsims}-MO-SIM-01:M2" />
 	</bean>
 
 	<bean id="simz_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="#{workstation}-MO-SIM-01:M3" />
+		<property name="pvName" value="#{workstation_malcolmsims}-MO-SIM-01:M3" />
 	</bean>
 	<bean id="simtheta_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="#{workstation}-MO-SIM-01:M4" />		
+		<property name="pvName" value="#{workstation_malcolmsims}-MO-SIM-01:M4" />		
 	</bean>
 
 </beans>

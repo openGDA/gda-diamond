@@ -5,7 +5,7 @@
 
 	<!-- The simulated malcolm scan for mapping-->
 	<bean id="MappingMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="#{workstation}-ML-SCAN-01"/>
+		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-01"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="MappingMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -14,7 +14,7 @@
 		<property name="description" value="The simulated mapping Malcolm device for mapping"/>
 	</bean>
 	<bean id="MappingMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="#{workstation}-ML-SCAN-01"/>
+		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-01"/>
 		<property name="model" ref="MappingMalcolmModel"/>
 		<property name="deviceInformation" ref="MappingMalcolmInfo"/>
 		<property name="activated" value="false"/>
@@ -22,7 +22,7 @@
 
 	<!-- The simulated malcolm scan for Tomography-->
 	<bean id="TomoMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="#{workstation}-ML-SCAN-02"/>
+		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-02"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="TomoMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -31,7 +31,7 @@
 		<property name="description" value="The simulated Malcolm device for tomography"/>
 	</bean>
 	<bean id="TomoMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="#{workstation}-ML-SCAN-02"/>
+		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-02"/>
 		<property name="model" ref="TomoMalcolmModel"/>
 		<property name="deviceInformation" ref="TomoMalcolmInfo"/>
 		<property name="activated" value="false"/>
@@ -39,7 +39,7 @@
 
 	<!-- The simulated malcolm load scan -->
 	<bean id="LoadMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="#{workstation}-ML-SCAN-03"/>
+		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-03"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="LoadMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -48,7 +48,7 @@
 		<property name="description" value="The simulated Malcolm device for load scans"/>
 	</bean>
 	<bean id="LoadMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="#{workstation}-ML-SCAN-03"/>
+		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-03"/>
 		<property name="model" ref="LoadMalcolmModel"/>
 		<property name="deviceInformation" ref="LoadMalcolmInfo"/>
 		<property name="activated" value="false"/>
