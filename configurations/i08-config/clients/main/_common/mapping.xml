@@ -76,6 +76,7 @@
 				</property>
 			</bean>
 		</property>
+		<property name="templateFilePaths"><list /></property>
 	</bean>
 
 	<!-- Create a mapping experiment bean provider -->
