@@ -14,7 +14,19 @@
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
 		<property name="detectorParameters">
-			<list></list>
+			<list>
+			<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="Software-triggered camera" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+							<property name="name" value="DET" />
+							<property name="exposureTime" value="0.1" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="false" />
+					<property name="shownByDefault" value="true" />
+				</bean>	
+			</list>
 		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
