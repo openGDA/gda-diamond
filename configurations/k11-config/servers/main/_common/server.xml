@@ -169,6 +169,7 @@
 
 
 	<!-- Dummies -->
+	<import resource="temporary_dummy_objects.xml" />
 
 	<bean id="DashboardObserver"
 		class="gda.jython.scriptcontroller.ScriptControllerBase" />
