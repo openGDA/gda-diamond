@@ -9,6 +9,7 @@
 		<property name="collectionStrategy" >
 			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosCollectionStrategy">
 				<property name="analyser" ref="analyser" />
+				<property name="safeStateAfterScan" value="false" />
 			</bean>
 		</property>
 		<property name="photonEnergyProvider" ref="pgm_energy" />
