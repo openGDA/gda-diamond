@@ -10,12 +10,15 @@
 			Utilities -> GDA SWMR AreaDetector Simulation
 
 		These beans can be aliased so they can be substituted for beans in the live configuration e.g.
-
-			<!-- <alias name="sim_adbase" alias="andor_adbase"/> -->
 	</description>
 
+	<!-- Extract workstation name from localhost and use to construct base PV name -->
+	<bean id="localhostname_simdet" class="java.net.InetAddress" factory-method="getLocalHost" />
+	<bean id="workstation_simdet" class="java.lang.String">
+		<constructor-arg value="#{ localhostname_simdet.hostName.split('\.')[0] }" />
+	</bean>
  	<bean id="sim_pvbase" class="java.lang.String">
-		<constructor-arg value="#{workstation}-AD-SIM-01" />
+		<constructor-arg value="#{workstation_simdet}-AD-SIM-01" />
 	</bean>
 
 	<!-- Simulator beans -->
