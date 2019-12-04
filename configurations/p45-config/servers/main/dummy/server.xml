@@ -8,7 +8,7 @@
 	<!-- Contains all configuration for the malcolm simulations -->
 	<import
 		resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
-	<import	resource="file:${gda.config}/servers/main/dummy/sim_area_detector.xml" />
+	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
 	<alias name="sim_adbase" alias="cam_adbase" />
 	<alias name="sim_roi" alias="cam_roi" />
 	<bean id="imaging_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
