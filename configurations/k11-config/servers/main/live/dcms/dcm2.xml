@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcm2_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-DCM-02:Y" />
+	</bean>
+	
+	<bean id="dcm2_bragg_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-DCM-02:BRAGG" />
+	</bean>
+	
+	<bean id="dcm2_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-DCM-02:Z" />
+	</bean>
+
+	<bean id="dcm2_roll" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL11K-OP-DCM-02:ROLL:POS" />
+		<property name="readPV" value="BL11K-OP-DCM-02:ROLL:POS_RBV" />
+		<property name="hardwareUnitString" value="microns" />
+		<property name="userUnits" value="microns" />
+	</bean>
+	
+	<bean id="dcm2_pitch" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL11K-OP-DCM-02:PITCH:POS" />
+		<property name="readPV" value="BL11K-OP-DCM-02:PITCH:POS_RBV" />
+		<property name="hardwareUnitString" value="microns" />
+		<property name="userUnits" value="microns" />
+	</bean>
+	
+	<bean id="dcm2_y_positioner" class="gda.device.enumpositioner.EpicsEnumPositioner" >
+		<property name="pvBase" value="BL11K-OP-DCM-02:Y:SELECT" />
+	</bean>
+	
+</beans>

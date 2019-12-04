@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcm1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm1_y_motor" />
+	</bean>
+	
+	<bean id="dcm1_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm1_bragg_motor" />
+	</bean>
+	
+	<bean id="dcm1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm1_z_motor" />
+	</bean>
+	
+	<bean id="dcm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcm1_y" />
+				<ref bean="dcm1_bragg" />
+				<ref bean="dcm1_z" />
+				<ref bean="dcm1_roll" />
+				<ref bean="dcm1_pitch" />
+				<ref bean="dcm1_y_positioner" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
