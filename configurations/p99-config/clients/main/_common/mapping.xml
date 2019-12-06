@@ -36,6 +36,9 @@
 				</bean>
 			</list>
 		</property>
+		<property name="scriptFiles">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
+		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
 				<property name="permittedOuterScannables">

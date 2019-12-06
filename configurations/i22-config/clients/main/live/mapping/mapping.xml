@@ -65,6 +65,9 @@
 				</bean>
 			</list>
 		</property>
+		<property name="scriptFiles">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
+		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
 				<property name="outerScannables">
@@ -78,6 +81,9 @@
 				</property>
 			</bean>
 		</property>
+		<property name="templateFilePaths">
+			<list></list>
+		</property>	
 	</bean>
 	<!-- Create a mapping experiment bean provider and register it as an OSGi service -->
 	<bean class="gda.util.osgi.OSGiServiceRegister">
