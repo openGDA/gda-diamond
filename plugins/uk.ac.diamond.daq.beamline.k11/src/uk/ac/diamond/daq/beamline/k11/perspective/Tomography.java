@@ -37,7 +37,6 @@ public class Tomography  implements IPerspectiveFactory {
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective";
 
 	private static final String TOMO_MAIN_VIEW = "uk.ac.diamond.daq.beamline.k11.tomography";
-	private static final String LIVE_VIEW = "uk.ac.diamond.daq.client.gui.camera.liveview.SimpleLiveStreamView";
 	private static final String CAMERA_CONTROLLER_VIEW = "uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView";
 	private static final String JYTON_CONSOLE_VIEW = "gda.rcp.jythonterminalview";
 
@@ -57,7 +56,6 @@ public class Tomography  implements IPerspectiveFactory {
 
 		String tomoTools = "tomographyTools";
 		final IFolderLayout toolsFolder = layout.createFolder(tomoTools, IPageLayout.RIGHT, 0.75f, editorArea);
-		toolsFolder.addView(LIVE_VIEW);
 		toolsFolder.addView(CAMERA_CONTROLLER_VIEW);
 		IViewLayout topRightLayout = layout.getViewLayout(CAMERA_CONTROLLER_VIEW);
 		topRightLayout.setCloseable(false);

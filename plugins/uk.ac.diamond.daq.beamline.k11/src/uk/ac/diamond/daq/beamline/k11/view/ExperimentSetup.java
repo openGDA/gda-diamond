@@ -20,6 +20,7 @@ package uk.ac.diamond.daq.beamline.k11.view;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -56,13 +57,14 @@ import uk.ac.diamond.daq.beamline.k11.dialog.BeamEnergyDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
+import uk.ac.diamond.daq.client.gui.camera.controller.ImagingCameraConfigurationController;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
-import uk.ac.gda.client.live.stream.IConnectionFactory;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
-import uk.ac.gda.client.live.stream.view.CameraConfiguration;
+import uk.ac.gda.client.live.stream.LiveStreamConnectionManager;
+import uk.ac.gda.client.live.stream.LiveStreamException;
 import uk.ac.gda.client.live.stream.view.StreamType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -350,7 +352,12 @@ public class ExperimentSetup extends LayoutUtilities {
 		Button button = addConfigurationDialogButton(content, "Imaging Camera");
 		button.addListener(SWT.Selection, event -> {
 			try {
-				CameraConfigurationDialog.show(composite.getDisplay(), getLiveStreamConnection());
+				// Preliminary implementation to parametrise the active camera (0 will be a
+				// parameter)
+				int activeCamera = 0;
+				ImagingCameraConfigurationController controller = (ImagingCameraConfigurationController) CameraHelper
+						.getCameraControlInstance(activeCamera);
+				CameraConfigurationDialog.show(composite.getDisplay(), controller);
 			} catch (Exception e) {
 				logger.error("Error opening camera configuration dialog", e);
 			}
@@ -383,12 +390,10 @@ public class ExperimentSetup extends LayoutUtilities {
 		});
 	}
 
-	private LiveStreamConnection getLiveStreamConnection() {
-		return IConnectionFactory.getLiveStreamConnection(getCameraConfiguration(), StreamType.EPICS_ARRAY);
-	}
-
-	private CameraConfiguration getCameraConfiguration() {
-		return CameraHelper.getCameraConfiguration(0);
+	private LiveStreamConnection getLiveStreamConnection() throws LiveStreamException {
+		LiveStreamConnectionManager manager = LiveStreamConnectionManager.getInstance();
+		UUID connectionID = manager.getIStreamConnection(CameraHelper.getCameraConfiguration(0), StreamType.EPICS_ARRAY);
+		return LiveStreamConnection.class.cast(manager.getIStreamConnection(connectionID));
 	}
 
 	private void addExperimentDriverButton(Composite content) {
