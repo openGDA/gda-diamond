@@ -44,15 +44,15 @@
 		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s3_motors.xml" />
 
 	<!-- mirrors -->
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2_motors.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3_motors.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4_motors.xml" />
-
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4_motors.xml" />
+	
+	<!-- DCMs -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm2.xml" />
+	
 	<!-- stages -->
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
@@ -120,15 +120,15 @@
 		resource="file:${gda.config}/servers/main/_common/slits/s3.xml" />
 
 	<!-- mirrors -->
-	<import
-		resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
-
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
+	
+	<!-- dcms -->
+	<import resource="file:${gda.config}/servers/main/_common/dcms/dcm1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/dcms/dcm2.xml" />
+	
 	<!-- stages -->
 	<import
 		resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />
@@ -169,6 +169,7 @@
 
 
 	<!-- Dummies -->
+	<import resource="temporary_dummy_objects.xml" />
 
 	<bean id="DashboardObserver"
 		class="gda.jython.scriptcontroller.ScriptControllerBase" />

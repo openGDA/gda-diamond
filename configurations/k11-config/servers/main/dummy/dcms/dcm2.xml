@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcm2_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.126" />
+		<property name="maxPosition" value="6.974" />
+		<property name="position" value="-2.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+	
+	<bean id="dcm2_bragg_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.126" />
+		<property name="maxPosition" value="6.974" />
+		<property name="position" value="-2.0" />
+		<property name="unitString" value="deg" />
+	</bean>
+	
+	<bean id="dcm2_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.126" />
+		<property name="maxPosition" value="15.974" />
+		<property name="position" value="-2.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+	
+	<bean id="dcm2_roll" class="gda.device.scannable.DummyScannableMotor">
+		<property name="hardwareUnitString" value="um" />
+		<property name="userUnits" value="um" />
+	</bean>
+	
+	<bean id="dcm2_pitch" class="gda.device.scannable.DummyScannableMotor">
+		<property name="hardwareUnitString" value="um" />
+		<property name="userUnits" value="um" />
+	</bean>
+	
+	<bean id="dcm2_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

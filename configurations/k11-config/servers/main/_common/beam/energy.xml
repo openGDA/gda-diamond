@@ -11,7 +11,7 @@
 		<constructor-arg name="script" ref="shutter_script" />
 		<constructor-arg name="functionsPerScannable">
 			<map>
-				<entry key-ref="fe_shutter" value="close_shutter" />
+				<entry key-ref="dummy_fe_shutter" value="close_shutter" />
 			</map>
 		</constructor-arg>
 		<constructor-arg name="inputProperty" value="energy" />
@@ -31,10 +31,10 @@
 	 	<constructor-arg name="inputProperty" value="energy" />
 	 	<constructor-arg name="scannables">
 			<map>
-				<entry key="S1 X Centre" value-ref="s1_xcentre"     />
-				<entry key="S1 X Size" value-ref="s1_xsize"     />
-				<entry key="S1 Y Centre" value-ref="s1_ycentre"  />
-				<entry key="S1 Y Size" value-ref="s1_ysize" />
+				<entry key="S1 X Centre" value-ref="dummy_s1_xcentre"     />
+				<entry key="S1 X Size" value-ref="dummy_s1_xsize"     />
+				<entry key="S1 Y Centre" value-ref="dummy_s1_ycentre"  />
+				<entry key="S1 Y Size" value-ref="dummy_s1_ysize" />
 			</map>
 	 	</constructor-arg>
 		<constructor-arg name="positionLookupService" ref="s1_lut" />
@@ -54,18 +54,18 @@
 	 	<constructor-arg name="inputProperty" value="energy" />
 	 	<constructor-arg name="scannables">
 			<map>
-				<entry key="M1 X" value-ref="m1_x" />
-				<entry key="M1 Y" value-ref="m1_y" />
-				<entry key="M1 Roll" value-ref="m1_roll" />
-				<entry key="M1 Pitch" value-ref="m1_pitch" />
-				<entry key="M1 Yaw" value-ref="m1_yaw" />
-				<entry key="M2 X" value-ref="m2_x" />
-				<entry key="M2 Y" value-ref="m2_y" />
-				<entry key="M2 Roll" value-ref="m2_roll" />
-				<entry key="M2 Pitch" value-ref="m2_pitch" />
-				<entry key="M2 Yaw" value-ref="m2_yaw" />
-				<entry key="M2 Bendus" value-ref="m2_bendus" />
-				<entry key="M2 Bendds" value-ref="m2_bendds" />
+				<entry key="M1 X" value-ref="dummy_m1_x" />
+				<entry key="M1 Y" value-ref="dummy_m1_y" />
+				<entry key="M1 Roll" value-ref="dummy_m1_roll" />
+				<entry key="M1 Pitch" value-ref="dummy_m1_pitch" />
+				<entry key="M1 Yaw" value-ref="dummy_m1_yaw" />
+				<entry key="M2 X" value-ref="dummy_m2_x" />
+				<entry key="M2 Y" value-ref="dummy_m2_y" />
+				<entry key="M2 Roll" value-ref="dummy_m2_roll" />
+				<entry key="M2 Pitch" value-ref="dummy_m2_pitch" />
+				<entry key="M2 Yaw" value-ref="dummy_m2_yaw" />
+				<entry key="M2 Bendus" value-ref="dummy_m2_bendus" />
+				<entry key="M2 Bendds" value-ref="dummy_m2_bendds" />
 			</map>
 	 	</constructor-arg>
 		<constructor-arg name="positionLookupService" ref="m1m2_lut" />
@@ -85,10 +85,10 @@
 	 	<constructor-arg name="inputProperty" value="energy" />
 	 	<constructor-arg name="scannables">
 			<map>
-				<entry key="S2 X Centre" value-ref="s2_xcentre"     />
-				<entry key="S2 X Size" value-ref="s2_xsize"     />
-				<entry key="S2 Y Centre" value-ref="s2_ycentre"  />
-				<entry key="S2 Y Size" value-ref="s2_ysize" />
+				<entry key="S2 X Centre" value-ref="dummy_s2_xcentre"     />
+				<entry key="S2 X Size" value-ref="dummy_s2_xsize"     />
+				<entry key="S2 Y Centre" value-ref="dummy_s2_ycentre"  />
+				<entry key="S2 Y Size" value-ref="dummy_s2_ysize" />
 			</map>
 	 	</constructor-arg>
 		<constructor-arg name="positionLookupService" ref="s2_lut" />
@@ -102,7 +102,7 @@
 		<constructor-arg name="script" ref="dcm1_script" />
 		<constructor-arg name="functionsPerScannable">
 			<map>
-				<entry key-ref="dcm1_y" value="y_in" />
+				<entry key-ref="dummy_dcm1_y" value="y_in" />
 			</map>
 		</constructor-arg>
 		<constructor-arg name="inputProperty" value="energy" />
@@ -112,8 +112,8 @@
 		<constructor-arg name="script" ref="dcm1_script" />
 		<constructor-arg name="functionsPerScannable">
 			<map>
-				<entry key-ref="dcm1_bragg" value="pos_bragg" />
-				<entry key-ref="dcm1_z" value="pos_z" />
+				<entry key-ref="dummy_dcm1_bragg" value="pos_bragg" />
+				<entry key-ref="dummy_dcm1_z" value="pos_z" />
 			</map>
 		</constructor-arg>
 		<constructor-arg name="inputProperty" value="energy" />
@@ -123,7 +123,7 @@
 		<constructor-arg name="script" ref="shutter_script" />
 		<constructor-arg name="functionsPerScannable">
 			<map>
-				<entry key-ref="fe_shutter" value="open_shutter" />
+				<entry key-ref="dummy_fe_shutter" value="open_shutter" />
 			</map>
 		</constructor-arg>
 		<constructor-arg name="inputProperty" value="energy" />
@@ -133,8 +133,8 @@
 		<constructor-arg name="script" ref="dcm1_script" />
 		<constructor-arg name="functionsPerScannable">
 			<map>
-				<entry key-ref="dcm1_roll" value="pos_roll" />
-				<entry key-ref="dcm1_pitch" value="pos_pitch" />
+				<entry key-ref="dummy_dcm1_roll" value="pos_roll" />
+				<entry key-ref="dummy_dcm1_pitch" value="pos_pitch" />
 			</map>
 		</constructor-arg>
 		<constructor-arg name="inputProperty" value="energy" />
