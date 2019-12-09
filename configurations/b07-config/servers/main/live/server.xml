@@ -11,6 +11,7 @@
 
 	<!-- Mirrors -->
 	<import resource="m1b.xml"/>
+	<import resource="m1c.xml"/>
 	<import resource="m3b.xml"/>
 
 	<!-- Diagnostics -->

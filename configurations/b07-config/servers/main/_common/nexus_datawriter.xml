@@ -35,6 +35,9 @@
 				<value>m1b_yaw</value>
 				<value>m1b_mask_temp</value>
 				<value>m1b_mirror_temp</value>
+				<!-- m1c -->
+				<value>m1c_mirror_temp</value>
+				<value>m1c_mask_temp</value>
 				<!-- m3b -->
 				<value>m3b_x</value>
 				<value>m3b_y</value>
