@@ -27,10 +27,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
 import uk.ac.gda.tomography.scan.editor.view.TomographyAcquisitionComposite;
-import uk.ac.gda.tomography.ui.TomographySpringApplicationContextProxy;
 import uk.ac.gda.tomography.ui.controller.TomographyPerspectiveController;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 import uk.ac.gda.ui.tool.ClientSWTElements;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -68,7 +68,7 @@ public class TomographySetup extends ViewPart {
 	}
 
 	private TomographyPerspectiveController getPerspectiveController() {
-		return TomographySpringApplicationContextProxy.getTomographyPerspectiveController();
+		return SpringApplicationContextProxy.getBean(TomographyPerspectiveController.class);
 	}
 
 }
