@@ -20,8 +20,7 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
  com.thoughtworks.xstream,
  uk.ac.gda.exafs.api
-Import-Package: de.jaret.util.ui.timebars.model;version="1.48.0",
- gda.scan.ede.position,
+Import-Package: gda.scan.ede.position,
  org.eclipse.core.runtime;version="3.4.0",
  org.eclipse.january.dataset
 Automatic-Module-Name: uk.ac.gda.beamline.i20_1.test

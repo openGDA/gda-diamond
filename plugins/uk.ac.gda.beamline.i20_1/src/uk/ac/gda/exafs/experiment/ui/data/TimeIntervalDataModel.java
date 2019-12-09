@@ -22,11 +22,10 @@ import org.dawnsci.ede.DataHelper;
 
 import com.google.gson.annotations.Expose;
 
-import de.jaret.util.date.IntervalImpl;
-import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 
-public abstract class TimeIntervalDataModel extends IntervalImpl {
+public abstract class TimeIntervalDataModel extends ObservableModel { // extends IntervalImpl {
 
 	protected static final double MIN_DURATION_TIME = 20;
 	protected static final double INITIAL_START_TIME = 0.0;
@@ -63,8 +62,6 @@ public abstract class TimeIntervalDataModel extends IntervalImpl {
 
 	private void updateEndTimeAndInterval(double eventDuration) {
 		this.firePropertyChange(END_TIME_PROP_NAME,  endTime, endTime = getIntervalStartTime() + eventDuration);
-		this.setBegin(ExperimentTimeHelper.getTime().advanceMillis((long) ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getIntervalStartTime(), ExperimentUnit.MILLI_SEC)));
-		this.setEnd(ExperimentTimeHelper.getTime().advanceMillis((long) ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(endTime, ExperimentUnit.MILLI_SEC)));
 		this.firePropertyChange(DURATION_PROP_NAME, null, this.getDuration());
 	}
 
