@@ -19,13 +19,17 @@
 				<value>s1c_ysize</value>
 				<value>s1c_ypos</value>
 				<value>s1c_yneg</value>
+				<!-- m1b -->
+				<value>m1b_mask_temp</value>
+				<value>m1b_mirror_temp</value>
 				<!-- m1c -->
 				<value>m1c_x</value>
 				<value>m1c_y</value>
 				<value>m1c_pitch</value>
 				<value>m1c_roll</value>
 				<value>m1c_yaw</value>
-				<value>m1b_mask_temp</value>
+				<value>m1c_mask_temp</value>
+				<value>m1c_mirror_temp</value>
 				<!-- s2c -->
 				<value>s2c_xcentre</value>
 				<value>s2c_xsize</value>
