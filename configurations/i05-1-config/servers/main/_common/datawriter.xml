@@ -52,6 +52,13 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="pgm_grating">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/monochromator:NXmonochromator/grating:NXgrating/pgm_grating" />
+					</bean>
+				</entry>
 				<entry key="exit_slit">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -267,6 +274,7 @@
 				<value>s2_ysize</value>
 				<value>s2_xsize</value>
 				<value>pgm_cff</value>
+				<value>pgm_grating</value>
 				<!-- Keithley -->
 				<value>keithley_a_source_mode</value>
 				<value>keithley_a_resistance_mode</value>
