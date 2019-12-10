@@ -24,21 +24,51 @@
 				<value>s3b_ysize</value>
 				<!-- s4b -->
 				<value>s4b</value>
+				<value>s4b_xgapsize</value>
+				<value>s4b_ygapsize</value>
+				<value>s4b_z</value>
 				<!-- m1b -->
 				<value>m1b_x</value>
+				<value>m1b_y</value>
+				<value>m1b_pitch</value>
+				<value>m1b_roll</value>
+				<value>m1b_yaw</value>
+				<value>m1b_mask_temp</value>
+				<value>m1b_mirror_temp</value>
 				<!-- m3b -->
-				<value>m1b_x</value>
+				<value>m3b_x</value>
+				<value>m3b_y</value>
+				<value>m3b_pitch</value>
+				<value>m3b_roll</value>
+				<value>m3b_yaw</value>
 				<!-- d1b -->
 				<value>d1b_y</value>
 				<!-- d2b -->
 				<value>d2b_y</value>
+				<!-- d3b -->
+				<value>d3b_y_positioner</value>
+				<!-- d4b -->
+				<value>d4b_y_positioner</value>
 				<!-- d5b -->
 				<value>d5b_y_positioner</value>
 				<!-- d6b -->
+				<value>d6b_y</value>
 				<value>d6b_y_positioner</value>
 				<!-- d7b -->
+				<value>d7b_y</value>
 				<value>d7b_y_positioner</value>
-
+				<!-- ring -->
+				<value>ring_current</value>
+				<!-- pgm -->
+				<value>pgm_energy</value>
+				<value>pgm_cff</value>
+				<value>pgm_grating_pitch</value>
+				<value>pgm_grating_x</value>
+				<value>pgm_mirror_pitch</value>
+				<value>pgm_mirror_x</value>
+				<value>pgm_grating</value>
+				<value>pgm_mirror</value>
+				<value>pgm_override</value>
 			</set>
 		</property>
 	</bean>
