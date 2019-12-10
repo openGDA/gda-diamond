@@ -19,32 +19,6 @@
 		<property name="motor" ref="stage_theta_motor" />
 	</bean>
 
-	<bean id="chopperHor" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="chopper_hor_motor" />
-	</bean>
-
-	<bean id="chopperVer" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="chopper_ver_motor" />
-	</bean>
-
-
-
-<!-- 	<bean id="tomo_y" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="motor" ref="tomo_y_motor" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="tomo_rot" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="motor" ref="stage_theta_motor" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="tomo_centring_x" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="motor" ref="stage_x_motor" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="tomo_centring_z" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="motor" ref="tomo_centring_z_motor" /> -->
-<!-- 	</bean> -->
-	
 	<bean id="tomo_centring_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -63,5 +37,5 @@
 			</list>
 		</property>
 	</bean>
-	
+
 </beans>
