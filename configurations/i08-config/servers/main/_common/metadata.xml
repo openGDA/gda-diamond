@@ -365,6 +365,24 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
+				<entry key="ZonePlateX">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/zone_plate:NXcollection/ZonePlateX" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="ZonePlateY">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/zone_plate:NXcollection/ZonePlateY" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="ZonePlateZ">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/zone_plate:NXcollection/ZonePlateZ" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
 				<!-- <entry key="ringCurrent">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -429,6 +447,9 @@
 				<value>SampleZ_coarse</value>
 				<value>SampleX_fine</value>
 				<value>SampleY_fine</value>
+				<value>ZonePlateX</value>
+				<value>ZonePlateY</value>
+				<value>ZonePlateZ</value>
 			</set>
 		</property>
 	</bean>
