@@ -66,6 +66,7 @@ import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.LiveStreamConnectionManager;
 import uk.ac.gda.client.live.stream.LiveStreamException;
 import uk.ac.gda.client.live.stream.api.ILiveStreamConnectionManager;
+import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -80,7 +81,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	private static final String PARTICLE_TRACKING = "Particle Tracking";
 	private static final String FULLY_AUTOMATED = "Fully Automated";
 	private static final String TOMOGRAPHY = "Plain Tomography";
-	private static final String[] modes = new String[] { POINT_AND_SHOOT, PARTICLE_TRACKING, FULLY_AUTOMATED, TOMOGRAPHY };
+	private static final String[] modes = new String[] { POINT_AND_SHOOT, PARTICLE_TRACKING, FULLY_AUTOMATED,
+			TOMOGRAPHY };
 
 	private static final Map<String, String> PERSPECTIVES_MAP = ImmutableMap.of(POINT_AND_SHOOT,
 			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", PARTICLE_TRACKING,
@@ -393,7 +395,10 @@ public class ExperimentSetup extends LayoutUtilities {
 
 	private LiveStreamConnection getLiveStreamConnection() throws LiveStreamException {
 		ILiveStreamConnectionManager manager = LiveStreamConnectionManager.getInstance();
-		UUID connectionID = manager.getIStreamConnection(CameraHelper.getCameraConfiguration(0), StreamType.EPICS_ARRAY);
+		CameraConfiguration cc = CameraHelper
+				.getCameraConfiguration(CameraHelper.getDefaultCameraProperties().getIndex())
+				.orElseThrow(() -> new LiveStreamException("No Camera Confguration found"));
+		UUID connectionID = manager.getIStreamConnection(cc, StreamType.EPICS_ARRAY);
 		return LiveStreamConnection.class.cast(manager.getIStreamConnection(connectionID));
 	}
 
