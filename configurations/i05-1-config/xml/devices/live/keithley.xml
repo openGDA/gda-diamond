@@ -5,9 +5,16 @@
 
 	<bean id="keithley_a" class="uk.ac.diamond.daq.devices.keithley.Keithley2600Series">
 		<property name="basePVName" value="BL05J-EA-SRCM-01:CHA" />
+		<property name="switchOnDelayTimeMs" value="5000" />
+		<property name="settleTime" value="3000" />
+		<property name="additionalFirstPointSettleTimeMs" value="3000" />
 	</bean>
+	
 	<bean id="keithley_b" class="uk.ac.diamond.daq.devices.keithley.Keithley2600Series">
 		<property name="basePVName" value="BL05J-EA-SRCM-01:CHB" />
+		<property name="switchOnDelayTimeMs" value="5000" />
+		<property name="settleTime" value="3000" />
+		<property name="additionalFirstPointSettleTimeMs" value="3000" />
 	</bean>
 
 	<bean id="keithley_a_source_mode" class="gda.device.monitor.EpicsMonitor">
