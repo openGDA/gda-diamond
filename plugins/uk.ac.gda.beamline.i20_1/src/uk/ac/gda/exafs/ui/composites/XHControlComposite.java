@@ -19,24 +19,15 @@
 package uk.ac.gda.exafs.ui.composites;
 
 import java.util.Arrays;
-import java.util.Date;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.DataHelper;
 import org.dawnsci.ede.EdeDataConstants;
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -65,7 +56,6 @@ import gda.data.nexus.extractor.NexusGroupData;
 import gda.device.DeviceException;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
-import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonStatus;
 import gda.observable.IObserver;
@@ -91,12 +81,9 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(XHControlComposite.class);
 
-	private final IPlottingSystem plottingSystem;
+	private final IPlottingSystem<Composite> plottingSystem;
 
-	public volatile boolean continueLiveLoop = false;
-
-	double[] allValues;
-	double[][] regionValues;
+	private volatile boolean continueLiveLoop = false;
 
 	private ToolItem startLiveModeButton;
 	private ToolItem stopLiveModeButton;
@@ -112,19 +99,14 @@ public class XHControlComposite extends Composite implements IObserver {
 	private NumberEditorControl txtLiveTime;
 	private NumberEditorControl txtLiveNumScansPerFrame;
 	private NumberEditorControl txtRefreshPeriod;
-	private ComboViewer comboVertBinning;
 	private ILineTrace lineTrace;
 	private EdeDetector detector;
-
-	private NumberEditorControl txtCcdLineBegin;
-
-	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 	private double[] countsForI0;
 	private Button showLiveI0ItCheckbox;
 	protected boolean liveModeIsRunning;
 
-	public static class DetectorControlModel extends ObservableModel {
+	private static class DetectorControlModel extends ObservableModel {
 		public static final String LIVE_INTEGRATION_TIME_PROP_NAME = "liveIntegrationTime";
 		private double liveIntegrationTime;
 
@@ -142,12 +124,6 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		public static final String NUMBER_OF_ACCUMULATIONS_PROP_NAME = "numberOfAccumulations";
 		private int numberOfAccumulations;
-
-		public static final String VERTICAL_BINNING_PROP_NAME = "verticalBinning";
-		private int verticalBinning;
-
-		public static final String CCD_LINE_BEGIN_PROP_NAME = "ccdLineBegin";
-		private int ccdLineBegin;
 
 		public double getLiveIntegrationTime() {
 			return liveIntegrationTime;
@@ -188,21 +164,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		public void setNumberOfAccumulations(int numberOfAccumulations) {
 			firePropertyChange(NUMBER_OF_ACCUMULATIONS_PROP_NAME, this.numberOfAccumulations, this.numberOfAccumulations = numberOfAccumulations);
 		}
-		public int getVerticalBinning() {
-			return verticalBinning;
-		}
-		public void setVerticalBinning(int binValue) {
-			firePropertyChange(VERTICAL_BINNING_PROP_NAME, verticalBinning, verticalBinning = binValue);
-		}
-		public int getCcdLineBegin() {
-			return ccdLineBegin;
-		}
-		public void setCcdLineBegin(int ccdLineBegin) {
-			firePropertyChange(CCD_LINE_BEGIN_PROP_NAME, this.ccdLineBegin, this.ccdLineBegin = ccdLineBegin);
-		}
 	}
 
-	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
+	public XHControlComposite(Composite parent, IPlottingSystem<Composite> plottingSystem) {
 		super(parent, SWT.None);
 		detector = DetectorModel.INSTANCE.getCurrentDetector();
 		this.plottingSystem = plottingSystem;
@@ -236,20 +200,6 @@ public class XHControlComposite extends Composite implements IObserver {
 	private void createUI() {
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		buildSections();
-		// initialiseFrelonUIComponents(); // this is now done in buildSections (Frelon specific UI elements)
-	}
-
-	private void initialiseFrelonUIComponents() {
-		comboVertBinning.addSelectionChangedListener( event -> {
-			StructuredSelection selection = (StructuredSelection) event.getSelection();
-			detectorControlModel.setVerticalBinning(Integer.parseInt(selection.getFirstElement().toString()));
-			txtCcdLineBegin.setRange(0, FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning());
-			if (detectorControlModel.getCcdLineBegin()>FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning()) {
-				detectorControlModel.setCcdLineBegin(FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning());
-			}
-		});
-
-		pullFrelonDetectorSettings();
 	}
 
 	private synchronized void buildSections() {
@@ -262,110 +212,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		try {
 			createLiveModeGroup(form.getBody());
 			createSnapShotGroup(form.getBody());
-
-			// Setup frelon specific UI elements.
-//			if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorSetupType() == DetectorSetupType.FRELON ) {
-//				createFrelonBinAndOffsetGroup(form.getBody());
-//				initialiseFrelonUIComponents();
-//			}
-
 		} catch (Exception e) {
-			UIHelper.showError("Unable to create sections", e.getMessage());
-			logger.error("Unable to create sections", e);
+			displayAndLogMessage("Unable to create sections", e);
 		}
-	}
-
-	private void createFrelonBinAndOffsetGroup(Composite parentForm) throws Exception {
-		@SuppressWarnings("static-access")
-		final Section section = toolkit.createSection(parentForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-		toolkit.paintBordersFor(section);
-		section.setText("Frelon detector settings");
-		toolkit.paintBordersFor(section);
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite frelonSectionComposite = toolkit.createComposite(section, SWT.NONE);
-		toolkit.paintBordersFor(frelonSectionComposite);
-		frelonSectionComposite.setLayout(new GridLayout(2, false));
-		section.setClient(frelonSectionComposite);
-
-		// vertical binning
-		Label lbl  = toolkit.createLabel(frelonSectionComposite, "Vertical Binning", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		int storedVerticalBinning = Activator.getDefault().getPreferenceStore().getInt(I20_1PreferenceInitializer.VERTICALBINNING);
-		if (storedVerticalBinning == 0) {
-			storedVerticalBinning = 1;
-		}
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.VERTICAL_BINNING_PROP_NAME, event -> {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.VERTICALBINNING, (int) event.getNewValue());
-		});
-		detectorControlModel.setVerticalBinning(storedVerticalBinning);
-
-		comboVertBinning = new ComboViewer(frelonSectionComposite, SWT.READ_ONLY);
-		comboVertBinning.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		comboVertBinning.setContentProvider(new ArrayContentProvider());
-		comboVertBinning.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return String.valueOf(element);
-			}
-		});
-		comboVertBinning.setInput(new Integer[] {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024});
-		comboVertBinning.setSelection(new StructuredSelection(storedVerticalBinning));
-
-		dataBindingCtx.bindValue(
-				ViewersObservables.observeSingleSelection(comboVertBinning),
-				BeanProperties.value(DetectorControlModel.VERTICAL_BINNING_PROP_NAME).observe(detectorControlModel));
-		// ROI BIN Offset
-		lbl = toolkit.createLabel(frelonSectionComposite, "CCD Line Begin", SWT.NONE);
-		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		int ccdLineBegin = Activator.getDefault().getPreferenceStore().getInt(I20_1PreferenceInitializer.CCDLINEBEGIN);
-		if (ccdLineBegin > FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning()) {
-			ccdLineBegin = FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning();
-		}
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.CCD_LINE_BEGIN_PROP_NAME, event -> {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.CCDLINEBEGIN, (int) event.getNewValue());
-		});
-		detectorControlModel.setCcdLineBegin(ccdLineBegin);
-		((FrelonCcdDetectorData)DetectorModel.INSTANCE.getCurrentDetector().getDetectorData()).setCcdBeginLine(ccdLineBegin);
-
-		txtCcdLineBegin = new NumberEditorControl(frelonSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.CCD_LINE_BEGIN_PROP_NAME, true);
-		txtCcdLineBegin.setRange(0, FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning());
-		txtCcdLineBegin.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
-		ToolItem configDetector = new ToolItem(motorSectionTbar, SWT.NULL);
-		configDetector.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
-				"/icons/control_play_blue.png").createImage());
-		configDetector.addListener(SWT.Selection,  event -> {
-			try {
-				DetectorModel.INSTANCE.getCurrentDetector().configureDetectorForROI(detectorControlModel.getVerticalBinning(),detectorControlModel.getCcdLineBegin());
-			} catch (DeviceException e) {
-				logger.error(e.getMessage(), e);
-			}
-		});
-		configDetector.setToolTipText("Send to detector");
-
-		ToolItem fetchDetector = new ToolItem(motorSectionTbar, SWT.NULL);
-		fetchDetector.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
-				"/icons/arrow_refresh.png").createImage());
-		fetchDetector.addListener(SWT.Selection, event -> {
-			pullFrelonDetectorSettings();
-		});
-		fetchDetector.setToolTipText("Read from detector");
-		section.setTextClient(motorSectionTbar);
-
-		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
-		toolkit.paintBordersFor(sectionSeparator);
-		section.setSeparatorControl(sectionSeparator);
-	}
-
-	private void pullFrelonDetectorSettings() {
-		EdeDetector currentDetector = DetectorModel.INSTANCE.getCurrentDetector();
-		currentDetector.fetchDetectorSettings();
-		detectorControlModel.setCcdLineBegin(((FrelonCcdDetectorData)currentDetector.getDetectorData()).getCcdBeginLine());
-		detectorControlModel.setVerticalBinning(((FrelonCcdDetectorData)currentDetector.getDetectorData()).getVerticalBinValue());
-
 	}
 
 	@SuppressWarnings("static-access")
@@ -389,9 +238,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (storedSnapShotTime == 0.0) {
 			storedSnapShotTime = 1.0;
 		}
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.SNAPSHOT_INTEGRATION_TIME_PROP_NAME, event ->  {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.SNAPSHOTTIME, (double) event.getNewValue());
-		});
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.SNAPSHOT_INTEGRATION_TIME_PROP_NAME, event ->
+			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.SNAPSHOTTIME, (double) event.getNewValue()));
+
 		detectorControlModel.setSnapshotIntegrationTime(storedSnapShotTime);
 		txtSnapTime = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.SNAPSHOT_INTEGRATION_TIME_PROP_NAME, true);
 		txtSnapTime.setUnit(UnitSetup.MILLI_SEC.getText());
@@ -407,9 +256,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (numberOfAccumulations == 0) {
 			numberOfAccumulations = 1;
 		}
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.NUMBER_OF_ACCUMULATIONS_PROP_NAME, event -> {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.SCANSPERFRAME, (int) event.getNewValue());
-		});
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.NUMBER_OF_ACCUMULATIONS_PROP_NAME, event ->
+			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.SCANSPERFRAME, (int) event.getNewValue()));
 		detectorControlModel.setNumberOfAccumulations(numberOfAccumulations);
 		txtNumScansPerFrame = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
 		txtNumScansPerFrame.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
@@ -424,8 +272,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			try {
 				collectAndPlotSnapshot(false, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 			} catch (DeviceException | InterruptedException e) {
-				UIHelper.showError("Unable to collect data", e.getMessage());
-				logger.error("Unable to collect data", e);
+				displayAndLogMessage("Unable to collect data", e);
 			}
 		});
 		takeSnapShotAndSaveButton = new ToolItem(motorSectionTbar, SWT.NULL);
@@ -436,8 +283,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			try {
 				collectAndPlotSnapshot(true, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 			} catch (DeviceException | InterruptedException e) {
-				UIHelper.showError("Unable to collect data", e.getMessage());
-				logger.error("Unable to collect data", e);
+				displayAndLogMessage("Unable to collect data", e);
 			}
 		});
 
@@ -454,9 +300,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		// ... Setup listener for model changes and get initial values from preference store
 
 		// Live mode integration time
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, event -> {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODETIME, (double) event.getNewValue());
-		});
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, event ->
+			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODETIME, (double) event.getNewValue()));
 		Double storedLiveTime = Activator.getDefault().getPreferenceStore()
 				.getDouble(I20_1PreferenceInitializer.LIVEMODETIME);
 		if (storedLiveTime == 0.0) {
@@ -465,9 +310,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		detectorControlModel.setLiveIntegrationTime(storedLiveTime);
 
 		// Live mode refresh period
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_MODE_REFRESH_PERIOD_PROP_NAME, event -> {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.REFRESHRATE, (double) event.getNewValue());
-		});
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_MODE_REFRESH_PERIOD_PROP_NAME, event ->
+			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.REFRESHRATE, (double) event.getNewValue()));
 		double refreshPeroid = Activator.getDefault().getPreferenceStore()
 				.getDouble(I20_1PreferenceInitializer.REFRESHRATE);
 		if (refreshPeroid == 0.0) {
@@ -476,9 +320,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		detectorControlModel.setRefreshPeriod(refreshPeroid);
 
 		// Live mode num accumulations.
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_NUMBER_OF_ACCUMULATIONS_PROP_NAME, event -> {
-			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODESCANSPERFRAME, (int) event.getNewValue());
-		});
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_NUMBER_OF_ACCUMULATIONS_PROP_NAME, event ->
+			Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODESCANSPERFRAME, (int) event.getNewValue()));
+
 		int storedLiveNumAccumulations = Activator.getDefault().getPreferenceStore()
 				.getInt(I20_1PreferenceInitializer.LIVEMODESCANSPERFRAME);
 		if (storedLiveNumAccumulations < 1) {
@@ -566,9 +410,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		stopLiveModeButton.setToolTipText("Stop live mode");
 		stopLiveModeButton.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/control_stop_blue.png").createImage());
-		stopLiveModeButton.addListener(SWT.Selection, event -> {
-			stopCollectingRates();
-		});
+		stopLiveModeButton.addListener(SWT.Selection, event -> stopCollectingRates());
 		stopLiveModeButton.setEnabled(false);
 		section.setTextClient(motorSectionTbar);
 
@@ -608,19 +450,17 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * @throws InterruptedException
 	 * @throws DeviceException
 	 */
-	public Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
+	private Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
 			final String title) throws DeviceException, InterruptedException {
 
 		collectData(collectionPeriod, 1,scansPerFrame);
 
-		//get pixel corrected data from detector
+		// Get pixel corrected data from detector
 		NXDetectorData readout = (NXDetectorData) detector.readout();
 		final NexusGroupData ydata = readout.getData(detector.getName(), EdeDataConstants.DATA_COLUMN_NAME, NexusExtractor.SDSClassName);
 		final double[] counts=(double[]) ScanDataHelper.extractDataFromNexusGroup(ydata).getBuffer();
 
 		//Note: scientist wanted the live mode always plot in pixels not energy.
-		//		final NexusGroupData xdata=readout.getData(detector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, NexusExtractor.SDSClassName);
-		//		final double[] energies=(double[]) xdata.getBuffer();
 		Integer[] pixels = detector.getPixels();
 		final double[] xdata=new double[pixels.length];
 		for (int i=0; i<pixels.length; i++) {
@@ -665,79 +505,75 @@ public class XHControlComposite extends Composite implements IObserver {
 		plottingSystem.repaint();
 	}
 
-	public void startCollectingRates() {
-		if (liveLoop == null || !liveLoop.isAlive()) {
-			continueLiveLoop = true;
-			liveLoop = null;
+	private void setAllowLiveLoop(boolean allowLiveLoop) {
+		continueLiveLoop = allowLiveLoop;
+	}
+
+	private boolean liveLoopIsAllowed() throws DeviceException {
+		return continueLiveLoop
+				&& InterfaceProvider.getScanStatusHolder().getScanStatus() == JythonStatus.IDLE
+				&& !detector.isBusy();
+	}
+
+	private void startCollectingRates() {
+		if (liveLoop != null && liveLoop.isAlive()) {
+			//live loop is already running
+			return;
+		}
+
+		setAllowLiveLoop(true);
+		liveLoop = null;
+
+		runInGuiThread(() -> {
 			startLiveModeButton.setEnabled(false);
 			stopLiveModeButton.setEnabled(true);
 			takeSnapShotButton.setEnabled(false);
 			takeSnapShotAndSaveButton.setEnabled(false);
-			runInGuiThread(() -> {
-				txtNumScansPerFrame.setEditable(false);
-				txtRefreshPeriod.setEditable(false);
-				txtSnapTime.setEditable(false);
-			});
-			liveLoop = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						int numberSectors = detector.getRois().length;
-						allValues = new double[0];
-						regionValues = new double[numberSectors][0];
-						while (continueLiveLoop
-								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == JythonStatus.IDLE) {
-							Date snapshotTime = new Date();
+			txtNumScansPerFrame.setEditable(false);
+			txtRefreshPeriod.setEditable(false);
+			txtSnapTime.setEditable(false);
+		});
 
-							String collectionPeriod_ms = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
-							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), detectorControlModel.getLiveNumberOfAccumulations(),
-									"Live reading (" + collectionPeriod_ms + " ms integration, every " + detectorControlModel.getRefreshPeriod()
-									+ " s)");
-
-							allValues = ArrayUtils.add(allValues, results[2]);
-							for (int i = 3; i < results.length; i++) {
-								regionValues[i - 3] = ArrayUtils.add(regionValues[i - 3], results[i]);
-							}
-
-							waitForRefreshPeriod(snapshotTime);
-						}
-					} catch (Exception e) {
-						StringBuilder message = new StringBuilder();
-						message.append("Problem collecting data in live mode view : \n");
-						if (!detector.isConfigured()) {
-							message.append(detector.getName()+" detector has not been configured.");
-						} else {
-							message.append(e.getMessage());
-						}
-						runInGuiThread(() -> MessageDialog.openWarning(getParent().getShell(), "Problem collecting data", message.toString()));
-						logger.error(message.toString(), e);
-					} finally {
-						runInGuiThread(() -> stopCollectingRates());
+		liveLoop = new Thread( () -> {
+			try {
+				while (liveLoopIsAllowed()) {
+					long startTime = System.currentTimeMillis();
+					String collectionPeriodMillis = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
+					collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), detectorControlModel.getLiveNumberOfAccumulations(),
+							"Live reading (" + collectionPeriodMillis + " ms integration, every " + detectorControlModel.getRefreshPeriod()
+							+ " s)");
+					// Sleep for a bit to get the required refresh inverval (convert refresh period from secs to milliseconds)
+					double sleepTime = 1000*detectorControlModel.getRefreshPeriod() - (System.currentTimeMillis() - startTime);
+					if (sleepTime > 0) {
+						logger.info("Sleeping for {} ms", sleepTime);
+						Thread.sleep((long) sleepTime);
 					}
 				}
-
-				private void waitForRefreshPeriod(Date snapshotTime) throws InterruptedException {
-					Date now = new Date();
-					double refreshPeriod_ms = detectorControlModel.getRefreshPeriod() * 1000;
-
-					while (now.getTime() - snapshotTime.getTime() < refreshPeriod_ms) {
-						now = new Date();
-						Thread.sleep(50);
-					}
+			} catch (Exception ex) {
+				StringBuilder message = new StringBuilder();
+				message.append("Problem collecting data in live mode view : \n");
+				if (!detector.isConfigured()) {
+					message.append(detector.getName()+" detector has not been configured.");
+				} else {
+					message.append(ex.getMessage());
 				}
-			});
-			liveLoop.start();
-		}
+				runInGuiThread(() -> MessageDialog.openWarning(getParent().getShell(), "Problem collecting data", message.toString()));
+				logger.error(message.toString(), ex);
+			} finally {
+				setAllowLiveLoop(false);
+				runInGuiThread(this::stopCollectingRates);
+			}
+		});
+
+		liveLoop.start();
 	}
-
-
 
 	public void stopCollectingRates() {
 		// Wait for collection thread to finish and update start/stop button status.
 		// This is done in a separate thread so GUI doesn't lock up while waiting for collection to finish.
 		Async.execute(() -> {
 			try {
-				continueLiveLoop = false;
+				setAllowLiveLoop(false);
 
 				// Wait for collection thread to finish current acquisition
 				liveLoop.join();
@@ -753,6 +589,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				});
 			} catch (InterruptedException e) {
 				logger.error("Exception in stopCollectingRates : ", e);
+				Thread.currentThread().interrupt();
 			}
 		});
 
@@ -802,5 +639,15 @@ public class XHControlComposite extends Composite implements IObserver {
 	 */
 	private void runInGuiThread(Runnable runnable) {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(runnable);
+	}
+
+	/**
+	 * Display a message warning dialog box and put stack trace into in the log.
+	 * @param info
+	 * @param t
+	 */
+	private void displayAndLogMessage(String info, Throwable t) {
+		UIHelper.showError(info, t.getMessage());
+		logger.error(info, t);
 	}
 }
