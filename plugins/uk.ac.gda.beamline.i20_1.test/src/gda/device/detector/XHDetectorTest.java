@@ -77,8 +77,8 @@ public class XHDetectorTest {
 		String[] commands = daserver.getRecievedCommands();
 
 		//always clear out signals before setting anything up
-		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 last",commands[9]);
+		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[1]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 last",commands[10]);
 	}
 
 	@Test
@@ -109,9 +109,9 @@ public class XHDetectorTest {
 		String[] commands = daserver.getRecievedCommands();
 
 		//always clear out signals before setting anything up
-		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 frame-delay 250000000",commands[9]);
-		assertEquals("xstrip timing setup-group \"xh0\" 1 2 0 5000000 frame-time 150000000 group-delay 3000000000 last",commands[18]);
+		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[1]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 frame-delay 250000000",commands[10]);
+		assertEquals("xstrip timing setup-group \"xh0\" 1 2 0 5000000 frame-time 150000000 group-delay 3000000000 last",commands[19]);
 	}
 
 	@Test
@@ -135,8 +135,8 @@ public class XHDetectorTest {
 		String[] commands = daserver.getRecievedCommands();
 
 		//always clear out signals before setting anything up
-		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 trig-falling last",commands[9]);
+		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[1]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 trig-falling last",commands[10]);
 	}
 
 	@Test
@@ -161,8 +161,8 @@ public class XHDetectorTest {
 		String[] commands = daserver.getRecievedCommands();
 
 		//always clear out signals before setting anything up
-		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 trig-falling last",commands[9]);
+		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[1]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 trig-falling last",commands[10]);
 	}
 
 
@@ -187,9 +187,9 @@ public class XHDetectorTest {
 		String[] commands = daserver.getRecievedCommands();
 
 		//always clear out signals before setting anything up
-		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing ext-output \"xh0\" 0 frame-pre-delay",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[10]);
+		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[1]);
+		assertEquals("xstrip timing ext-output \"xh0\" 0 frame-pre-delay",commands[2]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[11]);
 	}
 
 	@Test
@@ -214,9 +214,9 @@ public class XHDetectorTest {
 		String[] commands = daserver.getRecievedCommands();
 
 		//always clear out signals before setting anything up
-		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing ext-output \"xh0\" 0 frame-pre-delay width 100000000",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[10]);
+		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[1]);
+		assertEquals("xstrip timing ext-output \"xh0\" 0 frame-pre-delay width 100000000",commands[2]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 lemo-out 1 last",commands[11]);
 	}
 
 
@@ -243,9 +243,9 @@ public class XHDetectorTest {
 		String[] commands = daserver.getRecievedCommands();
 
 		//always clear out signals before setting anything up
-		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing ext-output \"xh0\" 6 frame-pre-delay",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 trig-falling last",commands[10]);
+		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[1]);
+		assertEquals("xstrip timing ext-output \"xh0\" 6 frame-pre-delay",commands[2]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 trig-falling last",commands[11]);
 	}
 
 	@Test

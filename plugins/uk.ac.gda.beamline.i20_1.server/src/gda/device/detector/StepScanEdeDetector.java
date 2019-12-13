@@ -47,8 +47,9 @@ public class StepScanEdeDetector extends DetectorBase implements NexusDetector {
 	@Override
 	public void prepareForCollection() {
 		try {
+			detector.waitWhileBusy();
 			prepareDetectorForTimingGroup();
-		} catch (DeviceException de) {
+		} catch (Exception de) {
 			logger.warn("Problem preparing {} for collection ", getName(), de);
 		}
 	}

@@ -743,7 +743,7 @@ public class EdeScanTest extends EdeTestBase {
 		TimeResolvedExperimentParameters allParams = new TimeResolvedExperimentParameters();
 		allParams.setFileNameSuffix("filename_suffix");
 		allParams.setSampleDetails("sample_details");
-		allParams.setI0AccumulationTime(1.11);
+		allParams.setI0AccumulationTime(0.001);
 		allParams.setI0NumAccumulations(17);
 		allParams.setItTimingGroups(scanParams.getGroups());
 		allParams.setItTriggerOptions(tfgTrigger);

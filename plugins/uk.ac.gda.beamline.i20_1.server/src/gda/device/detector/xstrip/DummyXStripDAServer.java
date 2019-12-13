@@ -369,6 +369,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 		private volatile int currentGroup;
 		private volatile int currentFrame;
 		private volatile int currentScan;
+		private boolean canPause = false;
 
 		public synchronized void start() {
 			runner = new Thread(this::runTfg, getClass().getName());
@@ -380,11 +381,11 @@ public class DummyXStripDAServer extends DummyDAServer {
 		public Object getProgress() {
 			String statusString = "";
 			if (currentState == Detector.BUSY) {
-				statusString = "RUNNING\n# Running";
+				statusString = XhDetector.RUNNING+"\n# Running";
 			} else if (currentState == Detector.IDLE) {
-				statusString = "IDLE\n# Idle";
+				statusString = XhDetector.IDLE+"\n# Idle";
 			} else if (currentState == Detector.PAUSED) {
-				statusString = "PAUSED\n# Paused";
+				statusString = XhDetector.PAUSED+"\n# Paused";
 			}
 
 			return statusString + ": group_num=" + currentGroup + ", frame_num=" + currentFrame + ", scan_num="
@@ -486,12 +487,23 @@ public class DummyXStripDAServer extends DummyDAServer {
 		}
 
 		private void waitForContinueSignal() throws InterruptedException {
+			if (!canPause) {
+				return;
+			}
 			currentState = Detector.PAUSED;
 			while (!continueFlag) {
 				if (stopRun) {
 					throw new InterruptedException("Stopping run while waiting for continue signal");
 				}
 			}
+		}
+
+		public boolean isCanPause() {
+			return canPause;
+		}
+
+		public void setCanPause(boolean canPause) {
+			this.canPause = canPause;
 		}
 	}
 
