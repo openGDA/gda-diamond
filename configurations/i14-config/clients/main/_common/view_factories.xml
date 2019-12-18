@@ -10,6 +10,7 @@
 		<property name="timeToRefillAlarmThreshold" value="30.0" />
 		<property name="viewName" value="Status - staff" />
 		<property name="viewType" value="STAFF" />
+		<property name="showBeamlineReadiness" value="true" />
 	</bean>
 
 	<bean id="statusViewUser" class="uk.ac.gda.beamline.i14.views.statusview.StatusViewFactory">
@@ -17,6 +18,7 @@
 		<property name="timeToRefillAlarmThreshold" value="30.0" />
 		<property name="viewName" value="Status - user" />
 		<property name="viewType" value="USER" />
+		<property name="showBeamlineReadiness" value="true" />
 	</bean>
 
 </beans>

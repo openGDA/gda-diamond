@@ -43,6 +43,7 @@ public class StatusViewFactory extends FindableBase implements FindableExecutabl
 	private String iconFilePath = "icons/status.png";
 	private Double ringCurrentAlarmThreshold;
 	private Double timeToRefillAlarmThreshold;
+	private boolean showBeamlineReadiness = true;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -66,6 +67,7 @@ public class StatusViewFactory extends FindableBase implements FindableExecutabl
 		view.setIconFilePath(iconFilePath);
 		view.setRingCurrentAlarmThreshold(ringCurrentAlarmThreshold);
 		view.setTimeToRefillAlarmThreshold(timeToRefillAlarmThreshold);
+		view.setShowBeamlineReadiness(showBeamlineReadiness);
 		return view;
 	}
 
@@ -91,6 +93,10 @@ public class StatusViewFactory extends FindableBase implements FindableExecutabl
 
 	public void setViewType(ViewType viewType) {
 		this.viewType = viewType;
+	}
+
+	public void setShowBeamlineReadiness(boolean showBeamlineReadiness) {
+		this.showBeamlineReadiness = showBeamlineReadiness;
 	}
 
 	@Override
