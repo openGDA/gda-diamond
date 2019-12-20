@@ -47,6 +47,15 @@
             id="uk.ac.gda.beamline.i14.views.I14StatusView"
             name="Status">
       </view>
+      <e4view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i14"
+            class="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
+            icon="platform:/plugin/uk.ac.gda.client/icons/script.png"
+            id="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
+            name="Custom script"
+            restorable="true">
+      </e4view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -64,6 +73,13 @@
                minimized="false"
                relationship="right"
                relative="org.dawnsci.mapping.ui.spectrumview">
+         </view>
+         <view
+               id="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
+               minimized="false"
+               closeable="false"
+               relationship="stack"
+               relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView">
          </view>
       </perspectiveExtension>
    </extension>
