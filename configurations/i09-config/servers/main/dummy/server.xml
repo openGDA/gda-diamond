@@ -62,7 +62,6 @@
 	<import resource="ChannelCutCrystal.xml" />
 	<import resource="SMPM.xml" />
 	<import resource="shutters.xml"/>
-	<import resource="adSimulator.xml"/>
 	<import resource="ring.xml"/>
 	<import resource="frontEnd.xml"/>
 	<import resource="topup.xml" />

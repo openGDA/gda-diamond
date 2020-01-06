@@ -225,13 +225,16 @@ functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 # I09-70 Create a empty string to hold detectors to be used with the GUI
 extraDetectors = ""
 
+# Install regional scan
+print "Installing regional scan"
+from gdascripts.scan.RegionalScan import RegionalScanClass
+mrscan = RegionalScanClass()
+alias('mrscan')
+
 #check beam scannables
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
 #create 'move' command
 run("/dls_sw/i09/software/gda/config/scripts/command/checkedMotion.py")  # @UndefinedVariable
-
-from scannable.continuous.continuous_energy_scannables import cenergy, mcs2, mcs3, mcs4, mcs5  # @UnusedImport
-from scan.cvscan import cvscan  # @UnusedImport
 
 from scannable.continuous.continuous_energy_scannables import cenergy, mcs2, mcs3, mcs4, mcs5  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
