@@ -211,6 +211,8 @@
 		<property name="elementOffset" value="1" />
 		<property name="hdf5" ref="edxdcontroller_hdf5" />
 		<property name="aquisitionTimeOn" value="true" />
+		<property name="waitAfterCaput" value="true" />
+		<property name="caputSleepTime" value="100" />
 	</bean>
 	
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
