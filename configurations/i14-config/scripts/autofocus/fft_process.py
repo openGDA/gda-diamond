@@ -24,8 +24,8 @@ class FftProcess(AdPythonPlugin):
 
 	def __init__(self):
 		self.log.setLevel(logging.DEBUG)
-		params = dict(int1 = 1, int1Name = "Strips",
-                      intArray1 = np.zeros(10), intArray1Name = "Output",
+		params = dict(int1 = 1, int1Name = "strips",
+                      intArray1 = np.zeros(10), intArray1Name = "output",
                       double1 = 1.0, double1Name = "-1",
                       double2 = 2.0, double2Name = "-1")
 		AdPythonPlugin.__init__(self, params)
