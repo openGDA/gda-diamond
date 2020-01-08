@@ -6,8 +6,9 @@ from gda.device.scannable import DummyScannable
 motorWavelength, motorTheta, motorOmega, motorGamma = dcm1lambda, diff1vdelta, dcdomega, diff1vgamma;
 
 #DCD device:
+dcdxrot_dummy = DummyScannable('dcdxrot_dummy')
 dcdtheta=DoubleCrystalDeflectorClass("dcdtheta", motorWavelength, motorTheta, motorOmega, motorGamma, [diff1vdelta, diff1vgamma]);
-sdcdtheta=DoubleCrystalDeflectorClass("sdcdtheta", motorWavelength, motorTheta, motorOmega, motorGamma, [diff1vdelta, diff1vgamma], [dcdxrot])
+sdcdtheta=DoubleCrystalDeflectorClass("sdcdtheta", motorWavelength, motorTheta, motorOmega, motorGamma, [diff1vdelta, diff1vgamma], [dcdxrot_dummy])
 #dcdtheta.setLatticePlaneSpaces(3.1355e-10, 1.9201e-10);
 dcdtheta.setLatticePlaneSpaces(3.74065e-10, 2.29067e-10);
 dcdMonitor=DoubleCrystalDeflectorMonitorClass("dcdMonitor", dcdtheta);
@@ -20,7 +21,6 @@ dcdtheta_.setLatticePlaneSpaces(3.74065e-10, 2.29067e-10);
 
 #motorWavelength, motorTheta, motorOmega, motorGamma = testMotor1, testMotor4, testMotor5, testMotor6;
 testMotor1.moveTo(1.24) #For the energy around 1 keV
-dcdxrot_dummy = DummyScannable('dcdxrot_dummy')
 dummydcdtheta=DoubleCrystalDeflectorClass("dummydcdtheta", testMotor1, testMotor4, testMotor5, testMotor6, [diff1vomega, diff1vdelta], [dcdxrot_dummy]);
 #dummydcdtheta.setLatticePlaneSpaces(3.1355e-10, 1.9201e-10);
 dummydcdtheta.setLatticePlaneSpaces(3.74065e-10, 2.29067e-10);
