@@ -7,6 +7,7 @@ from LookupTables import readLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
 import logging
+from gdascripts.utils import caput
 logger = logging.getLogger('__main__')
 
 
@@ -25,7 +26,7 @@ class HardEnergy(ScannableMotionBase):
     class.
     """
 
-    def __init__(self, name, lut):
+    def __init__(self, name, lut, gap_offset=None, feedbackPVs=None):
         """
         Constructor - Only succeeds if it finds the lookup table,
         otherwise raises exception.
@@ -37,14 +38,16 @@ class HardEnergy(ScannableMotionBase):
         self.dcm = "dcmenergy"
         self.lambdau = 27  # undulator period
         self.scannableNames = ["dcmenergy", "igap"]
-        self.scannables = ScannableGroup(name,
-                                         [finder.find(x) for x in self.scannableNames])
+        self.scannables = ScannableGroup(name,[finder.find(x) for x in self.scannableNames])
+        self.detune=gap_offset
+        self.feedbackPVs=feedbackPVs
         self._busy = 0
         self.setName(name)
         self.setLevel(3)
         self.setOutputFormat(["%10.6f"])
         self.inputNames = [name]
         self.order = 3
+        self.SCANNING=False
         self.logger = logger.getChild(self.__class__.__name__)
 
     def harmonicEnergyRanges(self):
@@ -108,6 +111,24 @@ class HardEnergy(ScannableMotionBase):
     def calc(self, energy, order):
         return self.idgap(energy, order)
 
+    def moveDevices(self, energy, gap):
+        for scannable in self.scannables.getGroupMembers():
+            if scannable.getName() == self.gap:
+                try:
+                    if self.detune:
+                        gap = gap + float(self.detune.getPosition())
+                    scannable.asynchronousMoveTo(gap)
+                except:
+                    print "cannot set " + scannable.getName() + " to " + str(gap)
+                    raise
+            elif scannable.getName() == self.dcm:
+                try:
+                    scannable.asynchronousMoveTo(energy) # Allow time for s to become busy
+                    sleep(0.1)
+                except:
+                    print "cannot set " + scannable.getName() + " to " + str(energy)
+                    raise
+
     def rawAsynchronousMoveTo(self, new_position):
         """
         move beam energy to specified value.
@@ -129,21 +150,16 @@ class HardEnergy(ScannableMotionBase):
             raise ValueError(("Requested photon energy {} is out of range for "
                               "harmonic {}: min: {}, max: {}")
                              .format(energy, self.order, min_energy, max_energy))
-        for scannable in self.scannables.getGroupMembers():
-            if scannable.getName() == self.gap:
-                try:
-                    scannable.asynchronousMoveTo(gap)
-                except:
-                    print "cannot set " + scannable.getName() + " to " + str(gap)
-                    raise
-            elif scannable.getName() == self.dcm:
-                try:
-                    scannable.asynchronousMoveTo(energy)
-                    # Allow time for s to become busy
-                    sleep(0.1)
-                except:
-                    print "cannot set " + scannable.getName() + " to " + str(energy)
-                    raise
+            
+        if self.feedbackPVs is not None and not self.SCANNING:
+            caput(self.feedbackPVs[0], 1)
+            caput(self.feedbackPVs[1], 1)
+            self.moveDevices(energy, gap)
+            self.waitWhileBusy()
+            caput(self.feedbackPVs[0], 0)
+            caput(self.feedbackPVs[1], 0)
+        else:
+            self.moveDevices(energy, gap)
 
     def rawIsBusy(self):
         """
@@ -167,4 +183,18 @@ class HardEnergy(ScannableMotionBase):
     def toString(self):
         """formats what to print to the terminal console."""
         return self.name + " : " + str(self.rawGetPosition())
+
+    def atScanStart(self):
+        self.SCANNING=True
+        if self.feedbackPVs is not None:
+            #during scan, stop feedback
+            caput(self.feedbackPVs[0], 1)
+            caput(self.feedbackPVs[1], 1)
+            
+    def atScanEnd(self):
+        self.SCANNING=False
+        if self.feedbackPVs is not None:
+            #restore feedback
+            caput(self.feedbackPVs[0], 0)
+            caput(self.feedbackPVs[1], 0)
 

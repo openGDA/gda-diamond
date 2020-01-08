@@ -195,14 +195,17 @@ sd3_camera_exposure = CameraExposureChanger(sd3_cam)
 ###############################################################################
 globals()['sm3pitch'].setOutputFormat(["%10.1f"])
 
+from pseudodevices.IDGap_Offset import igap_offset, jgap_offset
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'ienergy' scannable which can be used for energy scan in GDA. It moves both hard X-ray ID gap and DCM energy"
-ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")
+ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])
+#ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt", feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])
 # print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
 # dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
 print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
-jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt")
+jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')
+#jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt", feedbackPV='BL09J-EA-FDBK-01:ENABLE')
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"

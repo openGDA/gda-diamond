@@ -21,7 +21,7 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
     '''Controller for constant velocity scan moving both PGM Energy and ID Gap at same time at constant speed respectively.
         It works for both Live and Dummy mode.
     '''
-    def __init__(self, name, energy, idpvroot, move_pgm=True, move_id=True): # motors, maybe also detector to set the delay time
+    def __init__(self, name, energy, idpvroot, move_pgm=True, move_id=True, detune=None): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyIDGapMoveController:%s" % name)
         self.verbose = False
         self.setName(name)
@@ -48,6 +48,7 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         #behaviour properties
         self._move_pgm = move_pgm
         self._move_id  = move_id
+        self.detune=detune
         self.idspeedfactor=1.0
         self.pgmspeedfactor=1.0
         self.idstartdelaytime=0.0
@@ -109,6 +110,10 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self._id_gap_start = self._energy.idgap(self._move_start, 1) #idgap calculation using energy in keV
         self._id_gap_end = self._energy.idgap(self._move_end, 1)
         
+        if self.detune:
+            self._id_gap_start = self._id_gap_start + float(self.detune.getPosition())
+            self._id_gap_end = self._id_gap_end + float(self.detune.getPosition())
+            
             ### Calculate main cruise moves & speeds from start/end/step
         self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()*self.idspeedfactor
         
