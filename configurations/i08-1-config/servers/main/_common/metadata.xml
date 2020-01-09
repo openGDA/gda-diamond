@@ -54,9 +54,8 @@
 		</property>
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
+	<bean class="org.eclipse.scanning.server.servlet.DefaultScanConfiguration">
+		<property name="perScanMonitorNames">
 			<set>
 				<value>ring_current</value>
 				<value>ring_energy</value>
