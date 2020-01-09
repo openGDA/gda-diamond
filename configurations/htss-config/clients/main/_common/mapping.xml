@@ -99,7 +99,7 @@
 		</property>
 		<property name="zeroDPaths">
 			<list>
-				<bean class="org.eclipse.scanning.api.points.models.TwoAxisLinePointSingleModel" />
+				<bean class="org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel" />
 			</list>
 		</property>
 	</bean>
