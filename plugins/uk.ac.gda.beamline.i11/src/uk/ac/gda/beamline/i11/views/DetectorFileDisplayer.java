@@ -195,7 +195,9 @@ public class DetectorFileDisplayer extends FindableConfigurableBase implements P
 				plotView.updatePlot(xds, yds, "Plots of selected detector data files",
 						xds.getName(), yds.getName(), isNewPlot(), getPlotType());
 				for (IDataset data: others) {
-					plotView.updatePlot(xds, data, null, xds.getName(), data.getName(), false, getPlotType());
+					if (data != null) {
+						plotView.updatePlot(xds, data, null, xds.getName(), data.getName(), false, getPlotType());
+					}
 				}
 			}
 		} else {
