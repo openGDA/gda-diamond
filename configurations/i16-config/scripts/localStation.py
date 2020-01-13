@@ -1396,9 +1396,11 @@ def open_valves():
 # This depends on lcroi
 run('localStationScripts/FlipperClass')
 
-
-
-
+try:
+	run('scannable/pd_rs_remap_autorun')
+except Exception as e:
+	localStation_exception("running pd_rs_remap_autorun", e)
+	
 ###############################################################################
 ###                             Complete Localstation                       ###
 ###############################################################################
