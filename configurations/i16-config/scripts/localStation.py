@@ -1220,9 +1220,7 @@ if installation.isLive():
 	else:
 		diffractometer_sample_scannables += [kphi]
 
-	if not USE_DIFFCALC:
-		diffractometer_sample_scannables += [azihkl, beta]
-
+	diffractometer_sample_scannables += [azihkl, beta]
 	diffractometer_sample_scannables += [delta_axis_offset]
 		
 	d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample', diffractometer_sample_scannables)
