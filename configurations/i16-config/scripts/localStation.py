@@ -1309,6 +1309,7 @@ try:
 		meta_rm(frontend)
 	else:
 		meta.rm(frontend)
+	"""
 	try:
 		if USE_NEXUS_METADATA_COMMANDS:
 			meta_add(kbm1)
@@ -1318,6 +1319,7 @@ try:
 			addmeta(kbmbase)
 	except NameError as e:
 		localStation_exception("adding kbm1 or kbm1base metadata as these are unavailable", e)
+	"""
 
 except NameError, e:
 	# diffractometer_sample,xtalinfo are not yet available with diffcalc
