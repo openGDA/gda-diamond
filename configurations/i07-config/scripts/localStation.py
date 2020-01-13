@@ -115,7 +115,7 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 
 try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
 
-try_execfile("BeamlineI07/useFleaCameras.py", full_log=True)
+#try_execfile("BeamlineI07/useFleaCameras.py", full_log=True)
 
 try_execfile("BeamlineI07/useGigECams.py", full_log=True)
 
