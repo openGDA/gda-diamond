@@ -8,7 +8,7 @@
 # BL22I-DI-PHDGN-13:POSN.DMOV is used during scans to tell GDA if the motor is moving
 
 #fs_motor=SingleEpicsPositionerClass('fs_motor', 'BL22I-EA-SHTR-01:Y.VAL', 'BL22I-EA-SHTR-01:Y.RBV' , 'BL22I-EA-SHTR-01:Y.DMOV' , 'BL22I-EA-SHTR-01:Y.STOP','mm', '%.5f')
-d13_motor=SingleEpicsPositionerClass('d13_motor', 'BL22I-DI-PHDGN-13:P:SETVALUE2.VAL', 'BL22I-DI-PHDGN-13:POSN.RBV' , 'BL22I-DI-PHDGN-13:POSN.DMOV' , 'BL22I-DI-PHDGN-13:POSN.STOP','mm', '%.5f')
+#d13_motor=SingleEpicsPositionerClass('d13_motor', 'BL22I-DI-PHDGN-13:P:SETVALUE2.VAL', 'BL22I-DI-PHDGN-13:POSN.RBV' , 'BL22I-DI-PHDGN-13:POSN.DMOV' , 'BL22I-DI-PHDGN-13:POSN.STOP','mm', '%.5f')
 #wd_x2=SingleEpicsPositionerClass('wd_x2', 'BL22I-EA-DET-05:X', 'BL22I-EA-DET-05:X.RBV' , 'BL22I-EA-DET-05:X.DMOV' , 'BL22I-EA-DET-05:X.STOP','mm', '%.5f')
 #wd_y2=SingleEpicsPositionerClass('wd_y2', 'BL22I-EA-DET-05:Y', 'BL22I-EA-DET-05:Y.RBV' , 'BL22I-EA-DET-05:Y.DMOV' , 'BL22I-EA-DET-05:Y.STOP','mm', '%.5f')
 #gonio_yaw=SingleEpicsPositionerClass('gonio_yaw', 'BL22I-EA-GONIO-01:YAW', 'BL22I-EA-GONIO-01:YAW.RBV' , 'BL22I-EA-GONIO-01:YAW.DMOV' , 'BL22I-EA-GONIO-01:YAW.STOP','deg', '%.3f')
@@ -22,3 +22,5 @@ d13_motor=SingleEpicsPositionerClass('d13_motor', 'BL22I-DI-PHDGN-13:P:SETVALUE2
 # integral=SingleEpicsPositionerNoStatusClassDeadband('integral','BL22I-EA-TEMPC-04:SET_TEMP','BL22I-EA-TEMPC-04:TEMP','dummystring','dummystring','C','%.3f',0.5)
 # s4_x=SingleEpicsPositionerClass('s4_x', 'BL22I-AL-SLITS-04:X', 'BL22I-AL-SLITS-04:X.RBV' , 'BL22I-AL-SLITS-04:X.DMOV' , 'BL22I-AL-SLITS-04:X.STOP','mm', '%.3f')
 # s4_y=SingleEpicsPositionerClass('s4_y', 'BL22I-AL-SLITS-04:Y', 'BL22I-AL-SLITS-04:Y.RBV' , 'BL22I-AL-SLITS-04:Y.DMOV' , 'BL22I-AL-SLITS-04:Y.STOP','mm', '%.3f')
+
+sp_y=SingleEpicsPositionerClass('sp_y', 'BL22I-MO-SAXS-01:Y', 'BL22I-MO-SAXS-01:Y.RBV' , 'BL22I-MO-SAXS-01:Y.DMOV' , 'BL22I-MO-SAXS-01:Y.STOP','mm', '%.5f')

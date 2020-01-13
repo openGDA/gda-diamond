@@ -1,5 +1,4 @@
 # # Script performing EXAfS scan on V, Fe, Cu, Zn, Au, Zr and Mo
-from gdaserver import d4d2
 
 pitch_start = 0
 
@@ -9,11 +8,11 @@ range_eV = 120.0
 step = step_eV/1000.0
 erange = range_eV/1000.0
 
-pos d6filter 'IL Diode VFM'
-pos d4filter 'Scatter Diode'
+#pos d6filter 'IL Diode VFM'
+#pos d4filter 'Scatter Diode'
 
 #V
-pos d5motor 27.8
+pos d5motor 28.8
 pos energy 5.465
  
 pos dcm_finepitch 0
@@ -26,7 +25,7 @@ setTitle("Vanadium K EXAFS")
 scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
  
 #Fe
-pos d5motor 49.5
+pos d5motor 50.2
 pos energy 7.112
  
 pos dcm_finepitch 0
@@ -39,7 +38,7 @@ setTitle("Iron K EXAFS")
 scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
  
 #Cu
-pos d5motor 70.8
+pos d5motor 71.6
 pos energy 8.9789
  
 pos dcm_finepitch 0
@@ -52,7 +51,7 @@ setTitle("Copper K EXAFS")
 scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
 
 #Zn
-pos d5motor 60.5
+pos d5motor 61.0
 pos energy 9.6586
 
 pos dcm_finepitch 0
@@ -65,7 +64,7 @@ setTitle("Zinc K EXAFS")
 scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
 
 #Au
-pos d5motor 39.2
+pos d5motor 40
 pos energy 11.919
 
 pos dcm_finepitch 0
@@ -78,7 +77,7 @@ setTitle("Gold LIII EXAFS")
 scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
 
 #Zr
-pos d5motor 6.3
+pos d5motor 7.1
 pos energy 17.997
 
 pos dcm_finepitch 0
@@ -91,7 +90,7 @@ setTitle("Zirconium K EXAFS")
 scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
 
 #Mo
-pos d5motor 17.5
+pos d5motor 17.8
 pos energy 19.999
 
 pos dcm_finepitch 0

@@ -40,12 +40,29 @@
 #qbpmxminus = DisplayEpicsPVClass("qbpmxminus","BL22I-DI-PHDGN-07:X:MINUS:I","V","%.6f")
 
 # New QBPM (QBPM1 2019-04-04)
-qbpmxpos = DisplayEpicsPVClass("qbpmxpos","BL22I-EA-XBPM-01:PosX:MeanValue_RBV","um","%.6f")
-qbpmypos = DisplayEpicsPVClass("qbpmypos","BL22I-EA-XBPM-01:PosY:MeanValue_RBV","um","%.6f")
-qbpmquad1 = DisplayEpicsPVClass("qbpmquad1","BL22I-EA-XBPM-01:Current1:MeanValue_RBV","A","%.12f")
-qbpmquad2 = DisplayEpicsPVClass("qbpmquad2","BL22I-EA-XBPM-01:Current2:MeanValue_RBV","A","%.12f")
-qbpmquad3 = DisplayEpicsPVClass("qbpmquad3","BL22I-EA-XBPM-01:Current3:MeanValue_RBV","A","%.12f")
-qbpmquad4 = DisplayEpicsPVClass("qbpmquad4","BL22I-EA-XBPM-01:Current4:MeanValue_RBV","A","%.12f")
+qbpm1_xpos = DisplayEpicsPVClass("qbpm1_xpos","BL22I-EA-XBPM-01:PosX:MeanValue_RBV","um","%.6f")
+qbpm1_ypos = DisplayEpicsPVClass("qbpm1_ypos","BL22I-EA-XBPM-01:PosY:MeanValue_RBV","um","%.6f")
+qbpm1_quad1 = DisplayEpicsPVClass("qbpm1_quad1","BL22I-EA-XBPM-01:Current1:MeanValue_RBV","A","%.6e")
+qbpm1_quad2 = DisplayEpicsPVClass("qbpm1_quad2","BL22I-EA-XBPM-01:Current2:MeanValue_RBV","A","%.6e")
+qbpm1_quad3 = DisplayEpicsPVClass("qbpm1_quad3","BL22I-EA-XBPM-01:Current3:MeanValue_RBV","A","%.6e")
+qbpm1_quad4 = DisplayEpicsPVClass("qbpm1_quad4","BL22I-EA-XBPM-01:Current4:MeanValue_RBV","A","%.6e")
+qbpm1_total = DisplayEpicsPVClass("qbpm1_total","BL22I-EA-XBPM-01:SumAll:MeanValue_RBV","A","%.6e")
+# New Endstation QBPM (QBPM2 2019-11-23) Only port 2 in use for calibrated diode currently
+#qbpm2_xpos = DisplayEpicsPVClass("qbpm2_xpos","BL22I-EA-XBPM-02:PosX:MeanValue_RBV","um","%.6f")
+#qbpm2_ypos = DisplayEpicsPVClass("qbpm2_ypos","BL22I-EA-XBPM-02:PosY:MeanValue_RBV","um","%.6f")
+#qbpm2_quad1 = DisplayEpicsPVClass("qbpm2_quad1","BL22I-EA-XBPM-02:Current1:MeanValue_RBV","A","%.12f")
+#calib_diode = DisplayEpicsPVClass("calib_didoe","BL22I-EA-XBPM-02:Current2:MeanValue_RBV","A","%.12f")
+#qbpm2_quad3 = DisplayEpicsPVClass("qbpm2_quad3","BL22I-EA-XBPM-02:Current3:MeanValue_RBV","A","%.12f")
+#qbpm2_quad4 = DisplayEpicsPVClass("qbpm2_quad4","BL22I-EA-XBPM-02:Current4:MeanValue_RBV","A","%.12f")
+# New QBPM (QBPM2 2019-04-04) Currently on USer Tetramm
+qbpm2_xpos = DisplayEpicsPVClass("qbpm2_xpos","BL22I-EA-TTRM-01:PosX:MeanValue_RBV","um","%.6f")
+qbpm2_ypos = DisplayEpicsPVClass("qbpm2_ypos","BL22I-EA-TTRM-01:PosY:MeanValue_RBV","um","%.6f")
+qbpm2_quad1 = DisplayEpicsPVClass("qbpm2_quad1","BL22I-EA-TTRM-01:Current1:MeanValue_RBV","A","%.6e")
+qbpm2_quad2 = DisplayEpicsPVClass("qbpm2_quad2","BL22I-EA-TTRM-01:Current2:MeanValue_RBV","A","%.6e")
+qbpm2_quad3 = DisplayEpicsPVClass("qbpm2_quad3","BL22I-EA-TTRM-01:Current3:MeanValue_RBV","A","%.6e")
+qbpm2_quad4 = DisplayEpicsPVClass("qbpm2_quad4","BL22I-EA-TTRM-01:Current4:MeanValue_RBV","A","%.6e")
+qbpm2_total = DisplayEpicsPVClass("qbpm2_total","BL22I-EA-TTRM-01:SumAll:MeanValue_RBV","A","%.6e")
+
 
 #sbpmypos = DisplayEpicsPVClass("sbpmypos","BL22I-AL-SLITS-04:BPM:YPOS","mm","%.4f")
 #sbpmxpos = DisplayEpicsPVClass("sbpmxpos","BL22I-AL-SLITS-04:BPM:XPOS","mm","%.4f")
@@ -111,6 +128,6 @@ qbpmquad4 = DisplayEpicsPVClass("qbpmquad4","BL22I-EA-XBPM-01:Current4:MeanValue
 #qbpmyminus = DisplayEpicsPVClass("qbpmyminus","BL22I-DI-PHDGN-07:Y:MINUS:I","V","%.4e")
 #qbpmxplus = DisplayEpicsPVClass("qbpmxplus","BL22I-DI-PHDGN-07:X:PLUS:I","V","%.4e")
 #qbpmxminus = DisplayEpicsPVClass("qbpmxminus","BL22I-DI-PHDGN-07:X:MINUS:I","V","%.
-piezo_vfm=DisplayEpicsPVClass("piezo_vfm","BL22I-OP-KBM-01:VFM:FY3:RBV","V","%5.4f")
-piezo_hfm=DisplayEpicsPVClass("piezo_hfm","BL22I-OP-KBM-01:HFM:FY3:RBV","V","%5.4f")
+#piezo_vfm=DisplayEpicsPVClass("piezo_vfm","BL22I-OP-KBM-01:VFM:FY3:RBV","V","%5.4f")
+#piezo_hfm=DisplayEpicsPVClass("piezo_hfm","BL22I-OP-KBM-01:HFM:FY3:RBV","V","%5.4f")
 
