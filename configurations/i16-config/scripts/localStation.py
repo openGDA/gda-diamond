@@ -1220,9 +1220,7 @@ if installation.isLive():
 	else:
 		diffractometer_sample_scannables += [kphi]
 
-	if not USE_DIFFCALC:
-		diffractometer_sample_scannables += [azihkl, beta]
-
+	diffractometer_sample_scannables += [azihkl, beta]
 	diffractometer_sample_scannables += [delta_axis_offset]
 		
 	d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample', diffractometer_sample_scannables)
@@ -1309,6 +1307,7 @@ try:
 		meta_rm(frontend)
 	else:
 		meta.rm(frontend)
+	"""
 	try:
 		if USE_NEXUS_METADATA_COMMANDS:
 			meta_add(kbm1)
@@ -1318,6 +1317,7 @@ try:
 			addmeta(kbmbase)
 	except NameError as e:
 		localStation_exception("adding kbm1 or kbm1base metadata as these are unavailable", e)
+	"""
 
 except NameError, e:
 	# diffractometer_sample,xtalinfo are not yet available with diffcalc
@@ -1396,9 +1396,11 @@ def open_valves():
 # This depends on lcroi
 run('localStationScripts/FlipperClass')
 
-
-
-
+try:
+	run('scannable/pd_rs_remap_autorun')
+except Exception as e:
+	localStation_exception("running pd_rs_remap_autorun", e)
+	
 ###############################################################################
 ###                             Complete Localstation                       ###
 ###############################################################################

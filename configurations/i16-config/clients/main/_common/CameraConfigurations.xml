@@ -4,34 +4,40 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="cam2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM 2" />
-		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/CAM2.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-DI-COR-01:ARR" />
-	</bean>
-
-	<bean id="cam4_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM 4" />
-		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/CAM4.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-DI-TMP-01:ARR" />
-	</bean>
-
-	<bean id="cam5_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM 5" />
-		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/CAM5.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-DI-EYE-01:ARR:ArrayData" />
-	</bean>
-
-	<bean id="cam8_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM 8" />
-		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/DICAM8.mjpg.mjpg" />
+	<bean id="cam1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="CAM1 (CAM01) Microscope" />
+		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8084/CAM01.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-DI-DCAM-01:ARR" />
 	</bean>
 
 	<bean id="cam10_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM 10" />
-		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/DICAM10.mjpg.mjpg" />
+		<property name="displayName" value="C10 (CAM10) Floating camera" />
+		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8084/CAM10.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-DI-DCAM-10:ARR" />
+	</bean>
+
+	<bean id="cor_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="COR (CORCAM) Center of rotation cam" />
+		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8083/CORCAM.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-DI-COR-01:ARR" />
+	</bean>
+
+	<bean id="dcm_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="DCMC (DCMCAM)" />
+		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8082/DCMCAM.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-OP-DCM-01:ARR" />
+	</bean>
+
+	<bean id="tmp_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="TMP (TMPCAM) Floating camera" />
+		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8084/TMPCAM.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-DI-TMP-01:ARR" />
+	</bean>
+
+	<bean id="xeye_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="XEYE Xray Eye" />
+		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8083/XEYE.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-DI-EYE-01:ARR" />
 	</bean>
 
 	<bean id="webcam2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
