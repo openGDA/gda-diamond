@@ -54,39 +54,4 @@
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
-	<configSets>
-		<configSet>
-			<name><![CDATA[server]]></name>
-			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
-			<incomplete>false</incomplete>
-			<configs>
-				<config>servers/main/_common/server.xml</config>
-				<config>servers/main/_common/terminal_logger.xml</config>
-				<config>servers/main/live/devices/accessControl.xml</config>
-				<config>servers/main/live/devices/branchShutter.xml</config>
-				<config>servers/main/live/devices/CHP.xml</config>
-				<config>servers/main/live/devices/d10.xml</config>
-				<config>servers/main/live/devices/d11.xml</config>
-				<config>servers/main/live/devices/d12.xml</config>
-				<config>servers/main/live/devices/d8.xml</config>
-				<config>servers/main/live/devices/d9.xml</config>
-				<config>servers/main/live/devices/dd_cam6.xml</config>
-				<config>servers/main/live/devices/endStationDD.xml</config>
-				<config>servers/main/live/devices/gv17.xml</config>
-				<config>servers/main/live/devices/m7.xml</config>
-				<config>servers/main/live/devices/mobilerack_cam1.xml</config>
-				<config>servers/main/live/devices/mobilerack.xml</config>
-				<config>servers/main/live/devices/pixis.xml</config>
-				<config>servers/main/live/devices/polarimeter.xml</config>
-				<config>servers/main/live/devices/s6.xml</config>
-				<config>servers/main/live/devices/s7.xml</config>
-				<config>servers/main/live/devices/u2.xml</config>
-				<config>servers/main/live/devices/userMotors.xml</config>
-				<config>servers/main/live/server.xml</config>
-				<config>servers/main/live/devices/_all_devices.xml</config>
-			</configs>
-			<profiles>
-			</profiles>
-		</configSet>
-	</configSets>
 </beansProjectDescription>
