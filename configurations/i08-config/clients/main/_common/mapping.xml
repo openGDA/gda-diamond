@@ -64,6 +64,9 @@
 				</bean>
 			</list>
 		</property>
+		<property name="scriptFiles">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
+		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
 				<property name="permittedOuterScannables">
@@ -76,7 +79,10 @@
 				</property>
 			</bean>
 		</property>
-		<property name="templateFilePaths"><list /></property>
+		<property name="templateFilePaths">
+			<list></list>
+		</property>
+
 	</bean>
 
 	<!-- Create a mapping experiment bean provider -->
