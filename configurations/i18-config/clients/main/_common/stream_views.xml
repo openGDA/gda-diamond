@@ -3,15 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Extract workstation name from localhost and use to construct base PV name -->
-	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />
-	<bean id="workstation" class="java.lang.String">
-		<constructor-arg value="#{ localhostname.hostName.split('\.')[0] }" />
-	</bean>
- 	<bean id="sim_pvbase" class="java.lang.String">
-		<constructor-arg value="#{workstation}-AD-SIM-01" />
-	</bean>
-
 	<bean id="vma_zoom" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="t1x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="t1y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
