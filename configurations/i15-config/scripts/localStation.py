@@ -150,7 +150,11 @@ try:
 		baseTab = BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
 		baseTab2 = BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
 		qbpm1total = Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
-		qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-EA-QBPM-02:INTEN")
+		from localStationConfiguration import useQbpm2eth
+		if not useQbpm2eth:
+			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN") # Original QBPM
+		else:
+			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-EA-QBPM-02:INTEN") # New ethercat based QBPM
 		#s4pitch = Simple_PD_EpicsDevice("s4pitch", beamline, "-AL-SLITS-04:PITCH.VAL")
 		#s4yaw = Simple_PD_EpicsDevice("s4yaw", beamline, "-AL-SLITS-04:YAW.VAL")
 		#pin2x = Simple_PD_EpicsDevice("pin2x", beamline, "-AL-APTR-02:X")
@@ -175,10 +179,16 @@ try:
 		qbpm1C = Simple_PD_EpicsDevice("qbpm1C", beamline, "-DI-QBPM-01:C")
 		qbpm1D = Simple_PD_EpicsDevice("qbpm1D", beamline, "-DI-QBPM-01:D")
 
-		qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-EA-QBPM-02:A")
-		qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-EA-QBPM-02:B")
-		qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-EA-QBPM-02:C")
-		qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-EA-QBPM-02:D")
+		if not useQbpm2eth:
+			qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-DI-QBPM-02:A")
+			qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-DI-QBPM-02:B")
+			qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-DI-QBPM-02:C")
+			qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-DI-QBPM-02:D")
+		else:
+			qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-EA-QBPM-02:A")
+			qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-EA-QBPM-02:B")
+			qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-EA-QBPM-02:C")
+			qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-EA-QBPM-02:D")
 
 		vfm_gravsag = Simple_PD_EpicsDevice("vfm_gravsag", beamline, "-OP-VFM-01:SAG.VAL")
 
