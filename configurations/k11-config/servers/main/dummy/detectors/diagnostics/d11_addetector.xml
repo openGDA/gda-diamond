@@ -12,5 +12,6 @@
 		<property name="initialFileName" value="d11" />
 	</bean>
 
-
+	<alias name="sim_camera_control" alias="d11_camera_control" />
+	
 </beans>

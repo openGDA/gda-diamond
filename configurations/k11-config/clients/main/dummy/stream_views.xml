@@ -25,10 +25,29 @@
 		<constructor-arg value="#{workstation}-AD-SIM-01" />
 	</bean>
 
+	<bean id="d1_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D1" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+	</bean>
+
 	<bean id="d2_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D2" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
-		<property name="calibratedAxesProvider" ref="my_calibration" />
+	</bean>
+
+	<bean id="d3_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D3" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+	</bean>
+
+	<bean id="d11_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D11" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+	</bean>
+	
+	<bean id="d13_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D13" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 	</bean>
 
 </beans>

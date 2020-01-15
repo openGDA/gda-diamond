@@ -60,4 +60,9 @@
 		<property name="file" ref="d3_ndfile" />
 	</bean>
 
+	<bean id="d3_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="d3_adbase" />
+		<constructor-arg ref="d3_roi" />
+	</bean>
+
 </beans>

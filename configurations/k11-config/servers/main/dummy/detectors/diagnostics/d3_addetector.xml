@@ -12,4 +12,5 @@
 		<property name="initialFileName" value="d3" />
 	</bean>
 	
+	<alias name="sim_camera_control" alias="d3_camera_control" />
 </beans>
