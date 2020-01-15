@@ -6,6 +6,7 @@ from LookupTables import readLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
 import logging
+from gdascripts.utils import caput
 logger = logging.getLogger('__main__')
 
 class SoftEnergy(ScannableMotionBase):
@@ -23,7 +24,7 @@ class SoftEnergy(ScannableMotionBase):
     class.
     """
 
-    def __init__(self, name, lut):
+    def __init__(self, name, lut, gap_offset=None, feedbackPV=None):
         """
         Constructor -
         Only succeeds if it finds the lookup table, otherwise raises exception.
@@ -34,11 +35,14 @@ class SoftEnergy(ScannableMotionBase):
         self.dcm = "pgmenergy"
         self.scannableNames = ["pgmenergy", "jgap"]
         self.scannables = ScannableGroup(name, [finder.find(x) for x in self.scannableNames])
+        self.detune=gap_offset
+        self.feedbackPV=feedbackPV
         self._busy = 0
         self.setName(name)
         self.setLevel(3)
         self.setOutputFormat(["%10.6f"])
         self.inputNames = [name]
+        self.SCANNING=False
         self.order = 1
         self.polarisation = 'LH'
         self.jidphase = finder.find("jidphase")
@@ -112,7 +116,7 @@ class SoftEnergy(ScannableMotionBase):
                 raise ValueError("Polarisation = LH  but the demanding energy is outside the valid range between 0.104 and 1.2 keV!")
 #            gap=3.06965 +177.99974*Ep -596.79184*Ep**2 +1406.28911*Ep**3 -2046.90669*Ep**4 +1780.26621*Ep**5 -844.81785*Ep**6 +168.99039*Ep**7
 #            gap=2.75529 + 184.24255*Ep - 639.07279*Ep**2 +1556.23192*Ep**3 -2340.01233*Ep**4 +2100.81252*Ep**5 -1027.88771*Ep**6 +211.47063*Ep**7
- 	    gap=0.52071 + 238.56372*Ep - 1169.06966*Ep**2 +4273.03275*Ep**3 -10497.36261*Ep**4 +17156.91928*Ep**5 -18309.05195*Ep**6 +12222.50318*Ep**7 -4623.70738*Ep**8 +755.90853*Ep**9
+            gap=0.52071 + 238.56372*Ep - 1169.06966*Ep**2 +4273.03275*Ep**3 -10497.36261*Ep**4 +17156.91928*Ep**5 -18309.05195*Ep**6 +12222.50318*Ep**7 -4623.70738*Ep**8 +755.90853*Ep**9
             if (gap < 16 or gap > 60):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
 
@@ -170,6 +174,27 @@ class SoftEnergy(ScannableMotionBase):
     def calc(self, energy, order):
         return self.idgap(energy, order)
 
+    def moveDevices(self, energy, gap):
+        for s in self.scannables.getGroupMembers():
+            if s.getName() == self.gap:
+                try:
+                    if self.detune:
+                        gap = gap + float(self.detune.getPosition())
+                    self.logger.debug("Calling asynchronousMoveTo() on {} with gap {}".format(s.getName(), gap))
+                    s.asynchronousMoveTo(gap)
+                except:
+                    self.logger.error("cannot set " + s.getName() + " to " + str(gap), exc_info=True)
+                    raise
+            else:
+                try:
+                    self.logger.debug("Calling asynchronousMoveTo() on {} with energy {}".format(s.getName(), energy * 1000))
+                    s.asynchronousMoveTo(energy * 1000)
+                    # Allow time for s to become busy
+                    sleep(0.1)
+                except:
+                    self.logger.error("Can not set " + s.getName() + " to " + str(energy), exc_info=True)
+                    raise
+
     def rawAsynchronousMoveTo(self, new_position):
         """
         move beam energy to specified value.
@@ -179,25 +204,13 @@ class SoftEnergy(ScannableMotionBase):
         energy = float(new_position)
         gap = self.idgap(energy, self.order)
 
-        for s in self.scannables.getGroupMembers():
-            if s.getName() == self.gap:
-                try:
-                    self.logger.debug("Calling asynchronousMoveTo() on {} with gap {}"
-                                      .format(s.getName(), gap))
-                    s.asynchronousMoveTo(gap)
-                except:
-                    self.logger.error("cannot set " + s.getName() + " to " + str(gap), exc_info=True)
-                    raise
-            else:
-                try:
-                    self.logger.debug("Calling asynchronousMoveTo() on {} with energy {}"
-                                      .format(s.getName(), energy * 1000))
-                    s.asynchronousMoveTo(energy * 1000)
-                    # Allow time for s to become busy
-                    sleep(0.1)
-                except:
-                    self.logger.error("Can not set " + s.getName() + " to " + str(energy), exc_info=True)
-                    raise
+        if self.feedbackPV is not None and not self.SCANNING:
+            caput(self.feedbackPV, 1)
+            self.moveDevices(energy, gap)
+            self.waitWhileBusy()
+            caput(self.feedbackPV, 0)
+        else:
+            self.moveDevices(energy, gap)
 
     def rawIsBusy(self):
         """
@@ -220,3 +233,15 @@ class SoftEnergy(ScannableMotionBase):
     def toString(self):
         """formats what to print to the terminal console."""
         return self.name + " : " + str(self.rawGetPosition())
+
+    def atScanStart(self):
+        self.SCANNING=True
+        if self.feedbackPV is not None:
+            #during scan, stop feedback
+            caput(self.feedbackPV, 1)
+            
+    def atScanEnd(self):
+        self.SCANNING=False
+        if self.feedbackPV is not None:
+            #restore feedback
+            caput(self.feedbackPV, 0)
