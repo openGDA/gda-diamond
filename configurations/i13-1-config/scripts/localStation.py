@@ -1,7 +1,6 @@
 import sys	
 import os
 from gdascripts.messages import handle_messages
-from gda.jython import InterfaceProvider
 import gda.factory.FactoryException
 import time
 
@@ -11,8 +10,9 @@ from gda.jython.commands.GeneralCommands import ls_names, alias, vararg_alias
 from gda.jython.commands.ScannableCommands import add_default
 from gda.device.scannable import ScannableBase
 from gda.device.scannable.scannablegroup import ScannableGroup
-from i13j_utilities import createScannableFromPV, clear_defaults
+from i13j_utilities import createScannableFromPV, clear_defaults, isLive
 from gda.jython import InterfaceProvider
+from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crls_present, m1_strip
 
 section_sep = "-"*128
 
@@ -399,18 +399,6 @@ for s in _default_scannables_in_gda:
 print(section_sep)
 
 try:
-	ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13J-DI-FEMTO-06:GAIN", addToNameSpace=True, getAsString=True, hasUnits=False)
-	ionc_gainmode = createScannableFromPV("ionc_gainmode", "BL13J-DI-FEMTO-06:GAINMODE", addToNameSpace=True, getAsString=True, hasUnits=False)
-	ionc_acdc = createScannableFromPV("ionc_acdc", "BL13J-DI-FEMTO-06:ACDC", addToNameSpace=True, getAsString=True, hasUnits=False)
-	mirror_stripe = createScannableFromPV("mirror_stripe", "BL13J-OP-MIRR-01:CURSTRIP", addToNameSpace=True, getAsString=True, hasUnits=False)
-	crls_present = createScannableFromPV("crls_present", "BL13J-OP-ATTN-01:CRL:Y:MP:RBV:CURPOS", addToNameSpace=True, getAsString=True, hasUnits=False)
-except:
-	exceptionType, exception, traceback = sys.exc_info()
-	msg = "Failed to create a scannable from a given PV: "
-	handle_messages.log(None, msg, exceptionType, exception, traceback, False)
-	print msg
-
-try:
 	print "\n Adding beamline meta scannables..."
 	meta_scannables = []
 
@@ -429,19 +417,19 @@ try:
 	meta_scannables.append(t1)
 
 	# this fails coz it is trying to write string as float
-	#meta_scannables.append(ionc_A_over_V_gain)
+	#meta_scannables.append(ionc_gain)
 	#meta_scannables.append(ionc_gainmode)
-	#meta_scannables.append(ionc_acdc)
-	
+	#meta_scannables.append(ionc_coupling)
+
 	for s in meta_scannables:
 		meta_add(s)
 	# temp fix
-	meta_add("ionc_A_over_V_gain", ionc_A_over_V_gain())
+	meta_add("ionc_A_over_V_gain", ionc_gain())
 	meta_add("ionc_gainmode", ionc_gainmode())
-	meta_add("ionc_acdc", ionc_acdc())
-	meta_add("mirror_stripe", mirror_stripe())
-	meta_add("crls_present", crls_present())
-	
+	meta_add("ionc_acdc", ionc_coupling())
+	meta_add("mirror_stripe", m1_strip())
+	meta_add("crls_present", f1_crls_present())
+
 	print "\n Finished adding beamline meta scannables."
 	print "\n The following meta scannables will be recorded once per scan under /entry1/before_scan in every Nexus scan file:"
 	meta_scannables_in_gda = meta_ls()
@@ -453,10 +441,11 @@ except:
 print(section_sep)
 
 # for vortex to set Preset Mode to 'Real time' (the default is 'No preset')
-try:
-	caput("ME13C-EA-DET-03:PresetMode", 1)
-except:
-	print("Failed to set Preset Mode on XMAP to 'Real time' - is XMAP present on the beamline and its IOC running?")
+if isLive():
+	try:
+		caput("ME13C-EA-DET-01:PresetMode", 1)
+	except:
+		print("Failed to set Preset Mode on XMAP to 'Real time' - is XMAP present on the beamline and its IOC running?")
 
 #8/4/2014 pie725 not present
 #run("startup_pie725")
@@ -473,49 +462,51 @@ try:
 except:
 	print "Failed to create sample_lab_x_t1_pitch!"
 
-excalibur_config_normal_vds.getCollectionStrategy().scriptEnabled=True
-excalibur_config_normal_vds.getCollectionStrategy().scriptFileName="/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py"
-excalibur_config_normal_vds.getAdditionalPluginList()[0].fileTemplate="%s%s-%d.hdf"
+if isLive():
+	excalibur_config_normal_vds.getCollectionStrategy().scriptEnabled=True
+	excalibur_config_normal_vds.getCollectionStrategy().scriptFileName="/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py"
+	excalibur_config_normal_vds.getAdditionalPluginList()[0].fileTemplate="%s%s-%d.hdf"
 
-# for b16 Vishal BEGIN
-#try:
-#	print "Adding metadata system for DAT files (b16)..."
-#	from gdascripts.scannable.installStandardScannableMetadataCollection import *
-#	meta.rootNamespaceDict=globals()
-#	note.rootNamespaceDict=globals()
-#except:
-#	print "Failed to add metadata system for DAT files (b16)!"
+	# for b16 Vishal BEGIN
+	#try:
+	#	print "Adding metadata system for DAT files (b16)..."
+	#	from gdascripts.scannable.installStandardScannableMetadataCollection import *
+	#	meta.rootNamespaceDict=globals()
+	#	note.rootNamespaceDict=globals()
+	#except:
+	#	print "Failed to add metadata system for DAT files (b16)!"
 
-#try:
-#	print "Installing attocube axes from epics BL13J-EA-ECC..."
-#	from ecc100axis import createEcc100Axis
-	#attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-01:ACT0:")
-	#attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-01:ACT1:")
-	#attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-01:ACT2:")
+	#try:
+	#	print "Installing attocube axes from epics BL13J-EA-ECC..."
+	#	from ecc100axis import createEcc100Axis
+		#attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-01:ACT0:")
+		#attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-01:ACT1:")
+		#attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-01:ACT2:")
 
-	#attor1 = createEcc100Axis("attor1", "BL13J-EA-ECC-02:ACT0:")
-	#attor2 = createEcc100Axis("attor2", "BL13J-EA-ECC-02:ACT1:")
-	#attor3 = createEcc100Axis("attor3", "BL13J-EA-ECC-02:ACT2:")
-#	attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-04:ACT0:")
-#	attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-04:ACT1:")
-#	attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-04:ACT2:")
+		#attor1 = createEcc100Axis("attor1", "BL13J-EA-ECC-02:ACT0:")
+		#attor2 = createEcc100Axis("attor2", "BL13J-EA-ECC-02:ACT1:")
+		#attor3 = createEcc100Axis("attor3", "BL13J-EA-ECC-02:ACT2:")
+	#	attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-04:ACT0:")
+	#	attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-04:ACT1:")
+	#	attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-04:ACT2:")
 
-#	attoltilt1 = createEcc100Axis("attoltilt1", "BL13J-EA-ECC-02:ACT0:")
-#	attoutilt1 = createEcc100Axis("attoutilt1", "BL13J-EA-ECC-02:ACT1:")
-#	attorot1   = createEcc100Axis("attorot1",   "BL13J-EA-ECC-02:ACT2:")
+	#	attoltilt1 = createEcc100Axis("attoltilt1", "BL13J-EA-ECC-02:ACT0:")
+	#	attoutilt1 = createEcc100Axis("attoutilt1", "BL13J-EA-ECC-02:ACT1:")
+	#	attorot1   = createEcc100Axis("attorot1",   "BL13J-EA-ECC-02:ACT2:")
 
-#	attoltilt2 = createEcc100Axis("attoltilt2", "BL13J-EA-ECC-01:ACT0:")
-#	attoutilt2 = createEcc100Axis("attoutilt2", "BL13J-EA-ECC-01:ACT1:")
-#	attorot2   = createEcc100Axis("attorot2",   "BL13J-EA-ECC-01:ACT2:")
+	#	attoltilt2 = createEcc100Axis("attoltilt2", "BL13J-EA-ECC-01:ACT0:")
+	#	attoutilt2 = createEcc100Axis("attoutilt2", "BL13J-EA-ECC-01:ACT1:")
+	#	attorot2   = createEcc100Axis("attorot2",   "BL13J-EA-ECC-01:ACT2:")
 
-#	attol4 = createEcc100Axis("attol4", "BL13J-EA-ECC-03:ACT0:")
-#	attol5 = createEcc100Axis("attol5", "BL13J-EA-ECC-03:ACT1:")
-#	attol6   = createEcc100Axis("attol6",   "BL13J-EA-ECC-03:ACT2:")	
-#except:
-#	print "Failed to create attocube axes!"
-# for b16 Vishal END
+	#	attol4 = createEcc100Axis("attol4", "BL13J-EA-ECC-03:ACT0:")
+	#	attol5 = createEcc100Axis("attol5", "BL13J-EA-ECC-03:ACT1:")
+	#	attol6   = createEcc100Axis("attol6",   "BL13J-EA-ECC-03:ACT2:")
+	#except:
+	#	print "Failed to create attocube axes!"
+	# for b16 Vishal END
 
-excalibur_config_normal_vds.getCollectionStrategy().scriptFileName='/dls_sw/prod/common/python/RHEL6-x86_64/vds-gen/0-3-1/prefix/bin/versioned/dls-vds-gen-0.3.1.py'
+	excalibur_config_normal_vds.getCollectionStrategy().scriptFileName='/dls_sw/prod/common/python/RHEL6-x86_64/vds-gen/0-3-1/prefix/bin/versioned/dls-vds-gen-0.3.1.py'
+
 print(section_sep)
 try:
 	print "Adding Pycho scripts..."

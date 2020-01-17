@@ -59,4 +59,14 @@
 		</property>
 	</bean>
 
+	<bean id="m1_strip" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Platinum</value>
+				<value>Silicon</value>
+				<value>Rhodium</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

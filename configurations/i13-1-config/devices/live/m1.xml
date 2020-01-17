@@ -48,4 +48,8 @@
 		<property name="hasUnits" value="false" />
 	</bean>
 
+	<bean id="m1_strip" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL13J-OP-MIRR-01:CURSTRIP" />
+	</bean>
+
 </beans>

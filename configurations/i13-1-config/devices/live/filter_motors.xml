@@ -63,6 +63,10 @@
 
 	<bean id="f1_crly_mp" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL13J-OP-ATTN-01:CRL:Y:MP" />
-	</bean>	
+	</bean>
+
+	<bean id="f1_crls_present" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-OP-ATTN-01:CRL:Y:MP:RBV:CURPOS" />
+	</bean>
 
 </beans>

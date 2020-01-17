@@ -51,8 +51,9 @@
 				<ref bean="filter_crlY" />
 				<ref bean="filter_crlYaw" />
 				<ref bean="filter_crlZ" />
+				<ref bean="f1_crls_present" />
 			</list>
 		</property>
-	</bean>	
+	</bean>
 
 </beans>

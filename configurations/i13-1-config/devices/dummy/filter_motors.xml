@@ -57,4 +57,83 @@
 		<property name="position" value="10.498" />
 	</bean>
 
+	<bean id="f1_aperture_mp" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="f1_filter1_mp" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1: Pyr Graphite 0.2mm</value>
+				<value>2: Pyr Graphite 0.1mm</value>
+				<value>3: Empty</value>
+				<value>4: B fibre vert</value>
+				<value>5: B fibre horz</value>
+				<value>6: Crosshair</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="f1_filter2_mp" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>6: T6 Al 0.2mm</value>
+				<value>5: Pyr Graphite 0.5mm</value>
+				<value>4: Pyr Graphite 0.75mm</value>
+				<value>3: Empty</value>
+				<value>2: Pyr Graphite 0.1mm</value>
+				<value>1: Pyr Graphite 0.2mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="f1_filter3_mp" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1: V-Shape</value>
+				<value>2: T6 Al 0.5mm</value>
+				<value>3: Empty</value>
+				<value>4: Al 0.2mm</value>
+				<value>5: Mn 0.01mm</value>
+				<value>6: Fe 0.02mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="f1_filter4_mp" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>6: Ag 0.025mm</value>
+				<value>5: Mo 0.03mm</value>
+				<value>4: Au 0.015 mm</value>
+				<value>3: Empty</value>
+				<value>2: Cu 0.01mm</value>
+				<value>1: Ni 0.02mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="f1_crly_mp" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1: 7 x 300 um, 18.0KeV</value>
+				<value>2: 3 x 200 um, 14.5KeV</value>
+				<value>3: 3 x 300 um, 11.8KeV</value>
+				<value>4: Empty</value>
+				<value>5: 2 x 300 um, 9.7KeV</value>
+				<value>6: 2 x 500 um, 7.5KeV</value>
+				<value>7: 3 x 1000 um, ~6.5KeV</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="f1_crls_present" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="1: 7 x 300 um, 18.0KeV" />
+	</bean>
+
 </beans>

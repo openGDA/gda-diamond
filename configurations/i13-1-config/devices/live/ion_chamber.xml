@@ -14,6 +14,10 @@
 		<property name="pvName" value="BL13J-DI-FEMTO-06:GAIN"/>
 	</bean>
 
+	<bean id="ionc_gainmode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL13J-DI-FEMTO-06:GAINMODE" />
+	</bean>
+
 	<bean id="ionc_coupling" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13J-DI-FEMTO-06:ACDC"/>
 	</bean>
