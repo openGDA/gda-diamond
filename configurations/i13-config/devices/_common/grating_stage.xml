@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="grating_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="grating_x_motor" />
+	</bean>
+	<bean id="grating_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="grating_y_motor" />
+	</bean>
+	<bean id="grating_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="grating_z_motor" />
+	</bean>
+	<bean id="grating_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="grating_x" />
+				<ref bean="grating_y" />
+				<ref bean="grating_z" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

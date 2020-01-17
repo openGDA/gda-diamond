@@ -92,7 +92,9 @@
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/p2r.xml"/>	
 	<import resource="file:${gda.config}/devices/${gda.mode}/sample_stage_hexapod_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/sample_stage_lowprofile_motors.xml"/>
  	<import resource="file:${gda.config}/devices/${gda.mode}/smaract_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/grating_motors.xml"/>
  	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/newport_motors.xml"/> -->
  	<import resource="file:${gda.config}/devices/${gda.mode}/deben_motors.xml"/>
 
@@ -134,7 +136,9 @@
 	<import resource="file:${gda.config}/devices/_common/cam03.xml" />
 	<import resource="file:${gda.config}/devices/_common/cam04.xml" />
 	<import resource="file:${gda.config}/devices/_common/sample_stage_hexapod.xml"/>
+	<import resource="file:${gda.config}/devices/_common/sample_stage_lowprofile.xml"/>
 	<import resource="file:${gda.config}/devices/_common/smaract_stage.xml"/>
+	<import resource="file:${gda.config}/devices/_common/grating_stage.xml"/>
 	<!-- <import resource="file:${gda.config}/devices/_common/newport_stage.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/pinhole.xml" />
 	<import resource="file:${gda.config}/devices/_common/zone_plate.xml" />
