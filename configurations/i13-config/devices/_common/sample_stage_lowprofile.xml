@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="lowprof_samplex" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="lowprof_samplex_motor" />
+	</bean>
+	<bean id="lowprof_samplez" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="lowprof_samplez_motor" />
+	</bean>
+	<bean id="lowprof_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="lowprof_rot_motor" />
+	</bean>
+	<bean id="lowprof" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="lowprof_samplex" />
+				<ref bean="lowprof_samplez" />
+				<ref bean="lowprof_rot" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

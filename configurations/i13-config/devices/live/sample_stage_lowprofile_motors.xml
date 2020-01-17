@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="lowprof_samplex_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-HEX-01:LOWPROFX"/>
+	</bean>
+	<bean id="lowprof_samplez_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-HEX-01:LOWPROFZ"/>
+	</bean>
+	<bean id="lowprof_rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-HEX-01:LOWPROFROT"/>
+	</bean>
+
+</beans>	
