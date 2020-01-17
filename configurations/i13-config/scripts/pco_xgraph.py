@@ -17,6 +17,7 @@ from gda.epics import CAClient
 from gda.jython import InterfaceProvider
 
 from gdascripts.utils import caput_wait
+from epics_scripts.pv_scannable_utils import caput, caget, caputStringAsWaveform
 
 #BL12I-EA-DET-02:CAM | BL12I-EA-DET-02:HDF
 #BL13I-EA-DET-01 | BL13I-EA-DET-01:HDF5
@@ -36,7 +37,7 @@ class PCOXgraph():
         self.name = name
         self.hdfpath = None
         self.abort_state = False
-        self.visit = "mt21327-1"
+        self.visit = "mg21669-1"
         self.subdirpath = "raw"
         
     def set_data_collection_params(self, exposure_time_sec, acq_period_sec, nimages=1):
@@ -109,7 +110,7 @@ class PCOXgraph():
         subdirpath_sanitised_component_lst = subdirpath_sanitised.split("/")
         path_component_template = "\\%s"
         self.subdirpath = subdirpath_sanitised
-        outdirpath_template = "t:\\i13\\data\\\\2018\\%s" %(self.visit)
+        outdirpath_template = "g:\\i13\\data\\\\2019\\%s" %(self.visit)
         for c in subdirpath_sanitised_component_lst:
             outdirpath_template += path_component_template
         #self.outdirpath = "t:\\i12\\data\\\\2018\\%s\\%s" %(self.visit, self.subdirpath)
