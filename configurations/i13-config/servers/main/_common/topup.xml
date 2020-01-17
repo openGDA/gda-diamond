@@ -2,19 +2,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="machCountdownMonitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
-	</bean>
-
-	<bean id="machModeMonitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
-	</bean>
 
 	<bean id="topup" class="gda.device.scannable.TopupChecker" >
 		<property name="tolerance" value="10.0"/>
 		<property name="waittime" value="2.0"/>
-		<property name="scannableToBeMonitored" ref="machCountdownMonitor"/>
-		<property name="machineModeMonitor" ref="machModeMonitor"/>
+		<property name="scannableToBeMonitored" ref="topup_start_countdown_complete"/>
+		<property name="machineModeMonitor" ref="beam_state"/>
 	</bean>
 
 </beans>
