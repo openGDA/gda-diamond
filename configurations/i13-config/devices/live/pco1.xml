@@ -117,6 +117,16 @@
 		</property>
 	</bean>	
 
+	<bean id="pco1_sw_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_tif" />
+		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="pco1_hw_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_hw_hdf"/>
 		<property name="addCollectTimeMs" value="true"/>
@@ -206,6 +216,5 @@
 		<property name="processor" ref="pco1_tif_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean> -->	
-
 
 </beans>	
