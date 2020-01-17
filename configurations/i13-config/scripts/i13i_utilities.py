@@ -21,6 +21,7 @@ from gda.device.scannable import EpicsScannable
 from gda.jython import InterfaceProvider, Jython
 from gda.jython.commands import GeneralCommands
 from tomographyScan import tomoFlyScan
+from gda.jython import JythonStatus, JythonServerFacade
 
 print "Running i13i_utilities.py..."
 
@@ -271,7 +272,8 @@ class StringDisplayEpicsPVClass(ScannableMotionBase):
         try:
             if not self.outcli.isConfigured():
                 self.outcli.configure()
-            output=str(self.outcli.caget())
+            #output=str(self.outcli.caget())
+            output=str(self.outcli.get(self.pvstring))
         except Exception, ex:
             output="caget failed"
             print "Error in rawGetPosition: ", ex
@@ -403,7 +405,7 @@ def isLive():
 
 
 
-def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="na"):
+def stressTest(nScans=100, pathToVisit="/dls/i13/data/2019/cm22976-4", filesys="gpfs", use_tmp=True):
     """
     Function to run a sequence of tomography fly scans to test the performance of the file system. 
     
@@ -411,6 +413,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
         nScans - initial number of scans, which is then repeated ad infinitum
         pathToVisit - path to the visit directory
         filesys - "na" for NetApp and "gpfs" for GPFS03
+        use_tmp - if True, data are save in the tmp directory
          
     Notes: 
         (1) all scan files will be saved in the tmp sub-directory of the input visit directory
@@ -418,7 +421,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
         (3) it is recommended to use a dummy tomography_translation
         (4) make sure that Command Queue is not paused! 
     """
-    print "Executing stressTest..."
+    print "Executing stressTest: %d scans..." %(nScans)
     datadir_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
     
     windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "g:\\i13\\data\\"}
@@ -433,12 +436,13 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
     setTitle("stressTest")
     try:
         cqp=finder.find("commandQueueProcessor")
-        datadir = os.path.join(pathToVisit, "tmp")
-        LocalProperties.set("gda.data.scan.datawriter.datadir", datadir)    # this does not seem to work from inside this fn as files go to raw, not tmp!
-        LocalProperties.set("gda.data", datadir)                            # this does not seem to work from inside this fn as files go to raw, not tmp!
+        if use_tmp:
+            datadir = os.path.join(pathToVisit, "tmp")
+            LocalProperties.set("gda.data.scan.datawriter.datadir", datadir)    # this does not seem to work from inside this fn as files go to raw, not tmp!
+            LocalProperties.set("gda.data", datadir)                            # this does not seem to work from inside this fn as files go to raw, not tmp!
         print "All scan files will be saved in %s" %(LocalProperties.get("gda.data.scan.datawriter.datadir"))
         for i in range(nScans):
-            cmd="tomographyScan.tomoFlyScan(2.3,2.3,exposureTime=.01, start=-90, stop=90., step=0.1, imagesPerDark=0, imagesPerFlat=0, setupForAlignment=False)"
+            cmd="tomographyScan.tomoFlyScan(2.3,2.3,exposureTime=.01, start=0.0, stop=180.0, step=0.1, imagesPerDark=0, imagesPerFlat=0, setupForAlignment=False)"
             cqp.addToTail(JythonCommandCommandProvider(cmd, "StressTest "+`i`,None))
         cqp.addToTail(JythonCommandCommandProvider("stressTest()", "Add stressTest to the queue",None))
     except Exception, e:
@@ -451,7 +455,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
     
     
     
-def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i13/data/2019/cm22976-3", filesys="gpfs"):
+def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i13/data/2020/cm26478-1", filesys="gpfs"):
     """
     Fn to collect a series of fly scans for testing purposes with the following:
 	dummy translation stage is expected to be used!
@@ -465,6 +469,10 @@ def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     step = rotation step size
     pathToVisitDir = path to a directory which GDA can use for writing log files, ie /dls/i13/data/2016/cm14467-4
     filesys = 'na' for NetApp and 'gpfs' for GPFS03
+    
+    Example:
+    Set _stressTesting=True and execute reset_namespace or just execute LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
+    stressfly13(nscans=200, exposureTime=0.01, start=0.0, stop=180.0, step=0.1, pathToVisitDir='/dls/i13/data/2020/cm26478-1', filesys='gpfs')
     """
     _fn = stressfly13.__name__
     windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "g:\\i13\\data\\"} 	# was "t:\\i13\\data\\"} for GPFS01
@@ -783,6 +791,46 @@ class WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback(WaitWhileScan
             self.lastStatus = False
             if len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
   
+class WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback_new(WaitWhileScannableBelowThresholdMonitorOnly):
+    
+    def __init__(self, name, scannableToMonitor, minimumThreshold, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=0, emails=None):
+        WaitWhileScannableBelowThresholdMonitorOnly.__init__(self, name, scannableToMonitor, minimumThreshold, secondsBetweenChecks, secondsToWaitAfterBeamBackUp)
+        self.emails = emails
+        self.feedback_reqd_ = True
+        self.pre_scan_check_inc = True 
+        
+    def handleStatusChange(self,status):
+        ixx = "i13" 
+        ## check for status change to provide feedback:
+        if status and self.lastStatus:
+            pass # still okay
+        if status and not self.lastStatus:
+            msg = "*** " + self.name + ": Beam back up at: " + reprtime() + ". Resuming scan in " + str(self.secondsToWaitAfterBeamBackUp) + "s..."
+            print(msg)
+            if (not self.emails is None) and len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
+            self.lastStatus = True
+            sleep(self.secondsToWaitAfterBeamBackUp)
+            msg = "*** " + self.name + ":  Resuming scan now at " + reprtime()
+            if (not self.emails is None) and len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
+            print(msg)
+        if not status and not self.lastStatus:
+            pass # beam still down
+        if not status and self.lastStatus:
+            msg = "*** " + self.name + ": Beam down at: " + reprtime() + " . Pausing scan..."
+            print(msg)
+            self.lastStatus = False
+            if (not self.emails is None) and len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
+
+    def waitWhileBusy(self):
+        if not self._operating_continuously:
+            if (JythonServerFacade.getInstance().getScanStatus()==JythonStatus.RUNNING) or self.pre_scan_check_inc:
+                # loop until okay
+                while not self._getStatusAndHandleChange():  
+                    # not okay
+                    sleep(self.secondsBetweenChecks)
+                    self._collectNewMonitorValue()  
+                # now okay
+
 from gda.device.scannable import TopupChecker
 class TopupProtector(TopupChecker):
     """
@@ -935,5 +983,36 @@ def get_sim_cam_fly():
     busyIn = cs.getNoLongerBusyTriggerInVal()
     print "(exposeOut, busyIn) = (%s, %s)"%(exposeOut, busyIn)
     
+
+from gdascripts.parameters import beamline_parameters
+def test_det_cfg():
+    _dct = {}
+    pco_4000_cam_prefix = 'BL13I-EA-DET-01:CAM:'
+    _dct.update({'BL13I-EA-DET-01:CAM:': {}}) # pco 4000
+    _dct[pco_4000_cam_prefix].update({'model':      pco_4000_cam_prefix+'Model_RBV'})
+    _dct[pco_4000_cam_prefix].update({'focus_name': 'BL13I-MO-CAM-01:FOCUS:MP:RBV:CURPOS'})
+    _dct[pco_4000_cam_prefix].update({'focus':      'BL13I-MO-CAM-01:FOCUS.RBV'})
+    _dct[pco_4000_cam_prefix].update({'turret':     'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
+    _dct[pco_4000_cam_prefix].update({'turret_name':'BL13I-MO-CAM-01:TURRET:MP:RBV:CURPOS'})
+    _dct[pco_4000_cam_prefix].update({'pixel_rate': pco_4000_cam_prefix+'PIX_RATE'})
+    _dct[pco_4000_cam_prefix].update({'adc_mode':   pco_4000_cam_prefix+'ADC_MODE'})
+
+    pco_edge_cam_prefix = 'BL13I-EA-DET-02:CAM:'
+    _dct.update({pco_edge_cam_prefix: {}}) # pco EDGE
+    _dct[pco_edge_cam_prefix].update({'model':      pco_edge_cam_prefix+'Model_RBV'})
+    _dct[pco_edge_cam_prefix].update({'focus_name': 'BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS'})
+    _dct[pco_edge_cam_prefix].update({'focus':      'BL13I-MO-CAM-02:FOCUS.RBV'})
+    _dct[pco_edge_cam_prefix].update({'turret':     'BL13I-MO-CAM-02:TURRET:P:UPD.D'})
+    _dct[pco_edge_cam_prefix].update({'turret_name':'BL13I-MO-CAM-02:TURRET:MP:RBV:CURPOS'})
+    _dct[pco_edge_cam_prefix].update({'pixel_rate': pco_edge_cam_prefix+'PIX_RATE'})
+    _dct[pco_edge_cam_prefix].update({'adc_mode':   pco_edge_cam_prefix+'ADC_MODE'})
     
+    jns=beamline_parameters.JythonNameSpaceMapping()
+    tomography_flyscan_det=jns.tomography_flyscan_det
+    det_base_pv = tomography_flyscan_det.getCollectionStrategy().getAdBase().getBasePVName()
+    #det_base_pv = pco_edge_cam_prefix
+    for k, v in _dct[det_base_pv].iteritems():
+        print k,v, caget(v)
+    return det_base_pv, _dct[det_base_pv]
+
 print "Finished running i13i_utilities.py!"

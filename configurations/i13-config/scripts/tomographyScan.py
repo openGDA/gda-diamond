@@ -629,10 +629,10 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 
         pcEnc = tomography_flyscan_theta.getPcEnc()
         zebraPrefix = tomography_flyscan_theta.getContinuousMoveController().getZebra().getZebraPrefix()
-        print("pcEnc = %i" %(pcEnc))
+        print("zero-based pcEnc = %i" %(pcEnc))
         print("zebraPrefix = %s" %(zebraPrefix))
-        zebraEncoderSetPosPV = zebraPrefix + 'M' + str(pcEnc) +':SETPOS.PROC'   # need dedicated function for building this string from prefix and pcEnc
-        print("zebraEncoderSetPosPV = %s" %(zebraEncoderSetPosPV))
+        #zebraEncoderSetPosPV = zebraPrefix + 'M' + str(pcEnc) +':SETPOS.PROC'   # need dedicated function for building this string from prefix and pcEnc
+        #print("zebraEncoderSetPosPV = %s" %(zebraEncoderSetPosPV))
         zebra = finder.find("zebra")
         zebra.encCopyMotorPosToZebra(pcEnc+1)
         meta_add( camera_stage)
@@ -648,7 +648,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             _dct['BL13I-EA-DET-01:CAM:'].update({'focus_name': 'BL13I-MO-CAM-01:FOCUS:MP:RBV:CURPOS'})
             _dct['BL13I-EA-DET-01:CAM:'].update({'focus': 'BL13I-MO-CAM-01:FOCUS.RBV'})
             _dct['BL13I-EA-DET-01:CAM:'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
-            _dct['BL13I-EA-DET-01:CAM:'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
+            _dct['BL13I-EA-DET-01:CAM:'].update({'turret_name': 'BL13I-MO-CAM-01:TURRET:MP:RBV:CURPOS'})
             _dct['BL13I-EA-DET-01:CAM:'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
             _dct['BL13I-EA-DET-01:CAM:'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
 
@@ -657,6 +657,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             _dct['BL13I-EA-DET-02:CAM:'].update({'focus_name': 'BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS'})
             _dct['BL13I-EA-DET-02:CAM:'].update({'focus': 'BL13I-MO-CAM-02:FOCUS.RBV'})
             _dct['BL13I-EA-DET-02:CAM:'].update({'turret': 'BL13I-MO-CAM-02:TURRET:P:UPD.D'})
+            _dct['BL13I-EA-DET-02:CAM:'].update({'turret_name': 'BL13I-MO-CAM-02:TURRET:MP:RBV:CURPOS'})
             _dct['BL13I-EA-DET-02:CAM:'].update({'pixel_rate': 'BL13I-EA-DET-02:CAM:PIX_RATE'})
             _dct['BL13I-EA-DET-02:CAM:'].update({'adc_mode': 'BL13I-EA-DET-02:CAM:ADC_MODE'})
 
@@ -664,10 +665,15 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             #meta_add(_dct[det_base_pv])
             #det_base_pv='BL13I-EA-DET-02'
             try:
+                det_cfg()
                 meta_rm = jns.meta_rm
                 meta_rm(det_cfg)
+                det_cfg_lst = det_cfg.getGroupMembers()
+                for el in det_cfg_lst:
+                    del el
                 del det_cfg
             except Exception, e:
+                #pass
                 print("from del: %s" %(str(e)))
                 
             det_cfg = ScannableGroup()

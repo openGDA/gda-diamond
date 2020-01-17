@@ -28,6 +28,12 @@
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 	</bean>	
 
+	<bean id="zebraSM4" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="lowprof_rot_motor" />
+		<property name="pcEnc" value="3" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+	</bean>	
+	
 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="flyScanDetector"/>
 		<!-- <property name="readOutTime" value=".0101"/> -->
