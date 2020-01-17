@@ -55,6 +55,7 @@ import gda.configuration.properties.LocalProperties;
 import gda.jython.IBatonStateProvider;
 import gda.jython.InterfaceProvider;
 import gda.jython.UserMessage;
+import gda.jython.batoncontrol.ClientDetails;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
@@ -106,6 +107,7 @@ class BatonStatusComposite extends Composite {
 	private Label lblBanner;
 
 	private MenuItem takeBaton;
+	private MenuItem passBatonToUDCClient;
 	private MenuItem requestBaton;
 	private MenuItem releaseBaton;
 	private MenuItem openChat;
@@ -167,7 +169,6 @@ class BatonStatusComposite extends Composite {
 				gc.drawOval(topLeft.x, topLeft.y, size.x, size.y);
 			}
 		});
-
 		batonCanvas.setMenu(createPopup(this));
 
 		//initialize tooltip
@@ -281,11 +282,17 @@ class BatonStatusComposite extends Composite {
 
 	@SuppressWarnings("unused")
 	private Menu createPopup(Composite parent) {
+
 		Menu menu = new Menu(parent);
 
 		takeBaton = new MenuItem(menu, SWT.NONE);
 		takeBaton.setText("Take Baton");
 		takeBaton.addSelectionListener(popupSelectionListener);
+		if (udcClientExists()) {
+			passBatonToUDCClient = new MenuItem(menu, SWT.NONE);
+			passBatonToUDCClient.setText("Pass baton to UDC client");
+			passBatonToUDCClient.addSelectionListener(popupSelectionListener);
+		}
 		releaseBaton = new MenuItem(menu, SWT.NONE);
 		releaseBaton.setText("Release Baton");
 		releaseBaton.addSelectionListener(popupSelectionListener);
@@ -341,6 +348,17 @@ class BatonStatusComposite extends Composite {
 					logger.error("Cannot show messages: ", e);
 				}
 			}
+			else if (selected.equals(passBatonToUDCClient)) {
+				ClientDetails[] clients = InterfaceProvider.getBatonStateProvider().getOtherClientInformation();
+				int udcClientIndex = 0;
+				for (ClientDetails client : clients) {
+					if (client.isAutomatedUser()) {
+						udcClientIndex = client.getIndex();
+						break;
+					}
+				}
+				InterfaceProvider.getBatonStateProvider().assignBaton(udcClientIndex);
+			}
 		}
 	};
 
@@ -348,5 +366,17 @@ class BatonStatusComposite extends Composite {
 	public void dispose() {
 		super.dispose();
 		this.boldFont.dispose();
+	}
+
+	public boolean udcClientExists() {
+		ClientDetails[] clients = InterfaceProvider.getBatonStateProvider().getOtherClientInformation();
+		boolean udcClientExists = false;
+		for (ClientDetails client : clients) {
+			if (client.isAutomatedUser()) {
+				udcClientExists = true;
+				break;
+			}
+		}
+		return udcClientExists;
 	}
 }

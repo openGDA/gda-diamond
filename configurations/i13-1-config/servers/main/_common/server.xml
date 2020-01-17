@@ -13,6 +13,7 @@
 	<import resource="beamlineEnergyController.xml" />
 	<import resource="GDAMetadata.xml" />
 	<import resource="imageProcessors.xml" />
+	<!-- <import resource="datawriter.xml" /> -->
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
