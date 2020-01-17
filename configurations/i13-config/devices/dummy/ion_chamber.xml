@@ -30,6 +30,15 @@
 		</property>
 	</bean>
 
+	<bean id="ionc_gainmode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Low Noise</value>
+				<value>High Speed</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="ionc_acdc" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>

@@ -135,6 +135,7 @@
 	<import resource="file:${gda.config}/devices/_common/cam02.xml" />
 	<import resource="file:${gda.config}/devices/_common/cam03.xml" />
 	<import resource="file:${gda.config}/devices/_common/cam04.xml" />
+	<import resource="file:${gda.config}/devices/_common/ion_chamber.xml" />
 	<import resource="file:${gda.config}/devices/_common/sample_stage_hexapod.xml"/>
 	<import resource="file:${gda.config}/devices/_common/sample_stage_lowprofile.xml"/>
 	<import resource="file:${gda.config}/devices/_common/smaract_stage.xml"/>

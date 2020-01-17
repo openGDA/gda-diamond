@@ -19,8 +19,6 @@ import tomographyHelicalScan
 from tomographyHelicalScan import tomoHelicalScan
 
 from i13i_utilities import isLive, interruptable
-from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_stick_1, filter_stick_2, filter_stick_3, filter_stick_4, filter_stick_5, dcm_mode
-from i13i_utilities import ionc_cfg		# ionc_A_over_V_gain, ionc_gainmode, ionc_acdc, ionc_prm
 
 section_sep = "-"*128
 class ExperimentShutterEnumPositioner(ScannableBase):
@@ -89,15 +87,7 @@ def meta_add_i13i():
 	for s in meta_scannables:
 		meta_add(s)
 		
-	#meta_add("filter_stick_1", filter_stick_1())
-	#meta_add("filter_stick_2", filter_stick_2())
-	#meta_add("filter_stick_3", filter_stick_3())
-	#meta_add("filter_stick_4", filter_stick_4())
-	#meta_add("filter_stick_5", filter_stick_5())
-	#meta_add("dcm_mode", dcm_mode())
-	#meta_add("ionc_A_over_V_gain", ionc_A_over_V_gain())
-	#meta_add("ionc_gainmode", ionc_gainmode())
-	#meta_add("ionc_acdc", ionc_acdc())
+	ionc_cfg = finder.find("ionc_cfg")
 	meta_add(ionc_cfg)
 	
 	print "\n Finished adding meta-data items!"
