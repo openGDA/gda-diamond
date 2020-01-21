@@ -37,6 +37,44 @@
 		<property name="userUnits" value="mm" />
 		<property name="increment" value="0.2" />
 	</bean>
+	
+	<!-- Sample manipulator controls -->
+	
+	<bean id="sm_x_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="XP motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_xp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.1" />
+	</bean>
+	
+	<bean id="sm_y_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="YP motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_yp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.1" />
+	</bean>
+	
+	<bean id="sm_z_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ZP motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_zp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.1" />
+	</bean>
+	
+	<bean id="sm_rotate" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Rotation A motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_rotation" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="degrees" />
+		<property name="increment" value="0.1" />
+	</bean>
 
 	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -45,6 +83,10 @@
 				<ref bean="cff_control" />
 				<ref bean="exit_slit_x_gap" />
 				<ref bean="exit_slit_y_gap" />
+				<ref bean="sm_x_axis"/>
+				<ref bean="sm_y_axis"/>
+				<ref bean="sm_z_axis"/>
+				<ref bean="sm_rotate"/>
 			</list>
 		</property>
 	</bean>
