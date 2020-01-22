@@ -46,6 +46,7 @@
 		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D2" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
 		<property name="calibratedAxesProvider" ref="my_calibration" />
 	</bean>
 	
