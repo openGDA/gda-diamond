@@ -349,6 +349,7 @@ class BatonStatusComposite extends Composite {
 				}
 			}
 			else if (selected.equals(passBatonToUDCClient)) {
+				int batonHolderIndex = InterfaceProvider.getBatonStateProvider().getBatonHolder().getIndex();
 				ClientDetails[] clients = InterfaceProvider.getBatonStateProvider().getOtherClientInformation();
 				int udcClientIndex = 0;
 				for (ClientDetails client : clients) {
@@ -357,7 +358,7 @@ class BatonStatusComposite extends Composite {
 						break;
 					}
 				}
-				InterfaceProvider.getBatonStateProvider().assignBaton(udcClientIndex);
+				InterfaceProvider.getBatonStateProvider().assignBaton(udcClientIndex, batonHolderIndex);
 			}
 		}
 	};
