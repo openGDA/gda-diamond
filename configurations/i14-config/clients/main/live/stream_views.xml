@@ -92,8 +92,8 @@
 	<bean id="sample_microscope_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
 		<constructor-arg name="xAxisScannable" ref="SampleX"/>
 	    <constructor-arg name="yAxisScannable" ref="SampleY"/>
-	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
-	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="xAxisPixelScaling" value="0.0006"/>
+	    <constructor-arg name="yAxisPixelScaling" value="0.0006"/>
 	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>
 	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
 	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
