@@ -106,7 +106,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	private Button showLiveI0ItCheckbox;
 	protected boolean liveModeIsRunning;
 
-	private static class DetectorControlModel extends ObservableModel {
+	public static class DetectorControlModel extends ObservableModel {
 		public static final String LIVE_INTEGRATION_TIME_PROP_NAME = "liveIntegrationTime";
 		private double liveIntegrationTime;
 
