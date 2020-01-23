@@ -233,14 +233,6 @@ try:
 
 	import raster_scan
 
-	if isLive():
-		data_dir = "/dls/$instrument$/data/$year$/$visit$/raw"
-	else:
-		data_dir = LocalProperties.get("gda.config") + "/../../../gda_data_non_live/cs-scratch/i13i-dummy"
-
-	LocalProperties.set("gda.data.scan.datawriter.datadir", data_dir)
-	LocalProperties.set("gda.data", data_dir)
-
 	import beamlineEnergy
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
