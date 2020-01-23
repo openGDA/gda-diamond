@@ -5,6 +5,7 @@ Performs software triggered tomography
 from time import sleep
 import datetime
 import os
+import re
 
 from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
@@ -1162,7 +1163,7 @@ def ProcessScanParameters(model):
     if model.sendDataToTempDirectory:
         data_path_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
         print "data_path_saved = %s" %(data_path_saved)
-        kwargs.update({'data_path_saved': "\'%s\'" %(data_path_saved)})
+        kwargs.update({'data_path_saved': '%s' %(data_path_saved)})
         visit_tmp_path = os.path.join(getVisitPath(),'tmp')
         LocalProperties.set("gda.data.scan.datawriter.datadir", visit_tmp_path)
         print "Saving data to the throw-away TMP sub-directory! - %s!" %(visit_tmp_path)
@@ -1182,7 +1183,7 @@ def ProcessScanParameters(model):
         exceptionType, exception, traceback = sys.exc_info()
         if model.sendDataToTempDirectory:
             print "*Restoring data path to the original data directory: %s" %(data_path_saved)
-            LocalProperties.set("gda.data.scan.datawriter.datadir", "\'%s\'" %(data_path_saved))
+            LocalProperties.set("gda.data.scan.datawriter.datadir", '%s' %(data_path_saved))
         handle_messages.log(None, "Error in ProcessScanParameters", exceptionType, exception, traceback, True)
     updateProgress(100,"Done");
     
@@ -1970,11 +1971,13 @@ def isLive():
     mode = LocalProperties.get("gda.mode")
     return mode =="live" or mode =="live_localhost"
 
+
 def getVisitPath():
     data_path = LocalProperties.get("gda.data.scan.datawriter.datadir")
-    data_path_split = data_path.rsplit('/')
-    visit_path = '/'
-    for i in range(1,6):
-        visit_path = os.path.join(visit_path, data_path_split[i])
-    return visit_path
+    outputPathSuffix = LocalProperties.get("gda.data.scan.datawriter.datadir.subdir.live")
+    if outputPathSuffix is not None:
+        print('Original data path', data_path)
+        data_path = re.sub(outputPathSuffix + "[/]{0,1}$", "", data_path);
+        print('Substituted data path', data_path)
+    return data_path
 
