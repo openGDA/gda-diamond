@@ -65,6 +65,7 @@ import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.LiveStreamConnectionManager;
 import uk.ac.gda.client.live.stream.LiveStreamException;
+import uk.ac.gda.client.live.stream.api.ILiveStreamConnectionManager;
 import uk.ac.gda.client.live.stream.view.StreamType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -391,7 +392,7 @@ public class ExperimentSetup extends LayoutUtilities {
 	}
 
 	private LiveStreamConnection getLiveStreamConnection() throws LiveStreamException {
-		LiveStreamConnectionManager manager = LiveStreamConnectionManager.getInstance();
+		ILiveStreamConnectionManager manager = LiveStreamConnectionManager.getInstance();
 		UUID connectionID = manager.getIStreamConnection(CameraHelper.getCameraConfiguration(0), StreamType.EPICS_ARRAY);
 		return LiveStreamConnection.class.cast(manager.getIStreamConnection(connectionID));
 	}
