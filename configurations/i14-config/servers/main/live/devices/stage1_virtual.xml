@@ -13,7 +13,7 @@
 	</bean>
 
 	<bean id="SampleZ_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL14I-MO-STAGE-01:YC" />
+		<property name="pvName" value="BL14I-MO-STAGE-01:ZC" />
 	</bean>
 
 </beans>
