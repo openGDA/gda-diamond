@@ -128,6 +128,7 @@ public class XHDetectorTest {
 		group1.setTimePerFrame(1);
 		group1.setGroupTrig(true);
 		group1.setGroupTrigLemo(5);
+		group1.setGroupTrigRisingEdge(false);
 		scan.addGroup(group1);
 
 		xh.prepareDetectorwithScanParameters(scan);
@@ -236,6 +237,7 @@ public class XHDetectorTest {
 		group1.setOutLemo6(true);
 		group1.setGroupTrig(true);
 		group1.setGroupTrigLemo(5);
+		group1.setGroupTrigRisingEdge(false);
 		scan.addGroup(group1);
 
 		xh.prepareDetectorwithScanParameters(scan);

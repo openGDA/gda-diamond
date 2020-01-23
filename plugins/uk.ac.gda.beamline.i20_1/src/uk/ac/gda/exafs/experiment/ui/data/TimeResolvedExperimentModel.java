@@ -59,6 +59,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
@@ -315,7 +316,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		if (tfgTrigger == null) {
 			tfgTrigger = new TFGTrigger();
 			try {
-				tfgTrigger.getSampleEnvironment().add(tfgTrigger.createNewSampleEnvEntry());
+				tfgTrigger.getSampleEnvironment().add(TriggerableObject.createNewSampleEnvEntry());
 			} catch (Exception e) {
 				logger.error("Unable to create sample environment entry", e);
 			}

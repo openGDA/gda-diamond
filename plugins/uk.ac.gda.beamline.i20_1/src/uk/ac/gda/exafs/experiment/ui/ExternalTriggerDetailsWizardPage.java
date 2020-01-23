@@ -381,7 +381,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 		addButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		addButton.addListener(SWT.Selection, event -> {
 			try {
-				externalTriggerSetting.getSampleEnvironment().add(externalTriggerSetting.getTfgTrigger().createNewSampleEnvEntry());
+				externalTriggerSetting.getSampleEnvironment().add(TriggerableObject.createNewSampleEnvEntry());
 			} catch (Exception e) {
 				UIHelper.showError("Error", e.getMessage());
 			}
@@ -419,7 +419,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 					logger.info("Copy triggers : length = {}, delay = {}, port = {}", tObject.getTriggerPulseLength(), tObject.getTriggerDelay(), tObject.getTriggerOutputPort().getUsrPortNumber());
 
 					// Create new object, a copy of the original
-					TriggerableObject newTrigger = externalTriggerSetting.getTfgTrigger().createNewSampleEnvEntry(tObject.getTriggerDelay(), tObject.getTriggerPulseLength(), tObject.getTriggerOutputPort());
+					TriggerableObject newTrigger = TriggerableObject.createNewSampleEnvEntry(tObject.getTriggerDelay(), tObject.getTriggerPulseLength(), tObject.getTriggerOutputPort());
 					newTrigger.setName( tObject.getName() );
 					newTriggers.add(newTrigger);
 				}

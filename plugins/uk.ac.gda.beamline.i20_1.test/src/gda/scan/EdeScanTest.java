@@ -724,8 +724,7 @@ public class EdeScanTest extends EdeTestBase {
 		scanParams.addGroup(group1);
 
 		TFGTrigger tfgTrigger = getTfgTrigger();
-		TriggerableObject trigger1= tfgTrigger.createNewSampleEnvEntry( 0.0995, 2*1e-3, TriggerOutputPort.USR_OUT_2 );
-		tfgTrigger.getSampleEnvironment().add(trigger1);
+		tfgTrigger.getSampleEnvironment().add(TriggerableObject.createNewSampleEnvEntry( 0.0995, 2*1e-3, TriggerOutputPort.USR_OUT_2 ));
 
 		LocalProperties.set("gda.nexus.createSRS", "true");
 
