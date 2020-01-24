@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- zone plate -->
-	
+
 	<bean id="zp_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="zp_x_motor" />
 		<property name="userUnits" value="um"/>
@@ -18,7 +18,7 @@
 		<property name="motor" ref="zp_z_motor" />
 		<property name="userUnits" value="um"/>
 	</bean>
-	
+
 	<bean id="zp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -27,8 +27,8 @@
 				<ref bean="zp_z" />
 			</list>
 		</property>
-	</bean>	
-	
+	</bean>
+
 	<bean id="zp_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -36,6 +36,17 @@
 				<ref bean="zp_y" />
 			</list>
 		</property>
-	</bean>	
-	
+	</bean>
+
+	<bean id="optics_zp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="zp" />
+				<ref bean="osa" />
+				<ref bean="cs" />
+				<ref bean="zpa" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

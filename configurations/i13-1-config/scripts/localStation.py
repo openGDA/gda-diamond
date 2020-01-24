@@ -12,7 +12,7 @@ from gda.device.scannable import ScannableBase
 from gda.device.scannable.scannablegroup import ScannableGroup
 from i13j_utilities import createScannableFromPV, clear_defaults, isLive
 from gda.jython import InterfaceProvider
-from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crls_present, m1_strip
+from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crls_present, m1_strip, optics_zp
 
 section_sep = "-"*128
 
@@ -519,44 +519,13 @@ print(section_sep)
 if not LocalProperties.check("gda.dummy.mode"):
 	run("localStationUser.py")
 
-#zp = ScannableGroup()
-#zp.addGroupMember(zp_x)
-#zp.addGroupMember(zp_y)
-#zp.addGroupMember(zp_z)
-#zp.setName("zp")
-#zp.configure()
-
-#osa = ScannableGroup()
-#osa.addGroupMember(osa_x)
-#osa.addGroupMember(osa_y)
-#osa.addGroupMember(osa_z)
-#osa.setName("osa")
-#osa.configure()
-
-#cs = ScannableGroup()	#central stop
-#cs.addGroupMember(cs_x)
-#cs.addGroupMember(cs_y)
-#cs.addGroupMember(cs_z)
-#cs.setName("cs")
-#cs.configure()
-
-#zpa = ScannableGroup()
-#zpa.addGroupMember(mask_x)
-#zpa.addGroupMember(mask_y)
-#zpa.addGroupMember(mask_z)
-#zpa.setName("zpa")
-#zpa.configure()
-
-optics_zp = ScannableGroup()
-optics_zp.addGroupMember(zp)
-optics_zp.addGroupMember(osa)
-optics_zp.addGroupMember(cs)
-optics_zp.addGroupMember(zpa)
-optics_zp.setName("optics_zp")
-optics_zp.configure()
-
 meta_add(optics_zp)
-caput("BL13J-EA-DET-04:HDF5:NDArrayPort", "merlin1.cam")
+
+if isLive():
+	try:
+		caput("BL13J-EA-DET-04:HDF5:NDArrayPort", "merlin1.cam")
+	except:
+		print("Error setting array port on Merlin detector")
 
 import excalibur_odin
 from excalibur_odin import excalibur_odin_xgraph
