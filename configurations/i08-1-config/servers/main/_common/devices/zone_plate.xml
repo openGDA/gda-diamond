@@ -4,6 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+	<bean id="ZonePlateX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zone_plate_x_motor" />
+	</bean>
+
+	<bean id="ZonePlateY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zone_plate_y_motor" />
+	</bean>
+
 	<bean id="ZonePlateZ" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="zone_plate_z_motor" />
 	</bean>
@@ -11,10 +19,11 @@
 	<bean id="zone_plate" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="ZonePlateX" />
+				<ref bean="ZonePlateY" />
 				<ref bean="ZonePlateZ" />
 			</list>
 		</property>
 	</bean>
-		
 
 </beans>
