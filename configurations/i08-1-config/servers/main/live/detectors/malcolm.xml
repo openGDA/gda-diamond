@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- PandAs only (no detector) -->
+	<bean id="malcolm_model_pandas" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL08J-ML-SCAN-01" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolm_device_pandas" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL08J-ML-SCAN-01" />
+		<property name="model" ref="malcolm_model_pandas" />
+		<property name="deviceInformation" ref="malcolm_info_pandas" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Andor -->
+	<bean id="malcolm_model_andor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL08J-ML-SCAN-02" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolm_device_andor" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL08J-ML-SCAN-02" />
+		<property name="model" ref="malcolm_model_andor" />
+		<property name="deviceInformation" ref="malcolm_info_andor" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- XMAP -->
+	<bean id="malcolm_model_xmap" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL08J-ML-SCAN-03" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolm_device_xmap" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL08J-ML-SCAN-03" />
+		<property name="model" ref="malcolm_model_xmap" />
+		<property name="deviceInformation" ref="malcolm_info_xmap" />
+		<property name="activated" value="false" />
+	</bean>
+
+</beans>

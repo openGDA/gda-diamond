@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- PandAs only (no detector) -->
+	<bean id="malcolm_info_pandas" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="PandAs" />
+		<property name="description" value="PandAs only (no detectors)" />
+	</bean>
+
+	<!-- Andor -->
+	<bean id="malcolm_info_andor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor" />
+	</bean>
+
+	<!-- XMAP -->
+	<bean id="malcolm_info_xmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XMAP" />
+		<property name="description" value="XMAP scan" />
+	</bean>
+
+</beans>
