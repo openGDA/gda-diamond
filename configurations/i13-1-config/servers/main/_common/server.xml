@@ -87,7 +87,7 @@
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
-	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_ndplugins.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/xspress3_addetector.xml"/>

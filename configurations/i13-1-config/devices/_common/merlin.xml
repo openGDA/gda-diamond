@@ -22,10 +22,106 @@
 		</property>
 	</bean>
 
-	<bean id="merlin_singleExposurePco"
-		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+	<bean id="merlin_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="merlin_cam_base" />
 		<constructor-arg value="0" />
+	</bean>
+
+	<bean id="merlin_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="merlin_ndhdf5file" />
+		<property name="fileNameTemplate" value="merlin" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="lazyOpen" value="true" />
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
+	</bean>
+
+	<bean id="merlin_tif_filewriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="merlin_tif" />
+		<property name="ndFile" ref="merlin_ndfiletif" />
+		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor" />
+		<property name="xPixelSize" value="0" />
+		<property name="xPixelSizeUnit" value="undefined" />
+		<property name="yPixelSize" value="0" />
+		<property name="yPixelSizeUnit" value="undefined" />
+		<property name="waitForFileArrival" value="false" />
+	</bean>
+
+	<bean id="merlin_sw_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_sw_hdf" />
+		<property name="collectionStrategy" ref="merlin_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="merlin_sw_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_sw_tif" />
+		<property name="collectionStrategy" ref="merlin_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_tif_filewriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="medipix_nxcollectionstrategy_for_hardware_triggering" class="gda.device.detector.addetector.triggering.HardwareTriggeredMedipix">
+		<constructor-arg ref="merlin_cam_base" />
+		<constructor-arg value=".002" />
+	</bean>
+
+	<bean id="merlin_hw_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_hw_hdf" />
+		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="merlin_hw_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_shw_tif" />
+		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_tif_filewriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="merlin_multipleExposurePco" class="gda.device.detector.addetector.triggering.SoftwareSynchronisedMultipleExposure">
+		<constructor-arg ref="merlin_cam_base" />
+		<constructor-arg value="0" />
+	</bean>
+
+	<bean id="merlin_sw_multi_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_sw_hdf" />
+		<property name="collectionStrategy" ref="merlin_multipleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="merlin_sw_multi_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_sw_tif" />
+		<property name="collectionStrategy" ref="merlin_multipleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_tif_filewriter" />
+			</list>
+		</property>
 	</bean>
 
 </beans>
