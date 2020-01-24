@@ -4,19 +4,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_x_motor" />
+	<bean id="sample_x_coarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_x_coarse_motor" />
 	</bean>
 
-	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_y_motor" />
+	<bean id="sample_y_coarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_y_coarse_motor" />
+	</bean>
+
+	<bean id="sample_x_fine" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_x_fine_motor" />
+	</bean>
+
+	<bean id="sample_y_fine" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_y_fine_motor" />
 	</bean>
 
 	<bean id="sample_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="sample_x" />
-				<ref bean="sample_y" />
+				<ref bean="sample_x_coarse" />
+				<ref bean="sample_y_coarse" />
+				<ref bean="sample_x_fine" />
+				<ref bean="sample_y_fine" />
 			</list>
 		</property>
 	</bean>

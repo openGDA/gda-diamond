@@ -3,22 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.0000e+05" />
-		<property name="maxPosition" value="1.0000e+05" />
-		<property name="position" value="0.047190" />
-		<property name="timeToVelocity" value="0.01" />
-	 	<property name="unitString" value="mm"/>
-	 	<property name="homeable" value="true"/>
+	<bean id="sample_x_coarse_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-TABLE-01:XC" />
 	</bean>
 
-	<bean id="sample_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.0000e+05" />
-		<property name="maxPosition" value="1.0000e+05" />
-		<property name="position" value="-2.9" />
-		<property name="timeToVelocity" value="0.01" />
-	 	<property name="unitString" value="mm"/>
-	 	<property name="homeable" value="true"/>
+	<bean id="sample_y_coarse_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-TABLE-01:YC" />
+	</bean>
+
+	<bean id="sample_x_fine_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-TABLE-01:XF" />
+	</bean>
+
+	<bean id="sample_y_fine_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-TABLE-01:YF" />
 	</bean>
 
 </beans>
