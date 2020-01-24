@@ -1,4 +1,4 @@
-import sys	
+import sys
 import os
 from gdascripts.messages import handle_messages
 import gda.factory.FactoryException
@@ -7,18 +7,20 @@ import time
 from gda.device import Scannable
 from gda.jython import Jython
 from gda.jython.commands.GeneralCommands import ls_names, alias, vararg_alias
-from gda.jython.commands.ScannableCommands import add_default
+from gda.jython.commands.ScannableCommands import add_default, pos
 from gda.device.scannable import ScannableBase
 from gda.device.scannable.scannablegroup import ScannableGroup
 from i13j_utilities import createScannableFromPV, clear_defaults, isLive
 from gda.jython import InterfaceProvider
-from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crls_present, m1_strip, optics_zp
+from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crls_present, m1_strip, optics_zp, eh_shtr, fs
+from gdaserver import d4_i, expt_fastshutter_raw, qcm_bragg1, fes1, id_gap, ionc_i, ionc_photonflux, ix, iy, iz
+from gdaserver import mpx, mpx_wrap, qcm_energy, s1, s2, s4, s5, s6, s7, sample_lab_x, scope1_turret, t1, t1_pitch, t2
 
 section_sep = "-"*128
 
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
-	Class to handle 
+	Class to handle
 	"""
 	def __init__(self, name, delegate):
 		self.name = name
@@ -34,7 +36,7 @@ class ExperimentShutterEnumPositioner(ScannableBase):
 	def rawGetPosition(self):
 		position = self.delegate.getPosition()
 		if int(position) == 5:
-			return "Open" 
+			return "Open"
 		return "Closed"
 
 
@@ -60,7 +62,7 @@ from gda.device.lima import LimaCCD
 from gda.device.maxipix2 import MaxiPix2
 from gda.util import VisitPath
 
-finder = Finder.getInstance() 
+finder = Finder.getInstance()
 beamline = finder.find("Beamline")
 ring= finder.find("Ring")
 commandServer = InterfaceProvider.getJythonNamespace()
@@ -197,7 +199,7 @@ import integrate_mpx_scan
 #	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
 
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonitorOnly
-#comment out when not connected - 
+#comment out when not connected -
 #beammonitor=WaitWhileScannableBelowThresholdMonitorOnly("beammonitor", d4_i, 1,1,1)
 #beamok=WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
 
@@ -208,7 +210,7 @@ iz.setInputNames(["iz"])
 
 #stuff for Vortex editor
 def vortex(vortexParameterName, outputfile):
-	from uk.ac.gda.beans.vortex import VortexParameters	
+	from uk.ac.gda.beans.vortex import VortexParameters
 	VortexParameters.writeToXML(XspressParametersToLoad, mll_xmap.getConfigFileName());
 	mll_xmap.loadConfigurationFromFile()
 
@@ -226,18 +228,18 @@ d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
 
 def eh_shtr_control():
 	if eh_shtr()=="Open":
-		pos eh_shtr "Close"
+		pos(eh_shtr, "Close")
 	else:
-		pos eh_shtr "Reset"
+		pos(eh_shtr, "Reset")
 		time.sleep(3)
-		pos eh_shtr "Open"
+		pos(eh_shtr, "Open")
 
 
 def fs_control():
 	if fs()=="Open":
-		pos fs "Closed"
+		pos(fs, "Closed")
 	else:
-		pos fs "Open"
+		pos(fs, "Open")
 
 #mtscripts have been commented out of JythonServerFacade as this is used temprarily for moveable equipment
 #import mtscripts.moveable.me07m
@@ -317,7 +319,7 @@ import excalibur_config
 #if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
 #	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
 #if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-#	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
+#	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 
 if not LocalProperties.check("gda.dummy.mode"):
 	try:
@@ -326,9 +328,9 @@ if not LocalProperties.check("gda.dummy.mode"):
 		if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
 			caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 	except:
-		print "Unable to connect to PCO IOC - please check if it's running!"	
-	
-	
+		print "Unable to connect to PCO IOC - please check if it's running!"
+
+
 # pos afg_chan1_ampl 2.
 # pos afg_chan1_state "On"
 
@@ -453,7 +455,7 @@ if isLive():
 #shutter_director = ShutterDirector('shutter_director', delay_after_open_sec=0, delay_after_close_sec=0)
 
 try:
-	print "Adding sample_lab_x_t1_pitch..." 
+	print "Adding sample_lab_x_t1_pitch..."
 	sample_lab_x_t1_pitch = ScannableGroup()
 	sample_lab_x_t1_pitch.addGroupMember(sample_lab_x)
 	sample_lab_x_t1_pitch.addGroupMember(t1_pitch)
@@ -530,10 +532,10 @@ if isLive():
 import excalibur_odin
 from excalibur_odin import excalibur_odin_xgraph
 
-from mapping_scan_commands import mscan, step, detector
+run("mapping_scan_commands.py")
 
 def douglas(start, stop, stepasdf):
 	mscan(step('t1_pi_lz', start, stop, stepasdf), det=[detector('BL13J-ML-SCAN-01', 0.01)])
 
-print(section_sep)	
+print(section_sep)
 print("\n Finished running localStation.py")
