@@ -21,7 +21,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 <module>i20-1</module>
  -->
 <module>uk.ac.diamond.daq.beamline.i18.controls</module>
-<module>uk.ac.diamond.daq.beamline.i18.controls.test</module>
+<!-- module>uk.ac.diamond.daq.beamline.i18.controls.test</module -->
 <module>uk.ac.gda.beamline.b18</module>
 <module>uk.ac.gda.beamline.b18.feature</module>
 <module>uk.ac.gda.beamline.b18.server</module>

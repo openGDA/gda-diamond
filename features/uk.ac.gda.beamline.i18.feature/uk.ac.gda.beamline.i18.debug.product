@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I18 Beamline" id="uk.ac.gda.beamline.i18.debug.product" application="uk.ac.gda.client.application" version="9.16.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I18 Beamline" uid="uk.ac.gda.beamline.i18.debug.product" id="uk.ac.gda.beamline.i18.debug.product" application="uk.ac.gda.client.application" version="9.16.0" useFeatures="true" includeLaunchers="true">
+
 
    <configIni use="default">
    </configIni>
@@ -26,14 +27,19 @@
       </vmArgsMac>
    </launcherArgs>
 
+   <windowImages/>
+
+
    <launcher name="gda-i18">
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
    </plugins>
@@ -49,5 +55,12 @@
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
    </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
