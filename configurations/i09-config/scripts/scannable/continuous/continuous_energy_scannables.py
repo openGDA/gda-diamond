@@ -30,8 +30,8 @@ mcscontroller.exposure_time_offset=0.001
 # Binpoint is slaved from (triggered by) scaler (mcscontroller)    BL09J-CS-CSCAN-01:IDPGM:BINPOINTALL:TRIGGER
 binpointc = BinpointWaveformChannelController('binpointc', 'BL09J-CS-CSCAN-01:', 'IDPGM:BINPOINTALL:'); binpointc.verbose=True
 
-from pseudodevices.detuneIDGap import jdetune
-energy_move_controller = ContinuousPgmEnergyIDGapMoveController('energy_move_controller', __main__.jenergy, 'SR09J-MO-SERVC-01:', detune=jdetune); energy_move_controller.verbose=True
+from pseudodevices.IDGap_Offset import jgap_offset
+energy_move_controller = ContinuousPgmEnergyIDGapMoveController('energy_move_controller', __main__.jenergy, 'SR09J-MO-SERVC-01:', detune=jgap_offset); energy_move_controller.verbose=True
 #hm3amp20
 mcs2 = WaveformChannelScannable('mcs2', mcscontroller, 2); mcs2.setHardwareTriggerProvider(energy_move_controller); mcs2.verbose=True
 #sm5amp8
