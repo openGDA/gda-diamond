@@ -22,12 +22,8 @@
                 <ref bean="base_x"/>
                 <ref bean="base_y"/>
                 <ref bean="base_pitch"/>
-                <ref bean="base_yaw"/>
             </list>
         </property>
     </bean>
 
-    <bean id="base_yaw" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="base_yaw_motor"/>
-    </bean>
 </beans>

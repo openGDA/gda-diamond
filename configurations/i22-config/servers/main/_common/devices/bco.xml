@@ -8,6 +8,10 @@
         <property name="motor" ref="bco_pitch_motor"/>
         <property name="protectionLevel" value="3"/>
     </bean>
+    <bean id="bco_yaw" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bco_yaw_motor" />
+        <property name="protectionLevel" value="3"/>
+    </bean>
 
     <bean id="bco_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bco_x_motor"/>
@@ -19,12 +23,24 @@
         <property name="protectionLevel" value="3"/>
     </bean>
 
+    <bean id="exitwindow_x" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="exitwindow_x_motor" />
+        <property name="protectionLevel" value="3"/>
+    </bean>
+    <bean id="exitwindow_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="exitwindow_y_motor" />
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
     <bean id="bco" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
                 <ref bean="bco_x"/>
                 <ref bean="bco_y"/>
                 <ref bean="bco_pitch"/>
+                <ref bean="bco_yaw" />
+                <ref bean="exitwindow_x" />
+                <ref bean="exitwindow_y" />
             </list>
         </property>
         <property name="protectionLevel" value="3"/>

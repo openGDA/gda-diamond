@@ -6,11 +6,9 @@
 
     <bean id="t1x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="base_x_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="t1y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="base_y_motor"/>
-        <property name="local" value="true"/>
     </bean>
 </beans>

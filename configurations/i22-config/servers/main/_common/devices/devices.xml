@@ -21,7 +21,6 @@
 <!--     <import resource="gonio.xml" /> -->
     <import resource="hfm.xml" />
     <import resource="idgap.xml" />
-    <import resource="pxy.xml" />
     <import resource="rot.xml" />
     <import resource="sd.xml" />
 <!--     <import resource="tango.xml" /> -->

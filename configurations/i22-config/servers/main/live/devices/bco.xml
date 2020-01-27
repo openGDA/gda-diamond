@@ -4,15 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="bco_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-TABLE-04:Y"/>
+	<bean id="bco_y_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-BCO-01:TABLE:Y" />
 	</bean>
 
 	<bean id="bco_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-TABLE-04:X"/>
+		<property name="pvName" value="BL22I-MO-BCO-01:TABLE:X"/>
 	</bean>
 
 	<bean id="bco_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-TABLE-04:PITCH"/>
+		<property name="pvName" value="BL22I-MO-BCO-01:TABLE:PITCH"/>
+	</bean>
+
+	<bean id="bco_yaw_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-BCO-01:TABLE:YAW" />
+	</bean>
+
+	<bean id="exitwindow_x_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-OAV-01:MIRROR:X" />
+	</bean>
+	
+	<bean id="exitwindow_y_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-OAV-01:MIRROR:Y" />
 	</bean>
 </beans>
