@@ -60,4 +60,8 @@
 		<property name="file" ref="d11_ndfile" />
 	</bean>
 
+	<bean id="d11_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="d11_adbase" />
+		<constructor-arg ref="d11_roi" />
+	</bean>
 </beans>
