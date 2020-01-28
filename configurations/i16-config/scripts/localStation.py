@@ -28,7 +28,8 @@ def localStation_print(msg, pause=0):
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
 	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
-	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP, USE_SMARGON # @UnresolvedImport
+	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
+	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3 # @UnresolvedImport
 except Exception as e:
 	USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
@@ -37,11 +38,16 @@ except Exception as e:
 	USE_NEXUS_METADATA_COMMANDS = True
 	USE_XMAP= False
 	USE_SMARGON = False
+	USE_PIL1 = True
+	USE_PIL2 = True
+	USE_PIL2 = True
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
 		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
-				(USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR) +
-		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r, USE_SMARGON=%r" %
-				(USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP, USE_SMARGON)
+				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
+				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
+		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r" %
+				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3)
 		, e)
 
 if USE_NEXUS_METADATA_COMMANDS and not USE_NEXUS:
@@ -112,8 +118,8 @@ from Jama import Matrix
 
 # Python
 from time import sleep
-from math import *
-from javashell import *
+from math import * #@UnusedWildImport
+from javashell import * #@UnusedWildImport
 
 # Gda 
 localStation_print("Importing various gda classes", 10)
@@ -178,8 +184,8 @@ shelveIoDir  = shelveIoDir + "/oldStyleShelveIO/"
 ShelveIO.ShelvePath = shelveIoDir
 localStation_print("  ShelveIO path = %r" % shelveIoDir)
 
-from constants import *
-from element_library import *
+from constants import * #@UnusedWildImport
+from element_library import * #@UnusedWildImport
 from scannable.toggleBinaryPvAndWaitScannable import ToggleBinaryPvAndWait
 from misc_functions import list_scannables, listprint, frange, attributes, caput, caget, cagetArray, add, mult
 import pd_offset
@@ -215,7 +221,7 @@ from pd_x2000 import x2000scaClass
 from pd_acescaler import acesca1
 from device_serial_x2000 import x2000class
 from pd_azihklClass import AzihklClass
-from spechelp import * # aliases man objects
+from spechelp import * #@UnusedWildImport # aliases man objects
 from scannable.MoveThroughOrigin import MoveThroughOriginScannable
 from gda.device.scannable.scannablegroup import DeferredScannableGroup
 
@@ -521,7 +527,7 @@ try:
 
 	kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
 
-	from pd_single_element_of_vector_pd import *
+	from pd_single_element_of_vector_pd import * #@UnusedWildImport
 	#kbmx=single_element_of_vector_pd_class('kbmxx', kbm1, 'kbm1_x', help='Distance along beam (mm) for KBM2')
 	#vmpitch=single_element_of_vector_pd_class('vfm_pitch', kbm1, 'kbm1_alpha3', help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
 	#hmpitch=single_element_of_vector_pd_class('hfm_pitch', kbm2, 'kbm2_alpha2', help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
@@ -862,218 +868,249 @@ except Exception as e:
 ###############################################################################
 ###                             Configure Pilatus                           ###
 ###############################################################################
-localStation_print("Configuring pilatus 2 (2m)")
 from scannable.detector.DetectorWithShutter import DetectorWithShutter
-### 2m ###
-#pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
-pil2mdet = pilatus2
-_pilatus2_counter_monitor = Finder.getInstance().find("pilatus2_plugins").get('pilatus2_counter_monitor')
-
-#pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
-pil2m = NxProcessingDetectorWrapper('pil2m',
-		pilatus2,
-		pilatus2_hardware_triggered,
-		pilatus2_for_snaps,
-		[],
-		panel_name_rcp='Pilatus',
-		toreplace=None,
-		replacement=None,
-		iFileLoader=PilatusTiffLoader,
-		fileLoadTimout=60,
-		returnPathAsImageNumberOnly=True,
-		array_monitor_for_hardware_triggering = _pilatus2_counter_monitor
-		)
-pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
-pil2m.printNfsTimes = True
-pil2m.display_image = True
-pil2ms = DetectorWithShutter(pil2m, x1)
-
-localStation_print("Configuring pilatus 1 (100k)")
-### 100k ###
-pil100kdet = pilatus1
-_pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
-
-#pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
-pil100k = NxProcessingDetectorWrapper('pil100k',
-		pilatus1,
-		zebrapil1,
-		pilatus1_for_snaps,
-		[],
-		panel_name_rcp='Pilatus',
-		toreplace=None,
-		replacement=None,
-		iFileLoader=PilatusTiffLoader,
-		fileLoadTimout=60,
-		returnPathAsImageNumberOnly=True,
-		array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
-pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
-pil100k.printNfsTimes = False
-pil100ks = DetectorWithShutter(pil100k, x1)
-pil = pil100k
-pils = pil100ks
-#pil100kvrf=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VRF','BL16I-EA-PILAT-01:VRF','BL16I-EA-PILAT-01:VRF','V','%.3f',help='set VRF (gain) for pilatus\nReturns set value rather than true readback\n-0.05=very high\n-0.15=high\n-0.2=med\n-0.3=low')
-#pil100kvcmp=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VCMP','BL16I-EA-PILAT-01:VCMP','BL16I-EA-PILAT-01:VCMP','V','%.3f',help='set VCMP (threshold) for pilatus\nReturns set value rather than true readback\n0-1 V')
-#pil100kgain=SingleEpicsPositionerSetAndGetOnlyClass('P100k_gain','BL16I-EA-PILAT-01:Gain','BL16I-EA-PILAT-01:Gain','','%.3f',help='set gain for pilatus\nReturns set value rather than true readback\n3=very high\n2=high\n1=med\n0=low')
-#pil100kthresh=SingleEpicsPositionerSetAndGetOnlyClass('P100k_threshold','BL16I-EA-PILAT-01:ThresholdEnergy','BL16I-EA-PILAT-01:ThresholdEnergy','','%.0f',help='set energy threshold for pilatus (eV)\nReturns set value rather than true readback')
-
 from scannable.pilatus import PilatusThreshold, PilatusGain
-pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
-pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+
+### 2m ###
+if USE_PIL2:
+	localStation_print("Configuring pilatus 2 (2m)")
+	try:
+		#pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
+		pil2mdet = pilatus2
+		_pilatus2_counter_monitor = Finder.getInstance().find("pilatus2_plugins").get('pilatus2_counter_monitor')
+
+		#pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
+		pil2m = NxProcessingDetectorWrapper('pil2m',
+			pilatus2,
+			pilatus2_hardware_triggered,
+			pilatus2_for_snaps,
+			[],
+			panel_name_rcp='Pilatus',
+			toreplace=None,
+			replacement=None,
+			iFileLoader=PilatusTiffLoader,
+			fileLoadTimout=60,
+			returnPathAsImageNumberOnly=True,
+			array_monitor_for_hardware_triggering = _pilatus2_counter_monitor)
+		pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
+		pil2m.printNfsTimes = True
+		pil2m.display_image = True
+		pil2ms = DetectorWithShutter(pil2m, x1)
+	except Exception as e:
+		localStation_exception("configuring pilatus 2 (2m)", e)
+else:
+	localStation_print("Not configuring pilatus 2 (2m)")
+
+### 100k ###
+if USE_PIL1:
+	localStation_print("Configuring pilatus 1 (100k)")
+	try:
+		pil100kdet = pilatus1
+		_pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
+	
+		#pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
+		pil100k = NxProcessingDetectorWrapper('pil100k',
+			pilatus1,
+			zebrapil1,
+			pilatus1_for_snaps,
+			[],
+			panel_name_rcp='Pilatus',
+			toreplace=None,
+			replacement=None,
+			iFileLoader=PilatusTiffLoader,
+			fileLoadTimout=60,
+			returnPathAsImageNumberOnly=True,
+			array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
+		pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
+		pil100k.printNfsTimes = False
+		pil100ks = DetectorWithShutter(pil100k, x1)
+		pil = pil100k
+		pils = pil100ks
+		#pil100kvrf=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VRF','BL16I-EA-PILAT-01:VRF','BL16I-EA-PILAT-01:VRF','V','%.3f',help='set VRF (gain) for pilatus\nReturns set value rather than true readback\n-0.05=very high\n-0.15=high\n-0.2=med\n-0.3=low')
+		#pil100kvcmp=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VCMP','BL16I-EA-PILAT-01:VCMP','BL16I-EA-PILAT-01:VCMP','V','%.3f',help='set VCMP (threshold) for pilatus\nReturns set value rather than true readback\n0-1 V')
+		#pil100kgain=SingleEpicsPositionerSetAndGetOnlyClass('P100k_gain','BL16I-EA-PILAT-01:Gain','BL16I-EA-PILAT-01:Gain','','%.3f',help='set gain for pilatus\nReturns set value rather than true readback\n3=very high\n2=high\n1=med\n0=low')
+		#pil100kthresh=SingleEpicsPositionerSetAndGetOnlyClass('P100k_threshold','BL16I-EA-PILAT-01:ThresholdEnergy','BL16I-EA-PILAT-01:ThresholdEnergy','','%.0f',help='set energy threshold for pilatus (eV)\nReturns set value rather than true readback')
+
+		pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+		pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+	except Exception as e:
+		localStation_exception("configuring pilatus 1 (100k)", e)
+else:
+	localStation_print("Not configuring pilatus 1 (100k)")
 
 localStation_print("Configuring pilatus 3 (100k)")
-_pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('pilatus3_counter_monitor')
-#pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
-pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
-		pilatus3,
-		kphiZebraPil3, # Switch to kthZebraPil3 if needed
-		#kthZebraPil3, # Should normally be kphiZebraPil3
-		pilatus3_for_snaps,
-		[],
-		panel_name_rcp='Pilatus',
-		toreplace=None,
-		replacement=None,
-		iFileLoader=PilatusTiffLoader,
-		fileLoadTimout=60,
-		returnPathAsImageNumberOnly=True,
-		array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
-pil3_100k.processors=[DetectorDataProcessorWithRoi('max', pil3_100k, [SumMaxPositionAndValue()], False)]
-pil3_100k.printNfsTimes = False
-pil3_100ks = DetectorWithShutter(pil3_100k, x1)
-pil3 = pil3_100k
-pil3s = pil3_100ks
+if USE_PIL3:
+	try:
+		_pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('pilatus3_counter_monitor')
+		#pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
+		pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
+			pilatus3,
+			kphiZebraPil3, # Switch to kthZebraPil3 if needed
+			#kthZebraPil3, # Should normally be kphiZebraPil3
+			pilatus3_for_snaps,
+			[],
+			panel_name_rcp='Pilatus',
+			toreplace=None,
+			replacement=None,
+			iFileLoader=PilatusTiffLoader,
+			fileLoadTimout=60,
+			returnPathAsImageNumberOnly=True,
+			array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
+		pil3_100k.processors=[DetectorDataProcessorWithRoi('max', pil3_100k, [SumMaxPositionAndValue()], False)]
+		pil3_100k.printNfsTimes = False
+		pil3_100ks = DetectorWithShutter(pil3_100k, x1)
+		pil3 = pil3_100k
+		pil3s = pil3_100ks
 
-pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
-pil3_100kgain =        PilatusGain('pil3_100kgain',   pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+		pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+		pil3_100kgain =        PilatusGain('pil3_100kgain',   pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+	except Exception as e:
+		localStation_exception("configuring pilatus 3 (100k)", e)
+else:
+	localStation_print("Not configuring pilatus 3 (100k)")
 
 ### cam2 ###
 localStation_print("Configuring cor (cam2)")
-cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
-							cam2,
-							None,
-							cam2_for_snaps,
-							[],
-							panel_name_rcp='Plot 1', 
-							fileLoadTimout=60,
-							printNfsTimes=False,
-							returnPathAsImageNumberOnly=True)
-
-cor.display_image = True
-corpeak2d = DetectorDataProcessorWithRoi('corpeak2d', cor, [TwodGaussianPeak()])
-cormax2d = DetectorDataProcessorWithRoi('cormax2d', cor, [SumMaxPositionAndValue()])
-
-#create a version of cor, corpeak2d, cormax2d that performs auto exposure
-#To record actual exposure time also add corExpTime
-from autoRangeDetector import AutoRangeDetector
-corAuto = AutoRangeDetector('corAuto',
-							cam2,
-							None,
-							cam2_for_snaps,
-							"BL16I-DI-COR-01:",
-							[],
-							panel_name_rcp='Plot 1', 
-							fileLoadTimout=60,
-							printNfsTimes=False,
-							returnPathAsImageNumberOnly=True)
-
-corAuto.display_image = True
-corAutopeak2d = DetectorDataProcessorWithRoi('corAutopeak2d', corAuto, [TwodGaussianPeak()])
-corAutomax2d = DetectorDataProcessorWithRoi('corAutomax2d', corAuto, [SumMaxPositionAndValue()])
-
-#create pseudo-device 
-#there is a copy of this in epics git epics_script folder.
-from pv_scannable_utils import createPVScannable
-createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
-corExpTime.level=10
+try:
+	cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
+		cam2,
+		None,
+		cam2_for_snaps,
+		[],
+		panel_name_rcp='Plot 1', 
+		fileLoadTimout=60,
+		printNfsTimes=False,
+		returnPathAsImageNumberOnly=True)
+	
+	cor.display_image = True
+	corpeak2d = DetectorDataProcessorWithRoi('corpeak2d', cor, [TwodGaussianPeak()])
+	cormax2d = DetectorDataProcessorWithRoi('cormax2d', cor, [SumMaxPositionAndValue()])
+	
+	#create a version of cor, corpeak2d, cormax2d that performs auto exposure
+	#To record actual exposure time also add corExpTime
+	from autoRangeDetector import AutoRangeDetector
+	corAuto = AutoRangeDetector('corAuto',
+		cam2,
+		None,
+		cam2_for_snaps,
+		"BL16I-DI-COR-01:",
+		[],
+		panel_name_rcp='Plot 1', 
+		fileLoadTimout=60,
+		printNfsTimes=False,
+		returnPathAsImageNumberOnly=True)
+	
+	corAuto.display_image = True
+	corAutopeak2d = DetectorDataProcessorWithRoi('corAutopeak2d', corAuto, [TwodGaussianPeak()])
+	corAutomax2d = DetectorDataProcessorWithRoi('corAutomax2d', corAuto, [SumMaxPositionAndValue()])
+	
+	#create pseudo-device 
+	#there is a copy of this in epics git epics_script folder.
+	from pv_scannable_utils import createPVScannable
+	createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
+	corExpTime.level=10
+except Exception as e:
+	localStation_exception("configuring cor (cam2)", e)
 
 localStation_print("Configuring cor2")
-cor2 = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor2',
-							c10,
-							None,
-							c10_for_snaps,
-							[],
-							panel_name_rcp='Plot 2', 
-							fileLoadTimout=60,
-							printNfsTimes=False,
-							returnPathAsImageNumberOnly=True)
-
-cor2peak2d = DetectorDataProcessorWithRoi('cor2peak2d', cor, [TwodGaussianPeak()])
-cor2max2d = DetectorDataProcessorWithRoi('cor2max2d', cor, [SumMaxPositionAndValue()])
-
-cor2Auto = AutoRangeDetector('cor2Auto',
-							c10,
-							None,
-							c10_for_snaps,
-							"BL16I-DI-DCAM-10:",
-							[],
-							panel_name_rcp='Plot 2', 
-							fileLoadTimout=60,
-							printNfsTimes=False,
-							returnPathAsImageNumberOnly=True)
-cor2Auto.display_image = True
-cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', corAuto, [TwodGaussianPeak()])
-cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPositionAndValue()])
-
-createPVScannable( "cor2ExpTime", "BL16I-DI-DCAM-10:CAM:AcquireTime_RBV", hasUnits=False)
-cor2ExpTime.level=10
+try:
+	cor2 = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor2',
+		c10,
+		None,
+		c10_for_snaps,
+		[],
+		panel_name_rcp='Plot 2', 
+		fileLoadTimout=60,
+		printNfsTimes=False,
+		returnPathAsImageNumberOnly=True)
+	
+	cor2peak2d = DetectorDataProcessorWithRoi('cor2peak2d', cor, [TwodGaussianPeak()])
+	cor2max2d = DetectorDataProcessorWithRoi('cor2max2d', cor, [SumMaxPositionAndValue()])
+	
+	cor2Auto = AutoRangeDetector('cor2Auto',
+		c10,
+		None,
+		c10_for_snaps,
+		"BL16I-DI-DCAM-10:",
+		[],
+		panel_name_rcp='Plot 2', 
+		fileLoadTimout=60,
+		printNfsTimes=False,
+		returnPathAsImageNumberOnly=True)
+	cor2Auto.display_image = True
+	cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', corAuto, [TwodGaussianPeak()])
+	cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPositionAndValue()])
+	createPVScannable( "cor2ExpTime", "BL16I-DI-DCAM-10:CAM:AcquireTime_RBV", hasUnits=False)
+	cor2ExpTime.level=10
+except Exception as e:
+	localStation_exception("configuring cor2", e)
 
 localStation_print("Configuring xeye")
-xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
-                                                              _xeye,
-                                                              None,
-                                                              _xeye_for_snaps,
-                                                              [],
-                                                              panel_name_rcp='Plot 2',
-                                                              fileLoadTimout=60,
-                                                              printNfsTimes=False,
-                                                              returnPathAsImageNumberOnly=True)
-
-xeye.display_image = True
-xeyemax2d = DetectorDataProcessorWithRoi('xeyemax2d', xeye, [SumMaxPositionAndValue()])
-xeyepeak2d = DetectorDataProcessorWithRoi('xeyepeak2d', xeye, [TwodGaussianPeak()])
-
-xeye.processors=[DetectorDataProcessorWithRoi('peak', xeye, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-xeye.processors[0].processors[1].setScalingFactors(0.0014, 0.0014)
-
+try:
+	xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
+		_xeye,
+		None,
+		_xeye_for_snaps,
+		[],
+		panel_name_rcp='Plot 2',
+		fileLoadTimout=60,
+		printNfsTimes=False,
+		returnPathAsImageNumberOnly=True)
+	
+	xeye.display_image = True
+	xeyemax2d = DetectorDataProcessorWithRoi('xeyemax2d', xeye, [SumMaxPositionAndValue()])
+	xeyepeak2d = DetectorDataProcessorWithRoi('xeyepeak2d', xeye, [TwodGaussianPeak()])
+	
+	xeye.processors=[DetectorDataProcessorWithRoi('peak', xeye, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+	xeye.processors[0].processors[1].setScalingFactors(0.0014, 0.0014)
+except Exception as e:
+	localStation_exception("configuring xeye", e)
 
 #scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 
 localStation_print("Configuring zylar")
-zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper('zylar',
-                                                               _zylar,
-                                                               None,
-                                                               _zylar_for_snaps,
-                                                               [],
-                                                               panel_name_rcp='Plot 2',
-                                                               fileLoadTimout=60,
-                                                               printNfsTimes=False,
-                                                               returnPathAsImageNumberOnly=True)
+try:
+	zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper('zylar',
+		_zylar,
+		None,
+		_zylar_for_snaps,
+		[],
+		panel_name_rcp='Plot 2',
+		fileLoadTimout=60,
+		printNfsTimes=False,
+		returnPathAsImageNumberOnly=True)
+	
+	zylar.display_image = True
+	zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
+	zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
+	
+	zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+	#zylar needs scaling factors?
+	zylar.processors[0].processors[1].setScalingFactors(1, 1)
+except Exception as e:
+	localStation_exception("configuring zylar", e)
 
-zylar.display_image = True
-zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
-zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
-
-zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-#zylar needs scaling factors?
-zylar.processors[0].processors[1].setScalingFactors(1, 1)
-
-### cam1 ###
 localStation_print("Configuring bpm (cam1)")
-bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
-							_cam1,
-							None,
-							_cam1_for_snaps,
-							[],
-							panel_name_rcp='Plot 1', 
-							fileLoadTimout=60,
-							printNfsTimes=False,
-							returnPathAsImageNumberOnly=True)
+try:
+	bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
+		_cam1,
+		None,
+		_cam1_for_snaps,
+		[],
+		panel_name_rcp='Plot 1', 
+		fileLoadTimout=60,
+		printNfsTimes=False,
+		returnPathAsImageNumberOnly=True)
 
-bpm.display_image = True
-bpm.processors=[DetectorDataProcessorWithRoi('peak', bpm, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-bpm.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
-bpmpeak2d = DetectorDataProcessorWithRoi('bpmpeak2d', bpm, [TwodGaussianPeak()])
-bpmmax2d = DetectorDataProcessorWithRoi('bpmmax2d', bpm, [SumMaxPositionAndValue()])
-#bpm.processors[0].processors[1].calibrate()
+	bpm.display_image = True
+	bpm.processors=[DetectorDataProcessorWithRoi('peak', bpm, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+	bpm.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
+	bpmpeak2d = DetectorDataProcessorWithRoi('bpmpeak2d', bpm, [TwodGaussianPeak()])
+	bpmmax2d = DetectorDataProcessorWithRoi('bpmmax2d', bpm, [SumMaxPositionAndValue()])
+	#bpm.processors[0].processors[1].calibrate()
+except Exception as e:
+	localStation_exception("configuring bpm (cam1)", e)
+
 
 ###############################################################################
 ###                              Configure andor                            ###
