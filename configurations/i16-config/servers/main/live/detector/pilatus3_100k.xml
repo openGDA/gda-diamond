@@ -169,8 +169,8 @@
 				<ref bean="pilatus3_force_callbacks" />
 				<!-- If pilatus3_hdf5filewriter_for_scans doesn't set the enabled property to true
 					 then pilatus3_force_callbacks should be enabled so other plugins see data
-				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
