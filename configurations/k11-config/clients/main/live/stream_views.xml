@@ -6,13 +6,13 @@
 	<bean id="d1_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D1" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-01:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D1.mjpg.mjpg" />
+		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8080/D1.mjpg.mjpg" />
 	</bean>
 	
 	<bean id="d2_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
 		<property name="displayName" value="D2" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-02:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D2.mjpg.mjpg" />
+		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8080/D2.mjpg.mjpg" />
 	</bean>
 
 	<bean id="d3_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
@@ -23,13 +23,13 @@
 
 	<bean id="d11_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
 		<property name="displayName" value="D11" />
-		<property name="arrayPv" value="BL11K-DI-PHDGN-11:ARR:" />
+		<property name="arrayPv" value="BL11K-DI-PHDGN-11:ARR" />
 		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D11.mjpg.mjpg" />
 	</bean>
 
-	<bean id="d13_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
-		<property name="displayName" value="D13" />
-		<property name="arrayPv" value="BL11K-DI-PHDGN-13:ARR:" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D13.mjpg.mjpg" />
+	<bean id="d4_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+		<property name="displayName" value="D4" />
+		<property name="arrayPv" value="BL11K-DI-PHDGN-04:ARR" />
+		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D4.mjpg.mjpg" />
 	</bean>
 </beans>
