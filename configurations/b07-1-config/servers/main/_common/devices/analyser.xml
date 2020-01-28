@@ -18,6 +18,28 @@
 		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->
 		<!-- detectorEnergyWidth can be found by (analyser.endEnergy - analyser.startEnergy)/analyser.passEnergy -->
 		<property name="detectorEnergyWidth" value="0.06531314413818123" />
+		<property name="configurablePhotonEnergyScannable">
+			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="pgm_energy" />
+					<constructor-arg name="scannableDescription" value="Photon Energy" />
+				</bean>
+		</property>
+		<property name="additionalConfigurableScannables">
+			<list>
+				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="s4c_xgapsize" />
+					<constructor-arg name="scannableDescription" value="Exit Slit X Gap Size" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="s4c_ygapsize" />
+					<constructor-arg name="scannableDescription" value="Exit Slit Y Gap Size" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="pgm_cff" />
+					<constructor-arg name="scannableDescription" value="PGM CFF" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
