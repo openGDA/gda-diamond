@@ -46,8 +46,8 @@
 		</property>
 		<property name="bottomUi">
 			<bean class="uk.ac.gda.beamline.i21.views.RixsSpectrumView">
-				<property name="xSizeHint" value="100"/>
-				<property name="ySizeHint" value="250"/>
+				<property name="xSizeHint" value="200"/>
+				<property name="ySizeHint" value="350"/>
 			</bean>
 		</property>
 	</bean>
@@ -87,8 +87,8 @@
 		</property>
 		<property name="bottomUi">
 			<bean class="uk.ac.gda.beamline.i21.views.RixsSpectrumView">
-				<property name="xSizeHint" value="100"/>
-				<property name="ySizeHint" value="250"/>
+				<property name="xSizeHint" value="200"/>
+				<property name="ySizeHint" value="350"/>
 			</bean>
 		</property>
 	</bean>
@@ -196,6 +196,7 @@
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<import resource="../_common/smp_cam_3_live_controls.xml"/>
 	<bean id="smp_cam_3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 3" />
 		<property name="url" value="http://bl21i-di-serv-03.diamond.ac.uk:8081/SMPL.cam3.mjpg.mjpg" />
@@ -203,6 +204,24 @@
 		<property name="roiProvider" ref="smplcam3_roi" />
 		<property name="withHistogram" value="true"/>
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="smp_cam_3_expsure_time_control" />
+						<ref bean="smp_cam_3_acquire_period_control"/>
+						<ref bean="smp_cam_3_time_remaining" />
+						<ref bean="smp_cam_3_time_remaining_progress" />
+					</list>				
+				</property>
+				<property name="cameraState">
+					<bean id="smp_cam_3CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="pvName" value="BL21I-DI-DCAM-22:CAM:Acquire"/>
+						<property name="stateVariableName" value="i21.smp_cam_3.live.stream.active"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 	<bean id="smplcam3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}smplcam3Roi" />

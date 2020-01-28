@@ -97,38 +97,46 @@
 		</property>
 	</bean>
 	
-	<bean id="s5_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="S5 Camera" />
-		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
-		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
-		<property name="roiProvider" ref="s5_roi" />
-	</bean>
 	<bean id="s5_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
-	<bean id="dgn_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Diagon Camera" />
+	<bean id="s5_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="S5 Camera" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
-		<property name="roiProvider" ref="dgn_roi" />
+		<property name="roiProvider" ref="s5_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-		 
+
 	<bean id="dgn_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<bean id="dgn_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Diagon Camera" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="dgn_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+	</bean>
 		 
+	<bean id="d1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 	<bean id="d1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagnostic 1 Camera" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d1_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="d1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+
+	<bean id="d2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -138,8 +146,10 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d2_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="d2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	
+	<bean id="d3a_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -149,8 +159,10 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d3a_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="d3a_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	
+	<bean id="d4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -160,8 +172,10 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d4_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="d4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	
+	<bean id="d8_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -171,8 +185,10 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d8_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="d8_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+
+	<bean id="smplcam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -182,8 +198,10 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam1_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="smplcam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	
+	<bean id="smplcam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -193,21 +211,42 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam2_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="smplcam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	
+	<bean id="smplcam3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<import resource="../_common/smp_cam_3_live_controls.xml"/>
 	<bean id="smp_cam_3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 3" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam3_roi" />
-		<property name="withHistogram" value="true"/>
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="smp_cam_3_expsure_time_control" />
+						<ref bean="smp_cam_3_acquire_period_control"/>
+						<ref bean="smp_cam_3_time_remaining" />
+						<ref bean="smp_cam_3_time_remaining_progress" />
+					</list>				
+				</property>
+				<property name="cameraState">
+					<bean id="smp_cam_3CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="pvName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
+						<property name="stateVariableName" value="i21.smp_cam_3.live.stream.active"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
-	<bean id="smplcam3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		
+	<bean id="smplcam4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -217,8 +256,10 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam4_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="smplcam4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	
+	<bean id="smplcam5_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -228,11 +269,7 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam5_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
-	<bean id="smplcam5_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>	
 	
 </beans>
