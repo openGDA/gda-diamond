@@ -18,16 +18,19 @@
 
 package gda.gui.exafs;
 
-import javax.measure.quantity.Energy;
-import javax.measure.unit.NonSI;
+import static gda.jscience.physics.units.NonSIext.PER_ANGSTROM;
+import static si.uom.SI.ELECTRON_VOLT;
 
-import org.jscience.physics.amount.Amount;
+import javax.measure.Quantity;
+import javax.measure.quantity.Energy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.jscience.physics.quantities.QuantityConverters;
 import gda.jscience.physics.quantities.WaveVector;
 import gda.jscience.physics.units.NonSIext;
+import tec.units.indriya.quantity.Quantities;
 
 /**
  * A class to convert between the various units used in XAFS
@@ -58,10 +61,10 @@ public class Converter {
 	 */
 	public static double convertEnergyToWaveVector(double electronEnergy, double edgeEnergy) {
 		logger.debug("convertEnergyToWaveVector(electronEnergy = {}, edgeEnergy = {}", electronEnergy, edgeEnergy);
-		final Amount<Energy> edgeEnergyQuantity = Amount.valueOf(edgeEnergy, NonSI.ELECTRON_VOLT);
-		final Amount<Energy> electronEnergyQuantity = Amount.valueOf(electronEnergy, NonSI.ELECTRON_VOLT);
-		final Amount<WaveVector> waveVector = QuantityConverters.waveVectorOf(edgeEnergyQuantity, electronEnergyQuantity);
-		return waveVector.to(NonSIext.PER_ANGSTROM).getEstimatedValue();
+		final Quantity<Energy> edgeEnergyQuantity = Quantities.getQuantity(edgeEnergy, ELECTRON_VOLT);
+		final Quantity<Energy> electronEnergyQuantity = Quantities.getQuantity(electronEnergy, ELECTRON_VOLT);
+		final Quantity<WaveVector> waveVector = QuantityConverters.waveVectorOf(edgeEnergyQuantity, electronEnergyQuantity);
+		return waveVector.getValue().doubleValue();
 	}
 
 	/**
@@ -75,9 +78,9 @@ public class Converter {
 	 */
 	public static double convertWaveVectorToEnergy(double waveVectorValue, double edgeEnergy) {
 		logger.debug("convertWaveVectorToEnergy(waveVectorValue = {}, edgeEnergy = {}", waveVectorValue, edgeEnergy);
-		final Amount<Energy> edgeEnergyQuantity = Amount.valueOf(edgeEnergy, NonSI.ELECTRON_VOLT);
-		final Amount<WaveVector> waveVector = Amount.valueOf(waveVectorValue, NonSIext.PER_ANGSTROM);
-		final Amount<Energy> energy = QuantityConverters.photonEnergyFromEdgeAndVector(edgeEnergyQuantity, waveVector);
-		return energy.to(NonSI.ELECTRON_VOLT).getEstimatedValue();
+		final Quantity<Energy> edgeEnergyQuantity = Quantities.getQuantity(edgeEnergy, ELECTRON_VOLT);
+		final Quantity<WaveVector> waveVector = Quantities.getQuantity(waveVectorValue, PER_ANGSTROM);
+		final Quantity<Energy> energy = QuantityConverters.photonEnergyFromEdgeAndVector(edgeEnergyQuantity, waveVector);
+		return energy.to(ELECTRON_VOLT).getValue().doubleValue();
 	}
 }

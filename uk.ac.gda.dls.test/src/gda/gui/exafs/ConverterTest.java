@@ -33,11 +33,11 @@ public class ConverterTest {
 	private static final double FP_TOLERANCE = 0.00001;
 
 	/**
-	 * The value of energy corresponding to the given wave vector differs in the 4th decimal place from the value returned by JScience2.<br>
-	 * It appears that the rounding of some of the intermediate calculations is different between the two versions.<br>
+	 * The value of energy corresponding to the given wave vector can vary between different versions of the units API.<br>
+	 * It appears that the rounding of some of the intermediate calculations is different between versions.<br>
 	 * Since these conversions are used only in the EXAFS GUI, not in the scan itself (see comment in DAQ-2047), this is not significant.
 	 */
-	private static final double ENERGY_EV = 8932.248938701445;
+	private static final double ENERGY_EV = 8932.249842866502;
 
 	private static final double VECTOR_PER_ANGSTROM = 44.46321582035057;
 

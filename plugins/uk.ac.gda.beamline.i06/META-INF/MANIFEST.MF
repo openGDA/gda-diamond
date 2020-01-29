@@ -25,7 +25,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.expressions;bundle-version="3.6.0",
  uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0",
  com.google.guava;bundle-version="26.0.0",
- uk.ac.diamond.org.jscience4,
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
