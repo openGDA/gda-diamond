@@ -30,8 +30,6 @@
 -XX:MaxPermSize=512m
 -XX:-UseCompressedOops
 -Dorg.dawb.editor.h5.use.default=false
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Dgda.install.workspace.loc=${workspace_loc}
 -Declipse.pluginCustomization=${workspace_loc:b21-config}/clients/pluginCustomization.ini
       </vmArgs>
