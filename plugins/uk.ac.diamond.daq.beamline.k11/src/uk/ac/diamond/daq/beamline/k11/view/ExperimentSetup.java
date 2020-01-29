@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -50,18 +52,17 @@ import org.eclipse.ui.dialogs.PatternFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
-
 import gda.factory.Finder;
 import uk.ac.diamond.daq.beamline.k11.dialog.BeamEnergyDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
-import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.controller.ImagingCameraConfigurationController;
+import uk.ac.diamond.daq.client.gui.camera.diffraction.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
+import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.LiveStreamConnectionManager;
 import uk.ac.gda.client.live.stream.LiveStreamException;
@@ -84,11 +85,15 @@ public class ExperimentSetup extends LayoutUtilities {
 	private static final String[] modes = new String[] { POINT_AND_SHOOT, PARTICLE_TRACKING, FULLY_AUTOMATED,
 			TOMOGRAPHY };
 
-	private static final Map<String, String> PERSPECTIVES_MAP = ImmutableMap.of(POINT_AND_SHOOT,
-			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", PARTICLE_TRACKING,
-			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", FULLY_AUTOMATED,
-			"uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective", TOMOGRAPHY,
-			"uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective");
+	private static final Map<String, String> PERSPECTIVES_MAP = Collections
+			.unmodifiableMap(new HashMap<String, String>() {
+				{
+					put(POINT_AND_SHOOT, "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective");
+					put(FULLY_AUTOMATED, "uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective");
+					put(POINT_AND_SHOOT, "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective");
+					put(TOMOGRAPHY, "uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective");
+				}
+			});
 
 	private static final int NOTES_BOX_LINES = 7;
 	private static final int NOTES_BOX_HEIGHT = NOTES_BOX_LINES * 20;
@@ -358,10 +363,9 @@ public class ExperimentSetup extends LayoutUtilities {
 				// Preliminary implementation to parametrise the active camera (0 will be a
 				// parameter)
 				int activeCamera = 0;
-				ImagingCameraConfigurationController controller = (ImagingCameraConfigurationController) CameraHelper
-						.getCameraControlInstance(activeCamera);
-				CameraConfigurationDialog.show(composite.getDisplay(), controller);
-			} catch (Exception e) {
+				CameraConfigurationDialog.show(composite.getDisplay(), (ImagingCameraConfigurationController) (CameraHelper
+						.getCameraControlInstance(activeCamera).orElseThrow(() -> new GDAClientException("Error"))));
+			} catch (GDAClientException e) {
 				logger.error("Error opening camera configuration dialog", e);
 			}
 		});
