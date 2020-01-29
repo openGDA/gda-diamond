@@ -9,7 +9,6 @@ Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Require-Bundle: uk.ac.gda.core,
  uk.ac.gda.common,
  uk.ac.diamond.scisoft.analysis,
- uk.ac.diamond.org.jscience4,
  uk.ac.gda.server.exafs,
  uk.ac.gda.epics,
  uk.ac.gda.server.exafs.epics,
