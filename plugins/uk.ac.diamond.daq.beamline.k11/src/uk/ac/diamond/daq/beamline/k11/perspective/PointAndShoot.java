@@ -18,67 +18,30 @@
 
 package uk.ac.diamond.daq.beamline.k11.perspective;
 
-import org.eclipse.scanning.api.event.EventConstants;
-import org.eclipse.scanning.event.ui.view.StatusQueueView;
-import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-import org.eclipse.ui.IViewLayout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
+import uk.ac.gda.perspectives.ThreeColumnPerspectiveLayoutBuilder;
 
 public class PointAndShoot implements IPerspectiveFactory {
-
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective";
-
-	private static final Logger logger = LoggerFactory.getLogger(PointAndShoot.class);
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
+		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout);
 
-		logger.trace("Building K11 Point and Shoot perspective");
-		layout.setEditorAreaVisible(false);
+		// Left area
+		helper.addViewToLeftFolder(K11DefaultViews.EXPERIMENT, false);
+		helper.addViewToLeftFolder(K11DefaultViews.MAPPED_DATA, false);
 
-		final IFolderLayout left = layout.createFolder("experimentmanagement", IPageLayout.RIGHT, 0.2f, IPageLayout.ID_EDITOR_AREA);
-		left.addView("uk.ac.diamond.daq.beamline.k11.experiment");
-		IViewLayout vLayout = layout.getViewLayout("uk.ac.diamond.daq.beamline.k11.experiment");
-		vLayout.setCloseable(false);
-		left.addView("org.dawnsci.mapping.ui.mappeddataview");
-		vLayout = layout.getViewLayout("org.dawnsci.mapping.ui.mappeddataview");
-		vLayout.setCloseable(false);
+		// Central area
+		helper.addViewToCentralFolder(K11DefaultViews.MAP_VIEW, false);
+		helper.addFolderThenViewToCentralFolder(K11DefaultViews.SPECTRUM_VIEW, false, 0.5f);
 
-		final IFolderLayout dataLayout = layout.createFolder("mappeddata", IPageLayout.RIGHT, 0.2f, "experimentmanagement");
-		dataLayout.addView("org.dawnsci.mapping.ui.mapview");
-		vLayout = layout.getViewLayout("org.dawnsci.mapping.ui.mapview");
-		vLayout.setCloseable(false);
-
-		final IFolderLayout mappingParams = layout.createFolder("scansetup", IPageLayout.RIGHT, 0.58f, "mappeddata");
-		mappingParams.addView("uk.ac.diamond.daq.beamline.k11.scanSetup");
-		vLayout = layout.getViewLayout("uk.ac.diamond.daq.beamline.k11.scanSetup");
-		vLayout.setCloseable(false);
-		mappingParams.addView("uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView");
-		vLayout = layout.getViewLayout("uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView");
-		vLayout.setCloseable(false);
-
-		final IFolderLayout dataoutLayout = layout.createFolder("spectrum", IPageLayout.BOTTOM, 0.5f, "mappeddata");
-		dataoutLayout.addView("org.dawnsci.mapping.ui.spectrumview");
-		vLayout = layout.getViewLayout("org.dawnsci.mapping.ui.spectrumview");
-		vLayout.setCloseable(false);
-
-		final IFolderLayout folderLayout = layout.createFolder("console_folder", IPageLayout.BOTTOM, 0.65f, "scansetup");
-		folderLayout.addView("gda.rcp.jythonterminalview");
-		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),
-				"org.eclipse.scanning.api",
-				"org.eclipse.scanning.api.event.status.StatusBean",
-				EventConstants.STATUS_TOPIC,
-				EventConstants.SUBMISSION_QUEUE);
-
-
-		queueViewId = queueViewId + "partName=Queue";
-		folderLayout.addView(queueViewId);
-
-		logger.trace("Finished building K11 Point and Shoot perspective");
+		// Right area
+		helper.addViewToRightFolder(K11DefaultViews.SCAN_SETUP_VIEW, false);
+		helper.addViewToRightFolder(K11DefaultViews.MAPPING_EXPERIMENT_VIEW, false);
+		helper.addFolderThenViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false, 0.5f);
+		helper.addViewToRightFolder(K11DefaultViews.getQueueId(), false);
 	}
 }
