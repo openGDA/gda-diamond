@@ -45,4 +45,8 @@
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
+	<bean id="m1b_chiller" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-HO-CHILL-01:SET_TEMP" />
+	</bean>
+
 </beans>
