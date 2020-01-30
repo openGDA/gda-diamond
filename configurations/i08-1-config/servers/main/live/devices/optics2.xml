@@ -36,20 +36,20 @@
 	</bean>
 
 	<!-- Slit3: Exit slits -->
-	<bean id="s3_xsize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08J-AL-SLITS-03:X:SIZE" />
+	<bean id="s3_single_aperture_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-AL-SLITS-03:AP:X" />
 	</bean>
 
-	<bean id="s3_xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08J-AL-SLITS-03:X:CENTRE" />
+	<bean id="s3_single_aperture_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-AL-SLITS-03:AP:Y" />
 	</bean>
 
-	<bean id="s3_ysize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08J-AL-SLITS-03:Y:SIZE" />
+	<bean id="s3_aperture_arrays_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-AL-SLITS-03:SS:X" />
 	</bean>
 
-	<bean id="s3_ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08J-AL-SLITS-03:Y:CENTRE" />
+	<bean id="s3_aperture_arrays_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-AL-SLITS-03:SS:Y" />
 	</bean>
 
 	<bean id="s3_shutter" class="gda.device.enumpositioner.EpicsPositionerCallback">

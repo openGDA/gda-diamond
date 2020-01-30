@@ -57,31 +57,31 @@
 	</bean>
 
 	<!-- Slit3: Exit slits -->
-	<bean id="s3_xsize_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_single_aperture_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-20.0" />
 		<property name="maxPosition" value="20.0" />
-		<property name="position" value="0.5003" />
+		<property name="position" value="7.13" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
-	<bean id="s3_xcentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10.0" />
-		<property name="maxPosition" value="10.0" />
-		<property name="position" value="-0.41185" />
-	 	<property name="unitString" value="mm"/>
-	</bean>
-
-	<bean id="s3_ysize_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_single_aperture_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-20.0" />
 		<property name="maxPosition" value="20.0" />
-		<property name="position" value="0.5003" />
+		<property name="position" value="-3.1250" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
-	<bean id="s3_ycentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10.0" />
-		<property name="maxPosition" value="10.0" />
-		<property name="position" value="-0.41185" />
+	<bean id="s3_aperture_arrays_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-20.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="0.63" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s3_aperture_arrays_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-20.0" />
+		<property name="maxPosition" value="20.0" />
+		<property name="position" value="0.975" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 

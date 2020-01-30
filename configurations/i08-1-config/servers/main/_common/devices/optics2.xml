@@ -57,33 +57,33 @@
 	</bean>
 
 	<!-- Slit3: Exit slits -->
-	<bean id="s3_xsize" class="gda.device.scannable.ScannableMotor">
+	<bean id="s3_single_aperture_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s3_xsize_motor" />
+		<property name="motor" ref="s3_single_aperture_x_motor" />
 	</bean>
 
-	<bean id="s3_xcentre" class="gda.device.scannable.ScannableMotor">
+	<bean id="s3_single_aperture_y" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s3_xcentre_motor" />
+		<property name="motor" ref="s3_single_aperture_y_motor" />
 	</bean>
 
-	<bean id="s3_ysize" class="gda.device.scannable.ScannableMotor">
+	<bean id="s3_aperture_arrays_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s3_ysize_motor" />
+		<property name="motor" ref="s3_aperture_arrays_x_motor" />
 	</bean>
 
-	<bean id="s3_ycentre" class="gda.device.scannable.ScannableMotor">
+	<bean id="s3_aperture_arrays_y" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s3_ycentre_motor" />
+		<property name="motor" ref="s3_aperture_arrays_y_motor" />
 	</bean>
 
 	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s3_xsize" />
-				<ref bean="s3_xcentre" />
-				<ref bean="s3_ysize" />
-				<ref bean="s3_ycentre" />
+				<ref bean="s3_single_aperture_x" />
+				<ref bean="s3_single_aperture_y" />
+				<ref bean="s3_aperture_arrays_x" />
+				<ref bean="s3_aperture_arrays_y" />
 				<ref bean="s3_shutter" />
 			</list>
 		</property>
