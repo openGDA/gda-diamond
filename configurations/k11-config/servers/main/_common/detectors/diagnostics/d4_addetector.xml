@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+
+	<!-- This seems a bit redundant in the new scanning but keeping it for now
+		to fit with the current ADDectector framework -->
+	<bean id="d4_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="d4_hdf5" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+ 	<bean id="d4_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="d4_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                        <property name="restoreTriggerMode" value="true" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+	<!-- Main area detector - does not compute stats -->
+	<bean id="d4_det" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="d4_adbase" />
+		<property name="ndFile" ref="d4_ndfile" />
+		<property name="ndArray" ref="d4_ndarray" />
+		<property name="ndStats" ref="d4_stats" />
+		<property name="fileWriter" ref="d4_hdf5_writer" />
+		<property name="collectionStrategy" ref="d4_collection_strategy"/>
+		<property name="computeStats" value="false" />
+	</bean>
+
+	<bean id="d4_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="d4_det" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="d4_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="D4" />
+		<property name="description" value="Diagnostic camera 4" />
+	</bean>
+
+	<bean id="d4_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="d4_det" />
+		<property name="model" ref="d4_model" />
+		<property name="deviceInformation" ref="d4_info" />
+		<property name="activated" value="true" />
+	</bean>
+
+</beans>
