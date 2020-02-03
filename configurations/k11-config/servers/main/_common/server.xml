@@ -85,6 +85,8 @@
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d4_addetector.xml" />		
 	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d10_addetector.xml" />		
+	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d11_addetector.xml" />
 
 	<!-- other devices -->
