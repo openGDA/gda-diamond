@@ -53,12 +53,12 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.ImmutableMap;
 
 import gda.factory.Finder;
-import uk.ac.diamond.daq.beamline.k11.dialog.BeamEnergyDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.controller.ImagingCameraConfigurationController;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
+import uk.ac.diamond.daq.client.gui.energy.BeamEnergyDialogBuilder;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
@@ -388,8 +388,10 @@ public class ExperimentSetup extends LayoutUtilities {
 
 		button = addConfigurationDialogButton(content, "Energy");
 		button.addListener(SWT.Selection, event -> {
-			BeamEnergyDialog beamEnergyDialog = new BeamEnergyDialog(composite.getShell());
-			beamEnergyDialog.open();
+			BeamEnergyDialogBuilder builder = new BeamEnergyDialogBuilder();
+			builder.addDiffractionController();
+			builder.addImagingController();
+			builder.build(composite.getShell()).open();
 		});
 	}
 
