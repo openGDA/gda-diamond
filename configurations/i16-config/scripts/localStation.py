@@ -98,6 +98,12 @@ global m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, 
 global san
 global rs,CA,EDi,az
 
+try:
+	from gdascripts.parameters import beamline_parameters
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+except e:
+	localStation_exception("creating jythonNameMap", e)
+
 localStation_print("Importing installation", 10)
 import installation
 
@@ -316,7 +322,9 @@ def set_sixc_returns_demand_position(b):
 if USE_DUMMY_IDGAP_MOTOR:
 	exec("idgap=dummyClass('idgap')")
 
-### Wrap all monitors into non Detectors
+# TODO: This shouldn't be necessary, try removing it.
+#       Look for "Overwriting scannable 'c1'" etc. in logs
+#       Look for uses in scans, try to replicate at desk 
 from gda.device.monitor import EpicsMonitor
 from scannable.MonitorWrapper import MonitorWrapper
 toPrint = ''
@@ -1300,12 +1308,6 @@ if installation.isLive():
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
-
-try:
-	from gdascripts.parameters import beamline_parameters
-	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-except e:
-	localStation_exception("creating jythonNameMap", e)
 
 try:
 	meta_scannable_names = ['dummypd', 'mrwolf', 'diffractometer_sample', 'sixckappa']
