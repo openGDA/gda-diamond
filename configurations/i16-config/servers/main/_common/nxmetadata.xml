@@ -142,7 +142,7 @@
 				<entry key="cryophi">
 					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
 						<property name="paths"
-								value="sample:NXsample/transformations:NXtransfromation/cryophi" />
+								value="sample:NXsample/transformations:NXtransformations/cryophi" />
 						<property name="depends_on"
 								value="entry1/sample/transformations/phi" />
 						<property name="units" value="deg" />
