@@ -29,7 +29,7 @@ localStation_print("Import configuration booleans from user scripts localStation
 try:
 	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
 	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
-	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3 # @UnresolvedImport
+	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
 except Exception as e:
 	USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
@@ -41,13 +41,14 @@ except Exception as e:
 	USE_PIL1 = True
 	USE_PIL2 = True
 	USE_PIL2 = True
+	USE_ROCKING_SCANNABLES = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
 		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
 				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
-		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r" %
-				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3)
+		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
+				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
 		, e)
 
 if USE_NEXUS_METADATA_COMMANDS and not USE_NEXUS:
@@ -1528,17 +1529,30 @@ else:
 	for dwe in ddwf.getDataWriterExtenders():
 		ddwf.removeDataWriterExtender(dwe)
 	pass
-'''
-from mtscripts.scannable.ContinouslyRockingScannable import ContinuouslyRockingScannable
-kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)
-kphirock.verbose = False
 
-chirock = ContinuouslyRockingScannable('chirock', scannable = chi)
-chirock.verbose = False
+if USE_ROCKING_SCANNABLES:
+	try:
+		from dls_scripts.scannable.ContinuouslyRockingScannable import ContinuouslyRockingScannable
+		kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)
+		kphirock.verbose = False
 
-etarock = ContinuouslyRockingScannable('etarock', scannable = eta)
-etarock.verbose = False
-'''
+		chirock = ContinuouslyRockingScannable('chirock', scannable = chi)
+		chirock.verbose = False
+
+		etarock = ContinuouslyRockingScannable('etarock', scannable = eta)
+		etarock.verbose = False
+
+		localStation_print("Configured kphirock, chirock and etarock")
+		localStation_print("To start rocking eta around 58 plus and minus 1 degree use")
+		localStation_print("  pos etarock 58 1")
+		localStation_print("To stop rocking eta use")
+		localStation_print("  pos etarock 58 0")
+		print "e.g."
+		
+	except Exception as e:
+		localStation_exception("setting up kphirock, chirock or etarock", e)
+else:
+	localStation_print("Not configuring kphirock, chirock or etarock")
 
 from sz_cryo import szCryoCompensation
 cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
