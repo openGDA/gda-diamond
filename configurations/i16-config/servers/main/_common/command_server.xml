@@ -3,26 +3,35 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="abstract_command_server.xml"/>
-
-	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.config}/scripts/livetest/startUp"/>
-		<property name="name" value="Scripts: Tests" />
-		<property name="type" value="CONFIG" />
-	</bean>
-
-	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths" parent="common_script_paths_with_diffcalc">
+	<bean id="script_paths" class="gda.jython.ScriptPaths">
 		<property name="projects">
-			<list merge="true">
-				<ref bean ="beamline_test_suite" />
+			<list>
+				<bean id="user_script_project" class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.users.scripts.dir}" />
+					<property name="name" value="Scripts: User" />
+					<property name="type" value="USER" />
+				</bean>
+				<bean id="beamline_config_script_project" class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.config}/scripts" />
+					<property name="name" value="Scripts: Config" />
+					<property name="type" value="CONFIG" />
+				</bean>
+				<bean id="dls_config_script_project" class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.install.git.loc}/gda-diamond.git/dls-config/scripts" />
+					<property name="name" value="Scripts: Dls-Config" />
+					<property name="type" value="CONFIG" />
+				</bean>
+				<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.config}/scripts/livetest/startUp"/>
+					<property name="name" value="Scripts: Tests" />
+					<property name="type" value="CONFIG" />
+				</bean>
 			</list>
 		</property>
 		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
 	</bean>
 
-	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
-
-	<bean id="command_server" parent="abstract_command_server">
+	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths" ref="script_paths"/>
 		<property name="stopJythonScannablesOnStopAll" value="false" />
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
