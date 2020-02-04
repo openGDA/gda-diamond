@@ -161,6 +161,10 @@
 	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d3_addetector.xml" />
 	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d4_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d10_addetector.xml" />
+	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d11_addetector.xml" />
 
 	<import
