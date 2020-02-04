@@ -102,6 +102,14 @@
             name="Plan Manager"
             restorable="true">
       </view>
+            <view
+      		allowMultiple="false"
+      		class="uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationView"
+      		icon="icons/tomography-16.png"
+      		id="uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationView"
+      		name="Tomography Acquisition Configuration"
+      		restorable="true">
+      </view>
    </extension>
    
    <extension

@@ -38,6 +38,8 @@ public interface K11DefaultViews {
 
 	String SCAN_SETUP_VIEW = "uk.ac.diamond.daq.beamline.k11.scanSetup";
 
+	String TOMOGRAPHY_ACQUISITION_CONFIGURATION = "uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationView";
+
 	static String getQueueId() {
 		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),
 				"org.eclipse.scanning.api",

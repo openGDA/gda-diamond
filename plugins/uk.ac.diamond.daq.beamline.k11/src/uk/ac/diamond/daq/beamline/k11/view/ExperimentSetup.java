@@ -71,6 +71,7 @@ import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
+import uk.ac.gda.ui.tool.images.ClientImages;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -425,12 +426,9 @@ public class ExperimentSetup extends LayoutUtilities {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildFileComposite(final Composite parent) {
-		Button load = ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.LOAD, null);
-		load.setImage(getImage("icons/open.png"));
-		Button save = ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.SAVE, null);
-		save.setImage(getImage("icons/save.png"));
-		Button run = ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.RUN, null);
-		run.setImage(getImage("icons/run_small.png"));
+		ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.LOAD, ClientMessages.EMPTY_MESSAGE, ClientImages.OPEN);
+		ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.SAVE, ClientMessages.EMPTY_MESSAGE, ClientImages.SAVE);
+		ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.RUN, ClientMessages.EMPTY_MESSAGE, ClientImages.RUN);
 	}
 
 	/**

@@ -40,7 +40,8 @@ public class Tomography  implements IPerspectiveFactory {
 		helper.addViewToCentralFolder(K11DefaultViews.CAMERA_CONTROLLER_VIEW, false);
 
 		// Right area
-		helper.addViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false);
+		helper.addViewToRightFolder(K11DefaultViews.TOMOGRAPHY_ACQUISITION_CONFIGURATION, false);
+		helper.addFolderThenViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false, 0.7f);
 		helper.addViewToRightFolder(K11DefaultViews.getQueueId(), false);
 	}
 }
