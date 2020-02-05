@@ -36,11 +36,8 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
-import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.dawnsci.plotting.api.IPlottingService;
-import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -53,8 +50,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
@@ -72,7 +67,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Ints;
 
 import uk.ac.diamond.daq.beamline.k11.Activator;
-import uk.ac.diamond.daq.beamline.k11.handler.CtrlClickToScanHandler;
 import uk.ac.diamond.daq.beamline.k11.view.control.PathSummary.Shape;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
@@ -124,8 +118,6 @@ public class DiffractionPathComposite extends Composite {
 	private static final int MIN_POINT_DENSITY = 1;
 	private static final int MAX_POINT_DENSITY = 50;
 
-	private static final long INVALID_ID = 0;
-
 	private PathSummary summaryHolder;
 
 	// Composite observable values for the state of the shape selection radio buttons based on the Shape enum and
@@ -152,23 +144,18 @@ public class DiffractionPathComposite extends Composite {
 	private RegionAndPathController rapController;
 	private ScanManagementController smController;
 	private Converters converters;
-	private Composite parent;
 	private final Consumer<RegionPathState> viewUpdater;
-	private final IValueChangeListener<Boolean> randomOffsetListener = new IValueChangeListener<Boolean>() {
-		@Override
-		public void handleValueChange(ValueChangeEvent<? extends Boolean> event) {
-			if (rapController.getScanRegionShape().getClass().equals(CentredRectangleMappingRegion.class)) {
-				smController.updateGridModelIndex((boolean)event.getObservableValue().getValue());
+	private final IValueChangeListener<Boolean> randomOffsetListener = event -> {
+		if (rapController.getScanRegionShape().getClass().equals(CentredRectangleMappingRegion.class)) {
+			smController.updateGridModelIndex((boolean)event.getObservableValue().getValue());
 
-				// Manually trigger the switch between GridModels
-				rapController.triggerRegionUpdate(selectedMSRSObservable);
-			}
+			// Manually trigger the switch between GridModels
+			rapController.triggerRegionUpdate(selectedMSRSObservable);
 		}
 	};
 
 	public DiffractionPathComposite(Composite parent, int style) {
 		super(parent, style);
-		this.parent = parent;
 		setLayout(new GridLayout());
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(this);
 
@@ -214,11 +201,6 @@ public class DiffractionPathComposite extends Composite {
 		final Composite selectionComposite = new Composite(content, SWT.NONE);
 		selectionComposite.setLayout(new GridLayout());
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(selectionComposite);
-
-		final Button armedButton = new Button(selectionComposite, SWT.CHECK);
-		armedButton.setToolTipText("Enable the ability to run scans by clicking on the Map view");
-		armedButton.setText("Armed");
-		bindArmedCheckboxWidget(armedButton);
 
 		final StyledText summaryText = summaryHolder.getControl(selectionComposite);
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(summaryText);
@@ -522,6 +504,7 @@ public class DiffractionPathComposite extends Composite {
 		densityScale.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(KeyEvent e) {
+				// no action
 			}
 
 			@Override
@@ -532,12 +515,7 @@ public class DiffractionPathComposite extends Composite {
 			}
 		});
 
-		densityScale.addMouseWheelListener(new MouseWheelListener() {
-			@Override
-			public void mouseScrolled(MouseEvent e) {
-				adjustPageIncrement(densityScale, e.count > 0);
-			}
-		});
+		densityScale.addMouseWheelListener(e ->	adjustPageIncrement(densityScale, e.count > 0));
 	}
 
 	/**
@@ -572,37 +550,6 @@ public class DiffractionPathComposite extends Composite {
 
 		viewDBC.bindValue(selectedShapeObservable, disableButtonIObservableValue,
 				UpdateValueStrategy.create(converter), POLICY_NEVER);
-	}
-
-	/**
-	 * Creates the static bindings from the armed control. It is linked to the {@link CtrlClickToScanHandler} which
-	 * initiates scans using the current mapping bean settings when triggered. Additionally cosmetic UI bindings are
-	 * made so that it is easily apparent that armed mode is active.
-	 *
-	 * @param armedButton	The armed checkbox {@link Button}
-	 */
-	@SuppressWarnings("unchecked")
-	private void bindArmedCheckboxWidget(final Button armedButton) {
-		viewDBC.bindValue(WidgetProperties.selection().observe(armedButton),
-				smController.getClickToScanArmedObservableValue());
-
-		IPlottingService plottingService = rapController.getService(IPlottingService.class);
-		IPlottingSystem<Object> mapPlottingSystem = plottingService.getPlottingSystem("Map");
-		Map<Object, String> sourceToColourBoundField = ImmutableMap.of(
-				mapPlottingSystem, "titleColor",
-				mapPlottingSystem.getAxes().get(0), "foregroundColor",
-				mapPlottingSystem.getAxes().get(1), "foregroundColor");
-		for (Map.Entry<Object, String> entry : sourceToColourBoundField.entrySet()) {
-			viewDBC.bindValue(WidgetProperties.selection().observe(armedButton),
-					PojoProperties.value(entry.getValue()).observe(entry.getKey()),
-					UpdateValueStrategy.create(converters.armedStatusToTextColour), POLICY_NEVER);
-		}
-		viewDBC.bindValue(WidgetProperties.selection().observe(armedButton),
-				PojoProperties.value("title").observe(mapPlottingSystem),
-				UpdateValueStrategy.create(converters.armedStatusToTextTitleText), POLICY_NEVER);
-		viewDBC.bindValue(WidgetProperties.selection().observe(armedButton),
-				PojoProperties.value("background").observe(parent),
-				UpdateValueStrategy.create(converters.armedStatusToBackgroundColour), POLICY_NEVER);
 	}
 
 	private UpdateValueStrategy validatedReadoutToPointsStrategy() {
@@ -689,10 +636,6 @@ public class DiffractionPathComposite extends Composite {
 	@SuppressWarnings("unchecked")
 	private IObservableValue<IScanPathModel> getMappingBeanPathObservableValue() {
 		return BeanProperties.value("scanPath").observe(rapController.getScanRegionFromBean());
-	}
-
-	private Binding bindFromTargetToModel(final DataBindingContext dbc, final IObservableValue<?> target, final IObservableValue<?> model) {
-		return dbc.bindValue(target, model, new UpdateValueStrategy(UPDATE), new UpdateValueStrategy(NO_UPDATE));
 	}
 
 	private Binding bindFromModelToTarget(final DataBindingContext dbc, final IObservableValue<?> target, final IObservableValue<?> model) {

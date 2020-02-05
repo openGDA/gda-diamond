@@ -24,7 +24,6 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -82,7 +81,6 @@ public class DiffractionScanSelection extends ViewPart {
 
 		panelComposite = layoutUtils.addGridComposite(scrolledComposite);
 		panelComposite.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		buildHeaderComposite();
 		buildDiffractionPathComposite();
 		buildSavedComposite();
 
@@ -98,17 +96,6 @@ public class DiffractionScanSelection extends ViewPart {
 		// even though the data view and mapping experiment view are currently hidden
 		page.findView(MappedDataView.ID);
 		page.findView(MappingExperimentView.ID);
-	}
-
-	private void buildHeaderComposite() {
-		final Composite composite = layoutUtils.addGridComposite(panelComposite);
-		layoutUtils.horizGrab().applyTo(composite);
-
-		final Button freezeImageButton = new Button(composite, SWT.CHECK);
-		freezeImageButton.setSelection(false);
-		freezeImageButton.setToolTipText(	"Freeze the background live stream on the mapping view");
-		freezeImageButton.setText("Freeze Background");
-		layoutUtils.fillGrab().applyTo(freezeImageButton);
 	}
 
 	private void buildDiffractionPathComposite() {
