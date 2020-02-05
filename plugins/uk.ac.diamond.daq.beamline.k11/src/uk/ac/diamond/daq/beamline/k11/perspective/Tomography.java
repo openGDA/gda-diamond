@@ -21,6 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.perspective;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.gda.perspectives.ThreeColumnPerspectiveLayoutBuilder;
 
 /**
@@ -37,7 +38,7 @@ public class Tomography  implements IPerspectiveFactory {
 		helper.addViewToLeftFolder(K11DefaultViews.TOMO_MAIN_VIEW, false);
 
 		// Central area
-		helper.addViewToCentralFolder(K11DefaultViews.CAMERA_CONTROLLER_VIEW, false);
+		helper.addPlaceholderToCentralFolder(CameraConfigurationView.CAMERA_CONTROLLER_VIEW);
 
 		// Right area
 		helper.addViewToRightFolder(K11DefaultViews.TOMOGRAPHY_ACQUISITION_CONFIGURATION, false);

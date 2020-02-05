@@ -25,7 +25,6 @@ import gda.configuration.properties.LocalProperties;
 
 public interface K11DefaultViews {
 	String TOMO_MAIN_VIEW = "uk.ac.diamond.daq.beamline.k11.tomography";
-	String CAMERA_CONTROLLER_VIEW = "uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView";
 	String JYTON_CONSOLE_VIEW = "gda.rcp.jythonterminalview";
 
 	String EXPERIMENT = "uk.ac.diamond.daq.beamline.k11.experiment";
