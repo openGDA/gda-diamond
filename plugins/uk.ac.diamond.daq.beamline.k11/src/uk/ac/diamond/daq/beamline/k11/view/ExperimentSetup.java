@@ -49,6 +49,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
+import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +77,7 @@ import uk.ac.gda.ui.tool.images.ClientImages;
 /**
  * The main Experiment configuration view visible in all k11 perspectives
  */
-public class ExperimentSetup extends LayoutUtilities {
+public class ExperimentSetup extends ViewPart {
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentSetup.class);
 
 	private static final String POINT_AND_SHOOT = "Point and Shoot";
@@ -117,6 +118,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	private Text nameText;
 	private String mode = POINT_AND_SHOOT;
 
+	private LayoutUtilities layoutUtils = new LayoutUtilities();
+
 	public ExperimentSetup() {
 		stageGroupService = Finder.getInstance().find("diadStageGroupService");
 	}
@@ -127,7 +130,7 @@ public class ExperimentSetup extends LayoutUtilities {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		panelComposite = addGridComposite(parent);
+		panelComposite = layoutUtils.addGridComposite(parent);
 
 		final Label bannerLabel = new Label(panelComposite, SWT.NONE);
 		final Font bannerFont = new Font(bannerLabel.getDisplay(), BANNER_FONT_DATA);
@@ -152,9 +155,9 @@ public class ExperimentSetup extends LayoutUtilities {
 	 */
 	private Composite buildExperimentComposite(final Composite parent) {
 		final ScrolledComposite container = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		fillGrab().applyTo(container);
+		layoutUtils.fillGrab().applyTo(container);
 
-		final Composite composite = addGridComposite(container);
+		final Composite composite = layoutUtils.addGridComposite(container);
 		container.setContent(composite);
 		container.setExpandHorizontal(true);
 		container.setExpandVertical(true);
@@ -165,13 +168,13 @@ public class ExperimentSetup extends LayoutUtilities {
 		final FontData fdData = exptLabel.getFont().getFontData()[0];
 		exptLabel.setFont(new Font(composite.getDisplay(), new FontData(fdData.getName(), HEADING_SIZE, SWT.BOLD)));
 
-		final Composite content = addGridComposite(composite);
+		final Composite content = layoutUtils.addGridComposite(composite);
 
 		final Label nameLabel = new Label(content, SWT.NONE);
 		nameLabel.setText("Name:");
 
 		nameText = new Text(content, SWT.SINGLE);
-		gridGrab().applyTo(nameText);
+		layoutUtils.gridGrab().applyTo(nameText);
 		nameText.setToolTipText(
 				"Specify a unique name for the Experiment that can be used as an ID to link together its elements");
 		nameText.setBackground(composite.getDisplay().getSystemColor(SWT.COLOR_WHITE));
@@ -180,7 +183,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		sampleNameLabel.setText("Default Sample Name:");
 
 		final Text sampleNameText = new Text(content, SWT.SINGLE);
-		gridGrab().applyTo(sampleNameText);
+		layoutUtils.gridGrab().applyTo(sampleNameText);
 		sampleNameText.setToolTipText("Specify a prefix to add to all named samples");
 		sampleNameText.setBackground(composite.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 
@@ -189,7 +192,7 @@ public class ExperimentSetup extends LayoutUtilities {
 
 		final Text notesText = new Text(content, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		notesText.setToolTipText("Add any notes that should be saved along with other experimental data");
-		gridGrab().hint(SWT.DEFAULT, NOTES_BOX_HEIGHT).applyTo(notesText);
+		layoutUtils.gridGrab().hint(SWT.DEFAULT, NOTES_BOX_HEIGHT).applyTo(notesText);
 
 		return content;
 	}
@@ -203,7 +206,7 @@ public class ExperimentSetup extends LayoutUtilities {
 	private void buildModeComposite(final Composite parent) {
 		final Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout());
-		horizGrab().applyTo(composite);
+		layoutUtils.horizGrab().applyTo(composite);
 
 		final Label modeLabel = new Label(composite, SWT.NONE);
 		modeLabel.setText("Mode:");
@@ -213,7 +216,7 @@ public class ExperimentSetup extends LayoutUtilities {
 				"Select the experiment mode to determine the controls and measurement views that will be displayed");
 		modeCombo.setItems(modes);
 		modeCombo.select(0);
-		fillGrab().indent(5, 0).applyTo(modeCombo);
+		layoutUtils.fillGrab().indent(5, 0).applyTo(modeCombo);
 
 		bindModeCombo(modeCombo);
 
@@ -268,8 +271,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildStageComposite(final Composite parent) {
-		final Composite composite = addGridComposite(parent);
-		horizGrab().applyTo(composite);
+		final Composite composite = layoutUtils.addGridComposite(parent);
+		layoutUtils.horizGrab().applyTo(composite);
 
 		final Label stageLabel = new Label(composite, SWT.NONE);
 		stageLabel.setToolTipText("Select the type of stage to be used in the experiment");
@@ -277,23 +280,23 @@ public class ExperimentSetup extends LayoutUtilities {
 
 		final Composite stageButtonsComposite = new Composite(composite, SWT.NONE);
 		stageButtonsComposite.setLayout(new GridLayout(3, true));
-		fillGrab().applyTo(stageButtonsComposite);
+		layoutUtils.fillGrab().applyTo(stageButtonsComposite);
 
 		final Button environmentStageRadioButton = new Button(stageButtonsComposite, SWT.RADIO);
 		environmentStageRadioButton.setToolTipText("Select the Environmental (e.g. TR6) stage for the experiment");
 		environmentStageRadioButton.setText("Env.");
 		environmentStageRadioButton.addListener(SWT.Selection, e -> changeStageGroup(ENVIRONMENT_STAGE));
-		fillGrab().applyTo(environmentStageRadioButton);
+		layoutUtils.fillGrab().applyTo(environmentStageRadioButton);
 		final Button tomoStageRadioButton = new Button(stageButtonsComposite, SWT.RADIO);
 		tomoStageRadioButton.setToolTipText("Select the Tomography (rotational) stage for the experiment");
 		tomoStageRadioButton.setText("Tomo.");
 		tomoStageRadioButton.addListener(SWT.Selection, e -> changeStageGroup(TOMOGRAPHY_STAGE));
-		fillGrab().applyTo(tomoStageRadioButton);
+		layoutUtils.fillGrab().applyTo(tomoStageRadioButton);
 		final Button tableStageRadioButton = new Button(stageButtonsComposite, SWT.RADIO);
 		tableStageRadioButton.setText("Table");
 		tableStageRadioButton.setToolTipText("Select the open Table stage for the experiment");
 		tableStageRadioButton.addListener(SWT.Selection, e -> changeStageGroup(TABEL_STAGE));
-		fillGrab().applyTo(tableStageRadioButton);
+		layoutUtils.fillGrab().applyTo(tableStageRadioButton);
 
 		String stageGroup = stageGroupService.currentStageGroup();
 		if (ENVIRONMENT_STAGE.contentEquals(stageGroup)) {
@@ -321,16 +324,16 @@ public class ExperimentSetup extends LayoutUtilities {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildPreviousExperimentsComposite(final Composite parent) {
-		final Composite composite = addGridComposite(parent);
+		final Composite composite = layoutUtils.addGridComposite(parent);
 
 		final Label exptLabel = new Label(composite, SWT.NONE);
 		exptLabel.setText("Previous Experiments:");
 
-		final Composite content = addGridComposite(composite);
+		final Composite content = layoutUtils.addGridComposite(composite);
 
 		final PatternFilter filter = new PatternFilter();
 		final FilteredTree tree = new FilteredTree(content, SWT.V_SCROLL, filter, true);
-		fillGrab().applyTo(tree);
+		layoutUtils.fillGrab().applyTo(tree);
 
 		final TreeViewer viewer = tree.getViewer();
 		viewer.setContentProvider(new ExperimentTreeContentProvider());
@@ -345,8 +348,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildConfigurationComposite(final Composite parent) {
-		final Composite composite = addGridComposite(parent);
-		horizGrab().applyTo(composite);
+		final Composite composite = layoutUtils.addGridComposite(parent);
+		layoutUtils.horizGrab().applyTo(composite);
 
 		final Label exptLabel = new Label(composite, SWT.NONE);
 		exptLabel.setText("Configuration:");
@@ -355,7 +358,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		final GridLayout confLayout = new GridLayout();
 		confLayout.verticalSpacing = 0;
 		content.setLayout(confLayout);
-		fillGrab().applyTo(content);
+		layoutUtils.fillGrab().applyTo(content);
 
 		addConfigurationDialogButton(content, "Source Adjustment");
 		Button button = addConfigurationDialogButton(content, "Imaging Camera");
@@ -442,7 +445,7 @@ public class ExperimentSetup extends LayoutUtilities {
 	 */
 	private Button addConfigurationDialogButton(final Composite parent, final String label) {
 		final Button button = new Button(parent, SWT.PUSH);
-		fillGrab().hint(SWT.DEFAULT, REDUCED_BUTTON_HEIGHT).applyTo(button);
+		layoutUtils.fillGrab().hint(SWT.DEFAULT, REDUCED_BUTTON_HEIGHT).applyTo(button);
 		button.setToolTipText(String.format("Select the %s configuration dialog", label));
 		button.setText(label);
 		button.setAlignment(SWT.LEFT);
