@@ -38,4 +38,9 @@
 	<bean id="frame" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="frame" />
 	</bean>
+
+	<bean id="beam_size" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="beam_size"/>
+		<constructor-arg index="1" value="0.07"/>
+	</bean>
 </beans>
