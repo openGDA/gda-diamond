@@ -6,8 +6,8 @@
 
 	<!-- This seems a bit redundant in the new scanning but keeping it for now
 		to fit with the current ADDectector framework -->
-	<bean id="cam_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="cam_hdf5" />
+	<bean id="pco_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco_hdf5" />
 		<property name="fileTemplate" value="%s%s.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileNameTemplate" value="" />
@@ -15,7 +15,7 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
- 	<bean id="cam_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+ 	<bean id="pco_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
         <property name="restoreAcquireTime" value="true" />
         <property name="decoratee">
             <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
@@ -24,7 +24,7 @@
                     <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
                         <property name="decoratee">
                             <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-                                <property name="adBase" ref="cam_adbase" />
+                                <property name="adBase" ref="pco_adbase" />
                                 <property name="restoreAcquireState" value="true"/>
                             </bean>
                         </property>
@@ -35,29 +35,29 @@
         </property>
     </bean>
 
-	<bean id="cam_addetector" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="cam_adbase" />
-		<property name="ndFile" ref="cam_ndfile" />
-		<property name="ndArray" ref="cam_ndarray" />
-		<property name="ndStats" ref="cam_stats" />
-		<property name="fileWriter" ref="cam_hdf5_writer" />
-		<property name="collectionStrategy" ref="cam_collection_strategy"/>
+	<bean id="pco_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pco_adbase" />
+		<property name="ndFile" ref="pco_ndfile" />
+		<property name="ndArray" ref="pco_ndarray" />
+		<property name="ndStats" ref="pco_stats" />
+		<property name="fileWriter" ref="pco_hdf5_writer" />
+		<property name="collectionStrategy" ref="pco_collection_strategy"/>
 	</bean>
 
-	<bean id="cam_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name" value="cam_addetector" />
+	<bean id="pco_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="pco_addetector" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 
-	<bean id="cam_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="pco_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Imaging camera" />
 		<property name="description" value="Imaging camera" />
 	</bean>
 
-	<bean id="cam_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name" value="cam_addetector" />
-		<property name="model" ref="cam_model" />
-		<property name="deviceInformation" ref="cam_info" />
+	<bean id="pco_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="pco_addetector" />
+		<property name="model" ref="pco_model" />
+		<property name="deviceInformation" ref="pco_info" />
 		<property name="activated" value="true" />
 	</bean>
 

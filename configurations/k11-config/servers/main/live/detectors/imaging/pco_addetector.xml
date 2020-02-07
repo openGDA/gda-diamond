@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="pco_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL11K-EA-DET-03:CAM:" />
+	</bean>
+	
+	<bean id="pco_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="basePVName" value="BL11K-EA-DET-03:ROI:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-EA-DET-03:ROI:" />
+				<property name="initialArrayPort" value="D1.cam" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL11K-EA-DET-03:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-EA-DET-03:STAT:" />
+				<property name="initialArrayPort" value="D1.cam" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL11K-EA-DET-03:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-EA-DET-03:ARR:" />
+				<property name="initialArrayPort" value="D1.roi" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL11K-EA-DET-03:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-EA-DET-03:HDF5:" />
+				<property name="initialArrayPort" value="D1.stat" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="d1" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+
+	<bean id="pco_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL11K-EA-DET-03:HDF5:" />
+		<property name="file" ref="pco_ndfile" />
+	</bean>
+
+	<bean id="imaging_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg name="adBase" ref="cam_adbase" />
+		<constructor-arg name="ndRoi" ref="cam_roi" />
+	</bean>
+</beans>

@@ -65,7 +65,7 @@
 
 	<!-- detectors -->
 	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_motion.xml" />
 
@@ -147,7 +147,7 @@
 
 	<!-- detectors -->
 	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_addetector.xml" />
+		resource="file:${gda.config}/servers/main/_common/detectors/imaging/pco_addetector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_scannables.xml" />
 
