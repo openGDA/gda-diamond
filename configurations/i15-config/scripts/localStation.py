@@ -425,6 +425,8 @@ try:
 		caput("BL15I-EA-MAR-01:CAM:EraseMode",			"None")
 		caput("BL15I-EA-MAR-01:ROI:EnableX",			"Disable")
 		caput("BL15I-EA-MAR-01:ROI:EnableY",			"Disable")
+		from localStationScripts.marErase import marErase
+		alias("marErase")
 	except:
 		localStation_exception(sys.exc_info(), "configuring mar area detector plugins")
 
