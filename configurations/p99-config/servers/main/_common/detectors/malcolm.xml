@@ -34,4 +34,16 @@
 		<property name="icon" value=""/>
 	</bean>
 
+	<bean id="malcolmInfoJ13KinematicsNoDetector" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="J13 Kinematics, No detectors (just PandA)" />
+		<property name="description" value="Malcolm scan: J13 Kinematics, No detectors (just PandA)" />
+		<property name="icon" value=""/>
+	</bean>
+
+	<bean id="malcolmInfoJ13KinematicsAndor2" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="J13 Kinematics, Andor 2" />
+		<property name="description" value="Malcolm scan: J13 Kinematics, Andor 2" />
+		<property name="icon" value=""/>
+	</bean>
+	
 </beans>
