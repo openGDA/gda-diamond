@@ -31,17 +31,12 @@ import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.EdeDataConstants;
-import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.api.tree.Attribute;
-import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
-import org.eclipse.dawnsci.nexus.NXdata;
-import org.eclipse.dawnsci.nexus.NXentry;
-import org.eclipse.dawnsci.nexus.NXroot;
 import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
-import org.eclipse.dawnsci.nexus.NexusNodeFactory;
+import org.eclipse.dawnsci.nexus.template.NexusTemplate;
+import org.eclipse.dawnsci.nexus.template.NexusTemplateService;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
@@ -51,6 +46,7 @@ import org.eclipse.january.dataset.Slice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.ServiceHolder;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.INexusTree;
 import gda.data.nexus.tree.NexusTreeProvider;
@@ -133,12 +129,10 @@ public class TurboXasNexusTree {
 
 	public void addDataAtEndOfScan(String filename, BufferedDetector[] bufferedDetectors) throws URISyntaxException, DeviceException, NexusException, DatasetException {
 		logger.debug("Adding data at end of scan");
-		String bufferedScalerName = "";
 		BufferedScaler bufferedScaler = null;
 		Xspress3BufferedDetector xspress3Detector = null;
 		for(BufferedDetector det : bufferedDetectors) {
 			if (det instanceof BufferedScaler) {
-				bufferedScalerName = det.getName();
 				bufferedScaler = (BufferedScaler) det;
 			}
 			if (det instanceof Xspress3BufferedDetector) {
@@ -147,118 +141,102 @@ public class TurboXasNexusTree {
 		}
 
 		try(NexusFile file = NexusFileHDF5.openNexusFile(filename)) {
-			if (!bufferedScalerName.isEmpty() && bufferedScaler != null) {
-				addNxDataEntry(file, bufferedScaler);
-			}
+			addNxDataEntry(file, bufferedScaler);
 			addDetectorDataLink(file, xspress3Detector);
 		}
 	}
 
-	/**
-	 * Create new NXdata entry in /entry1/ for each of the additional datasets produced by
-	 * BufferedScaler, using dataset names from 'extraNames'(i.e. It, It, FF etc).
-	 * See {@link #addNxDataEntry(NexusFile, String, String, boolean)}.
-	 * @param file
-	 * @param bufferedScaler
-	 * @throws NexusException
-	 */
-	private void addNxDataEntry(NexusFile file, BufferedScaler bufferedScaler) throws NexusException {
-		logger.debug("Adding NXData entry for {}", bufferedScaler.getName());
-		String[] datasetNames = bufferedScaler.getExtraNames();
-		boolean defaultHasBeenSet = false;
-		for(String datasetName : datasetNames) {
-			// See if this dataset is suitable for using as NXdata default
-			String defaultName = namesForDefaultNXData.stream().filter(datasetName::endsWith).findFirst().orElse("");
-
-			// Only set the NXdata default for first matching dataset name
-			if (!defaultHasBeenSet && !defaultName.isEmpty()) {
-				addNxDataEntry(file, bufferedScaler.getName(), datasetName, true);
-				defaultHasBeenSet = true;
-
-				// Add attributes to the original NXdata group written during scan
-				NXroot rootNode = NexusNodeFactory.createNXroot();
-				NXentry entryNode = NexusNodeFactory.createNXentry();
-				rootNode.setEntry("entry1", entryNode);
-				NXdata nxDataNode = createNXdataNode(datasetName);
-				entryNode.addGroupNode(bufferedScaler.getName(), nxDataNode);
-				file.addNode("/", rootNode);
-			} else {
-				addNxDataEntry(file, bufferedScaler.getName(), datasetName, false);
-			}
+	private void addNxDataEntry(NexusFile file, Scannable detector) throws NexusException {
+		if (!isAddNxDataEntries) {
+			return;
 		}
+		Map<String, Object> map = createYamlMap(detector);
+		logger.info("Applying template {} to file {}", map, file.getFilePath());
+		final NexusTemplateService templateService = ServiceHolder.getNexusTemplateService();
+		NexusTemplate nexusTemplateImpl = templateService.createTemplate("TurboXasNexusTemplate", map);
+		nexusTemplateImpl.apply(file);
 	}
 
-	private Map<String, Integer> getAttributeDataNames() {
+	/**
+	 * Create Yaml map to use with NexusTemplate to add NXData objects with appropriate attributes
+	 * and links to original dataset to Nexus file
+	 * @param bufferedScaler
+	 * @return
+	 */
+	public Map<String, Object> createYamlMap(Scannable bufferedScaler) {
+		Map<String, Object> mapObj = new LinkedHashMap<>();
+		mapObj.put(NexusConstants.NXCLASS+"@", NexusConstants.ENTRY);
+		// set default signal for /entry1
+		mapObj.put(NexusConstants.DEFAULT+"@", bufferedScaler.getName()+"_"+bufferedScaler.getExtraNames()[2]);
+
+		for(String name : bufferedScaler.getExtraNames()) {
+			// Create map representing NXdata group
+			Map<String,Object> map = new LinkedHashMap<>();
+			addAttributesToMap(name, map);
+			addAxisDatasetLinksToMap(bufferedScaler.getName(), map);
+			// Add a link to original dataset
+			map.put(name, "/entry1/"+bufferedScaler.getName()+"/"+name);
+
+			// Add it to the main map
+			String groupName = bufferedScaler.getName()+"_"+name+"/";
+			mapObj.put(groupName, map);
+		}
+		// Set attributes on detector group written by old NexusDataWriter
+		Map<String,Object> map = new LinkedHashMap<>();
+		addAttributesToMap(bufferedScaler.getExtraNames()[2], map);
+		mapObj.put(bufferedScaler.getName()+"/", map);
+
+    	return Collections.singletonMap("entry1/", mapObj);
+	}
+
+	/**
+	 * Add attributes and axis information
+	 * @param signalName
+	 * @param mapObj
+	 * @return
+	 */
+
+	private Map<String, Object> addAttributesToMap(String signalName, Map<String, Object> mapObj) {
+		mapObj.put(NexusConstants.NXCLASS + "@", NexusConstants.DATA);
+		TurboXasNexusTree.getAttributeDataNames().entrySet()
+				.forEach(entry -> mapObj.put(entry.getKey() + NexusConstants.DATA_INDICES_SUFFIX + "@", entry.getValue()));
+		mapObj.put(NexusConstants.DATA_SIGNAL + "@", signalName);
+		mapObj.put(NexusConstants.DATA_AXES + "@", new String[] {TurboXasNexusTree.TIME_COLUMN_NAME, TurboXasNexusTree.ENERGY_COLUMN_NAME});
+		return mapObj;
+	}
+
+	/**
+	 * Add links to the axis datasets
+	 * @param sourceGroupName
+	 * @param mapObj
+	 * @return
+	 */
+	private Map<String, Object> addAxisDatasetLinksToMap(String sourceGroupName, Map<String, Object> mapObj) {
+		List<String> axisNames = Arrays.asList(TurboXasNexusTree.ENERGY_COLUMN_NAME, TurboXasNexusTree.POSITION_COLUMN_NAME,
+						TurboXasNexusTree.SPECTRUM_INDEX,  TurboXasNexusTree.TIME_COLUMN_NAME);
+		for(String name : axisNames) {
+			mapObj.put(name, "/entry1/"+sourceGroupName+"/"+name);
+		}
+		return mapObj;
+	}
+
+	private boolean isAddNxDataEntries = true;
+
+	public boolean isAddNxDataEntries() {
+		return isAddNxDataEntries;
+	}
+
+	public void setAddNxDataEntries(boolean isAddNxDataEntries) {
+		this.isAddNxDataEntries = isAddNxDataEntries;
+	}
+
+	public static Map<String, Integer> getAttributeDataNames() {
 		Map<String, Integer> dataNames = new LinkedHashMap<>();
 		dataNames.put(TIME_COLUMN_NAME, 0);
 		dataNames.put(SPECTRUM_INDEX, 0);
 		dataNames.put(ENERGY_COLUMN_NAME, 1);
 		dataNames.put(POSITION_COLUMN_NAME, 1);
 		return dataNames;
-	}
-
-	private NXdata createNXdataNode(String signalName) {
-		// Create NXdata nodes ...
-		NXdata nxDataNode = NexusNodeFactory.createNXdata();
-
-		// Set attributes
-		nxDataNode.setAttributeSignal(signalName);
-
-		List<String> axesList = Arrays.asList(TIME_COLUMN_NAME, ENERGY_COLUMN_NAME);
-		List<Attribute> attributes = new ArrayList<>();
-		attributes.add(TreeFactory.createAttribute(NexusConstants.DATA_AXES, axesList.toArray(new String[] {})));
-
-		getAttributeDataNames().forEach((dataName, axisIndex) ->
-			attributes.add(TreeFactory.createAttribute(dataName + NexusConstants.DATA_INDICES_SUFFIX, axisIndex)));
-
-		attributes.forEach( nxDataNode::addAttribute );
-		return nxDataNode;
-	}
-
-	/**
-	 * Create new NXdata group in /entry1/ to store data and axis information a single plot.
-	 * The name of the new group is {@code <detGroupName>_<datasetName>}.
-	 * Links are made to the original datasets in the detector group and
-	 * Attributes for the group are set to record the signal name and axis information.
-	 * The 'default' attribute of the parent and root node is created to point to the newly created group
-	 * if {@code setDefaultAttributes} is set to true.
-	 *
-	 * @param file NexusFile handle
-	 * @param detGroupName name of detector group (in /entry1/) to read data from
-	 * @param datasetName name of dataset to read in detector group
-	 * @param setDefaultAttributes - if true, set the default attribute of the parent group
-	 * @throws NexusException
-	 */
-	private void addNxDataEntry(NexusFile file, String detGroupName, String datasetName, boolean setDefaultAttributes) throws NexusException {
-		// Name of new NXdata entry to be created
-		String entryName = detGroupName+"_"+datasetName;
-		String sourceGroupName = "/entry1/"+detGroupName;
-
-		NXroot rootNode = NexusNodeFactory.createNXroot();
-		NXentry entryNode = NexusNodeFactory.createNXentry();
-		rootNode.setEntry("entry1", entryNode);
-
-		// Create NXdata node ...
-		NXdata nxDataNode = createNXdataNode(datasetName);
-		entryNode.addGroupNode(entryName, nxDataNode);
-
-		// Set default attribute of node to point to the newly created NXdata node
-		if (setDefaultAttributes) {
-			entryNode.setAttributeDefault(entryName);
-		}
-
-		// Add nxData node to the file
-		file.addNode("/", rootNode);
-
-		// Datasets to link to inside NXdata group
-		List<String> datasetNamesToLink = new ArrayList<>();
-		datasetNamesToLink.add(datasetName);
-		datasetNamesToLink.addAll(getAttributeDataNames().keySet());
-		datasetNamesToLink.addAll(extraScannables);
-		// Add links to original datasets
-		for(String name : datasetNamesToLink) {
-			file.link(sourceGroupName+"/"+name, "/entry1/"+entryName+"/"+name);
-		}
 	}
 
 	/**
@@ -362,9 +340,8 @@ public class TurboXasNexusTree {
 	 * @param highFrame
 	 * @return
 	 * @throws DeviceException
-	 * @throws ScanFileHolderException
 	 */
-	private NXDetectorData createNXDetectorData(Xspress3BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException, ScanFileHolderException {
+	private NXDetectorData createNXDetectorData(Xspress3BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
 
 		logger.debug("Adding Xspress3 detector data");
 

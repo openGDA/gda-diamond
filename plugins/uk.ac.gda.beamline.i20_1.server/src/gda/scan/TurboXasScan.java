@@ -549,6 +549,14 @@ public class TurboXasScan extends ContinuousScan {
 		nexusTree.clearRunningAverages();
 	}
 
+	public void setAddNxDataEntries(boolean tf) {
+		nexusTree.setAddNxDataEntries(tf);
+	}
+
+	public boolean isAddNxDataEntries() {
+		return nexusTree.isAddNxDataEntries();
+	}
+
 	private String getFrameTimeFieldName() {
 		return getScanDetectors()[0].getExtraNames()[0];
 	}
