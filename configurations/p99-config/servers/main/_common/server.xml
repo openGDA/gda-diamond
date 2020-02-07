@@ -24,7 +24,7 @@
 	<!-- =========================================================== -->
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor2_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/j08_stage.xml" />
+	<!--<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/j08_stage.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/smaract_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/laser.xml" />
 
@@ -38,7 +38,7 @@
 	<!-- =========================================================== -->
 	
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor2_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/j08_stage.xml" />
+	<!--	<import resource="file:${gda.config}/servers/main/_common/devices/j08_stage.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/smaract_stage.xml" />
 	
 	<import resource="file:${gda.config}/servers/main/_common/beam_dimensions.xml" />

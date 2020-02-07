@@ -63,4 +63,29 @@
 		<property name="deviceInformation" ref="malcolmInfoJ08NoDetector" />
 		<property name="activated" value="false" />
 	</bean>
+	
+	<bean id="malcolmModelJ13KinematicsNoDetector" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-21" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceJ13KinematicsNoDetector" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-21" />
+		<property name="model" ref="malcolmModelJ13KinematicsNoDetector" />
+		<property name="deviceInformation" ref="malcolmInfoJ13KinematicsNoDetector" />
+		<property name="activated" value="false" />
+	</bean>
+	
+	<bean id="malcolmModelJ13KinematicsAndor2" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-22" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceJ13KinematicsAndor2" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-22" />
+		<property name="model" ref="malcolmModelJ13KinematicsAndor2" />
+		<property name="deviceInformation" ref="malcolmInfoJ13KinematicsAndor2" />
+		<property name="activated" value="false" />
+	</bean>
+	
 </beans>
