@@ -1,11 +1,14 @@
+from java.io import FileNotFoundException # @UnresolvedImport
 from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
 from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
 from ScannableInvertedValue import PositionInvertedValue
 from gda.jython.commands.GeneralCommands import run
 
+from i08_1_utilities import is_live
+
 print("Initialisation Started");
 
-run("i08-1_utilities.py")
+run("i08_1_utilities.py")
 
 photoDiode1Inverted = PositionInvertedValue("photoDiode1Inverted", "photoDiode1")
 
@@ -20,5 +23,17 @@ print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watch
 alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
+
+# Mode-specific setup
+if is_live():
+    print("Running in live mode: attempting to run localStationUser.py in users script directory")
+    try:
+        run("localStationUser.py")
+    except FileNotFoundException, e:
+        print("No localStationUser run")
+    except:
+        print("Exception running localStationUser")
+else:
+    print("Running in dummy mode")
 
 print("Initialisation Complete");

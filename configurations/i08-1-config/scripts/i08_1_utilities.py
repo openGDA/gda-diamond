@@ -3,8 +3,7 @@ from gda.device import Scannable
 from gda.factory import Finder
 from gda.jython.commands.GeneralCommands import ls_names
 
-
-print("Running i08-1_utilities.py")
+print("Running i08_1_utilities.py")
 
 finder = Finder.getInstance()
 
