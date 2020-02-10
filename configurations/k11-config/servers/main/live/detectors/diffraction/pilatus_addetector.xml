@@ -3,15 +3,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Using diagnostic camera until diffraction camera is commissioned -->
-	<alias name="d2_adbase" alias="det_adbase" />
-	<alias name="d2_roi" alias="det_roi" />
-	<alias name="d2_stats" alias="det_stats" />
-	<alias name="d2_ndarray" alias="det_ndarray" />
-	<alias name="d2_ndfile" alias="det_ndfile" />
-	<alias name="d2_hdf5" alias="det_hdf5" />
+	<bean id="pilatus_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL11K-EA-PILAT-01:CAM:" />
+	</bean>
+	
+	<bean id="pilatus_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL11K-EA-PILAT-01:HDF5:" />
+		<property name="file" ref="pco_ndfile" />
+	</bean>
 
 	<bean id="diffraction_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg name="adBase" ref="det_adbase" />
-		<constructor-arg name="ndRoi" ref="det_roi" />
+		<constructor-arg name="ndRoi"><null /></constructor-arg>
 	</bean>
 </beans>

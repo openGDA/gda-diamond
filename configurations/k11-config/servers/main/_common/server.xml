@@ -65,12 +65,12 @@
 
 	<!-- detectors -->
 	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_motion.xml" />
 
 	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_addetector.xml" />
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_addetector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_motion.xml" />
 
@@ -147,12 +147,12 @@
 
 	<!-- detectors -->
 	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_addetector.xml" />
+		resource="file:${gda.config}/servers/main/_common/detectors/imaging/pco_addetector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_scannables.xml" />
 
 	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diffraction/det_addetector.xml" />
+		resource="file:${gda.config}/servers/main/_common/detectors/diffraction/pilatus_addetector.xml" />
 
 	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d1_addetector.xml" />
