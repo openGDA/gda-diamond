@@ -16,18 +16,6 @@
 		<property name="activated" value="false" />
 	</bean>
 
-	<bean id="malcolmModelSampleJ08Andor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL99P-ML-SCAN-10" />
-		<property name="exposureTime" value="1.0" />
-	</bean>
-
-	<bean id="malcolmDeviceSampleJ08Andor" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="BL99P-ML-SCAN-10" />
-		<property name="model" ref="malcolmModelSampleJ08Andor" />
-		<property name="deviceInformation" ref="malcolmInfoSampleJ08Andor" />
-		<property name="activated" value="false" />
-	</bean>
-
 	<bean id="malcolmModelNoDetector" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL99P-ML-SCAN-02" />
 		<property name="exposureTime" value="1.0" />
@@ -49,6 +37,18 @@
 		<property name="name" value="BL99P-ML-SCAN-03" />
 		<property name="model" ref="malcolmModelAndor2FocusZ" />
 		<property name="deviceInformation" ref="malcolmInfoAndor2FocusZ" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<bean id="malcolmModelSampleJ08Andor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-10" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceSampleJ08Andor" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-10" />
+		<property name="model" ref="malcolmModelSampleJ08Andor" />
+		<property name="deviceInformation" ref="malcolmInfoSampleJ08Andor" />
 		<property name="activated" value="false" />
 	</bean>
 
