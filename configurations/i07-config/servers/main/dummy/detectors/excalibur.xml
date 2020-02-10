@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="excalibur_controller" class="uk.ac.gda.devices.odin.ExcaliburDummyOdin" >
+	<bean id="excalibur_controller" class="uk.ac.gda.devices.odin.OdinDetectorControllerDummy" >
 	</bean>
 
 

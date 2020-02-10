@@ -3,8 +3,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="excalibur" class="uk.ac.gda.devices.odin.ExcaliburOdinDetector" >
+	<bean id="excalibur" class="uk.ac.gda.devices.odin.OdinDetector">
 		<property name="controller" ref="excalibur_controller" />
+		<property name="strategy" ref="excalibur_single_strategy" />
+	</bean>
+
+	<bean id="excalibur_multi" class="uk.ac.gda.devices.odin.OdinDetector">
+		<property name="controller" ref="excalibur_controller" />
+		<property name="strategy" ref="excalibur_multiple_strategy" />
+	</bean>
+
+	<bean id="excalibur_single_strategy" class="uk.ac.gda.devices.odin.OdinSingleFileStrategy">
+	</bean>
+
+	<bean id="excalibur_multiple_strategy" class="uk.ac.gda.devices.odin.OdinMultipleFileStrategy">
 	</bean>
 
 </beans>
