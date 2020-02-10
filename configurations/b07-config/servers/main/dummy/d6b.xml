@@ -30,5 +30,8 @@
 	</bean>
 
 	<bean id="d6c_y_motor" class="gda.device.motor.DummyMotor"/>
+	
+	<bean class="gda.device.scannable.DummyScannable" id="d6b_cam1_centroid_x"/>
+	<bean class="gda.device.scannable.DummyScannable" id="d6b_cam1_centroid_y"/>
 
 </beans>

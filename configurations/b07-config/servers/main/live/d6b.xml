@@ -59,6 +59,16 @@
 		</bean>
 		</property>
 	</bean>
+	
+	<bean id="d6b_cam1_centroid_x" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-DI-PHDGN-06:DCAM1:STAT:CentroidX_RBV" />
+		<property name="canMove" value="false" />	
+	</bean>
+	
+	<bean id="d6b_cam1_centroid_y" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-DI-PHDGN-06:DCAM1:STAT:CentroidX_RBV" />
+		<property name="canMove" value="false" />	
+	</bean>
 
 	<bean id="d6b_cam1_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
 		<property name="fileNameTemplate" value="d6b_cam1"/>
