@@ -5,44 +5,44 @@
 
 	<!-- Sample scan (Andor) -->
 	<bean id="malcolmInfoSampleAndor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm sample scan (Andor)" />
+		<property name="label" value="P99 Malcolm with Andor" />
 		<property name="description" value="Malcolm sample scan with Andor detector" />
 		<property name="icon" value=""/>
 	</bean>
 
-	<bean id="malcolmInfoSampleJ08Andor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm sample scan (J08 stages + Andor)" />
-		<property name="description" value="Malcolm sample scan with J08 stages + Andor detector" />
-		<property name="icon" value=""/>
-	</bean>
-
 	<bean id="malcolmInfoNoDetector" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm no detector" />
+		<property name="label" value="P99 Malcolm only PandA" />
 		<property name="description" value="Malcolm scan without a detector" />
 		<property name="icon" value=""/>
 	</bean>
 
 	<bean id="malcolmInfoAndor2FocusZ" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm Andor 2 focus z" />
+		<property name="label" value="P99 Malcolm focus scan with Andor" />
 		<property name="description" value="Malcolm scan" />
 		<property name="icon" value=""/>
 	</bean>
-
-	<bean id="malcolmInfoJ08NoDetector" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm J08 no detector" />
-		<property name="description" value="Malcolm scan without a detector" />
-		<property name="icon" value=""/>
-	</bean>
-
+	
 	<bean id="malcolmInfoJ13KinematicsNoDetector" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="J13 Kinematics, No detectors (just PandA)" />
+		<property name="label" value="P99 Malcolm with J13 Kinematics only PandA" />
 		<property name="description" value="Malcolm scan: J13 Kinematics, No detectors (just PandA)" />
 		<property name="icon" value=""/>
 	</bean>
 
 	<bean id="malcolmInfoJ13KinematicsAndor2" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="J13 Kinematics, Andor 2" />
+		<property name="label" value="P99 Malcolm with J13 Kinematics with Andor" />
 		<property name="description" value="Malcolm scan: J13 Kinematics, Andor 2" />
+		<property name="icon" value=""/>
+	</bean>
+
+	<bean id="malcolmInfoSampleJ08Andor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Malcolm sample scan (J08 stages + Andor)" />
+		<property name="description" value="J08 Malcolm with Andor" />
+		<property name="icon" value=""/>
+	</bean>
+
+	<bean id="malcolmInfoJ08NoDetector" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="J08 Malcolm only PandA" />
+		<property name="description" value="Malcolm scan without a detector" />
 		<property name="icon" value=""/>
 	</bean>
 	
