@@ -2,19 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<!-- scannables to calibrate live stream axes -->
-	<bean id="beam_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="beam_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	
-	<bean id="my_calibration" class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-                <constructor-arg name="xAxisScannable" ref="beam_x"/>
-                <constructor-arg name="yAxisScannable" ref="beam_y"/>
-                <constructor-arg name="xAxisPixelScaling" value="0.004"/> <!-- Number of pixels per scannable unit in x axis  -->
-                <constructor-arg name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
-                <constructor-arg name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
-                <constructor-arg name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
-	</bean>
+
 	
 	<!-- Extract workstation name from localhost and use to construct base PV name -->
 	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />

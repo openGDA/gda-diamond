@@ -3,20 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="beam_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="beam_x_motor" />
+
+	<bean id="kb_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_x_motor" />
 	</bean>
-	
-	<bean id="beam_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="beam_y_motor" />
-	</bean>
-	
+
+	<bean id="kb_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_y_motor" />
+	</bean>	
 		
-	<bean id="beam_position" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="kb_mirrors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="beam_x" />
-				<ref bean="beam_y" />
+				<ref bean="kb_x" />
+				<ref bean="kb_y" />
 			</list>
 		</property>
 	</bean>
