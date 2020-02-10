@@ -43,4 +43,5 @@
 		<property name="increment" value="0.35" />
 	</bean>
 
+	<bean class="gda.device.scannable.DummyScannable" id="m1b_chiller"/>
 </beans>
