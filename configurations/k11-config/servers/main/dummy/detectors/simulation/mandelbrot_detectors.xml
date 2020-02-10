@@ -5,14 +5,14 @@
 
 <!--	<bean id="dummyMandelbrotMappingDetector1D" class="gda.device.detector.DummyMandelbrotMappingDetector"> -->
 	<bean id="mandelbrot" class="gda.device.detector.DummyMandelbrotMappingDetector">
-		<property name="realAxisPositioner" ref="beam_x" />
-		<property name="imaginaryAxisPositioner" ref="beam_y" />
+		<property name="realAxisPositioner" ref="kb_x" />
+		<property name="imaginaryAxisPositioner" ref="kb_y" />
 		<property name="outputDimensions" value="ONE_D" />
 	</bean>
 
 	<bean id="dummyMandelbrotMappingDetector2D" class="gda.device.detector.DummyMandelbrotMappingDetector">
-		<property name="realAxisPositioner" ref="beam_x" />
-		<property name="imaginaryAxisPositioner" ref="beam_y" />
+		<property name="realAxisPositioner" ref="kb_x" />
+		<property name="imaginaryAxisPositioner" ref="kb_y" />
 		<property name="outputDimensions" value="TWO_D" />
 	</bean>
 
