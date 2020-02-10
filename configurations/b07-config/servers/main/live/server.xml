@@ -28,6 +28,9 @@
 	<import resource="d21b.xml"/>
 	<import resource="femtos.xml"/>
 
+	<!-- Shutters -->
+	<import resource="shutter.xml"/>
+
 	<!-- Monochromators -->
 	<import resource="pgm.xml"/>
 	
