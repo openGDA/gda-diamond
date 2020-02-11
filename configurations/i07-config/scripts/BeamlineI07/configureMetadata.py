@@ -92,6 +92,7 @@ metadata += qbpmList
 meta_clear_alldynamical()
 for _m in metadata:
     meta_add(_m)
+    del _m
 
 meta.readFromNexus = True
 meta.rootNamespaceDict = globals()

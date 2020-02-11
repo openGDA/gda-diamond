@@ -1,0 +1,52 @@
+[
+    {
+        "command": "startgdaservers.sh",
+        "icon": "sgda.png",
+        "text": "GDA Servers",
+        "type": "button"
+    },
+    {
+        "command": "gdaswingclient",
+        "icon": "cgda.png",
+        "text": "GDA Client (Swing for b16 and i16)",
+        "type": "button"
+    },
+    {
+        "command": "/usr/bin/env launcher-gdaclient",
+        "icon": "cgda.png",
+        "text": "GDA Client",
+        "type": "button"
+    },
+    {
+        "command": "/usr/bin/env launcher-gdaclient-reset",
+        "icon": "cgda.png",
+        "text": "GDA Client with fresh workspace (gdaclient --reset)",
+        "type": "button"
+    },
+    {
+        "command": "/usr/bin/env launcher-gdalog",
+        "icon": "cgda.png",
+        "text": "GDA Log Panel",
+        "type": "button"
+    },
+    {
+        "command": "launcher-dawn",
+        "text": "Dawn",
+        "type": "button"
+    },
+    {
+        "command": "/usr/bin/firefox -new-window http://diffcalc.readthedocs.org/en/latest/user/contents.html",
+        "text": "Diffcalc Manual",
+        "type": "button"
+    },
+    {
+        "command": "/usr/bin/firefox -new-window http://confluence.diamond.ac.uk/display/$BEAMLINE/Webcams",
+        "text": "Webcams",
+        "type": "button"
+    },
+    {
+        "command": "/usr/bin/firefox -new-window http://confluence.diamond.ac.uk/display/$BEAMLINE",
+        "text": "Beamline Wiki",
+        "type": "button"
+    }
+]

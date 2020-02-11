@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		Transient devices can be enabled by uncommenting the lines below
+		These files will include the necessary common components (e.g. ScannableMotor)
+		in addition to the mode specific components (e.g EpicsMotor)
+	</description>
+
+
+	<import resource="transient/clasp.xml" />
+
+	<import resource="transient/dcdx.xml" />
+
+	<import resource="transient/gsaxs.xml" />
+
+	<import resource="transient/stage.xml" />
+
+
+</beans>

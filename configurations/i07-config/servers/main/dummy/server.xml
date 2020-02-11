@@ -83,8 +83,12 @@
 	
 	<import resource="detectors/xrayeye.xml" />
 	<import resource="detectors/dcam8.xml" />
+	<import resource="detectors/xmap.xml" />
 
 	<import resource="server_core.xml" />
+	
+	<import resource="transient.xml" />
+	
 	<import resource="../_common/server.xml" />
 
 	<import resource="lakeshore.xml" />

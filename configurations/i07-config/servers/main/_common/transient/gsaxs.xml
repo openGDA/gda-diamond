@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gwxsize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="gw_xgap" />
+		<property name="motor" ref="gsax_horiz_gap" />
+	</bean>
+
+	<bean id="gwysize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="gw_ygap" />
+		<property name="motor" ref="gsax_vert_gap" />
+	</bean>
+
+	<bean id="gwxpos" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="gw_xpos" />
+		<property name="motor" ref="gsax_horiz_pos" />
+	</bean>
+
+	<bean id="gwypos" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="gw_ypos" />
+		<property name="motor" ref="gsax_vert_pos" />
+	</bean>
+
+	<bean id="gwbsx" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="gw_bsx" />
+		<property name="motor" ref="gsax_beamstop_x" />
+	</bean>
+
+	<bean id="gwbsy" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="gw_bsy" />
+		<property name="motor" ref="gsax_beamstop_y" />
+	</bean>
+
+	<bean id="gwy" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="gw_y" />
+		<property name="motor" ref="gsax_blade_y" />
+	</bean>
+
+
+	<bean id="GW" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="GW" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="gwxsize" />
+				<ref bean="gwysize" />
+				<ref bean="gwxpos" />
+				<ref bean="gwypos" />
+				<ref bean="gwbsx" />
+				<ref bean="gwbsy" />
+				<ref bean="gwy" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

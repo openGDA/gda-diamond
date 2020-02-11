@@ -98,9 +98,6 @@ try_execfile("BeamlineI07/setFastScan.py", "Fast scan setup")
 
 try_execfile("BeamlineI07/setSrsDataFileHeader.py", "Metadata Header setup")
 
-# Changes everything to %8.3f without saying why
-try_execfile("BeamlineI07/setOutputFormat.py", "Change the default output format according to I07 requirements")
-
 try_execfile("BeamlineI07/createAlias.py")
 
 #try_execfile("BeamlineI07/useEpicsPilatus100K.py")
@@ -120,7 +117,7 @@ try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
 
 try_execfile("BeamlineI07/useAreaDetectorExcalibur.py")
 
-try_execfile("BeamlineI07/useFleaCameras.py", full_log=True)
+#try_execfile("BeamlineI07/useFleaCameras.py", full_log=True)
 
 try_execfile("BeamlineI07/useGigECams.py", full_log=True)
 
@@ -136,6 +133,8 @@ try_execfile("BeamlineI07/Users/MainHutch.py")
 
 try_execfile("BeamlineI07/htc_temp.py")
 htc = TemperatureSocketDevice('htc', 'localhost', 10002)
+
+try_execfile("BeamlineI07/useVirtual6CircleMotors.py")
 
 try:
 	from gdaserver import d5i

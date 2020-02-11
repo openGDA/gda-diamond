@@ -4,19 +4,20 @@ def set_kth_minus_kdelta_max(val):
 def set_kgam_minus_kmu_min(val):
 	sixckappa.getAdditionalPositionValidators()['kgam_minus_kmu_min'].setMinimumDifference(val)
 
-NOMINAL_LIMITS = {phi : (-999, 999),
-				chi : (-90, 99),
-				eta : (-22, 115),
-				
-				mu : (-1, 80),
-				delta : (-1, 110),
-				gam : (-1, 120),
-				kth : (-90, 212),
-				kap: (-180, 180),
-				}
+NOMINAL_LIMITS = {
+				'phi'	: (-999, 999),
+				'chi'	: (-90, 99),
+				'eta'	: (-22, 115),
+
+				'mu'	: (-1, 80),
+				'delta'	: (-1, 110),
+				'gam'	: (-1, 120),
+				'kth'	: (-90, 212),
+				'kap'	: (-180, 180),
+			}
 
 if not USE_CRYO_GEOMETRY:
-	NOMINAL_LIMITS[kphi] = (-91, 271)
+	NOMINAL_LIMITS['kphi'] = (-91, 271)
 
 kgam_minus_kmu_min = -1
 #kth_minus_kdelta_max_MODE1 = 80
@@ -25,13 +26,13 @@ kth_minus_kdelta_max_MODE1 = 77.5
 
 # Record same defaults from kappa axes to make non-nominal limits report complete
 limits.NOMINAL_LIMITS = NOMINAL_LIMITS
-NOMINAL_LIMITS[kmu] = NOMINAL_LIMITS[mu]
-NOMINAL_LIMITS[kgam] = NOMINAL_LIMITS[gam]
-NOMINAL_LIMITS[kdelta] = NOMINAL_LIMITS[delta]
+NOMINAL_LIMITS['kmu'] = NOMINAL_LIMITS['mu']
+NOMINAL_LIMITS['kgam'] = NOMINAL_LIMITS['gam']
+NOMINAL_LIMITS['kdelta'] = NOMINAL_LIMITS['delta']
 
-for scn, lower_upper_tuple in NOMINAL_LIMITS.iteritems():
+for scn_name, lower_upper_tuple in NOMINAL_LIMITS.iteritems():
 	lower, upper = lower_upper_tuple
-	setlm_no_offset(scn, lower, upper)
+	setlm_no_offset(jythonNameMap[scn_name], lower, upper)
 
 if not USE_CRYO_GEOMETRY:
 

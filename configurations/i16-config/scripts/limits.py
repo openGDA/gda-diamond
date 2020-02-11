@@ -86,8 +86,8 @@ def _show_scn(scn):
         if offset is None:  #  scn.getOffset()[0] was None
             offset = 0
         
-        if NOMINAL_LIMITS.has_key(scn):
-            nom_lower, nom_upper =  NOMINAL_LIMITS[scn]
+        if NOMINAL_LIMITS.has_key(scn.name):
+            nom_lower, nom_upper =  NOMINAL_LIMITS[scn.name]
             # print "lower, upper, nom_lower, nom_upper, offset = ", lower, upper, nom_lower, nom_upper, offset
             nom_lower += offset
             nom_upper += offset

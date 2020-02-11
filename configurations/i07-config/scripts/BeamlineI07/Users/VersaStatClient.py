@@ -211,7 +211,7 @@ class VersaStatMonitorClass(PseudoDetector):
 
 #########################################################
 
-serverURI="http://172.23.107.70:5678/VersaStatServer.rem";
+serverURI="http://172.23.107.5:5678/VersaStatServer.rem";
 
 versaStatClient = VersaStatClientClass("versaStatClient", serverURI);
 #versaStatClient.connect();

@@ -193,6 +193,8 @@
 		<property name="elementOffset" value="1" />
 		<property name="numberOfElements" value="1" />
 		<property name="aquisitionTimeOn" value="True" />
+		<property name="waitAfterCaput" value="True" />
+		<property name="caputSleepTime" value="500" />
 	</bean>
 
 	<bean id="xmap2controller" class="gda.device.detector.xmap.EpicsXmapController">
@@ -229,7 +231,7 @@
 		</property>
 		<property name="slave" value="false" />
 		<property name="saveRawSpectrum" value="true" />
-		<property name="configFileName" value="${gda.config}/templates/Xia_parameters.xml" />
+		<property name="configFileName" value="${gda.config}/templates/xmapMca2_parameters.xml" />
 		<property name="sumAllElementData" value="true" />
 		<property name="calculateUnifiedRois" value="true" />
 	</bean>

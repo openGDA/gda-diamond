@@ -68,7 +68,9 @@
     <import resource="slits.xml" />
     <import resource="server_scannables.xml" />
     <import resource="eh2_scannables.xml" />
+
     <import resource="detectors/xrayeye.xml" />
     <import resource="detectors/dcam8.xml" />
+    <import resource="detectors/xmap.xml" />
 
 </beans>

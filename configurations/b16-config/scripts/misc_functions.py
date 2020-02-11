@@ -1,6 +1,9 @@
 from gda.device.scannable import PseudoDevice, ScannableBase
 from gda.epics import CAClient
 
+from gda.jython import InterfaceProvider
+import os
+
 
 def list_scannables():
 	print "typed_name\tname\tclass\tmodule\tinput_fields\textra_fields"
@@ -204,5 +207,19 @@ class tracker():
 		else:
 			return '=== tracker has been given no values yet'
 
-
+def createVisitSubDir(subdir):
+	"""
+	Create a subdirectory (including parents) within the current visit
+	Args:
+		subdir (string): name of subdirectory e.g. 'detector1' or 'sample1/condition4'
+	"""
+	pathToCreate = InterfaceProvider.getPathConstructor().getVisitSubdirectory(subdir)
+	if not os.path.exists(pathToCreate):
+		try:
+			os.makedirs(pathToCreate)
+			print("Created directory: {}".format(pathToCreate))
+		except:
+			print("Could not create directory: {}".format(pathToCreate))
+	else:
+		print("Directory already exists: {}".format(pathToCreate))
 

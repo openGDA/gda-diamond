@@ -1,7 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+	
+	<description>
+	The Xmap that I07 use is the ME13C movable equipment Xmap from the Detector Group
+	</description>
+	
 	<!-- epics records -->
 		<bean id="edxdcontroller_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="ME13C-EA-DET-01:HDF:" />
@@ -207,6 +211,8 @@
 		<property name="elementOffset" value="1" />
 		<property name="hdf5" ref="edxdcontroller_hdf5" />
 		<property name="aquisitionTimeOn" value="true" />
+		<property name="waitAfterCaput" value="true" />
+		<property name="caputSleepTime" value="100" />
 	</bean>
 	
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
@@ -214,33 +220,7 @@
 		<property name="numberOfElements" value="1" />
 	</bean>
 
-	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
-		<property name="xmapControllerName" value="xmapcontroller" />
-		<property name="eventProcessingTimes">
-			<list>
-				<value>1.1029752060937018e-007</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
-		<property name="extraNames">
-			<list>
-				<value>Element1</value>
-			</list>
-		</property>
-		<property name="alwaysRecordRawMCAs" value="true"/>
-		<property name="slave" value="false" />
-		<property name="configFileName" value="${gda.config}/xml/vortex_parameters.xml" />
-	</bean>
 
-	<bean id="xmapFluorescenceDetector"
-			class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter">
-		<constructor-arg index="0" ref="xmapMca" />
-		<constructor-arg index="1" value="1" />
-		<property name="name" value="xmapFluorescenceDetector" />
-	</bean>
+
 
 </beans>
