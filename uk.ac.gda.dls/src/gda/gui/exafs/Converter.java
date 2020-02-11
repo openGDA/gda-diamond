@@ -25,8 +25,7 @@ import org.jscience.physics.amount.Amount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.jscience.physics.quantities.PhotonEnergy;
-import gda.jscience.physics.quantities.Vector;
+import gda.jscience.physics.quantities.QuantityConverters;
 import gda.jscience.physics.quantities.WaveVector;
 import gda.jscience.physics.units.NonSIext;
 
@@ -61,7 +60,7 @@ public class Converter {
 		logger.debug("convertEnergyToWaveVector(electronEnergy = {}, edgeEnergy = {}", electronEnergy, edgeEnergy);
 		final Amount<Energy> edgeEnergyQuantity = Amount.valueOf(edgeEnergy, NonSI.ELECTRON_VOLT);
 		final Amount<Energy> electronEnergyQuantity = Amount.valueOf(electronEnergy, NonSI.ELECTRON_VOLT);
-		final Amount<Vector> waveVector = WaveVector.waveVectorOf(edgeEnergyQuantity, electronEnergyQuantity);
+		final Amount<WaveVector> waveVector = QuantityConverters.waveVectorOf(edgeEnergyQuantity, electronEnergyQuantity);
 		return waveVector.to(NonSIext.PER_ANGSTROM).getEstimatedValue();
 	}
 
@@ -77,8 +76,8 @@ public class Converter {
 	public static double convertWaveVectorToEnergy(double waveVectorValue, double edgeEnergy) {
 		logger.debug("convertWaveVectorToEnergy(waveVectorValue = {}, edgeEnergy = {}", waveVectorValue, edgeEnergy);
 		final Amount<Energy> edgeEnergyQuantity = Amount.valueOf(edgeEnergy, NonSI.ELECTRON_VOLT);
-		final Amount<Vector> waveVector = Amount.valueOf(waveVectorValue, NonSIext.PER_ANGSTROM);
-		final Amount<Energy> energy = PhotonEnergy.photonEnergyFromEdgeAndVector(edgeEnergyQuantity, waveVector);
+		final Amount<WaveVector> waveVector = Amount.valueOf(waveVectorValue, NonSIext.PER_ANGSTROM);
+		final Amount<Energy> energy = QuantityConverters.photonEnergyFromEdgeAndVector(edgeEnergyQuantity, waveVector);
 		return energy.to(NonSI.ELECTRON_VOLT).getEstimatedValue();
 	}
 }
