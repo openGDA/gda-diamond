@@ -24,6 +24,8 @@ import sys
 from java.lang import System
 from org.opengda.detector.electronanalyser.utils import FilenameUtil
 from gdaserver import sd1_cam, sd3_cam
+import installation
+from gda.device.scannable import PVScannable
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
@@ -188,8 +190,19 @@ from pseudodevices.CameraExposureChanger import CameraExposureChanger
 print "\nCreating camera exposure object ('sd1_camera_exposure')for SD1 camera"
 sd1_camera_exposure = CameraExposureChanger(sd1_cam)
 
-print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
-sd3_camera_exposure = CameraExposureChanger(sd3_cam)
+if installation.isLive():
+    print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
+    sd3_camera_exposure = PVScannable("sd3_camera_exposure", "BL09J-MO-SD-03:CAM:AcquireTime")
+    sd3_camera_exposure.configure()
+    
+    print "\nCreating camera exposure object ('xbpm_camera_exposure')for XBPM camera"
+    xbpm_camera_exposure = PVScannable("xbpm_camera_exposure", "BL09I-EA-XBPM-01:CAM:AcquireTime")
+    xbpm_camera_exposure.configure()
+else:
+    print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
+    sd3_camera_exposure = CameraExposureChanger(sd3_cam)
+    
+
 ###############################################################################
 ###                   Configure scannable output formats                        ###
 ###############################################################################
