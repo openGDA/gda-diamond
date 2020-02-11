@@ -35,8 +35,8 @@
 	</bean>
 
 	<bean id="malcolmInfoSampleJ08Andor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm sample scan (J08 stages + Andor)" />
-		<property name="description" value="J08 Malcolm with Andor" />
+		<property name="label" value="J08 Malcolm with Andor" />
+		<property name="description" value="Malcolm sample scan (J08 stages + Andor)" />
 		<property name="icon" value=""/>
 	</bean>
 
