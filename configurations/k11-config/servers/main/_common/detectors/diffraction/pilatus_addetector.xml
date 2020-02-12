@@ -37,9 +37,11 @@
 
 	<bean id="pilatus_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="pilatus_adbase" />
+		<property name="ndFile" ref="pilatus_ndfile" />
+		<property name="ndArray" ref="pilatus_ndarray" />
+		<property name="ndStats" ref="pilatus_stats" />
 		<property name="fileWriter" ref="pilatus_hdf5_writer" />
-		<property name="collectionStrategy" ref="pilatus_collection_strategy" />
-		<property name="readArray" value="false" />
+		<property name="collectionStrategy" ref="pilatus_collection_strategy"/>
 	</bean>
 
 	<bean id="pilatus_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
