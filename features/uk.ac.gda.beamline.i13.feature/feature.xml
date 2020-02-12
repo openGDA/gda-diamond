@@ -142,18 +142,4 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="uk.ac.diamond.daq.client.gui.energy"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-         
-   <plugin
-         id="uk.ac.diamond.daq.beamline.configuration.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>         
-
 </feature>
