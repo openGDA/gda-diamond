@@ -5,10 +5,10 @@
 	
 	<alias name="sim_adbase" alias="xsp3_adbase" />
 	<alias name="sim_stats" alias="xsp3_stats" />
-	<alias name="sim_ndarray" alias="xsp3_ndarray" />
+	<alias name="sim_array" alias="xsp3_ndarray" />
 	<alias name="sim_hdf5" alias="xsp3_hdf5" />
 
-	<bean id="xsp3_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_hdf5">
+	<bean id="xsp3_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_file_hdf5">
 		<property name="initialFileName" value="xsp3" />
 	</bean>
 

@@ -28,9 +28,4 @@
 		</property>
 	</bean>
 	
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" />
-		<property name="service" ref="mappingStageOptions" />
-	</bean>
-	
 </beans>

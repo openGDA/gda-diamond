@@ -7,9 +7,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Drebel.log=true
+      <vmArgs>-Drebel.log=true
 -Dgda.mode=dummy
 -Dgda.config=${project_loc:i18-config}
 -Dgda.propertiesFile=${project_loc:i18-config}/properties/dummy/dummy_instance_java.properties
