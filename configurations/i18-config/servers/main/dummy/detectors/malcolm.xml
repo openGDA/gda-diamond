@@ -2,34 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<!-- Dummy Malcolm Device -->
-	<bean id="dummyMalcolmModel" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="dummyMalcolm"/>
-		<property name="exposureTime" value="0.01"/>
-		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
-		<property name="axesToMove">
-			<list>
-				<value>sc_MicroFocusSampleX</value>
-				<value>sc_MicroFocusSampleY</value>
-			</list>
-		</property>
-	</bean>
 	
-	<bean id="dummyMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDevice"/>
-		<property name="label" value="Dummy Malcolm Device"/>
-		<property name="description" value="A dummy Malcolm device for testing"/>
-		<!--  <property name="icon" value=""/> TODO: we need an icon for malcolm-->
-	</bean>
-	
-	<bean id="dummyMalcolmDevice" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="dummyMalcolm"/>
-		<property name="model" ref="dummyMalcolmModel"/>
-		<property name="deviceInformation" ref="dummyMalcolmInfo"/>
-		<!-- Whether this is the default device to use in a scan. Possibly should be set to true if/when we remove the Mandelbrot detector-->
-		<property name="activated" value="false"/>
-	</bean>
+	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
 
 </beans>
 
