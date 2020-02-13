@@ -71,7 +71,7 @@ public class TomographyAcquisitionComposite extends CompositeTemplate<Tomography
 
 	private void stageCompose(Composite parent) {
 		StagesComposite stagesComposite = StagesComposite.buildModeComposite(parent, controller);
-		controller.setTomographyMode(stagesComposite.getStageType().getStage());
+		controller.setStageDescription(stagesComposite.getStage());
 	}
 
 	private void cameraGroupElements(Composite parent) {
