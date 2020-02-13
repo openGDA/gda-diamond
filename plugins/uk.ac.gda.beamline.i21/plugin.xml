@@ -23,14 +23,6 @@
                name="aboutText"
                value="Diamond Beamline i21 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
          </property>
-         <property
-               name="startupForegroundColor"
-               value="000000">
-         </property>
-         <property
-               name="startupProgressRect"
-               value="2,215,598,15">
-         </property>
       </product>
    </extension>
    <extension
