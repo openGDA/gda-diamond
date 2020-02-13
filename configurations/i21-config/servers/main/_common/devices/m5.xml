@@ -73,6 +73,11 @@
 
 	<bean id="m5tth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m5rstageMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg"/>
 	</bean>
 

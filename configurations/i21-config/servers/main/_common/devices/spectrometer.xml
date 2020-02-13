@@ -8,7 +8,7 @@
 		<property name="motor" ref="specgammaMotor" />
 		<property name="outputFormat">
 			<list>
-				<value>%7.4f</value>
+				<value>%7.6f</value>
 			</list>
 		</property>
 		<property name="userUnits" value="deg" />
@@ -18,7 +18,7 @@
 		<property name="motor" ref="speczMotor" />
 		<property name="outputFormat">
 			<list>
-				<value>%8.3f</value>
+				<value>%8.6f</value>
 			</list>
 		</property>
 		<property name="userUnits" value="mm" />
@@ -28,7 +28,7 @@
 		<property name="motor" ref="specxMotor" />
 		<property name="outputFormat">
 			<list>
-				<value>%9.3f</value>
+				<value>%9.6f</value>
 			</list>
 		</property>
 		<property name="userUnits" value="mm" />
@@ -37,7 +37,7 @@
 		<property name="motor" ref="spectthMotor" />
 		<property name="outputFormat">
 			<list>
-				<value>%7.4f</value>
+				<value>%7.6f</value>
 			</list>
 		</property>
 		<property name="userUnits" value="deg" />

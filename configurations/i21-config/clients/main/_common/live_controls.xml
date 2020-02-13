@@ -9,6 +9,7 @@
 		<property name="group" value="2-theta Rotations" />
 		<property name="scannableName" value="m5tth" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 
 	<bean id="difftth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -16,6 +17,7 @@
 		<property name="group" value="2-theta Rotations" />
 		<property name="scannableName" value="difftth" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 
 	<bean id="epics_armtth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -23,6 +25,7 @@
 		<property name="group" value="2-theta Rotations" />
 		<property name="scannableName" value="epics_armtth" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 	
 	<!-- Translations -->
@@ -31,6 +34,7 @@
 		<property name="group" value="Sample Translations" />
 		<property name="scannableName" value="x" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 
 	<bean id="say_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -38,6 +42,7 @@
 		<property name="group" value="Sample Translations" />
 		<property name="scannableName" value="y" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 
 	<bean id="saz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -45,6 +50,7 @@
 		<property name="group" value="Sample Translations" />
 		<property name="scannableName" value="z" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 
 	<!-- Stage Rotations -->
@@ -53,6 +59,7 @@
 		<property name="group" value="Sample Rotations" />
 		<property name="scannableName" value="th" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 	
 	<bean id="satilt_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -60,6 +67,7 @@
 		<property name="group" value="Sample Rotations" />
 		<property name="scannableName" value="chi" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 
 	<bean id="saazimuth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -67,8 +75,37 @@
 		<property name="group" value="Sample Rotations" />
 		<property name="scannableName" value="phi" />
 		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 	</bean>
 	
+	<bean id="sgmr1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sgmr1" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="sgmr1" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+	</bean>
+	<bean id="spech_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="spech" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="spech" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+	</bean>
+	<bean id="specl_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="specl" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="specl" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+	</bean>
+	<bean id="specgamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="specgamma" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="specgamma" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+	</bean>
 	<bean id="sample_temperature_display" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Temperature" />
 		<property name="group" value="Sample" />
@@ -133,6 +170,10 @@
 				<ref bean="m5tth_control" />
 				<ref bean="difftth_control" />
 				<ref bean="epics_armtth_control"/>
+				<ref bean="sgmr1_control" />
+				<ref bean="spech_control" />
+				<ref bean="specl_control" />
+				<ref bean="specgamma_control" />
 				<ref bean="screws_position" />
 				<ref bean="transfer_position" />
 				<ref bean="rixs_position" />
