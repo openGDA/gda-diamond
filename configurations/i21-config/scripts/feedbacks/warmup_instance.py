@@ -20,3 +20,4 @@ tsample.tolerance_demand=0.001
 tsample.tolerance_sample=5.0
 tsample.MAX_RAMP_RATE=10.0
 tsample.MAX_RAMP_RATE_130_160=1.0
+tsample.CRYO_SAMPLE_DIFFERENCE=8.0
