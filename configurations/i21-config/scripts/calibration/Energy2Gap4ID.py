@@ -56,7 +56,8 @@ def idgap_calc(Ep, polarisation):
         elif (Ep>700 and Ep<=820):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 19.2998231 + 0.02285595*Ep #Corrected for VPG1 on 2017/12/01
-                gap = 19.2309878 + 0.02296267*Ep #Corrected for VPG1 on 2018/4/23
+                #gap = 19.2309878 + 0.02296267*Ep #Corrected for VPG1 on 2018/4/23
+                gap = 19.315 + 0.022716*Ep #Corrected for VPG1 on 2020/01/24
             elif pgmGratingSelect.getPosition()=="VPG2":
                 #gap = 18.7769565 + 0.02352715*Ep  #Corrected for VPG2 on 2018/03/07
                 #gap = 19.2185231 + 0.02287568*Ep  #Corrected for VPG2 on 2018/04/23
@@ -201,7 +202,8 @@ def idgap_calc(Ep, polarisation):
         elif (Ep>700 and Ep<=820):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 12.1996757 + 0.01755656*Ep #Corrected for VPG1 on 2017/12/01
-                gap = 12.1751464 + 0.01759710*Ep #Corrected for VPG1 on 2018/04/23
+                #gap = 12.1751464 + 0.01759710*Ep #Corrected for VPG1 on 2018/04/23
+                gap = 12.188 + 0.017466*Ep #Corrected for VPG1 on 2020/01/24
             elif pgmGratingSelect.getPosition()=="VPG2":
                 #gap = 12.2144937 + 0.01746779*Ep  #Corrected for VPG2 on 2017/11/30
                 #gap = 12.1515345 + 0.01754967*Ep  #Corrected for VPG2 on 2017/04/23
@@ -281,11 +283,13 @@ def idgap_calc(Ep, polarisation):
 #                 gap = 13.6675300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.10
 #                 gap = 13.6103300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.20
 #                 gap = 13.5531300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.30
-                gap = 13.52453 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
+#                 gap = 13.52453 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
 #                 gap = 13.4902100 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.41
 #                 gap = 13.4787700 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.43
 #                 gap = 13.4616100 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.46
 #                 gap = 13.38153 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.60
+                gap = 13.43873 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -19.5
+#                 gap = 13.15273 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -20.0
             elif pgmGratingSelect.getPosition()=="VPG3":
                 raise Exception("No calibration available for VPG3 in CL mode")
             else:
@@ -298,11 +302,13 @@ def idgap_calc(Ep, polarisation):
 #                 gap = 13.6675300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.10
 #                 gap = 13.6103300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.20
 #                 gap = 13.5531300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.30
-                gap = 13.52453 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
+#                 gap = 13.52453 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
 #                 gap = 13.4902100 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.41
 #                 gap = 13.4787700 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.43
 #                 gap = 13.4616100 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.46
 #                 gap = 13.38153 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.60
+                gap = 13.43873 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -19.5
+#                 gap = 13.15273 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -20.0
             elif pgmGratingSelect.getPosition()=="VPG3":
                 raise Exception("No calibration available for VPG3 in CL mode")
             else:
@@ -319,11 +325,13 @@ def idgap_calc(Ep, polarisation):
 #                 gap = 13.5276700 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.10
 #                 gap = 13.5039300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.20
 #                 gap = 13.4801900 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.30
-                gap = 13.46832 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
+#                 gap = 13.46832 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
 #                 gap = 13.4540800 + 0.0200900*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.41
 #                 gap = 13.4493300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.43
 #                 gap = 13.4422100 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.46
 #                 gap = 13.40897 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.60
+                gap = 13.43271 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -19.5
+#                 gap = 13.31401 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -20.0
             elif pgmGratingSelect.getPosition()=="VPG3":
                 raise Exception("No calibration available for VPG3 in CR mode")
             else:
@@ -336,11 +344,13 @@ def idgap_calc(Ep, polarisation):
 #                 gap = 13.5276700+ 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.10
 #                 gap = 13.5039300 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.20
 #                 gap = 13.4801900+ 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.30
-                gap = 13.46832 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
+#                 gap = 13.46832 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.35
 #                 gap = 13.4540800 + 0.0200900*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.41
 #                 gap = 13.4493300+ 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.43
 #                 gap = 13.4422100 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of +19.46
 #                 gap = 13.40897 + 0.0200600*Ep #Corrected for VPG2 on 2019/09/30 with a phase of -19.60
+                gap = 13.43271 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -19.5
+#                 gap = 13.31401 + 0.0200600*Ep #Corrected for VPG2 on 2019/11/20 with a phase of -20.0
             elif pgmGratingSelect.getPosition()=="VPG3":
                 raise Exception("No calibration available for VPG3 in CR mode")
             else:

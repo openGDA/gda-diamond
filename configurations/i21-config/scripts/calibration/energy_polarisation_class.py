@@ -2,6 +2,7 @@ import sys
 import csv
 from time import sleep
 import logging
+from gdascripts.utils import caput
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
@@ -11,17 +12,20 @@ from lookup.fourKeysLookupTable import loadLookupTable
 import numbers
 
 def getFittingCoefficents(polarisation_mode, Ep, vpg, lut={}):
-    lowEnergies=sorted([e[1] for e in lut.keys() if e[0]==polarisation_mode])
-    highEnergies=sorted([e[2] for e in lut.keys() if e[0]==polarisation_mode])
+    lowEnergies=sorted([e[1] for e in lut[0].keys() if (e[0]==polarisation_mode and e[3]==vpg)])
+    #print lowEnergies
+    highEnergies=sorted([e[2] for e in lut[0].keys() if (e[0]==polarisation_mode and e[3]==vpg)])
+    #print highEnergies
     minEnergy=min(lowEnergies)
     maxEnergy=max(highEnergies)
-    limits=zip(lowEnergies, highEnergies)   
+    limits=zip(lowEnergies, highEnergies)
+    #print "Calibrated energy ranges: %s" % (limits)   
     if (Ep<minEnergy or Ep > maxEnergy):
         raise ValueError("Demanding energy must lie between %s and %s eV!"%(minEnergy, maxEnergy))
     else:
         for low, high in limits:
             if (Ep>=low and Ep<high): 
-                return lut[(polarisation_mode, low, high, vpg)]
+                return lut[0][(polarisation_mode, low, high, vpg)]
 
 def loadDataset(filename):
     '''loads a CSV with the provided filename 
@@ -43,13 +47,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         instance.
         '''
         
-    def __init__(self, name, idctrl, pgmenergy, idlamlookup, lut="IDEnergy2GapCalibrations.cvs", energyConstant=False, polarisationConstant=False):
+    def __init__(self, name, idctrl, pgmenergy, pgmgratingselect, idlamlookup, lut="IDEnergy2GapCalibrations.cvs", energyConstant=False, polarisationConstant=False, feedbackPV=None):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut=loadLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.idscannable=idctrl
         self.pgmenergy=pgmenergy
         self.idlamlookup=idlamlookup
         self.scannables=ScannableGroup(name, [pgmenergy, idctrl])
+        self.pgmgratingselect=pgmgratingselect
+        self.feedbackPV=feedbackPV
         self._busy=0
         self.setName(name)
         self.setLevel(3)
@@ -115,7 +121,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         phase=0 #phase value for LH and LV is ignored by self.idscannable
         if mode in ["LH", "LV", "CR", "CL"]:
             #polarisation is constant in these modes
-            coef=getFittingCoefficents(mode, Ep, self.lut)
+            coef=getFittingCoefficents(mode, Ep, str(self.pgmgratingselect.getPosition()), self.lut)
             gap = coef[0] + coef[1]*Ep + coef[2]*Ep**2 +coef[3]*Ep**3 + coef[4]*Ep**4 + coef[5]*Ep**5 + coef[6]*Ep**6 + coef[7]*Ep**7
             
             if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
@@ -246,6 +252,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                         newPolarisationMode=str(new_position)
                         if not newPolarisationMode in ["LH", "LV","CR", "CL"]:
                             raise ValueError('Input value must be one of valid polarisation mode: "LH", "LV","CR", "CL"')
+                        self.energy=self.pgmenergy.getPosition()
                     elif isinstance(new_position, numbers.Number):
                         if self.polarisationConstant: #input must be for energy
                             self.energy=float(new_position) #energy validation is done in getFittingCoefficent() method
@@ -285,7 +292,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             #print s.getName(), self.idscannable.getName()
             if str(s.getName()) == str(self.idscannable.getName()):
                 try:
-                    s.asynchronousMoveTo([gap, newPolarisationMode, phase])
+                    if self.feedbackPV is not None and not self.SCANNING:
+                        #change polarisation, need to stop feedback
+                        caput(self.feedbackPV, 0)
+                        s.moveTo([gap, newPolarisationMode, phase])
+                        caput(self.feedbackPV, 4)
+                    else:
+                        s.asynchronousMoveTo([gap, newPolarisationMode, phase])
                     #print "moving %s to [%f, %s,%f]" % (s.getName(), gap, newPolarisationMode, phase)
                 except:
                     print "cannot set %s to [%f, %s, %f]" % (s.getName(), gap, newPolarisationMode, phase)
@@ -330,18 +343,27 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         else: # real hardware
             self.rawGetPosition() #ensure ID hardware in sync at start of scan
             self.SCANNING=True
+            if self.feedbackPV is not None:
+                #during scan, stop feedback
+                caput(self.feedbackPV, 0)
+            
         
     def atScanEnd(self):
         self.SCANNING=False
+        if self.feedbackPV is not None:
+            #restore feedback
+            caput(self.feedbackPV, 4)
          
 
-#idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
-#energyj=BeamEnergyPolarisationClass("energyj", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
-#energyj.configure()
-#polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
-#polarisation.configure()
-#energypolarisation=BeamEnergyPolarisationClass("energypolarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
-#energypolarisation.configure()
-#energypolarisation.setInputNames(["energy"])
-#energypolarisation.setExtraNames(["polarisation"])
+# lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv' #theoretical table from ID group
+#  
+# idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
+# energy=BeamEnergyPolarisationClass("energy", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", polarisationConstant=True)  # @UndefinedVariable
+# energy.configure()
+# polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", energyConstant=True,feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
+# polarisation.configure()
+# energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv",feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
+# energypolarisation.configure()
+# energypolarisation.setInputNames(["energy"])
+# energypolarisation.setExtraNames(["polarisation"])
 
