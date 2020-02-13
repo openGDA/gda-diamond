@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanBeanSubmitter;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
+import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController.DiffractionAcquisitionMode;
 
 /**
  * Handler for CtrlClick events from MappedDataView. Used to position a centred region (with the current settings) at
@@ -54,9 +55,11 @@ public class CtrlClickToScanHandler implements EventHandler {
 	@Override
 	public void handleEvent(Event event) {
 		final ClickEvent mapClickEvent = ((IMapClickEvent) event.getProperty("event")).getClickEvent();
-		if (smController.isClickToScanArmed()	&& mapClickEvent.isControlDown()) {
+		if (DiffractionAcquisitionMode.POINT_AND_SHOOT.equals(smController.getAcquisitionMode())
+				&& mapClickEvent.isControlDown()) {
 			try {
-				rapController.createRegionWithCurrentRegionValuesAt(mapClickEvent.getxValue(), mapClickEvent.getyValue());
+				rapController.createRegionWithCurrentRegionValuesAt(mapClickEvent.getxValue(),
+						mapClickEvent.getyValue());
 				submitter.submitScan(smController.createScanBean());
 			} catch (Exception e) {
 				logger.error("Scan submission failed", e);

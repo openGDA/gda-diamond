@@ -19,14 +19,18 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 import org.dawnsci.mapping.ui.MappedDataView;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
 import gda.configuration.properties.LocalProperties;
 import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
@@ -45,13 +49,15 @@ import uk.ac.diamond.daq.mapping.ui.experiment.saver.ScanSaver;
  *
  * @since GDA 9.13
  */
-public class DiffractionScanSelection extends LayoutUtilities {
+public class DiffractionScanSelection extends ViewPart {
 
 	private Composite panelComposite;
 
 	private DiffractionPathComposite diffractionPathComposite;
 	private PathSummary summaryHolder;
 	private ScanManagementController smController;
+
+	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
 	public DiffractionScanSelection() {
 		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
@@ -60,14 +66,31 @@ public class DiffractionScanSelection extends LayoutUtilities {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		panelComposite = addGridComposite(parent);
-		panelComposite.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		buildHeaderComposite(panelComposite);
-		buildDiffractionPathComposite(panelComposite);
-		buildSavedComposite(panelComposite);
 
-		horizGrab().applyTo(new Label(panelComposite, SWT.SEPARATOR | SWT.HORIZONTAL));
-		buildStatusComposite(panelComposite);
+		GridLayoutFactory.fillDefaults().applyTo(parent);
+		GridDataFactory.fillDefaults().applyTo(parent);
+		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		parent.setBackgroundMode(SWT.INHERIT_FORCE);
+
+		ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
+		GridLayoutFactory.fillDefaults().applyTo(scrolledComposite);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(scrolledComposite);
+
+		panelComposite = layoutUtils.addGridComposite(scrolledComposite);
+		panelComposite.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		buildDiffractionPathComposite();
+		buildExecutionComposite();
+		buildSavedComposite();
+
+		layoutUtils.horizGrab().applyTo(new Label(panelComposite, SWT.SEPARATOR | SWT.HORIZONTAL));
+		buildStatusComposite();
+
+		scrolledComposite.setContent(panelComposite);
+		scrolledComposite.setMinSize(panelComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
 
 		final IWorkbenchPage page = getSite().getPage();
 		// Ensure all the infrastructure to initialise the plotting infrastructure is instantiated
@@ -76,28 +99,27 @@ public class DiffractionScanSelection extends LayoutUtilities {
 		page.findView(MappingExperimentView.ID);
 	}
 
-	private void buildHeaderComposite(final Composite parent) {
-		final Composite composite = addGridComposite(parent);
-		horizGrab().applyTo(composite);
-
-		final Button freezeImageButton = new Button(composite, SWT.CHECK);
-		freezeImageButton.setSelection(false);
-		freezeImageButton.setToolTipText(	"Freeze the background live stream on the mapping view");
-		freezeImageButton.setText("Freeze Background");
-		fillGrab().applyTo(freezeImageButton);
-	}
-
-	private void buildDiffractionPathComposite(final Composite parent) {
-		diffractionPathComposite = new DiffractionPathComposite(parent, SWT.NONE);
+	private void buildDiffractionPathComposite() {
+		diffractionPathComposite = new DiffractionPathComposite(panelComposite, SWT.NONE);
 		summaryHolder = diffractionPathComposite.populate();
 	}
 
-	private void buildSavedComposite(final Composite parent) {
-		new Label(parent, SWT.NONE).setText("Saved Scan Definitions");
+	private void buildExecutionComposite() {
+		new Label(panelComposite, SWT.NONE).setText("Execution mode");
 
-		final DescriptiveFilenameBrowserComposite savedComposite = new DescriptiveFilenameBrowserComposite(parent, SWT.BORDER);
+		Composite executionControl = new DiffractionExecutionControl(panelComposite, SWT.NONE, smController);
+		GridLayoutFactory.fillDefaults().applyTo(executionControl);
+		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.TOP).applyTo(executionControl);
+
+		addSpace(panelComposite);
+	}
+
+	private void buildSavedComposite() {
+		new Label(panelComposite, SWT.NONE).setText("Saved Scan Definitions");
+
+		final DescriptiveFilenameBrowserComposite savedComposite = new DescriptiveFilenameBrowserComposite(panelComposite, SWT.BORDER);
 		savedComposite.setLayout(new GridLayout());
-		fillGrab().applyTo(savedComposite);
+		layoutUtils.fillGrab().applyTo(savedComposite);
 		ScanSaver scanSaver = null;
 		if (LocalProperties.isPersistenceServiceAvailable()) {
 			scanSaver = new PersistenceScanSaver(diffractionPathComposite::load, smController);
@@ -107,28 +129,32 @@ public class DiffractionScanSelection extends LayoutUtilities {
 		savedComposite.populate(scanSaver);
 	}
 
-	private void buildStatusComposite(final Composite parent) {
-		new Label(parent, SWT.NONE).setText("Status");
-		final Composite statusContent = addGridComposite(parent);
+	private void buildStatusComposite() {
+		new Label(panelComposite, SWT.NONE).setText("Status");
+		final Composite statusContent = layoutUtils.addGridComposite(panelComposite);
 		statusContent.setLayout(new GridLayout(2, true));
 
 		Label exposureTime = new Label(statusContent, SWT.LEFT);
 		exposureTime.setText("ExposureTime: 50ms");
-		new Label(statusContent, SWT.LEFT);
+		addSpace(statusContent);
 
-		addGrabbingCenteredLabel(statusContent,"Current Diffraction Scan");
-		addGrabbingCenteredLabel(statusContent,"Overall");
+		layoutUtils.addGrabbingCenteredLabel(statusContent,"Current Diffraction Scan");
+		layoutUtils.addGrabbingCenteredLabel(statusContent,"Overall");
 
 		final ProgressBar innerBar = new ProgressBar(statusContent, SWT.NONE);
-		fillGrab().applyTo(innerBar);
+		layoutUtils.fillGrab().applyTo(innerBar);
 		innerBar.setSelection(20);
 
 		final ProgressBar outerBar = new ProgressBar(statusContent, SWT.NONE);
 		outerBar.setSelection(60);
-		fillGrab().applyTo(outerBar);
+		layoutUtils.fillGrab().applyTo(outerBar);
 
-		addGrabbingCenteredLabel(statusContent,"Point 50 of " + summaryHolder.getTotalPoints());
-		addGrabbingCenteredLabel(statusContent,"Point 12 of 20");
+		layoutUtils.addGrabbingCenteredLabel(statusContent,"Point 50 of " + summaryHolder.getTotalPoints());
+		layoutUtils.addGrabbingCenteredLabel(statusContent,"Point 12 of 20");
+	}
+
+	private Label addSpace(Composite composite) {
+		return new Label(composite, SWT.NONE);
 	}
 
 	@Override

@@ -55,3 +55,4 @@ Require-Bundle: uk.ac.gda.common,
 Export-Package: uk.ac.diamond.daq.beamline.k11
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
 Service-Component: OSGI-INF/*.xml
+Bundle-Activator: uk.ac.diamond.daq.beamline.k11.Activator

@@ -24,13 +24,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Base class of SWT wrappers to reduce typing when laying elements out in standard ways
  */
-abstract class LayoutUtilities extends ViewPart {
+public class LayoutUtilities {
 
 
 	/**
