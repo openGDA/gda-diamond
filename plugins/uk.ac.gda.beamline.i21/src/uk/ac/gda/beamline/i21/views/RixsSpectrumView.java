@@ -14,6 +14,8 @@ import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -37,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.processing.operations.rixs.RixsImageReductionBase;
+import uk.ac.gda.beamline.i21.I21BeamlineActivator;
 import uk.ac.gda.client.live.stream.view.customui.AbstractLiveStreamViewCustomUi;
 
 public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
@@ -59,47 +62,54 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		int boxWidthHint = calculateBoxWidth(composite, TEXT_WIDTH);
 
 		VerifyListener v = buildDoubleVerifyListener();
-
-		// input parameters
-		createInputParametersGroup(composite, boxWidthHint, v);
-		// spectrum plot
-		createSpectrumPlot(composite);
-
+		
+		createLiveSpectrumPlot(composite, boxWidthHint, v);
 		//listen to the image in main plot
 		getPlottingSystem().addTraceListener(new TraceListener());
-
 	}
 
-	private void createSpectrumPlot(Composite comp) {
-		Section section = toolkit.createSection(comp, Section.DESCRIPTION | Section.TITLE_BAR);
-		section.setLayout(GridLayoutFactory.fillDefaults().create());
-		section.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+	private void createLiveSpectrumPlot(Composite composite, int boxWidthHint, VerifyListener v) {
+		Section section = toolkit.createSection(composite, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR );
+		section.setText("Live RIXS Spectrum");
 		section.setExpanded(true);
 		section.setEnabled(true);
 		section.setVisible(true);
-		section.setText("Spectrum Plot");
-		section.setDescription("RIXS spectrum from live image stream above");
+		section.setLayout(GridLayoutFactory.fillDefaults().create());
+		section.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+		Composite client = toolkit.createComposite(section, SWT.WRAP);
+		client.setLayout(GridLayoutFactory.fillDefaults().create());
 
-		Composite sectionClient = toolkit.createComposite(section);
-		sectionClient.setLayout(GridLayoutFactory.fillDefaults().create());
-		sectionClient.setLayoutData(GridDataFactory.fillDefaults().grab(true, true).create());
+		Composite inputParameters = toolkit.createComposite(client);
+		GridLayoutFactory.swtDefaults().numColumns(6).applyTo(inputParameters);
 
+		final Label createLabel = toolkit.createLabel(inputParameters, "Energy Dispersion");
+		GridDataFactory.swtDefaults().applyTo(createLabel);
+		energyDispersion = makeTextForDouble(inputParameters, "1.0", boxWidthHint, "Set energy dispersion value", v);
+		
+		final Label createLabel2 = toolkit.createLabel(inputParameters, "Slope");
+		GridDataFactory.swtDefaults().applyTo(createLabel2);
+		slope = makeTextForDouble(inputParameters, "0.0", boxWidthHint, "Set slope of reflection line", v);
+
+		final Label createLabel3 = toolkit.createLabel(inputParameters, "Offset");
+		GridDataFactory.swtDefaults().applyTo(createLabel3);
+		offset = makeTextForDouble(inputParameters, "0.0", boxWidthHint, "Set pixel/energy offset", v);
+		
 		final IPlottingService plottingService = PlatformUI.getWorkbench().getService(IPlottingService.class);
 		try {
 			spectrumPlot = plottingService.createPlottingSystem();
 			//create plot with null action bar to stop this plot's action items being added to this plot's view's toolbar 
-			spectrumPlot.createPlotPart(sectionClient, "LiveSpectrum", null, PlotType.XY, null);
+			spectrumPlot.createPlotPart(client, "LiveSpectrum", null, PlotType.XY, null);
 			spectrumPlot.setShowLegend(false);
 			spectrumPlot.getPlotComposite().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(xSizeHint,ySizeHint).create());
 			frameCounter.set(0);
 		} catch (Exception e) {
 			logger.error("Failed to create a plotting system for spectrum plot", e);
 		}
-
+		//add tool for spectrum plot local to the section
 		createSectionToolbar(section);
-		
+		//enforce toolkit colour scheme
 		toolkit.adapt(spectrumPlot.getPlotComposite());
-		section.setClient(sectionClient);
+		section.setClient(client);		
 	}
 
 	private void createSectionToolbar(Section control) {
@@ -129,21 +139,30 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		Arrays.stream(toolBarManager.getItems())
 			.filter(ci -> ci.getId() == null || toolBarItemIdsToKeep.stream().noneMatch(ci.getId()::contains))
 			.forEach(toolBarManager::remove);
-		//add kept items to this scetion's toolar
+		
+		Action replotAndRescale= new Action("Re-plot the Spectrum", IAction.AS_PUSH_BUTTON) {
+			@Override
+			public void run() {				
+					spectrumPlot.clear();
+					updateSpectrum(activePaletteTrace, true);
+			}			
+		};
+		replotAndRescale.setImageDescriptor(I21BeamlineActivator
+				.getImageDescriptor("icons/arrow-repeat-once.png"));
+		toolBarManager.add(replotAndRescale);
+		
+		//add kept items to this section's tool bar
 		Arrays.stream(toolBarManager.getItems()).forEach(e->e.fill(toolbar, -1));
 		control.setTextClient(toolbar);
 	}
 	
-	private void plotSpectrum() {
-		if (frameCounter.get()==0) {
-			spectrumPlot.setRescale(true);
-		} 
+	private void updateSpectrum(AtomicReference<IImageTrace> activePaletteTrace, boolean rescale) {
+		spectrumPlot.setRescale(rescale);
 		Dataset transpose = DatasetUtils.transpose(activePaletteTrace.get().getData(), null);
 		double energyDis = Double.parseDouble(energyDispersion.getText());
 		double rslope = Double.parseDouble(slope.getText());
 		double roffset = Double.parseDouble(offset.getText());
 		Dataset[] spectrum = RixsImageReductionBase.makeSpectrum(transpose, 0, rslope, roffset, true);
-
 		//apply energy calibration
 		Dataset elastic = RixsImageReductionBase.makeEnergyScale(spectrum, 0, energyDis);
 		if (energyDis==1.0) {
@@ -152,42 +171,19 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 			elastic.setName("Energy loss");
 		}
 		spectrum[1].setName("Intensity");
-		spectrumPlot.updatePlot1D(elastic, Arrays.asList(spectrum[1]), "Live Spectrum - Frame "+frameCounter.incrementAndGet(),new NullProgressMonitor());
+		spectrumPlot.updatePlot1D(elastic, Arrays.asList(spectrum[1]), "", new NullProgressMonitor());
 		if (spectrumPlot.isRescale()) {
 			spectrumPlot.setRescale(false);
 		}
-		logger.trace(">>>>>>>>>>>> profile updated");
+		logger.trace(">>>>>>>>>>>> profile updated");		
 	}
-
-	private void createInputParametersGroup(Composite comp, int boxWidthHint, VerifyListener v) {
-		Section section = toolkit.createSection(comp, Section.EXPANDED | Section.TWISTIE | Section.TITLE_BAR | Section.DESCRIPTION);
-		section.setText("Live RIXS Spectrum");
-		section.setExpanded(true);
-		section.setEnabled(true);
-		section.setVisible(true);
-		section.setLayout(GridLayoutFactory.fillDefaults().create());
-		section.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
-		section.setDescription("Calibration parameters: ");
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		client.setLayout(GridLayoutFactory.fillDefaults().create());
-
-		Composite inputParameters = toolkit.createComposite(client);
-		GridLayoutFactory.swtDefaults().numColumns(6).applyTo(inputParameters);
-
-		final Label createLabel = toolkit.createLabel(inputParameters, "Energy Dispersion");
-		GridDataFactory.swtDefaults().applyTo(createLabel);
-		energyDispersion = makeTextForDouble(inputParameters, "1.0", boxWidthHint, "Set energy dispersion value", v);
-		
-		final Label createLabel2 = toolkit.createLabel(inputParameters, "Slope");
-		GridDataFactory.swtDefaults().applyTo(createLabel2);
-		slope = makeTextForDouble(inputParameters, "0.0", boxWidthHint, "Set slope of reflection line", v);
-
-		final Label createLabel3 = toolkit.createLabel(inputParameters, "Offset");
-		GridDataFactory.swtDefaults().applyTo(createLabel3);
-		offset = makeTextForDouble(inputParameters, "0.0", boxWidthHint, "Set pixel/energy offset", v);
-		
-		section.setClient(client);
-
+	
+	private void plotSpectrum() {
+		if (frameCounter.getAndIncrement()==0) {
+			updateSpectrum(activePaletteTrace, true);
+		} else {
+			updateSpectrum(activePaletteTrace, false);
+		}
 	}
 	
 	private Text makeTextForDouble(Composite parent, String defaultValue, int widthHint, String toolTip, VerifyListener v) {
