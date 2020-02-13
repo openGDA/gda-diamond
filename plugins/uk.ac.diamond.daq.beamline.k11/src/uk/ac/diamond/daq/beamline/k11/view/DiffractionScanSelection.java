@@ -37,7 +37,7 @@ import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
 import uk.ac.diamond.daq.beamline.k11.view.control.PathSummary;
 import uk.ac.diamond.daq.mapping.ui.experiment.MappingExperimentView;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
-import uk.ac.diamond.daq.mapping.ui.experiment.file.DescriptiveFilenameBrowserComposite;
+import uk.ac.diamond.daq.mapping.ui.experiment.file.DescriptiveFilenameBrowserCompositeFactory;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.FileScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.PersistenceScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.ScanSaver;
@@ -115,18 +115,16 @@ public class DiffractionScanSelection extends ViewPart {
 	}
 
 	private void buildSavedComposite() {
-		new Label(panelComposite, SWT.NONE).setText("Saved Scan Definitions");
-
-		final DescriptiveFilenameBrowserComposite savedComposite = new DescriptiveFilenameBrowserComposite(panelComposite, SWT.BORDER);
-		savedComposite.setLayout(new GridLayout());
-		layoutUtils.fillGrab().applyTo(savedComposite);
 		ScanSaver scanSaver = null;
 		if (LocalProperties.isPersistenceServiceAvailable()) {
 			scanSaver = new PersistenceScanSaver(diffractionPathComposite::load, smController);
 		} else {
 			scanSaver = new FileScanSaver(diffractionPathComposite::load, smController);
 		}
-		savedComposite.populate(scanSaver);
+
+		new Label(panelComposite, SWT.NONE).setText("Saved Scan Definitions");
+		DescriptiveFilenameBrowserCompositeFactory fc = new DescriptiveFilenameBrowserCompositeFactory(scanSaver);
+		layoutUtils.fillGrab().applyTo(fc.createComposite(panelComposite, SWT.BORDER));
 	}
 
 	private void buildStatusComposite() {
