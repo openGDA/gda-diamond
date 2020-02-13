@@ -67,6 +67,7 @@ class CryostatWarmUp(ScannableBase, Runnable):
         self.firstTime=False
         self.temperatutePrintIntervalInSeconds=10.0
         self.warmup=True
+        self.CRYO_SAMPLE_DIFFERENCE=8.0
         
     def setSleepTime(self, t):
         self.sleepTime=t
@@ -85,20 +86,23 @@ class CryostatWarmUp(ScannableBase, Runnable):
             self.warmup=True
         elif new_temp < existingTemperature:
             self.cryostat.setRampRate(100.0)
-            self.cryostat.asynchronousMoveTo(new_temp)
+            self.cryostat.asynchronousMoveTo(new_temp - self.CRYO_SAMPLE_DIFFERENCE)
             self.firstTime=True
             self.warmup=False
         else:
             self.printMessage("Already at the requested temperature")
         
     def getPosition(self):
-        return self.cryostat.getCurrentDemandTemperature()
+            return self.cryostat.getPosition()[1] #sample temperature
     
     def isBusy(self):
         if self.firstTime:
             sleep(0.5) #sleep required to give time for lakeshore to react to asynchronousMoveTo
             self.firstTime=False
-        return math.fabs(self.cryostat.getTargetDemandTemperature() - self.cryostat.getCurrentDemandTemperature()) > self.tolerance_demand or math.fabs(float(self.cryostat.getPosition()[1]) - self.cryostat.getTargetDemandTemperature()) > self.tolerance_sample
+        if self.warmup:
+            return math.fabs(self.cryostat.getTargetDemandTemperature() - self.cryostat.getCurrentDemandTemperature()) > self.tolerance_demand or math.fabs(float(self.cryostat.getPosition()[1]) - self.cryostat.getTargetDemandTemperature()) > self.tolerance_sample
+        else:
+            return math.fabs(float(self.cryostat.getPosition()[1]) - (self.cryostat.getTargetDemandTemperature()+self.CRYO_SAMPLE_DIFFERENCE)) > self.tolerance_sample
          
     def stop(self):
         currentdDemand=self.cryostat.getCurrentDemandTemperature()
