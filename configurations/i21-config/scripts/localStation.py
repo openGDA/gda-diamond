@@ -51,7 +51,7 @@ print "load time utilities for creating timer objects."
 from gdascripts.pd.time_pds import * #@UnusedWildImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
+print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
 print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
 from gdascripts.utils import * #@UnusedWildImport
 print
@@ -140,23 +140,31 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'dummies.x' and 'dummies.y'"
 dummyenergy=BeamEnergy("dummyenergy",idscannable, dummies.x, dummies.y,pgmGratingSelect)  # @UndefinedVariable
-print "Create an 'energy' scannable which can be used for energy scan in GDA. It moves both ID gap and PGM energy"
-energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy, pgmGratingSelect)  # @UndefinedVariable
+print "Create an 'energy', 'polarisation', and 'energypolarisation' scannables"
 
-# LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
-# from lookup.IDLookup import IDLookup4LinearAngleMode
-# from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-# lookup_file='/dls_sw/i09-2/software/gda/config/lookupTables/LinearAngle.csv' #to be replaced by i09-2's own data
-# 
-# idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
-# energy=BeamEnergyPolarisationClass("energy", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
-# energy.configure()
-# polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
-# polarisation.configure()
-# energypolarisation=BeamEnergyPolarisationClass("energypolarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
-# energypolarisation.configure()
-# energypolarisation.setInputNames(["energy"])
-# energypolarisation.setExtraNames(["polarisation"])
+LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
+from lookup.IDLookup import IDLookup4LinearAngleMode
+from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv' #theoretical table from ID group
+ 
+idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
+if installation.isLive():
+    energy=BeamEnergyPolarisationClass("energy", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", polarisationConstant=True,feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
+    energy.configure()
+    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", energyConstant=True,feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
+    polarisation.configure()
+    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv",feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
+    energypolarisation.configure()
+else:
+    energy=BeamEnergyPolarisationClass("energy", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", polarisationConstant=True)  # @UndefinedVariable
+    energy.configure()
+    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", energyConstant=True)  # @UndefinedVariable
+    polarisation.configure()
+    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv")  # @UndefinedVariable
+    energypolarisation.configure()
+
+energypolarisation.setInputNames(["energy"])
+energypolarisation.setExtraNames(["polarisation"])
 
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
@@ -188,7 +196,7 @@ metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x]  # @Undefi
 if installation.isLive():
     metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
-m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback]# @UndefinedVariable
+m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback,m2roll,m2yaw]# @UndefinedVariable
 m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
 m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
 pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch,cff, pgmB2Shadow]  # @UndefinedVariable
@@ -221,7 +229,7 @@ print "*"*80
 #DiffCalc
 print "import DIFFCALC support for I21"
 # Import toolpoint scannables into namespace
-from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw
+from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw  # @UnusedImport
 
 try:
     from startup.i21 import *  # @UnusedWildImport
