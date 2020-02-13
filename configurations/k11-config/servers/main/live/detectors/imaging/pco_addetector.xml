@@ -11,7 +11,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11K-EA-DET-03:ROI:" />
-				<property name="initialArrayPort" value="D1.cam" />
+				<property name="initialArrayPort" value="pco.cam" />
 			</bean>
 		</property>
 	</bean>
@@ -21,7 +21,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11K-EA-DET-03:STAT:" />
-				<property name="initialArrayPort" value="D1.cam" />
+				<property name="initialArrayPort" value="pco.cam" />
 			</bean>
 		</property>
 	</bean>
@@ -31,7 +31,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11K-EA-DET-03:ARR:" />
-				<property name="initialArrayPort" value="D1.roi" />
+				<property name="initialArrayPort" value="pco.roi" />
 			</bean>
 		</property>
 	</bean>
@@ -41,7 +41,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11K-EA-DET-03:HDF5:" />
-				<property name="initialArrayPort" value="D1.stat" />
+				<property name="initialArrayPort" value="pco.stat" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -59,7 +59,7 @@
 	</bean>
 
 	<bean id="imaging_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
-		<constructor-arg name="adBase" ref="cam_adbase" />
-		<constructor-arg name="ndRoi" ref="cam_roi" />
+		<constructor-arg name="adBase" ref="pco_adbase" />
+		<constructor-arg name="ndRoi" ref="pco_roi" />
 	</bean>
 </beans>
