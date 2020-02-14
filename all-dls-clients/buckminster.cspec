@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="all-dls-config" componentType="eclipse.feature" version="1.0.0">
+<?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="all-dls-clients" componentType="eclipse.feature" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="all-mx-clients" componentType="buckminster"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.k11.site" componentType="eclipse.feature"/>
