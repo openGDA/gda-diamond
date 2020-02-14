@@ -11,7 +11,7 @@
 	
 	<parent>
 		<groupId>uk.ac.diamond</groupId>
-		<artifactId>gda-mt</artifactId>
+		<artifactId>gda-mt-features</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
