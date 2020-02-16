@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
@@ -26,7 +25,8 @@
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="federalid" />
 				</bean>
-				<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+				<bean id="subdirectory"
+					class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="subdirectory" />
 					<property name="value" value="nexus" />
 				</bean>
@@ -34,33 +34,317 @@
 		</property>
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
-			<map>
-				<entry key="ring_current">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/source:NXsource/current" />
-						<property name="units" value="mA" />
-					</bean>
-				</entry>
-				<entry key="ring_energy">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/source:NXsource/energy" />
-						<property name="units" value="GeV" />
-					</bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
 				<value>ring_current</value>
 				<value>ring_energy</value>
+				<value>m1</value>
+				<value>m2</value>
+				<value>m3</value>
+				<value>m4</value>
+				<value>dcm1</value>
+				<value>dcm2</value>
+				<value>s2</value>
+				<value>s3</value>
+				<value>s4</value>
 			</set>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="ring_current">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/source:NXsource/current" />
+						<property name="units" value="mA" />
+					</bean>
+				</entry>
+				<entry key="ring_energy">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/source:NXsource/energy" />
+						<property name="units" value="GeV" />
+					</bean>
+				</entry>
+				<entry key="m1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/m1:NXmirror/m1_x
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m1:NXmirror/m1_y
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m1:NXmirror/m1_roll
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m1:NXmirror/m1_pitch
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m1:NXmirror/m1_yaw
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value>kcts</value>
+								<value>kcts</value>
+								<value />
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="m2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/m2:NXmirror/m2_x
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m2:NXmirror/m2_y
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m2:NXmirror/m2_roll
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m2:NXmirror/m2_pitch
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m2:NXmirror/m2_yaw
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m2:NXmirror/m2_bendus
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m2:NXmirror/m2_bendds
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value>kcts</value>
+								<value>kcts</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value />
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="m3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/m3:NXmirror/m3_x
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m3:NXmirror/m3_y
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m3:NXmirror/m3_roll
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m3:NXmirror/m3_pitch
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m3:NXmirror/m3_yaw
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value>kcts</value>
+								<value>kcts</value>
+								<value />
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="m4">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/m4:NXmirror/m4_x
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m4:NXmirror/m4_y
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m4:NXmirror/m4_roll
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m4:NXmirror/m4_pitch
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m4:NXmirror/m4_yaw
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m4:NXmirror/m4_bendus
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/m4:NXmirror/m4_bendds
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value>kcts</value>
+								<value>kcts</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value />
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="dcm1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_y
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_z
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_roll
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_pitch
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_bragg
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_y_positioner
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>μm</value>
+								<value>μm</value>
+								<value>deg</value>
+								<value></value>
+								<value />
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="dcm2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_y
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_z
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_roll
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_pitch
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_bragg
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_y_positioner
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>μm</value>
+								<value>μm</value>
+								<value>deg</value>
+								<value></value>
+								<value />
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="s2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/s2:NXslit/s2_xsize
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s2:NXslit/s2_xcentre
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s2:NXslit/s2_ysize
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s2:NXslit/s1_ycentre
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="s3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/s3:NXslit/s3_xsize
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s3:NXslit/s3_xcentre
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s3:NXslit/s3_ysize
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s3:NXslit/s3_ycentre
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="s4">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/beamline:NXcollection/s4:NXslit/s4_xsize
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s4:NXslit/s4_xcentre
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s4:NXslit/s4_ysize
+								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/s4:NXslit/s4_ycentre
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+			</map>
 		</property>
 	</bean>
 

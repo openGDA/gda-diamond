@@ -17,8 +17,8 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="beam_x"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="beam_y"/></bean>
+	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="kb_x"/></bean>
+	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="kb_y"/></bean>
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
@@ -78,8 +78,8 @@
 							<bean class="org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel">
 								<property name="x" value="0" />
 								<property name="y" value="0" />
-								<property name="xAxisName" value="beam_x" />
-								<property name="yAxisName" value="beam_y" />
+								<property name="xAxisName" ref="x_axis_name" />
+								<property name="yAxisName" ref="y_axis_name" />
 							</bean>
 						</property>
 					</bean>

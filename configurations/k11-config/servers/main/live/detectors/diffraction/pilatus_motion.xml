@@ -3,12 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="cam_x" class="gda.device.scannable.ScannableMotor" >
-		<property name="motor" ref="cam_x_motor" />
-	</bean>
-	
-	<bean id="cam_z" class="gda.device.scannable.ScannableMotor" >
-		<property name="motor" ref="cam_z_motor" />
+	<bean id="pilatus_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>A</value>
+				<value>B</value>
+				<value>C</value>
+				<value>D</value>
+				<value>E</value>
+			</list>		
+		</property>
 	</bean>
 
 </beans>
