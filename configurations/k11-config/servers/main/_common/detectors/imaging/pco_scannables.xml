@@ -3,16 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="det_position" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>A</value>
-				<value>B</value>
-				<value>C</value>
-				<value>D</value>
-				<value>E</value>
-			</list>		
-		</property>
+	<bean id="pco_x" class="gda.device.scannable.ScannableMotor" >
+		<property name="motor" ref="pco_x_motor" />
+	</bean>
+	
+	<bean id="pco_z" class="gda.device.scannable.ScannableMotor" >
+		<property name="motor" ref="pco_z_motor" />
 	</bean>
 
 </beans>
