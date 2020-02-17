@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+    <bean id="sim_x" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+    <bean id="sim_y" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+    <bean id="sim_z" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+    <bean id="sim_theta" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+    <bean id="sim_load" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+    
+    <bean id="x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="Sim X" />                             
+        <property name="scannableName" value="sim_x" />                           
+        <property name="group" value="Sim Motors" />                               
+        <property name="increment" value="1.0" />                               
+        <property name="incrementTextWidth" value="60" />                       
+    </bean>                                                                     
+                                                                                
+    <bean id="y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="Sim Y" />                             
+        <property name="scannableName" value="sim_y" />                           
+        <property name="group" value="Sim Motors" />                               
+        <property name="increment" value="1.0" />                               
+        <property name="incrementTextWidth" value="60" />                       
+    </bean>                                                                     
+                                                                                
+    <bean id="z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="Sim Z" />                             
+        <property name="scannableName" value="sim_z" />                           
+        <property name="group" value="Sim Motors" />                               
+        <property name="increment" value="1.0" />                               
+        <property name="incrementTextWidth" value="60" />                       
+    </bean>                                                                     
+                                                                                
+    <bean id="theta_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="Sim Theta" />                   
+        <property name="scannableName" value="sim_theta" />                 
+        <property name="group" value="Sim Motors" />                               
+        <property name="increment" value="10" />                                
+        <property name="incrementTextWidth" value="60" />                       
+    </bean>                                                                     
+                                                                                
+    <bean id="load_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">                                                                                                                    
+        <property name="displayName" value="Sim Load" />                                
+        <property name="scannableName" value="sim_load" />                              
+        <property name="group" value="Sim Motors" />                                  
+        <property name="increment" value="1.0" />                                  
+        <property name="incrementTextWidth" value="60" />                          
+    </bean>                                                                        
+    <bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+        <property name="controls">                                                 
+            <list>
+            	<ref bean="x_control" />
+            	<ref bean="y_control" />
+            	<ref bean="z_control" />
+            	<ref bean="theta_control" />
+            	<ref bean="load_control" />                                                
+            </list>                                                                
+        </property>                                                                
+    </bean>
+    
+    <bean id="oav_calibration" class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+        <constructor-arg name="xAxisScannable" ref="sim_x" />     
+        <constructor-arg name="xAxisPixelScaling" value="2" />
+        <constructor-arg name="xAxisOffset" value="2.5" />      
+        <constructor-arg name="yAxisScannable" ref="sim_y" />     
+        <constructor-arg name="yAxisPixelScaling" value="3" />
+        <constructor-arg name="yAxisOffset" value="4.5" />      
+    </bean> 
+    
+    <bean id="ad_cam_control" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+    
+    <bean id="oav_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+        <property name="displayName" value="OAV" />                                
+        <property name="url" value="http://ws419.diamond.ac.uk:8080/ADSIM.mjpg.mjpg" />
+        <property name="rgb" value="true" />                                       
+        <property name="calibratedAxesProvider" ref="oav_calibration" />
+        <property name="topUi">
+        	<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+        		<constructor-arg ref="ad_cam_control" />
+        	</bean>
+        </property>
+        <property name="bottomUi">
+        	<bean class="uk.ac.gda.client.live.stream.view.customui.OavControlUI" >
+        		<constructor-arg ref="sim_x" /> <!-- X position -->
+        		<constructor-arg ref="sim_y" /> <!-- Y position -->
+        		<constructor-arg ref="sim_load" /> <!-- Zoom position -->
+        	</bean>
+        </property>
+    </bean> 
+    
+    
+</beans>

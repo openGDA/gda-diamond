@@ -4,4 +4,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="../_common/client.xml"/>
+	<beans profile="ioc_sim" >
+		<import resource="live_stream.xml" />
+	</beans>
 </beans>
