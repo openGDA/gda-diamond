@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 
 	<bean id="ZonePlateX" class="gda.device.scannable.ScannableMotor">
@@ -16,12 +20,46 @@
 		<property name="motor" ref="zone_plate_z_motor" />
 	</bean>
 
+	<!-- Define a scannable that implements the requirements of Jira tcket I08-317.
+
+		The OSA z moves with the ZP z because the OSA stack is mounted on top of the ZP stack.
+		However, we need to keep the OSAz position fixed during an energy scan.
+
+		The motion of the two scannables therefore needs to be coordinated
+		as follows:
+
+		- Energy increases and ZPz moves negative: Move ZPz first and then correct OSAz in the opposite (positive)
+		  direction by the same amount;
+		- Energy decreases and ZPZ moves positive: First move OSAz in negative direction by the amount ZPz has to move,
+		  then move ZPz
+	-->
+	<bean id="zpz_osa_function" class="gda.function.LinearFunction" />
+
+	<bean id="zpz_osa" class="gda.device.scannable.SequentialScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="ZonePlateZ" />
+				<ref bean="osa_z" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<ref bean="zpz_osa_function" />
+			</list>
+		</property>
+		<property name="order">
+			<util:constant static-field="gda.device.scannable.SequentialScannable$Order.CONTRARY_TO_MOVEMENT" />
+		</property>
+	</bean>
+
 	<bean id="zone_plate" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="ZonePlateX" />
 				<ref bean="ZonePlateY" />
 				<ref bean="ZonePlateZ" />
+				<ref bean="zpz_osa" />
 			</list>
 		</property>
 	</bean>

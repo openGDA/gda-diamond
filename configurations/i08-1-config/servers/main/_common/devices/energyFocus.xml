@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Function to convert energy to required position of zone plate (used in energyFocus below) -->
+	<bean id="energyFocusFunction" class="gda.function.LinearFunction" />
+
+	<!-- Combined scannable to change energy & zone plate position to retain focus -->
+	<bean id="energyFocus" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="IDEnergy" />
+				<ref bean="zpz_osa" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<ref bean="energyFocusFunction" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Combined scannable to change energy & zone plate position to retain focus -->
+	<bean id="energyFocusPGM" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="pgm_energy" />
+				<ref bean="zpz_osa" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<ref bean="energyFocusFunction" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Group ID-related scannables -->
+	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="IDEnergy" />
+				<ref bean="energyFocus" />
+				<ref bean="energyFocusPGM" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

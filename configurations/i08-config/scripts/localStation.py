@@ -38,7 +38,7 @@ print("Adding mscan mapping scan command. Use help(mscan) to get information on 
 run('mapping_scan_commands.py')
 
 # Energy to zone plate position
-run('energyFocus.py')
+run('initialiseEnergyFocusFunction.py')
 
 # Define function for Live Controls
 run('sample_stage_control.py')

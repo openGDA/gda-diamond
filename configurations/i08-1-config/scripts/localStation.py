@@ -18,6 +18,10 @@ scan_processor.rootNamespaceDict = globals()  # @UndefinedVariable
 print("Adding mscan mapping scan command. Use help(mscan) to get information on how to use it.")
 run('mapping_scan_commands.py')
 
+# Energy to zone plate position
+run('initialiseEnergyFocusFunction.py')
+run('initialise_zpz_osa_function.py')
+
 # Watchdogs
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")
 alias("enable_watchdogs")

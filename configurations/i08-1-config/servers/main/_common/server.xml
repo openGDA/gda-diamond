@@ -36,6 +36,7 @@
 	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/optics1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics2.xml" />
 	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/opticsShutter.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/osa.xml" />
 	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/photodiode.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
@@ -58,9 +59,11 @@
 	<!-- Devices -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d8.xml" />
+ 	<import resource="file:${gda.config}/servers/main/_common/devices/energyFocus.xml"/>
  	<import resource="file:${gda.config.shared}/servers/_common/devices/frontEnd.xml"/>
 	<import resource="file:${gda.config}/servers/main/_common/devices/optics2.xml" />
  	<import resource="file:${gda.config.shared}/servers/_common/devices/opticsScannables1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/osa.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
 

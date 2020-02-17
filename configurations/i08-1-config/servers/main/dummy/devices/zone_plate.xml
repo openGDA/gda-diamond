@@ -5,25 +5,25 @@
 
 
 	<bean id="zone_plate_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-0.75" />
-		<property name="maxPosition" value="0.8" />
-		<property name="position" value="0.01458" />
+		<property name="minPosition" value="-2.0" />
+		<property name="maxPosition" value="2.0" />
+		<property name="position" value="-1.69" />
 	 	<property name="unitString" value="mm"/>
 	 	<property name="speed" value="100"/>
 	</bean>
 
 	<bean id="zone_plate_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-3.1" />
-		<property name="maxPosition" value="3.9" />
-		<property name="position" value="-0.979" />
+		<property name="minPosition" value="-7.0" />
+		<property name="maxPosition" value="-2.0" />
+		<property name="position" value="-3.5" />
 	 	<property name="unitString" value="mm"/>
 	 	<property name="speed" value="100"/>
 	</bean>
 
 	<bean id="zone_plate_z_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="10.0" />
-		<property name="maxPosition" value="16.5" />
-		<property name="position" value="10.753" />
+		<property name="minPosition" value="-1.0" />
+		<property name="maxPosition" value="26.0" />
+		<property name="position" value="23.09" />
 	 	<property name="unitString" value="mm"/>
 	 	<property name="speed" value="100"/>
 	</bean>
