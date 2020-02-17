@@ -31,19 +31,19 @@
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot"
             icon="icons/target.png"
-            id="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective"
+            id="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot"
             name="DIAD Point and Shoot">
       </perspective>
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated"
             icon="icons/node-select.png"
-            id="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective"
+            id="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated"
             name="DIAD Fully Automated">
       </perspective>
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
             icon="icons/tomography-16.png"
-            id="uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective"
+            id="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
             name="Tomography">
       </perspective>      
    </extension>
@@ -67,10 +67,10 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.diamond.daq.beamline.k11.view.TomographySetup"
-            icon="icons/flask--pencil.png"
-            id="uk.ac.diamond.daq.beamline.k11.tomography"
-            name="Tomography"
+            class="uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard"
+            icon="icons/perspective-16.png"
+            id="uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard"
+            name="Dashboard"
             restorable="true">
       </view>
       <view
@@ -104,9 +104,9 @@
       </view>
             <view
       		allowMultiple="false"
-      		class="uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationView"
+      		class="uk.ac.diamond.daq.beamline.k11.view.TomographyConfigurationView"
       		icon="icons/tomography-16.png"
-      		id="uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationView"
+      		id="uk.ac.diamond.daq.beamline.k11.view.TomographyConfigurationView"
       		name="Tomography Acquisition Configuration"
       		restorable="true">
       </view>
@@ -115,7 +115,7 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective">
+            targetID="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot">
             <hiddenMenuItem
             id="org.eclipse.ui.run">
       </hiddenMenuItem>

@@ -38,6 +38,9 @@ import org.eclipse.ui.WorkbenchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated;
+import uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot;
+import uk.ac.diamond.daq.beamline.k11.perspective.Tomography;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 
@@ -55,10 +58,9 @@ public class PerspectiveComposite {
 
 	public enum PerspectiveType {
 
-		TOMOGRAPHY("Plain Tomography", "uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective"),
-		FULLY_AUTOMATED("Fully Automated", "uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective"),
-		PRATICLE_TRACKING("Particle Tracking", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective"),
-		POINT_AND_SHOOT("Point and Shoot", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective");
+		TOMOGRAPHY("Plain Tomography", Tomography.ID),
+		FULLY_AUTOMATED("Fully Automated", FullyAutomated.ID),
+		POINT_AND_SHOOT("Point and Shoot", PointAndShoot.ID);
 
 		private final String id;
 		private final String label;

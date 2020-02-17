@@ -76,7 +76,9 @@ import uk.ac.gda.ui.tool.images.ClientImages;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
+ * @deprecated No more used
  */
+@Deprecated
 public class ExperimentSetup extends ViewPart {
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentSetup.class);
 

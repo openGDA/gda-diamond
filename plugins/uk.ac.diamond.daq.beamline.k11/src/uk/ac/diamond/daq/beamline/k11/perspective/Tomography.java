@@ -28,14 +28,14 @@ import uk.ac.gda.perspectives.ThreeColumnPerspectiveLayoutBuilder;
  * @author Maurizio Nagni
  */
 public class Tomography  implements IPerspectiveFactory {
-	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective";
+	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.Tomography";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout);
 
 		// Left area
-		helper.addViewToLeftFolder(K11DefaultViews.TOMO_MAIN_VIEW, false);
+		helper.addViewToLeftFolder(K11DefaultViews.PERSPECTIVE_DASHBOARD_VIEW, false);
 
 		// Central area
 		helper.addPlaceholderToCentralFolder(CameraConfigurationView.CAMERA_CONTROLLER_VIEW);

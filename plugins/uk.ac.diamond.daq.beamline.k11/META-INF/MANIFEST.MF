@@ -51,7 +51,8 @@ Require-Bundle: uk.ac.gda.common,
  uk.ac.gda.tomography,
  uk.ac.gda.client;bundle-version="9.15.0",
  uk.ac.diamond.daq.beamline.configuration.api;bundle-version="1.0.0",
- uk.ac.diamond.daq.client.gui.energy;bundle-version="1.0.0"
+ uk.ac.diamond.daq.client.gui.energy;bundle-version="1.0.0",
+ uk.ac.diamond.org.springframework
 Export-Package: uk.ac.diamond.daq.beamline.k11
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
 Service-Component: OSGI-INF/*.xml

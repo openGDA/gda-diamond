@@ -24,14 +24,14 @@ import org.eclipse.ui.IPerspectiveFactory;
 import uk.ac.gda.perspectives.ThreeColumnPerspectiveLayoutBuilder;
 
 public class PointAndShoot implements IPerspectiveFactory {
-	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective";
+	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout);
 
 		// Left area
-		helper.addViewToLeftFolder(K11DefaultViews.EXPERIMENT, false);
+		helper.addViewToLeftFolder(K11DefaultViews.PERSPECTIVE_DASHBOARD_VIEW, false);
 		helper.addViewToLeftFolder(K11DefaultViews.MAPPED_DATA, false);
 
 		// Central area

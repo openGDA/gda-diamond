@@ -31,7 +31,7 @@ import gda.configuration.properties.LocalProperties;
 
 public class FullyAutomated  implements IPerspectiveFactory {
 
-	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective";
+	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated";
 
 	private static final Logger logger = LoggerFactory.getLogger(FullyAutomated.class);
 
