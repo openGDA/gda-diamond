@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<bean id="qbpm1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="qbpm1_x_motor"/>
-		<property name="protectionLevel" value="3"/>
-	</bean>
+    <gda:motor id="qbpm1_x" pv="BL22I-DI-PHDGN-07:X" protectionLevel="3" />
+    <gda:motor id="qbpm1_y" pv="BL22I-DI-PHDGN-07:Y" protectionLevel="3" />
 
-	<bean id="qbpm1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="qbpm1_y_motor"/>
-		<property name="protectionLevel" value="3"/>
-	</bean>
-
-	<bean id="qbpm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="qbpm1_x"/>
-				<ref bean="qbpm1_y"/>
-			</list>
-		</property>
-		<property name="protectionLevel" value="3"/>
-	</bean>
+    <bean id="qbpm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="qbpm1_x"/>
+                <ref bean="qbpm1_y"/>
+            </list>
+        </property>
+        <property name="protectionLevel" value="3"/>
+    </bean>
 </beans>

@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<bean id="alio_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alio_roll_motor"/>
-	</bean>
+    <gda:motor id="alio_x" pv="BL22I-MO-TABLE-06:X" />
+    <gda:motor id="alio_y" pv="BL22I-MO-TABLE-06:Y" />
+    <gda:motor id="alio_z" pv="BL22I-MO-TABLE-06:Z" />
+    <gda:motor id="alio_pitch" pv="BL22I-MO-TABLE-06:PITCH" />
+    <gda:motor id="alio_roll" pv="BL22I-MO-TABLE-06:ROLL" />
+    <gda:motor id="alio_rot" pv="BL22I-MO-TABLE-06:ROT" />
 
-	<bean id="alio_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alio_x_motor"/>
-	</bean>
-
-	<bean id="alio_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alio_z_motor"/>
-	</bean>
-
-	<bean id="alio" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="alio_x"/>
-				<ref bean="alio_y"/>
-				<ref bean="alio_z"/>
-				<ref bean="alio_pitch"/>
-				<ref bean="alio_roll"/>
-				<ref bean="alio_rot"/>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="alio_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alio_pitch_motor"/>
-	</bean>
-
-	<bean id="alio_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alio_y_motor"/>
-	</bean>
-
-	<bean id="alio_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="alio_rot_motor"/>
-	</bean>
+    <bean id="alio" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="alio_x"/>
+                <ref bean="alio_y"/>
+                <ref bean="alio_z"/>
+                <ref bean="alio_pitch"/>
+                <ref bean="alio_roll"/>
+                <ref bean="alio_rot"/>
+            </list>
+        </property>
+    </bean>
 </beans>

@@ -1,63 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <bean id="vfm_pitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_pitch_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_yaw" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_yaw_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_y1" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_y1_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_roll" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_roll_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_x1" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_x1_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_x_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_y3" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_y3_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_y_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_x2" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_x2_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_y2" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_y2_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="vfm_yfine" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="vfm_yfine_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
+    <gda:motor id="vfm_pitch" pv="BL22I-OP-KBM-01:VFM:PITCH" protectionLevel="3" />
+    <gda:motor id="vfm_yaw" pv="BL22I-OP-KBM-01:VFM:YAW" protectionLevel="3" />
+    <gda:motor id="vfm_y1" pv="BL22I-OP-KBM-01:VFM:Y1" protectionLevel="3" />
+    <gda:motor id="vfm_roll" pv="BL22I-OP-KBM-01:VFM:ROLL" protectionLevel="3" />
+    <gda:motor id="vfm_x1" pv="BL22I-OP-KBM-01:VFM:X1" protectionLevel="3" />
+    <gda:motor id="vfm_x" pv="BL22I-OP-KBM-01:VFM:X" protectionLevel="3" />
+    <gda:motor id="vfm_y3" pv="BL22I-OP-KBM-01:VFM:Y3" protectionLevel="3" />
+    <gda:motor id="vfm_y" pv="BL22I-OP-KBM-01:VFM:Y" protectionLevel="3" />
+    <gda:motor id="vfm_x2" pv="BL22I-OP-KBM-01:VFM:X2" protectionLevel="3" />
+    <gda:motor id="vfm_y2" pv="BL22I-OP-KBM-01:VFM:Y2" protectionLevel="3" />
+    <gda:motor id="vfm_yfine" pv="BL22I-OP-KBM-01:VFM:FY3" protectionLevel="3" />
 
     <bean id="vfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

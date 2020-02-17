@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <bean id="feaptr_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="feaptr_x_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="feaptr_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="feaptr_y_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
+    <gda:motor id="feaptr_x" pv="FE22I-AL-APTR-02:X" protectionLevel="3" />
+    <gda:motor id="feaptr_y" pv="FE22I-AL-APTR-02:Y" protectionLevel="3" />
 
     <bean id="feaptr" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

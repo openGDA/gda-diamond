@@ -54,10 +54,6 @@
 		<property name="pvNameGetPoint" value="BL22I-MO-HEX-01:DEFER"/>
 	</bean>
 
-	<bean id="hexapod_yaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-HEX-01:YAW"/>
-	</bean>
-
 	<bean id="hexapod_rawleg2" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="mm"/>
 		<property name="pvName" value="BL22I-MO-HEX-01:LEG2.RBV"/>
@@ -78,21 +74,9 @@
 		<property name="pvName" value="BL22I-MO-HEX-01:MACHXPOS"/>
 	</bean>
 
-	<bean id="hexapod_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-HEX-01:Z"/>
-	</bean>
-
-	<bean id="hexapod_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-HEX-01:X"/>
-	</bean>
-
 	<bean id="hexapod_l3temp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-HEX-01:L3TEMP"/>
-	</bean>
-
-	<bean id="hexapod_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-HEX-01:ROLL"/>
 	</bean>
 
 	<bean id="hexapod_UfM_y" class="gda.device.scannable.EpicsScannable">
@@ -130,10 +114,6 @@
 		<property name="pvName" value="BL22I-MO-HEX-01:MACHYAWPOS"/>
 	</bean>
 
-	<bean id="hexapod_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-HEX-01:Y"/>
-	</bean>
-
 	<bean id="hexapod_l4temp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-HEX-01:L4TEMP"/>
@@ -167,10 +147,6 @@
 	<bean id="hexapod_PiM_z" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="mm"/>
 		<property name="pvName" value="BL22I-MO-HEX-01:MACHZPOS"/>
-	</bean>
-
-	<bean id="hexapod_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-HEX-01:PITCH"/>
 	</bean>
 
 	<bean id="hexapod_l1temp" class="gda.device.monitor.EpicsMonitor">

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.diamond.ac.uk/schema/gda/gda
+			http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 	<bean id="hexapod_temps" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -68,17 +71,6 @@
 		</property>
 	</bean>
 
-	<bean id="hexapod_yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hexapod_yaw_motor"/>
-		<property name="inputNames">
-			<list>
-				<value>
-					hexapod_OiU_yaw
-				</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="hexapod_rawlegs" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -92,49 +84,12 @@
 		</property>
 	</bean>
 
-	<bean id="hexapod_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hexapod_z_motor"/>
-		<property name="inputNames">
-			<list>
-				<value>
-					hexapod_OiU_z
-				</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="hexapod_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hexapod_roll_motor"/>
-		<property name="inputNames">
-			<list>
-				<value>
-					hexapod_OiU_roll
-				</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="hexapod_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hexapod_x_motor"/>
-		<property name="inputNames">
-			<list>
-				<value>
-					hexapod_OiU_x
-				</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="hexapod_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hexapod_pitch_motor"/>
-		<property name="inputNames">
-			<list>
-				<value>
-					hexapod_OiU_pitch
-				</value>
-			</list>
-		</property>
-	</bean>
+	<gda:motor id="hexapod_x" pv="BL22I-MO-HEX-01:X" />
+	<gda:motor id="hexapod_y" pv="BL22I-MO-HEX-01:Y" />
+	<gda:motor id="hexapod_z" pv="BL22I-MO-HEX-01:Z" />
+	<gda:motor id="hexapod_roll" pv="BL22I-MO-HEX-01:ROLL" />
+	<gda:motor id="hexapod_pitch" pv="BL22I-MO-HEX-01:PITCH" />
+	<gda:motor id="hexapod_yaw" pv="BL22I-MO-HEX-01:YAW" />
 
 	<bean id="hexapod_pos" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
@@ -183,17 +138,6 @@
 				<ref bean="hexapod_bothoffsets_x"/>
 				<ref bean="hexapod_bothoffsets_y"/>
 				<ref bean="hexapod_bothoffsets_z"/>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="hexapod_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hexapod_y_motor"/>
-		<property name="inputNames">
-			<list>
-				<value>
-					hexapod_OiU_y
-				</value>
 			</list>
 		</property>
 	</bean>

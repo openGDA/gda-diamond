@@ -6,7 +6,7 @@
 
     <import resource="base.xml"/>
     <import resource="bco.xml"/>
-<!--     <import resource="bsaxs-axes.xml" /> -->
+    <import resource="bsaxs-axes.xml" />
     <import resource="bs.xml" />
     <import resource="d1.xml" />
     <import resource="d2.xml" />
@@ -18,7 +18,7 @@
     <import resource="d8.xml" />
     <import resource="dcm.xml" />
     <import resource="feaptr.xml" />
-<!--     <import resource="gonio.xml" /> -->
+    <import resource="gonio.xml" />
     <import resource="hfm.xml" />
     <import resource="idgap.xml" />
     <import resource="rot.xml" />

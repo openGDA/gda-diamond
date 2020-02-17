@@ -1,39 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcm_energy_motor"/>
-        <property name="scalingFactor" value="1"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcm_bragg_motor"/>
-        <property name="scalingFactor" value="1"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="dcm_finepitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcm_finepitch_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
-
-    <bean id="dcm_fineroll" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcm_fineroll_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcm_pitch_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
-    <bean id="dcm_offset" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dcm_offset_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
+    <gda:motor id="dcm_energy" pv="BL22I-OP-DCM-01:ENERGY" protectionLevel="3" />
+    <gda:motor id="dcm_pitch" pv="BL22I-OP-DCM-01:XTAL2:PITCH" protectionLevel="2" />
+    <gda:motor id="dcm_offset" pv="BL22I-OP-DCM-01:OFFSET" protectionLevel="2" />
+    <gda:motor id="dcm_finepitch" pv="BL22I-OP-DCM-01:XTAL2:FPITCH" protectionLevel="2" />
+    <gda:motor id="dcm_roll" pv="BL22I-OP-DCM-01:XTAL2:ROLL" protectionLevel="3" />
+    <gda:motor id="dcm_fineroll" pv="BL22I-OP-DCM-01:XTAL2:FROLL" protectionLevel="3" />
+    <gda:motor id="dcm_perp" pv="BL22I-OP-DCM-01:XTAL2:YPRIME" protectionLevel="3" />
+    <gda:motor id="dcm_bragg" pv="BL22I-OP-DCM-01:BRAGG" protectionLevel="3" />
 
     <bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -48,16 +29,6 @@
                 <ref bean="dcm_bragg"/>
             </list>
         </property>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcm_perp_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="dcm_roll_motor"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 </beans>

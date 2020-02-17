@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.diamond.ac.uk/schema/gda/gda
+			http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <bean id="d1motor" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="d1motor_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
+	<gda:motor id="d1motor" pv="BL22I-DI-PHDGN-01:POSN" protectionLevel="3" />
 </beans>

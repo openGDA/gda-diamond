@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+       profile="bsaxs"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <bean id="bsaxs_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bsaxs_y_motor"/>
-    </bean>
+    <gda:motor id="bsaxs_y" pv="BL22I-EA-BSAX-01:Y" />
+    <gda:motor id="bsaxs_x" pv="BL22I-EA-BSAX-01:X" />
 
     <bean id="bsaxs" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -15,9 +18,5 @@
                 <ref bean="bsaxs_y"/>
             </list>
         </property>
-    </bean>
-
-    <bean id="bsaxs_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bsaxs_x_motor"/>
     </bean>
 </beans>

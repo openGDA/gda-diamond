@@ -3,37 +3,12 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource='base.xml'/>
     <import resource="beamline.xml" />
-    <import resource='bco.xml'/>
-<!--     <import resource='bsaxs-axes.xml'/> -->
     <import resource='bs.xml'/>
-    <import resource='d1.xml'/>
-    <import resource='d2.xml'/>
-    <import resource='d3.xml'/>
     <import resource='d4.xml'/>
-    <import resource='d5.xml'/>
-    <import resource='d6.xml'/>
-    <import resource="d8.xml" />
-    <import resource='dcm.xml'/>
     <import resource='diodes.xml'/>
-    <import resource="qbpm1.xml" />
-    <import resource='feaptr.xml'/>
-    <import resource='gonio.xml'/>
-    <import resource='hfm.xml'/>
-    <import resource='idgap.xml'/>
-    <import resource='rot.xml'/>
-    <import resource='sd.xml'/>
     <import resource='shutter.xml'/>
-    <import resource='user.xml'/>
-    <import resource='vfm.xml'/>
-    <import resource='wd.xml'/>
-
     <import resource="valves.xml" />
-
-    <import resource="p1xy.xml" />
-    <import resource="fswitch.xml" />
-
 	<import resource="xmap_dxp.xml" />
 
     <import resource="gisaxs/gisaxs.xml"/>
