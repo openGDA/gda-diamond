@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="sim_motor_base_PV" class="java.lang.String">
+        <constructor-arg value="#{hostname}-MO-SIM-01:" />
+    </bean>
+
+    <bean id="simx_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="#{sim_motor_base_PV}M1"/>
+    </bean>
+
+    <bean id="simy_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="#{sim_motor_base_PV}M2"/>
+    </bean>
+
+    <bean id="simz_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="#{sim_motor_base_PV}M3"/>
+    </bean>
+
+    <bean id="simtheta_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="#{sim_motor_base_PV}M4"/>
+    </bean>
+
+    <bean id="simload_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="#{sim_motor_base_PV}M5"/>
+    </bean>
+
+    <bean id="sim_x" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="simx_motor"/>
+    </bean>
+
+    <bean id="sim_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="simy_motor"/>
+    </bean>
+
+    <bean id="sim_z" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="simz_motor"/>
+    </bean>
+
+    <bean id="sim_theta" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="simtheta_motor"/>
+    </bean>
+
+    <bean id="sim_load" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="simload_motor"/>
+    </bean>
+</beans>
