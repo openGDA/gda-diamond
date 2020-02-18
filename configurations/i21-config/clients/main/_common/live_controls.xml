@@ -157,6 +157,12 @@
 		<property name="textWidth" value="100"/>
 		<property name="userUnits" value="" />
 	</bean>	
+	<bean id="idscannable_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Insertion Device" />
+		<property name="scannableName" value="idscannable" />
+		<property name="showStop" value="false"/>
+	</bean>	
 
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -182,6 +188,7 @@
 				<ref bean="start_feedback" />
 				<ref bean="feedback_time" />
 				<ref bean="feedback_mode" />
+				<ref bean="idscannable_control"/>
 			</list>
 		</property>
 	</bean>
