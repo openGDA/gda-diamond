@@ -4,11 +4,25 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="pilatus_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
-	<constructor-arg ref="pilatus_camera_control" />
+	<bean id="pilatus_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
-	<bean id="pilatus_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+	<bean id="pilatus_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="pilatus_histogramTopUI" />
+	</bean>
+	<bean id="pilatus_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="pilatus_camera_control" />
+	</bean>
+	<bean id="pilatus_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="pilatus_controlsUI" />
+				<ref bean="pilatus_histogramTopUI" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="pilatus_cam"
@@ -16,17 +30,29 @@
 		<property name="displayName" value="Pilatus" />
 		<property name="arrayPv" value="BL16B-EA-DET-04:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="topUi" ref="pilatus_histogramTopUI" />
+		<property name="topUi" ref="pilatus_topUI" />
 		<property name="bottomUi" ref="pilatus_histogramBottomUI" />
 	</bean>
-	
-	
-	
-	<bean id="pcoedge_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
-	<constructor-arg ref="pcoedge_camera_control" />
+
+	<bean id="pcoedge_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
-	<bean id="pcoedge_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+	<bean id="pcoedge_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="pcoedge_histogramTopUI" />
+	</bean>
+	<bean id="pcoedge_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="pcoedge_camera_control" />
+	</bean>
+	<bean id="pcoedge_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="pcoedge_controlsUI" />
+				<ref bean="pcoedge_histogramTopUI" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="pcoedge_cam"
@@ -34,15 +60,29 @@
 		<property name="displayName" value="PCO Edge" />
 		<property name="arrayPv" value="BL16B-EA-DET-08:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="topUi" ref="pcoedge_histogramTopUI" />
+		<property name="topUi" ref="pcoedge_topUI" />
 		<property name="bottomUi" ref="pcoedge_histogramBottomUI" />
 	</bean>
-	
-	<bean id="pco4000_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
-	<constructor-arg ref="pco4000_camera_control" />
+
+	<bean id="pco4000_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
-	<bean id="pco4000_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+	<bean id="pco4000_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="pco4000_histogramTopUI" />
+	</bean>
+	<bean id="pco4000_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="pco4000_camera_control" />
+	</bean>
+	<bean id="pco4000_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="pco4000_controlsUI" />
+				<ref bean="pco4000_histogramTopUI" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="pco4000_cam"
@@ -50,15 +90,29 @@
 		<property name="displayName" value="PCO 4000" />
 		<property name="arrayPv" value="BL16B-EA-DET-03:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="topUi" ref="pco4000_histogramTopUI" />
+		<property name="topUi" ref="pco4000_topUI" />
 		<property name="bottomUi" ref="pco4000_histogramBottomUI" />
 	</bean>
-	
-	<bean id="psl_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
-	<constructor-arg ref="psl_camera_control" />
+
+	<bean id="psl_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
-	<bean id="psl_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+	<bean id="psl_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="psl_histogramTopUI" />
+	</bean>
+	<bean id="psl_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="psl_camera_control" />
+	</bean>
+	<bean id="psl_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="psl_controlsUI" />
+				<ref bean="psl_histogramTopUI" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="psl_cam"
@@ -66,15 +120,29 @@
 		<property name="displayName" value="PSL SCMOS" />
 		<property name="arrayPv" value="BL16B-EA-DET-07:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="topUi" ref="psl_histogramTopUI" />
+		<property name="topUi" ref="psl_topUI" />
 		<property name="bottomUi" ref="psl_histogramBottomUI" />
 	</bean>
-	
-	<bean id="medipix_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
-	<constructor-arg ref="medipix_camera_control" />
+
+	<bean id="medpix_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
-	<bean id="medipix_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+	<bean id="medipix_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="medipix_histogramTopUI" />
+	</bean>
+	<bean id="medipix_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="medipix_camera_control" />
+	</bean>
+	<bean id="medipix_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="medipix_controlsUI" />
+				<ref bean="medipix_histogramTopUI" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="medipix_cam"
@@ -82,15 +150,29 @@
 		<property name="displayName" value="Medipix Merlin" />
 		<property name="arrayPv" value="BL16B-EA-DET-06:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="topUi" ref="medipix_histogramTopUI" />
+		<property name="topUi" ref="medipix_topUI" />
 		<property name="bottomUi" ref="medipix_histogramBottomUI" />
 	</bean>
-	
-	<bean id="medipix4_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
-	<constructor-arg ref="medipix4_camera_control" />
+
+	<bean id="medipix4_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
-	<bean id="medipix4_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+	<bean id="medipix4_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="medipix4_histogramTopUI" />
+	</bean>
+	<bean id="medipix4_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="medipix4_camera_control" />
+	</bean>
+	<bean id="medipix4_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="medipix4_controlsUI" />
+				<ref bean="medipix4_histogramTopUI" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="medipix4_cam"
@@ -98,7 +180,7 @@
 		<property name="displayName" value="Medipix Quad" />
 		<property name="arrayPv" value="BL16B-EA-DET-20:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="topUi" ref="medipix4_histogramTopUI" />
+		<property name="topUi" ref="medipix4_topUI" />
 		<property name="bottomUi" ref="medipix4_histogramBottomUI" />
 	</bean>
 
