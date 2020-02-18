@@ -81,6 +81,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 		panelComposite = layoutUtils.addGridComposite(scrolledComposite);
 		panelComposite.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		buildAcquisitionNameComposite();
 		buildDiffractionPathComposite();
 		buildExecutionComposite();
 		buildSavedComposite();
@@ -102,6 +103,10 @@ public class DiffractionScanSelection extends ViewPart {
 	private void buildDiffractionPathComposite() {
 		diffractionPathComposite = new DiffractionPathComposite(panelComposite, SWT.NONE);
 		summaryHolder = diffractionPathComposite.populate();
+	}
+
+	private void buildAcquisitionNameComposite() {
+		new AcquisitionNameControlFactory().createComposite(panelComposite, SWT.NONE);
 	}
 
 	private void buildExecutionComposite() {
