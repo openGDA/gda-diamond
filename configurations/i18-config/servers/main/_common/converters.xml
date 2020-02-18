@@ -107,7 +107,7 @@
 		<constructor-arg value="harmonic3" />
 		<constructor-arg value="harmonic3_converter" />
 		<constructor-arg value="24.801" />
-		<constructor-arg value="56.186" />
+		<constructor-arg value="58.186" />
 	</bean>
 	<bean id="harmonic5" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic5" />
