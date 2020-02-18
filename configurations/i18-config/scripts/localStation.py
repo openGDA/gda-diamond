@@ -62,7 +62,7 @@ alias("listWatchdogs")
 alias("topupWatchdog")
 alias("expressionWatchdog")
 
-topupWatchdog.setEnabled(False)
+topupWatchdog.setEnabled(True)
 expressionWatchdog.setEnabled(True)
 
 rcpController =                finder.find("RCPController")

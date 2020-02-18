@@ -177,6 +177,63 @@
 		<property name="activated" value="false" />
 	</bean>
 
+    <bean id="combinedScanInfot1xtheta" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+        <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
+        <property name="label" value="Xspress3 + Excalibur (T1 X v theta)" />
+        <property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
+        <property name="shownByDefault" value="false" />
+    </bean>
+    
+    <bean id="combinedScanModelt1xtheta" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
+        <property name="name" value="BL18I-ML-SCAN-10" />
+        <property name="exposureTime" value="0.1" />
+    </bean>
+    
+    <bean id="combinedScanDevicet1xtheta" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
+        <property name="name" value="BL18I-ML-SCAN-10" />
+        <property name="model" ref="combinedScanModelt1xtheta" />
+        <property name="deviceInformation" ref="combinedScanInfot1xtheta" />
+        <property name="activated" value="false" />
+    </bean>
+
+    <bean id="combinedScanInfot3xy" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+        <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
+        <property name="label" value="Xspress3 + Excalibur (T3 X v Y)" />
+        <property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
+        <property name="shownByDefault" value="false" />
+    </bean>
+    
+    <bean id="combinedScanModelt3xy" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
+        <property name="name" value="BL18I-ML-SCAN-11" />
+        <property name="exposureTime" value="0.1" />
+    </bean>
+    
+    <bean id="combinedScanDevicet3xy" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
+        <property name="name" value="BL18I-ML-SCAN-11" />
+        <property name="model" ref="combinedScanModelt3xy" />
+        <property name="deviceInformation" ref="combinedScanInfot3xy" />
+        <property name="activated" value="false" />
+    </bean>
+
+    <bean id="combinedScanInfot3xtheta" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+        <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
+        <property name="label" value="Xspress3 + Excalibur (T3 X v theta)" />
+        <property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
+        <property name="shownByDefault" value="false" />
+    </bean>
+    
+    <bean id="combinedScanModelt3xtheta" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
+        <property name="name" value="BL18I-ML-SCAN-12" />
+        <property name="exposureTime" value="0.1" />
+    </bean>
+    
+    <bean id="combinedScanDevicet3xtheta" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
+        <property name="name" value="BL18I-ML-SCAN-12" />
+        <property name="model" ref="combinedScanModelt3xtheta" />
+        <property name="deviceInformation" ref="combinedScanInfot3xtheta" />
+        <property name="activated" value="false" />
+    </bean>
+
     <bean id="merlinInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
         <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
         <property name="label" value="Merlin ptychography" />
