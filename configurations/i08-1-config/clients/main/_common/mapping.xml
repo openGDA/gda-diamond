@@ -25,7 +25,7 @@
 		<property name="detectorParameters">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Andor Detector" />
+					<constructor-arg name="name" value="Andor software" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 							<property name="name" value="andor_addetector" />
