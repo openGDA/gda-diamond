@@ -130,7 +130,7 @@ def _choosePitchAndAttenuators(parametersBean):
             parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
             parametersBean.setAtn2(AlignmentParametersBean.ATN2[4])
             parametersBean.setAtn3(AlignmentParametersBean.ATN3[1])
-        elif energy > 20300:
+        elif energy >= 20300:
             parametersBean.setMe2Pitch(-1) # means move it out of beam
             parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
             parametersBean.setAtn2(AlignmentParametersBean.ATN2[5])

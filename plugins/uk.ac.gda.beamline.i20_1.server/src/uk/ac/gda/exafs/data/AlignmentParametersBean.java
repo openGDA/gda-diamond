@@ -57,6 +57,9 @@ public class AlignmentParametersBean implements Serializable {
 	private String detector = null;
 	private AbsorptionEdge edge = null; // for the moment, this should match element and edge
 
+	private Double polychromatorLength = 250.0; // length of the polychromator crystal [mm]
+	private Double sourceToPolyDistance = 45.1; // distance from source to polychromator crystal [metres]
+
 	// outputs
 	private Double wigglerGap = 18.5; // mm
 	private Double primarySlitGap = null; // mrad
@@ -93,6 +96,10 @@ public class AlignmentParametersBean implements Serializable {
 	@Override
 	public String toString() {
 		return crystalType + ", " + crystalCut+", " + q +"m, "+ detector +", "+ edge;
+	}
+
+	public String toJson() {
+		return toJson(this);
 	}
 
 	public static String toJson(AlignmentParametersBean bean) {
@@ -185,14 +192,26 @@ public class AlignmentParametersBean implements Serializable {
 		this.me2stripe = me2stripe;
 	}
 
+	/**
+	 *
+	 * @return Bragg angle [degrees]
+	 */
 	public Double getBraggAngle() {
 		return braggAngle;
 	}
 
+	/**
+	 * Set the bragg angle [degrees]
+	 * @param braggAngle
+	 */
 	public void setBraggAngle(Double braggAngle) {
 		this.braggAngle = braggAngle;
 	}
 
+	/**
+	 * Primary slit gap size [mrad]
+	 * @return primarySlitGap [mrad]
+	 */
 	public Double getPrimarySlitGap() {
 		return primarySlitGap;
 	}
@@ -279,6 +298,30 @@ public class AlignmentParametersBean implements Serializable {
 
 	public void setReadBackEnergyBandwidth(Double value) {
 		readBackEnergyBadwidth = value;
+	}
+
+	/**
+	 *
+	 * @return Length of polychromator crystal [mm]
+	 */
+	public Double getPolychromatorLength() {
+		return polychromatorLength;
+	}
+
+	public void setPolychromatorLength(Double polychromatorLength) {
+		this.polychromatorLength = polychromatorLength;
+	}
+
+	/**
+	 * Distance from source to polychromator surface (p)
+	 * @return Distance from source to polychromator crystal [metres]
+	 */
+	public Double getSourceToPolyDistance() {
+		return sourceToPolyDistance;
+	}
+
+	public void setSourceToPolyDistance(Double sourceToPolyDistance) {
+		this.sourceToPolyDistance = sourceToPolyDistance;
 	}
 
 	@Override
