@@ -43,7 +43,10 @@
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
 				<property name="permittedOuterScannables">
 					<list>
+						<value>energyFocus</value>
+						<value>energyFocusPGM</value>
 						<value>ZonePlateZ</value>
+						<value>pgm_energy</value>
 					</list>
 				</property>
 			</bean>
@@ -56,6 +59,29 @@
 	<!-- Create a mapping experiment bean provider -->
 	<bean id="mapping_experiment_bean_provider" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBeanProvider">
 		<property name="mappingExperimentBean" ref="mapping_experiment_bean" />
+	</bean>
+
+	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
+	<bean id="focus_scan_bean" class="uk.ac.diamond.daq.mapping.api.FocusScanBean">
+		<property name="focusScannableName" value="ZonePlateZ"/>
+		<property name="focusRange" value="0.05"/>
+		<property name="numberOfFocusSteps" value="20"/>
+		<property name="numberOfLinePoints" value="40"/>
+		<property name="focusScanDevices">
+			<list>
+				<value>Andor software</value>
+				<value>Photodiode</value>
+				<value>Andor</value>
+			</list>
+		</property>
+ 		<property name="defaultFocusScanDevice" value="Photodiode" />
+		<property name="energyFocusBean">
+			<bean class="uk.ac.diamond.daq.mapping.api.EnergyFocusBean">
+				<property name="energyFocusConfigPath" value="${gda.var}/energyFocusFunction.json" />
+				<property name="energyFocusFunction" ref="energyFocusFunction" />
+				<property name="changeInterceptionDecimalPlaces" value="1" />
+			</bean>
+		</property>
 	</bean>
 
 	<!-- The mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
