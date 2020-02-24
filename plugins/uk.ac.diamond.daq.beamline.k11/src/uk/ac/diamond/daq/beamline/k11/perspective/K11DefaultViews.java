@@ -22,9 +22,11 @@ import org.eclipse.scanning.api.event.EventConstants;
 import org.eclipse.scanning.event.ui.view.StatusQueueView;
 
 import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard;
+import uk.ac.diamond.daq.beamline.k11.view.TomographyConfigurationView;
 
 public interface K11DefaultViews {
-	String TOMO_MAIN_VIEW = "uk.ac.diamond.daq.beamline.k11.tomography";
+	String PERSPECTIVE_DASHBOARD_VIEW = PerspectiveDashboard.ID;
 	String JYTON_CONSOLE_VIEW = "gda.rcp.jythonterminalview";
 
 	String EXPERIMENT = "uk.ac.diamond.daq.beamline.k11.experiment";
@@ -37,7 +39,7 @@ public interface K11DefaultViews {
 
 	String SCAN_SETUP_VIEW = "uk.ac.diamond.daq.beamline.k11.scanSetup";
 
-	String TOMOGRAPHY_ACQUISITION_CONFIGURATION = "uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationView";
+	String TOMOGRAPHY_ACQUISITION_CONFIGURATION = TomographyConfigurationView.ID;
 
 	static String getQueueId() {
 		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),

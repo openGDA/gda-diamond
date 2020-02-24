@@ -20,13 +20,12 @@ package uk.ac.diamond.daq.beamline.k11.view;
 
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
-import uk.ac.gda.tomography.ui.controller.TomographyPerspectiveController;
+import uk.ac.diamond.daq.beamline.k11.view.control.StageController;
+import uk.ac.gda.tomography.stage.IStageController;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
@@ -34,8 +33,9 @@ import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 /**
  * The main Experiment configuration view visible in all k11 perspectives
  */
-public class TomographySetup extends ViewPart {
-	private TomographyAcquisitionComposite acquisitionCompose;
+public class PerspectiveDashboard extends ViewPart {
+
+	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard";
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -45,9 +45,7 @@ public class TomographySetup extends ViewPart {
 				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
 
 		PerspectiveComposite.buildModeComposite(composite, PerspectiveType.TOMOGRAPHY);
-
-		acquisitionCompose = new TomographyAcquisitionComposite(composite,
-				getPerspectiveController().getTomographyAcquisitionController());
+		new PerspectiveDashboardCompositeFactory(getStageController()).createComposite(composite, SWT.NONE);
 	}
 
 	@Override
@@ -55,19 +53,8 @@ public class TomographySetup extends ViewPart {
 		// experimentCompose.setFocus();
 	}
 
-	/**
-	 * Retrieves and {@link Image} using the specified path
-	 *
-	 * @param path
-	 *            The path to the image file
-	 * @return The retrieved {@link Image}
-	 */
-	Image getImage(final String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("uk.ac.diamond.daq.beamline.k11", path).createImage();
-	}
-
-	private TomographyPerspectiveController getPerspectiveController() {
-		return SpringApplicationContextProxy.getBean(TomographyPerspectiveController.class);
+	private IStageController getStageController() {
+		return SpringApplicationContextProxy.getBean(StageController.class);
 	}
 
 }
