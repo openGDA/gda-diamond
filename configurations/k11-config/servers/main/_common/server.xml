@@ -59,7 +59,7 @@
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
 	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/stages/tomography_stack.xml" />
+		resource="file:${gda.config}/servers/main/${gda.mode}/stages/gts.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/stages/tr6_motors.xml" />
 
@@ -139,7 +139,7 @@
 	
 	<!-- stages -->
 	<import
-		resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />
+		resource="file:${gda.config}/servers/main/_common/stages/gts.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
 	<import
