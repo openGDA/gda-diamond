@@ -53,6 +53,10 @@ import arpes
 # Sample stage script for easy and safe movement of the stage to predefined positions
 run "beamline/sampleStage.py"
 
+print "Installing archiver client"
+from gdascripts.archiver.archiver import archive
+alias('archive')
+archiver = Finder.getInstance().find("archiver")
 
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
     # Run the beamline staff scripts
