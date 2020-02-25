@@ -111,6 +111,10 @@ import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
 from pathscanTable import pathscanTable
 
+print "Installing archiver client"
+from gdascripts.archiver.archiver import archive
+alias('archive')
+archiver = Finder.getInstance().find("archiver")
 
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests

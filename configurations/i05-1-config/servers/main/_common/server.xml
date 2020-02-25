@@ -45,6 +45,7 @@
 
 	<import resource="solstice_scanning.xml"/>
 	<import resource="example_detectors.xml"/>
+	<import resource="archiver.xml" />
 
 	<!-- Machine Status Scannables -->
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
