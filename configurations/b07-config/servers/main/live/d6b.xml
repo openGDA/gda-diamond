@@ -66,7 +66,7 @@
 	</bean>
 	
 	<bean id="d6b_cam1_centroid_y" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07B-DI-PHDGN-06:DCAM1:STAT:CentroidX_RBV" />
+		<property name="pvName" value="BL07B-DI-PHDGN-06:DCAM1:STAT:CentroidY_RBV" />
 		<property name="canMove" value="false" />	
 	</bean>
 
