@@ -3,7 +3,6 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource='adsim.xml'/>
     <import resource='base.xml'/>
     <import resource="beamline.xml" />
     <import resource='bco.xml'/>
@@ -39,4 +38,17 @@
 
     <import resource="gisaxs/gisaxs.xml"/>
     <import resource="slits/slits.xml"/>
+
+    <beans profile="ioc_sim" >
+        <!-- InetAddress.getLocalHost() returns full machine name (eg wsXYZ.diamond.ac.uk) -->
+        <bean id="localhostInetAddress"
+            class="java.net.InetAddress"
+            factory-method="getLocalHost"/>
+        <!-- split full hostname to get short name (which is used by the simulated version of AreaDetector) -->
+        <bean id="hostname" class="java.lang.String">
+            <constructor-arg value='#{ T(org.springframework.util.StringUtils).split(localhostInetAddress.hostName, ".")[0]}' />
+        </bean>
+        <import resource='adsim.xml'/>
+        <import resource='motor_sim.xml'/>
+    </beans>
 </beans>
