@@ -55,7 +55,6 @@
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/excalibur_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/excalibur_motions.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/merlin_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/sample_dtab_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/sample_microscope_addetector.xml" />
