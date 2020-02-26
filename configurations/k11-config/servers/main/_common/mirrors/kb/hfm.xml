@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="hfm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hfm_pitch_motor" />
+	</bean>
+
+	<bean id="hfm_bendus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hfm_bendus_motor" />
+	</bean>
+
+	<bean id="hfm_bendds" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hfm_bendds_motor" />
+	</bean>
+
+
+
+	<bean id="hfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hfm_pitch" />
+				<ref bean="hfm_bendus" />
+				<ref bean="hfm_bendds" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
