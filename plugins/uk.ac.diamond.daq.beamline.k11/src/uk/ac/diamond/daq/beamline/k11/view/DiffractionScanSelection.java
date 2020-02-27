@@ -18,6 +18,11 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Optional;
+
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.dawnsci.plotting.api.IPlottingService;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -37,7 +42,10 @@ import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
 import uk.ac.diamond.daq.beamline.k11.view.control.PathSummary;
+import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
+import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
+import uk.ac.diamond.daq.mapping.ui.experiment.MetadataController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController.DiffractionAcquisitionMode;
 import uk.ac.diamond.daq.mapping.ui.experiment.file.FileScanSaver;
@@ -50,6 +58,7 @@ import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientMessagesUtility;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 public class DiffractionScanSelection extends ViewPart {
 
@@ -61,6 +70,7 @@ public class DiffractionScanSelection extends ViewPart {
 	private ScanSaver scanSaver;
 	private Button pointAndShoot;
 
+	private MetadataController metadataController;
 	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
 	public DiffractionScanSelection() {
@@ -97,15 +107,15 @@ public class DiffractionScanSelection extends ViewPart {
 		summaryHolder = diffractionPathComposite.populate();
 	}
 
-//	private void buildExecutionComposite(Composite parent) {
-//		new Label(parent, SWT.NONE).setText("Execution mode");
-//
-//		Composite executionControl = new DiffractionExecutionControl(parent, SWT.NONE, smController);
-//		GridLayoutFactory.fillDefaults().applyTo(executionControl);
-//		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.TOP).applyTo(executionControl);
-//
-//		addSpace(parent);
-//	}
+	// private void buildExecutionComposite(Composite parent) {
+	// new Label(parent, SWT.NONE).setText("Execution mode");
+	//
+	// Composite executionControl = new DiffractionExecutionControl(parent, SWT.NONE, smController);
+	// GridLayoutFactory.fillDefaults().applyTo(executionControl);
+	// GridDataFactory.swtDefaults().align(SWT.FILL, SWT.TOP).applyTo(executionControl);
+	//
+	// addSpace(parent);
+	// }
 
 	private CompositeFactory getTopArea() {
 		return new CompositeFactory() {
@@ -118,7 +128,6 @@ public class DiffractionScanSelection extends ViewPart {
 				GridLayoutFactory.fillDefaults().applyTo(group);
 				GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).applyTo(group);
 
-
 				pointAndShoot = ClientSWTElements.createButton(group, SWT.NONE, ClientMessages.START,
 						ClientMessages.START_POINT_AND_SHOOT_TP, ClientImages.RUN);
 				pointAndShoot.addListener(SWT.Selection, e -> updateStatus());
@@ -129,7 +138,8 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private void buildSavedComposite(Composite parent) {
 		Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.SAVED_SCAN_DEFINITION);
-		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<SavedScanMetaData>(new MapBrowser(getScanSaver()));
+		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<SavedScanMetaData>(
+				new MapBrowser(getScanSaver()));
 		layoutUtils.fillGrab().applyTo(cf.createComposite(group, SWT.BORDER));
 	}
 
@@ -166,8 +176,12 @@ public class DiffractionScanSelection extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (isPointAndShootActive()) {
 					UIHelper.showWarning("Cannot run Acquisition", "Point and Shoot mode is active");
+					return;
+				}
+				if (getExperimentController().isPresent()) {
+					applyExperimentProtocol();
 				} else {
-					smController.submitScan();
+					smController.submitScan(getAcquisitionName());
 				}
 			}
 
@@ -175,6 +189,38 @@ public class DiffractionScanSelection extends ViewPart {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		};
+	}
+
+	private void applyExperimentProtocol() {
+		getExperimentController().ifPresent(this::consumeExperiment);
+	}
+
+	private void consumeExperiment(ExperimentController exController) {
+		if (!exController.isStarted()) {
+			UIHelper.showError("Cannot start acquisition", "You have to start first the experiment");
+			return;
+		}
+		URL acquisitionFolder;
+		try {
+			acquisitionFolder = exController
+					.createAcquisitionLocation(getAcquisitionName().orElse(exController.getDefaultAcquisitionName()));
+		} catch (ExperimentControllerException e) {
+			UIHelper.showError("Cannot create acquisition folder", e);
+			return;
+		}
+		URL acquisitionFile;
+		try {
+			String fileName = extractBase(acquisitionFolder);
+			acquisitionFile = new URL(acquisitionFolder, fileName + ".nxs");
+		} catch (MalformedURLException e) {
+			UIHelper.showError("Cannot run acquisition", e);
+			return;
+		}
+		smController.submitScan(acquisitionFile);
+	}
+
+	private String extractBase(URL url) {
+		return FilenameUtils.getBaseName(FilenameUtils.getFullPathNoEndSeparator(url.getPath()));
 	}
 
 	private ScanSaver getScanSaver() {
@@ -207,5 +253,20 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private boolean isPointAndShootActive() {
 		return pointAndShoot.getText().equals(ClientMessagesUtility.getMessage(ClientMessages.STOP));
+	}
+
+	private Optional<ExperimentController> getExperimentController() {
+		return SpringApplicationContextProxy.getOptionalBean(ExperimentController.class);
+	}
+
+	private Optional<String> getAcquisitionName() {
+		if (metadataController == null) {
+			metadataController = smController.getService(MetadataController.class);
+		}
+		if (metadataController.getAcquisitionName() == null
+				|| metadataController.getAcquisitionName().trim().length() == 0) {
+			return Optional.empty();
+		}
+		return Optional.ofNullable(metadataController.getAcquisitionName());
 	}
 }
