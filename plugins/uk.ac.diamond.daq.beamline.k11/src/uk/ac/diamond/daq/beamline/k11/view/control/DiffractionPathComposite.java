@@ -46,6 +46,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.scanning.api.points.models.AbstractPointsModel;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
+import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
@@ -392,7 +393,7 @@ public class DiffractionPathComposite extends Composite {
 	 * @param newRegionValue	The updated region that has been chosen
 	 * @param newPathValue		The resulting updated default scan path
 	 */
-	private void updateScanPathBindings(final IMappingScanRegionShape newRegionValue, final IScanPathModel newPathValue) {
+	private void updateScanPathBindings(final IMappingScanRegionShape newRegionValue, final IScanPointGeneratorModel newPathValue) {
 		regionDBC.dispose();
 
 		rapController.changePath(newPathValue);
