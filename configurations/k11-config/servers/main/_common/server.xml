@@ -91,9 +91,11 @@
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d11_addetector.xml" />
 
-	<!-- other devices -->
+	<!-- shutters -->
 	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
+		resource="file:${gda.config}/servers/main/${gda.mode}/shutters/fe_shutter.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/shutters/eh_shutter.xml" />
 
 	<!-- file registration -->
 	<import
