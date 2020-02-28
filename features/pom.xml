@@ -1,46 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-<modelVersion>4.0.0</modelVersion>
-<groupId>uk.ac.diamond</groupId>
-<artifactId>features</artifactId>
-<version>1.0.0-SNAPSHOT</version>
-<packaging>pom</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.ac.diamond</groupId>
+  <artifactId>features</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-<parent>
-<groupId>uk.ac.diamond</groupId>
-<artifactId>uk.ac.diamond.aggregator</artifactId>
-<version>1.0.0-SNAPSHOT</version>
-<relativePath>../../pom.xml</relativePath>
-</parent>
-
-<modules>
-<module>uk.ac.diamond.daq.beamline.k11.feature</module>
-<module>uk.ac.diamond.daq.beamline.lab44.feature</module>
-<module>uk.ac.diamond.daq.beamline.p45.feature</module>
-<module>uk.ac.diamond.daq.beamline.p99.feature</module>
-<module>uk.ac.gda.beamline.b07-1.feature</module>
-<module>uk.ac.gda.beamline.b07.feature</module>
-<module>uk.ac.gda.beamline.b21.feature</module>
-<module>uk.ac.gda.beamline.i05-1.feature</module>
-<module>uk.ac.gda.beamline.i05.feature</module>
-<module>uk.ac.gda.beamline.i06_1.feature</module>
-<module>uk.ac.gda.beamline.i06.feature</module>
-<module>uk.ac.gda.beamline.i08-1.feature</module>
-<module>uk.ac.gda.beamline.i08.feature</module>
-<module>uk.ac.gda.beamline.i09-1.feature</module>
-<module>uk.ac.gda.beamline.i09-2.feature</module>
-<module>uk.ac.gda.beamline.i09.feature</module>
-<module>uk.ac.gda.beamline.i10.feature</module>
-<module>uk.ac.gda.beamline.i11-1.feature</module>
-<module>uk.ac.gda.beamline.i11.feature</module>
-<module>uk.ac.gda.beamline.i12.feature</module>
-<module>uk.ac.gda.beamline.i13-1.feature</module>
-<module>uk.ac.gda.beamline.i13.feature</module>
-<module>uk.ac.gda.beamline.i14.feature</module>
-<module>uk.ac.gda.beamline.i15-1.feature</module>
-<module>uk.ac.gda.beamline.i15.feature</module>
-<module>uk.ac.gda.beamline.i21.feature</module>
-<module>uk.ac.gda.beamline.i22.feature</module>
-</modules>
+  <parent>
+    <groupId>uk.ac.diamond</groupId>
+    <artifactId>gda-diamond</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
 </project>
