@@ -188,7 +188,7 @@ public class DiffractionPathComposite extends Composite {
 	 * @return	The {@link PathSummary} object which manages display of the current scan path settings
 	 */
 	public PathSummary populate() {
-		new Label(this, SWT.NONE).setText("Diffraction Scan Path");
+		//new Label(this, SWT.NONE).setText("Diffraction Scan Path");
 
 		final Composite content = new Composite(this, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(content);

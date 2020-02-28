@@ -76,7 +76,7 @@
       <view
             class="uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection"
             icon="icons/scanner--pencil.png"
-            id="uk.ac.diamond.daq.beamline.k11.scanSetup"
+            id="uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection"
             name="Scan Selection"
             restorable="true">
       </view>
