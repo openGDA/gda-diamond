@@ -11,6 +11,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 <groupId>uk.ac.diamond</groupId>
 <artifactId>uk.ac.diamond.aggregator</artifactId>
 <version>1.0.0-SNAPSHOT</version>
+<relativePath>../daq-aggregator</relativePath>
 </parent>
 
 <modules>
@@ -21,14 +22,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 <module>i20-1</module>
  -->
 <module>uk.ac.diamond.daq.beamline.i18.controls</module>
-<!-- module>uk.ac.diamond.daq.beamline.i18.controls.test</module -->
+<!--module>uk.ac.diamond.daq.beamline.i18.controls.test</module [fragment-host unresolved]-->
 <module>uk.ac.gda.beamline.b18</module>
 <module>uk.ac.gda.beamline.b18.feature</module>
 <module>uk.ac.gda.beamline.b18.server</module>
 <module>uk.ac.gda.beamline.b18.site</module>
-<!-- 
-<module>uk.ac.gda.beamline.b18.test</module>
- -->
+<!--module>uk.ac.gda.beamline.b18.test</module [import issue]-->
 <module>uk.ac.gda.beamline.i18</module>
 <module>uk.ac.gda.beamline.i18.feature</module>
 <module>uk.ac.gda.beamline.i18.site</module>
@@ -37,10 +36,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 <module>uk.ac.gda.beamline.i20_1.feature</module>
 <module>uk.ac.gda.beamline.i20_1.server</module>
 <module>uk.ac.gda.beamline.i20_1.site</module>
-<!-- 
-<module>uk.ac.gda.beamline.i20_1.test</module>
-<module>uk.ac.gda.beamline.i20.test</module>
- -->
+<!--module>uk.ac.gda.beamline.i20_1.test</module [import issue]-->
+<!--module>uk.ac.gda.beamline.i20.test</module [import issue]-->
 <module>uk.ac.gda.beamline.i20.feature</module>
 <module>uk.ac.gda.beamline.i20.server</module>
 <module>uk.ac.gda.beamline.i20.site</module>
