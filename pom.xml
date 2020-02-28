@@ -1,27 +1,255 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-<modelVersion>4.0.0</modelVersion>
-<groupId>uk.ac.diamond</groupId>
-<artifactId>gda-diamond</artifactId>
-<version>1.0.0-SNAPSHOT</version>
-<packaging>pom</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.ac.diamond</groupId>
+  <artifactId>gda-diamond</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-<parent>
-<groupId>uk.ac.diamond</groupId>
-<artifactId>uk.ac.diamond.aggregator</artifactId>
-<version>1.0.0-SNAPSHOT</version>
-</parent>
+  <parent>
+    <groupId>uk.ac.diamond</groupId>
+    <artifactId>uk.ac.diamond.aggregator</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
-<modules>
-<module>uk.ac.diamond.daq.dls.controls</module>
+  <modules>
+    <module>uk.ac.diamond.daq.dls.controls</module>
 <!-- module>uk.ac.diamond.daq.dls.controls.test</module -->
-<module>uk.ac.gda.diamond.feature</module>
-<module>uk.ac.gda.dls</module>
-<module>uk.ac.gda.dls.client</module>
+    <module>uk.ac.gda.diamond.feature</module>
+    <module>uk.ac.gda.dls</module>
+    <module>uk.ac.gda.dls.client</module>
 <!-- module>uk.ac.gda.dls.client.test</module -->
 <!-- module>uk.ac.gda.dls.test</module -->
-<module>features</module>
-<module>plugins</module>
-</modules>
+    <module>plugins</module>
+    <module>features</module>
+    <module>products</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>htss</id>
+      <modules>
+        <module>plugins/uk.ac.diamond.daq.beamline.htss</module>
+        <module>features/uk.ac.diamond.daq.beamline.htss.feature</module>
+        <module>products/uk.ac.diamond.daq.beamline.htss.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>k11</id>
+      <modules>
+        <module>plugins/uk.ac.diamond.daq.beamline.k11</module>
+        <module>features/uk.ac.diamond.daq.beamline.k11.feature</module>
+        <module>products/uk.ac.diamond.daq.beamline.k11.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>lab44</id>
+      <modules>
+        <module>plugins/uk.ac.diamond.daq.beamline.lab44</module>
+        <module>features/uk.ac.diamond.daq.beamline.lab44.feature</module>
+        <module>products/uk.ac.diamond.daq.beamline.lab44.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>p45</id>
+      <modules>
+        <module>plugins/uk.ac.diamond.daq.beamline.p45</module>
+        <module>features/uk.ac.diamond.daq.beamline.p45.feature</module>
+        <module>products/uk.ac.diamond.daq.beamline.p45.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>p99</id>
+      <modules>
+        <module>plugins/uk.ac.diamond.daq.beamline.p99</module>
+        <module>features/uk.ac.diamond.daq.beamline.p99.feature</module>
+        <module>products/uk.ac.diamond.daq.beamline.p99.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>b07-1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.b07-1</module>
+        <module>features/uk.ac.gda.beamline.b07-1.feature</module>
+        <module>products/uk.ac.gda.beamline.b07-1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>b07</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.b07</module>
+        <module>features/uk.ac.gda.beamline.b07.feature</module>
+        <module>products/uk.ac.gda.beamline.b07.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>b21</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.b21</module>
+        <module>features/uk.ac.gda.beamline.b21.feature</module>
+        <module>products/uk.ac.gda.beamline.b21.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i05</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i05</module>
+        <module>features/uk.ac.gda.beamline.i05.feature</module>
+        <module>products/uk.ac.gda.beamline.i05.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i05-1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i05-1</module>
+        <module>features/uk.ac.gda.beamline.i05-1.feature</module>
+        <module>products/uk.ac.gda.beamline.i05-1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i06</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i06</module>
+        <module>features/uk.ac.gda.beamline.i06.feature</module>
+        <module>products/uk.ac.gda.beamline.i06.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i06_1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i06_1</module>
+        <module>features/uk.ac.gda.beamline.i06_1.feature</module>
+        <module>products/uk.ac.gda.beamline.i06_1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i08</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i08</module>
+        <module>features/uk.ac.gda.beamline.i08.feature</module>
+        <module>products/uk.ac.gda.beamline.i08.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i08-1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i08-1</module>
+        <module>features/uk.ac.gda.beamline.i08-1.feature</module>
+        <module>products/uk.ac.gda.beamline.i08-1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i09</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i09</module>
+        <module>features/uk.ac.gda.beamline.i09.feature</module>
+        <module>products/uk.ac.gda.beamline.i09.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i09-1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i09-1</module>
+        <module>features/uk.ac.gda.beamline.i09-1.feature</module>
+        <module>products/uk.ac.gda.beamline.i09-1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i09-2</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i09-2</module>
+        <module>features/uk.ac.gda.beamline.i09-2.feature</module>
+        <module>products/uk.ac.gda.beamline.i09-2.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i10</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i10</module>
+        <module>features/uk.ac.gda.beamline.i10.feature</module>
+        <module>products/uk.ac.gda.beamline.i10.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i11</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i11</module>
+        <module>features/uk.ac.gda.beamline.i11.feature</module>
+        <module>products/uk.ac.gda.beamline.i11.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i11-1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i11-1</module>
+        <module>features/uk.ac.gda.beamline.i11-1.feature</module>
+        <module>products/uk.ac.gda.beamline.i11-1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i12</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i12</module>
+        <module>features/uk.ac.gda.beamline.i12.feature</module>
+        <module>products/uk.ac.gda.beamline.i12.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i13</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i13</module>
+        <module>features/uk.ac.gda.beamline.i13.feature</module>
+        <module>products/uk.ac.gda.beamline.i13.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i13-1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i13-1</module>
+        <module>features/uk.ac.gda.beamline.i13-1.feature</module>
+        <module>products/uk.ac.gda.beamline.i13-1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i14</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i14</module>
+        <module>features/uk.ac.gda.beamline.i14.feature</module>
+        <module>products/uk.ac.gda.beamline.i14.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i15</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i15</module>
+        <module>features/uk.ac.gda.beamline.i15.feature</module>
+        <module>products/uk.ac.gda.beamline.i15.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i15-1</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i15-1</module>
+        <module>features/uk.ac.gda.beamline.i15-1.feature</module>
+        <module>products/uk.ac.gda.beamline.i15-1.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i21</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i21</module>
+        <module>features/uk.ac.gda.beamline.i21.feature</module>
+        <module>products/uk.ac.gda.beamline.i21.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i22</id>
+      <modules>
+        <module>plugins/uk.ac.gda.beamline.i22</module>
+        <module>features/uk.ac.gda.beamline.i22.feature</module>
+        <module>products/uk.ac.gda.beamline.i22.product</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
