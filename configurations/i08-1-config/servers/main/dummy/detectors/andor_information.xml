@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="andor_binning_x" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="4" />
+	</bean>
+
+	<bean id="andor_binning_y" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="4" />
+	</bean>
+
+	<bean id="andor_region_start_x" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="0" />
+	</bean>
+
+	<bean id="andor_region_start_y" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="0" />
+	</bean>
+
+	<bean id="andor_region_size_x" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="1024" />
+	</bean>
+
+	<bean id="andor_region_size_y" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="1024" />
+	</bean>
+
+	<bean id="andor_ADC_speed" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="3.0" />
+		<property name="unit" value="MHz" />
+	</bean>
+
+	<bean id="andor_vertical_shift_speed" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="11.29" />
+		<property name="unit" value="us" />
+	</bean>
+
+	<bean id="andor_cooler_temperature_setpoint" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="25" />
+		<property name="unit" value="C" />
+	</bean>
+
+	<bean id="andor_cooler_temperature_readback" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="22.646" />
+		<property name="unit" value="C" />
+	</bean>
+
+</beans>

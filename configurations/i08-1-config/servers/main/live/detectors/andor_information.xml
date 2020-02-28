@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="andor_binning_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:BinX" />
+	</bean>
+
+	<bean id="andor_binning_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:BinY" />
+	</bean>
+
+	<bean id="andor_region_start_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:MinX" />
+	</bean>
+
+	<bean id="andor_region_start_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:MinY" />
+	</bean>
+
+	<bean id="andor_region_size_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:SizeX" />
+	</bean>
+
+	<bean id="andor_region_size_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:SizeY" />
+	</bean>
+
+	<bean id="andor_ADC_speed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:AndorADCSpeed" />
+	</bean>
+
+	<bean id="andor_vertical_shift_speed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:AndorVSSpeed" />
+	</bean>
+
+	<bean id="andor_cooler_temperature_setpoint" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:Temperature" />
+	</bean>
+
+	<bean id="andor_cooler_temperature_readback" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:TemperatureActual" />
+	</bean>
+
+</beans>

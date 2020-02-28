@@ -28,6 +28,12 @@ alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
 
+# Andor information
+try:
+    run("ptycho/ptycho_setup.py")
+except Exception, e:
+    print("Exception getting Andor information: %s" %(e))
+
 # Mode-specific setup
 if is_live():
     print("Running in live mode: attempting to run localStationUser.py in users script directory")

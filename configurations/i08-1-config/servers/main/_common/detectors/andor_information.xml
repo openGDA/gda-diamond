@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ptychography_distance" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="68.89" />
+		<property name="unit" value="mm" />
+	</bean>
+
+	<bean id="andor_information" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="andor_binning_x" />
+				<ref bean="andor_binning_y" />
+				<ref bean="andor_region_start_x"/>
+				<ref bean="andor_region_start_y"/>
+				<ref bean="andor_region_size_x"/>
+				<ref bean="andor_region_size_y"/>
+				<ref bean="andor_ADC_speed"/>
+				<ref bean="andor_vertical_shift_speed"/>
+				<ref bean="andor_cooler_temperature_setpoint"/>
+				<ref bean="andor_cooler_temperature_readback"/>
+				<ref bean="ptychography_distance"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

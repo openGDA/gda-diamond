@@ -25,6 +25,7 @@
 
 	<!-- Detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_information.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/dark_field_collector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d7_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d8_addetector.xml" />
@@ -52,6 +53,7 @@
 
 	<!-- Detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_information.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d7_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d8_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/dark_field_collector.xml" />
