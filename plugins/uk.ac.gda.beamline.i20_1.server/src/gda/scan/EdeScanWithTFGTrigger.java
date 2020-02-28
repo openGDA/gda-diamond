@@ -354,7 +354,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
 		// triggeringParameters.getDetectorDataCollection().setNumberOfFrames(scanParameters.getTotalNumberOfFrames());
 		String command = triggeringParameters.getTfgSetupGroupCommandParameters(numberOfRepetitions, shouldStartOnTopupSignal);
-
+		logger.info("Preparing external TFG using command :\n{}", command);
 		// send buffer to daserver
 		daServerForTriggeringWithTFG.sendCommand(command);
 

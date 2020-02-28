@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -312,6 +313,47 @@ public class TurboXasParametersTest {
 		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
 	}
 
+	@Test
+	public void testScannablePositionsSerialize() {
+		String scannableToMove = "mappingScannable";
+		List<List<Double>> positions = new ArrayList<>();
+		List<Double> vals = new ArrayList<>();
+		vals.addAll(Arrays.asList(11.0, 12.0, 13.0, 14.0, 15.0));
+		positions.add(vals);
+
+		parameters.setScannableToMove(scannableToMove);
+		parameters.setScannablePositions(positions);
+
+		String xmlStringFromParams = parameters.toXML();
+		String expectedXmlString = getCorrectXmlString(parameters);
+		System.out.println("XML from XStream : \n"+xmlStringFromParams);
+		System.out.println("Expected XML : \n"+expectedXmlString);
+		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
+	}
+
+	private String getXmlTagLine(String tag, double value) {
+		return getXmlTagLine(tag, TurboXasParameters.doubleToString(value), 1);
+	}
+
+	private String getXmlTagLine(String tag, double value, int level) {
+		return getXmlTagLine(tag, TurboXasParameters.doubleToString(value), level);
+	}
+
+	private String getIndent(int indent) {
+		StringBuilder sb = new StringBuilder();
+		while (indent-- > 0) {
+			sb.append("  ");
+		}
+		return sb.toString();
+	}
+	private String getXmlTagLine(String tag, String value, int indent) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<" + tag + ">");
+		sb.append(value);
+		sb.append("</" + tag + ">\n");
+		return getIndent(indent)+sb.toString();
+	}
+
 	/**
 	 * Return string with serialized version of TurboXasParameters test object
 	 * @return
@@ -319,44 +361,42 @@ public class TurboXasParametersTest {
 	private String getCorrectXmlString(TurboXasParameters parameters) {
 		StringBuilder serializedXmlString = new StringBuilder();
 
-		serializedXmlString.append(
-			"<TurboXasParameters>\n" +
-			"  <sampleName>"+parameters.getSampleName()+"</sampleName>\n" +
-			"  <startEnergy>"+TurboXasParameters.doubleToString(parameters.getStartEnergy())+"</startEnergy>\n" +
-			"  <endEnergy>"+TurboXasParameters.doubleToString(parameters.getEndEnergy())+"</endEnergy>\n" +
-			"  <energyStep>"+TurboXasParameters.doubleToString(parameters.getEnergyStep())+"</energyStep>\n" +
-			"  <startPosition>"+TurboXasParameters.doubleToString(parameters.getStartPosition())+"</startPosition>\n" +
-			"  <endPosition>"+TurboXasParameters.doubleToString(parameters.getEndPosition())+"</endPosition>\n" +
-			"  <positionStepSize>"+TurboXasParameters.doubleToString(parameters.getPositionStepSize())+"</positionStepSize>\n" +
-			"  <usePositionsForScan>"+parameters.isUsePositionsForScan()+"</usePositionsForScan>\n" +
-			"  <energyCalibrationPolynomial>"+parameters.getEnergyCalibrationPolynomial()+"</energyCalibrationPolynomial>\n" +
-			"  <energyCalibrationMinPosition>"+TurboXasParameters.doubleToString(parameters.getEnergyCalibrationMinPosition())+"</energyCalibrationMinPosition>\n" +
-			"  <energyCalibrationMaxPosition>"+TurboXasParameters.doubleToString(parameters.getEnergyCalibrationMaxPosition())+"</energyCalibrationMaxPosition>\n" +
-			"  <energyCalibrationReferenceFile>"+parameters.getEnergyCalibrationReferenceFile()+"</energyCalibrationReferenceFile>\n" +
-			"  <energyCalibrationFile>"+parameters.getEnergyCalibrationFile()+"</energyCalibrationFile>\n" +
-			"  <motorToMove>"+parameters.getMotorToMove()+"</motorToMove>\n");
+		serializedXmlString.append("<TurboXasParameters>\n" +
+				getXmlTagLine("sampleName", parameters.getSampleName(), 1) +
+				getXmlTagLine("startEnergy", parameters.getStartEnergy()) +
+				getXmlTagLine("endEnergy", parameters.getEndEnergy()) +
+				getXmlTagLine("energyStep", parameters.getEnergyStep()) +
+				getXmlTagLine("startPosition", parameters.getStartPosition()) +
+				getXmlTagLine("endPosition", parameters.getEndPosition()) +
+				getXmlTagLine("positionStepSize", parameters.getPositionStepSize()) +
+				getXmlTagLine("usePositionsForScan", Boolean.toString(parameters.isUsePositionsForScan()), 1) +
+				getXmlTagLine("energyCalibrationPolynomial", parameters.getEnergyCalibrationPolynomial(), 1) +
+				getXmlTagLine("energyCalibrationMinPosition", parameters.getEnergyCalibrationMinPosition()) +
+				getXmlTagLine("energyCalibrationMaxPosition", parameters.getEnergyCalibrationMaxPosition()) +
+				getXmlTagLine("energyCalibrationReferenceFile", parameters.getEnergyCalibrationReferenceFile(), 1) +
+				getXmlTagLine("energyCalibrationFile", parameters.getEnergyCalibrationFile(), 1) +
+				getXmlTagLine("motorToMove", parameters.getMotorToMove(), 1));
 
 		// Add the detector(s)
 		serializedXmlString.append("  <detectors>\n");
 		for(String detectorName : parameters.getDetectors()) {
-			serializedXmlString.append("    <string>"+detectorName+"</string>\n");
+			serializedXmlString.append(getXmlTagLine("string", detectorName, 2));
 		}
 		serializedXmlString.append("  </detectors>\n");
 
-		serializedXmlString.append("  <useTrajectoryScan>"+parameters.getUseTrajectoryScan()+"</useTrajectoryScan>\n");
-		serializedXmlString.append("  <twoWayScan>"+parameters.isTwoWayScan()+"</twoWayScan>\n");
+		serializedXmlString.append(getXmlTagLine("useTrajectoryScan", Boolean.toString(parameters.getUseTrajectoryScan()), 1));
+		serializedXmlString.append(getXmlTagLine("twoWayScan", Boolean.toString(parameters.isTwoWayScan()), 1));
 
+		// Add the timing groups
 		if (parameters.getTimingGroups() != null) {
 			parameters.getTimingGroups().forEach( timingGroup -> {
-				serializedXmlString.append(
-				"  <TimingGroup>\n" +
-				"    <name>"+timingGroup.getName()+"</name>\n" +
-				"    <timePerSpectrum>"+TurboXasParameters.doubleToString(timingGroup.getTimePerSpectrum())+"</timePerSpectrum>\n" +
-				"    <timeBetweenSpectra>"+TurboXasParameters.doubleToString(timingGroup.getTimeBetweenSpectra())+"</timeBetweenSpectra>\n" +
-				"    <numSpectra>"+timingGroup.getNumSpectra()+"</numSpectra>\n" +
-				"  </TimingGroup>\n");
-				}
-			);
+				serializedXmlString.append("  <TimingGroup>\n");
+				serializedXmlString.append(getXmlTagLine("name", timingGroup.getName(), 2));
+				serializedXmlString.append(getXmlTagLine("timePerSpectrum", timingGroup.getTimePerSpectrum(), 2));
+				serializedXmlString.append(getXmlTagLine("timeBetweenSpectra", timingGroup.getTimeBetweenSpectra(), 2));
+				serializedXmlString.append(getXmlTagLine("numSpectra", Integer.toString(timingGroup.getNumSpectra()), 2));
+				serializedXmlString.append("  </TimingGroup>\n");
+			});
 		}
 
 		if (parameters.getScannablesToMonitorDuringScan() != null) {
@@ -365,18 +405,33 @@ public class TurboXasParametersTest {
 
 		if (parameters.getExtraScannables() != null) {
 			serializedXmlString.append("  <extraScannables>\n");
-			parameters.getExtraScannables().forEach((name) -> serializedXmlString.append("    <string>"+name+"</string>\n") );
+			parameters.getExtraScannables().forEach((name) -> serializedXmlString.append(getXmlTagLine("string", name, 2)));
 			serializedXmlString.append("  </extraScannables>\n");
 		}
 
 		if (parameters.getNamesOfDatasetsToAverage() != null) {
 			serializedXmlString.append("  <namesOfDatasetsToAverage>\n");
-			parameters.getNamesOfDatasetsToAverage().forEach((name) -> serializedXmlString.append("    <string>"+name+"</string>\n") );
+			parameters.getNamesOfDatasetsToAverage().forEach((name) -> serializedXmlString.append(getXmlTagLine("string", name, 2)) );
 			serializedXmlString.append("  </namesOfDatasetsToAverage>\n");
 		}
 
-		serializedXmlString.append("  <writeAsciiData>"+parameters.getWriteAsciiData()+"</writeAsciiData>\n");
-		serializedXmlString.append("  <fastShutterName>"+parameters.getFastShutterName()+"</fastShutterName>\n");
+		serializedXmlString.append(getXmlTagLine("writeAsciiData", Boolean.toString(parameters.getWriteAsciiData()), 1));
+		serializedXmlString.append(getXmlTagLine("fastShutterName", parameters.getFastShutterName(), 1));
+
+		serializedXmlString.append(getXmlTagLine("runMappingScan", Boolean.toString(parameters.isRunMappingScan()), 1));
+		if (parameters.getScannableToMove() != null && parameters.getScannablePositions() != null) {
+			serializedXmlString.append(getXmlTagLine("scannableToMove", parameters.getScannableToMove(), 1));
+			serializedXmlString.append("  <scannablePositions>\n");
+			parameters.getScannablePositions().forEach(positions -> {
+				serializedXmlString.append("    <list>\n");
+				for(Double val : positions) {
+					serializedXmlString.append(getXmlTagLine("double", val.toString(), 3));
+				}
+				serializedXmlString.append("    </list>\n");
+
+			});
+			serializedXmlString.append("  </scannablePositions>\n");
+		}
 		serializedXmlString.append("</TurboXasParameters>");
 
 		return serializedXmlString.toString();
@@ -406,7 +461,7 @@ public class TurboXasParametersTest {
 	}
 
 	@Test
-	public void  testPositiveDirectionZebraEnergySettings() throws Exception {
+	public void testPositiveDirectionZebraEnergySettings() throws Exception {
 		Zebra zebra = new ZebraDummy();
 		ZebraGatePulsePreparer zebraPreparer = new ZebraGatePulsePreparer(zebra);
 
@@ -433,11 +488,13 @@ public class TurboXasParametersTest {
 
 	/**
 	 * Test to make sure gate start/end +- pulse start = scan start/end positions
+	 *
 	 * @param motorParams
 	 * @param zebraPreparer
 	 * @throws Exception
 	 */
-	private void testZebraSettings(TurboXasMotorParameters motorParams, ZebraGatePulsePreparer zebraPreparer) throws Exception {
+	private void testZebraSettings(TurboXasMotorParameters motorParams, ZebraGatePulsePreparer zebraPreparer)
+			throws Exception {
 		motorParams.setMotorParametersForTimingGroup(0);
 		zebraPreparer.setFromParameters(motorParams);
 		zebraPreparer.configureZebra();
@@ -448,15 +505,17 @@ public class TurboXasParametersTest {
 
 		// gate start + pulse start should = scan start position (+ve direction scan)
 		// gate start - pulse start = scan start position (-ve direction scan)
-		assertEquals(motorParams.getScanStartPosition(), zebra.getPCGateStart()+scanDirection*zebra.getPCPulseStart(), numericalTolerance);
+		assertEquals(motorParams.getScanStartPosition(),
+				zebra.getPCGateStart() + scanDirection * zebra.getPCPulseStart(), numericalTolerance);
 
 		// gate end position - 'stabilistaion distance' should = scan end position (+ve direction scan);
 		// gate end position + 'stabilistaion distance' should = scan end position (-ve direction scan);
-		double gateEnd = zebra.getPCGateStart() + scanDirection*zebra.getPCGateWidth();
-		assertEquals(motorParams.getScanEndPosition(), gateEnd - scanDirection*zebraPreparer.getMotorStabilisationDistance()*0.5, numericalTolerance);
+		double gateEnd = zebra.getPCGateStart() + scanDirection * zebra.getPCGateWidth();
+		assertEquals(motorParams.getScanEndPosition(),
+				gateEnd - scanDirection * zebraPreparer.getMotorStabilisationDistance() * 0.5, numericalTolerance);
 
 		// Gate should be wide enough to fit all the pulses
-		double spaceNeededForPulses = zebra.getPCPulseMax()*zebra.getPCPulseStep();
+		double spaceNeededForPulses = zebra.getPCPulseMax() * zebra.getPCPulseStep();
 		assertTrue(zebra.getPCGateWidth() > spaceNeededForPulses);
 	}
 

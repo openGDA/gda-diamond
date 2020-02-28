@@ -35,7 +35,6 @@ import org.junit.Test;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import gda.device.detector.xstrip.XhDetector;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
@@ -56,7 +55,7 @@ public class EdeDataStoreTest {
 			public void run() {
 				WritableList<TimingGroupUIModel> groupList = new WritableList<>(new ArrayList<>(), TimingGroupUIModel.class);
 				TimeResolvedExperimentModel testLinerExperimentModel = new TimeResolvedExperimentModel();
-				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel() , ExperimentUnit.SEC, testLinerExperimentModel);
+				TimingGroupUIModel group = new TimingGroupUIModel(ExperimentUnit.SEC, testLinerExperimentModel);
 				group.setCurrentDetector( new XhDetector() );
 				group.setTimes(0.0d, 1000.0d);
 				try {

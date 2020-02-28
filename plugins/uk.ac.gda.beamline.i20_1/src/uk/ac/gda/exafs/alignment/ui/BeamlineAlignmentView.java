@@ -62,7 +62,6 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
@@ -74,7 +73,6 @@ import gda.util.exafs.Element;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
-import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalCut;
@@ -572,36 +570,19 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		applyButton = createApplyButtonControl(motorSectionComposite);
 		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.POLY_BENDER_2, lblPolyBender2Suggestion, applyButton);
 
-		final Button btnSynchroniseThetas = toolkit.createButton(motorSectionComposite, "Match TwoTheta arm to Poly Bragg value", SWT.CHECK | SWT.WRAP);
-		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gridData.horizontalSpan = 4;
-		btnSynchroniseThetas.setLayoutData(gridData);
-		btnSynchroniseThetas.setSelection(true);
-		btnSynchroniseThetas.setEnabled(controlsEnabled);
-
-		BraggAngleAndTwoThetaScannableWrapper braggAngleScannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(ScannableSetup.POLY_BRAGG.getScannable(), btnSynchroniseThetas);
-		BraggAngleAndTwoThetaScannableWrapper twoThetacannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(ScannableSetup.ARM_2_THETA_ANGLE.getScannable(), btnSynchroniseThetas);
-		twoThetacannableWrapper.setLinkedMotorPositionEditor(braggAngleScannableWrapper, false);
-		braggAngleScannableWrapper.setLinkedMotorPositionEditor(twoThetacannableWrapper, true);
-
 		lblPolyBraggSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BRAGG);
 		applyButton = createApplyButtonControl(motorSectionComposite);
 		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.POLY_BRAGG, lblPolyBraggSuggestion, applyButton);
 
 		lblArm2ThetaAngleSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ARM_2_THETA_ANGLE);
 		applyButton = createApplyButtonControl(motorSectionComposite);
-
-		ScannableSetup.ARM_2_THETA_ANGLE.getScannable().addIObserver(moveObserver);
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, twoThetacannableWrapper, controlsEnabled, controlsEnabled);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		motorPositionEditorControl.setEditable(controlsEnabled);
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.ARM_2_THETA_ANGLE, lblArm2ThetaAngleSuggestion, motorPositionEditorControl));
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.ARM_2_THETA_ANGLE, lblArm2ThetaAngleSuggestion, applyButton);
 
 		Label lblPowerEstimate = toolkit.createLabel(motorSectionComposite, "Estimated power is: ");
 		lblPowerEstimate.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		labelPowerEstimateValue = toolkit.createFormText(motorSectionComposite, false);
 		labelPowerEstimateValue.setText(getHighlightedFormatedString(""), true, false);
-		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gridData.horizontalSpan = 3;
 		labelPowerEstimateValue.setLayoutData(gridData);
 
@@ -715,42 +696,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		scnSetup.getScannable().addIObserver(moveObserver);
 
 		return motorPositionEditorControl;
-	}
-
-	private static class BraggAngleAndTwoThetaScannableWrapper extends ScannableWrapper {
-		private ScannableWrapper otherScannableEditorControl;
-		private final Button btnSynchroniseThetas;
-		private boolean isTimesTwo;
-
-		@Override
-		public void setPosition(double value) throws DeviceException {
-			super.setPosition(value);
-			if (btnSynchroniseThetas.getSelection()) {
-				if (otherScannableEditorControl.getTargetPosition() == null) {
-					if (isTimesTwo) {
-						double valueTimes2 = value * 2;
-						if (valueTimes2 != otherScannableEditorControl.getPosition()) {
-							otherScannableEditorControl.setPosition(valueTimes2);
-						}
-					} else {
-						double valueTimesHalf = value / 2;
-						if (valueTimesHalf != otherScannableEditorControl.getPosition()) {
-							otherScannableEditorControl.setPosition(valueTimesHalf);
-						}
-					}
-				}
-			}
-		}
-
-		public void setLinkedMotorPositionEditor(ScannableWrapper otherScannableEditorControl, boolean isTimesTwo) {
-			this.otherScannableEditorControl = otherScannableEditorControl;
-			this.isTimesTwo = isTimesTwo;
-		}
-
-		public BraggAngleAndTwoThetaScannableWrapper(Scannable scannable, Button btnSynchroniseThetas) {
-			super(scannable);
-			this.btnSynchroniseThetas = btnSynchroniseThetas;
-		}
 	}
 
 	private static class SuggestionApplyButtonListener implements Listener {

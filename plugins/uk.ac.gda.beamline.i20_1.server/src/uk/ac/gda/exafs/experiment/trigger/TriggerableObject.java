@@ -71,6 +71,8 @@ public class TriggerableObject extends ObservableModel implements Serializable, 
 	@Expose
 	private double triggerPulseLength;
 
+	public static final double DEFAULT_PULSE_WIDTH_IN_SEC = 0.001d;
+
 	public static final String TRIGGER_OUTPUT_PORT_PROP_NAME = "triggerOutputPort";
 	@Expose
 	private TriggerOutputPort triggerOutputPort;
@@ -93,6 +95,20 @@ public class TriggerableObject extends ObservableModel implements Serializable, 
 		this.triggerDelay = triggerDelay;
 		this.triggerPulseLength = triggerPulseLength;
 		this.triggerOutputPort = triggerOutputPort;
+	}
+
+	public static TriggerableObject createNewSampleEnvEntry() {
+		TriggerableObject obj = new TriggerableObject(0.1, DEFAULT_PULSE_WIDTH_IN_SEC, TriggerOutputPort.USR_OUT_2);
+		obj.setName("Default");
+		return obj;
+	}
+
+	public static TriggerableObject createNewSampleEnvEntry(double startTime, double length, TriggerOutputPort port) {
+		TriggerableObject obj = createNewSampleEnvEntry();
+		obj.setTriggerDelay(startTime);
+		obj.setTriggerPulseLength(length);
+		obj.setTriggerOutputPort(port);
+		return obj;
 	}
 
 	public double getTriggerDelay() {
@@ -128,11 +144,6 @@ public class TriggerableObject extends ObservableModel implements Serializable, 
 
 	public void setName(String name) {
 		firePropertyChange(NAME_PROP_NAME, this.name, this.name = name);
-	}
-
-	public String getDAServerCommand() {
-		// TODO
-		return "";
 	}
 
 	public double getTotalDuration() {

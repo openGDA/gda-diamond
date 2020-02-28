@@ -24,7 +24,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -56,6 +55,7 @@ import gda.device.scannable.PVScannable;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.scan.ede.TimeResolvedExperimentParameters;
 
 
 /**
@@ -132,6 +132,12 @@ public class TurboXasParameters {
 	private boolean writeAsciiData;
 
 	private String fastShutterName;
+
+	private boolean runMappingScan = false;
+
+	private String scannableToMove;
+
+	private List<List<Double>> scannablePositions;
 
 	public TurboXasParameters() {
 		setDefaults();
@@ -384,13 +390,37 @@ public class TurboXasParameters {
 		this.fastShutterName = fastShutterName;
 	}
 
+	public boolean isRunMappingScan() {
+		return runMappingScan;
+	}
+
+	public void setRunMappingScan(boolean runMappingScan) {
+		this.runMappingScan = runMappingScan;
+	}
+
+	public String getScannableToMove() {
+		return scannableToMove;
+	}
+
+	public void setScannableToMove(String scannableToMove) {
+		this.scannableToMove = scannableToMove;
+	}
+
+	public List<List<Double>> getScannablePositions() {
+		return scannablePositions;
+	}
+
+	public void setScannablePositions(List<List<Double>> scannablePositions) {
+		this.scannablePositions = new ArrayList<>(scannablePositions);
+	}
+
 	/**
 	 * Custom converter for double precision numbers, so have full control over double to string conversion
 	 * used when serializing.
 	 * @param doubleVal
 	 * @return double formatted as string
 	 */
-	public static String doubleToString( double doubleVal ) {
+public static String doubleToString( double doubleVal ) {
 		return Double.toString(doubleVal);
 	}
 
@@ -570,7 +600,7 @@ public class TurboXasParameters {
 					}
 				}
 				if (scn != null) {
-					logger.debug("Adding scannable {}", scn.getName());
+					logger.debug("Adding scannable to be monitored : {}", scn.getName());
 					scannableList.add(scn);
 				}
 			}
@@ -645,15 +675,31 @@ public class TurboXasParameters {
 		scan.setWriteAsciiDataAfterScan(writeAsciiData);
 
 		// Set the fast shutter if found on server
-		List<Scannable> listWithFastShutter = findScannableObjects(Arrays.asList(fastShutterName));
-		if (!listWithFastShutter.isEmpty()) {
-			scan.setShutter(listWithFastShutter.get(0));
+		Optional<Scannable> fastShutter = Finder.getInstance().findOptional(fastShutterName);
+		if (fastShutter.isPresent()) {
+			scan.setShutter(fastShutter.get());
 		}
 
 		scan.setTwoWayScan(twoWayScan);
 
 		scan.setDatasetNamesToAverage(namesOfDatasetsToAverage);
 
+		// Add the scannable to be moved and the positions
+		if (runMappingScan && !StringUtils.isEmpty(scannableToMove)) {
+			Optional<Scannable> scnToMove = Finder.getInstance().findOptional(scannableToMove);
+			if(scnToMove.isPresent()) {
+				scan.setScannableToMove(scnToMove.get());
+				if (scannablePositions == null) {
+					logger.warn("Scannable positions have not been set");
+				} else {
+					scan.setPositionsForScan(TimeResolvedExperimentParameters.getPositionArray(scannablePositions));
+					scan.getScannablesToMonitor().add(scnToMove.get());
+					logger.info("Moving scannable '{}' to {} different position during scan.", scannableToMove, scannablePositions.size());
+				}
+			} else {
+				logger.warn("Can't set scannableToMove - scannable '{}' not found on server", scannableToMove);
+			}
+		}
 		return scan;
 	}
 

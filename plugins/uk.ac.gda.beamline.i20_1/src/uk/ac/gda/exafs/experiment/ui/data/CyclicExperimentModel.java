@@ -18,16 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import de.jaret.util.date.Interval;
-import de.jaret.util.ui.timebars.model.DefaultRowHeader;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
-import de.jaret.util.ui.timebars.model.TimeBarModel;
 import gda.device.DeviceException;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.exafs.data.DetectorModel;
@@ -43,68 +33,12 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	private static final int INITIAL_NO_OF_CYCLES = 2;
 
-	private final DefaultTimeBarModel cyclicTimebarModel;
-
-	private final DefaultTimeBarRowModel cyclicTimeBarRowModel;
-
 	private int noOfRepeatedGroups;
 
-	public static final String CYCLES_DURATION_PROP_NAME = "cyclesDuration";
 	private double cyclesDuration;
 
 	public CyclicExperimentModel() {
-		cyclicTimebarModel = new DefaultTimeBarModel();
-		DefaultRowHeader header = new DefaultRowHeader("Cycles");
-		cyclicTimeBarRowModel = new DefaultTimeBarRowModel(header);
-		cyclicTimebarModel.addRow(cyclicTimeBarRowModel);
-		this.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(NO_OF_REPEATED_GROUPS_PROP_NAME)) {
-					int existingCycles = cyclicTimeBarRowModel.getIntervals().size();
-					for (int i=existingCycles; i < noOfRepeatedGroups; i++) {
-						CyclicExperimentDataModel experimentCycleModel = new CyclicExperimentDataModel();
-						experimentCycleModel.setName("Cycle " + (i + 1));
-						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.timeIntervalData.getDuration(), CyclicExperimentModel.this.timeIntervalData.getDuration());
-						cyclicTimeBarRowModel.addInterval(experimentCycleModel);
-
-					}
-					if (noOfRepeatedGroups < existingCycles) {
-						List<Interval> rowsToRemove = new ArrayList<Interval>();
-						for (int i = noOfRepeatedGroups; i < existingCycles; i++) {
-							int rowIndex = i;
-							rowsToRemove.add(cyclicTimeBarRowModel.getIntervals().get(rowIndex));
-						}
-						for (Interval cycleToRemove : rowsToRemove) {
-							cyclicTimeBarRowModel.remInterval(cycleToRemove);
-						}
-					}
-					updateTotalCycleDuration();
-				}
-			}
-		});
-		timeIntervalData.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(TimeIntervalDataModel.DURATION_PROP_NAME)) {
-					double startTime = 0.0;
-					for(Interval object : cyclicTimeBarRowModel.getIntervals()) {
-						CyclicExperimentDataModel experimentCycleModel = (CyclicExperimentDataModel) object;
-						experimentCycleModel.setTimes(startTime, (double) evt.getNewValue());
-						startTime += experimentCycleModel.getDuration();
-					}
-					updateTotalCycleDuration();
-				}
-			}
-		});
 		this.setNoOfRepeatedGroups(INITIAL_NO_OF_CYCLES);
-	}
-
-	private void updateTotalCycleDuration() {
-		if (cyclicTimeBarRowModel.getIntervals().size() > 0) {
-			CyclicExperimentDataModel lastCycle = ((CyclicExperimentDataModel) cyclicTimeBarRowModel.getIntervals().get(cyclicTimeBarRowModel.getIntervals().size() - 1));
-			this.firePropertyChange(CYCLES_DURATION_PROP_NAME, cyclesDuration, cyclesDuration = lastCycle.getEndTime());
-		}
 	}
 
 	@Override
@@ -126,11 +60,6 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	public void setNoOfRepeatedGroups(int noOfRepeatedGroups) {
 		this.firePropertyChange(NO_OF_REPEATED_GROUPS_PROP_NAME, this.noOfRepeatedGroups, this.noOfRepeatedGroups = noOfRepeatedGroups);
 	}
-
-	public TimeBarModel getCyclicTimeBarModel() {
-		return cyclicTimebarModel;
-	}
-
 
 	public double getCyclesDuration() {
 		return cyclesDuration;

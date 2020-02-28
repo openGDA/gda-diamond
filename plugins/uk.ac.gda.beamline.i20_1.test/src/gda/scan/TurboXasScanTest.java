@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
@@ -203,6 +204,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		factory.addFindable(xspress3bufferedDetector);
 		factory.addFindable(testMotor);
 		factory.addFindable(xspress3detector);
+		factory.addFindable(dummyScannableMotor);
 		Finder.getInstance().addFactory(factory);
 		addMetashopToFinder();
 	}
@@ -654,15 +656,33 @@ public class TurboXasScanTest extends EdeTestBase {
 		TurboXasScan scan = parameters.createScan();
 		scan.setScannableToMove(dummyScannableMotor);
 		scan.addScannableToMonitor(dummyScannableMotor);
-		List<Object> positionsForScan = Arrays.asList(1, 2, 3, 4, 5);
+		List<Object> positionsForScan = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
 		scan.setPositionsForScan(positionsForScan);
 
 		scan.runScan();
-		String nexusFilename = scan.getDataWriter().getCurrentFileName();
 
+		List<Double> dblList = positionsForScan.stream().map(val -> (Double) val).collect(Collectors.toList());
+		testMotorMoveResults(scan.getDataWriter().getCurrentFileName(), parameters, dblList);
+	}
+
+	@Test
+	public void testWithMotorMoveUsingParameters() throws Exception {
+		setup(TurboXasScan.class, "testWithMotorMoveUsingParameters");
+		TurboXasParameters parameters = getTurboXasParameters();
+		addTimingGroups(parameters);
+		parameters.setRunMappingScan(true);
+		parameters.setScannableToMove(dummyScannableMotor.getName());
+		parameters.setScannablePositions(Arrays.asList(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0)));
+		TurboXasScan scan = parameters.createScan();
+		scan.runScan();
+
+		testMotorMoveResults(scan.getDataWriter().getCurrentFileName(), parameters, parameters.getScannablePositions().get(0));
+	}
+
+	private void testMotorMoveResults(String nexusFilename, TurboXasParameters parameters, List<Double> positionsForScan) throws Exception {
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
 		int numSpectraPerPosition = getNumSpectra(parameters);
-		int numSpectra = numSpectraPerPosition * scan.getPositionsForScan().size();
+		int numSpectra = numSpectraPerPosition * positionsForScan.size();
 
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
 		checkDetectorNexusData(nexusFilename, xspress3bufferedDetector.getName(), numSpectra, numPointsPerSpectrum);
@@ -679,7 +699,6 @@ public class TurboXasScanTest extends EdeTestBase {
 			assertEquals(expectedVal, dataset.getDouble(i), 1e-5);
 		}
 		checkMetaData(nexusFilename, parameters);
-
 	}
 
 	@Test

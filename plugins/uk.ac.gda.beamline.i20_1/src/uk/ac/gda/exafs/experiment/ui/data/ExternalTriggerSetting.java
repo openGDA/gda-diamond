@@ -41,7 +41,7 @@ public class ExternalTriggerSetting extends ObservableModel {
 
 	private void updateListeners(final TFGTrigger tfgTrigger) {
 		for (TriggerableObject obj : tfgTrigger.getSampleEnvironment()) {
-			obj.addPropertyChangeListener(tfgTrigger.totalTimeChangeListener);
+			obj.addPropertyChangeListener(tfgTrigger.getTotalTimeChangeListener());
 		}
 		sampleEnvironment.addListChangeListener(new IListChangeListener() {
 			@Override
@@ -49,13 +49,13 @@ public class ExternalTriggerSetting extends ObservableModel {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						((TriggerableObject) element).addPropertyChangeListener(tfgTrigger.totalTimeChangeListener);
+						((TriggerableObject) element).addPropertyChangeListener(tfgTrigger.getTotalTimeChangeListener());
 						tfgTrigger.updateTotalTime();
 					}
 
 					@Override
 					public void handleAdd(int index, Object element) {
-						((TriggerableObject) element).removePropertyChangeListener(tfgTrigger.totalTimeChangeListener);
+						((TriggerableObject) element).removePropertyChangeListener(tfgTrigger.getTotalTimeChangeListener());
 						tfgTrigger.updateTotalTime();
 					}
 				});
