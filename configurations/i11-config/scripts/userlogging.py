@@ -33,7 +33,8 @@ from collections import OrderedDict
 from gdascripts.pd.dummy_pds import ZeroInputExtraFieldsDummyPD
 from gdaserver import command_server
 
-from gda.data import PathConstructor, NumTracker
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
 
 logger = logging.getLogger('gda.script.userlogging')
 
@@ -55,7 +56,7 @@ def _setup_output(filename):
 
     If the parent directory does not exist, try and create it
     """
-    output = path.join(PathConstructor.getVisitDirectory(), filename)
+    output = path.join(InterfaceProvider.getPathConstructor().getVisitDirectory(), filename)
     logger.debug('Creating user log to write to %s', output)
     if path.exists(output) and not path.isfile(output):
         raise ValueError('filename exists and is not a file')
