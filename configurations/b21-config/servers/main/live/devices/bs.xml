@@ -2,6 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
 
+	<bean id="bscarriage_y_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL21B-EA-SAXSP-01:Y" />
+	</bean>
 	<bean id="bs_x_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="BL21B-RS-ABSB-03:X" />
 	</bean>
