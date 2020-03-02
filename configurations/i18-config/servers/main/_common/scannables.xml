@@ -265,13 +265,6 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="sc_dcm_mono" class="gda.device.scannable.MonoScannable">
-		<property name="protectionLevel" value="0" />
-		<property name="motorName" value="sc_dcm_bragg" />
-		<property name="crystalType" value="Si111" />
-		<property name="initialUserUnits" value="Deg" />
-	</bean>
-
 	<bean id="sc_DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -279,7 +272,6 @@
 				<ref bean="sc_dcm_crystal1_roll" />
 				<ref bean="sc_dcm_crystal2_pitch" />
 				<ref bean="sc_dcm_perp" />
-				<ref bean="sc_dcm_mono" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
