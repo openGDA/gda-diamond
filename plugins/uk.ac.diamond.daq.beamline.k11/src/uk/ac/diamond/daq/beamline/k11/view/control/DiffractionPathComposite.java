@@ -450,10 +450,10 @@ public class DiffractionPathComposite extends Composite {
 	 * Rewrites the bindings that link the mutator checkbox controls to the appropriate properties on the mapping bean's
 	 * path model
 	 *
-	 * @param newPathValue	The {@link IScanPathModel} currently selected on the mapping bean
+	 * @param newPathValue	The {@link IScanPointGeneratorModel} currently selected on the mapping bean
 	 */
 	@SuppressWarnings("unchecked")
-	private void updatePathMutatorBindings(final IScanPathModel newPathValue) {
+	private void updatePathMutatorBindings(final IScanPointGeneratorModel newPathValue) {
 		if (AbstractPointsModel.supportsContinuous(newPathValue.getClass())) {
 			IObservableValue<Boolean> pathContinuousObservableValue = BeanProperties.value("continuous").observe(newPathValue);
 			regionDBC.bindValue(mutatorObservableValues.get("Continuous"), pathContinuousObservableValue);
