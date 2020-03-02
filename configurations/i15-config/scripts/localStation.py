@@ -238,19 +238,6 @@ try:
 		localStation_exception(sys.exc_info(), "creating cryojet scannable")
 
 	try:
-		caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
-		caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
-		caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
-		caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
-		caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
-		caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
-	except:
-		localStation_exception(sys.exc_info(), "correcting pe area detector pipeline...")
-
-	try:
 		global pe
 		pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
 		pe1.processors=[DetectorDataProcessorWithRoi(
@@ -413,31 +400,55 @@ try:
 			localStation_exception(sys.exc_info(), "creating patch x7trig object")
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
-	
+
 	try:
 		pe.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
+		caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
+		caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
+		caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
+		caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
+		caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
 	except:
-		localStation_exception(sys.exc_info(), "configuring pe compression")
+		localStation_exception(sys.exc_info(), "configuring pe compression & correcting pe area detector pipeline")
 
 	global mar, pil3, mpx, psl
 
 	try:
 		mar.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-MAR-01:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-MAR-01:PROC:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-MAR-01:MJPG:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-MAR-01:CAM:EraseMode",			"None")
+		caput("BL15I-EA-MAR-01:ROI:EnableX",			"Disable")
+		caput("BL15I-EA-MAR-01:ROI:EnableY",			"Disable")
+		from localStationScripts.marErase import marErase
+		alias("marErase")
 	except:
-		localStation_exception(sys.exc_info(), "configuring mar compression")
+		localStation_exception(sys.exc_info(), "configuring mar area detector plugins")
+
 	try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 compression")
+
 	try:
 		mpx.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-DET-18:ARR:EnableCallbacks",	"Enable")
 	except:
 		localStation_exception(sys.exc_info(), "configuring mpx compression")
+
 	try:
 		psl.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-PSL-01:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PSL-01:PROC:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PSL-01:MJPG:EnableCallbacks",	"Enable")
 	except:
-		localStation_exception(sys.exc_info(), "configuring psl compression")
-	
+		localStation_exception(sys.exc_info(), "configuring psl compression & callbacks")
+
 	try:
 		from scannables.safeScannable import SafeScannable
 		rot_dkphi = SafeScannable('rot_dkphi', control_scannable=dkphi,
