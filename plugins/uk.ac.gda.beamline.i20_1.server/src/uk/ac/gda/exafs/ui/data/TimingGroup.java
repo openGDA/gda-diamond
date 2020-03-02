@@ -87,7 +87,7 @@ public class TimingGroup implements Serializable {
 		}
 	}
 
-	private boolean groupTrigRisingEdge = false;
+	private boolean groupTrigRisingEdge = true;
 	private boolean allFramesTrigRisingEdge = true;
 	private boolean framesExclFirstTrigRisingEdge = true;
 	private boolean scansTrigRisingEdge = true;

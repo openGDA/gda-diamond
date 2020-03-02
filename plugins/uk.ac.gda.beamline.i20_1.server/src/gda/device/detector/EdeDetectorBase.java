@@ -29,12 +29,15 @@ import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.data.NumTracker;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
+import gda.epics.util.EpicsGlobals;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
@@ -43,6 +46,7 @@ import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {
+	private static final Logger logger = LoggerFactory.getLogger(EdeDetectorBase.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -85,8 +89,14 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	@Override
+	public void atScanStart() throws DeviceException {
+		waitForDetector();
+	}
+
+	@Override
 	public void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException {
 		currentScanParameter = newParameters;
+		waitForDetector();
 		configureDetectorForCollection();
 	}
 
@@ -538,5 +548,19 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 */
 	public void setCheckForExcludedStrips(boolean checkForExcludedStrips) {
 		this.checkForExcludedStrips = checkForExcludedStrips;
+	}
+
+	private void waitForDetector() throws DeviceException {
+		final double timeoutSecs = EpicsGlobals.getTimeout();
+		if (isBusy()) {
+			logger.info("Waiting while {} detector is busy.", getName());
+			try {
+				waitWhileBusy(timeoutSecs);
+			} catch (InterruptedException e) {
+				logger.error("Timeout after waiting for {}", getName(), e);
+				throw new DeviceException(e);
+			}
+			logger.info("Finished waiting for detector.");
+		}
 	}
 }

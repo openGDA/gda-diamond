@@ -62,6 +62,11 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	public static final String ATTR_WRITEFIRSTFRAME = "writeFirstFrame";
 	public static final String ATTR_READALLFRAMES = "readAllFrames";
 
+	// Detector activity levels in DAServer 'read-status' return string
+	public static final String RUNNING = "Running";
+	public static final String PAUSED = "Paused";
+	public static final String IDLE = "Idle";
+
 	public static final double XSTRIP_CLOCKRATE = 20E-9; // s
 	public static final int MAX_PIXEL = 1024;
 
@@ -308,9 +313,9 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 		DetectorStatus newStatus = new DetectorStatus();
 
-		if (stateString.startsWith("Running")) {
+		if (stateString.startsWith(RUNNING)) {
 			newStatus.setDetectorStatus(gda.device.Detector.BUSY);
-		} else if (stateString.startsWith("Paused")) {
+		} else if (stateString.startsWith(PAUSED)) {
 			newStatus.setDetectorStatus(gda.device.Detector.PAUSED);
 		} else {
 			newStatus.setDetectorStatus(gda.device.Detector.IDLE);

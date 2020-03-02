@@ -31,9 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.annotations.Expose;
 
-import de.jaret.util.date.Interval;
-import de.jaret.util.ui.timebars.model.DefaultRowHeader;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import gda.device.DeviceException;
 import gda.device.detector.EdeDetector;
 import uk.ac.gda.exafs.data.DetectorModel;
@@ -45,7 +42,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	private static final Logger logger = LoggerFactory.getLogger(TimingGroupUIModel.class);
 
 	private final List<SpectrumModel> spectrumList = new LinkedList<SpectrumModel>();
-	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
 
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
@@ -179,41 +175,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		return spectrumList;
 	}
 
-	public static class TimingGroupTimeBarRowModel extends DefaultTimeBarRowModel {
-		public TimingGroupTimeBarRowModel(DefaultRowHeader header) {
-			super(header);
-		}
-		@Override
-		public void addInterval(Interval interval) {
-			_intervals.add(interval);
-			// Check min/max modifications by the added interval
-			if (_minDate == null || _intervals.size() == 1) {
-				_minDate = interval.getBegin().copy();
-				_maxDate = interval.getEnd().copy();
-			} else {
-				if (_minDate.compareTo(interval.getBegin()) > 0) {
-					_minDate = interval.getBegin().copy();
-				}
-				if (_maxDate.compareTo(interval.getEnd()) < 0) {
-					_maxDate = interval.getEnd().copy();
-				}
-			}
-			interval.addPropertyChangeListener(this);
-			fireElementAdded(interval);
-		}
-
-		@Override
-		public void remInterval(Interval interval) {
-			if (_intervals.contains(interval)) {
-				_intervals.remove(interval);
-				// check min/max the hard way (optimize in custom implementations!)
-				//updateMinMax();
-				interval.removePropertyChangeListener(this);
-				fireElementRemoved(interval);
-			}
-		}
-	}
-
 	public void resetInitialTime(double startTime, double endTime, double delay, double timePerSpectrum) {
 		super.setDelay(delay);
 		this.setTimes(startTime, endTime);
@@ -225,8 +186,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		this.firePropertyChange(TIME_PER_SPECTRUM_PROP_NAME, this.timePerSpectrum, this.timePerSpectrum = timePerSpectrum);
 	}
 
-	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
-		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
+	public TimingGroupUIModel(ExperimentUnit unit, TimeResolvedExperimentModel parent) {
 		this.parent = parent;
 		this.resetInitialTime(TimeIntervalDataModel.INITIAL_START_TIME, TimeIntervalDataModel.MIN_DURATION_TIME, 0.0, TimeIntervalDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
@@ -269,9 +229,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		int maxIntervals = numberOfSpectrum / spectraPerInterval;
 		int last = numberOfSpectrum % spectraPerInterval;
 
-		for (SpectrumModel itemToRemove : spectrumList) {
-			spectraTimeBarRowModel.remInterval(itemToRemove);
-		}
 		spectrumList.clear();
 
 		for (int i = 0; i < maxIntervals; i++) {
@@ -283,7 +240,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			String name = ((end - start) > 1) ? start + " - " + end : Integer.toString(start);
 			spectrum.setName("Spectrum " + name);
 			spectrumList.add(spectrum);
-			spectraTimeBarRowModel.addInterval(spectrum);
 		}
 		if (last > 0) {
 			int start = spectrumList.get(spectrumList.size() - 1).getToSpectrum();
@@ -294,7 +250,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			String name = ((end - start) > 1) ? start + " - " + end : Integer.toString(start);
 			spectrum.setName("Spectrum " + name);
 			spectrumList.add(spectrum);
-			spectraTimeBarRowModel.addInterval(spectrum);
 		}
 
 		firePropertyChange(NO_OF_SPECTRUM_PROP_NAME, current, getNumberOfSpectrum());
@@ -449,9 +404,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	@Override
 	public void dispose() {
-		for(SpectrumModel spectrum : spectrumList) {
-			spectraTimeBarRowModel.remInterval(spectrum);
-		}
 		spectrumList.clear();
 	}
 

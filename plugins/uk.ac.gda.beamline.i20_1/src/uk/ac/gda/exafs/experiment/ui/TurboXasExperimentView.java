@@ -80,6 +80,7 @@ import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationComposite;
 import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.ui.TurboXasTimingGroupTableView.TimingGroupParamType;
 import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
+import uk.ac.gda.exafs.ui.composites.ScannablePositionsComposite;
 
 /**
  * View for setting up and running TurboXas scans.
@@ -142,6 +143,8 @@ public class TurboXasExperimentView extends ViewPart {
 	private static String PREFERENCE_STORE_KEY = "turboxas_settings_key";
 
 	private List<Pair<String, String>> namesOfDatasetsToAverage = new ArrayList<>();
+
+	private ScannablePositionsComposite scannablePositionsComposite;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -212,6 +215,7 @@ public class TurboXasExperimentView extends ViewPart {
 		createEnergyCalibrationSection(form.getBody());
 		createExtraScannablesSection(form.getBody());
 		createTimingGroupSection(form.getBody());
+		createScannablePositionsSection(form.getBody());
 		createHardwareOptionsSection(form.getBody());
 		createRunningAverageSection(form.getBody());
 		createLoadSaveSection(form.getBody());
@@ -220,6 +224,41 @@ public class TurboXasExperimentView extends ViewPart {
 
 		addListenersVerifiers();
 		form.layout();
+	}
+
+	public void createScannablePositionsSection(Composite parent) {
+		Section section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE);
+		section.setText("Set scannable positions");
+		section.setExpanded(true);
+		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		Composite mainComposite = toolkit.createComposite(section, SWT.NONE);
+		mainComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		section.setClient(mainComposite);
+
+		scannablePositionsComposite = new ScannablePositionsComposite(mainComposite, toolkit);
+		scannablePositionsComposite.addSection();
+		scannablePositionsComposite.addIObserver(this::updateScannablePositionsInModel);
+	}
+
+	/**
+	 * Updates values in {@link #scannablePositionsComposite} from values in TurboXasParameters object
+	 */
+	private void setScannablePositionsFromModel() {
+		scannablePositionsComposite.setCollectMultipleSpectra(turboXasParameters.isRunMappingScan());
+		scannablePositionsComposite.setScannableName(turboXasParameters.getScannableToMove());
+		scannablePositionsComposite.setScannablePositions(turboXasParameters.getScannablePositions());
+	}
+
+	/**
+	 * Update TurboXasParameters mapping parameters from values currently stored in {@link #scannablePositionsComposite}.
+	 * @param source
+	 * @param arg
+	 */
+	private void updateScannablePositionsInModel(Object source, Object arg) {
+		turboXasParameters.setRunMappingScan(scannablePositionsComposite.isCollectMultipleSpectra());
+		turboXasParameters.setScannableToMove(scannablePositionsComposite.getScannableName());
+		turboXasParameters.setScannablePositions(scannablePositionsComposite.getScannablePositions());
 	}
 
 	private void createHardwareOptionsSection(Composite parent) {
@@ -815,6 +854,8 @@ public class TurboXasExperimentView extends ViewPart {
 		createAsciiFileButton.setSelection(turboXasParameters.getWriteAsciiData());
 
 		namesOfDatasetsToAverage = getPairListOfDatasetsToAverage(turboXasParameters.getNamesOfDatasetsToAverage());
+
+		setScannablePositionsFromModel();
 	}
 
 	private double getDoubleFromTextbox(Text textbox) {
@@ -852,6 +893,8 @@ public class TurboXasExperimentView extends ViewPart {
 
 		turboXasParameters.setWriteAsciiData(createAsciiFileButton.getSelection());
 		turboXasParameters.setNamesOfDatasetsToAverage(getStringListOfDatasetsToAverage(namesOfDatasetsToAverage));
+
+		updateScannablePositionsInModel(null, null);
 	}
 
 	private String getNiceNameForDetector(String detectorName) {
@@ -939,6 +982,7 @@ public class TurboXasExperimentView extends ViewPart {
 		logger.debug("dispose called");
 		saveSettingsToPreferenceStore();
 		toolkit.dispose();
+		scannablePositionsComposite.deleteIObservers();
 		InterfaceProvider.getScanDataPointProvider().deleteScanEventObserver(serverObserver);
 	}
 

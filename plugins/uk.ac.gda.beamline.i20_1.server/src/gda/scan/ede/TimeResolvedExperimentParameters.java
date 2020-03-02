@@ -585,7 +585,7 @@ public class TimeResolvedExperimentParameters {
 	 * @param list
 	 * @return
 	 */
-	private List<Object> getPositionArray(List<List<Double>> list) {
+	public static List<Object> getPositionArray(List<List<Double>> list) {
 		if (list == null || list.isEmpty()) {
 			return Collections.emptyList();
 		}

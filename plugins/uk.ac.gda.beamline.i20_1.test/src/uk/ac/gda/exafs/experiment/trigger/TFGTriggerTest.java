@@ -19,8 +19,8 @@
 package uk.ac.gda.exafs.experiment.trigger;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,12 +72,14 @@ public class TFGTriggerTest {
 		detector.setName("frelon");
 		detector.setNumberScansInFrame( numberOfScansPerFrame ); //number of scans per frame of Frelon
 		tfgTrigger.setDetector(detector);
+		tfgTrigger.setTriggerOnRisingEdge(true);
 	}
 
 	public void setupXh() {
 		detector = new XhDetector();
 		detector.setName("xh");
 		tfgTrigger.setDetector(detector);
+		tfgTrigger.setTriggerOnRisingEdge(true);
 	}
 
 	@Test
@@ -93,13 +95,12 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testNoPulses",
-				command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 								"1 0.100000 0.0 0 0 0 0\n"+
 								"1 0.001000 0.0 2 0 0 0\n"+
 								"330 0 0.000001 0 0 0 9\n"+
 								"1 0.000536 0.0 0 0 0 0\n"+
-								"-1 0 0 0 0 0 0") );
+								"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -118,7 +119,7 @@ public class TFGTriggerTest {
 		double timePerFrame = detDataCollection.getCollectionDuration()/totalNumFrames;
 
 		// Pulse begins just before data collection trigger, and overlaps the first two count signals
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.0995, 2*timePerFrame, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.0995, 2*timePerFrame, TriggerOutputPort.USR_OUT_2 );
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -126,15 +127,14 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testPulseOverlapCollectionStart - single pulse overlapping with collection start",
-				command.equals("tfg setup-groups\n" +
+		compareCommands("tfg setup-groups\n" +
 						"1 0.099500 0.0 0 0 0 0\n" +
 						"1 0.000500 0.0 4 0 0 0\n" +
 						"1 0.001000 0.0 6 0 0 0\n" +
 						"1 0.001572 0.0 4 0 0 0\n" +
 						"328 0 0.000001 0 0 0 9\n" +
 						"1 0.000536 0.0 0 0 0 0\n" +
-						"-1 0 0 0 0 0 0") );
+						"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -156,9 +156,9 @@ public class TFGTriggerTest {
 		// The number of pulses not counted whilst long pulse is 'on' is now subtracted from total to count.
 		// (time per frame of camera = 0.001536 secs)
 		// 1st pulse begins after 0.1 + 0.01 + 130*frames0.001536 secs, and is 'on' for 6 frames
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.3, 0.010, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.3, 0.010, TriggerOutputPort.USR_OUT_2 );
 		// There are *58* frames (58*0.001536sec) between end of first and start of second pulse
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.4, 0.001, TriggerOutputPort.USR_OUT_2 ); // On for < 1 frame
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry( 0.4, 0.001, TriggerOutputPort.USR_OUT_2 ); // On for < 1 frame
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -167,8 +167,7 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testPulsesDuringCollection - two pulses (long and short) during data collection",
-				command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 						"1 0.100000 0.0 0 0 0 0\n"+
 						"1 0.001000 0.0 2 0 0 0\n"+
 						"130 0 0.000001 0 0 0 9\n"+
@@ -179,7 +178,7 @@ public class TFGTriggerTest {
 						"1 0.001000 0.0 4 0 0 0\n"+
 						"134 0 0.000001 0 0 0 9\n"+
 						"1 0.000536 0.0 0 0 0 0\n"+
-						"-1 0 0 0 0 0 0") );
+						"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -199,10 +198,10 @@ public class TFGTriggerTest {
 		double timePerFrame = detDataCollection.getCollectionDuration()/totalNumFrames;
 
 		// 1st pulse begins after 0.1 + 0.01 + 130*frames0.001536 secs, and is 'on' for 6 frames
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.300, 0.010, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.300, 0.010, TriggerOutputPort.USR_OUT_2 );
 
 		// 2nd pulse overlaps with first, extend beyond first by 3 frames (i.e. 330 - 130 - 9 = *191* frames left count after pulse)
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.305, 0.010, TriggerOutputPort.USR_OUT_3 );
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry( 0.305, 0.010, TriggerOutputPort.USR_OUT_3 );
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -211,8 +210,7 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testOverlappingPulsesDuringCollection - 2 overlapping pulses (6 frames long each) during data collection",
-				command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 						"1 0.100000 0.0 0 0 0 0\n"+
 						"1 0.001000 0.0 2 0 0 0\n"+
 						"130 0 0.000001 0 0 0 9\n"+
@@ -222,7 +220,7 @@ public class TFGTriggerTest {
 						"1 0.005000 0.0 8 0 0 0\n"+
 						"190 0 0.000001 0 0 0 9\n"+
 						"1 0.000536 0.0 0 0 0 0\n"+
-						"-1 0 0 0 0 0 0") );
+						"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -236,7 +234,7 @@ public class TFGTriggerTest {
 		setupDetectorDataCollection();
 
 		// Single long pulse during data collection (pulse length covers 6 accumulation signals of camera
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.3, 0.01, TriggerOutputPort.USR_OUT_2 ); // < covers 6 frames
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.3, 0.01, TriggerOutputPort.USR_OUT_2 ); // < covers 6 frames
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -244,8 +242,7 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testLongPulseDuringCollection - single long (6 frame) pulse during data collection",
-				command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 						"1 0.100000 0.0 0 0 0 0\n"+
 						"1 0.001000 0.0 2 0 0 0\n"+
 						"130 0 0.000001 0 0 0 9\n"+
@@ -253,7 +250,7 @@ public class TFGTriggerTest {
 						"1 0.010000 0.0 4 0 0 0\n"+
 						"193 0 0.000001 0 0 0 9\n"+
 						"1 0.000536 0.0 0 0 0 0\n"+
-						"-1 0 0 0 0 0 0") );
+						"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -267,8 +264,8 @@ public class TFGTriggerTest {
 		// data collection duration, number of frames
 		setupDetectorDataCollection();
 
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.05, 0.01, TriggerOutputPort.USR_OUT_2 ); // Pulse on Port 2 before data collection
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.3, 0.01, TriggerOutputPort.USR_OUT_3 ); // Pulse on Port 3 during collection (covers 6 frames)
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.05, 0.01, TriggerOutputPort.USR_OUT_2 ); // Pulse on Port 2 before data collection
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry( 0.3, 0.01, TriggerOutputPort.USR_OUT_3 ); // Pulse on Port 3 during collection (covers 6 frames)
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -277,8 +274,7 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, true); // start experiment from topup trigger
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testPulseDuringCollectionTopupTriggeredStart - topup trigger start, with pulse before and during (6 frame long) data collection",
-				command.equals("tfg setup-groups\n" +
+		compareCommands("tfg setup-groups\n" +
 						"1 0.000001 0 0 0 40 0\n" +
 						"1 0.050000 0.0 0 0 0 0\n" +
 						"1 0.010000 0.0 4 0 0 0\n" +
@@ -289,7 +285,7 @@ public class TFGTriggerTest {
 						"1 0.010000 0.0 8 0 0 0\n" +
 						"193 0 0.000001 0 0 0 9\n" +
 						"1 0.000536 0.0 0 0 0 0\n" +
-						"-1 0 0 0 0 0 0") );
+						"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -304,8 +300,8 @@ public class TFGTriggerTest {
 		setupDetectorDataCollection();
 
 		// Two pulses, both before data collection, with different starting time and lengths
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.02, 0.04, TriggerOutputPort.USR_OUT_2 );
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.04, 0.02, TriggerOutputPort.USR_OUT_3 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.02, 0.04, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry( 0.04, 0.02, TriggerOutputPort.USR_OUT_3 );
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -314,8 +310,7 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger test2PulsesBeforeCollection - 2 pulses before data collection (different start, same end)",
-				command.equals(	"tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 						"1 0.020000 0.0 0 0 0 0\n"+
 						"1 0.020000 0.0 4 0 0 0\n"+
 						"1 0.020000 0.0 12 0 0 0\n"+
@@ -323,7 +318,7 @@ public class TFGTriggerTest {
 						"1 0.001000 0.0 2 0 0 0\n"+
 						"330 0 0.000001 0 0 0 9\n"+
 						"1 0.000536 0.0 0 0 0 0\n"+
-						"-1 0 0 0 0 0 0") );
+						"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -338,8 +333,8 @@ public class TFGTriggerTest {
 		setupDetectorDataCollection();
 
 		// Two pulses, both after data collection, with same starting time and different lengths
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.7, 0.10, TriggerOutputPort.USR_OUT_2 );
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.7, 0.05, TriggerOutputPort.USR_OUT_3 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.7, 0.10, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry( 0.7, 0.05, TriggerOutputPort.USR_OUT_3 );
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -347,15 +342,14 @@ public class TFGTriggerTest {
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
-		assertTrue("TFGTrigger test2PulsesAfterCollection - 2 pulses after data collection (same start, different lengths)",
-				command.equals("tfg setup-groups\n" +
+		compareCommands("tfg setup-groups\n" +
 							"1 0.100000 0.0 0 0 0 0\n" +
 							"1 0.001000 0.0 2 0 0 0\n" +
 							"330 0 0.000001 0 0 0 9\n" +
 							"1 0.093656 0.0 0 0 0 0\n" +
 							"1 0.050000 0.0 12 0 0 0\n" +
 							"1 0.050000 0.0 4 0 0 0\n" +
-							"-1 0 0 0 0 0 0") );
+							"-1 0 0 0 0 0 0", command);
 	}
 
 
@@ -369,9 +363,9 @@ public class TFGTriggerTest {
 		setupDetectorDataCollection();
 
 		// 3 partially overlapping pulses, all after data collection
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.70, 0.10, TriggerOutputPort.USR_OUT_2 );
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.70, 0.05, TriggerOutputPort.USR_OUT_3 );
-		TriggerableObject trigger3 = tfgTrigger.createNewSampleEnvEntry( 0.73, 0.10, TriggerOutputPort.USR_OUT_4 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.70, 0.10, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry( 0.70, 0.05, TriggerOutputPort.USR_OUT_3 );
+		TriggerableObject trigger3 = TriggerableObject.createNewSampleEnvEntry( 0.73, 0.10, TriggerOutputPort.USR_OUT_4 );
 
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
@@ -381,8 +375,7 @@ public class TFGTriggerTest {
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
-		assertTrue("TFGTrigger test3OverlappingPulses - 3 partially overlapping pulses after data collection",
-				command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 								"1 0.100000 0.0 0 0 0 0\n"+
 								"1 0.001000 0.0 2 0 0 0\n"+
 								"330 0 0.000001 0 0 0 9\n"+
@@ -391,7 +384,7 @@ public class TFGTriggerTest {
 								"1 0.020000 0.0 28 0 0 0\n"+
 								"1 0.050000 0.0 20 0 0 0\n"+
 								"1 0.030000 0.0 16 0 0 0\n"+
-								"-1 0 0 0 0 0 0") );
+								"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -406,10 +399,10 @@ public class TFGTriggerTest {
 		setupDetectorDataCollection();
 
 		// 3 partially overlapping pulses, all after data collection
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.70, 0.10, TriggerOutputPort.USR_OUT_2 );
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.72, 0.10, TriggerOutputPort.USR_OUT_3 );
-		TriggerableObject trigger3 = tfgTrigger.createNewSampleEnvEntry( 0.74, 0.10, TriggerOutputPort.USR_OUT_4 );
-		TriggerableObject trigger4 = tfgTrigger.createNewSampleEnvEntry( 0.76, 0.10, TriggerOutputPort.USR_OUT_5 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.70, 0.10, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry( 0.72, 0.10, TriggerOutputPort.USR_OUT_3 );
+		TriggerableObject trigger3 = TriggerableObject.createNewSampleEnvEntry( 0.74, 0.10, TriggerOutputPort.USR_OUT_4 );
+		TriggerableObject trigger4 = TriggerableObject.createNewSampleEnvEntry( 0.76, 0.10, TriggerOutputPort.USR_OUT_5 );
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -419,8 +412,7 @@ public class TFGTriggerTest {
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
-		assertTrue("TFGTrigger test4OverlappingPulses - 4 partially overlapping pulses after data collection",
-				command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 						"1 0.100000 0.0 0 0 0 0\n"+
 						"1 0.001000 0.0 2 0 0 0\n"+
 						"330 0 0.000001 0 0 0 9\n"+
@@ -432,8 +424,7 @@ public class TFGTriggerTest {
 						"1 0.020000 0.0 56 0 0 0\n"+
 						"1 0.020000 0.0 48 0 0 0\n"+
 						"1 0.020000 0.0 32 0 0 0\n"+
-						"-1 0 0 0 0 0 0" ) );
-
+						"-1 0 0 0 0 0 0", command);
 	}
 
 	@Test
@@ -444,12 +435,12 @@ public class TFGTriggerTest {
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command);
-		assertTrue(command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 				"1 0.100000 0.0 0 0 0 0\n"+
 				"1 0.001000 0.0 2 0 0 0\n"+
 				"4 0 0.000001 0 0 0 9\n"+
 				"1 0.101376 0.0 0 0 0 0\n"+ // wait for final spectrum to finish
-				"-1 0 0 0 0 0 0"));
+				"-1 0 0 0 0 0 0", command);
 	}
 
 	@Test
@@ -460,33 +451,56 @@ public class TFGTriggerTest {
 
 		// Pulse begins just before data collection trigger, and overlaps the first two spectra
 		double timePerSpectrum = collectionDuration/numberOfFrames;
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.0995, 2*timePerSpectrum, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry( 0.0995, 2*timePerSpectrum, TriggerOutputPort.USR_OUT_2 );
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command);
-		assertTrue(command.equals("tfg setup-groups\n"+
+		compareCommands("tfg setup-groups\n"+
 					"1 0.099500 0.0 0 0 0 0\n"+
 					"1 0.000500 0.0 4 0 0 0\n"+
 					"1 0.001000 0.0 6 0 0 0\n"+
 					"1 0.201252 0.0 4 0 0 0\n"+
 					"3 0 0.000001 0 0 0 9\n"+
 					"1 0.101376 0.0 0 0 0 0\n"+
-					"-1 0 0 0 0 0 0"));
+					"-1 0 0 0 0 0 0", command);
 	}
+
+	private List<Double> getArray(String values) {
+		String[] splitString = values.split("\\s+");
+		List<Double> splitStringValues = new ArrayList<>();
+		for(String str : splitString) {
+			splitStringValues.add(Double.parseDouble(str));
+		}
+		return splitStringValues;
+	}
+
+	private void compareCommands(String expected, String actual) {
+		String[] exp = expected.split("\n");
+		String[] act = actual.split("\n");
+		assertEquals(exp.length, act.length);
+		assertEquals(exp[0], act[0]); // first line is just text, so should match
+		for(int i=1; i<exp.length; i++) {
+			assertEquals("Line "+i+" of trigger command is incorrect", getArray(exp[i]), getArray(act[i]));
+		}
+	}
+
 	@Test
 	public void testXhPulsesDuringCollection() {
+
+		collectionDuration = 0.5;
+		numberOfFrames = 5;
 
 		setupXh();
 		setupDetectorDataCollection();
 
-		// 1st pulse begins after 0.1 + 0.01 + 130*frames0.001536 secs, and is 'on' for 6 frames
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(0.300, 0.010, TriggerOutputPort.USR_OUT_2);
+		// 1st pulse begins after 0.002 seconds after start of 3rd spectrum,
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(0.302, 0.010, TriggerOutputPort.USR_OUT_2);
 
-		// 2nd pulse overlaps with first, extend beyond first by 3 frames (i.e. 330 - 130 - 9 = *191* frames left count after pulse)
-		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry(0.305, 0.010, TriggerOutputPort.USR_OUT_3);
+		// 1st pulse begins after 0.001 seconds after start of 4th spectrum,
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry(0.401, 0.010, TriggerOutputPort.USR_OUT_3);
 
 		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
 		triggerList.add( trigger1 );
@@ -494,6 +508,58 @@ public class TFGTriggerTest {
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
+		compareCommands("tfg setup-groups\n"+
+					"1 0.100 0.000000 0 0 0 0\n"+
+					"1 0.001 0.000000 2 0 0 0\n"+
+					"2 0.000 0.000001 0 0 0 9\n"+
+					"1 0.002 0.000000 0 0 0 0\n"+
+					"1 0.010 0.000000 4 0 0 0\n"+
+					"1 0.000 0.000001 0 0 0 9\n"+
+					"1 0.001 0.000000 0 0 0 0\n"+
+					"1 0.010 0.000000 8 0 0 0\n"+
+					"1 0.000 0.000001 0 0 0 9\n"+
+					"1 0.100 0.000000 0 0 0 0\n"+
+					"-1 0 0 0 0 0 0", command);
+
+	}
+
+
+	@Test
+	public void testXhPulsesDuringCollection2() {
+
+		collectionDuration = 0.5;
+		numberOfFrames = 5;
+		detectorTriggerStartTime = 0;
+
+		setupXh();
+		setupDetectorDataCollection();
+
+		// 1st pulse begins after 0.05 seconds after start of 1st spectrum (i.e. start of data collection trigger),
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(0.05, 0.001, TriggerOutputPort.USR_OUT_2);
+
+		// 2nd pulse begins after 0.05 seconds after start of 2nd spectrum,
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry(0.15, 0.001, TriggerOutputPort.USR_OUT_2);
+		// 3nd pulse starts same time as second, but is twice as long
+		TriggerableObject trigger3 = TriggerableObject.createNewSampleEnvEntry(0.15, 0.002, TriggerOutputPort.USR_OUT_3);
+
+		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
+		triggerList.add( trigger1 );
+		triggerList.add( trigger2 );
+		triggerList.add( trigger3 );
+
+		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
+		System.out.print(command+"\n");
+		compareCommands("tfg setup-groups\n"+
+					"1 0.001 0.000000 2 0 0 0\n"+
+					"1 0.049 0.000000 0 0 0 0\n"+
+					"1 0.001 0.000000 4 0 0 0\n"+
+					"1 0.000 0.000001 0 0 0 9\n"+
+					"1 0.050 0.000000 0 0 0 0\n"+
+					"1 0.001 0.000000 12 0 0 0\n"+
+					"1 0.001 0.000000 8 0 0 0\n"+
+					"3 0.000 0.000001 0 0 0 9\n"+
+					"1 0.100 0.000000 0 0 0 0\n" +
+					"-1 0 0 0 0 0 0", command);
 
 	}
 
@@ -523,7 +589,7 @@ public class TFGTriggerTest {
 		// Setup trigger to overlap with first 10 frames of 2nd spectrum
 		double pulseStart = detectorTriggerStartTime+detectorTriggerPulseLength+timePerSpectrum;
 		int numOverlapFrames = 10;
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(pulseStart, timePerAccumulation*numOverlapFrames, TriggerOutputPort.USR_OUT_2);
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(pulseStart, timePerAccumulation*numOverlapFrames, TriggerOutputPort.USR_OUT_2);
 
 		tfgTrigger.getSampleEnvironment().add(trigger1);
 
@@ -538,7 +604,6 @@ public class TFGTriggerTest {
 		assertEquals(Pair.create(expectedLastScalerFrame, expectedLastScalerFrame+numberOfScansPerFrame), scalerFramesForSpectra.get(2));
 		assertEquals(Pair.create(expectedLastScalerFrame+numberOfScansPerFrame,  expectedLastScalerFrame+2*numberOfScansPerFrame), scalerFramesForSpectra.get(3));
 		assertEquals(Pair.create(expectedLastScalerFrame+numberOfScansPerFrame*2, expectedLastScalerFrame+numberOfScansPerFrame*3), scalerFramesForSpectra.get(4));
-
 	}
 
 	@Test
@@ -554,7 +619,7 @@ public class TFGTriggerTest {
 		int halfFrame = (int) (numberOfScansPerFrame*0.5);
 		double pulseStart = detectorTriggerStartTime + detectorTriggerPulseLength + timePerSpectrum	+ timePerAccumulation * 33;
 		int numOverlapFrames = numberOfScansPerFrame;
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(pulseStart, timePerAccumulation*numOverlapFrames, TriggerOutputPort.USR_OUT_2);
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(pulseStart, timePerAccumulation*numOverlapFrames, TriggerOutputPort.USR_OUT_2);
 
 		tfgTrigger.getSampleEnvironment().add(trigger1);
 
@@ -570,7 +635,6 @@ public class TFGTriggerTest {
 		int fullFrameStart = expectedLastScalerFrame+halfFrame;
 		assertEquals(Pair.create(fullFrameStart, fullFrameStart+numberOfScansPerFrame), scalerFramesForSpectra.get(3));
 		assertEquals(Pair.create(fullFrameStart+numberOfScansPerFrame, fullFrameStart+2*numberOfScansPerFrame), scalerFramesForSpectra.get(4));
-
 	}
 
 	@Test
@@ -590,7 +654,7 @@ public class TFGTriggerTest {
 		double pulseStart = detectorTriggerStartTime+detectorTriggerPulseLength+timePerSpectrum + timePerAccumulation*halfFrame;
 		double pulseLength = timePerAccumulation*(numOverlapFrames - 0.5); // extra half frame to avoid rounding error
 
-		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(pulseStart, pulseLength, TriggerOutputPort.USR_OUT_2);
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(pulseStart, pulseLength, TriggerOutputPort.USR_OUT_2);
 
 		tfgTrigger.getSampleEnvironment().add(trigger1);
 
@@ -608,7 +672,6 @@ public class TFGTriggerTest {
 		// Remaining spectra should have full number of frames :
 		int fullFrameStart = expectedLastScalerFrame+halfFrame;
 		assertEquals(Pair.create(fullFrameStart, fullFrameStart+numberOfScansPerFrame), scalerFramesForSpectra.get(4));
-
 	}
 }
 

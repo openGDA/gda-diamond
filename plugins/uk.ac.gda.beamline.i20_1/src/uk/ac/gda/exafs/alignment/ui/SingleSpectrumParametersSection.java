@@ -47,7 +47,6 @@ import gda.device.detector.frelon.FrelonCcdDetectorData;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
@@ -224,7 +223,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		fixedWidthGridData.applyTo(i0IntegrationTimeValueText);
 
 		i0IntegrationTimeValueText.setLayoutData(gridData);
-		i0IntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
+		i0IntegrationTimeValueText.setUnit(DetectorModel.INSTANCE.getUnitForAccumulationTime().getUnitText());
 		i0IntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		lnoOfAcculabel = toolkit.createLabel(i0Composite, "Number of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -247,7 +246,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		label = toolkit.createLabel(iRefDetailsComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.IREF_INTEGRATION_TIME_PROP_NAME, true);
-		iRefIntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
+		iRefIntegrationTimeValueText.setUnit(DetectorModel.INSTANCE.getUnitForAccumulationTime().getUnitText());
 		iRefIntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		fixedWidthGridData.applyTo(iRefIntegrationTimeValueText);
 
@@ -291,7 +290,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 		NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, singleSpectrumDataModel, SingleSpectrumCollectionModel.IT_INTEGRATION_TIME_PROP_NAME, true);
 		itIntegrationTimeText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		itIntegrationTimeText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+		itIntegrationTimeText.setUnit(DetectorModel.INSTANCE.getUnitForAccumulationTime().getUnitText());
 		fixedWidthGridData.applyTo(itIntegrationTimeText);
 
 		if (showAccumulationReadout) {

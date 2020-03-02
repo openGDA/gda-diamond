@@ -51,6 +51,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TableViewerFocusCellManager;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -176,6 +177,17 @@ public class NumberTableEditor extends Dialog {
 	}
 
 	private void addTableColumns() {
+		// Add a column to show the row number
+		TableColumn rcolumn = new TableColumn(tableView.getTable(), SWT.NONE);
+		rcolumn.setWidth(50);
+		TableViewerColumn rowColumn = new TableViewerColumn(tableView, rcolumn);
+		rowColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public void update(ViewerCell cell) {
+				cell.setText(tableView.getTable().indexOf((TableItem)cell.getItem())+"");
+			}
+		});
+
 		for(int i=0; i<columnNames.size(); i++) {
 			String name = columnNames.get(i);
 			TableColumn column = new TableColumn(tableView.getTable(), SWT.NONE);

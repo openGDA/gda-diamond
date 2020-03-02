@@ -22,8 +22,6 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.apache.commons.math3;bundle-version="[3.2.0,4.0.0)",
  com.google.gson;bundle-version="2.2.4",
  org.eclipse.core.jobs,
- uk.ac.diamond.de.jaret.timebars;bundle-version="1.48.0",
- uk.ac.diamond.de.jaret.util;bundle-version="0.32.0",
  org.eclipse.ui;bundle-version="3.8.2",
  uk.ac.gda.analysis,
  uk.ac.diamond.jama;bundle-version="1.0.3",
@@ -37,14 +35,15 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.dawnsci.ede,
  org.eclipse.nebula.visualization.xygraph,
  uk.ac.gda.client.exafs;bundle-version="1.0.0",
- org.eclipse.dawnsci.nexus
+ org.eclipse.dawnsci.nexus,
+ org.dawnsci.plotting
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: uk.ac.gda.beamline.i20_1,
- uk.ac.gda.beamline.i20_1.utils,
  uk.ac.gda.exafs.experiment.ui.data
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
 Import-Package: org.apache.commons.collections,
+ org.apache.commons.lang3.tuple;version="3.1.0",
  org.dawnsci.plotting.tools.hyper2d,
  org.eclipse.core.commands,
  org.eclipse.core.databinding,

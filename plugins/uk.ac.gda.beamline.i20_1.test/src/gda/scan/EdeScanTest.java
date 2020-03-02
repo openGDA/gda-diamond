@@ -724,8 +724,7 @@ public class EdeScanTest extends EdeTestBase {
 		scanParams.addGroup(group1);
 
 		TFGTrigger tfgTrigger = getTfgTrigger();
-		TriggerableObject trigger1= tfgTrigger.createNewSampleEnvEntry( 0.0995, 2*1e-3, TriggerOutputPort.USR_OUT_2 );
-		tfgTrigger.getSampleEnvironment().add(trigger1);
+		tfgTrigger.getSampleEnvironment().add(TriggerableObject.createNewSampleEnvEntry( 0.0995, 2*1e-3, TriggerOutputPort.USR_OUT_2 ));
 
 		LocalProperties.set("gda.nexus.createSRS", "true");
 
@@ -743,7 +742,7 @@ public class EdeScanTest extends EdeTestBase {
 		TimeResolvedExperimentParameters allParams = new TimeResolvedExperimentParameters();
 		allParams.setFileNameSuffix("filename_suffix");
 		allParams.setSampleDetails("sample_details");
-		allParams.setI0AccumulationTime(1.11);
+		allParams.setI0AccumulationTime(0.001);
 		allParams.setI0NumAccumulations(17);
 		allParams.setItTimingGroups(scanParams.getGroups());
 		allParams.setItTriggerOptions(tfgTrigger);
