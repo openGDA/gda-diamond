@@ -54,19 +54,24 @@ class ContinuouslyRockingScannable(ScannableMotionBase):
         self.rockCount = 0
         self.thread=None
         self.runningAtStart = False
-        self.verbose=True
+        self.verbose=False
 
     def atScanStart(self):
-        if self.thread and self.thread.running:
-            self.runningAtStart = True
+        self.runningAtStart = self.thread and self.thread.running
         self.rockCount = 0
+        if self.verbose:
+            simpleLog("atScanStart() %s (%s), runningAtStart = %r" % (self.name, self.scannable.name, self.runningAtStart))
 
     def stop(self):
         if self.thread:
             self.thread.running=False
         self.scannable.stop()
+        if self.verbose:
+            simpleLog("stop() %s (%s), runningAtStart = %r" % (self.name, self.scannable.name, self.runningAtStart))
 
     def atScanEnd(self):
+        if self.verbose:
+            simpleLog("atScanEnd() %s (%s), runningAtStart = %r" % (self.name, self.scannable.name, self.runningAtStart))
         if not self.runningAtStart:
             self.stop()
             self.thread.join()
@@ -74,15 +79,17 @@ class ContinuouslyRockingScannable(ScannableMotionBase):
 
     def getPosition(self):
         if self.thread and self.thread.running:
-            return [ self.thread.centre, self.thread.delta, self.rockCount ]
+            return [ self.thread.centre, self.thread.delta, self.thread.rockCount ]
         return [ self.scannable.getPosition(), 0, self.rockCount ]
 
     def asynchronousMoveTo(self, position):
         assert(len(position)==2)
+        if self.verbose:
+            simpleLog("asynchronousMoveTo(%r) %s (%s), runningAtStart = %r" % (position, self.name, self.scannable.name, self.runningAtStart))
         if self.thread and self.thread.running:
             if   (abs(self.thread.centre-position[0]) < 0.00001 and
                    abs(self.thread.delta-position[1]) < 0.00001):
-                simpleLog(self.name + ": New positions same as old.")
+                simpleLog(self.name + ": New positions (%r) same as old." % (position))
                 return
             self.stop()
             self.thread.join()
