@@ -35,26 +35,26 @@
 	<bean id="stage_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage X" />
 		<property name="group" value="Translations" />
-		<property name="scannableName" value="stage_x" />
+		<property name="scannableName" value="stagex" />
 		<property name="increment" value="0.1" />
 	</bean>
 
 	<bean id="stage_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage Y" />
-		<property name="scannableName" value="stage_y" />
+		<property name="scannableName" value="stagey" />
 		<property name="group" value="Translations" />
 		<property name="increment" value="0.1" />
 	</bean>
 
 	<bean id="stage_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage Z" />
-		<property name="scannableName" value="stage_z" />
+		<property name="scannableName" value="stagez" />
 		<property name="group" value="Translations" />
 		<property name="increment" value="0.1" />
 	</bean>
 
 	<bean id="centreStage" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pos stage_x 0 stage_y 0 stage_z 0" />
+		<property name="jythonCommand" value="pos stagex 0 stagey 0 stagez 0" />
 		<property name="buttonText" value="Centre Stage" />
 		<property name="group" value="Translations" />
 	</bean>

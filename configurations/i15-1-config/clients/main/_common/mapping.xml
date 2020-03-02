@@ -17,8 +17,8 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stage_x"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stage_y"/></bean>
+	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stagex"/></bean>
+	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stagey"/></bean>
 	<!-- It is currently unsafe to leave these as the default scan stages
 	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="samX"/></bean>
 	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="samY"/></bean>
@@ -139,7 +139,6 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
-
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Perkin Elmer Detector (Continuous)" />
 					<constructor-arg name="model">
@@ -162,6 +161,11 @@
 				</bean>
 			</list>
 		</property>
+
+		<property name="scriptFiles">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
+		</property>
+
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
 				<property name="outerScannables">
@@ -173,17 +177,31 @@
 						</bean>
 					</list>
 				</property>
+				<property name="mappingScanRegion">
+					<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanRegion">
+						<property name="region">
+							<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
+						</property>
+						<property name="scanPath">
+							<bean class="org.eclipse.scanning.api.points.models.SinglePointModel">
+								<property name="x" value="0" />
+								<property name="y" value="0" />
+								<property name="xAxisName" value="stagex" />
+								<property name="yAxisName" value="stagey" />
+							</bean>
+						</property>
+					</bean>
+				</property>
 			</bean>
+		</property>
+		<property name="templateFilePaths">
+			<list></list>
 		</property>
 	</bean>
-	<!-- Create a mapping experiment bean provider and register it as an OSGi service -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.api.IMappingExperimentBeanProvider" />
-		<property name="service">
-			<bean id="mapping_experiment_bean_provider" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBeanProvider">
-				<property name="mappingExperimentBean" ref="mapping_experiment_bean" />
-			</bean>
-		</property>
+
+	<!-- Create a mapping experiment bean provider -->
+	<bean id="mapping_experiment_bean_provider" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBeanProvider">
+		<property name="mappingExperimentBean" ref="mapping_experiment_bean" />
 	</bean>
 
 	<!-- The mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
@@ -192,17 +210,9 @@
 		<property name="plotXAxisName" ref="x_axis_name" />
 		<property name="plotYAxisName" ref="y_axis_name" />
 		<property name="beamSize" value="beam" />
-	</bean>
-	<!-- Register the mapping stage info bean as an OSGi service. Do this Twice 
-		under different interfaces to allow Jake's interface to be supported with 
-		minimal changes to the surrounding code. This is messy and should be resolved. -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageInfo" />
-		<property name="service" ref="mapping_stage_info" />
-	</bean>
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="org.eclipse.scanning.api.ui.IStageScanConfiguration" />
-		<property name="service" ref="mapping_stage_info" />
+		<!-- Needed?
+		<property name="defaultStreamSourceConfig" value="pointAndShootBackground" />
+		 -->
 	</bean>
 
 	<!-- The mapping region manager lists the choice of available region types and scan paths which are presented to
@@ -211,6 +221,7 @@
 		<property name="regions">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.region.RectangularMappingRegion" />
+				<bean class="uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.CircularMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.PolygonMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.LineMappingRegion" />
@@ -242,10 +253,4 @@
 			</list>
 		</property>
 	</bean>
-	<!-- Register the mapping region manager as an OSGi service -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.api.IMappingRegionManager" />
-		<property name="service" ref="mapping_region_manager" />
-	</bean>
-
 </beans>
