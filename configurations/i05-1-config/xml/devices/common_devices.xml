@@ -19,6 +19,9 @@
 	<!-- analyser -->
 	<import resource="analyser.xml"/>
 	<import resource="analyser_mapping.xml"/>
+	
+	<!-- dummy motor -->
+	<import resource="dummy_motor.xml"/>
 
 	<!-- Import the mode specific devices -->
 	<import resource="${gda.mode}/${gda.mode}_devices.xml" />
