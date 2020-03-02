@@ -196,6 +196,9 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pilatus3_nxfilewriter_for_hardware_triggering" />
+				<!-- 
+				 <ref bean="pilatus3_hdf5filewriter_for_scans" />
+				 -->
 			</list>
 		</property>
 	</bean>
@@ -246,6 +249,9 @@
 			<list>
 				<ref bean="kphiZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
 				<ref bean="pilatus3_force_callbacks" />
+				<!-- 
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+				 -->
 			</list>
 		</property>
 	</bean>
@@ -259,6 +265,9 @@
 			<list>
 				<ref bean="kthZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
 				<ref bean="pilatus3_force_callbacks" />
+				<!-- 
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+				 -->
 			</list>
 		</property>
 	</bean>

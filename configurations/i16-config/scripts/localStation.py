@@ -1534,6 +1534,10 @@ else:
 
 if USE_ROCKING_SCANNABLES:
 	try:
+		from dls_scripts.scannable.RockerScannable import RockerScannable
+		rocker = RockerScannable('rocker')
+		localStation_print("Configured rocker scannable")
+
 		from dls_scripts.scannable.ContinuouslyRockingScannable import ContinuouslyRockingScannable
 		kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)
 		kphirock.verbose = False
@@ -1546,9 +1550,9 @@ if USE_ROCKING_SCANNABLES:
 
 		localStation_print("Configured kphirock, chirock and etarock")
 		localStation_print("To start rocking eta around 58 plus and minus 1 degree use")
-		localStation_print("  pos etarock 58 1")
+		localStation_print("  pos etarock [ 58 1 ]")
 		localStation_print("To stop rocking eta use")
-		localStation_print("  pos etarock 58 0")
+		localStation_print("  pos etarock [ 58 0 ]")
 		print "e.g."
 		
 	except Exception as e:
