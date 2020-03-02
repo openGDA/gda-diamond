@@ -10,7 +10,6 @@ def run_autofocus(detector):
     print('Setting up detector & Python plugin')
     detector_ad_base = detector.getAdBase()
     save_image_mode = detector_ad_base.getImageMode()
-    save_colour_mode = detector_ad_base.getColorMode()
 
     python_plugin = detector.getNdPython()
     python_plugin_base = python_plugin.getPluginBase()
@@ -28,7 +27,6 @@ def run_autofocus(detector):
 
     # Acquire a single image
     detector_ad_base.setImageModeWait(ImageMode.SINGLE, 500)
-    detector_ad_base.setColorMode(0)
     python_plugin_base.enableCallbacks()
     python_plugin.putParam("strips", num_strips)
 
@@ -42,6 +40,5 @@ def run_autofocus(detector):
     # Restore initial settings
     print('Restoring initial settings')
     detector_ad_base.setImageMode(save_image_mode)
-    detector_ad_base.setColorMode(save_colour_mode)
     if not save_callbacks_enabled:
         python_plugin_base.disableCallbacks()

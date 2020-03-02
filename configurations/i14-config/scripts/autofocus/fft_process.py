@@ -37,17 +37,29 @@ class FftProcess(AdPythonPlugin):
 	# NB The last index of the array is the fastest-changing i.e. the x axis
 	def processArray(self, arr, attr={}):
 		num_strips = self["int1"]
-		self.log.debug("Apply FFT2 to data array %s in %s strip(s)" % (str(arr.shape), num_strips))
 
-		strips = np.hsplit(arr, num_strips)
+		self.log.debug("Data array has shape %s; process in %s strips" % (str(arr.shape), num_strips))
+		self.log.debug(arr[:5])
+		if arr.ndim == 2:
+			self.log.debug("2D array: using data directly")
+			strips = np.hsplit(arr, num_strips)
+		elif arr.ndim == 3:
+			self.log.debug("3D array: computing greyscale values")
+			greyscale_array = np.sum(arr, axis = 2) / 3
+			self.log.debug("Greyscale array has shape %s" % str(greyscale_array.shape))
+			strips = np.hsplit(greyscale_array, num_strips)
+		else:
+			self.log.debug("Array has %s dimensions: cannot process" % str(arr.ndim))
+			return arr
+
 		output = np.zeros(num_strips, dtype=np.int32)
 
 		for i in range(0, num_strips):
 			output[i] = int(self.computeMean(strips[i]))
 
-		self.log.debug("Output: %s" % output)
+		self.log.debug("FFT output: %s" % output)
 
-		# Pending a parameter that can handle multiple values being added to the AD template, return the first element of output
+		# Put the result of the FFT into intArray1
 		self["intArray1"] = output
 
 		# Return the original array in case another plugin wants to read it.
