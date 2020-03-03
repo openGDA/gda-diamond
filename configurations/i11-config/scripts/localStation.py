@@ -12,6 +12,13 @@ from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
+
+import logging
+try:
+    logger.getLogger().handlers[-1].level = 40
+except:
+    pass
+
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
@@ -139,20 +146,6 @@ from loadfile import * #@UnusedWildImport
 print
 
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Enable automatic beamline energy setting for all devices by e.g. 'pos setenergy 15.0'."
-ALL, BEAM_ENERGY, STAGE_ANGLE, DETECTOR=range(4)
-from Automation_class import Automation
-setenergy=Automation('setenergy','energytable', ALL, rootNameSpace=globals())
-print "To set/get Mono and ID energy only, use 'energy_gap' object"
-energy_gap=Automation('energy_gap','energytable', BEAM_ENERGY, rootNameSpace=globals())
-print "To set/get MAC stage angles to specific energy, use 'mac_energy' object"
-mac_energy=Automation('mac_energy','energytable', STAGE_ANGLE, rootNameSpace=globals())
-print "To set/get ETL detector voltages to specific energy, use 'det_energy' object"
-det_energy=Automation('det_energy','energytable', DETECTOR, rootNameSpace=globals())
-pds.append(setenergy)
-pds.append(energy_gap)
-pds.append(mac_energy)
-pds.append(det_energy)
 print
 
 #print 'setting up PDs for QBPMs'
@@ -160,8 +153,6 @@ print
 
 ### set output format for scannables
 globals()['tth'].setOutputFormat(["%10.7f"])
-globals()['energy'].setOutputFormat(["%10.7f"])
-globals()['bragg'].setOutputFormat(["%10.7f"])
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "function to set wavelength >>>setwavelength(value)"
@@ -323,3 +314,33 @@ def turboOff(): turbo('Off')
 import exposure
 radiation = exposure.RadiationExposure('radiation', fastshutter)
 radiation.configure()
+
+# Set up csb monitoring for csb2.
+from csb_pid import CsbPidMonitor
+csb2_p_monitor = CsbPidMonitor(csb2, upper=251, lower=249, high_p=150, low_p=300)
+csb2.addIObserver(csb2_p_monitor)
+add_reset_hook(lambda obs=csb2_p_monitor: csb2.deleteIObserver(obs))
+
+from gdascripts.scan import gdascans
+from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
+from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import GaussianPeakAndBackground
+from gda.scan import SortedScanDataPointCache
+from gda.jython import InterfaceProvider
+
+sdp_cache = SortedScanDataPointCache()
+_sdpp = InterfaceProvider.getScanDataPointProvider()
+_sdpp.addIObserver(sdp_cache)
+add_reset_hook(lambda x=_sdpp, o=sdp_cache: x.deleteIObserver(o))
+
+gpab = GaussianPeakAndBackground(plotPanel='Peak Fitting')
+scan_processor = ScanDataProcessor([gpab], globals(), sdp_cache)
+rscan = gdascans.Rscan([scan_processor])
+alias('rscan')
+go = scan_processor.go
+alias('go')
+
+def align_pitch(centre=None):
+    if centre is not None: dcm_pitch(centre)
+    rscan(dcm_pitch, -1.2, 1.2, 0.05, Io, 1, Ie, 1)
+    scan_processor.go(peak)
+

@@ -1,16 +1,14 @@
 from gdascripts.utils import caget, caput
 from time import sleep
 from gda.jython.commands.ScannableCommands import pos
-from localStation import finder
+from gdaserver import dcm_pitch, Io
 
-fpitch2=finder.find("fpitch2")
-Io=finder.find("Io")
 # setup parameters for the scans
 #start = -10
 #step = 0.2
-start = -4
-step = 0.2
-n = 176
+start = -5
+step = .1
+n = 101
 ysize = 0.8
 ycentre = -1.226
 
@@ -25,8 +23,10 @@ print "Starting Optimisation"
 
 # setup scaler and disable fast feedback
 caput("BL11I-EA-COUNT-01.TP",0.1)
-caput("BL11I-OP-DCM-01:PID:AUTO", 0)
-caput("BL11I-OP-DCM-01:PID.FBON", 0)
+
+# Disabled for testing with new mono
+# caput("BL11I-OP-DCM-01:PID:AUTO", 0)
+# caput("BL11I-OP-DCM-01:PID.FBON", 0)
 '''
 s4yplus.asynchronousMoveTo(1.4)
 s4yminus.asynchronousMoveTo(-2.4)
@@ -37,12 +37,12 @@ s4yminus.waitWhileBusy()
 def scan_fpitch(start, step, n):
     posns = []
     izeros = []
-    pos(fpitch2, start)
+    pos(dcm_pitch, start)
     sleep(1)
     less = 0
     for i in range(n):
         posn = start + step * i
-        pos(fpitch2, posn)
+        pos(dcm_pitch, posn)
         sleep(0.12)
         posns.append(posn)
         caput("BL11I-EA-COUNT-01.CNT", 1)
@@ -70,9 +70,9 @@ posns, izeros = scan_fpitch(start, step, n)
 
 # move to maximum
 maximum = posns[izeros.index(max(izeros))]
-pos(fpitch2, maximum)
+pos(dcm_pitch, maximum)
 print "Optimisation max Izero: %.1f cts" % max(izeros)
-print "Optimisation fpitch2 value: %.3f mDeg" % maximum
+print "Optimisation dcm_pitch value: %.3f mDeg" % maximum
 
 '''
 print "Moving slit blades in"
@@ -88,16 +88,6 @@ while abs(diff) > 0.02:
 '''
 sleep(2)
 print "Enabling fast feedback"
-PPOS = float(caget("BL11I-OP-DCM-01:FPITCH2.RVAL"))
-caput("BL11I-OP-DCM-01:PID:LIMITS.A", PPOS * 0.95)
-caput("BL11I-OP-DCM-01:PID:LIMITS.B", PPOS * 1.05)
-caput("BL11I-OP-DCM-01:PID.I", PPOS)
-caput("BL11I-OP-DCM-01:PID.KP", 0.01)
-caput("BL11I-OP-DCM-01:PID.KI", 1500)
-caput("BL11I-OP-DCM-01:PID.VAL", 32768)
-caput("BL11I-OP-DCM-01:PID.DT", 0.03)
-caput("BL11I-OP-DCM-01:PID.FBON", 1)
-caput("BL11I-OP-DCM-01:PID:AUTO", 1)
 
 # tidy up
 caput("BL11I-EA-COUNT-01.TP1",1.0)
