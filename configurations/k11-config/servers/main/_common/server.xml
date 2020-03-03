@@ -32,8 +32,6 @@
 		resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/beam/kb_mirrors_motors.xml" />
 
 	<!-- slits -->
 	<import
@@ -50,6 +48,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/kb.xml" />	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/vfm.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/hfm.xml" />
 	
 	<!-- DCMs -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm1.xml" />
@@ -116,8 +117,6 @@
 	<!-- beam -->
 	<import
 		resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/beam/kb_mirrors.xml" />
 
 	<!-- slits -->
 	<import
@@ -134,6 +133,9 @@
 	<import resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/kb/kb.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/kb/vfm.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/kb/hfm.xml" />
 	
 	<!-- dcms -->
 	<import resource="file:${gda.config}/servers/main/_common/dcms/dcm1.xml" />
