@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="gts_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="gts_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="gts_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="gts_rot_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="gts_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mrad" />
+	</bean>
+
+	<bean id="gts_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mrad" />
+	</bean>
+
+	<bean id="gts_y1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="gts_y2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="gts_y3_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.5" />
+		<property name="maxPosition" value="12.5" />
+		<property name="position" value="9.45" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+</beans>
