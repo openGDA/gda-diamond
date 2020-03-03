@@ -30,15 +30,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.dawnsci.analysis.api.tree.Attribute;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.template.impl.NexusTemplateServiceImpl;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IntegerDataset;
+import org.eclipse.january.dataset.StringDataset;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +53,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
+import gda.data.ServiceHolder;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.device.DeviceException;
 import gda.device.detector.BufferedDetector;
@@ -107,6 +114,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	public void setupEnvironment() throws Exception {
 		Path tempDataDir = Files.createTempDirectory(TurboXasScanTest.class.getName());
 		LocalProperties.set(LocalProperties.GDA_VAR_DIR, tempDataDir.toString());
+		new ServiceHolder().setNexusTemplateService(new NexusTemplateServiceImpl());
 
 		daserver = new DummyDAServer();
 		daserver.configure();
@@ -577,13 +585,53 @@ public class TurboXasScanTest extends EdeTestBase {
 	 * @throws NexusException
 	 */
 	private void checkNXDataGroups(String filename, int numSpectra, int numPointsPerSpectrum) throws NexusException {
+
+		// Check default attribute has been set on /entry1/ node
+		GroupNode groupNode = getGroupNode(filename, "");
+		Attribute entry1Attributes = groupNode.getAttribute(NexusConstants.DEFAULT);
+		assertNotNull("/entry1/ attributes have not been set", entry1Attributes);
+
+		String expectedSignalName = bufferedScaler.getName() + "_" + bufferedScaler.getExtraNames()[2];
+		assertEquals("Signal attribute on /entry1/ has not been set correctly",
+				((StringDataset)entry1Attributes.getValue()).getString(),
+				expectedSignalName);
+
+		checkAttributes(filename, bufferedScaler.getName(), bufferedScaler.getExtraNames()[2]);
+
 		for(String name : bufferedScaler.getExtraNames()) {
 			String groupName = bufferedScaler.getName()+"_"+name;
+			checkAttributes(filename, groupName, name);
 			assertDimensions(filename, groupName, name, new int[] {numSpectra, numPointsPerSpectrum});
 			assertDimensions(filename, groupName, TurboXasNexusTree.ENERGY_COLUMN_NAME, new int[] {numPointsPerSpectrum});
 			assertDimensions(filename, groupName, TurboXasNexusTree.POSITION_COLUMN_NAME, new int[] {numPointsPerSpectrum});
 			assertDimensions(filename, groupName, TurboXasNexusTree.SPECTRUM_INDEX, new int[] {numSpectra});
 			assertDimensions(filename, groupName, TurboXasNexusTree.TIME_COLUMN_NAME, new int[] {numSpectra});
+		}
+	}
+
+	/**
+	 * Check attributes have been set correctly on a NXData group
+	 * @param filename
+	 * @param groupName
+	 * @param signalName
+	 * @throws NexusException
+	 */
+	private void checkAttributes(String filename, String groupName, String signalName) throws NexusException {
+		GroupNode groupNode = getGroupNode(filename,  groupName);
+		assertEquals("Wrong number of attributes for /entry1/"+groupName, 7, groupNode.getNumberOfAttributes());
+
+		// Check axis names have been set
+		assertEquals(TurboXasNexusTree.TIME_COLUMN_NAME, groupNode.getAttribute(NexusConstants.DATA_AXES).getValue().getString(0));
+		assertEquals(TurboXasNexusTree.ENERGY_COLUMN_NAME, groupNode.getAttribute(NexusConstants.DATA_AXES).getValue().getString(1));
+
+		// signal attribute is set to name of scaler dataset
+		assertEquals(((StringDataset)groupNode.getAttribute(NexusConstants.DATA_SIGNAL).getValue()).getString(), signalName);
+
+		// Check that the _indices attributes have been set (energy_indices, frame_indices, position_indices, time_indices)
+		for (Entry<String, Integer> attrib : TurboXasNexusTree.getAttributeDataNames().entrySet()) {
+			String attributeName = attrib.getKey() + NexusConstants.DATA_INDICES_SUFFIX;
+			IDataset dataset = groupNode.getAttribute(attributeName).getValue();
+			assertEquals(attrib.getValue().intValue(), ((IntegerDataset) dataset).get());
 		}
 	}
 
