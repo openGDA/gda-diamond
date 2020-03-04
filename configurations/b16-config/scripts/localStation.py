@@ -1192,7 +1192,7 @@ except:
 # Create scannable to check that the nexus writer is enabled when the xmapMca is used
 # If only dat files are written then the full spectrum is not recorded
 from scannable.utility.check_data_writer import CheckDataWriter
-_xmapNexusDataWriterChecker = CheckDataWriter('_xmapNexusDataWriterChecker', 'xmapMca', 'NexusDataWriter')
+_xmapNexusDataWriterChecker = CheckDataWriter('_xmapNexusDataWriterChecker', 'xmapMca2', 'NexusDataWriter')
 add_default(_xmapNexusDataWriterChecker)
 
 def pcoedge_multi_n(n):
