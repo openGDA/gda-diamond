@@ -349,9 +349,13 @@ image_key_project = 0 # also known as sample
 def tomoScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1., start=0., stop=180., step=0.1, darkFieldInterval=0, flatFieldInterval=0,
 			  imagesPerDark=10, imagesPerFlat=10, optimizeBeamInterval=0, pattern="default", addNXEntry=True, autoAnalyse=True, additionalScannables=[]):
 	# set Pixel Rate for Edge only
-	if(caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-		pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")
-		caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
+	if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+		#pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")
+		pixel_rate_bup = caget("BL16B-EA-DET-08:CAM:PIX_RATE")
+		#caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
+		caput("BL16B-EA-DET-08:CAM:PIX_RATE", "286000000 Hz")
+		caput("BL16B-EA-DET-08:CAM:ArrayCounter", 0)
+		caput("BL16B-EA-DET-08:HDF5:TempSuffix", '')
 	createSRS = LocalProperties.get("gda.nexus.createSRS")
 	try:
 		LocalProperties.set("gda.nexus.createSRS", "false")
@@ -359,8 +363,9 @@ def tomoScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1., st
 				imagesPerDark, imagesPerFlat, optimizeBeamInterval, pattern, addNXEntry, autoAnalyse, additionalScannables)
 	finally:
 		LocalProperties.set("gda.nexus.createSRS", createSRS)
-		if(caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-			caput("ME07M-EA-DET-01:CAM:PIX_RATE", pixel_rate_bup)
+		if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+			#caput("ME07M-EA-DET-01:CAM:PIX_RATE", pixel_rate_bup)
+			caput("BL16B-EA-DET-08:CAM:PIX_RATE", pixel_rate_bup)
 
 """
 perform a simple tomography scan

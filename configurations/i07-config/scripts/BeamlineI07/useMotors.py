@@ -16,7 +16,7 @@ diff1vomegaoffset = EpicsMotorOffsetClass('diff1vomegaoffset',pvMotor, '%.6f');
 pvMotor = "BL07I-MO-DIFF-01:ALPHA"
 diff1valphaoffset = EpicsMotorOffsetClass('diff1valphaoffset',pvMotor, '%.6f');
 
-pvMotor = "BL07I-MO-DIFF-01:THETA"
+pvMotor = "BL07I-MO-DIFF-03:THETA"
 diff1homegaoffset = EpicsMotorOffsetClass('diff1homegaoffset',pvMotor, '%.6f');
 
 pvMotor = "BL07I-MO-DIFF-01:CHI"

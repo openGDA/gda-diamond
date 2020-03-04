@@ -78,6 +78,17 @@
 		<property name="deferOnValue" value="1" />
 	</bean>
 
+	<bean id="kphi_rockable" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKphiEpicsMotor" />
+		<property name="logMoveRequestsWithInfo" value="true" />
+	</bean>
+
+	<bean id="kth_rockable" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKthEpicsMotor" />
+		<property name="outputFormat" value="%.5f" />
+		<property name="logMoveRequestsWithInfo" value="true" />
+	</bean>
+
 	<bean id="dummy_chi" class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 	</bean>

@@ -19,4 +19,8 @@
 		<property name="pvName" value="BL16B-MO-TOMO-01:THETA" />
 	</bean>
 
+	<bean id="TOMOYAWMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-TOMO-01:YAW" />
+	</bean>
+
 </beans>

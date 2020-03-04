@@ -980,7 +980,7 @@
 		<property name="pvName" value="BL07I-MO-DIFF-01:ALPHA" />
 	</bean>
 	<bean id="MotorTHETA_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-MO-DIFF-01:THETA" />
+		<property name="pvName" value="BL07I-MO-DIFF-03:THETA" />
 	</bean>
 	<bean id="MotorCHI_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:CHI" />

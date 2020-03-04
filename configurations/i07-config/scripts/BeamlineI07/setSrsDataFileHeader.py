@@ -72,3 +72,11 @@ fileHeader.add([note])
 pilatusHeader.add([note])
 
 
+from gdascripts.pd.dummy_pds import MultiInputExtraFieldsDummyPD
+
+centralPixel = MultiInputExtraFieldsDummyPD('centralPixel', ['centralPixel_x','centralPixel_y'], [])
+centralPixel.setOutputFormat(['%.0f', '%.0f'])
+centralPixel.moveTo((-99999999, -99999999))
+
+fileHeader.add([centralPixel])
+pilatusHeader.add([centralPixel])

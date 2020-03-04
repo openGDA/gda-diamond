@@ -19,6 +19,10 @@
 		<property name="motor" ref="TOMOTHETAMotor" />
 	</bean>
 
+	<bean id="tomoYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TOMOYAWMotor" />
+	</bean>
+
 	<bean id="tomo" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -26,6 +30,7 @@
 				<ref bean="tomoRoll" />
 				<ref bean="tomoPitch" />
 				<ref bean="tomoTheta" />
+				<ref bean="tomoYaw" />
 			</list>
 		</property>
 	</bean>

@@ -69,6 +69,8 @@ tabList = [tab1x, tab1y]
 qbpmList = [d4range, ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
         qbpm1range, qbpm2range, qbpm3range]
 
+miscList = [note, centralPixel]
+
 metadata = []
 metadata += blList
 metadata += idList
@@ -88,6 +90,7 @@ metadata += mbs4List
 metadata += diff2List
 metadata += tabList
 metadata += qbpmList
+metadata += miscList
 
 meta_clear_alldynamical()
 for _m in metadata:
