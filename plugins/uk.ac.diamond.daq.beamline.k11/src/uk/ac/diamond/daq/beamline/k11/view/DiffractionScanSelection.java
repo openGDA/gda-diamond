@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
+import org.dawnsci.mapping.ui.IMapClickEvent;
+import org.dawnsci.mapping.ui.MappedDataView;
 import org.eclipse.dawnsci.plotting.api.IPlottingService;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -33,7 +35,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
@@ -41,7 +43,6 @@ import gda.configuration.properties.LocalProperties;
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
-import uk.ac.diamond.daq.beamline.k11.view.control.PathSummary;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
@@ -65,7 +66,6 @@ public class DiffractionScanSelection extends ViewPart {
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection";
 
 	private DiffractionPathComposite diffractionPathComposite;
-	private PathSummary summaryHolder;
 	private ScanManagementController smController;
 	private ScanSaver scanSaver;
 	private Button pointAndShoot;
@@ -86,15 +86,23 @@ public class DiffractionScanSelection extends ViewPart {
 		builder.addSaveSelectionListener(getSaveListener());
 		builder.addRunSelectionListener(getRunListener());
 		builder.build().createComposite(parent, SWT.NONE);
+
+		prepareMapEvents();
 	}
 
-	private Label addSpace(Composite composite) {
-		return new Label(composite, SWT.NONE);
+	/**
+	 * Point&Shoot depends on {@link IMapClickEvent}s firing when users click on the map.
+	 * The producer of these is registered once the {@link MappedDataView} is created;
+	 * here Eclipse finds it, creating it and registering all the required components.
+	 */
+	private void prepareMapEvents() {
+		final IWorkbenchPage page = getSite().getPage();
+		page.findView(MappedDataView.ID);
 	}
 
 	@Override
 	public void setFocus() {
-		// panelComposite.setFocus();
+		diffractionPathComposite.setFocus();
 	}
 
 	private void buildAcquisitionNameComposite(Composite parent) {
@@ -104,24 +112,11 @@ public class DiffractionScanSelection extends ViewPart {
 	private void buildDiffractionPathComposite(Composite parent) {
 		Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.DIFFRACTION_SCAN_PATH);
 		diffractionPathComposite = new DiffractionPathComposite(group, SWT.NONE);
-		summaryHolder = diffractionPathComposite.populate();
+		diffractionPathComposite.populate();
 	}
 
-	// private void buildExecutionComposite(Composite parent) {
-	// new Label(parent, SWT.NONE).setText("Execution mode");
-	//
-	// Composite executionControl = new DiffractionExecutionControl(parent, SWT.NONE, smController);
-	// GridLayoutFactory.fillDefaults().applyTo(executionControl);
-	// GridDataFactory.swtDefaults().align(SWT.FILL, SWT.TOP).applyTo(executionControl);
-	//
-	// addSpace(parent);
-	// }
-
 	private CompositeFactory getTopArea() {
-		return new CompositeFactory() {
-
-			@Override
-			public Composite createComposite(Composite parent, int style) {
+		return (parent, style) -> {
 				buildAcquisitionNameComposite(parent);
 				buildDiffractionPathComposite(parent);
 				Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.POINT_AND_SHOOT);
@@ -132,8 +127,7 @@ public class DiffractionScanSelection extends ViewPart {
 						ClientMessages.START_POINT_AND_SHOOT_TP, ClientImages.RUN);
 				pointAndShoot.addListener(SWT.Selection, e -> updateStatus());
 				return parent;
-			}
-		};
+			};
 	}
 
 	private void buildSavedComposite(Composite parent) {
@@ -144,14 +138,10 @@ public class DiffractionScanSelection extends ViewPart {
 	}
 
 	private CompositeFactory getBottomArea() {
-		return new CompositeFactory() {
-
-			@Override
-			public Composite createComposite(Composite parent, int style) {
+		return (parent, style) -> {
 				buildSavedComposite(parent);
 				return parent;
-			}
-		};
+			};
 	}
 
 	private SelectionListener getSaveListener() {
@@ -164,7 +154,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-
+				// not needed
 			}
 		};
 	}
@@ -187,6 +177,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
+				// not needed
 			}
 		};
 	}
