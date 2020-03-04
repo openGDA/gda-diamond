@@ -7,6 +7,7 @@
 	<bean id="TOMOROLLMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="TOMOPITCHMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="TOMOTHETAMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TOMOYAWMotor" class="gda.device.motor.DummyMotor" />
 
 </beans>
 
