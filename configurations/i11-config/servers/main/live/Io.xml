@@ -6,6 +6,7 @@
 
 	<bean id="Io" class="gda.device.detector.etldetector.ETLDetector">
 		<property name="scaler" ref="scaler2" />
+		<property name="inputNames" value="Io" />
 		<property name="detector" ref="Ie0" />
 		<property name="scalerChannelIndex" value="16" />
 	</bean>
