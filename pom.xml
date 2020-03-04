@@ -54,6 +54,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <modules>
         <module>features/uk.ac.diamond.daq.beamline.p45.feature</module>
         <module>products/uk.ac.diamond.daq.beamline.p45.product</module>
+        <module>features/uk.ac.diamond.daq.beamline.k11.feature</module>
       </modules>
     </profile>
     <profile>
