@@ -737,9 +737,9 @@ if not installation.isLive():
 
 else:
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='ipp')
-	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='ipp2')
+	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='ipp2', returnPathAsImageNumberOnly=True)
 #	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
-	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='ipp3')
+	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='ipp3', returnPathAsImageNumberOnly=True)
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
