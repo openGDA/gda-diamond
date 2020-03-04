@@ -17,5 +17,32 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <module>uk.ac.diamond.daq.beamline.i15-1.api</module>
     <module>uk.ac.diamond.daq.beamline.i15-1.server</module>
     <module>uk.ac.diamond.daq.beamline.i21.server</module>
+    <module>uk.ac.diamond.daq.beamline.k11</module>
+    <module>uk.ac.diamond.daq.beamline.lab44</module>
+    <module>uk.ac.diamond.daq.beamline.p45</module>
+    <module>uk.ac.diamond.daq.beamline.p99</module>
+    <module>uk.ac.gda.beamline.b07</module>
+    <module>uk.ac.gda.beamline.b07-1</module>
+    <module>uk.ac.gda.beamline.b21</module>
+    <module>uk.ac.gda.beamline.i05</module>
+    <module>uk.ac.gda.beamline.i05-1</module>
+    <module>uk.ac.gda.beamline.i06</module>
+    <module>uk.ac.gda.beamline.i06_1</module>
+    <module>uk.ac.gda.beamline.i08</module>
+    <module>uk.ac.gda.beamline.i08-1</module>
+    <module>uk.ac.gda.beamline.i09</module>
+    <module>uk.ac.gda.beamline.i09-1</module>
+    <module>uk.ac.gda.beamline.i09-2</module>
+    <module>uk.ac.gda.beamline.i10</module>
+    <module>uk.ac.gda.beamline.i11</module>
+    <module>uk.ac.gda.beamline.i11-1</module>
+    <module>uk.ac.gda.beamline.i12</module>
+    <module>uk.ac.gda.beamline.i13</module>
+    <module>uk.ac.gda.beamline.i13-1</module>
+    <module>uk.ac.gda.beamline.i14</module>
+    <module>uk.ac.gda.beamline.i15</module>
+    <module>uk.ac.gda.beamline.i15-1</module>
+    <module>uk.ac.gda.beamline.i21</module>
+    <module>uk.ac.gda.beamline.i22</module>
   </modules>
 </project>
