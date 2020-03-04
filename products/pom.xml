@@ -13,6 +13,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
+  <!-- This ensures the built client product(s) will be installed in the usual clients directory alongside workspace_git -->
+  <!-- The ${client-product-root} property is defined in the daq-aggregator/releng/pom.xml file -->
   <build>
     <directory>${client-product-root}</directory>
   </build>
