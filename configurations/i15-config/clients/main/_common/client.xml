@@ -25,7 +25,13 @@
 	</bean>
 
 	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+	<!-- 
+	<import resource="file://${gda.facility.dir}/clients/_common/stage_controls_tree.xml"/>
+	 -->
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	<import resource="stage_controls.xml"/>
+	<import resource="mapping.xml"/>
 
 	<!-- If we leave these in the common client config, then GDA fails to start if the Test Zebra box is turned off
 	<import resource="../../../servers/main/common/device/zebraTestAreaDetector.xml"/>

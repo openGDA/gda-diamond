@@ -9,7 +9,7 @@
 	</bean>
 
 	<bean id="task_consumer" class="uk.ac.diamond.daq.beamline.i151.server.XpdfTaskConsumer"
-		init-method="startConsumer">
+		init-method="startJobQueue">
 		<property name="taskRunner" ref="task_runner" />
 	</bean>
 

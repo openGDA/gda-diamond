@@ -13,6 +13,7 @@ if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "s
     ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME $SERVERS_SSH_PID
   fi
 
+  bashlog info "gda_servers_post_instance" "Waiting for 'You may now start the GDA Client' dialog to close..."
   zenity --info --title "Start the Client" --text "The GDA servers have restarted.\n\nYou may now start the GDA Client."
 fi
 

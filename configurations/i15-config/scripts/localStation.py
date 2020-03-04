@@ -150,7 +150,11 @@ try:
 		baseTab = BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
 		baseTab2 = BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
 		qbpm1total = Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
-		qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-EA-QBPM-02:INTEN")
+		from localStationConfiguration import useQbpm2eth
+		if not useQbpm2eth:
+			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN") # Original QBPM
+		else:
+			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-EA-QBPM-02:INTEN") # New ethercat based QBPM
 		#s4pitch = Simple_PD_EpicsDevice("s4pitch", beamline, "-AL-SLITS-04:PITCH.VAL")
 		#s4yaw = Simple_PD_EpicsDevice("s4yaw", beamline, "-AL-SLITS-04:YAW.VAL")
 		#pin2x = Simple_PD_EpicsDevice("pin2x", beamline, "-AL-APTR-02:X")
@@ -175,10 +179,16 @@ try:
 		qbpm1C = Simple_PD_EpicsDevice("qbpm1C", beamline, "-DI-QBPM-01:C")
 		qbpm1D = Simple_PD_EpicsDevice("qbpm1D", beamline, "-DI-QBPM-01:D")
 
-		qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-EA-QBPM-02:A")
-		qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-EA-QBPM-02:B")
-		qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-EA-QBPM-02:C")
-		qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-EA-QBPM-02:D")
+		if not useQbpm2eth:
+			qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-DI-QBPM-02:A")
+			qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-DI-QBPM-02:B")
+			qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-DI-QBPM-02:C")
+			qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-DI-QBPM-02:D")
+		else:
+			qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-EA-QBPM-02:A")
+			qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-EA-QBPM-02:B")
+			qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-EA-QBPM-02:C")
+			qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-EA-QBPM-02:D")
 
 		vfm_gravsag = Simple_PD_EpicsDevice("vfm_gravsag", beamline, "-OP-VFM-01:SAG.VAL")
 
@@ -226,19 +236,6 @@ try:
 									temp_tolerance=1, stable_time_sec=60)
 	except:
 		localStation_exception(sys.exc_info(), "creating cryojet scannable")
-
-	try:
-		caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
-		caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
-		caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
-		caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
-		caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
-		caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
-	except:
-		localStation_exception(sys.exc_info(), "correcting pe area detector pipeline...")
 
 	try:
 		global pe
@@ -403,31 +400,55 @@ try:
 			localStation_exception(sys.exc_info(), "creating patch x7trig object")
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
-	
+
 	try:
 		pe.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
+		caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
+		caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
+		caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
+		caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
+		caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
 	except:
-		localStation_exception(sys.exc_info(), "configuring pe compression")
+		localStation_exception(sys.exc_info(), "configuring pe compression & correcting pe area detector pipeline")
 
 	global mar, pil3, mpx, psl
 
 	try:
 		mar.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-MAR-01:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-MAR-01:PROC:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-MAR-01:MJPG:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-MAR-01:CAM:EraseMode",			"None")
+		caput("BL15I-EA-MAR-01:ROI:EnableX",			"Disable")
+		caput("BL15I-EA-MAR-01:ROI:EnableY",			"Disable")
+		from localStationScripts.marErase import marErase
+		alias("marErase")
 	except:
-		localStation_exception(sys.exc_info(), "configuring mar compression")
+		localStation_exception(sys.exc_info(), "configuring mar area detector plugins")
+
 	try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 compression")
+
 	try:
 		mpx.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-DET-18:ARR:EnableCallbacks",	"Enable")
 	except:
 		localStation_exception(sys.exc_info(), "configuring mpx compression")
+
 	try:
 		psl.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-PSL-01:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PSL-01:PROC:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PSL-01:MJPG:EnableCallbacks",	"Enable")
 	except:
-		localStation_exception(sys.exc_info(), "configuring psl compression")
-	
+		localStation_exception(sys.exc_info(), "configuring psl compression & callbacks")
+
 	try:
 		from scannables.safeScannable import SafeScannable
 		rot_dkphi = SafeScannable('rot_dkphi', control_scannable=dkphi,
