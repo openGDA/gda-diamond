@@ -75,10 +75,6 @@
 
 	<import resource="ebe.xml" />
 
-	<import resource="fleacamera3_08.xml" />
-	<import resource="fleacamera5_09.xml" />
-	<import resource="fleacamera4_06.xml" />
-
 	<import resource="detectors/xrayeye.xml" />
 	<import resource="detectors/dcam8.xml" />
 	<import resource="detectors/xmap.xml" />

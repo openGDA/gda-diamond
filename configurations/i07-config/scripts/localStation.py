@@ -103,8 +103,6 @@ try_execfile("BeamlineI07/createAlias.py")
 #try_execfile("BeamlineI07/useEpicsPilatus100K.py")
 try_execfile("BeamlineI07/useAreaDetectorPilatus1.py")
 
-#try_execfile("BeamlineI07/cameras.py") # Flea camera support?
-
 #try_execfile("BeamlineI07/useEpicsPilatus2M.py")
 try_execfile("BeamlineI07/useAreaDetectorPilatus2.py")
 
@@ -116,8 +114,6 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
 
 try_execfile("BeamlineI07/useAreaDetectorExcalibur.py")
-
-#try_execfile("BeamlineI07/useFleaCameras.py", full_log=True)
 
 try_execfile("BeamlineI07/useGigECams.py", full_log=True)
 
