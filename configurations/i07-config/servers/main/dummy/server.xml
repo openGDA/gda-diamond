@@ -55,7 +55,6 @@
 
 	<import resource="sim_addetector.xml" />
 	<import resource="slits.xml" />
-	<import resource="server_dummies.xml" />
 
 
 	<import resource="server_epics.xml" />
