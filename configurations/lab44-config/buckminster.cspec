@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i06-config" componentType="buckminster" version="1.0.0">
+<?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="lab44-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="i06-shared" componentType="buckminster"/>
     </cs:dependencies>
