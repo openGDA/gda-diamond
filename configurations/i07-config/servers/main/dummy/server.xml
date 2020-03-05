@@ -94,6 +94,8 @@
 
 	<import resource="detectors/excalibur.xml" />
 
+	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
+
 	<import resource="commandQueueProcessor.xml" />
 
 </beans>

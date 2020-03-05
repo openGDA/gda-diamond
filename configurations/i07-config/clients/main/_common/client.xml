@@ -24,6 +24,8 @@
 	<bean id="GDAMetadata" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
 
    <!--  Removed thes two as a temprary measure during callout on June 24th at 11:55 pm - Rob W -->
 <!--     <import resource="fastpil1_clientside.xml"/> -->
