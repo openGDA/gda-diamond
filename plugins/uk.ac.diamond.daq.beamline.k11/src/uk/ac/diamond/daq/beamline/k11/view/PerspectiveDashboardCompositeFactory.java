@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.diamond.daq.client.gui.energy.BeamEnergyDialogBuilder;
+import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.gda.tomography.stage.IStageController;
 import uk.ac.gda.tomography.stage.StagesComposite;
 import uk.ac.gda.tomography.stage.enumeration.Position;
@@ -42,6 +43,7 @@ import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * Tomography dashboard
@@ -78,9 +80,14 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	}
 
 	private void createElements(Composite parent, int style) {
+		createExperimentManager(ClientSWTElements.createComposite(parent, SWT.NONE));
 		headerElements(ClientSWTElements.createComposite(parent, SWT.NONE, 3), style);
 		stageCompose(ClientSWTElements.createComposite(parent, SWT.NONE, 1));
 		cameraGroupElements(parent);
+	}
+
+	private void createExperimentManager(Composite parent) {
+		new ExperimentManager(getExperimentController()).createComposite(parent, SWT.NONE);
 	}
 
 	private void headerElements(Composite parent, int style) {
@@ -133,5 +140,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		appendOutOfBeamSelectionListener(parent);
 	}
 
-
+	private ExperimentController getExperimentController() {
+		return SpringApplicationContextProxy.getBean(ExperimentController.class);
+	}
 }
