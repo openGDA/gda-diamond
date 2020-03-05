@@ -30,6 +30,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml"/>
 
 	<!-- Import common objects -->
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 	<import resource="detectors/cmos.xml" />
 	<import resource="detectors/detectors.xml" />
 	<import resource="detectors/qexafs.xml" />
