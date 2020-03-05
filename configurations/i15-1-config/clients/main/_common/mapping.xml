@@ -183,7 +183,7 @@
 							<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
 						</property>
 						<property name="scanPath">
-							<bean class="org.eclipse.scanning.api.points.models.SinglePointModel">
+							<bean class="org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel">
 								<property name="x" value="0" />
 								<property name="y" value="0" />
 								<property name="xAxisName" value="stagex" />
