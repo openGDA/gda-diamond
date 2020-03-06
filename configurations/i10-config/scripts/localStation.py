@@ -1,6 +1,5 @@
 from utils.ExceptionLogs import localStation_exceptions
 import sys
-from gdaserver import m3m5, m4, m6, m1
 try:
     from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta,\
         lgb, lgf, lgm, th, tth, sx, sy, sz
@@ -47,7 +46,7 @@ from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc, showtimeCla
 wait = waittime
 showtime.setLevel(4) # so it is operated before anything else in a scan
 print "-"*100
-print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
+print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
 print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
 from gdascripts.utils import * #@UnusedWildImport
 print "-"*100
@@ -74,11 +73,11 @@ if installation.isLive():
     from high_field_magnet.scannable.intelligent_power_supply_instances import *  # @UnusedWildImport
 #     from scannable.temporaryIDControls import *  # @UnusedWildImport
     from scannable.frontEndBeamMonitors import *  # @UnusedWildImport
-    from scannable.mirrors_fine_pitch_motors import m1fpitch, m3m5fpitch,m4fpitch, m6fpitch
-    m1.addGroupMember(m1fpitch)
-    m3m5.addGroupMember(m3m5fpitch)
-    m4.addGroupMember(m4fpitch)
-    m6.addGroupMember(m6fpitch)
+    from scannable.m1_haxpod_motors import *  # @UnusedWildImport
+    from scannable.m3m5_haxpod_motors import *  # @UnusedWildImport
+    from scannable.m4_haxpod_motors import *  # @UnusedWildImport
+    from scannable.m6_haxpod_motors import *  # @UnusedWildImport
+    
     try:
         th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
         tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
@@ -237,8 +236,8 @@ from scan.cvscan import cvscan, cvscan2 # @UnusedImport
 alias('cvscan')
 #create 'smode', 'pol', and 'enenry'
 from scannable.idcontrols.mode_polarisation_energy_instances import *  # @UnusedWildImport
-idd,idu = SourceMode.SOURCE_MODES
-pc,nc,lh,lv,la,lh3 = Polarisation.POLARISATIONS
+idd,idu,unknown = SourceMode.SOURCE_MODES
+pc,nc,lh,lv,la,lh3,unknown = Polarisation.POLARISATIONS
 
 print
 print "*"*80

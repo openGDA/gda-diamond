@@ -61,6 +61,11 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self.idspeedfactor=1.0
         self.pgmspeedfactor=1.0
         self.idstartdelaytime=0.0
+        self._move_start = 0.0
+        self._move_end = 1.0
+        self._move_step = 0.1
+        self._triggerPeriod = 0.0
+        self._pgm_runupdown_time = 0.0
        
     def setIDStartDelayTime(self, t):
         self.idstartdelaytime=t
@@ -352,7 +357,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
     def stopAndReset(self):
         self._start_time = None
         self._start_event.clear()
-        if self.verbose: self.logger.info('stopAndReset()')
+        if self.verbose: self.logger.info('stopAndReset()...')
         if self.isPGMMoveEnabled():
             self._pgm_grat_pitch.stop()
             self._pgm_mirr_pitch.stop()

@@ -37,13 +37,13 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         # from the motion controller.
         motion_controller = self.getHardwareTriggerProvider()
         runupdown_time = motion_controller.getTimeToVelocity()
-        if self.verbose: self.logger.info('collectData()... motion_controller=%r, runupdown_time=%r' % (motion_controller, runupdown_time))
+        if self.verbose: self.logger.info('motion_controller=%r, runupdown_time=%r' % (motion_controller, runupdown_time))
         if runupdown_time:
             self.delayed_collection_timer = Timer(motion_controller.getTimeToVelocity(), self._delayed_collectData)
             self.delayed_collection_timer.start()
-            if self.verbose: self.logger.info('collectData()... delayed start...')
+            if self.verbose: self.logger.info('delayed start...')
         else:
-            if self.verbose: self.logger.info('collectData()... immediate start...')
+            if self.verbose: self.logger.info('immediate start...')
             self.waveform_channel_controller.erase_and_start()
         
         if self.verbose: self.logger.info('...collectData()')
