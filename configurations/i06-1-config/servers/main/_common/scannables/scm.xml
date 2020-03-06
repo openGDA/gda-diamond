@@ -9,11 +9,15 @@
 	<bean id="scmy" class="gda.device.scannable.ScannableMotor" >
 		<property name="motor" ref="scmy_motor" />
 	</bean>
+	<bean id="scmx" class="gda.device.scannable.ScannableMotor" >
+		<property name="motor" ref="scmx_motor" />
+	</bean>
 	<bean id="SCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="scmth" />
 				<ref bean="scmy" />
+				<ref bean="scmx" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
