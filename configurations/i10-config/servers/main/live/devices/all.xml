@@ -59,6 +59,7 @@
 	<import resource="UJ1_MAC.xml"/>
 
 	<import resource="LakeShore.xml"/>
+	<import resource="EM.xml"/>
 	
 	<!-- Temporary devices -->
 	<import resource="Zebra.xml"/>
