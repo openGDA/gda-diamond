@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Eclipse-BundleShape: dir
 Bundle-ManifestVersion: 2
 Bundle-Name: Test rig beamline P99
 Bundle-SymbolicName: uk.ac.diamond.daq.beamline.p99;singleton:=true
