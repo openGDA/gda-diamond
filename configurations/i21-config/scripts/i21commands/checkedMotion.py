@@ -78,7 +78,7 @@ from gdaserver import sgmr1, specl, epics_armtth  # @UnresolvedImport
 def checkIfMoveLegal(motor, new_position):
     '''
     '''
-    if motor is armtth:  # @UndefinedVariable
+    if motor is epics_armtth:  # @UndefinedVariable
         if not moveWithinLimits(float(motor.getPosition()), float(new_position)):
             raise IllegalMoveException("Cannot move across region limits %s from %f to %f" % (sorted(lookuptable.keys()), float(motor.getPosition()), new_position))
         else:
@@ -154,7 +154,7 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
         print "%s moves completed at %f" % (motor.getName(), motor.getPosition())
         epics_armtth.off()
         sgmr1.off()
-        print "air supply is off for both sgmr1 and armtth!"
+        print "air supply is off for both sgmr1 and epics_armtth!"
 
 
 def asynmove(motor, new_position):

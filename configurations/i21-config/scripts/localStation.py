@@ -339,7 +339,7 @@ scan_processing_off()
 #check beam scannables
 from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
 
-from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport
+# from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport
 
 GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
 # from i21commands.checkedMotion import lookuptable, move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE, moveWithinLimits, findRange, UnsafeOperationException, IllegalMoveException, checkIfMoveLegal
@@ -364,6 +364,9 @@ def goLV(en_val_std):
     energy.moveTo(en_val_std)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, "LV"))
     
+from scan.miscan import miscan  # @UnusedImport
+alias('miscan')
+
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
