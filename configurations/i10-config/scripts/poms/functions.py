@@ -1,11 +1,13 @@
-def testIntensity():
-    #pos tth 0 th 0 sy -5
-    pos s4xsize 0.1 s4ysize 0.12
-    pos s1xsize 1 s1ysize 1
-    pos pol pc
-    pos energy 700
-    pimteShOpen()
-    scan dummy 1 100 1 refl 0.1
+import datetime
+
+#def testIntensity():
+#    #pos tth 0 th 0 sy -5
+#    pos s4xsize 0.1 s4ysize 0.12
+#    pos s1xsize 1 s1ysize 1
+#    pos pol pc
+#    pos energy 700
+#    pimteShOpen()
+#    scan dummy 1 100 1 refl 0.1
 
 
 # rasor diode
@@ -46,29 +48,29 @@ def logMirrorPositions():
 
 # align for transmission
 # works well for S4 x=0.2, y=1.2
-def alignSample():
-    pos vmag 0
-    scan dummy 1 1 1 pixistiff 0.002 pixisSum
-    cscan user1_axis2 0.3 0.05 pixistiff 0.5 pixisSum
-    go peak
-    scan dummy 1 1 1 pixistiff 0.002 pixisSum
-    cscan user1_axis1 0.3 0.05 pixistiff 0.5 pixisSum
-    go peak
-    scan dummy 1 1 1 pixistiff 0.5 pixisSum
-    
-    """ saves log """
-    f=open("/dls_sw/i10/software/gda/config/scripts/poms/logs/cryo_position.dat", 'a')
-    timeStr = datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
-    line = "%s\t%03.1f\t%1.2f\t%02.2f\t%1.2f \n" % (timeStr, pomsTemp.getPosition(), user1_axis1.getPosition(), user1_axis2.getPosition(), user1_axis3.getPosition() )
-    f.write(line); f.flush(); f.close()
+#def alignSample():
+#    pos vmag 0
+#    scan dummy 1 1 1 pixistiff 0.002 pixisSum
+#    cscan user1_axis2 0.3 0.05 pixistiff 0.5 pixisSum
+#    go peak
+#    scan dummy 1 1 1 pixistiff 0.002 pixisSum
+#    cscan user1_axis1 0.3 0.05 pixistiff 0.5 pixisSum
+#    go peak
+#    scan dummy 1 1 1 pixistiff 0.5 pixisSum
+#    
+#    """ saves log """
+#    f=open("/dls_sw/i10/software/gda/config/scripts/poms/logs/cryo_position.dat", 'a')
+#    timeStr = datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
+#    line = "%s\t%03.1f\t%1.2f\t%02.2f\t%1.2f \n" % (timeStr, pomsTemp.getPosition(), user1_axis1.getPosition(), user1_axis2.getPosition(), user1_axis3.getPosition() )
+#    f.write(line); f.flush(); f.close()
     
 
 
-def fieldCycle():
-    for i in range(20): #field cycling
-        pos vmag 120
-        time.sleep(1)
-        pos vmag 0
-        time.sleep(1)
+#def fieldCycle():
+#    for i in range(20): #field cycling
+#        pos vmag 120
+#        time.sleep(1)
+#        pos vmag 0
+#        time.sleep(1)
         
         
