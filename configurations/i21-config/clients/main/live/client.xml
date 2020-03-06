@@ -9,6 +9,8 @@
 	<import resource="live_controls.xml"/>
 	<import resource="smp_cam_3_live_controls.xml"/>
 	<import resource="stream_views.xml"/>
+<!-- 	<import resource="xcam_live_controls.xml"/> -->
+<!-- 	<import resource="xcam_stream_view.xml"/> -->
 
 	<import resource="../_common/client.xml" />
 </beans>

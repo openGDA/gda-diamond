@@ -49,9 +49,8 @@
 	<import resource="andor.xml"/>
 	<import resource="andor2.xml"/>
 	<import resource="polariser.xml"/>
-<!-- 	<import resource="andor_nx.xml"/> -->
 	<import resource="dummysmp_m5tth.xml" />
 	<import resource="TestMotors.xml"/>
 	<import resource="i21_detector.xml"/>
-
+<!-- 	<import resource="xcam.xml"/> -->
 </beans>

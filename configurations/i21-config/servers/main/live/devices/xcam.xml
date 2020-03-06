@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- xcam driver specific information for metadata -->
+	<bean id="xcamADCOffset" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-03:CAM:ADC_OFFSET_RBV"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="xcamADCGain" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-03:CAM:ADC_GAIN_RBV"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="xcamTemperatureSet" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-03:CAM:Temperature_RBV"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="xcamTemperatureActual" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-03:CAM:TemperatureActual"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="xcamBinningSizeX" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-03:CAM:BinX_RBV"/>
+		<property name="poll" value="true" />
+		<!-- <property name="outputFormat" value="%5.5g" />  -->
+	</bean>
+	<bean id="xcamBinningSizeY" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-03:CAM:BinY_RBV"/>
+		<property name="poll" value="true" />
+		<!-- <property name="outputFormat" value="%5.5g" />  -->
+	</bean>
+
+<!-- Andor Area Detector EPICS Plugins -->
+	<bean id="xcam_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL21I-EA-DET-03:CAM:" />
+	</bean>
+	<bean id="xcam_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL21I-EA-DET-03:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-03:STAT:" />
+				<property name="initialArrayPort" value="XCAM.rx" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="xcam_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL21I-EA-DET-03:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-03:ARR:" />
+				<property name="initialArrayPort" value="XCAM.rx" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="xcam_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL21I-EA-DET-03:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-03:HDF5:" />
+				<property name="initialArrayPort" value="XCAM.rx" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="xcam" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+	<bean id="xcam_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL21I-EA-DET-03:HDF5:" />
+		<property name="file" ref="xcam_ndfile" />
+	</bean>
+
+	<bean id="xcam_xip1_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL21I-EA-DET-03:XIP1:HDF:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="BL21I-EA-DET-03:XIP1:HDF:" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="BL21I-EA-DET-03:XIP1:HDF:" />
+						<property name="initialArrayPort" value="XCAM.xip1.rx" />
+					</bean>
+				</property>
+				<!-- These arguments are here to please Spring -->
+				<property name="initialAutoSave" value="Not hooked up to anything!" />
+				<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+				<property name="initialWriteMode" value="0" />
+				<property name="initialNumCapture" value="1" />
+				<property name="initialFileName" value="xcam-xip1" />
+				<property name="initialFileTemplate" value="%s%s.hdf5" />
+			</bean>		
+		</property>
+	</bean>
+	<bean id="xcam_xip2_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL21I-EA-DET-03:XIP2:HDF:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="BL21I-EA-DET-03:XIP2:HDF:" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="BL21I-EA-DET-03:XIP2:HDF:" />
+						<property name="initialArrayPort" value="XCAM.xip2.rx" />
+					</bean>
+				</property>
+				<!-- These arguments are here to please Spring -->
+				<property name="initialAutoSave" value="Not hooked up to anything!" />
+				<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+				<property name="initialWriteMode" value="0" />
+				<property name="initialNumCapture" value="1" />
+				<property name="initialFileName" value="xcam-xip2" />
+				<property name="initialFileTemplate" value="%s%s.hdf5" />
+			</bean>		
+		</property>
+	</bean>
+	
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="xcam_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xcamRoi" />
+		<property name="service" ref="xcam_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<bean id="xcam_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xcam_RoiStats1" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-03:ROI1:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-03:STAT1:" />
+		<property name="roiInputNdArrayPort" value="XCAM.rx" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="xcam_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+	</bean>
+	<bean id="xcam_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xcam_RoiStats2" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-03:ROI2:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-03:STAT2:" />
+		<property name="roiInputNdArrayPort" value="XCAM.rx" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="xcam_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="xcam_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xcam_RoiStats3" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-03:ROI3:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-03:STAT3:" />
+		<property name="roiInputNdArrayPort" value="XCAM.rx" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="xcam_roi" />
+	            <property name="index" value="2" />
+	        </bean>
+		</property>
+	</bean>
+	<bean id="xcam_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xcam_RoiStats4" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-03:ROI4:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-03:STAT4:" />
+		<property name="roiInputNdArrayPort" value="XCAM.rx" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="xcam_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="xcam_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xcam_RoiStats5" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-03:ROI5:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-03:STAT5:" />
+		<property name="roiInputNdArrayPort" value="XCAM.rx" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="xcam_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="xcam_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xcam_RoiStats6" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-03:ROI6:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-03:STAT6:" />
+		<property name="roiInputNdArrayPort" value="XCAM.rx" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="xcam_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
+
+</beans>
