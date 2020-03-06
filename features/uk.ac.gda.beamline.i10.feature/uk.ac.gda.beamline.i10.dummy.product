@@ -42,6 +42,7 @@ See &lt;http://www.opengda.org/&gt;
       <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Drun.in.eclipse=false 
 -Dgda.instance.dir=${project_loc:i10-config}
+-Dgda.group.dir=${project_loc:i10-shared}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
 -Declipse.pluginCustomization=${project_loc:i10-config}/pluginCustomization.ini
