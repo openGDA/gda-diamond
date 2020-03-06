@@ -11,7 +11,7 @@ class vmagScannable(ScannableBase):
         self.setName(name);
         self.setInputNames(['field', 'theta', 'phi']);
         self.setExtraNames([])
-        self.setOutputFormat(["%10.1f", "%3d", "%3d"]);
+        self.setOutputFormat(["%3.2f", "%3d", "%3d"]);
         self.Units=['mT', 'degrees', 'degrees'];
         self.setLevel(7);
         self.serverHost = hostName;
@@ -26,18 +26,18 @@ class vmagScannable(ScannableBase):
 
 
     def sendAndReply(self, strSend):
-        self.socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-        self.socket.connect((self.serverHost, self.serverPort));
-        self.socket.send(strSend);
-        data = self.socket.recv(1024);       
-        self.socket.close();
+        self.socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((self.serverHost, self.serverPort))
+        self.socket.send(strSend)
+        data = self.socket.recv(1024)
+        self.socket.close()
         return data;
 
     def atScanStart(self):
-        return;
+        return
 
     def atScanEnd(self):
-        return;
+        return
 
     def setAngle(self, theta, phi):
         self.theta = theta
@@ -50,8 +50,11 @@ class vmagScannable(ScannableBase):
         self.iambusy = 1
         cmd='setFieldDirection %(v1)10.2f %(v2)10.2f\n\r' %{'v1': theta, 'v2': phi};
         reply = self.sendAndReply(cmd);
-        time.sleep(0.5);   
-        self.iambusy = 0 
+        if (reply != "OK"): 
+            self.iambusy = 0
+            raise ValueError(reply)
+        time.sleep(0.5)
+        self.iambusy = 0
         
         
     def setField(self,field):
@@ -70,11 +73,14 @@ class vmagScannable(ScannableBase):
 
         
         #Always call setField <field> <timeout> as may have been zerod for safety reason
-        cmd='setField %(v1)10.4f 600000000\n\r' %{'v1': abs(field)/1000.0};
-        reply = self.sendAndReply(cmd);
+        cmd='setField %(v1)10.6f 600000000\n\r' %{'v1': abs(field)/1000.0}
+        reply = self.sendAndReply(cmd)
+        if (reply != "OK"):
+            self.iambusy =0
+            raise ValueError(reply)
         self.field = field
-        time.sleep(0.5);
-        self.iambusy =0
+        time.sleep(0.5)
+        self.iambusy = 0
         
         
     def asynchronousMoveTo(self,newPos):
