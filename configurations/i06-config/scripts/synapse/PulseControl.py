@@ -28,7 +28,7 @@ def whichSynapseTerminal(arg):
         raise Exception("First input must be in [1,2,3,4]")
     return synapse
 
-def generatePulseFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOfPulses):
+def generateCurrentPulseFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOfPulses):
     try:
         keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
         keithley.communicator.configure()
@@ -67,7 +67,7 @@ def pulse2(*args):
         synapseLow.rawAsynchronousMoveTo("Source low")
         sleep(1) #ensure above finished before statement below 
         
-        generatePulseFromKeithley(args[2], args[3], args[4]/2, args[5])
+        generateCurrentPulseFromKeithley(args[2], args[3], args[4]/2, args[5])
         
         synapse_setall.rawAsynchronousMoveTo("STV")
         print "Pulse sweep completed."  
@@ -99,7 +99,7 @@ def pulse4(*args):
         synapseLow2.rawAsynchronousMoveTo("Source low")
         sleep(1)#ensure above finished before statement below
 
-        generatePulseFromKeithley(args[4], args[5], args[6]/2, args[7])
+        generateCurrentPulseFromKeithley(args[4], args[5], args[6]/2, args[7])
        
         synapse_setall.rawAsynchronousMoveTo("STV")
         print "Pulse sweep completed."

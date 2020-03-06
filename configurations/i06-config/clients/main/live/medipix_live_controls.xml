@@ -43,16 +43,20 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipix_proc_reset_filter" class="gda.device.scannable.PVScannable">
+	<bean id="medipix_proc_reset_filter" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-02:PROCB:ResetFilter"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%1d</value>
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipix_proc_enable_filter" class="gda.device.scannable.PVScannable">
+	<bean id="medipix_proc_enable_filter" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-02:PROCB:EnableFilter"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%1d</value>
@@ -61,11 +65,11 @@
 	</bean>
 	<bean id="medipixProcNumFilterWithResetEnableAfter" class="uk.ac.gda.beamline.i06.scannables.BeforeAfterScannables">
 		<property name="delegate" ref="medipixProcNumFilter"/>
-		<property name="afterScannables">
-			<map>
-				<entry key-ref="medipix_proc_reset_filter" value="1"/>
-				<entry key-ref="medipix_proc_enable_filter" value="1"/>
-			</map>
+		<property name="jythonCommandsAfter">
+			<list>
+				<value>caput('BL06I-EA-DET-02:PROCB:ResetFilter',1);sleep(0.1)</value>
+				<value>caput('BL06I-EA-DET-02:PROCB:EnableFilter',1);sleep(0.1)</value>
+			</list>
 		</property>
 		<property name="delayBeforeMovingDelegate" value="200"/>
 		<property name="outputFormat" value="#{medipixProcNumFilter.getOutputFormat()}"/>
