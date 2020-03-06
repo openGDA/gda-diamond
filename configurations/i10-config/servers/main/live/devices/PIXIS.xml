@@ -12,7 +12,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL10I-EA-PIXIS-01:STAT:" />
-				<property name="initialArrayPort" value="PIXIS1.CAM" />
+				<property name="initialArrayPort" value="PIXIS1RX.RX" />
 			</bean>
 		</property>
 	</bean>
@@ -21,7 +21,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL10I-EA-PIXIS-01:ARR:" />
-				<property name="initialArrayPort" value="PIXIS1.CAM" />
+				<property name="initialArrayPort" value="PIXIS1RX.RX" />
 				<property name="initialEnableCallbacks" value="1"/>
 			</bean>
 		</property>
@@ -31,13 +31,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL10I-EA-PIXIS-01:TIFF:" />
-				<property name="initialArrayPort" value="PIXIS1.CAM" />
-			</bean>
-		</property>
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i10/data" />
-				<property name="windowsSubString" value="x:\data" />
+				<property name="initialArrayPort" value="PIXIS1RX.RX" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -53,13 +47,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL10I-EA-PIXIS-01:HDF5:" />
-				<property name="initialArrayPort" value="PIXIS1.CAM" />
-			</bean>
-		</property>
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i10/data" />
-				<property name="windowsSubString" value="x:\data" />
+				<property name="initialArrayPort" value="PIXIS1RX.RX" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -85,7 +73,7 @@
 		<property name="decoratee">	
 			<bean class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
 				<property name="ndArray" ref="pixis_ndarray"/>
-				<property name="arrayPortName" value="PIXIS1.CAM"/>
+				<property name="arrayPortName" value="PIXIS1RX.RX"/>
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 						<property name="restoreAcquireTime" value="true" />
@@ -128,7 +116,7 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="ndArrayPortVal" value="PIXIS1.CAM"/>
+		<property name="ndArrayPortVal" value="PIXIS1RX.RX"/>
 	</bean>
 	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
 	<bean id="pixisTiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
@@ -141,7 +129,7 @@
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="keyNameForMetadataPathTemplate" value="pixis_path_template" />
-		<property name="ndArrayPortVal" value="PIXIS1.CAM"/>
+		<property name="ndArrayPortVal" value="PIXIS1RX.RX"/>
 	</bean>
 	
 	<!-- The Object which gets the ROIs from the client over RMI -->
@@ -156,7 +144,7 @@
 		<property name="pluginName" value="pixis_RoiStats1" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIXIS-01:ROI1:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIXIS-01:STAT1:" />
-		<property name="roiInputNdArrayPort" value="PIXIS1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIXIS1RX.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -170,7 +158,7 @@
 		<property name="pluginName" value="pixis_RoiStats2" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIXIS-01:ROI2:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIXIS-01:STAT2:" />
-		<property name="roiInputNdArrayPort" value="PIXIS1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIXIS1RX.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -184,7 +172,7 @@
 		<property name="pluginName" value="pixis_RoiStats3" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIXIS-01:ROI3:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIXIS-01:STAT3:" />
-		<property name="roiInputNdArrayPort" value="PIXIS1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIXIS1RX.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -198,7 +186,7 @@
 		<property name="pluginName" value="pixis_RoiStats4" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIXIS-01:ROI4:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIXIS-01:STAT4:" />
-		<property name="roiInputNdArrayPort" value="PIXIS1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIXIS1RX.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -212,7 +200,7 @@
 		<property name="pluginName" value="pixis_RoiStats5" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIXIS-01:ROI5:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIXIS-01:STAT5:" />
-		<property name="roiInputNdArrayPort" value="PIXIS1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIXIS1RX.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -226,7 +214,7 @@
 		<property name="pluginName" value="pixis_RoiStats6" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIXIS-01:ROI6:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIXIS-01:STAT6:" />
-		<property name="roiInputNdArrayPort" value="PIXIS1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIXIS1RX.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
