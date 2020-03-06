@@ -14,8 +14,8 @@ import installation
 from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import ContinuousPgmGratingIDGapEnergyMoveController
 import java
 
-""" This scannable uses the motor controller to just control the motor and calculates the
-    actual position from the position callables provided by the specified pitch motors.
+""" This scannable uses the given motor controller to control the motor motion and calculates the
+    actual energy position from the position callables provided by the specified 2 PGM pitch motors.
 """
 class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
     """ Since the binpoints are slaved from a multi channel scaler card, motion will fail if the
@@ -27,14 +27,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     def __init__(self, name, move_controller, binpointGrtPitch, binpointMirPitch, binpointPgmEnergy):
         self.logger = LoggerFactory.getLogger("ContinuousMovePgmEnergyBinpointScannable:%s" % name)
         self.verbose = False
-        
         self.name = name
-        #from gda.device.continuouscontroller import ConstantVelocityMoveController
-        #self._move_controller = ConstantVelocityMoveController() # Enable completion of interface methods
-        #self._binpointGrtPitch = PositionCallableProvider() # Enable completion of interface methods
-        #self._binpointGrtPitch = ScannableMotionBase()      # Enable completion of class methods
-        #self._binpointMirPitch = PositionCallableProvider() # Enable completion of interface methods
-        #self._binpointMirPitch = ScannableMotionBase()      # Enable completion of class methods
 
         self._move_controller = move_controller
         self._binpointGrtPitch = binpointGrtPitch
@@ -188,7 +181,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
     def isBusy(self):
         if self._operating_continuously:
-            return self.mybusy #self._move_controller.isBusy()
+            return self.mybusy #don't call self._move_controller.isBusy(), as this is used to set up position callable before actual move in continue scan
         else:
             if isinstance(self._move_controller, ContinuousPgmGratingIDGapEnergyMoveController):
                 return self._move_controller._id_energy.isBusy()

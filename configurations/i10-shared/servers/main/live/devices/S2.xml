@@ -34,7 +34,7 @@
 	</bean>
 
 	<bean id="s2ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL10I-AL-SLITS-02:YSIZE"/>
+		<property name="pvName" value="BL10I-AL-SLITS-02:YCENTRE"/>
 	</bean>
 	
 	<!-- CAS Epics Monitor -->
