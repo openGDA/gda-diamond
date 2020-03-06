@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="xcam_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}xcamRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<import resource="../_common/xcam_controls.xml"/>
+	<bean id="xcam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="XCAM" />
+		<property name="url" value="http://bl21i-di-serv-03.diamond.ac.uk:8097/XCAM.mjpg.mjpg" />
+		<property name="arrayPv" value="BL21I-EA-DET-03:ARR" />
+		<property name="roiProvider" ref="xcam_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="xcam_expsure_time_control" />
+						<ref bean="xcam_acquire_period_control"/>
+						<ref bean="xcam_time_remaining" />
+						<ref bean="xcam_time_remaining_progress" />
+					</list>				
+				</property>
+				<property name="cameraState">
+					<bean id="xcamCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="pvName" value="BL21I-EA-DET-03:CAM:Acquire"/>
+						<property name="stateVariableName" value="i21.xcam.live.stream.active"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="bottomUi">
+			<bean class="uk.ac.gda.beamline.i21.views.RixsSpectrumView">
+				<property name="xSizeHint" value="200"/>
+				<property name="ySizeHint" value="350"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

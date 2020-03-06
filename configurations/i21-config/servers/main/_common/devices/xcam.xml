@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xcamCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="imageMode" value="0" /> <!-- single image mode -->
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="triggerMode" value="3"/>
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="xcam_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+	<bean id="xcamCollectionStrategy_Multiple"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="imageMode" value="1" /> <!-- multiple image mode -->
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="triggerMode" value="3"/>
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="xcam_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="xcamCollectionStrategy_triggered"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="imageMode" value="0" /> <!-- single image mode -->
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="triggerMode" value="2"/>
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="xcam_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+	<!-- use EPICS HDF5 plugin to write raw data to file -->
+	<bean id="xcamHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
+		<property name="ndFileHDF5" ref="xcam_hdf5"/>
+		<property name="fileNameTemplate" value="xcam"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+	<!-- use EPICS HDF plugin to write XIP data to file -->
+	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
+		<property name="name" value="xip1"/>
+		<property name="ndFileHDF5" ref="xcam_xip1_hdf5"/>
+		<property name="fileNameTemplate" value="xcam-xip1"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
+		<property name="name" value="xip2"/>
+		<property name="ndFileHDF5" ref="xcam_xip2_hdf5"/>
+		<property name="fileNameTemplate" value="xcam-xip2"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+	<!-- used with live stream view -->
+ 	<bean id="xcam" class="gda.device.detector.NXDetector">
+		<property name="name" value="xcam" />
+		<property name="collectionStrategy" ref="xcamCollectionStrategy_triggered" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xcam_RoiStats1" />
+				<ref bean="xcam_RoiStats2" />
+				<ref bean="xcam_RoiStats3" />
+				<ref bean="xcam_RoiStats4" />
+				<ref bean="xcam_RoiStats5" />
+				<ref bean="xcam_RoiStats6" />
+				<ref bean="xcamHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="xcamxip" class="gda.device.detector.NXDetector">
+		<property name="name" value="xcamxip" />
+		<property name="collectionStrategy" ref="xcamCollectionStrategy_triggered" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xcam_RoiStats1" />
+				<ref bean="xcam_RoiStats2" />
+				<ref bean="xcam_RoiStats3" />
+				<ref bean="xcam_RoiStats4" />
+				<ref bean="xcam_RoiStats5" />
+				<ref bean="xcam_RoiStats6" />
+				<ref bean="xcamHdf5Filewriter" />
+				<ref bean="xcamXip1Hdf5Filewriter" />
+				<ref bean="xcamXip2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="mixcam" class="gda.device.detector.NXDetector">
+		<property name="name" value="xcam" />
+		<property name="collectionStrategy" ref="xcamCollectionStrategy_Multiple" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xcam_RoiStats1" />
+				<ref bean="xcam_RoiStats2" />
+				<ref bean="xcam_RoiStats3" />
+				<ref bean="xcam_RoiStats4" />
+				<ref bean="xcam_RoiStats5" />
+				<ref bean="xcam_RoiStats6" />
+				<ref bean="xcamHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+<!-- ADDetector used in new scanning -->
+	<bean id="xcam_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="xcamCollectionStrategy"/>
+		<property name="adBase" ref="xcam_adbase" />
+		<property name="ndFile" ref="xcam_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="xcam_ndarray" />
+		<property name="ndStats" ref="xcam_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="xcamHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="xcamModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="xcam_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="xcamInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i21.xcam.DeviceInformation" />
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor" />
+	</bean>
+
+	<bean id="xcam_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="xcam_addetector" />
+		<property name="model" ref="xcamModel" />
+		<property name="deviceInformation" ref="xcamInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+
+</beans>

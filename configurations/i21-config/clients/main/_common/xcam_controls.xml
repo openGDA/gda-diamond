@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- XCAM Controls in Live Stream Views-->
+	<bean id="xcam_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
+		<property name="displayName" value="Time remain"/>
+		<property name="group" value="XCAM" />
+		<property name="observable" ref="xcamCountdown" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="xcam_time_remaining_progress" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownProgressBarControl">
+		<property name="displayName" value=""/>
+		<property name="group" value="XCAM" />
+		<property name="observable" ref="xcamCountdownProgress" />
+		<property name="barWidth" value="110"/>
+	</bean>
+	<bean id="xcam_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="XCAM" />
+		<property name="scannableName" value="xcamExposureTime"/>
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="xcam_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="XCAM" />
+		<property name="scannableName" value="xcamAcquirePeriod" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+<!-- 	<bean id="xcamShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl"> -->
+<!-- 		<property name="jythonCommand" value="xcamshutter.moveTo('Open')" /> -->
+<!-- 		<property name="buttonText" value="Open Shutter" /> -->
+<!-- 		<property name="group" value="XCAM" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="xcamShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl"> -->
+<!-- 		<property name="jythonCommand" value="xcamshutter.moveTo('Close')" /> -->
+<!-- 		<property name="buttonText" value="Close Shutter" /> -->
+<!-- 		<property name="group" value="XCAM" /> -->
+<!-- 	</bean> -->
+	
+</beans>
