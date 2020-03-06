@@ -200,7 +200,7 @@
 					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
 						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
 						<property name="decoratee">
 							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
@@ -223,7 +223,7 @@
 					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
 						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
 						<property name="decoratee">
 							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
@@ -247,7 +247,7 @@
 					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
 						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
 						<property name="decoratee">
 							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />

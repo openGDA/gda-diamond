@@ -115,8 +115,6 @@ class EnergyConsolidationClass(ScannableMotionBase):
 		self.switchMotor();
 # 		currentPos = self.getPosition()
 # 		if self.skipDuplicateMoveOptimisation or not self.inPositionTolerance or (abs(newPos-currentPos) > self.inPositionTolerance):
-		if self.energy.isBusy(): #ID218
-			raise "Hardware is busy, so could not be moved at the moment!"
 		self.energy.asynchronousMoveTo(newPos);
 # 			self.skipDuplicateMoveOptimisation=False
 # 		else:
