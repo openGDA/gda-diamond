@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- MAGJ1 -->
+
+	<!-- 
+	<bean id="magj1yins_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+	<bean id="emy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10J-MO-CRYO-01:Y" />
+	</bean>
+
+	<!-- 
+	<bean id="magj1yrot_motor" class="gda.device.motor.DummyMotor" />
+	 -->
+	<bean id="empitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10J-MO-CRYO-01:PITCH" />
+	</bean>
+
+</beans>

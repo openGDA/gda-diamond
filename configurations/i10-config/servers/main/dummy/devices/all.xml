@@ -53,6 +53,7 @@
 	<import resource="MAGJ1.xml"/>
 
 	<import resource="LakeShore.xml"/>
+	<import resource="EM.xml"/>
 	
 	<!-- Temporary devices -->
 	<import resource="Zebra.xml"/>

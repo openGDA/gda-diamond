@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- MAGJ1 -->
+
+	<bean id="emy_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.1" />
+		<property name="maxPosition" value="23.1" />
+		<property name="speed" value="0.4" />
+		<property name="unitString" value="mm"/>
+	</bean>	
+	<bean id="empitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-109" />
+		<property name="maxPosition" value="67" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="deg"/>
+	</bean>	
+
+</beans>

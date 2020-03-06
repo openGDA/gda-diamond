@@ -44,5 +44,6 @@
 	
 	<import resource="LakeShore.xml"/>
 <!-- 	<import resource="xmap_detector.xml"/> --><!-- xmapMca and _xmap for MCA mapping mode- requires trigger -->
+	<import resource="EM.xml"/>
 
 </beans>
