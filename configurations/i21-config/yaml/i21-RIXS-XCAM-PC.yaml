@@ -1,0 +1,83 @@
+entry_1/:
+  NX_class@: NXentry # the '@' has to come at the end as 
+  start_time: /entry/start_time
+  end_time: /entry/end_time
+  definition: NXrixs
+  default@: data
+  instrument/:
+    NX_class@: NXinstrument
+    xcam/: 
+      NX_class@: NXdetector
+      data: /entry/instrument/xcam/data
+      module:
+        NX_class@: NXdetector_module
+        data_origin: 0,0
+        data_size: 128,235
+        fast_pixel_direction: 12.5
+          depends_on@: module_offset
+          offset@: [0.,0.,0.]
+          transformation_type@: translation
+          units@: um
+          vector@: [-1,0,0]
+        slow_pixel_direction: 12.5
+          depends_on@: module_offset
+          offset@: [0.,0.,0.]
+          transformation_type@: translation
+          units@: um
+          vector@: [0,-1,0] # will have to be calculated from camera angle (zero for normal incidence with beam pipe [0, -cos(angle), sin(angle)], +ve is downward)
+        module_offset: 0
+          depends_on@: "/entry_1/instrument/xcam/transformations/origin_offset"
+          offset@: [0.,0.,0.]
+          transformation_type@: translation
+          units@: mm
+          vector@: [0,0,0]
+        transformations/:
+          NX_class@: NXtransformation
+          origin_offset:
+            depends_on@: module_offset
+            offset@: [0.,0.,0.]
+            transformation_type@: translation
+            units@: m
+            vector@: [0,0,12.5] # not sure if this is useful
+      angle: /entry/instrument/before_scan/camera_angle
+      energy_direction: slow # or fast, indicates the dimension in which energy varies in the 2D image data
+      photoelectrons_energy: # energy required for electron-hole pair
+        units@: eV
+      detector_sensitivity: # gain  in ADu / e^-
+    source/: 
+      NX_class@: NXsource
+      name: Diamond Light Source
+      energy: 3 GeV
+      probe: x-ray
+      type: Synchrotron X-ray Source
+  sample/:
+    NX_class@: NXsample
+    name: /entry/sample/name
+    description: /entry/sample/description
+    beam/:
+      NX_class@: NXbeam
+      incident_energy: /entry/instrument/PlaneGratingMonochromator/pgm_energy  
+        units@: eV
+  data/: # or link to group
+    NX_class@: NXdata
+    signal@: data
+    axes@: "[x, y, ., .]" # whichever nested scannables here as axes
+    x: /entry/instrument/x/value # whichever scannables here as alternative axes
+    x_indices@: 0
+    y: /entry/instrument/y/value
+    y_indices@: 1
+    data: /entry/instrument/detector/data
+
+  processed1/: # similar for processed2 for ROI 2
+    default@: centroids 
+    NX_class@: NXsubentry
+    xip/:
+      NX_class@: NXprocess
+      program: XIP
+      version: "1.2.3"
+      parameters/: /entry/instrument/NDAttributes # external link to xip file
+    centroids/:
+      NX_class@: NXdata
+        signal@: data
+        data: /entry/instrument/xcamxip/xip1
+        # plus axes (should be the same as raw image's NXdata group)
