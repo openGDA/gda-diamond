@@ -17,7 +17,7 @@
 	<bean id="idenergy_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="250.0" />
 		<property name="maxPosition" value="4400.0" />
-		<property name="position" value="724.18" />
+		<property name="position" value="310.09" />
 	 	<property name="unitString" value="eV"/>
 	 	<property name="speed" value="100"/>
 	</bean>
