@@ -1,0 +1,45 @@
+entry_1/:
+  NX_class@: NXentry # the '@' has to come at the end as 
+  start_time: /entry/start_time
+  end_time: /entry/end_time
+  definition: NXrixs
+  instrument_1/:
+    NX_class@: NXinstrument
+    detector_1/: 
+      NX_class@: NXdetector
+      axes@: "[, data]"
+      signal@: data
+      data: /entry/instrument/xcamxip/data
+      xip1data: /entry/instrument/xcamxip/xip1
+      xip2data: /entry/instrument/xcamxip/xip2
+      x_pixel_size: /entry/instrument/before_scan/xcam_binned_pixel_size_x
+      y_pixel_size: /entry/instrument/before_scan/xcam_binned_pixel_size_y
+      angle: /entry/instrument/before_scan/camera_angle
+    source_1/: 
+      NX_class@: NXsource
+      name: Diamond Light Source
+      energy: 300 GeV
+      probe: X-ray
+      type: Synchrotron
+    beam_1/:
+      NX_class@: NXbeam
+      energy: /entry/instrument/PlaneGratingMonochromator/pgm_energy
+      incident_beam_energy: /entry/instrument/PlaneGratingMonochromator/pgm_energy      
+  sample/:
+    NX_class@: NXsample
+    name: /entry/sample/name
+    description: /entry/sample/description
+  data/: # or link to group
+    NX_class@: NXdata
+    signal@: data
+    x: /entry/instrument/x/value
+    y: /entry/instrument/y/value
+    z: /entry/instrument/z/value
+    th: /entry/instrument/th/value
+    phi: /entry/instrument/phi/value
+    chi: /entry/instrument/chi/value
+    data: /entry/instrument/xcamxip/data
+    data_ROIs: /entry/instrument/xcamxip/rois
+    xip1data: /entry/instrument/xcamxip/xip1
+    xip2data: /entry/instrument/xcamxip/xip2
+    

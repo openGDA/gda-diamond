@@ -1,0 +1,38 @@
+entry_1/:
+  NX_class@: NXentry # the '@' has to come at the end as 
+  start_time: /entry/start_time
+  end_time: /entry/end_time
+  definition: NXcxi_ptycho
+  instrument_1/:
+    NX_class@: NXinstrument
+    detector_1/: 
+      NX_class@: NXdetector
+      axes@: "[, data]"
+      signal@: data
+      data: /entry/instrument/andor_addetector/data
+      x_pixel_size: /entry/instrument/andor_information/andor_binned_pixel_size_x
+      y_pixel_size: /entry/instrument/andor_information/andor_binned_pixel_size_y
+      distance: /entry/instrument/andor_information/ptychography_distance
+    source_1/: 
+      NX_class@: NXsource
+      name: Diamond Light Source
+      energy: 300 GeV
+      probe: X-ray
+      type: Synchrotron
+    beam_1/:
+      NX_class@: NXbeam
+      energy: /entry/instrument/PlaneGratingMonochromator/pgm_energy
+      incident_beam_energy: /entry/instrument/PlaneGratingMonochromator/pgm_energy      
+  sample/:
+    NX_class@: NXsample
+    name: /entry/sample/name
+    description: /entry/sample/description
+  data/: # or link to group
+    NX_class@: NXdata
+    signal@: data
+    x_indices: /entry/andor_addetector/SampleX_indices
+    y_indices: /entry/andor_addetector/SampleY_indices
+    x: /entry/instrument/SampleX/value
+    y: /entry/instrument/SampleY/value
+    data: /entry/instrument/andor_addetector/data
+    data_sum: /entry/instrument/andor_addetector/sum
