@@ -26,17 +26,17 @@ mcscontroller  = McsWaveformChannelController('mcscontroller', 'BL09L-VA-SCLR-01
 mcscontroller.exposure_time_offset=0.001
 
 # Binpoint is slaved from (triggered by) scaler (mcscontroller)    BL09J-CS-CSCAN-01:IDPGM:BINPOINTALL:TRIGGER
-binpointc = BinpointWaveformChannelController('binpointc', 'BL21I-CS-CSCAN-01:', 'IDPGM:BINPOINTALL:'); binpointc.verbose=True
+binpointc = BinpointWaveformChannelController('binpointc', 'BLTST-LPT-DEV-01:', 'JUMP:BPTS:BINPOINTALL:'); binpointc.verbose=True
 
-energy_move_controller = ContinuousPgmEnergyIDGapMoveController('energy_move_controller', __main__.jenergy, 'SR09J-MO-SERVC-01:'); energy_move_controller.verbose=True
-#hm3amp20
-draincurrent = WaveformChannelScannable('draincurrent', mcscontroller, 2); draincurrent.setHardwareTriggerProvider(energy_move_controller); draincurrent.verbose=True
-#sm5amp8
-diff1 = WaveformChannelScannable('diff1', mcscontroller, 3); diff1.setHardwareTriggerProvider(energy_move_controller); diff1.verbose=True
+energy_move_controller = ContinuousPgmEnergyIDGapMoveController('energy_move_controller', __main__.energy, 'SR21I-MO-SERVC-01:'); energy_move_controller.verbose=True
+#draincurrent
+draincurrent_c = WaveformChannelScannable('draincurrent_c', mcscontroller, 2); draincurrent_c.setHardwareTriggerProvider(energy_move_controller); draincurrent_c.verbose=True
+#diff1
+diff1_c = WaveformChannelScannable('diff1_c', mcscontroller, 3); diff1_c.setHardwareTriggerProvider(energy_move_controller); diff1_c.verbose=True
 
 binpointPgmEnergy = WaveformChannelScannable('binpointPgmEnergy', binpointc, 'B1:'); binpointPgmEnergy.setHardwareTriggerProvider(energy_move_controller); binpointPgmEnergy.verbose=True
 binpointIdGap     = WaveformChannelScannable('binpointIdGap',     binpointc, 'B2:'); binpointIdGap.setHardwareTriggerProvider(energy_move_controller);     binpointIdGap.verbose=True
 
-cenergy = ContinuousMovePgmEnergyIDGapBinpointScannable('cenergy', energy_move_controller, binpointPgmEnergy, binpointIdGap); cenergy.verbose=True
+energy_c = ContinuousMovePgmEnergyIDGapBinpointScannable('energy_c', energy_move_controller, binpointPgmEnergy, binpointIdGap); energy_c.verbose=True
 
 # cvscan cenergy 695 705 1 mcs2 2 mcs3 2 mcs4 2 mcs5 2  binpointPgmEnergy binpointIdGap binpointMcaTime 
