@@ -19,4 +19,12 @@
 		<property name="pvName" value="BL08J-EA-TABLE-01:YF" />
 	</bean>
 
+	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-TABLE-01:X" />
+	</bean>
+
+	<bean id="sample_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-TABLE-01:Y" />
+	</bean>
+
 </beans>

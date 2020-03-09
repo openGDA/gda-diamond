@@ -37,4 +37,20 @@
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
+	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="position" value="-0.010016" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="sample_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="position" value="0.010046" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
 </beans>
