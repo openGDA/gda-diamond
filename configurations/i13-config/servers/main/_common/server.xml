@@ -70,6 +70,7 @@
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco1.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco1_aux.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/hamamatsu.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam01_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam02_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam03_motors.xml" />
@@ -86,7 +87,7 @@
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/pinhole_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/zone_plate_motors.xml" />
-	<import resource="file:${gda.config}/devices/${gda.mode}/phase_ring_motors.xml" />
+	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/phase_ring_motors.xml" /> -->
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/fast_shutter.xml" />
 
@@ -143,7 +144,7 @@
 	<!-- <import resource="file:${gda.config}/devices/_common/newport_stage.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/pinhole.xml" />
 	<import resource="file:${gda.config}/devices/_common/zone_plate.xml" />
-	<import resource="file:${gda.config}/devices/_common/phase_ring.xml" />
+	<!-- <import resource="file:${gda.config}/devices/_common/phase_ring.xml" /> -->
 	<import resource="file:${gda.config}/devices/_common/translation_stage.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/d1.xml" />
