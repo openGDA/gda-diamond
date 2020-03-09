@@ -541,6 +541,10 @@ class PostScanRunnable(Runnable):
         self.shutter.moveTo(self.shutterPosition)
         updateProgress(self.percentage, self.msg)
 
+
+def getCameraModel():
+    return(caget('BL13I-EA-DET-01:CAM:Model_RBV'))
+
 """
 perform a continuous tomography scan
 """
@@ -559,7 +563,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     flatFieldInterval - number of projections between each flat field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
     imagesPerDark - number of images to be taken for each dark (default=20)
     imagesPerFlat - number of images to be taken for each flat (default=20)
-    min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
+    min_i - Don't use - minimum value of ion chamber current required to take an image (default is -1. A negative value means that the value is not checked.)
     setupForAlignment - advanced use
     autoAnalyse - advanced use
     closeShutterAfterFlats -
@@ -644,27 +648,50 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             from gda.device.scannable import DummyScannable
             from gda.jython import InterfaceProvider
             _dct = {}
-            _dct.update({'BL13I-EA-DET-01:CAM:': {}}) # pco 4000
-            _dct['BL13I-EA-DET-01:CAM:'].update({'model': 'BL13I-EA-DET-01:CAM:Model_RBV'})
-            _dct['BL13I-EA-DET-01:CAM:'].update({'focus_name': 'BL13I-MO-CAM-01:FOCUS:MP:RBV:CURPOS'})
-            _dct['BL13I-EA-DET-01:CAM:'].update({'focus': 'BL13I-MO-CAM-01:FOCUS.RBV'})
-            _dct['BL13I-EA-DET-01:CAM:'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
-            _dct['BL13I-EA-DET-01:CAM:'].update({'turret_name': 'BL13I-MO-CAM-01:TURRET:MP:RBV:CURPOS'})
-            _dct['BL13I-EA-DET-01:CAM:'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
-            _dct['BL13I-EA-DET-01:CAM:'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
+            # when two IOCs (each with a different prefix) are running at the same time, one for Edge and the other for 4000
+            #_dct.update({'BL13I-EA-DET-01:CAM:': {}}) # pco 4000
+            #_dct['BL13I-EA-DET-01:CAM:'].update({'model': 'BL13I-EA-DET-01:CAM:Model_RBV'})
+            #_dct['BL13I-EA-DET-01:CAM:'].update({'focus_name': 'BL13I-MO-CAM-01:FOCUS:MP:RBV:CURPOS'})
+            #_dct['BL13I-EA-DET-01:CAM:'].update({'focus': 'BL13I-MO-CAM-01:FOCUS.RBV'})
+            #_dct['BL13I-EA-DET-01:CAM:'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
+            #_dct['BL13I-EA-DET-01:CAM:'].update({'turret_name': 'BL13I-MO-CAM-01:TURRET:MP:RBV:CURPOS'})
+            #_dct['BL13I-EA-DET-01:CAM:'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
+            #_dct['BL13I-EA-DET-01:CAM:'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
 
-            _dct.update({'BL13I-EA-DET-02:CAM:': {}}) # pco EDGE
-            _dct['BL13I-EA-DET-02:CAM:'].update({'model': 'BL13I-EA-DET-02:CAM:Model_RBV'})
-            _dct['BL13I-EA-DET-02:CAM:'].update({'focus_name': 'BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS'})
-            _dct['BL13I-EA-DET-02:CAM:'].update({'focus': 'BL13I-MO-CAM-02:FOCUS.RBV'})
-            _dct['BL13I-EA-DET-02:CAM:'].update({'turret': 'BL13I-MO-CAM-02:TURRET:P:UPD.D'})
-            _dct['BL13I-EA-DET-02:CAM:'].update({'turret_name': 'BL13I-MO-CAM-02:TURRET:MP:RBV:CURPOS'})
-            _dct['BL13I-EA-DET-02:CAM:'].update({'pixel_rate': 'BL13I-EA-DET-02:CAM:PIX_RATE'})
-            _dct['BL13I-EA-DET-02:CAM:'].update({'adc_mode': 'BL13I-EA-DET-02:CAM:ADC_MODE'})
+            #_dct.update({'BL13I-EA-DET-02:CAM:': {}}) # pco EDGE
+            #_dct['BL13I-EA-DET-02:CAM:'].update({'model': 'BL13I-EA-DET-02:CAM:Model_RBV'})
+            #_dct['BL13I-EA-DET-02:CAM:'].update({'focus_name': 'BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS'})
+            #_dct['BL13I-EA-DET-02:CAM:'].update({'focus': 'BL13I-MO-CAM-02:FOCUS.RBV'})
+            #_dct['BL13I-EA-DET-02:CAM:'].update({'turret': 'BL13I-MO-CAM-02:TURRET:P:UPD.D'})
+            #_dct['BL13I-EA-DET-02:CAM:'].update({'turret_name': 'BL13I-MO-CAM-02:TURRET:MP:RBV:CURPOS'})
+            #_dct['BL13I-EA-DET-02:CAM:'].update({'pixel_rate': 'BL13I-EA-DET-02:CAM:PIX_RATE'})
+            #_dct['BL13I-EA-DET-02:CAM:'].update({'adc_mode': 'BL13I-EA-DET-02:CAM:ADC_MODE'})
 
-            det_base_pv=tomography_flyscan_det.getCollectionStrategy().getAdBase().getBasePVName()
+            # when only a single IOC (with prefix 'BL13I-EA-DET-01') is running at any one time for either Edge or 4000 
+            _dct.update({'pco.4000': {}}) # pco 4000
+            _dct['pco.4000'].update({'model': 'BL13I-EA-DET-01:CAM:Model_RBV'})
+            _dct['pco.4000'].update({'focus_name': 'BL13I-MO-CAM-01:FOCUS:MP:RBV:CURPOS'})
+            _dct['pco.4000'].update({'focus': 'BL13I-MO-CAM-01:FOCUS.RBV'})
+            _dct['pco.4000'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
+            _dct['pco.4000'].update({'turret_name': 'BL13I-MO-CAM-01:TURRET:MP:RBV:CURPOS'})
+            _dct['pco.4000'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
+            _dct['pco.4000'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
+
+            _dct.update({'pco.edge': {}}) # pco EDGE
+            _dct['pco.edge'].update({'model': 'BL13I-EA-DET-01:CAM:Model_RBV'})
+            _dct['pco.edge'].update({'focus_name': 'BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS'})
+            _dct['pco.edge'].update({'focus': 'BL13I-MO-CAM-02:FOCUS.RBV'})
+            _dct['pco.edge'].update({'turret': 'BL13I-MO-CAM-02:TURRET:P:UPD.D'})
+            _dct['pco.edge'].update({'turret_name': 'BL13I-MO-CAM-02:TURRET:MP:RBV:CURPOS'})
+            _dct['pco.edge'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
+            _dct['pco.edge'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
+
+            #det_base_pv=tomography_flyscan_det.getCollectionStrategy().getAdBase().getBasePVName()
+            #print("det_base_pv = %s" %(det_base_pv))
+            cam_model = getCameraModel()
             #meta_add(_dct[det_base_pv])
             #det_base_pv='BL13I-EA-DET-02'
+            print("cam_model = %s" %(cam_model))
             try:
                 det_cfg()
                 meta_rm = jns.meta_rm
@@ -679,7 +706,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
                 
             det_cfg = ScannableGroup()
             det_cfg.setName("det_cfg")
-            for k, v in _dct[det_base_pv].iteritems():
+            for k, v in _dct[cam_model].iteritems(): 		#_dct[det_base_pv].iteritems():
                 print k,v
                 det_cfg.addGroupMember(StringDisplayEpicsPVClass(k,v))
             

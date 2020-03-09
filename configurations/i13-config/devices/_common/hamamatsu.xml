@@ -1,0 +1,93 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="pco1_singleExposurePcoSoftwareTrigger" class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".03" />
+	</bean>
+
+	<bean id="pco1_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".03" />
+	</bean>
+
+	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="64"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="64"/>
+		<property name="framesFlush" value="64"/>
+		<property name="lazyOpen" value="true"/>
+		<!-- <property name="boundaryAlign" value="1048576"/> -->
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="0"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="0"/>
+		<property name="framesFlush" value="0"/>
+		<property name="lazyOpen" value="true"/>
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<bean id="hama_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="hama"/>
+		<property name="ndFile" ref="hama_ndfiletif" />
+		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+		<property name="waitForFileArrival" value="true"/>
+		<property name="pathErrorSuppressed" value="true"></property>
+	</bean>
+
+	<!--  Use External Only triggering as otherwise the PCo EPICS driver will also send software triggers -->
+<!-- 	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".001" />
+		<constructor-arg ref="adDriverPco1" />
+		<property name="etfg" ref="tfg"/>
+		<property name="triggerMode" value="EXTERNAL_ONLY"/>
+	</bean>
+
+	<bean id="flyScanFlatDarkCollectionStrategy" parent="pco1_singleExposurePco"/>
+
+	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
+				<entry key="pco1_arr" value-ref="pco1_arr" />
+				<entry key="pco1_ffmpeg1" value-ref="pco1_ffmpeg1" />
+				<entry key="pco1_roi1" value-ref="pco1_roi1" />
+				<entry key="pco1_proc1" value-ref="pco1_proc1" />
+				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
+				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
+				<entry key="pco1_stat" value-ref="pco1_stat"/>
+				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
+				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
+				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
+				<entry key="adDriverPco1" value-ref="adDriverPco1"/>
+			</util:map>
+		</property>
+	</bean>
+ -->
+</beans>
