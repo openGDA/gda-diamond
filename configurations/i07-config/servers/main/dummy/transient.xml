@@ -19,5 +19,7 @@
 
 	<import resource="transient/flight_tube.xml" />
 
+	<import resource="transient/xmap.xml" />
+
 
 </beans>

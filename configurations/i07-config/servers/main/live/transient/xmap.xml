@@ -220,7 +220,7 @@
 		<property name="numberOfElements" value="1" />
 	</bean>
 
-
+	<import resource="../../_common/transient/xmap.xml" />
 
 
 </beans>

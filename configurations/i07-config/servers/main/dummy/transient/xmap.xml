@@ -9,6 +9,6 @@
 		<property name="numberOfROIs" value="10" />
 	</bean>
 
-
+	<import resource="../../_common/transient/xmap.xml" />
 
 </beans>
