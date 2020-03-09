@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="_fshutterDelay"
+		class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fastshutter" />
+				<bean id="_fsWait"
+					class="gda.device.scannable.TimeDelayScannable">
+					<property name="name" value="_fsWait" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fastshutterScan"
+		class="gda.device.scannable.TogglerScannable">
+		<constructor-arg ref="_fshutterDelay" />
+		<property name="startValue">
+			<list>
+				<value>1</value>
+				<value>0.5</value>
+			</list>
+		</property>
+		<property name="endValue">
+			<list>
+				<value>0</value>
+				<value>0</value>
+			</list>
+		</property>
+		<property name="hook">
+			<value>AT_LEVEL</value>
+		</property>
+		<property name="level" value="100" />
+	</bean>
+
+</beans>

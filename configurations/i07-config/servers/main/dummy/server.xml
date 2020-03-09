@@ -16,43 +16,6 @@
 
 	<import resource="ebe.xml" />
 
-	<bean id="fastshutter" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="fastshutter" />
-		<property name="level" value="6" />
-	</bean>
-
-	<bean id="_fshutterDelay" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="fastshutter" />
-				<bean id="_fsWait" class="gda.device.scannable.TimeDelayScannable">
-					<property name="name" value="_fsWait" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="fastshutterScan" class="gda.device.scannable.TogglerScannable">
-		<constructor-arg ref="_fshutterDelay" />
-		<property name="startValue">
-			<list>
-				<value>1</value>
-				<value>0.5</value>
-			</list>
-		</property>
-		<property name="endValue">
-			<list>
-				<value>0</value>
-				<value>0</value>
-			</list>
-		</property>
-		<property name="hook">
-			<value>AT_LEVEL</value>
-		</property>
-		<property name="level" value="100" />
-	</bean>
-
-
 	<import resource="sim_addetector.xml" />
 	<import resource="slits.xml" />
 
@@ -79,6 +42,8 @@
 	<import resource="detectors/xrayeye.xml" />
 	<import resource="detectors/dcam8.xml" />
 	<import resource="detectors/xmap.xml" />
+
+	<import resource="devices/fastshutter.xml" />
 
 	<import resource="server_core.xml" />
 	
