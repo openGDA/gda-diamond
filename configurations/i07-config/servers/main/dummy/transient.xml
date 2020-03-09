@@ -17,5 +17,7 @@
 
 	<import resource="transient/stage.xml" />
 
+	<import resource="transient/flight_tube.xml" />
+
 
 </beans>

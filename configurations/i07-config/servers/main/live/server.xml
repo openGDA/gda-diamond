@@ -19,9 +19,6 @@
 	<import resource="server_epics.xml" />
 	<import resource="eh2_epics.xml" />
 
-
-	<import resource="flight_tube.xml" />
-
 	<!-- Pilatus using the AreaDetector Interface -->
 
 	<import resource="fastpil1.xml" />

@@ -2,16 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ftbsx_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="ftbsy_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="ftrbsx_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="ftrbsy_motor" class="gda.device.motor.DummyMotor"/>
-
 	<bean id="ftbsx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftbsx_motor" />
+
 	</bean>
 	<bean id="ftbsy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftbsy_motor" />
@@ -23,7 +16,8 @@
 		<property name="motor" ref="ftrbsy_motor" />
 	</bean>
 
-	<bean id="FT" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="FT"
+		class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="ftbsx" />
@@ -34,6 +28,4 @@
 		</property>
 	</bean>
 
-
 </beans>
-    

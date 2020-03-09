@@ -1,4 +1,3 @@
-<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
@@ -16,29 +15,6 @@
 		<property name="pvName" value="BL07I-MO-FLITE-01:RBEAMSTOP:Y" />
 	</bean>
 
-	<bean id="ftbsx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ftbsx_motor" />
-
-	</bean>
-	<bean id="ftbsy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ftbsy_motor" />
-	</bean>
-	<bean id="ftrbsx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ftrbsx_motor" />
-	</bean>
-	<bean id="ftrbsy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ftrbsy_motor" />
-	</bean>
-
-	<bean id="FT" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="ftbsx" />
-				<ref bean="ftbsy" />
-				<ref bean="ftrbsx" />
-				<ref bean="ftrbsy" />
-			</list>
-		</property>
-	</bean>
+	<import resource="../../_common/transient/flight_tube.xml" />
 
 </beans>
