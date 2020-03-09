@@ -110,8 +110,8 @@ class DummyADTriggerringStrategy(AbstractADTriggeringStrategy):
         return None             #java.lang.Exception: during scan collection: DeviceException: TypeError: None required for void return
     
     def getAcquireTime(self):
-        print "@getAcquireTime!"
-        print "getAcquireTime = %.3f" %(self.collectionTime)
+        #print "@getAcquireTime!"
+        #print "getAcquireTime = %.3f" %(self.collectionTime)
         #print "getAcquireTime = %.3f" %(0.11)
         return self.collectionTime
     
