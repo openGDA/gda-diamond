@@ -8,7 +8,7 @@
 		<property name="message" value="Paused during topup"/>
 		<property name="warmup" value="5000"/>
 		<property name="cooloff" value="4000"/>
-		<property name="modeName" value="ringModeMonitor"/>
+		<property name="modeName" value="topup_mode"/>
 	</bean>
 	
 	<bean id="topupWatchdog" class="org.eclipse.scanning.sequencer.watchdog.TopupWatchdog" init-method="activate">
