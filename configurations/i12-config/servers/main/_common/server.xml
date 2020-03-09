@@ -28,7 +28,7 @@
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/adc3.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/b16_xps.xml" />
+	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/b16_xps.xml" /> -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/camEH1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/camEH1end.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/camEH2.xml"/>
@@ -41,14 +41,14 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam3_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/dac3.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/edxd.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/eulerian_cradle_motors.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/eulerian_cradle_motors.xml"/> -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/eurotherm.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/filters.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/gbc1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/I0eh1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/I0eh2.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/I0oh2.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/i20_aero_motors.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/i20_aero_motors.xml"/> -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/Ioeh1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/Ioeh2.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/Iooh2.xml"/>
@@ -92,7 +92,7 @@
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/GDAMetadata.xml" />
 
-	<import resource="file:${gda.config}/devices/_common/b16_xps.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/_common/b16_xps.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/cam1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/cam3.xml"/>
 	<import resource="file:${gda.config}/devices/_common/camEH1.xml"/>
@@ -109,9 +109,9 @@
 	<import resource="file:${gda.config}/devices/_common/dummy_motors.xml"/>
 	<import resource="file:${gda.config}/devices/_common/dummyAD.xml"/>
 	<import resource="file:${gda.config}/devices/_common/edxd.xml"/>
-	<import resource="file:${gda.config}/devices/_common/eulerian_cradle.xml"/>
-	<import resource="file:${gda.config}/devices/_common/gbc1.xml"/>
-	<import resource="file:${gda.config}/devices/_common/i20_aero.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/_common/eulerian_cradle.xml"/> -->
+	<!-- <import resource="file:${gda.config}/devices/_common/gbc1.xml"/> -->
+	<!-- <import resource="file:${gda.config}/devices/_common/i20_aero.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/lin_stage_eh2.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_ball_position.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_camera_motion.xml"/>
