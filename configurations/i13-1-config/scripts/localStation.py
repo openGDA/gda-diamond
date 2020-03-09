@@ -454,7 +454,7 @@ print(section_sep)
 
 # for vortex to set Preset Mode to 'Real time' (the default is 'No preset')
 try:
-	caput("ME13C-EA-DET-01:PresetMode", 1)
+	caput("ME13C-EA-DET-03:PresetMode", 1)
 except:
 	print("Failed to set Preset Mode on XMAP to 'Real time' - is XMAP present on the beamline and its IOC running?")
 
