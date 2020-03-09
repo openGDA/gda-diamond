@@ -3,12 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pco_x" class="gda.device.scannable.ScannableMotor" >
+
+	<bean id="pco_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pco_x_motor" />
 	</bean>
-	
-	<bean id="pco_z" class="gda.device.scannable.ScannableMotor" >
+
+	<bean id="pco_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pco_z_motor" />
+	</bean>
+	
+	<bean id="imaging_rail" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pco_x" />
+				<ref bean="pco_z" />
+			</list>
+		</property>
 	</bean>
 
 </beans>
