@@ -133,6 +133,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	private void bindElements(Composite parent) {
 		energyButton.addListener(SWT.Selection, event -> {
 			BeamEnergyDialogBuilder builder = new BeamEnergyDialogBuilder();
+			builder.addBeamSelector();
 			builder.addImagingController();
 			builder.addDiffractionController();
 			builder.build(parent.getShell()).open();
