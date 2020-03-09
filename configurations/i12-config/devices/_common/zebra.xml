@@ -40,6 +40,7 @@
 		<constructor-arg ref="pco_hdf_adDriverPco" />
 		<property name="timeStamp" value="2"/>
 		<property name="timeFormat" value="%.5f"/>
+		<property name="triggerMode" value="EXTERNAL_ONLY"/>
 	</bean>
 		
 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">

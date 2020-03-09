@@ -198,8 +198,8 @@ def setZebra2ModeOLD(mode):
     
     
 # public void setValue(String beforeUnderscore, int beforeUnderscoreId, String afterUnderscore, int afterUnderscoreId,int val) throws Exception {
-def setZebra2Mode(mode):
-    print "Started checking Zebra1 set-up."
+def setZebra2Mode_(mode):
+    print "Started checking Zebra1 set-up." #caputStringAsWaveform("BL23I-EA-ZEBRA-01:ZEBRA:CONFIG_FILE", "/dls_sw/i23/epics/zebra/2019-1-14-tomo.zeb")
     #pvNameZebra1 = "BL12I-EA-ZEBRA-01:OUT1_LVDS"
     #if CAClient.get(pvNameZebra1) != 31:
     #    CAClient.put(pvNameZebra1, 31)
@@ -445,6 +445,27 @@ def setZebra2Mode(mode):
     zebra2.setValue("SCAN",-1,"TYPE",-1, mode)
     print "Finished setting Zebra2 to mode = %s" %mode
     
+    
+from epics_scripts.pv_scannable_utils import caputStringAsWaveform
+from gdascripts.utils import caput, caget
+import time
+def setZebra2Mode(mode):
+    z2_step_scan_cfg_file = "/dls_sw/i12/epics/zebra/default-step-z2.zeb"
+    z2_cont_scan_cfg_file = "/dls_sw/i12/epics/zebra/default-continuous-z2.zeb"
+    if mode != 1 and mode != 2:
+        raise Exception("Bad input Zebra2 mode: "+`mode`)
+    
+    if mode == 1:   #step scan
+        caputStringAsWaveform("BL12I-EA-ZEBRA-02:CONFIG_FILE", z2_step_scan_cfg_file)
+        
+    if mode == 2:   #continuous scan
+        caputStringAsWaveform("BL12I-EA-ZEBRA-02:CONFIG_FILE", z2_cont_scan_cfg_file)
+            
+    time.sleep(1)
+    caput("BL12I-EA-ZEBRA-02:CONFIG_READ.PROC", 1)      # tell z2 to read file
+    #caget("BL12I-EA-ZEBRA-02:CONFIG_STATUS")
+    print("Finished setting Zebra2 to mode = %s" %(mode))
+
     
 def setZebra3BeforePixiumFlyScan():
     # set IN1 (BL12I-EA-ZEBRA-03:SOFT_IN:B0) to OFF 
