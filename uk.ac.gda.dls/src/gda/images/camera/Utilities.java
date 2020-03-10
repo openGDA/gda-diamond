@@ -96,7 +96,7 @@ public class Utilities {
 	public static boolean isGonioOnLeftOfImage() {
 		// Get the direction of the z axis wrt the horizontal movement when viewed from the image's viewpoint (this
 		// depends on the camera oreintation wrt the z-axis). It must be assumed that otherwise, the camera views in
-		// the beam vector and its image edges are parallel to the microglide axes)
+		// the beam vector and its image edges are parallel to the sample positioner axes)
 		final String LEFT = "left";
 		final String whichEdgeIsXAxisPositive = LocalProperties.get(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, LEFT);
 		final boolean gonioOnLeftOfImage = !whichEdgeIsXAxisPositive.equalsIgnoreCase(LEFT);
