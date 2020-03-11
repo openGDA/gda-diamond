@@ -183,7 +183,7 @@ public class B18DetectorPreparerTest {
 
 	private void setupMockXmlHelper(FluorescenceDetectorParameters params) throws Exception {
 		PowerMockito.mockStatic(XMLHelpers.class);
-		PowerMockito.when(XMLHelpers.readBean(Matchers.any(), Matchers.<Class<FluorescenceDetectorParameters>>any())).thenReturn(params);
+		PowerMockito.when(XMLHelpers.getBean(Matchers.any())).thenReturn(params);
 	}
 
 	@Test
