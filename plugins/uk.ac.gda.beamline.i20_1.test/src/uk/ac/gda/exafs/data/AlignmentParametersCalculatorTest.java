@@ -1,0 +1,214 @@
+/*-
+ * Copyright © 2020 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package uk.ac.gda.exafs.data;
+
+import static org.junit.Assert.assertEquals;
+
+import java.nio.file.Paths;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.python.core.PyObject;
+import org.python.util.PythonInterpreter;
+
+import gda.TestHelpers;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.factory.Factory;
+import gda.factory.Finder;
+import gda.scan.EdeTestBase;
+import gda.util.exafs.AbsorptionEdge;
+import gda.util.exafs.Element;
+import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalCut;
+import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalType;
+import uk.ac.gda.exafs.data.AlignmentParametersModel.QValue;
+
+
+public class AlignmentParametersCalculatorTest {
+
+	private String ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME = "inputBean";
+	private Scannable me2Position;
+	private Scannable detZPosition;
+
+	private static PythonInterpreter interp;
+	private final double accuracy = 1e-6;
+
+	private double minEnergy = 6500;
+	private double maxEnergy = 20500;
+	private double energyStep = 100;
+
+	@BeforeClass
+	public static void preparePythonInterpreter() {
+		interp = new PythonInterpreter();
+		interp.exec("from uk.ac.gda.exafs.data import AlignmentParametersBean;");
+		interp.exec("import sys\nsys.path.append('"+getScriptDir()+"')"); // add i20-1's script directory to the path
+		interp.exec("from alignment import alignment_parameters;"); // import alignment_parameters script
+	}
+
+	private static String getScriptDir() {
+		// Get path to i20-1 scripts directory
+		String path = AlignmentParametersBean.class.getResource("").getPath();
+		int ind = path.indexOf("uk.ac.gda.beamline");
+		return Paths.get(path.substring(0, ind), "i20-1/scripts").toAbsolutePath().toString();
+	}
+
+	@Before
+	public void prepare() throws Exception {
+		TestHelpers.setUpTest(AlignmentParametersCalculatorTest.class, "test", false);
+		CurrentRealm realm = new CurrentRealm();
+		CurrentRealm.setDefault(realm);
+
+		me2Position= EdeTestBase.createScannableMotor("me2_y_positioner");
+		detZPosition = EdeTestBase.createScannableMotor("det_z");
+
+		setupFinder();
+	}
+
+	private void setupFinder() {
+		final Factory factory = TestHelpers.createTestFactory();
+		factory.addFindable(me2Position);
+		factory.addFindable(detZPosition);
+		Finder.getInstance().addFactory(factory);
+	}
+
+	private AlignmentParametersBean getBean() {
+		double edgeEnergy = Element.getElement("Fe").getEdgeEnergy("K");
+		return new AlignmentParametersBean(CrystalType.Bragg.name(), CrystalCut.Si111.name(), QValue.Q_0_8.getQValue(), "xh",
+				new AbsorptionEdge("Fe", "K", edgeEnergy));
+	}
+
+	private AlignmentParametersBean getBean(double energy, CrystalCut crystalCut, QValue qvalue) {
+		return new AlignmentParametersBean(CrystalType.Bragg.name(), crystalCut.name(), qvalue.getQValue(), "xh",
+				new AbsorptionEdge("Fe", "K", energy));
+	}
+
+	private AlignmentParametersBean calculateBeanInPython(AlignmentParametersBean inputBean) {
+		// Make json serialized string of the the input parameters
+		String jsonString = inputBean.toJson();
+		interp.exec(ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + " = AlignmentParametersBean.fromJson(\'"+jsonString+"\'); "); // set the input params using json string
+		PyObject func =  interp.eval("alignment_parameters.calc_parameters(" + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + ")"); // calculate the parameters
+		AlignmentParametersBean calculatedBean = (AlignmentParametersBean) func.__tojava__(AlignmentParametersBean.class); // get results back to java
+		return calculatedBean;
+	}
+
+	private AlignmentParametersCalculator getParametersCalculator(AlignmentParametersBean bean) throws DeviceException {
+		AlignmentParametersCalculator calculator = new AlignmentParametersCalculator(bean);
+		calculator.setRealDetectorDistance(0.001 * (double) detZPosition.getPosition());
+		boolean inBeam = me2Position.getPosition().toString().equals("In");
+		calculator.setMe2InBean(inBeam);
+		return calculator;
+	}
+
+	@Test
+	public void testPythonInterp() throws DeviceException {
+		AlignmentParametersBean originalBean = getBean();
+		AlignmentParametersBean calculatedBean = calculateBeanInPython(originalBean);
+		testBean(originalBean, calculatedBean);
+	}
+
+	@Test
+	public void testSi111() throws DeviceException {
+		testEnergies(CrystalCut.Si111, QValue.Q_0_8);
+		testEnergies(CrystalCut.Si111, QValue.Q_1_0);
+		testEnergies(CrystalCut.Si111, QValue.Q_1_2);
+	}
+
+	@Test
+	public void testSi311() throws DeviceException {
+		testEnergies(CrystalCut.Si311, QValue.Q_0_8);
+		testEnergies(CrystalCut.Si311, QValue.Q_1_0);
+		testEnergies(CrystalCut.Si311, QValue.Q_1_2);
+	}
+
+	/** Json string of Jython calculation result that should be produced by testBenchMarkFromJython */
+	private final String benchmarkJython = "{\"crystalType\":\"Bragg\",\"crystalCut\":\"Si111\",\"q\":0.8,\"detector\":\"xh\",\"edge\":{\"elementSymbol\":\"Fe\",\"edgeType\":\"K\",\"energy\":7112.0},\"polychromatorLength\":250.0,\"sourceToPolyDistance\":45.1,\"wigglerGap\":18.5,\"primarySlitGap\":1.5408437947957054,\"me1stripe\":\"Rhodium\",\"me2stripe\":\"Silicon\",\"me2Pitch\":3.5,\"polyBend1\":2.8948297473967193,\"polyBend2\":3.8628429141266665,\"braggAngle\":16.138979120590374,\"arm2Theta\":32.27795824118075,\"detectorDistance\":0.5894198972006996,\"detectorHeight\":-4.9056,\"atn1\":\"pC 0.1mm\",\"atn2\":\"Empty\",\"atn3\":\"Empty\",\"energyBandwidth\":1048.5210215537006,\"power\":0.0,\"readBackEnergyBadwidth\":1048.5210215537006}";
+
+	@Test
+	public void testBenchmarkFromJython() {
+		AlignmentParametersBean jythonCalculatedBean = calculateBeanInPython(getBean());
+		String jsonString = jythonCalculatedBean.toJson();
+		System.out.println(jsonString);
+		assertEquals(benchmarkJython.trim(), jsonString.trim());
+	}
+
+	@Test
+	public void testBenchmarkFromJava() throws DeviceException {
+		AlignmentParametersBean bean = getBean();
+		testBean(bean, AlignmentParametersBean.fromJson(benchmarkJython));
+	}
+
+	/**
+	 * Loop over range of energies, compare calculation in java with same calculation using python script
+	 * @param crystalCut
+	 * @param qvalue
+	 * @throws DeviceException
+	 */
+	public void testEnergies(CrystalCut crystalCut, QValue qvalue) throws DeviceException {
+		System.out.println("Crystal cut : "+crystalCut.name()+" QValue : "+qvalue.getQValue());
+		for (double energy = minEnergy; energy <= maxEnergy; energy += energyStep) {
+			System.out.println("Testing energy "+energy);
+			AlignmentParametersBean originalBean = getBean(energy, crystalCut, qvalue);
+			AlignmentParametersBean calculatedBean = calculateBeanInPython(originalBean);
+			testBean(originalBean, calculatedBean);
+		}
+	}
+
+	/**
+	 * Check that {@link AlignmentParametersCalculator} produces same results as the alignment_parameters Jython script
+	 * @param originalBean
+	 * @param beanFromScript
+	 * @throws DeviceException
+	 */
+	private void testBean(AlignmentParametersBean originalBean, AlignmentParametersBean beanFromScript) throws DeviceException {
+		AlignmentParametersCalculator calculator = getParametersCalculator(originalBean);
+
+		calculator.setStripes();
+		assertEquals(beanFromScript.getMe1stripe(), originalBean.getMe1stripe());
+		assertEquals(beanFromScript.getMe2stripe(), originalBean.getMe2stripe());
+
+		calculator.setPitchAndAttenuators();
+		assertEquals(beanFromScript.getMe2Pitch(), originalBean.getMe2Pitch(), accuracy);
+		assertEquals(beanFromScript.getAtn1(), originalBean.getAtn1());
+		assertEquals(beanFromScript.getAtn2(), originalBean.getAtn2());
+		assertEquals(beanFromScript.getAtn3(), originalBean.getAtn3());
+
+		calculator.setBraggAngle();
+		assertEquals(beanFromScript.getBraggAngle(), originalBean.getBraggAngle(), accuracy);
+		assertEquals(beanFromScript.getArm2Theta(), originalBean.getArm2Theta(), accuracy);
+
+		calculator.setBenders();
+		assertEquals(beanFromScript.getPolyBend1(), originalBean.getPolyBend1(), accuracy);
+		assertEquals(beanFromScript.getPolyBend2(), originalBean.getPolyBend2(), accuracy);
+
+		calculator.setPrimarySlits();
+		assertEquals(beanFromScript.getPrimarySlitGap(), originalBean.getPrimarySlitGap(), accuracy);
+
+		calculator.setDetectorPosition();
+		assertEquals(beanFromScript.getDetectorDistance(), originalBean.getDetectorDistance(), accuracy);
+		assertEquals(beanFromScript.getDetectorHeight(), originalBean.getDetectorHeight(), accuracy);
+
+		calculator.setEnergyBandwidth();
+		assertEquals(beanFromScript.getReadBackEnergyBandwidth(), originalBean.getReadBackEnergyBandwidth(), accuracy);
+		assertEquals(beanFromScript.getEnergyBandwidth(), originalBean.getEnergyBandwidth(), accuracy);
+
+		calculator.setPower();
+		assertEquals(beanFromScript.getPower(), originalBean.getPower(), accuracy);
+	}
+}
