@@ -15,13 +15,11 @@ def closeEHShutter():
 def openFastShutter():
     print "Opening fast shutter"
     fast_shutter.moveTo("Open")
-    java.lang.Thread.sleep(4000)
     print fast_shutter.getPosition()
 
 def closeFastShutter():
     print "Closing fast shutter"
     fast_shutter.moveTo("Close")
-    java.lang.Thread.sleep(4000)
     print fast_shutter.getPosition()
 
 

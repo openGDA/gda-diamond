@@ -11,6 +11,7 @@ run("gdascripts/javajythonutil.py")
 run 'gdascripts/metadata/metadata_commands.py'
 run("frelon_scan_runner.py")
 run("turboxas_scan_runner.py")
+run("frelon-kinetic-roi-settings.py")
 
 if LocalProperties.isDummyModeEnabled() == False:
     run("shutter_functions.py")
@@ -160,7 +161,10 @@ scan_end_processor=ScanEndScriptRunner("scan_end_processor", '/dls_sw/apps/dawn_
 scan_end_processor.setProcessingOnOffPositioner(run_scan_end_processing)
 add_default scan_end_processor
 
-run "stanfordPowerSupplyOnOff.py"
-powerSupply = StanfordPowerOnOff("powerSupply")
-add_default powerSupply
+# Setup stanford amplifier power supply switcher (live mode only)
+if LocalProperties.get("gda.mode") == "live":
+    run "stanfordPowerSupplyOnOff.py"
+    powerSupply = StanfordPowerOnOff("powerSupply")
+    add_default powerSupply
 
+# industrialGasRigValve.configure()
