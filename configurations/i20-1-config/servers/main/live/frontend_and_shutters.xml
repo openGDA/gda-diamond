@@ -29,6 +29,7 @@
 				<value>shutter1</value>
 			</list>
 		</property>
+		<property name="checkDemandInStatus" value="true" />
 	</bean>
 
 	<bean id="fast_shutter" class="gda.device.enumpositioner.EpicsSimplePositioner">

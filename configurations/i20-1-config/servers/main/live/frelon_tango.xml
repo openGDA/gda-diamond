@@ -3,21 +3,43 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-			<bean id = "_limaTangoDevice" class="gda.device.impl.TangoDeviceImpl">
-				<constructor-arg value="tango://10.90.0.5:20000/dls/limaccds/frelon1" />
-			</bean>
-			
-			<bean id = "limaTangoDevice" class="gda.device.impl.TangoDeviceLogger">
-				<constructor-arg ref="_limaTangoDevice" />	
-			</bean>		
+	<!--  Old frelon machine (i20-1-frelon01) -->
+	<!--
+ 	<bean id="frelonAddress" class="java.lang.String" > 
+ 		<constructor-arg value="10.90.0.5:20000" />
+ 	</bean>
+ 	<bean id="limaDevicePath" class="java.lang.String" > 
+ 		<constructor-arg value="/dls/limaccds/frelon1" /> 
+ 	</bean> 
+ 	<bean id="frelonDevicePath" class="java.lang.String" > 
+ 		<constructor-arg value="/dls/frelon/frelon1" /> 
+ 	</bean>
+	-->
 
-			<bean id = "_frelonTangoDevice" class="gda.device.impl.TangoDeviceImpl">
-				<constructor-arg value="tango://10.90.0.5:20000/dls/frelon/frelon1" />
-			</bean>
-			<bean id = "frelonTangoDevice" class="gda.device.impl.TangoDeviceLogger">
-				<constructor-arg ref="_frelonTangoDevice" />	
-			</bean>		
+	<!-- New frelon machine (i20-1-frelon02)-->
+	<bean id="frelonAddress" class="java.lang.String" >
+		<constructor-arg value="10.90.0.6:20000" />
+	</bean>
+	<bean id="limaDevicePath" class="java.lang.String" >
+		<constructor-arg value="/id00/limaccds/frelon_dls" />
+	</bean>
+	<bean id="frelonDevicePath" class="java.lang.String" >
+		<constructor-arg value="/id00/frelon/frelon_dls" />
+	</bean>
 
+	<bean id = "_limaTangoDevice" class="gda.device.impl.TangoDeviceImpl">
+		<constructor-arg value="tango://#{frelonAddress}#{limaDevicePath}" />
+	</bean>
+	
+	<bean id = "limaTangoDevice" class="gda.device.impl.TangoDeviceLogger">
+		<constructor-arg ref="_limaTangoDevice" />	
+	</bean>		
 
+	<bean id = "_frelonTangoDevice" class="gda.device.impl.TangoDeviceImpl">
+		<constructor-arg value="tango://#{frelonAddress}#{frelonDevicePath}" />
+	</bean>
+	<bean id = "frelonTangoDevice" class="gda.device.impl.TangoDeviceLogger">
+		<constructor-arg ref="_frelonTangoDevice" />	
+	</bean>		
 
-</beans>	
+</beans>
