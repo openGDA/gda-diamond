@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<bean id="p1xy_x_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-PXY-01:X" />
+	</bean>
+	<bean id="p1xy_y_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-PXY-01:Y" />
+	</bean>
+
+</beans>
