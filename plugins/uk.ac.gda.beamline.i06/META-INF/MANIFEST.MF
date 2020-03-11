@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.expressions;bundle-version="3.6.0",
  uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0",
  com.google.guava;bundle-version="26.0.0",
- org.eclipse.dawnsci.nexus;bundle-version="1.0.0"
+ org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
+ uk.ac.gda.epics
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-RegisterBuddy: uk.ac.gda.core
@@ -38,7 +39,11 @@ Import-Package: gda.epics.connection,
  gov.aps.jca.event;version="2.4.1",
  org.dawnsci.plotting.views,
  org.slf4j;version="1.7.25",
- org.springframework.beans.factory;version="4.0.6.RELEASE"
+ org.springframework.beans;version="4.0.6.RELEASE",
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
+ org.springframework.expression;version="4.0.6.RELEASE",
+ org.springframework.expression.spel.standard;version="4.0.6.RELEASE",
+ org.springframework.expression.spel.support;version="4.0.6.RELEASE"
 Automatic-Module-Name: uk.ac.gda.beamline.i06
 Bundle-ClassPath: jars/vavr-0.10.2.jar,
  .
