@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<bean id="oav_zoom_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-OAV-01:ZOOM" />
+	</bean>
+	<bean id="oav_x_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-OAV-01:X" />
+	</bean>
+	<bean id="oav_y_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-OAV-01:Y" />
+	</bean>
+	<bean id="oav_z_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-OAV-01:Z" />
+	</bean>
+	<bean id="oav_focus_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL22I-MO-OAV-01:FOCUS" />
+	</bean>
+
+	<bean id="oav_zoom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oav_zoom_motor" />
+	</bean>
+	<bean id="oav_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oav_x_motor" />
+	</bean>
+	<bean id="oav_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oav_y_motor" />
+	</bean>
+	<bean id="oav_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oav_z_motor" />
+	</bean>
+	<bean id="oav_focus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oav_focus_motor" />
+	</bean>
+
+</beans>
+

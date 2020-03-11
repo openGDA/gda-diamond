@@ -37,6 +37,7 @@
 
 	<import resource="rot.xml" />
 	<import resource="base.xml" />
+	<import resource="p1xy.xml" />
 	<import resource="bco.xml" />
 	<import resource="user.xml" />
 

@@ -32,6 +32,7 @@
 
     <import resource="valves.xml" />
 
+    <import resource="p1xy.xml" />
     <import resource="fswitch.xml" />
 
 	<import resource="xmap_dxp.xml" />

@@ -1,0 +1,81 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="p1xy_x" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="p1xy_y" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_x" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_y" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_z" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_zoom" />
+
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_cam_control" />
+
+	<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration" id="oav_zoom_calibration">
+		<constructor-arg name="xAxisScannable" ref="p1xy_x" />
+		<constructor-arg name="xAxisPixelScaling" value="0.001799" />
+		<constructor-arg name="xAxisOffset" value="0" />
+		<constructor-arg name="yAxisScannable" ref="p1xy_y" />
+		<constructor-arg name="yAxisPixelScaling" value="0.001799" />
+		<constructor-arg name="yAxisOffset" value="0" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config">
+		<property name="displayName" value="OAV" />
+		<property name="url" value="http://i22-motion01.diamond.ac.uk:8081/OAV.CAM.mjpg.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="sleepTime" value="500" />
+		<property name="calibratedAxesProvider" ref="oav_zoom_calibration" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="oav_cam_control" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_x_control">
+		<property name="displayName" value="OAV X" />
+		<property name="scannableName" value="oav_x" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_y_control">
+		<property name="displayName" value="OAV Y" />
+		<property name="scannableName" value="oav_y" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_z_control">
+		<property name="displayName" value="OAV Z" />
+		<property name="scannableName" value="oav_z" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_zoom_control">
+		<property name="displayName" value="OAV Zoom" />
+		<property name="scannableName" value="oav_zoom" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ControlSet" name="oavLiveControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="oav_x_control" />
+				<ref bean="oav_y_control" />
+				<ref bean="oav_z_control" />
+				<ref bean="oav_zoom_control" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
