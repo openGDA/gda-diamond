@@ -9,5 +9,5 @@ OUTPUT=$1
 shift
 DIMS="$@"
 
-/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py ${DATA_DIR} -p ${PREFIX} -o ${OUTPUT} --mode reshape --new-shape ${DIMS}
+/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py ${DATA_DIR} --files ${PREFIX}000001.h5 -o ${OUTPUT} --mode reshape --new-shape ${DIMS} -l 1
 
