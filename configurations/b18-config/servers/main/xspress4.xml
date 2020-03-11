@@ -22,6 +22,7 @@
 
 	<bean id="qexafs_xspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4BufferedDetector" >
 		<property name="xspress4Detector" ref="xspress4" />
+		<property name="useNexusTreeWriter" value="true" />
 	</bean>
 
 	<bean id="qexafs_FFI0_xspress4"	class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">

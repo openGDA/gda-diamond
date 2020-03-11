@@ -119,7 +119,6 @@
 		<property name="collectionStrategy" ref="medipix_multiple_nxcollectionstrategy" />
 		<property name="baseRoiPvName" value="#{medipixBaseRoiPv}" />
 		<property name="baseStatPvName" value="#{medipixBaseStatPv}" />
-		<property name="currentPointPvName" value="TS:TSCurrentPoint" />
 	</bean>
 
 <!-- Plugins for ADDetector -->

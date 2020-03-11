@@ -34,12 +34,11 @@ offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanfor
 
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
     #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
 else :
     #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
 daServer = Finder.getInstance().find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))

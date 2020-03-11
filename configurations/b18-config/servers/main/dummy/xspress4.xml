@@ -15,6 +15,7 @@
 		<property name="numElements" value="36" />
 		<property name="numMcaChannels" value="4096" />
 		<property name="numScalers" value="8" />
+     	<property name="timeSeriesNumPoints" value="10000" />	
 	</bean>
 
 </beans>
