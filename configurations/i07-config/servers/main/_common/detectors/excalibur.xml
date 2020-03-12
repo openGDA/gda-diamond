@@ -5,18 +5,20 @@
 
 	<bean id="excalibur" class="uk.ac.gda.devices.odin.OdinDetector">
 		<property name="controller" ref="excalibur_controller" />
-		<property name="strategy" ref="excalibur_single_strategy" />
+		<property name="collectionStrategy" ref="excalibur_single_strategy" />
 	</bean>
 
 	<bean id="excalibur_multi" class="uk.ac.gda.devices.odin.OdinDetector">
 		<property name="controller" ref="excalibur_controller" />
-		<property name="strategy" ref="excalibur_multiple_strategy" />
+		<property name="collectionStrategy" ref="excalibur_multiple_strategy" />
 	</bean>
 
 	<bean id="excalibur_single_strategy" class="uk.ac.gda.devices.odin.OdinSingleFileStrategy">
+		<constructor-arg index="0" ref="excalibur_controller"/>
 	</bean>
 
 	<bean id="excalibur_multiple_strategy" class="uk.ac.gda.devices.odin.OdinMultipleFileStrategy">
+		<constructor-arg index="0" ref="excalibur_controller"/>
 	</bean>
 
 </beans>
