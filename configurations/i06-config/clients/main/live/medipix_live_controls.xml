@@ -13,15 +13,15 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipixAcquirePeriod" class="gda.device.scannable.EpicsScannable">
+	<bean id="medipixAcquirePeriod" class="uk.ac.gda.beamline.i06.scannables.CoupledPVScannable">
 		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquirePeriod"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
 			</list>
-		</property>	
+		</property>
+		<property name="moveToExpression" value="#input > 0.002 ? @medipixExposureTime.getPosition() + #input : @medipixExposureTime.getPosition() + 0.002"/>
+		<property name="getPositionExpression" value="(#output - @medipixExposureTime.getPosition())>0.002 : #output - @medipixExposureTime.getPosition() : 0.002"/>
 	</bean>
 	<bean id="medipixRotationAngle" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-02:ROT:Angle"/>
