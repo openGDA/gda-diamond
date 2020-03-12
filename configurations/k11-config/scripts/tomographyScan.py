@@ -70,12 +70,12 @@ class TomographyJSON:
 
     STAGE_ROT_Y = 'MOTOR_STAGE_ROT_Y'
     
-    MODE = 'mode'
+    MODE = 'stageDescription'
     MOTORS = 'motors'
     METADATA = 'metadata'
     MALCOLM_TOMO = 'MALCOLM_TOMO'
     
-    MOTOR_POSITIONS = 'motorPositions'
+    MOTOR_POSITIONS = 'motorsPositions'
     START = 'START'
     OUT_OF_BEAM = 'OUT_OF_BEAM'
     

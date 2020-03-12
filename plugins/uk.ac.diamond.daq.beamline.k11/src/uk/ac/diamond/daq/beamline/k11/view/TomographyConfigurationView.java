@@ -18,6 +18,9 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import java.net.URL;
+import java.util.Optional;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -29,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.view.control.StageController;
+import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
+import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
@@ -104,37 +109,28 @@ public class TomographyConfigurationView extends ViewPart {
 		};
 	}
 
-	// private SelectionListener getLoadListener() {
-	// return new SelectionListener() {
-	//
-	// @Override
-	// public void widgetSelected(SelectionEvent event) {
-	// try {
-	// controller.loadAcquisitionConfiguration(name.getText());
-	// } catch (AcquisitionControllerException e) {
-	// UIHelper.showError("Cannot load the file", e);
-	// logger.error("Cannot load the file", e);
-	// }
-	// }
-	//
-	// @Override
-	// public void widgetDefaultSelected(SelectionEvent event) {
-	// // not necessary
-	// }
-	// };
-	// }
-
 	private SelectionListener getRunListener() {
 		return new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					controller.runAcquisition();
+					controller.runAcquisition(getOutputPath());
 				} catch (AcquisitionControllerException e) {
 					UIHelper.showError("Run Acquisition", e.getMessage());
 					logger.error("Cannot run the acquisition", e);
+				} catch (ExperimentControllerException e) {
+					UIHelper.showError("Run Acquisition", e.getMessage());
+					logger.error(e.getMessage(), e);
 				}
+			}
+
+			private URL getOutputPath() throws ExperimentControllerException {
+				if (getExperimentController().isPresent()) {
+					return getExperimentController().get().prepareAcquisitionOutput(controller.getAcquisition()
+							.getAcquisitionConfiguration().getAcquisitionParameters().getName());
+				}
+				return null;
 			}
 
 			@Override
@@ -142,5 +138,9 @@ public class TomographyConfigurationView extends ViewPart {
 				logger.debug("widgetDefaultSelected");
 			}
 		};
+	}
+
+	private Optional<ExperimentController> getExperimentController() {
+		return SpringApplicationContextProxy.getOptionalBean(ExperimentController.class);
 	}
 }

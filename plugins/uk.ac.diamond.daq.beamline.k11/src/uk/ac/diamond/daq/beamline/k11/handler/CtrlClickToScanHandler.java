@@ -28,8 +28,8 @@ import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.daq.mapping.api.IScanBeanSubmitter;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
-import uk.ac.diamond.daq.mapping.ui.experiment.ScanBeanSubmitter;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController.DiffractionAcquisitionMode;
 
@@ -44,7 +44,7 @@ public class CtrlClickToScanHandler implements EventHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(CtrlClickToScanHandler.class);
 
-	private ScanBeanSubmitter submitter;
+	private IScanBeanSubmitter submitter;
 	private RegionAndPathController rapController;
 	private ScanManagementController smController;
 
@@ -71,7 +71,7 @@ public class CtrlClickToScanHandler implements EventHandler {
 	}
 
 	// Called by OSGi:
-	public void setSubmitterService(ScanBeanSubmitter submitter) {
+	public void setSubmitterService(IScanBeanSubmitter submitter) {
 		this.submitter = submitter;
 	}
 
