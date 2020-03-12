@@ -46,6 +46,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.scanning.api.points.models.AbstractPointsModel;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
+import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
@@ -392,7 +393,7 @@ public class DiffractionPathComposite extends Composite {
 	 * @param newRegionValue	The updated region that has been chosen
 	 * @param newPathValue		The resulting updated default scan path
 	 */
-	private void updateScanPathBindings(final IMappingScanRegionShape newRegionValue, final IScanPathModel newPathValue) {
+	private void updateScanPathBindings(final IMappingScanRegionShape newRegionValue, final IScanPointGeneratorModel newPathValue) {
 		regionDBC.dispose();
 
 		rapController.changePath(newPathValue);
@@ -449,10 +450,10 @@ public class DiffractionPathComposite extends Composite {
 	 * Rewrites the bindings that link the mutator checkbox controls to the appropriate properties on the mapping bean's
 	 * path model
 	 *
-	 * @param newPathValue	The {@link IScanPathModel} currently selected on the mapping bean
+	 * @param newPathValue	The {@link IScanPointGeneratorModel} currently selected on the mapping bean
 	 */
 	@SuppressWarnings("unchecked")
-	private void updatePathMutatorBindings(final IScanPathModel newPathValue) {
+	private void updatePathMutatorBindings(final IScanPointGeneratorModel newPathValue) {
 		if (AbstractPointsModel.supportsContinuous(newPathValue.getClass())) {
 			IObservableValue<Boolean> pathContinuousObservableValue = BeanProperties.value("continuous").observe(newPathValue);
 			regionDBC.bindValue(mutatorObservableValues.get("Continuous"), pathContinuousObservableValue);

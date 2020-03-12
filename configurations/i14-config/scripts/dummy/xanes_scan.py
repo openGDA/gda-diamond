@@ -30,7 +30,7 @@ def run_scan_request(scanRequest, xanesEdgeParams):
     if isinstance(dcm_enrg_model, AxialStepModel):
         step_models = [dcm_enrg_model]
     elif isinstance(dcm_enrg_model, AxialMultiStepModel):
-        step_models = dcm_enrg_model.getStepModels()
+        step_models = dcm_enrg_model.getModels()
 
     # Extract bounding box for map
     map_box = models.get(1).getBoundingBox()
