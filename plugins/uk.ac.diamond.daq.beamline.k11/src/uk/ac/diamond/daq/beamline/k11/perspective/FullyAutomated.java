@@ -18,68 +18,28 @@
 
 package uk.ac.diamond.daq.beamline.k11.perspective;
 
-import org.eclipse.scanning.api.event.EventConstants;
-import org.eclipse.scanning.event.ui.view.StatusQueueView;
-import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-import org.eclipse.ui.IViewLayout;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
+import uk.ac.gda.perspectives.ThreeColumnPerspectiveLayoutBuilder;
 
 public class FullyAutomated  implements IPerspectiveFactory {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated";
 
-	private static final Logger logger = LoggerFactory.getLogger(FullyAutomated.class);
-
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 
-		logger.trace("Building K11 Fully Automated perspective");
-		layout.setEditorAreaVisible(false);
+		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout);
+		helper.addViewToLeftFolder(K11DefaultViews.PERSPECTIVE_DASHBOARD_VIEW, false);
+		helper.addViewToLeftFolder(K11DefaultViews.EXPERIMENT, false); // TODO remove once we have everything in this view accessible elsewhere
 
-		final IFolderLayout left = layout.createFolder("experimentmanagement", IPageLayout.RIGHT, 0.2f, IPageLayout.ID_EDITOR_AREA);
-		left.addView("uk.ac.diamond.daq.beamline.k11.experiment");
-		IViewLayout vLayout = layout.getViewLayout("uk.ac.diamond.daq.beamline.k11.experiment");
-		vLayout.setCloseable(false);
+		helper.addViewToCentralFolder(K11DefaultViews.PLAN_PROGRESS_PLOT, false);
+		helper.addFolderThenViewToCentralFolder(K11DefaultViews.DETECTOR_FRAME_PEEK, false, 0.65f);
 
-		final IFolderLayout planProgressLayout = layout.createFolder("planprogress", IPageLayout.RIGHT, 0.2f, "experimentmanagement");
-		planProgressLayout.addView("uk.ac.diamond.daq.experiment.ui.plan.progressPlotView");
-		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.progressPlotView");
-		vLayout.setCloseable(false);
-
-		final IFolderLayout planManager = layout.createFolder("planmanager", IPageLayout.RIGHT, 0.58f, "planprogress");
-		planManager.addView("uk.ac.diamond.daq.experiment.ui.plan.manager");
-		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.manager");
-		vLayout.setCloseable(false);
-
-		final IFolderLayout planOverview = layout.createFolder("planoverview", IPageLayout.BOTTOM, 0.25f, "planmanager");
-		planOverview.addView("uk.ac.diamond.daq.experiment.ui.plan.overview");
-		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.overview");
-		vLayout.setCloseable(false);
-
-
-		final IFolderLayout planOutputLayout = layout.createFolder("planoutput", IPageLayout.BOTTOM, 0.6f, "planprogress");
-		planOutputLayout.addView("uk.ac.diamond.daq.beamline.k11.detectorFramePeekView");
-		vLayout = layout.getViewLayout("uk.ac.diamond.daq.beamline.k11.detectorFramePeekView");
-		vLayout.setCloseable(false);
-
-		final IFolderLayout folderLayout = layout.createFolder("console_folder", IPageLayout.BOTTOM, 0.65f, "planoverview");
-		folderLayout.addView("gda.rcp.jythonterminalview");
-		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),
-				"org.eclipse.scanning.api",
-				"org.eclipse.scanning.api.event.status.StatusBean",
-				EventConstants.STATUS_TOPIC,
-				EventConstants.SUBMISSION_QUEUE);
-
-
-		queueViewId = queueViewId + "partName=Queue";
-		folderLayout.addView(queueViewId);
-
-
-		logger.trace("Finished building K11 Fully Automated perspective");
+		helper.addViewToRightFolder(K11DefaultViews.PLAN_MANAGER, false);
+		helper.addFolderThenViewToRightFolder(K11DefaultViews.PLAN_OVERVIEW, false, 0.25f);
+		helper.addFolderThenViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false, 0.5f);
+		helper.addViewToRightFolder(K11DefaultViews.getQueueId(), false);
 	}
 }

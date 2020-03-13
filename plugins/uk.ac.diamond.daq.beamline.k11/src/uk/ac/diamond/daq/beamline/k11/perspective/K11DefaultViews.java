@@ -25,24 +25,38 @@ import gda.configuration.properties.LocalProperties;
 import uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection;
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard;
 import uk.ac.diamond.daq.beamline.k11.view.TomographyConfigurationView;
+import uk.ac.diamond.daq.experiment.ui.plan.DetectorFramePeekView;
+import uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView;
+import uk.ac.diamond.daq.experiment.ui.plan.PlanOverview;
+import uk.ac.diamond.daq.experiment.ui.plan.PlanProgressPlotView;
 
-public interface K11DefaultViews {
-	String PERSPECTIVE_DASHBOARD_VIEW = PerspectiveDashboard.ID;
-	String JYTON_CONSOLE_VIEW = "gda.rcp.jythonterminalview";
+public final class K11DefaultViews {
 
-	String EXPERIMENT = "uk.ac.diamond.daq.beamline.k11.experiment";
+	private K11DefaultViews() {
+		// static access only
+	}
 
-	String MAPPED_DATA = "org.dawnsci.mapping.ui.mappeddataview";
-	String MAP_VIEW = "org.dawnsci.mapping.ui.mapview";
+	public static final String PERSPECTIVE_DASHBOARD_VIEW = PerspectiveDashboard.ID;
+	public static final String JYTON_CONSOLE_VIEW = "gda.rcp.jythonterminalview";
 
-	String SPECTRUM_VIEW = "org.dawnsci.mapping.ui.spectrumview";
-	String MAPPING_EXPERIMENT_VIEW = "uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView";
+	public static final String EXPERIMENT = "uk.ac.diamond.daq.beamline.k11.experiment";
 
-	String SCAN_SETUP_VIEW = DiffractionScanSelection.ID;
+	public static final String MAPPED_DATA = "org.dawnsci.mapping.ui.mappeddataview";
+	public static final String MAP_VIEW = "org.dawnsci.mapping.ui.mapview";
 
-	String TOMOGRAPHY_ACQUISITION_CONFIGURATION = TomographyConfigurationView.ID;
+	public static final String SPECTRUM_VIEW = "org.dawnsci.mapping.ui.spectrumview";
+	public static final String MAPPING_EXPERIMENT_VIEW = "uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView";
 
-	static String getQueueId() {
+	public static final String SCAN_SETUP_VIEW = DiffractionScanSelection.ID;
+
+	public static final String TOMOGRAPHY_ACQUISITION_CONFIGURATION = TomographyConfigurationView.ID;
+
+	public static final String PLAN_MANAGER = PlanManagerView.ID;
+	public static final String PLAN_PROGRESS_PLOT = PlanProgressPlotView.ID;
+	public static final String PLAN_OVERVIEW = PlanOverview.ID;
+	public static final String DETECTOR_FRAME_PEEK = DetectorFramePeekView.ID;
+
+	public static final String getQueueId() {
 		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),
 				"org.eclipse.scanning.api",
 				"org.eclipse.scanning.api.event.status.StatusBean",
