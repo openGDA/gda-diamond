@@ -23,7 +23,6 @@
     <import resource="idgap.xml" />
     <import resource="rot.xml" />
     <import resource="sd.xml" />
-<!--     <import resource="tango.xml" /> -->
     <import resource="user.xml" />
     <import resource="vfm.xml" />
     <import resource="wd.xml" />
