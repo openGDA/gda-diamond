@@ -83,13 +83,12 @@ def meta_add_i13i():
 	meta_scannables.append(s3)
 	meta_scannables.append(s4)
 	meta_scannables.append(hex)
-	
+
 	for s in meta_scannables:
 		meta_add(s)
-		
-	ionc_cfg = finder.find("ionc_cfg")
+
 	meta_add(ionc_cfg)
-	
+
 	print "\n Finished adding meta-data items!"
 
 print(section_sep)
