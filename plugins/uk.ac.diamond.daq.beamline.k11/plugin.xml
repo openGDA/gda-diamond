@@ -53,7 +53,7 @@
             allowMultiple="true"
             class="uk.ac.diamond.daq.experiment.ui.plan.DetectorFramePeekView"
             icon="icons/camera-lens.png"
-            id="uk.ac.diamond.daq.beamline.k11.detectorFramePeekView"
+            id="uk.ac.diamond.daq.experiment.ui.plan.DetectorFramePeekView"
             name="Latest Detector Frame"
             restorable="true">
       </view>
@@ -84,21 +84,21 @@
       		allowMultiple="false"
       		class="uk.ac.diamond.daq.experiment.ui.plan.PlanProgressPlotView"
       		icon="icons/system-monitor.png"
-      		id="uk.ac.diamond.daq.experiment.ui.plan.progressPlotView"
+      		id="uk.ac.diamond.daq.experiment.ui.plan.PlanProgressPlotView"
       		name="Plan Progress Plot View"
       		restorable="true">
       </view>
       <view
             class="uk.ac.diamond.daq.experiment.ui.plan.PlanOverview"
             icon="icons/node-insert-previous.png"
-            id="uk.ac.diamond.daq.experiment.ui.plan.overview"
+            id="uk.ac.diamond.daq.experiment.ui.plan.PlanOverview"
             name="Plan Overview"
             restorable="true">
       </view>
       <view
             class="uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView"
             icon="icons/briefcase.png"
-            id="uk.ac.diamond.daq.experiment.ui.plan.manager"
+            id="uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView"
             name="Plan Manager"
             restorable="true">
       </view>
