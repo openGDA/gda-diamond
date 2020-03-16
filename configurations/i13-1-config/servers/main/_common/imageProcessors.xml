@@ -12,8 +12,14 @@
 	</bean>
 	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
 		<property name="enable" value="true" />
-		<property name="profileX" value="true"/>
-		<property name="profileY" value="true"/>
+ 		<property name="enabledStats">
+			<list>
+				<value>PROFILE_X</value>
+				<value>PROFILE_Y</value>
+				<value>SUM</value>
+				<value>MEAN</value>
+			</list>
+		</property>
 	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="plotName" value="Image Plot 1" />
@@ -27,11 +33,17 @@
 		<property name="enable" value="false" />
 		<property name="prefix" value="2."/>
 	</bean>
+
 	<bean id="imageStats2" class="gda.device.detector.nexusprocessor.DatasetStats" >
 		<property name="enable" value="true" />
-		<property name="totalName" value="total2"/>
-		<property name="averageName" value="average2"/>
+		<property name="statNames">
+			<map>
+				<entry key="SUM" value="total2" />
+				<entry key="MEAN" value="average2" />
+			</map>
+		</property>
 	</bean>
+
 	<bean id="imagePlotter2" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="enable" value="false" />
 		<property name="plotName" value="Image Plot 2"/>
@@ -40,16 +52,22 @@
 	<bean id="imageROI2" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
 		<property name="enable" value="true" />
 	</bean>
-	
+
 	<bean id="imageFitter3" class="gda.device.detector.nexusprocessor.DataSetFitter">
 		<property name="enable" value="false" />
 		<property name="prefix" value="3."/>
 	</bean>
+
 	<bean id="imageStats3" class="gda.device.detector.nexusprocessor.DatasetStats" >
 		<property name="enable" value="true" />
-		<property name="totalName" value="total3"/>
-		<property name="averageName" value="average3"/>
+		<property name="statNames">
+			<map>
+				<entry key="SUM" value="total3" />
+				<entry key="MEAN" value="average3" />
+			</map>
+		</property>
 	</bean>
+
 	<bean id="imagePlotter3" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="enable" value="false" />
 		<property name="plotName" value="Image Plot 3"/>
