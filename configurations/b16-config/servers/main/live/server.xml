@@ -57,7 +57,7 @@
 	<import resource="epics/motor/granite_table.xml" />
 	<import resource="epics/motor/micro_tomo.xml" />
 
-	<import resource="../common/scannable/motors.xml" />
+	<import resource="../_common/scannable/motors.xml" />
 
 	<import resource="epics/controlpoint/analogueout.xml" />
 

@@ -58,7 +58,7 @@
 	<import resource="motor/granite_table.xml" />
 	<import resource="motor/micro_tomo.xml" />
 
-	<import resource="../common/scannable/motors.xml" />
+	<import resource="../_common/scannable/motors.xml" />
 	
 	<import resource="controlpoint/analogueout.xml" />
 	<import resource="controlpoint/dcmpiezo.xml" />
