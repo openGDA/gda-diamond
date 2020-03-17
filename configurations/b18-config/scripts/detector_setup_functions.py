@@ -27,6 +27,15 @@ def setupXspress3() :
     CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
 
 
+def caputXspress4(pv, value) :
+    basePv = xspress4.getController().getBasePv()
+    print "Setting Xspress4 PV : "+basePv+pv+" = "+str(value)
+    CAClient.put(basePv+pv, value)
+
+def caputXspress4Elements(format, value):
+    for channel in range(1, xspress4.getNumberOfElements()+1) :
+        caputXspress4(format%(channel), value)
+   
 #Setup xspress4
 def setupXspress4() :
     if LocalProperties.isDummyModeEnabled() :
@@ -34,21 +43,55 @@ def setupXspress4() :
 
     basePv = xspress4.getController().getBasePv()
     CAClient.putStringAsWaveform(basePv+":HDF5:FileTemplate", "%s%s%d.h5")
-    CAClient.put(basePv+":HDF5:FileWriteMode", 2) #'stream' capture mode
-    CAClient.put(basePv+":HDF5:AutoIncrement", 0) # auto increment off
+    caputXspress4(":HDF5:FileWriteMode", 2) #'stream' capture mode
+    caputXspress4(":HDF5:AutoIncrement", 0) # auto increment off
+    caputXspress4(":HDF5:EnableCallbacks", 1)
 
-    # Enable callbacks on Scaler data plugins for all channels 
-    for channel in range(0, xspress4.getNumberOfElements()) :
-        CAClient.put(basePv+":C"+str(channel+1)+"_SCAS:EnableCallbacks", 1)
+    # Enable callbacks on Scaler data plugins for all channels , set the max number of points
+    # on array data to a large value
+    caputXspress4Elements(":C%d_SCAS:EnableCallbacks", 1)
+    caputXspress4Elements(":C%d_SCAS:TS:TSNumPoints", 10000)
 
+    #Switch off callback for the 8 ROI and ARR plugins
+    for num in range(1, 9) : 
+        caputXspress4(":ROI"+str(num)+":EnableCallbacks", 0)
+        caputXspress4(":ARR"+str(num)+":EnableCallbacks", 0)
     # xspress4.setTriggerMode(0) # software trigger mode
     xspress4.setTriggerMode(3) # TTL veto only trigger mode
 
     from uk.ac.gda.devices.detector.xspress4.Xspress4Detector import TriggerMode
-    # bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
-    bufferedXspress4.setTriggerModeForContinuousScan(TriggerMode.TtlVeto)
+    #qexafs_xspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
+    qexafs_xspress4.setTriggerModeForContinuousScan(TriggerMode.TtlVeto)
+    
+    qexafs_xspress4.setUseNexusTreeWriter(True)
+    
+    setEnableDtc(True)
+    setEnableMca(False)
 
+# Set array input port name for the scaler pluginss (one for each detector element)
+def setScaArrayPorts(value) :
+    caputXspress4Elements(":C%d_SCAS:NDArrayPort", value)
 
+def setEnableMca(enable) :
+    value = 0
+    if enable :       
+        value = 1
+    
+    caputXspress4Elements(":MCA%d:Enable", value)
+
+def setEnableDtc(enable) :
+    if enable :       
+        print "Switching on Xspress4 DTC"
+        setScaArrayPorts("XSP4.DTC")
+        caputXspress4(":DTC:EnableCallbacks", 1)
+        caputXspress4(":HDF5:EnableCallbacks", 1)
+    else :
+        print "Switching off Xspress4 DTC"
+        setScaArrayPorts("XSP4")
+        caputXspress4(":DTC:EnableCallbacks", 0)
+        caputXspress4(":HDF5:EnableCallbacks", 0)
+        
+     
 def setupMedipix() :
     CAClient.put(medipix_basePvName+":ARR:EnableCallbacks", 1)
     CAClient.put(medipix_basePvName+":ARR:MinCallbackTime", 0)
@@ -66,3 +109,10 @@ def run_in_try_catch(function):
         print("Problem running ",function.__name__," - see log for more details")
         print "Stack trace : ", stacktrace
         logger.warn("Problem running jython function {} {}", function.__name__, stacktrace)
+
+
+def continuous_detector_scan(bufferedDetector, numReadouts, timePerReadout):
+    # dummy_qexafs_energy = Finder.getInstance().finf("dummy_qexafs_energy")
+    qexafs_counterTimer01.setUseInternalTriggeredFrames(True)
+    cvscan dummy_qexafs_energy 0.0 1.0 numReadouts numReadouts*timePerReadout bufferedDetector qexafs_counterTimer01
+

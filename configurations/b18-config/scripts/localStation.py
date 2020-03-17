@@ -34,8 +34,8 @@ offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanfor
 
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
-    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
 else :
     #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
     detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
@@ -157,13 +157,19 @@ zebra_device.setOutTTL(1, 31)
 
 # Setup the plugin listst used to control the medipix ROI
 run("medipix_functions.py")
-setUseMedipixRoiFromGui(True)
+setUseMedipixRoiFromGui(False)
+setMedipixRoi(0, 0, 512, 512)
 
 run("detector_setup_functions.py")
 run_in_try_catch(setupMedipix)
 run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMythen)
+
+# Set the scaler dead frame time (for continuous detector scans with medipix)
+qexafs_counterTimer01.setFrameDeadTime(5e-3)
+
+run("default_scannable_class.py")
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"

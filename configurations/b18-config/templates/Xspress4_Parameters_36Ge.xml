@@ -439,7 +439,7 @@
         </Region>
     </DetectorElement>
     <onlyShowFF>false</onlyShowFF>
-    <showDTRawValues>true</showDTRawValues>
+    <showDTRawValues>false</showDTRawValues>
     <saveRawSpectrum>false</saveRawSpectrum>
     <selectedRegionNumber>0</selectedRegionNumber>
 </XspressParameters>
