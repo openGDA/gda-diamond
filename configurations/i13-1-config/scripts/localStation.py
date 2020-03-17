@@ -158,10 +158,6 @@ imageStats3 = finder.find("imageStats3")
 imagePlotter3 = finder.find("imagePlotter3")
 imageROI3 = finder.find("imageROI3")
 
-#disable profile as it does not support Integer - see DataSetStats line 70?
-imageStats.profileY=False
-imageStats.profileX=False
-
 import roi_operations
 mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
 mpx_roi_average_diff = roi_operations.roi_diff("mpx_roi_average_diff","mpx_roi_average_diff",mpx_wrap, "mpx", "image_data.average", "image_data.average2")
