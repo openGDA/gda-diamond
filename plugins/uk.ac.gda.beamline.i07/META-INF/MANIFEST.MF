@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Eclipse-BundleShape: dir
 Bundle-ManifestVersion: 2
 Bundle-Name: Diamond Light Source Beamline I07 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i07;singleton:=true
