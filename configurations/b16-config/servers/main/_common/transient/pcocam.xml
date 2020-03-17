@@ -1,37 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 	<!-- NOTE: pcocam 1 2 and 3 are cobbled up bodge motors and not included here-->
 
-	<bean id="pcocam4Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-EA-DET-02:CAM4" />
-	</bean>
+	<gda:motor id="pcocam4" pv="BL16B-EA-DET-02:CAM4" />
+	<gda:motor id="pcocam5" pv="BL16B-EA-DET-02:CAM5" />
+	<gda:motor id="pcocam6" pv="BL16B-EA-DET-02:CAM6" />
 
-	<bean id="pcocam5Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-EA-DET-02:CAM5" />
-	</bean>
-
-	<bean id="pcocam6Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-EA-DET-02:CAM6" />
-	</bean>
-	
-	<bean id="pcocam4" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pcocam4Motor" />
-	</bean>
-	
-	<bean id="pcocam5" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pcocam5Motor" />
-	</bean>
-	
-	<bean id="pcocam6" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pcocam6Motor" />
-	</bean>
-
-	
 	<bean id="pcocam" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

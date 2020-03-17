@@ -1,72 +1,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<bean id="geo2mot1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS1" />
-	</bean>
 
-	<bean id="geo2mot2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS2" />
-	</bean>
+	<gda:motor id="geo2mot1" pv="BL16B-MO-BRICK-02:AXIS1" />
+	<gda:motor id="geo2mot2" pv="BL16B-MO-BRICK-02:AXIS2" />
+	<gda:motor id="geo2mot3" pv="BL16B-MO-BRICK-02:AXIS3" />
+	<gda:motor id="geo2mot4" pv="BL16B-MO-BRICK-02:AXIS4" />
+	<gda:motor id="geo2mot5" pv="BL16B-MO-BRICK-02:AXIS5" />
+	<gda:motor id="geo2mot6" pv="BL16B-MO-BRICK-02:AXIS6" />
+	<gda:motor id="geo2mot7" pv="BL16B-MO-BRICK-02:AXIS7" />
+	<gda:motor id="geo2mot8" pv="BL16B-MO-BRICK-02:AXIS8" />
 
-	<bean id="geo2mot3Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS3" />
-	</bean>
-
-	<bean id="geo2mot4Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS4" />
-	</bean>
-
-	<bean id="geo2mot5Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS5" />
-	</bean>
-
-	<bean id="geo2mot6Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS6" />
-	</bean>
-
-	<bean id="geo2mot7Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS7" />
-	</bean>
-
-	<bean id="geo2mot8Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS8" />
-	</bean>
-	
-	<bean id="geo2mot1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot1Motor" />
-	</bean>
-
-	<bean id="geo2mot2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot2Motor" />
-	</bean>
-
-	<bean id="geo2mot3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot3Motor" />
-	</bean>
-
-	<bean id="geo2mot4" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot4Motor" />
-	</bean>
-
-	<bean id="geo2mot5" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot5Motor" />
-	</bean>
-
-	<bean id="geo2mot6" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot6Motor" />
-	</bean>
-
-	<bean id="geo2mot7" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot7Motor" />
-	</bean>
-
-	<bean id="geo2mot8" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="geo2mot8Motor" />
-	</bean>
-	
 	<bean id="geo2mot" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

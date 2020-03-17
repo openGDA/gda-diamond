@@ -1,93 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-<!---->
-	<!--
-		<simpleMotor desc="User motion Geobrick3 axis 1" name="BRICK3.MOT1">
-	-->
-	<!--
-		<RECORD desc="Motor" pv="BL16B-MO-BRICK-03:AXIS1" ro="false"
-		type="motor"/>
-	-->
-	<!--        </simpleMotor>-->
-	<!--
-		<simpleMotor desc="User motion Geobrick3 axis 2" name="BRICK3.MOT2">
-	-->
-	<!--
-		<RECORD desc="Motor" pv="BL16B-MO-BRICK-03:AXIS2" ro="false"
-		type="motor"/>
-	-->
-	<!--        </simpleMotor>-->
-	<!--
-		<simpleMotor desc="User motion Geobrick3 axis 3" name="BRICK3.MOT3">
-	-->
-	<!--
-		<RECORD desc="Motor" pv="BL16B-MO-BRICK-03:AXIS3" ro="false"
-		type="motor"/>
-	-->
-	<!--        </simpleMotor>-->
-	<!--
-		<simpleMotor desc="User motion Geobrick3 axis 4" name="BRICK3.MOT4">
-	-->
-	<!--
-		<RECORD desc="Motor" pv="BL16B-MO-BRICK-03:AXIS4" ro="false"
-		type="motor"/>
-	-->
-	<!--        </simpleMotor>-->
-	<!--
-		<simpleMotor desc="User motion Geobrick3 axis 5" name="BRICK3.MOT5">
-	-->
-	<!--
-		<RECORD desc="Motor" pv="BL16B-MO-BRICK-03:AXIS5" ro="false"
-		type="motor"/>
-	-->
-	<!--        </simpleMotor>-->
-
-	<bean id="brick3mot1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS1" />
-	</bean>
-
-	<bean id="brick3mot2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS2" />
-	</bean>
-
-	<bean id="brick3mot3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS3" />
-	</bean>
-
-	<bean id="brick3mot4_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS4" />
-	</bean>
-
-	<bean id="brick3mot5_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS5" />
-	</bean>
-
-
-
-
-	<bean id="ixslitH1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="brick3mot1_motor" />
-	</bean>
-
-	<bean id="ixslitH2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="brick3mot2_motor" />
-	</bean>
-
-	<bean id="ixslitV1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="brick3mot3_motor" />
-	</bean>
-
-	<bean id="ixslitV2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="brick3mot4_motor" />
-	</bean>
-
-	<bean id="ixslitDiag" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="brick3mot5_motor" />
-	</bean>
-
+	<gda:motor id="ixslitH1" pv="BL16B-MO-BRICK-03:AXIS1" />
+	<gda:motor id="ixslitH2" pv="BL16B-MO-BRICK-03:AXIS2" />
+	<gda:motor id="ixslitV1" pv="BL16B-MO-BRICK-03:AXIS3" />
+	<gda:motor id="ixslitV2" pv="BL16B-MO-BRICK-03:AXIS4" />
+	<gda:motor id="ixslitDiag" pv="BL16B-MO-BRICK-03:AXIS5" />
 
 	<bean id="ixslit" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

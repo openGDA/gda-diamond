@@ -1,22 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-          
-    <!-- For i23 -->
-          
-	<bean id="pinx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME04T-MO-PSTEP-01:X" />
-	</bean>
-	<bean id="piny_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME04T-MO-PSTEP-01:Y" />
-	</bean>	
-	
-	<bean id="pinx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pinx_motor" />
-	</bean>
-	<bean id="piny" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="piny_motor" />
-	</bean>
-		
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+	<!-- For i23 -->
+
+	<gda:motor id="pinx" pv="ME04T-MO-PSTEP-01:X" />
+	<gda:motor id="piny" pv="ME04T-MO-PSTEP-01:Y" />
+
 </beans>

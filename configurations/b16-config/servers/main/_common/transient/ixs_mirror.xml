@@ -1,54 +1,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-      
-      
-     <!-- For Kiran --> 
-         
-	<bean id="ixsx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME05M-MO-MIRR-01:X" />
-	</bean>
-	<bean id="ixsy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME05M-MO-MIRR-01:Y" />
-	</bean>
-	<bean id="ixsz_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME05M-MO-MIRR-01:Z" />
-	</bean>
-	<bean id="ixsroll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME05M-MO-MIRR-01:ROLL" />
-	</bean>
-	<bean id="ixspitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME05M-MO-MIRR-01:PITCH" />
-	</bean>
-	<bean id="ixsyaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="ME05M-MO-MIRR-01:YAW" />
-	</bean>
-	
-	<bean id="ixsx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ixsx_motor" />
-<!--		<property name="initialUserUnits" value="mm" />-->
-	</bean>
-	<bean id="ixsy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ixsy_motor" />
-<!--		<property name="initialUserUnits" value="mm" />-->
-	</bean>
-	<bean id="ixsz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ixsz_motor" />
-<!--		<property name="initialUserUnits" value="mm" />-->
-	</bean>
-	<bean id="ixsroll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ixsroll_motor" />
-<!--		<property name="initialUserUnits" value="mm" />-->
-	</bean>
-	<bean id="ixspitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ixspitch_motor" />
-<!--		<property name="initialUserUnits" value="mm" />-->
-	</bean>
-	<bean id="ixsyaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ixsyaw_motor" />
-<!--		<property name="initialUserUnits" value="mm" />-->
-	</bean>
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+
+	<gda:motor id="ixsx" pv="ME05M-MO-MIRR-01:X" />
+	<gda:motor id="ixsy" pv="ME05M-MO-MIRR-01:Y" />
+	<gda:motor id="ixsz" pv="ME05M-MO-MIRR-01:Z" />
+	<gda:motor id="ixsroll" pv="ME05M-MO-MIRR-01:ROLL" />
+	<gda:motor id="ixspitch" pv="ME05M-MO-MIRR-01:PITCH" />
+	<gda:motor id="ixsyaw" pv="ME05M-MO-MIRR-01:YAW" />
 
 	<bean id="ixs" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

@@ -1,73 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-	<bean id="mtYaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:YAW" />
-	</bean>
-
-	<bean id="mtY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:Y" />
-	</bean>
-
-	<bean id="mtPitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:PITCH" />
-	</bean>
-
-	<bean id="mtRoll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:ROLL" />
-	</bean>
-
-	<bean id="mtX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:X" />
-	</bean>
-
-	<bean id="mtZ_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:Z" />
-	</bean>
-
-	<bean id="mtXcoarse_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:X:COARSE" />
-	</bean>
-
-	<bean id="mtYcoarse_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TAB-02:Y:COARSE" />
-	</bean>
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 
-	<bean id="mtYaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtYaw_motor" />
-	</bean>
-
-	<bean id="mtY" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtY_motor" />
-	</bean>
-
-	<bean id="mtPitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtPitch_motor" />
-	</bean>
-
-	<bean id="mtRoll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtRoll_motor" />
-	</bean>
-
-	<bean id="mtX" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtX_motor" />
-	</bean>
-
-	<bean id="mtZ" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtZ_motor" />
-	</bean>
-
-	<bean id="mtXcoarse" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtXcoarse_motor" />
-	</bean>
-
-	<bean id="mtYcoarse" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mtYcoarse_motor" />
-	</bean>
-
+	<gda:motor id="mtYaw" pv="BL16B-MO-TAB-02:YAW" />
+	<gda:motor id="mtY" pv="BL16B-MO-TAB-02:Y" />
+	<gda:motor id="mtPitch" pv="BL16B-MO-TAB-02:PITCH" />
+	<gda:motor id="mtRoll" pv="BL16B-MO-TAB-02:ROLL" />
+	<gda:motor id="mtX" pv="BL16B-MO-TAB-02:X" />
+	<gda:motor id="mtZ" pv="BL16B-MO-TAB-02:Z" />
+	<gda:motor id="mtXcoarse" pv="BL16B-MO-TAB-02:X:COARSE" />
+	<gda:motor id="mtYcoarse" pv="BL16B-MO-TAB-02:Y:COARSE" />
 
 	<bean id="mt" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

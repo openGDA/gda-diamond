@@ -1,68 +1,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
+	<gda:motor id="bend1" pv="BL16B-CS-BEND-01:BEND1" />
+	<gda:motor id="bend2" pv="BL16B-CS-BEND-01:BEND2" />
+	<gda:motor id="bend1enc" pv="BL16B-CS-BEND-01:BEND1ENC" />
+	<gda:motor id="bend2enc" pv="BL16B-CS-BEND-01:BEND2ENC" />
+	<gda:motor id="bendYaw" pv="BL16B-CS-BEND-01:YAW" />
+	<gda:motor id="bendRadius" pv="BL16B-CS-BEND-01:RADIUS" />
+	<gda:motor id="bendOffset" pv="BL16B-CS-BEND-01:OFFSET" />
 
-	<bean id="bend1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-CS-BEND-01:BEND1" />
-	</bean>
-
-	<bean id="bend2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-CS-BEND-01:BEND2" />
-	</bean>
-
-	<bean id="bend1enc_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-CS-BEND-01:BEND1ENC" />
-	</bean>
-
-	<bean id="bend2enc_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-CS-BEND-01:BEND2ENC" />
-	</bean>
-
-	<bean id="bendYaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-CS-BEND-01:YAW" />
-	</bean>
-
-	<bean id="bendRadius_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-CS-BEND-01:RADIUS" />
-	</bean>
-
-	<bean id="bendOffset_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-CS-BEND-01:OFFSET" />
-	</bean>
-
-
-	<bean id="bend1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bend1_motor" />
-	</bean>
-
-	<bean id="bend2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bend2_motor" />
-	</bean>
-
-	<bean id="bend1enc" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bend1enc_motor" />
-	</bean>
-
-	<bean id="bend2enc" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bend2enc_motor" />
-	</bean>
-
-	<bean id="bendYaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bendYaw_motor" />
-	</bean>
-
-	<bean id="bendRadius" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bendRadius_motor" />
-	</bean>
-
-	<bean id="bendOffset" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bendOffset_motor" />
-	</bean>
-
-
-	<bean id="bend" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="bend"
+		class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="bend1" />
