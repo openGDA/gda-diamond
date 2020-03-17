@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Eclipse-BundleShape: dir
 Bundle-ManifestVersion: 2
 Bundle-Name: I13-1 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i13-1;singleton:=true
