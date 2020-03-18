@@ -29,4 +29,22 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- PandA only -->
+	<bean id="malcolmInfoPanda" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="PandA only" />
+		<property name="description" value="PandA only Malcolm scan" />
+	</bean>
+
+	<bean id="malcolmModelPanda" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL13J-ML-SCAN-04" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDevicePanda" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL13J-ML-SCAN-04" />
+		<property name="model" ref="malcolmModelPanda" />
+		<property name="deviceInformation" ref="malcolmInfoPanda" />
+		<property name="activated" value="false" />
+	</bean>
+
 </beans>
