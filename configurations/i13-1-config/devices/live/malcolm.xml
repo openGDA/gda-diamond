@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Excalibur -->
+	<bean id="malcolmInfoExcalibur" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur" />
+		<property name="description" value="Excalibur Malcolm scan" />
+	</bean>
+
 	<bean id="malcolmModelExcalibur" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL13J-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
@@ -17,6 +22,11 @@
 	</bean>
 
 	<!-- Eiger -->
+	<bean id="malcolmInfoEiger" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Eiger" />
+		<property name="description" value="Eiger Malcolm scan" />
+	</bean>
+
 	<bean id="malcolmModelEiger" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL13J-ML-SCAN-02" />
 		<property name="exposureTime" value="0.01" />
