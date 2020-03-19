@@ -288,11 +288,7 @@ class BatonStatusComposite extends Composite {
 		takeBaton = new MenuItem(menu, SWT.NONE);
 		takeBaton.setText("Take Baton");
 		takeBaton.addSelectionListener(popupSelectionListener);
-		if (udcClientExists()) {
-			passBatonToUDCClient = new MenuItem(menu, SWT.NONE);
-			passBatonToUDCClient.setText("Pass baton to UDC client");
-			passBatonToUDCClient.addSelectionListener(popupSelectionListener);
-		}
+
 		releaseBaton = new MenuItem(menu, SWT.NONE);
 		releaseBaton.setText("Release Baton");
 		releaseBaton.addSelectionListener(popupSelectionListener);
@@ -305,6 +301,12 @@ class BatonStatusComposite extends Composite {
 		openChat = new MenuItem(menu, SWT.NONE);
 		openChat.setText("Messaging");
 		openChat.addSelectionListener(popupSelectionListener);
+
+		if (udcClientExists()) {
+			passBatonToUDCClient = new MenuItem(menu, SWT.NONE);
+			passBatonToUDCClient.setText("Pass baton to UDC client");
+			passBatonToUDCClient.addSelectionListener(popupSelectionListener);
+		}
 
 		return menu;
 	}
