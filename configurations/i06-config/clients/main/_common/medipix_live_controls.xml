@@ -9,14 +9,14 @@
 	<bean id="medipix_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="medipix Acquire Time" />
-		<property name="scannableName" value="medipixExposureTime" />
+		<property name="scannableName" value="medipixAcquireTime" />
 		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
-	<bean id="medipix_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+	<bean id="medipix_idle_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Idle" />
 		<property name="group" value="medipix Acquire Time" />
-		<property name="scannableName" value="medipixAcquirePeriod" />
+		<property name="scannableName" value="medipixIdleTime" />
 		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 		<property name="lowerLimit" value="0.002"/>
@@ -70,7 +70,7 @@
 				<property name="liveControls">
 					<list>
 						<ref bean="medipix_expsure_time_control" />
-						<ref bean="medipix_acquire_period_control"/>
+						<ref bean="medipix_idle_time_control"/>
 						<ref bean="medipix_proc_num_filter_control" />
 						<ref bean="medipixpreview" />
 <!-- 						<ref bean="medipiximaging" /> -->
