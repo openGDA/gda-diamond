@@ -25,6 +25,7 @@ import java.util.Optional;
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MappedDataView;
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.dawnsci.plotting.api.IPlottingService;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -35,6 +36,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
@@ -46,7 +48,7 @@ import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
-import uk.ac.diamond.daq.mapping.ui.experiment.MetadataController;
+import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController.DiffractionAcquisitionMode;
 import uk.ac.diamond.daq.mapping.ui.experiment.file.FileScanSaver;
@@ -55,6 +57,7 @@ import uk.ac.diamond.daq.mapping.ui.experiment.saver.PersistenceScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.ScanSaver;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
+import uk.ac.gda.ui.tool.ClientBindingElements;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientMessagesUtility;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -65,12 +68,14 @@ public class DiffractionScanSelection extends ViewPart {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection";
 
+	private Text name;
 	private DiffractionPathComposite diffractionPathComposite;
 	private ScanManagementController smController;
 	private ScanSaver scanSaver;
 	private Button pointAndShoot;
 
-	private MetadataController metadataController;
+	private DiffractionParameters acquisitionParameters;
+	//private MetadataController metadataController;
 	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
 	public DiffractionScanSelection() {
@@ -80,6 +85,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		acquisitionParameters = new DiffractionParameters();
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
@@ -91,9 +97,9 @@ public class DiffractionScanSelection extends ViewPart {
 	}
 
 	/**
-	 * Point&Shoot depends on {@link IMapClickEvent}s firing when users click on the map.
-	 * The producer of these is registered once the {@link MappedDataView} is created;
-	 * here Eclipse finds it, creating it and registering all the required components.
+	 * Point&Shoot depends on {@link IMapClickEvent}s firing when users click on the map. The producer of these is
+	 * registered once the {@link MappedDataView} is created; here Eclipse finds it, creating it and registering all the
+	 * required components.
 	 */
 	private void prepareMapEvents() {
 		final IWorkbenchPage page = getSite().getPage();
@@ -105,9 +111,9 @@ public class DiffractionScanSelection extends ViewPart {
 		diffractionPathComposite.setFocus();
 	}
 
-	private void buildAcquisitionNameComposite(Composite parent) {
-		new AcquisitionNameControlFactory().createComposite(parent, SWT.NONE);
-	}
+//	private void buildAcquisitionNameComposite(Composite parent) {
+//		new AcquisitionNameControlFactory().createComposite(parent, SWT.NONE);
+//	}
 
 	private void buildDiffractionPathComposite(Composite parent) {
 		Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.DIFFRACTION_SCAN_PATH);
@@ -117,17 +123,36 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private CompositeFactory getTopArea() {
 		return (parent, style) -> {
-				buildAcquisitionNameComposite(parent);
-				buildDiffractionPathComposite(parent);
-				Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.POINT_AND_SHOOT);
-				GridLayoutFactory.fillDefaults().applyTo(group);
-				GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).applyTo(group);
+			Composite container = ClientSWTElements.createComposite(parent, style, 2, SWT.FILL, SWT.FILL);
+			ClientSWTElements.createLabel(container, SWT.NONE)
+					.setText(ClientMessagesUtility.getMessage(ClientMessages.ACQUISITION));
+			name = ClientSWTElements.createText(container, SWT.NONE, null, null,
+					ClientMessages.ACQUISITION_NAME_TP,
+					GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.FILL));
+			// buildAcquisitionNameComposite(parent);
+			buildDiffractionPathComposite(parent);
+			Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.POINT_AND_SHOOT);
+			GridLayoutFactory.fillDefaults().applyTo(group);
+			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).applyTo(group);
 
-				pointAndShoot = ClientSWTElements.createButton(group, SWT.NONE, ClientMessages.START,
-						ClientMessages.START_POINT_AND_SHOOT_TP, ClientImages.RUN);
-				pointAndShoot.addListener(SWT.Selection, e -> updateStatus());
-				return parent;
-			};
+			pointAndShoot = ClientSWTElements.createButton(group, SWT.NONE, ClientMessages.START,
+					ClientMessages.START_POINT_AND_SHOOT_TP, ClientImages.RUN);
+			pointAndShoot.addListener(SWT.Selection, e -> updateStatus());
+
+			bindElements();
+			initialiseElements();
+			return parent;
+		};
+	}
+
+	private void bindElements() {
+		DataBindingContext dbc = new DataBindingContext();
+
+		ClientBindingElements.bindText(dbc, name, String.class, "name", getTemplateData());
+	}
+
+	private void initialiseElements() {
+
 	}
 
 	private void buildSavedComposite(Composite parent) {
@@ -139,9 +164,9 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private CompositeFactory getBottomArea() {
 		return (parent, style) -> {
-				buildSavedComposite(parent);
-				return parent;
-			};
+			buildSavedComposite(parent);
+			return parent;
+		};
 	}
 
 	private SelectionListener getSaveListener() {
@@ -171,7 +196,7 @@ public class DiffractionScanSelection extends ViewPart {
 				if (getExperimentController().isPresent()) {
 					applyExperimentProtocol();
 				} else {
-					smController.submitScan(getAcquisitionName());
+					smController.submitScan(getAcquisitionName(), getTemplateData());
 				}
 			}
 
@@ -207,7 +232,7 @@ public class DiffractionScanSelection extends ViewPart {
 			UIHelper.showError("Cannot run acquisition", e);
 			return;
 		}
-		smController.submitScan(acquisitionFile);
+		smController.submitScan(acquisitionFile, getTemplateData());
 	}
 
 	private String extractBase(URL url) {
@@ -251,13 +276,18 @@ public class DiffractionScanSelection extends ViewPart {
 	}
 
 	private Optional<String> getAcquisitionName() {
-		if (metadataController == null) {
-			metadataController = smController.getService(MetadataController.class);
-		}
-		if (metadataController.getAcquisitionName() == null
-				|| metadataController.getAcquisitionName().trim().length() == 0) {
-			return Optional.empty();
-		}
-		return Optional.ofNullable(metadataController.getAcquisitionName());
+		return Optional.ofNullable(getTemplateData().getName());
+//		if (metadataController == null) {
+//			metadataController = smController.getService(MetadataController.class);
+//		}
+//		if (metadataController.getAcquisitionName() == null
+//				|| metadataController.getAcquisitionName().trim().length() == 0) {
+//			return Optional.empty();
+//		}
+//		return Optional.ofNullable(metadataController.getAcquisitionName());
+	}
+
+	private DiffractionParameters getTemplateData() {
+		return acquisitionParameters;
 	}
 }
