@@ -124,7 +124,7 @@
 		<property name="bottomUi" ref="psl_histogramBottomUI" />
 	</bean>
 
-	<bean id="medpix_histogramTopUI"
+	<bean id="medipix_histogramTopUI"
 		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
 	<bean id="medipix_histogramBottomUI"
