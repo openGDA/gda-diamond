@@ -102,8 +102,6 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_pi_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_pi_lab_motors.xml"/>
 
-	<import resource="file:${gda.config}/devices/${gda.mode}/malcolm.xml"/>
-
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pie725_raster.xml"/>
 
@@ -189,8 +187,6 @@
 	<import resource="file:${gda.config}/devices/_common/diffractometer.xml" />
 	<import resource="file:${gda.config}/devices/_common/afg.xml"/>
 	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
-
-	<import resource="file:${gda.config}/devices/_common/malcolm.xml" />
 
 	<!-- =========================================================== -->
 	<!-- end of device list -->

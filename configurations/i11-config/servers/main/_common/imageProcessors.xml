@@ -11,8 +11,14 @@
 	</bean>
 	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
 		<property name="enable" value="false" />
-		<property name="profileX" value="true"/>
-		<property name="profileY" value="true"/>
+		<property name="enabledStats">
+			<list>
+				<value>PROFILE_X</value>
+				<value>PROFILE_Y</value>
+				<value>SUM</value>
+				<value>MEAN</value>
+			</list>
+		</property>
 	</bean>
 	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
 		<property name="plotName" value="Detector Image" />

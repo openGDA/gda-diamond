@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Excalibur -->
+	<bean id="malcolmInfoExcalibur" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur" />
+		<property name="description" value="Excalibur Malcolm scan" />
+	</bean>
+
 	<bean id="malcolmModelExcalibur" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL13J-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
@@ -17,6 +22,11 @@
 	</bean>
 
 	<!-- Eiger -->
+	<bean id="malcolmInfoEiger" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Eiger" />
+		<property name="description" value="Eiger Malcolm scan" />
+	</bean>
+
 	<bean id="malcolmModelEiger" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL13J-ML-SCAN-02" />
 		<property name="exposureTime" value="0.01" />
@@ -26,6 +36,24 @@
 		<property name="name" value="BL13J-ML-SCAN-02" />
 		<property name="model" ref="malcolmModelEiger" />
 		<property name="deviceInformation" ref="malcolmInfoEiger" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- PandA only -->
+	<bean id="malcolmInfoPanda" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="PandA only" />
+		<property name="description" value="PandA only Malcolm scan" />
+	</bean>
+
+	<bean id="malcolmModelPanda" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL13J-ML-SCAN-04" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDevicePanda" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL13J-ML-SCAN-04" />
+		<property name="model" ref="malcolmModelPanda" />
+		<property name="deviceInformation" ref="malcolmInfoPanda" />
 		<property name="activated" value="false" />
 	</bean>
 
