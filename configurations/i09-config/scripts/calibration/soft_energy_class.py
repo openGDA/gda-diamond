@@ -3,7 +3,7 @@ import gda.factory.Finder as Finder
 import sys
 from time import sleep
 from LookupTables import readLookupTable
-from gda.device.scannable.scannablegroup import ScannableGroup
+from gda.device.scannable.scannablegroup import ScannableGroupNamed
 from gda.configuration.properties import LocalProperties
 import logging
 from gdascripts.utils import caput
@@ -34,7 +34,7 @@ class SoftEnergy(ScannableMotionBase):
         self.gap = 'jgap'
         self.dcm = "pgmenergy"
         self.scannableNames = ["pgmenergy", "jgap"]
-        self.scannables = ScannableGroup(name, [finder.find(x) for x in self.scannableNames])
+        self.scannables = ScannableGroupNamed(name, [finder.find(x) for x in self.scannableNames])
         self.detune=gap_offset
         self.feedbackPV=feedbackPV
         self._busy = 0
