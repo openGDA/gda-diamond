@@ -19,6 +19,7 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
@@ -36,8 +37,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
@@ -45,6 +47,7 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
@@ -53,8 +56,12 @@ import uk.ac.diamond.daq.mapping.ui.experiment.file.FileScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.file.SavedScanMetaData;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.PersistenceScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.ScanSaver;
+import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
+import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
+import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
+import uk.ac.gda.client.properties.DetectorProperties;
 import uk.ac.gda.ui.tool.ClientBindingElements;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientMessagesUtility;
@@ -65,6 +72,7 @@ import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 public class DiffractionScanSelection extends ViewPart {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection";
+	private static final Logger logger = LoggerFactory.getLogger(DiffractionScanSelection.class);
 
 	private Text name;
 	private DiffractionPathComposite diffractionPathComposite;
@@ -76,13 +84,20 @@ public class DiffractionScanSelection extends ViewPart {
 	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
 	public DiffractionScanSelection() {
-		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
+		smController = MappingServices.getScanManagementController();
 		smController.initialise();
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
+		logger.info("{} createPartControl - start", this.getClass());
 		acquisitionParameters = new DiffractionParameters();
+		Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.DIFFRACTION);
+		int index = 0; // in future may be parametrised
+		if (dp.isPresent()) {
+			DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
+			acquisitionParameters.setDetector(dd);
+		}
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
@@ -91,6 +106,8 @@ public class DiffractionScanSelection extends ViewPart {
 		builder.build().createComposite(parent, SWT.NONE);
 
 		prepareMapEvents();
+		MappingServices.updateDetectorParameters();
+		logger.info("{} createPartControl - end", this.getClass());
 	}
 
 	/**
@@ -119,8 +136,7 @@ public class DiffractionScanSelection extends ViewPart {
 			Composite container = ClientSWTElements.createComposite(parent, style, 2, SWT.FILL, SWT.FILL);
 			ClientSWTElements.createLabel(container, SWT.NONE)
 					.setText(ClientMessagesUtility.getMessage(ClientMessages.ACQUISITION));
-			name = ClientSWTElements.createText(container, SWT.NONE, null, null,
-					ClientMessages.ACQUISITION_NAME_TP,
+			name = ClientSWTElements.createText(container, SWT.NONE, null, null, ClientMessages.ACQUISITION_NAME_TP,
 					GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.FILL));
 			buildDiffractionPathComposite(parent);
 			Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.POINT_AND_SHOOT);
@@ -224,7 +240,7 @@ public class DiffractionScanSelection extends ViewPart {
 	}
 
 	private void updateStatus() {
-		IPlottingService plottingService = PlatformUI.getWorkbench().getService(IPlottingService.class);
+		IPlottingService plottingService = MappingServices.getPlottingService();
 		IPlottingSystem<Object> mapPlottingSystem = plottingService.getPlottingSystem("Map");
 
 		if (isPointAndShootActive()) {
