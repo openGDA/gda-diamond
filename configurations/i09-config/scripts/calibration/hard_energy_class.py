@@ -4,7 +4,7 @@ import sys
 import math
 from time import sleep
 from LookupTables import readLookupTable
-from gda.device.scannable.scannablegroup import ScannableGroup
+from gda.device.scannable.scannablegroup import ScannableGroupNamed
 from gda.configuration.properties import LocalProperties
 import logging
 from gdascripts.utils import caput
@@ -38,7 +38,7 @@ class HardEnergy(ScannableMotionBase):
         self.dcm = "dcmenergy"
         self.lambdau = 27  # undulator period
         self.scannableNames = ["dcmenergy", "igap"]
-        self.scannables = ScannableGroup(name,[finder.find(x) for x in self.scannableNames])
+        self.scannables = ScannableGroupNamed(name,[finder.find(x) for x in self.scannableNames])
         self.detune=gap_offset
         self.feedbackPVs=feedbackPVs
         self._busy = 0
