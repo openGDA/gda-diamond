@@ -97,6 +97,11 @@
 				<entry key="Safe position" value="Beamline/EndstationConfigurations/safe_position.py" />
 				<entry key="Run after restart" value="Beamline/EndstationConfigurations/run_after_restart.py"/>
 				<entry key="Clear common faults" value="Beamline/EndstationConfigurations/clear_common_faults.py"/>
+				<entry key="Move to focus position" value="Beamline/EndstationConfigurations/move_to_focus_position.py"/>
+				<entry key="Store focus position" value="Beamline/EndstationConfigurations/store_focus_position.py"/>
+				<entry key="Differential Phase Contrast" value="Beamline/EndstationConfigurations/differential_phase_contrast.py"/>
+				<entry key="Ptychography - high res" value="Beamline/EndstationConfigurations/ptychography_high_res.py"/>
+				<entry key="Ptychography - medium res" value="Beamline/EndstationConfigurations/ptychography_medium_res"/>
 			</map>
 		</property>
 	</bean>
