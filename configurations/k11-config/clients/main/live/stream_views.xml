@@ -3,51 +3,88 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="d1_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<bean id="d1_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D1" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-01:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8080/D1.mjpg.mjpg" />
+		<property name="url"
+			value="http://bl11k-di-serv-01.diamond.ac.uk:8080/D1.mjpg.mjpg" />
 	</bean>
-	
-	<bean id="d2_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+
+	<bean id="d2_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D2" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-02:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8080/D2.mjpg.mjpg" />
+		<property name="url"
+			value="http://bl11k-di-serv-01.diamond.ac.uk:8080/D2.mjpg.mjpg" />
 	</bean>
 
-	<bean id="d3_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+	<bean id="d3_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D3" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-03:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D3.mjpg.mjpg" />
+		<property name="url"
+			value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D3.mjpg.mjpg" />
 	</bean>
 
-	<bean id="d10_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+	<bean id="d10_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D10" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-10:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D10.mjpg.mjpg" />
+		<property name="url"
+			value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D10.mjpg.mjpg" />
 	</bean>
 
-	<bean id="d11_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+	<bean id="d11_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D11" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-11:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D11.mjpg.mjpg" />
+		<property name="url"
+			value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D11.mjpg.mjpg" />
 	</bean>
 
-	<bean id="d4_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+	<bean id="d4_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D4" />
 		<property name="arrayPv" value="BL11K-DI-PHDGN-04:ARR" />
-		<property name="url" value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D4.mjpg.mjpg" />
+		<property name="url"
+			value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D4.mjpg.mjpg" />
 	</bean>
-	
-	<bean id="pco_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+
+	<bean id="pco_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Imaging Camera" />
 		<property name="arrayPv" value="BL11K-EA-DET-03:ARR" />
-		<property name="url" value="http://K11-IMAGING01:8080/pco.mjpg.mjpg" />
+		<property name="calibratedAxesProvider"
+			ref="beam_position_calibration" />
+		<property name="url"
+			value="http://K11-IMAGING01:8080/pco.mjpg.mjpg" />
 	</bean>
-	
-	<bean id="pilatus_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+
+	<bean id="pilatus_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diffraction Camera" />
 		<property name="arrayPv" value="BL11K-EA-PILAT-01:ARR" />
-		<property name="url" value="http://k11-ppu01.dimaond.ac.uk:8081/PILATUS.mjpg.mjpg" />
-	</bean>	
+		<property name="url"
+			value="http://k11-ppu01.dimaond.ac.uk:8081/PILATUS.mjpg.mjpg" />
+	</bean>
+
+
+	<bean id="kb_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="kb_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="beam_position_calibration"
+		class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
+		<constructor-arg name="xAxisScannable" ref="kb_x" />
+		<constructor-arg name="yAxisScannable" ref="kb_y" />
+		<constructor-arg name="xAxisPixelScaling"
+			value="0.002" />
+		<constructor-arg name="yAxisPixelScaling"
+			value="0.002" />
+		<constructor-arg name="xAxisBeamPositionInPixels"
+			value="640" />
+		<constructor-arg name="yAxisBeamPositionInPixels"
+			value="480" />
+		<constructor-arg name="attemptToLoadLocalParameters"
+			value="true" />
+	</bean>
 </beans>
