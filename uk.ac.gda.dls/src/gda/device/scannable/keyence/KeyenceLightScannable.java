@@ -38,10 +38,10 @@ import uk.ac.gda.api.remoting.ServiceInterface;
 public class KeyenceLightScannable extends ScannableMotionUnitsBase {
 	private static final Logger logger = LoggerFactory.getLogger(KeyenceLightScannable.class);
 
-	Keyence keyence;
-	Integer lightNumber = 0;
+	private Keyence keyence;
+	private Integer lightNumber = 0;
 	private Double percentDbl = Double.NaN;
-	DummyPersistentScannable dummyPersistentScannable;
+	private DummyPersistentScannable dummyPersistentScannable;
 
 	public void setLightNumber(Integer lightNumber) {
 		this.lightNumber = lightNumber;
