@@ -42,10 +42,18 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i14"
-            class="gda.rcp.views.ViewFactory:statusView"
+            class="gda.rcp.views.ViewFactory:statusViewStaff"
             icon="platform:/plugin/uk.ac.gda.beamline.i14/icons/status.png"
-            id="uk.ac.gda.beamline.i14.views.I14StatusView"
-            name="Status">
+            id="uk.ac.gda.beamline.i14.views.I14StatusViewStaff"
+            name="Status - staff">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i14"
+            class="gda.rcp.views.ViewFactory:statusViewUser"
+            icon="platform:/plugin/uk.ac.gda.beamline.i14/icons/status.png"
+            id="uk.ac.gda.beamline.i14.views.I14StatusViewUser"
+            name="Status - user">
       </view>
       <e4view
             allowMultiple="false"
@@ -62,11 +70,18 @@
       <perspectiveExtension
             targetID="uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective">
          <view
-               id="uk.ac.gda.beamline.i14.views.I14StatusView"
+               id="uk.ac.gda.beamline.i14.views.I14StatusViewUser"
                minimized="false"
                relative="org.dawnsci.mapping.ui.mappeddataview"
                relationship="bottom"
                ratio="0.55">
+         </view>
+         <view
+               id="uk.ac.gda.beamline.i14.views.I14StatusViewStaff"
+               minimized="false"
+               visible="false"
+               relationship="stack"
+               relative="uk.ac.gda.beamline.i14.views.I14StatusViewUser">
          </view>
          <view
                id="uk.ac.gda.client.livecontrol.LiveControlsView"

@@ -33,7 +33,12 @@ public class StatusViewFactory extends FindableBase implements FindableExecutabl
 
 	private static final Logger logger = LoggerFactory.getLogger(StatusViewFactory.class);
 
+	public enum ViewType {
+		USER, STAFF
+	}
+
 	private String viewName = "Status";
+	private ViewType viewType;
 	private String iconPlugin = "uk.ac.gda.beamline.i14";
 	private String iconFilePath = "icons/status.png";
 	private Double ringCurrentAlarmThreshold;
@@ -52,7 +57,10 @@ public class StatusViewFactory extends FindableBase implements FindableExecutabl
 	@Override
 	public Object create() throws CoreException {
 		logger.info("Creating I14 status view: {}", this);
-		final StatusView view = new StatusView();
+		if (viewType == null) {
+			throw new IllegalStateException("View type is not set in StatusViewFactory");
+		}
+		final StatusView view = (viewType == ViewType.USER) ? new StatusViewUser() : new StatusViewStaff();
 		view.setName(viewName);
 		view.setIconPlugin(iconPlugin);
 		view.setIconFilePath(iconFilePath);
@@ -79,6 +87,10 @@ public class StatusViewFactory extends FindableBase implements FindableExecutabl
 
 	public void setTimeToRefillAlarmThreshold(Double timeToRefillAlarmThreshold) {
 		this.timeToRefillAlarmThreshold = timeToRefillAlarmThreshold;
+	}
+
+	public void setViewType(ViewType viewType) {
+		this.viewType = viewType;
 	}
 
 	@Override
