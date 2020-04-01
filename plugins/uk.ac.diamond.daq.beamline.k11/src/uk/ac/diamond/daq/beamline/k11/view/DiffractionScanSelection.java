@@ -18,11 +18,9 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
-import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MappedDataView;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -75,7 +73,6 @@ public class DiffractionScanSelection extends ViewPart {
 	private Button pointAndShoot;
 
 	private DiffractionParameters acquisitionParameters;
-	//private MetadataController metadataController;
 	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
 	public DiffractionScanSelection() {
@@ -111,10 +108,6 @@ public class DiffractionScanSelection extends ViewPart {
 		diffractionPathComposite.setFocus();
 	}
 
-//	private void buildAcquisitionNameComposite(Composite parent) {
-//		new AcquisitionNameControlFactory().createComposite(parent, SWT.NONE);
-//	}
-
 	private void buildDiffractionPathComposite(Composite parent) {
 		Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.DIFFRACTION_SCAN_PATH);
 		diffractionPathComposite = new DiffractionPathComposite(group, SWT.NONE);
@@ -129,7 +122,6 @@ public class DiffractionScanSelection extends ViewPart {
 			name = ClientSWTElements.createText(container, SWT.NONE, null, null,
 					ClientMessages.ACQUISITION_NAME_TP,
 					GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.FILL));
-			// buildAcquisitionNameComposite(parent);
 			buildDiffractionPathComposite(parent);
 			Group group = ClientSWTElements.createGroup(parent, 1, ClientMessages.POINT_AND_SHOOT);
 			GridLayoutFactory.fillDefaults().applyTo(group);
@@ -140,7 +132,6 @@ public class DiffractionScanSelection extends ViewPart {
 			pointAndShoot.addListener(SWT.Selection, e -> updateStatus());
 
 			bindElements();
-			initialiseElements();
 			return parent;
 		};
 	}
@@ -149,10 +140,6 @@ public class DiffractionScanSelection extends ViewPart {
 		DataBindingContext dbc = new DataBindingContext();
 
 		ClientBindingElements.bindText(dbc, name, String.class, "name", getTemplateData());
-	}
-
-	private void initialiseElements() {
-
 	}
 
 	private void buildSavedComposite(Composite parent) {
@@ -194,9 +181,9 @@ public class DiffractionScanSelection extends ViewPart {
 					return;
 				}
 				if (getExperimentController().isPresent()) {
-					applyExperimentProtocol();
+					applyExperimentStructure();
 				} else {
-					smController.submitScan(getAcquisitionName(), getTemplateData());
+					smController.submitScan(Optional.ofNullable(getAcquisitionName()), getTemplateData());
 				}
 			}
 
@@ -207,36 +194,22 @@ public class DiffractionScanSelection extends ViewPart {
 		};
 	}
 
-	private void applyExperimentProtocol() {
-		getExperimentController().ifPresent(this::consumeExperiment);
+	private void applyExperimentStructure() {
+		getExperimentController().ifPresent(this::submit);
 	}
 
-	private void consumeExperiment(ExperimentController exController) {
+	private void submit(ExperimentController exController) {
 		if (!exController.isStarted()) {
-			UIHelper.showError("Cannot start acquisition", "You have to start first the experiment");
+			UIHelper.showError("Cannot start acquisition", "You must start an experiment first");
 			return;
 		}
-		URL acquisitionFolder;
-		try {
-			acquisitionFolder = exController
-					.createAcquisitionLocation(getAcquisitionName().orElse(exController.getDefaultAcquisitionName()));
-		} catch (ExperimentControllerException e) {
-			UIHelper.showError("Cannot create acquisition folder", e);
-			return;
-		}
-		URL acquisitionFile;
-		try {
-			String fileName = extractBase(acquisitionFolder);
-			acquisitionFile = new URL(acquisitionFolder, fileName + ".nxs");
-		} catch (MalformedURLException e) {
-			UIHelper.showError("Cannot run acquisition", e);
-			return;
-		}
-		smController.submitScan(acquisitionFile, getTemplateData());
-	}
 
-	private String extractBase(URL url) {
-		return FilenameUtils.getBaseName(FilenameUtils.getFullPathNoEndSeparator(url.getPath()));
+		try {
+			URL output = exController.createAcquisitionUrl(getAcquisitionName());
+			smController.submitScan(output, getTemplateData());
+		} catch (ExperimentControllerException e) {
+			UIHelper.showError("Cannot run acquisition", e);
+		}
 	}
 
 	private ScanSaver getScanSaver() {
@@ -275,16 +248,8 @@ public class DiffractionScanSelection extends ViewPart {
 		return SpringApplicationContextProxy.getOptionalBean(ExperimentController.class);
 	}
 
-	private Optional<String> getAcquisitionName() {
-		return Optional.ofNullable(getTemplateData().getName());
-//		if (metadataController == null) {
-//			metadataController = smController.getService(MetadataController.class);
-//		}
-//		if (metadataController.getAcquisitionName() == null
-//				|| metadataController.getAcquisitionName().trim().length() == 0) {
-//			return Optional.empty();
-//		}
-//		return Optional.ofNullable(metadataController.getAcquisitionName());
+	private String getAcquisitionName() {
+		return getTemplateData().getName();
 	}
 
 	private DiffractionParameters getTemplateData() {

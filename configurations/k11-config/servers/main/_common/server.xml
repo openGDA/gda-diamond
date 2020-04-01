@@ -192,6 +192,12 @@
 
 	<import
 		resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
+		
+	<bean class="uk.ac.diamond.daq.experiment.structure.ExperimentStructureJobResponder"  init-method="connect">
+        <property name="broker" value="${gda.activemq.broker.uri}" />
+        <property name="requestTopic" value="${experiment.structure.job.request.topic}" />
+        <property name="responseTopic" value="${experiment.structure.job.response.topic}" />
+    </bean>
 
 	<!-- Mapping scans IMPORTANT: this will start processing the scanning queue. 
 		Detectors must be created before doing this. ADVISED: do it last or towards 
