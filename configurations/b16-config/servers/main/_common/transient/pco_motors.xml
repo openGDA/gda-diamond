@@ -5,7 +5,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
-	profile="pcocam">
+	profile="pco_motors">
 
 	<!-- NOTE: pcocam 1 2 and 3 are cobbled up bodge motors and not included here-->
 
