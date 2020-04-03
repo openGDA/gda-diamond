@@ -126,7 +126,7 @@
 		</property>
 	</bean>
 
-	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroupNamed">
 		<property name="groupMembers">
 			<list>
 				<ref bean="xtal_minus1_x" />
@@ -332,7 +332,7 @@
 		<property name="initialUserUnits" value="deg" />
 	</bean>
 
-	<bean id="dummy_spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="dummy_spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroupNamed">
 		<property name="groupMembers">
 			<list>
 				<ref bean="dummy_xtal_minus1_x" />

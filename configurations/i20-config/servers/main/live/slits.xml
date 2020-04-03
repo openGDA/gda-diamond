@@ -115,6 +115,7 @@
 				<value>photonshutter</value>
 			</list>
 		</property>
+		<property name="checkDemandInStatus" value="true" />
 	</bean>
 
 </beans>

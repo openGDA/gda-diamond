@@ -26,7 +26,7 @@
 	</bean>
 
 	<bean id="legacyTSPvs" class="java.lang.Boolean">
-		<constructor-arg value="true" />
+		<constructor-arg value="false" />
 	</bean>
 
 	<bean id="medipix_adbase"
