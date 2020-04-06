@@ -322,26 +322,6 @@ csb2_p_monitor = CsbPidMonitor(csb2, upper=251, lower=249, high_p=150, low_p=300
 csb2.addIObserver(csb2_p_monitor)
 add_reset_hook(lambda obs=csb2_p_monitor: csb2.deleteIObserver(obs))
 
-from config_tests.spin_check import ScanSpinCheck, SpinCheck
-_cvscan_detector = cvscan
-_scan_listener_spin_check = ScanSpinCheck(spin)
-def autoSpinOn():
-    global cvscan
-    cvscan, _ = SpinCheck(_cvscan_detector, spin), 0 # Scannable overwriting awkwardness
-    add_default(_scan_listener_spin_check)
-
-def autoSpinOff():
-    global cvscan
-    cvscan, _ = _cvscan_detector, 0
-    remove_default(_scan_listener_spin_check)
-
-from config_tests import rebinning
-macRebinner = rebinning.MacRebinner('/dls_sw/apps/i11/hrpd.git/scripts/rebin', '--no-sum', '--rebin', e='.xye')
-cvscan.scriptController.addIObserver(macRebinner)
-add_reset_hook(lambda c=cvscan.scriptController, x=macRebinner: c.deleteIObserver(x))
-macRebinner.step_size = []
-print 'Set up automatic mac rebinning. To set step sizes: >>> macRebinner.step_size = [0.001]'
-
 from gdascripts.scan import gdascans
 from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
 from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import GaussianPeakAndBackground
@@ -364,4 +344,7 @@ def align_pitch(centre=None):
     if centre is not None: dcm_pitch(centre)
     rscan(dcm_pitch, -1.2, 1.2, 0.05, Io, 1, Ie, 1)
     scan_processor.go(peak)
+
+# Run any configuration needed for things under active development
+from config_tests import *
 
