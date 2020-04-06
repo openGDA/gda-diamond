@@ -67,6 +67,13 @@
 				<ref bean="saxs_cal" />
 			</list>
 		</property>
+		<property name="preScanActions" >
+			<list>
+				<bean class="uk.ac.gda.server.ncd.actions.ValveMoveAction">
+					<property name="valve" ref="v8" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 	<bean id="saxs_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
 		<property name="viewName" value="Saxs Plot"/>
