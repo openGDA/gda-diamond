@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i14.views;
+package uk.ac.gda.beamline.i14.views.statusview;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +42,7 @@ import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.jython.ICommandRunner;
 import gda.jython.InterfaceProvider;
+import uk.ac.gda.beamline.i14.views.beamlinereadiness.BeamlineReadinessDisplay;
 import uk.ac.gda.dls.client.views.ReadonlyScannableComposite;
 import uk.ac.gda.dls.client.views.RunCommandComposite;
 
@@ -71,6 +72,7 @@ public abstract class StatusView extends ViewPart {
 	private Double ringCurrentAlarmThreshold;
 	private Double timeToRefillAlarmThreshold;
 
+	@SuppressWarnings("unused")
 	@Override
 	public void createPartControl(Composite parent) {
 		GridDataFactory.swtDefaults().applyTo(parent);

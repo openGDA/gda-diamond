@@ -5,14 +5,14 @@
 
 
 	<!-- Beans to initialise view factories -->
-	<bean id="statusViewStaff" class="uk.ac.gda.beamline.i14.views.StatusViewFactory">
+	<bean id="statusViewStaff" class="uk.ac.gda.beamline.i14.views.statusview.StatusViewFactory">
 		<property name="ringCurrentAlarmThreshold" value="50.0" />
 		<property name="timeToRefillAlarmThreshold" value="30.0" />
 		<property name="viewName" value="Status - staff" />
 		<property name="viewType" value="STAFF" />
 	</bean>
 
-	<bean id="statusViewUser" class="uk.ac.gda.beamline.i14.views.StatusViewFactory">
+	<bean id="statusViewUser" class="uk.ac.gda.beamline.i14.views.statusview.StatusViewFactory">
 		<property name="ringCurrentAlarmThreshold" value="50.0" />
 		<property name="timeToRefillAlarmThreshold" value="30.0" />
 		<property name="viewName" value="Status - user" />

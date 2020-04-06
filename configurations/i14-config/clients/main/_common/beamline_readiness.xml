@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean class="uk.ac.gda.beamline.i14.views.BeamlineReadinessParameters">
+	<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.BeamlineReadinessParameters">
 		<property name="shutters">
 			<list>
 				<value>oh1_shutter_status</value>

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i14.views;
+package uk.ac.gda.beamline.i14.views.beamlinereadiness;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ import uk.ac.gda.client.viewer.ThreeStateDisplay;
  * Extends a {@link ThreeStateDisplay} to show whether the beamline is ready i.e. whether the beam is in position and the
  * intensity is sufficient.
  */
-class BeamlineReadinessDisplay extends ThreeStateDisplay {
+public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 	private static final Logger logger = LoggerFactory.getLogger(BeamlineReadinessDisplay.class);
 
 	private enum ReadinessState {
