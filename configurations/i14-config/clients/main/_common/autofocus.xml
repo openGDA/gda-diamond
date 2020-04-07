@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="autofocus_points" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<!-- Top of plot -->
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="640" />
+					<constructor-arg name="yCentre" value="100" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af01" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="370" />
+					<constructor-arg name="yCentre" value="195" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af02" />
+					<property name="cross" value="true" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="910" />
+					<constructor-arg name="yCentre" value="195" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af03" />
+					<property name="cross" value="true" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="640" />
+					<constructor-arg name="yCentre" value="290" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af04" />
+				</bean>
+
+				<!-- Centre row left -->
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="100" />
+					<constructor-arg name="yCentre" value="480" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af05" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="280" />
+					<constructor-arg name="yCentre" value="480" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af06" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="460" />
+					<constructor-arg name="yCentre" value="480" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af07" />
+				</bean>
+
+				<!-- Centre point -->
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="640" />
+					<constructor-arg name="yCentre" value="480" />
+					<constructor-arg name="xSize" value="100" />
+					<constructor-arg name="ySize" value="100" />
+					<constructor-arg name="name" value="af08" />
+					<property name="cross" value="true" />
+					<property name="centre" value="true" />
+				</bean>
+
+				<!-- Centre row right -->
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="820" />
+					<constructor-arg name="yCentre" value="480" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af09" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="1000" />
+					<constructor-arg name="yCentre" value="480" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af10" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="1180" />
+					<constructor-arg name="yCentre" value="480" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af11" />
+				</bean>
+
+				<!-- Bottom of plot -->
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="640" />
+					<constructor-arg name="yCentre" value="670" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af12" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="370" />
+					<constructor-arg name="yCentre" value="765" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af13" />
+					<property name="cross" value="true" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="910" />
+					<constructor-arg name="yCentre" value="765" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af14" />
+					<property name="cross" value="true" />
+				</bean>
+				<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus.FocusPoint">
+					<constructor-arg name="xCentre" value="640" />
+					<constructor-arg name="yCentre" value="860" />
+					<constructor-arg name="xSize" value="50" />
+					<constructor-arg name="ySize" value="50" />
+					<constructor-arg name="name" value="af15" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+</beans>

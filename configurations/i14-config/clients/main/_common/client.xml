@@ -18,6 +18,7 @@
 	<!-- =========================================================== -->
 	<!-- Shared files                                                -->
 	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/_common/autofocus.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/beamline_readiness.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/filters.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />

@@ -31,25 +31,42 @@
 				<property name="cameraResetScannable" ref="sim_camera_reset" />
 				<property name="extensions">
 					<list>
-						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
-							<property name="calibration" ref="sim_cam_beam_position_calibration" />
-						</bean>
-						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-							<constructor-arg name="controlScannable">
-								<bean class="gda.device.scannable.SimplePVScannable">
-									<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
-									<property name="textInput" value="true" />
-								</bean>
-							</constructor-arg>
-							<constructor-arg name="monitorScannable">
-								<bean class="gda.device.monitor.EpicsMonitor">
-									<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
-								</bean>
-							</constructor-arg>
-						</bean>
+						<ref bean="sim_cam_extension_calibrate" />
+						<ref bean="sim_cam_extension_toggle_overlay" />
+						<ref bean="sim_cam_extension_autofocus" />
 					</list>
 				</property>
 			</bean>
+		</property>
+	</bean>
+
+	<bean id="sim_cam_extension_calibrate" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
+		<property name="calibration" ref="sim_cam_beam_position_calibration" />
+	</bean>
+
+	<bean id="sim_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
+		<constructor-arg name="controlScannable">
+			<bean class="gda.device.scannable.SimplePVScannable">
+				<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
+				<property name="textInput" value="true" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="monitorScannable">
+			<bean class="gda.device.monitor.EpicsMonitor">
+				<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="sim_cam_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
+		<constructor-arg name="secondaryId" value="sim_cam_with_controls_and_calibration" />
+		<constructor-arg name="focusPoints" ref="autofocus_points" />
+ 		<property name="activeFocusPoints">
+			<list>
+				<value>af05</value>
+				<value>af08</value>
+				<value>af09</value>
+			</list>
 		</property>
 	</bean>
 
