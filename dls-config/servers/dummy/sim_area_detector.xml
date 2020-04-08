@@ -151,6 +151,7 @@
 		<constructor-arg ref="sim_roi" />
 		<property name="ndOverlay" ref="sim_overlay_simple1" />
 		<property name="iocHasOverlayCentrePvs" value="true" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 
 	<bean id="sim_camera_reset" class="gda.device.scannable.PVScannable">
