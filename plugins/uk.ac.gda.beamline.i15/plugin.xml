@@ -130,7 +130,7 @@
             allPopups="false"
             locationURI="menu:window?after=showView">
          <menu
-               label="Area Detectors">
+               label="Area Detector views (Deprecated/Obsolete, avoid using)">
 
             <command
                   commandId="org.eclipse.ui.views.showView"
