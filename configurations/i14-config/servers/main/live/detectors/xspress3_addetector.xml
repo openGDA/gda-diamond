@@ -63,6 +63,7 @@
 	<bean id="xsp3_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="xsp3_adbase" />
 		<constructor-arg ref="xsp3_roi" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 
 </beans>

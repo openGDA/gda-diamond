@@ -21,6 +21,7 @@
 		<constructor-arg ref="sample_dtab_roi" />
 		<property name="ndOverlay" ref="sample_dtab_overlay" />
 		<property name="iocHasOverlayCentrePvs" value="true" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 
 	<bean id="sample_dtab_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
