@@ -6,6 +6,7 @@
 	<import resource="detectorProcessing.xml"/>
 	<import resource="dummy.xml"/>
 	<import resource="I15-PE1.xml"/>
+	<import resource="I15-PIL3.xml"/>
 	<import resource="marAreaDetector.xml"/>
 	<import resource="mpxAreaDetector.xml"/>
 	<import resource="peAreaDetector.xml"/>
