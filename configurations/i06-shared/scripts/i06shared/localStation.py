@@ -89,7 +89,6 @@ idd,idu,dpu,dmu,unknown=SourceMode.SOURCE_MODES
 pc,nc,lh,lv,la,unknown=Polarisation.POLARISATIONS
 
 from i06shared.scan.miscan import miscan  # @UnusedImport
-alias('miscan')
 
 #add checkbeam scannable
 from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
