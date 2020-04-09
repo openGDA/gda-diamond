@@ -202,4 +202,25 @@
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
 	</bean>
 
+	<bean id="energy_width" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="energy_width" />
+		<property name="pvName" value="BL09I-EA-DET-01:CAM:ENERGY_WIDTH_RBV"/>
+	</bean>
+
+	<bean id="analyser_lens_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL09I-EA-DET-01:CAM:LENS_MODE" />
+	</bean>
+
+	<bean id="analyser_pass_energy" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL09I-EA-DET-01:CAM:PASS_ENERGY" />
+	</bean>
+
+	<bean id="analyser_element_set" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL09I-EA-DET-01:CAM:ELEMENT_SET" />
+	</bean>
+
+	<bean id="analyser_energy_width" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-DET-01:CAM:ENERGY_WIDTH_RBV" />
+		<property name="canMove" value="false" />
+	</bean>
 </beans>
