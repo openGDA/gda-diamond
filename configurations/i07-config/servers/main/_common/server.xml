@@ -24,11 +24,6 @@
         </property>
     </bean>
 
-    <bean id="command_server" parent="abstract_command_server">
-        <property name="jythonScriptPaths" ref="script_paths" />
-        <property name="disableBatonControlOverVisitMetadataEntry" value="false" />
-    </bean>
-
 	<import resource="ebe.xml" />
 	<import resource="dcm.xml" />
 	<import resource="detectors/excalibur.xml"/>
@@ -76,5 +71,10 @@
     <import resource="devices/fastshutter.xml" />
 
     <import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+
+        <bean id="command_server" parent="abstract_command_server">
+        <property name="jythonScriptPaths" ref="script_paths" />
+        <property name="disableBatonControlOverVisitMetadataEntry" value="false" />
+    </bean>
 
 </beans>
