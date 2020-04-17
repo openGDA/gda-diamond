@@ -25,21 +25,34 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-import gda.analysis.datastructure.DataVector;
-import gda.analysis.numerical.integration.Integrate;
+import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.Maths;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import gda.analysis.numerical.integration.Simpson;
+import gda.analysis.numerical.utilities.Utility;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 
 public class PowerCalulator {
 
+	private static final Logger logger = LoggerFactory.getLogger(PowerCalulator.class);
+
 	private PowerCalulator() {}
 
-	public static final String REF_DATA_PATH = DataPaths.getPowerCalculationDataPath();
 	// This needs be in sorted
-	public static final double[][] GAP_FIELD = {
+	private static final double[][] GAP_FIELD = {
 		{18.5,1.3},
 		{20.0,1.2},
 		{21.9,1.1},
@@ -51,27 +64,42 @@ public class PowerCalulator {
 		{250.0,0.33} // This is to avoid numbers over 50
 	};
 
+	private static final ScannableSetup[] MIRROR_FILTERS = new ScannableSetup[] { ScannableSetup.ATN1, ScannableSetup.ATN2, ScannableSetup.ATN3,
+			ScannableSetup.ME1_STRIPE, ScannableSetup.ME2_STRIPE };
+
+	/** Name of the Be filter transmission file (filter thickness = 0.3mm) */
 	public static final String BE_FILTER_FILE_NAME = "Be-0p3mm.dat";
+
+	private static final double FLUX_TO_POWER = -1000*Utility.Q_ELECTRON; // 1000*electron charge (1.60219e-16 C);
+
+	/** Thickness of Be filter (mm) */
+	private static final double beFilterThickness = 0.3;
 
 	private static final String RING_CURRENT = "300mA";
 	private static final String SLIT_V_GAP = "0p12";
 	private static final double CALCULATION_CURRENT = 300;
 
 	public static double getFieldValue(double gapValue) throws Exception {
-		for (int i = 0; i < GAP_FIELD.length; i++) {
-			if (GAP_FIELD[i][0] >= gapValue) {
-				if (GAP_FIELD[i][0] == gapValue) {
-					return GAP_FIELD[i][1];
-				}
-				if (i > 0) {
-					double mid = (GAP_FIELD[i-1][0] + GAP_FIELD[i][0]) / 2;
-					if (gapValue >= mid) {
-						return GAP_FIELD[i][1];
-					}
-					return GAP_FIELD[i-1][1];
-				}
-			}
+
+		// Find gap and field value in GAP_FIELD array where gap >= gapValue
+		Optional<double[]> result = Arrays.stream(GAP_FIELD).filter(val -> val[0] >= gapValue).findFirst();
+		if (!result.isPresent()) {
+			throw new Exception("Unable to find field string");
 		}
+		double[] gapAndField = result.get();
+		if (Math.abs(gapAndField[0] - gapValue) < 1e-6) {
+			return gapAndField[1];
+		}
+
+		int index = ArrayUtils.indexOf(GAP_FIELD, gapAndField);
+		if (index > 0) {
+			double mid = 0.5*(GAP_FIELD[index-1][0] + GAP_FIELD[index][0]);
+			if (gapValue >= mid) {
+				return gapAndField[1];
+			}
+			return GAP_FIELD[index-1][1];
+		}
+
 		throw new Exception("Unable to find field string");
 	}
 
@@ -106,86 +134,100 @@ public class PowerCalulator {
 		}
 	}
 
-	public static double getPower(String parentFolder, double wigglerGap, double s1HGap, double ringCurrent) throws Exception {
-		double[] values = new double[100000 / 50];
-		calculateFluxVsEnergyForAllFilters(parentFolder, wigglerGap, s1HGap, values);
-		convertFluxToPower(values);
-		double result = doIntegration(values);
-		result = scalePower(result, ringCurrent);
-		return result;
+	public static double getPower(double wigglerGap, double s1HGap, double ringCurrent) throws Exception {
+		return getPower(DataPaths.getPowerCalculationDataPath(), wigglerGap, s1HGap, ringCurrent);
 	}
 
-	private static void calculateFluxVsEnergyForAllFilters(String parentFolder, double wigglerGap, double s1HGap, double[] values)
+	public static double getPower(String parentFolder, double wigglerGap, double s1HGap, double ringCurrent) throws Exception {
+		Dataset flux = calculateFluxVsEnergyForAllFilters(parentFolder, wigglerGap, s1HGap);
+		double result = doIntegration(flux);
+		result = scalePower(result, ringCurrent);
+		return result*FLUX_TO_POWER;
+	}
+
+	public static Dataset calculateFluxVsEnergyForAllFilters(String parentFolder, double wigglerGap, double s1HGap)
 			throws FileNotFoundException, IOException, Exception {
+
+		// Load wiggler power
 		File wigglerFile = getEnergyFieldFile(wigglerGap, s1HGap, parentFolder);
+		Dataset power = loadDatasetFromFile(wigglerFile);
+
+		// Store the X-axis (energy) values
+		int numVals = power.getShape()[0];
+		Dataset xvals = power.getSlice(new int[] {0,0}, new int[] {numVals, 1}, null);
+
+		// Apply Be filter to wiggler power
 		File beFilterFile = new File(parentFolder, BE_FILTER_FILE_NAME);
-		if (!beFilterFile.exists()) {
-			throw new FileNotFoundException();
+		Dataset transmission = loadDatasetFromFile(beFilterFile);
+
+		// Adjust the transmission if filter thickness is not 0.3mm
+		if (Math.abs(beFilterThickness - 0.3) > 1e-4) {
+			int size = transmission.getShape()[0];
+			for (int i = 0; i < size; i++) {
+				double trans = Math.pow(transmission.getDouble(i, 1), beFilterThickness / 0.3);
+				transmission.set(trans, i, 1);
+			}
 		}
-		loadAndCalculateFlux(wigglerFile, values);
-		loadAndCalculateFlux(beFilterFile, values);
-		for (ScannableSetup mirrorFilterScannable : Mirrors.INSTANCE.mirrorFilters) {
+
+		transmission = Maths.multiply(power, transmission);
+
+		// Apply attenuators and mirrors to the transmission
+		for (ScannableSetup mirrorFilterScannable : MIRROR_FILTERS) {
 			Scannable scannable = mirrorFilterScannable.getScannable();
+			logger.info("scannable = {}, position = {}", scannable, scannable.getPosition());
 			String dataFileName = Mirrors.INSTANCE.getDataFileName(scannable);
 			if (dataFileName != null) {
 				File file = new File(parentFolder, dataFileName);
-				if (!file.exists()) {
-					throw new FileNotFoundException(file.getAbsolutePath());
-				}
-				loadAndCalculateFlux(file, values);
+				Dataset filterTransmission = loadDatasetFromFile(file);
+				transmission = Maths.multiply(transmission, filterTransmission);
+
 				if (ScannableSetup.ME2_STRIPE.getScannableName().equals(scannable.getName())) {
-					loadAndCalculateFlux(file, values); // Since ME2 is double mirror it is added twice
+					transmission = Maths.multiply(transmission, filterTransmission);
 				}
 			}
 		}
+
+		// Set the energy values (1st column) back to the original non-multiplied values
+		transmission.setSlice(xvals, new int[] {0,0}, new int[] {numVals, 1}, null);
+		return transmission;
 	}
 
-	private static double doIntegration(double[] values) {
-		int x = 50;
-		double range = 100000;
-		int size = values.length;
-		double step = range / size;
-		DataVector y1 = new DataVector(size);
-		DataVector x1 = new DataVector(size);
-		for (int i = 0; i < size; i++) {
-			x1.set(i, (double) x);
-			y1.set(i, values[i]);
-			x += step;
-		}
-		return Integrate.simpson(x1, y1);
+	private static double doIntegration(Dataset values) {
+		int size = values.getShape()[0];
+		double[] xvals = (double[]) values.getSlice(new int[] {0, 0}, new int[] {size, 1}, null).getBuffer();
+		double[] yvals = (double[]) values.getSlice(new int[] {0, 1}, new int[] {size, 2}, null).getBuffer();
+		return Simpson.simpsonNE(xvals, yvals);
 	}
 
 	private static double scalePower(double result, double ringCurrent) {
 		return (result * ringCurrent) / CALCULATION_CURRENT;
 	}
 
-	private static final double FLUX_TO_POWER = Double.parseDouble("1.60219e-16");
-	private static void convertFluxToPower(double[] values) {
-		for (int i = 0; i < values.length; i++) {
-			values[i] = values[i] * FLUX_TO_POWER;
-		}
-	}
-
-	private static void loadAndCalculateFlux(File dataFile, double[] values) throws FileNotFoundException, IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(dataFile));
-		try {
+	public static Dataset loadDatasetFromFile(File dataFile) throws FileNotFoundException, IOException {
+		checkFile(dataFile);
+		try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))) {
+			logger.info("Loading flux from {}", dataFile.getName());
 			String line = reader.readLine();
 			while (line.trim().startsWith("#")) {
 				line = reader.readLine();
 			}
-			int i = 0;
+			List<double[]> values = new ArrayList<>();
 			while (line != null) {
 				String[] sLine = line.trim().split("\\s");
-				if (values[i] != 0) {
-					values[i] = values[i] * Double.parseDouble(sLine[1]);
-				} else {
-					values[i] = Double.parseDouble(sLine[1]);
+				double[] lineVals = new double[sLine.length];
+				for(int i=0; i<sLine.length; i++) {
+					lineVals[i] = Double.parseDouble(sLine[i]);
 				}
-				i++;
+				values.add(lineVals);
 				line = reader.readLine();
 			}
-		} finally {
-			reader.close();
+			return DatasetFactory.createFromList(values);
+		}
+	}
+
+	private static void checkFile(File datafile) throws FileNotFoundException {
+		if (!datafile.exists() || !datafile.canRead()) {
+			throw new FileNotFoundException("Cannot read data from "+datafile.getAbsolutePath());
 		}
 	}
 
@@ -219,29 +261,20 @@ public class PowerCalulator {
 		}
 
 		public static FilterMirrorElementType findByName(String value) {
-			for (FilterMirrorElementType elementType : FilterMirrorElementType.values()) {
-				if (elementType.name().equals(value)) {
-					return elementType;
-				}
-			}
-			return null;
+			return Stream.of(FilterMirrorElementType.values())
+					.filter(enumVal -> enumVal.name().equals(value))
+					.findFirst()
+					.orElse(null);
 		}
 	}
-
 
 	public static enum Mirrors {
 		INSTANCE;
 
-		public static final String EMPTY = "Empty";
-		public static final String ME1_ANGLE = "3.0";
-		private final ScannableSetup[] mirrorFilters = new ScannableSetup[5];
+		private static final String EMPTY = "empty";
+		private static final String ME1_ANGLE = "3.0";
 
 		private Mirrors() {
-			mirrorFilters[0] = ScannableSetup.ATN1;
-			mirrorFilters[1] = ScannableSetup.ATN2;
-			mirrorFilters[2] = ScannableSetup.ATN3;
-			mirrorFilters[3] = ScannableSetup.ME1_STRIPE;
-			mirrorFilters[4] = ScannableSetup.ME2_STRIPE;
 		}
 
 		public String getDataFileName(Scannable scannable) {
@@ -252,13 +285,11 @@ public class PowerCalulator {
 				return null;
 			}
 			if (scannable.getName().startsWith("atn")) {
-				if (!value.equals("Empty")) {
-					String[] nameParts = getNameParts(value);
-					if (nameParts != null) {
-						FilterMirrorElementType elementName = FilterMirrorElementType.findByName(nameParts[0]);
-						if (elementName != null) {
-							return elementName.getSymbol() + "-" + replaceDotWithP(nameParts[1], nameParts[2]) + ".dat";
-						}
+				String[] nameParts = getNameParts(value);
+				if (nameParts != null) {
+					FilterMirrorElementType elementName = FilterMirrorElementType.valueOf(nameParts[0]);
+					if (elementName != null) {
+						return elementName.getSymbol() + "-" + replaceDotWithP(nameParts[1], nameParts[2]) + ".dat";
 					}
 				}
 			} else {
@@ -299,7 +330,11 @@ public class PowerCalulator {
 		}
 
 		public String[] getNameParts(String name) {
-			Pattern pattern = Pattern.compile("(\\w+)\\s*(\\d+\\.\\d{1,2})(\\w+)");
+			if (name.toLowerCase().contains(EMPTY)) {
+				return null;
+			}
+
+			Pattern pattern = Pattern.compile("(\\w+)\\s*(\\d+\\.\\d{1,2})\\s*(\\w+).*");
 			Matcher matcher = pattern.matcher(name);
 			String[] nameParts = new String[3];
 			if (matcher.find()) {

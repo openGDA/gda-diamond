@@ -18,25 +18,88 @@
 
 package uk.ac.gda.exafs.data;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Maths;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-//import org.powermock.core.classloader.annotations.PrepareForTest;
-//import org.powermock.modules.junit4.PowerMockRunner;
-//import org.powermock.reflect.Whitebox;
 
-// @RunWith(PowerMockRunner.class)
+import gda.TestHelpers;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.enumpositioner.DummyEnumPositioner;
+import gda.factory.Factory;
+import gda.factory.FactoryException;
+import gda.factory.Finder;
+import gda.scan.EdeTestBase;
+import uk.ac.gda.exafs.data.PowerCalulator.FilterMirrorElementType;
+import uk.ac.gda.exafs.data.PowerCalulator.Mirrors;
+
 public class PowerCalculatorTest {
 
 	public static final String FOLDER_PATH = "testfiles/uk/ac/gda/exafs/data/PowerCalculatorTest";
+	private DummyEnumPositioner atn1;
+	private Scannable atn2;
+	private Scannable atn3;
+	private Scannable me1Stripe;
+	private Scannable me2Stripe;
+
+	@Before
+	public void prepare() throws FactoryException, DeviceException {
+		atn1 = createPositioner("atn1");
+
+		atn1.setPositions(Arrays.asList("Empty",
+				getFilterPosition(FilterMirrorElementType.pC.name(),  0.8),
+				getFilterPosition(FilterMirrorElementType.pC.name(), 1.2),
+				getFilterPosition(FilterMirrorElementType.SiC.name(), 1.0),
+				getFilterPosition(FilterMirrorElementType.SiC.name(), 0.2)
+				));
+
+		atn1.moveTo("Empty");
+
+		atn2 = createPositioner("atn2");
+		atn3 = createPositioner("atn3");
+		me1Stripe = createPositioner("me1_stripe");
+		me2Stripe = createPositioner("me2_stripe");
+
+		final Factory factory = TestHelpers.createTestFactory();
+		factory.addFindable(atn1);
+		factory.addFindable(atn2);
+		factory.addFindable(atn3);
+		factory.addFindable(me1Stripe);
+		factory.addFindable(me2Stripe);
+		Finder.getInstance().addFactory(factory);
+	}
+
+	@AfterClass
+	public static void tearDownClass() {
+		// Remove factories from Finder so they do not affect other tests
+		Finder.getInstance().removeAllFactories();
+	}
+
+	private DummyEnumPositioner createPositioner(String name) throws FactoryException {
+		DummyEnumPositioner dummyPositioner = new DummyEnumPositioner();
+		dummyPositioner.setName(name);
+		dummyPositioner.setPositions(Arrays.asList("Pos1", "Pos2", "Pos3"));
+		dummyPositioner.configure();
+		return dummyPositioner;
+	}
 
 	@Test
-	public void stringTest() {
+	public void fieldSlitGapNameTest() {
 		try {
 			assertEquals("1p3T", PowerCalulator.getFieldName(19.0));
 			assertEquals("0p33T", PowerCalulator.getFieldName(50.0));
@@ -47,159 +110,184 @@ public class PowerCalculatorTest {
 	}
 
 	@Test
-	public void fileTest() throws Exception {
+	public void fieldValuesTest() throws Exception {
+		assertEquals(1.3, PowerCalulator.getFieldValue(18.5), 1e-6);
+		assertEquals(1.3, PowerCalulator.getFieldValue(19.24), 1e-6);
+		assertEquals(1.2, PowerCalulator.getFieldValue(19.25), 1e-6);
+		assertEquals(1.2, PowerCalulator.getFieldValue(20), 1e-6);
+		assertEquals(1.0, PowerCalulator.getFieldValue(23.9), 1e-6);
+		assertEquals(0.74, PowerCalulator.getFieldValue(30), 1e-6);
+		assertEquals(0.74, PowerCalulator.getFieldValue(34.9), 1e-6);
+		assertEquals(0.48, PowerCalulator.getFieldValue(35), 1e-6);
+		assertEquals(0.48, PowerCalulator.getFieldValue(40), 1e-6);
+		assertEquals(0.33, PowerCalulator.getFieldValue(50), 1e-6);
+		assertEquals(0.33, PowerCalulator.getFieldValue(250), 1e-6);
+	}
+
+	@Test
+	public void fileNameTest() throws Exception {
 		File file = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
 		assertEquals("1p3T-300mA-0p12x1p0mrad.dat", file.getName());
 		file = PowerCalulator.getEnergyFieldFile(45.0, 1.09, FOLDER_PATH);
 		assertEquals("0p33T-300mA-0p12x1p1mrad.dat", file.getName());
-		try {
-			file = PowerCalulator.getEnergyFieldFile(251.0, 1.09, FOLDER_PATH);
-			assertTrue(false);
-		} catch(Exception e) {
-			// Pass through
-		}
 	}
 
-	//	@Test
-	//	@PrepareForTest({ScannableSetup.class})
-	//	public void powerTest() throws Exception {
-	//		setupMock("Empty", "Empty", "Empty", FilterMirrorElementType.Platinum.name(), FilterMirrorElementType.Rhodium.name(), 3.26);
-	//		assertEquals(149, (int) PowerCalulator.getPower(FOLDER_PATH, 19.0, 0.96, 300));
-	//	}
+	@Test(expected = FileNotFoundException.class)
+	public void fileNotFoundExceptionTest() throws FileNotFoundException {
+		PowerCalulator.getEnergyFieldFile(251.0, 1.09, FOLDER_PATH);
+	}
 
 	@Test
 	public void nameSplitTest() {
 		String[] result = PowerCalulator.Mirrors.INSTANCE.getNameParts("pC 2.0mm");
-		assertEquals(result[0], "pC");
-		assertEquals(result[1], "2.0");
-		assertEquals(result[2], "mm");
+		assertArrayEquals(new String[] {"pC", "2.0", "mm"}, result);
+
 		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("SiC1.5mm");
-		assertEquals(result[0], "SiC");
-		assertEquals(result[1], "1.5");
-		assertEquals(result[2], "mm");
+		assertArrayEquals(new String[] {"SiC", "1.5", "mm"}, result);
+
 		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("pC 0.6mm (Crkd)");
-		assertEquals(result[0], "pC");
-		assertEquals(result[1], "0.6");
-		assertEquals(result[2], "mm");
+		assertArrayEquals(new String[] {"pC", "0.6", "mm"}, result);
+
 		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("Left Empty");
 		assertNull(result);
+
+		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("Empty 3.1mrad");
+		assertNull(result);
+
+		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("pC 0.1 mm 3.1 mrad");
+		assertArrayEquals(new String[] {"pC",  "0.1", "mm"}, result);
+
+		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("pC 4.0mm 3.1mrad");
+		assertArrayEquals(new String[] {"pC",  "4.0", "mm"}, result);
 	}
 
 	@Test
-	public void findNearestTest() {
-		assertEquals(3.0,PowerCalulator.Mirrors.INSTANCE.findNearest(3.124), Double.MIN_VALUE);
-		assertEquals(3.25,PowerCalulator.Mirrors.INSTANCE.findNearest(3.13), Double.MIN_VALUE);
+	public void testFilterFileNames() throws DeviceException {
+		atn1.setPosition(atn1.getPositions()[1]);
+		String name = Mirrors.INSTANCE.getDataFileName(atn1);
+		assertEquals("C-pyro-0p8mm.dat", name);
+
+		atn1.setPosition(atn1.getPositions()[2]);
+		name = Mirrors.INSTANCE.getDataFileName(atn1);
+		assertEquals("C-pyro-1p2mm.dat", name);
+
+		atn1.setPosition(atn1.getPositions()[3]);
+		name = Mirrors.INSTANCE.getDataFileName(atn1);
+		assertEquals("SiC-1p0mm.dat", name);
+
+		atn1.setPosition(atn1.getPositions()[4]);
+		name = Mirrors.INSTANCE.getDataFileName(atn1);
+		assertEquals("SiC-0p2mm.dat", name);
 	}
 
-	//	public void setupMock(final String atn1, final String atn2, final String atn3, final String me1, final String me2, final double me2Angle) throws Exception {
-	//		final String atn1ScannableName = ScannableSetup.ATN1.getScannableName();
-	//		ScannableSetup atn1ScannableSetup = Mockito.mock(ScannableSetup.class);
-	//		Whitebox.setInternalState(ScannableSetup.class, ScannableSetup.ATN1.name(), atn1ScannableSetup);
-	//		Mockito.when(atn1ScannableSetup.getScannable()).thenReturn(new ScannableBase() {
-	//			@Override
-	//			public Object getPosition() throws DeviceException {
-	//				return atn1;
-	//			}
-	//			@Override
-	//			public String getName() {
-	//				return atn1ScannableName;
-	//			}
-	//			@Override
-	//			public boolean isBusy() throws DeviceException {
-	//				return false;
-	//			}
-	//		});
-	//
-	//		final String atn2ScannableName = ScannableSetup.ATN2.getScannableName();
-	//		ScannableSetup atn2ScannableSetup = Mockito.mock(ScannableSetup.class);
-	//		Whitebox.setInternalState(ScannableSetup.class, ScannableSetup.ATN2.name(), atn2ScannableSetup);
-	//		Mockito.when(atn2ScannableSetup.getScannable()).thenReturn(new ScannableBase() {
-	//			@Override
-	//			public Object getPosition() throws DeviceException {
-	//				return atn2;
-	//			}
-	//			@Override
-	//			public String getName() {
-	//				return atn2ScannableName;
-	//			}
-	//			@Override
-	//			public boolean isBusy() throws DeviceException {
-	//				return false;
-	//			}
-	//		});
-	//
-	//		final String atn3ScannableName = ScannableSetup.ATN3.getScannableName();
-	//		ScannableSetup atn3ScannableSetup = Mockito.mock(ScannableSetup.class);
-	//		Whitebox.setInternalState(ScannableSetup.class, ScannableSetup.ATN3.name(), atn3ScannableSetup);
-	//		Mockito.when(atn3ScannableSetup.getScannable()).thenReturn(new ScannableBase() {
-	//			@Override
-	//			public Object getPosition() throws DeviceException {
-	//				return atn3;
-	//			}
-	//			@Override
-	//			public String getName() {
-	//				return atn3ScannableName;
-	//			}
-	//			@Override
-	//			public boolean isBusy() throws DeviceException {
-	//				return false;
-	//			}
-	//		});
-	//
-	//		final String me1ScannableName = ScannableSetup.ME1_STRIPE.getScannableName();
-	//		ScannableSetup me1ScannableSetup = Mockito.mock(ScannableSetup.class);
-	//		Whitebox.setInternalState(ScannableSetup.class, ScannableSetup.ME1_STRIPE.name(), me1ScannableSetup);
-	//		Mockito.when(me1ScannableSetup.getScannable()).thenReturn(new ScannableBase() {
-	//			@Override
-	//			public Object getPosition() throws DeviceException {
-	//				return me1;
-	//			}
-	//			@Override
-	//			public String getName() {
-	//				return me1ScannableName;
-	//			}
-	//			@Override
-	//			public boolean isBusy() throws DeviceException {
-	//				return false;
-	//			}
-	//		});
-	//		Mockito.when(me1ScannableSetup.getScannableName()).thenReturn(me1ScannableName);
-	//
-	//		final String me2ScannableName = ScannableSetup.ME2_STRIPE.getScannableName();
-	//		ScannableSetup me2ScannableSetup = Mockito.mock(ScannableSetup.class);
-	//		Whitebox.setInternalState(ScannableSetup.class, ScannableSetup.ME2_STRIPE.name(), me2ScannableSetup);
-	//		Mockito.when(me2ScannableSetup.getScannable()).thenReturn(new ScannableBase() {
-	//			@Override
-	//			public Object getPosition() throws DeviceException {
-	//				return me2;
-	//			}
-	//			@Override
-	//			public String getName() {
-	//				return me2ScannableName;
-	//			}
-	//			@Override
-	//			public boolean isBusy() throws DeviceException {
-	//				return false;
-	//			}
-	//		});
-	//		Mockito.when(me2ScannableSetup.getScannableName()).thenReturn(me2ScannableName);
-	//
-	//		final String me1PitchScannableName = ScannableSetup.ME2_PITCH_ANGLE.getScannableName();
-	//		ScannableSetup me2PitchScannableSetup = Mockito.mock(ScannableSetup.class);
-	//		Whitebox.setInternalState(ScannableSetup.class, ScannableSetup.ME2_PITCH_ANGLE.name(), me2PitchScannableSetup);
-	//		Mockito.when(me2PitchScannableSetup.getScannable()).thenReturn(new ScannableBase() {
-	//			@Override
-	//			public Object getPosition() throws DeviceException {
-	//				return me2Angle;
-	//			}
-	//			@Override
-	//			public String getName() {
-	//				return me1PitchScannableName;
-	//			}
-	//			@Override
-	//			public boolean isBusy() throws DeviceException {
-	//				return false;
-	//			}
-	//		});
-	//	}
+	@Test
+	public void testFluxLoadsOk() throws Exception {
+		File file = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
+		Dataset values = PowerCalulator.loadDatasetFromFile(file);
+		List<String[]> dataFromFile = EdeTestBase.getDataFromAsciiFile(file.getAbsolutePath());
+		assertEquals("Number of rows of data from "+file.getName()+" is not correct", dataFromFile.size(), values.getShape()[0]);
+		assertEquals("Number of columns of data loaded from "+file.getName()+" is not correct", dataFromFile.get(0).length, values.getShape()[1]);
+
+		for(int i=0; i<dataFromFile.size(); i++) {
+			double expectedValue = Double.parseDouble(dataFromFile.get(i)[1]);
+			assertEquals(expectedValue, values.getDouble(i, 1), 1e-6);
+		}
+	}
+
+	@Test
+	public void testFluxFilterWithBeAtn1Calculation() throws Exception {
+
+		ScannableSetup.ATN1.getScannable().moveTo(atn1.getPositions()[1]);
+
+		// Load energy flux and filter data from files
+		File energyFieldFile = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
+		File beFilterFile = new File(FOLDER_PATH, PowerCalulator.BE_FILTER_FILE_NAME);
+		File atnFilterFile = new File(FOLDER_PATH, Mirrors.INSTANCE.getDataFileName(atn1));
+
+		Dataset energyField = getDatasetFromFile(energyFieldFile);
+		Dataset beFilter = getDatasetFromFile(beFilterFile);
+		Dataset atnFilter = getDatasetFromFile(atnFilterFile);
+
+		// Multiply together to get total transmission
+		Dataset trans = Maths.multiply(energyField,  beFilter);
+		trans = Maths.multiply(trans, atnFilter);
+		int numValues = trans.getShape()[0];
+
+		Dataset values = PowerCalulator.calculateFluxVsEnergyForAllFilters(FOLDER_PATH, 19.0, 0.96);
+
+		// Compare PowerCalculator filtered flux with manually calculated result
+		for(int i=0; i<numValues; i++) {
+			assertEquals("Flux value "+i+" was not correct", trans.getDouble(i, 1), values.getDouble(i, 1), 1e-6);
+		}
+	}
+
+	@Test
+	public void testFluxFilterWithBeCalculation() throws Exception {
+
+		// Load energy flux and Be filter data from file
+		File energyFieldFile = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
+		File beFilterFile = new File(FOLDER_PATH, PowerCalulator.BE_FILTER_FILE_NAME);
+
+		Dataset energyField = getDatasetFromFile(energyFieldFile);
+		Dataset beFilter = getDatasetFromFile(beFilterFile);
+		int numValues = beFilter.getShape()[0];
+		Dataset trans = Maths.multiply(energyField,  beFilter);
+
+		// Make sure ATN1 scannable is set to empty
+		ScannableSetup.ATN1.getScannable().moveTo("Empty");
+		System.out.println("testFluxFilterWithBeCalculation, atn1 = "+ atn1.getPosition());
+		Dataset totalFlux = PowerCalulator.calculateFluxVsEnergyForAllFilters(FOLDER_PATH, 19.0, 0.96);
+
+		// Compare PowerCalculator filtered flux with manually calculated result
+		for(int i=0; i<numValues; i++) {
+			assertEquals("Flux value "+i+" was not correct", trans.getDouble(i, 1), totalFlux.getDouble(i,1), 1e-6);
+		}
+	}
+
+	@Test
+	public void testFindNearest() {
+		assertEquals(3.0, PowerCalulator.Mirrors.INSTANCE.findNearest(3.124), Double.MIN_VALUE);
+		assertEquals(3.25, PowerCalulator.Mirrors.INSTANCE.findNearest(3.13), Double.MIN_VALUE);
+	}
+
+	@Test
+	public void testPower() throws Exception {
+		ScannableSetup.ATN1.getScannable().moveTo(atn1.getPositions()[0]);
+		double power = PowerCalulator.getPower(FOLDER_PATH, 19.0, 0.96, 300.0);
+		double expected = 238.87603840327034;
+		assertEquals(expected, power, 1e-4);
+
+		power = PowerCalulator.getPower(FOLDER_PATH, 19.0, 0.96, 150.0);
+		assertEquals(expected*0.5, power, 1e-4);
+
+		ScannableSetup.ATN1.getScannable().moveTo(atn1.getPositions()[1]);
+		power = PowerCalulator.getPower(FOLDER_PATH, 19.0, 0.96, 300.0);
+		expected = 158.43633630769472;
+		assertEquals(expected, power, 1e-4);
+	}
+
+	/**
+	 * Read table of numbers from Ascii file store in a dataset. Skips over lines beginning with '#'
+	 * @param file
+	 * @return Dataset of numbers shape = (numRows, numColumns);
+	 * @throws IOException
+	 */
+	private Dataset getDatasetFromFile(File file) throws IOException {
+		List<String[]> valuesFromFile = EdeTestBase.getDataFromAsciiFile(file.getAbsolutePath());
+		int numRows = valuesFromFile.size();
+		int numCols = valuesFromFile.get(0).length; // assume same number of values in each row
+
+		Dataset dataset = DatasetFactory.zeros(DoubleDataset.class, numRows, numCols);
+		for(int i=0; i<numRows; i++) {
+			String[] values = valuesFromFile.get(i);
+			for(int j=0; j<numCols; j++) {
+				dataset.set(Double.parseDouble(values[j]), i, j);
+			}
+		}
+		return dataset;
+	}
+
+	private String getFilterPosition(String name, double thickness) {
+		return String.format("%s %.1fmm", name, thickness);
+	}
 }

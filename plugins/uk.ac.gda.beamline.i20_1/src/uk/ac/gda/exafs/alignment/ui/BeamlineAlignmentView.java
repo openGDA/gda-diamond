@@ -341,7 +341,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			try {
 				double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
 				double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
-				final int powerValue = (int) PowerCalulator.getPower(PowerCalulator.REF_DATA_PATH, wigglerGap, slitHGap, 300);
+				final int powerValue = (int) PowerCalulator.getPower(wigglerGap, slitHGap, 300);
 				String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
 				if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
 					String value ="Estimated power is " + powerWatt;
