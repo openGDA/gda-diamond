@@ -4,6 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="DiffractionDichroism.xml"/>
+	<import resource="DD_Cam_lights.xml"/>
 	<import resource="pixis_live_controls.xml"/>
 </beans>

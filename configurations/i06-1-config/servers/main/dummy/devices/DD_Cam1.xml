@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Area detector camera -->
+	<bean id="ddcam1_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
+	</bean>
+	<bean id="ddcam1_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="ddcam1_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="ddcam1_tifffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="ddcam1" />
+		<property name="initialFileTemplate" value="%s%s-%d.tiff" />
+	</bean>
+	<bean id="ddcam1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="ddcam1" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf5" />
+	</bean>
+	<bean id="ddcam1_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="file" ref="ddcam1_ndfile" />
+	</bean>
+
+	<bean id="ddcam1CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+		<property name="ndArray" ref="ddcam1_ndarray"/>
+		<property name="arrayPortName" value="CAM.CAM"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+				<property name="restoreAcquireTime" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true"/>
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+								<property name="decoratee">
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="ddcam1_adbase" />
+										<property name="restoreAcquireState" value="true"/>
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+	
+	<!-- HDF5 plugin - multiple images in one file per scan -->
+	<bean id="ddcam1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="ddcam1_hdf5"/>
+		<property name="fileNameTemplate" value="ddcam1"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="ndArrayPortVal" value="CAM.CAM"/>
+	</bean>
+	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
+	<bean id="ddcam1TiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="ddcam1_tifffile"/>
+		<property name="fileNameTemplate" value="ddcam1"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$-ddcam1-files" />
+		<property name="fileTemplate" value="%s%s-%d.tiff" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="ddcam1_path_template" />
+		<property name="ndArrayPortVal" value="CAM.CAM"/>
+	</bean>
+	
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="ddcam1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/ddcam1Roi" />
+	    <property name="service" ref="ddcam1_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
+	<bean id="ddcam1_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="ddcam1_RoiStats1" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="ddcam1_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+	<bean id="ddcam1_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="ddcam1_RoiStats2" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="ddcam1_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="ddcam1_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="ddcam1_RoiStats3" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="ddcam1_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="ddcam1_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="ddcam1_RoiStats4" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="ddcam1_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="ddcam1_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="ddcam1_RoiStats5" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="ddcam1_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="ddcam1_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="ddcam1_RoiStats6" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="ddcam1_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
+
+</beans>

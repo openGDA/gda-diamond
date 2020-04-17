@@ -24,8 +24,15 @@
 	<import resource="laser_ec2.xml"/>
 
 	<!-- mobile end station devices below -->
-	<import resource="endStationDD.xml"/>
-	<import resource="dd_cam6.xml"/>
+	<import resource="DD_Motors.xml"/>
+	<import resource="DD_Cam1.xml"/>
+	<import resource="DD_Cam2.xml"/>
+	<import resource="DD_Cam3.xml"/>
+	<import resource="DD_Cam4.xml"/>
+	<import resource="DD_Cam5.xml"/>
+	<import resource="DD_Cam5.xml"/>
+	<import resource="DD_Cam_lights.xml"/>
+	
 	<import resource="peem_cam3.xml"/>
 <!-- 	<import resource="mobilerack_cam1.xml"/> -->
 	<import resource="PIXIS.xml"/>

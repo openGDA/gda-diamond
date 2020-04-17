@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- NXDetector -->
+ 	<bean id="ddcam2" class="gda.device.detector.NXDetector">
+		<property name="name" value="ddcam2" />
+		<property name="collectionStrategy" ref="ddcam2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="ddcam2_RoiStats1" />
+				<ref bean="ddcam2_RoiStats2" />
+				<ref bean="ddcam2_RoiStats3" />
+				<ref bean="ddcam2_RoiStats4" />
+				<ref bean="ddcam2_RoiStats5" />
+				<ref bean="ddcam2_RoiStats6" />
+				<ref bean="ddcam2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="ddcam2tiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="ddcam2tiff" />
+		<property name="collectionStrategy" ref="ddcam2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="ddcam2_RoiStats1" />
+				<ref bean="ddcam2_RoiStats2" />
+				<ref bean="ddcam2_RoiStats3" />
+				<ref bean="ddcam2_RoiStats4" />
+				<ref bean="ddcam2_RoiStats5" />
+				<ref bean="ddcam2_RoiStats6" />
+				<ref bean="ddcam2TiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

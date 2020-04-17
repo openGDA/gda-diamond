@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+		
+	<bean id="cl1_switch" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl2_switch" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl3_switch" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl4_switch" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl5_switch" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl1_intensity" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl2_intensity" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl3_intensity" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl4_intensity" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="cl5_intensity" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+
+	<!-- RCP client for Diffraction and Dichroism -->
+	<bean id="lightControl" class="gda.rcp.views.FindableGroupCompositeFactory">
+		<property name="label" value="Light Control"/>
+		<property name="columns" value="2"/>
+		<property name="compositeFactories">
+			<list>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="cl1_switch"/>
+					<property name="label" value="Light 1"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="70"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.LinearPositionerCompositeFactory">
+					<property name="positioner" ref="cl1_intensity"/>
+					<property name="label" value="Brightness"/>
+					<property name="labelWidth" value="80"/>
+					<property name="contentWidth" value="200"/>
+					<property name="lowScale" value="0"/>
+					<property name="highScale" value="100"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="cl2_switch"/>
+					<property name="label" value="Light 2"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="70"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.LinearPositionerCompositeFactory">
+					<property name="positioner" ref="cl2_intensity"/>
+					<property name="label" value="Brightness"/>
+					<property name="labelWidth" value="80"/>
+					<property name="contentWidth" value="200"/>
+					<property name="lowScale" value="0"/>
+					<property name="highScale" value="100"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="cl3_switch"/>
+					<property name="label" value="Light 3"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="70"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.LinearPositionerCompositeFactory">
+					<property name="positioner" ref="cl3_intensity"/>
+					<property name="label" value="Brightness"/>
+					<property name="labelWidth" value="80"/>
+					<property name="contentWidth" value="200"/>
+					<property name="lowScale" value="0"/>
+					<property name="highScale" value="100"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="cl4_switch"/>
+					<property name="label" value="Light 4"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="70"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.LinearPositionerCompositeFactory">
+					<property name="positioner" ref="cl4_intensity"/>
+					<property name="label" value="Brightness"/>
+					<property name="labelWidth" value="80"/>
+					<property name="contentWidth" value="200"/>
+					<property name="lowScale" value="0"/>
+					<property name="highScale" value="100"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="cl5_switch"/>
+					<property name="label" value="Light 5"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="70"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.LinearPositionerCompositeFactory">
+					<property name="positioner" ref="cl5_intensity"/>
+					<property name="label" value="Brightness"/>
+					<property name="labelWidth" value="80"/>
+					<property name="contentWidth" value="200"/>
+					<property name="lowScale" value="0"/>
+					<property name="highScale" value="100"/>
+				</bean>
+ 			</list>
+		</property>
+	</bean>
+	
+</beans>

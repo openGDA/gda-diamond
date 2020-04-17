@@ -15,13 +15,10 @@
 		<config>servers/main/live/devices/d12.xml</config>
 		<config>servers/main/live/devices/d8.xml</config>
 		<config>servers/main/live/devices/d9.xml</config>
-		<config>servers/main/live/devices/dd_cam6.xml</config>
-		<config>servers/main/live/devices/endStationDD.xml</config>
 		<config>servers/main/live/devices/gv17.xml</config>
 		<config>servers/main/live/devices/m7.xml</config>
 		<config>servers/main/live/devices/mobilerack_cam1.xml</config>
 		<config>servers/main/live/devices/mobilerack.xml</config>
-		<config>servers/main/live/devices/pixis.xml</config>
 		<config>servers/main/live/devices/polarimeter.xml</config>
 		<config>servers/main/live/devices/s6.xml</config>
 		<config>servers/main/live/devices/s7.xml</config>
@@ -38,7 +35,6 @@
 		<config>servers/main/_common/scannables/d12.xml</config>
 		<config>servers/main/_common/scannables/d8.xml</config>
 		<config>servers/main/_common/scannables/d9.xml</config>
-		<config>servers/main/_common/scannables/endStationDD.xml</config>
 		<config>servers/main/_common/scannables/m7.xml</config>
 		<config>servers/main/_common/scannables/mobilerack.xml</config>
 		<config>servers/main/_common/scannables/polarimeter.xml</config>
@@ -51,7 +47,12 @@
 		<config>servers/main/_common/beanAdder.xml</config>
 		<config>clients/main/live/pixis_live_controls.xml</config>
 		<config>clients/main/_common/pixis_live_controls.xml</config>
+		<config>servers/main/_common/scannables/DD_Motors.xml</config>
+		<config>servers/main/live/devices/DD_Motors.xml</config>
+		<config>servers/main/live/devices/DD_Cam_lights.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
+	<configSets>
+	</configSets>
 </beansProjectDescription>

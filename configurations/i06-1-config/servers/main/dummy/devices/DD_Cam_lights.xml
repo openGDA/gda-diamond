@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="cl1_switch" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="cl2_switch" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="cl3_switch" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="cl4_switch" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="cl5_switch" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+					
+ 	<bean id="cl1_intensity" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="cl1_intensity"/>
+	</bean>	
+ 	<bean id="cl2_intensity" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="cl2_intensity"/>
+	</bean>	
+ 	<bean id="cl3_intensity" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="cl3_intensity"/>
+	</bean>	
+ 	<bean id="cl4_intensity" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="cl4_intensity"/>
+	</bean>	
+ 	<bean id="cl5_intensity" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="cl5_intensity"/>
+	</bean>	
+	
+</beans>

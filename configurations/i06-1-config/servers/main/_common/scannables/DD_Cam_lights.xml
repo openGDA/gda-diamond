@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="cl1"  class="gda.device.light.LEDLight">
+		<property name="lightSwitch" ref="cl1_switch"/>
+		<property name="lightIntensity" ref="cl1_intensity"/>
+		<property name="controlType" value="BOTH"/>
+	</bean>
+	<bean id="cl2"  class="gda.device.light.LEDLight">
+		<property name="lightSwitch" ref="cl2_switch"/>
+		<property name="lightIntensity" ref="cl2_intensity"/>
+		<property name="controlType" value="BOTH"/>
+	</bean>
+	<bean id="cl3"  class="gda.device.light.LEDLight">
+		<property name="lightSwitch" ref="cl3_switch"/>
+		<property name="lightIntensity" ref="cl3_intensity"/>
+		<property name="controlType" value="BOTH"/>
+	</bean>
+	<bean id="cl4"  class="gda.device.light.LEDLight">
+		<property name="lightSwitch" ref="cl4_switch"/>
+		<property name="lightIntensity" ref="cl4_intensity"/>
+		<property name="controlType" value="BOTH"/>
+	</bean>
+	<bean id="cl5"  class="gda.device.light.LEDLight">
+		<property name="lightSwitch" ref="cl5_switch"/>
+		<property name="lightIntensity" ref="cl5_intensity"/>
+		<property name="controlType" value="BOTH"/>
+	</bean>
+</beans>
