@@ -58,6 +58,7 @@
 				<constructor-arg value="0" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte1RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats2" />
@@ -72,6 +73,7 @@
 				<constructor-arg value="1" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte1RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats3" />
@@ -86,6 +88,7 @@
 				<constructor-arg value="2" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte1RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats4" />
@@ -100,6 +103,7 @@
 				<constructor-arg value="3" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte1RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats5" />
@@ -114,6 +118,7 @@
 				<constructor-arg value="4" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte1RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats6" />
@@ -128,6 +133,7 @@
 				<constructor-arg value="5" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="pimte1_tiffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
