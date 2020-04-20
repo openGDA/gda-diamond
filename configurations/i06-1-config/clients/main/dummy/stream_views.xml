@@ -33,4 +33,66 @@
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean></beans>
+	</bean>
+	<bean id="ddcam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="DD Camera 1" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="ddcam1_roi" />
+		<property name="withHistogram" value="true"/>
+	</bean>
+	<bean id="ddcam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ddcam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="DD Camera 2" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="ddcam2_roi" />
+		<property name="withHistogram" value="true"/>
+	</bean>
+	<bean id="ddcam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ddcam3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="DD Camera 3" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="ddcam3_roi" />
+		<property name="withHistogram" value="true"/>
+	</bean>
+	<bean id="ddcam3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ddcam4" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="DD Camera 4" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="ddcam4_roi" />
+		<property name="withHistogram" value="true"/>
+	</bean>
+	<bean id="ddcam4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ddcam5" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="DD Camera 5" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="ddcam5_roi" />
+		<property name="withHistogram" value="true"/>
+	</bean>
+	<bean id="ddcam5_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
+</beans>
