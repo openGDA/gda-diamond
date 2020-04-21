@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: p38 Plug-in
+Bundle-SymbolicName: uk.ac.diamond.daq.beamline.p38;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ uk.ac.gda.client,
+ uk.ac.gda.common.rcp;bundle-version="1.0.0",
+ uk.ac.gda.client.ncd;bundle-version="1.0.0",
+ uk.ac.gda.server.ncd,
+ uk.ac.gda.epics,
+ uk.ac.gda.api,
+ uk.ac.gda.core,
+ uk.ac.diamond.scisoft.analysis;bundle-version="1.3.0",
+ uk.ac.gda.nexus;bundle-version="1.0.0",
+ org.eclipse.ui.intro;bundle-version="3.4.200"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Diamond Light Source
+Import-Package: org.eclipse.ui.intro.config,
+ org.slf4j;version="[1.7.2,2.0.0)",
+ org.springframework.beans.factory;version="4.0.6.RELEASE"
+Automatic-Module-Name: uk.ac.diamond.daq.beamline.p38

@@ -63,6 +63,8 @@
   <requirement
       name="k11-config"/>
   <requirement
+      name="p38-config"/>
+  <requirement
       name="p45-config"/>
   <requirement
       name="p99-config"/>

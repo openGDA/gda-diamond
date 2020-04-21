@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+      <extension
+            id="product"
+            point="org.eclipse.core.runtime.products">
+         <product
+               application="uk.ac.gda.client.application"
+               name="Beamline P38">
+            <property
+                  name="appName"
+                  value="Beamline P38">
+            </property>
+            <property
+                  name="aboutImage"
+                  value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+            </property>
+            <property
+                  name="windowImages"
+                  value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+            </property>
+         </product>
+      </extension>
+  </plugin>

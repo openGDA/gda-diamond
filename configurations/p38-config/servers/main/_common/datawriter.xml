@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="gda.data.scan.TwoDPlotListener" id="twodscan">
+        <property name="plotPanel" value="Plot 2D"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger" id="scan2terminal" />
+
+    <bean class="gda.data.scan.datawriter.DefaultDataWriterFactory" id="DefaultDataWriterFactory">
+        <property name="name" value="DataWriterFactory"/>
+        <property name="dataWriterExtenders">
+            <list>
+                <ref bean="file_registrar"/>
+                <ref bean="scan2terminal"/>
+                <ref bean="twodscan"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadata"/>
+        <property name="arguments">
+            <map>
+                <entry key="sample_background" value="sample:NXsample/background"/>
+                <entry key="sample_name" value="sample:NXsample/name"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"
+            value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+        <property name="arguments">
+            <map>
+                <entry key="sample_thickness">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths" value="sample:NXsample/thickness" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

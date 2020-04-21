@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launcher>
+    <button text="P28 EPICS Synoptic" command="from_configure_ioc.sh" args="$PORT BL38P-gui" icon="I22__SCM.png"/>
+    <button text="Start GDA Servers" command="/dls_sw/p38/software/gda/bin/gda --restart servers" icon="sgda.png"/>
+    <button text="Start GDA Server (with options)" command="/dls_sw/p38/software/gda/config/bin/gda-conf" args="/dls_sw/p38/software/gda/config/etc/p38.cfg" icon="sgda.png"/>
+    <button text="Start GDA Client" command="/dls_sw/p38/software/gda/bin/gda --start client" icon="cgda.png"/>
+    <button text="Start GDA Client (with reset)" command="/dls_sw/p38/software/gda/bin/gda --start client --reset" icon="cgda.png"/>
+    <button text="Start GDA Logpanel" command=" dls_sw/p38/software/gda/bin/gda --start logpanel" icon="cgda.png"/>
+    <button text="Webcams" command="/usr/bin/firefox -new-window /dls_sw/p38/software/gda/config/desktop/launchers/Webcams.html"/>
+    <button text="P38 Troubleshooting" command="/usr/bin/firefox -new-window http://confluence.diamond.ac.uk/display/SCATTERWEB/Troubleshooting" icon="/dls_sw/p38/software/gda/config/desktop/troubleshooting.png"/>
+    <button text="Dawn" command="/dls_sw/p38/software/gda/bin/dawn" icon="/dls_sw/p38/software/gda/config/desktop/dawn-icon.png" />
+    <button text="Dawn4G" command="/dls_sw/p38/software/gda/bin/dawn" args="-vmargs -Xmx=4096m" icon="/dls_sw/p38/software/gda/config/desktop/dawn-icon.png" />
+</launcher>

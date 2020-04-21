@@ -11,6 +11,8 @@
   <requirement
       name="uk.ac.diamond.daq.beamline.k11.site"/>
   <requirement
+      name="uk.ac.diamond.daq.beamline.p38.site"/>
+  <requirement
       name="uk.ac.diamond.daq.beamline.p45.site"/>
   <requirement
       name="uk.ac.diamond.daq.beamline.p99.site"/>

@@ -1,0 +1,16 @@
+#! /bin/sh
+
+#run on p38-control
+#
+#cd /dls_sw/p38/software/gda-devel/config
+#chmod o+w .
+#sudo su - gda2
+#cd /dls_sw/p38/software/gda-devel/config
+#cp p38ssh.key lala
+#mv -f lala p38ssh.key
+#^D
+#chmod o-w .
+
+cd /dls_sw/p38/software/gda-devel/config
+chmod a+x /dls_sw/p38/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+setfacl -m g:p38_staff:rwx -m u:p38user:rwx xml/user_permissions.xml xml/beamlinestaff.xml /dls_sw/p38/software/gda/workspace_git/gda-diamond.git/plugins/uk.ac.gda.devices.bssc/scripts/BSSC.py
