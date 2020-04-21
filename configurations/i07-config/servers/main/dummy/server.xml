@@ -37,6 +37,7 @@
 	
 	<import resource="detectors/xrayeye.xml" />
 	<import resource="detectors/dcam8.xml" />
+	<import resource="detectors/pilatus3.xml" />
 
 	<import resource="devices/fastshutter.xml" />
 

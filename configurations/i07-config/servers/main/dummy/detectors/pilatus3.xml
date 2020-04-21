@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<alias name="sim_adbase" alias="pilatus3_adbaseT" />
+	<alias name="sim_roi" alias="pilatus3_roi" />
+	<alias name="sim_stats" alias="pilatus3_ndstats" />
+	<alias name="sim_ndarray" alias="pilatus3_ndarray" />
+	<alias name="sim_hdf5" alias="pilatus3_hdf5" />
+
+	<bean id="pilatus3_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_hdf5">
+		<property name="initialFileName" value="pilatus3" />
+	</bean>
+
+</beans>
