@@ -105,7 +105,7 @@
 		<property name="inputNames" value="sample_concentration"/>
 		<property name="outputFormat" value="%5.5g"/>
 		<property name="protectionLevel" value="1" />
-		<property name="userUnits" value="mg/mL" />
+		<property name="userUnits" value="mg/ml" />
 	</bean>
 
 	<bean id="sample_name" class="gda.device.scannable.SimpleScannable">
