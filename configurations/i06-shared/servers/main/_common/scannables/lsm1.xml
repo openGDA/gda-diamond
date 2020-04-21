@@ -18,22 +18,4 @@
 			</list>
 		</property>
 	</bean>
-	<!-- Detector objects used in new scanning -->
-	<bean id="lsm1camModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name" value="lsm1cam_addetector" />
-		<property name="exposureTime" value="0.1" />
-	</bean>
-
-	<bean id="lsm1camInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-	 	<property name="id" value="org.eclipse.scanning.i06.lsm1cam.DeviceInformation" />
-		<property name="label" value="LSM1CAM" />
-		<property name="description" value="LSM1 CAM Detector" />
-	</bean>
-
-	<bean id="lsm1cam_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name" value="lsm1cam_addetector" />
-		<property name="model" ref="lsm1camModel" />
-		<property name="deviceInformation" ref="lsm1camInfo" />
-		<property name="activated" value="true" /> <!-- selected automatically on start up -->
-	</bean>
 </beans>

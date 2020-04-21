@@ -244,16 +244,4 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- ADDetector used in new scanning -->
-	<bean id="ld1cam_addetector" class="gda.device.detector.addetector.ADDetector">
-		<property name="collectionStrategy" ref="ld1CollectionStrategy"/>
-		<property name="adBase" ref="ld1cam_adbase" />
-		<property name="ndFile" ref="ld1cam_ndfile" /><!-- not used in new scanning -->
-		<property name="ndArray" ref="ld1cam_ndarray" />
-		<property name="ndStats" ref="ld1cam_stats" /><!-- not used in new scanning -->
-		<property name="fileWriter" ref="ld1Hdf5Filewriter" /> <!-- not used in new scanning -->
-	</bean>
-	
-
 </beans>

@@ -30,7 +30,6 @@
 	<import resource="DD_Cam3.xml"/>
 	<import resource="DD_Cam4.xml"/>
 	<import resource="DD_Cam5.xml"/>
-	<import resource="DD_Cam5.xml"/>
 	<import resource="DD_Cam_lights.xml"/>
 	
 	<import resource="peem_cam3.xml"/>
