@@ -136,6 +136,15 @@ try:
 
     from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
 
+    beamlineRunnableDeviceProxyFinder = finder.find("beamlineRunnableDeviceProxyFinder")
+    beamlineRunnableDeviceProxy = beamlineRunnableDeviceProxyFinder.getRunnableDevice()
+
+    beamlineJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(beamlineRunnableDeviceProxy)
+    beamlineRunnableDeviceProxy.setDelegate(beamlineJythonRunnableDeviceDelegate)
+    beamlineRunnableDeviceProxy.register()
+
+    print "Configured beamline runnable device"
+
     metadataRunnableDeviceProxyFinder = finder.find("metadataRunnableDeviceProxyFinder")
     metadataRunnableDeviceProxy = metadataRunnableDeviceProxyFinder.getRunnableDevice()
 

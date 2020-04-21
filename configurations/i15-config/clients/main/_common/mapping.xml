@@ -53,6 +53,16 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="true" />
 				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="Perkin Elmer" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+							<property name="name" value="pil3AD" />
+							<property name="exposureTime" value="0.002" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="true" />
+				</bean>
 			</list>
 		</property>
 

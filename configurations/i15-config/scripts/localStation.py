@@ -744,6 +744,14 @@ try:
 
 			print "Configured pe1AD detector"
 
+			pil3AreaDetectorRunnableDeviceProxyFinder = finder.find("pil3AreaDetectorRunnableDeviceProxyFinder")
+			pil3AreaDetectorRunnableDeviceProxy = pil3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+			pil3JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pil3AreaDetectorRunnableDeviceProxy)
+			pil3AreaDetectorRunnableDeviceProxy.setDelegate(pil3JythonAreaDetectorRunnableDeviceDelegate)
+			pil3AreaDetectorRunnableDeviceProxy.register()
+
+			print "Configured pil3AD detector"
 		except:
 			localStation_exception(sys.exc_info(), "creating example solstice scanning devices")
 	else:
