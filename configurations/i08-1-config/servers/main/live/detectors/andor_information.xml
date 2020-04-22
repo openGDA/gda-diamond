@@ -21,11 +21,11 @@
 	</bean>
 
 	<bean id="andor_region_size_x" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL08J-EA-DET-02:CAM:SizeX" />
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:ArraySizeX_RBV" />
 	</bean>
 
 	<bean id="andor_region_size_y" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL08J-EA-DET-02:CAM:SizeY" />
+		<property name="pvName" value="BL08J-EA-DET-02:CAM:ArraySizeY_RBV" />
 	</bean>
 
 	<bean id="andor_ADC_speed" class="gda.device.monitor.EpicsMonitor">

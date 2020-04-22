@@ -7,6 +7,31 @@
 		This contains the proxy runnable device definitions. They are common between live and dummy modes.
 	</description>
 
+	<bean id="beamlineRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="beamline"/>
+	</bean>
+	<bean id="beamlineRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="beamline"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.beamlineRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Beamline Proxy (beamlineRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Beamline Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="beamlineRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="beamline"/>
+		<property name="model"             ref="beamlineRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="beamlineRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="beamlineRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="beamlineRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="beamlineRunnableDeviceProxy"/>
+	</bean>
+
 	<bean id="metadataRunnableDeviceProxyModel"
 			class="org.eclipse.scanning.api.device.models.GenericModel">
 		<property name="name"              value="metadata"/>
