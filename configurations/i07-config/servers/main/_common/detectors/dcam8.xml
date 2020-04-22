@@ -6,7 +6,7 @@
 
 	<bean id="dcam8_hdf5_writer" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="dcam8_hdf5" />
-		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="fileTemplate" value="%s%s-%d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileNameTemplate" value="dcam8" />
 		<property name="fileNumberAtScanStart" value="-1" />
