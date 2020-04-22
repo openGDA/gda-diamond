@@ -50,6 +50,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </modules>
     </profile>
     <profile>
+      <id>p38</id>
+      <modules>
+        <module>features/uk.ac.diamond.daq.beamline.p38.feature</module>
+        <module>products/uk.ac.diamond.daq.beamline.p38.product</module>
+      </modules>
+    </profile>
+    <profile>
       <id>p45</id>
       <modules>
         <module>features/uk.ac.diamond.daq.beamline.p45.feature</module>

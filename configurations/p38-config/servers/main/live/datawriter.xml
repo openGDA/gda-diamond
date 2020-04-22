@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="autoPostProcessing" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
+		<property name="detector" ref="ncddetectors"/>
+		<property name="enabled" value="true" />
+		<property name="runner">
+			<bean class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
+					<property name="scriptPath" value="/dls_sw/apps/dawn_autoprocessing/autoprocess"/>
+			</bean>
+		</property>
+	</bean>
+</beans>

@@ -2,6 +2,7 @@
     <cs:dependencies>
         <cs:dependency name="all-mx-clients" componentType="buckminster"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.k11.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.diamond.daq.beamline.p38.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.p45.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.p99.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.htss.site" componentType="eclipse.feature"/>

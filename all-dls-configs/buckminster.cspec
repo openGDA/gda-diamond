@@ -28,6 +28,7 @@
         <cs:dependency name="i21-config" componentType="buckminster"/>
         <cs:dependency name="i22-config" componentType="buckminster"/>
         <cs:dependency name="k11-config" componentType="buckminster"/>
+        <cs:dependency name="p38-config" componentType="buckminster"/>
         <cs:dependency name="p45-config" componentType="buckminster"/>
         <cs:dependency name="p99-config" componentType="buckminster"/>
 		<cs:dependency name="htss-config" componentType="buckminster"/>
