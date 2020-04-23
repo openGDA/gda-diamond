@@ -73,6 +73,7 @@
 	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d8_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -88,6 +89,7 @@
 	            <property name="index" value="1" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d8_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -103,6 +105,7 @@
 	            <property name="index" value="2" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d8_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -118,6 +121,7 @@
 	            <property name="index" value="3" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d8_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -133,6 +137,7 @@
 	            <property name="index" value="4" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d8_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -148,6 +153,7 @@
 	            <property name="index" value="5" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
  	<bean id="d8cam" class="gda.device.detector.NXDetector">
