@@ -12,8 +12,8 @@ from time import sleep  # @UnusedImport
 
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick,\
-    fastshutter
+with overwriting:  # @UndefinedVariable
+    from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnresolvedImport
 import gdascripts
 from utils.ExceptionLogs import localStation_exception
 from gda.device.scannable import DummyScannable
@@ -92,8 +92,9 @@ if installation.isLive():
     m2fpsetpoint=DisplayEpicsPVClass('m2fpsetpoint', 'BL21I-OP-MIRR-02:FP:FB.CVAL', 'px', '%.10f')
 
     from epics_scripts.pv_scannable_utils import createPVScannable
-    pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
-    pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
+    with overwriting:  # @UndefinedVariable
+        pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
+        pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
     
     from scannabledevices.feedbackScannable import FeedbackScannable, FeedbackOffScannable
     fbs=FeedbackScannable("fbs", pvroot="BL21I-OP-MIRR-01:FBCTRL")
@@ -213,9 +214,9 @@ polariserlist=[polariserstick, polarisergamma]
 #andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
 meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+polariserlist#+andorlist
-
-for each in meta_data_list:
-    meta_add(each)
+with overwriting:  # @UndefinedVariable
+    for each in meta_data_list:
+        meta_add(each)
 alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
@@ -232,7 +233,8 @@ print "import DIFFCALC support for I21"
 from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw  # @UnusedImport
 
 try:
-    from startup.i21 import *  # @UnusedWildImport
+    with overwriting:  # @UndefinedVariable
+        from startup.i21 import *  # @UnusedWildImport
     #toolpoint_off()  # @UndefinedVariable
 except:
     localStation_exception(sys.exc_info(), "import diffcalc error.")
@@ -348,7 +350,7 @@ GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checked
 
 def goLH(en_val_std):
     LH_id_std=idgap_calc(en_val_std, "LH")
-    from gdaserver import idscannable
+    from gdaserver import idscannable  # @UnresolvedImport
     caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",0)
     idscannable.moveTo([LH_id_std, 'LH', 0])
     caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)
@@ -357,7 +359,7 @@ def goLH(en_val_std):
 
 def goLV(en_val_std):
     LV_id_std=idgap_calc(en_val_std, "LV")
-    from gdaserver import idscannable
+    from gdaserver import idscannable  # @UnresolvedImport
     caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",0)
     idscannable.moveTo([LV_id_std, 'LV', 28])
     caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)

@@ -73,7 +73,8 @@ class IllegalMoveException(Exception):
     '''
     pass
 
-from gdaserver import sgmr1, specl, epics_armtth  # @UnresolvedImport
+with overwriting:  # @UndefinedVariable
+    from gdaserver import sgmr1, specl, epics_armtth  # @UnresolvedImport
 
 def checkIfMoveLegal(motor, new_position):
     '''
