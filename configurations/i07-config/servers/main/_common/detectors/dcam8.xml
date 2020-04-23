@@ -63,7 +63,7 @@
 		<property name="collectionStrategy" ref="dcam8_collection_strategy" />
 		<property name="computeStats" value="true" />
 	</bean>
-	
+
 	<bean id="dcam8_png" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dcam8_adbase" />
 		<property name="ndFile" ref="dcam8_ndfile_fimg" />
@@ -77,8 +77,8 @@
 	</bean>
 
 	<alias name="dcam8_png" alias="dcam8" />
-	
-		<bean id="dcam8_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+
+	<bean id="dcam8_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 		<property name="name" value="dcam8_det" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
