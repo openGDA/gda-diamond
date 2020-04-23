@@ -12,5 +12,7 @@
 	<bean id="s2femto2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="s2femto3" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="s2femto4" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s2femtoupper" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s2femto34bm" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 </beans>
