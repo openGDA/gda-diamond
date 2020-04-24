@@ -4,19 +4,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="kb_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-60" />
-		<property name="maxPosition" value="60.0" />
+		<property name="minPosition" value="-7.5" />
+		<property name="maxPosition" value="2.8" />
 		<property name="position" value="0" />
 		<property name="unitString" value="mm" />
-		<property name="speed" value="10000" />
+		<property name="speed" value="0.5" />
+		<property name="motorResolution" value="0.00005"/>
 	</bean>
 
 	<bean id="kb_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-60" />
-		<property name="maxPosition" value="60.0" />
+		<property name="minPosition" value="-4.1" />
+		<property name="maxPosition" value="6.35" />
 		<property name="position" value="0" />
 		<property name="unitString" value="mm" />
-		<property name="speed" value="10000" />
+		<property name="speed" value="0.5" />
+		<property name="motorResolution" value="0.00005"/>
 	</bean>
 	
 </beans>
