@@ -14,8 +14,8 @@ from gda.device.detector.addetector.collectionstrategy import AutoSummingProcess
 from gda.jython.commands.ScannableCommands import scan
 
 print "-"*100
-print "Creating 'miscan' - multiple image per scan data point"
-print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis 0.1 10"
+print "Creating 'miscan' - multiple images per scan data point"
+print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] detector 10 0.1"
 
 PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
@@ -59,7 +59,10 @@ def allElementsAreTuplesOfNumbers(arg):
     return True
 
 def miscan(*args):
-    '''   a more generalised scan that extends standard GDA scan syntax to support 
+    '''
+    Syntax example: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] detector 10 0.1
+       
+    a more generalised scan that extends standard GDA scan syntax to support 
         1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group, 
         2. its corresponding path tuple (e.g. list of position tuples), if exist, and
         3. area detector that takes 2 input numbers - 1st input is the number of images to be collected at each point,
