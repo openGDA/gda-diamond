@@ -3,43 +3,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="SGxMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="SGxMotor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:X" />
 	</bean>
-	<bean id="SGyMotor" class="gda.device.motor.EpicsMotor">
+
+	<bean id="SGyMotor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:Y" />
 	</bean>
-	<bean id="SGzMotor" class="gda.device.motor.EpicsMotor">
+
+	<bean id="SGzMotor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:Z" />
 	</bean>
-	<bean id="SGomegaMotor" class="gda.device.motor.EpicsMotor">
+
+	<bean id="SGomegaMotor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:OMEGA" />
 	</bean>
-	<bean id="SGphiMotor" class="gda.device.motor.EpicsMotor">
+
+	<bean id="SGphiMotor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:PHI" />
 	</bean>
-	<bean id="SGchiMotor" class="gda.device.motor.EpicsMotor">
+
+	<bean id="SGchiMotor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:CHI" />
 	</bean>
-
-
-	<bean id="sgx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="SGxMotor" />
-	</bean>
-	<bean id="sgy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="SGyMotor" />
-	</bean>
-	<bean id="sgz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="SGzMotor" />
-	</bean>
-	<bean id="sgomega" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="SGomegaMotor" />
-	</bean>
-	<bean id="sgphi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="SGphiMotor" />
-	</bean>
-	<bean id="sgchi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="SGchiMotor" />
-	</bean>
-
 </beans>
