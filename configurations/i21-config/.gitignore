@@ -17,7 +17,7 @@ cachedir/
 
 ### Build output ###
 .springBeans
-/bin/
+
 /classes/
 /src/corba/
 
