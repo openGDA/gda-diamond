@@ -51,6 +51,8 @@
 	<import resource="detectors/d4cam.xml" />
 
 	<!-- Main detectors -->
+	<import resource="detectors/pilatus1.xml" />
+	<import resource="detectors/pilatus2.xml" />
 	<import resource="detectors/pilatus3.xml" />
 	<import resource="detectors/excalibur.xml" />
 
