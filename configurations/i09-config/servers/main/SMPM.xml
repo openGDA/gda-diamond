@@ -5,18 +5,23 @@
 
 	<bean id="smpmx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpmx_motor" />
+		<property name="userUnits" value="mm" />
 	</bean>
 	<bean id="smpmy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpmy_motor" />
+		<property name="userUnits" value="mm" />
 	</bean>
 	<bean id="smpmz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpmz_motor" />
+		<property name="userUnits" value="mm" />
 	</bean>
 	<bean id="smpmpolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpmpolar_motor" />
+		<property name="userUnits" value="deg" />
 	</bean>
 	<bean id="smpmazimuth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpmazimuth_motor" />
+		<property name="userUnits" value="deg" />
 	</bean>
 	<bean id="smpm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

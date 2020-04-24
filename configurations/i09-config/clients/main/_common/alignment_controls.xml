@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="eavCameraControl" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="alignment_controls" class="uk.ac.gda.sisa.ui.AlignmentControls">
+		<property name="analyser" ref="analyser" />
+		<property name="analyserEavControl" ref="eavCameraControl" />
+		<property name="analyserControls">
+			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
+				<property name="controls">
+					<list>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="Centre Energy" />
+							<property name="group" value="Analyser Controls" />
+							<property name="scannableName" value="raw_centre_energy" />
+							<property name="incrementTextWidth" value="60"/>
+							<property name="userUnits" value="eV" />
+							<property name="increment" value="1.0" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="Lens Mode" />
+							<property name="group" value="Analyser Controls" />
+							<property name="scannableName" value="analyser_lens_mode" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="Pass Energy" />
+							<property name="group" value="Analyser Controls" />
+							<property name="scannableName" value="analyser_pass_energy" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="Element (PSU Mode)" />
+							<property name="group" value="Analyser Controls" />
+							<property name="scannableName" value="analyser_element_set" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="Energy Width" />
+							<property name="group" value="Analyser Controls" />
+							<property name="scannableName" value="analyser_energy_width" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="true" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="sampleControls">
+			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
+				<property name="controls">
+					<list>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="SMPM X Trans" />
+							<property name="group" value="Sample Controls" />
+							<property name="scannableName" value="smpmx" />
+							<property name="incrementTextWidth" value="60"/>
+							<property name="userUnits" value="mm" />
+							<property name="increment" value="0.2" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="SMPM Y Trans" />
+							<property name="group" value="Sample Controls" />
+							<property name="scannableName" value="smpmy" />
+							<property name="incrementTextWidth" value="60"/>
+							<property name="userUnits" value="mm" />
+							<property name="increment" value="0.2" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="SMPM Z Trans" />
+							<property name="group" value="Sample Controls" />
+							<property name="scannableName" value="smpmz" />
+							<property name="incrementTextWidth" value="60"/>
+							<property name="userUnits" value="mm" />
+							<property name="increment" value="0.2" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="SMPM Polar Trans" />
+							<property name="group" value="Sample Controls" />
+							<property name="scannableName" value="smpmpolar" />
+							<property name="incrementTextWidth" value="60"/>
+							<property name="userUnits" value="mm" />
+							<property name="increment" value="0.2" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="SMPM Azimuth Trans" />
+							<property name="group" value="Sample Controls" />
+							<property name="scannableName" value="smpmazimuth" />
+							<property name="incrementTextWidth" value="60"/>
+							<property name="userUnits" value="mm" />
+							<property name="increment" value="0.2" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>
