@@ -88,7 +88,7 @@ public class Geometry {
 		// omega=0, the y axis is along the beam and the z axis is vertically down.
 
 		// By definition, when omega = 0, the x axis will be positive in the vertical direction and a positive omega
-		// movement will rotate clockwise when looking at the viewed down the microglide z-axis. This is standard in
+		// movement will rotate clockwise when looking at the viewed down z-axis. This is standard in
 		// crystallography.
 
 		double angle = Math.toRadians(omega);
