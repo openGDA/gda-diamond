@@ -203,7 +203,7 @@
 					<property name="label" value="Panic"/>
 					<property name="tooltipText" value="Stop all motors" />
 					<property name="imagePath" value="icons/panicstop80x80.png" />
-					<property name="actionId" value="uk.ac.gda.client.StopAll" />
+					<property name="actionId" value="uk.ac.gda.client.StopAllCommand" />
 				</bean>
 			</list>
 		</property>
