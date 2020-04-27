@@ -19,7 +19,7 @@ from mapping_scan_commands import static
 
 print "Initialization Started";
 
-live_mode = (LocalProperties.get("gda.mode") == 'live')
+live_mode = LocalProperties.get("gda.mode") == 'live'
 
 finder = Finder.getInstance()
 
@@ -31,15 +31,15 @@ topupMonitor.setName("topupMonitor")
 topupMonitor.setTolerance(2.0)
 topupMonitor.setWaittime(1.0)
 topupMonitor.setTimeout(600.0)
-topupMonitor.setMachineModeMonitor(machineModeMonitor) # @UndefinedVariable
-topupMonitor.setScannableToBeMonitored(machineTopupMonitor) # @UndefinedVariable
+topupMonitor.setMachineModeMonitor(beam_state) # @UndefinedVariable
+topupMonitor.setScannableToBeMonitored(topup_start_countdown_complete) # @UndefinedVariable
 topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
 topupMonitor.configure()
 
 beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
 beamMonitor.setShutterPVs(["FE18I-RS-ABSB-01:STA"])
-beamMonitor.setMachineModeMonitor(machineModeMonitor) # @UndefinedVariable
+beamMonitor.setMachineModeMonitor(beam_state) # @UndefinedVariable
 beamMonitor.configure()
 
 detectorFillingMonitor = DetectorFillingMonitorScannable()
@@ -80,10 +80,10 @@ sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_unit
 detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3,raster_FFI0_xspress3) # @UndefinedVariable
 
 samplePreparer   = I18SamplePreparer(rcpController) # @UndefinedVariable
-outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
+outputPreparer   = I18OutputPreparer(datawriterconfig, finder.find("metashop"))
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter) # @UndefinedVariable
 
-if live_mode  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'): # @UndefinedVariable
+if live_mode and (beam_state() == 'User' or beam_state() == 'BL Startup' or beam_state() == 'Special'): # @UndefinedVariable
     energy_scannable_for_scans = energy # @UndefinedVariable
 else:
     energy_scannable_for_scans = energy_nogap # @UndefinedVariable
@@ -119,7 +119,7 @@ mapFactory.setOutputPreparer(outputPreparer);
 mapFactory.setLoggingScriptController(XASLoggingScriptController);
 mapFactory.setEnergyWithGapScannable(energy); # @UndefinedVariable
 mapFactory.setEnergyNoGapScannable(energy_nogap); # @UndefinedVariable
-mapFactory.setMetashop(Finder.getInstance().find("metashop"));
+mapFactory.setMetashop(finder.find("metashop"));
 mapFactory.setIncludeSampleNameInNexusName(True);
 mapFactory.setCounterTimer(counterTimer01); # @UndefinedVariable
 mapFactory.setxScan(t1x); # @UndefinedVariable
@@ -140,7 +140,7 @@ map.setStage3Z(t3z) # @UndefinedVariable
 
 map.setStage(1)
 
-if live_mode and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'): # @UndefinedVariable
+if live_mode and (beam_state() == 'User' or beam_state() == 'BL Startup' or beam_state() == 'Special'): # @UndefinedVariable
     map.enableUseIDGap()
 else:
     map.disableUseIDGap()

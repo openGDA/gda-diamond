@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- MOTORS -->
+	<bean id="s1xpos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:X:CENTER" />
+	</bean>
+	
+	<bean id="s1xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:X:SIZE" />
+	</bean>
+	
+	<bean id="s1ypos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:Y:CENTER" />
+	</bean>
+	
+	<bean id="s1ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:Y:SIZE" />
+	</bean>
+	
+	<!-- MONITORS -->
+	<bean id="s1atemp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP1" />
+	</bean>
+	
+	<bean id="s1atemp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP2" />
+	</bean>
+	
+	<bean id="s1atemp3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP3" />
+	</bean>
+	
+	<bean id="s1atemp4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP4" />
+	</bean>
+	
+	<bean id="s1btemp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP1" />
+	</bean>
+	
+	<bean id="s1btemp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP2" />
+	</bean>
+	
+	<bean id="s1btemp3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP3" />
+	</bean>
+	
+	<bean id="s1btemp4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP4" />
+	</bean>
+
+</beans>

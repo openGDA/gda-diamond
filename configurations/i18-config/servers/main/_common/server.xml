@@ -11,46 +11,28 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-
-	<!-- Import mode-specific objects -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/cmos.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/detectors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/stanfords.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/qexafs.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/VMA_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/table1.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/table3.xml" />
-	<!-- Make mandelbrot detector available both on dummy and live modes for testing mapping scans. -->
-	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml"/>
-
-	<!-- Import common objects -->
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
-	<import resource="detectors/cmos.xml" />
-	<import resource="detectors/detectors.xml" />
-	<import resource="detectors/qexafs.xml" />
-	<import resource="detectors/xspress3.xml" />
-	<import resource="detectors/xspress3_addetector.xml" />
-	<import resource="detectors/VMA_addetector.xml" />
-	<import resource="detectors/processing.xml" />
+	
+	<import resource="diagnostics/index.xml" />
+	<import resource="detectors/index.xml" />
+	<import resource="energy/index.xml" />
+	<import resource="mirrors/index.xml" />
+	<import resource="shutters/index.xml" />
+	<import resource="slits/index.xml" />
+	<import resource="stages/index.xml" />
+	
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="logging_script_controller.xml" />
 	<import resource="metadata.xml" />
-	<import resource="new_scanning.xml" />
+	<import resource="solstice.xml" />
 	<import resource="beam_watchdogs.xml" />
-	<import resource="scannables.xml" />
-	<import resource="table1.xml" />
-	<import resource="table1_short_names.xml" />
-	<import resource="table3.xml" />
-	<import resource="table3_short_names.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/unsorted_devices.xml" />
+	<import resource="unsorted_scannables.xml" />
 
 	<!-- Need to import core.xml last so all other objects are configured before the Jython server -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 	<import resource="core.xml" />
 	
 	<!-- Exports objects over RMI -->

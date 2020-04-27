@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="s2xpos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-02:X:DISP" />
+	</bean>
+	
+	<bean id="s2xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-02:X:SIZE" />
+	</bean>
+	
+	<bean id="s2ypos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-02:Y:DISP" />
+	</bean>
+	
+	<bean id="s2ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-SLITS-02:Y:SIZE" />
+	</bean>
+
+</beans>

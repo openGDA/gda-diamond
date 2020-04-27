@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/hfm.xml" />
+	<import resource="hfm.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/hrm.xml" />
+	<!-- No HRM motions currently commissioned in GDA -->
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kbm.xml" />
+	<import resource="kbm.xml" />
+
+</beans>

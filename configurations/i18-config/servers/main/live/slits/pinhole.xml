@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- MOTORS -->
+	<bean id="pinx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-APTR-02:X" />
+	</bean>
+	<bean id="piny_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-AL-APTR-02:Y" />
+	</bean>
+	
+	<!-- Aperture Monitors -->
+	<bean id="aperture_temp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-APTR-01:TEMP1" />
+	</bean>
+	<bean id="aperture_temp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-AL-APTR-01:TEMP2" />
+	</bean>
+
+</beans>

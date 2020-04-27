@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="idgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR18I-MO-SERVC-01:BLGAPMTR" />
+	</bean>
+
+	<!-- Monochromator / DCM Motors -->
+	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG" />
+	</bean>
+	<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-DCM-01:ENERGY" />
+	</bean>
+	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-DCM-01:XTAL1:ROLL" />
+	</bean>
+	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:ROLL" />
+	</bean>
+	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:PITCH" />
+	</bean>
+	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:YPRIME" />
+	</bean>
+	
+	<!-- Monitors -->
+	<bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.VMAX" />
+	</bean>
+
+</beans>

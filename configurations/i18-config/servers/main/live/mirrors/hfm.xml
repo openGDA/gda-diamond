@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- MOTORS -->
+	<bean id="toroid_sag_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:SAG" />
+	</bean>
+	<bean id="toroid_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:PITCH" />
+	</bean>
+	<bean id="toroid_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:X" />
+	</bean>
+	<bean id="toroid_curve_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:CURVE" />
+	</bean>
+	<bean id="toroid_ellipticity_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:ELLIP" />
+	</bean>
+	<bean id="toroid_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:Y" />
+	</bean>
+	<bean id="toroid_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:YAW" />
+	</bean>
+	<bean id="toroid_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:ROLL" />
+	</bean>
+
+
+	<!-- MONITORS -->
+	<bean id="toroid_temp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-HFM-01:TEMP1" />
+	</bean>
+	
+	<bean id="toroid_temp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-HFM-01:TEMP2" />
+	</bean>
+	
+	<bean id="toroid_bendtemp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-HFM-01:BEND1:TEMP" />
+	</bean>
+	
+	<bean id="toroid_bendtemp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-HFM-01:BEND2:TEMP" />
+	</bean>
+
+</beans>

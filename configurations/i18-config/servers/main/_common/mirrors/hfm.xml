@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		
+		
+	<bean id="toroid_sag" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="toroid_sag_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="toroid_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="motor" ref="toroid_pitch_motor" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+
+	<bean id="toroid_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="toroid_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="toroid_curve" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="toroid_curve_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="toroid_ellipticity" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="toroid_ellipticity_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="toroid_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="toroid_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="toroid_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="motor" ref="toroid_yaw_motor" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+
+	<bean id="toroid_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="motor" ref="toroid_roll_motor" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+
+	<bean id="Toroid" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="toroid_sag" />
+				<ref bean="toroid_pitch" />
+				<ref bean="toroid_x" />
+				<ref bean="toroid_curve" />
+				<ref bean="toroid_ellipticity" />
+				<ref bean="toroid_y" />
+				<ref bean="toroid_yaw" />
+				<ref bean="toroid_roll" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

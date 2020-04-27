@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics/motors.xml" />
+	<import resource="d1.xml" />
+	
+	<import resource="d2.xml" />
+	
+	<import resource="d3.xml" />
+	
+	<import resource="d5.xml" />
+	
+	<import resource="d6.xml" />
+	
+	<import resource="d7.xml" />
+
+</beans>
