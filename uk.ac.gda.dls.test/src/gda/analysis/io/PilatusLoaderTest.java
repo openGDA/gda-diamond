@@ -19,13 +19,14 @@
 
 package gda.analysis.io;
 
-import static org.junit.Assert.fail;
-import gda.util.TestUtils;
+import static org.junit.Assume.assumeNotNull;
 
 import java.io.File;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import gda.util.TestUtils;
 
 /**
  * PilatusLoaderTest Class
@@ -35,15 +36,13 @@ public class PilatusLoaderTest {
 	@BeforeClass
 	static public void setUpClass() {
 		TestFileFolder = TestUtils.getGDALargeTestFilesLocation();
-		if( TestFileFolder == null){
-			fail("TestUtils.getGDALargeTestFilesLocation() returned null - test aborted");
-		}
+		assumeNotNull(TestFileFolder); // Skip test if property not set
 		TestFileFolder += "PilatusTiffLoaderTest/";
 	}
 
 	/**
 	 * Testing loading a file into a sfh
-	 * 
+	 *
 	 * @throws Exception if the file couldn't be loaded
 	 */
 	@SuppressWarnings("deprecation")
