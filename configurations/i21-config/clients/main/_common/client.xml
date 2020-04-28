@@ -10,6 +10,7 @@
 	<!-- sample stage control -->
 	<import resource="live_controls.xml"/>
 	<import resource="statusView.xml"/>
+	<import resource="dashboard_motors.xml"/>
 	
 
 	<!-- new solstice scanning sourced from p45-config project -->
