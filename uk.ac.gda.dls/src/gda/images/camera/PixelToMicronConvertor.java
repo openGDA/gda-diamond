@@ -62,7 +62,7 @@ public class PixelToMicronConvertor {
 	}
 
 	/**
-	 * Given a pixel location, returns the three element array of the microglide move required to move an object at that
+	 * Given a pixel location, returns the three element array required to move an object at that
 	 * point into the beam.
 	 *
 	 * @param xPixel
