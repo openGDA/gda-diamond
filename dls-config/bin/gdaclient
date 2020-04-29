@@ -86,7 +86,7 @@ fi
 # eg /scratch/gda_workspaces/abc12345_gda-9.12
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)_$(basename ${GDA_WORKSPACE_PARENT})
 
-ARGS=$(getopt -a -o \? -l help,data:,reset,debug,log,start,keep,mode:,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o d --longoptions help,data:,reset,debug,log,start,keep,mode:,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
@@ -111,7 +111,7 @@ while true; do
         shift;
         GDA_RESET=1
       ;;
-    --debug)
+    -d|--debug)
         shift;
         GDA_JAVA_DEBUG=1
       ;;
