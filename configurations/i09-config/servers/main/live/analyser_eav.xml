@@ -20,7 +20,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL09I-DI-EAN-01:ROI:" />
-				<property name="initialArrayPort" value="ADSIM.CAM" />
+				<property name="initialArrayPort" value="EAV.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -40,7 +40,24 @@
 			</bean>
 		</property>
 	</bean>
-	
+	<bean id="eav_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL09I-DI-EAN-01:PROC:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09I-DI-EAN-01:PROC:" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialEnableBackground" value="0" />
+		<property name="initialEnableFlatField" value="0" />
+		<property name="initialEnableOffsetScale" value="0" />
+		<property name="initialEnableHighClip" value="0" />
+		<property name="initialEnableLowClip" value="0" />
+		<property name="initialEnableFilter" value="0" />
+	</bean>
 	<bean id="eavImageMax" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL09I-DI-EAN-01:STAT:MaxValue_RBV"/>
 	</bean>
@@ -50,8 +67,13 @@
 	<bean id="eavImageMean" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL09I-DI-EAN-01:STAT:MeanValue_RBV"/>
 	</bean>
+	<bean id="eavNumFilter" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-AD-SIM-01:PROC:NumFilter" />
+		<property name="canMove" value="true" />
+	</bean>
 	<bean id="eavCameraControl" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="analyser_eav_CamBase" />
 		<constructor-arg ref="eav_roi" />
+		<property name="ndProcess" ref="eav_proc" />
 	</bean>
 </beans>
