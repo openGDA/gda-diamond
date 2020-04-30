@@ -51,6 +51,13 @@
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
 						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="Accumulation No. Frames" />
+							<property name="group" value="Analyser Controls" />
+							<property name="scannableName" value="eavNumFilter" />
+							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
 					</list>
 				</property>
 			</bean>
