@@ -122,17 +122,12 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/autofocus_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/excalibur_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/excalibur_motions.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/malcolm.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/merlin_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/sample_dtab_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/sample_microscope_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" />
-
-	<!-- Uncomment this line and restart server to make Mandelbrot detector etc. available -->
-	<!-- You will also have to uncomment the appropriate section of the client MappingExperimentBean -->
-	<!-- <import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" /> -->
 
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/detector_table.xml" />
