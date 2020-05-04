@@ -68,8 +68,16 @@
 		<property name="pvName" value="BL09I-DI-EAN-01:STAT:MeanValue_RBV"/>
 	</bean>
 	<bean id="eavNumFilter" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-AD-SIM-01:PROC:NumFilter" />
+		<property name="pvName" value="BL09I-DI-EAN-01:PROC:NumFilter" />
 		<property name="canMove" value="true" />
+	</bean>
+	<bean id="eavCentroidX" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-DI-EAN-01:STAT:CentroidX_RBV" />
+		<property name="canMove" value="false" />
+	</bean>
+	<bean id="eavCentroidY" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-DI-EAN-01:STAT:CentroidY_RBV" />
+		<property name="canMove" value="false" />
 	</bean>
 	<bean id="eavCameraControl" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="analyser_eav_CamBase" />
