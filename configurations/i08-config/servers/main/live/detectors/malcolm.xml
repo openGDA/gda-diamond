@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Photodiode (regular and focus) -->
+	<bean id="malcolmInfoPhotodiode" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Photodiode" />
+		<property name="description" value="Photodiode (regular and focus)" />
+	</bean>
+
 	<bean id="malcolmModelPhotodiode" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL08I-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
@@ -17,6 +22,11 @@
 	</bean>
 
 	<!-- XMAP -->
+	<bean id="malcolmInfoXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XMAP" />
+		<property name="description" value="XMAP scan" />
+	</bean>
+
 	<bean id="malcolmModelXmap" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL08I-ML-SCAN-02" />
 		<property name="exposureTime" value="0.02" />
@@ -30,6 +40,11 @@
 	</bean>
 
 	<!-- Andor (regular and focus) -->
+	<bean id="malcolmInfoAndor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor (regular and focus)" />
+	</bean>
+
 	<bean id="malcolmModelAndor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL08I-ML-SCAN-03" />
 		<property name="exposureTime" value="0.02" />
@@ -43,6 +58,11 @@
 	</bean>
 
 	<!-- Andor & XMAP -->
+	<bean id="malcolmInfoAndorXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Andor and XMAP" />
+		<property name="description" value="Andor and XMAP" />
+	</bean>
+
 	<bean id="malcolmModelAndorXmap" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL08I-ML-SCAN-04" />
 		<property name="exposureTime" value="0.02" />

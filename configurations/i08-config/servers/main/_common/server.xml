@@ -36,7 +36,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/dark_field_collector.xml" />
  	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xmap_detector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
@@ -60,17 +59,12 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/dark_field_collector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/malcolm.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
-
-	<!-- Uncomment this line and restart server to make Mandelbrot detector etc. available -->
-	<!-- You will also have to uncomment the appropriate section of the client MappingExperimentBean -->
-	<!-- <import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" /> -->
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
