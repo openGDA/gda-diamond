@@ -56,6 +56,7 @@ import gda.device.trajectoryscancontroller.TrajectoryScanController;
 import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteState;
 import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteStatus;
 import gda.factory.FactoryException;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.datawriters.AsciiWriter;
 import gov.aps.jca.CAException;
@@ -947,57 +948,6 @@ public class TurboXasScan extends ContinuousScan {
 		this.positionsForScan = positionsForScan;
 	}
 
-	public static class SpectrumEvent {
-		private final int spectrumNumber;
-		private final Scannable scannable;
-		private final Object position;
-
-		public SpectrumEvent(int spectrumNumber, Scannable scannable, Object position) {
-			this.spectrumNumber = spectrumNumber;
-			this.scannable = scannable;
-			this.position = position;
-		}
-
-		public int getSpectrumNumber() {
-			return spectrumNumber;
-		}
-
-		public Scannable getScannable() {
-			return scannable;
-		}
-
-		public Object getPosition() {
-			return position;
-		}
-
-		@Override
-		public String toString() {
-			return String.format("Spectrum %d : %s to position %s", spectrumNumber, scannable.getName(), position);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			SpectrumEvent other = (SpectrumEvent) obj;
-			if (position == null) {
-				if (other.position != null)
-					return false;
-			} else if (!position.equals(other.position))
-				return false;
-			if (scannable == null) {
-				if (other.scannable != null)
-					return false;
-			} else if (!scannable.getName().equals(other.scannable.getName()))
-				return false;
-			return spectrumNumber == other.spectrumNumber;
-		}
-	}
-
 	public Map<Integer, List<SpectrumEvent>> getSpectrumEvents() {
 		return spectrumEventMap;
 	}
@@ -1007,6 +957,15 @@ public class TurboXasScan extends ContinuousScan {
 			spectrumEventMap.put(spectrumNumber, new ArrayList<>());
 		}
 		spectrumEventMap.get(spectrumNumber).add(new SpectrumEvent(spectrumNumber, scannable, position));
+	}
+
+	public void addSpectrumEvent(int spectrumNumber, String scannableName, Object position) {
+		Optional<Scannable> scannable = Finder.getInstance().findOptional(scannableName);
+		if (!scannable.isPresent()) {
+			logger.warn("Can't add spectrum event for {} - scannable called {} was not found!");
+			return;
+		}
+		addSpectrumEvent(spectrumNumber, scannable.get(), position);
 	}
 
 	private void startSpectrumEventsThread() {

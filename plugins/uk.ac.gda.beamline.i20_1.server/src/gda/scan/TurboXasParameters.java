@@ -139,6 +139,8 @@ public class TurboXasParameters {
 
 	private List<List<Double>> scannablePositions;
 
+	private List<SpectrumEvent> spectrumEvents;
+
 	public TurboXasParameters() {
 		setDefaults();
 	}
@@ -511,6 +513,8 @@ public static String doubleToString( double doubleVal ) {
 		xstream.registerConverter(new MapConverter(), XStream.PRIORITY_VERY_HIGH);
 		xstream.alias("scannablesToMonitorDuringScan", LinkedHashMap.class);
 
+		xstream.alias("SpectrumEvent", SpectrumEvent.class);
+
 		return xstream;
 	}
 
@@ -700,6 +704,12 @@ public static String doubleToString( double doubleVal ) {
 				logger.warn("Can't set scannableToMove - scannable '{}' not found on server", scannableToMove);
 			}
 		}
+
+		if (spectrumEvents != null) {
+			for(SpectrumEvent event : spectrumEvents) {
+				scan.addSpectrumEvent(event.getSpectrumNumber(), event.getScannableName(), event.getPosition());
+			}
+		}
 		return scan;
 	}
 
@@ -709,5 +719,13 @@ public static String doubleToString( double doubleVal ) {
 
 	public void setNamesOfDatasetsToAverage(List<String> namesOfDatasetsToAverage) {
 		this.namesOfDatasetsToAverage = new ArrayList<>(namesOfDatasetsToAverage);
+	}
+
+	public List<SpectrumEvent> getSpectrumEvents() {
+		return spectrumEvents;
+	}
+
+	public void setSpectrumEvents(List<SpectrumEvent> spectrumEvents) {
+		this.spectrumEvents = new ArrayList<>(spectrumEvents);
 	}
 }

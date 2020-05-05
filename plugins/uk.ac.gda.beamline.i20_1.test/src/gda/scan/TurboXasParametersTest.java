@@ -331,6 +331,24 @@ public class TurboXasParametersTest {
 		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
 	}
 
+	@Test
+	public void testSpectrumEventsSerialize() {
+		List<SpectrumEvent> spectrumEvents = new ArrayList<>();
+		spectrumEvents.add(new SpectrumEvent(0, "scn1", 100.0));
+		spectrumEvents.add(new SpectrumEvent(2, "scn2", 17.0));
+		spectrumEvents.add(new SpectrumEvent(8, "scn3", 42.0));
+
+		parameters.setSpectrumEvents(spectrumEvents);
+		String expectedXmlString = getCorrectXmlString(parameters);
+		assertEquals(expectedXmlString, parameters.toXML());
+
+		// Check that lists of TimingGroup and SpectrumEvent are de-serialized correctly.
+		TurboXasParameters paramsFromXml = TurboXasParameters.fromXML(expectedXmlString);
+		assertEquals(parameters.getSpectrumEvents(), paramsFromXml.getSpectrumEvents());
+		assertEquals(parameters.getTimingGroups(), paramsFromXml.getTimingGroups());
+
+	}
+
 	private String getXmlTagLine(String tag, double value) {
 		return getXmlTagLine(tag, TurboXasParameters.doubleToString(value), 1);
 	}
@@ -338,7 +356,6 @@ public class TurboXasParametersTest {
 	private String getXmlTagLine(String tag, double value, int level) {
 		return getXmlTagLine(tag, TurboXasParameters.doubleToString(value), level);
 	}
-
 	private String getIndent(int indent) {
 		StringBuilder sb = new StringBuilder();
 		while (indent-- > 0) {
@@ -431,6 +448,20 @@ public class TurboXasParametersTest {
 
 			});
 			serializedXmlString.append("  </scannablePositions>\n");
+		}
+
+		if (parameters.getSpectrumEvents() != null && !parameters.getSpectrumEvents().isEmpty()) {
+			serializedXmlString.append("  <spectrumEvents>\n");
+			for(SpectrumEvent event : parameters.getSpectrumEvents()) {
+				serializedXmlString.append("    <SpectrumEvent>\n");
+				serializedXmlString.append(getXmlTagLine("spectrumNumber", Integer.toString(event.getSpectrumNumber()), 3));
+				serializedXmlString.append(getXmlTagLine("scannableName", event.getScannableName(), 3));
+
+				Object pos = event.getPosition();
+				serializedXmlString.append("      <position class=\""+pos.getClass().getSimpleName().toLowerCase()+"\">"+pos+"</position>\n");
+				serializedXmlString.append("    </SpectrumEvent>\n");
+			}
+			serializedXmlString.append("  </spectrumEvents>\n");
 		}
 		serializedXmlString.append("</TurboXasParameters>");
 
