@@ -2,8 +2,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-		
-	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml"/>
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+
+
+	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE18I-PS-SHTR-02:STA" />
+	</bean>
 
 </beans>

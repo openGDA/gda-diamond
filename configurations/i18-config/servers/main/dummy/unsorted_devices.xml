@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- *************************** -->
+	<!-- *** DUMMY MOTOR SECTION *** -->
+	<!-- *************************** -->
+
+	<bean id="ml_x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ml_y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ml_z_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="thor_x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="thor_y_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="fe_absorber" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- CCD -->
+	<bean id="ccd_x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ccd_y_motor" class="gda.device.motor.DummyMotor" />
+
+</beans>

@@ -2,8 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-		
-	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml"/>
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/shutters/port_shutter.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/shutters/sample_shutter.xml" />
+	
 </beans>

@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	
+	<!-- Motors -->
+	<bean id="d1motor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-01:POSN" />
+	</bean>
+	
+	<bean id="d2motor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-02:POSN" />
+	</bean>
+	
+	<bean id="d3motor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-03:POSN" />
+	</bean>
+	
+	<bean id="d5amotor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-05:A:POSN" />
+	</bean>
+	
+	<bean id="d5bmotor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-05:B:POSN" />
+	</bean>
+	
+	<bean id="d6amotor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-06:A:POSN" />
+	</bean>
+	
+	<bean id="d6bmotor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-06:B:POSN" />
+	</bean>
+	
+	<bean id="d7amotor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-07:A:POSN" />
+	</bean>
+	
+	<bean id="d7bmotor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-DI-PHDGN-07:B:POSN" />
+	</bean>
+
+	<bean id="D7A" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL18I-DI-PHDGN-07:A:MP" />
+	</bean>
+	<bean id="D7B" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL18I-DI-PHDGN-07:B:MP" />
+	</bean>
+		
+	<!-- Diodes -->
+	<bean id="d1diode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-DI-PHDGN-01:DIODE:I" />
+	</bean>
+	<bean id="d2diode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-DI-PHDGN-02:DIODE:I" />
+	</bean>
+	<bean id="d3diode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-DI-PHDGN-03:DIODE:I" />
+	</bean>
+	<bean id="d5bdiode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-DI-PHDGN-05:B:DIODE:I" />
+	</bean>
+	<bean id="d6bdiode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-DI-PHDGN-06:B:DIODE:I" />
+	</bean>
+	<bean id="d7bdiode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-DI-PHDGN-07:B:DIODE:I" />
+	</bean>
+	
+</beans>

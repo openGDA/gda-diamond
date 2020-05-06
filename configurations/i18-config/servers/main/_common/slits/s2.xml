@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="s2xpos" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s2xpos_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="s2xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s2xgap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="s2ypos" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s2ypos_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="s2ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s2ygap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="S2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s2xpos" />
+				<ref bean="s2xgap" />
+				<ref bean="s2ypos" />
+				<ref bean="s2ygap" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

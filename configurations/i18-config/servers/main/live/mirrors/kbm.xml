@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- MOTORS -->
+	<bean id="kb_vfm_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:VFM:Y" />
+	</bean>
+	<bean id="kb_vfm_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:VFM:X" />
+	</bean>
+	<bean id="kb_vfm_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:VFM:PITCH" />
+	</bean>
+	<bean id="kb_vfm_bend1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:VFM:BEND1" />
+	</bean>
+	<bean id="kb_vfm_bend2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:VFM:BEND2" />
+	</bean>
+	<bean id="kb_hfm_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:HFM:Y" />
+	</bean>
+	<bean id="kb_hfm_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:HFM:X" />
+	</bean>
+	<bean id="kb_hfm_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-HFM-01:PITCH" />
+	</bean>
+	<bean id="kb_hfm_bend1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:HFM:BEND1" />
+	</bean>
+	<bean id="kb_hfm_bend2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-OP-KBM-01:HFM:BEND2" />
+	</bean>
+
+
+	<!-- MONITORS -->
+	<bean id="kb_vfm_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-KBM-01:VFM:Y:TEMP" />
+	</bean>
+	<bean id="kb_hfm_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-KBM-01:HFM:Y:TEMP" />
+	</bean>
+
+</beans>

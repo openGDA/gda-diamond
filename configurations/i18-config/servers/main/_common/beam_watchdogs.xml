@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
-		<property name="countdownName" value="machineTopupMonitor"/>
+		<property name="countdownName" value="topup_start_countdown_complete"/>
 		<property name="message" value="Paused during topup"/>
 		<property name="warmup" value="5000"/>
 		<property name="cooloff" value="4000"/>
@@ -16,7 +16,7 @@
 	</bean>
 	
 	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
-		<property name="expression" value="ringcurrent >= 1.0 &amp;&amp; !fe_absorber.equalsIgnoreCase(&quot;Closed&quot;)"/>
+		<property name="expression" value="ring_current >= 1.0 &amp;&amp; !fe_absorber.equalsIgnoreCase(&quot;Closed&quot;)"/>
 		<property name="message" value="Beam has been lost"/>
 	</bean>
 

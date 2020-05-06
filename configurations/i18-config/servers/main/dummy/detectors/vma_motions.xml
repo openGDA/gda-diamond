@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="vma_zoom" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>10</value>
+				<value>20</value>
+				<value>30</value>
+				<value>40</value>
+				<value>50</value>
+				<value>60</value>
+				<value>70</value>
+				<value>80</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="vma_focus_motor" class="gda.device.motor.DummyMotor" />
+
+</beans>

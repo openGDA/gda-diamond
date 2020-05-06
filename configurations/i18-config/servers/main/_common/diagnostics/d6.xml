@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		
+	<bean id="d6amotor" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d6amotor_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="d6bmotor" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d6bmotor_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="D6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d6amotor" />
+				<ref bean="d6bmotor" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+	
+</beans>

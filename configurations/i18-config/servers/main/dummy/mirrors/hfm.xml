@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="toroid_sag_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="toroid_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="toroid_x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="toroid_curve_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="toroid_ellipticity_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="toroid_y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="toroid_yaw_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="toroid_roll_motor" class="gda.device.motor.DummyMotor" />
+
+</beans>

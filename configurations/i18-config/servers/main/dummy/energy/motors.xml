@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="idgap_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000.0"></property>
+	</bean>
+
+	<bean id="dcm_bragg_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000.0"></property>
+	</bean>
+	
+	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000.0"></property>
+	</bean>
+	
+	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor"/>
+
+</beans>

@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- A scannable holding the beam size so that it can be written to Nexus. -->
+	<bean id="beam" class="uk.ac.diamond.daq.scanning.BeamScannable" init-method="register">
+		<property name="name" value="beam" />
+		<property name="beamSize" value="0.1" />
+	</bean>
+
+
+	<!-- Silicon detector motors -->
+	<bean id="sid_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="ml_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="sid_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="ml_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="sid_z" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="ml_z_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="sc_MultiLayer" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sid_x" />
+				<ref bean="sid_y" />
+				<ref bean="sid_z" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<!-- ThorLabs stage (Table 2) -->
+	<bean id="thor_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="thor_x_motor" />
+	</bean>
+
+	<bean id="thor_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="thor_y_motor" />
+	</bean>
+	
+	<bean id="ccd_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ccd_x_motor" />
+	</bean>
+	
+	<bean id="ccd_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ccd_y_motor" />
+	</bean>
+
+</beans>

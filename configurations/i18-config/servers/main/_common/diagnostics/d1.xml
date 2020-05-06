@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		
+	<bean id="d1motor" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d1motor_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+</beans>
