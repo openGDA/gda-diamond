@@ -27,6 +27,7 @@
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
+				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.AlternativeDirectorySection" />
 			</list>
 		</property>
 		<property name="unscrolledSections">
