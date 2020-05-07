@@ -48,9 +48,7 @@
 	<import resource="motor/sixcsample.xml" />
 
 	<import resource="transient/kbmbase.xml" />
-	<!--
 	<import resource="transient/smargon.xml" />
-	 -->
 
 	<import resource="../live/motor/pie725_raster.xml" />
 	<import resource="../live/detector/labcam.xml" />
