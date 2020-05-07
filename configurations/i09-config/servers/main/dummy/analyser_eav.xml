@@ -200,6 +200,14 @@
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter" />
 		<property name="canMove" value="true" />
 	</bean>
+	<bean id="eavCentroidX" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:CentroidX_RBV" />
+		<property name="canMove" value="false" />
+	</bean>
+	<bean id="eavCentroidY" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:CentroidY_RBV" />
+		<property name="canMove" value="false" />
+	</bean>
 	<bean id="eavCameraControl" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="eavCamBase" />
 		<constructor-arg ref="eav_roi" />

@@ -4,9 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<bean id="eavCameraControl" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eavImageMax" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eavImageTotal" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eavImageMean" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eavCentroidX" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eavCentroidY" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<bean id="alignment_controls" class="uk.ac.gda.sisa.ui.AlignmentControls">
-		<property name="analyser" ref="analyser" />
+	<bean id="alignment_controls" class="uk.ac.gda.sisa.ui.AlignmentConfiguration">
 		<property name="analyserEavControl" ref="eavCameraControl" />
 		<property name="analyserControls">
 			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
@@ -119,6 +123,30 @@
 					</list>
 				</property>
 			</bean>
+		</property>
+		<property name="alignmentStats">
+			<list>
+				<bean class="uk.ac.gda.sisa.ui.AlignmentStat">
+					<constructor-arg name="label" value="Max Count:" />
+					<constructor-arg name="scannable" ref="eavImageMax" />
+				</bean>
+				<bean class="uk.ac.gda.sisa.ui.AlignmentStat">
+					<constructor-arg name="label" value="Total Count:" />
+					<constructor-arg name="scannable" ref="eavImageTotal" />
+				</bean>
+				<bean class="uk.ac.gda.sisa.ui.AlignmentStat">
+					<constructor-arg name="label" value="Count/Pixel:" />
+					<constructor-arg name="scannable" ref="eavImageMean" />
+				</bean>
+				<bean class="uk.ac.gda.sisa.ui.AlignmentStat">
+					<constructor-arg name="label" value="Centroid X:" />
+					<constructor-arg name="scannable" ref="eavCentroidX" />
+				</bean>
+				<bean class="uk.ac.gda.sisa.ui.AlignmentStat">
+					<constructor-arg name="label" value="Centroid Y:" />
+					<constructor-arg name="scannable" ref="eavCentroidY" />
+				</bean>
+			</list>
 		</property>
 	</bean>
 </beans>
