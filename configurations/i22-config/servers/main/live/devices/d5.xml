@@ -8,8 +8,4 @@
 		<property name="pvBase" value="BL22I-DI-PHDGN-05:MP"/>
 		<property name="protectionLevel" value="2"/>
 	</bean>
-
-	<bean id="d5motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-DI-PHDGN-05:POSN"/>
-	</bean>
 </beans>

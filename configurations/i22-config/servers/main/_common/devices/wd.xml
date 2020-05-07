@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+    <gda:motor id="wd_x" pv="BL22I-EA-DET-01:X" protectionLevel="3" />
+    <gda:motor id="wd_y" pv="BL22I-EA-DET-01:Y" protectionLevel="3" />
 
     <bean id="wd" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -11,16 +17,6 @@
                 <ref bean="wd_y"/>
             </list>
         </property>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="wd_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="wd_x_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="wd_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="wd_y_motor"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 </beans>

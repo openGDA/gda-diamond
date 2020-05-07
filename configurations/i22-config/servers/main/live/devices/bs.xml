@@ -4,12 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="bs1_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-SAXSP-01:BS1:X"/>
-	</bean>
-	<bean id="bs1_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-SAXSP-01:BS1:Y"/>
-	</bean>
 	<bean id="bs1_x_temp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-SAXSP-01:BS1:X:TEMP"/>
@@ -19,12 +13,6 @@
 		<property name="pvName" value="BL22I-MO-SAXSP-01:BS1:Y:TEMP"/>
 	</bean>
 
-	<bean id="bs2_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-SAXSP-01:BS2:X"/>
-	</bean>
-	<bean id="bs2_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-SAXSP-01:BS2:Y"/>
-	</bean>
 	<bean id="bs2_x_temp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-SAXSP-01:BS2:X:TEMP"/>
@@ -34,12 +22,6 @@
 		<property name="pvName" value="BL22I-MO-SAXSP-01:BS2:Y:TEMP"/>
 	</bean>
 
-	<bean id="bs3_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-SAXSP-01:BS3:X"/>
-	</bean>
-	<bean id="bs3_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-SAXSP-01:BS3:Y"/>
-	</bean>
 	<bean id="bs3_x_temp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-SAXSP-01:BS3:X:TEMP"/>

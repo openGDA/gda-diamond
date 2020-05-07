@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<bean id="mfplatform_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfplatform_x_motor"/>
-	</bean>
+    <gda:motor id="mfplatform_x" pv="BL22I-MO-TABLE-05:X" />
+    <gda:motor id="mfplatform_y" pv="BL22I-MO-TABLE-05:Y" />
+    <gda:motor id="mfplatform_y1" pv="BL22I-MO-TABLE-05:Y1" />
+    <gda:motor id="mfplatform_y2" pv="BL22I-MO-TABLE-05:Y2" />
+    <gda:motor id="mfplatform_yaw" pv="BL22I-MO-TABLE-05:YAW" />
+    <gda:motor id="mfplatform_pitch" pv="BL22I-MO-TABLE-05:PITCH" />
 
-	<bean id="mfplatform_y1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfplatform_y1_motor"/>
-	</bean>
-
-	<bean id="mfplatform_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfplatform_y_motor"/>
-	</bean>
-
-	<bean id="mfplatform_yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfplatform_yaw_motor"/>
-	</bean>
-
-	<bean id="mfplatform_y2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfplatform_y2_motor"/>
-	</bean>
-
-	<bean id="mfplatform_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfplatform_pitch_motor"/>
-	</bean>
-
-	<bean id="mfplatform" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="mfplatform_x"/>
-				<ref bean="mfplatform_y"/>
-				<ref bean="mfplatform_y1"/>
-				<ref bean="mfplatform_y2"/>
-				<ref bean="mfplatform_yaw"/>
-				<ref bean="mfplatform_pitch"/>
-			</list>
-		</property>
-	</bean>
+    <bean id="mfplatform" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="mfplatform_x"/>
+                <ref bean="mfplatform_y"/>
+                <ref bean="mfplatform_y1"/>
+                <ref bean="mfplatform_y2"/>
+                <ref bean="mfplatform_yaw"/>
+                <ref bean="mfplatform_pitch"/>
+            </list>
+        </property>
+    </bean>
 </beans>

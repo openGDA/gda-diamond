@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <bean id="base_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="base_x_motor"/>
-    </bean>
+    <gda:motor id="base_x" pv="BL22I-MO-STABL-01:X" />
+    <gda:motor id="base_y" pv="BL22I-MO-STABL-01:Y" />
+    <gda:motor id="base_pitch" pv="BL22I-MO-STABL-01:PITCH" />
 
-    <bean id="base_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="base_y_motor"/>
-    </bean>
-
-    <bean id="base_pitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="base_pitch_motor"/>
-    </bean>
+    <!-- aliases to match the names mapping scans expect -->
+    <alias name="base_x" alias="t1x" />
+    <alias name="base_y" alias="t1y" />
 
     <bean id="base" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -25,5 +24,4 @@
             </list>
         </property>
     </bean>
-
 </beans>

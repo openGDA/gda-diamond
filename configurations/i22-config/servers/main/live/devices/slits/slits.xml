@@ -3,10 +3,5 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<import resource="s1.xml" />
-<import resource="s2.xml" />
-<import resource="s3.xml" />
-<import resource="s4.xml" />
-<import resource="s5.xml" />
-<import resource="s6.xml" />
+	<import resource="s2.xml" />
 </beans>

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    profile="gonio"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <bean id="gonio_pitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="gonio_pitch_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
-
-    <bean id="gonio_roll" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="gonio_roll_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
+    <gda:motor id="gonio_pitch" pv="BL22I-EA-GONIO-01:PITCH" protectionLevel="2" />
+    <gda:motor id="gonio_roll" pv="BL22I-EA-GONIO-01:ROLL" protectionLevel="2" />
+    <gda:motor id="gonio_yaw" pv="BL22I-EA-GONIO-01:YAW" protectionLevel="2" />
 
     <bean id="gonio" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -24,8 +22,4 @@
         </property>
     </bean>
 
-    <bean id="gonio_yaw" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="gonio_yaw_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
 </beans>

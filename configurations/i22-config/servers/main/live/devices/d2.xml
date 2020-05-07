@@ -4,10 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="d2motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-DI-PHDGN-02:POSN"/>
-	</bean>
-
 	<bean id="d2filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-02:MP" />
 		<property name="protectionLevel" value="3" />

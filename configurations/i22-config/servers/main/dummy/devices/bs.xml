@@ -3,14 +3,6 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="bs1_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
-    <bean id="bs1_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
-    <bean id="bs2_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
-    <bean id="bs2_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
-    <bean id="bs3_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
-    <bean id="bs3_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
-
-
     <bean class="gda.device.monitor.DummyMonitor" id="bs1_x_temp" />
     <bean class="gda.device.monitor.DummyMonitor" id="bs1_y_temp" />
     <bean class="gda.device.monitor.DummyMonitor" id="bs2_x_temp" />

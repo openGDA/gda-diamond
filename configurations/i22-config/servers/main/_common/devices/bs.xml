@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
     <bean id="bs" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -17,14 +20,8 @@
         </property>
     </bean>
 
-    <bean id="bs1_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bs1_x_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-    <bean id="bs1_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bs1_y_motor"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
+    <gda:motor id="bs1_x" pv="BL22I-MO-SAXSP-01:BS1:X" protectionLevel="3" />
+    <gda:motor id="bs1_y" pv="BL22I-MO-SAXSP-01:BS1:Y" protectionLevel="3" />
     <bean id="bs1" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -36,14 +33,8 @@
         </property>
     </bean>
 
-    <bean id="bs2_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bs2_x_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
-    <bean id="bs2_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bs2_y_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
+    <gda:motor id="bs2_x" pv="BL22I-MO-SAXSP-01:BS2:X" protectionLevel="2" />
+    <gda:motor id="bs2_y" pv="BL22I-MO-SAXSP-01:BS2:Y" protectionLevel="2" />
     <bean id="bs2" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -55,14 +46,8 @@
         </property>
     </bean>
 
-    <bean id="bs3_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bs3_x_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
-    <bean id="bs3_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="bs3_y_motor"/>
-        <property name="protectionLevel" value="2"/>
-    </bean>
+    <gda:motor id="bs3_x" pv="BL22I-MO-SAXSP-01:BS3:X" protectionLevel="2" />
+    <gda:motor id="bs3_y" pv="BL22I-MO-SAXSP-01:BS3:Y" protectionLevel="2" />
     <bean id="bs3" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
