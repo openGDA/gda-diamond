@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +45,7 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
+import gda.rcp.views.EnumPositionerComposite;
 import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
@@ -60,6 +60,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 	private boolean running = false;
 	private Button shutterButton;
 	private IVGScientaAnalyserRMI analyser;
+	static final int NPC_INCREMENT_TEXT_WIDTH = 30;
 
 	public I05_1ContinuousModeControllerComposite(Composite parent, final IVGScientaAnalyserRMI analyser) {
 		super(parent, SWT.NONE);
@@ -73,48 +74,45 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		Group analyserGroup = new Group(this, SWT.NONE);
 		analyserGroup.setText("Analyser");
 		analyserGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(analyserGroup);
+		GridLayoutFactory.swtDefaults().numColumns(4).spacing(10, 0).applyTo(analyserGroup);
 
 		// Lens mode
-		Label lensModeLabel = new Label(analyserGroup, SWT.NONE);
-		lensModeLabel.setText("Lens Mode");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).grab(false, true).applyTo(lensModeLabel);
-
-		lensModeCombo = new Combo(analyserGroup, SWT.NONE);
-		GridDataFactory.swtDefaults().grab(true, false).applyTo(lensModeCombo);
-		// Setup lens modes and select currently selected one
-		lensModeCombo.setItems(analyser.getEnergyRange().getAllLensModes().toArray(new String[0]));
-		try {
-			String activeLensMode = analyser.getLensMode();
-			lensModeCombo.select(Arrays.asList(lensModeCombo.getItems()).indexOf(activeLensMode));
-		} catch (Exception e) {
-			logger.error("Failed to get current lens mode", e);
+		Scannable lensModeScannable = Finder.getInstance().find("lens_mode");
+		if (lensModeScannable != null) {
+			EnumPositionerComposite lensModeEPC = new EnumPositionerComposite(analyserGroup, SWT.NONE);
+			lensModeEPC.setScannable(lensModeScannable);
+			lensModeEPC.setDisplayName("Lens Mode");
+			lensModeEPC.hideStopButton();
+		} else {
+			logger.warn("Could not find scannable with name 'lens_mode'");
 		}
-		lensModeCombo.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				logger.info("Changing analyser lens mode to " + lensModeCombo.getText());
-				try {
-					analyser.setLensMode(lensModeCombo.getText());
-				} catch (Exception ex) {
-					logger.error("Failed to change lens mode", ex);
-				}
-				updatePassEnergyCombo();
-			}
-		});
 
 		// Centre energy
-		NudgePositionerComposite centre_energyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
-		centre_energyNPC.setScannable((Scannable) Finder.getInstance().find("raw_centre_energy"));
-		centre_energyNPC.setDisplayName("centre_energy");
-		centre_energyNPC.hideStopButton();
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(centre_energyNPC);
+		Scannable centreEnergyScannable = Finder.getInstance().find("raw_centre_energy");
+		if (centreEnergyScannable != null) {
+			NudgePositionerComposite centreEnergyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+			centreEnergyNPC.setScannable(centreEnergyScannable);
+			centreEnergyNPC.setDisplayName("Centre Energy");
+			centreEnergyNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+			centreEnergyNPC.hideStopButton();
+			GridDataFactory.swtDefaults().span(1, 2).applyTo(centreEnergyNPC);
+		} else {
+			logger.warn("Could not find scannable with name 'raw_centre_energy'");
+		}
+
 		// Acquire time
-		NudgePositionerComposite acquire_timeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
-		acquire_timeNPC.setScannable((Scannable) Finder.getInstance().find("acquire_time"));
-		acquire_timeNPC.hideStopButton();
-		acquire_timeNPC.setIncrement(0.5);
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNPC);
+		Scannable acquireTimeScannable = Finder.getInstance().find("acquire_time");
+		if (acquireTimeScannable != null) {
+			NudgePositionerComposite acquireTimeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+			acquireTimeNPC.setScannable(acquireTimeScannable);
+			acquireTimeNPC.setDisplayName("Acquire Time");
+			acquireTimeNPC.hideStopButton();
+			acquireTimeNPC.setIncrement(0.5);
+			acquireTimeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+			GridDataFactory.swtDefaults().span(1, 2).applyTo(acquireTimeNPC);
+		} else {
+			logger.warn("Could not find scannable with name 'acquire_time'");
+		}
 
 		// Analyser Start Button
 		startButton = new Button(analyserGroup, SWT.DEFAULT);
@@ -126,10 +124,6 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				logger.debug("Starting continuous acquistion");
 				try {
-					// Need to reset lens mode and pass energy as they may have changed from the values
-					// Shown in this GUI so resend the settings
-					analyser.setLensMode(lensModeCombo.getText());
-					analyser.setPassEnergy(Integer.parseInt(passEnergyCombo.getText()));
 					analyser.startContinuious();
 				} catch (Exception ex) {
 					logger.error("Failed to start continuious acquisition", ex);
@@ -138,27 +132,16 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		});
 
 		// Analyser pass energy
-		Label passEnergyLabel = new Label(analyserGroup, SWT.NONE);
-		passEnergyLabel.setText("Pass Energy");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).grab(false, true).applyTo(passEnergyLabel);
-
-		passEnergyCombo = new Combo(analyserGroup, SWT.NONE);
-		// Call update to setup passEnergyCombo
-		updatePassEnergyCombo();
-
-		// Add listener to update analyser pass energy when changed
-		passEnergyCombo.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				logger.info("Changing analyser pass energy to " + passEnergyCombo.getText());
-				try {
-					analyser.setPassEnergy(Integer.parseInt(passEnergyCombo.getText()));
-				} catch (Exception ex) {
-					logger.error("Failed to set pass energy", ex);
-				}
-			}
-		});
-		passEnergyCombo.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).create());
+		Scannable passEnergyScannable = Finder.getInstance().find("pass_energy");
+		if (passEnergyScannable != null) {
+			EnumPositionerComposite passEnergyEPC = new EnumPositionerComposite(analyserGroup, SWT.NONE);
+			passEnergyEPC.setScannable(passEnergyScannable);
+			passEnergyEPC.setDisplayName("Pass Energy");
+			passEnergyEPC.hideStopButton();
+			GridDataFactory.swtDefaults().span(1, 2).applyTo(passEnergyEPC);
+		} else {
+			logger.warn("Could not find scannable with name 'pass_energy'");
+		}
 
 		// Analyser Stop Button
 		stopButton = new Button(analyserGroup, SWT.DEFAULT);
