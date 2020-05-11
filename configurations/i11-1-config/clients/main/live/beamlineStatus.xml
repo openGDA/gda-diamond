@@ -29,16 +29,7 @@
 		</property>
 	</bean>
 	<bean id="energy" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL11I-OP-DCM-01:ENERGY.RBV"/>
-		<property name="useNameAsExtraName" value="true"/>
-		<property name="outputFormat">
-			<list>
-				<value>%.5g</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="lambda" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL11I-OP-DCM-01:LAMBDA.RBV"/>
+		<property name="pvName" value="BL11I-MO-DCM-01:ENERGY.VAL"/>
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="outputFormat">
 			<list>

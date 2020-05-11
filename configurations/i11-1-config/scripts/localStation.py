@@ -172,8 +172,8 @@ print
 # print
 
 ### set output format for scannables
-globals()['energy'].setOutputFormat(["%10.7f"])
-globals()['bragg'].setOutputFormat(["%10.7f"])
+globals()['dcm_energy'].setOutputFormat(["%10.7f"])
+globals()['dcm_bragg'].setOutputFormat(["%10.7f"])
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "function to set wavelength >>>setwavelength(value)"
