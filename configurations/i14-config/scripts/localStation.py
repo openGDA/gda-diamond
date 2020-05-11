@@ -35,6 +35,7 @@ inctime = showincrementaltimeClass('inctime')
 actualTime = actualTimeClass("actualTime")
 
 from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
+from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs, set_watchdog_enabled, is_watchdog_enabled
 alias("enableWatchdogs")
 alias("disableWatchdogs")
 alias("listWatchdogs")

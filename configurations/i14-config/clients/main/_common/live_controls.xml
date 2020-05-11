@@ -106,6 +106,16 @@
 		</property>
 	</bean>
 
+	<bean id="watchdog_control" class="uk.ac.gda.client.livecontrol.WatchdogControl">
+		<property name="group" value="Watchdogs" />
+		<property name="watchdogNames">
+			<list>
+				<value>beam_available_watchdog</value>
+				<value>topup_watchdog</value>
+			</list>
+		</property>
+	</bean>
+
 	<!-- Overall control set -->
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -115,6 +125,7 @@
 				<ref bean="stage1_z_control" />
 				<ref bean="stage1_rotation_control" />
 				<ref bean="endstation_configurations" />
+				<ref bean="watchdog_control" />
 				<ref bean="dcm_enrg_control" />
 				<ref bean="stage1_xf_control" />
 				<ref bean="stage1_yf_control" />
