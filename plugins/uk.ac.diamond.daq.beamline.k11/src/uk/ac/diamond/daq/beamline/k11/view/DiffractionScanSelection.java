@@ -58,6 +58,7 @@ import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
+import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameterAcquisition;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
@@ -115,6 +116,10 @@ public class DiffractionScanSelection extends ViewPart {
 
 		prepareMapEvents();
 		MappingServices.updateDetectorParameters();
+
+		// Creates camera stream item in the context menu
+		EnableMappingLiveBackgroundAction.appendContextMenuAction();
+
 		logger.info("{} createPartControl - end", this.getClass());
 	}
 
