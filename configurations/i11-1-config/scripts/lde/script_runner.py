@@ -1,8 +1,17 @@
 from gda.jython.commands.GeneralCommands import run
+from gda.util import Email
+
 import java.lang.Exception as jException
 import logging
 logger = logging.getLogger('gda.lde.script_runner')
+
 CURRENT_DIRECTORY = '*CURRENT SCRIPTS/'
+
+# Maybe should be a property but define here for now
+EMAIL_LIST = ['claire.murray@diamond.ac.uk',
+        'stephen.thompson@diamond.ac.uk',
+        'sarah.day@diamond.ac.uk']
+CC_LIST = ['peter.holloway@diamond.ac.uk']
 
 def run_current(name):
     """
@@ -16,6 +25,10 @@ def run_current(name):
         run(CURRENT_DIRECTORY + name)
     except (jException, Exception) as e:
         print 'Error running script ' + name
+        Email().to(EMAIL_LIST).cc(CC_LIST)
+                .subject('Error running LDE scripts')
+                .message('Error running script ' + name + '\n\nError raised:\n' + str(e))
+                .send()
         logger.error('Error running script "%s"', name, exc_info=True)
         if checkRerun(name):
             logger.debug('Rerunning script: %s', name)
