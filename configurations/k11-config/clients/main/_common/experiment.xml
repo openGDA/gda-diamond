@@ -8,8 +8,6 @@
 	</description>
 
 	<bean id="clientExperimentService" class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
-	
 	<bean class="uk.ac.diamond.daq.experiment.scans.mapping.MapSaveListener" />
-	<bean class="uk.ac.diamond.daq.experiment.scans.tomography.TomographySaveListener" />
 
 </beans>
