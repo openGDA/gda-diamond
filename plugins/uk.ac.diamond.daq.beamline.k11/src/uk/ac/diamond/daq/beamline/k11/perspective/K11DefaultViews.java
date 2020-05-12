@@ -39,8 +39,6 @@ public final class K11DefaultViews {
 	public static final String PERSPECTIVE_DASHBOARD_VIEW = PerspectiveDashboard.ID;
 	public static final String JYTON_CONSOLE_VIEW = "gda.rcp.jythonterminalview";
 
-	public static final String EXPERIMENT = "uk.ac.diamond.daq.beamline.k11.experiment";
-
 	public static final String MAPPED_DATA = "org.dawnsci.mapping.ui.mappeddataview";
 	public static final String MAP_VIEW = "org.dawnsci.mapping.ui.mapview";
 

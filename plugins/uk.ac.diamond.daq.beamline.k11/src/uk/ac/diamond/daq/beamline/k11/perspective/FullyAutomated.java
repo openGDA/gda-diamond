@@ -32,7 +32,6 @@ public class FullyAutomated  implements IPerspectiveFactory {
 
 		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout);
 		helper.addViewToLeftFolder(K11DefaultViews.PERSPECTIVE_DASHBOARD_VIEW, false);
-		helper.addViewToLeftFolder(K11DefaultViews.EXPERIMENT, false); // TODO remove once we have everything in this view accessible elsewhere
 
 		helper.addViewToCentralFolder(K11DefaultViews.PLAN_PROGRESS_PLOT, false);
 		helper.addFolderThenViewToCentralFolder(K11DefaultViews.DETECTOR_FRAME_PEEK, false, 0.65f);

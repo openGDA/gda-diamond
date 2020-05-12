@@ -59,14 +59,6 @@
       </view>
       <view
             allowMultiple="false"
-            class="uk.ac.diamond.daq.beamline.k11.view.ExperimentSetup"
-            icon="icons/flask--pencil.png"
-            id="uk.ac.diamond.daq.beamline.k11.experiment"
-            name="Experiment"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="false"
             class="uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard"
             icon="icons/perspective-16.png"
             id="uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard"
