@@ -1,6 +1,4 @@
 *.pyc
 *.class
 
-scripts/gdaserver.py
-
 **/.*swp
