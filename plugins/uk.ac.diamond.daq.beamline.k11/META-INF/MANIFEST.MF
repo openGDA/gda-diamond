@@ -7,7 +7,9 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
-Import-Package: gda.factory,
+Import-Package: com.fasterxml.jackson.databind;version="2.6.2",
+ gda.factory,
+ org.apache.commons.beanutils;version="1.9.3",
  org.apache.commons.io;version="2.6.0",
  org.apache.commons.lang3.tuple;version="3.1.0",
  org.eclipse.e4.core.services.events,
