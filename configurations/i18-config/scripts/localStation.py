@@ -55,15 +55,15 @@ add_default(beamMonitor)
 
 # Watchdogs
 print "Adding watchdog commands: enableWatchdogs, disableWatchdogs, listWatchdogs"
-from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topupWatchdog, expressionWatchdog
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog
 alias("enableWatchdogs")
 alias("disableWatchdogs")
 alias("listWatchdogs")
-alias("topupWatchdog")
-alias("expressionWatchdog")
+alias("topup_watchdog")
+alias("beam_available_watchdog")
 
-topupWatchdog.setEnabled(True)
-expressionWatchdog.setEnabled(True)
+topup_watchdog.setEnabled(True)
+beam_available_watchdog.setEnabled(True)
 
 rcpController =                finder.find("RCPController")
 XASLoggingScriptController =   finder.find("XASLoggingScriptController")
@@ -183,6 +183,6 @@ print "To disable/enable all watchdogs:"
 print " disableWatchdogs()/enableWatchdogs()"
 print ""
 print "To disable/enable a single watchdog e.g. topup:"
-print " topupWatchdog.setEnabled(False)/(True)"
+print " topup_watchdog.setEnabled(False)/(True)"
 print ""
 print "****************************************"

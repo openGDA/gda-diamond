@@ -26,7 +26,7 @@
 	<import resource="logging_script_controller.xml" />
 	<import resource="metadata.xml" />
 	<import resource="solstice.xml" />
-	<import resource="beam_watchdogs.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/beam_watchdogs.xml" />
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/unsorted_devices.xml" />
 	<import resource="unsorted_scannables.xml" />
