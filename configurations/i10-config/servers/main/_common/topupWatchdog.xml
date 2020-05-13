@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!--  Watchdog Topup Example -->
-	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
+	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.TopupWatchdogModel">
 		<property name="message"           value="Paused for topup"/>
 		<property name="countdownName"     value="topupMonitor"/> <!-- compulsory scannable linked to SR-CS-FILL-01:COUNTDOWN, seconds to refill-->
 		<property name="cooloff"           value="4000"/> <!-- wait 4 second before topup fill -->

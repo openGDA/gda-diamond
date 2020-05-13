@@ -4,8 +4,8 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- Pause scan from 4000 ms before top-up until 5000 ms after top-up -->
-	<!-- The top-up is assumed to take 15 seconds (see DeviceWatchdogModel)-->
-	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
+	<!-- The top-up is assumed to take 15 seconds (see TopupWatchdogModel)-->
+	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.TopupWatchdogModel">
 		<property name="countdownName" value="topup_start_countdown_complete"/>
 		<property name="message" value="Paused during topup"/>
 		<property name="warmup" value="5000"/>
@@ -19,7 +19,7 @@
 	</bean>
 
 	<!-- Stop scan if port shutter is closed or there is no beam current -->
-	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
+	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.ExpressionWatchdogModel">
 		<property name="expression" value="ring_current >= 1.0 &amp;&amp; !portshutter.equalsIgnoreCase(&quot;Closed&quot;)"/>
 		<property name="message" value="Beam has been lost"/>
 	</bean>

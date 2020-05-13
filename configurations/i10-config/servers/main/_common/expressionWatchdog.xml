@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!--  Watchdog Expression Example -->
-	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
+	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.ExpressionWatchdogModel">
 	    <!-- In the expression:   & is &amp;   and   " is &quot; -->
 	    <!-- So the expression is really:   beamcurrent >= 1.0 && !portshutter.equalsIgnoreCase("Closed")  -->
 		<property name="expression"   value="ringCurrentMonitor >= 1.0 &amp;&amp; !portshutterMonitor.equalsIgnoreCase(&quot;Closed&quot;)"/>
