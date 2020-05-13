@@ -182,7 +182,7 @@
 	<import resource="file:${gda.config}/devices/_common/excalibur_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1_addetector.xml"/>
 
-	<import resource="file:${gda.config}/devices/_common/beam_watchdogs.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/beam_watchdogs.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/diffractometer.xml" />
 	<import resource="file:${gda.config}/devices/_common/afg.xml"/>

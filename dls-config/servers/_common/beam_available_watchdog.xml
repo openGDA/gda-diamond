@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- We assume that beam is available if the ring current is above background level -->
+	<!-- and the port shutter is open -->
+	<bean id="beam_available_model" class="org.eclipse.scanning.api.device.models.ExpressionWatchdogModel">
+		<property name="expression" value="ring_current >= 1.0 &amp;&amp; !portshutter.equalsIgnoreCase(&quot;Closed&quot;)"/>
+		<property name="message" value="Beam has been lost"/>
+	</bean>
+
+	<bean id="beam_available_watchdog" class="org.eclipse.scanning.sequencer.watchdog.ExpressionWatchdog" init-method="activate">
+		<property name="name" value="beam_available_watchdog" />
+		<property name="model" ref="beam_available_model"/>
+	</bean>
+
+</beans>

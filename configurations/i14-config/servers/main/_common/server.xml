@@ -86,7 +86,7 @@
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/abstract_nxplugins.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/beam_watchdogs.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/beam_watchdogs.xml" />
 
 	<!-- ID & front end-->
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />

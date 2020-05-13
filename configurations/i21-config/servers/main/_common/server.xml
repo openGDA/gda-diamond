@@ -12,8 +12,8 @@
 	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
 	<import resource="GDAMetadata.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
-	<import resource="topupWatchdog.xml"/>
-	<import resource="expressionWatchdog.xml"/>
+ 	<import resource="../../../../../dls-config/servers/_common/beam_available_watchdog.xml" />
+ 	<import resource="../../../../../dls-config/servers/_common/topup_watchdog.xml" />
 	<import resource="xRayWatchdog.xml"/>
 
 	<import resource="../../../../../dls-config/servers/_common/file_registrar.xml" />

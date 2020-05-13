@@ -14,8 +14,8 @@
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="commandServer.xml"/>
 	<!-- watch dogs for solstice scanning. -->
-<!-- 	<import resource="topupWatchdog.xml"/> -->
-<!-- 	<import resource="expressionWatchdog.xml"/> -->
+<!-- 	<import resource="../../../../../dls-config/servers/_common/beam_available_watchdog.xml" /> -->
+<!-- 	<import resource="../../../../../dls-config/servers/_common/topup_watchdog.xml" /> -->
 <!-- 	<import resource="xRayWatchdog.xml"/> -->
 
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/file_registrar.xml" />

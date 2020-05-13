@@ -95,9 +95,10 @@ alias("meta_rm")
 from gda.data.scan.datawriter import NexusDataWriter
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
-from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
 alias("enableWatchdogs")
 alias("disableWatchdogs")
+alias("listWatchdogs")
 
 import help_cmds
 if not LocalProperties.check("gda.dummy.mode"):

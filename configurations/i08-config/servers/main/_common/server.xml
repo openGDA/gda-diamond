@@ -47,7 +47,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/processing.xml" />
 
  	<import resource="file:${gda.config}/servers/main/_common/devices/andor_stage.xml" />
- 	<import resource="file:${gda.config}/servers/main/_common/devices/beam_watchdogs.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/beam_watchdogs.xml" />
  	<import resource="file:${gda.config}/servers/main/_common/devices/d6.xml"/>
  	<import resource="file:${gda.config}/servers/main/_common/devices/energyFocus.xml"/>
  	<import resource="file:${gda.config.shared}/servers/_common/devices/frontEnd.xml"/>

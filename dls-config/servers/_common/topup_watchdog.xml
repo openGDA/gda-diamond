@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Pause scan from 4000 ms before top-up until 5000 ms after top-up -->
+	<!-- The top-up is assumed to occur every 10 minutes and take 15 seconds (see TopupWatchdogModel)-->
+	<bean id="topup_model" class="org.eclipse.scanning.api.device.models.TopupWatchdogModel">
+		<property name="countdownName" value="topup_start_countdown_complete"/>
+		<property name="message" value="Paused during topup"/>
+		<property name="warmup" value="5000"/>
+		<property name="cooloff" value="4000"/>
+		<property name="modeName" value="topup_mode"/>
+	</bean>
+
+	<bean id="topup_watchdog" class="org.eclipse.scanning.sequencer.watchdog.TopupWatchdog" init-method="activate">
+		<property name="name" value="topup_watchdog" />
+		<property name="model" ref="topup_model"/>
+	</bean>
+
+</beans>
