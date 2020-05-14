@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- add scannables name that will populate dashboard table-->
+	<bean id="dashboard_motors" class="uk.ac.gda.rcp.dashboard.configuration.DashboardScannables">
+		<property name="dashboardScannableNames">
+			<list>
+  				<value>m5tth</value>
+  				<value>m5hqx</value>
+  				<value>m5hqy</value>
+  				<value>m5hqz</value>
+  				<value>m5hqrx</value>
+  				<value>m5hqry</value>
+  				<value>m5hqrz</value>
+			</list>
+		</property>
+	</bean>
+</beans>
