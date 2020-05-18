@@ -9,9 +9,13 @@
 	<bean id="eavImageMean" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="eavCentroidX" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="eavCentroidY" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eavAcquireStatus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eavAccumulationStatus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="alignment_controls" class="uk.ac.gda.sisa.ui.AlignmentConfiguration">
 		<property name="analyserEavControl" ref="eavCameraControl" />
+		<property name="eavAcquiringStatusMonitor" ref="eavAcquireStatus" />
+		<property name="eavAccumulationStatusMonitor" ref="eavAccumulationStatus" />
 		<property name="analyserControls">
 			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
 				<property name="controls">
@@ -60,6 +64,14 @@
 							<property name="group" value="Analyser Controls" />
 							<property name="scannableName" value="eavNumFilter" />
 							<property name="showStop" value="false" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="Accumulated Frames" />
+							<property name="group" value="Analyser Controls" />
+							<property name="scannableName" value="eavAccumulatedFrames" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
 						</bean>
 					</list>
@@ -147,6 +159,6 @@
 					<constructor-arg name="scannable" ref="eavCentroidY" />
 				</bean>
 			</list>
-		</property>
+		</property>		
 	</bean>
 </beans>
