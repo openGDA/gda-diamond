@@ -6,6 +6,8 @@ from Diamond.Scans.RegionalScan import RegionalScanClass
 from Diamond.Scans.PowerSeriesScan import PowerSeriesScanClass
 from Diamond.Scans.CentroidScan import CentroidScanClass
 
+from BeamlineI07.scan.position_provider import ValidPositionsProvider
+
 #Usage
 rscan=RegionalScanClass()
 alias('rscan');
@@ -35,3 +37,19 @@ alias('cscan');
 del scan
 scan=BasicScanClass()
 alias('scan');
+
+def scanvalid(scannable, start, stop, step, *args):
+    scanPosProv = ValidPositionsProvider(scannable, start, stop, step)
+    scan(scannable, scanPosProv, *args)
+
+alias('scanvalid')
+
+def validtest(scannable, start, stop, step):
+    """
+    Create a ValidPositionsProvider but don't run a scan
+    Provides an indication (via print statements) which points
+    would be ignored.
+    """
+    ValidPositionsProvider(scannable, start, stop, step)
+
+alias('validtest')

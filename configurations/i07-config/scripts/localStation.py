@@ -183,6 +183,17 @@ print
 from BeamlineI07.hplc import Hplc
 hplc = Hplc("BL07I-EA-HPLC-01:")
 
+
+# TODO this should probably be part of diffcalc itself
+def checkHkl(position):
+	try:
+		hkl._diffcalc.hkl_to_angles(position[0], position[1], position[2])
+	except diffcalc.util.DiffcalcException as err:
+		return(str(err))
+
+hkl.checkPositionValid = checkHkl
+
+
 #print
 #print "running 'i07-config/scripts/si9328.py'"
 #run('si9328_setup')
