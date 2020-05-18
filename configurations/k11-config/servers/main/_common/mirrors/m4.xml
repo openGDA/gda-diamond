@@ -1,60 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 
 	<!-- COMBINED MOTION -->
-
-	<bean id="m4_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_x_motor" />
-	</bean>
-
-	<bean id="m4_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_y_motor" />
-	</bean>
-
-	<bean id="m4_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_roll_motor" />
-	</bean>
-
-	<bean id="m4_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_pitch_motor" />
-	</bean>
-
-	<bean id="m4_yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_yaw_motor" />
-	</bean>
+	<gda:motor id="m4_x" pv="BL11K-OP-MR-04:X" />
+	<gda:motor id="m4_y" pv="BL11K-OP-MR-04:Y" />
+	<gda:motor id="m4_roll" pv="BL11K-OP-MR-04:ROLL" />
+	<gda:motor id="m4_pitch" pv="BL11K-OP-MR-04:PITCH" />
+	<gda:motor id="m4_yaw" pv="BL11K-OP-MR-04:YAW" />
 	
 	<!-- RAW MOTION -->
-
-	<bean id="m4_x1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_x1_motor" />
-	</bean>
-
-	<bean id="m4_x2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_x2_motor" />
-	</bean>
-
-	<bean id="m4_y1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_y1_motor" />
-	</bean>
-
-	<bean id="m4_y2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_y2_motor" />
-	</bean>
-
-	<bean id="m4_y3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_y3_motor" />
-	</bean>
-
-	<bean id="m4_bendus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_bendus_motor" />
-	</bean>
-
-	<bean id="m4_bendds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m4_bendds_motor" />
-	</bean>
+	<gda:motor id="m4_x1" pv="BL11K-OP-MR-04:X1" />
+	<gda:motor id="m4_x2" pv="BL11K-OP-MR-04:X2" />
+	<gda:motor id="m4_y1" pv="BL11K-OP-MR-04:Y1" />
+	<gda:motor id="m4_y2" pv="BL11K-OP-MR-04:Y2" />
+	<gda:motor id="m4_y3" pv="BL11K-OP-MR-04:Y3" />
+	<gda:motor id="m4_bendus" pv="BL11K-OP-MR-04:BENDUS" />
+	<gda:motor id="m4_bendds" pv="BL11K-OP-MR-04:BENDDS" />
 
 	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

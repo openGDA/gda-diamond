@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-
-	<bean id="hfm_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hfm_pitch_motor" />
-	</bean>
-
-	<bean id="hfm_bendus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hfm_bendus_motor" />
-	</bean>
-
-	<bean id="hfm_bendds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="hfm_bendds_motor" />
-	</bean>
-
-
+	<gda:motor id="hfm_pitch" pv="BL11K-OP-KBM-01:HFM:PITCH" />
+	<gda:motor id="hfm_bendus" pv="BL11K-OP-KBM-01:HFM:BENDUS" />
+	<gda:motor id="hfm_bendds" pv="BL11K-OP-KBM-01:HFM:BENDDS" />
 
 	<bean id="hfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

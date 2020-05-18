@@ -1,39 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<bean id="s2_xplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xplus_motor" />
-	</bean>
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<bean id="s2_xminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xminus_motor" />
-	</bean>
 
-	<bean id="s2_yplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_yplus_motor" />
-	</bean>
+	<!-- COMBINED MOTION -->
+	<gda:motor id="s2_xsize" pv="BL11K-MO-SLITS-02:XSIZE" />
+	<gda:motor id="s2_xcentre" pv="BL11K-MO-SLITS-02:XCENTRE" />
+	<gda:motor id="s2_ysize" pv="BL11K-MO-SLITS-02:YSIZE" />
+	<gda:motor id="s2_ycentre" pv="BL11K-MO-SLITS-02:YCENTRE" />
 
-	<bean id="s2_yminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_yminus_motor" />
-	</bean>
 
-	<bean id="s2_xsize" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xsize_motor" />
-	</bean>
+	<!-- RAW MOTION -->
+	<gda:motor id="s2_xplus" pv="BL11K-MO-SLITS-02:DIFX:PLUS" />
+	<gda:motor id="s2_xminus" pv="BL11K-MO-SLITS-02:DIFX:MINUS" />
+	<gda:motor id="s2_yplus" pv="BL11K-MO-SLITS-02:DIFY:PLUS" />
+	<gda:motor id="s2_yminus" pv="BL11K-MO-SLITS-02:DIFY:MINUS" />
 
-	<bean id="s2_xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xcentre_motor" />
-	</bean>
-
-	<bean id="s2_ysize" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_ysize_motor" />
-	</bean>
-
-	<bean id="s2_ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_ycentre_motor" />
-	</bean>
 
 	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
