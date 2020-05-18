@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
+	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.TopupWatchdogModel">
 		<property name="countdownName" value="machineTopupMonitor"/>
 		<property name="message" value="Paused during topup"/>
 		<property name="warmup" value="5000"/>
@@ -16,7 +16,7 @@
 		<property name="enabled" value="false" />
 	</bean>
 
-	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
+	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.ExpressionWatchdogModel">
 		<property name="expression" value="ringCurrentMonitor >= 1.0 &amp;&amp; !portshutter.equalsIgnoreCase(&quot;Closed&quot;)"/>
 		<property name="message" value="Beam has been lost"/>
 	</bean>
