@@ -6,6 +6,7 @@
 	<bean id="ms3x_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="ms3y_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="ms3rot_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ms3lift_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="ms3_p1" class="gda.device.monitor.DummyMonitor">
 		<property name="unit" value="bar" />
 	</bean>

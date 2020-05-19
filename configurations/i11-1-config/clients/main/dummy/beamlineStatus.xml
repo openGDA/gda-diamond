@@ -6,7 +6,6 @@
 	<bean id="Io-monitor" class="gda.device.scannable.DummyScannable" />
 	<bean id="Ie-monitor" class="gda.device.scannable.DummyScannable" />
 	<bean id="Ie2-monitor" class="gda.device.scannable.DummyScannable" />
-	<bean id="Ie-analogue" class="gda.device.scannable.DummyScannable" />
 	<bean id="Ic4-ionchamber" class="gda.device.scannable.DummyScannable" />
 	<bean id="energy" class="gda.device.scannable.DummyScannable" />
 	<bean id="lambda" class="gda.device.scannable.DummyScannable" />

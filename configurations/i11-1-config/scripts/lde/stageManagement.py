@@ -8,7 +8,6 @@ logger = logging.getLogger("stageManager")
 
 ALL_STAGES = [ms1, ms2, ms3, ms4, ss1, ss2, ss3, ss4, ss5, rs]
 #ALL_STAGES.remove(ss5) # Only for testing
-ALL_STAGES.remove(ms3) # Stage missing
 
 
 def parkStages(*stages):

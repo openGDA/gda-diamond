@@ -16,7 +16,6 @@
 	<bean name="feshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean name="portshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean name="es2shutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean name="dcm_lambda" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}bm" />
@@ -141,14 +140,6 @@
 								<property name="label" value="Ie2 " />
 								<property name="units" value="" />
 								<property name="decimalPlaces" value="0" />
-								<property name="forceLayoutOnLengthChange" value="false" />
-							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="dcm_lambda" />
-								<property name="label" value="Wavelength" />
-								<property name="units" value="Ang" />
-								<property name="decimalPlaces" value="6" />
 								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean

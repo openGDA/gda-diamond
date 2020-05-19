@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+    <logger name="gda.device.motor.EpicsMotor" level="INFO" />
+    <logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO" />
+    <logger name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" level="INFO" />
+    <logger name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" level="INFO" />
+    <logger name="org.springframework" level="INFO" />
+    <logger name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" level="INFO" />
+    <logger name="gda.device.detector.DummyDAServer" level="INFO" />
+    <logger name="gda.device.detector.DAServer" level="INFO" />
+    <logger name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" level="INFO" />
+    <logger name="org.apache.http" level="INFO" />
+    <logger name="gda.scan.MultithreadedScanDataPointPipeline" level="INFO" />
+    <logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO" />
+</included>
