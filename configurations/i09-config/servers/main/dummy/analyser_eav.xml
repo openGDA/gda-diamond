@@ -208,6 +208,19 @@
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:CentroidY_RBV" />
 		<property name="canMove" value="false" />
 	</bean>
+	<bean id="eavAcquireStatus" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="eavAcquireStatus" />
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+	</bean>
+	<bean id="eavAccumulationStatus" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="eavAccumulationStatus" />
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:EnableFilter" />
+	</bean>
+	<bean id="eavAccumulatedFrames" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="eavAccumulatedFrames" />
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFiltered_RBV" />
+		<property name="outputFormat" value="%d" />
+	</bean>
 	<bean id="eavCameraControl" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="eavCamBase" />
 		<constructor-arg ref="eav_roi" />
