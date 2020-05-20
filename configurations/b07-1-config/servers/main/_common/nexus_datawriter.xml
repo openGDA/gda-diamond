@@ -105,10 +105,18 @@
 				<value>bl07c_space_10</value>
 				<value>bl07c_space_11</value>
 				<!-- stanford -->
-				<value>SR570_sensitivity</value>
-				<value>SR570_filter_type</value>
-				<value>SR570_filter_highpass</value>
-				<value>SR570_filter_lowpass</value>
+				<value>SR570_21_sensitivity</value>
+				<value>SR570_21_filter_type</value>
+				<value>SR570_21_filter_highpass</value>
+				<value>SR570_21_filter_lowpass</value>
+				<value>SR570_22_sensitivity</value>
+				<value>SR570_22_filter_type</value>
+				<value>SR570_22_filter_highpass</value>
+				<value>SR570_22_filter_lowpass</value>
+				<value>SR570_23_sensitivity</value>
+				<value>SR570_23_filter_type</value>
+				<value>SR570_23_filter_highpass</value>
+				<value>SR570_23_filter_lowpass</value>
 				<value>SR830_sensitivity</value>
 				<value>SR830_time_constant</value>
 				<value>SR830_channel_one</value>
