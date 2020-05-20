@@ -81,6 +81,7 @@ import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.ui.TurboXasTimingGroupTableView.TimingGroupParamType;
 import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
 import uk.ac.gda.exafs.ui.composites.ScannablePositionsComposite;
+import uk.ac.gda.exafs.ui.composites.SpectrumEventsEditor;
 
 /**
  * View for setting up and running TurboXas scans.
@@ -216,6 +217,7 @@ public class TurboXasExperimentView extends ViewPart {
 		createExtraScannablesSection(form.getBody());
 		createTimingGroupSection(form.getBody());
 		createScannablePositionsSection(form.getBody());
+		createSpectrumEventsSection(form.getBody());
 		createHardwareOptionsSection(form.getBody());
 		createRunningAverageSection(form.getBody());
 		createLoadSaveSection(form.getBody());
@@ -239,6 +241,29 @@ public class TurboXasExperimentView extends ViewPart {
 		scannablePositionsComposite = new ScannablePositionsComposite(mainComposite, toolkit);
 		scannablePositionsComposite.addSection();
 		scannablePositionsComposite.addIObserver(this::updateScannablePositionsInModel);
+	}
+
+	public void createSpectrumEventsSection(Composite parent) {
+		Section section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE);
+		section.setText("Set spectrum events");
+		section.setExpanded(true);
+		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		Composite mainComposite = toolkit.createComposite(section, SWT.NONE);
+		mainComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		section.setClient(mainComposite);
+
+		Button openEditorButton = new Button(mainComposite, SWT.PUSH);
+		openEditorButton.setText("Edit spectrum events...");
+		openEditorButton.setSelection(false);
+		openEditorButton.addListener(SWT.Selection, e -> {
+			SpectrumEventsEditor editor = new SpectrumEventsEditor(mainComposite.getShell());
+			editor.setTableValues(turboXasParameters.getSpectrumEvents());
+			editor.setBlockOnOpen(true);
+			if (editor.open() == Window.OK) {
+				turboXasParameters.setSpectrumEvents(editor.getTableValues());
+			}
+		});
 	}
 
 	/**
