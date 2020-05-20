@@ -21,6 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.view;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.FontDescriptor;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -36,6 +37,7 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.diamond.daq.client.gui.energy.BeamEnergyDialogBuilder;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
+import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.gda.tomography.stage.IStageController;
 import uk.ac.gda.tomography.stage.StagesComposite;
 import uk.ac.gda.tomography.stage.enumeration.Position;
@@ -61,6 +63,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	private Button shutter;
 	private Label shutterLabel;
 	private Label shutterValue;
+	private Button experimentDriver;
 
 	private final IStageController stageController;
 
@@ -84,6 +87,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		headerElements(ClientSWTElements.createComposite(parent, SWT.NONE, 3), style);
 		stageCompose(ClientSWTElements.createComposite(parent, SWT.NONE, 1));
 		cameraGroupElements(parent);
+		experimentDriverButton(parent);
 	}
 
 	private void createExperimentManager(Composite parent) {
@@ -116,6 +120,11 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		CameraConfigurationView.openCameraConfigurationViewButton(cameras);
 	}
 
+	private void experimentDriverButton(Composite parent) {
+		experimentDriver = ClientSWTElements.createButton(parent, SWT.PUSH,
+				ClientMessages.EXPERIMENT_DRIVER, ClientMessages.CONFIGURE_EXPERIMENT_DRIVER);
+	}
+
 	private void createSource(Composite parent, int style) {
 		energyButton = ClientSWTElements.createButton(parent, style, ClientMessages.EMPTY_MESSAGE,
 				ClientMessages.ENERGY_KEV, ClientImages.BEAM_16);
@@ -139,6 +148,14 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 			builder.build(parent.getShell()).open();
 		});
 		appendOutOfBeamSelectionListener(parent);
+
+		experimentDriver.addListener(SWT.Selection, event -> {
+			// FIXME ID: Experiment name? Visit ID?
+			ExperimentDriverWizard driverWizard = new ExperimentDriverWizard(null);
+			WizardDialog wizardDialog = new WizardDialog(parent.getShell(), driverWizard);
+			wizardDialog.setPageSize(driverWizard.getPreferredPageSize());
+			wizardDialog.open();
+		});
 	}
 
 	private ExperimentController getExperimentController() {
