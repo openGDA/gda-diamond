@@ -35,8 +35,25 @@
 
 	<import resource="ebe.xml" />
 
-	<import resource="detectors/xrayeye.xml" />
+	<!-- GigE cams -->
+	<import resource="detectors/dcam1.xml" />
+	<import resource="detectors/dcam2.xml" />
+	<import resource="detectors/dcam3.xml" />
+	<import resource="detectors/dcam4.xml" />
+	<import resource="detectors/dcam5.xml" />
+	<import resource="detectors/dcam6.xml" />
+	<import resource="detectors/dcam7.xml" />
 	<import resource="detectors/dcam8.xml" />
+	<import resource="detectors/xrayeye.xml" />
+	<import resource="detectors/d1cam.xml" />
+	<import resource="detectors/d1acam.xml" />
+	<import resource="detectors/d4cam.xml" />
+
+	<!-- Main detectors -->
+	<import resource="detectors/pilatus1.xml" />
+	<import resource="detectors/pilatus2.xml" />
+	<import resource="detectors/pilatus3.xml" />
+	<import resource="detectors/excalibur.xml" />
 
 	<import resource="devices/fastshutter.xml" />
 
@@ -48,8 +65,6 @@
 	<import resource="../_common/server.xml" />
 
 	<import resource="lakeshore.xml" />
-
-	<import resource="detectors/excalibur.xml" />
 
 	<!--
 	<import resource="pie.xml" />

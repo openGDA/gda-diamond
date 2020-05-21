@@ -33,8 +33,6 @@
 	<!-- fcbase was dr1base, update doc -->
 	<import resource="motor/fcbase.xml" />
 	<import resource="motor/fcsamp.xml" />
-	<import resource="motor/geo2.xml" />
-	<import resource="motor/kbm.xml" />
 	<import resource="motor/m1.xml" />
 	<import resource="motor/mlm.xml" />
 	<import resource="motor/piezo1.xml" />
@@ -57,8 +55,6 @@
 	<import resource="motor/test3.xml" />
 	<import resource="motor/granite_table.xml" />
 	<import resource="motor/micro_tomo.xml" />
-
-	<import resource="../common/scannable/motors.xml" />
 	
 	<import resource="controlpoint/analogueout.xml" />
 	<import resource="controlpoint/dcmpiezo.xml" />
@@ -134,4 +130,7 @@
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+	<import resource="transient/*" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 </beans>

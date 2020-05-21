@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
+	profile="motion_tower">
+
+
+	<gda:motor id="mtYaw" pv="BL16B-MO-TAB-02:YAW" />
+	<gda:motor id="mtY" pv="BL16B-MO-TAB-02:Y" />
+	<gda:motor id="mtPitch" pv="BL16B-MO-TAB-02:PITCH" />
+	<gda:motor id="mtRoll" pv="BL16B-MO-TAB-02:ROLL" />
+	<gda:motor id="mtX" pv="BL16B-MO-TAB-02:X" />
+	<gda:motor id="mtZ" pv="BL16B-MO-TAB-02:Z" />
+	<gda:motor id="mtXcoarse" pv="BL16B-MO-TAB-02:X:COARSE" />
+	<gda:motor id="mtYcoarse" pv="BL16B-MO-TAB-02:Y:COARSE" />
+
+	<bean id="mt" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mtX" />
+				<ref bean="mtY" />
+				<ref bean="mtZ" />
+				<ref bean="mtRoll" />
+				<ref bean="mtPitch" />
+				<ref bean="mtYaw" />
+				<ref bean="mtXcoarse" />
+				<ref bean="mtYcoarse" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

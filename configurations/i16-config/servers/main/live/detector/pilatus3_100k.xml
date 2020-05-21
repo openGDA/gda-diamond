@@ -299,4 +299,34 @@
 		<property name="returnPathRelativeToDatadir" value="true" />
 		<property name="alwaysPrepare" value="true" />
 	</bean>
+
+	<bean id="smargonZebraPil3"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="smargonZebraPil3" />
+		<property name="hardwareTriggerProvider" ref="smargonZebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="smargonZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
+				<ref bean="pilatus3_force_callbacks" />
+				<!-- 
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+				 -->
+			</list>
+		</property>
+	</bean>
+
+	<bean id="smargonZebraPil3_camserver_nxfilewriter_for_hardware_triggering"
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="smargonZebraPil3" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="alwaysPrepare" value="true" />
+	</bean>
 </beans>

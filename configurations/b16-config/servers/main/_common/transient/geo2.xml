@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
+	profile="geo2">
+
+
+	<gda:motor id="geo2mot1" pv="BL16B-MO-BRICK-02:AXIS1" />
+	<gda:motor id="geo2mot2" pv="BL16B-MO-BRICK-02:AXIS2" />
+	<gda:motor id="geo2mot3" pv="BL16B-MO-BRICK-02:AXIS3" />
+	<gda:motor id="geo2mot4" pv="BL16B-MO-BRICK-02:AXIS4" />
+	<gda:motor id="geo2mot5" pv="BL16B-MO-BRICK-02:AXIS5" />
+	<gda:motor id="geo2mot6" pv="BL16B-MO-BRICK-02:AXIS6" />
+	<gda:motor id="geo2mot7" pv="BL16B-MO-BRICK-02:AXIS7" />
+	<gda:motor id="geo2mot8" pv="BL16B-MO-BRICK-02:AXIS8" />
+
+	<bean id="geo2mot" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="geo2mot1" />
+				<ref bean="geo2mot2" />
+				<ref bean="geo2mot3" />
+				<ref bean="geo2mot4" />
+				<ref bean="geo2mot5" />
+				<ref bean="geo2mot6" />
+				<ref bean="geo2mot7" />
+				<ref bean="geo2mot8" />
+			</list>
+		</property>
+	</bean>
+</beans>

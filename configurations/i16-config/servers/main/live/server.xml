@@ -48,9 +48,8 @@
 	<import resource="motor/sixcsample.xml" />
 
 	<import resource="transient/kbmbase.xml" />
-	<!--
-	<import resource="transient/smargon.xml" />
-	 -->
+	<!-- If Smargon on use "transient/smargon.xml" otherwise use "../dummy/transient/smargon.xml" -->
+	<import resource="../dummy/transient/smargon.xml" />
 
 	<import resource="motor/pie725_raster.xml" />
 	<import resource="detector/rasterpil1.xml" />
@@ -91,6 +90,7 @@
 	<import resource="detector/merlin.xml" />
 	<import resource="detector/c10.xml" />
 	<import resource="detector/xeye.xml" />
+	<import resource="detector/zebra_smargon.xml" />
 	<import resource="detector/zebra1.xml" />
 	<import resource="detector/zebra2.xml" />
 	<import resource="detector/zylar.xml" />

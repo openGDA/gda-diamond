@@ -13,6 +13,7 @@
 	<import resource="nxmetadata.xml" />
 
 	<import resource="scannable/all.xml"/>
+	<import resource="transient/smargon.xml"/>
 
 	<!-- command_server.xml has to be imported at just the right point.
 

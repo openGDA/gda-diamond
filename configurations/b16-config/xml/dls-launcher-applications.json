@@ -2,8 +2,15 @@
     {
         "command": "startgdaservers.sh",
         "icon": "sgda.png",
-        "text": "GDA Servers",
+        "text": "GDA Server",
         "type": "button"
+    },
+    {
+         "type": "button",
+         "text": "GDA Server (with transient options)",
+         "args": "/dls_sw/b16/software/gda_var/b16.cfg",
+         "command": "/dls_sw/b16/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py",
+         "icon": "sgda.png"
     },
     {
         "command": "gdaswingclient",

@@ -956,6 +956,7 @@ if USE_PIL3:
 			pilatus3,
 			kphiZebraPil3, # Switch to kthZebraPil3 if needed
 			#kthZebraPil3, # Should normally be kphiZebraPil3
+			#smargonZebraPil3, # Should normally be kphiZebraPil3
 			pilatus3_for_snaps,
 			[],
 			panel_name_rcp='Pilatus',
@@ -1565,9 +1566,11 @@ cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.2450923
 szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
 
 if USE_SMARGON: 
+	""" Smargon motors now defined in spring
 	sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
 	sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
 	sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
+	"""
 	exec("del hkl")
 	exec("del euler")
 	run("localStationScripts/SmargonTopClass")	

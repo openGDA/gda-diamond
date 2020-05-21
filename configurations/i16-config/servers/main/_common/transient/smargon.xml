@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="sgx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SGxMotor" />
+	</bean>
+
+	<bean id="sgy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SGyMotor" />
+	</bean>
+
+	<bean id="sgz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SGzMotor" />
+	</bean>
+
+	<bean id="sgomega" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SGomegaMotor" />
+	</bean>
+
+	<bean id="sgphi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SGphiMotor" />
+	</bean>
+
+	<bean id="sgchi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SGchiMotor" />
+	</bean>
+</beans>
