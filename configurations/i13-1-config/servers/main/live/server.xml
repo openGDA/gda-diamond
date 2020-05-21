@@ -15,8 +15,10 @@
 	<import resource="file:${gda.config}/devices/live/vortex.xml"/>
 	<!-- <import resource="file:${gda.config}/devices/diamond_crl.xml"/> -->
 
+	<import resource="file:${gda.config}/devices/live/malcolm.xml"/>
+
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
-	
+
 	<!-- live only -->
 	<!-- <import resource="ippserver.xml" />
 	<import resource="kb_geo4.xml" />

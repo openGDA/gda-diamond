@@ -9,6 +9,7 @@
 
 	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
 	<import resource="file:${gda.config}/devices/dummy/pco1_ndplugins_sim.xml" />
+	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
 
 	<!-- Include the following line to run with dummy area detector -->
 	<!-- <import resource="file:${gda.config}/devices/dummy/pco1_ndplugins.xml"/> -->

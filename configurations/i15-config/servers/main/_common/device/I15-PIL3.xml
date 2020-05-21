@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description>
+		Copy of /i15-1-config/servers/main/_common/device/I15-1-JPE1.xml as of commit 69057c49
+	</description>
+
+	<!-- ADDetectors -->
+
+	<bean id="pil3AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pil3AD_config_base"/>
+		<property name="readArray" value="false"/>
+	</bean>
+
+	<!-- Scanning API -->
+
+	<bean id="pil3AreaDetectorRunnableDeviceProxyModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceExtendedModel">
+		<property name="name"                   value="pil3AD"/>
+		<property name="exposureTime"           value="1"/>
+		<property name="timeout"         		value="100"/>
+		<!-- For the moment though, just use direct properties -->
+		<property name="stopBetweenPoints"      value="true"/>
+		<property name="runUserScripts"         value="false"/>
+		<property name="darkAuto"               value="false"/>
+		<property name="darkFrequency"          value="1"/>
+		<property name="darkElapseTimeS"        value="1.0"/>
+		<property name="darkMinRelaxTimeS"      value="1.0"/>
+	</bean>
+	<bean id="pil3AreaDetectorRunnableDeviceProxyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"        value="pil3AD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.pil3AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"       value="Pilatus 3M Proxy (pil3AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description" value="Pilatus 3M collection running from a Jython class"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="pil3AreaDetectorRunnableDeviceProxy" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"        value="pil3AD"/>
+		<property name="level"             value="2"/>
+		<property name="model"             ref="pil3AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="pil3AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="pil3AreaDetectorRunnableDeviceProxyFinder" class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"        	value="pil3AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"	ref="pil3AreaDetectorRunnableDeviceProxy"/>
+	</bean>
+</beans>
