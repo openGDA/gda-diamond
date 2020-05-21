@@ -50,7 +50,7 @@ public interface Camera extends Device, ImageScaleProvider {
 
 	/**
 	 * get the name of the file that image is written to
-	 * 
+	 *
 	 * @return string - filename
 	 * @throws DeviceException
 	 */
@@ -75,16 +75,28 @@ public interface Camera extends Device, ImageScaleProvider {
 	public double getZoom() throws DeviceException;
 
 	/**
-	 * Sets the zoom level. Number must be a member of the list returned by getZoomlevels.
-	 * 
+	 * Sets the zoom level. Number must be a member of the list returned by {@link #getZoomLevels()}.
+	 *
 	 * @param zoom
 	 * @throws DeviceException
 	 */
 	public void setZoom(double zoom) throws DeviceException;
 
 	/**
+	 * Sets the zoom level via an index, based on array values (see {@link #getZoomLevels()}):
+	 * @param targetIndex array index of new zoom level, ignored if out of range
+	 * @throws DeviceException
+	 */
+	public void selectZoomAt(int targetIndex) throws DeviceException;
+
+	/**
+	 * @return the zoom index of the present zoom setting, else -1 if no zoom level is set, or no levels are present
+	 */
+	public int getZoomIndex();
+
+	/**
 	 * Sets the focus level. Number must be a member of the list returned by getFcouslevels.
-	 * 
+	 *
 	 * @param focus
 	 * @throws DeviceException
 	 */
@@ -95,12 +107,12 @@ public interface Camera extends Device, ImageScaleProvider {
 	 * <p>
 	 * Filename should be the full path of the file to create. If it is null then the file listed in the configuration
 	 * file will be overwritten.
-	 * 
+	 *
 	 * @param filename
 	 * @throws DeviceException
 	 */
 	public void captureImage(String filename) throws DeviceException;
-	
+
 	/**
 	 * Captures and returns an image.
 	 */

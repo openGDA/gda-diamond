@@ -25,7 +25,6 @@ import java.io.File;
 
 import org.junit.Test;
 
-import gda.device.DeviceException;
 import gda.images.camera.BeamDataComponent.BeamData;
 
 public class BeamDataComponentTest {
@@ -38,7 +37,7 @@ public class BeamDataComponentTest {
 
 		Camera camera = new DummyOpticalCamera() {
 			@Override
-			public double getZoom() throws DeviceException {
+			public double getZoom() {
 				return 1.0;
 			}
 		};
