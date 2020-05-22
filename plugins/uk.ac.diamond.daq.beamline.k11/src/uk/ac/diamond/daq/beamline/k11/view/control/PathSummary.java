@@ -61,7 +61,7 @@ public class PathSummary {
 	private StyledText control;
 
 
-	PathSummary() {
+	public PathSummary() {
 		initaliseObservableValues();
 	}
 
