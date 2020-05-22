@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
 	
-	<bean id="s4_xsize" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_xsize_motor" />
-	</bean>
+	<gda:motor id="s4_xsize" pv="BL11K-MO-SLITS-04:XSIZE" />
+	<gda:motor id="s4_xcentre" pv="BL11K-MO-SLITS-04:XCENTRE" />
+	<gda:motor id="s4_ysize" pv="BL11K-MO-SLITS-04:YSIZE" />
+	<gda:motor id="s4_ycentre" pv="BL11K-MO-SLITS-04:YCENTRE" />
 
-	<bean id="s4_xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_xcentre_motor" />
-	</bean>
-
-	<bean id="s4_ysize" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_ysize_motor" />
-	</bean>
-
-	<bean id="s4_ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_ycentre_motor" />
-	</bean>
 
 	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<bean id="dcm1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dcm1_y_motor" />
-	</bean>
+	<gda:motor id="dcm1_y" pv="BL11K-OP-DCM-01:Y" />
+	<gda:motor id="dcm1_bragg" pv="BL11K-OP-DCM-01:BRAGG" />
+	<gda:motor id="dcm1_z" pv="BL11K-OP-DCM-01:Z" />
 	
-	<bean id="dcm1_bragg" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dcm1_bragg_motor" />
-	</bean>
-	
-	<bean id="dcm1_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dcm1_z_motor" />
-	</bean>
 	
 	<bean id="dcm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

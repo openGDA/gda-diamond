@@ -25,7 +25,7 @@
 		class="gda.util.findableHashtable.FindableHashtable" />
 
 	<!-- =========================================================== -->
-	<!-- mode specific files -->
+	<!-- 					mode specific files 					 -->
 	<!-- =========================================================== -->
 
 	<!-- beam -->
@@ -34,24 +34,8 @@
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
 
-	<!-- slits -->
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s1_motors.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s2_motors.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s3_motors.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/slits/s4_motors.xml" />
-
 	<!-- mirrors -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/kb.xml" />	
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/vfm.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/hfm.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/kb.xml" />
 	
 	<!-- DCMs -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm1.xml" />
@@ -60,16 +44,10 @@
 	<!-- stages -->
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/stages/gts.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/stages/tr6_motors.xml" />
 
 	<!-- detectors -->
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/imaging_rail_motors.xml" />
 
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_addetector.xml" />
@@ -112,7 +90,7 @@
 		class="uk.ac.diamond.daq.experiment.plan.BasicPlanRequestHandler" />
 
 	<!-- =========================================================== -->
-	<!-- shared files -->
+	<!-- 						shared files 						 -->
 	<!-- =========================================================== -->
 
 	<!-- beam -->

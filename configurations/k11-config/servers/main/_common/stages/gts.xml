@@ -1,45 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 
-	<bean id="gts_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_x_motor" />
-	</bean>
-
-	<bean id="gts_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_y_motor" />
-	</bean>
-
-	<bean id="gts_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_z_motor" />
-	</bean>
-
-	<bean id="gts_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_rot_motor" />
-	</bean>
-
-	<bean id="gts_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_pitch_motor" />
-	</bean>
-
-	<bean id="gts_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_roll_motor" />
-	</bean>
-
-	<bean id="gts_y1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_y1_motor" />
-	</bean>
-
-	<bean id="gts_y2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_y2_motor" />
-	</bean>
-
-	<bean id="gts_y3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gts_y3_motor" />
-	</bean>
-
+	<gda:motor id="gts_x" pv="BL11K-MO-STAGE-02:X" />
+	<gda:motor id="gts_y" pv="BL11K-MO-STAGE-02:Y" />
+	<gda:motor id="gts_z" pv="BL11K-MO-STAGE-02:Z" />
+	<gda:motor id="gts_rot" pv="BL11K-MO-STAGE-02:ROT" />
+	<gda:motor id="gts_pitch" pv="BL11K-MO-STAGE-02:PITCH" />
+	<gda:motor id="gts_roll" pv="BL11K-MO-STAGE-02:ROLL" />
+	
+	<!-- RAW MOTION -->
+	<gda:motor id="gts_y1" pv="BL11K-MO-STAGE-02:Y1" />
+	<gda:motor id="gts_y2" pv="BL11K-MO-STAGE-02:Y2" />
+	<gda:motor id="gts_y3" pv="BL11K-MO-STAGE-02:Y3" />
 
 
 	<bean id="gts_centring" class="gda.device.scannable.scannablegroup.ScannableGroup">

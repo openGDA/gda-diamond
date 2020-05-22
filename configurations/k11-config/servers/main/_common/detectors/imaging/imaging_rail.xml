@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">uk/schema/gda/gda/gda.xsd">
 
 
-	<bean id="pco_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pco_x_motor" />
-	</bean>
+	<gda:motor id="pco_x" pv="BL11K-EA-DET-02:X" />
+	<gda:motor id="pco_z" pv="BL11K-EA-DET-02:Z" />
 
-	<bean id="pco_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pco_z_motor" />
-	</bean>
 	
 	<bean id="imaging_rail" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
