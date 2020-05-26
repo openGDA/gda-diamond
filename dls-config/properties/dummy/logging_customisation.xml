@@ -6,6 +6,10 @@
 <included>
 
 	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- Only keep events originating from the local context -->
+		<filter class="gda.util.logging.SourceProcessFilter">
+			<contextSourceName>${GDA_SOURCE}</contextSourceName>
+		</filter>
 		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
 		<encoder>
 			<pattern>%date %-5level %logger - %m [%t]%n%rEx</pattern>

@@ -8,12 +8,27 @@
 	<!-- Use the central Graylog appender definition -->
 	<include file="/dls_sw/dasc/graylog/graylog_appender.xml" />
 
+	<!-- Wrap the included GrayLog appender to apply a filter
+		this is done here because the central version is used by all GDA versions
+		including versions where SourceProcessFilter doesn't exist -->
+	<appender name="GrayLog_filtered" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="GrayLog" />
+		<filter class="gda.util.logging.SourceProcessFilter">
+			<contextSourceName>${GDA_SOURCE}</contextSourceName>
+		</filter>
+		<queueSize>1000</queueSize>
+		<discardingThreshold>0</discardingThreshold> <!-- This wont drop any messages unless the queue becomes full -->
+		<neverBlock>true</neverBlock> <!-- If the message queue becomes full this will drop messages instead of
+			blocking -->
+	</appender>
+
+
 	<!-- This is a bit dubious but it seems to work i.e. the Graylog appender
 		gets added to the root logger. It kind of looks like you are redefining the
 		root logger. If you set the level here it will override it on the core root
 		logger as the root logger can only have one overall level. -->
 	<root>
-		<appender-ref ref="GrayLog" />
+		<appender-ref ref="GrayLog_filtered" />
 	</root>
 
 </included>
