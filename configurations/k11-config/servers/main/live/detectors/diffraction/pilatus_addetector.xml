@@ -62,5 +62,6 @@
 	<bean id="pilatus_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg name="adBase" ref="pilatus_adbase" />
 		<constructor-arg name="ndRoi" ref="pilatus_roi" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 </beans>
