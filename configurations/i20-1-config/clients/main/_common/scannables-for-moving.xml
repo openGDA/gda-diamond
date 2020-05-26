@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<util:list id="safeScannableList" value-type="java.lang.String">
+		<value>alignment_x</value>
+		<value>alignment_y</value>
+		<value>sample_tablex</value>
+		<value>sample_tabley</value>
+		<value>sample_x</value>
+		<value>sample_y</value>
+		<value>sample_z</value>
+		<value>sample_topx</value>
+		<value>sample_topy</value>
+		<value>sample_topz</value>
+		<value>sample_roll</value>
+		<value>sample_pitch</value>
+		<value>sample_yaw</value>
+	</util:list>
+
+	<bean id="safeScannablesForPositionsComposite" class="gda.device.FindableObjectHolder">
+		<property name="map">	
+			<util:map>
+					<entry key="safeScannablesForPositionsComposite" value-ref="safeScannableList" />
+			</util:map>
+		</property>
+	</bean>
+</beans>

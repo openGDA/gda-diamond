@@ -104,4 +104,6 @@
 
 	<import resource="file:${gda.config}/clients/main/_common/synoptics-views.xml" />
 
+	<import resource="file:${gda.config}/clients/main/_common/scannables-for-moving.xml" />
+
 </beans>
