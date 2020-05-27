@@ -23,13 +23,6 @@ from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildIm
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
-#global zebraContinuousMoveController
-from scannables.detectors.fastShutterZebraDetector import FastShutterZebraDetector
-zebraFastShutter=FastShutterZebraDetector(          'zebraFastShutter', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController)
-from scannables.detectors.checkZebraScannable import ZebraPositionScannable #, ZebraCheckScannable
-zebraPositionScannable=ZebraPositionScannable('zebraPositionScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
-#zebraCheckScannable=ZebraCheckScannable(         'zebraCheckScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
-
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
@@ -131,10 +124,34 @@ def localStation_exception(exc_info, msg):
 try:
 	simpleLog("================ INITIALISING I15 GDA ================")
 
+	try:
+		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+		beamlineParameters = beamline_parameters.Parameters()
+	except:
+		localStation_exception(sys.exc_info(), "creating jythonNameMap & beamlineParameters")
+	
+	from scannables.detectors.fastShutterZebraDetector import FastShutterZebraDetector
+	zebraFastShutter=FastShutterZebraDetector(          'zebraFastShutter', 'BL15I-EA-ZEBRA-01:', jythonNameMap.zebraContinuousMoveController)
+
+	from scannables.detectors.checkZebraScannable import ZebraPositionScannable #, ZebraCheckScannable
+	dkphiZebraPositionScannable = ZebraPositionScannable('dkphiZebraPositionScannable',
+		'BL15I-EA-ZEBRA-01:', jythonNameMap.dkphi, jythonNameMap.dkphiZebraScannableMotor)
+	
+	dkappaZebraPositionScannable = ZebraPositionScannable('dkappaZebraPositionScannable',
+		'BL15I-EA-ZEBRA-01:', jythonNameMap.dkappa, jythonNameMap.dkappaZebraScannableMotor)
+	
+	dkthetaZebraPositionScannable = ZebraPositionScannable('dkthetaZebraPositionScannable',
+		'BL15I-EA-ZEBRA-01:', jythonNameMap.dktheta, jythonNameMap.dkthetaZebraScannableMotor)
+	
+	sphiZebraPositionScannable = ZebraPositionScannable('sphiZebraPositionScannable',
+		'BL15I-EA-ZEBRA-01:', jythonNameMap.sphi, jythonNameMap.sphiZebraScannableMotor)
+
+	zebraPositionScannable = dkphiZebraPositionScannable
+
 	from localStationConfiguration import disableZebra2
 	if disableZebra2:
 		simpleLog("Disabling zebra 2 by setting the move controller to have no triggered controllers.")
-		beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController.setTriggeredControllers([])
+		jythonNameMap.zebraContinuousMoveController.setTriggeredControllers([])
 		# Remove the zebra2 reference from triggered detectors, while it's broken. This should also cause
 		# user_commands._rockScanParams() to remove all relevant scannables and controllers from rock scans.
 
@@ -606,12 +623,6 @@ try:
 		simpleLog("* Not creating dperp, dpara & dheight *")
 
 	try:
-		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-		beamlineParameters = beamline_parameters.Parameters()
-	except:
-		localStation_exception(sys.exc_info(), "creating jythonNameMap & beamlineParameters")
-	
-	try:
 		shutterCommands_configure(jythonNameMap, beamlineParameters)
 		operationalControl_configure(jythonNameMap, beamlineParameters)
 		ccdScanMechanics_configure(jythonNameMap, beamlineParameters)
@@ -783,13 +794,33 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
 
-	try:
-		if abs(zebraPositionScannable.getPosition()[2]) > 0.01:
+	def check_zebra(zebraPositionScannable):
+		position_mismatch = "    Mismatch between {} motor position and zebra encoder - Rocking it will probably fail!\n" + \
+			"     * To fix, run '{}.copyMotorPosToZebra()' when motor is static (it must not be moving at all).\n" + \
+			"     * Then run 'pos {} 1' to check that the reported diff is now small or re-run `check_zebra {}` again.\n" + \
+			"     * See 'http://confluence.diamond.ac.uk/x/9AVBAg' for more details." 
+	
+		position_error = "checking {} zebra encoder position, try running `check_zebra {}` again"
+
+		try:
 			zebraPositionScannable.moveTo(1)
 			if abs(zebraPositionScannable.getPosition()[2]) > 0.01:
-				localStation_exceptions.append("    Mismatch between dkphi motor position and zebra encoder - Rocking of dkphi will probably fail!\n    * To fix, run 'zebraPositionScannable.copyMotorPosToZebra()' when motor is static (it must not be moving at all).\n    * Then run 'pos zebraPositionScannable 1' and check that the reported diff is now small.\n    * See 'http://confluence.diamond.ac.uk/x/9AVBAg' for more details.")
-	except:
-		localStation_exception(sys.exc_info(), "checking zebra encoder position")
+				msg = position_mismatch.format(zebraPositionScannable.check_scannable.getName(),
+					zebraPositionScannable.getName(), zebraPositionScannable.getName(), zebraPositionScannable.getName())
+				localStation_exceptions.append(msg)
+				print "*"*80
+				print msg
+				print "*"*80
+		except:
+			localStation_exception(sys.exc_info(), position_error.format(
+				zebraPositionScannable.check_scannable.getName(), zebraPositionScannable.getName()))
+
+	check_zebra(dkphiZebraPositionScannable)
+	check_zebra(dkappaZebraPositionScannable)
+	check_zebra(dkthetaZebraPositionScannable)
+	check_zebra(sphiZebraPositionScannable)
+
+	alias("check_zebra")
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
