@@ -849,11 +849,11 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 									 (1 if vertStepNumber == None else vertStepNumber + 1) )
 	
 	if rockMotor:
-		rockMotorPosition = rockMotor.getPosition()
+		rockMotorPosition = rockMotor.getMotor().getTargetPosition()
 		rockCentre=_rockCentre()
 		scan_params.extend(_rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures))
 	elif sweepMotor:
-		sweepMotorPosition = sweepMotor.getPosition()
+		sweepMotorPosition = sweepMotor.getMotor().getTargetPosition()
 		_sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle,
 				totalExposures, scan_params)
 		scan_params=[] # Delete original scan_params so the ConcurrentScan isn't performed too.
