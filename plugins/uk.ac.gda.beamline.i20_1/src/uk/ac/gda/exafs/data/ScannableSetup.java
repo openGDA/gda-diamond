@@ -48,6 +48,8 @@ public enum ScannableSetup {
 	ATN1 ("ATN 1", "atn1", UnitSetup.SELECTION),
 	ATN2 ("ATN 2", "atn2", UnitSetup.SELECTION),
 	ATN3 ("ATN 3", "atn3", UnitSetup.SELECTION),
+	ATN4 ("ATN 4", "atn4", UnitSetup.SELECTION),
+	ATN5 ("ATN 5", "atn6", UnitSetup.SELECTION),
 
 	ME1_STRIPE("ME1 stripe", "me1_stripe", UnitSetup.SELECTION),
 	ME2_STRIPE("ME2 stripe", "me2_stripe", UnitSetup.SELECTION),

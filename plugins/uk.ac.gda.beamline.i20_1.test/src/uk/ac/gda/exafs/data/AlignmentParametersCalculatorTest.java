@@ -75,8 +75,8 @@ public class AlignmentParametersCalculatorTest {
 		CurrentRealm realm = new CurrentRealm();
 		CurrentRealm.setDefault(realm);
 
-		me2Position= EdeTestBase.createScannableMotor("me2_y_positioner");
-		detZPosition = EdeTestBase.createScannableMotor("det_z");
+		me2Position= EdeTestBase.createMotor("me2_y_positioner", 0);
+		detZPosition = EdeTestBase.createMotor("det_z", 17.6);
 
 		setupFinder();
 	}
@@ -138,7 +138,7 @@ public class AlignmentParametersCalculatorTest {
 	}
 
 	/** Json string of Jython calculation result that should be produced by testBenchMarkFromJython */
-	private final String benchmarkJython = "{\"crystalType\":\"Bragg\",\"crystalCut\":\"Si111\",\"q\":0.8,\"detector\":\"xh\",\"edge\":{\"elementSymbol\":\"Fe\",\"edgeType\":\"K\",\"energy\":7112.0},\"polychromatorLength\":250.0,\"sourceToPolyDistance\":45.1,\"wigglerGap\":18.5,\"primarySlitGap\":1.5408437947957054,\"me1stripe\":\"Rhodium\",\"me2stripe\":\"Silicon\",\"me2Pitch\":3.5,\"polyBend1\":2.8948297473967193,\"polyBend2\":3.8628429141266665,\"braggAngle\":16.138979120590374,\"arm2Theta\":32.27795824118075,\"detectorDistance\":0.5894198972006996,\"detectorHeight\":-4.9056,\"atn1\":\"pC 0.1mm\",\"atn2\":\"Empty\",\"atn3\":\"Empty\",\"energyBandwidth\":1048.5210215537006,\"power\":0.0,\"readBackEnergyBadwidth\":1048.5210215537006}";
+	private final String benchmarkJython = "{\"crystalType\":\"Bragg\",\"crystalCut\":\"Si111\",\"q\":0.8,\"detector\":\"xh\",\"edge\":{\"elementSymbol\":\"Fe\",\"edgeType\":\"K\",\"energy\":7112.0},\"polychromatorLength\":250.0,\"sourceToPolyDistance\":45.1,\"wigglerGap\":18.5,\"primarySlitGap\":1.5408932065219476,\"me1stripe\":\"Rhodium\",\"me2stripe\":\"Silicon\",\"me2Pitch\":3.5,\"polyBend1\":2.8949327868938743,\"polyBend2\":3.862937884783797,\"braggAngle\":16.139510802142418,\"arm2Theta\":32.279021604284836,\"detectorDistance\":0.5894009963096586,\"detectorHeight\":-4.9056,\"attenuatorPositions\":[\"pC 0.1mm\",\"Empty\",\"Empty\"],\"energyBandwidth\":1048.5182059597207,\"power\":0.0,\"readBackEnergyBadwidth\":1048.5182059597207}";
 
 	@Test
 	public void testBenchmarkFromJython() {
@@ -180,35 +180,33 @@ public class AlignmentParametersCalculatorTest {
 		AlignmentParametersCalculator calculator = getParametersCalculator(originalBean);
 
 		calculator.setStripes();
-		assertEquals(beanFromScript.getMe1stripe(), originalBean.getMe1stripe());
-		assertEquals(beanFromScript.getMe2stripe(), originalBean.getMe2stripe());
+		assertEquals("Me1 stripe", beanFromScript.getMe1stripe(), originalBean.getMe1stripe());
+		assertEquals("Me2 stripe", beanFromScript.getMe2stripe(), originalBean.getMe2stripe());
 
 		calculator.setPitchAndAttenuators();
-		assertEquals(beanFromScript.getMe2Pitch(), originalBean.getMe2Pitch(), accuracy);
-		assertEquals(beanFromScript.getAtn1(), originalBean.getAtn1());
-		assertEquals(beanFromScript.getAtn2(), originalBean.getAtn2());
-		assertEquals(beanFromScript.getAtn3(), originalBean.getAtn3());
+		assertEquals("Me2 pitch", beanFromScript.getMe2Pitch(), originalBean.getMe2Pitch(), accuracy);
+		assertEquals("Attenuator positions", beanFromScript.getAttenuatorPositions(), originalBean.getAttenuatorPositions());
 
 		calculator.setBraggAngle();
-		assertEquals(beanFromScript.getBraggAngle(), originalBean.getBraggAngle(), accuracy);
-		assertEquals(beanFromScript.getArm2Theta(), originalBean.getArm2Theta(), accuracy);
+		assertEquals("Bragg angle", beanFromScript.getBraggAngle(), originalBean.getBraggAngle(), accuracy);
+		assertEquals("Arm 2theta", beanFromScript.getArm2Theta(), originalBean.getArm2Theta(), accuracy);
 
 		calculator.setBenders();
-		assertEquals(beanFromScript.getPolyBend1(), originalBean.getPolyBend1(), accuracy);
-		assertEquals(beanFromScript.getPolyBend2(), originalBean.getPolyBend2(), accuracy);
+		assertEquals("Poly bend 1", beanFromScript.getPolyBend1(), originalBean.getPolyBend1(), accuracy);
+		assertEquals("Poly bend 2", beanFromScript.getPolyBend2(), originalBean.getPolyBend2(), accuracy);
 
 		calculator.setPrimarySlits();
-		assertEquals(beanFromScript.getPrimarySlitGap(), originalBean.getPrimarySlitGap(), accuracy);
+		assertEquals("Slit gap", beanFromScript.getPrimarySlitGap(), originalBean.getPrimarySlitGap(), accuracy);
 
 		calculator.setDetectorPosition();
-		assertEquals(beanFromScript.getDetectorDistance(), originalBean.getDetectorDistance(), accuracy);
-		assertEquals(beanFromScript.getDetectorHeight(), originalBean.getDetectorHeight(), accuracy);
+		assertEquals("Detector distance", beanFromScript.getDetectorDistance(), originalBean.getDetectorDistance(), accuracy);
+		assertEquals("Detector height", beanFromScript.getDetectorHeight(), originalBean.getDetectorHeight(), accuracy);
 
 		calculator.setEnergyBandwidth();
-		assertEquals(beanFromScript.getReadBackEnergyBandwidth(), originalBean.getReadBackEnergyBandwidth(), accuracy);
-		assertEquals(beanFromScript.getEnergyBandwidth(), originalBean.getEnergyBandwidth(), accuracy);
+		assertEquals("Readback energy bandwidth", beanFromScript.getReadBackEnergyBandwidth(), originalBean.getReadBackEnergyBandwidth(), accuracy);
+		assertEquals("Energy bandwidth", beanFromScript.getEnergyBandwidth(), originalBean.getEnergyBandwidth(), accuracy);
 
 		calculator.setPower();
-		assertEquals(beanFromScript.getPower(), originalBean.getPower(), accuracy);
+		assertEquals("Power", beanFromScript.getPower(), originalBean.getPower(), accuracy);
 	}
 }

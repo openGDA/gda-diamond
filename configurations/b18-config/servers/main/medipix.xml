@@ -119,6 +119,7 @@
 		<property name="collectionStrategy" ref="medipix_multiple_nxcollectionstrategy" />
 		<property name="baseRoiPvName" value="#{medipixBaseRoiPv}" />
 		<property name="baseStatPvName" value="#{medipixBaseStatPv}" />
+		<property name="maximumReadFrames" value="50" />
 	</bean>
 
 <!-- Plugins for ADDetector -->

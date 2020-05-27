@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.alignment.ui;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.dawnsci.ede.DataHelper;
 import org.eclipse.core.databinding.Binding;
@@ -340,7 +341,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			try {
 				double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
 				double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
-				final int powerValue = (int) PowerCalulator.getPower(PowerCalulator.REF_DATA_PATH, wigglerGap, slitHGap, 300);
+				final int powerValue = (int) PowerCalulator.getPower(wigglerGap, slitHGap, 300);
 				String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
 				if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
 					String value ="Estimated power is " + powerWatt;
@@ -738,9 +739,10 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_Z_POSITION.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
 			lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorHeight())));
 
-			lblAtn1Suggestion.setText(results.getAtn1().toString());
-			lblAtn2Suggestion.setText(results.getAtn2().toString());
-			lblAtn3Suggestion.setText(results.getAtn3().toString());
+			List<String> attenuatorPositions = results.getAttenuatorPositions();
+			lblAtn1Suggestion.setText(attenuatorPositions.get(0));
+			lblAtn2Suggestion.setText(attenuatorPositions.get(1));
+			lblAtn3Suggestion.setText(attenuatorPositions.get(2));
 
 			if (results.getEnergyBandwidth() != null) {
 				String value1 = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getEnergyBandwidth().intValue())));

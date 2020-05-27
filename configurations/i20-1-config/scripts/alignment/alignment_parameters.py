@@ -6,7 +6,7 @@
 
 import math
 
-from gda.util.exafs import AbsorptionEdge
+from gda.util import CrystalParameters
 from uk.ac.gda.exafs.data import AlignmentParametersBean
 from gda.factory import Finder
 
@@ -70,80 +70,80 @@ def _choosePitchAndAttenuators(parametersBean):
     if parametersBean.getCrystalCut() == "Si111":
         if energy < 7000:
             parametersBean.setMe2Pitch(4)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[0], 
+                                           AlignmentParametersBean.ATN2[0], 
+                                           AlignmentParametersBean.ATN3[0]])
         elif energy >= 7000 and energy < 8000:
             parametersBean.setMe2Pitch(3.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[1])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[1],
+                                          AlignmentParametersBean.ATN2[0],
+                                          AlignmentParametersBean.ATN3[0]])
         elif energy >= 800 and energy < 9600:
             parametersBean.setMe2Pitch(3)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[2])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[2],
+                                          AlignmentParametersBean.ATN2[0],
+                                          AlignmentParametersBean.ATN3[0]]);
         elif energy >= 9600 and energy < 12200:
             parametersBean.setMe2Pitch(5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[4],
+                                          AlignmentParametersBean.ATN2[0],
+                                          AlignmentParametersBean.ATN3[0]]);
         elif energy >= 12200:
             parametersBean.setMe2Pitch(4)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[4],
+                                          AlignmentParametersBean.ATN2[0],
+                                          AlignmentParametersBean.ATN3[0]]);
         
     else:  # Si311
         if energy < 8000:
             parametersBean.setMe2Pitch(3.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[1])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[1],
+                                          AlignmentParametersBean.ATN2[0],
+                                          AlignmentParametersBean.ATN3[0]]);
         elif energy >= 8000 and energy < 9600:
             parametersBean.setMe2Pitch(3)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[1])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[1],
+                                          AlignmentParametersBean.ATN2[0],
+                                          AlignmentParametersBean.ATN3[0]]);
         elif energy >= 9600 and energy < 12200:
             parametersBean.setMe2Pitch(5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[0])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[4],
+                                          AlignmentParametersBean.ATN2[0],
+                                          AlignmentParametersBean.ATN3[0]]);
         elif energy >= 12200 and energy < 13500:
             parametersBean.setMe2Pitch(4.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[2])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[0],
+                                          AlignmentParametersBean.ATN2[2],
+                                          AlignmentParametersBean.ATN3[0]]);
         elif energy >= 13500 and energy < 15200:
             parametersBean.setMe2Pitch(4)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[4])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[2])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[0])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[4],
+                                          AlignmentParametersBean.ATN2[2],
+                                          AlignmentParametersBean.ATN3[0]]);
         elif energy >= 15200 and energy < 17400:
             parametersBean.setMe2Pitch(3.5)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[3])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[2])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[1])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[3],
+                                          AlignmentParametersBean.ATN2[2],
+                                          AlignmentParametersBean.ATN3[1]]);
         elif energy >= 17400 and energy < 20300:
             parametersBean.setMe2Pitch(3)
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[4])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[1])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[0],
+                                          AlignmentParametersBean.ATN2[4],
+                                          AlignmentParametersBean.ATN3[1]]);
         elif energy >= 20300:
             parametersBean.setMe2Pitch(-1) # means move it out of beam
-            parametersBean.setAtn1(AlignmentParametersBean.ATN1[0])
-            parametersBean.setAtn2(AlignmentParametersBean.ATN2[5])
-            parametersBean.setAtn3(AlignmentParametersBean.ATN3[1])
+            parametersBean.setAttenuatorPositions([AlignmentParametersBean.ATN1[0],
+                                          AlignmentParametersBean.ATN2[5],
+                                          AlignmentParametersBean.ATN3[1]]);
     
     return parametersBean
 
 def _getLatticeConstant(parametersBean):
     
     if parametersBean.getCrystalCut() == "Si111":
-        return 3.1357017
+        return CrystalParameters.CrystalSpacing.Si_111.getCrystalD()
     else:
-        return 1.6375668  # Si 311
+        return CrystalParameters.CrystalSpacing.Si_311.getCrystalD()
     
 def _calcBragg(parametersBean):
     

@@ -18,12 +18,22 @@
 
 package uk.ac.gda.exafs.data;
 
+import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN1;
+import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN2;
+import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN3;
+import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN4;
+import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN5;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.util.Pair;
+
+import gda.util.CrystalParameters.CrystalSpacing;
 
 public class AlignmentParametersCalculator {
 
@@ -31,10 +41,6 @@ public class AlignmentParametersCalculator {
 	private double realDetectorDistance;
 	private boolean me2InBeam;
 
-	// Link to ATN1, ATN2, ATN3 in AlignmentParametersBean - for covenience, to save typing.
-	private static final String[] ATN1 = AlignmentParametersBean.ATN1;
-	private static final String[] ATN2 = AlignmentParametersBean.ATN2;
-	private static final String[] ATN3 = AlignmentParametersBean.ATN3;
 	private static final String SI_111 = "Si111";
 	private static final String SI_311 = "Si311";
 
@@ -42,51 +48,75 @@ public class AlignmentParametersCalculator {
 		private final double minE;
 		private final double maxE;
 		private final double pitch;
-		private final String atn1;
-		private final String atn2;
-		private final String atn3;
+		private List<String> attenuatorPositions;
 
-		public PitchAtn(double minE, double maxE, double pitch, String atn1, String atn2, String atn3) {
+		public PitchAtn(double minE, double maxE, double pitch, String... atns) {
 			this.minE = minE;
 			this.maxE = maxE;
 			this.pitch = pitch;
-			this.atn1 = atn1;
-			this.atn2 = atn2;
-			this.atn3 = atn3;
+			attenuatorPositions = Arrays.asList(atns);
 		}
 		public boolean inRange(double energy) {
 			return energy >= minE && energy < maxE;
 		}
 		public void applyToBean(AlignmentParametersBean bean) {
 			bean.setMe2Pitch(pitch);
-			bean.setAtn1(atn1);;
-			bean.setAtn2(atn2);
-			bean.setAtn3(atn3);
+			bean.setAttenuatorPositions(attenuatorPositions);
+		}
+		public List<String> getPositions() {
+			return attenuatorPositions;
 		}
 	}
 
-	private static List<PitchAtn> pitchAttenuatorsSi111;
+	private static List<PitchAtn> pitchAttenuatorsSi111_atn123;
 	static {
-		pitchAttenuatorsSi111 = new ArrayList<>();
-		pitchAttenuatorsSi111.add(new PitchAtn(    0,  7000, 4.0, ATN1[0], ATN2[0], ATN3[0]));
-		pitchAttenuatorsSi111.add(new PitchAtn( 7000,  8000, 3.5, ATN1[1], ATN2[0], ATN3[0]));
-		pitchAttenuatorsSi111.add(new PitchAtn( 8000,  9600, 3.0, ATN1[2], ATN2[0], ATN3[0]));
-		pitchAttenuatorsSi111.add(new PitchAtn( 9600, 12200, 5.0, ATN1[4], ATN2[0], ATN3[0]));
-		pitchAttenuatorsSi111.add(new PitchAtn(12200, 99999, 4.0, ATN1[4], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi111_atn123 = new ArrayList<>();
+		pitchAttenuatorsSi111_atn123.add(new PitchAtn(    0,  7000, 4.0, ATN1[0], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi111_atn123.add(new PitchAtn( 7000,  8000, 3.5, ATN1[1], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi111_atn123.add(new PitchAtn( 8000,  9600, 3.0, ATN1[2], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi111_atn123.add(new PitchAtn( 9600, 12200, 5.0, ATN1[4], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi111_atn123.add(new PitchAtn(12200, 99999, 4.0, ATN1[4], ATN2[0], ATN3[0]));
 	}
 
-	private static List<PitchAtn> pitchAttenuatorsSi311;
+
+	private static List<PitchAtn> pitchAttenuatorsSi311_atn123;
 	static {
-		pitchAttenuatorsSi311 = new ArrayList<>();
-		pitchAttenuatorsSi311.add(new PitchAtn(    0,  8000, 3.5, ATN1[1], ATN2[0], ATN3[0]));
-		pitchAttenuatorsSi311.add(new PitchAtn( 8000,  9600, 3.0, ATN1[1], ATN2[0], ATN3[0]));
-		pitchAttenuatorsSi311.add(new PitchAtn( 9600, 12200, 5.0, ATN1[4], ATN2[0], ATN3[0]));
-		pitchAttenuatorsSi311.add(new PitchAtn(12200, 13500, 4.5, ATN1[0], ATN2[2], ATN3[0]));
-		pitchAttenuatorsSi311.add(new PitchAtn(13500, 15200, 4.0, ATN1[4], ATN2[2], ATN3[0]));
-		pitchAttenuatorsSi311.add(new PitchAtn(15200, 17400, 3.5, ATN1[3], ATN2[2], ATN3[1]));
-		pitchAttenuatorsSi311.add(new PitchAtn(17400, 20300, 3.0, ATN1[0], ATN2[4], ATN3[1]));
-		pitchAttenuatorsSi311.add(new PitchAtn(20300, 99999,-1.0, ATN1[0], ATN2[5], ATN3[1]));
+		pitchAttenuatorsSi311_atn123 = new ArrayList<>();
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn(    0,  8000, 3.5, ATN1[1], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn( 8000,  9600, 3.0, ATN1[1], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn( 9600, 12200, 5.0, ATN1[4], ATN2[0], ATN3[0]));
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn(12200, 13500, 4.5, ATN1[0], ATN2[2], ATN3[0]));
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn(13500, 15200, 4.0, ATN1[4], ATN2[2], ATN3[0]));
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn(15200, 17400, 3.5, ATN1[3], ATN2[2], ATN3[1]));
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn(17400, 20300, 3.0, ATN1[0], ATN2[4], ATN3[1]));
+		pitchAttenuatorsSi311_atn123.add(new PitchAtn(20300, 99999,-1.0, ATN1[0], ATN2[5], ATN3[1]));
 	}
+
+	private static List<PitchAtn> pitchAttenuatorsSi111_atn45;
+	static {
+		pitchAttenuatorsSi111_atn45 = new ArrayList<>();
+		pitchAttenuatorsSi111_atn45.add(new PitchAtn(    0,  7000, 4.0, ATN4[6],  ATN5[6]));
+		pitchAttenuatorsSi111_atn45.add(new PitchAtn( 7000,  8000, 3.5, ATN4[7],  ATN5[6]));
+		pitchAttenuatorsSi111_atn45.add(new PitchAtn( 8000,  9600, 3.0, ATN4[8],  ATN5[6]));
+		pitchAttenuatorsSi111_atn45.add(new PitchAtn( 9600, 12200, 5.0, ATN4[10], ATN5[6]));
+		pitchAttenuatorsSi111_atn45.add(new PitchAtn(12200, 99999, 4.0, ATN4[10], ATN5[6]));
+	}
+
+	private static List<PitchAtn> pitchAttenuatorsSi311_atn45;
+	static {
+		pitchAttenuatorsSi311_atn45 = new ArrayList<>();
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(    0,  8000, 3.5, ATN4[7],  ATN5[6]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn( 8000,  9600, 3.0, ATN4[7],  ATN5[6]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn( 9600, 12200, 5.0, ATN4[10], ATN5[6]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(12200, 13500, 4.5, ATN4[6],  ATN5[8]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(13500, 15200, 4.0, ATN4[10], ATN5[8]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(15200, 17400, 3.5, ATN4[9],  ATN5[9]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(17400, 20300, 3.0, ATN4[6],  ATN5[8]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(20300, 99999,-1.0, ATN4[6],  ATN5[8]));
+	}
+
+	private List<PitchAtn> atnsSi311 = pitchAttenuatorsSi311_atn123;
+	private List<PitchAtn> atnsSi111 = pitchAttenuatorsSi111_atn123;
 
 	/**
 	 * Values to calculate displacement for polychromator benders
@@ -118,8 +148,8 @@ public class AlignmentParametersCalculator {
 	private static Map<String, Double> latticeConstants;
 	static {
 		latticeConstants = new HashMap<>();
-		latticeConstants.put(SI_111, 3.1357017);
-		latticeConstants.put(SI_311, 1.6375668);
+		latticeConstants.put(SI_111, CrystalSpacing.Si_111.getCrystalD());
+		latticeConstants.put(SI_311, CrystalSpacing.Si_311.getCrystalD());
 	}
 
 	public AlignmentParametersCalculator(AlignmentParametersBean bean) {
@@ -154,9 +184,9 @@ public class AlignmentParametersCalculator {
 		double energy = getEnergy();
 		PitchAtn pitchAttenuator = null;
 		if (parameterBean.getCrystalCut().equals(SI_111)) {
-			pitchAttenuator = getPitchAtnForEnergy(energy, pitchAttenuatorsSi111);
+			pitchAttenuator = getPitchAtnForEnergy(energy, atnsSi111);
 		} else {
-			pitchAttenuator = getPitchAtnForEnergy(energy, pitchAttenuatorsSi311);
+			pitchAttenuator = getPitchAtnForEnergy(energy, atnsSi311);
 		}
 		if (pitchAttenuator != null) {
 			pitchAttenuator.applyToBean(parameterBean);
@@ -354,5 +384,48 @@ public class AlignmentParametersCalculator {
 	 */
 	public void setRealDetectorDistance(double distance) {
 		realDetectorDistance = distance;
+	}
+
+	public void setUseAtn45(boolean useAtn45) {
+		if (useAtn45) {
+			atnsSi111 = pitchAttenuatorsSi111_atn45;
+			atnsSi311 = pitchAttenuatorsSi311_atn45;
+		} else {
+			atnsSi111 = pitchAttenuatorsSi111_atn123;
+			atnsSi311 = pitchAttenuatorsSi311_atn123;
+		}
+	}
+
+	private List<PitchAtn> getAtns311() {
+		return atnsSi311;
+	}
+
+	private List<PitchAtn> getAtns111() {
+		return atnsSi111;
+	}
+
+	public void showPositions() {
+		System.out.println("Attenuator positions for Si311");
+		for(PitchAtn atn : getAtns311()) {
+			System.out.println(ArrayUtils.toString(atn.getPositions()));
+		}
+		System.out.println("\nAttenuator positions for Si111");
+		for(PitchAtn atn : getAtns111()) {
+			System.out.println(ArrayUtils.toString(atn.getPositions()));
+		}
+	}
+
+	/**
+	 * Show attenuator positions for atn1,2,3 and atn4, 5 for Si111 and Si311
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		AlignmentParametersCalculator calc = new AlignmentParametersCalculator(null);
+		System.out.println("---Attenuator psositions - ATN1, 2, 3");
+		calc.setUseAtn45(false);
+		calc.showPositions();
+		System.out.println("\n---Attenuator positions - ATN4, 5");
+		calc.setUseAtn45(true);
+		calc.showPositions();
 	}
 }

@@ -206,7 +206,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="atn5group" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="atn5group" class="gda.device.scannable.scannablegroup.ScannableGroupNamed">
 		<property name="groupMembers">
 			<list>
 				<ref bean="atn5_filter1_name" />

@@ -248,7 +248,6 @@ public class XesScan extends XasScanBase implements XasScan {
 
 		logger.info("Starting Xas/Xanes scan : fixed scannable = {}, moving scannable = {}", fixedScannable, movingScannable);
 		logger.info("Moving {} to initial position {} eV", fixedScannable.getName(), fixedEnergy);
-		double initialEnergy = (Double) fixedScannable.getPosition();
 		fixedScannable.waitWhileBusy();
 		fixedScannable.moveTo(fixedEnergy);
 
@@ -258,29 +257,24 @@ public class XesScan extends XasScanBase implements XasScan {
 		SignalParameters analyserSignal = new SignalParameters(analyserAngle.getName(), analyserAngle.getName(), 2,
 				analyserAngle.getName(), analyserAngle.getName());
 		i20OutputParameters.addSignal(analyserSignal);
-		try {
-			IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBeanObject(experimentFullPath + "/",
-					xesScanParameters.getScanFileName());
 
-			logger.info("Scan parameters loaded from {}", xesScanParameters.getScanFileName());
-			setXasXanesScannable(xasScanParams, movingScannable.getName());
+		IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBeanObject(experimentFullPath + "/",
+				xesScanParameters.getScanFileName());
 
-			// Set scannable object to be moved during scan
-			xas.setEnergyScannable(movingScannable);
+		logger.info("Scan parameters loaded from {}", xesScanParameters.getScanFileName());
+		setXasXanesScannable(xasScanParams, movingScannable.getName());
 
-			xas.configureCollection(sampleBean, xasScanParams, detectorBean, outputBean, detectorConfigurationBean,
-					experimentFullPath, numRepetitions);
+		// Set scannable object to be moved during scan
+		xas.setEnergyScannable(movingScannable);
 
-			// Set the names of the XML bean files so they get written to the 'before_scan' meta data.
-			String[] filenames = getXmlFileNames();
-			xas.setXmlFileNames(filenames[0], xesScanParameters.getScanFileName(), filenames[2], filenames[3], filenames[4]);
+		xas.configureCollection(sampleBean, xasScanParams, detectorBean, outputBean, detectorConfigurationBean,
+				experimentFullPath, numRepetitions);
 
-			xas.doCollection();
+		// Set the names of the XML bean files so they get written to the 'before_scan' meta data.
+		String[] filenames = getXmlFileNames();
+		xas.setXmlFileNames(filenames[0], xesScanParameters.getScanFileName(), filenames[2], filenames[3], filenames[4]);
 
-		} finally {
-			// move the 'fixed' scannable back to the initial position
-			fixedScannable.moveTo(initialEnergy);
-		}
+		xas.doCollection();
 	}
 
 	public Scannable getAnalyserAngle() {

@@ -35,8 +35,6 @@
 -XX:ErrorFile=/dls_sw/i20/logs/hs_err_pid%p.log
 -XX:+HeapDumpOnOutOfMemoryError 
 -XX:HeapDumpPath=/dls_sw/i20/logs/gdaclient.hprof
--Xdebug
--Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

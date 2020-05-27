@@ -19,6 +19,9 @@
 package uk.ac.gda.exafs.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -48,6 +51,18 @@ public class AlignmentParametersBean implements Serializable {
 
 	public static String[] ATN3Values = new String[] { "none", "Pyro-C 1.0mm", "Pyro-C 2.0mm", "SiC 0.6mm", "SiC 1.5mm" };
 
+	public static String [] ATN4 = { "Empty", "pC 0.1 mm", "pC 0.2 mm", "pC 0.4 mm", "pC 0.6 mm", "pC 0.8 mm",
+	"Empty 3.1 mrad ME1", "pC 0.1 mm 3.1 mrad", "pC 0.2 mm 3.1 mrad", "pC 0.4 mm 3.1 mrad", "pC 0.6 mm 3.1 mrad", "pC 0.8 mm 3.1 mrad" };
+
+	public static String [] ATN4Values = { "Empty", "pC 0.1 mm", "pC 0.2 mm", "pC 0.4 mm", "pC 0.6 mm", "pC 0.8 mm",
+										   "Empty", "pC 0.1 mm", "pC 0.2 mm", "pC 0.4 mm", "pC 0.6 mm", "pC 0.8 mm" };
+
+	public static String [] ATN5 = { "Empty", "pC 0.1 mm", "pC 1.0 mm", "pC 2.0 mm", "pC 4.0 mm", "pC 7.0 mm",
+			"Empty 3.1mrad", "pC 0.1 mm 3.1 mrad", "pC 1.0 mm 3.1 mrad", "pC 2.0 mm 3.1 mrad", "pC 4.0mm 3.1mrad", "pC 7.0 mm 3.1 mrad" };
+
+	public static String [] ATN5Values = {"Empty", "pC 0.1 mm", "pC 1.0 mm", "pC 2.0 mm", "pC 4.0 mm", "pC 7.0 mm",
+										  "Empty", "pC 0.1 mm", "pC 1.0 mm", "pC 2.0 mm", "pC 4.0 mm", "pC 7.0 mm" };
+
 	public static Double[] Q = new Double[] { 0.8, 1.0, 1.2 };
 
 	// inputs
@@ -74,9 +89,7 @@ public class AlignmentParametersBean implements Serializable {
 	private Double detectorDistance = null; // m
 	private Double detectorHeight = null; // mm
 
-	private String atn1 = null;
-	private String atn2 = null;
-	private String atn3 = null;
+	private List<String> attenuatorPositions  = Collections.emptyList();
 
 	private Double energyBandwidth = null; // eV  This is Delta-E.
 
@@ -244,30 +257,6 @@ public class AlignmentParametersBean implements Serializable {
 		this.me2Pitch = me2Pitch;
 	}
 
-	public String getAtn1() {
-		return atn1;
-	}
-
-	public void setAtn1(String atn1) {
-		this.atn1 = atn1;
-	}
-
-	public String getAtn2() {
-		return atn2;
-	}
-
-	public void setAtn2(String atn2) {
-		this.atn2 = atn2;
-	}
-
-	public String getAtn3() {
-		return atn3;
-	}
-
-	public void setAtn3(String atn3) {
-		this.atn3 = atn3;
-	}
-
 	public Double getPower() {
 		return power;
 	}
@@ -324,14 +313,20 @@ public class AlignmentParametersBean implements Serializable {
 		this.sourceToPolyDistance = sourceToPolyDistance;
 	}
 
+	public List<String> getAttenuatorPositions() {
+		return attenuatorPositions;
+	}
+
+	public void setAttenuatorPositions(List<String> attenuatorPositions) {
+		this.attenuatorPositions = new ArrayList<>(attenuatorPositions);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((arm2Theta == null) ? 0 : arm2Theta.hashCode());
-		result = prime * result + ((atn1 == null) ? 0 : atn1.hashCode());
-		result = prime * result + ((atn2 == null) ? 0 : atn2.hashCode());
-		result = prime * result + ((atn3 == null) ? 0 : atn3.hashCode());
+		result = prime * result + attenuatorPositions.hashCode();
 		result = prime * result + ((braggAngle == null) ? 0 : braggAngle.hashCode());
 		result = prime * result + ((crystalCut == null) ? 0 : crystalCut.hashCode());
 		result = prime * result + ((crystalType == null) ? 0 : crystalType.hashCode());
@@ -371,25 +366,7 @@ public class AlignmentParametersBean implements Serializable {
 		} else if (!arm2Theta.equals(other.arm2Theta)) {
 			return false;
 		}
-		if (atn1 == null) {
-			if (other.atn1 != null) {
-				return false;
-			}
-		} else if (!atn1.equals(other.atn1)) {
-			return false;
-		}
-		if (atn2 == null) {
-			if (other.atn2 != null) {
-				return false;
-			}
-		} else if (!atn2.equals(other.atn2)) {
-			return false;
-		}
-		if (atn3 == null) {
-			if (other.atn3 != null) {
-				return false;
-			}
-		} else if (!atn3.equals(other.atn3)) {
+		if (!attenuatorPositions.equals(other.attenuatorPositions)) {
 			return false;
 		}
 		if (braggAngle == null) {

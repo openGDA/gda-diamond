@@ -245,9 +245,9 @@ if LocalProperties.isDummyModeEnabled() == False :
         from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
         xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
 
-    basePvName = xspress3Controller.getEpicsTemplate()
-    detPort = CAClient.get(basePvName+":PortName_RBV")
-    print "  HDF5 array port name = ", detPort
-    CAClient.put(basePvName+":HDF5:NDArrayPort", detPort)
+        basePvName = xspress3Controller.getEpicsTemplate()
+        detPort = CAClient.get(basePvName+":PortName_RBV")
+        print "  HDF5 array port name = ", detPort
+        CAClient.put(basePvName+":HDF5:NDArrayPort", detPort)
 
 print "****GDA startup script complete.****\n\n"
