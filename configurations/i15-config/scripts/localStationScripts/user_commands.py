@@ -492,6 +492,9 @@ def _d2out():
 def _d3out():
 	return _defaultParameter("expose_d3out", True, " to change the default.")
 
+def _exposeSuppressOpenEHShutterAtScanStart():
+	return _defaultParameter("exposeSuppressOpenEHShutterAtScanStart", False, " to change the default.")
+
 def _exposeSuppressCloseEHShutterAtScanEnd():
 	return _defaultParameter("exposeSuppressCloseEHShutterAtScanEnd", False, " to change the default.")
 
@@ -839,6 +842,7 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	# Note that the first element in a scan must be a start/stop/step so always add exposure if neither horiz nor vert are present
 	scan_params.extend([exposure, 1, exposeNumber, 1] if len(scan_params)==0 or exposeNumber > 1 else [])
 	scan_params.extend([detectorShield, DiodeController(_d1out(), _d2out(), _d3out(),
+					suppressOpenEHShutterAtScanStart=_exposeSuppressOpenEHShutterAtScanStart(),
 					suppressCloseEHShutterAtScanEnd=_exposeSuppressCloseEHShutterAtScanEnd() )])
 
 	totalExposures = (exposeNumber * (1 if horizStepNumber == None else horizStepNumber + 1) * 

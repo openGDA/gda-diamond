@@ -11,7 +11,8 @@ from org.slf4j import LoggerFactory
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
 class DiodeController(ScannableBase):
-	def __init__(self, d1out, d2out, d3out, exposeDarkFlag=False, suppressCloseEHShutterAtScanEnd=False):
+	def __init__(self, d1out, d2out, d3out, exposeDarkFlag=False,
+				suppressOpenEHShutterAtScanStart=False, suppressCloseEHShutterAtScanEnd=False):
 		self.setName("diodes")
 		self.setInputNames([])
 		self.setExtraNames([]);
@@ -23,6 +24,7 @@ class DiodeController(ScannableBase):
 		self.zebraFastShutter = jythonNameMap.zebraFastShutter
 		self.openEHShutter = jythonNameMap.openEHShutter
 		self.exposeDarkFlag = exposeDarkFlag
+		self.suppressOpenEHShutterAtScanStart = suppressOpenEHShutterAtScanStart
 		self.suppressCloseEHShutterAtScanEnd = suppressCloseEHShutterAtScanEnd
 		
 	def atScanStart(self):
@@ -46,6 +48,8 @@ class DiodeController(ScannableBase):
 		if (self.exposeDarkFlag):
 			simpleLog("DiodeController: Dark expose, so closing the EH shutter...")
 			closeEHShutter()
+		elif self.suppressOpenEHShutterAtScanStart:
+			simpleLog("DiodeController: EH shutter open is suppressed.")
 		else:
 			openEHShutter()
 		
