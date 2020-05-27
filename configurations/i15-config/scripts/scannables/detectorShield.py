@@ -164,6 +164,9 @@ class DetectorShield(ScannableBase):
             simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
     def atCommandFailure(self):
+        if self.suppressCloseDetectorShieldAtScanEnd:
+            simpleLog("Detector Shield close after failure suppressed...")
+            return
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:
@@ -171,6 +174,9 @@ class DetectorShield(ScannableBase):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
 
     def stop(self): # This is required because Interrupt Scan Gracefully calls stop, but not atCommandFailure
+        if self.suppressCloseDetectorShieldAtScanEnd:
+            simpleLog("Detector Shield close after stop suppressed...")
+            return
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:

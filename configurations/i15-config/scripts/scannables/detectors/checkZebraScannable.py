@@ -9,8 +9,9 @@ class ZebraPositionScannable(ScannableBase):
     """ Since this scannable causes the zebra position compare configuration to be overwritten, the only scan we can use it in is
         one which doesn't make any other use of the Zebra position compare functionality.
     """
-    def __init__(self, name, zebraRootPV, check_scannable):
+    def __init__(self, name, zebraRootPV, check_scannable, zebra_scannable):
         self.check_scannable = check_scannable
+        self.zebra_scannable = zebra_scannable
         self.pvs = PvManager(pvroot = zebraRootPV)
         self._setNames(name)
         self.setLevel(5)
@@ -26,7 +27,8 @@ class ZebraPositionScannable(ScannableBase):
         return self.zebraGetPosition()
     
     def zebraGetPosition(self):
-        position = float(self.pvs['PC_ENC1_LAST'].caget())
+        last_encoder_pv = 'PC_ENC{}_LAST'.format(self.zebra_scannable.getPcEnc()+1)
+        position = float(self.pvs[last_encoder_pv].caget())
         check_position = self.check_scannable.getPosition()
         return [position, check_position, position - check_position]
 
@@ -34,15 +36,18 @@ class ZebraPositionScannable(ScannableBase):
         return self.zebraRawAsynchronousMoveTo(new_position)
 
     def zebraRawAsynchronousMoveTo(self, new_position):
+        simpleLog("Performing a Zebra time scan to check position of {}, new_position value ({}) is ignored & motor not moved...".format(
+            self.check_scannable.getName(), new_position))
         # Reset the zebra box before trying to set any parameters
         self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
         
         while self.isBusy():
             if self.verbose: simpleLog("Waiting for zebra to disarm before...")
             sleep(0.5)
-        
+
+        pc_bit_cap = 960 | (1 << self.zebra_scannable.getPcEnc())
         self.pvs['PC_TSPRE'      ].caput(TIMEOUT, 'ms')
-        self.pvs['PC_BIT_CAP'    ].caput(TIMEOUT, 961)      # Complex bitfield
+        self.pvs['PC_BIT_CAP'    ].caput(TIMEOUT, pc_bit_cap)      # Complex bitfield
         
         self.pvs['PC_ARM_SEL'    ].caput(TIMEOUT, 'Soft')
         self.pvs['PC_GATE_SEL'   ].caput(TIMEOUT, 'Time')
@@ -62,7 +67,6 @@ class ZebraPositionScannable(ScannableBase):
 
     def copyMotorPosToZebra(self):
         self.pvs['M1:SETPOS.PROC'].caput(TIMEOUT, 1)
-
 
     def isBusy(self):
         return self.zebraIsBusy()
