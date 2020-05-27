@@ -5,12 +5,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	
-	<gda:motor id="s4_xsize" pv="BL11K-MO-SLITS-04:XSIZE" />
-	<gda:motor id="s4_xcentre" pv="BL11K-MO-SLITS-04:XCENTRE" />
-	<gda:motor id="s4_ysize" pv="BL11K-MO-SLITS-04:YSIZE" />
-	<gda:motor id="s4_ycentre" pv="BL11K-MO-SLITS-04:YCENTRE" />
+	<gda:motor id="s4_xsize"
+		live-pvName="BL11K-MO-SLITS-04:XSIZE"
+		dummy-minPosition="-1.4996"
+		dummy-maxPosition="15.0004"
+		dummy-position="4.0014"
+		dummy-unitString="mm"\>
 
+	<gda:motor id="s4_xcentre"
+		live-pvName="BL11K-MO-SLITS-04:XCENTRE"
+		dummy-minPosition="-7.0005"
+		dummy-maxPosition="6.9995"
+		dummy-position="-0.001"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="s4_ysize"
+		live-pvName="BL11K-MO-SLITS-04:YSIZE"
+		dummy-minPosition="-0.9314"
+		dummy-maxPosition="7.0686"
+		dummy-position="1.0706"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="s4_ycentre"
+		live-pvName="BL11K-MO-SLITS-04:YCENTRE"
+		dummy-minPosition="-4.001"
+		dummy-maxPosition="3.999"
+		dummy-position="-0.0015"
+		dummy-unitString="mm"\>
 
 	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
