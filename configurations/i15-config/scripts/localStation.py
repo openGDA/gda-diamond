@@ -428,12 +428,16 @@ try:
 		from localStationScripts.marErase import marErase
 		alias("marErase")
 	except:
-		localStation_exception(sys.exc_info(), "configuring mar area detector plugins")
+		localStation_exception(sys.exc_info(), "configuring mar area detector plugins, is the IOC running?")
 
 	try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
+		caput("BL15I-EA-PILAT-03:ARR:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PILAT-03:MJPG:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PILAT-03:ARR:MinCallbackTime", 0) # I15-566
 	except:
-		localStation_exception(sys.exc_info(), "configuring pil3 compression")
+		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
 
 	try:
 		mpx.hdfwriter.getNdFileHDF5().reset()
