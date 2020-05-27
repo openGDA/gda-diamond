@@ -7,10 +7,10 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="fswitch_x" pv="BL22I-MO-FSWT-01:X" protectionLevel="3" />
-    <gda:motor id="fswitch_y" pv="BL22I-MO-FSWT-01:Y" protectionLevel="3" />
-    <gda:motor id="fswitch_pitch" pv="BL22I-MO-FSWT-01:PITCH" protectionLevel="3" />
-    <gda:motor id="fswitch_yaw" pv="BL22I-MO-FSWT-01:YAW" protectionLevel="3" />
+    <gda:motor id="fswitch_x" live-pvName="BL22I-MO-FSWT-01:X" protectionLevel="3" />
+    <gda:motor id="fswitch_y" live-pvName="BL22I-MO-FSWT-01:Y" protectionLevel="3" />
+    <gda:motor id="fswitch_pitch" live-pvName="BL22I-MO-FSWT-01:PITCH" protectionLevel="3" />
+    <gda:motor id="fswitch_yaw" live-pvName="BL22I-MO-FSWT-01:YAW" protectionLevel="3" />
 
     <bean id="fswitch" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

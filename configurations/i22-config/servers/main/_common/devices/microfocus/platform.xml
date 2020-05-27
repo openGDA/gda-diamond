@@ -7,12 +7,12 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="mfplatform_x" pv="BL22I-MO-TABLE-05:X" />
-    <gda:motor id="mfplatform_y" pv="BL22I-MO-TABLE-05:Y" />
-    <gda:motor id="mfplatform_y1" pv="BL22I-MO-TABLE-05:Y1" />
-    <gda:motor id="mfplatform_y2" pv="BL22I-MO-TABLE-05:Y2" />
-    <gda:motor id="mfplatform_yaw" pv="BL22I-MO-TABLE-05:YAW" />
-    <gda:motor id="mfplatform_pitch" pv="BL22I-MO-TABLE-05:PITCH" />
+    <gda:motor id="mfplatform_x" live-pvName="BL22I-MO-TABLE-05:X" />
+    <gda:motor id="mfplatform_y" live-pvName="BL22I-MO-TABLE-05:Y" />
+    <gda:motor id="mfplatform_y1" live-pvName="BL22I-MO-TABLE-05:Y1" />
+    <gda:motor id="mfplatform_y2" live-pvName="BL22I-MO-TABLE-05:Y2" />
+    <gda:motor id="mfplatform_yaw" live-pvName="BL22I-MO-TABLE-05:YAW" />
+    <gda:motor id="mfplatform_pitch" live-pvName="BL22I-MO-TABLE-05:PITCH" />
 
     <bean id="mfplatform" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

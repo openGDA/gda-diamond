@@ -7,9 +7,9 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="ltwee_x" pv="BL22I-MO-LTWEE-01:X" />
-    <gda:motor id="ltwee_y" pv="BL22I-MO-LTWEE-01:Y" />
-    <gda:motor id="ltwee_z" pv="BL22I-MO-LTWEE-01:Z" />
+    <gda:motor id="ltwee_x" live-pvName="BL22I-MO-LTWEE-01:X" />
+    <gda:motor id="ltwee_y" live-pvName="BL22I-MO-LTWEE-01:Y" />
+    <gda:motor id="ltwee_z" live-pvName="BL22I-MO-LTWEE-01:Z" />
 
     <bean id="ltwee" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

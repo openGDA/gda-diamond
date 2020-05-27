@@ -7,10 +7,10 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="s4_xcentre" pv="BL22I-AL-SLITS-04:X" protectionLevel="3" />
-    <gda:motor id="s4_ycentre" pv="BL22I-AL-SLITS-04:Y" protectionLevel="3" />
-    <gda:motor id="s4_xgap" pv="BL22I-AL-SLITS-04:HDSO" protectionLevel="3" />
-    <gda:motor id="s4_ygap" pv="BL22I-AL-SLITS-04:VDSO" protectionLevel="3" />
+    <gda:motor id="s4_xcentre" live-pvName="BL22I-AL-SLITS-04:X" protectionLevel="3" />
+    <gda:motor id="s4_ycentre" live-pvName="BL22I-AL-SLITS-04:Y" protectionLevel="3" />
+    <gda:motor id="s4_xgap" live-pvName="BL22I-AL-SLITS-04:HDSO" protectionLevel="3" />
+    <gda:motor id="s4_ygap" live-pvName="BL22I-AL-SLITS-04:VDSO" protectionLevel="3" />
 
     <bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

@@ -84,12 +84,12 @@
 		</property>
 	</bean>
 
-	<gda:motor id="hexapod_x" pv="BL22I-MO-HEX-01:X" />
-	<gda:motor id="hexapod_y" pv="BL22I-MO-HEX-01:Y" />
-	<gda:motor id="hexapod_z" pv="BL22I-MO-HEX-01:Z" />
-	<gda:motor id="hexapod_roll" pv="BL22I-MO-HEX-01:ROLL" />
-	<gda:motor id="hexapod_pitch" pv="BL22I-MO-HEX-01:PITCH" />
-	<gda:motor id="hexapod_yaw" pv="BL22I-MO-HEX-01:YAW" />
+	<gda:motor id="hexapod_x" live-pvName="BL22I-MO-HEX-01:X" />
+	<gda:motor id="hexapod_y" live-pvName="BL22I-MO-HEX-01:Y" />
+	<gda:motor id="hexapod_z" live-pvName="BL22I-MO-HEX-01:Z" />
+	<gda:motor id="hexapod_roll" live-pvName="BL22I-MO-HEX-01:ROLL" />
+	<gda:motor id="hexapod_pitch" live-pvName="BL22I-MO-HEX-01:PITCH" />
+	<gda:motor id="hexapod_yaw" live-pvName="BL22I-MO-HEX-01:YAW" />
 
 	<bean id="hexapod_pos" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">

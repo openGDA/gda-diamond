@@ -7,8 +7,8 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="qbpm1_x" pv="BL22I-DI-PHDGN-07:X" protectionLevel="3" />
-    <gda:motor id="qbpm1_y" pv="BL22I-DI-PHDGN-07:Y" protectionLevel="3" />
+    <gda:motor id="qbpm1_x" live-pvName="BL22I-DI-PHDGN-07:X" protectionLevel="3" />
+    <gda:motor id="qbpm1_y" live-pvName="BL22I-DI-PHDGN-07:Y" protectionLevel="3" />
 
     <bean id="qbpm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

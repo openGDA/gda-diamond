@@ -7,17 +7,17 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="vfm_pitch" pv="BL22I-OP-KBM-01:VFM:PITCH" protectionLevel="3" />
-    <gda:motor id="vfm_yaw" pv="BL22I-OP-KBM-01:VFM:YAW" protectionLevel="3" />
-    <gda:motor id="vfm_y1" pv="BL22I-OP-KBM-01:VFM:Y1" protectionLevel="3" />
-    <gda:motor id="vfm_roll" pv="BL22I-OP-KBM-01:VFM:ROLL" protectionLevel="3" />
-    <gda:motor id="vfm_x1" pv="BL22I-OP-KBM-01:VFM:X1" protectionLevel="3" />
-    <gda:motor id="vfm_x" pv="BL22I-OP-KBM-01:VFM:X" protectionLevel="3" />
-    <gda:motor id="vfm_y3" pv="BL22I-OP-KBM-01:VFM:Y3" protectionLevel="3" />
-    <gda:motor id="vfm_y" pv="BL22I-OP-KBM-01:VFM:Y" protectionLevel="3" />
-    <gda:motor id="vfm_x2" pv="BL22I-OP-KBM-01:VFM:X2" protectionLevel="3" />
-    <gda:motor id="vfm_y2" pv="BL22I-OP-KBM-01:VFM:Y2" protectionLevel="3" />
-    <gda:motor id="vfm_yfine" pv="BL22I-OP-KBM-01:VFM:FY3" protectionLevel="3" />
+    <gda:motor id="vfm_pitch" live-pvName="BL22I-OP-KBM-01:VFM:PITCH" protectionLevel="3" />
+    <gda:motor id="vfm_yaw" live-pvName="BL22I-OP-KBM-01:VFM:YAW" protectionLevel="3" />
+    <gda:motor id="vfm_y1" live-pvName="BL22I-OP-KBM-01:VFM:Y1" protectionLevel="3" />
+    <gda:motor id="vfm_roll" live-pvName="BL22I-OP-KBM-01:VFM:ROLL" protectionLevel="3" />
+    <gda:motor id="vfm_x1" live-pvName="BL22I-OP-KBM-01:VFM:X1" protectionLevel="3" />
+    <gda:motor id="vfm_x" live-pvName="BL22I-OP-KBM-01:VFM:X" protectionLevel="3" />
+    <gda:motor id="vfm_y3" live-pvName="BL22I-OP-KBM-01:VFM:Y3" protectionLevel="3" />
+    <gda:motor id="vfm_y" live-pvName="BL22I-OP-KBM-01:VFM:Y" protectionLevel="3" />
+    <gda:motor id="vfm_x2" live-pvName="BL22I-OP-KBM-01:VFM:X2" protectionLevel="3" />
+    <gda:motor id="vfm_y2" live-pvName="BL22I-OP-KBM-01:VFM:Y2" protectionLevel="3" />
+    <gda:motor id="vfm_yfine" live-pvName="BL22I-OP-KBM-01:VFM:FY3" protectionLevel="3" />
 
     <bean id="vfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

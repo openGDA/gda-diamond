@@ -7,8 +7,8 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="user_four" pv="BL22I-MO-USER-01:MTR4" />
-    <gda:motor id="user_three" pv="BL22I-MO-USER-01:MTR3" />
+    <gda:motor id="user_four" live-pvName="BL22I-MO-USER-01:MTR4" />
+    <gda:motor id="user_three" live-pvName="BL22I-MO-USER-01:MTR3" />
 
     <bean id="user" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

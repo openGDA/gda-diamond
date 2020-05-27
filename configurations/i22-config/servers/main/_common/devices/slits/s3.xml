@@ -7,14 +7,14 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="s3_xcentre" pv="BL22I-AL-SLITS-03:X:CENTRE" protectionLevel="3" />
-    <gda:motor id="s3_xgap" pv="BL22I-AL-SLITS-03:X:SIZE" protectionLevel="3" />
-    <gda:motor id="s3_ycentre" pv="BL22I-AL-SLITS-03:Y:CENTRE" protectionLevel="3" />
-    <gda:motor id="s3_ygap" pv="BL22I-AL-SLITS-03:Y:SIZE" protectionLevel="3" />
-    <gda:motor id="s3_xplus" pv="BL22I-AL-SLITS-03:X:PLUS" protectionLevel="3" />
-    <gda:motor id="s3_xminus" pv="BL22I-AL-SLITS-03:X:MINUS" protectionLevel="3" />
-    <gda:motor id="s3_yplus" pv="BL22I-AL-SLITS-03:Y:PLUS" protectionLevel="3" />
-    <gda:motor id="s3_yminus" pv="BL22I-AL-SLITS-03:Y:MINUS" protectionLevel="3" />
+    <gda:motor id="s3_xcentre" live-pvName="BL22I-AL-SLITS-03:X:CENTRE" protectionLevel="3" />
+    <gda:motor id="s3_xgap" live-pvName="BL22I-AL-SLITS-03:X:SIZE" protectionLevel="3" />
+    <gda:motor id="s3_ycentre" live-pvName="BL22I-AL-SLITS-03:Y:CENTRE" protectionLevel="3" />
+    <gda:motor id="s3_ygap" live-pvName="BL22I-AL-SLITS-03:Y:SIZE" protectionLevel="3" />
+    <gda:motor id="s3_xplus" live-pvName="BL22I-AL-SLITS-03:X:PLUS" protectionLevel="3" />
+    <gda:motor id="s3_xminus" live-pvName="BL22I-AL-SLITS-03:X:MINUS" protectionLevel="3" />
+    <gda:motor id="s3_yplus" live-pvName="BL22I-AL-SLITS-03:Y:PLUS" protectionLevel="3" />
+    <gda:motor id="s3_yminus" live-pvName="BL22I-AL-SLITS-03:Y:MINUS" protectionLevel="3" />
 
     <bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

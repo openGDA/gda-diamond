@@ -7,14 +7,14 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="dcm_energy" pv="BL22I-OP-DCM-01:ENERGY" protectionLevel="3" />
-    <gda:motor id="dcm_pitch" pv="BL22I-OP-DCM-01:XTAL2:PITCH" protectionLevel="2" />
-    <gda:motor id="dcm_offset" pv="BL22I-OP-DCM-01:OFFSET" protectionLevel="2" />
-    <gda:motor id="dcm_finepitch" pv="BL22I-OP-DCM-01:XTAL2:FPITCH" protectionLevel="2" />
-    <gda:motor id="dcm_roll" pv="BL22I-OP-DCM-01:XTAL2:ROLL" protectionLevel="3" />
-    <gda:motor id="dcm_fineroll" pv="BL22I-OP-DCM-01:XTAL2:FROLL" protectionLevel="3" />
-    <gda:motor id="dcm_perp" pv="BL22I-OP-DCM-01:XTAL2:YPRIME" protectionLevel="3" />
-    <gda:motor id="dcm_bragg" pv="BL22I-OP-DCM-01:BRAGG" protectionLevel="3" />
+    <gda:motor id="dcm_energy" live-pvName="BL22I-OP-DCM-01:ENERGY" protectionLevel="3" />
+    <gda:motor id="dcm_pitch" live-pvName="BL22I-OP-DCM-01:XTAL2:PITCH" protectionLevel="2" />
+    <gda:motor id="dcm_offset" live-pvName="BL22I-OP-DCM-01:OFFSET" protectionLevel="2" />
+    <gda:motor id="dcm_finepitch" live-pvName="BL22I-OP-DCM-01:XTAL2:FPITCH" protectionLevel="2" />
+    <gda:motor id="dcm_roll" live-pvName="BL22I-OP-DCM-01:XTAL2:ROLL" protectionLevel="3" />
+    <gda:motor id="dcm_fineroll" live-pvName="BL22I-OP-DCM-01:XTAL2:FROLL" protectionLevel="3" />
+    <gda:motor id="dcm_perp" live-pvName="BL22I-OP-DCM-01:XTAL2:YPRIME" protectionLevel="3" />
+    <gda:motor id="dcm_bragg" live-pvName="BL22I-OP-DCM-01:BRAGG" protectionLevel="3" />
 
     <bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
