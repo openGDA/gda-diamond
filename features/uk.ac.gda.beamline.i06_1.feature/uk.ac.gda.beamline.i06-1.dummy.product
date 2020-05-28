@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="uk.ac.gda.beamline.i06-1.dummy.product" uid="uk.ac.gda.beamline.i06-1.dummy" id="uk.ac.gda.beamline.i06_1.dummy_product" application="uk.ac.gda.client.application" version="9.17.0" useFeatures="true" includeLaunchers="true">
+<product name="uk.ac.gda.beamline.i06-1.dummy.product" uid="uk.ac.gda.beamline.i06-1.dummy" id="uk.ac.gda.beamline.i06_1.dummy_product" application="uk.ac.gda.client.application" version="9.18.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i06_1/icons/schematic_I06_sm.png"/>
