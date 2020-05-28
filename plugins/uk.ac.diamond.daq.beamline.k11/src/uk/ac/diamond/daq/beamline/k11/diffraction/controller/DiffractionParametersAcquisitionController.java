@@ -29,22 +29,28 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Controller;
 
+import uk.ac.diamond.daq.beamline.k11.diffraction.event.DiffractionRunAcquisitionEvent;
+import uk.ac.diamond.daq.beamline.k11.diffraction.service.message.DiffractionRunMessage;
 import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
+import uk.ac.diamond.daq.mapping.api.document.DocumentMapper;
+import uk.ac.diamond.daq.mapping.api.document.ScanRequestDocument;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionConfiguration;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameterAcquisition;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
-import uk.ac.diamond.daq.mapping.ui.document.DocumentMapper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.api.acquisition.resource.AcquisitionConfigurationResource;
+import uk.ac.gda.api.exception.GDAException;
 import uk.ac.gda.client.properties.DetectorProperties;
 import uk.ac.gda.tomography.stage.IStageController;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 @Controller
-public class DiffractionParametersAcquisitionController  implements AcquisitionController<DiffractionParameterAcquisition>, ApplicationListener<ApplicationEvent> {
+public class DiffractionParametersAcquisitionController
+		implements AcquisitionController<DiffractionParameterAcquisition>, ApplicationListener<ApplicationEvent> {
 	private static final Logger logger = LoggerFactory.getLogger(DiffractionParametersAcquisitionController.class);
 
 	@Autowired
@@ -52,7 +58,7 @@ public class DiffractionParametersAcquisitionController  implements AcquisitionC
 
 	private DiffractionParameterAcquisition acquisition;
 
-	//private TomographyFileService fileService;
+	// private TomographyFileService fileService;
 	// @Autowired
 	// private TomographyService tomographyService;
 
@@ -78,7 +84,22 @@ public class DiffractionParametersAcquisitionController  implements AcquisitionC
 
 	@Override
 	public void runAcquisition(URL outputPath) throws AcquisitionControllerException {
-		// TBD
+		runAcquisition();
+	}
+
+	@Override
+	public void runAcquisition() throws AcquisitionControllerException {
+		publishRun(createRunMessage());
+	}
+
+	private void publishRun(DiffractionRunMessage runMessage) {
+		SpringApplicationContextProxy.publishEvent(new DiffractionRunAcquisitionEvent(this, runMessage));
+	}
+
+	private ScanRequestDocument createScanRequestDocument() {
+		DiffractionParameters dp = getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
+		return new ScanRequestDocument(getAcquisition().getName(), getAcquisition().getAcquisitionLocation(),
+				new DetectorDocument[] { dp.getDetector() }, dp.getScanpathDocument());
 	}
 
 	@Override
@@ -87,19 +108,21 @@ public class DiffractionParametersAcquisitionController  implements AcquisitionC
 	}
 
 	@Override
-	public void loadAcquisitionConfiguration(DiffractionParameterAcquisition acquisition) throws AcquisitionControllerException {
+	public void loadAcquisitionConfiguration(DiffractionParameterAcquisition acquisition)
+			throws AcquisitionControllerException {
 		this.acquisition = acquisition;
 	}
 
 	@Override
-	public AcquisitionConfigurationResource<DiffractionParameterAcquisition> parseAcquisitionConfiguration(URL url) throws AcquisitionControllerException {
-		//return new AcquisitionConfigurationResource(url, parseJsonData(getAcquisitionBytes(url)).getAcquisition());
+	public AcquisitionConfigurationResource<DiffractionParameterAcquisition> parseAcquisitionConfiguration(URL url)
+			throws AcquisitionControllerException {
+		// return new AcquisitionConfigurationResource(url, parseJsonData(getAcquisitionBytes(url)).getAcquisition());
 		return new AcquisitionConfigurationResource(url, null);
 	}
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
-		//TomographyParametersAcquisitionControllerHelper.onApplicationEvent(event, this);
+		// TomographyParametersAcquisitionControllerHelper.onApplicationEvent(event, this);
 	}
 
 	@Override
@@ -119,9 +142,22 @@ public class DiffractionParametersAcquisitionController  implements AcquisitionC
 			DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
 			acquisitionParameters.setDetector(dd);
 		}
-		acquisitionParameters.setName("Default name");
 		acquisitionParameters.setShapeType(ShapeType.POINT);
+		newConfiguration.setName("Default name");
 		newConfiguration.getAcquisitionConfiguration().setAcquisitionParameters(acquisitionParameters);
 		return newConfiguration;
+	}
+
+	private DiffractionRunMessage createRunMessage() throws AcquisitionControllerException {
+		return new DiffractionRunMessage(dataToJson(createScanRequestDocument()));
+	}
+
+	private String dataToJson(Object acquisition) throws AcquisitionControllerException {
+		// --- all this should be externalised to a service
+		try {
+			return documentMapper.toJSON(acquisition);
+		} catch (GDAException e) {
+			throw new AcquisitionControllerException(e);
+		}
 	}
 }

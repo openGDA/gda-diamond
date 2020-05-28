@@ -21,10 +21,10 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.shape;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.mappingRegionShapeToShape;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -40,6 +40,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Widget;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
@@ -47,7 +49,6 @@ import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
-import uk.ac.gda.ui.tool.ClientBindingElements;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
@@ -59,16 +60,28 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 
+	/**
+	 * The selected {@link ShapeType}. Is valued by selecting one {@link ShapeComposite}.
+	 * This observable is propagated to all external mapping component
+	 */
+	private final SelectObservableValue<ShapeType> selectedShapeObservable = new SelectObservableValue<>();
+
+
+	/**
+	 * The selected {@link IMappingScanRegionShape}. Is valued by selecting one {@link ShapeComposite}.
+	 * This observable is internal only.
+	 */
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable = new SelectObservableValue<>();
 
-	private final SelectObservableValue<ShapeType> selectedShapeObservable = new SelectObservableValue<>();
 	private final List<ShapeComposite> shapes = new ArrayList<>();
+
 	private final DataBindingContext regionDBC = new DataBindingContext(); // For bindings that refresh with the region
 	private final List<MutablePair<Button, IMappingScanRegionShape>> buttonToRegionShape = new ArrayList<>();
 
 	private final DataBindingContext dbc;
 	private final DiffractionParameters templateData;
 	private final RegionAndPathController rapController;
+	private ShapeTemplateDataHelper templateHelper;
 
 	public ShapesTemplateFactory(DataBindingContext dbc, DiffractionParameters templateData,
 			RegionAndPathController rapController) {
@@ -76,16 +89,16 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 		this.dbc = dbc;
 		this.templateData = templateData;
 		this.rapController = rapController;
+		this.templateHelper = new ShapeTemplateDataHelper(templateData);
 	}
-
-
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		Composite container = ClientSWTElements.createComposite(parent, SWT.NONE, 1);
 		ClientSWTElements.createLabel(container, SWT.NONE, ClientMessages.SHAPE);
 		shapes.add(createShapeComposite(ShapeType.POINT, ClientMessages.POINT_SHAPE_TP, ClientImages.POINT));
-		shapes.add(createShapeComposite(ShapeType.CENTRED_RECTANGLE, ClientMessages.CENTERED_RECTANGULAR_SHAPE_TP, ClientImages.CENTERED_RECTAGLE));
+		shapes.add(createShapeComposite(ShapeType.CENTRED_RECTANGLE, ClientMessages.CENTERED_RECTANGULAR_SHAPE_TP,
+				ClientImages.CENTERED_RECTAGLE));
 		shapes.add(createShapeComposite(ShapeType.LINE, ClientMessages.LINE_SHAPE_TP, ClientImages.LINE));
 		shapes.stream().forEach(s -> s.createComposite(container, style));
 		return parent;
@@ -93,14 +106,13 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 
 	@Override
 	public void bindControls() {
-		Map<ShapeType, Object> enumRadioMap = new EnumMap<>(ShapeType.class);
 		// loop over shapes GUI
 		shapes.stream().forEach(s -> {
-			enumRadioMap.put(s.getShapeDefinition().getKey(), s.getShapeDefinition().getValue());
 			bindShape(s.getShapeDefinition());
 		});
-		ClientBindingElements.bindEnumToRadio(dbc, ShapeType.class, "shapeType", getTemplateData(), enumRadioMap);
+		// The first shape selected is POINT because rapController is initialised so.
 		updateRegionShapeBindings();
+
 		// set up the trigger for the path re-ralculation process to update all affected views
 		refreshSelectedMSRSObservable(Optional.empty());
 	}
@@ -111,7 +123,7 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	}
 
 	@SuppressWarnings("unchecked")
-	public final IObservableValue<IMappingScanRegionShape> getMappingBeanRegionShapeObservableValue() {
+	public final IObservableValue<IMappingScanRegionShape> getMappingScanRegionShapeObservableValue() {
 		return BeanProperties.value("region").observe(rapController.getScanRegionFromBean());
 	}
 
@@ -138,7 +150,7 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	 * when the region shape is changed by any linked views
 	 */
 	private void updateRegionShapeBindings() {
-		IObservableValue<IMappingScanRegionShape> mbShapeObservableValue = getMappingBeanRegionShapeObservableValue();
+		IObservableValue<IMappingScanRegionShape> mbShapeObservableValue = getMappingScanRegionShapeObservableValue();
 		regionDBC.bindValue(selectedShapeObservable, mbShapeObservableValue,
 				UpdateValueStrategy.create(shapeToMappingRegionShape),
 				UpdateValueStrategy.create(mappingRegionShapeToShape));
@@ -179,6 +191,15 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	}
 
 	private ShapeComposite createShapeComposite(ShapeType shapeType, ClientMessages tooltip, ClientImages icon) {
-		return new ShapeCompositeBase(shapeType, tooltip, icon);
+		return new ShapeCompositeBase(shapeType, tooltip, icon, selectionListener.apply(shapeType));
 	}
+
+	private BiConsumer<ShapeType, Widget> selectButton = (shapeType, radio) -> {
+		if (Button.class.isInstance(radio) && Button.class.cast(radio).getSelection()) {
+			templateHelper.update(shapeType);
+		}
+	};
+
+	private Function<ShapeType, Listener> selectionListener = shapeType -> event -> selectButton.accept(shapeType,
+			event.widget);
 }

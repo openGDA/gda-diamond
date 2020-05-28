@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator;
 
+import java.util.Objects;
+
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.swt.events.SelectionListener;
 
@@ -27,12 +29,13 @@ import uk.ac.gda.ui.tool.ClientMessages;
 
 /**
  * A GUI representation of the {@link MutatorType#ALTERNATING} mutator
+ *
  * @author Maurizio Nagni
  */
 class AlternatingMutator extends MutatorCompositeBase {
 
 	private final IConverter converter = IConverter.create(ShapeType.class, Boolean.class,
-			shape -> !((ShapeType) shape).equals(ShapeType.POINT));
+			shape -> !Objects.equals(shape, ShapeType.POINT));
 
 	public AlternatingMutator(SelectionListener mutatorListener) {
 		super(MutatorType.ALTERNATING, ClientMessages.ALTERNATING_MUTATOR, ClientMessages.ALTERNATING_MUTATOR_TP,
@@ -44,4 +47,8 @@ class AlternatingMutator extends MutatorCompositeBase {
 		return converter;
 	}
 
+	@Override
+	public boolean acceptShape(ShapeType shapeType) {
+		return !Objects.equals(shapeType, ShapeType.POINT);
+	}
 }

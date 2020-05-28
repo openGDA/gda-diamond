@@ -30,6 +30,10 @@ import java.util.function.Consumer;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
+import org.eclipse.dawnsci.plotting.api.IPlottingService;
+import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
+import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
@@ -78,6 +82,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	// ----- Helper ------//
 	private final ShapesTemplateFactory stf;
 	protected final AcquisitionController<DiffractionParameterAcquisition> controller;
+	private final TemplateDataHelper templateHelper;
 	private RegionAndPathController rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
 	private Consumer<RegionPathState> viewUpdater;
 
@@ -95,7 +100,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	public DiffractionConfigurationCompositeFactory(AcquisitionController<DiffractionParameterAcquisition> controller) {
 		super();
 		this.controller = controller;
-
+		this.templateHelper = new TemplateDataHelper(getTemplateData());
 		// create and initialise the controller to manage updates to the selected region and path
 		viewUpdater = this::updateView;
 		rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
@@ -109,7 +114,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(viewDBC, regionDBC, getTemplateData(),
 				stf.getSelectedShape(), rapController, smController);
 		DiffractionCompositeInterface scf = new SummaryCompositeFactory(regionDBC,
-				stf.getMappingBeanRegionShapeObservableValue(), stf.getSelectedShape(), rapController);
+				stf.getMappingScanRegionShapeObservableValue(), stf.getSelectedShape(), rapController);
 
 		components.add(stf);
 		components.add(dcf);
@@ -205,7 +210,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	}
 
 	private void bindElements() {
-		ClientBindingElements.bindText(viewDBC, name, String.class, "name", getTemplateData());
+		ClientBindingElements.bindText(viewDBC, name, String.class, "name", getController().getAcquisition());
 		components.forEach(DiffractionCompositeInterface::bindControls);
 	}
 
@@ -237,34 +242,40 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	 * The scan path is set to the default value for the selected shape before updating the bindings for both region and
 	 * path. This is done whilst the controllers region selector listener is not linked.
 	 */
-	private final void updateView(RegionPathState updated) {
+	private final void updateView(RegionPathState regionPathState) {
 		selectedMSRSObservable.removeValueChangeListener(rapController.getRegionSelectorListener());
-		// int index = updated.scanRegionShape().getName().equals(Shape.CENTRED_RECTANGLE.getMappingScanRegionName())
-		// ? smController.getGridModelIndex()
-		// : 0;
-		updateScanPathBindings(updated.scanRegionShape(), updated.scanPathList().get(0));
-
+		updateScanPathBindings();
 		selectedMSRSObservable.addValueChangeListener(rapController.getRegionSelectorListener());
-		logger.debug(getTemplateData().toString());
+		getMap().ifPresent(pl -> pl.addTraceListener(iTraceListener));
 	}
+
+	private ITraceListener iTraceListener = new ITraceListener.Stub() {
+		@Override
+		public void traceAdded(TraceEvent evt) {
+			super.traceAdded(evt);
+			templateHelper.updateTemplateData();
+		}
+	};
 
 	/**
 	 * Rewrites the bindings relating to the mapping bean's region scan path model so that the {@link Scale} and
 	 * {@link Text} density controls get linked to the correct property on the correct {@link IScanPathModel} when the
 	 * region shape is changed by any linked views
 	 *
-	 * @param newRegionValue
-	 *            The updated region that has been chosen
 	 * @param newPathValue
 	 *            The resulting updated default scan path
 	 */
-	private void updateScanPathBindings(final IMappingScanRegionShape mappingRegion,
-			final IScanPointGeneratorModel newPathValue) {
+	private void updateScanPathBindings() {
+		IScanPointGeneratorModel newPathValue = rapController.getScanPathListAndLinkPath().get(0);
 		regionDBC.dispose();
 		rapController.changePath(newPathValue);
 
-		Optional<ShapeType> shapeType = shapeFromMappingRegion(mappingRegion);
+		Optional<ShapeType> shapeType = shapeFromMappingRegion(rapController.getScanRegionShape());
 		shapeType.ifPresent(sh -> components.forEach(c -> c.updateScanPointBindings(newPathValue, sh)));
+	}
 
+	private Optional<IPlottingSystem<Composite>> getMap() {
+		return Optional
+				.ofNullable(PlatformUI.getWorkbench().getService(IPlottingService.class).getPlottingSystem("Map"));
 	}
 }

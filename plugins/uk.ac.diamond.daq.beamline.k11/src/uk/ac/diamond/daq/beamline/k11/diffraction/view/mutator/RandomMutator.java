@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator;
 
+import java.util.Objects;
+
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.swt.events.SelectionListener;
 
@@ -33,7 +35,7 @@ import uk.ac.gda.ui.tool.ClientMessages;
 class RandomMutator extends MutatorCompositeBase {
 
 	private final IConverter converter = IConverter.create(ShapeType.class, Boolean.class,
-			shape -> !((ShapeType) shape).equals(ShapeType.POINT));
+			shape -> !Objects.equals(shape, ShapeType.POINT));
 
 	public RandomMutator(SelectionListener mutatorListener) {
 		super(MutatorType.RANDOM, ClientMessages.RANDOM_MUTATOR, ClientMessages.RANDOM_MUTATOR_TP, mutatorListener);
@@ -44,4 +46,8 @@ class RandomMutator extends MutatorCompositeBase {
 		return converter;
 	}
 
+	@Override
+	public boolean acceptShape(ShapeType shapeType) {
+		return !Objects.equals(shapeType, ShapeType.POINT);
+	}
 }

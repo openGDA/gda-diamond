@@ -26,10 +26,13 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.ChangeEvent;
+import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
@@ -62,6 +65,8 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
  */
 public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
+	private final SelectObservableValue<ShapeType> selectedShapeObservable;
+
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable = new SelectObservableValue<>();
 	private Map<MutatorType, ISWTObservableValue> mutatorObservableValues = new EnumMap<>(MutatorType.class);
 
@@ -69,19 +74,18 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
 	private final DataBindingContext viewDBC;
 	private final DataBindingContext regionDBC;
-	private final DiffractionParameters templateData;
+	private final MutatorsTemplateDataHelper mutatorTemplateHelper;
 	private final RegionAndPathController rapController;
 	private final ScanManagementController smController;
-	private final SelectObservableValue<ShapeType> selectedShape;
 
 	public MutatorsTemplateFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
-			DiffractionParameters templateData, SelectObservableValue<ShapeType> selectedShape,
+			DiffractionParameters templateData, SelectObservableValue<ShapeType> selectedShapeObservable,
 			RegionAndPathController rapController, ScanManagementController smController) {
 		super();
 		this.viewDBC = viewDBC;
 		this.regionDBC = regionDBC;
-		this.templateData = templateData;
-		this.selectedShape = selectedShape;
+		this.mutatorTemplateHelper = new MutatorsTemplateDataHelper(templateData);
+		this.selectedShapeObservable = selectedShapeObservable;
 		this.rapController = rapController;
 		this.smController = smController;
 	}
@@ -105,6 +109,22 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	@Override
 	public void bindControls() {
 		mutators.stream().forEach(m -> bindMutatorCheckboxWidget(m.getMutatorDefinition().getValue(), m.filterShape()));
+		selectedShapeObservable.addChangeListener(new IChangeListener() {
+			@Override
+			public void handleChange(ChangeEvent event) {
+				ShapeType shapeType = ShapeType.class.cast(((SelectObservableValue)event.getObservable()).getValue());  //<-- ShapeType
+				mutators.stream().forEach(m -> {
+					Button mutator = m.getMutatorDefinition().getValue();
+					mutator.setSelection(false);
+					if(m.acceptShape(shapeType)) {
+						mutator.setVisible(true);
+					} else {
+						mutator.setVisible(false);
+					}
+					updateMutator(mutator);
+				});
+			}
+		});
 	}
 
 	@Override
@@ -119,20 +139,14 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
 		@SuppressWarnings("unchecked")
 		IObservableValue<MutatorType> disableButtonIObservableValue = WidgetProperties.visible().observe(button);
-		viewDBC.bindValue(selectedShape, disableButtonIObservableValue, UpdateValueStrategy.create(converter),
+		viewDBC.bindValue(selectedShapeObservable, disableButtonIObservableValue, UpdateValueStrategy.create(converter),
 				POLICY_NEVER);
 	}
 
 	private SelectionListener mutatorListener = new SelectionListener() {
 		@Override
 		public void widgetSelected(SelectionEvent e) {
-			Button mutator = Button.class.cast(e.getSource());
-			// updates the mutators list into the templateData collecting data from the selected check boxes
-			if (mutator.getSelection()) {
-				templateData.getMutators().add((MutatorType) mutator.getData());
-			} else {
-				templateData.getMutators().remove(mutator.getData());
-			}
+			updateMutator(Button.class.cast(e.getSource()));
 		}
 
 		@Override
@@ -140,6 +154,15 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 			// do nothing
 		}
 	};
+
+	private void updateMutator(Button mutator) {
+		// updates the mutators list into the templateData collecting data from the selected check boxes
+		if (mutator.getSelection()) {
+			mutatorTemplateHelper.addMutator((MutatorType) mutator.getData(), null);
+		} else {
+			mutatorTemplateHelper.removeMutator((MutatorType) mutator.getData());
+		}
+	}
 
 	/**
 	 * Rewrites the bindings that link the mutator checkbox controls to the appropriate properties on the mapping bean's
@@ -150,23 +173,21 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	 */
 	@SuppressWarnings("unchecked")
 	private void updateScanPathBindings(final IScanPointGeneratorModel newPathValue) {
-		templateData.getMutators().clear();
 		if (AbstractPointsModel.supportsRandomOffset(newPathValue.getClass())) {
 			doRandomOffsetSpecialHandling();
-			templateData.getMutators().add(MutatorType.RANDOM);
 		}
 		if (AbstractPointsModel.supportsContinuous(newPathValue.getClass())) {
 			IObservableValue<Boolean> pathContinuousObservableValue = BeanProperties.value("continuous")
 					.observe(newPathValue);
 			regionDBC.bindValue(getMutatorObservableValue(MutatorType.CONTINUOUS), pathContinuousObservableValue);
-			templateData.getMutators().add(MutatorType.CONTINUOUS);
 		}
 		if (AbstractPointsModel.supportsAlternating(newPathValue.getClass())) {
 			IObservableValue<Boolean> pathAlternatingObservableValue = BeanProperties.value("alternating")
 					.observe(newPathValue);
 			regionDBC.bindValue(getMutatorObservableValue(MutatorType.ALTERNATING), pathAlternatingObservableValue);
-			templateData.getMutators().add(MutatorType.ALTERNATING);
 		}
+		mutators.stream().map(MutatorComposite::getMutatorDefinition).map(ImmutablePair::getValue)
+				.forEach(this::updateMutator);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -193,11 +214,11 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		}
 	};
 
-//	private IStatus changeGridModelValidator(Object stringContent) {
-//		return rapController.getScanRegionShape().getName()
-//				.equalsIgnoreCase(ShapeType.CENTRED_RECTANGLE.getMappingScanRegionName()) ? ValidationStatus.ok()
-//						: ValidationStatus.error("");
-//	}
+	// private IStatus changeGridModelValidator(Object stringContent) {
+	// return rapController.getScanRegionShape().getName()
+	// .equalsIgnoreCase(ShapeType.CENTRED_RECTANGLE.getMappingScanRegionName()) ? ValidationStatus.ok()
+	// : ValidationStatus.error("");
+	// }
 
 	@SuppressWarnings("unchecked")
 	private IObservableValue<IScanPathModel> getMappingBeanPathObservableValue() {
