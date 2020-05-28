@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I18 Beamline Dummy Client" uid="uk.ac.gda.beamline.i18.offline.product" id="uk.ac.gda.beamline.i18.offline_product" application="uk.ac.gda.client.application" version="9.17.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I18 Beamline Dummy Client" uid="uk.ac.gda.beamline.i18.offline.product" id="uk.ac.gda.beamline.i18.offline_product" application="uk.ac.gda.client.application" version="9.18.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
