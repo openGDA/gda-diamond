@@ -105,9 +105,9 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 					&& detectorBean.getFluorescenceParameters().getDetectorType().equals("Germanium")) {
 				detectorFillingMonitor.setPauseBeforePoint(true);
 				detectorFillingMonitor.setPauseBeforeLine(true);
-				ScannableCommands.add_default(new Object[] { detectorFillingMonitor });
+				ScannableCommands.add_default(detectorFillingMonitor);
 			} else {
-				ScannableCommands.remove_default(new Object[] { detectorFillingMonitor });
+				ScannableCommands.remove_default(detectorFillingMonitor);
 			}
 
 			setupHarmonic();
