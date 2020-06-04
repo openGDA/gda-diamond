@@ -11,7 +11,7 @@ Silly module name required as time is taken.
 __all__ = ["t", "dt", "w", "clock"]
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import time # as this module is names time
 
 class _Timer(object):
@@ -30,7 +30,7 @@ class _Timer(object):
 		return self.elapsed() >= deltaTime
 
 
-class TimeSinceInstantiation(PseudoDevice):
+class TimeSinceInstantiation(ScannableMotionBase):
 	"""
 	Returns the time since instantiation. When driven to a time will not return until this time has elapsed.
 	"""
@@ -114,7 +114,7 @@ class _Clock(object):
 
 
 
-class TimeOfDay(PseudoDevice):
+class TimeOfDay(ScannableMotionBase):
 	"""
 	Returns the time of day in hours minutes and seconds. More specifically the returned time is that clocked when the
 	scannables at the same level where moved. When asked to move to an (h, m, s) tuple will remain busy until this time

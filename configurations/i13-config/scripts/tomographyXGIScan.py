@@ -27,10 +27,10 @@ from gda.data.scan.datawriter import *
 
 from gda.commandqueue import JythonScriptProgressProvider
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
-class PrePtWait(PseudoDevice):
+class PrePtWait(ScannableMotionBase):
     # constructor
     def __init__(self, name, wait_sec=0.0, dbg=True):
         self.setName(name) 

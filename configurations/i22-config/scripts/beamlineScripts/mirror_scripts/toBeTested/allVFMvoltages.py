@@ -11,7 +11,7 @@ from math import asin
     
 """
 
-class AllVFMVoltages(gda.device.scannable.PseudoDevice):
+class AllVFMVoltages(gda.device.scannable.ScannableMotionBase):
 
 	""" Constructor method give the device a name - in this case bkeV"""
 	def __init__(self):

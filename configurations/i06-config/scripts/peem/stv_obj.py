@@ -2,9 +2,9 @@
 from java.lang import System
 from time import sleep
 import math
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class Stv_Obj(PseudoDevice):
+class Stv_Obj(ScannableMotionBase):
     def __init__(self, name, leem_stv, leem_obj, a=-38.7462,b = -12.82824,c = 20.92462):
         self.name = name
         self.setOutputFormat(['%4.1f'])

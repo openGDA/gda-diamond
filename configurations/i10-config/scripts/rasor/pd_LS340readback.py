@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from misc_functions import caput, caget, frange
 from time import sleep
 
-class DisplayEpicsPVClassLS(PseudoDevice):
+class DisplayEpicsPVClassLS(ScannableMotionBase):
 	def __init__(self, name, pvstring, unitstring, formatstring,channel,level):
 		self.setName(name);
 		self.setInputNames([])
@@ -24,7 +24,7 @@ class DisplayEpicsPVClassLS(PseudoDevice):
 
 
 
-class DisplayEpicsPVClassLS2(PseudoDevice):
+class DisplayEpicsPVClassLS2(ScannableMotionBase):
 	def __init__(self, name, pvstring, unitstring, formatstring,channel,level):
 		self.setName(name);
 		self.setInputNames([])
@@ -43,7 +43,7 @@ class DisplayEpicsPVClassLS2(PseudoDevice):
 		sleep(0.05)
 		return 0
 
-class DisplayEpicsPVLakeshoreTemperatureInCelsius(PseudoDevice):
+class DisplayEpicsPVLakeshoreTemperatureInCelsius(ScannableMotionBase):
 	def __init__(self, name, pvstring, unitstring, formatstring,channel,level):
 		self.setName(name);
 		self.setInputNames([])

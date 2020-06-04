@@ -2,8 +2,8 @@ from time import sleep
 from java import lang
 
 from gda.factory import Finder
-#New style Pseudo devices use gda.device.scannable.PseudoDevice
-from gda.device.scannable import PseudoDevice
+#New style Pseudo devices use gda.device.scannable.ScannableMotionBase
+from gda.device.scannable import ScannableMotionBase
 
 #Old style Pseudo devices use gda.device.scannable.ScannableBase
 #from gda.device.scannable import ScannableBase
@@ -13,7 +13,7 @@ import socket
 
 #The Class for creating a socket-based Psuedo Device
 #class SockteDeviceClass(ScannableBase):
-class SockteDeviceClass(PseudoDevice):
+class SockteDeviceClass(ScannableMotionBase):
     def __init__(self, name, hostName, hostPort):
         self.setName(name);
         self.setInputNames([]);

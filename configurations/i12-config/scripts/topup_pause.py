@@ -1,12 +1,12 @@
 #copied from /dls/b16/scripts as i12_Topup_pause 
 #modified to have a hard topup pause time: self.minTopupTime 
-from gda.device.scannable import PseudoDevice 
+from gda.device.scannable import ScannableMotionBase 
 #from gda.util import * 
 from gdascripts.utils import caget 
 from time import sleep 
  
 # class to pause during the topup 
-class TopupPause(PseudoDevice):  
+class TopupPause(ScannableMotionBase):  
     def __init__(self,name): 
         self.minTopupTime = 4 #minimum topup time, at which this scannable will pause 
         self.stabilitytime = 2 

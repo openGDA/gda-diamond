@@ -4,7 +4,7 @@ from time import sleep;
 #import math;
 import jarray;
 
-from gda.device.detector import PseudoDetector
+from gda.device.detector import DetectorBase
 from gda.device.Detector import BUSY, IDLE
 from gda.epics import CAClient;
 
@@ -18,7 +18,7 @@ from Diamond.Objects.Shutter import ShutterDeviceClass
 
 #The Class for creating a Scaler channel monitor directly from EPICS PV
 #For 8512 Scaler Card used in I06 only. This scaler card is not supported by EPICS scaler record
-class AdcScalerClass(PseudoDetector):
+class AdcScalerClass(DetectorBase):
 	SCALER_EPICS_STATUS_DONE, SCALER_EPICS_STATUS_BUSY = range(2);
 	SCALER_EPICS_STATUS_STRINGS = ['Done', 'Busy'];
 	
@@ -160,7 +160,7 @@ class AdcScalerClass(PseudoDetector):
 		self.counts[channelNumber] = float( self.chCounts[channelNumber].caget());
 		return self.counts[channelNumber];
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 		return self.readout();
 		
@@ -206,7 +206,7 @@ class AdcScalerChannelClass(AdcScalerClass, ShutterDeviceClass):
 
 		self.channel = channel;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 #	def getPosition(self):
 #		return [self.getCollectionTime(), self.readout()];
 	def collectData(self):

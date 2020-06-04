@@ -17,7 +17,7 @@ from time import sleep
 
 """
 
-class DiodeSleep(gda.device.scannable.PseudoDevice):
+class DiodeSleep(gda.device.scannable.ScannableMotionBase):
 
 	def __init__(self, femto, sleepTime):
 		self.name = "ds"+femto.getName()

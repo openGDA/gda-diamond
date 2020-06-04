@@ -6,13 +6,13 @@ Created on 7 Feb 2017
 Th for area detector
 '''
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableUtils
 from gdaserver import tth
 import scisoftpy as dnp
 
 
-class TthArea(PseudoDevice):
+class TthArea(ScannableMotionBase):
     def __init__(self, name):
         self.setName(name)
         self.setInputNames([name])

@@ -1,8 +1,8 @@
 from time import sleep
 
 from gda.data import NumTracker
-from gda.device.scannable import PseudoDevice
-from gda.device.detector import PseudoDetector
+from gda.device.scannable import ScannableMotionBase
+from gda.device.detector import DetectorBase
 from gda.device.Detector import BUSY, IDLE;
 
 from Diamond.Comm.SocketDevice import SocketDeviceClass
@@ -94,7 +94,7 @@ class ClassixSystemClass(SocketDeviceClass):
 	
 
 #The Class for creating Psuedo Device
-class ClassixCameraPseudoDeviceClass(PseudoDetector):
+class ClassixCameraPseudoDeviceClass(DetectorBase):
 	def __init__(self, name, classix):
 		self.setName(name);
 		self.setInputNames([]);
@@ -119,7 +119,7 @@ class ClassixCameraPseudoDeviceClass(PseudoDetector):
 			print 'Porblem when Classix saving images: ' + reply;
 			return True;
 	
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 	def getPosition(self):
 		return self.readout();
 		
@@ -153,7 +153,7 @@ class ClassixCameraPseudoDeviceClass(PseudoDetector):
 	def getStatus(self):
 		return self.camera.getStatus();
 
-	#Only used for oly ScannableBase, not the new PseudoDetector
+	#Only used for oly ScannableBase, not the new DetectorBase
 #	def isBusy(self):
 #		if  self.checkStatus() == 'READY':
 #			return False;
@@ -171,7 +171,7 @@ class ClassixCameraPseudoDeviceClass(PseudoDetector):
 		return int(nt.getCurrentFileNumber());
 		
 
-class ClassixFilterPseudoDeviceClass(PseudoDevice):
+class ClassixFilterPseudoDeviceClass(ScannableMotionBase):
 	def __init__(self, name, classix):
 		self.setName(name);
 		self.setInputNames([]);
@@ -181,7 +181,7 @@ class ClassixFilterPseudoDeviceClass(PseudoDevice):
 		
 		self.filter = classix;
 		
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def atScanStart(self):
 		return;
 

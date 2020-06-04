@@ -217,7 +217,7 @@ class FastMotionDeviceClass(ScannableBase):
 		
 		positions2=self.fastController.getRealPositions();
 	
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 #		print "At Scan Start"
 		#trigger the scan
@@ -415,7 +415,7 @@ class EpicsMCADataDeviceClass(ScannableBase):
 		self.dataset = ds;
 		return True;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 		resultList = list(self.readout());
 		resultJavaArray = jarray.array(resultList, 'd');

@@ -1,13 +1,13 @@
 from time import sleep
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.epics import CAClient
 from gda.factory import Finder
 
 #The Class for creating a Pseudo device to listen to RS232 via Epica PVs
 #For 8512 Scaler Card used in I06 only. This scaler card is not supported by EPICS scaler record
-class EpicsRS232PVClass(PseudoDevice):
+class EpicsRS232PVClass(ScannableMotionBase):
 	def __init__(self, name, pvSend, pvReceive, pvMode, pvProc, pvTimeOut):
 		self.setName(name);
 		self.setInputNames([]);

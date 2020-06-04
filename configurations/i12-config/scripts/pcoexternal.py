@@ -1,6 +1,6 @@
-from gda.device.detector import PseudoDetector
+from gda.device.detector import DetectorBase
 
-class PCOext(PseudoDetector) :
+class PCOext(DetectorBase) :
 
     def __init__(self, detector):
         self.setName("pcoext")

@@ -1,8 +1,8 @@
 #The device class used on the Magnetic Dichroism Spectroscopy and Microscopy.
 
 
-from gda.device.detector import PseudoDetector
-from gda.device.scannable import PseudoDevice
+from gda.device.detector import DetectorBase
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Detector
 
 

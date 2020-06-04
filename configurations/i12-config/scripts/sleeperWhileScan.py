@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gdascripts.utils import caput, caget
 from time import sleep
 
 TIMETOSLEEP=2
 
-class SleeperWhileScan(PseudoDevice):
+class SleeperWhileScan(ScannableMotionBase):
     # constructor
     def __init__(self, name, timeToSleep=TIMETOSLEEP,verbose=False):
         self.setName(name) 

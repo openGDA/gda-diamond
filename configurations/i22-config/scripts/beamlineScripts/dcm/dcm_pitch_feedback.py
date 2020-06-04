@@ -1,7 +1,7 @@
 import java
 import gda.device.scannable.ScannableBase
 
-class Feedback(gda.device.scannable.PseudoDevice):
+class Feedback(gda.device.scannable.ScannableMotionBase):
 
 	def __init__(self):
 		deviceName = "feedback"

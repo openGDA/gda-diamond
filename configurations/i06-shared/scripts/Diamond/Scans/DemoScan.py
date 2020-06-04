@@ -1,5 +1,5 @@
 
-from gda.device.scannable import PseudoDevice, ScannableBase
+from gda.device.scannable import ScannableMotionBase, ScannableBase
 from gda.device import Scannable
 
 from gda.scan import ConcurrentScan
@@ -81,7 +81,7 @@ class MyScanClass(object):
         return result;
 
 def isScannable(obj):
-    return isinstance(obj, (PseudoDevice, ScannableBase, Scannable))
+    return isinstance(obj, (ScannableMotionBase, ScannableBase, Scannable))
 
 #Usage
 myscan=MyScanClass()

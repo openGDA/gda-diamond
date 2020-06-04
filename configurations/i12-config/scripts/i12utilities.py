@@ -1176,9 +1176,9 @@ def report_storage():
 i12storage = BeamlineStorage('i12storage')
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class SleepAtScanStart(PseudoDevice):
+class SleepAtScanStart(ScannableMotionBase):
     # c'tor
     def __init__(self, name, sleep_sec=1, verbose=True):
         self.setName(name) 

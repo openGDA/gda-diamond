@@ -13,7 +13,7 @@ from time import sleep
         asynchronousMoveTo(self,newPosition)
 """
  
-class CheckShutter(PseudoDevice):
+class CheckShutter(ScannableMotionBase):
   
    """ This is the constructor for the class. """
    def __init__(self):

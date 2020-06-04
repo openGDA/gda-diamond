@@ -2,7 +2,7 @@
 import java
 import gda
 
-class PdClass(gda.device.scannable.PseudoDevice):
+class PdClass(gda.device.scannable.ScannableMotionBase):
 	pass;
 
 

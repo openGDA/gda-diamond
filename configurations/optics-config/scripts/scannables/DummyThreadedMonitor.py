@@ -1,5 +1,5 @@
 '''
-module provides a class definition for creating a PseudoDevice from DummyEpicsMonitorDouble and a monitoring thread.
+module provides a class definition for creating a ScannableMotionBase from DummyEpicsMonitorDouble and a monitoring thread.
 The thread is used to control the scan process that this object involved in. When this object reaches a specified maximum scan pauses; 
 the scan would resume again only if this object reaches a specified minimum value.
  usage:

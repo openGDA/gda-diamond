@@ -3,8 +3,8 @@ from java import lang
 
 from gda.factory import Finder
 
-#New style Pseudo devices use gda.device.scannable.PseudoDevice 
-from gda.device.scannable import PseudoDevice
+#New style Pseudo devices use gda.device.scannable.ScannableMotionBase 
+from gda.device.scannable import ScannableMotionBase
 
 #Old style Pseudo devices use gda.device.scannable.ScannableBase
 #from gda.device.scannable import ScannableBase
@@ -14,7 +14,7 @@ from temp.SocketDevice import SockteDeviceClass;
 
 #The Class for creating a socket-based Psuedo Device
 #class FilterSockteDeviceClass(ScannableBase):
-class ClassixFilterDeviceClass(SockteDeviceClass, PseudoDevice):
+class ClassixFilterDeviceClass(SockteDeviceClass, ScannableMotionBase):
     def __init__(self, name, hostName, hostPort):
         self.setName(name);
         self.setInputNames([]);
@@ -69,7 +69,7 @@ class ClassixFilterDeviceClass(SockteDeviceClass, PseudoDevice):
         rlist=reply.strip(' \n\r').split(' ',1);
         return rlist[0];
 
-    #PseudoDevice Implementation
+    #ScannableMotionBase Implementation
     def atScanStart(self):
         return;
 

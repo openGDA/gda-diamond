@@ -54,7 +54,7 @@ def cpy_array(src):
     
 class auto_collimator(ScannableMotionBase):
     def __init__(self, name, acoll):
-#        PseudoDevice.__init__(self) #do not required as it will be called at end of this __init__ by default
+#        ScannableMotionBase.__init__(self) #do not required as it will be called at end of this __init__ by default
         self.setName(name)
         self.setInputNames(["samplesize"])
         self.setExtraNames(cpy_array(acoll.getInputNames()))

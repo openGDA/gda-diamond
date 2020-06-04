@@ -1,5 +1,5 @@
-from gda.device.scannable import PseudoDevice
-from gda.device.detector import PseudoDetector
+from gda.device.scannable import ScannableMotionBase
+from gda.device.detector import DetectorBase
 from gda.device.scannable import SimpleScannable
 
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
@@ -9,7 +9,7 @@ from math import tan, radians
 import time
 
 
-class RasterScannable(PseudoDevice, Runnable):
+class RasterScannable(ScannableMotionBase, Runnable):
     def __init__(self, motorX, motorY, exposureTime):
         self.name = "RasterScannable"
         self.setInputNames(['points'])

@@ -1,4 +1,4 @@
-#from gda.device.scannable import PseudoDevice
+#from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableBase
 from gda.epics import CAClient 
 from time import sleep

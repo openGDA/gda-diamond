@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 import time
 
 
-class scalerChannel(PseudoDevice):
+class scalerChannel(ScannableMotionBase):
     # constructor
     def __init__(self, name, number, device):
         self.number = number

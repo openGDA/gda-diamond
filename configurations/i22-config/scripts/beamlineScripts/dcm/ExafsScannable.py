@@ -3,7 +3,7 @@ import gda.device.scannable.ScannableBase
 from math import log
 
 
-class ExafsScannable(gda.device.scannable.PseudoDevice):
+class ExafsScannable(gda.device.scannable.ScannableMotionBase):
 	"""
 		Purpose:       A pseudo device for Exafs measurements
     		Author:        Tobias Richter

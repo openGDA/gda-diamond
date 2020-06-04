@@ -1,7 +1,7 @@
 from time import sleep;
 import os, stat;
 
-#from gda.device.detector import PseudoDetector
+#from gda.device.detector import DetectorBase
 from gda.device.detector import DetectorBase
 from gda.device import Detector
 
@@ -64,7 +64,7 @@ class PilatusPseudoDeviceClass(DetectorBase, ShutterDeviceClass):
 		ShutterDeviceClass.__init__(self, shutterName);
 
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 		return self.readout();
 		

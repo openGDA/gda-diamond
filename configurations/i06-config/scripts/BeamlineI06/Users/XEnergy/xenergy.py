@@ -1,5 +1,5 @@
 import time
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 #use iddrpenergy!!!!!!!!!!!!!
 
@@ -246,7 +246,7 @@ class UndulatorControlClass:
         return not (self.xenergyIsBusy())
 
 
-class XenergyClass(PseudoDevice):
+class XenergyClass(ScannableMotionBase):
     def __init__(self,name,id):
         self.setName(name);
         self.setInputNames([name])
@@ -301,7 +301,7 @@ class XenergyClassWithGapOffsets(XenergyClass):
         return
 
 
-class XpolClass(PseudoDevice):
+class XpolClass(ScannableMotionBase):
     def __init__(self,name,id):
         self.setName(name);
         self.id = id
@@ -333,7 +333,7 @@ class XpolClass(PseudoDevice):
         self.iambusy = self.id.xenergyIsBusy()
         return self.iambusy
 
-class XmodeClass(PseudoDevice):
+class XmodeClass(ScannableMotionBase):
     def __init__(self,name,id):
         self.setName(name);
         self.id = id
@@ -366,7 +366,7 @@ class XmodeClass(PseudoDevice):
         self.iambusy = self.id.xenergyIsBusy()
         return self.iambusy
        
-class OffHarClass(PseudoDevice):
+class OffHarClass(ScannableMotionBase):
     def __init__(self,name,id):
         self.setName(name);
         self.id = id
@@ -395,7 +395,7 @@ class OffHarClass(PseudoDevice):
         self.iambusy = self.id.xenergyIsBusy()
         return self.iambusy
        
-class DetuneClass(PseudoDevice):
+class DetuneClass(ScannableMotionBase):
     def __init__(self,name,id):
         self.setName(name);
         self.id = id

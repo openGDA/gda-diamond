@@ -15,7 +15,7 @@ from time import sleep
 	This can be used to set up other diodes etc as required.
 """
 
-class DiodeAverage(gda.device.scannable.PseudoDevice):
+class DiodeAverage(gda.device.scannable.ScannableMotionBase):
 
 	def __init__(self, name, diode, numberOfPoints):
 		self.name = diode.getName()

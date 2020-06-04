@@ -14,12 +14,12 @@ David Burn - 8/8/17
 ######################################################################################################### """
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from java.lang import Thread, Runnable
 import socket
 
 
-class colbyDelayLineScannable(PseudoDevice):
+class colbyDelayLineScannable(ScannableMotionBase):
 	def __init__(self,name,host):
 		self.name = name
 		self.setInputNames(['delay'])

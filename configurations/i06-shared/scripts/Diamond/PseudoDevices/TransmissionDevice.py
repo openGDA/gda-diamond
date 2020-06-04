@@ -1,4 +1,4 @@
-#New style Pseudo devices use gda.device.scannable.PseudoDevice 
+#New style Pseudo devices use gda.device.scannable.ScannableMotionBase 
 from gda.device.scannable import ScannableMotionBase
 
 import __main__ as gdamain

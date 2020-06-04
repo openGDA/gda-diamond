@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.factory import Finder
 
@@ -23,7 +23,7 @@ import __main__ as gdamain
 #	distance = deviceFun(testMotor1, testMotor2)
 #
 #####################################################################################
-class DeviceFunctionClass(PseudoDevice):
+class DeviceFunctionClass(ScannableMotionBase):
 #	def __init__(self, name, strUnit, strFormat):
 	def __init__(self, name, refObj1, refObj2, deviceFunName):
 		self.setName(name);

@@ -3,7 +3,7 @@ import gda.device.scannable.ScannableBase
 from math import log
 
 
-class NormaliseAndAverage(gda.device.scannable.PseudoDevice):
+class NormaliseAndAverage(gda.device.scannable.ScannableMotionBase):
 	"""
 		Purpose:       A pseudo device for normalising and averaging diode readouts
 			Author:        Andy Smith

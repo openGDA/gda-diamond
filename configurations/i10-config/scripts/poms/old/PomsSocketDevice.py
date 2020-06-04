@@ -94,7 +94,7 @@ class PomsSocketDeviceClass(ScannableBase):
             rf=int(float(rlist[1]));
             return rf;
         
-    #PseudoDevice Implementation
+    #ScannableMotionBase Implementation
     def atScanStart(self):
         self.FIRSTTIME=True
         self.SCANNING=True

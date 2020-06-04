@@ -55,7 +55,7 @@ class PixisDetectorClass(DetectorBase):
 			logger.dump("PIXIS Camera can not be connected ", exceptionType, exception, traceback)
 		
 		
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 	def getCollectionTime(self):
 		self.exposureTime=self.detector.getCollectionTime();
 		return self.exposureTime;

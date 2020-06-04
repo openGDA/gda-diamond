@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class EdxdBinned(PseudoDevice):
+class EdxdBinned(ScannableMotionBase):
     # constructor
     def __init__(self, name, detector):
         self.setName(name)

@@ -27,7 +27,7 @@ class ExcaliburOdinDetectorClass(DetectorBase):
 
 		self.verbose = False
 
-	#PseudoDetector Impl
+	#DetectorBase Impl
 	def getPosition(self):
 		return self.readout()
 

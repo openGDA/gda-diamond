@@ -278,7 +278,7 @@ class EpicsCameraClass(DetectorBase):
 		runs.incrementNumber();
 
 
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 	def getPosition(self):
 		return self.readout();
 		

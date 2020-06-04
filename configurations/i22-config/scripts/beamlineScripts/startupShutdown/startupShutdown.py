@@ -1,7 +1,7 @@
 import java
 import gda.device.scannable.ScannableBase
 
-class I22(gda.device.scannable.PseudoDevice):
+class I22(gda.device.scannable.ScannableMotionBase):
 
 	def __init__(self):
 		self.name = "i22"

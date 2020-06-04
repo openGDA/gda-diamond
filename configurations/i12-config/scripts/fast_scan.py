@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gdascripts.utils import caput, caget
 
 VELOCITY=20.0
 ACCELERATION=0.1
 
-class FastScan(PseudoDevice):
+class FastScan(ScannableMotionBase):
     # constructor
     def __init__(self, name):
         self.setName(name) 

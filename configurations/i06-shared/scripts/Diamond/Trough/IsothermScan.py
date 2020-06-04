@@ -6,7 +6,7 @@ import jarray;
 
 from java import lang
 
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from gda.device.scannable import ScannableBase
 from gda.device.MotorStatus import READY, BUSY, FAULT;
 

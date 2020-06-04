@@ -957,7 +957,7 @@ class EpicsScandataDeviceClass(ScannableMotionBase):
 # 		print "###> Debug: the internal dataset is: ", self.dataset.getDimensions();
 		return True;
 
-# 	PseudoDetector Implementation
+# 	DetectorBase Implementation
 	def getPosition(self):
 
 # 		resultList = list(self.readout());
@@ -1215,7 +1215,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		resultJavaArray = jarray.array(resultList, 'd');
 		return resultJavaArray;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 #		return self.getUnFilteredPosition();
 		return self.getFilteredPosition();

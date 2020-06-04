@@ -1,12 +1,12 @@
 
 from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 
 import __main__ as gdamain
 
 #Create Pseudo Device for Keithley2000 MultipleMetere controlled over Epics Patch Panel
-class Keithley2000VoltageDeviceClass(PseudoDevice):
+class Keithley2000VoltageDeviceClass(ScannableMotionBase):
     def __init__(self, name, pvIn, pvOut):
         self.setName(name);
         self.setInputNames(['voltage']);
@@ -45,7 +45,7 @@ class Keithley2000VoltageDeviceClass(PseudoDevice):
 
 
 #Create Pseudo Device for Keithley2600A System Source Meter controlled over Epics Patch Panel
-class Keithley2600AVoltageDeviceClass(PseudoDevice):
+class Keithley2600AVoltageDeviceClass(ScannableMotionBase):
     def __init__(self, name, channel, pvIn, pvOut):
         self.setName(name);
         self.setInputNames(['voltage']);
@@ -86,7 +86,7 @@ class Keithley2600AVoltageDeviceClass(PseudoDevice):
         self.chOut.caput(strOut);
         return;
 
-    #PseudoDevice Implementation
+    #ScannableMotionBase Implementation
     def atScanStart(self):
         return;
 
@@ -109,7 +109,7 @@ class Keithley2600AVoltageDeviceClass(PseudoDevice):
         return False;
 
 
-class CurrentDeviceClass(PseudoDevice):
+class CurrentDeviceClass(ScannableMotionBase):
     def __init__(self, name, viName):
         self.setName(name);
         self.setInputNames(['current']);
@@ -143,7 +143,7 @@ class CurrentDeviceClass(PseudoDevice):
         return False;
 
 
-class GateDeviceClass(PseudoDevice):
+class GateDeviceClass(ScannableMotionBase):
     def __init__(self, name, iName, vtName):
         self.setName(name);
         self.setInputNames(['current']);

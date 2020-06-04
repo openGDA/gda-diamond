@@ -1,6 +1,6 @@
 
 import math;
-from gda.device.scannable import PseudoDevice, ScannableBase
+from gda.device.scannable import ScannableMotionBase, ScannableBase
 from gda.device import Scannable
 
 from gda.scan import ConcurrentScan
@@ -125,7 +125,7 @@ class PowerSeriesScanClass(object):
         
 
     def isScannable(self, obj):
-        return isinstance(obj, (PseudoDevice, ScannableBase, Scannable))
+        return isinstance(obj, (ScannableMotionBase, ScannableBase, Scannable))
 
 #Usage
 #iscan=PowerSeriesScanClass()

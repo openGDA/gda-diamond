@@ -6,11 +6,11 @@ Created on 18 Jul 2011
 
 import sys
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Detector
 #from gda.device.detector.pco import PCODetector
 #pco=PCODetector()
-class PCODetectorWrapper(PseudoDevice):
+class PCODetectorWrapper(ScannableMotionBase):
     def __init__(self, name, detector): #@UndefinedVariable
         self.setName(name)
         self.setInputNames([name])

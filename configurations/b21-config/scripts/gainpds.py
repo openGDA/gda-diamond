@@ -4,11 +4,11 @@
 
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from time import sleep
 
-class EpicsSetGetClass(PseudoDevice):
+class EpicsSetGetClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, unitstring, formatstring):
 		self.setName(name);
@@ -44,7 +44,7 @@ class EpicsSetGetClass(PseudoDevice):
 gainD4=EpicsSetGetClass("gainD4","BL22I-DI-PHDGN-04:CAM:SET_GAIN","BL22I-DI-PHDGN-04:CAM:GAIN","","%3.0f")
 gainD10=EpicsSetGetClass("gainD10","BL22I-DI-PHDGN-10:CAM:SET_GAIN","BL22I-DI-PHDGN-10:CAM:GAIN","","%3.0f")
 
-class AmpGain(PseudoDevice):
+class AmpGain(ScannableMotionBase):
 	'''Create PD to select Amplifier Gain'''
 	def __init__(self, name, pvstring):
 		self.setName(name);

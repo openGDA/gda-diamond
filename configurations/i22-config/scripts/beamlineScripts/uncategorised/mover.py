@@ -2,7 +2,7 @@ from gda.epics import CAClient
 from java import lang
 import time
 
-class Mover(PseudoDevice):
+class Mover(ScannableMotionBase):
 	'''pseudo device to move stuff, multiple axis simulaniously'''
 	def __init__(self, name):
 		self.setName(name)

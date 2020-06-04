@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
-class WaitLineDummy(PseudoDevice):
+class WaitLineDummy(ScannableMotionBase):
     # constructor
     def __init__(self, name,wait=30):
         self.setName(name) 

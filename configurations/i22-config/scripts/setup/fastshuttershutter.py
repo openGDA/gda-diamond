@@ -1,7 +1,7 @@
 from gda.observable import IObserver
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class FastShutterShutter(IObserver, PseudoDevice):
+class FastShutterShutter(IObserver, ScannableMotionBase):
     def __init__(self, name, tfg):
         self.name = name
         self.inputNames = [name]

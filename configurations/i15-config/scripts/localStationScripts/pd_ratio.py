@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
-class Simple_PD_Ratio(PseudoDevice):
+class Simple_PD_Ratio(ScannableMotionBase):
 	"""
 	Class that creates a scannable that is the ratio of 2 others
 	"""

@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableMotor
 from gda.device.scannable import ScannableUtils
 from gda.factory import Finder
 
-class my_energy_class1(PseudoDevice):
+class my_energy_class1(ScannableMotionBase):
     def __init__(self, name):
         self.setName(name)
         self.setInputNames([name])

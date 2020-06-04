@@ -70,9 +70,9 @@ alias("pixium10_preview")
 
 
 from gda.epics import CAClient
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class ExcludeEarlyFramesDefaultHandler(PseudoDevice):
+class ExcludeEarlyFramesDefaultHandler(ScannableMotionBase):
     # constructor
     def __init__(self, name, pvname="BL12I-EA-DET-10:CAM:MotionBlur", pvvalue=0):
         self.setName(name)
@@ -159,7 +159,7 @@ class ExcludeEarlyFramesDefaultHandler(PseudoDevice):
 #earlyFramesOFF=ExcludeEarlyFramesDefaultHandler('earlyFramesOFF', pvname="BL12I-EA-DET-10:CAM:MotionBlur", pvvalue=0)
 
 
-class ExcludeEarlyFramesHandler(PseudoDevice):
+class ExcludeEarlyFramesHandler(ScannableMotionBase):
     # constructor
     def __init__(self, name, pvname="BL12I-EA-DET-10:CAM:MotionBlur", pvvalue=0):
         self.setName(name)
@@ -349,7 +349,7 @@ def setup_pixium_postprocessing(dst_dir=None):
 
 #from gda.epics import CAClient
 import gda.scan.ScanInformation as si
-class PixiumAcquireTimeHandler(PseudoDevice):
+class PixiumAcquireTimeHandler(ScannableMotionBase):
     # constructor
     def __init__(self, name, pvname="BL12I-EA-DET-10:CAM:AcquireTime"):
         self.setName(name)

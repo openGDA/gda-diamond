@@ -1,8 +1,8 @@
 from gda.device import DeviceException
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 
-class BaseTable(PseudoDevice):
+class BaseTable(ScannableMotionBase):
 	'''
 	PD for moving all three base jacks of diffractometer together 
 	'''

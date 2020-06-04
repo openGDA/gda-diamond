@@ -1,6 +1,6 @@
 # Script to allow access to KB bimorph mirrors
 from gdascripts.pd.epics_pds import SingleChannelBimorphClass
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import time
 
 format = '%3.1f'
@@ -103,7 +103,7 @@ from gda.epics import CAClient
 from java import lang
 from time import sleep
 
-class SYS900SBimorph(PseudoDevice):
+class SYS900SBimorph(ScannableMotionBase):
 	'''Create PD to operate Linkam'''
 
 	def __init__(self, name, pvstring, noElements):

@@ -4,7 +4,7 @@ from time import sleep
 """
 
     
-class DcurrentAV(PseudoDevice):
+class DcurrentAV(ScannableMotionBase):
 
     def __init__(self, name):
         self.setName(name)

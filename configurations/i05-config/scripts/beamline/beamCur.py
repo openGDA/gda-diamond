@@ -5,7 +5,7 @@ from gda.epics import CAClient
 """
 
 
-class BeamCurrent(PseudoDevice):
+class BeamCurrent(ScannableMotionBase):
 
    def __init__(self, name):
     self.setName(name)

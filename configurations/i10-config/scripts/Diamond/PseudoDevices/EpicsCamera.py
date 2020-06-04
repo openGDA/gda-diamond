@@ -24,8 +24,8 @@ from gda.epics import CAClient
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 
-from gda.device.scannable import PseudoDevice
-from gda.device.detector import PseudoDetector
+from gda.device.scannable import ScannableMotionBase
+from gda.device.detector import DetectorBase
 
 from gda.analysis.datastructure import *
 from gda.analysis import *
@@ -41,7 +41,7 @@ from gov.aps.jca import CAStatus;
 from gov.aps.jca.dbr import DBRType;
 
 
-class EpicsCameraClass(PseudoDetector):
+class EpicsCameraClass(DetectorBase):
 	DETECTOR_STATUS_IDLE, DETECTOR_STATUS_BUSY, DETECTOR_STATUS_PAUSED, DETECTOR_STATUS_STANDBY, DETECTOR_STATUS_FAULT, DETECTOR_STATUS_MONITORING = range(6);
 
 	#CA Put Callback listener that handles the callback event
@@ -273,7 +273,7 @@ class EpicsCameraClass(PseudoDetector):
 		runs.incrementNumber();
 
 
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 	def getPosition(self):
 		return self.readout();
 		

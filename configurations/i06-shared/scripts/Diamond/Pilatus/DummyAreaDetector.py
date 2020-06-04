@@ -35,7 +35,7 @@ FILELOADERS={
 from gda.observable import IObserver
 from gda.data.metadata import MetadataBlaster
 		
-#class DummyAreaDetectorClass(PseudoDetector):
+#class DummyAreaDetectorClass(DetectorBase):
 class DummyAreaDetectorClass(DetectorBase, ShutterDeviceClass, MetadataConsumerClass, IObserver):
 	def __init__(self, name, panelName, zippedImageSource, fileImageExtension):
 		self.setName(name);

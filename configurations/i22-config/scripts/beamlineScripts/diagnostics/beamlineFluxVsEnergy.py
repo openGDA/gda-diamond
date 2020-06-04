@@ -13,7 +13,7 @@ from java.lang import String
     
 """
 
-class CalibratedDiode(gda.device.scannable.PseudoDevice):
+class CalibratedDiode(gda.device.scannable.ScannableMotionBase):
 
 	""" Constructor method give the device a name - in this case calibratedDiode"""
 	def __init__(self , femto ):

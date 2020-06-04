@@ -1,13 +1,13 @@
 """ Based on b16/scripts/pd_toggleBinaryPvAndWait.py r15228
 """
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
 from gdascripts.messages.handle_messages import simpleLog
 from time import sleep
 
 
-class ToggleBinaryPvAndWait(PseudoDevice):
+class ToggleBinaryPvAndWait(ScannableMotionBase):
     """ 
     Useful for triggering detectors which have been setup to record images on 
     hardware triggers.

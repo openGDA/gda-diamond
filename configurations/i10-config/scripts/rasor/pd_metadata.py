@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import ctime
 from gda.data.metadata import Metadata
 from gda.data.metadata import GDAMetadataProvider
-class MetaDataPD(PseudoDevice):
+class MetaDataPD(ScannableMotionBase):
 	'''Metadta writer.
 	Usage:
 	>>>run "MetaDataPD"

@@ -37,14 +37,14 @@
 #dheight=HeightSampleMotion("dpara", sx=dx, sy=dy, sz=dz, mu=dmu, phi=dkphi, i15mode=True, mu_offset=0, phi_offset=58,
 #    help_text="To move sample stage vertical to the beam.")
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from Jama import Matrix as M
 from scisoftpy import dot, pi, sin, cos
 from scisoftpy.linalg import inv
 
 import scisoftpy as dnp
 
-class PerpendicularSampleMotion(PseudoDevice):
+class PerpendicularSampleMotion(ScannableMotionBase):
     '''Device to move sample stage perpendicular to the beam'''
 
     jamaMode='jama'

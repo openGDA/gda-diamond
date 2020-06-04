@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gda.epics import CAClient
@@ -11,7 +11,7 @@ ca=CAClient()
 # to set a value in EPICS use
 # ca.put("PVNAME", value)
 
-class beamLineEnergy(PseudoDevice):
+class beamLineEnergy(ScannableMotionBase):
 	def __init__(self):
 		self.name = "bl"
 		self.reload()

@@ -1,6 +1,6 @@
 
 import math;
-from gda.device.scannable import PseudoDevice, ScannableBase
+from gda.device.scannable import ScannableMotionBase, ScannableBase
 from gda.device import Scannable
 
 from gda.scan import ConcurrentScan

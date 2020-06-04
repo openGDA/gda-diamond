@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import subprocess
 from gdascripts.utils import *
 
-class ScriptRunner(PseudoDevice):
+class ScriptRunner(ScannableMotionBase):
     # constructor
     def __init__(self, name, script_location):
         self.setName(name) 

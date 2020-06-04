@@ -151,9 +151,9 @@ pilatus_dawn=ScanPtScriptRunner('pilatus_dawn', '/dls_sw/i12/software/gda/config
 
 
 from gda.epics import CAClient
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class CamArrayCallbacksHandler(PseudoDevice):
+class CamArrayCallbacksHandler(ScannableMotionBase):
     # constructor
     def __init__(self, name, pvname="BL12I-EA-PILAT-01:CAM:ArrayCallbacks", pvvalue=1):
         self.setName(name)

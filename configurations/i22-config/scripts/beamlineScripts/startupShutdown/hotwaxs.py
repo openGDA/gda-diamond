@@ -1,4 +1,4 @@
-class Hotwaxs(gda.device.scannable.PseudoDevice):
+class Hotwaxs(gda.device.scannable.ScannableMotionBase):
 
     def __init__(self):
         self.name = "hotwaxs"
@@ -96,7 +96,7 @@ class Hotwaxs(gda.device.scannable.PseudoDevice):
     def isOn(self):
         return (self.cathodes.isChannelEnabled() and self.window.isChannelEnabled() and self.side.isChannelEnabled() and self.drift.isChannelEnabled())
     
-class HotWaxsVoltages(gda.device.scannable.PseudoDevice):
+class HotWaxsVoltages(gda.device.scannable.ScannableMotionBase):
     
     def __init__(self , pvName , name , channel):
         self.name = name

@@ -1,5 +1,5 @@
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 
 from time import sleep;
 
@@ -8,7 +8,7 @@ class EpicsDevicStatus(object):
 	
 
 #The Class for creating a Monitor directly from EPICS PV
-class EpicsMonitorClass(PseudoDevice):
+class EpicsMonitorClass(ScannableMotionBase):
 	def __init__(self, name, strPV, strUnit, strFormat):
 		self.setName(name);
 		self.setInputNames([])
@@ -40,7 +40,7 @@ class EpicsMonitorClass(PseudoDevice):
 		return False
 
 #The Class for creating a Pseudo Device that can do Epics caput
-class EpicsSetterClass(PseudoDevice):
+class EpicsSetterClass(ScannableMotionBase):
 	def __init__(self, name, pvSetter, pvStatus, strUnit, strFormat, timeout=None):
 		self.setName(name);
 		self.chSetter = CAClient(pvSetter);
@@ -118,7 +118,7 @@ class EpicsSetterClass(PseudoDevice):
 			return True;
 
 #The Class for creating a Pseudo Device that can do Epics caput and caget
-class EpicsDeviceClass(PseudoDevice):
+class EpicsDeviceClass(ScannableMotionBase):
 	def __init__(self, name, pvSet, pvGet, pvStatus, strUnit, strFormat, timeout=None):
 		self.setName(name);
 		self.Units=[strUnit];

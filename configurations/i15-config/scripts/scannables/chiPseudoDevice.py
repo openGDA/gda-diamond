@@ -1,11 +1,11 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
 import future.EulerianKconversion as H
 
 # http://sector7.xor.aps.anl.gov/calculators/kappa.html
 
-class ChiPseudoDevice(PseudoDevice):
+class ChiPseudoDevice(ScannableMotionBase):
     def __init__(self, name, theta, kappa, phi, thoffset=2.2, phioffset=2.2):
         self.setName(name)
         self.setInputNames(['chi'])

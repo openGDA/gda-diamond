@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 
 #This class creates a scannable that can be used to pause scans by being busy.
@@ -9,7 +9,7 @@ from gda.device.scannable import PseudoDevice
 # beamMonitor = simpleBeamMonitor(beamMonitor, d4d2, 100, eh_shutter)
 
 
-class simpleBeamMonitor(PseudoDevice):
+class simpleBeamMonitor(ScannableMotionBase):
     def __init__(self, name, diode, diodeThreshold, shutter):
         self.name = name
         self.setInputNames([])

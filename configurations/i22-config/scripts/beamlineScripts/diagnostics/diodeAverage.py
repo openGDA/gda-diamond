@@ -20,7 +20,7 @@ from time import sleep
     example initialisation: da=DiodeAverage("da", d10d2, 5)
 """
 
-class DiodeAverage(gda.device.scannable.PseudoDevice):
+class DiodeAverage(gda.device.scannable.ScannableMotionBase):
 
 	def __init__(self, name, diode, numberOfPoints):
 		self.setName(name)

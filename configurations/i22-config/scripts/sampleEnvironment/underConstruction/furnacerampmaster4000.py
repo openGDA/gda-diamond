@@ -2,7 +2,7 @@ from gov.aps.jca.event import MonitorEvent
 from gov.aps.jca.event import MonitorListener
 from time import sleep
 from gda.epics import CAClient
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from java import lang
 from java.lang import Thread, Runnable
 from gdascripts.pd.time_pds import tictoc
@@ -32,7 +32,7 @@ class RampWaitThread(Runnable):
         sleep(self.duration)
         self.master.nextRamp()
             
-class FurnaceRampMaster4000(PseudoDevice, MonitorListener, Runnable, ScanPositionProvider):
+class FurnaceRampMaster4000(ScannableMotionBase, MonitorListener, Runnable, ScanPositionProvider):
     
     def __init__(self, name, furnace):
         self.setName(name)

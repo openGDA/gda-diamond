@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from gda.device.scannable import ScannableUtils
 import time
 from gda.epics import CAClient
 
-class Recon(PseudoDevice):
+class Recon(ScannableMotionBase):
     # constructor
     def __init__(self, name):
         self.setName(name) 

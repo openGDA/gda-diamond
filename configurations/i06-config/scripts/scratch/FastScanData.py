@@ -4,10 +4,10 @@ from time import sleep, ctime;
 import jarray;
 
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from org.eclipse.january.dataset import DatasetFactory
 
-class FastEnergyDeviceClass(PseudoDevice):
+class FastEnergyDeviceClass(ScannableMotionBase):
 	""" """
 
 	def __init__(self, name, fastEnergyScanController, fastEnergyScanDetector):
@@ -30,7 +30,7 @@ class FastEnergyDeviceClass(PseudoDevice):
 	def setDelay(self, delay):
 		self.delay = delay;
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 #		print "At Scan Start"
 		if not self.fesController.checkMotorReady():
@@ -109,7 +109,7 @@ class FastEnergyDeviceClass(PseudoDevice):
 #######################################################
 EpicsMCAWaveformDataDeviceClass("d1", "BL07I-EA-DET-01:MCA-01", 1);
 
-class EpicsMCAWaveformDataDeviceClass(PseudoDevice):
+class EpicsMCAWaveformDataDeviceClass(ScannableMotionBase):
 	
 	def __init__(self, name, rootPV, numberOfMCA):
 
@@ -208,7 +208,7 @@ class EpicsMCAWaveformDataDeviceClass(PseudoDevice):
 		self.dataset = ds;
 		return True;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 		resultList = list(self.readout());
 		resultJavaArray = jarray.array(resultList, 'd');

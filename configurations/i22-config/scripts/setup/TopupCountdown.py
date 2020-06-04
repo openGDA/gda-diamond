@@ -4,7 +4,7 @@ from gda.epics import CAClient
     Purpose:     pause scan around topups
 """
  
-class TopupCountdown(PseudoDevice):
+class TopupCountdown(ScannableMotionBase):
 
    def __init__(self, name):
 	self.setName(name)

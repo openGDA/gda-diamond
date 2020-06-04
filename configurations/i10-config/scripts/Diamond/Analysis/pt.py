@@ -1,7 +1,7 @@
 
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 
-class PtClass(PseudoDevice):
+class PtClass(ScannableMotionBase):
 	
 	def __init__(self):
 		self.name="Silly";
@@ -50,9 +50,9 @@ pt = PtClass();
 #pt.testS();
 
 
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 
-class PdClass(PseudoDevice):
+class PdClass(ScannableMotionBase):
 	pass;
 
 import java;

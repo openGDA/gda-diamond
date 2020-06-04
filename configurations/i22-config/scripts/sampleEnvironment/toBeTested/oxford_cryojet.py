@@ -2,10 +2,10 @@ from gda.epics import CAClient
 from java import lang
 import time
 import math
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import DeviceException
 
-class Cryojet(PseudoDevice):
+class Cryojet(ScannableMotionBase):
 	'''Create PD to operate Oxford Cryojet'''
 	def __init__(self, name, pvstring):
 		self.setName(name)

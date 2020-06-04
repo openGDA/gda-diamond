@@ -409,7 +409,7 @@ class EpicsMCADataDeviceClass(ScannableMotionBase):
 		self.dataset = ds;
 		return True;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 		resultList = list(self.readout());
 		resultJavaArray = jarray.array(resultList, 'd');

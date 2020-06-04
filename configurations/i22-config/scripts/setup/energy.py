@@ -106,7 +106,7 @@ class Harmonic:
             selected = True
         return selected
 
-class CalibratedID(gda.device.scannable.PseudoDevice):
+class CalibratedID(gda.device.scannable.ScannableMotionBase):
     """
         Purpose:       To change the ID gap to the right energy value.It is assumed the DCM has been commissioned first.
     """
@@ -169,7 +169,7 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
         print "Done"
 
 
-class CalibratedOffset(gda.device.scannable.PseudoDevice):
+class CalibratedOffset(gda.device.scannable.ScannableMotionBase):
     """Set offset to 25 every time"""
 
     def __init__(self, name, offset):

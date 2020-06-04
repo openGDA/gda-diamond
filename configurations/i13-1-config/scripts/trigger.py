@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from epics_scripts.pv_scannable_utils import caput, caget
 import time
 from time import sleep
@@ -6,7 +6,7 @@ from gda.epics import CAClient
 
 ca=CAClient("BL13J-EA-ZEBRA-02:SOFT_IN:B0")
 
-class Trigger(PseudoDevice):
+class Trigger(ScannableMotionBase):
     # constructor
     def __init__(self, name, width_sec=1, pvname="BL13J-EA-ZEBRA-02:SOFT_IN:B0"):
         self.setName(name)

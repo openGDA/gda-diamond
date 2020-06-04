@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from gda.device.scannable import ScannableUtils
 import time
@@ -6,7 +6,7 @@ from gda.epics import CAClient
 from gdascripts.utils import caget
 from gdascripts.utils import caput
 
-class FlatField(PseudoDevice):
+class FlatField(ScannableMotionBase):
     # constructor
     def __init__(self, name, camera, motor):
         self.setName(name) 

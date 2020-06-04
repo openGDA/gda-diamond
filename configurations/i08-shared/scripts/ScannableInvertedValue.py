@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.factory import Finder
 from java.lang.Math import abs
 
 
-class PositionInvertedValue(PseudoDevice):
+class PositionInvertedValue(ScannableMotionBase):
     def __init__(self,name,scannableName):
         self.name = name
         self.scannable= Finder.getInstance().find(scannableName)

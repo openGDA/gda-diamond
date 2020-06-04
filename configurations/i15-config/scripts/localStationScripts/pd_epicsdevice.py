@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class Simple_PD_EpicsDevice(PseudoDevice):
+class Simple_PD_EpicsDevice(ScannableMotionBase):
 	def __init__(self, name, beamline, pv):
 		self.setName(name);
 		self.chan = beamline.createEpicsChannel(None,"Top",pv,30)

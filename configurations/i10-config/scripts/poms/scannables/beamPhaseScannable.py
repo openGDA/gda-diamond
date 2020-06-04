@@ -5,11 +5,11 @@ David Burn - 30/11/16
 
 ######################################################################################################### """
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 
 
-class beamPhaseScannable(PseudoDevice):
+class beamPhaseScannable(ScannableMotionBase):
 	def __init__(self, name):
 		self.name = name
 		self.setInputNames([])

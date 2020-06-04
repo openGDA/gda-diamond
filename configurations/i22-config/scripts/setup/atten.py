@@ -1,7 +1,7 @@
 from gda.device.scannable import ScannableBase
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class SimplestPD(PseudoDevice):
+class SimplestPD(ScannableMotionBase):
     """Device to allow control and readback of X value"""
     def __init__(self, name, position):
         self.setName(name)

@@ -193,9 +193,9 @@ class EDXDDataExtractor(Thread):
                         
                         
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class edxd2ascii(PseudoDevice):
+class edxd2ascii(ScannableMotionBase):
     # constructor
     def __init__(self, name):
         self.setName(name) 

@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 
-class ScanPtIdx(PseudoDevice):
+class ScanPtIdx(ScannableMotionBase):
     # constructor
     def __init__(self, name, min_inc=0, step_size=1):
         self.setName(name)
@@ -45,10 +45,10 @@ class ScanPtIdx(PseudoDevice):
 zidx=ScanPtIdx('zidx')
 
 
-#from gda.device.scannable import PseudoDevice
+#from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableUtils
 
-class Facilitator(PseudoDevice):
+class Facilitator(ScannableMotionBase):
     def __init__(self, name, cmdTemplate = [("pco.setCollectionTime(%s)", "self.reqdPos"), ("pco.getController().armCamera()", None)], cmdPreCondition=[("%s > 0", "self.reqdPos")], noopPos=-1):
         self.setName(name)
         self.setInputNames([name])

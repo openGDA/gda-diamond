@@ -2,10 +2,10 @@ from gda.epics import CAClient
 from java import lang
 from time import sleep
 import math
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import DeviceException
 
-class Eurotherm(PseudoDevice):
+class Eurotherm(ScannableMotionBase):
 	'''Create PD to operate Eurotherm furnace'''
 	def __init__(self, name, pvstring):
 		self.setName(name)

@@ -3,12 +3,12 @@ from time import sleep;
 #import math;
 import jarray;
 
-from gda.device.detector import PseudoDetector;
+from gda.device.detector import DetectorBase;
 from gda.device.Detector import BUSY, IDLE;
 from gda.epics import CAClient;
 
 
-class StructMcaGdaClass(PseudoDetector):
+class StructMcaGdaClass(DetectorBase):
 	"""
 	Designed to work closely within cvscan. All required EMCS methods are
 	passed trhough to the raw EMCS. After a collection has been made and
@@ -60,7 +60,7 @@ class StructMcaGdaClass(PseudoDetector):
 
 ###
 ###=========================
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def prepareForCollection(self):
 		return self.mca.prepareForCollection()
 

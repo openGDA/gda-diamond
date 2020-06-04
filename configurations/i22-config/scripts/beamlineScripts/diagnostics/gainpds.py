@@ -4,11 +4,11 @@
 
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from time import sleep
 
-class EpicsSetGetClass(PseudoDevice):
+class EpicsSetGetClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, unitstring, formatstring):
 		self.setName(name);

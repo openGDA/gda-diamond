@@ -525,7 +525,7 @@ class EpicsScandataDeviceClass(ScannableMotionBase):
 #		update(None,"EpicsScandataDeviceClass.getNewEpicsData:Out True - offset = %d head=%d" % (offset, head))
 		return True;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 
 #		resultList = list(self.readout());
@@ -780,7 +780,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		resultJavaArray = jarray.array(resultList, 'd');
 		return resultJavaArray;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 #		return self.getUnFilteredPosition();
 		return self.getFilteredPosition();

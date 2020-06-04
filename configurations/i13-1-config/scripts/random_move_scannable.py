@@ -39,7 +39,7 @@ class RandomMoveScannable(ScannableMotionBase):
     """
     def __init__(self, delegateScannable, range):
         
-#        PseudoDevice.__init__(self) #do not required as it will be called at end of this __init__ by default
+#        ScannableMotionBase.__init__(self) #do not required as it will be called at end of this __init__ by default
         self.setName(delegateScannable.getName()+"_random")
         self.setInputNames(["step"])
         self.setExtraNames([])

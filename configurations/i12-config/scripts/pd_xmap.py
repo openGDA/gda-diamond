@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.detector import MultiDetectorBase
 
 class XMap(MultiDetectorBase):
     """Device to allow control and readback of X value"""
     def __init__(self, xmap, name, position):
-        PseudoDevice.__init__(self) #@UndefinedVariable
+        ScannableMotionBase.__init__(self) #@UndefinedVariable
         self.setName(name)
         self.setInputNames([name])
         self.X = position

@@ -1,6 +1,6 @@
-from gda.device.detector import PseudoDetector
+from gda.device.detector import DetectorBase
 
-class FlatField(PseudoDetector) :
+class FlatField(DetectorBase) :
 
     def __init__(self, count, device, distance):
         self.setName("temp")

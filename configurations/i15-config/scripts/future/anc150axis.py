@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from time import sleep
 
-class Anc150Axis(PseudoDevice):
+class Anc150Axis(ScannableMotionBase):
     '''
     PD for Anc150Axis
     '''

@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import ctime
 from gda.data.metadata import Metadata
 from gda.data.metadata import GDAMetadataProvider
 from gda.data.metadata import Metadata
 from gda.data.metadata import GDAMetadataProvider
-class CollectionTimePD(PseudoDevice):
+class CollectionTimePD(ScannableMotionBase):
    
     def __init__(self, name, detectorsToCheck):
         self.setName(name)

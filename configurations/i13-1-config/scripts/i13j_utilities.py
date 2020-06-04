@@ -324,7 +324,7 @@ class CAShutterDirector(ScannableBase):
         #print("rawAsynchronousMoveTo")
         pass
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 class StepScanMinder(ScannableBase):
     """
     Class that...

@@ -2,7 +2,7 @@ from gda.epics import CAClient
 from java import lang
 from time import sleep
 
-class SampleChanger(PseudoDevice):
+class SampleChanger(ScannableMotionBase):
 	'''Create PD to operate row 3 of the Sample Changer'''
 	def __init__(self, name, pvstring):
 		self.setName(name);

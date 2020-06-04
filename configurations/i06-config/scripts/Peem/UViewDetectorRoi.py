@@ -1,14 +1,14 @@
 from time import sleep
 
 from gda.factory import Finder
-from gda.device.scannable import PseudoDevice
-from gda.device.detector import PseudoDetector
+from gda.device.scannable import ScannableMotionBase
+from gda.device.detector import DetectorBase
 from gda.device import Scannable
 
 
 #The Class for creating a PEEM UView Detector as Psuedo Device
 #For PEEM UView in I06 only.
-class UViewDetectorClass(PseudoDetector):
+class UViewDetectorClass(DetectorBase):
 	def __init__(self, name):
 		self.setName(name);
 		self.setInputNames([name]);
@@ -32,7 +32,7 @@ class UViewDetectorClass(PseudoDetector):
 		print self.uview.shotSingleImage();
 		
 
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 	def asynchronousMoveTo(self,newPos):
 		self.uview.setCollectionTime(newPos);
 		self.collectData();
@@ -60,7 +60,7 @@ class UViewDetectorClass(PseudoDetector):
 
 #The Class for creating a PEEM UView Region Of Interests Detector as Psuedo Device
 #For PEEM UView in I06 only.
-class UViewDetectorROIClass0(PseudoDevice):
+class UViewDetectorROIClass0(ScannableMotionBase):
 	def __init__(self, name, roi):
 		self.setName(name);
 		self.setInputNames([]);
@@ -104,7 +104,7 @@ class UViewDetectorROIClass0(PseudoDevice):
 
 #The Class for creating a PEEM UView Region Of Interests Detector as Psuedo Detector
 #For PEEM UView in I06 only.
-class UViewDetectorROIClass(PseudoDetector):
+class UViewDetectorROIClass(DetectorBase):
 	def __init__(self, name, roi):
 		self.setName(name);
 		self.setInputNames([name]);
@@ -118,7 +118,7 @@ class UViewDetectorROIClass(PseudoDetector):
 		finder = Finder.getInstance();
 		self.roi = finder.find(roi);
 		
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 #	def getPosition(self):
 #		return self.readout();
 	

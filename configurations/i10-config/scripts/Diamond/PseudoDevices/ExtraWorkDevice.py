@@ -1,9 +1,9 @@
 
 from time import sleep
 
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 
-class ExtraWorkDeviceClass(PseudoDevice):
+class ExtraWorkDeviceClass(ScannableMotionBase):
 	""" """
 
 	def __init__(self, name, gdaDevice):
@@ -16,7 +16,7 @@ class ExtraWorkDeviceClass(PseudoDevice):
 		
 		self.device = gdaDevice;
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 		print "At Scan Start ---------------------------------------------->"
 
