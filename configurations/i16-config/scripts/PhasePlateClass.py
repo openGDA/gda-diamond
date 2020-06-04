@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from math import pi, asin
-class PPPClass(PseudoDevice):
+class PPPClass(ScannableMotionBase):
 	'''
 	PD for operating Phase Plate Polariser
 	inputs: [energy, angle_offset]
@@ -49,7 +49,7 @@ class PPPClass(PseudoDevice):
 
 
 		
-class PPP_noE_Class(PseudoDevice):
+class PPP_noE_Class(ScannableMotionBase):
 	'''
 	PD for operating Phase Plate Polariser
 	inputs: [energy, angle_offset]

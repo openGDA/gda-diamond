@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 
 from Jama import Matrix
 
-class PsicPseudoDevice(PseudoDevice):
+class PsicPseudoDevice(ScannableMotionBase):
 
 	def __init__(self,name,azimuth):
 		self.name = name

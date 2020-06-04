@@ -1,4 +1,6 @@
-class PDFromFunctionClass(PseudoDevice):
+from gda.device.scannable import ScannableMotionBase
+
+class PDFromFunctionClass(ScannableMotionBase):
 	'''
 	wrap scalar function in PD for reading
 	'''

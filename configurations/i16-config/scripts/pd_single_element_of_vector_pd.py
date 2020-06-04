@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import misc_functions
 
-class single_element_of_vector_pd_class(PseudoDevice):
+class single_element_of_vector_pd_class(ScannableMotionBase):
 	'''
 	manipulate a single element of a vector PD
 	'''
@@ -32,7 +32,7 @@ class single_element_of_vector_pd_class(PseudoDevice):
 		self.pos[self.ifield]=new_position
 		self.pd.asynchronousMoveTo(self.pos)
 
-class single_element_of_vector_pd_with_offset_and_scalefactor_class(PseudoDevice):
+class single_element_of_vector_pd_with_offset_and_scalefactor_class(ScannableMotionBase):
 	'''
 	manipulate a single element of a vector PD with an offset given by an offset PD
 	Use set method to calibrate to a new value

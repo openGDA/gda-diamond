@@ -1,9 +1,9 @@
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 		
-class x2000scaClass(PseudoDevice):
+class x2000scaClass(ScannableMotionBase):
 	def __init__(self, name,formatstring,link,unitstring):
 		self.setName(name);
 		self.setLevel(9)

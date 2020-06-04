@@ -1,6 +1,6 @@
 #sperp and spara using rotation matrix method
 
-class PerpStageMotionv(PseudoDevice):
+class PerpStageMotionv(ScannableMotionBase):
 	'''Device to move sample stage perpendicular or parallel to the beam when phi is not zero'''
 	def __init__(self,name,_sx,_sy,help=None):
 		self.setName(name)		

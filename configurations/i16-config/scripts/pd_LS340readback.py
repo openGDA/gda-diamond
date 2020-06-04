@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 
 from time import sleep
 
-class DisplayEpicsPVClassLS(PseudoDevice):
+class DisplayEpicsPVClassLS(ScannableMotionBase):
 	def __init__(self, name, pvstring, unitstring, formatstring, channel, level):
 		self.name = name;
 		self.inputNames = [name]

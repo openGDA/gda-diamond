@@ -1,10 +1,10 @@
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 
-#class DisplayEpicsPVClass(PseudoDevice):
+#class DisplayEpicsPVClass(ScannableMotionBase):
 #	'''Create PD to display single EPICS PV'''
 #	def __init__(self, name, pvstring, unitstring, formatstring):
 #		self.setName(name)
@@ -36,7 +36,7 @@ from time import sleep
 #
 
 
-class DisplayEpicsPVClass(PseudoDevice):
+class DisplayEpicsPVClass(ScannableMotionBase):
 	'''Create PD to display single EPICS PV'''
 	def __init__(self, name, pvstring, unitstring, formatstring):
 		self.setName(name)
@@ -99,7 +99,7 @@ k2xp=DisplayEpicsPVClass('k2_xpos','BL16I-DI-DCAM-02:XP', 'pixels', '%.4f')
 heater=DisplayEpicsPVClass('heater','BL16I-EA-LS340-01:HTR', '%', '%.2f')
 
 
-class SingleEpicsPositionerClass(PseudoDevice):
+class SingleEpicsPositionerClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring,command=None):
 		self.setName(name);
@@ -323,7 +323,7 @@ ppx=SingleEpicsPositionerClass('ppx','BL16I-OP-PPR-01:X.VAL','BL16I-OP-PPR-01:X.
 ppchi=SingleEpicsPositionerClass('ppchi','BL16I-OP-PPR-01:CHI.VAL','BL16I-OP-PPR-01:CHI.RBV','BL16I-OP-PPR-01:CHI.DMOV','BL16I-OP-PPR-01:CHI.STOP','deg','%.3f')
 
 
-class SingleEpicsPositionerSetAndGetOnlyClass(PseudoDevice):
+class SingleEpicsPositionerSetAndGetOnlyClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner which respond only to set and get'''
 	def __init__(self, name, pvinstring, pvoutstring, unitstring, formatstring,help=None):
 		self.setName(name);
@@ -394,7 +394,7 @@ alias dofill
 #State=1 if ready, 0 if moving
 #need to stop motors on error; get propper State 
 
-class EnergyFromBraggPD(PseudoDevice):
+class EnergyFromBraggPD(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name,link):
 		self.setName(name);
@@ -439,7 +439,7 @@ class EnergyFromBraggPD(PseudoDevice):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggwithHarmonicPD(PseudoDevice):
+class EnergyFromBraggwithHarmonicPD(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name,link,harmonicPD):
 		self.setName(name);
@@ -485,7 +485,7 @@ class EnergyFromBraggwithHarmonicPD(PseudoDevice):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggFixedoffsetPD(PseudoDevice):
+class EnergyFromBraggFixedoffsetPD(ScannableMotionBase):
 	'Energy PD with optional fixed offset - calls Bragg angle PD'
 	def __init__(self, name,link):
 		self.setName(name);
@@ -540,7 +540,7 @@ class EnergyFromBraggFixedoffsetPD(PseudoDevice):
 		bragg_offset(cal_ang-dcm_ang*self.scalefac)
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
-class EnergyFromBraggFixedoffsetwithHarmonicPD(PseudoDevice):
+class EnergyFromBraggFixedoffsetwithHarmonicPD(ScannableMotionBase):
 	'''
 	Energy PD with optional fixed offset with Harmonic PD - calls Bragg angle PD
 	'''
@@ -630,7 +630,7 @@ class SingleEpicsPositionerNoStatusClass2(SingleEpicsPositionerNoStatusClass):
 id_gap=SingleEpicsPositionerNoStatusClass2('ID_gap','SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.3f'); 
 id_gap.deadband=0.005
 
-class IDGapFromPVClass(PseudoDevice):
+class IDGapFromPVClass(ScannableMotionBase):
 	'''Create device to control ID gap etc'''
 	def __init__(self, name, pvinstring, pvoutstring, pvexecutestring, pvstatestring, pvstopstring, unitstring, formatstring):
 		self.setName(name);
@@ -684,7 +684,7 @@ class IDGapFromPVClass(PseudoDevice):
 				
 idgap=IDGapFromPVClass('IDgap','SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:BLGSETP','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.3f')
 
-class Epics_Shutter(PseudoDevice):
+class Epics_Shutter(ScannableMotionBase):
 	'''Create PD for single EPICS shutter'''
 	def __init__(self, name, pvstring):
 		self.setName(name);

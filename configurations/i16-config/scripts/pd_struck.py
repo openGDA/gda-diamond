@@ -1,7 +1,7 @@
 from gda.epics import CAClient 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class Struck(PseudoDevice):
+class Struck(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name,pv1,channel,formatstring):
 		self.setName(name)

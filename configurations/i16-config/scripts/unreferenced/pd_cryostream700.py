@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
-class cryostream_700(PseudoDevice):
+class cryostream_700(ScannableMotionBase):
 	'''Device to control the Cryostream 700, 
              if you want to change the ramprate or read it back use:
              tset.setRampRate(value)

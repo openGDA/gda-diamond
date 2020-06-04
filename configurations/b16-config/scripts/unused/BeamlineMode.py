@@ -1,4 +1,4 @@
-import gda.device.scannable.PseudoDevice
+import gda.device.scannable.ScannableMotionBase
 
 """
 	Purpose:	   TO-DO
@@ -12,7 +12,7 @@ import gda.device.scannable.PseudoDevice
 		asynchronousMoveTo(self,newPosition)
 """
 
-class BeamlineMode(gda.device.scannable.PseudoDevice):
+class BeamlineMode(gda.device.scannable.ScannableMotionBase):
 
 	def __init__(self, bcmpointer):
 		self.setName("BeamlineMode")

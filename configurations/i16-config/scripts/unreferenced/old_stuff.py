@@ -1,4 +1,4 @@
-class DisplayEpicsPVLakeshoreTemperatureInCelsius(PseudoDevice):
+class DisplayEpicsPVLakeshoreTemperatureInCelsius(ScannableMotionBase):
     def __init__(self, name, pvstring, unitstring, formatstring,channel,level):
         self.setName(name);
         self.setInputNames([])

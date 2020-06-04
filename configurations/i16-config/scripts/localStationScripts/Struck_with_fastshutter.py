@@ -1,7 +1,7 @@
 from gda.epics import CAClient 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class Struck_with_fastshutter(PseudoDevice):
+class Struck_with_fastshutter(ScannableMotionBase):
 	'''
 	counter timer with fast shutter
 	'''
@@ -35,7 +35,7 @@ class Struck_with_fastshutter(PseudoDevice):
 			print "Struck::stop failure"
 
 
-class ADC_with_fastshutter(PseudoDevice):
+class ADC_with_fastshutter(ScannableMotionBase):
 	'''
 	adc (diode etc) with fast shutter
 	'''

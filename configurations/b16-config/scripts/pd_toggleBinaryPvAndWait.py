@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
 from time import sleep
 
 
-class ToggleBinaryPvAndWait(PseudoDevice):
+class ToggleBinaryPvAndWait(ScannableMotionBase):
 	""" 
 	Useful for triggering detectors which have been setup to record images on 
 	hardware triggers.

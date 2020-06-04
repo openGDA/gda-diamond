@@ -2,7 +2,7 @@ from gdascripts.scannable.epics.PvManager import PvManager
 from gda.data import NumTracker
 
 from time import sleep
-from gda.device.detector import PseudoDetector
+from gda.device.detector import DetectorBase
 from gda.device.Detector import BUSY, IDLE
 import os
 
@@ -12,7 +12,7 @@ import os
 # matrix = test.getImage().doubleMatrix()
 
 
-class EpicsAreaDetector(PseudoDetector):
+class EpicsAreaDetector(DetectorBase):
 	
 	def __init__(self, name, pvroot, numtrackerstring, fileformat, shutterTrigger = None):
 		self.name = name

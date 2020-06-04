@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 from gda.analysis.io import TIFFImageLoader
 from gda.analysis import Plotter
 
-class AndorCCDClass(PseudoDevice):
+class AndorCCDClass(ScannableMotionBase):
 	'''Andor CCD
 	'''
 

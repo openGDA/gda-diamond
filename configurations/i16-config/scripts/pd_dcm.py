@@ -1,11 +1,11 @@
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 
 
-class EnergyFromBraggPD(PseudoDevice):
+class EnergyFromBraggPD(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name,link):
 		self.setName(name);
@@ -59,7 +59,7 @@ class EnergyFromBraggPD(PseudoDevice):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggwithHarmonicPD(PseudoDevice):
+class EnergyFromBraggwithHarmonicPD(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name,link,harmonicPD):
 		self.setName(name);
@@ -113,7 +113,7 @@ class EnergyFromBraggwithHarmonicPD(PseudoDevice):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggFixedoffsetPD(PseudoDevice):
+class EnergyFromBraggFixedoffsetPD(ScannableMotionBase):
 	'Energy PD with optional fixed offset - calls Bragg angle PD'
 	def __init__(self, name,link):
 		self.setName(name);
@@ -179,7 +179,7 @@ class EnergyFromBraggFixedoffsetPD(PseudoDevice):
 		bragg_offset(cal_ang-dcm_ang*self.scalefac)
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
-class EnergyFromBraggFixedoffsetwithHarmonicPD(PseudoDevice):
+class EnergyFromBraggFixedoffsetwithHarmonicPD(ScannableMotionBase):
 	'Energy PD with optional fixed offset with Harmonic PD - calls Bragg angle PD'
 	def __init__(self,name,link,harmonicPD):
 		self.setName(name)

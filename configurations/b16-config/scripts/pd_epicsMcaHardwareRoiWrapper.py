@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.detector.analyser import EpicsMCAPresets
 
 class Roi:
@@ -10,7 +10,7 @@ class Roi:
 	def __str__(self):
 		return "%-2d %-8s %-4d %-4d" % (self.index, self.label, self.low, self.high) 
 
-class EpicsMcaHardwareRoiWrapper(PseudoDevice):
+class EpicsMcaHardwareRoiWrapper(ScannableMotionBase):
 	
 	def __init__(self, name, mca, countType):
 		

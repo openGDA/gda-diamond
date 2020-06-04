@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from scannable.moveToCore import DynamicPvManager
 import time
 
-class Linkam(PseudoDevice):
+class Linkam(ScannableMotionBase):
 
     def __init__(self, name, pvPrefix):
         self.name = name

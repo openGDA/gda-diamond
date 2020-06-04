@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class pd_acd_table_v(PseudoDevice):
+class pd_acd_table_v(ScannableMotionBase):
 	'''
 	Assume no offsets
 	'''
@@ -31,7 +31,7 @@ class pd_acd_table_v(PseudoDevice):
 		self.jack2PD.stop()
 		self.jack3PD.stop()
 
-class pd_acd_table_h(PseudoDevice):
+class pd_acd_table_h(ScannableMotionBase):
 	'''
 	Assume no offsets
 	'''

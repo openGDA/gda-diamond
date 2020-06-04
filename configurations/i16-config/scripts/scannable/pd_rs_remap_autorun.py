@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 import subprocess
 
-class RSRemapAutorun(PseudoDevice):
+class RSRemapAutorun(ScannableMotionBase):
 	'''Class for reciprocal space remapping '''
 	def __init__(self, name):
 		self.setName(name)

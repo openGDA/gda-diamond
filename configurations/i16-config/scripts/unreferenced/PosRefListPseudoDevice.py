@@ -1,4 +1,4 @@
-class PosRefListPD(PseudoDevice):
+class PosRefListPD(ScannableMotionBase):
 	'''Create PD for moving to reflections'''
 	def __init__(self, name, reflectionfilelink, help=None):
 		self.setName(name);

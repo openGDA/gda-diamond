@@ -1,7 +1,7 @@
 # modified with optional warnings 6/4/16; previous file saved separately with date
 
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from org.slf4j import LoggerFactory
 
 import ShelveIO
@@ -9,7 +9,7 @@ import installation
 
 # Offset scannables save and load single values to persistant storage.
 # Note 
-class Offset(PseudoDevice):
+class Offset(ScannableMotionBase):
 	'''
 	Offset scannables save and load single values to persistant storage.
 	use warningIfChangeGreaterThan keyword to specify the largest allowed change without a warning
@@ -75,7 +75,7 @@ class Offset(PseudoDevice):
 		return 0
 
 
-class OffsetDualScannable(PseudoDevice):
+class OffsetDualScannable(ScannableMotionBase):
 	def __init__(self, name, scannablesToOffset = None):
 		self.logger = LoggerFactory.getLogger("OffsetDualScannable:"+name)
 

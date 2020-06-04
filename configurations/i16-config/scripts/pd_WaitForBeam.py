@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 import java, sys, time, traceback
 from pd_epics import DisplayEpicsPVClass
 
-class WaitForBeamPDClass(PseudoDevice):
+class WaitForBeamPDClass(ScannableMotionBase):
 	'''
 	PD to wait for beam during scan
 	Returns 1 if beam OK
@@ -82,7 +82,7 @@ class TimeToMachineInjectionClass(DisplayEpicsPVClass):
 			return 99999
 
 
-class WaitForInjectionPDClass(PseudoDevice):
+class WaitForInjectionPDClass(ScannableMotionBase):
 	'''
 	PD to wait for beam injection during top-up mode
 	dev=WaitForInjectionPDClass(name, time_to_injectio_PV, due_time(sec), waitfor_time(sec) )
@@ -123,7 +123,7 @@ class WaitForInjectionPDClass(PseudoDevice):
 	def atScanStart(self):
 		print '===Injection mode pausing is enabled: '+self.pd.getName()+' must exceed '+str(self.due) 
 
-class WaitForInjectionPDClass2(PseudoDevice):
+class WaitForInjectionPDClass2(ScannableMotionBase):
 	'''
 	PD to wait for beam injection during top-up mode
 	dev=WaitForInjectionPDClass(name, time_to_injectio_PV, due_time(sec), waitfor_time(sec) )

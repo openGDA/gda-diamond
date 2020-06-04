@@ -1,8 +1,8 @@
-from gda.jython.scannable import PseudoDevice
+from gda.jython.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from time import sleep
 
-class SingleEpicsPositionerClass(PseudoDevice):
+class SingleEpicsPositionerClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, delay):
 		self.setName(name);
@@ -34,7 +34,7 @@ class SingleEpicsPositionerClass(PseudoDevice):
 		self.stopcli.caput(1)
 
 
-class SingleEpicsPositionerClassWithSet(PseudoDevice):
+class SingleEpicsPositionerClassWithSet(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, delay):
 		self.setName(name);

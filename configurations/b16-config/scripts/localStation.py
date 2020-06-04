@@ -8,7 +8,7 @@ from gda.analysis import ScanFileHolder
 from gda.analysis.io import PilatusTiffLoader, SRSLoader
 from gda.configuration.properties import LocalProperties
 from gda.device.monitor import EpicsMonitor
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient #@UnusedImport
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias, cmd, ls, pause, reset_namespace, run, vararg_regex #@UnusedImport
@@ -864,7 +864,7 @@ if installation.isLive() and ENABLE_PCO4000:
 ###############################################################################
 ###                                   TEMPORARY                              ###
 ###############################################################################
-class Bladesum(PseudoDevice):
+class Bladesum(ScannableMotionBase):
 	def __init__(self,a,b,c,d):
 		self.a = a
 		self.b = b
@@ -886,7 +886,7 @@ class Bladesum(PseudoDevice):
 		return False
 
 
-class Bladevdif(PseudoDevice):
+class Bladevdif(ScannableMotionBase):
 	def __init__(self,c,d):
 		self.c = c
 		self.d = d

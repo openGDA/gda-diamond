@@ -2,12 +2,12 @@ from inttobin import *
 from gda.epics import CAClient
 import string 
 import beamline_info as BLi
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import time
 from time import sleep
 from mathd import *
 
-class Foilinserter(PseudoDevice):
+class Foilinserter(ScannableMotionBase):
 	"""
 	Class to communicate with the Foil inserters
 	"""

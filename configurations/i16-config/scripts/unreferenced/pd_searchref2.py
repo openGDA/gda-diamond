@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import Searchref2
 reload(Searchref2)
 SearchRef=Searchref2.Searchref2(cr,ub,BLi,gt)
 
-class pd_searchref2(PseudoDevice):
+class pd_searchref2(ScannableMotionBase):
 	""" This pseudodevice search for a second reflection once the
 	first reflection in the ub matrix is known.
 	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 

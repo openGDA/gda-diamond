@@ -1,11 +1,11 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gdascripts.pd.time_pds import tictoc
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 from os import popen
 import gda
 
-class UlriksSyncScan(PseudoDevice):
+class UlriksSyncScan(ScannableMotionBase):
 	'''Simply wraps a monitor so it apperas as a regular scannable, and is hence
 	moved in scans.'''
 	

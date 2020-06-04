@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gdascripts.utils import caget
 from gdascripts.pd.time_pds import tictoc
 from gda.epics import CAClient
@@ -6,7 +6,7 @@ import time
 from gdascripts.scannable.epics.PvManager import PvManager
 import gov.aps.jca.TimeoutException
 
-class AgilentPsuVoltage(PseudoDevice):
+class AgilentPsuVoltage(ScannableMotionBase):
 
     """ This is the constructor for the class. """
     def __init__(self, name, pvroot, timeout): #BL16B-EA-PSU-01
@@ -33,7 +33,7 @@ class AgilentPsuVoltage(PseudoDevice):
         return float(self.pvs['VOLT:MEAS'].caget()), float(self.pvs['CURR:MEAS'].caget())
     
     
-class AgilentPsuCurrent(PseudoDevice):
+class AgilentPsuCurrent(ScannableMotionBase):
 
     """ This is the constructor for the class. """
     def __init__(self, name, pvroot, timeout, tolerance = 0.0005): #BL16B-EA-PSU-01

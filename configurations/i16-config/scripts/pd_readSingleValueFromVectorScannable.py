@@ -1,5 +1,5 @@
-from gda.device.scannable import PseudoDevice
-class ReadSingleValueFromVectorPDClass(PseudoDevice):
+from gda.device.scannable import ScannableMotionBase
+class ReadSingleValueFromVectorPDClass(ScannableMotionBase):
 	'''
 	PD with single output and no imput
 	Reads value from specified index of an existing PD

@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
 from time import sleep
 
 
-class I04Scannable(PseudoDevice):
+class I04Scannable(ScannableMotionBase):
 
 	def __init__(self, name, exposeUniblitzShutterObject):
 		"""

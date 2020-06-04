@@ -133,7 +133,7 @@ localStation_print("Importing various gda classes", 10)
 from gda.analysis.io import  PilatusTiffLoader
 from gda.configuration.properties import LocalProperties
 from gda.device.epicsdevice import ReturnType
-from gda.device.scannable import PseudoDevice, ScannableBase
+from gda.device.scannable import ScannableMotionBase, ScannableBase
 from gda.epics import CAClient
 from gda.jython.commands.GeneralCommands import alias, run
 

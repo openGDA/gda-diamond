@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class ExtraNameHider(PseudoDevice):
+class ExtraNameHider(ScannableMotionBase):
     
     def __init__(self, name, delegate):
         self.delegate = delegate

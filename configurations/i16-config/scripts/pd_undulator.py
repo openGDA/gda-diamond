@@ -3,10 +3,10 @@ import java
 import ShelveIO
 from datetime import date
 from mathd import *
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import traceback
 
-class Harmonic(PseudoDevice):
+class Harmonic(ScannableMotionBase):
 
 	def __init__(self,name):
 		self.setName(name)
@@ -31,7 +31,7 @@ class Harmonic(PseudoDevice):
 		self.h.ChangeValue(name,position)
 
 
-class Undulator2(PseudoDevice):
+class Undulator2(ScannableMotionBase):
 
 #	def __init__(self,name,harmonic,gap,gapoffset,GBHfile):
 	def __init__(self,name,harmonic,gap,gapoffset,defaultenergydevice,GBHfile):
@@ -131,7 +131,7 @@ class Undulator2(PseudoDevice):
 		print 'new calibration saved in /dls_sw/i16/var/ucalibrate.log'
 
 
-class Undulator(PseudoDevice):
+class Undulator(ScannableMotionBase):
 
 	def __init__(self,name,gap,gapoffset,GBHfile):
 		self.setName(name)
@@ -218,7 +218,7 @@ class Undulator(PseudoDevice):
 		print 'new gap offset:', self.gapoffset()
 
 
-class EnergyFromUndulator(PseudoDevice):
+class EnergyFromUndulator(ScannableMotionBase):
 
 	def __init__(self,name,undulator):
 		self.setName(name)
@@ -240,7 +240,7 @@ class EnergyFromUndulator(PseudoDevice):
 		return self.undulator.isBusy()
 
 
-class EnergyFromUndulator2(PseudoDevice):
+class EnergyFromUndulator2(ScannableMotionBase):
 
 	def __init__(self,name,undulator):
 		self.setName(name)
@@ -264,7 +264,7 @@ class EnergyFromUndulator2(PseudoDevice):
 		return self.undulator.isBusy()
 
 
-class EnergyFromIDandDCM(PseudoDevice):
+class EnergyFromIDandDCM(ScannableMotionBase):
 
 	def __init__(self,name,Uenergy,DCMenergy):
 		self.setName(name)
@@ -295,7 +295,7 @@ class EnergyFromIDandDCM(PseudoDevice):
 		else:
 			return 0
 
-class ShowGapClass(PseudoDevice):
+class ShowGapClass(ScannableMotionBase):
 
 	def __init__(self):
 		self.setName('idgap')

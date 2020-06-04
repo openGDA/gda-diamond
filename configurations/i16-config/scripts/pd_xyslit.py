@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class pd_xyslit(PseudoDevice):
+class pd_xyslit(ScannableMotionBase):
 	'''
 	2d slit device
 	input/output: [xgap(horizontal), ygap(vertical)]	

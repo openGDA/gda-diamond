@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from math import sqrt
 
-class EPICSODQBPMClass(PseudoDevice):
+class EPICSODQBPMClass(ScannableMotionBase):
 	'''PD for OD QBPM device
 	Inputs: None
 	Outputs: Range, C1, C2, C3, C4, X, Y
@@ -127,11 +127,11 @@ class EPICSODQBPMClass(PseudoDevice):
 		self.set_params([A1,A2,B1,B2,C1,C2,D1,D2,GX,GY])
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from math import sqrt
 
-class EPICSODQBPMClass2(PseudoDevice):
+class EPICSODQBPMClass2(ScannableMotionBase):
 	'''
 	PD for OD QBPM device
 	Inputs: None

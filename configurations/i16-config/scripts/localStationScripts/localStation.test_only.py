@@ -7,7 +7,7 @@ raise Exception("Manually INTERRUPTING localStation.testonly.py")
 if USE_DIFFCALC:
     energy = dummy_energy
 
-class Wavelength(PseudoDevice):
+class Wavelength(ScannableMotionBase):
     
     def __init__(self, name):
         self.name = name
@@ -24,7 +24,7 @@ class Wavelength(PseudoDevice):
     def asynchronousMoveTo(self, wl):
         BLi.setWavelength(float(wl))
 
-class Energy(PseudoDevice):
+class Energy(ScannableMotionBase):
     
     def __init__(self, name):
         self.name = name

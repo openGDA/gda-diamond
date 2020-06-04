@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class dummyClass(PseudoDevice):
+class dummyClass(ScannableMotionBase):
 	'''Dummy PD Class'''
 	def __init__(self, name):
 		self.setName(name)
@@ -19,7 +19,7 @@ class dummyClass(PseudoDevice):
 	def getPosition(self):
 		return self.currentposition
 
-class dummy2dClass(PseudoDevice):
+class dummy2dClass(ScannableMotionBase):
 	'''Dummy 2d PD Class'''
 	def __init__(self, name):
 		self.setName(name)

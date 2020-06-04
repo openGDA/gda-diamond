@@ -1,5 +1,5 @@
-from gda.device.scannable import PseudoDevice
-class AzihklClass(PseudoDevice):
+from gda.device.scannable import ScannableMotionBase
+class AzihklClass(ScannableMotionBase):
 	'Azimuthal reference reciprocal lattice vector'
 	def __init__(self,name):
 		self.setName(name);

@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 
 import beamline_info as BLinfo
@@ -6,7 +6,7 @@ import beamline_info as BLinfo
 from Jama import Matrix
 
 
-class energyPseudoDevice(PseudoDevice):
+class energyPseudoDevice(ScannableMotionBase):
 
 	def __init__(self,name,wavelength):
 		self.name = name

@@ -1,8 +1,8 @@
 # Fast shutter operation on a point-by-point basis
 # Jonathan Rawle, Beamline I07, October 2010
 
-from gda.device.detector import PseudoDetector
-from gda.device.scannable import PseudoDevice
+from gda.device.detector import DetectorBase
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from time import sleep
 
@@ -21,7 +21,7 @@ from time import sleep
 # this script. That means a waitTimer will complete before
 # the shutter opens.
 
-class FastShutterOpenClass(PseudoDevice):
+class FastShutterOpenClass(ScannableMotionBase):
 
     def __init__(self, name, pvstring, pvvalue, delayAfterOpening=0.5):
         self.name = name
@@ -68,7 +68,7 @@ class FastShutterOpenClass(PseudoDevice):
         if report:
             print "Opened fast shutter"
                 
-class FastShutterCloseClass(PseudoDetector):
+class FastShutterCloseClass(DetectorBase):
 
     def __init__(self, name, pvstring, pvvalue, delayAfterClosing=0):
         self.name = name

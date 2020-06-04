@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
 from time import sleep
@@ -25,7 +25,7 @@ class CounterTimerForGatedMeasurement:
 		return int(float(self.S1.caget()))
 
 
-class ExposeUniblitzShutter(PseudoDevice):
+class ExposeUniblitzShutter(ScannableMotionBase):
 
 	def __init__(self, name, rootPv, counterTimerPv = None):
 		"""

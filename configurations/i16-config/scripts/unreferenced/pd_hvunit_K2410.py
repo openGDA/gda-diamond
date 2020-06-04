@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
-class hvunit_K2410(PseudoDevice):
+class hvunit_K2410(ScannableMotionBase):
 	'''Device to set/read voltage and current on the Keithley 2410 unit, 
 	   the inizialization sets the unit to operate as V generator, and current reader.
 	   It also sets the current limit to 2 mA, if the currents limit is turned above this value or the auto key 

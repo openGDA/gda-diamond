@@ -1,4 +1,4 @@
-class ReadListPDClass(PseudoDevice):
+class ReadListPDClass(ScannableMotionBase):
 	'''
 	Create PD to read elements of a list pdname.list
 	Example:
@@ -34,7 +34,7 @@ class ReadListPDClass(PseudoDevice):
 		return 0
 
 
-class ReadListPDClassOld(PseudoDevice):
+class ReadListPDClassOld(ScannableMotionBase):
 	'''Create PD to read elements of a list'''
 	def __init__(self, name, list, unitstring, formatstring):
 		self.setName(name);

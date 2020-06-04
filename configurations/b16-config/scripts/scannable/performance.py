@@ -2,7 +2,7 @@
 #twrite = LogTimeSinceLastGetPositionLessConstant('twrite', 'BL18B-EA-IOC-10:TWRITE')
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 import time
 
@@ -22,7 +22,7 @@ class _Timer(object):
         return self.elapsed() >= deltaTime
 
 
-class LogTimeSinceLastGetPositionLessConstant(PseudoDevice):
+class LogTimeSinceLastGetPositionLessConstant(ScannableMotionBase):
 
     def __init__(self, name, logPv):
         # logPv e.g.BL16I-EA-IOC-10:TWRITE

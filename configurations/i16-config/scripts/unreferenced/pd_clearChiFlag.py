@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import time
 
 
-class clearChiFlagClass(PseudoDevice):
+class clearChiFlagClass(ScannableMotionBase):
 	'''clear chi flag before each scan'''
 	def __init__(self, name):
 		self.setName(name);

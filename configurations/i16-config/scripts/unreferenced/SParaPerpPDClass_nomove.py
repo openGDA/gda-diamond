@@ -1,4 +1,4 @@
-class SParaPerpPDClassnomove(PseudoDevice):
+class SParaPerpPDClassnomove(ScannableMotionBase):
 	'''
 	help stuff
 	'''

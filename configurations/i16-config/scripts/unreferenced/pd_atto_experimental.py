@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
 
-class AttoClass(PseudoDevice):
+class AttoClass(ScannableMotionBase):
 	'''
 	Experimental scannable attocube class
 	'''

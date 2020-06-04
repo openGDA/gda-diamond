@@ -1,4 +1,4 @@
-class Epics_Shutter(PseudoDevice):
+class Epics_Shutter(ScannableMotionBase):
 	'''Create PD for single EPICS shutter'''
 	def __init__(self, name, pvstring):
 		self.setName(name);

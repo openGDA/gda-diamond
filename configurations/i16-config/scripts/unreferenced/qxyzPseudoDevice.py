@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import qSpace
 import CalcAngles
@@ -10,7 +10,7 @@ from java.lang import String
 from java.lang import Thread
 
 
-class qxyzPseudoDevice(PseudoDevice):
+class qxyzPseudoDevice(ScannableMotionBase):
 
    def __init__(self,name,q):
       self.name = name

@@ -1,11 +1,11 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.jython.commands.ScannableCommands import pos
 from mathd import *
 from operator import itemgetter, mod
 import beamline_info as BLi
 
 
-class PolarizationAnalyser(PseudoDevice):
+class PolarizationAnalyser(ScannableMotionBase):
 	""" Class to set-up the polarization analyser.
           The methods available are:
           setDetector

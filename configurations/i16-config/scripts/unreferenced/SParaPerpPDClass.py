@@ -1,4 +1,4 @@
-class SParaPerpPDClass(PseudoDevice):
+class SParaPerpPDClass(ScannableMotionBase):
 	'''
 	help stuff
 	'''

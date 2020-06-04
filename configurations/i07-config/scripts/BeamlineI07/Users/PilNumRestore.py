@@ -1,7 +1,8 @@
 from gdascripts.utils import caget, caput
 from gda.jython.commands.ScannableCommands import add_default
+from gda.device.scannable import ScannableMotionBase
 
-class PilNumRestoreClass(PseudoDevice):
+class PilNumRestoreClass(ScannableMotionBase):
     def __init__(self, name):
         self.setName(name)
         self.setInputNames([])

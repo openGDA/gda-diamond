@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 from pd_epics import DisplayEpicsPVClass
 from pd_epics import SingleEpicsPositionerSetAndGetOnlyClass as sep
 
-class OI503s(PseudoDevice):
+class OI503s(ScannableMotionBase):
 	'''Device to control the pulsed tube temperature controlles, 
              if you want to change the ramprate or read it back use:	
 	'''

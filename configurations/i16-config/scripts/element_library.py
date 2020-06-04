@@ -3,7 +3,6 @@ from gda.configuration.properties import LocalProperties
 import os.path
 from mathd import *
 #from constants import *
-#from gda.device.scannable import PseudoDevice
 import beamline_info as BLi
 
 class Element:

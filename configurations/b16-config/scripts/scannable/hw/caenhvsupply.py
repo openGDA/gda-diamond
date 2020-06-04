@@ -1,5 +1,5 @@
 from scannable.moveToCore import DynamicPvManager
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import time       
 
 PUT_TIMEOUT = 5
@@ -21,7 +21,7 @@ RESOLUTION: If the channel has tripped make sure the current set value (ISET) is
             This *MUST* be done if the channel has tripped.
 """
 
-class CaenHvSupply(PseudoDevice):
+class CaenHvSupply(ScannableMotionBase):
 
     def __init__(self, name, pv_prefix, channel):
         self.name = name

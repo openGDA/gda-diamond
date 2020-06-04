@@ -1,10 +1,10 @@
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from java.lang import Thread, Runnable
 from gdascripts.pd.dummy_pds import DummyPD
 import time
 
-class BlockingTestScannable(PseudoDevice):
+class BlockingTestScannable(ScannableMotionBase):
 	def __init__(self, name):
 		self.setName(name)
 		self.setInputNames([name])
@@ -26,7 +26,7 @@ class BlockingTestScannable(PseudoDevice):
 		return False
 
 
-class MakeScannableThreaded(PseudoDevice):
+class MakeScannableThreaded(ScannableMotionBase):
 	
 	#
 	# The constructor. 

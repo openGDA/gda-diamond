@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gdascripts.scannable.epics.PvManager import PvManager
 
 import math
@@ -28,7 +28,7 @@ def toSteps(toconvert, multipliers, stepsizes):
 	return toSteps(toconvert - multiplier * stepsize, multipliers, stepsizes)
 
 
-class LinosCn30PiezoStage(PseudoDevice):
+class LinosCn30PiezoStage(ScannableMotionBase):
 	
 	def __init__(self, name, pvroot):
 		# pvroot is for example: BL16B-EA-CN30-01:X:

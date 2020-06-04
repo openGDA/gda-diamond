@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class McsWrapper(PseudoDevice):
+class McsWrapper(ScannableMotionBase):
 	"""
 	Designed to work closely within cvscan. All required EMCS methods are
 	passed trhough to the raw EMCS. After a collection has been made and

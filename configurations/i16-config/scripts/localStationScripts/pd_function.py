@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class variableClass(PseudoDevice):
+class variableClass(ScannableMotionBase):
 	'''
 	Function PD Class
 	Return value of a specified scalar variable or attribute

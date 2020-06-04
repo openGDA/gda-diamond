@@ -1,14 +1,14 @@
 from pd_time import tictoc
 
 from gda.epics import CAClient 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 from javashell import shellexecute
 from org.slf4j import LoggerFactory
 import misc_functions
 
-class DisplayEpicsPVClass(PseudoDevice):
+class DisplayEpicsPVClass(ScannableMotionBase):
 	'''
 	Create PD to display single EPICS PV
 	dev=DisplayEpicsPVClass(name, pvstring, unitstring, formatstring)
@@ -35,7 +35,7 @@ class DisplayEpicsPVClass(PseudoDevice):
 
 
 
-class SingleEpicsPositionerClass(PseudoDevice):
+class SingleEpicsPositionerClass(ScannableMotionBase):
 	'''
 	Create PD for single EPICS positioner
 	dev=SingleEpicsPositionerClass(name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help=None, command=None)
@@ -243,7 +243,7 @@ class SingleEpicsPositionerNoStatusClass(SingleEpicsPositionerClass):
 
 
 #sleeptime added as key word spc 14/9/08 to remove default 0.5 sec sleep time. Include sleep time at initialization if this causes a problem
-class SingleEpicsPositionerSetAndGetOnlyClass(PseudoDevice):
+class SingleEpicsPositionerSetAndGetOnlyClass(ScannableMotionBase):
 	'''
 	Create PD for single EPICS positioner which respond only to set and get i.e. no status or stop
 	dev=SingleEpicsPositionerSetAndGetOnlyClass(name, pvinstring, pvoutstring, unitstring, formatstring,help=None,sleeptime=0)
@@ -282,7 +282,7 @@ class SingleEpicsPositionerSetAndGetOnlyClass(PseudoDevice):
 
 
 ######seems to be defined twice!! remove commented section if no problems. spc 14/9/08
-#class Epics_Shutter(PseudoDevice):
+#class Epics_Shutter(ScannableMotionBase):
 #	'''Create PD for single EPICS shutter'''
 #	def __init__(self, name, pvstring):
 #		self.setName(name);
@@ -337,7 +337,7 @@ class SingleEpicsPositionerNoStatusClass2(SingleEpicsPositionerNoStatusClass):
 			return 0
 
 
-class Epics_Shutter(PseudoDevice):
+class Epics_Shutter(ScannableMotionBase):
 	'''Create PD for single EPICS shutter'''
 	def __init__(self, name, pvstring):
 		self.setName(name);
@@ -414,7 +414,7 @@ class epics_binary_pos_neg(SingleEpicsPositionerSetAndGetOnlyClass):
 ###############################################################################
 ###                          PROBABLY JUNK                                  ###
 ###############################################################################
-#class DisplayEpicsPVClass(PseudoDevice):
+#class DisplayEpicsPVClass(ScannableMotionBase):
 #	'''Create PD to display single EPICS PV'''
 #	def __init__(self, name, pvstring, unitstring, formatstring):
 #		self.setName(name);

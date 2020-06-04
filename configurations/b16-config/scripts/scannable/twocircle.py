@@ -1,6 +1,6 @@
 import java
-#import gda.device.scannable.PseudoDevice
-import gda.device.scannable.PseudoDevice
+#import gda.device.scannable.ScannableMotionBase
+import gda.device.scannable.ScannableMotionBase
 
 """
     Purpose:       TO-DO
@@ -14,7 +14,7 @@ import gda.device.scannable.PseudoDevice
         asynchronousMoveTo(self,newPosition)
 """
 
-class TwoCircle(gda.device.scannable.PseudoDevice):
+class TwoCircle(gda.device.scannable.ScannableMotionBase):
 
     def __init__(self, name, theta, ttheta):
         self.name = name

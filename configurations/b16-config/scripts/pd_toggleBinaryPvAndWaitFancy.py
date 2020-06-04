@@ -1,4 +1,3 @@
-from gda.device.scannable import PseudoDevice
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
 from time import sleep

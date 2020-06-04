@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import time
 
@@ -23,7 +23,7 @@ class tictoc:
 		return 'Elapsed time: %.4g seconds' % (time.clock()-self.starttime)
 
 
-class showtimeClass(PseudoDevice):
+class showtimeClass(ScannableMotionBase):
 	'''showtimeClass - show time since initialization or atStart. Useful for timing scan points'''
 	def __init__(self, name):
 		self.setName(name);
@@ -43,7 +43,7 @@ class showtimeClass(PseudoDevice):
 	def atScanStart(self):
 		self.timer.reset()
 
-class mrwolfClass(PseudoDevice):
+class mrwolfClass(ScannableMotionBase):
 	'''mrwolfClass - show clock time'''
 	def __init__(self, name):
 		self.setName(name);
@@ -60,7 +60,7 @@ class mrwolfClass(PseudoDevice):
 	def isBusy(self):
 		return 0
 	
-class absoluteTimeClass(PseudoDevice):
+class absoluteTimeClass(ScannableMotionBase):
 	'''absoluteTimeClass - show absolute time in seconds'''
 	def __init__(self, name):
 		self.setName(name);
@@ -76,7 +76,7 @@ class absoluteTimeClass(PseudoDevice):
 	def isBusy(self):
 		return 0
 
-class absoluteTimeClassTwo(PseudoDevice):
+class absoluteTimeClassTwo(ScannableMotionBase):
 	'''absoluteTimeClass - show absolute time in seconds'''
 	def __init__(self, name):
 		self.setName(name);
@@ -92,7 +92,7 @@ class absoluteTimeClassTwo(PseudoDevice):
 	def isBusy(self):
 		return 0
 
-class showincrementaltimeClass(PseudoDevice):
+class showincrementaltimeClass(ScannableMotionBase):
 	'''showtimeClass - show time since initialization or atStart. Useful for timing scan points'''
 	def __init__(self, name):
 		self.setName(name);
@@ -116,7 +116,7 @@ class showincrementaltimeClass(PseudoDevice):
 
 VERBOSE = False
 
-class waittimeClass(PseudoDevice):
+class waittimeClass(ScannableMotionBase):
 	'''waittimeClass - waits for elapsed time. Use as dummy counter in scans etc'''
 	
 	def __init__(self, name):
@@ -156,7 +156,7 @@ class waittimeClass(PseudoDevice):
 		self.waitfortime=0
 	
 	
-class TimeScannable(PseudoDevice):
+class TimeScannable(ScannableMotionBase):
 	'''TimeScannable: to scan time with regular steps'''
 
 	def __init__(self, name):

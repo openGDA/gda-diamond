@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class PD_noisBusyClass(PseudoDevice):
+class PD_noisBusyClass(ScannableMotionBase):
 	'''
 	Make PD never busy
 	'''

@@ -14,7 +14,7 @@
 ## ./ca_string_put.py BL16I-EA-PILAT-01:FilePath /disk2/images/test/
 ##./ca_string_put.py BL16I-EA-PILAT-01:FilePath /dls/i16/data/Pilatus/
 #
-#class NumericalEpicsRecordClass(PseudoDevice):
+#class NumericalEpicsRecordClass(ScannableMotionBase):
 #
 #	def __init__(self,name,outputformat):
 #		self.setName(name);
@@ -36,7 +36,7 @@
 #		return self.cli.caput(newpos)
 #		#self.cli.clearup()
 #
-#class StringEpicsRecordClass(PseudoDevice):
+#class StringEpicsRecordClass(ScannableMotionBase):
 #
 #	def __init__(self,name):
 #		self.setName(name);
@@ -59,7 +59,7 @@
 #
 #
 #
-#class PilatusClass(PseudoDevice):
+#class PilatusClass(ScannableMotionBase):
 #	'''Create Pilatus PD and utilities
 #	Make sure camserver is runnning
 #	ssh -X det@i16-pilatus1  (password Pilatus2)

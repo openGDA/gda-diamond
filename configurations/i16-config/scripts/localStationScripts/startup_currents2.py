@@ -1,10 +1,10 @@
 from time import sleep
 import java
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from gda.factory import Finder
 
-class currents2(PseudoDevice):
+class currents2(ScannableMotionBase):
 
 	def __init__(self, name):
 		self.setName(name)

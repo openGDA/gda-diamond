@@ -6,7 +6,7 @@ import java.io.FileNotFoundException
 # test.plot()
 # matrix = test.getImage().doubleMatrix()
 
-class XmapAcquireClass(PseudoDevice):
+class XmapAcquireClass(ScannableMotionBase):
 	'''
 	Simple XMAP PD. Give real time. Returns real time and roi1,2,3
 	'''
@@ -73,7 +73,7 @@ class XmapAcquireClass(PseudoDevice):
 #	def atScanStart(self):
 #		self.stop()
 
-class XmapAcquireClassNew(PseudoDevice):
+class XmapAcquireClassNew(ScannableMotionBase):
 	'''
 	Simple XMAP PD. Give real time. Returns real time and roi1,2,3
 	Temp new version  - change some PV names

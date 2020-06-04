@@ -1,5 +1,5 @@
-from gda.device.scannable import PseudoDevice
-def chif(PseudoDevice)	#
+from gda.device.scannable import ScannableMotionBase
+def chif(ScannableMotionBase)	#
 	# Constructor.  Must have six motors to control.
 	#
    def __init__(self,name,storedAngles):

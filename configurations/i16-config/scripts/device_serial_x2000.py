@@ -2,7 +2,6 @@ from device_serial import SerialDevice
 from gda.epics import CAClient 
 import java
 import string 
-from gda.device.scannable import PseudoDevice
 
 from time import sleep
 

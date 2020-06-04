@@ -1,7 +1,7 @@
 #sperp and spara using rotation matrix method
 #15/10/2012 implemented horizontal scattering mode (mu different from zero)
 
-class PerpStageMotion(PseudoDevice):
+class PerpStageMotion(ScannableMotionBase):
 	'''Device to move sample stage perpendicular or parallel to the beam when phi and mu are not zero'''
 	def __init__(self,name,_sx,_sy,help=None):
 		self.setName(name)		

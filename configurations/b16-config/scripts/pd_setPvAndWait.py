@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
 from time import sleep
 
-class SetPvAndWait(PseudoDevice):
+class SetPvAndWait(ScannableMotionBase):
 	""" This class is a template and can't be initialised or easily extended """
 	""" This is an example constructor.  Make sure to call completeInitialisationt(). """
 

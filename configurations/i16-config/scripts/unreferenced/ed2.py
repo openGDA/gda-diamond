@@ -17,7 +17,7 @@ class PDBaseClass:
 # output positions are lists/vectors
 
  	def __init__(self):
-		print 'Creating new PseudoDevice'
+		print 'Creating new ScannableMotionBase'
 		self.ExtraNames=[]
 
 	def asynchronousMoveTo(self,new_position):

@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import RecSpace
 import CalcAngles
@@ -12,7 +12,7 @@ from jarray import array
 from java.lang import String
 
 
-class hklPseudoDevice(PseudoDevice):
+class hklPseudoDevice(ScannableMotionBase):
 
 	def __init__(self,name,euler,tth,rs,cal,EDi,delta,gam,az):
 		self.name = name

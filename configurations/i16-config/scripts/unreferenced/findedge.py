@@ -1,9 +1,9 @@
 #from gda.epics import CAClient 
 #from java import lang
-#from gda.device.scannable import PseudoDevice
+#from gda.device.scannable import ScannableMotionBase
 #connect 
 
-class findedge(PseudoDevice):
+class findedge(ScannableMotionBase):
 	'''
 
 	'''

@@ -1,7 +1,7 @@
 
 
 
-class FlipperClass11(PseudoDevice):
+class FlipperClass11(ScannableMotionBase):
 	'''
 	dev=FlipperClass11(name, ppdevice, pilatus, pilatus_roi)
 	uses pilatus and ic1 with specified pp device

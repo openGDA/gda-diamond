@@ -1,4 +1,6 @@
-class crystalinfo(PseudoDevice):
+from gda.device.scannable import ScannableMotionBase
+
+class crystalinfo(ScannableMotionBase):
 	def __init__(self,name, unitstring,formatstring,link1,link2,help=None):
 		self.setName(name);
 		self.setInputNames([])

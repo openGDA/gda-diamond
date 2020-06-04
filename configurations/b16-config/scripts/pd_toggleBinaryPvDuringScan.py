@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from time import sleep
 
-class ToggleBinaryPvDuringScan(PseudoDevice):
+class ToggleBinaryPvDuringScan(ScannableMotionBase):
 	
 	def __init__(self, name, pvstring, normalLevel=True, leave_at_end=False):
 		self.name = name

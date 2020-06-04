@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from time import sleep
 
-class DisplayEpicsPVClass(PseudoDevice):
+class DisplayEpicsPVClass(ScannableMotionBase):
 	'''
 	Create PD to display single EPICS PV
 	dev=DisplayEpicsPVClass(name, pvstring, unitstring, formatstring)
@@ -27,7 +27,7 @@ class DisplayEpicsPVClass(PseudoDevice):
 		return 0
 
 
-class xmapcounter(PseudoDevice):
+class xmapcounter(ScannableMotionBase):
 	def __init__(self, name, pv='ME13C-EA-DET-01:',formatstring='%6f'):
 		self.setLevel(9)
 		self.setOutputFormat([formatstring]*4)

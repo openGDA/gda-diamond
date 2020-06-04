@@ -1,10 +1,10 @@
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 
-class DisplayEpicsPVClass(PseudoDevice):
+class DisplayEpicsPVClass(ScannableMotionBase):
 	'''Create PD to display single EPICS PV'''
 	def __init__(self, name, pvstring, unitstring, formatstring):
 		self.setName(name)
@@ -34,7 +34,7 @@ class DisplayEpicsPVClass(PseudoDevice):
 		if self.cli.isConfigured():
 			self.cli.clearup()
 
-class DisplayEpicsPVArrayClass(PseudoDevice):
+class DisplayEpicsPVArrayClass(ScannableMotionBase):
 	'''Create PD to display single EPICS PV which return multiple
 element values as an array of string in jython.  Users need to type
 conversion e.g. to float element by element. '''
@@ -67,7 +67,7 @@ conversion e.g. to float element by element. '''
 			self.cli.clearup()
 
 
-#class DisplayEpicsPVClass(PseudoDevice):
+#class DisplayEpicsPVClass(ScannableMotionBase):
 #	'''Create PD to display single EPICS PV'''
 #	def __init__(self, name, pvstring, unitstring, formatstring):
 #		self.setName(name)
@@ -94,7 +94,7 @@ conversion e.g. to float element by element. '''
 #roll=DisplayEpicsPVClass('Roll', 'BL16I-MO-DCM-01:RLMTR2:MOT.RBV', 'V', '%.6f')
 diode1=DisplayEpicsPVClass('Roll', 'BL16I-DI-PHDGN-01:DIODE:I', 'V', '%.6f')
 
-class SingleEpicsPositionerClass(PseudoDevice):
+class SingleEpicsPositionerClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring):
 		self.setName(name)

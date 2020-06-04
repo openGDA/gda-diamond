@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from time import sleep
 
-class IDGapFromPVClass(PseudoDevice):
+class IDGapFromPVClass(ScannableMotionBase):
 	'''Create device to control ID gap etc'''
 	def __init__(self, name, mingap, pvinstring, pvoutstring, pvexecutestring, pvstatestring, pvstopstring, unitstring, formatstring):
 		self.setName(name);

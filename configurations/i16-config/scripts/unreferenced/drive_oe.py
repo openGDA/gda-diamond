@@ -1,5 +1,5 @@
 import java
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import jreload
 jreload.makeLoadSet("jscience",['C:\\GDAhead\\jars\\jscience.jar'])
@@ -9,7 +9,7 @@ from jscience.org.jscience.physics.units import SI as SI
 def MM(distance):
 	return Quantity.valueOf(distance, SI.MILLI(SI.METER))
 
-class PD1(PseudoDevice):
+class PD1(ScannableMotionBase):
 
 	def __init__(self,name,value):
 		self.name = name

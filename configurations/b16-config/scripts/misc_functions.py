@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice, ScannableBase
+from gda.device.scannable import ScannableMotionBase, ScannableBase
 from gda.epics import CAClient
 
 from gda.jython import InterfaceProvider
@@ -11,7 +11,7 @@ def list_scannables():
 	keys.sort()
 	for name in keys:
 		obj = globals()[name]
-		if isinstance(obj, PseudoDevice) or isinstance(obj, ScannableBase):
+		if isinstance(obj, ScannableMotionBase) or isinstance(obj, ScannableBase):
 			if obj.getName()!=name:
 				objectname = obj.getName()
 			else:

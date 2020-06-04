@@ -1,10 +1,10 @@
 from gda.epics import CAClient 
 import java
 import string 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 
-class Detectors(PseudoDevice):
+class Detectors(ScannableMotionBase):
 	def __init__(self,name,monitor1,monitor2,defcounter):
 		self.setName(name)
 		self.setInputNames([name])

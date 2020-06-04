@@ -1,11 +1,11 @@
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 from time import ctime
 import time
-#class DisplayEpicsPVClass(PseudoDevice):
+#class DisplayEpicsPVClass(ScannableMotionBase):
 #	'''Create PD to display single EPICS PV'''
 #	def __init__(self, name, pvstring, unitstring, formatstring):
 #		self.setName(name);
@@ -37,7 +37,7 @@ import time
 #
 
 
-class DisplayEpicsPVClass(PseudoDevice):
+class DisplayEpicsPVClass(ScannableMotionBase):
 	'''Create PD to display single EPICS PV'''
 	def __init__(self, name, pvstring, unitstring, formatstring):
 		self.setName(name);
@@ -107,7 +107,7 @@ k2xp=DisplayEpicsPVClass('k2_xpos','BL16I-DI-DCAM-02:XP', 'pixels', '%.4f')
 heater=DisplayEpicsPVClass('heater','BL16I-EA-LS340-01:HTR', '%', '%.2f')
 
 
-class SingleEpicsPositionerClass(PseudoDevice):
+class SingleEpicsPositionerClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring,command=None):
 		self.setName(name);
@@ -346,7 +346,7 @@ xps7=SingleEpicsPositionerClass('xps7','BL16I-MO-ROTAR-01:P.VAL','BL16I-MO-ROTAR
 
 
 
-class SingleEpicsPositionerSetAndGetOnlyClass(PseudoDevice):
+class SingleEpicsPositionerSetAndGetOnlyClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner which respond only to set and get'''
 	def __init__(self, name, pvinstring, pvoutstring, unitstring, formatstring,help=None):
 		self.setName(name);
@@ -432,7 +432,7 @@ def dofill():
 #State=1 if ready, 0 if moving
 #need to stop motors on error; get propper State 
 
-class EnergyFromBraggPD(PseudoDevice):
+class EnergyFromBraggPD(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name,link):
 		self.setName(name);
@@ -477,7 +477,7 @@ class EnergyFromBraggPD(PseudoDevice):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggwithHarmonicPD(PseudoDevice):
+class EnergyFromBraggwithHarmonicPD(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name,link,harmonicPD):
 		self.setName(name);
@@ -523,7 +523,7 @@ class EnergyFromBraggwithHarmonicPD(PseudoDevice):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggFixedoffsetPD(PseudoDevice):
+class EnergyFromBraggFixedoffsetPD(ScannableMotionBase):
 	'Energy PD with optional fixed offset - calls Bragg angle PD'
 	def __init__(self, name,link):
 		self.setName(name);
@@ -547,7 +547,7 @@ class EnergyFromBraggFixedoffsetPD(PseudoDevice):
 		print self.name+'.beamoffset='+str(self.beamoffset)
 		self.setLink(link)
 
-class SingleEpicsPositionerClass(PseudoDevice):
+class SingleEpicsPositionerClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring,command=None):
 		self.setName(name);
@@ -649,7 +649,7 @@ class SingleEpicsPositionerClass(PseudoDevice):
 		bragg_offset(cal_ang-dcm_ang*self.scalefac)
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
-class EnergyFromBraggFixedoffsetwithHarmonicPD(PseudoDevice):
+class EnergyFromBraggFixedoffsetwithHarmonicPD(ScannableMotionBase):
 	'Energy PD with optional fixed offset with Harmonic PD - calls Bragg angle PD'
 	def __init__(self,name,link,harmonicPD):
 		self.setName(name);
@@ -738,7 +738,7 @@ class SingleEpicsPositionerNoStatusClass2(SingleEpicsPositionerNoStatusClass):
 id_gap=SingleEpicsPositionerNoStatusClass2('ID_gap','SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.4f'); 
 id_gap.deadband=0.005
 
-class IDGapFromPVClass(PseudoDevice):
+class IDGapFromPVClass(ScannableMotionBase):
 	'''Create device to control ID gap etc'''
 	def __init__(self, name, pvinstring, pvoutstring, pvexecutestring, pvstatestring, pvstopstring, unitstring, formatstring):
 		self.setName(name);
@@ -792,7 +792,7 @@ class IDGapFromPVClass(PseudoDevice):
 				
 idgap=IDGapFromPVClass('IDgap','SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:BLGSETP','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.3f')
 
-class Epics_Shutter(PseudoDevice):
+class Epics_Shutter(ScannableMotionBase):
 	'''Create PD for single EPICS shutter'''
 	def __init__(self, name, pvstring):
 		self.setName(name);
@@ -832,7 +832,7 @@ class Epics_Shutter(PseudoDevice):
 
 shutter= Epics_Shutter('shutter','BL16I-PS-SHTR-01:CON')
 
-class EpicsIonpClass(PseudoDevice):
+class EpicsIonpClass(ScannableMotionBase):
 	'''Create PD for Epics Ion Pump
 	send 1 to turn on, 0 to turn off	
 	'''
@@ -881,7 +881,7 @@ ionp10=EpicsIonpClass('ionp10','BL16I-VA-IONP-10:START','BL16I-VA-IONP-10:STA')
 ionp11=EpicsIonpClass('ionp11','BL16I-VA-IONP-11:START','BL16I-VA-IONP-11:STA')
 ionp12=EpicsIonpClass('ionp12','BL16I-VA-IONP-12:START','BL16I-VA-IONP-12:STA')
 
-class AllPumpsOnPD(PseudoDevice):
+class AllPumpsOnPD(ScannableMotionBase):
 	'''Create PD to check all ion pumps and turn on
 	send 1 to turn on
 	'''

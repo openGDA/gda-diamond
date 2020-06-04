@@ -1,9 +1,9 @@
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from time import sleep
 
-class R2K(PseudoDevice):
+class R2K(ScannableMotionBase):
 	def __init__(self, name, link,unitstring='K'):
 		self.dev=link
 		self.extraNames = ['res']

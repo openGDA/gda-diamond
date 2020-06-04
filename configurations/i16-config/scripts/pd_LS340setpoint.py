@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from misc_functions import caput
-class EpicsLSsetpoint(PseudoDevice):
+class EpicsLSsetpoint(ScannableMotionBase):
 
 	def __init__(self, name, readstring, writestring, unitstring, formatstring):
 		self.setName(name);

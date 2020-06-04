@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 from pd_epics import DisplayEpicsPVClass
 from pd_epics import SingleEpicsPositionerSetAndGetOnlyClass as sep
@@ -10,7 +10,7 @@ xmroi3=DisplayEpicsPVClass('xmroi2','BL16I-EA-XMAP-01:MCA1.R2','counts','%6f')
 
 #energy.maxEnergyChangeBeforeMovingMirrors=0.00
 
-class xmapcounter(PseudoDevice):
+class xmapcounter(ScannableMotionBase):
 	def __init__(self, name, pv='BL16I-EA-XMAP-01:',formatstring='%6f'):
 		self.setLevel(9)
 		self.setOutputFormat([formatstring]*4)

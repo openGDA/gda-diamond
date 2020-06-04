@@ -3,7 +3,7 @@
 ########### look at FlipperClass12ttl for fixing filenum problem (.intValue() method)
 
 
-class FlipperClass(PseudoDevice):
+class FlipperClass(ScannableMotionBase):
 	'''input: [energy,offset on ppth relative to centre,number of flipping cycles,number of samples per cycle]'''
 
 	def __init__(self,name):
@@ -43,7 +43,7 @@ class FlipperClass(PseudoDevice):
 		self.diff = cup-cdown
 		self.ratio = self.diff/self.tot
 		
-class FlipperClass2(PseudoDevice):
+class FlipperClass2(ScannableMotionBase):
 	'''input: [energy,offset on ppth relative to centre,number of flipping cycles,number of samples per cycle]'''
 
 	def __init__(self,name):
@@ -90,7 +90,7 @@ class FlipperClass2(PseudoDevice):
 		self.ratio = self.diff/self.tot
 		self.ratioref = self.diff_ref/self.tot_ref
 
-class FlipperClass3(PseudoDevice):
+class FlipperClass3(ScannableMotionBase):
 	'''input: [energy,offset on ppth relative to centre,number of flipping cycles,number of samples per cycle]'''
 
 	def __init__(self,name):
@@ -130,7 +130,7 @@ class FlipperClass3(PseudoDevice):
 		self.diff = cup-cdown
 		self.ratio = self.diff/self.tot
 		
-class FlipperClass4(PseudoDevice):
+class FlipperClass4(ScannableMotionBase):
 	'''
 	dev=FlipperClass4(name,ppdevice)
 	uses p100k and ic1 with specified pp device
@@ -197,7 +197,7 @@ class FlipperClass4(PseudoDevice):
 		except:
 			self.ratioref =0
 
-class FlipperClass4a(PseudoDevice):
+class FlipperClass4a(ScannableMotionBase):
 	'''
 	dev=FlipperClass4(name,ppdevice)
 	uses p100k and ic1 with specified pp device
@@ -266,7 +266,7 @@ class FlipperClass4a(PseudoDevice):
 		except:
 			self.ratioref =0
 
-class FlipperClass5(PseudoDevice):
+class FlipperClass5(ScannableMotionBase):
 	'''
 	uses p100k and ic1 with x17_anout analogue output for magnet
 	in: 'volts','ncycles','ncounts'
@@ -332,7 +332,7 @@ class FlipperClass5(PseudoDevice):
 
 
 
-class FlipperClass6(PseudoDevice):
+class FlipperClass6(ScannableMotionBase):
 	'''
 	dev=FlipperClass6(name,ppdevice)
 	uses p100k and ic1 with specified pp device
@@ -400,7 +400,7 @@ class FlipperClass6(PseudoDevice):
 		except:
 			self.ratioref =0
 
-class FlipperClass7(PseudoDevice):
+class FlipperClass7(ScannableMotionBase):
 	'''
 	dev=FlipperClass7(name,ppdevice,filename)
 	uses p100k and ic1 with specified pp device
@@ -454,7 +454,7 @@ class FlipperClass7(PseudoDevice):
 	def atScanStart(self):
 		print "===Pilatus file names: "+self.rootfilename+"n & "+self.rootfilename+"p"
 
-class FlipperClass8(PseudoDevice):
+class FlipperClass8(ScannableMotionBase):
 	'''
 	uses apd and ic1 with x17_anout analogue output for magnet
 	in: 'volts','ncycles','ncounts'
@@ -516,7 +516,7 @@ class FlipperClass8(PseudoDevice):
 		except:
 			self.ratioref =0
 
-class FlipperClass9(PseudoDevice):
+class FlipperClass9(ScannableMotionBase):
 	'''
 	uses apd and ic1 with x17_anout analogue output for magnet +--+ cycle and variable count time
 	in: 'volts','ncycles','ncounts','ctime'
@@ -598,7 +598,7 @@ class FlipperClass9(PseudoDevice):
 		except:
 			self.ratioref =0
 
-class FlipperClass10(PseudoDevice):
+class FlipperClass10(ScannableMotionBase):
 	'''
 	dev=FlipperClass10(name, ppdevice, pilatus)
 	uses pilatus and ic1 with specified pp device
@@ -659,7 +659,7 @@ class FlipperClass10(PseudoDevice):
 		except:
 			self.ic1ratio = 0
 
-class FlipperClass11(PseudoDevice):
+class FlipperClass11(ScannableMotionBase):
 	'''
 	dev=FlipperClass11(name, ppdevice, pilatus, pilatus_roi)
 	uses pilatus and ic1 with specified pp device
@@ -733,7 +733,7 @@ class FlipperClass11(PseudoDevice):
 		self.diff=roi_neg/mon_neg-roi_pos/mon_pos
 		self.fracdiff=self.diff/self.sum
 
-class FlipperClass11tmp(PseudoDevice):
+class FlipperClass11tmp(ScannableMotionBase):
 	'''
 	dev=FlipperClass11(name, ppdevice, pilatus, pilatus_roi)
 	uses pilatus and ic1 with specified pp device
@@ -808,7 +808,7 @@ class FlipperClass11tmp(PseudoDevice):
 		self.diff=roi_neg/mon_neg-roi_pos/mon_pos
 		self.fracdiff=self.diff/self.sum
 
-class FlipperClass11Temp(PseudoDevice):
+class FlipperClass11Temp(ScannableMotionBase):
 	'''
 	temp version to fix waitforinjection bug - delete this class ######################################################
 	dev=FlipperClass11(name, ppdevice, pilatus, pilatus_roi)
@@ -885,7 +885,7 @@ class FlipperClass11Temp(PseudoDevice):
 		self.diff=roi_neg/mon_neg-roi_pos/mon_pos
 		self.fracdiff=self.diff/self.sum	
 
-class FlipperClass12(PseudoDevice):
+class FlipperClass12(ScannableMotionBase):
 	'''
 	dev=FlipperClass12(name, magnetdevice, pilatus, pilatus_roi,pilatus_roi field index (default = last)
 	uses pilatus and ic1 with specified magnet device
@@ -985,7 +985,7 @@ class FlipperClass12(PseudoDevice):
 			self.diff=0
 			self.fracdiff=0
 
-class FlipperPPPQBPMClass(PseudoDevice):
+class FlipperPPPQBPMClass(ScannableMotionBase):
 	'''
 	This PD is for carrying out a precise calibration of the phase plate offset centre
 	dev=FlipperPPPQBPMClass(name, ppdevice, qbpmdevice,monitor (I0) device)
@@ -1040,7 +1040,7 @@ class FlipperPPPQBPMClass(PseudoDevice):
 		self.fracdiff4=(c4_pos-c4_neg)/(c4_pos+c4_neg)
 
 
-class FlipperClass9diode(PseudoDevice):
+class FlipperClass9diode(ScannableMotionBase):
 	'''
 	uses apd and ic1 with x19_anout analogue output for magnet +--+ cycle and variable count time
 	in: 'volts','ncycles','ncounts','ctime'
@@ -1127,7 +1127,7 @@ class FlipperClass9diode(PseudoDevice):
 			self.ratioref =0
 
 
-class FlipperClass13(PseudoDevice):
+class FlipperClass13(ScannableMotionBase):
 	'''
 	dev=FlipperClass13(name, ppdevice, signal_count_PD, signal_read_PD, mon_count_PD, mon_read_PD, signal_read_field=None,  mon_read_field=None)
 	allows separate PV's for count and readback (e.g. readback might be a ROI)
@@ -1248,7 +1248,7 @@ class FlipperClass13(PseudoDevice):
 #			self.energy=self._offset=self.counttime=self.cycles=self.ic1ratio=self.fracdiff=self.sum=self.diff=0
 
 
-class FlipperPD(PseudoDevice):
+class FlipperPD(ScannableMotionBase):
 	'''
 	Flipper device using analogue output. Energy is not used but is included for consistency with other flipper devices such as phase plate
 	'''
@@ -1271,7 +1271,7 @@ class FlipperPD(PseudoDevice):
 		self.energy=newpos[0]
 		self.anout_PD(newpos[1])
 
-class FlipperClass12ttl(PseudoDevice):
+class FlipperClass12ttl(ScannableMotionBase):
 	'''
 	dev=FlipperClass12ttl(name, magnetdevice, pilatus, pilatus_roi,pilatus_roi field index (default = last)
 	uses pilatus and ic1 with specified magnet device
@@ -1374,7 +1374,7 @@ class FlipperClass12ttl(PseudoDevice):
 			self.fracdiff=0
 
 
-class FlipperClass12APDspecial(PseudoDevice):
+class FlipperClass12APDspecial(ScannableMotionBase):
 	'''
 	====== not yet tested =======
 	dev=FlipperClass12APDspecial(name, magnetdevice)

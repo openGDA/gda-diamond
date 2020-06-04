@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 
 from Jama import Matrix
@@ -7,7 +7,7 @@ from Jama import Matrix
 
 
 
-class PsiPseudoDevice(PseudoDevice):
+class PsiPseudoDevice(ScannableMotionBase):
 
 	def __init__(self,name,euler,azimuth,calcAngles,hkl):
 		self.name = name
@@ -36,7 +36,7 @@ class PsiPseudoDevice(PseudoDevice):
 		return self.getName() + ":" + `self.getPosition()`
 
 
-class PsicPseudoDevice(PseudoDevice):
+class PsicPseudoDevice(ScannableMotionBase):
 
 	def __init__(self,name,azimuth):
 		self.name = name

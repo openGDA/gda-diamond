@@ -1,7 +1,7 @@
 # from JythonScannable import JythonPseudoDevice
 from javashell import *
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import beamline_objects as BLobjects
 from Jama import Matrix
@@ -10,7 +10,7 @@ from jarray import array
 from java.lang import String
 from mathd import *
  
-class thetatth(PseudoDevice):
+class thetatth(ScannableMotionBase):
 	'''Theta 2 Theta Device'''
 	def __init__(self,name,motor1,motor2,offset1,offset2,help=None):
 		if help is not None: self.__doc__='\nHelp specific to '+name+':\n'+help

@@ -1,7 +1,7 @@
 from gda.epics import CAClient 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class Struck2(PseudoDevice):
+class Struck2(ScannableMotionBase):
 	'''
 	dev=Struck(name,EpicsPVroot,channel_list)
 	input: count-time (sec)

@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class pd_epics_femto_gain(PseudoDevice):
+class pd_epics_femto_gain(ScannableMotionBase):
 	'''Device to set femto amplifier gain
 	input/output is an integer
 	self.gain() is the numerical gain value
@@ -29,7 +29,7 @@ class pd_epics_femto_gain(PseudoDevice):
 		self()
 		return self.gain
 
-class pd_epics_femto_current(PseudoDevice):
+class pd_epics_femto_current(ScannableMotionBase):
 	'''Device to read current using femto amplifier and adc
 	Femto switched to REMOTE, AC, 10Hz for remote operation
 	Gains:\n10^3 low noise (0)\n10^4 low noise (1)\n10^5 low noise (2)\n10^6 low noise (3)\n10^7 low noise (4)\n10^8 low noise (5)\n10^9 low noise (6)\n10^5 high speed (8)\n10^6 high speed (9)\n10^7 high speed (10)\n10^8 high speed(11)\n10^9 high speed (12)\n10^10 high speed (13)\n10^11 high speed (14)\n
@@ -59,7 +59,7 @@ class pd_epics_femto_current(PseudoDevice):
 	def isBusy(self):
 		return 0
 
-class pd_epics_femto_current_from_monitor(PseudoDevice):
+class pd_epics_femto_current_from_monitor(ScannableMotionBase):
 	'''Device to read current using femto amplifier and adc
 	Femto switched to REMOTE, AC, 10Hz for remote operation
 	Gains:\n10^3 low noise (0)\n10^4 low noise (1)\n10^5 low noise (2)\n10^6 low noise (3)\n10^7 low noise (4)\n10^8 low noise (5)\n10^9 low noise (6)\n10^5 high speed (8)\n10^6 high speed (9)\n10^7 high speed (10)\n10^8 high speed(11)\n10^9 high speed (12)\n10^10 high speed (13)\n10^11 high speed (14)\n

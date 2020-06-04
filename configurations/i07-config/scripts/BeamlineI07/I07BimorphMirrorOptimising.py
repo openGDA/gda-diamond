@@ -7,7 +7,7 @@ from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import Sum
 from gdascripts.pd.dummy_pds import DummyPD
 from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
 from gda.util import VisitPath
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
 
@@ -45,7 +45,7 @@ bm_hfm = BimorphVoltageDevice('hfm', HFMVoltagePV, HFMMonitorPV, 8, 300);
 bm_vfm = BimorphVoltageDevice('vfm', VFMVoltagePV, VFMMonitorPV, 16, 300);
 
 #To define a stopper if beam lost
-class ScanAborter(PseudoDevice):
+class ScanAborter(ScannableMotionBase):
 	def __init__(self, qbpm, minValue):
 		self.qbpm = qbpm
 		self.minValue=minValue

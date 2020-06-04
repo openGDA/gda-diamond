@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class OffsetAxisClass(PseudoDevice):
+class OffsetAxisClass(ScannableMotionBase):
 	'''Create offsetable PD from a scalar PD and offset PD'''
 	#OffsetAxisClass.py (devices with user offsets, e.g. th is eta with eta_off as offset)
 	def __init__(self, name, PD, offsetPD, help=None):

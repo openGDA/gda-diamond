@@ -8,14 +8,14 @@ from java.lang import Thread
 from java.lang import String
 from jarray import array
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import EulerianKconversionModes
 import beamline_objects as BLobjects
 import ShelveIO
 import Angles
 
-class EulerianPseudoDevice(PseudoDevice):
+class EulerianPseudoDevice(ScannableMotionBase):
 
    ### limit stuff ->
    limitPhiLow = None

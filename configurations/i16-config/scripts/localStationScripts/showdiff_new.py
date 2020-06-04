@@ -1,6 +1,7 @@
 #modified version - output names derived from PV name to allow multiple samples during scan
+from gda.device.scannable import ScannableMotionBase
 
-class ShowDiff(PseudoDevice):
+class ShowDiff(ScannableMotionBase):
 	'''
 	Device to read Diff encoder positions
 	need to give an input value e.g. pos showdiff 1 in order to force levels to work correctly in scans

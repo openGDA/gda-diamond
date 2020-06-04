@@ -2,11 +2,11 @@
 
 from gda.epics import CAClient
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from time import sleep
 
-class KeithleyMM(PseudoDevice):
+class KeithleyMM(ScannableMotionBase):
 	'''Device to control Keithley 2000 Multimeter \n Connect to X31'''
 	def __init__(self, name, port='lab',help=None):
 		if port=='lab':

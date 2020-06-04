@@ -3,7 +3,7 @@
 from gdascripts.scannable.epics.PvManager import PvManager
 from time import sleep
 
-class BpmStats(PseudoDevice):
+class BpmStats(ScannableMotionBase):
 	'''Device to read stats from beam position monitor'''
 	def __init__(self, name, comchan='BL16I-DI-BPM-01:STATS:', help=None):
 		self.name = name		

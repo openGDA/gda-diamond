@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import time
 
-class PD_onoff(PseudoDevice):
+class PD_onoff(ScannableMotionBase):
 	'''
 	onoff device
 	'''

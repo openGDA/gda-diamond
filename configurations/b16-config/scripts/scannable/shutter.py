@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import DeviceException
 import time
 
-class Shutter(PseudoDevice):
+class Shutter(ScannableMotionBase):
 	
 	def __init__(self, name, enumPositioner ):
 		self.setName(name)

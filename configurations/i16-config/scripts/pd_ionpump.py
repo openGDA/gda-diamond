@@ -1,9 +1,9 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from time import sleep
 
 import time
-class EpicsIonpClass(PseudoDevice):
+class EpicsIonpClass(ScannableMotionBase):
 	'''Create PD for Epics Ion Pump
 	send 1 to turn on, 0 to turn off	
 	'''
@@ -41,7 +41,7 @@ class EpicsIonpClass(PseudoDevice):
 	
 
 
-class AllPumpsOnPD(PseudoDevice):
+class AllPumpsOnPD(ScannableMotionBase):
 	'''Create PD to check all ion pumps and turn on
 	send 1 to turn on
 	'''

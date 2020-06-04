@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gdascripts.utils import caget
 from gdascripts.pd.time_pds import tictoc
 from gda.epics import CAClient 
 from time import sleep
 
-class SetPvAndWaitForCallbackWithSeparateReadback(PseudoDevice):
+class SetPvAndWaitForCallbackWithSeparateReadback(ScannableMotionBase):
 
 	""" This is the constructor for the class. """
 	def __init__(self, name, pvset, pvread, timeout):

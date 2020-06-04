@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class PD_TwoposClass(PseudoDevice):
+class PD_TwoposClass(ScannableMotionBase):
 	'''
 	move pd between two positions with no status (to allow integration)
 	inputs are the two positions to move between

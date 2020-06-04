@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 
-class MetaDataPD(PseudoDevice):
+class MetaDataPD(ScannableMotionBase):
 	'''Dummy PD Class'''
 	def __init__(self, name):
 		self.setName(name)

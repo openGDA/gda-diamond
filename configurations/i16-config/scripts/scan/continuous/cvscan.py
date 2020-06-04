@@ -1,16 +1,16 @@
 from gda.factory import Finder
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.scan import ConcurrentScan
 import math
 
-#class IPositionCompareableScannable(PseudoDevice):
+#class IPositionCompareableScannable(ScannableMotionBase):
 #	'''
 #	'''
 #	pass
 #
 #	# Define Interface Here
 
-class XpsPositionCompareableScannable(PseudoDevice):
+class XpsPositionCompareableScannable(ScannableMotionBase):
 	"""
 	"""
 

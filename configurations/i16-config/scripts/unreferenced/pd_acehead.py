@@ -1,11 +1,11 @@
 from gda.epics import CAClient 
 import java
 import string 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 		
-class acehead1(PseudoDevice):
+class acehead1(ScannableMotionBase):
 	def __init__(self, name,formatstring,link,unitstring):
 		self.setName(name);
 		self.setLevel(3)

@@ -1,7 +1,7 @@
-from gda.device.scannable import  PseudoDevice
+from gda.device.scannable import  ScannableMotionBase
 import time
 
-class IppdetectorWithEnergySweep(PseudoDevice):
+class IppdetectorWithEnergySweep(ScannableMotionBase):
 	"""
 Expose detector ippdet, while energy is swept from energy_start
 to energy_end. Provides tools to set/get the dcm crystal speed in

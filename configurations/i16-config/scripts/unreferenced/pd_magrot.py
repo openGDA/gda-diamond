@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class magrotClass(PseudoDevice):
+class magrotClass(ScannableMotionBase):
 	'''magrot PD Class - mag rot is absolute magnet angle (depends on psi)'''
 	def __init__(self, name, magmot):
 		self.magmot=magmot

@@ -1,12 +1,12 @@
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import ShelveIO
 import installation
 
 # Offset scannables save and load single values to persistant storage.
 # Note 
-class Offset(PseudoDevice):
+class Offset(ScannableMotionBase):
 	'''Offset scannables save and load single values to persistant storage.
 	
 	'''
@@ -58,7 +58,7 @@ class Offset(PseudoDevice):
 		return 0
 
 
-class OffsetDualScannable(PseudoDevice):
+class OffsetDualScannable(ScannableMotionBase):
 	def __init__(self, name, scannablesToOffset = None):
 		self.name = name
 		self.inputNames = [name]

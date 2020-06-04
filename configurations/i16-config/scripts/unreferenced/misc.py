@@ -1,6 +1,6 @@
 from time import sleep
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import time
 
@@ -24,7 +24,7 @@ class tictoc(java.lang.Object):
 		return 'Elapsed time: %.4g seconds' % (time.clock()-self.starttime)
 
 
-class showtimeClass(PseudoDevice):
+class showtimeClass(ScannableMotionBase):
 	'''showtimeClass - show time since initialization or atStart. Useful for timing scan points'''
 	def __init__(self, name):
 		self.setName(name);
@@ -44,7 +44,7 @@ class showtimeClass(PseudoDevice):
 	def atScanStart(self):
 		self.timer.reset()
 
-class waittimeClass(PseudoDevice):
+class waittimeClass(ScannableMotionBase):
 	'''waittimeClass - waits for elapsed time. Use as dummy counter in scans etc'''
 	
 	def __init__(self, name):
@@ -71,7 +71,7 @@ class waittimeClass(PseudoDevice):
 			return 0
 	
 
-class dummyClass(PseudoDevice):
+class dummyClass(ScannableMotionBase):
 	'''Dummy PD Class'''
 	def __init__(self, name):
 		self.setName(name)

@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class tcasca(PseudoDevice):
+class tcasca(ScannableMotionBase):
 	def __init__(self, name,formatstring,link,unitstring,number):
 		self.setName(name);
 		self.setLevel(3)

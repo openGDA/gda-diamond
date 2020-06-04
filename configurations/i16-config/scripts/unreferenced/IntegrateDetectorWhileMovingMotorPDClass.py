@@ -3,7 +3,7 @@ def setkthspeed(speed):
 	caput('BL16I-MO-DIFF-01:SAMPLE:KTHETA.VELO',speed)
 	#sleep(.5)
 
-class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
+class IntegrateDetectorWhileMovingMotorPDClass(ScannableMotionBase):
 	'''
 	Experimental - do not use!!
 	'''
@@ -59,7 +59,7 @@ class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
 
 rocketa= IntegrateDetectorWhileMovingMotorPDClass()
 
-class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
+class IntegrateDetectorWhileMovingMotorPDClass(ScannableMotionBase):
 	'''
 	Experimental - do not use!!
 	'''
@@ -113,7 +113,7 @@ class IntegrateDetectorWhileMovingMotorPDClass(PseudoDevice):
 #rocketa4= IntegrateDetectorWhileMovingMotorPDClass()
 
 
-class CountDetectorWhileMovingMotorPDClass(PseudoDevice):
+class CountDetectorWhileMovingMotorPDClass(ScannableMotionBase):
 	'''
 	Experimental - do not use!!
 	'''
@@ -167,7 +167,7 @@ class CountDetectorWhileMovingMotorPDClass(PseudoDevice):
 		self.mot.setSpeed(4)
 		
 
-class CountDetectorWhileMovingMotorWithEncoderPDClass(PseudoDevice):
+class CountDetectorWhileMovingMotorWithEncoderPDClass(ScannableMotionBase):
 	'''
 	Experimental - do not use!!
 	'''
@@ -270,7 +270,7 @@ class CountDetectorWhileMovingMotorWithEncoderPDClass(PseudoDevice):
 
 
 
-class CountDetectorWhileMovingMotorWithEncoderWithoutStoppingAndStartingTheTimerPDClass(PseudoDevice):
+class CountDetectorWhileMovingMotorWithEncoderWithoutStoppingAndStartingTheTimerPDClass(ScannableMotionBase):
 	'''
 	Experimental - do not use!!
 	'''

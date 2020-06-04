@@ -1,11 +1,11 @@
-from gda.device.detector import PseudoDetector
+from gda.device.detector import DetectorBase
 
 #
 # Class for creating monitors that automatically set their integration times
 # to that of the detector
 #
 
-class AutoMonitor(PseudoDetector):
+class AutoMonitor(DetectorBase):
 
     def __init__(self, name, monitor, detector):
         self.setName(name)
@@ -41,7 +41,7 @@ class AutoMonitor(PseudoDetector):
     def toString(self):
         return self.getName() + ": Integration=" + str(self.getCollectionTime()) +" (follows '"+ self.detector.getName() + "'), Count=" + str(self.getPosition());
 
-class CountNormaliser(PseudoDevice):
+class CountNormaliser(ScannableMotionBase):
     def __init__(self, name, numerator, denominator, constant=1):
         self.setName(name)
         self.setInputNames([name])
@@ -68,7 +68,7 @@ class CountNormaliser(PseudoDevice):
     def toString(self):
         return self.getName() + ": " +str(self.constant)+"*"+ self.numerator.getName() +"/"+ self.denominator.getName() + "=Count=" + str(self.getPosition());
 
-class CountNormaliserPil(PseudoDevice):
+class CountNormaliserPil(ScannableMotionBase):
     def __init__(self, name, numerator, index, denominator, constant=1, denom_offset=0):
         self.setName(name)
         self.setInputNames([name])

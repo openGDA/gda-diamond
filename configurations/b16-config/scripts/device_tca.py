@@ -1,6 +1,5 @@
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
 from gdascripts.utils import caput
 from gdascripts.utils import caget
 from time import sleep

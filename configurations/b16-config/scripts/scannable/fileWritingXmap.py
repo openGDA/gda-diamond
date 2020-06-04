@@ -1,6 +1,6 @@
 from __future__ import with_statement 
-from gda.device.detector import PseudoDetector
-from gda.device.scannable import PseudoDevice
+from gda.device.detector import DetectorBase
+from gda.device.scannable import ScannableMotionBase
 import os.path
 from gda.data import NumTracker 
 from gda.jython import InterfaceProvider
@@ -32,7 +32,7 @@ def configureScannableLevels(x ,y):
     x.setLevel(y.getLevel() - 1)
 
 
-class CollectionTimeScannable(PseudoDevice):
+class CollectionTimeScannable(ScannableMotionBase):
     
     def __init__(self, name, fileWritingXmap):
         self.name = name
@@ -50,7 +50,7 @@ class CollectionTimeScannable(PseudoDevice):
         return False
 
 
-class FileWritingXmap(PseudoDetector):
+class FileWritingXmap(DetectorBase):
     
     def __init__(self, name, xmapDetector):
         self.name = name

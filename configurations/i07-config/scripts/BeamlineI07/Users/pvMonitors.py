@@ -1,10 +1,10 @@
 from gda.epics import CAClient
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
 #The Class for creating a Monitor directly from EPICS PV
-class MonitorEpicsPVClass(PseudoDevice):
+class MonitorEpicsPVClass(ScannableMotionBase):
 	def __init__(self, name, strPV, strUnit, strFormat):
 		self.setName(name);
 		self.setInputNames([])

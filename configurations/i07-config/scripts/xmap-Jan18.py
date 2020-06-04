@@ -1,4 +1,4 @@
-from gda.device.detector import PseudoDetector
+from gda.device.detector import DetectorBase
 
 #
 # Class for wrapping the Xmap detector to output the data in an ascii file
@@ -14,7 +14,7 @@ from time import time
 pvroot="ME13C-EA-DET-01:MCA1"
 xmnt = NumTracker("xm_nt")
 
-class XMapWrapper(PseudoDetector):
+class XMapWrapper(DetectorBase):
 
     def __init__(self, name, monitor):
         self.setName(name)

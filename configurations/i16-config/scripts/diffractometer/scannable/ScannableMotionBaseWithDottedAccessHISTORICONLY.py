@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from java.lang import String
 
-class ScannableMotionBaseWithDottedAccess(PseudoDevice):
+class ScannableMotionBaseWithDottedAccess(ScannableMotionBase):
 	'''This extended version of ScannableMotionBase contains a completeInstantiation() method
 	which adds a dictionary of MotionScannableParts to an instance. Each part allows one of the
 	instances fields to be interacted with like it itself is a scannable. Fields are dynamically 
@@ -88,7 +88,7 @@ class ScannableMotionBaseWithDottedAccess(PseudoDevice):
 				position[i] = currentPosition[i]
 				
 	# (internal class!)
-	class MotionScannablePart(PseudoDevice):
+	class MotionScannablePart(ScannableMotionBase):
 		'''A scannable to be placed in the parent's childrenDict that allows access to the
 		parent's individual fields.'''
 	

@@ -5,7 +5,7 @@ import math;
 
 from gda.factory import Finder
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from gda.device.scannable import ScannableBase
 
 from gov.aps.jca.event import PutEvent;
@@ -251,7 +251,7 @@ class EpicsPositionComparationDeviceClass(FastScanControlClass):
 
 
 
-class FastMotionDeviceClass(PseudoDevice):
+class FastMotionDeviceClass(ScannableMotionBase):
 	""" """
 
 	def __init__(self, name, fastScanController, fastScanDetector):
@@ -276,7 +276,7 @@ class FastMotionDeviceClass(PseudoDevice):
 	def setDelay(self, delay):
 		self.delay = delay;
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 #		print "At Scan Start"
 		#trigger the scan
@@ -360,7 +360,7 @@ class FastMotionDeviceClass(PseudoDevice):
 
 
 
-class EpicsMCADataDeviceClass(PseudoDevice):
+class EpicsMCADataDeviceClass(ScannableMotionBase):
 	
 	def __init__(self, name, rootPV, numberOfMCA):
 		self.numberOfDetectors = numberOfMCA;
@@ -485,7 +485,7 @@ class EpicsMCADataDeviceClass(PseudoDevice):
 		self.dataset = ds;
 		return True;
 
-# PseudoDetector Implementation
+# DetectorBase Implementation
 	def getPosition(self):
 		resultList = list(self.readout());
 		resultJavaArray = jarray.array(resultList, 'd');

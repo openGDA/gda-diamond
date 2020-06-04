@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.jython import JythonServerFacade
 from gda.jython.JythonStatus import RUNNING
 
@@ -7,7 +7,7 @@ from datetime import time
 from commands import getoutput
 
 
-class CheckValve(PseudoDevice):
+class CheckValve(ScannableMotionBase):
 	'''
 	Checks if Valve 8 is open, and if not, opens it
 	

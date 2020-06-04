@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class hkl_mod(PseudoDevice):
+class hkl_mod(ScannableMotionBase):
 	def __init__(self, name, anglecalcPD,gethklPD):
 		self.setName(name);
 		self.setLevel(6)

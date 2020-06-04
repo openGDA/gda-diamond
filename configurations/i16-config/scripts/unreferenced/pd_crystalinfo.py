@@ -1,4 +1,4 @@
-#from gda.device.scannable import PseudoDevice
+#from gda.device.scannable import ScannableMotionBase
 
 
 

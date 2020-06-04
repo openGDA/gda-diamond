@@ -2,13 +2,13 @@ from inttobin import *
 from gda.epics import CAClient
 import string 
 import beamline_info as BLi
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 from mathd import *
 
 
-class Atten(PseudoDevice):
+class Atten(ScannableMotionBase):
 
 	def __init__(self,name,FoilList):
 		self.setName(name)

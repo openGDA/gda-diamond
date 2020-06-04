@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import RecSpace
 import CalcAngles
@@ -10,7 +10,7 @@ from java.lang import String
 from java.lang import Thread
 
 
-class hklAxisPseudoDevice(PseudoDevice):
+class hklAxisPseudoDevice(ScannableMotionBase):
 
    def __init__(self,name,hkl):
       self.name = name

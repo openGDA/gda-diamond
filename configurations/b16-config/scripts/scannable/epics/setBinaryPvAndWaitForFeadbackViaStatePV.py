@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 import time
 
-class SetBinaryPvAndWaitForFeadbackViaStatePV(PseudoDevice):
+class SetBinaryPvAndWaitForFeadbackViaStatePV(ScannableMotionBase):
 
 	""" This is the constructor for the class. """
 	def __init__(self, name, pvTrigger, pvState, timeout):

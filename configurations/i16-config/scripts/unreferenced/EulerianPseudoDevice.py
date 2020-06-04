@@ -8,7 +8,7 @@ from java.lang import Thread
 from java.lang import String
 from jarray import array
 import java.lang.Exception
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.jython import JythonServerFacade
 
 import EulerianKconversionModes
@@ -16,7 +16,7 @@ import beamline_objects as BLobjects
 import ShelveIO
 import Angles
 
-class EulerianPseudoDevice(PseudoDevice):
+class EulerianPseudoDevice(ScannableMotionBase):
 
 	#
 	# Constructor.  Must have six motors to control.

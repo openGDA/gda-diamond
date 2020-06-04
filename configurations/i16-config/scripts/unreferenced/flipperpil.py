@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class FlipperClass4a(PseudoDevice):
+class FlipperClass4a(ScannableMotionBase):
 	'''
 	dev=FlipperClass4(name,ppdevice)
 	uses p100k and ic1 with specified pp device

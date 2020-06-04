@@ -4,14 +4,14 @@
 
 from time import sleep
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from gda.factory import Finder
 
 #
 #
 #
-class ctmcaClass(PseudoDevice):
+class ctmcaClass(ScannableMotionBase):
 	"""Operates the mca as a PD.  Any movement 
 	acquires data for the supplied length of time.
 	If used in a scan, the output is the live time for
@@ -44,7 +44,7 @@ class ctmcaClass(PseudoDevice):
 #
 #
 #
-class rdmcaClass(PseudoDevice):
+class rdmcaClass(ScannableMotionBase):
 	"""
 	Reads out an mca spectrum as a PD. Moving it changes
 	which mca element is being read.  This PD could be
@@ -71,7 +71,7 @@ class rdmcaClass(PseudoDevice):
 #
 #
 #
-class rdROIClass(PseudoDevice):
+class rdROIClass(ScannableMotionBase):
 	"""
 	A region of interest in an mca spectrum as a PD.
 	This cannot be moved, but its position is an array
@@ -127,7 +127,7 @@ class rdROIClass(PseudoDevice):
 #
 #
 #
-class rdScaClass(PseudoDevice):
+class rdScaClass(ScannableMotionBase):
 	"""
 	A region of interest in an mca spectrum as a PD.
 	This cannot be moved, but its position is the 

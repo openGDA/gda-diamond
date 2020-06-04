@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class MonitorWrapper(PseudoDevice):
+class MonitorWrapper(ScannableMotionBase):
     '''Simply wraps a monitor so it apperas as a regular scannable, and is hence
     moved in scans.'''
     

@@ -1,8 +1,8 @@
 from scannable.moveToCore import DynamicPvManager
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import time       
 
-class Cryostream700(PseudoDevice):
+class Cryostream700(ScannableMotionBase):
 
     def __init__(self, name, pvPrefix):
         self.name = name

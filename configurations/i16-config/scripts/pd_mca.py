@@ -1,10 +1,10 @@
 from gda.epics import CAClient 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from misc_functions import caput, caget
 from time import sleep
 
 
-class Mca(PseudoDevice):
+class Mca(ScannableMotionBase):
 	def __init__(self,name,pvstring):
 		self.setName(name)
 		self.pvstring=pvstring

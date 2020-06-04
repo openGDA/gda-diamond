@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.detector.analyser import EpicsMCAPresets
 
-class EpicsMcaWholeSpectrumWrapper(PseudoDevice):
+class EpicsMcaWholeSpectrumWrapper(ScannableMotionBase):
 	
 	def __init__(self, name, epicsmca):
 		self.name = name

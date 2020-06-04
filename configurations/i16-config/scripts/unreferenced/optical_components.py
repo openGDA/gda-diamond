@@ -4,7 +4,7 @@
 # this needs serious testing...
 
 
-class OpticPDClass(PseudoDevice):
+class OpticPDClass(ScannableMotionBase):
 	'''
 	Optical device
 	inXY, outXY return entrance and exit coordinates as two element list of reals [horiz, vert]
@@ -27,7 +27,7 @@ def directbeam():
 
 
 
-class EnergyPDClass(PseudoDevice):
+class EnergyPDClass(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name, braggPD, dspace, braggoffsetPD, directionsign, BeamlineInfoModule):
 		self.setName(name);

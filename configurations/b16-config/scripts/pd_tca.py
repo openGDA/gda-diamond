@@ -1,11 +1,11 @@
 from gda.epics import CAClient 
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 
 
-class tcasca(PseudoDevice):
+class tcasca(ScannableMotionBase):
 	def __init__(self, name,formatstring,tcaDevice,unitstring,roiNumber):
 		self.setName(name);
 		self.setLevel(3)

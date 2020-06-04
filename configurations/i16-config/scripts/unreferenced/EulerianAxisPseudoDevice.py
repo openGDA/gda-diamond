@@ -5,13 +5,13 @@
 
 from java.lang import Thread
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import EulerianPseudoDevice
 import EulerianKconversionModes
 
 
-class EulerianAxisPseudoDevice(PseudoDevice):
+class EulerianAxisPseudoDevice(ScannableMotionBase):
 
 	#
 	# Constructor. Must have the EulerianPD object ref and which axis

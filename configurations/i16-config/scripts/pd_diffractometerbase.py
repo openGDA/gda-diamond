@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class DiffoBaseClass(PseudoDevice):
+class DiffoBaseClass(ScannableMotionBase):
 	'''Create PD for diffractometer base'''
 	def __init__(self, z1, z2, z3, offsets):
 		self.offsets=offsets

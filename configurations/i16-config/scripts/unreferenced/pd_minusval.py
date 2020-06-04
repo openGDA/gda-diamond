@@ -1,4 +1,4 @@
-class pd_minusval_class(PseudoDevice):
+class pd_minusval_class(ScannableMotionBase):
 	'''
 	return -1*specified collumn of PD
 	'''

@@ -1,4 +1,6 @@
-class ShowDiff(PseudoDevice):
+from gda.device.scannable import ScannableMotionBase
+
+class ShowDiff(ScannableMotionBase):
 	'''
 	Device to read Diff encoder positions
 	see also: showdiff_new.m
@@ -25,7 +27,7 @@ class ShowDiff(PseudoDevice):
 		return False
 showdiff=ShowDiff("showdiff")
 
-class ShowDiffDiff(PseudoDevice):
+class ShowDiffDiff(ScannableMotionBase):
 	'''
 	Same as ShowDiff but subtracts first value in scan for easy plotting
 	'''

@@ -1,7 +1,7 @@
 
 #scannable/laser_experiment.py
 from gda.factory import Finder
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 daserver = Finder.getInstance().find('daserver')
 
 
@@ -22,7 +22,7 @@ class DummyDAServer(object):
         return 0
     
     
-class TfgGroupsScannable(PseudoDevice):
+class TfgGroupsScannable(ScannableMotionBase):
     """Assumes that da.server has been configured with:
           tfg config "etfg0" tfg2
           

@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import java.lang.Exception
 
-class ReadPDGroupClass(PseudoDevice):
+class ReadPDGroupClass(ScannableMotionBase):
 	'''Output values of a group of PseudoDevices'''
 	def __init__(self, name,pdlist,help=None):
 		if help is not None: self.__doc__+='\nHelp specific to '+name+':\n'+help

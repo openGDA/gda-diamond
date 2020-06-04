@@ -1,14 +1,14 @@
 from pd_time import tictoc
 
 from gda.epics import CAClient 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 from javashell import shellexecute
 import misc_functions
 
 
-class pd_counter_phi(PseudoDevice):
+class pd_counter_phi(ScannableMotionBase):
 	'''
 	Create PD for single EPICS positioner
 	dev=SingleEpicsPositionerClass(name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help=None, command=None)

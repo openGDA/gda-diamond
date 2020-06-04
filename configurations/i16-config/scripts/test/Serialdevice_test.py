@@ -1,11 +1,11 @@
 from gda.epics import CAClient 
 import java
 import string 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 
-class NormInt(PseudoDevice):
+class NormInt(ScannableMotionBase):
 	def __init__(self, name,counter1,counter2,formatstring):
 		self.name = name
 		self.counter1=counter1

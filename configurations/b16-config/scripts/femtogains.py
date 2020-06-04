@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import EpicsScannable
 
-class RawScannableExposer(PseudoDevice):
+class RawScannableExposer(ScannableMotionBase):
 
 	def __init__(self, scn):
 		self.scn = scn

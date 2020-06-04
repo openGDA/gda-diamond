@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from misc_functions import caput, caget
 
-class TCA(PseudoDevice):
+class TCA(ScannableMotionBase):
 	def __init__(self,pvstring):
 		self.pvstring=pvstring
 		

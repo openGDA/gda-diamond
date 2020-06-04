@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class MoveScalarPDsToPresetValuesClass(PseudoDevice):
+class MoveScalarPDsToPresetValuesClass(ScannableMotionBase):
 	'''Move a set of scalar PV's between pre-set vaues
 	usage: devname=MoveScalarPDsToPresetValuesClass(name, pd_list,values_list)
 	pd_list is a list of participating PD's

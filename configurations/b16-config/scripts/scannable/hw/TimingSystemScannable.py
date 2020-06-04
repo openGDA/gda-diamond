@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient 
 from gdascripts.pd.time_pds import tictoc
 from time import sleep
@@ -38,7 +38,7 @@ class CounterTimerForGatedMeasurement:
 	def readS1Count(self):
 		return int(float(self.S1.caget()))
 
-class TimingSystemScannable(PseudoDevice):
+class TimingSystemScannable(ScannableMotionBase):
 	"""
 	Controls a PMC-EVR often used at Diamond for TopUp Gating Control 
 	"""

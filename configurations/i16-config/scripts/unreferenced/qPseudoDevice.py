@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import RecSpace
 import CalcAngles
@@ -20,7 +20,7 @@ import MatrixAlgebra as MaAl
 from Orthonormalize import orthonormalize as orto
 
 
-class qPseudoDevice(PseudoDevice):
+class qPseudoDevice(ScannableMotionBase):
 
    def __init__(self,name,euler,tth,rs,cal,EDi,delta,gam,az):
       self.setName("q")

@@ -1,6 +1,6 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class McaChannel( PseudoDevice ):
+class McaChannel( ScannableMotionBase ):
 	def __init__(self,name,mca):
 		self.mca=mca
 		self.setName(name)

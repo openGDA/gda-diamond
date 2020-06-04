@@ -1,4 +1,4 @@
-class pol2Comp(PseudoDevice):
+class pol2Comp(ScannableMotionBase):
     '''PA compensation device'''
     def __init__(self,name,_dettans, _tthp, _thp,devices,help=None):
         self.setName(name)

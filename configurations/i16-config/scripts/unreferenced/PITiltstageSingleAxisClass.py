@@ -1,10 +1,10 @@
 #from gda.epics import CAClient 
 #from java import lang
-#from gda.device.scannable import PseudoDevice
+#from gda.device.scannable import ScannableMotionBase
 #
 
 
-class PITiltstageSingleAxisClass(PseudoDevice):
+class PITiltstageSingleAxisClass(ScannableMotionBase):
 
 	'''Control single axis of PI tilt stage using Asyn Record
 	'''

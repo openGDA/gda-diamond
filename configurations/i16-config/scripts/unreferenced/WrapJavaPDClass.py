@@ -1,7 +1,7 @@
 #experiment to see how a scan works
 # It seems to move all devices and read back positions then finally read all positions again at the end of a scan line.
 
-class WrapPDClass(PseudoDevice):
+class WrapPDClass(ScannableMotionBase):
 	'''
 	Experimental - do not use!!
 	'''

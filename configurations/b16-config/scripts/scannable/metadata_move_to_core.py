@@ -1,7 +1,7 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import ctime
 import time
-class MetadataCollector(PseudoDevice):
+class MetadataCollector(ScannableMotionBase):
 	"""
 	>>>mds = MetadataCollector("mds", globals(), [phi,chi,eta])  # make a small one
 	>>>mdb = MetadataCollector("mdb", globals(), [enf,hkl,euler])  # make a big one

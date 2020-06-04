@@ -1,11 +1,11 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from Jama import Matrix
 import beamline_objects as BLobjects
 
 from jarray import array
 from java.lang import String
 
-class fourCirclePseudoDevice(PseudoDevice):
+class fourCirclePseudoDevice(ScannableMotionBase):
 
 	def __init__(self,name,euler):
 		self.name = name
