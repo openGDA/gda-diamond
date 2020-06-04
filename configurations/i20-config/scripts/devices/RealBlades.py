@@ -1,12 +1,12 @@
 # coding=UTF-8
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.factory import Finder
 
 # If changing this scannable, either call reset_namespace to reload the 
 # script or restart the server using the servers.sh command.
 
-class BladeAngle(PseudoDevice):
+class BladeAngle(ScannableMotionBase):
 
     def __init__(self, name, rName, off, dist, observerName=None):
         self.pseudoName  = name
@@ -57,7 +57,7 @@ class BladeAngle(PseudoDevice):
             return "mrad"
         return super.getAttribute(attributeName)
 
-class SubtractAngle(PseudoDevice):
+class SubtractAngle(ScannableMotionBase):
 
     def __init__(self, name, a, b, observerName=None):
         self.pseudoName  = name
@@ -112,7 +112,7 @@ class SubtractAngle(PseudoDevice):
             return "mrad"
         return super.getAttribute(attributeName)
 
-class AverageAngle(PseudoDevice):
+class AverageAngle(ScannableMotionBase):
 
     def __init__(self, name, a, b, observerName=None):
         self.pseudoName  = name
