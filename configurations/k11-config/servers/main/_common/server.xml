@@ -67,7 +67,7 @@
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d4_addetector.xml" />		
 	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d10_addetector.xml" />		
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/dbsel_addetector.xml" />		
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d11_addetector.xml" />
 
@@ -146,7 +146,7 @@
 	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d4_addetector.xml" />
 	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d10_addetector.xml" />
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/dbsel_addetector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d11_addetector.xml" />
 

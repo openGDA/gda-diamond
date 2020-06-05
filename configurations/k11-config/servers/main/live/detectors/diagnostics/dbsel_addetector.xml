@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+	<bean id="dbsel_pvbase" class="java.lang.String">
+		<constructor-arg value="BL11K-DI-DBSEL-01" />
+	</bean>
+
+	<bean id="dbsel_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{dbsel_pvbase}:CAM:" />
+	</bean>
+	
+	<bean id="dbsel_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="basePVName" value="#{dbsel_pvbase}:ROI:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{dbsel_pvbase}:ROI:" />
+				<property name="initialArrayPort" value="DBSEL.cam" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dbsel_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="#{dbsel_pvbase}:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{dbsel_pvbase}:STAT:" />
+				<property name="initialArrayPort" value="DBSEL.cam" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dbsel_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="#{dbsel_pvbase}:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{dbsel_pvbase}:ARR:" />
+				<property name="initialArrayPort" value="DBSEL.roi" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dbsel_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{dbsel_pvbase}:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{dbsel_pvbase}:HDF5:" />
+				<property name="initialArrayPort" value="DBSEL.stat" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="dbsel" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+
+	<bean id="dbsel_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{dbsel_pvbase}:HDF5:" />
+		<property name="file" ref="dbsel_ndfile" />
+	</bean>
+
+	<bean id="dbsel_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="dbsel_adbase" />
+		<constructor-arg ref="dbsel_roi" />
+	</bean>
+</beans>
