@@ -54,6 +54,10 @@
 								<property name="buttonText" value="Submit tomography scan" />
 								<property name="description" value="Tomography scan" />
 							</bean>
+							<bean class="uk.ac.diamond.daq.mapping.ui.ptychography.PtychographySubmitScanSection">
+								<property name="buttonText" value="Submit ptychography scan" />
+								<property name="description" value="Ptychography scan" />
+							</bean>
 						</list>
 					</property>
 				</bean>
