@@ -28,7 +28,7 @@
 		dummy-maxPosition="360"
 		dummy-position="65"
 		dummy-unitString="deg"
-		dummy-speed="10000"\>
+		dummy-speed="10000"/>
 
 	<bean id="tr6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

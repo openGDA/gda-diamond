@@ -10,21 +10,21 @@
 		dummy-minPosition="-6.126"
 		dummy-maxPosition="6.974"
 		dummy-position="-2.0"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="dcm1_bragg"
 		live-pvName="BL11K-OP-DCM-01:BRAGG"
 		dummy-minPosition="-6.126"
 		dummy-maxPosition="6.974"
 		dummy-position="-2.0"
-		dummy-unitString="deg"\>
+		dummy-unitString="deg"/>
 
 	<gda:motor id="dcm1_z"
 		live-pvName="BL11K-OP-DCM-01:Z"
 		dummy-minPosition="-6.126"
 		dummy-maxPosition="15.974"
 		dummy-position="-2.0"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<bean id="dcm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

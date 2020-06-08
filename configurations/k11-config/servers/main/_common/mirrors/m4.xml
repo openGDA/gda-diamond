@@ -17,28 +17,28 @@
 		dummy-minPosition="-17"
 		dummy-maxPosition="17"
 		dummy-position="-0.0003"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="m4_roll"
 		live-pvName="BL11K-OP-MR-04:ROLL"
 		dummy-minPosition="-4"
 		dummy-maxPosition="4"
 		dummy-position="-0.0019"
-		dummy-unitString="mrad"\>
+		dummy-unitString="mrad"/>
 
 	<gda:motor id="m4_pitch"
 		live-pvName="BL11K-OP-MR-04:PITCH"
 		dummy-minPosition="-25"
 		dummy-maxPosition="25"
 		dummy-position="-0.0725"
-		dummy-unitString="mrad"\>
+		dummy-unitString="mrad"/>
 
 	<gda:motor id="m4_yaw"
 		live-pvName="BL11K-OP-MR-04:YAW"
 		dummy-minPosition="-0.75"
 		dummy-maxPosition="0.75"
 		dummy-position="0.0002"
-		dummy-unitString="mrad"\>
+		dummy-unitString="mrad"/>
 	
 	<!-- RAW MOTION -->
 	<gda:motor id="m4_x1"
@@ -46,49 +46,49 @@
 		dummy-minPosition="-34"
 		dummy-maxPosition="5"
 		dummy-position="-0.001"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="m4_x2"
 		live-pvName="BL11K-OP-MR-04:X2"
 		dummy-minPosition="-34"
 		dummy-maxPosition="5"
 		dummy-position="-0.0016"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="m4_y1"
 		live-pvName="BL11K-OP-MR-04:Y1"
 		dummy-minPosition="-19"
 		dummy-maxPosition="19"
 		dummy-position="-0.0002"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="m4_y2"
 		live-pvName="BL11K-OP-MR-04:Y2"
 		dummy-minPosition="-19"
 		dummy-maxPosition="19"
 		dummy-position="-0.0006"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="m4_y3"
 		live-pvName="BL11K-OP-MR-04:Y3"
 		dummy-minPosition="-19"
 		dummy-maxPosition="19"
 		dummy-position="-0.0002"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="m4_bendus"
 		live-pvName="BL11K-OP-MR-04:BENDUS"
 		dummy-minPosition="7.1"
 		dummy-maxPosition="8.4"
 		dummy-position="8.3002"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<gda:motor id="m4_bendds"
 		live-pvName="BL11K-OP-MR-04:BENDDS"
 		dummy-minPosition="7.9"
 		dummy-maxPosition="9.15"
 		dummy-position="9.0322"
-		dummy-unitString="mm"\>
+		dummy-unitString="mm"/>
 
 	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
