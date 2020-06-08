@@ -6,8 +6,8 @@
 
 	<!-- This seems a bit redundant in the new scanning but keeping it for now
 		to fit with the current ADDectector framework -->
-	<bean id="d10_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="d10_hdf5" />
+	<bean id="dbsel_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="dbsel_hdf5" />
 		<property name="fileTemplate" value="%s%s.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileNameTemplate" value="" />
@@ -15,7 +15,7 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
- 	<bean id="d10_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+ 	<bean id="dbsel_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
         <property name="restoreAcquireTime" value="true" />
         <property name="decoratee">
             <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
@@ -24,7 +24,7 @@
                     <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
                         <property name="decoratee">
                             <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-                                <property name="adBase" ref="d10_adbase" />
+                                <property name="adBase" ref="dbsel_adbase" />
                                 <property name="restoreAcquireState" value="true"/>
                             </bean>
                         </property>
@@ -36,30 +36,30 @@
     </bean>
 
 	<!-- Main area detector - does not compute stats -->
-	<bean id="d10_det" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="d10_adbase" />
-		<property name="ndFile" ref="d10_ndfile" />
-		<property name="ndArray" ref="d10_ndarray" />
-		<property name="ndStats" ref="d10_stats" />
-		<property name="fileWriter" ref="d10_hdf5_writer" />
-		<property name="collectionStrategy" ref="d10_collection_strategy"/>
+	<bean id="dbsel_det" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dbsel_adbase" />
+		<property name="ndFile" ref="dbsel_ndfile" />
+		<property name="ndArray" ref="dbsel_ndarray" />
+		<property name="ndStats" ref="dbsel_stats" />
+		<property name="fileWriter" ref="dbsel_hdf5_writer" />
+		<property name="collectionStrategy" ref="dbsel_collection_strategy"/>
 		<property name="computeStats" value="false" />
 	</bean>
 
-	<bean id="d10_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name" value="d10_det" />
+	<bean id="dbsel_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="dbsel_det" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 
-	<bean id="d10_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="D10" />
-		<property name="description" value="Diagnostic camera 10" />
+	<bean id="dbsel_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="dbsel" />
+		<property name="description" value="Diagnostic beam selector" />
 	</bean>
 
-	<bean id="d10_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name" value="d10_det" />
-		<property name="model" ref="d10_model" />
-		<property name="deviceInformation" ref="d10_info" />
+	<bean id="dbsel_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="dbsel_det" />
+		<property name="model" ref="dbsel_model" />
+		<property name="deviceInformation" ref="dbsel_info" />
 		<property name="activated" value="true" />
 	</bean>
 

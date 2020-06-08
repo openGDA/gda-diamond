@@ -27,12 +27,12 @@
 			value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D3.mjpg.mjpg" />
 	</bean>
 
-	<bean id="d10_cam_config"
+	<bean id="dbsel_cam_config"
 		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D10" />
-		<property name="arrayPv" value="BL11K-DI-PHDGN-10:ARR" />
+		<property name="displayName" value="DBSEL" />
+		<property name="arrayPv" value="BL11K-DI-DBSEL-01:ARR" />
 		<property name="url"
-			value="http://bl11k-di-serv-01.diamond.ac.uk:8081/D10.mjpg.mjpg" />
+			value="http://bl11k-di-serv-01.diamond.ac.uk:8081/DBSEL.mjpg.mjpg" />
 	</bean>
 
 	<bean id="d11_cam_config"
