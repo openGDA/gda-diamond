@@ -7,12 +7,12 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="bco_pitch" pv="BL22I-MO-BCO-01:TABLE:PITCH" protectionLevel="3" />
-    <gda:motor id="bco_yaw" pv="BL22I-MO-BCO-01:TABLE:YAW" protectionLevel="3" />
-    <gda:motor id="bco_x" pv="BL22I-MO-BCO-01:TABLE:X" protectionLevel="3" />
-    <gda:motor id="bco_y" pv="BL22I-MO-BCO-01:TABLE:Y" protectionLevel="3" />
-    <gda:motor id="exitwindow_x" pv="BL22I-MO-OAV-01:MIRROR:X" protectionLevel="3" />
-    <gda:motor id="exitwindow_y" pv="BL22I-MO-OAV-01:MIRROR:Y" protectionLevel="3" />
+    <gda:motor id="bco_pitch" live-pvName="BL22I-MO-BCO-01:TABLE:PITCH" protectionLevel="3" />
+    <gda:motor id="bco_yaw" live-pvName="BL22I-MO-BCO-01:TABLE:YAW" protectionLevel="3" />
+    <gda:motor id="bco_x" live-pvName="BL22I-MO-BCO-01:TABLE:X" protectionLevel="3" />
+    <gda:motor id="bco_y" live-pvName="BL22I-MO-BCO-01:TABLE:Y" protectionLevel="3" />
+    <gda:motor id="exitwindow_x" live-pvName="BL22I-MO-OAV-01:MIRROR:X" protectionLevel="3" />
+    <gda:motor id="exitwindow_y" live-pvName="BL22I-MO-OAV-01:MIRROR:Y" protectionLevel="3" />
 
     <bean id="bco" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

@@ -7,8 +7,8 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="mfbs_x" pv="BL22I-RS-ABSB-03:X" />
-    <gda:motor id="mfbs_y" pv="BL22I-RS-ABSB-03:Y" />
+    <gda:motor id="mfbs_x" live-pvName="BL22I-RS-ABSB-03:X" />
+    <gda:motor id="mfbs_y" live-pvName="BL22I-RS-ABSB-03:Y" />
 
     <bean id="mfbs" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

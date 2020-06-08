@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<!-- Dummy motors until the motors are commissioned in EPICS -->
-	<bean id="tr6_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0" />
-		<property name="maxPosition" value="50.0" />
-		<property name="position" value="9.1" />
-		<property name="unitString" value="mm" />
-	</bean>
-	
-	<bean id="tr6_rot_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0" />
-		<property name="maxPosition" value="360" />
-		<property name="position" value="65" />
-		<property name="unitString" value="deg" />
-		<property name="speed" value="10000" />
-	</bean>
+	<gda:motor id="tr6_y"
+		liveClass="#dummy"
+		live-minPosition="0"
+		live-maxPosition="50.0"
+		live-position="9.1"
+		live-unitString="mm"
+		dummy-minPosition="0"
+		dummy-maxPosition="50.0"
+		dummy-position="9.1"
+		dummy-unitString="mm" />
 
-	<bean id="tr6_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tr6_y_motor" />
-	</bean>
-	
-	<bean id="tr6_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tr6_rot_motor" />
-	</bean>
-	
+	<gda:motor id="tr6_rot"
+		liveClass="#dummy"
+		live-minPosition="0"
+		live-maxPosition="360"
+		live-position="65"
+		live-unitString="deg"
+		live-speed="10000"
+		dummy-minPosition="0"
+		dummy-maxPosition="360"
+		dummy-position="65"
+		dummy-unitString="deg"
+		dummy-speed="10000"\>
+
 	<bean id="tr6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

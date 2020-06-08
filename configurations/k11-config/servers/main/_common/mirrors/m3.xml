@@ -7,19 +7,76 @@
 
 
 	<!-- COMBINED MOTION -->
-	<gda:motor id="m3_x" pv="BL11K-OP-MR-03:X" />
-	<gda:motor id="m3_y" pv="BL11K-OP-MR-03:Y" />
-	<gda:motor id="m3_roll" pv="BL11K-OP-MR-03:ROLL" />
-	<gda:motor id="m3_pitch" pv="BL11K-OP-MR-03:PITCH" />
-	<gda:motor id="m3_yaw" pv="BL11K-OP-MR-03:YAW" />
-	
+	<gda:motor id="m3_x"
+		live-pvName="BL11K-OP-MR-03:X"
+		dummy-minPosition="-20"
+		dummy-maxPosition="15"
+		dummy-position="11.0005"
+		dummy-unitString="mm" />
+
+	<gda:motor id="m3_y"
+		live-pvName="BL11K-OP-MR-03:Y"
+		dummy-minPosition="-15"
+		dummy-maxPosition="15"
+		dummy-position="10.9997"
+		dummy-unitString="mm" />
+
+	<gda:motor id="m3_roll"
+		live-pvName="BL11K-OP-MR-03:ROLL"
+		dummy-minPosition="-4"
+		dummy-maxPosition="4"
+		dummy-position="0.0"
+		dummy-unitString="mrad" />
+
+	<gda:motor id="m3_pitch"
+		live-pvName="BL11K-OP-MR-03:PITCH"
+		dummy-minPosition="-25"
+		dummy-maxPosition="25"
+		dummy-position="-1.8025"
+		dummy-unitString="mrad" />
+
+	<gda:motor id="m3_yaw"
+		live-pvName="BL11K-OP-MR-03:YAW"
+		dummy-minPosition="-0.75"
+		dummy-maxPosition="0.75"
+		dummy-position="-0.0002"
+		dummy-unitString="mrad" />
+
 	<!-- RAW MOTION -->
-	<gda:motor id="m3_x1" pv="BL11K-OP-MR-03:X1" />
-	<gda:motor id="m3_x2" pv="BL11K-OP-MR-03:X2" />
-	<gda:motor id="m3_y1" pv="BL11K-OP-MR-03:Y1" />
-	<gda:motor id="m3_y2" pv="BL11K-OP-MR-03:Y2" />
-	<gda:motor id="m3_y3" pv="BL11K-OP-MR-03:Y3" />
-	
+	<gda:motor id="m3_x1"
+		live-pvName="BL11K-OP-MR-03:X1"
+		dummy-minPosition="-21.3515"
+		dummy-maxPosition="18.6485"
+		dummy-position="12.0878"
+		dummy-unitString="mm" />
+
+	<gda:motor id="m3_x2"
+		live-pvName="BL11K-OP-MR-03:X2"
+		dummy-minPosition="-21.3515"
+		dummy-maxPosition="18.6485"
+		dummy-position="12.0678"
+		dummy-unitString="mm" />
+
+	<gda:motor id="m3_y1"
+		live-pvName="BL11K-OP-MR-03:Y1"
+		dummy-minPosition="-15"
+		dummy-maxPosition="15"
+		dummy-position="11.0"
+		dummy-unitString="mm" />
+
+	<gda:motor id="m3_y2"
+		live-pvName="BL11K-OP-MR-03:Y2"
+		dummy-minPosition="-15"
+		dummy-maxPosition="15"
+		dummy-position="10.992"
+		dummy-unitString="mm" />
+
+	<gda:motor id="m3_y3"
+		live-pvName="BL11K-OP-MR-03:Y3"
+		dummy-minPosition="-15"
+		dummy-maxPosition="15"
+		dummy-position="10.9998"
+		dummy-unitString="mm" />
 
 	<bean id="m3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

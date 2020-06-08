@@ -8,9 +8,9 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="gonio_pitch" pv="BL22I-EA-GONIO-01:PITCH" protectionLevel="2" />
-    <gda:motor id="gonio_roll" pv="BL22I-EA-GONIO-01:ROLL" protectionLevel="2" />
-    <gda:motor id="gonio_yaw" pv="BL22I-EA-GONIO-01:YAW" protectionLevel="2" />
+    <gda:motor id="gonio_pitch" live-pvName="BL22I-EA-GONIO-01:PITCH" protectionLevel="2" />
+    <gda:motor id="gonio_roll" live-pvName="BL22I-EA-GONIO-01:ROLL" protectionLevel="2" />
+    <gda:motor id="gonio_yaw" live-pvName="BL22I-EA-GONIO-01:YAW" protectionLevel="2" />
 
     <bean id="gonio" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

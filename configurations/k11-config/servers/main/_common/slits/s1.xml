@@ -5,20 +5,64 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-
 	<!-- COMBINED MOTION -->
-	<gda:motor id="s1_xsize" pv="BL11K-AL-SLITS-01:XSIZE" />
-	<gda:motor id="s1_xcentre" pv="BL11K-AL-SLITS-01:XCENTRE" />
-	<gda:motor id="s1_ysize" pv="BL11K-AL-SLITS-01:YSIZE" />
-	<gda:motor id="s1_ycentre" pv="BL11K-AL-SLITS-01:YCENTRE" />
+	<gda:motor id="s1_xsize"
+		live-pvName="BL11K-AL-SLITS-01:XSIZE"
+		dummy-minPosition="-1.4996"
+		dummy-maxPosition="15.0004"
+		dummy-position="4.0014"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="s1_xcentre"
+		live-pvName="BL11K-AL-SLITS-01:XCENTRE"
+		dummy-minPosition="-7.0005"
+		dummy-maxPosition="6.9995"
+		dummy-position="-0.001"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="s1_ysize"
+		live-pvName="BL11K-AL-SLITS-01:YSIZE"
+		dummy-minPosition="-0.9314"
+		dummy-maxPosition="7.0686"
+		dummy-position="1.0706"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="s1_ycentre"
+		live-pvName="BL11K-AL-SLITS-01:YCENTRE"
+		dummy-minPosition="-4.001"
+		dummy-maxPosition="3.999"
+		dummy-position="-0.0015"
+		dummy-unitString="mm"\>
 
 
 	<!-- RAW MOTION -->
-	<gda:motor id="s1_xplus" pv="BL11K-AL-SLITS-01:XPLUS" />
-	<gda:motor id="s1_xminus" pv="BL11K-AL-SLITS-01:XMINUS" />
-	<gda:motor id="s1_yplus" pv="BL11K-AL-SLITS-01:YPLUS" />
-	<gda:motor id="s1_yminus" pv="BL11K-AL-SLITS-01:YMINUS" />
+	<gda:motor id="s1_xplus"
+		live-pvName="BL11K-AL-SLITS-01:XPLUS"
+		dummy-minPosition="-7.307"
+		dummy-maxPosition="6.193"
+		dummy-position="2.0"
+		dummy-unitString="mm"\>
 
+	<gda:motor id="s1_xminus"
+		live-pvName="BL11K-AL-SLITS-01:XMINUS"
+		dummy-minPosition="-6.126"
+		dummy-maxPosition="6.974"
+		dummy-position="-2.0"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="s1_yplus"
+		live-pvName="BL11K-AL-SLITS-01:YPLUS"
+		dummy-minPosition="-4.8618"
+		dummy-maxPosition="3.4382"
+		dummy-position="0.5"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="s1_yminus"
+		live-pvName="BL11K-AL-SLITS-01:YMINUS"
+		dummy-minPosition="-3.4417"
+		dummy-maxPosition="5.4583"
+		dummy-position="-0.5"
+		dummy-unitString="mm"\>
 
 	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

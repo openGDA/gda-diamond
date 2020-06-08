@@ -5,11 +5,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<gda:motor id="dcm1_y" pv="BL11K-OP-DCM-01:Y" />
-	<gda:motor id="dcm1_bragg" pv="BL11K-OP-DCM-01:BRAGG" />
-	<gda:motor id="dcm1_z" pv="BL11K-OP-DCM-01:Z" />
-	
-	
+	<gda:motor id="dcm1_y"
+		live-pvName="BL11K-OP-DCM-01:Y"
+		dummy-minPosition="-6.126"
+		dummy-maxPosition="6.974"
+		dummy-position="-2.0"
+		dummy-unitString="mm"\>
+
+	<gda:motor id="dcm1_bragg"
+		live-pvName="BL11K-OP-DCM-01:BRAGG"
+		dummy-minPosition="-6.126"
+		dummy-maxPosition="6.974"
+		dummy-position="-2.0"
+		dummy-unitString="deg"\>
+
+	<gda:motor id="dcm1_z"
+		live-pvName="BL11K-OP-DCM-01:Z"
+		dummy-minPosition="-6.126"
+		dummy-maxPosition="15.974"
+		dummy-position="-2.0"
+		dummy-unitString="mm"\>
+
 	<bean id="dcm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

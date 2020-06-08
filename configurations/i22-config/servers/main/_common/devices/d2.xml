@@ -7,5 +7,5 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="d2motor" pv="BL22I-DI-PHDGN-02:POSN" protectionLevel="3" />
+    <gda:motor id="d2motor" live-pvName="BL22I-DI-PHDGN-02:POSN" protectionLevel="3" />
 </beans>

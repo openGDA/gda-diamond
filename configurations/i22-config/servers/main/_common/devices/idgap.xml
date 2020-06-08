@@ -7,5 +7,5 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="idgap_mm" pv="SR22I-MO-SERVC-01:BLGAPMTR" protectionLevel="3" />
+    <gda:motor id="idgap_mm" live-pvName="SR22I-MO-SERVC-01:BLGAPMTR" protectionLevel="3" />
 </beans>

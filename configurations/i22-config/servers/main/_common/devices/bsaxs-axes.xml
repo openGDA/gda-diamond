@@ -8,8 +8,8 @@
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="bsaxs_y" pv="BL22I-EA-BSAX-01:Y" />
-    <gda:motor id="bsaxs_x" pv="BL22I-EA-BSAX-01:X" />
+    <gda:motor id="bsaxs_y" live-pvName="BL22I-EA-BSAX-01:Y" />
+    <gda:motor id="bsaxs_x" live-pvName="BL22I-EA-BSAX-01:X" />
 
     <bean id="bsaxs" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

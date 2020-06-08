@@ -7,12 +7,12 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="alio_x" pv="BL22I-MO-TABLE-06:X" />
-    <gda:motor id="alio_y" pv="BL22I-MO-TABLE-06:Y" />
-    <gda:motor id="alio_z" pv="BL22I-MO-TABLE-06:Z" />
-    <gda:motor id="alio_pitch" pv="BL22I-MO-TABLE-06:PITCH" />
-    <gda:motor id="alio_roll" pv="BL22I-MO-TABLE-06:ROLL" />
-    <gda:motor id="alio_rot" pv="BL22I-MO-TABLE-06:ROT" />
+    <gda:motor id="alio_x" live-pvName="BL22I-MO-TABLE-06:X" />
+    <gda:motor id="alio_y" live-pvName="BL22I-MO-TABLE-06:Y" />
+    <gda:motor id="alio_z" live-pvName="BL22I-MO-TABLE-06:Z" />
+    <gda:motor id="alio_pitch" live-pvName="BL22I-MO-TABLE-06:PITCH" />
+    <gda:motor id="alio_roll" live-pvName="BL22I-MO-TABLE-06:ROLL" />
+    <gda:motor id="alio_rot" live-pvName="BL22I-MO-TABLE-06:ROT" />
 
     <bean id="alio" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">

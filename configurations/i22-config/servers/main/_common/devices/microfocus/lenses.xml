@@ -7,5 +7,5 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="mflensz" pv="BL22I-OP-LENS-01:Z" protectionLevel="3" />
+    <gda:motor id="mflensz" live-pvName="BL22I-OP-LENS-01:Z" protectionLevel="3" />
 </beans>

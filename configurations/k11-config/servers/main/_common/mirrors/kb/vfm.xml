@@ -5,11 +5,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-
-	<gda:motor id="vfm_pitch" pv="BL11K-OP-KBM-01:VFM:PITCH" />
-	<gda:motor id="vfm_bendus" pv="BL11K-OP-KBM-01:VFM:BENDUS" />
-	<gda:motor id="vfm_bendds" pv="BL11K-OP-KBM-01:VFM:BENDDS" />
-
+	<gda:motor id="vfm_pitch"
+		live-pvName="BL11K-OP-KBM-01:VFM:PITCH"
+		dummy-minPosition="-12.5"
+		dummy-maxPosition="12.5"
+		dummy-position="9.45"
+		dummy-unitString="mrad"/>
+	<gda:motor id="vfm_bendus"
+		live-pvName="BL11K-OP-KBM-01:VFM:BENDUS"
+		dummy-minPosition="-12.5"
+		dummy-maxPosition="12.5"
+		dummy-position="9.45"
+		dummy-unitString="mm"/>
+	<gda:motor id="vfm_bendds"
+		live-pvName="BL11K-OP-KBM-01:VFM:BENDDS"
+		dummy-minPosition="-12.5"
+		dummy-maxPosition="12.5"
+		dummy-position="9.45"
+		dummy-unitString="mm"/>
 
 	<bean id="vfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

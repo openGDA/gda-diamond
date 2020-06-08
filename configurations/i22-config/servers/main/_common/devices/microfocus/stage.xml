@@ -7,9 +7,9 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="mfstage_x" pv="BL22I-MO-TABLE-05:X" protectionLevel="0" />
-    <gda:motor id="mfstage_y" pv="BL22I-MO-TABLE-05:Y" protectionLevel="0" />
-    <gda:motor id="mfstage_z" pv="BL22I-MO-TABLE-05:Z" protectionLevel="0" />
+    <gda:motor id="mfstage_x" live-pvName="BL22I-MO-TABLE-05:X" protectionLevel="0" />
+    <gda:motor id="mfstage_y" live-pvName="BL22I-MO-TABLE-05:Y" protectionLevel="0" />
+    <gda:motor id="mfstage_z" live-pvName="BL22I-MO-TABLE-05:Z" protectionLevel="0" />
 
     <bean id="mfstage" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
