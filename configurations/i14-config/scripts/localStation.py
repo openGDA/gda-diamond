@@ -60,6 +60,7 @@ else:
     run("dummy/cross_hairs.py")
     run("dummy/standards_scan.py")
     run("dummy/tomo_scan.py")
+    run("dummy/ptychography_scan.py")
 
 # Export dcm_enrg over RMI
 print("Exporting dcm_enrg")
