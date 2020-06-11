@@ -111,7 +111,7 @@
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i11-1/data" />
-				<property name="windowsSubString" value="X:\\data" />
+				<property name="windowsSubString" value="Y:\\data" />
 			</bean>
 		</property>
 <!-- 		<property name="copyPluginPrefix" value="BL12I-EA-DET-10:FILECOPY"/> -->
@@ -136,7 +136,7 @@
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i11-1/data" />
-				<property name="windowsSubString" value="X:\\data" />
+				<property name="windowsSubString" value="Y:\\data" />
 			</bean>
 		</property>
 	</bean>
