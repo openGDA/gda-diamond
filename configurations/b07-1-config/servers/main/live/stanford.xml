@@ -3,11 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="SR570_21_sensitivity" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_21_sensitivity" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL07C-EA-IAMP-99:SENS:SEL1"/>
-		<property name="unit" value="pA/V"/>
-		<property name="poll" value="true"/>
-		<property name="sensitivity" value="2.0"/>
+		<property name="units" value="pA/V"/>
+		<property name="deadband" value="2.0"/>
 	</bean>
 
 	<bean id="SR570_21_input_bias" class="gda.device.monitor.EpicsMonitor">
@@ -43,11 +42,10 @@
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_22_sensitivity" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_22_sensitivity" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL07C-EA-IAMP-98:SENS:SEL1"/>
-		<property name="unit" value="pA/V"/>
-		<property name="poll" value="true"/>
-		<property name="sensitivity" value="2.0"/>
+		<property name="units" value="pA/V"/>
+		<property name="deadband" value="2.0"/>
 	</bean>
 
 	<bean id="SR570_22_input_bias" class="gda.device.monitor.EpicsMonitor">
@@ -83,11 +81,10 @@
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_23_sensitivity" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_23_sensitivity" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL07C-EA-IAMP-97:SENS:SEL1"/>
-		<property name="unit" value="pA/V"/>
-		<property name="poll" value="true"/>
-		<property name="sensitivity" value="2.0"/>
+		<property name="units" value="pA/V"/>
+		<property name="deadband" value="2.0"/>
 	</bean>
 
 	<bean id="SR570_23_input_bias" class="gda.device.monitor.EpicsMonitor">
