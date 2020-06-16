@@ -40,11 +40,9 @@ import org.slf4j.LoggerFactory;
 
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.data.scan.datawriter.AsciiMetadataConfig;
-import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
 import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.xstrip.XhDetector;
-import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
@@ -131,7 +129,7 @@ public abstract class EdeExperimentDataWriter {
 
 	// FIXME
 	protected String getScannablesConfiguration() {
-		List<Findable> configs = Finder.getInstance().listAllObjects(FindableAsciiDataWriterConfiguration.class.getSimpleName());
+		List<AsciiDataWriterConfiguration> configs = Finder.getInstance().listFindablesOfType(AsciiDataWriterConfiguration.class);
 		if (configs == null) {
 			return "";
 		}
@@ -139,7 +137,7 @@ public abstract class EdeExperimentDataWriter {
 		try {
 			if (!configs.isEmpty()) {
 				// Adding scannables
-				AsciiDataWriterConfiguration config = (AsciiDataWriterConfiguration) configs.get(0);
+				AsciiDataWriterConfiguration config = configs.get(0);
 				for (AsciiMetadataConfig line : config.getHeader()) {
 					configBuilder.append(config.getCommentMarker() + " " + line.toString() + "\n");
 				}

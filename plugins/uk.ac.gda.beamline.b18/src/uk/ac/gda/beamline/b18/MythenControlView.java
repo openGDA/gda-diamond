@@ -223,10 +223,11 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 				}
 
 				createMythen();
+				JythonServerFacade.getInstance().runCommand("from gda.data.scan.datawriter import AsciiDataWriterConfiguration");
 				String header = JythonServerFacade
 						.getInstance()
 						.evaluateCommand(
-								"str(Finder.getInstance().listAllObjects(\"AsciiDataWriterConfiguration\")[0].getHeader())[1:-1]");
+								"str(Finder.getInstance().listFindablesOfType(AsciiDataWriterConfiguration)[0].getHeader())[1:-1]");
 
 				JythonServerFacade.getInstance().runCommand("ma.setHeader(\"" + header + "\")");
 				timeVal = time.getText();
