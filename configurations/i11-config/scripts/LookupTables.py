@@ -1,6 +1,7 @@
 import sys;
 import string;
 import gda.factory.Finder as Finder;
+from gda.util.converters import IReloadableQuantitiesConverter
 
 def getHelpTopics():
     return [ reloadLookupTables ]
@@ -22,7 +23,7 @@ def reloadLookupTables():
     prefix = "reloadLookupTables:"
     update(controller, prefix, " - started.")
     finder = Finder.getInstance()
-    converters = finder.listAllObjects("IReloadableQuantitiesConverter")
+    converters = finder.listFindablesOfType(IReloadableQuantitiesConverter)
     for converter in converters:
         update(controller, prefix, "..." + converter.getName() )
         converter.reloadConverter()
