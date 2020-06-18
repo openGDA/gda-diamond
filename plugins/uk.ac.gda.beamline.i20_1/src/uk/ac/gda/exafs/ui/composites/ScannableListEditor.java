@@ -57,11 +57,8 @@ public class ScannableListEditor extends Dialog {
 
 	private List<ScannableInfo> scannableInfoList = new ArrayList<ScannableInfo>();
 
-	private transient boolean updateFindablesInProgress;
-
 	public ScannableListEditor(Shell parentShell) {
 		super(parentShell);
-		updateListOfAllScannables();
 		windowTitle = "Edit list of Scannables";
 	}
 
@@ -116,18 +113,6 @@ public class ScannableListEditor extends Dialog {
 			}
 		});
 
-//		listViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-//			@Override
-//			public void selectionChanged(SelectionChangedEvent event) {
-//				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-//				StringBuffer sb = new StringBuffer("Selection - ");
-//				sb.append("total " + selection.size() + " items selected: ");
-//				for (Iterator iterator = selection.iterator(); iterator.hasNext();) {
-//					sb.append(iterator.next() + ", ");
-//				}
-//				System.out.println(sb);
-//			}
-//		});
 		addButtons(mainDialogArea);
 		return mainDialogArea;
 	}
@@ -138,37 +123,11 @@ public class ScannableListEditor extends Dialog {
 	}
 
 	/**
-	 * Call Finder.getInstance().listAllNames(Scannable.class.getSimpleName()) in background thread to generate client side
-	 * list of all objects on server (generating the corba adapter objects is slow!). This is called as soon as composite
-	 * has been created by {@link #createDialogArea(Composite)}.
-	 */
-	public void updateListOfAllScannables() {
-		if (updateFindablesInProgress) {
-			return;
-		}
-		new Thread( () ->  {
-			updateFindablesInProgress = true;
-			logger.info("Updating list of Scannables in progress...");
-			Finder.getInstance().listAllNames(Scannable.class.getSimpleName());
-			logger.info("Updating list of Scannables finished...");
-			updateFindablesInProgress = false;
-			setTooltip();
-		} ).start();
-
-	}
-
-	/**
 	 * Set tooltip for the 'add scannable' button according to whether list of all scannables has been generated.
 	 */
 	private void setTooltip() {
 		if (buttonAddScannable != null && !buttonAddScannable.isDisposed()) {
-			getParentShell().getDisplay().asyncExec(() -> {
-				String message = "Select scannable to add to list...";
-				if (updateFindablesInProgress) {
-					message = "Please wait for list of scannables to be updated...";
-				}
-				buttonAddScannable.setToolTipText(message);
-			});
+			getParentShell().getDisplay().asyncExec(() ->  buttonAddScannable.setToolTipText("Select scannable to add to list..."));
 		}
 	}
 
@@ -210,12 +169,9 @@ public class ScannableListEditor extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				if (updateFindablesInProgress) {
-					return;
-				}
-
 				//Display Dialog with list of all scannables
-				List<String> scnNames = Finder.getInstance().listAllNames(Scannable.class.getSimpleName());
+				Map<String, Scannable> scannables = Finder.getInstance().getFindablesOfType(Scannable.class);
+				List<String> scnNames = new ArrayList<>(scannables.keySet());
 				scnNames.sort((String s1, String s2) -> s1.compareTo(s2) );
 
 				ListDialog ld = new ListDialog(parent.getShell());
