@@ -47,7 +47,6 @@
 		<property name="adBase" ref="d1cam_adbase" />
 		<property name="ndFile" ref="d1cam_ndfile" />
 		<property name="ndArray" ref="d1cam_ndarray" />
-		<property name="ndStats" ref="d1cam_ndstats" />
 		<property name="fileWriter" ref="d1cam_hdf5_writer" />
 		<property name="collectionStrategy" ref="d1cam_collection_strategy" />
 		<property name="computeStats" value="false" />
@@ -68,7 +67,6 @@
 		<property name="adBase" ref="d1cam_adbase" />
 		<property name="ndFile" ref="d1cam_ndfile_fimg" />
 		<property name="ndArray" ref="d1cam_ndarray" />
-		<property name="ndStats" ref="d1cam_ndstats" />
 		<property name="fileWriter" ref="d1cam_fimg_writer" />
 		<property name="collectionStrategy" ref="d1cam_collection_strategy" />
 		<property name="computeStats" value="false" />
