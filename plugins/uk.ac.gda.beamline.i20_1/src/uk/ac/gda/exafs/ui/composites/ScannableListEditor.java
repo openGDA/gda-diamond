@@ -170,7 +170,7 @@ public class ScannableListEditor extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 
 				//Display Dialog with list of all scannables
-				Map<String, Scannable> scannables = Finder.getInstance().getFindablesOfType(Scannable.class);
+				Map<String, Scannable> scannables = Finder.getFindablesOfType(Scannable.class);
 				List<String> scnNames = new ArrayList<>(scannables.keySet());
 				scnNames.sort((String s1, String s2) -> s1.compareTo(s2) );
 

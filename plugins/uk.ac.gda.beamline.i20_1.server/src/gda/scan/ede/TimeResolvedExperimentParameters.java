@@ -574,7 +574,7 @@ public class TimeResolvedExperimentParameters {
 			EdeScanMotorPositions motorPos = theExperiment.getItScanPositions();
 			List<Object> positionValues = getPositionArray(positionsForItScan);
 			motorPos.setMotorPositionsDuringScan(positionValues);
-			motorPos.setScannableToMoveDuringScan(Finder.getInstance().find(scannableToMoveForItScan));
+			motorPos.setScannableToMoveDuringScan(Finder.find(scannableToMoveForItScan));
 		}
 	}
 

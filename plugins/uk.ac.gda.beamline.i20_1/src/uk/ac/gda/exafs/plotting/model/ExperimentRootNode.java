@@ -79,7 +79,7 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 
 	public ExperimentRootNode() {
 		super(null);
-		((IObservable) Finder.getInstance().find(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
+		((IObservable) Finder.find(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
 		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
 	}
 

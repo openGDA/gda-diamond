@@ -66,7 +66,7 @@ public class I20OutputPreparerTest {
 //		Mockito.when(metashop.getName()).thenReturn("metashop");
 //		ObjectFactory factory = new ObjectFactory();
 //		factory.addFindable(metashop);
-//		Finder.getInstance().addFactory(factory);
+//		Finder.addFactory(factory);
 
 		datawriterconfig = PowerMockito.mock(AsciiDataWriterConfiguration.class);
 		datawriterconfig_xes = PowerMockito.mock(AsciiDataWriterConfiguration.class);

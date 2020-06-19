@@ -68,10 +68,10 @@ public class ExplicitScanPositions implements Serializable, EdeScanPosition {
 	@Override
 	public void moveIntoPosition() throws DeviceException, InterruptedException {
 		if (xScannable == null) {
-			xScannable = Finder.getInstance().find(xMotor);
+			xScannable = Finder.find(xMotor);
 		}
 		if (yScannable == null) {
-			yScannable = Finder.getInstance().find(yMotor);
+			yScannable = Finder.find(yMotor);
 		}
 		xScannable.asynchronousMoveTo(xPosition);
 		yScannable.asynchronousMoveTo(yPosition);

@@ -39,8 +39,8 @@ public class LinearExperimentDriver extends ScanDriver {
 	@Deprecated
 	public LinearExperimentDriver(String detectorName, String topupMonitorName, Vector<TimingGroup> timingGroups, Scannable shutter2) {
 		super();
-		detector = Finder.getInstance().find(detectorName);
-		topupMonitor = Finder.getInstance().find(topupMonitorName);
+		detector = Finder.find(detectorName);
+		topupMonitor = Finder.find(topupMonitorName);
 		iTScanParameters = new EdeScanParameters();
 		iTScanParameters.setTimingGroups(timingGroups);
 		this.shutter2 = shutter2;

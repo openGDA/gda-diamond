@@ -85,7 +85,7 @@ public class AlignmentParametersCalculatorTest {
 		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(me2Position);
 		factory.addFindable(detZPosition);
-		Finder.getInstance().addFactory(factory);
+		Finder.addFactory(factory);
 	}
 
 	private AlignmentParametersBean getBean() {

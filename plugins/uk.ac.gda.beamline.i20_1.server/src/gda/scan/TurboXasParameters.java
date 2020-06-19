@@ -585,7 +585,7 @@ public static String doubleToString( double doubleVal ) {
 				final String nameOfPv = entry.getValue();
 				Scannable scn = null;
 				if (StringUtils.isEmpty(nameOfPv)) {
-					scn = Finder.getInstance().find(nameOfScannable);
+					scn = Finder.find(nameOfScannable);
 					if (scn == null) {
 						logger.warn("Unable to find scannable called {} on server", nameOfScannable);
 					}
@@ -617,7 +617,7 @@ public static String doubleToString( double doubleVal ) {
 		final List<Scannable> scannableList = new ArrayList<>();
 		if (scannableNames != null) {
 			scannableNames.forEach(name -> {
-				Optional<Scannable> optionalScannable = Finder.getInstance().findOptional(name);
+				Optional<Scannable> optionalScannable = Finder.findOptional(name);
 				if (optionalScannable.isPresent()) {
 					Scannable scannable = optionalScannable.get();
 					scannableList.add(scannable);
@@ -641,8 +641,8 @@ public static String doubleToString( double doubleVal ) {
 	 */
 	public TurboXasScan createScan() throws Exception {
 
-		Map<String, ContinuouslyScannable> continuouslyScannables = Finder.getInstance().getFindablesOfType(ContinuouslyScannable.class);
-		Map<String, BufferedDetector> bufferedDetector = Finder.getInstance().getFindablesOfType(BufferedDetector.class);
+		Map<String, ContinuouslyScannable> continuouslyScannables = Finder.getFindablesOfType(ContinuouslyScannable.class);
+		Map<String, BufferedDetector> bufferedDetector = Finder.getFindablesOfType(BufferedDetector.class);
 
 		// Try to find the continuouslyScannable motor to be moved ...
 		ContinuouslyScannable motor = continuouslyScannables.get( getMotorToMove() );
@@ -675,7 +675,7 @@ public static String doubleToString( double doubleVal ) {
 		scan.setWriteAsciiDataAfterScan(writeAsciiData);
 
 		// Set the fast shutter if found on server
-		Optional<Scannable> fastShutter = Finder.getInstance().findOptional(fastShutterName);
+		Optional<Scannable> fastShutter = Finder.findOptional(fastShutterName);
 		if (fastShutter.isPresent()) {
 			scan.setShutter(fastShutter.get());
 		}
@@ -686,7 +686,7 @@ public static String doubleToString( double doubleVal ) {
 
 		// Add the scannable to be moved and the positions
 		if (runMappingScan && !StringUtils.isEmpty(scannableToMove)) {
-			Optional<Scannable> scnToMove = Finder.getInstance().findOptional(scannableToMove);
+			Optional<Scannable> scnToMove = Finder.findOptional(scannableToMove);
 			if(scnToMove.isPresent()) {
 				scan.setScannableToMove(scnToMove.get());
 				if (scannablePositions == null) {

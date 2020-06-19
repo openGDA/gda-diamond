@@ -56,8 +56,6 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	@Override
 	public void next() throws DeviceException, InterruptedException {
 
-		Finder finder = Finder.getInstance();
-
 		if (scanParameters instanceof MicroFocusScanParameters) {
 			rcpController.openPerspective("uk.ac.gda.microfocus.ui.MicroFocusPerspective");
 		} else {
@@ -65,9 +63,9 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 			SampleStageParameters stage = parameters.getSampleStageParameters();
 
-			Scannable x = finder.find(stage.getXName());
-			Scannable y = finder.find(stage.getYName());
-			Scannable z = finder.find(stage.getZName());
+			Scannable x = Finder.find(stage.getXName());
+			Scannable y = Finder.find(stage.getYName());
+			Scannable z = Finder.find(stage.getZName());
 
 			try {
 				logMove(stage.getXName(), stage.getX());
@@ -85,7 +83,7 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 		parameters.getAttenuators().forEach(bean -> {
 			logMove(bean.getName(), bean.getSelectedPosition());
-			Scannable attenuator = finder.find(bean.getName());
+			Scannable attenuator = Finder.find(bean.getName());
 			try {
 				if (attenuator != null) attenuator.moveTo(bean.getSelectedPosition());
 			} catch (DeviceException e) {
@@ -95,7 +93,7 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 		if (parameters.isVfmxActive()) {
 			log("Moving kb_vfm_x to:" + parameters.getVfmx());
-			Scannable kbX = finder.find("kb_vfm_x");
+			Scannable kbX = Finder.find("kb_vfm_x");
 			kbX.moveTo(parameters.getVfmx());
 		}
 	}

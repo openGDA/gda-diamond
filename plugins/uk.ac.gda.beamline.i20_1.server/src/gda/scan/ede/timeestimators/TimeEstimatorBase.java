@@ -107,7 +107,7 @@ public abstract class TimeEstimatorBase implements EdeTimeEstimate {
 
 	// private double getCurrentMotorPosition(String motorName) {
 	// try {
-	// double[] currentPos = ScannableUtils.getCurrentPositionArray((Scannable)Finder.getInstance().find(motorName));
+	// double[] currentPos = ScannableUtils.getCurrentPositionArray((Scannable)Finder.find(motorName));
 	// return currentPos[0];
 	// } catch (DeviceException e) {
 	// // have to use some number, this is only an estimate

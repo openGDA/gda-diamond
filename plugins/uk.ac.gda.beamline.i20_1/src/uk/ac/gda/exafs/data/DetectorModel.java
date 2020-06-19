@@ -99,7 +99,7 @@ public class DetectorModel extends ObservableModel {
 	private void setupDetectors() {
 		for (DetectorSetupType detectorSetup : DetectorSetupType.values()) {
 
-			Optional<Findable> detector = Finder.getInstance().findOptional(detectorSetup.getDetectorName());
+			Optional<Findable> detector = Finder.findOptional(detectorSetup.getDetectorName());
 			if (detector.isPresent() && detector.get() instanceof EdeDetector) {
 				EdeDetector ededetector = (EdeDetector) detector.get();
 				ededetector.setDetectorSetupType(detectorSetup);
@@ -172,7 +172,7 @@ public class DetectorModel extends ObservableModel {
 
 	public EdeDetector getCurrentStepScanDetector() {
 		// FIXME
-		return Finder.getInstance().find("ss" + currentDetector.getName());
+		return Finder.find("ss" + currentDetector.getName());
 	}
 
 	public void setCurrentDetector(EdeDetector detector) {

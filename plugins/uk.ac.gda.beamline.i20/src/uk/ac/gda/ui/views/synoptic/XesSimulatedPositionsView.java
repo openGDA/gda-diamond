@@ -73,15 +73,15 @@ public class XesSimulatedPositionsView extends HardwareDisplayComposite {
 	}
 
 	private void setupScannables() {
-		spectrometerGroup = Finder.getInstance().find("dummy_spectrometer");
+		spectrometerGroup = Finder.find("dummy_spectrometer");
 		if (spectrometerGroup != null) {
 			spectrometerMotors = new ArrayList<>();
 			for (String name : spectrometerGroup.getGroupMembersNamesAsArray()) {
-				spectrometerMotors.add(Finder.getInstance().find(name));
+				spectrometerMotors.add(Finder.find(name));
 			}
 		}
-		xesEnergy = Finder.getInstance().find("dummy_XESEnergy");
-		xesBragg = Finder.getInstance().find("dummy_XESBragg");
+		xesEnergy = Finder.find("dummy_XESEnergy");
+		xesBragg = Finder.find("dummy_XESBragg");
 	}
 
 	private void setupGui(Composite parent) throws DeviceException {

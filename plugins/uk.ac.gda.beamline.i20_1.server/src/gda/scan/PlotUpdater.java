@@ -72,7 +72,7 @@ public class PlotUpdater {
 	}
 
 	public PlotUpdater() {
-		controller = Finder.getInstance().find(EdeExperiment.PROGRESS_UPDATER_NAME);
+		controller = Finder.find(EdeExperiment.PROGRESS_UPDATER_NAME);
 	}
 
 	public void setCurrentGroupNumber(int currentGroupNumber) {

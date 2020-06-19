@@ -129,7 +129,7 @@ public abstract class EdeExperimentDataWriter {
 
 	// FIXME
 	protected String getScannablesConfiguration() {
-		List<AsciiDataWriterConfiguration> configs = Finder.getInstance().listFindablesOfType(AsciiDataWriterConfiguration.class);
+		List<AsciiDataWriterConfiguration> configs = Finder.listFindablesOfType(AsciiDataWriterConfiguration.class);
 		if (configs == null) {
 			return "";
 		}

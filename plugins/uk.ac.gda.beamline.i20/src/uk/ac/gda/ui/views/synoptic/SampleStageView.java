@@ -96,8 +96,8 @@ public class SampleStageView extends HardwareDisplayComposite {
 			setWidgetPosition(lineLabel.getControl(), 40, -5);
 		}
 
-		Scannable samplePitchScannable = Finder.getInstance().find("sample_pitch");
-		Scannable sampleRollScannable = Finder.getInstance().find("sample_roll");
+		Scannable samplePitchScannable = Finder.find("sample_pitch");
+		Scannable sampleRollScannable = Finder.find("sample_roll");
 
 		// NB sample stage for XAS : pitch and roll arrows are reversed.
 		HighlightImageLabel lineLabel = new HighlightImageLabel(parent);

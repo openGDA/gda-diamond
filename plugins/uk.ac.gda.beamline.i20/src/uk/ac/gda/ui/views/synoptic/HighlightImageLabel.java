@@ -75,7 +75,7 @@ class HighlightImageLabel implements IObserver {
 	public HighlightImageLabel(Composite parent, String scannableName) {
 		this.parent = parent;
 		setLayout();
-		scannable = Finder.getInstance().find(scannableName);
+		scannable = Finder.find(scannableName);
 		setScannable(scannable);
 	}
 

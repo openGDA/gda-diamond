@@ -90,7 +90,7 @@ public class MetashopDataScannable extends ScannableBase {
 
 	public NXMetaDataProvider getMetashop() {
 		String name = LocalProperties.get(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME);
-		return Finder.getInstance().find(name);
+		return Finder.find(name);
 	}
 
 	@Override

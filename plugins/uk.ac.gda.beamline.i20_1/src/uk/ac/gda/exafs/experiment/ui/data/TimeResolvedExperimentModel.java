@@ -157,7 +157,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		experimentDataCollectionJob = new ScanJob("Linear experiment scan");
 		InterfaceProvider.getJSFObserver().addIObserver(experimentDataCollectionJob);
-		Optional<Scriptcontroller> controller = Finder.getInstance().findOptional(EdeExperiment.PROGRESS_UPDATER_NAME);
+		Optional<Scriptcontroller> controller = Finder.findOptional(EdeExperiment.PROGRESS_UPDATER_NAME);
 		if (controller.isPresent()) {
 			controller.get().addIObserver(experimentDataCollectionJob);
 		}

@@ -59,7 +59,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 			return;
 		}
 		for (Entry<String, Double> scannablePositionEntry : positionMap.entrySet()) {
-			Scannable scannable = Finder.getInstance().find(scannablePositionEntry.getKey());
+			Scannable scannable = Finder.find(scannablePositionEntry.getKey());
 			if (scannable ==null) {
 				throw new DeviceException("Unable to find scannable: " + scannablePositionEntry);
 			}
@@ -74,7 +74,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 
 	public Scannable getScannableToMoveDuringScan() {
 		if (scannableToMoveDuringScan==null && nameOfScannableToMoveDuringScan!=null) {
-			scannableToMoveDuringScan=Finder.getInstance().find(nameOfScannableToMoveDuringScan);
+			scannableToMoveDuringScan=Finder.find(nameOfScannableToMoveDuringScan);
 		}
 		return scannableToMoveDuringScan;
 	}

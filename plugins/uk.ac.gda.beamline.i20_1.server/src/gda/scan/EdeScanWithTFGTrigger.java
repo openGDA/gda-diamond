@@ -98,9 +98,9 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 		this.triggeringParameters = triggeringParameters;
 		this.shouldWaitForTopup = shouldWaitForTopup;
-		daServerForTriggeringWithTFG = Finder.getInstance().find("daserverForTfg");
-		injectionCounter = Finder.getInstance().find("injectionCounter");
-		topupCheckerMachine = (TopupChecker) Finder.getInstance().find("topupChecker");
+		daServerForTriggeringWithTFG = Finder.find("daserverForTfg");
+		injectionCounter = Finder.find("injectionCounter");
+		topupCheckerMachine = (TopupChecker) Finder.find("topupChecker");
 	}
 
 	public void doCollectionFrelon() throws Exception {

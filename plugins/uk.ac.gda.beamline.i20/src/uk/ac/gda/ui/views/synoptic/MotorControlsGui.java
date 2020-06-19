@@ -119,14 +119,14 @@ public class MotorControlsGui implements IObserver {
 	public MotorControlsGui(Composite parent, String scannableMotorName, int options) throws DeviceException {
 		this.parent = parent;
 		layoutOptions = options;
-		scannableMotor = Finder.getInstance().find(scannableMotorName);
+		scannableMotor = Finder.find(scannableMotorName);
 		setup();
 	}
 
 	public MotorControlsGui(Composite parent, String scannableMotorName, boolean useCompactLayout) throws DeviceException {
 		this.parent = parent;
 		layoutOptions = useCompactLayout==true ? COMPACT_LAYOUT : FULL_LAYOUT;
-		scannableMotor = Finder.getInstance().find(scannableMotorName);
+		scannableMotor = Finder.find(scannableMotorName);
 		setup();
 	}
 

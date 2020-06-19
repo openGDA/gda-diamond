@@ -70,8 +70,8 @@ public class SoftXRayDetectorRatesView extends ViewPart implements IPartListener
 		//gd.widthHint = 400;
 		table.setLayoutData(gd);
 
-		gmsd = (Scannable) Finder.getInstance().find("gmsd");
-		xmapMca = (Scannable) Finder.getInstance().find("xmapMca");
+		gmsd = (Scannable) Finder.find("gmsd");
+		xmapMca = (Scannable) Finder.find("xmapMca");
 
 		final TableColumn[] columns = new TableColumn[titles.length];
 		for (int i = 0; i < titles.length; i++) {

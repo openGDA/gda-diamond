@@ -50,8 +50,8 @@ public class SingleSpectrumDriver extends ScanDriver{
 
 		this.shutter2 = shutter2;
 
-		detector = Finder.getInstance().find(detectorName);
-		topupMonitor = Finder.getInstance().find(topupMonitorName);
+		detector = Finder.find(detectorName);
+		topupMonitor = Finder.find(topupMonitorName);
 
 		if (this.it_scantime == null) {
 			this.it_scantime = i0_scantime;

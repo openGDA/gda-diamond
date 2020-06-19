@@ -93,8 +93,8 @@ public class ScannablePositionsComposite implements IObservable {
 	private void selectScannable() {
 		// Make sorted list of names of available scannables
 		Map<String, Scannable> all = new HashMap<>();
-		Map<String, ScannableMotor> scannableMotors = Finder.getInstance().getFindablesOfType(ScannableMotor.class);
-		Map<String, ScannableGroup> scannableGroups = Finder.getInstance().getFindablesOfType(ScannableGroup.class);
+		Map<String, ScannableMotor> scannableMotors = Finder.getFindablesOfType(ScannableMotor.class);
+		Map<String, ScannableGroup> scannableGroups = Finder.getFindablesOfType(ScannableGroup.class);
 		if (scannableGroups != null) {
 			all.putAll(scannableMotors);
 		}
@@ -136,7 +136,7 @@ public class ScannablePositionsComposite implements IObservable {
 	 * Setup list of values the scannable should be moved to
 	 */
 	private void setPositions() {
-		Scannable scn = Finder.getInstance().find(scannableName);
+		Scannable scn = Finder.find(scannableName);
 		if (scn == null) {
 			String info = "Could not open positions editor\n";
 			String message = StringUtils.isEmpty(scannableName) ?

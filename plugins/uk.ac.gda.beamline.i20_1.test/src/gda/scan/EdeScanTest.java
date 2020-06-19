@@ -169,7 +169,7 @@ public class EdeScanTest extends EdeTestBase {
 		config.setName("config");
 		factory.addFindable(config);
 
-		Finder.getInstance().addFactory(factory);
+		Finder.addFactory(factory);
 
 		inOutBeamMotors = new HashMap<String, Double>();
 		inOutBeamMotors.put(xScannable.getName(), 0.3);
@@ -179,7 +179,7 @@ public class EdeScanTest extends EdeTestBase {
 	@AfterClass
 	public static void tearDownClass() {
 		// Remove factories from Finder so they do not affect other tests
-		Finder.getInstance().removeAllFactories();
+		Finder.removeAllFactories();
 	}
 
 	public void createObjectsForEdeScanWithTfg() throws FactoryException, DeviceException {
@@ -410,7 +410,7 @@ public class EdeScanTest extends EdeTestBase {
 
 		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(group);
-		Finder.getInstance().addFactory(factory);
+		Finder.addFactory(factory);
 
 		TimeResolvedExperimentParameters params = getTimeResolvedExperimentParameters();
 		params.setCollectMultipleItSpectra(true);

@@ -48,17 +48,17 @@ public class AmplifierConrolsGui {
 	}
 
 	public void setSensitivity(String value, String units) {
-		sensValue = Finder.getInstance().find(value);
-		sensUnits = Finder.getInstance().find(units);
+		sensValue = Finder.find(value);
+		sensUnits = Finder.find(units);
 	}
 
 	public void setOffset(String value, String units) {
-		offsetValue = Finder.getInstance().find(value);
-		offsetUnits = Finder.getInstance().find(units);
+		offsetValue = Finder.find(value);
+		offsetUnits = Finder.find(units);
 	}
 
 	public void setCurrent(String current) {
-		currenOnOff = Finder.getInstance().find(current);
+		currenOnOff = Finder.find(current);
 	}
 
 	public void setLabel(String label) {

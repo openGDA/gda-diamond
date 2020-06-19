@@ -81,14 +81,14 @@ public class I18SamplePreparerTest {
 		when(mocksFactory.getFindable("d7b")).thenReturn(d7b);
 		when(mocksFactory.getFindable("mocked_kb_vfm_x")).thenReturn(mocked_kb_vfm_x);
 
-		Finder.getInstance().addFactory(mocksFactory);
+		Finder.addFactory(mocksFactory);
 
 		preparer = new I18SamplePreparer(rcpController);
 	}
 
 	@After
 	public void cleanUpFinder() {
-		Finder.getInstance().removeAllFactories();
+		Finder.removeAllFactories();
 	}
 
 	private ScannableMotor createMockScannableMotor(String string) {

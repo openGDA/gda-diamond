@@ -59,7 +59,7 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 	}
 
 	private void setupScannables() {
-		Map<String, IXesOffsets> offsetObject = Finder.getInstance().getFindablesOfType(IXesOffsets.class);
+		Map<String, IXesOffsets> offsetObject = Finder.getFindablesOfType(IXesOffsets.class);
 		if (!offsetObject.isEmpty()) {
 			offsets = offsetObject.values().iterator().next();
 			logger.debug("Using XesOffsets object {}", offsets.getName());

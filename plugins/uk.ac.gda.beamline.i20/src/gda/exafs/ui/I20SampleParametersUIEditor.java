@@ -113,7 +113,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	}
 
 	private void createSampleWheelGroup(final Composite composite) {
-		EnumPositioner sampleWheel = Finder.getInstance().find(I20SampleParameters.SAMPLE_WHEEL_NAME);
+		EnumPositioner sampleWheel = Finder.find(I20SampleParameters.SAMPLE_WHEEL_NAME);
 		if (sampleWheel != null) {
 
 			// Update sample wheel combo items if underlying scannable changes

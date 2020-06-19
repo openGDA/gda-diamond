@@ -177,7 +177,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		cmbDetectorType.addSelectionChangedListener( event -> {
 			if (event != null && !event.getSelection().isEmpty()) {
 				String text = cmbDetectorType.getCombo().getText();
-				Findable detector = Finder.getInstance().find(text);
+				Findable detector = Finder.find(text);
 				logger.debug("Detector name changed to {}", text);
 				if (detector != null && detector instanceof EdeDetector) {
 					EdeDetector edeDetector = (EdeDetector) detector;

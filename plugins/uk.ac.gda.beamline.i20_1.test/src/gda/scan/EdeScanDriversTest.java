@@ -98,13 +98,13 @@ public class EdeScanDriversTest extends EdeTestBase {
 		factory.addFindable(fastShutter_xMotor);
 		factory.addFindable(fastShutter_yMotor);
 		factory.addFindable(topupMonitor);
-		Finder.getInstance().addFactory(factory);
+		Finder.addFactory(factory);
 	}
 
 	@AfterClass
 	public static void tearDownClass() {
 		// Remove factories from Finder so they do not affect other tests
-		Finder.getInstance().removeAllFactories();
+		Finder.removeAllFactories();
 	}
 
 	public void setup(String testName) throws Exception {

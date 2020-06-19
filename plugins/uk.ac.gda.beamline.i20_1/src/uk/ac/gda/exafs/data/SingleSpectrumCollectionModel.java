@@ -103,7 +103,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	public void setup() {
 		job = new ScanJob("Performing Single spectrum scan");
-		((IObservable) Finder.getInstance().find(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
+		((IObservable) Finder.find(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		job.setUser(true);
 		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, evt -> {

@@ -337,7 +337,7 @@ public class TurboXasExperimentView extends ViewPart {
 
 		// Try to get motor to be moved so can find upper and lower motion limits
 		String motorName = motorCombo.getText();
-		Scannable motor = Finder.getInstance().find(motorName);
+		Scannable motor = Finder.find(motorName);
 		if (motor!=null) {
 			motorParams.setMotorLimits(motor);
 		}
@@ -569,7 +569,7 @@ public class TurboXasExperimentView extends ViewPart {
 		String[] selectedDetectors = getSelectedDetectorNames();
 		List<Pair<String,String>> allDatasetNames = new ArrayList<>();
 		for(String detName : selectedDetectors) {
-			Scannable detector = Finder.getInstance().find(detectorNamesMap.get(detName));
+			Scannable detector = Finder.find(detectorNamesMap.get(detName));
 			if (detector != null) {
 				String[] extraNames = detector.getExtraNames();
 				for(String datasetName : extraNames) {

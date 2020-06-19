@@ -43,7 +43,7 @@ public class ScannablePositionGui implements IObserver {
 
 	public ScannablePositionGui(Composite parent, String scannableName) {
 		this.parent = parent;
-		scannable = Finder.getInstance().find(scannableName);
+		scannable = Finder.find(scannableName);
 	}
 
 	private String getPosition(Scannable scn) {

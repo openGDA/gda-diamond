@@ -81,13 +81,13 @@ public class PowerCalculatorTest {
 		factory.addFindable(atn3);
 		factory.addFindable(me1Stripe);
 		factory.addFindable(me2Stripe);
-		Finder.getInstance().addFactory(factory);
+		Finder.addFactory(factory);
 	}
 
 	@AfterClass
 	public static void tearDownClass() {
 		// Remove factories from Finder so they do not affect other tests
-		Finder.getInstance().removeAllFactories();
+		Finder.removeAllFactories();
 	}
 
 	private DummyEnumPositioner createPositioner(String name) throws FactoryException {

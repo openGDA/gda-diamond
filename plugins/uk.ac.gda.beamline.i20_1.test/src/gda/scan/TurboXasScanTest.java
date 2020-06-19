@@ -107,7 +107,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	@AfterClass
 	public static void tearDownClass() {
 		// Remove factories from Finder so they do not affect other tests
-		Finder.getInstance().removeAllFactories();
+		Finder.removeAllFactories();
 	}
 
 	@Before
@@ -213,7 +213,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		factory.addFindable(testMotor);
 		factory.addFindable(xspress3detector);
 		factory.addFindable(dummyScannableMotor);
-		Finder.getInstance().addFactory(factory);
+		Finder.addFactory(factory);
 		addMetashopToFinder();
 	}
 
@@ -645,7 +645,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		TurboXasScan scan = parameters.createScan();
 
 		// At scan start should add turboxas and xspress parameter metadata to metashop
-		NXMetaDataProvider metaShop = Finder.getInstance().find("metaShop");
+		NXMetaDataProvider metaShop = Finder.find("metaShop");
 		scan.callScannablesAtScanStart();
 		assertEquals(TURBOXAS_METADATA_NAME+" in metashop does not match expected value", parameters.toXML(), metaShop.get(TURBOXAS_METADATA_NAME));
 		assertEquals(XSPRESS3_METADATA_NAME+" parameters in metashop does not match expected value", getXspress3ConfigParmeters(), metaShop.get(XSPRESS3_METADATA_NAME));

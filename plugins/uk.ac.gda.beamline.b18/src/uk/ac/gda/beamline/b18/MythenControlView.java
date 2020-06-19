@@ -227,7 +227,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 				String header = JythonServerFacade
 						.getInstance()
 						.evaluateCommand(
-								"str(Finder.getInstance().listFindablesOfType(AsciiDataWriterConfiguration)[0].getHeader())[1:-1]");
+								"str(Finder.listFindablesOfType(AsciiDataWriterConfiguration)[0].getHeader())[1:-1]");
 
 				JythonServerFacade.getInstance().runCommand("ma.setHeader(\"" + header + "\")");
 				timeVal = time.getText();

@@ -149,7 +149,7 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 				labels.add(bean.getLabel());
 			}
 
-			EditableEnumPositioner sampleWheel = Finder.getInstance().find(I20SampleParameters.SAMPLE_WHEEL_NAME);
+			EditableEnumPositioner sampleWheel = Finder.find(I20SampleParameters.SAMPLE_WHEEL_NAME);
 
 			sampleWheel.setPositions(labels);
 
@@ -176,7 +176,7 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 	protected void performDefaults() {
 
 		try {
-			EnumPositioner sampleWheel = Finder.getInstance().find(I20SampleParameters.SAMPLE_WHEEL_NAME);
+			EnumPositioner sampleWheel = Finder.find(I20SampleParameters.SAMPLE_WHEEL_NAME);
 			String[] labels = sampleWheel.getPositions();
 
 			PositionerLabels elements = new PositionerLabels();
@@ -203,7 +203,7 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 		// }
 
 		// // re-read the enumpositioner and reset the table
-		// EnumPositioner sampleWheel = Finder.getInstance().find(I20SampleParameters.SAMPLE_WHEEL_NAME);
+		// EnumPositioner sampleWheel = Finder.find(I20SampleParameters.SAMPLE_WHEEL_NAME);
 		// String [] labels = sampleWheel.getPositions();
 		//
 		// elementPositions.set

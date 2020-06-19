@@ -149,7 +149,7 @@ public class B18DetectorPreparerTest {
 	@After
 	public void tearDown() {
 		// Remove factories from Finder so they do not affect other tests
-		Finder.getInstance().removeAllFactories();
+		Finder.removeAllFactories();
 	}
 
 	private void setupFinder() throws Exception {
@@ -164,8 +164,8 @@ public class B18DetectorPreparerTest {
 			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(f.getName(), f);
 		}
 
-		// Need to add object factory to Finder if using Finder.getInstance().find(...) to get at scannables.
-		Finder.getInstance().addFactory(factory);
+		// Need to add object factory to Finder if using Finder.find(...) to get at scannables.
+		Finder.addFactory(factory);
 	}
 
 	private Scannable createMock(String string) {

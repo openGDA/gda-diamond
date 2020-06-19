@@ -53,17 +53,17 @@ public class XesOffsetsView extends HardwareDisplayComposite {
 		}
 
 		private void setupScannables() {
-			Map<String, IXesOffsets> offsetObject = Finder.getInstance().getFindablesOfType(IXesOffsets.class);
+			Map<String, IXesOffsets> offsetObject = Finder.getFindablesOfType(IXesOffsets.class);
 			if (!offsetObject.isEmpty()) {
 				IXesOffsets offsets = offsetObject.values().iterator().next();
 
 				logger.debug("Setting spectrometer scannables from {} object", offsets.getName());
 
 				// get the spectrometer group and make list of spectrometer scannables
-				spectrometerGroup = Finder.getInstance().find(offsets.getSpectrometerGroupName());
+				spectrometerGroup = Finder.find(offsets.getSpectrometerGroupName());
 				spectrometerMotors = new ArrayList<>();
 				for(String name : spectrometerGroup.getGroupMembersNamesAsArray()) {
-					spectrometerMotors.add(Finder.getInstance().find(name));
+					spectrometerMotors.add(Finder.find(name));
 				}
 			}
 		}

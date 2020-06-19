@@ -41,7 +41,7 @@ public abstract class I20SampleParametersComposite  extends FieldBeanComposite {
 	}
 
 	protected String getValueAsString(String scannableName) {
-		Scannable scannable = (Scannable) Finder.getInstance().find(scannableName);
+		Scannable scannable = (Scannable) Finder.find(scannableName);
 		if (scannable == null) {
 			logger.error("Scannable " + scannableName + " cannot be found");
 			return "";

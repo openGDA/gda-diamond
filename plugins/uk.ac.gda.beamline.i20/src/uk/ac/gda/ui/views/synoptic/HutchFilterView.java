@@ -39,7 +39,7 @@ public class HutchFilterView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("Experimental Hutch Filters");
 
-		IScannableGroupNamed atn5group = Finder.getInstance().find("atn5group");
+		IScannableGroupNamed atn5group = Finder.find("atn5group");
 
 		Group group = new Group(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
@@ -49,7 +49,7 @@ public class HutchFilterView extends HardwareDisplayComposite {
 			String[] groupNames = atn5group.getGroupMembersNamesAsArray();
 
 			for(int i=0; i<groupNames.length; i+=2) {
-				Scannable nameScannable = Finder.getInstance().find(groupNames[i]);
+				Scannable nameScannable = Finder.find(groupNames[i]);
 				String filterName = (String) nameScannable.getPosition();
 				Label filterNameLabel = new Label(group, SWT.NONE);
 				filterNameLabel.setText(filterName);

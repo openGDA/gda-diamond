@@ -157,7 +157,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 		super.setUp();
 
-		//injectionCounter = Finder.getInstance().find("injectionCounter");
+		//injectionCounter = Finder.find("injectionCounter");
 
 		terminalPrinter = InterfaceProvider.getTerminalPrinter();
 		useFastShutter = false;

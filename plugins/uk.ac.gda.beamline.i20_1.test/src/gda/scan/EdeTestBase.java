@@ -318,6 +318,6 @@ public class EdeTestBase {
 		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, metaShop.getName());
 		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(metaShop);
-		Finder.getInstance().addFactory(factory);
+		Finder.addFactory(factory);
 	}
 }

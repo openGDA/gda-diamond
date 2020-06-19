@@ -101,7 +101,7 @@ public enum ScannableSetup {
 		if (scannable == null) {
 			synchronized (this) {
 				if (scannable == null) {
-					Scannable scannable = Finder.getInstance().find(scannableName);
+					Scannable scannable = Finder.find(scannableName);
 					if (scannable == null) {
 						throw new Exception(label + " object is not found on GDA server");
 					}

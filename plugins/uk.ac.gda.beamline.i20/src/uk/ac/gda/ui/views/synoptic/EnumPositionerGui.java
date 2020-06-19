@@ -59,7 +59,7 @@ public class EnumPositionerGui implements IObserver {
 
 	public EnumPositionerGui(Composite parent, String positionerName) {
 		this.parent = parent;
-		enumPositioner = Finder.getInstance().find(positionerName);
+		enumPositioner = Finder.find(positionerName);
 	}
 
 	public EnumPositionerGui(Composite parent, EnumPositioner enumPositioner) {

@@ -212,7 +212,7 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	private void setupExperiment(String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		theDetector  = Finder.getInstance().find(detectorName);
+		theDetector  = Finder.find(detectorName);
 		topup = (Monitor) getFindable(topupMonitorName);
 		beamLightShutter = (Scannable) getFindable(beamShutterScannableName);
 		controller = (ScriptControllerBase) getFindable(PROGRESS_UPDATER_NAME);
@@ -267,7 +267,7 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	private Findable getFindable(String name) {
-		return Finder.getInstance().find(name);
+		return Finder.find(name);
 	}
 
 	protected abstract int getRepetitions();
@@ -338,7 +338,7 @@ public abstract class EdeExperiment implements IObserver {
 		// Set option for using fast shutter during scan
 		edeScan.setUseFastShutter(useFastShutter);
 		if ( useFastShutter == true && fastShutterName != null ) {
-			fastShutter = (Scannable) Finder.getInstance().find( fastShutterName );
+			fastShutter = (Scannable) Finder.find( fastShutterName );
 			edeScan.setFastShutter( fastShutter );
 		}
 
@@ -431,7 +431,7 @@ public abstract class EdeExperiment implements IObserver {
 	 */
 	private void addMetaData() {
 		String metashopName = LocalProperties.get(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop");
-		NXMetaDataProvider metashop = Finder.getInstance().find(metashopName);
+		NXMetaDataProvider metashop = Finder.find(metashopName);
 		if (metashop != null) {
 			String key = TimeResolvedExperimentParameters.class.getSimpleName();
 			if (timeResolvedExperimentParameters != null) {
@@ -608,7 +608,7 @@ public abstract class EdeExperiment implements IObserver {
 		double waitTime = 5.0, tolerance = 2.0;
 
 		// Copy values for waittime and tolerance from machine topupChecker to this new topupchecker.
-		TopupChecker topupCheckerMachine = (TopupChecker) Finder.getInstance().find("topupChecker");
+		TopupChecker topupCheckerMachine = (TopupChecker) Finder.find("topupChecker");
 		if (topupCheckerMachine != null) {
 			tolerance = topupCheckerMachine.getTolerance();
 			waitTime = topupCheckerMachine.getWaittime();
@@ -631,7 +631,7 @@ public abstract class EdeExperiment implements IObserver {
 		topupchecker.setPauseBeforePoint(false);
 
 		// Set machine mode monitor object for topup object so it works correctly.
-		Scannable machineModeMonitor = Finder.getInstance().find( "machineModeMonitor" );
+		Scannable machineModeMonitor = Finder.find( "machineModeMonitor" );
 		if ( machineModeMonitor != null ) {
 			topupchecker.setMachineModeMonitor(machineModeMonitor);
 		}
@@ -874,7 +874,7 @@ public abstract class EdeExperiment implements IObserver {
 	 * @param nameOfScannable
 	 */
 	public void addScannableToMonitorDuringScan(String nameOfScannable) {
-		Optional<Scannable> scannable = Finder.getInstance().findOptional(nameOfScannable);
+		Optional<Scannable> scannable = Finder.findOptional(nameOfScannable);
 		if (scannable.isPresent()) {
 			addScannableToMonitorDuringScan(scannable.get());
 		} else {

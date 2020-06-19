@@ -89,14 +89,14 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	 */
 	private void setupScannables() {
 		// Get list of names of all the scannables contained in the 'spectrometer' group
-		IScannableGroupNamed spectrometerGroup = Finder.getInstance().find("spectrometer");
+		IScannableGroupNamed spectrometerGroup = Finder.find("spectrometer");
 		String[] nameList = spectrometerGroup.getGroupMembersNamesAsArray();
 
 		// Get scannable for each item in group, store in map using corresponding enum value as key
 		SS[] enumTypeForScannable = SS.values();
 		scannableForType = new EnumMap<>(SS.class);
 		for(int i=0; i<nameList.length; i++) {
-			Scannable scannableFromGroup = Finder.getInstance().find(nameList[i]);
+			Scannable scannableFromGroup = Finder.find(nameList[i]);
 			scannableForType.put(enumTypeForScannable[i], scannableFromGroup);
 		}
 	}
