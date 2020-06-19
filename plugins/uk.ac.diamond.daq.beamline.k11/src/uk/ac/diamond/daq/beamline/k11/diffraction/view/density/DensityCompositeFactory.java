@@ -23,6 +23,7 @@ import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionComposi
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.integerToString;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.stringToInteger;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -50,7 +51,6 @@ import com.google.common.primitives.Ints;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
-import uk.ac.gda.ui.tool.ClientBindingElements;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.ClientVerifyListener;
@@ -76,7 +76,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	private static final int MAX_POINT_DENSITY = 50;
 	private Color invalidEntryColor;
 
-	private final DiffractionParameters templateData;
+	private final DensityTemplateDataHelper densityTemplateHelper;
 	private final SelectObservableValue<ShapeType> selectedShapeType;
 
 	private final DataBindingContext viewDBC;
@@ -85,7 +85,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	public DensityCompositeFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
 			DiffractionParameters templateData, SelectObservableValue<ShapeType> selectedShapeType) {
 		super();
-		this.templateData = templateData;
+		this.densityTemplateHelper = new DensityTemplateDataHelper(templateData);
 		this.selectedShapeType = selectedShapeType;
 		this.viewDBC = viewDBC;
 		this.regionDBC = regionDBC;
@@ -119,13 +119,21 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	public void bindControls() {
 		scaleObservableValue = WidgetProperties.selection().observe(densityScale);
 		readoutObservableValue = WidgetProperties.text(SWT.Modify).observe(points);
-		ClientBindingElements.bindText(viewDBC, points, Integer.class, "points", templateData);
 		bindPointDensityWidgetBehaviour();
+		updateTemplateData();
+		points.addModifyListener(event -> updateTemplateData());
 	}
 
 	@Override
 	public void updateScanPointBindings(final IScanPointGeneratorModel newPathValue, ShapeType shapeType) {
 		updateScanPathPropertyBindings(newPathValue, shapeType);
+
+	}
+
+	private void updateTemplateData() {
+		Integer intPoints = Optional.ofNullable(points.getText()).filter(s -> !s.isEmpty()).map(Integer::parseInt)
+				.orElse(0);
+		densityTemplateHelper.updateTemplateData(intPoints);
 	}
 
 	/**

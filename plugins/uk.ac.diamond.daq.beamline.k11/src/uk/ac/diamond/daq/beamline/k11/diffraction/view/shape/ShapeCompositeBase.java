@@ -22,10 +22,12 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Listener;
 
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
+import uk.ac.gda.ui.tool.WidgetUtilities;
 import uk.ac.gda.ui.tool.images.ClientImages;
 
 /**
@@ -42,6 +44,7 @@ class ShapeCompositeBase implements ShapeComposite {
 	private final ShapeType shapeType;
 	private final ClientMessages tooltip;
 	private final ClientImages icon;
+	private final Listener selectionListener;
 
 	/**
 	 * @param shapeType
@@ -51,11 +54,12 @@ class ShapeCompositeBase implements ShapeComposite {
 	 * @param icon
 	 *            the element icon
 	 */
-	ShapeCompositeBase(ShapeType shapeType, ClientMessages tooltip, ClientImages icon) {
+	ShapeCompositeBase(ShapeType shapeType, ClientMessages tooltip, ClientImages icon, Listener selectionListener) {
 		super();
 		this.shapeType = shapeType;
 		this.tooltip = tooltip;
 		this.icon = icon;
+		this.selectionListener = selectionListener;
 	}
 
 	@Override
@@ -63,6 +67,7 @@ class ShapeCompositeBase implements ShapeComposite {
 		button = ClientSWTElements.createButton(parent, SWT.RADIO, ClientMessages.EMPTY_MESSAGE, tooltip, icon);
 		// sets the button data (the shape it refers to)
 		button.setData(shapeType);
+		WidgetUtilities.addWidgetDisposableListener(button, SWT.Selection, selectionListener);
 		return parent;
 	}
 

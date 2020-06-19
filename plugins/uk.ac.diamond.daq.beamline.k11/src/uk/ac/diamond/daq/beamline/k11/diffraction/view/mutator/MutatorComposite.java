@@ -48,4 +48,6 @@ interface MutatorComposite extends CompositeFactory {
 	 */
 	public IConverter filterShape();
 
+	public boolean acceptShape(ShapeType shapeType);
+
 }
