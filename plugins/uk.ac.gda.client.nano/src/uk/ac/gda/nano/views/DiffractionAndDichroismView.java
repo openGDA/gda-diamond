@@ -94,7 +94,7 @@ public class DiffractionAndDichroismView extends ViewPart {
 
 	public Composite createComposite(Composite base, String findableGroupCompositeFactoryName) {
 		// to setup a CompositeFactories
-		Findable findable = Finder.getInstance().find(findableGroupCompositeFactoryName);
+		Findable findable = Finder.find(findableGroupCompositeFactoryName);
 		if( findable == null || !(findable instanceof FindableGroupCompositeFactory))
 			try {
 				throw new CoreException(new Status(IStatus.ERROR, GDAClientActivator.PLUGIN_ID, "Unable to find a FindableExecutableExtension called"));
