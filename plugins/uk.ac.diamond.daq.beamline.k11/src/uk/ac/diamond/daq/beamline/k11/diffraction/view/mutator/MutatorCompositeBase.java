@@ -24,7 +24,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;

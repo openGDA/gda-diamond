@@ -21,10 +21,13 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.shape;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.mappingRegionShapeToShape;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -46,8 +49,11 @@ import org.eclipse.swt.widgets.Widget;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
+import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
+import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -60,16 +66,27 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 
+	private static final Map<ShapeType, Class<? extends IMappingScanRegionShape>> shapeToMappingScan = new EnumMap<>(ShapeType.class);
+
+	public static final Predicate<IMappingScanRegionShape> filterRegionScan(ShapeType shapeType) {
+		return mappingRegion -> shapeToMappingScan.get(shapeType).isInstance(mappingRegion);
+	}
+
+	static {
+		shapeToMappingScan.put(ShapeType.POINT, PointMappingRegion.class);
+		shapeToMappingScan.put(ShapeType.LINE, LineMappingRegion.class);
+		shapeToMappingScan.put(ShapeType.CENTRED_RECTANGLE, CentredRectangleMappingRegion.class);
+	}
+
 	/**
-	 * The selected {@link ShapeType}. Is valued by selecting one {@link ShapeComposite}.
-	 * This observable is propagated to all external mapping component
+	 * The selected {@link ShapeType}. Is valued by selecting one {@link ShapeComposite}. This observable is propagated
+	 * to all external mapping component
 	 */
 	private final SelectObservableValue<ShapeType> selectedShapeObservable = new SelectObservableValue<>();
 
-
 	/**
-	 * The selected {@link IMappingScanRegionShape}. Is valued by selecting one {@link ShapeComposite}.
-	 * This observable is internal only.
+	 * The selected {@link IMappingScanRegionShape}. Is valued by selecting one {@link ShapeComposite}. This observable
+	 * is internal only.
 	 */
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable = new SelectObservableValue<>();
 
@@ -141,7 +158,7 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	private Optional<IMappingScanRegionShape> regionFromShapeType(ShapeType shapeType) {
 		if (shapeType == null)
 			return Optional.empty();
-		return rapController.getTemplateRegions().stream().filter(shapeType::hasMappedShape).findFirst();
+		return rapController.getTemplateRegions().stream().filter(filterRegionScan(shapeType)).findFirst();
 	}
 
 	/**

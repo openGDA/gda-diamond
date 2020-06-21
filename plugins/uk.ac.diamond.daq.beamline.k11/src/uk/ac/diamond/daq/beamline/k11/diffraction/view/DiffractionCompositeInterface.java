@@ -21,7 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 
 /**
  * Defines the operations supported by a {@link DiffractionConfigurationCompositeFactory} component
