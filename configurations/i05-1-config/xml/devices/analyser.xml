@@ -89,6 +89,14 @@
 		<property name="pvNameGetPoint" value="BL05J-EA-DET-01:CAM:AcquireTime_RBV" />
 		<property name="pvNameSetPoint" value="BL05J-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
+	
+	<bean id="pass_energy" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL05J-EA-DET-01:CAM:PASS_ENERGY" />
+	</bean>
+	
+	<bean id="lens_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL05J-EA-DET-01:CAM:LENS_MODE" />
+	</bean>
 
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
