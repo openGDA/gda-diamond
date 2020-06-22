@@ -42,7 +42,7 @@ public class I22DefaultPerspectiveAction implements IIntroAction {
 		IIntroManager iMan = PlatformUI.getWorkbench().getIntroManager();
 		System.out.println(iMan.closeIntro(iMan.getIntro()));
 		closeAllPerspectives();
-		FindableObjectHolder holder = (FindableObjectHolder)Finder.getInstance().find("clientReferences");
+		FindableObjectHolder holder = (FindableObjectHolder)Finder.find("clientReferences");
 		List<String> defaults = null;
 		if (holder != null) {
 			Object raw_defaults = holder.get(params.get("p_set"));

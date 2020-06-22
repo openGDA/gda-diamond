@@ -22,7 +22,7 @@ public class I05_1ContinuousModeControllerView extends ViewPart implements IObse
 
 	@Override
 	public void createPartControl(Composite parent) {
-		List<IVGScientaAnalyserRMI> analyserRmiList = Finder.getInstance().listFindablesOfType(IVGScientaAnalyserRMI.class);
+		List<IVGScientaAnalyserRMI> analyserRmiList = Finder.listFindablesOfType(IVGScientaAnalyserRMI.class);
 		if (analyserRmiList.isEmpty()) {
 			throw new RuntimeException("No analyser was found over RMI");
 		}
@@ -30,7 +30,7 @@ public class I05_1ContinuousModeControllerView extends ViewPart implements IObse
 		IVGScientaAnalyserRMI analyserRMI = analyserRmiList.get(0);
 		analyserRMI.addIObserver(this);
 
-		psu = (Device) Finder.getInstance().find("psu_mode");
+		psu = (Device) Finder.find("psu_mode");
 		if (psu != null) {
 			psu.addIObserver(this);
 		}

@@ -69,10 +69,9 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 
 	public BeamlineReadinessDisplay(Composite parent) {
 		super(parent, "Ready", "Low intensity", "No beam");
-		final Finder finder = Finder.getInstance();
 
 		// Get configuration parameters
-		final Map<String, BeamlineReadinessParameters> params = finder.getLocalFindablesOfType(BeamlineReadinessParameters.class);
+		final Map<String, BeamlineReadinessParameters> params = Finder.getLocalFindablesOfType(BeamlineReadinessParameters.class);
 		if (params.size() == 0) {
 			logger.error("No parameters found for beamline readiness display");
 			return;
@@ -81,28 +80,28 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 		}
 
 		// Get scannables for the various values we are monitoring
-		intensity = finder.find(displayParams.getIntensity());
+		intensity = Finder.find(displayParams.getIntensity());
 		intensity.addIObserver(this::handleUpdate);
 
-		xPosition = finder.find(displayParams.getxPosition());
+		xPosition = Finder.find(displayParams.getxPosition());
 		xPosition.addIObserver(this::handleUpdate);
 
-		yPosition = finder.find(displayParams.getyPosition());
+		yPosition = Finder.find(displayParams.getyPosition());
 		yPosition.addIObserver(this::handleUpdate);
 
-		xSetpoint = finder.find(displayParams.getxSetpoint());
-		ySetpoint = finder.find(displayParams.getySetpoint());
+		xSetpoint = Finder.find(displayParams.getxSetpoint());
+		ySetpoint = Finder.find(displayParams.getySetpoint());
 
-		energy = finder.find(displayParams.getEnergy());
+		energy = Finder.find(displayParams.getEnergy());
 		energy.addIObserver(this::handleUpdate);
 
-		ringCurrent = finder.find(displayParams.getRingCurrent());
+		ringCurrent = Finder.find(displayParams.getRingCurrent());
 		ringCurrent.addIObserver(this::handleUpdate);
 
 		final List<String> shutterNames = displayParams.getShutters();
 		shutters = new ArrayList<>(shutterNames.size());
 		for (String shutterName : shutterNames) {
-			final Scannable shutter = finder.find(shutterName);
+			final Scannable shutter = Finder.find(shutterName);
 			shutter.addIObserver(this::handleUpdate);
 			shutters.add(shutter);
 		}

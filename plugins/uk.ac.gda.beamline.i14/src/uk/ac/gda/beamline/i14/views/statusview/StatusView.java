@@ -63,7 +63,6 @@ public abstract class StatusView extends ViewPart {
 	private static final String TEXT_STATE = "State";
 
 	private final Map<String, Integer> colourMap = new HashMap<>();
-	private final Finder finder = Finder.getInstance();
 	private final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
 
 	protected String name = "Status";
@@ -122,25 +121,25 @@ public abstract class StatusView extends ViewPart {
 	}
 
 	protected void createShutterComposite(final Composite parent, final String scannableName) {
-		final Scannable scannable = finder.find(scannableName);
+		final Scannable scannable = Finder.find(scannableName);
 		final ReadonlyScannableComposite composite = new ReadonlyScannableComposite(parent, SWT.NONE, scannable, TEXT_STATE, null, null);
 		composite.setColourMap(colourMap);
 	}
 
 	protected void createNumericComposite(final Composite parent, final String scannableName, final String label, final String units, final Integer decimalPlaces, final Integer minPeriodMS) {
-		final Scannable scannable = finder.find(scannableName);
+		final Scannable scannable = Finder.find(scannableName);
 		final ReadonlyScannableComposite composite = new ReadonlyScannableComposite(parent, SWT.NONE, scannable, label, units, decimalPlaces);
 		composite.setMinPeriodMS(minPeriodMS);
 	}
 
 	private void createNumericCompositeWithAlarm(final Composite parent, final String scannableName, final String label, final String units, final Integer decimalPlaces, final Integer minPeriodMS, Double alarmValue) {
-		final Scannable scannable = finder.find(scannableName);
+		final Scannable scannable = Finder.find(scannableName);
 		final ReadonlyScannableCompositeWithAlarm composite = new ReadonlyScannableCompositeWithAlarm(parent, SWT.NONE, scannable, label, units, decimalPlaces, alarmValue);
 		composite.setMinPeriodMS(minPeriodMS);
 	}
 
 	protected void createNumericCompositeForProcessing(final Composite parent, final String scannableName, final String label) {
-		final Scannable scannable = finder.find(scannableName);
+		final Scannable scannable = Finder.find(scannableName);
 		final ReadonlyScannableCompositeProcessingMonitor composite  = new ReadonlyScannableCompositeProcessingMonitor(parent, SWT.NONE, scannable, label);
 		composite.setMinPeriodMS(1000);
 	}

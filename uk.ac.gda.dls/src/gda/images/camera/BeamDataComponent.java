@@ -88,7 +88,7 @@ public class BeamDataComponent extends FindableConfigurableBase implements IObse
 	 */
 	public static BeamDataComponent getInstance() {
 		if (theInstance == null) {
-			theInstance = Finder.getInstance().find(INSTANCE_NAME);
+			theInstance = Finder.find(INSTANCE_NAME);
 		}
 		return theInstance;
 	}

@@ -77,7 +77,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(4).spacing(10, 0).applyTo(analyserGroup);
 
 		// Lens mode
-		Scannable lensModeScannable = Finder.getInstance().find("lens_mode");
+		Scannable lensModeScannable = Finder.find("lens_mode");
 		if (lensModeScannable != null) {
 			EnumPositionerComposite lensModeEPC = new EnumPositionerComposite(analyserGroup, SWT.NONE);
 			lensModeEPC.setScannable(lensModeScannable);
@@ -88,7 +88,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		}
 
 		// Centre energy
-		Scannable centreEnergyScannable = Finder.getInstance().find("raw_centre_energy");
+		Scannable centreEnergyScannable = Finder.find("raw_centre_energy");
 		if (centreEnergyScannable != null) {
 			NudgePositionerComposite centreEnergyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
 			centreEnergyNPC.setScannable(centreEnergyScannable);
@@ -101,7 +101,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		}
 
 		// Acquire time
-		Scannable acquireTimeScannable = Finder.getInstance().find("acquire_time");
+		Scannable acquireTimeScannable = Finder.find("acquire_time");
 		if (acquireTimeScannable != null) {
 			NudgePositionerComposite acquireTimeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
 			acquireTimeNPC.setScannable(acquireTimeScannable);
@@ -132,7 +132,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		});
 
 		// Analyser pass energy
-		Scannable passEnergyScannable = Finder.getInstance().find("pass_energy");
+		Scannable passEnergyScannable = Finder.find("pass_energy");
 		if (passEnergyScannable != null) {
 			EnumPositionerComposite passEnergyEPC = new EnumPositionerComposite(analyserGroup, SWT.NONE);
 			passEnergyEPC.setScannable(passEnergyScannable);
@@ -169,14 +169,14 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
 
 		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		energyNPC.setScannable((Scannable) Finder.getInstance().find("energy"));
+		energyNPC.setScannable((Scannable) Finder.find("energy"));
 		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		exitSltNPC.setScannable((Scannable) Finder.getInstance().find("exit_slit"));
+		exitSltNPC.setScannable((Scannable) Finder.find("exit_slit"));
 		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
 		NudgePositionerComposite s2_ysizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2_ysizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_ysize"));
+		s2_ysizeNPC.setScannable((Scannable) Finder.find("s2_ysize"));
 		NudgePositionerComposite s2_xsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2_xsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_xsize"));
+		s2_xsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
 
 		// Beamline shutter button
 		shutterButton = new Button(beamlineGroup, SWT.NONE);
@@ -194,7 +194,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		});
 
 		// Add an observer to the psu_mode scannable to automatically detect changes in EPICS and update the GUI
-		Scannable psuModeScannable = (Scannable) (Finder.getInstance().find("psu_mode"));
+		Scannable psuModeScannable = (Scannable) (Finder.find("psu_mode"));
 		final IObserver psuModeObserver = new IObserver() {
 			@Override
 			public void update(Object source, Object arg) {

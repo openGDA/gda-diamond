@@ -119,8 +119,8 @@ public class FirewireCamera extends CameraBase {
 		extractPositions(zoomPositionList, ZOOM);
 		extractPositions(focusPositionList, FOCUS);
 
-		zoomMotor = Finder.getInstance().find(zoomMotorName);
-		focusMotor = Finder.getInstance().find(focusMotorName);
+		zoomMotor = Finder.find(zoomMotorName);
+		focusMotor = Finder.find(focusMotorName);
 		if (zoomMotor == null || focusMotor == null) {
 			throw new FactoryException("FirewireCamera : error finding zoom/focus motors");
 		}

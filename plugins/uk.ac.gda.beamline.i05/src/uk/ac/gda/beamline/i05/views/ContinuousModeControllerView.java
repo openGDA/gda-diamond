@@ -18,7 +18,7 @@ public class ContinuousModeControllerView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		// Should be local as its already imported by Spring
-		final List<IVGScientaAnalyserRMI> analyserRmiList = Finder.getInstance().listLocalFindablesOfType(IVGScientaAnalyserRMI.class);
+		final List<IVGScientaAnalyserRMI> analyserRmiList = Finder.listLocalFindablesOfType(IVGScientaAnalyserRMI.class);
 		if (analyserRmiList.isEmpty()) {
 			throw new RuntimeException("No analyser was found over RMI");
 		}

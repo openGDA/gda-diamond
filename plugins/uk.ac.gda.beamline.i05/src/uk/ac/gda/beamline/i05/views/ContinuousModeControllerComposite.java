@@ -77,7 +77,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(4).spacing(10, 0).applyTo(analyserGroup);
 
 		// Lens mode
-		Scannable lensModeScannable = Finder.getInstance().find("lens_mode");
+		Scannable lensModeScannable = Finder.find("lens_mode");
 		if (lensModeScannable != null) {
 			EnumPositionerComposite lensModeEPC = new EnumPositionerComposite(analyserGroup, SWT.NONE);
 			lensModeEPC.setScannable(lensModeScannable);
@@ -88,7 +88,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		}
 
 		// Centre energy
-		Scannable centreEnergyScannable = Finder.getInstance().find("raw_centre_energy");
+		Scannable centreEnergyScannable = Finder.find("raw_centre_energy");
 		if (centreEnergyScannable != null) {
 			NudgePositionerComposite centreEnergyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
 			centreEnergyNPC.setScannable(centreEnergyScannable);
@@ -101,7 +101,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		}
 
 		// Acquire time
-		Scannable acquireTimeScannable = Finder.getInstance().find("acquire_time");
+		Scannable acquireTimeScannable = Finder.find("acquire_time");
 		if (acquireTimeScannable != null) {
 			NudgePositionerComposite acquireTimeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
 			acquireTimeNPC.setScannable(acquireTimeScannable);
@@ -132,7 +132,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		});
 
 		// Analyser pass energy
-		Scannable passEnergyScannable = Finder.getInstance().find("pass_energy");
+		Scannable passEnergyScannable = Finder.find("pass_energy");
 		if (passEnergyScannable != null) {
 			EnumPositionerComposite passEnergyEPC = new EnumPositionerComposite(analyserGroup, SWT.NONE);
 			passEnergyEPC.setScannable(passEnergyScannable);
@@ -168,17 +168,17 @@ public class ContinuousModeControllerComposite extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
 
 		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		energyNPC.setScannable((Scannable) Finder.getInstance().find("energy"));
+		energyNPC.setScannable((Scannable) Finder.find("energy"));
 		energyNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		exitSltNPC.setScannable((Scannable) Finder.getInstance().find("exit_slit"));
+		exitSltNPC.setScannable((Scannable) Finder.find("exit_slit"));
 		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
 		exitSltNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite s2YsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2YsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_ysize"));
+		s2YsizeNPC.setScannable((Scannable) Finder.find("s2_ysize"));
 		s2YsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite s2XsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2XsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_xsize"));
+		s2XsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
 		s2XsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 
 		// Beamline shutter button
@@ -201,16 +201,16 @@ public class ContinuousModeControllerComposite extends Composite {
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).wrap(true).applyTo(translationNpcGroup);
 
 		NudgePositionerComposite saxNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		saxNPC.setScannable((Scannable) Finder.getInstance().find("sax"));
+		saxNPC.setScannable((Scannable) Finder.find("sax"));
 		saxNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite sayNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		sayNPC.setScannable((Scannable) Finder.getInstance().find("say"));
+		sayNPC.setScannable((Scannable) Finder.find("say"));
 		sayNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite sazNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		sazNPC.setScannable((Scannable) Finder.getInstance().find("saz"));
+		sazNPC.setScannable((Scannable) Finder.find("saz"));
 		sazNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite salongNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		salongNPC.setScannable((Scannable) Finder.getInstance().find("salong"));
+		salongNPC.setScannable((Scannable) Finder.find("salong"));
 		salongNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 
 		// Sample Rotations
@@ -220,17 +220,17 @@ public class ContinuousModeControllerComposite extends Composite {
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).applyTo(rotationNpcGroup);
 
 		NudgePositionerComposite satiltNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
-		satiltNPC.setScannable((Scannable) Finder.getInstance().find("satilt"));
+		satiltNPC.setScannable((Scannable) Finder.find("satilt"));
 		satiltNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite sapolarNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
-		sapolarNPC.setScannable((Scannable) Finder.getInstance().find("sapolar"));
+		sapolarNPC.setScannable((Scannable) Finder.find("sapolar"));
 		sapolarNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		NudgePositionerComposite saazimuthNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
-		saazimuthNPC.setScannable((Scannable) Finder.getInstance().find("saazimuth"));
+		saazimuthNPC.setScannable((Scannable) Finder.find("saazimuth"));
 		saazimuthNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 
 		// Add an observer to the psu_mode scannable to automatically detect changes in EPICS and update the GUI
-		final Scannable psuModeScannable = Finder.getInstance().find("psu_mode");
+		final Scannable psuModeScannable = Finder.find("psu_mode");
 		// Connect observer to scannable.
 		psuModeScannable.addIObserver((source, arg) -> {
 			logger.info("Change of psu_mode detected, new mode = {}", arg);

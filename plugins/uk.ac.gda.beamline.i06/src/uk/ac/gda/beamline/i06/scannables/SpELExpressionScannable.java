@@ -126,7 +126,7 @@ public class SpELExpressionScannable extends PVScannable {
 
 			@Override
 			public Object resolve(EvaluationContext context, String beanName) throws AccessException {
-				return Finder.getInstance().find(beanName);
+				return Finder.find(beanName);
 			}
 		});
 		super.configure();
