@@ -46,6 +46,8 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public static final AlignmentParametersModel INSTANCE = new AlignmentParametersModel();
 
+	private boolean useAtn45 = false;
+
 	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 100;
 
 	public enum QValue {
@@ -357,5 +359,13 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		AlignmentParametersModel paramModel = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, AlignmentParametersModel.class);
 		setFromModel( paramModel );
 		parametersLoaded = true;
+	}
+
+	public void setUseAtn45(boolean useAtn45) {
+		this.useAtn45 = useAtn45;
+	}
+
+	public boolean isUseAtn45() {
+		return useAtn45;
 	}
 }

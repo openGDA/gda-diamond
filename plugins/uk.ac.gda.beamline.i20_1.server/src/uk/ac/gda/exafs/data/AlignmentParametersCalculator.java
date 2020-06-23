@@ -117,6 +117,7 @@ public class AlignmentParametersCalculator {
 
 	private List<PitchAtn> atnsSi311 = pitchAttenuatorsSi311_atn123;
 	private List<PitchAtn> atnsSi111 = pitchAttenuatorsSi111_atn123;
+	private boolean useAtn45 = false;
 
 	/**
 	 * Values to calculate displacement for polychromator benders
@@ -156,6 +157,9 @@ public class AlignmentParametersCalculator {
 		parameterBean = bean;
 	}
 
+	public AlignmentParametersCalculator() {
+	}
+
 	public AlignmentParametersBean getParameterBean() {
 		return parameterBean;
 	}
@@ -165,6 +169,9 @@ public class AlignmentParametersCalculator {
 	}
 
 	public void calculateParameters() {
+		if (parameterBean == null) {
+			throw new IllegalStateException("Cannot calculate parameters - no parameter bean has been set");
+		}
 		setStripes();
 		setPitchAndAttenuators();
 		setBraggAngle();
@@ -387,6 +394,7 @@ public class AlignmentParametersCalculator {
 	}
 
 	public void setUseAtn45(boolean useAtn45) {
+		this.useAtn45 = useAtn45;
 		if (useAtn45) {
 			atnsSi111 = pitchAttenuatorsSi111_atn45;
 			atnsSi311 = pitchAttenuatorsSi311_atn45;
@@ -394,6 +402,10 @@ public class AlignmentParametersCalculator {
 			atnsSi111 = pitchAttenuatorsSi111_atn123;
 			atnsSi311 = pitchAttenuatorsSi311_atn123;
 		}
+	}
+
+	public boolean getUseAtn45() {
+		return useAtn45;
 	}
 
 	private List<PitchAtn> getAtns311() {

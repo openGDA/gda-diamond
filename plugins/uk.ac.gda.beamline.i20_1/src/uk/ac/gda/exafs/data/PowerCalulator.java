@@ -51,7 +51,9 @@ public class PowerCalulator {
 
 	private PowerCalulator() {}
 
-	// This needs be in sorted
+	/** Lookup table of wiggler gap [mm] vs magnetic field strength [T]
+	   { {gap0, field0}, {gap1, field1} ... }
+	 */
 	private static final double[][] GAP_FIELD = {
 		{18.5,1.3},
 		{20.0,1.2},
@@ -64,34 +66,49 @@ public class PowerCalulator {
 		{250.0,0.33} // This is to avoid numbers over 50
 	};
 
-	private static final ScannableSetup[] MIRROR_FILTERS = new ScannableSetup[] { ScannableSetup.ATN1, ScannableSetup.ATN2, ScannableSetup.ATN3,
-			ScannableSetup.ME1_STRIPE, ScannableSetup.ME2_STRIPE };
+	// Min and max values of wiggler horizontal slit size in power calculation files
+	private static final double MIN_S1_HGAP = 0.8;
+	private static final double MAX_S1_HGAP = 1.6;
 
 	/** Name of the Be filter transmission file (filter thickness = 0.3mm) */
 	public static final String BE_FILTER_FILE_NAME = "Be-0p3mm.dat";
-
-	private static final double FLUX_TO_POWER = -1000*Utility.Q_ELECTRON; // 1000*electron charge (1.60219e-16 C);
-
 	/** Thickness of Be filter (mm) */
-	private static final double beFilterThickness = 0.3;
+	public static final double BE_FILTER_THICKNESS_MM = 0.3;
+
+	/** Name of C-pyro filter transmission file (filter thickness = 1.0mm) */
+	public static final String C_PYRO_FILTER_FILE_NAME = "C-pyro-1p0mm.dat";
+	/** Thickness of C-pyro filter (mm) */
+	public static final double C_PYRO_FILTER_THICKNESS_MM = 1.0;
+
+	private static final double FLUX_TO_POWER = -1000*Utility.Q_ELECTRON; // = 1000*electron charge (1.60219e-16 C);
 
 	private static final String RING_CURRENT = "300mA";
 	private static final String SLIT_V_GAP = "0p12";
 	private static final double CALCULATION_CURRENT = 300;
 
+	/**
+	 *
+	 * @param gapValue wiggler gap [mm]
+	 * @return magnetic field strength [T]
+	 * @throws Exception
+	 */
 	public static double getFieldValue(double gapValue) throws Exception {
+
+		if (gapValue < GAP_FIELD[0][0]) {
+			logger.warn("Wiggler gap {} mm is below limit of lookup table - using minimum value instead ({} mm)", gapValue, GAP_FIELD[0][0]);
+			return GAP_FIELD[0][1];
+		}
 
 		// Find gap and field value in GAP_FIELD array where gap >= gapValue
 		Optional<double[]> result = Arrays.stream(GAP_FIELD).filter(val -> val[0] >= gapValue).findFirst();
 		if (!result.isPresent()) {
-			throw new Exception("Unable to find field string");
+			throw new Exception("Unable to find field for gap value "+gapValue);
 		}
 		double[] gapAndField = result.get();
-		if (Math.abs(gapAndField[0] - gapValue) < 1e-6) {
-			return gapAndField[1];
-		}
-
 		int index = ArrayUtils.indexOf(GAP_FIELD, gapAndField);
+		if (index == 0) {
+			return GAP_FIELD[0][1];
+		}
 		if (index > 0) {
 			double mid = 0.5*(GAP_FIELD[index-1][0] + GAP_FIELD[index][0]);
 			if (gapValue >= mid) {
@@ -100,11 +117,16 @@ public class PowerCalulator {
 			return GAP_FIELD[index-1][1];
 		}
 
-		throw new Exception("Unable to find field string");
+		throw new Exception("Unable to find field for gap value "+gapValue);
 	}
 
 	public static String getFieldName(double wigglerGap) throws Exception {
 		return replaceDotWithP(Double.toString(getFieldValue(wigglerGap)), ClientConfig.UnitSetup.TESLA.getText());
+	}
+
+	public static double getRoundedWigglerHGap(double gap) {
+		double roundedGap = Math.max(gap, MIN_S1_HGAP);
+		return Math.min(roundedGap, MAX_S1_HGAP);
 	}
 
 	public static String getSlitHGapName(double s1HGap) {
@@ -116,18 +138,19 @@ public class PowerCalulator {
 	}
 
 	private static class PowerFileNameFilter implements FilenameFilter {
-		private final double wigglerGap;
-		private final double s1HGap;
-		PowerFileNameFilter(double wigglerGap, double s1HGap){
-			this.wigglerGap = wigglerGap;
-			this.s1HGap = s1HGap;
+		private final String pattern;
+
+		PowerFileNameFilter(double wigglerGap, double s1HGap) throws Exception {
+			String fieldfileNamePart = getFieldName(wigglerGap);
+			String slitHSizeNamePart = getSlitHGapName(getRoundedWigglerHGap(s1HGap));
+			pattern = fieldfileNamePart + "-"+ RING_CURRENT +"-" + SLIT_V_GAP + "x" + slitHSizeNamePart + ".dat";
+			logger.debug("Finding files matching name pattern : {}", pattern);
 		}
+
 		@Override
 		public boolean accept(File dir, String name) {
 			try {
-				String fieldfileNamePart = getFieldName(wigglerGap);
-				String slitHSizeNamePart = getSlitHGapName(s1HGap);
-				return name.matches(fieldfileNamePart + "-"+ RING_CURRENT +"-" + SLIT_V_GAP + "x" + slitHSizeNamePart + ".dat");
+				return name.matches(pattern);
 			} catch (Exception e) {
 				return false;
 			}
@@ -145,8 +168,17 @@ public class PowerCalulator {
 		return result*FLUX_TO_POWER;
 	}
 
+	private static void adjustTransmission(Dataset transmission, double oldThickness, double newThickness) {
+		logger.info("Calculating transmission for filter thickness {} mm (original thickness = {} mm)", newThickness, oldThickness);
+		int size = transmission.getShape()[0];
+		for (int i = 0; i < size; i++) {
+			double trans = Math.pow(transmission.getDouble(i, 1), newThickness / oldThickness);
+			transmission.set(trans, i, 1);
+		}
+	}
+
 	public static Dataset calculateFluxVsEnergyForAllFilters(String parentFolder, double wigglerGap, double s1HGap)
-			throws FileNotFoundException, IOException, Exception {
+			throws Exception {
 
 		// Load wiggler power
 		File wigglerFile = getEnergyFieldFile(wigglerGap, s1HGap, parentFolder);
@@ -161,28 +193,31 @@ public class PowerCalulator {
 		Dataset transmission = loadDatasetFromFile(beFilterFile);
 
 		// Adjust the transmission if filter thickness is not 0.3mm
-		if (Math.abs(beFilterThickness - 0.3) > 1e-4) {
-			int size = transmission.getShape()[0];
-			for (int i = 0; i < size; i++) {
-				double trans = Math.pow(transmission.getDouble(i, 1), beFilterThickness / 0.3);
-				transmission.set(trans, i, 1);
-			}
+		if (Math.abs(BE_FILTER_THICKNESS_MM - 0.3) > 1e-4) {
+			adjustTransmission(transmission, 0.3, BE_FILTER_THICKNESS_MM);
 		}
 
 		transmission = Maths.multiply(power, transmission);
-
 		// Apply attenuators and mirrors to the transmission
-		for (ScannableSetup mirrorFilterScannable : MIRROR_FILTERS) {
-			Scannable scannable = mirrorFilterScannable.getScannable();
-			logger.info("scannable = {}, position = {}", scannable, scannable.getPosition());
-			String dataFileName = Mirrors.INSTANCE.getDataFileName(scannable);
-			if (dataFileName != null) {
-				File file = new File(parentFolder, dataFileName);
-				Dataset filterTransmission = loadDatasetFromFile(file);
-				transmission = Maths.multiply(transmission, filterTransmission);
 
-				if (ScannableSetup.ME2_STRIPE.getScannableName().equals(scannable.getName())) {
+		for (ScannableSetup mirrorFilterScannable : getMirrorFilters()) {
+			Scannable scannable = mirrorFilterScannable.getScannable();
+			logger.info("scannable = {}, position = {}", scannable.getName(), scannable.getPosition());
+			if (Mirrors.INSTANCE.isPyroFilter(mirrorFilterScannable.getScannable())) {
+				Dataset cPyroTransmission = loadDatasetFromFile(new File(parentFolder, C_PYRO_FILTER_FILE_NAME));
+				double filterThickness = Mirrors.INSTANCE.getThickness(scannable);
+				adjustTransmission(cPyroTransmission, C_PYRO_FILTER_THICKNESS_MM, filterThickness);
+				transmission = Maths.multiply(transmission, cPyroTransmission);
+			} else {
+				String dataFileName = Mirrors.INSTANCE.getDataFileName(scannable);
+				if (dataFileName != null) {
+					File file = new File(parentFolder, dataFileName);
+					Dataset filterTransmission = loadDatasetFromFile(file);
 					transmission = Maths.multiply(transmission, filterTransmission);
+
+					if (ScannableSetup.ME2_STRIPE.getScannableName().equals(scannable.getName())) {
+						transmission = Maths.multiply(transmission, filterTransmission);
+					}
 				}
 			}
 		}
@@ -190,6 +225,21 @@ public class PowerCalulator {
 		// Set the energy values (1st column) back to the original non-multiplied values
 		transmission.setSlice(xvals, new int[] {0,0}, new int[] {numVals, 1}, null);
 		return transmission;
+	}
+
+	private static List<ScannableSetup> getMirrorFilters() {
+		List<ScannableSetup> mirrorFilters = new ArrayList<>();
+		if (AlignmentParametersModel.INSTANCE.isUseAtn45()) {
+			mirrorFilters.add(ScannableSetup.ATN4);
+			mirrorFilters.add(ScannableSetup.ATN5);
+		} else {
+			mirrorFilters.add(ScannableSetup.ATN1);
+			mirrorFilters.add(ScannableSetup.ATN2);
+			mirrorFilters.add(ScannableSetup.ATN3);
+		}
+		mirrorFilters.add(ScannableSetup.ME1_STRIPE);
+		mirrorFilters.add(ScannableSetup.ME2_STRIPE);
+		return mirrorFilters;
 	}
 
 	private static double doIntegration(Dataset values) {
@@ -231,16 +281,20 @@ public class PowerCalulator {
 		}
 	}
 
-	public static File getEnergyFieldFile(double wigglerGap, double s1HGap, String parentFolder) throws FileNotFoundException {
+	public static File getEnergyFieldFile(double wigglerGap, double s1HGap, String parentFolder) throws FileNotFoundException, IllegalArgumentException {
 		File folder = new File(parentFolder);
 		if (!folder.exists() || !folder.canRead()) {
-			throw new FileNotFoundException();
+			throw new FileNotFoundException("Cannot read filter file from directory "+parentFolder);
 		}
-		String[] matchedFileNames = folder.list(new PowerFileNameFilter(wigglerGap, s1HGap));
-		if (matchedFileNames.length > 0) {
-			return new File(parentFolder, matchedFileNames[0]);
+		try {
+			String[] matchedFileNames = folder.list(new PowerFileNameFilter(wigglerGap, s1HGap));
+			if (matchedFileNames.length > 0) {
+				return new File(parentFolder, matchedFileNames[0]);
+			}
+		} catch(Exception e) {
+			throw new FileNotFoundException("Problem getting energy field file - "+e.getMessage());
 		}
-		throw new FileNotFoundException();
+		throw new FileNotFoundException("No filter files found in "+parentFolder);
 	}
 
 	public enum FilterMirrorElementType {
@@ -268,7 +322,7 @@ public class PowerCalulator {
 		}
 	}
 
-	public static enum Mirrors {
+	public enum Mirrors {
 		INSTANCE;
 
 		private static final String EMPTY = "empty";
@@ -284,11 +338,12 @@ public class PowerCalulator {
 			} catch (DeviceException e) {
 				return null;
 			}
-			if (scannable.getName().startsWith("atn")) {
+
+			if (isAttenuator(scannable)) {
 				String[] nameParts = getNameParts(value);
-				if (nameParts != null) {
+				if (nameParts.length > 0) {
 					FilterMirrorElementType elementName = FilterMirrorElementType.valueOf(nameParts[0]);
-					if (elementName != null) {
+					if (elementName != null && nameParts.length == 3) {
 						return elementName.getSymbol() + "-" + replaceDotWithP(nameParts[1], nameParts[2]) + ".dat";
 					}
 				}
@@ -308,6 +363,34 @@ public class PowerCalulator {
 				}
 			}
 			return null;
+		}
+
+		public boolean isAttenuator(Scannable scn) {
+			return scn.getName().startsWith("atn");
+		}
+
+		public boolean isPyroFilter(Scannable scannable) {
+			try {
+				String value = (String) scannable.getPosition();
+				String[] nameParts = getNameParts(value);
+				return nameParts.length > 0 && nameParts[0].contentEquals(FilterMirrorElementType.pC.name());
+			} catch(DeviceException e) {
+				logger.warn("Problem getting attenuator type from position of {}.", scannable.getName(),e );
+			}
+			return false;
+		}
+
+		public double getThickness(Scannable scannable) {
+			try {
+				String value = (String) scannable.getPosition();
+				String[] nameParts = getNameParts(value);
+				if (nameParts != null && nameParts.length > 1) {
+					return Double.parseDouble(nameParts[1]);
+				}
+			}catch(DeviceException e) {
+				logger.warn("Problem getting attenuator thickness from position of {}.", scannable.getName(),e );
+			}
+			return 0;
 		}
 
 		public double findNearest(double value) {
@@ -330,8 +413,10 @@ public class PowerCalulator {
 		}
 
 		public String[] getNameParts(String name) {
+			final String[] emptyString = new String[] {};
+
 			if (name.toLowerCase().contains(EMPTY)) {
-				return null;
+				return emptyString;
 			}
 
 			Pattern pattern = Pattern.compile("(\\w+)\\s*(\\d+\\.\\d{1,2})\\s*(\\w+).*");
@@ -339,14 +424,14 @@ public class PowerCalulator {
 			String[] nameParts = new String[3];
 			if (matcher.find()) {
 				if (matcher.groupCount() < 3) {
-					return null;
+					return emptyString;
 				}
 				nameParts[0] = matcher.group(1); // Element name
 				nameParts[1] = matcher.group(2); // Value
 				nameParts[2] = matcher.group(3); // Unit
 				return nameParts;
 			}
-			return null;
+			return emptyString;
 		}
 	}
 }

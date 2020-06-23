@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.data;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,29 +36,45 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.TestHelpers;
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.detector.EdeDummyDetector;
 import gda.device.enumpositioner.DummyEnumPositioner;
 import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
 import gda.scan.EdeTestBase;
 import uk.ac.gda.exafs.data.PowerCalulator.FilterMirrorElementType;
 import uk.ac.gda.exafs.data.PowerCalulator.Mirrors;
 
 public class PowerCalculatorTest {
+	private static final Logger logger = LoggerFactory.getLogger(PowerCalculatorTest.class);
 
 	public static final String FOLDER_PATH = "testfiles/uk/ac/gda/exafs/data/PowerCalculatorTest";
 	private DummyEnumPositioner atn1;
 	private Scannable atn2;
 	private Scannable atn3;
+	private Scannable atn4;
+	private Scannable atn5;
+
 	private Scannable me1Stripe;
 	private Scannable me2Stripe;
 
 	@Before
 	public void prepare() throws FactoryException, DeviceException {
+		// clear command runner left over from other tests!
+		InterfaceProvider.setCommandRunnerForTesting(null);
+
+		// Set the Realm so that Writeable lists and listeners for databinding can initialise without errors.
+		// (Realm is set automatically when running the GUI)
+		CurrentRealm realm = new CurrentRealm(true);
+		CurrentRealm.setDefault(realm);
+
 		atn1 = createPositioner("atn1");
 
 		atn1.setPositions(Arrays.asList("Empty",
@@ -72,16 +88,28 @@ public class PowerCalculatorTest {
 
 		atn2 = createPositioner("atn2");
 		atn3 = createPositioner("atn3");
+
+		atn4 = createPositioner("atn4");
+		atn5 = createPositioner("atn5");
+
 		me1Stripe = createPositioner("me1_stripe");
 		me2Stripe = createPositioner("me2_stripe");
+
+		EdeDummyDetector detector = new EdeDummyDetector();
+		detector.setName("xstrip");
+		detector.setMainDetectorName("xstrip");
 
 		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(atn1);
 		factory.addFindable(atn2);
 		factory.addFindable(atn3);
+		factory.addFindable(atn4);
+		factory.addFindable(atn5);
 		factory.addFindable(me1Stripe);
 		factory.addFindable(me2Stripe);
+		factory.addFindable(detector);
 		Finder.getInstance().addFactory(factory);
+
 	}
 
 	@AfterClass
@@ -104,6 +132,9 @@ public class PowerCalculatorTest {
 			assertEquals("1p3T", PowerCalulator.getFieldName(19.0));
 			assertEquals("0p33T", PowerCalulator.getFieldName(50.0));
 			assertEquals("1p0mrad", PowerCalulator.getSlitHGapName(0.96));
+
+			assertEquals(0.8, PowerCalulator.getRoundedWigglerHGap(0.7), 1e-3);
+			assertEquals(1.6, PowerCalulator.getRoundedWigglerHGap(1.7), 1e-3);
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -111,6 +142,7 @@ public class PowerCalculatorTest {
 
 	@Test
 	public void fieldValuesTest() throws Exception {
+		assertEquals(1.3, PowerCalulator.getFieldValue(18.4), 1e-6);
 		assertEquals(1.3, PowerCalulator.getFieldValue(18.5), 1e-6);
 		assertEquals(1.3, PowerCalulator.getFieldValue(19.24), 1e-6);
 		assertEquals(1.2, PowerCalulator.getFieldValue(19.25), 1e-6);
@@ -149,10 +181,10 @@ public class PowerCalculatorTest {
 		assertArrayEquals(new String[] {"pC", "0.6", "mm"}, result);
 
 		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("Left Empty");
-		assertNull(result);
+		assertArrayEquals(new String[] {}, result);
 
 		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("Empty 3.1mrad");
-		assertNull(result);
+		assertArrayEquals(new String[] {}, result);
 
 		result = PowerCalulator.Mirrors.INSTANCE.getNameParts("pC 0.1 mm 3.1 mrad");
 		assertArrayEquals(new String[] {"pC",  "0.1", "mm"}, result);
@@ -201,11 +233,10 @@ public class PowerCalculatorTest {
 
 		// Load energy flux and filter data from files
 		File energyFieldFile = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
-		File beFilterFile = new File(FOLDER_PATH, PowerCalulator.BE_FILTER_FILE_NAME);
 		File atnFilterFile = new File(FOLDER_PATH, Mirrors.INSTANCE.getDataFileName(atn1));
 
 		Dataset energyField = getDatasetFromFile(energyFieldFile);
-		Dataset beFilter = getDatasetFromFile(beFilterFile);
+		Dataset beFilter = getBeFilterTransmission();
 		Dataset atnFilter = getDatasetFromFile(atnFilterFile);
 
 		// Multiply together to get total transmission
@@ -217,7 +248,7 @@ public class PowerCalculatorTest {
 
 		// Compare PowerCalculator filtered flux with manually calculated result
 		for(int i=0; i<numValues; i++) {
-			assertEquals("Flux value "+i+" was not correct", trans.getDouble(i, 1), values.getDouble(i, 1), 1e-6);
+			checkFlux(trans, values, i);
 		}
 	}
 
@@ -226,10 +257,9 @@ public class PowerCalculatorTest {
 
 		// Load energy flux and Be filter data from file
 		File energyFieldFile = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
-		File beFilterFile = new File(FOLDER_PATH, PowerCalulator.BE_FILTER_FILE_NAME);
 
 		Dataset energyField = getDatasetFromFile(energyFieldFile);
-		Dataset beFilter = getDatasetFromFile(beFilterFile);
+		Dataset beFilter = getBeFilterTransmission();
 		int numValues = beFilter.getShape()[0];
 		Dataset trans = Maths.multiply(energyField,  beFilter);
 
@@ -240,7 +270,7 @@ public class PowerCalculatorTest {
 
 		// Compare PowerCalculator filtered flux with manually calculated result
 		for(int i=0; i<numValues; i++) {
-			assertEquals("Flux value "+i+" was not correct", trans.getDouble(i, 1), totalFlux.getDouble(i,1), 1e-6);
+			checkFlux(trans, totalFlux, i);
 		}
 	}
 
@@ -273,6 +303,7 @@ public class PowerCalculatorTest {
 	 * @throws IOException
 	 */
 	private Dataset getDatasetFromFile(File file) throws IOException {
+		logger.info("Loading dataset from file {}", file.getName());
 		List<String[]> valuesFromFile = EdeTestBase.getDataFromAsciiFile(file.getAbsolutePath());
 		int numRows = valuesFromFile.size();
 		int numCols = valuesFromFile.get(0).length; // assume same number of values in each row
@@ -289,5 +320,27 @@ public class PowerCalculatorTest {
 
 	private String getFilterPosition(String name, double thickness) {
 		return String.format("%s %.1fmm", name, thickness);
+	}
+
+	private void adjustTransmission(Dataset transmission, double power) {
+		for(int i=0; i<transmission.getShape()[0]; i++) {
+			double trans = Math.pow(transmission.getDouble(i, 1), power);
+			transmission.set(trans, i, 1);
+		}
+	}
+
+	private Dataset getBeFilterTransmission() throws IOException {
+		File beFilterFile = new File(FOLDER_PATH, PowerCalulator.BE_FILTER_FILE_NAME);
+		Dataset beFilter = getDatasetFromFile(beFilterFile);
+		adjustTransmission(beFilter, PowerCalulator.BE_FILTER_THICKNESS_MM/0.3);
+		return beFilter;
+	}
+
+	private void checkFlux(Dataset expectedData, Dataset actualData, int index) {
+		double expected = expectedData.getDouble(index,1);
+		double actual = actualData.getDouble(index,1);
+		double diff = Math.abs(expected-actual);
+		double fracDiff = actual > 1e-10 ? diff/actual : diff;
+		assertTrue("Flux value "+index+" was not correct. Expected = "+expected+", actual = "+actual, fracDiff < 1e-4);
 	}
 }
