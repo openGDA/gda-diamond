@@ -26,8 +26,9 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisGridPointsRandomOffsetModel;
 
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.ShapesTemplateFactory;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 
 /**
  * Contains methods and function to support the DiffractionConfigurationCompositeFactory family
@@ -49,7 +50,7 @@ public class DiffractionCompositeHelper {
 	public static final Optional<ShapeType> shapeFromMappingRegion(IMappingScanRegionShape mappingRegion) {
 		if (mappingRegion == null)
 			return Optional.empty();
-		return Arrays.stream(ShapeType.values()).filter(sh -> sh.hasMappedShape(mappingRegion)).findFirst();
+		return Arrays.stream(ShapeType.values()).filter(sh -> ShapesTemplateFactory.filterRegionScan(sh).test(mappingRegion)).findFirst();
 	}
 
 	public static final IConverter scanPathToRandomised = IConverter.create(IScanPathModel.class, Boolean.class,

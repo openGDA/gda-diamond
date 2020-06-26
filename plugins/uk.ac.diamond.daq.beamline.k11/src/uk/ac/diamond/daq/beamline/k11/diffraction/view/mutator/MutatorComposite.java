@@ -23,8 +23,8 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.swt.widgets.Button;
 
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
 
 /**
  * Abstracts a {@link MutatorType} GUI element.

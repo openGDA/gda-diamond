@@ -30,10 +30,10 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 
 /**

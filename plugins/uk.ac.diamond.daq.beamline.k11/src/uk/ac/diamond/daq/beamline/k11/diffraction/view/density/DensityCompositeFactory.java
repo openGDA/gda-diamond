@@ -49,8 +49,8 @@ import org.eclipse.swt.widgets.Text;
 import com.google.common.primitives.Ints;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.ClientVerifyListener;

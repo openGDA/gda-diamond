@@ -39,9 +39,13 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.service.DiffractionService;
 import uk.ac.diamond.daq.beamline.k11.diffraction.service.DiffractionServiceException;
 import uk.ac.diamond.daq.beamline.k11.diffraction.service.message.DiffractionRunMessage;
 import uk.ac.diamond.daq.mapping.api.IScanBeanSubmitter;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionBase;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionParametersBase;
+import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.api.document.DocumentMapper;
 import uk.ac.diamond.daq.mapping.api.document.ScanRequestDocument;
 import uk.ac.diamond.daq.mapping.api.document.ScanRequestFactory;
+import uk.ac.gda.api.acquisition.Acquisition;
 import uk.ac.gda.api.exception.GDAException;
 import uk.ac.gda.tomography.service.Arrangement;
 
@@ -96,7 +100,12 @@ public class DiffractionServiceImpl implements DiffractionService {
 
 	private ScanRequestDocument createSRD(DiffractionRunMessage message) throws DiffractionServiceException {
 		try {
-			return documentMapper.toJSON((String) message.getConfiguration(), ScanRequestDocument.class);
+			Acquisition<?> acquisition = documentMapper.fromJSON((String) message.getConfiguration(),
+					AcquisitionBase.class);
+			AcquisitionParametersBase dp = (AcquisitionParametersBase) acquisition.getAcquisitionConfiguration()
+					.getAcquisitionParameters();
+			return new ScanRequestDocument(acquisition.getName(), acquisition.getAcquisitionLocation(),
+					new DetectorDocument[] { dp.getDetector() }, dp.getScanpathDocument());
 		} catch (GDAException e) {
 			throw new DiffractionServiceException("Json error", e);
 		}

@@ -33,11 +33,9 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.event.DiffractionRunAcquisitio
 import uk.ac.diamond.daq.beamline.k11.diffraction.service.message.DiffractionRunMessage;
 import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.api.document.DocumentMapper;
-import uk.ac.diamond.daq.mapping.api.document.ScanRequestDocument;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionConfiguration;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameterAcquisition;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionConfiguration;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.gda.api.acquisition.AcquisitionController;
@@ -96,12 +94,6 @@ public class DiffractionParametersAcquisitionController
 		SpringApplicationContextProxy.publishEvent(new DiffractionRunAcquisitionEvent(this, runMessage));
 	}
 
-	private ScanRequestDocument createScanRequestDocument() {
-		DiffractionParameters dp = getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
-		return new ScanRequestDocument(getAcquisition().getName(), getAcquisition().getAcquisitionLocation(),
-				new DetectorDocument[] { dp.getDetector() }, dp.getScanpathDocument());
-	}
-
 	@Override
 	public void loadAcquisitionConfiguration(URL url) throws AcquisitionControllerException {
 		// TBD
@@ -142,14 +134,13 @@ public class DiffractionParametersAcquisitionController
 			DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
 			acquisitionParameters.setDetector(dd);
 		}
-		acquisitionParameters.setShapeType(ShapeType.POINT);
 		newConfiguration.setName("Default name");
 		newConfiguration.getAcquisitionConfiguration().setAcquisitionParameters(acquisitionParameters);
 		return newConfiguration;
 	}
 
 	private DiffractionRunMessage createRunMessage() throws AcquisitionControllerException {
-		return new DiffractionRunMessage(dataToJson(createScanRequestDocument()));
+		return new DiffractionRunMessage(dataToJson(getAcquisition()));
 	}
 
 	private String dataToJson(Object acquisition) throws AcquisitionControllerException {

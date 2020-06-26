@@ -22,7 +22,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.swt.widgets.Button;
 
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 
 /**
  * Abstract a {@link ShapeType} GUI element.

@@ -54,9 +54,9 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.ShapesTemplateFacto
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameterAcquisition;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;

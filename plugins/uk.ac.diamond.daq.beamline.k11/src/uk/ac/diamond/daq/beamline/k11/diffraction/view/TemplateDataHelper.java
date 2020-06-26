@@ -28,9 +28,9 @@ import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
 
 import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
 
 public class TemplateDataHelper extends TemplateHelperBase {
 

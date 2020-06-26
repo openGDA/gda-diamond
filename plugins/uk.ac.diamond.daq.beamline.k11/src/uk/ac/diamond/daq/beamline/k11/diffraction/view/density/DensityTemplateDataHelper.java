@@ -19,8 +19,8 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.density;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.TemplateHelperBase;
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
 
 public class DensityTemplateDataHelper extends TemplateHelperBase {
 

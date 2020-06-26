@@ -21,7 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import uk.ac.diamond.daq.mapping.ui.diffraction.base.DiffractionParameterAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 
 /**
