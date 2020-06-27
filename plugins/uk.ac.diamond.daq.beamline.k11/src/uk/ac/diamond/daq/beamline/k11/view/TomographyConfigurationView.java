@@ -127,8 +127,7 @@ public class TomographyConfigurationView extends ViewPart {
 
 			private URL getOutputPath() throws ExperimentControllerException {
 				if (getExperimentController().isPresent()) {
-					return getExperimentController().get().prepareAcquisition(controller.getAcquisition()
-							.getAcquisitionConfiguration().getAcquisitionParameters().getName());
+					return getExperimentController().get().prepareAcquisition(controller.getAcquisition().getName());
 				}
 				return null;
 			}
