@@ -1,11 +1,12 @@
 from gda.configuration.properties import LocalProperties
 from gda.jython import Jython
+from gda.factory import Finder
 
 class Scan_Utilities:
     
     def __init__(self):
         print "constructor"
-        self.JythonNS = finder.findSingleton(Jython)
+        self.JythonNS = Finder.findSingleton(Jython)
         self.metaData = []
         self.filePrefix=""
         self.expt=""

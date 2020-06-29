@@ -12,9 +12,9 @@ from org.eclipse.january.dataset import DatasetFactory
 class refinement() : 
 	
 	def __init__(self):
-		self.edxd = Finder.getInstance().find("edxdcontroller")	   
-		self.tfg = Finder.getInstance().find("tfg")
-		self.vortex = Finder.getInstance().find("xmapMca")
+		self.edxd = Finder.find("edxdcontroller")	   
+		self.tfg = Finder.find("tfg")
+		self.vortex = Finder.find("xmapMca")
 
 	def collectdata(self,time) :
 	

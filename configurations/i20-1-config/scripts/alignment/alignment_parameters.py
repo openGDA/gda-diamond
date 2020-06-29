@@ -233,7 +233,7 @@ def _calDetDistance(parametersBean):
     # detector z values, their height needs to be calculated 
     offset = 0.0
     det_height_mm = offset - (6 * (q_m + _getRealDetDistanceInM()))
-    me2_y_positioner = Finder.getInstance().find("me2_y_positioner")
+    me2_y_positioner = Finder.find("me2_y_positioner")
     if me2_y_positioner.getPosition() == "In" :
         det_height_mm = det_height_mm + 3.0
     parametersBean.setDetectorHeight(det_height_mm)
@@ -284,7 +284,7 @@ def _calcPower(parametersBean):
     
 def _getRealDetDistanceInM():
     
-    det_z = Finder.getInstance().find("det_z")
+    det_z = Finder.find("det_z")
     return det_z.getPosition() / 1000.
 
 def _getDetectorSizeInMM(parametersBean):

@@ -22,14 +22,14 @@ def setupMedipixPlugins() :
     global medipix_basePvName
 
     #  Get the findable map containing the additional plugin lists
-    medipix_plugins = Finder.getInstance().find("medipix_plugins")
+    medipix_plugins = Finder.find("medipix_plugins")
 
     # Get the two plugin lists
     plugins_plotserver_roi = medipix_plugins.get("plugins_plotserver_roi")
     plugins_mutable_roi = medipix_plugins.get("plugins_mutable_roi")
     
     # get the mutable roi used by plugins_mutable_roi
-    medipix_roi = Finder.getInstance().find("medipix_roi")
+    medipix_roi = Finder.find("medipix_roi")
 
     # Set the initial plugin list on the detector
     medipix.setAdditionalPluginList(plugins_plotserver_roi)

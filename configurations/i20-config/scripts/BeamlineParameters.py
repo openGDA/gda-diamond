@@ -62,7 +62,7 @@ class FinderNameMapping:
         else:
             nameToFind = attrName
         try:
-            obj = Finder.getInstance().find(nameToFind)
+            obj = Finder.find(nameToFind)
         except:
             # print out now as it is not output by the Jython terminal
             msg = "Error getting value for item named " + nameToFind + " in finderNameMap for attribute " + attrName

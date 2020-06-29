@@ -4,8 +4,7 @@ Created on 4 Mar 2015
 @author: fy65
 '''
 #from gda.factory import Finder
-#finder=Finder.getInstance()
-#das4etfg=finder.find("daserverForTfg")
+#das4etfg=Finder.find("daserverForTfg")
 
 delayBeforeStart=0.0
 #numberOfFramesBetweenValueTriggers=5

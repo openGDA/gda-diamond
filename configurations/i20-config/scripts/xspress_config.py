@@ -14,9 +14,8 @@ from gda.factory import Finder
 class _xspressconfigurer:
     """ base class for the two energy mode configurers"""
     def __init__(self):
-        finder = Finder.getInstance()
-        self.xspress = finder.find("xspress2system")
-        self.daserver = finder.find("DAServer")
+        self.xspress = Finder.find("xspress2system")
+        self.daserver = Finder.find("DAServer")
 
 class SwitchToHighEnergy(_xspressconfigurer):
     

@@ -112,7 +112,7 @@ def run_in_try_catch(function):
 
 
 def continuous_detector_scan(bufferedDetector, numReadouts, timePerReadout):
-    # dummy_qexafs_energy = Finder.getInstance().finf("dummy_qexafs_energy")
+    # dummy_qexafs_energy = Finder.finf("dummy_qexafs_energy")
     qexafs_counterTimer01.setUseInternalTriggeredFrames(True)
     cvscan dummy_qexafs_energy 0.0 1.0 numReadouts numReadouts*timePerReadout bufferedDetector qexafs_counterTimer01
 

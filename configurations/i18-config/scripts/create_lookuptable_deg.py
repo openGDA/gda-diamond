@@ -12,6 +12,7 @@ from gda.analysis.numerical.optimization.objectivefunction import chisquared
 from gda.analysis.numerical.optimization.optimizers.leastsquares import minpackOptimizer
 from gda.analysis.numerical.optimization.optimizers.simplex import NelderMeadOptimizer
 from gda.analysis.datastructure import DataVector
+from gda.factory import Finder
 from time import sleep
 #
 # A simple method for performing the gap scan
@@ -98,18 +99,18 @@ offset=0
 #
 # The code uses comboDCM, i.e. the current lookup table to get a starting point for the scans
 #
-converter = finder.find("auto_mDeg_idGap_mm_converter")
+converter = Finder.find("auto_mDeg_idGap_mm_converter")
 
 converter.enableAutoConversion()
 
 pos sc_comboDCM_d angleStart
 #pos comboDCM_eV 7200
 
-#converter = finder.find("auto_mDeg_idGap_mm_converter")
+#converter = Finder.find("auto_mDeg_idGap_mm_converter")
 
 converter.disableAutoConversion()
 
-lookup = finder.find("lookup_name_provider")
+lookup = Finder.find("lookup_name_provider")
 print 'Harmonic set to ',lookup.getConverterName()
 
 #

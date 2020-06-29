@@ -18,13 +18,13 @@ from gda.data.scan.datawriter import NexusDataWriter
 # from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
 from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
 
-XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
-commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
-# ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+XASLoggingScriptController = Finder.find("XASLoggingScriptController")
+commandQueueProcessor = Finder.find("commandQueueProcessor")
+# ExafsScriptObserver = Finder.find("ExafsScriptObserver")
 
 
-datawriterconfig = Finder.getInstance().find("datawriterconfig")
-original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
+datawriterconfig = Finder.find("datawriterconfig")
+original_header = Finder.find("datawriterconfig").getHeader()[:]
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity, iref_stanford_sensitivity]
@@ -39,9 +39,9 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else :
     #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
     detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
-daServer = Finder.getInstance().find("DAServer")
+daServer = Finder.find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
-outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
+outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
 
 
@@ -53,7 +53,7 @@ theFactory.setSamplePreparer(samplePreparer);
 theFactory.setOutputPreparer(outputPreparer);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(energy);
-theFactory.setMetashop(Finder.getInstance().find("metashop"));
+theFactory.setMetashop(Finder.find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannable(qexafs_energy);
@@ -152,7 +152,7 @@ qexafs_xspress.setUseNexusTreeWriter(True)
 samplewheel_names.setPositions( samplewheel.getFilterNames() )
 
 # Set the zebra PC_pulse output for triggering the TFG. 3/4/2019
-zebra_device = Finder.getInstance().find("zebra_device")
+zebra_device = Finder.find("zebra_device")
 zebra_device.setOutTTL(1, 31)
 
 # Setup the plugin listst used to control the medipix ROI

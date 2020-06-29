@@ -18,9 +18,8 @@ if LocalProperties.isDummyModeEnabled() == False:
     run("d10CentroidScannables.py")
     run("continuous_detector_scan.py")
 
-finder = Finder.getInstance()
-das = finder.find("DAServer")
-das4tfg=finder.find("daserverForTfg")
+das = Finder.find("DAServer")
+das4tfg=Finder.find("daserverForTfg")
 
 #Set flag used by ConcurrentScan so that scannables return to their original position at end of scan. 24/2/2016
 scansReturnToOriginalPositions=1
@@ -58,13 +57,13 @@ add_default detectorMonitorDataProvider
 from gda.data.scan.datawriter import NexusDataWriter
 # Local property used by NexusDataWriter to store name of metadata object
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
-metashop = Finder.getInstance().find("metashop")
+metashop = Finder.find("metashop")
 
 # Misc. TurboXAS related beans
-zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
-zebra_device=finder.find("zebra_device")
-zebra_device2=finder.find("zebra_device2")
-trajscan_preparer=finder.find("trajscan_preparer")
+zebra_gatePulsePreparer=Finder.find("zebra_gatePulsePreparer")
+zebra_device=Finder.find("zebra_device")
+zebra_device2=Finder.find("zebra_device2")
+trajscan_preparer=Finder.find("trajscan_preparer")
 
 # Set bi-directional trajectory to use fixed runup/down distance
 trajscan_preparer.setUseFixedTurnaroundDistance(True)
@@ -96,8 +95,8 @@ das4tfg.sendCommand("tfg setup-veto veto1-drive 1")
 # Scaler channel input 0 : Record when input level is high (topup signal for TurboXas)
 das4tfg.sendCommand("tfg setup-cc-chan 0 level")
 
-xspress3Controller = finder.find("xspress3Controller")
-# xspress3 = finder.get("xspress3")
+xspress3Controller = Finder.find("xspress3Controller")
+# xspress3 = Finder.get("xspress3")
 
 swmrFrameFlush = 5
 if LocalProperties.isDummyModeEnabled() == False :

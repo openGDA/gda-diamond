@@ -13,7 +13,7 @@ from fr.esrf.TangoApi import DeviceAttribute
 
 class frelon:
     def __init__(self):
-        self.frelon_obj = Finder.getInstance().find("frelon_objects")
+        self.frelon_obj = Finder.find("frelon_objects")
         self.lima=self.frelon_obj.get("limaCCD")
         self.frelon=self.frelon_obj.get("frelonCCD")
         

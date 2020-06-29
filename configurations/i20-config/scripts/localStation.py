@@ -12,16 +12,17 @@ from vortex_elements import VortexElements
 from gda.configuration.properties import LocalProperties
 from gda.data.scan.datawriter import NexusDataWriter
 from gda.device.scannable import TwoDScanPlotter
+from gda.factory import Finder
 
 from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory, XasScanFactory
 from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
 
-DAServer = finder.find("DAServer")
-XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
-datawriterconfig = Finder.getInstance().find("datawriterconfig")
+DAServer = Finder.find("DAServer")
+XASLoggingScriptController = Finder.find("XASLoggingScriptController")
+datawriterconfig = Finder.find("datawriterconfig")
 
-datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
-metashop = Finder.getInstance().find("metashop")
+datawriterconfig_xes = Finder.find("datawriterconfig_xes")
+metashop = Finder.find("metashop")
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
@@ -29,11 +30,11 @@ sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
-xmapController = Finder.getInstance().find("xmapcontroller")
+xmapController = Finder.find("xmapcontroller")
 if LocalProperties.get("gda.mode") == "live":
     from vortex_elements import VortexElements
     vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
-    vortexDetector = Finder.getInstance().find("vortexDetector")
+    vortexDetector = Finder.find("vortexDetector")
 else :
     # In dummy mode, set event processing times to be consistent with number of elements on detector.
     xmapMca.setEventProcessingTimes( [1.2039752e-7]*xmapController.getNumberOfElements() )
@@ -63,7 +64,7 @@ beamlinePreparer = I20BeamlinePreparer()
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
-xesOffsets=Finder.getInstance().find("XesOffsets")
+xesOffsets=Finder.find("XesOffsets")
 
 theFactory = XesScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);

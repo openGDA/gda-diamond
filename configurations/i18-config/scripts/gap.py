@@ -53,8 +53,7 @@ class ThreadClass(threading.Thread):
 		self.curr_angle = int(abs(float(self.PVmonoAngle.caget())*1000))
 		print "curr_angle=",self.curr_angle
 		indexi =  self.angle.index(min(self.angle, key=lambda x:abs(x-self.curr_angle)))
-		finder = Finder.getInstance()
-		self.sc_idgap=finder.find("sc_idgap")
+		self.sc_idgap=Finder.find("sc_idgap")
 		self.sc_idgap(self.gap[indexi])
 		
 	def stop(self):

@@ -259,10 +259,10 @@ def plot_last_data() :
     dnp.plot.line( {xlabel:posAtDetectorMeasurement}, frelonRoiData, title="ROI counts vs position (from zebra encoder)")
 
 
-zebra_device = Finder.getInstance().find("zebra_device")
-daserverForTfg = Finder.getInstance().find("daserverForTfg")
-scalerForZebra = Finder.getInstance().find("scaler_for_zebra")
-motor_to_move = Finder.getInstance().find("as_hoffset")
+zebra_device = Finder.find("zebra_device")
+daserverForTfg = Finder.find("daserverForTfg")
+scalerForZebra = Finder.find("scaler_for_zebra")
+motor_to_move = Finder.find("as_hoffset")
 
 ## Buffered detector to use for continuous scan
 bufferedDetector = BufferedEdeDetector()

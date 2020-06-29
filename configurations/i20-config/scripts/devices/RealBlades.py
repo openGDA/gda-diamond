@@ -20,7 +20,7 @@ class BladeAngle(ScannableMotionBase):
         return self.isBusy
 
     def rawGetPosition(self):
-        realValue = Finder.getInstance().find(self.realName).getPosition()
+        realValue = Finder.find(self.realName).getPosition()
         self.currentposition = (realValue - self.offset) / self.distance
         return self.currentposition
 
@@ -32,7 +32,7 @@ class BladeAngle(ScannableMotionBase):
             self.currentposition = new_position
         
             # Move realMotor
-            realMotor = Finder.getInstance().find(self.realName)
+            realMotor = Finder.find(self.realName)
             realValue = (self.currentposition*self.distance)+self.offset
             print "Setting the value of "+realMotor.getName()+" to "+str(realValue)
             realMotor.moveTo(realValue)
@@ -41,7 +41,7 @@ class BladeAngle(ScannableMotionBase):
             # value for instance. Note that the value string is in the same format as that returned by the
             # pos command.
             if self.observerName!=None:
-                observer = Finder.getInstance().findNoWarn(self.observerName)
+                observer = Finder.findNoWarn(self.observerName)
                 if observer!=None:
                     observer.notifyIObservers("Move", self.getName()+" : value: "+str(self.currentposition))
         finally:
@@ -98,7 +98,7 @@ class SubtractAngle(ScannableMotionBase):
             # value for instance. Note that the value string is in the same format as that returned by the
             # pos command.
             if self.observerName!=None:
-                observer = Finder.getInstance().findNoWarn(self.observerName)
+                observer = Finder.findNoWarn(self.observerName)
                 if observer!=None:
                     observer.notifyIObservers("Move", self.getName()+" : value: "+str(self.currentposition))
         finally:
@@ -153,7 +153,7 @@ class AverageAngle(ScannableMotionBase):
             # value for instance. Note that the value string is in the same format as that returned by the
             # pos command.
             if self.observerName!=None:
-                observer = Finder.getInstance().findNoWarn(self.observerName)
+                observer = Finder.findNoWarn(self.observerName)
                 if observer!=None:
                     observer.notifyIObservers("Move", self.getName()+" : value: "+str(self.currentposition))
         finally:

@@ -21,8 +21,6 @@ print "Initialization Started";
 
 live_mode = LocalProperties.get("gda.mode") == 'live'
 
-finder = Finder.getInstance()
-
 test = DummyScannable("test")
 
 print "Creating topup , beam, detector-filling, trajectory monitors to pause and resume scans"
@@ -65,22 +63,22 @@ alias("beam_available_watchdog")
 topup_watchdog.setEnabled(True)
 beam_available_watchdog.setEnabled(True)
 
-rcpController =                finder.find("RCPController")
-XASLoggingScriptController =   finder.find("XASLoggingScriptController")
-ExafsScriptObserver =          finder.find("ExafsScriptObserver")
-auto_mDeg_idGap_mm_converter = finder.find("auto_mDeg_idGap_mm_converter")
-loggingcontroller =            finder.find("XASLoggingScriptController")
-datawriterconfig =             finder.find("datawriterconfig")
-if finder.find("datawriterconfig").getHeader() != None:
-    original_header =              finder.find("datawriterconfig").getHeader()[:]
-elementListScriptController =  finder.find("elementListScriptController")
+rcpController =                Finder.find("RCPController")
+XASLoggingScriptController =   Finder.find("XASLoggingScriptController")
+ExafsScriptObserver =          Finder.find("ExafsScriptObserver")
+auto_mDeg_idGap_mm_converter = Finder.find("auto_mDeg_idGap_mm_converter")
+loggingcontroller =            Finder.find("XASLoggingScriptController")
+datawriterconfig =             Finder.find("datawriterconfig")
+if Finder.find("datawriterconfig").getHeader() != None:
+    original_header =              Finder.find("datawriterconfig").getHeader()[:]
+elementListScriptController =  Finder.find("elementListScriptController")
 
 sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedVariable
 sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
 detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3,raster_FFI0_xspress3) # @UndefinedVariable
 
 samplePreparer   = I18SamplePreparer(rcpController) # @UndefinedVariable
-outputPreparer   = I18OutputPreparer(datawriterconfig, finder.find("metashop"))
+outputPreparer   = I18OutputPreparer(datawriterconfig, Finder.find("metashop"))
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter) # @UndefinedVariable
 
 if live_mode and (beam_state() == 'User' or beam_state() == 'BL Startup' or beam_state() == 'Special'): # @UndefinedVariable
@@ -100,7 +98,7 @@ theFactory.setSamplePreparer(samplePreparer);
 theFactory.setOutputPreparer(outputPreparer);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(energy_scannable_for_scans);
-theFactory.setMetashop(finder.find("metashop"));
+theFactory.setMetashop(Finder.find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setScanName("energyScan")
 xas = theFactory.createEnergyScan();
@@ -119,7 +117,7 @@ mapFactory.setOutputPreparer(outputPreparer);
 mapFactory.setLoggingScriptController(XASLoggingScriptController);
 mapFactory.setEnergyWithGapScannable(energy); # @UndefinedVariable
 mapFactory.setEnergyNoGapScannable(energy_nogap); # @UndefinedVariable
-mapFactory.setMetashop(finder.find("metashop"));
+mapFactory.setMetashop(Finder.find("metashop"));
 mapFactory.setIncludeSampleNameInNexusName(True);
 mapFactory.setCounterTimer(counterTimer01); # @UndefinedVariable
 mapFactory.setxScan(t1x); # @UndefinedVariable

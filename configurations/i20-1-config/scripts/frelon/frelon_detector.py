@@ -7,9 +7,7 @@ from gda.factory import Finder
 from gda.device.lima.LimaCCD import AcqMode, AcqTriggerMode, AccTimeMode
 from gda.device.frelon.Frelon import ImageMode, InputChannels, ROIMode, SPB2Config
 
-finder=Finder.getInstance()
-
-edefrelon=finder.find("frelon")
+edefrelon=Finder.find("frelon")
 # object used to access real detector data in Tango
 frelon1=edefrelon.getFrelon()
 limaccd=edefrelon.getLimaCcd()
