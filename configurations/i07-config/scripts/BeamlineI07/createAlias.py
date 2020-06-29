@@ -3,6 +3,7 @@
 import sys;
 
 from gda.jython.commands.GeneralCommands import alias;
+from gda.factory import Finder
 
 #For valve control
 Close=CLOSE='Close';
@@ -39,7 +40,7 @@ alias("posall");
 def clear():
 	print;
 	print "To Reset the namespace and reload all modules ..."
-	observableSubdirectory=finder.find("observableSubdirectory");
+	observableSubdirectory=Finder.find("observableSubdirectory");
 	observableSubdirectory.deleteIObservers();
 	sys.modules.clear();
 	reset_namespace();

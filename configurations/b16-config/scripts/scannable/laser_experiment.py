@@ -2,7 +2,7 @@
 #scannable/laser_experiment.py
 from gda.factory import Finder
 from gda.device.scannable import ScannableMotionBase
-daserver = Finder.getInstance().find('daserver')
+daserver = Finder.find('daserver')
 
 
 ALLOFF = 0

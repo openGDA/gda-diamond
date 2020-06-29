@@ -17,10 +17,10 @@ class currents2(ScannableMotionBase):
 		return 0
 
 	def getPosition(self):
-		self.current5 = Finder.getInstance().find("c5").getPosition()
-		self.current6 = Finder.getInstance().find("c6").getPosition()
-		self.current7 = Finder.getInstance().find("c7").getPosition()
-		self.current8 = Finder.getInstance().find("c8").getPosition()
+		self.current5 = Finder.find("c5").getPosition()
+		self.current6 = Finder.find("c6").getPosition()
+		self.current7 = Finder.find("c7").getPosition()
+		self.current8 = Finder.find("c8").getPosition()
 		self.cs = [self.current5, self.current6, self.current7, self.current8]
 		return self.cs
 

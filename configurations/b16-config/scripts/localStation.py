@@ -78,7 +78,7 @@ USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
 
 from gda.factory import Finder
-daserver = Finder.getInstance().find('daserver')
+daserver = Finder.find('daserver')
 from scannable.laser_experiment import LaserShutterPulseController
 laserxray = LaserShutterPulseController('laserxray', daserver)
 

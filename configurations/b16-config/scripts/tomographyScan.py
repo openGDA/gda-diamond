@@ -758,8 +758,7 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
 		#caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 		#pcoEdge_readout=0.011
 		#from gda.factory import Finder
-		#finder = Finder.getInstance()
-		#flyScanDetector=finder.find("flyScanDetector")
+		#flyScanDetector=Finder.find("flyScanDetector")
 		#flyScanDetector.readOutTime=pcoEdge_readout
 	createSRS = LocalProperties.get("gda.nexus.createSRS")
 	try:

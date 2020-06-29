@@ -205,7 +205,7 @@
 	</bean>
 
 	<!-- Note most plugins are exposed via NXDetector's component system -->
-	<!-- >>>Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor') -->
+	<!-- >>>Finder.find("pilatus1_plugins").get('pilatus1_counter_monitor') -->
 	<bean id="pilatus1_plugins"
 			class="gda.device.FindableObjectHolder">
 		<property name="map">

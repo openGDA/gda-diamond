@@ -2,6 +2,7 @@
 from uk.ac.gda.util.beans.xml import XMLHelpers
 from java.io import File
 from java.lang import System
+from gda.factory import Finder
 import sys
 
 def getNumberOfDetectors(detectorFileName): 
@@ -99,8 +100,8 @@ def getSampleXYZPositions():
     return str(xpos) + "," + str(ypos)+ ","+str(zpos)
 
 def getAttenuatorPositions(at1Name, at2Name):
-    at1 = finder.find(at1Name)
-    at2 = finder.find(at2Name)
+    at1 = Finder.find(at1Name)
+    at2 = Finder.find(at2Name)
     at1Pos = at1.getPosition()
     at2Pos = at2.getPosition()
     return str(at1Pos) +  "," + str(at2Pos)

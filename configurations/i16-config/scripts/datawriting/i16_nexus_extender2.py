@@ -369,7 +369,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         data.name = "sensor_thickness"
         nFile.createData(group, data)
 
-        detObject = Finder.getInstance().find(detName)
+        detObject = Finder.find(detName)
         #some more stuff has to be added if the detector is a NexusDetector
         if detObject != None and isinstance(detObject, NexusDetector):
             data = DF.createFromObject(properties[SENSOR_DESCRIPTION])

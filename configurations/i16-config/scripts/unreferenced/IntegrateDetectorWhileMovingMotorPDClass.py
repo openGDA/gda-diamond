@@ -1,3 +1,5 @@
+from gda.factory import Finder
+
 def setkthspeed(speed):
 	#sleep(.5)
 	caput('BL16I-MO-DIFF-01:SAMPLE:KTHETA.VELO',speed)
@@ -15,7 +17,7 @@ class IntegrateDetectorWhileMovingMotorPDClass(ScannableMotionBase):
 		self.setOutputFormat(['%.4f','%.4f','%.0f'])
 		self.setLevel(9)
 		[self.range, self.speed, self.counts]=[0,0,0]
-		self.mot=finder.find('kth_motor')
+		self.mot=Finder.find('kth_motor')
 
 	def asynchronousMoveTo(self,invec):
 		[self.range, self.speed]=invec
@@ -71,7 +73,7 @@ class IntegrateDetectorWhileMovingMotorPDClass(ScannableMotionBase):
 		self.setOutputFormat(['%.4f','%.4f']+4*['%.0f'])
 		self.setLevel(9)
 		[self.range, self.speed, self.counts]=[0,0,0]
-		self.mot=finder.find('kth_motor')
+		self.mot=Finder.find('kth_motor')
 		self.counts=4*[0]
 
 	def asynchronousMoveTo(self,invec):
@@ -132,7 +134,7 @@ class CountDetectorWhileMovingMotorPDClass(ScannableMotionBase):
 		self.setExtraNames(['range','speed','ctime']+self.extranames);
 		self.setOutputFormat(['%.0f','%.4f','%.4f','%.2f']+self.ncts*['%.0f'])	
 		self.setLevel(9)
-		self.mot=finder.find('kth_motor')
+		self.mot=Finder.find('kth_motor')
 		
 		
 
@@ -195,7 +197,7 @@ class CountDetectorWhileMovingMotorWithEncoderPDClass(ScannableMotionBase):
 		self.setExtraNames(['range','speed','ctime', 'fluo']+self.ctsnames+self.encodernames+self.fluonames+self.fluonames2);
 		self.setOutputFormat(['%.0f','%.4f','%.4f','%.2f', '%.0f' ]+self.ncts*['%.0f']+self.ncts*['%.4f']+self.ncts*['%.0f']+self.ncts*['%.0f'])	
 		self.setLevel(9)
-		self.mot=finder.find('kth_motor')
+		self.mot=Finder.find('kth_motor')
 
 		
 		self.sis1=CAClient('BL16I-EA-DET-01:SCALER.S3')
@@ -295,7 +297,7 @@ class CountDetectorWhileMovingMotorWithEncoderWithoutStoppingAndStartingTheTimer
 		self.setExtraNames(['range','speed','ctime','ncts']+self.ctsnames+self.encodernames+self.timenames);
 		self.setOutputFormat(['%.0f','%.4f','%.4f','%.2f','%.0f']+self.ncts*['%.0f']+self.ncts*['%.4f']+self.ncts*['%.4f'])	
 		self.setLevel(9)
-		self.mot=finder.find('kth_motor')
+		self.mot=Finder.find('kth_motor')
 
 	def asynchronousMoveTo(self,dummy):
 		self.mot.setSpeed(4)

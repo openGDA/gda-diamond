@@ -38,7 +38,7 @@ def mapscan (scanFileName, detectorFileName, folderName=None, scanNumber= -1, va
      
     # give the beans to the xasdatawriter class to help define the folders/filenames 
     beanGroup = BeanGroup()
-    beanGroup.setController(Finder.getInstance().find("ExafsScriptObserver"))
+    beanGroup.setController(Finder.find("ExafsScriptObserver"))
     beanGroup.setScriptFolder(MicroFocusEnvironment().getScriptFolder())
     beanGroup.setScannable(globals()[scanBean.getXScannableName()]) #TODO
     beanGroup.setExperimentFolderName(folderName)
@@ -51,7 +51,7 @@ def mapscan (scanFileName, detectorFileName, folderName=None, scanNumber= -1, va
     # add detector object to this list
     xmap_name = detectorBean.getDetectorGroups()[0].getDetector()[0] # WRONG
     xmap_name = 'xmap'
-    detectorList = [Finder.getInstance().find(xmap_name)]
+    detectorList = [Finder.find(xmap_name)]
     
     # extract any signal parameters to add to the scan command
     dataWriter = NexusDataWriter()

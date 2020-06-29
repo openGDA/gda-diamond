@@ -1,7 +1,9 @@
-finder.find("kphi_motor").home()
-finder.find("kappa_motor").home()
-finder.find("kth_motor").home()
-finder.find("delta_motor").home()
+from gda.factory import Finder
+
+Finder.find("kphi_motor").home()
+Finder.find("kappa_motor").home()
+Finder.find("kth_motor").home()
+Finder.find("delta_motor").home()
 delta(90)
-finder.find("mu_motor").home()
-finder.find("gam_motor").home()
+Finder.find("mu_motor").home()
+Finder.find("gam_motor").home()

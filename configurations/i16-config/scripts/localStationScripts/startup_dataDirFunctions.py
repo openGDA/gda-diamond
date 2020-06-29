@@ -35,7 +35,7 @@ def datadir(newpath=None):
 
 def setTerminalLoggerDir(newdir):
 	newpath = os.path.join(newdir, 'gdaterminal.log')
-	tpp = Finder.getInstance().find("terminallog_path_provider")
+	tpp = Finder.find("terminallog_path_provider")
 	print "new record log: ", newpath
 	tpp.setPath(newpath)
 

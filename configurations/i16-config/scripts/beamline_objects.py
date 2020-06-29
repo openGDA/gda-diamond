@@ -40,8 +40,7 @@ except:
 	#set up beamline specific things here
 	#from gda.factory import Finder
 	#from gda.jython.scannable import *
-	#my_finder = Finder.getInstance()
-	#my_sixcircle = my_finder.find("sixcircle")
+	#my_sixcircle = Finder.find("sixcircle")
 
 	# create pseudo devices to allow scanning in reciprocal space
 

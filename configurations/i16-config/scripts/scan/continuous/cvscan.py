@@ -16,7 +16,7 @@ class XpsPositionCompareableScannable(ScannableMotionBase):
 
 	def __init__(self, dofAdapter):
 		self.dofAdapter = dofAdapter
-		self.xpsmotor=Finder.getInstance().find(dofAdapter.getDofname() + '_motor') # I16 specific hack
+		self.xpsmotor=Finder.find(dofAdapter.getDofname() + '_motor') # I16 specific hack
 		self.normalSpeed = self.xpsmotor.getSpeed()
 		self.offset = dofAdapter.getOE().getOE().getPositionOffset(dofAdapter.getName()).amount
 		self.dummypos = dofAdapter.getPosition()

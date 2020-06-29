@@ -6,7 +6,6 @@ print "Running b24_utilities.py..."
 
 # set up a nice method for getting the latest file path
 b24NumTracker = NumTracker("b24")
-finder = Finder.getInstance()
 
 # to get working directory, eg /dls/b24/data/2017/cm16787-4/
 def wd():

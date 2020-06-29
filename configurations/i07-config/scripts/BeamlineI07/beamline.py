@@ -6,8 +6,6 @@ from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
 
 
-finder = Finder.getInstance();
-
 logger=ScriptLoggerClass();
 
 i07=BeamlineFunctionClass('i07');

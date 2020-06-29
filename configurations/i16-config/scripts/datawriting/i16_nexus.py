@@ -14,7 +14,7 @@ if USE_NEXUS_METADATA_COMMANDS:
 else:
 	meta.add(Energy)
 
-writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
+writerMap = Finder.getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 ddwf = writerMap.get("DefaultDataWriterFactory")
 for dwe in ddwf.getDataWriterExtenders():
     ddwf.removeDataWriterExtender(dwe)

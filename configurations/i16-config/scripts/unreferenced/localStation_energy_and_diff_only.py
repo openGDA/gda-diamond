@@ -7,6 +7,7 @@ from gda.device.epicsdevice import ReturnType
 from gda.device.monitor import EpicsMonitor
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
+from gda.factory import Finder
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
 from installation import isEpicsSim
 from javashell import *
@@ -160,8 +161,8 @@ eta.setOutputFormat(['%.4f'])
 delta.setOutputFormat(['%.4f'])
 
 try:
-	finder.find('mu_motor').setSpeed(1.0)
-	finder.find('gamma_motor').setSpeed(2.0)
+	Finder.find('mu_motor').setSpeed(1.0)
+	Finder.find('gamma_motor').setSpeed(2.0)
 except:
 	print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Could not set speend on mu or gamma - probably disconnected !!!!!!!!!!!!!!"
 

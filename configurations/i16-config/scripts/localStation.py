@@ -62,7 +62,7 @@ if USE_DIFFCALC and USE_SMARGON:
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
-global Finder, pos, finder, add_default, meta
+global Finder, pos, add_default, meta
 
 global sixckappa, euler_cryo, sixckappa_cryo, cryophi
 global delta_axis_offset
@@ -301,17 +301,17 @@ SIXC_SCANNABLEMOTOR_NAMES = ['kphi', 'kap', 'kth', 'kmu', 'kdelta', 'kgam']
 
 localStation_print("Creating post_xps_restart")
 def post_xps_restart():
-	for mot in [Finder.getInstance().find(n) for n in SIXC_MOTOR_NAMES]:
+	for mot in [Finder.find(n) for n in SIXC_MOTOR_NAMES]:
 		mot.forceCallback()
 
 localStation_print("Creating set_assert_sixc_home_before_moving(True|False)")
 def set_assert_sixc_homed_before_moving(b):
-	for mot in [Finder.getInstance().find(n) for n in SIXC_MOTOR_NAMES]:
+	for mot in [Finder.find(n) for n in SIXC_MOTOR_NAMES]:
 		mot.setAssertHomedBeforeMoving(b)
 
 localStation_print("Creating set_sixc_returns_demand_position(True|False)")
 def set_sixc_returns_demand_position(b):
-	for scnmot in [Finder.getInstance().find(n) for n in SIXC_SCANNABLEMOTOR_NAMES]:
+	for scnmot in [Finder.find(n) for n in SIXC_SCANNABLEMOTOR_NAMES]:
 		scnmot.setReturnDemandPosition(b)
 
 ###############################################################################
@@ -601,7 +601,7 @@ pitchup=pitchupClass()
 #print "creating Vortex objects for ", vortexName
 #import mca_utils
 #reload(mca_utils)
-#mca=finder.find(vortexName)
+#mca=Finder.find(vortexName)
 #if (mca != None):
 #	ctmca=mca_utils.ctmcaClass('ctmca',mca)
 #	rdmca=mca_utils.rdmcaClass('rdmca',mca)
@@ -886,7 +886,7 @@ if USE_PIL2:
 	try:
 		#pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
 		pil2mdet = pilatus2
-		_pilatus2_counter_monitor = Finder.getInstance().find("pilatus2_plugins").get('pilatus2_counter_monitor')
+		_pilatus2_counter_monitor = Finder.find("pilatus2_plugins").get('pilatus2_counter_monitor')
 
 		#pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
 		pil2m = NxProcessingDetectorWrapper('pil2m',
@@ -915,7 +915,7 @@ if USE_PIL1:
 	localStation_print("Configuring pilatus 1 (100k)")
 	try:
 		pil100kdet = pilatus1
-		_pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
+		_pilatus1_counter_monitor = Finder.find("pilatus1_plugins").get('pilatus1_counter_monitor')
 	
 		#pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
 		pil100k = NxProcessingDetectorWrapper('pil100k',
@@ -950,7 +950,7 @@ else:
 localStation_print("Configuring pilatus 3 (100k)")
 if USE_PIL3:
 	try:
-		_pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('pilatus3_counter_monitor')
+		_pilatus3_counter_monitor = Finder.find("pilatus3_plugins").get('pilatus3_counter_monitor')
 		#pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
 		pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
 			pilatus3,
@@ -1390,7 +1390,7 @@ except:
 ###############################################################################
 ###                          Recent developments                            ###
 ###############################################################################
-beamline = finder.find("Beamline")
+beamline = Finder.find("Beamline")
 
 #run('Sample_perpMotion') #move to before metadata
 
@@ -1527,7 +1527,7 @@ if USE_NEXUS:
 	pass
 else:
 	#clear extenders possible configured already
-	writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
+	writerMap = Finder.getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 	ddwf = writerMap.get("DefaultDataWriterFactory")
 	for dwe in ddwf.getDataWriterExtenders():
 		ddwf.removeDataWriterExtender(dwe)
