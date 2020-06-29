@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.WidgetUtilities;

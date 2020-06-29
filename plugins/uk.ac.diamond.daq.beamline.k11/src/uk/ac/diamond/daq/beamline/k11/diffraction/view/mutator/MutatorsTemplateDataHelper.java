@@ -21,12 +21,12 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator;
 import java.util.List;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.TemplateHelperBase;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 
 public class MutatorsTemplateDataHelper extends TemplateHelperBase {
 
-	public MutatorsTemplateDataHelper(DiffractionParameters templateData) {
+	public MutatorsTemplateDataHelper(ScanningParameters templateData) {
 		super(templateData);
 	}
 

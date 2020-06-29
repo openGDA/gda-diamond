@@ -58,7 +58,7 @@ import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
@@ -275,7 +275,7 @@ public class DiffractionScanSelection extends ViewPart {
 		return getPerspectiveController().getDiffractionAcquisitionController().getAcquisition();
 	}
 
-	private DiffractionParameters getTemplateData() {
+	private ScanningParameters getTemplateData() {
 		return getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 

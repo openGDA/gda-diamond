@@ -35,7 +35,7 @@ import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.api.document.DocumentMapper;
 import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.gda.api.acquisition.AcquisitionController;
@@ -130,7 +130,7 @@ public class DiffractionParametersAcquisitionController
 		DiffractionParameterAcquisition newConfiguration = new DiffractionParameterAcquisition();
 
 		newConfiguration.setAcquisitionConfiguration(new DiffractionConfiguration());
-		DiffractionParameters acquisitionParameters = new DiffractionParameters();
+		ScanningParameters acquisitionParameters = new ScanningParameters();
 		Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.DIFFRACTION);
 		int index = 0; // in future may be parametrised
 		if (dp.isPresent()) {

@@ -28,7 +28,7 @@ import org.eclipse.scanning.api.points.models.TwoAxisGridPointsRandomOffsetModel
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.ShapesTemplateFactory;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 
 /**
  * Contains methods and function to support the DiffractionConfigurationCompositeFactory family

@@ -24,7 +24,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -53,7 +53,7 @@ abstract class MutatorCompositeBase implements MutatorComposite {
 	 * @param tooltip
 	 *            the GUI element tooltip
 	 * @param mutatorListener
-	 *            A listener to add/remove a this listener to the {@link DiffractionParameters} model.
+	 *            A listener to add/remove a this listener to the {@link ScanningParameters} model.
 	 */
 	MutatorCompositeBase(MutatorType mutatorType, ClientMessages title, ClientMessages tooltip,
 			SelectionListener mutatorListener) {

@@ -49,8 +49,8 @@ import org.eclipse.swt.widgets.Widget;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
@@ -96,11 +96,11 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	private final List<MutablePair<Button, IMappingScanRegionShape>> buttonToRegionShape = new ArrayList<>();
 
 	private final DataBindingContext dbc;
-	private final DiffractionParameters templateData;
+	private final ScanningParameters templateData;
 	private final RegionAndPathController rapController;
 	private ShapeTemplateDataHelper templateHelper;
 
-	public ShapesTemplateFactory(DataBindingContext dbc, DiffractionParameters templateData,
+	public ShapesTemplateFactory(DataBindingContext dbc, ScanningParameters templateData,
 			RegionAndPathController rapController) {
 		super();
 		this.dbc = dbc;
@@ -203,7 +203,7 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 		return WidgetProperties.selection().observe(button);
 	}
 
-	private DiffractionParameters getTemplateData() {
+	private ScanningParameters getTemplateData() {
 		return templateData;
 	}
 

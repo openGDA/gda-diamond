@@ -19,12 +19,12 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.shape;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.TemplateHelperBase;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 
 public class ShapeTemplateDataHelper extends TemplateHelperBase {
 
-	public ShapeTemplateDataHelper(DiffractionParameters templateData) {
+	public ShapeTemplateDataHelper(ScanningParameters templateData) {
 		super(templateData);
 	}
 

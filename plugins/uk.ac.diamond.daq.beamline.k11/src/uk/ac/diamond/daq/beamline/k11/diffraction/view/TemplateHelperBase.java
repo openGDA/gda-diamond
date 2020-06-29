@@ -30,14 +30,14 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 
 /**
- * Collection of methods to update a {@link DiffractionParameters} instance. Constructor and methods are protected
+ * Collection of methods to update a {@link ScanningParameters} instance. Constructor and methods are protected
  * because this class is not supposed to be used alone.
  *
  * @author Maurizio Nagni
@@ -49,14 +49,14 @@ public class TemplateHelperBase {
 	/**
 	 * The diffraction acquisition configuration data
 	 */
-	private final DiffractionParameters templateData;
+	private final ScanningParameters templateData;
 
 	/**
 	 *
 	 * @param templateData
 	 *            the diffraction acquisition configuration data
 	 */
-	protected TemplateHelperBase(DiffractionParameters templateData) {
+	protected TemplateHelperBase(ScanningParameters templateData) {
 		super();
 		this.templateData = templateData;
 	}
@@ -127,7 +127,7 @@ public class TemplateHelperBase {
 		updateTemplate(getBuilder().withScannableTrackDocuments(scannableTrackDocuments));
 	}
 
-	protected DiffractionParameters getTemplateData() {
+	protected ScanningParameters getTemplateData() {
 		return templateData;
 	}
 
