@@ -47,6 +47,7 @@ import uk.ac.gda.tomography.stage.IStageController;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
+ * Controls the Diffraction Scan configuration view
  * @author Maurizio Nagni
  */
 @Controller
@@ -111,7 +112,6 @@ public class DiffractionParametersAcquisitionController
 	@Override
 	public AcquisitionConfigurationResource<DiffractionParameterAcquisition> parseAcquisitionConfiguration(URL url)
 			throws AcquisitionControllerException {
-		// return new AcquisitionConfigurationResource(url, parseJsonData(getAcquisitionBytes(url)).getAcquisition());
 		return new AcquisitionConfigurationResource(url, null);
 	}
 
