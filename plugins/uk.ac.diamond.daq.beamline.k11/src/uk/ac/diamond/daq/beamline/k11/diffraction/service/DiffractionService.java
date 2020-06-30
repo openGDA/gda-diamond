@@ -23,8 +23,8 @@ import java.net.URL;
 
 import org.springframework.context.ApplicationListener;
 
-import uk.ac.diamond.daq.beamline.k11.diffraction.event.DiffractionRunAcquisitionEvent;
-import uk.ac.diamond.daq.beamline.k11.diffraction.service.message.DiffractionRunMessage;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionRunEvent;
+import uk.ac.diamond.daq.mapping.api.document.service.message.ScanningMessage;
 import uk.ac.gda.tomography.service.Arrangement;
 
 /**
@@ -33,7 +33,7 @@ import uk.ac.gda.tomography.service.Arrangement;
  * @author Maurizio Nagni
  *
  */
-public interface DiffractionService extends ApplicationListener<DiffractionRunAcquisitionEvent> {
+public interface DiffractionService extends ApplicationListener<ScanningAcquisitionRunEvent> {
 
 	void resetInstruments(Arrangement arrangement) throws DiffractionServiceException;
 
@@ -47,12 +47,12 @@ public interface DiffractionService extends ApplicationListener<DiffractionRunAc
 	 * @param onSuccess
 	 * @throws DiffractionServiceException
 	 */
-	void runAcquisition(DiffractionRunMessage message, File script, File onError, File onSuccess)
+	void runAcquisition(ScanningMessage message, File script, File onError, File onSuccess)
 			throws DiffractionServiceException;
 
-	URL takeDarkImage(DiffractionRunMessage message, File script)
+	URL takeDarkImage(ScanningMessage message, File script)
 			throws DiffractionServiceException;
 
-	URL takeFlatImage(DiffractionRunMessage message, File script)
+	URL takeFlatImage(ScanningMessage message, File script)
 			throws DiffractionServiceException;
 }
