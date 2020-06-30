@@ -34,8 +34,8 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.view.control.StageController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.diamond.daq.mapping.api.document.tomography.TomographyParameterAcquisition;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
@@ -55,11 +55,11 @@ public class TomographyConfigurationView extends ViewPart {
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.TomographyConfigurationView";
 	private static final Logger logger = LoggerFactory.getLogger(TomographyConfigurationView.class);
 
-	private AcquisitionController<TomographyParameterAcquisition> controller;
+	private AcquisitionController<ScanningAcquisition> controller;
 
 	@Override
 	public void createPartControl(Composite parent) {
-		controller = getPerspectiveController().getTomographyAcquisitionController();
+		controller = getPerspectiveController().getScanningAcquisitionController();
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
@@ -86,7 +86,7 @@ public class TomographyConfigurationView extends ViewPart {
 	}
 
 	private CompositeFactory getBottomArea() {
-		return new AcquisitionsBrowserCompositeFactory<TomographyParameterAcquisition>(new TomoBrowser());
+		return new AcquisitionsBrowserCompositeFactory<ScanningAcquisition>(new TomoBrowser());
 	}
 
 	private SelectionListener getSaveListener() {

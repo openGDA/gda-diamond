@@ -54,7 +54,7 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.ShapesTemplateFacto
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
@@ -81,7 +81,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 	// ----- Helper ------//
 	private final ShapesTemplateFactory stf;
-	protected final AcquisitionController<DiffractionParameterAcquisition> controller;
+	protected final AcquisitionController<ScanningAcquisition> controller;
 	private final TemplateDataHelper templateHelper;
 	private RegionAndPathController rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
 	private Consumer<RegionPathState> viewUpdater;
@@ -97,7 +97,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 	private final List<DiffractionCompositeInterface> components = new ArrayList<>();
 
-	public DiffractionConfigurationCompositeFactory(AcquisitionController<DiffractionParameterAcquisition> controller) {
+	public DiffractionConfigurationCompositeFactory(AcquisitionController<ScanningAcquisition> controller) {
 		super();
 		this.controller = controller;
 		this.templateHelper = new TemplateDataHelper(getTemplateData());
@@ -189,7 +189,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		}
 	}
 
-	private AcquisitionController<DiffractionParameterAcquisition> getController() {
+	private AcquisitionController<ScanningAcquisition> getController() {
 		return controller;
 	}
 

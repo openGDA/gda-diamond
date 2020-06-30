@@ -57,7 +57,7 @@ import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
@@ -83,7 +83,7 @@ public class DiffractionScanSelection extends ViewPart {
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection";
 	private static final Logger logger = LoggerFactory.getLogger(DiffractionScanSelection.class);
 
-	private AcquisitionController<DiffractionParameterAcquisition> controller;
+	private AcquisitionController<ScanningAcquisition> controller;
 
 	private DiffractionConfigurationCompositeFactory dcf;
 	private ScanManagementController smController;
@@ -100,7 +100,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		controller = getPerspectiveController().getDiffractionAcquisitionController();
+		controller = getPerspectiveController().getScanningAcquisitionController();
 		logger.info("{} createPartControl - start", this.getClass());
 		Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.DIFFRACTION);
 		int index = 0; // in future may be parametrised
@@ -271,8 +271,8 @@ public class DiffractionScanSelection extends ViewPart {
 		return getAcquisition().getName();
 	}
 
-	private DiffractionParameterAcquisition getAcquisition() {
-		return getPerspectiveController().getDiffractionAcquisitionController().getAcquisition();
+	private ScanningAcquisition getAcquisition() {
+		return getPerspectiveController().getScanningAcquisitionController().getAcquisition();
 	}
 
 	private ScanningParameters getTemplateData() {
