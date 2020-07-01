@@ -24,8 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
-import uk.ac.diamond.daq.beamline.k11.view.control.StageController;
-import uk.ac.gda.tomography.stage.IStageController;
+import uk.ac.diamond.daq.mapping.ui.controller.StageController;
+import uk.ac.diamond.daq.mapping.ui.stage.IStageController;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;

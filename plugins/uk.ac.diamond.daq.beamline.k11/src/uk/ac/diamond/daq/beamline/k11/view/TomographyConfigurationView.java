@@ -19,7 +19,10 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -29,20 +32,33 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.IScannableMotor;
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.view.control.StageController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
+import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
+import uk.ac.diamond.daq.mapping.ui.controller.StageController;
+import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
+import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
+import uk.ac.diamond.daq.mapping.ui.stage.enumeration.StageDevice;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
+import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
+import uk.ac.gda.api.acquisition.configuration.MultipleScans;
+import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
+import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
+import uk.ac.gda.client.properties.DetectorProperties;
 import uk.ac.gda.tomography.browser.TomoBrowser;
 import uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationCompositeFactory;
-import uk.ac.gda.tomography.ui.controller.TomographyPerspectiveController;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
@@ -59,7 +75,10 @@ public class TomographyConfigurationView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		controller = getPerspectiveController().getScanningAcquisitionController();
+		controller = getPerspectiveController();
+		getController().setDefaultNewAcquisitionSupplier(newScanningAcquisition());
+		controller.createNewAcquisition();
+
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
@@ -73,8 +92,8 @@ public class TomographyConfigurationView extends ViewPart {
 		// Do not necessary
 	}
 
-	private TomographyPerspectiveController getPerspectiveController() {
-		return SpringApplicationContextProxy.getBean(TomographyPerspectiveController.class);
+	private ScanningAcquisitionController getPerspectiveController() {
+		return SpringApplicationContextProxy.getBean(ScanningAcquisitionController.class);
 	}
 
 	private StageController getStageController() {
@@ -82,11 +101,11 @@ public class TomographyConfigurationView extends ViewPart {
 	}
 
 	private CompositeFactory getTopArea() {
-		return new TomographyConfigurationCompositeFactory(controller, getStageController());
+		return new TomographyConfigurationCompositeFactory(getController(), getStageController());
 	}
 
 	private CompositeFactory getBottomArea() {
-		return new AcquisitionsBrowserCompositeFactory<ScanningAcquisition>(new TomoBrowser());
+		return new AcquisitionsBrowserCompositeFactory<ScanningAcquisition>(new TomoBrowser(getController()));
 	}
 
 	private SelectionListener getSaveListener() {
@@ -115,8 +134,8 @@ public class TomographyConfigurationView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					controller.getAcquisition().setAcquisitionLocation(getOutputPath());
-					controller.runAcquisition();
+					getController().getAcquisition().setAcquisitionLocation(getOutputPath());
+					getController().runAcquisition();
 				} catch (AcquisitionControllerException e) {
 					UIHelper.showError("Run Acquisition", e.getMessage());
 					logger.error("Cannot run the acquisition", e);
@@ -142,5 +161,52 @@ public class TomographyConfigurationView extends ViewPart {
 
 	private Optional<ExperimentController> getExperimentController() {
 		return SpringApplicationContextProxy.getOptionalBean(ExperimentController.class);
+	}
+
+	private AcquisitionController<ScanningAcquisition> getController() {
+		return controller;
+	}
+
+	private Supplier<ScanningAcquisition> newScanningAcquisition() {
+		return () -> {
+			ScanningAcquisition newConfiguration = new ScanningAcquisition();
+			ScanningConfiguration configuration = new ScanningConfiguration();
+			newConfiguration.setAcquisitionConfiguration(configuration);
+
+			newConfiguration.setName("Default name");
+			ScanningParameters acquisitionParameters = new ScanningParameters();
+			Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.TOMOGRAPHY);
+			int index = 0; // in future may be parametrised
+			if (dp.isPresent()) {
+				DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
+				acquisitionParameters.setDetector(dd);
+			}
+			configuration.setImageCalibration(new ImageCalibration());
+
+			// *-------------------------------
+			ScanpathDocument.Builder scanpathBuilder = new ScanpathDocument.Builder();
+			scanpathBuilder.withModelDocument(AcquisitionTemplateType.ONE_DIMENSION_LINE);
+			ScannableTrackDocument.Builder scannableTrackBuilder = new ScannableTrackDocument.Builder();
+			scannableTrackBuilder.withStart(0.0);
+			scannableTrackBuilder.withStop(180.0);
+			scannableTrackBuilder.withPoints(1);
+			IScannableMotor ism = getStageController().getStageDescription().getMotors()
+					.get(StageDevice.MOTOR_STAGE_ROT_Y);
+			scannableTrackBuilder.withScannable(ism.getName());
+			List<ScannableTrackDocument> scannableTrackDocuments = new ArrayList<>();
+			scannableTrackDocuments.add(scannableTrackBuilder.build());
+			scanpathBuilder.withScannableTrackDocuments(scannableTrackDocuments);
+			acquisitionParameters.setScanpathDocument(scanpathBuilder.build());
+
+			MultipleScans multipleScan = new MultipleScans();
+			multipleScan.setMultipleScansType(MultipleScansType.REPEAT_SCAN);
+			multipleScan.setNumberRepetitions(1);
+			multipleScan.setWaitingTime(0);
+			configuration.setMultipleScans(multipleScan);
+			// *-------------------------------
+
+			newConfiguration.getAcquisitionConfiguration().setAcquisitionParameters(acquisitionParameters);
+			return newConfiguration;
+		};
 	}
 }

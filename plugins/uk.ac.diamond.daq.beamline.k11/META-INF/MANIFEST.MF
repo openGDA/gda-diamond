@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: com.fasterxml.jackson.databind;version="2.6.2",
+ gda.device,
  gda.factory,
  gda.mscan.element,
  org.apache.commons.beanutils;version="1.9.3",
@@ -23,6 +24,8 @@ Import-Package: com.fasterxml.jackson.databind;version="2.6.2",
  uk.ac.diamond.daq.mapping.region,
  uk.ac.diamond.daq.stage,
  uk.ac.gda.api.acquisition,
+ uk.ac.gda.api.acquisition.configuration,
+ uk.ac.gda.api.acquisition.parameters,
  uk.ac.gda.api.acquisition.resource,
  uk.ac.gda.api.acquisition.resource.event,
  uk.ac.gda.api.exception,

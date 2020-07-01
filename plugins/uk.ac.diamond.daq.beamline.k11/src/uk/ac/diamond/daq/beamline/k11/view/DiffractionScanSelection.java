@@ -32,6 +32,7 @@ import static uk.ac.gda.ui.tool.ClientMessagesUtility.getMessage;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MappedDataView;
@@ -51,16 +52,16 @@ import org.slf4j.LoggerFactory;
 import gda.configuration.properties.LocalProperties;
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.diffraction.controller.DiffractionPerspectiveController;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
-import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
+import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.experiment.file.FileScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.file.SavedScanMetaData;
@@ -71,6 +72,8 @@ import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
+import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
+import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
 import uk.ac.gda.client.properties.DetectorProperties;
@@ -100,7 +103,10 @@ public class DiffractionScanSelection extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		controller = getPerspectiveController().getScanningAcquisitionController();
+		controller = getPerspectiveController();
+		controller.setDefaultNewAcquisitionSupplier(newScanningAcquisition());
+		controller.createNewAcquisition();
+
 		logger.info("{} createPartControl - start", this.getClass());
 		Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.DIFFRACTION);
 		int index = 0; // in future may be parametrised
@@ -139,8 +145,8 @@ public class DiffractionScanSelection extends ViewPart {
 		// Do not necessary
 	}
 
-	private DiffractionPerspectiveController getPerspectiveController() {
-		return SpringApplicationContextProxy.getBean(DiffractionPerspectiveController.class);
+	private AcquisitionController<ScanningAcquisition> getPerspectiveController() {
+		return SpringApplicationContextProxy.getBean(ScanningAcquisitionController.class);
 	}
 
 	private void buildDiffractionPathComposite(Composite parent) {
@@ -272,7 +278,11 @@ public class DiffractionScanSelection extends ViewPart {
 	}
 
 	private ScanningAcquisition getAcquisition() {
-		return getPerspectiveController().getScanningAcquisitionController().getAcquisition();
+		return getController().getAcquisition();
+	}
+
+	private AcquisitionController<ScanningAcquisition> getController() {
+		return controller;
 	}
 
 	private ScanningParameters getTemplateData() {
@@ -281,5 +291,27 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private Optional<ExperimentController> getExperimentController() {
 		return SpringApplicationContextProxy.getOptionalBean(ExperimentController.class);
+	}
+
+	private Supplier<ScanningAcquisition> newScanningAcquisition() {
+		return () -> {
+			ScanningAcquisition newConfiguration = new ScanningAcquisition();
+			ScanningConfiguration configuration = new ScanningConfiguration();
+			newConfiguration.setAcquisitionConfiguration(configuration);
+
+			newConfiguration.setName("Default name");
+			ScanningParameters acquisitionParameters = new ScanningParameters();
+			Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.DIFFRACTION);
+			int index = 0; // in future may be parametrised
+			if (dp.isPresent()) {
+				DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
+				acquisitionParameters.setDetector(dd);
+			}
+			configuration.setImageCalibration(new ImageCalibration());
+			// *-------------------------------
+
+			newConfiguration.getAcquisitionConfiguration().setAcquisitionParameters(acquisitionParameters);
+			return newConfiguration;
+		};
 	}
 }
