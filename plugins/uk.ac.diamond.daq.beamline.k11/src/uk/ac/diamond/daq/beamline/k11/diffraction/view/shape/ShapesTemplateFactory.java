@@ -21,7 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.shape;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.mappingRegionShapeToShape;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -66,16 +66,16 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 
-	private static final Map<ShapeType, Class<? extends IMappingScanRegionShape>> shapeToMappingScan = new EnumMap<>(ShapeType.class);
+	private final static Map<ShapeType, Class<? extends IMappingScanRegionShape>> shapeToMappingScan = new HashMap<ShapeType, Class<? extends IMappingScanRegionShape>>() {
+		{
+			put(ShapeType.POINT, PointMappingRegion.class);
+			put(ShapeType.LINE, LineMappingRegion.class);
+			put(ShapeType.CENTRED_RECTANGLE, CentredRectangleMappingRegion.class);
+		}
+	};
 
-	public static final Predicate<IMappingScanRegionShape> filterRegionScan(ShapeType shapeType) {
+	public static final Predicate<? super IMappingScanRegionShape> filterRegionScan(ShapeType shapeType) {
 		return mappingRegion -> shapeToMappingScan.get(shapeType).isInstance(mappingRegion);
-	}
-
-	static {
-		shapeToMappingScan.put(ShapeType.POINT, PointMappingRegion.class);
-		shapeToMappingScan.put(ShapeType.LINE, LineMappingRegion.class);
-		shapeToMappingScan.put(ShapeType.CENTRED_RECTANGLE, CentredRectangleMappingRegion.class);
 	}
 
 	/**
