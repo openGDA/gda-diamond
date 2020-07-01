@@ -35,7 +35,7 @@ import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionRunEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.diamond.daq.mapping.api.document.service.message.ScanningMessage;
+import uk.ac.diamond.daq.mapping.api.document.service.message.ScanningAcquisitionMessage;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.gda.api.acquisition.AcquisitionController;
@@ -94,7 +94,7 @@ public class DiffractionParametersAcquisitionController
 		publishRun(createRunMessage());
 	}
 
-	private void publishRun(ScanningMessage runMessage) {
+	private void publishRun(ScanningAcquisitionMessage runMessage) {
 		SpringApplicationContextProxy.publishEvent(new ScanningAcquisitionRunEvent(this, runMessage));
 	}
 
@@ -142,8 +142,8 @@ public class DiffractionParametersAcquisitionController
 		return newConfiguration;
 	}
 
-	private ScanningMessage createRunMessage() throws AcquisitionControllerException {
-		return new ScanningMessage(dataToJson(getAcquisition()));
+	private ScanningAcquisitionMessage createRunMessage() throws AcquisitionControllerException {
+		return new ScanningAcquisitionMessage(dataToJson(getAcquisition()));
 	}
 
 	private String dataToJson(Object acquisition) throws AcquisitionControllerException {
