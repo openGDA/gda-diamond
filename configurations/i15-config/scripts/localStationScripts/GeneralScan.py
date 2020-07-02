@@ -11,8 +11,7 @@ class GeneralScan(ScanBase):
 		from gda.jython import Jython
 		self.arguments = arguments
 		self.dataHandler = None
-		self.myfinder = Finder.getInstance()
-		self.myserver= self.myfinder.findSingleton(Jython)
+		self.myserver= Finder.findSingleton(Jython)
 	    
 	def moveTo(self,name,position):
 		try:

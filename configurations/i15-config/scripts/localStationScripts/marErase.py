@@ -27,7 +27,7 @@ def marErase(N=1):
 
 		# Send erase command and Wait for mar to start erasing
 		simpleLog( "Mar ready, so start erasing " + str(i+1) + " of " + str(N) )
-		#Finder.getInstance().find('mar').erase()
+		#Finder.find('mar').erase()
 		caput("BL15I-EA-MAR-01:CAM:Erase","1")
 		timeTaken = waitForMarStatus(marEraseTimeout, 1)
 		if (timeTaken == -1):
@@ -47,7 +47,7 @@ def waitForMarStatus(timeout, status):
 	waitForMarStatus(timeout, status) waiting for mar status
 	returns time taken or -1 if timed out
 	"""
-	mar = Finder.getInstance().find('mar')
+	mar = Finder.find('mar')
 
 	t0 = time.clock()
 	t1 = t0
@@ -66,6 +66,6 @@ def checkMarIsReady():
 	"""
 	If mar not ready, then display message and abort
 	"""
-	status = Finder.getInstance().find('mar').getStatus()
+	status = Finder.find('mar').getStatus()
 	if (status != 0):
 		raise "Mar is not ready. Please wait or restart the mar. Value = " +`status`

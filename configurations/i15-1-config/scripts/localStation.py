@@ -8,8 +8,9 @@ from gdascripts.pd.time_pds import waittimeClass2
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 from gdascripts.utils import caget, caput # @UnusedImport
+from gda.factory import Finder
 
-global run, finder
+global run
 
 localStation_exceptions = []
 
@@ -43,7 +44,7 @@ try:
 
     from jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
 
-    adc1AreaDetectorRunnableDeviceProxyFinder = finder.find("adc1AreaDetectorRunnableDeviceProxyFinder")
+    adc1AreaDetectorRunnableDeviceProxyFinder = Finder.find("adc1AreaDetectorRunnableDeviceProxyFinder")
     adc1AreaDetectorRunnableDeviceProxy = adc1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     adc1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(adc1AreaDetectorRunnableDeviceProxy)
@@ -52,7 +53,7 @@ try:
 
     print "Configured adc1 detector"
 
-    bpm1AreaDetectorRunnableDeviceProxyFinder = finder.find("bpm1AreaDetectorRunnableDeviceProxyFinder")
+    bpm1AreaDetectorRunnableDeviceProxyFinder = Finder.find("bpm1AreaDetectorRunnableDeviceProxyFinder")
     bpm1AreaDetectorRunnableDeviceProxy = bpm1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     bpm1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(bpm1AreaDetectorRunnableDeviceProxy)
@@ -61,7 +62,7 @@ try:
 
     print "Configured bpm1 detector"
 
-    bpm2AreaDetectorRunnableDeviceProxyFinder = finder.find("bpm2AreaDetectorRunnableDeviceProxyFinder")
+    bpm2AreaDetectorRunnableDeviceProxyFinder = Finder.find("bpm2AreaDetectorRunnableDeviceProxyFinder")
     bpm2AreaDetectorRunnableDeviceProxy = bpm2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     bpm2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(bpm2AreaDetectorRunnableDeviceProxy)
@@ -70,7 +71,7 @@ try:
 
     print "Configured bpm2 detector"
 
-    cam1AreaDetectorRunnableDeviceProxyFinder = finder.find("cam1AreaDetectorRunnableDeviceProxyFinder")
+    cam1AreaDetectorRunnableDeviceProxyFinder = Finder.find("cam1AreaDetectorRunnableDeviceProxyFinder")
     cam1AreaDetectorRunnableDeviceProxy = cam1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     cam1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(cam1AreaDetectorRunnableDeviceProxy)
@@ -79,7 +80,7 @@ try:
 
     print "Configured cam1 detector"
 
-    cam2AreaDetectorRunnableDeviceProxyFinder = finder.find("cam2AreaDetectorRunnableDeviceProxyFinder")
+    cam2AreaDetectorRunnableDeviceProxyFinder = Finder.find("cam2AreaDetectorRunnableDeviceProxyFinder")
     cam2AreaDetectorRunnableDeviceProxy = cam2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     cam2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(cam2AreaDetectorRunnableDeviceProxy)
@@ -89,7 +90,7 @@ try:
     print "Configured cam2 detector"
 
 
-    eye1AreaDetectorRunnableDeviceProxyFinder = finder.find("eye1AreaDetectorRunnableDeviceProxyFinder")
+    eye1AreaDetectorRunnableDeviceProxyFinder = Finder.find("eye1AreaDetectorRunnableDeviceProxyFinder")
     eye1AreaDetectorRunnableDeviceProxy = eye1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     eye1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(eye1AreaDetectorRunnableDeviceProxy)
@@ -98,7 +99,7 @@ try:
 
     print "Configured eye1 detector"
 
-    pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
+    pe1AreaDetectorRunnableDeviceProxyFinder = Finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
     pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     pe1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1AreaDetectorRunnableDeviceProxy)
@@ -107,7 +108,7 @@ try:
 
     print "Configured pe1AD detector"
 
-    pe2AreaDetectorRunnableDeviceProxyFinder = finder.find("pe2AreaDetectorRunnableDeviceProxyFinder")
+    pe2AreaDetectorRunnableDeviceProxyFinder = Finder.find("pe2AreaDetectorRunnableDeviceProxyFinder")
     pe2AreaDetectorRunnableDeviceProxy = pe2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     pe2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe2AreaDetectorRunnableDeviceProxy)
@@ -116,7 +117,7 @@ try:
 
     print "Configured pe2AD detector"
 
-    web1AreaDetectorRunnableDeviceProxyFinder = finder.find("web1AreaDetectorRunnableDeviceProxyFinder")
+    web1AreaDetectorRunnableDeviceProxyFinder = Finder.find("web1AreaDetectorRunnableDeviceProxyFinder")
     web1AreaDetectorRunnableDeviceProxy = web1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     web1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(web1AreaDetectorRunnableDeviceProxy)
@@ -125,7 +126,7 @@ try:
 
     print "Configured web1 detector"
 
-    web2AreaDetectorRunnableDeviceProxyFinder = finder.find("web2AreaDetectorRunnableDeviceProxyFinder")
+    web2AreaDetectorRunnableDeviceProxyFinder = Finder.find("web2AreaDetectorRunnableDeviceProxyFinder")
     web2AreaDetectorRunnableDeviceProxy = web2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     web2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(web2AreaDetectorRunnableDeviceProxy)
@@ -136,7 +137,7 @@ try:
 
     from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
 
-    beamlineRunnableDeviceProxyFinder = finder.find("beamlineRunnableDeviceProxyFinder")
+    beamlineRunnableDeviceProxyFinder = Finder.find("beamlineRunnableDeviceProxyFinder")
     beamlineRunnableDeviceProxy = beamlineRunnableDeviceProxyFinder.getRunnableDevice()
 
     beamlineJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(beamlineRunnableDeviceProxy)
@@ -145,7 +146,7 @@ try:
 
     print "Configured beamline runnable device"
 
-    metadataRunnableDeviceProxyFinder = finder.find("metadataRunnableDeviceProxyFinder")
+    metadataRunnableDeviceProxyFinder = Finder.find("metadataRunnableDeviceProxyFinder")
     metadataRunnableDeviceProxy = metadataRunnableDeviceProxyFinder.getRunnableDevice()
 
     metadataJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(metadataRunnableDeviceProxy)
@@ -154,7 +155,7 @@ try:
 
     print "Configured metadata runnable device"
 
-    multimetaRunnableDeviceProxyFinder = finder.find("multimetaRunnableDeviceProxyFinder")
+    multimetaRunnableDeviceProxyFinder = Finder.find("multimetaRunnableDeviceProxyFinder")
     multimetaRunnableDeviceProxy = multimetaRunnableDeviceProxyFinder.getRunnableDevice()
 
     multimetaJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(multimetaRunnableDeviceProxy)
@@ -163,7 +164,7 @@ try:
 
     print "Configured multimeta runnable device"
 
-    xbpm3AreaDetectorRunnableDeviceProxyFinder = finder.find("xbpm3AreaDetectorRunnableDeviceProxyFinder")
+    xbpm3AreaDetectorRunnableDeviceProxyFinder = Finder.find("xbpm3AreaDetectorRunnableDeviceProxyFinder")
     xbpm3AreaDetectorRunnableDeviceProxy = xbpm3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     xbpm3JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(xbpm3AreaDetectorRunnableDeviceProxy)
@@ -172,7 +173,7 @@ try:
 
     print "Configured xbpm3 detector"
 
-    cryojetRunnableDeviceProxyFinder = finder.find("cryojetRunnableDeviceProxyFinder")
+    cryojetRunnableDeviceProxyFinder = Finder.find("cryojetRunnableDeviceProxyFinder")
     cryojetRunnableDeviceProxy = cryojetRunnableDeviceProxyFinder.getRunnableDevice()
 
     cryojetJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(cryojetRunnableDeviceProxy)
@@ -181,7 +182,7 @@ try:
 
     print "Configured cryojet runnable device"
 
-    xtalRunnableDeviceProxyFinder = finder.find("xtalRunnableDeviceProxyFinder")
+    xtalRunnableDeviceProxyFinder = Finder.find("xtalRunnableDeviceProxyFinder")
     xtalRunnableDeviceProxy = xtalRunnableDeviceProxyFinder.getRunnableDevice()
 
     xtalJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(xtalRunnableDeviceProxy)
@@ -190,7 +191,7 @@ try:
 
     print "Configured xtal runnable device"
 
-    positionerRunnableDeviceProxyFinder = finder.find("positionerRunnableDeviceProxyFinder")
+    positionerRunnableDeviceProxyFinder = Finder.find("positionerRunnableDeviceProxyFinder")
     positionerRunnableDeviceProxy = positionerRunnableDeviceProxyFinder.getRunnableDevice()
 
     positionerJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(positionerRunnableDeviceProxy)
@@ -199,7 +200,7 @@ try:
 
     print "Configured positioner runnable device"
 
-    blowerRunnableDeviceProxyFinder = finder.find("blowerRunnableDeviceProxyFinder")
+    blowerRunnableDeviceProxyFinder = Finder.find("blowerRunnableDeviceProxyFinder")
     blowerRunnableDeviceProxy = blowerRunnableDeviceProxyFinder.getRunnableDevice()
 
     blowerJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(blowerRunnableDeviceProxy)
@@ -217,7 +218,7 @@ try:
 
         from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
 
-        testRunnableDeviceProxyFinder = finder.find("testRunnableDeviceProxyFinder")
+        testRunnableDeviceProxyFinder = Finder.find("testRunnableDeviceProxyFinder")
         testRunnableDeviceProxy = testRunnableDeviceProxyFinder.getRunnableDevice()
 
         testJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(testRunnableDeviceProxy)

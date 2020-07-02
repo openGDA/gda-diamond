@@ -18,6 +18,7 @@ from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
 from gda.device.epicsdevice import ReturnType
 from gda.util import VisitPath
+from gda.factory import Finder
 from localStationScripts.constants import * # @UnusedWildImport
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
@@ -42,7 +43,7 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
-global finder, run, etl, prop, add_default, vararg_alias, \
+global run, etl, prop, add_default, vararg_alias, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
 	s1xplus, s1xminus, s1yplus, s1yminus,\
 	dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,\
@@ -159,7 +160,7 @@ try:
 	
 	beamlineName = "i15"
 	commissioningProposal = "ee0"
-	beamline = finder.find("Beamline")
+	beamline = Finder.find("Beamline")
 
 	try:
 		simpleLog("Creating devices")
@@ -222,7 +223,7 @@ try:
 		patch12x13 = Simple_PD_EpicsDevice("patch12x13", beamline, "-EA-PATCH-12:X13")
 		patch12x14 = Simple_PD_EpicsDevice("patch12x14", beamline, "-EA-PATCH-12:X14")
 
-		#ring= finder.find("Ring")
+		#ring= Finder.find("Ring")
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
 		#detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
@@ -296,7 +297,7 @@ try:
 		simpleLog("Create diodes")
 
 		def diodeFactory(channel_name, finder_name):
-			simplePv = finder.find(finder_name)
+			simplePv = Finder.find(finder_name)
 			simplePv.configure()
 			diode = simplePv.createEpicsChannel(channel_name, ReturnType.DBR_NATIVE, "", "")
 			diode.setLevel(6)
@@ -649,7 +650,7 @@ try:
 		#				  # note
 		meta.readFromNexus = True
 
-		metashop=Finder.getInstance().find("metashop")
+		metashop=Finder.find("metashop")
 		LocalProperties.set( NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop" ) # gda.nexus.metadata.provider.name
 		# As well as metashop needing to be define, GDAMetadata also needs to be defined.
 		# metashop is defined in i15-config/servers/main/common/required_at_start.py
@@ -707,7 +708,7 @@ try:
 				scn=jythonNameMap[scn_name]
 				if not scn:
 					logger.debug("Unable to find {} in jythonNameMap, trying finder", scn_name)
-					scn=finder.find(scn_name)
+					scn=Finder.find(scn_name)
 				if scn:
 					try:
 						if scn.isConfigured():
@@ -750,7 +751,7 @@ try:
 		try:
 			from solsticeScanning.jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
 
-			pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
+			pe1AreaDetectorRunnableDeviceProxyFinder = Finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
 			pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
 			pe1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1AreaDetectorRunnableDeviceProxy)
@@ -759,7 +760,7 @@ try:
 
 			print "Configured pe1AD detector"
 
-			pil3AreaDetectorRunnableDeviceProxyFinder = finder.find("pil3AreaDetectorRunnableDeviceProxyFinder")
+			pil3AreaDetectorRunnableDeviceProxyFinder = Finder.find("pil3AreaDetectorRunnableDeviceProxyFinder")
 			pil3AreaDetectorRunnableDeviceProxy = pil3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
 			pil3JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pil3AreaDetectorRunnableDeviceProxy)
