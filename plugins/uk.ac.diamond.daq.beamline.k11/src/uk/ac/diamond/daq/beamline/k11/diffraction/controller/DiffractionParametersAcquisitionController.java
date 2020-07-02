@@ -46,6 +46,9 @@ import uk.ac.gda.client.properties.DetectorProperties;
 import uk.ac.gda.tomography.stage.IStageController;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
+/**
+ * @author Maurizio Nagni
+ */
 @Controller
 public class DiffractionParametersAcquisitionController
 		implements AcquisitionController<DiffractionParameterAcquisition>, ApplicationListener<ApplicationEvent> {
