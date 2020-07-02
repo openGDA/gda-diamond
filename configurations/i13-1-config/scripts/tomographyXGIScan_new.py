@@ -357,7 +357,7 @@ def tomoXGIScan(inBeamPosition, outOfBeamPosition, exposureTime=1., start=0.0, s
         # use kwargs value to set obj or set it to None
         for k_str in objXGI:
             if (kwargs is not None) and kwargs.has_key(k_str) and (kwargs[k_str] is not None):
-                exec("%s=Finder.getInstance().find(\"%s\")" %(kwargs[k_str].getName(), kwargs[k_str].getName()))
+                exec("%s=Finder.find(\"%s\")" %(kwargs[k_str].getName(), kwargs[k_str].getName()))
                 exec(k_str + "=%s" %(kwargs[k_str].getName()))
                 if eval(k_str +" is None"):
                     try:

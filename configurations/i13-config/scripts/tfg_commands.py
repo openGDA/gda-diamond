@@ -5,7 +5,7 @@ from gda.factory import Finder
 from gda.device.timer import Tfg
 
 def getTfg():
-    return Finder.getInstance().find("tfg")
+    return Finder.find("tfg")
 
 def stop():
     """

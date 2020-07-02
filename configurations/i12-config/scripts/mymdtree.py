@@ -4,7 +4,6 @@ from uk.ac.diamond.scisoft.analysis.plotserver import *
 from gda.analysis import ScanFileHolder
 from gda.factory import Finder
 
-finder = Finder.getInstance()
 st = NexusTreeNodeSelection.createTreeForAllData() # default does not load data
 s = ScanFileHolder()
 #s.load(CBFLoader("../images/myoglobin.cbf"))
@@ -17,7 +16,7 @@ s.info()
 n = s.getNexusTree()
 d = DataBean()
 d.addNexusTree(n)
-a = finder.find("plot_server")
+a = Finder.find("plot_server")
 
 a.setData("nexusTreeViewer", d)
 

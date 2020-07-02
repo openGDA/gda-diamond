@@ -22,10 +22,10 @@ trigpv="BL12I-EA-DIO-01:OUT:02"
 hightime=0.15
 
 #create object for the tfg
-tfg=Finder.getInstance().find("tfg")
+tfg=Finder.find("tfg")
 
 #create a java object for the da.server communication program
-daserver=Finder.getInstance().find("daserver")
+daserver=Finder.find("daserver")
 
 cac=ChannalAccessCommands()
 

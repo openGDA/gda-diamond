@@ -1,9 +1,7 @@
 from gda.device.detector import NXDetector
 from gda.factory import Finder
 
-
-finder = Finder.getInstance()
-merlin_plugins = finder.find("merlin_plugins")
+merlin_plugins = Finder.find("merlin_plugins")
 merlin_roi1 = merlin_plugins.get("merlin_roi1")
 merlin_roi2 = merlin_plugins.get("merlin_roi2")
 merlin_stat1 = merlin_plugins.get("merlin_stat1")
@@ -11,8 +9,7 @@ merlin_stat2 = merlin_plugins.get("merlin_stat2")
 
 class stxm_det(NXDetector):
     def __getController(self, name):
-        finder = Finder.getInstance()
-        plugins=finder.find("merlin_plugins")
+        plugins=Finder.find("merlin_plugins")
         controller = plugins.get(name)
         if controller is None:
             raise Exception(name + " not found")

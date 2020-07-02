@@ -7,8 +7,7 @@ from epics_scripts.pv_scannable_utils import caput
 
 class TomoDet():
     def __getController(self, name):
-        finder = Finder.getInstance()
-        pco1_plugins=finder.find("pco1_plugins")
+        pco1_plugins=Finder.find("pco1_plugins")
         controller = pco1_plugins.get(name)
         if controller is None:
             raise Exception(name + " not found")
@@ -121,7 +120,7 @@ class TomoDet():
     def setCameraLens(self, position):
         try:
             print "Setting lens to " + `position`
-            lens=Finder.getInstance().find("lens")
+            lens=Finder.find("lens")
             lens.moveTo(position)
             lens.waitWhileBusy()
             print "Done"

@@ -9,8 +9,7 @@ import i13tomographyScan
 
 
 from gda.factory import Finder
-finder = Finder.getInstance()
-p2r_rot=finder.find("p2r_rot")
+p2r_rot=Finder.find("p2r_rot")
 
 def flyp2r(title, inBeamPosition, outOfBeamPosition, exposureTime=1., start=0., stop=180., step=0.1, imagesPerDark=20, imagesPerFlat=20, speedForRewind=180.0):
     """

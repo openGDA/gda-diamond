@@ -11,11 +11,9 @@ from gda.factory import Finder
 
 from i12utilities import getVisitRootPath
 
-
-finder = Finder.getInstance()
 try:
-    pixium10_hdf=finder.find("pixium10_hdf")
-    pixium10_tif=finder.find("pixium10_tif")
+    pixium10_hdf=Finder.find("pixium10_hdf")
+    pixium10_tif=Finder.find("pixium10_tif")
 except:
     print "pixium10_hdf/pixium10_tif already defined"
     

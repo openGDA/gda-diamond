@@ -2,11 +2,9 @@ from gda.jython.commands import GeneralCommands
 from gda.epics import CAClient
 from gda.factory import Finder
 
-finder = Finder.getInstance()
-
-zebra=finder.find("zebra")      # zebra1 BL12I-EA-ZEBRA-01:
-zebra2=finder.find("zebra2")    # zebra2 BL12I-EA-ZEBRA-02:
-zebra3=finder.find("zebra3")    # zebra3 BL12I-EA-ZEBRA-03:
+zebra=Finder.find("zebra")      # zebra1 BL12I-EA-ZEBRA-01:
+zebra2=Finder.find("zebra2")    # zebra2 BL12I-EA-ZEBRA-02:
+zebra3=Finder.find("zebra3")    # zebra3 BL12I-EA-ZEBRA-03:
 
 zebra2Root ="BL12I-EA-ZEBRA-02"
 

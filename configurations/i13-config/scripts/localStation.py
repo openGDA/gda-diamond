@@ -114,9 +114,8 @@ try:
 
 	from gda.util import VisitPath
 	
-	finder = Finder.getInstance() 
-	beamline = finder.find("Beamline")
-	ring = finder.find("Ring")
+	beamline = Finder.find("Beamline")
+	ring = Finder.find("Ring")
 	commandServer = InterfaceProvider.getJythonNamespace()
 	
 	from gda.scan.RepeatScan import create_repscan, repscan
@@ -193,10 +192,10 @@ try:
 	two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
 #	two_motor_positions.load("/dls_sw/i13/software/gda_versions/gda_trunk/i13-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
-	imageFitter = finder.find("imageFitter")
-	imageStats = finder.find("imageStats")
-	imagePlotter = finder.find("imagePlotter")
-	imageROI = finder.find("imageROI")
+	imageFitter = Finder.find("imageFitter")
+	imageStats = Finder.find("imageStats")
+	imagePlotter = Finder.find("imagePlotter")
+	imageROI = Finder.find("imageROI")
 
 	import file_converter
 	

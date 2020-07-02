@@ -11,7 +11,6 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 
 # set up a nice method for getting the latest file path
 i13jNumTracker = NumTracker("i13j");
-finder = Finder.getInstance()
 
 # function to output the current scan number
 def csn():
@@ -129,7 +128,7 @@ def createScannableFromPV( name, pv, addToNameSpace=True, getAsString=True, hasU
 
 def clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.findSingleton(Jython)
+    srv = Finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:

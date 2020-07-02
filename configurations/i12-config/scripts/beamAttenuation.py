@@ -7,11 +7,9 @@ import math
 from gdascripts.utils import caput, caget
 from gda.factory import Finder
 
-finder = Finder.getInstance()
-
-oh2shtr=finder.find("oh2shtr")
-f1=finder.find("f1")
-f2=finder.find("f2")
+oh2shtr=Finder.find("oh2shtr")
+f1=Finder.find("f1")
+f2=Finder.find("f2")
 
 # Additional information:
 # filter 1:

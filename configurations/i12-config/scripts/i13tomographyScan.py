@@ -303,7 +303,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
 #    locs = HDF5HelperLocations("entry1")
 #    locs.add(tomography_detector.getName())
 #    Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
-#    rcp=Finder.getInstance().find("RCPController")
+#    rcp=Finder.find("RCPController")
 #    rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
     dnp.plot.image(t, name="Normalised Image")
     #turn camera back on

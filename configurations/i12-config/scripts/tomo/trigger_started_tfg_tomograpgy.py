@@ -21,8 +21,8 @@ anglestep=.25   #angle(360/1440)
 trigpv="BL12I-EA-DIO-01:OUT:02"
 hightime=0.15
 
-tfg=Finder.getInstance().find("tfg")
-daserver=Finder.getInstance().find("daserver")
+tfg=Finder.find("tfg")
+daserver=Finder.find("daserver")
 cac=ChannalAccessCommands()
 
 

@@ -35,8 +35,6 @@ from gda.commandqueue import JythonCommandCommandProvider
 from org.slf4j import LoggerFactory
 import i13i_utilities
 
-finder = Finder.getInstance()
-
 def updateProgress( percent, msg):
     JythonScriptProgressProvider.sendProgress( percent, msg)
     print "percentage %d %s" % (percent, msg)
@@ -491,7 +489,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     nxfile.createData(nxentry, "normalisedImage", image, True)
     nxfile.close()
 
-    rcp=Finder.getInstance().find("RCPController")
+    rcp=Finder.find("RCPController")
     rcp.openView("uk.ac.diamond.daq.tomography.datacollection.ui.NormalisedImage")
     dnp.plot.image(image, name="Normalised Image")
     #turn camera back on
@@ -638,7 +636,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         print("zebraPrefix = %s" %(zebraPrefix))
         #zebraEncoderSetPosPV = zebraPrefix + 'M' + str(pcEnc) +':SETPOS.PROC'   # need dedicated function for building this string from prefix and pcEnc
         #print("zebraEncoderSetPosPV = %s" %(zebraEncoderSetPosPV))
-        zebra = finder.find("zebra")
+        zebra = Finder.find("zebra")
         zebra.encCopyMotorPosToZebra(pcEnc+1)
         meta_add( camera_stage)
         meta_add( sample_stage)
@@ -819,7 +817,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             del det_cfg     # local
             del flyscan_cfg # local
             # need to find it and delete it?
-            #det_cfg = finder.find("det_cfg")
+            #det_cfg = Finder.find("det_cfg")
             #del det_cfg
             cmdSrvr = InterfaceProvider.getJythonNamespace()
             cmdSrvr.placeInJythonNamespace("det_cfg", PseudoScannable("det_cfg","det_cfg"))                 # or None?
@@ -1358,7 +1356,7 @@ def tomoTRFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1
         nprojs = ScannableUtils.getNumberSteps(tomography_flyscan_theta, start, start+tomoRange, step) + 1
         print "ngates = %i, nprojs = %i, nother = %i" %(ngates, nprojs, nother)
         #if is_p2r_used:
-        _p2rcvmc = finder.find("p2rcvmc")
+        _p2rcvmc = Finder.find("p2rcvmc")
         _p2rcvmc.setNumberOfGates(ngates)
         _p2rcvmc.setNprojs(nprojs)
         _p2rcvmc.setNother(nother)
@@ -1600,7 +1598,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     shutter_close_cmd = "%s.moveTo(\"%s\")" %(tomography_shutter.getName(), "Close")
     shutter_open_cmd = "%s.moveTo(\"%s\")" %(tomography_shutter.getName(), "Open")
     
-    cqp = finder.find("commandQueueProcessor")
+    cqp = Finder.find("commandQueueProcessor")
     
     if (batchTitle is None) or len(batchTitle)==0:
         batchTitle = thisfn
@@ -1821,7 +1819,7 @@ def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=
         
 def getApproxCoR():
     # assuming camera is in the i13 default orientation wrt to the axis of rotation
-    cam_max_sensor_size_x = finder.find("pco1_addetector").getAdBase().getMaxSizeX_RBV()
+    cam_max_sensor_size_x = Finder.find("pco1_addetector").getAdBase().getMaxSizeX_RBV()
     cor_x = float(cam_max_sensor_size_x) * 0.5
     cor_y = None
     return cor_x, cor_y
@@ -1894,7 +1892,7 @@ def _process_scan_parameters_stages(parameters):
         print "Input linearStage len = %i" %(len(parameters.linearStage))
         print("Input linearStage's type = %s" %(type(parameters.linearStage)))
         try:
-            lin_stage = finder.find(parameters.linearStage)
+            lin_stage = Finder.find(parameters.linearStage)
         except Exception, e:
             msg = "Error reading input linearStage: %s. Using value in live_JythonNamespaceMapping." %(str(e))
             print msg
@@ -1907,7 +1905,7 @@ def _process_scan_parameters_stages(parameters):
         print "Input rotationStage len = %i" %(len(parameters.rotationStage))
         print("Input rotationStage's type = %s" %(type(parameters.rotationStage)))
         try:
-            rot_stage = finder.find(parameters.rotationStage)
+            rot_stage = Finder.find(parameters.rotationStage)
         except Exception, e:
             msg = "Error reading input rotationStage: %s. Using value in live_JythonNamespaceMapping." %(str(e))
             print msg

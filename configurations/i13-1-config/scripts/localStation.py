@@ -62,9 +62,8 @@ from gda.device.lima import LimaCCD
 from gda.device.maxipix2 import MaxiPix2
 from gda.util import VisitPath
 
-finder = Finder.getInstance()
-beamline = finder.find("Beamline")
-ring= finder.find("Ring")
+beamline = Finder.find("Beamline")
+ring= Finder.find("Ring")
 commandServer = InterfaceProvider.getJythonNamespace()
 #	import tests.testRunner
 #	tests.testRunner.run_tests()
@@ -146,18 +145,18 @@ import sample_stage_position_provider
 two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
 #two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk2/i13-1-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
-imageFitter = finder.find("imageFitter")
-imageStats = finder.find("imageStats")
-imagePlotter = finder.find("imagePlotter")
-imageROI = finder.find("imageROI")
-imageFitter2 = finder.find("imageFitter2")
-imageStats2 = finder.find("imageStats2")
-imagePlotter2 = finder.find("imagePlotter2")
-imageROI2 = finder.find("imageROI2")
-imageFitter3 = finder.find("imageFitter3")
-imageStats3 = finder.find("imageStats3")
-imagePlotter3 = finder.find("imagePlotter3")
-imageROI3 = finder.find("imageROI3")
+imageFitter = Finder.find("imageFitter")
+imageStats = Finder.find("imageStats")
+imagePlotter = Finder.find("imagePlotter")
+imageROI = Finder.find("imageROI")
+imageFitter2 = Finder.find("imageFitter2")
+imageStats2 = Finder.find("imageStats2")
+imagePlotter2 = Finder.find("imagePlotter2")
+imageROI2 = Finder.find("imageROI2")
+imageFitter3 = Finder.find("imageFitter3")
+imageStats3 = Finder.find("imageStats3")
+imagePlotter3 = Finder.find("imagePlotter3")
+imageROI3 = Finder.find("imageROI3")
 
 import roi_operations
 mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
@@ -371,8 +370,8 @@ _default_scannable_names.append("ionc_i")
 from types import *
 _default_scannables = []
 for sname in _default_scannable_names:
-	if type(finder.find(sname)) is not NoneType:
-		_default_scannables.append(finder.find(sname))
+	if type(Finder.find(sname)) is not NoneType:
+		_default_scannables.append(Finder.find(sname))
 	else:
 		try:
 			#print sname
@@ -390,7 +389,7 @@ except:
 	handle_messages.log(None, msg, exceptionType, exception, traceback, False)
 
 print "\n Finished adding beamline default scannables."
-srv = finder.findSingleton(Jython)
+srv = Finder.findSingleton(Jython)
 _default_scannables_in_gda = srv.getDefaultScannables().toArray()
 print "\n The following default scannables will be recorded at each scan point under /entry1/default or /entry1/instrument in every Nexus scan file:"
 for s in _default_scannables_in_gda:

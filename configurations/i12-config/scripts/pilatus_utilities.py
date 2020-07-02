@@ -8,11 +8,8 @@ import os
 import subprocess
 import shutil 
 from gdascripts.parameters import beamline_parameters
-from gda.factory import Finder
 
 from i12utilities import getVisitRootPath, wd, pwd, nwd, nfn, cfn
-
-finder = Finder.getInstance()
 
 from gda.device.scannable import ScannableBase
 from gda.util import OSCommandRunner

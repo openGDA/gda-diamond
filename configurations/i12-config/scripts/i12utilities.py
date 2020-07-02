@@ -21,7 +21,6 @@ from gdascripts.utils import caput, caget
 
 # set up a nice method for getting the latest file path
 i12NumTracker = NumTracker("i12");
-finder = Finder.getInstance()
 ca=CAClient()
 
 def wd():
@@ -58,7 +57,7 @@ def cfn():
 # the subdirectory parts
 def setSubdirectory(dirname):
     try:
-        finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
+        Finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem setting metadata value for 'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
@@ -67,7 +66,7 @@ def setSubdirectory(dirname):
 
 def getSubdirectory():
     try:
-        return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+        return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
@@ -97,7 +96,7 @@ def getVisitRootPath():
     Returns string representing current visit root path, eg /dls/i12/data/2014/cm4963-2
     """
     try:
-        subDirname = finder.find("GDAMetadata").getMetadataValue("subdirectory")
+        subDirname = Finder.find("GDAMetadata").getMetadataValue("subdirectory")
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
@@ -135,7 +134,7 @@ class DocumentationScannable(gda.device.scannable.DummyScannable):
         pass
     
     def __doc__(self):
-        hSC = finder.find("helpScriptController")
+        hSC = Finder.find("helpScriptController")
         if self.url != None and hSC != None:
             #subprocess.Popen(['python2.6', '-m', 'webbrowser', '-t', self.url])
             hSC.update(hSC, "URL:" + `self.url`)
@@ -208,12 +207,12 @@ def createScannableFromPV( name, pv, addToNameSpace=True, getAsString=True, hasU
     return sc
 
 try:
-    s4 = finder.find("s4")
-    t5 = finder.find("t5")
-    ss2 = finder.find("ss2")    #t6
-    t7 = finder.find("t7")
-    t8 = finder.find("t8")
-#    t9 = finder.find("t9")
+    s4 = Finder.find("s4")
+    t5 = Finder.find("t5")
+    ss2 = Finder.find("ss2")    #t6
+    t7 = Finder.find("t7")
+    t8 = Finder.find("t8")
+#    t9 = Finder.find("t9")
 except:
     exceptionType, exception, traceback = sys.exc_info()
     msg = "Unable to find an EH2-specific scannable: "
@@ -269,7 +268,7 @@ def isLive():
 
 def clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.findSingleton(Jython)
+    srv = Finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:
@@ -297,8 +296,7 @@ def i12tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPositio
     print "Running i12tomoFlyScan"
     import i13tomographyScan
 #    from gda.factory import Finder
-#    finder = Finder.getInstance()
-#    zebra1=finder.find("zebra")
+#    zebra1=Finder.find("zebra")
     #remove_default(ring)
     #remove_default(actualTime)
     #caput("BL12I-EA-ZEBRA-01:M1:SETPOS.PROC", 1)    # copy motor position to Zebra 1 (on POS1 of ENC tab)
@@ -369,7 +367,7 @@ def atTomoFlyScanStart():
     _p2rcvmc_gap_saved = None
     if isUsingP2R:
         try:
-            _p2rcvmc = finder.find("p2rcvmc")
+            _p2rcvmc = Finder.find("p2rcvmc")
             _p2rcvmc_gap_saved = _p2rcvmc.gap
             _p2rcvmc.gap = False
         except:
@@ -434,7 +432,7 @@ def atTomoStepScanEnd():
     tomography_detector_name = tomography_detector.name
     #print tomography_detector_name
     if ("p2r" in tomography_detector_name) or ("p2r" in tomography_theta_name):
-        p2r_rot_motor=finder.find("p2r_rot_motor")
+        p2r_rot_motor=Finder.find("p2r_rot_motor")
         _p2r_telnet = p2r_rot_motor.smc.getBidiAsciiCommunicator()
         try:
             # set angular speed to some decent value
@@ -588,13 +586,13 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
         
     print "start = %f, stop = %f, step = %f" %(start, stop, step)
     
-    _p2rcvmc = finder.find("p2rcvmc")
+    _p2rcvmc = Finder.find("p2rcvmc")
     _p2rcvmc.gap = True
-    p2r_rot = finder.find("p2r_rot")
+    p2r_rot = Finder.find("p2r_rot")
     adiff_large = 3.0
     pos_curr = None #p2r_rot.getPosition()
     if (False and abs(pos_curr - start) > adiff_large):
-        #p2r_rot_motor=finder.find("p2r_rot_motor")
+        #p2r_rot_motor=Finder.find("p2r_rot_motor")
         p2r_rot.moveTo(start)
         sleep(0.5)
         speed_curr = p2r_rot.getSpeed()
@@ -716,7 +714,7 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
         print "ngates = %i, nprojs = %i, nother = %i" %(ngates, nprojs, nother)
         #return
         #if is_p2r_used:
-        _p2rcvmc = finder.find("p2rcvmc")
+        _p2rcvmc = Finder.find("p2rcvmc")
         _p2rcvmc_gap_saved = _p2rcvmc.gap
         _p2rcvmc.gap = True
         _p2rcvmc.setNumberOfGates(ngates)
@@ -907,8 +905,7 @@ def i12tomoTRFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPosit
     p2r_telnet.reset()
     #import i13tomographyScan
 #    from gda.factory import Finder
-#    finder = Finder.getInstance()
-#    zebra1=finder.find("zebra")
+#    zebra1=Finder.find("zebra")
     #remove_default(ring)
     #remove_default(actualTime)
     #caput("BL12I-EA-ZEBRA-01:M1:SETPOS.PROC", 1)    # copy motor position to Zebra 1 (on POS1 of ENC tab)
@@ -996,7 +993,7 @@ def use_storage(storage_name):
     curr_out_str = "Current windowsSubString for %s is %s (%s).\n"
     
     # PIXIUM TIFF detector objects
-    pixium10_tif = finder.find("pixium10_tif")
+    pixium10_tif = Finder.find("pixium10_tif")
     det_name = pixium10_tif.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     pixium10_tif.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().setWindowsSubString(storage)
@@ -1008,7 +1005,7 @@ def use_storage(storage_name):
     #print "Current windowsSubString = %s" %(flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString())
 
     # PIXIUM HDF detector objects
-    pixium10_hdf = finder.find("pixium10_hdf")
+    pixium10_hdf = Finder.find("pixium10_hdf")
     det_name = pixium10_hdf.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     pixium10_hdf.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().setWindowsSubString(storage)
@@ -1018,7 +1015,7 @@ def use_storage(storage_name):
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
     
     # PCO TIFF detector objects
-    pco4000_dio_tif = finder.find("pco4000_dio_tif")
+    pco4000_dio_tif = Finder.find("pco4000_dio_tif")
     det_name = pco4000_dio_tif.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     pco4000_dio_tif.getNdFile().getFilePathConverter().setWindowsSubString(storage)
@@ -1027,7 +1024,7 @@ def use_storage(storage_name):
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
     
-    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    flyScanDetectorTIF = Finder.find("flyScanDetectorTIF")
     det_name = flyScanDetectorTIF.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().setWindowsSubString(storage)
@@ -1036,7 +1033,7 @@ def use_storage(storage_name):
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
     
-    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    flyScanFlatDarkDetectorTIF = Finder.find("flyScanFlatDarkDetectorTIF")
     det_name = flyScanFlatDarkDetectorTIF.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().setWindowsSubString(storage)
@@ -1046,7 +1043,7 @@ def use_storage(storage_name):
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
     
     # PCO HDF detector objects
-    flyScanDetector = finder.find("flyScanDetector")
+    flyScanDetector = Finder.find("flyScanDetector")
     det_name = flyScanDetector.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
@@ -1055,7 +1052,7 @@ def use_storage(storage_name):
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanFlatDarkDetector = finder.find("flyScanFlatDarkDetector")
+    flyScanFlatDarkDetector = Finder.find("flyScanFlatDarkDetector")
     det_name = flyScanFlatDarkDetector.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     flyScanFlatDarkDetector.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
@@ -1064,7 +1061,7 @@ def use_storage(storage_name):
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
     
-    pco4000_dio_hdf = finder.find("pco4000_dio_hdf")
+    pco4000_dio_hdf = Finder.find("pco4000_dio_hdf")
     det_name = pco4000_dio_hdf.getName()
     print "Setting windowsSubString for %s to %s... " %(det_name, storage)
     pco4000_dio_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
@@ -1120,52 +1117,52 @@ def report_storage():
     curr_out_str = " %s is currently configured to use the %s storage (on %s)."
     
     # PIXIUM TIFF detector objects
-    pixium10_tif = finder.find("pixium10_tif")
+    pixium10_tif = Finder.find("pixium10_tif")
     det_name = pixium10_tif.getName()
     det_cfg = pixium10_tif.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
     
     # PIXIUM HDF detector objects
-    pixium10_hdf = finder.find("pixium10_hdf")
+    pixium10_hdf = Finder.find("pixium10_hdf")
     det_name = pixium10_hdf.getName()
     det_cfg = pixium10_hdf.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
     
     # PCO TIFF detector objects
-    pco4000_dio_tif = finder.find("pco4000_dio_tif")
+    pco4000_dio_tif = Finder.find("pco4000_dio_tif")
     det_name = pco4000_dio_tif.getName()
     det_cfg = pco4000_dio_tif.getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[detreport_storage_drv], det_cfg)
 
-    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    flyScanDetectorTIF = Finder.find("flyScanDetectorTIF")
     det_name = flyScanDetectorTIF.getName()
     det_cfg = flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    flyScanFlatDarkDetectorTIF = Finder.find("flyScanFlatDarkDetectorTIF")
     det_name = flyScanFlatDarkDetectorTIF.getName()
     det_cfg = flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
     # PCO HDF detector objects
-    flyScanDetector = finder.find("flyScanDetector")
+    flyScanDetector = Finder.find("flyScanDetector")
     det_name = flyScanDetector.getName()
     det_cfg = flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanFlatDarkDetector = finder.find("flyScanFlatDarkDetector")
+    flyScanFlatDarkDetector = Finder.find("flyScanFlatDarkDetector")
     det_name = flyScanFlatDarkDetector.getName()
     det_cfg = flyScanFlatDarkDetector.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    pco4000_dio_hdf = finder.find("pco4000_dio_hdf")
+    pco4000_dio_hdf = Finder.find("pco4000_dio_hdf")
     det_name = pco4000_dio_hdf.getName()
     det_cfg = pco4000_dio_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     det_drv = det_cfg.split(':')[0]

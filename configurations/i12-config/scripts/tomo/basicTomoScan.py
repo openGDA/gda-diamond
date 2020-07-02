@@ -14,6 +14,8 @@ from uk.ac.gda.client.tomo.basic import *
 
 from gdascripts.utils import caput
 
+from gda.factory import Finder
+
 print "Generating basic tomography scan"
 
 def basicTomoScan(camera="pco",
@@ -90,7 +92,7 @@ def basicTomoScanFromBean(bean):
     sectorSteps = bean.getScanNumberOfPointsPerSegment()
     flats = bean.getFlatNumberOfImages()
     darks = bean.getDarkNumberOfImages()
-    camera = finder.find(bean.getCamera())
+    camera = Finder.find(bean.getCamera())
     theta = getMotor(bean.getTheta())
     trans = getMotor(bean.getFlatFieldTranslation())
     chunkHeight = bean.getCameraROISizeY()/bean.getReconNumberOfChunks()
@@ -163,7 +165,7 @@ def basicTomoScanFromBean(bean):
 # helper function to get motor names from a string    
 def getMotor(motorName):
     parts = motorName.split('.')
-    return finder.find(parts[0]).getGroupMember("%s_%s"%(parts[0],parts[1]))
+    return Finder.find(parts[0]).getGroupMember("%s_%s"%(parts[0],parts[1]))
     
     
     

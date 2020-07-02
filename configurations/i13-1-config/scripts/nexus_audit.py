@@ -13,11 +13,9 @@ from gdascripts.parameters import beamline_parameters
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 
-
-finder = Finder.getInstance()
 try:
     print "Attempting to find ss1_X_dummy..."
-    ss1_X_dummy = finder.find("ss1_X_dummy")
+    ss1_X_dummy = Finder.find("ss1_X_dummy")
     at = ss1_X_dummy()
     print "...found ss1_X_dummy at position: %s" %(at)
 except:

@@ -8,20 +8,18 @@ from gda.factory import Finder
 from gdascripts.utils import caput, caget
 
 try:
-    finder = Finder.getInstance()
-    mc1_bragg=finder.find("mc1_bragg")
-    mc2_bragg=finder.find("mc2_bragg")
-    mc2_z=finder.find("mc2_z")
-    camMono2_y=finder.find("camMono2_y")
+    mc1_bragg=Finder.find("mc1_bragg")
+    mc2_bragg=Finder.find("mc2_bragg")
+    mc2_z=Finder.find("mc2_z")
+    camMono2_y=Finder.find("camMono2_y")
 except:
     print("Finder section (bragg,z,mono2_y) did not work, or was not required ")
     
 try:
-    '''finder = Finder.getInstance()
-    dcm1_cap_1=finder.find("dcm1_cap_1")
-    dcm1_cap_2=finder.find("dcm1_cap_2")
-    dcm2_cap_1=finder.find("dcm2_cap_1")
-    dcm2_cap_2=finder.find("dcm2_cap_2")
+    '''dcm1_cap_1=Finder.find("dcm1_cap_1")
+    dcm1_cap_2=Finder.find("dcm1_cap_2")
+    dcm2_cap_1=Finder.find("dcm2_cap_1")
+    dcm2_cap_2=Finder.find("dcm2_cap_2")
     '''
     dcm1_cap_1 = DisplayEpicsPVClass('dcm1_cap_1', 'BL12I-OP-DCM-01:BEND:XTAL1:CAP1', 'microns', '%.3f')
     dcm1_cap_2 = DisplayEpicsPVClass('dcm1_cap_2', 'BL12I-OP-DCM-01:BEND:XTAL1:CAP2', 'microns', '%.3f')

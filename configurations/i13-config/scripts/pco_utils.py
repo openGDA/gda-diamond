@@ -4,8 +4,7 @@ File with functions to switch pco1 into different modes using controllers in gda
 from gda.factory import Finder
 class PCO_Util:
     def __getController(self, name):
-        finder = Finder.getInstance()
-        pco1_plugins=finder.find("pco1_plugins")
+        pco1_plugins=Finder.find("pco1_plugins")
         controller = pco1_plugins.get(name)
         if controller is None:
             raise Exception(name + " not found")

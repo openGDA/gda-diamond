@@ -1,11 +1,10 @@
 import scisoftpy as numpy
 
 from gda.factory import Finder
-finder = Finder.getInstance()
 
-ss1_rot = finder.find('ss1_rot')
-ss1_x = finder.find('ss1_x')
-ss1_z = finder.find('ss1_z')
+ss1_rot = Finder.find('ss1_rot')
+ss1_x = Finder.find('ss1_x')
+ss1_z = Finder.find('ss1_z')
 
 def mvr_sampleX(value):
     _posTheta = ss1_rot()

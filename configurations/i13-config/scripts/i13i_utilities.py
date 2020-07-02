@@ -27,7 +27,6 @@ print "Running i13i_utilities.py..."
 
 # set up a nice method for getting the latest file path
 i13iNumTracker = NumTracker("i13i")
-finder = Finder.getInstance()
 
 # to get working directory, eg /dls/i13/data/2015/cm12165-1/raw/
 def wd():
@@ -78,7 +77,7 @@ def setSubdirectory(dirname):
     and setSubdirectory('') sets the path back to /dls/i13/data/2015/cm12165-1/
     """
     try:
-        finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
+        Finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem setting metadata value for 'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
@@ -93,7 +92,7 @@ def getSubdirectory():
     For the default sub-directory on i13i, getSubdirectory outputs 'raw'. 
     """
     try:
-        return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+        return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
@@ -109,7 +108,7 @@ def getVisitRootPath():
     Returns string representing current visit root path, eg /dls/i12/data/2014/cm4963-2
     """
     try:
-        subDirname = finder.find("GDAMetadata").getMetadataValue("subdirectory")
+        subDirname = Finder.find("GDAMetadata").getMetadataValue("subdirectory")
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
@@ -169,7 +168,7 @@ def send_email(whoto, subject, body, verbose=False):
 
 def clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.findSingleton(Jython)
+    srv = Finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:
@@ -195,7 +194,7 @@ def clear_meta_data():
             m_ = m.strip().split(".")[0]
             print "m_ = %s" %(m_)
             try:
-                scn_m = finder.find(m_)
+                scn_m = Finder.find(m_)
                 if scn_m is not None:
                     all_kv_lst.append((m_, None))
                     meta_rm(scn_m)
@@ -359,7 +358,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2019/cm22976-4", filesys="
     datadir_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
     
     windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "g:\\i13\\data\\"}
-    flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
+    flyScanDetectorNoChunking = Finder.find("flyScanDetectorNoChunking")
     #windowsSubString_saved = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     #print "windowsSubString_saved = %s" %(windowsSubString_saved)
     print "Setting windowsSubString to %s..." %(windowsSubString_dct[filesys])
@@ -369,7 +368,7 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2019/cm22976-4", filesys="
     title_saved = getTitle()
     setTitle("stressTest")
     try:
-        cqp=finder.find("commandQueueProcessor")
+        cqp=Finder.find("commandQueueProcessor")
         if use_tmp:
             datadir = os.path.join(pathToVisit, "tmp")
             LocalProperties.set("gda.data.scan.datawriter.datadir", datadir)    # this does not seem to work from inside this fn as files go to raw, not tmp!
@@ -410,7 +409,7 @@ def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     """
     _fn = stressfly13.__name__
     windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "g:\\i13\\data\\"} 	# was "t:\\i13\\data\\"} for GPFS01
-    flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
+    flyScanDetectorNoChunking = Finder.find("flyScanDetectorNoChunking")
     #windowsSubString_saved = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     #print "windowsSubString_saved = %s" %(windowsSubString_saved)
     print "Setting windowsSubString to %s..." %(windowsSubString_dct[filesys])
@@ -524,7 +523,7 @@ def use_storage(storage_name, notify=False, comment='', verbose=False):
     # loop over objects in detectors_obj, finding each obj and then executing the corresponding command (handle failures gracefully without aborting the loop)
 
     # PCO HDF detectors
-    flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
+    flyScanDetectorNoChunking = Finder.find("flyScanDetectorNoChunking")
     det_name = flyScanDetectorNoChunking.getName()
     det_drv = storage_path.split(':')[0]
     print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
@@ -534,7 +533,7 @@ def use_storage(storage_name, notify=False, comment='', verbose=False):
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanFlatDarkDetectorNoChunking = finder.find("flyScanFlatDarkDetectorNoChunking")
+    flyScanFlatDarkDetectorNoChunking = Finder.find("flyScanFlatDarkDetectorNoChunking")
     det_name = flyScanFlatDarkDetectorNoChunking.getName()
     det_drv = storage_path.split(':')[0]
     print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
@@ -545,7 +544,7 @@ def use_storage(storage_name, notify=False, comment='', verbose=False):
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
     # PCO TIFF detectors 
-    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    flyScanDetectorTIF = Finder.find("flyScanDetectorTIF")
     det_name = flyScanDetectorTIF.getName()
     det_drv = storage_path.split(':')[0]
     print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
@@ -555,7 +554,7 @@ def use_storage(storage_name, notify=False, comment='', verbose=False):
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    flyScanFlatDarkDetectorTIF = Finder.find("flyScanFlatDarkDetectorTIF")
     det_name = flyScanFlatDarkDetectorTIF.getName()
     det_drv = storage_path.split(':')[0]
     print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
@@ -654,38 +653,38 @@ def report_storage():
     curr_out_str = "%s is currently configured to use the %s storage (on %s)."
     
     # PCO TIFF detector objects
-    #pco4000_dio_tif = finder.find("pco4000_dio_tif")
+    #pco4000_dio_tif = Finder.find("pco4000_dio_tif")
     #det_name = pco4000_dio_tif.getName()
     #det_cfg = pco4000_dio_tif.getNdFile().getFilePathConverter().getWindowsSubString()
     #det_drv = det_cfg.split(':')[0]
     #print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    flyScanDetectorTIF = Finder.find("flyScanDetectorTIF")
     det_name = flyScanDetectorTIF.getName()
     det_cfg = flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    flyScanFlatDarkDetectorTIF = Finder.find("flyScanFlatDarkDetectorTIF")
     det_name = flyScanFlatDarkDetectorTIF.getName()
     det_cfg = flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
     # PCO HDF detector objects
-    flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
+    flyScanDetectorNoChunking = Finder.find("flyScanDetectorNoChunking")
     det_name = flyScanDetectorNoChunking.getName()
     det_cfg = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    flyScanFlatDarkDetectorNoChunking = finder.find("flyScanFlatDarkDetectorNoChunking")
+    flyScanFlatDarkDetectorNoChunking = Finder.find("flyScanFlatDarkDetectorNoChunking")
     det_name = flyScanFlatDarkDetectorNoChunking.getName()
     det_cfg = flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
-    #pco4000_dio_hdf = finder.find("pco4000_dio_hdf")
+    #pco4000_dio_hdf = Finder.find("pco4000_dio_hdf")
     #det_name = pco4000_dio_hdf.getName()
     #det_cfg = pco4000_dio_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     #det_drv = det_cfg.split(':')[0]
@@ -843,7 +842,7 @@ class DetCfg(ScannableBase):
         if len(det_names)>0:
             det_name = det_names[0]
             try:
-                det_obj = finder.find(det_name)
+                det_obj = Finder.find(det_name)
                 self.det_base_pv = det_obj.getCollectionStrategy().getAdBase().getBasePVName()
                 print self.det_base_pv
             except Exception, e:
@@ -879,7 +878,7 @@ class DetCfg(ScannableBase):
 
 # simultaneous cameras 
 def set_sim_cam_step(mode):
-    det = finder.find("pco1_hw_hdf_nochunking")
+    det = Finder.find("pco1_hw_hdf_nochunking")
     cs = det.getCollectionStrategy()
     if mode == 0:
         # original set-up
@@ -892,7 +891,7 @@ def set_sim_cam_step(mode):
         cs.setNoLongerBusyTriggerInVal(34) #dead port for the new cam (CLHS/maxipix)
 
 def get_sim_cam_step():
-    det = finder.find("pco1_hw_hdf_nochunking")
+    det = Finder.find("pco1_hw_hdf_nochunking")
     cs = det.getCollectionStrategy()
     cmdBusy = cs.getNoLongerBusyTriggerSetupCommand()
     exposeOut = cs.getExposeTriggerOutVal()
@@ -900,7 +899,7 @@ def get_sim_cam_step():
     print "(cmdBusy, exposeOut, busyIn) = ('%s', %s, %s)"%(cmdBusy, exposeOut, busyIn)
 
 def set_sim_cam_fly(mode, exposeTriggerOut=16, noLongerBusyTriggerIn=34):
-    det = finder.find("flyScanDetectorNoChunking")
+    det = Finder.find("flyScanDetectorNoChunking")
     cs = det.getCollectionStrategy()
     if mode == 0:
         # original set-up
@@ -911,7 +910,7 @@ def set_sim_cam_fly(mode, exposeTriggerOut=16, noLongerBusyTriggerIn=34):
         cs.setNoLongerBusyTriggerInVal(0) #(noLongerBusyTriggerIn) #set dead port to 0 if waiting for cam busy signal to go down is not required (appears to be needed for fly scans in the switchable/swappable simultaneous-cameras set-up, otherwise some triggers appear to be missed (eg zebra says it issued 1801 but the cam says it collected only 1687 
 
 def get_sim_cam_fly():
-    det = finder.find("flyScanDetectorNoChunking")
+    det = Finder.find("flyScanDetectorNoChunking")
     cs = det.getCollectionStrategy()
     exposeOut = cs.getExposeTriggerOutVal()
     busyIn = cs.getNoLongerBusyTriggerInVal()

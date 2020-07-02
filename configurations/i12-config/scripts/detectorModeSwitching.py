@@ -6,12 +6,11 @@ from gdascripts.utils import caput, caget
 from time import sleep
 from gda.factory import Finder
 
-finder = Finder.getInstance()
 try:
-    s2=finder.find("s2")
-    s3=finder.find("s3")
-    t3=finder.find("t3")
-    eh1shtr=finder.find("eh1shtr")
+    s2=Finder.find("s2")
+    s3=Finder.find("s3")
+    t3=Finder.find("t3")
+    eh1shtr=Finder.find("eh1shtr")
 except:
     print("Motors could not be created, maybe already installed. Continuing ....")
 

@@ -341,7 +341,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=.1, imagesPerDark=1, i
 #    locs = HDF5HelperLocations("entry1")
 #    locs.add(tomography_detector.getName())
 #    Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
-#    rcp=Finder.getInstance().find("RCPController")
+#    rcp=Finder.find("RCPController")
 #    rcp.openView("uk.ac.diamond.daq.tomography.datacollection.ui.NormalisedImage")
     dnp.plot.image(t, name="Normalised Image")
     #turn camera back on
@@ -565,7 +565,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         # use kwargs value to set obj or set it to None
         for k in objSTEP:
             if (kwargs is not None) and kwargs.has_key(k) and (kwargs[k] is not None):
-                exec("%s=Finder.getInstance().find(\"%s\")" %(kwargs[k].getName(), kwargs[k].getName()))
+                exec("%s=Finder.find(\"%s\")" %(kwargs[k].getName(), kwargs[k].getName()))
                 exec(k + "=%s" %(kwargs[k].getName()))
             else:
                 #if k != 'tomography_detector':

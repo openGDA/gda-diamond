@@ -7,8 +7,7 @@ from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
 
 class TomoDet():
     def __getController(self, name):
-        finder = Finder.getInstance()
-        pco1_plugins=finder.find("pco1_plugins")
+        pco1_plugins=Finder.find("pco1_plugins")
         controller = pco1_plugins.get(name)
         if controller is None:
             raise Exception(name + " not found")
@@ -126,7 +125,7 @@ class TomoDet():
     def setCameraLens(self, position):
         try:
             print "Setting cam01_objective to " + `position`
-            cam01_objective=Finder.getInstance().find("cam01_objective")
+            cam01_objective=Finder.find("cam01_objective")
             cam01_objective.moveTo(position)
             cam01_objective.waitWhileBusy()
             print "Done"

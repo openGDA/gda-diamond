@@ -5,8 +5,7 @@ from gda.jython.commands import GeneralCommands
 from gda.jython.commands import ScannableCommands
 
 from gda.factory import Finder
-finder = Finder.getInstance()
-p2r_rot=finder.find("p2r_rot")
+p2r_rot=Finder.find("p2r_rot")
 
 class p2r_telnet_connection():
     def __init__(self, connectable):

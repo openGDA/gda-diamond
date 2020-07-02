@@ -18,7 +18,6 @@ sampleTiltZ = 0.0
 #cam1x=(248.0,164.0,85.0,9.815)
 #cam1roll=(-0.89281,-0.4213,-0.1787,-0.5614)
 #cam1z=(-91.3,-70.9,-50.5,-43.6565)
-finder = Finder.getInstance()
 class CameraMag(ScannableMotionBase):
     def __init__(self, name, rootNameSpace={}):
         '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
@@ -28,7 +27,7 @@ class CameraMag(ScannableMotionBase):
         self.setLevel(5)
         self.inputNames = ['module']
         self.module = 1
-        self.lut = finder.find("moduleMotorPositionLUT")
+        self.lut = Finder.find("moduleMotorPositionLUT")
 
     def rawGetPosition(self):
         '''returns the positions of all child scannables.

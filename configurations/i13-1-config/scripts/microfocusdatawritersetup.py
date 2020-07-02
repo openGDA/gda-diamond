@@ -33,7 +33,7 @@ class MFDWSetupScannable(ScanDataListenerScannable):
         mfd.setPlotName("DetectorPlot")
         mfd.setDetectorBeanFileName(detectorBeanFileName)
         print "createMFD - find"
-        detectorList = [Finder.getInstance().find("mll_xmap")]
+        detectorList = [Finder.find("mll_xmap")]
         print "createMFD - setDet"
         mfd.setDetectors(array(detectorList, gda.device.Detector))     
         print "createMFD - getWin"

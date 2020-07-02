@@ -149,8 +149,6 @@ from gdascripts.metadata.metadata_commands import setTitle, getTitle
 alias("setTitle")
 alias("getTitle")
 
-finder = Finder.getInstance() 
-
 print "setup meta-data provider"
 from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm
 alias("meta_add")
@@ -577,8 +575,8 @@ if isLive():
     from types import *
     _default_scannables_i12 = []
     for sname in _default_scannables_names_i12:
-        if type(finder.find(sname)) is not NoneType:
-            _default_scannables_i12.append(finder.find(sname))
+        if type(Finder.find(sname)) is not NoneType:
+            _default_scannables_i12.append(Finder.find(sname))
         else:
             try:
                 #print sname
@@ -608,7 +606,7 @@ if isLive():
         handle_messages.log(None, msg, exceptionType, exception, traceback, False)
     
     print "\n Completed adding default scannables."
-    srv = finder.findSingleton(Jython)
+    srv = Finder.findSingleton(Jython)
     infoAllDefaultScannables_i12 = srv.getDefaultScannables().toArray()
     print "\n ***List of all default scannables in the scan system:"
     for s in infoAllDefaultScannables_i12:
@@ -655,7 +653,7 @@ if isLive():
 
 def _clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.findSingleton(Jython)
+    srv = Finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:
@@ -712,8 +710,7 @@ def _i12tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPositi
     print "Running i12tomoFlyScan"
     import i13tomographyScan
 #    from gda.factory import Finder
-#    finder = Finder.getInstance()
-#    zebra1=finder.find("zebra")
+#    zebra1=Finder.find("zebra")
     #remove_default(ring)
     #remove_default(actualTime)
     defaults_save = clear_defaults()
@@ -825,7 +822,7 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     _fn = stressfly12.__name__
     setSubdirectory("tmp")
     windowsSubString_dct = {"na": "d:\\i12\\data\\", "gpfs": "g:\\i12\\data\\"}     # was t: for GPFS01
-    #flyScanDetector = finder.find("flyScanDetector")        # probably not needed here on i12? Prob not coz got this: Exception: Trying to overwrite a Scannable: flyScanDetector
+    #flyScanDetector = Finder.find("flyScanDetector")        # probably not needed here on i12? Prob not coz got this: Exception: Trying to overwrite a Scannable: flyScanDetector
     #windowsSubString_saved = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     #print "windowsSubString_saved = %s" %(windowsSubString_saved)
     print "Setting windowsSubString to %s..." %(windowsSubString_dct[filesys])

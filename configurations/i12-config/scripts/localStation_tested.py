@@ -23,8 +23,6 @@ from java.lang import System
 _epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.root") + "uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
 
-finder=Finder.getInstance()
-
 # set up a nice method for getting the latest file path
 i12NumTracker = NumTracker("i12");
 
@@ -62,7 +60,7 @@ def nfn():
 alias("nfn")
 # the subdirectory parts
 def setSubdirectory(dirname):
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+    Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
     try:
         os.mkdir(wd())
     except :

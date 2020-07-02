@@ -18,7 +18,6 @@ from i12utilities import setSubdirectory
 from gdascripts.configuration.properties.localProperties import LocalProperties
 
 verbose = True
-f = Finder.getInstance()
 
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
@@ -41,7 +40,7 @@ def tomoScani12(description, sampleAcquisitionTime, flatAcquisitionTime, numberO
     updateScriptController("Tomo scan starting")
     timeDividedAcq = sampleAcquisitionTime * timeDivider
     timeDividedAcq = timeDividedAcq / exposureVsRes[desiredResolution]
-    pco = f.find("pco")
+    pco = Finder.find("pco")
     pco.stop();
     
     pco.setExternalTriggered(False)
@@ -173,11 +172,11 @@ def changeSubDir(subdir):
     updateScriptController("Subdirectory set to " + subdir)
     
 def getSubdir():
-    subdir = f.find("GDAMetadata").getMetadataValue("subdirectory")
+    subdir = Finder.find("GDAMetadata").getMetadataValue("subdirectory")
     updateScriptController("Subdirectory:" + subdir)
     
 def updateScriptController(msg):
-    scriptController = f.find("tomoAlignmentConfigurationScriptController")
+    scriptController = Finder.find("tomoAlignmentConfigurationScriptController")
     if scriptController != None:
         scriptController.update(scriptController, msg)
 
@@ -189,21 +188,21 @@ def moveTomoAlignmentMotors(motorMoveMap):
         for motor, position in motorMoveMap.iteritems():
             checkForPauses()
             try:
-                f.find(motor).asynchronousMoveTo(position)
+                Finder.find(motor).asynchronousMoveTo(position)
             except:
                 exceptionType, exception, traceback = sys.exc_info()
                 if verbose:
                     print "Problem moving tomo alignment motors" + `exception`
                 updateScriptController(exception)
         for motor, position in motorMoveMap.iteritems():
-            m = f.find(motor)
+            m = Finder.find(motor)
             while m.isBusy():
                 updateScriptController("Aligning Tomo motors:" + m.name + ": " + `round(m.position, 2)`)
                 if verbose:
                     print 'waiting for motor '+`m.getName()`
                 sleep(5)
         if verbose:
-            print "is ss1_tx busy:" +`f.find("ss1_tx").isBusy()`
+            print "is ss1_tx busy:" +`Finder.find("ss1_tx").isBusy()`
             print 'motor moving done'
     except:
         exceptionType, exception, traceback = sys.exc_info()
@@ -213,8 +212,8 @@ def moveTomoAlignmentMotors(motorMoveMap):
 
         
 def getModule():
-    cam1_x = f.find("cam1_x")
-    cameraModuleLookup = f.find("moduleMotorPositionLUT")
+    cam1_x = Finder.find("cam1_x")
+    cameraModuleLookup = Finder.find("moduleMotorPositionLUT")
     mod1Lookup = round(cameraModuleLookup.lookupValue(1, "cam1_x"), 2)
     cam1_xPosition = round(cam1_x.position, 2)
     if cam1_xPosition == mod1Lookup:
@@ -248,7 +247,7 @@ def find_gt(a, x):
     raise ValueError
 
 def getT3xLookupValue(moduleNum, t3m1ZValue):
-    motionLut = f.find("cameraMotionLUT")
+    motionLut = Finder.find("cameraMotionLUT")
     if moduleNum == 1:
         return motionLut.lookupValue(t3m1ZValue, "m1_t3_x")
     elif moduleNum == 2:
@@ -260,7 +259,7 @@ def getT3xLookupValue(moduleNum, t3m1ZValue):
 
 
 def lookupT3x(moduleNum, t3m1ZValue):
-    lookupKeys = Finder.getInstance().find("cameraMotionLUT").getLookupKeys()
+    lookupKeys = Finder.find("cameraMotionLUT").getLookupKeys()
     if lookupKeys.__contains__(t3m1ZValue):
         return getT3xLookupValue(moduleNum, t3m1ZValue)
     try:
@@ -276,14 +275,14 @@ def lookupT3x(moduleNum, t3m1ZValue):
         print "error in lookup t3x", exception
 
 def getT3x(moduleNum):
-    t3_m1z = f.find("t3_m1z")
-    t3_x = f.find("t3_x")
+    t3_m1z = Finder.find("t3_m1z")
+    t3_x = Finder.find("t3_x")
     t3_m1z_to_lookup = t3_m1z.getPosition() - t3_m1z.getUserOffset()
     lookupT3xVal = lookupT3x(moduleNum, t3_m1z_to_lookup)
     return lookupT3xVal - t3_x.userOffset
 
 def getT3M1yLookupValue(moduleNum, t3m1ZValue):
-    motionLut = Finder.getInstance().find("cameraMotionLUT")
+    motionLut = Finder.find("cameraMotionLUT")
     if moduleNum == 1:
         return motionLut.lookupValue(t3m1ZValue, "m1_t3_m1y")
     elif moduleNum == 2:
@@ -294,7 +293,7 @@ def getT3M1yLookupValue(moduleNum, t3m1ZValue):
         return motionLut.lookupValue(t3m1ZValue, "m4_t3_m1y")
 
 def lookupT3M1y(moduleNum, t3m1ZValue):
-    lookupKeys = Finder.getInstance().find("cameraMotionLUT").getLookupKeys()
+    lookupKeys = Finder.find("cameraMotionLUT").getLookupKeys()
     if lookupKeys.__contains__(t3m1ZValue):
         return getT3M1yLookupValue(moduleNum, t3m1ZValue)
     try:
@@ -311,8 +310,8 @@ def lookupT3M1y(moduleNum, t3m1ZValue):
             print "error in lookup t3x", exception
 
 def getT3M1y(moduleNum):
-    t3_m1z = f.find("t3_m1z")
-    t3_m1y = f.find("t3_m1y")
+    t3_m1z = Finder.find("t3_m1z")
+    t3_m1y = Finder.find("t3_m1y")
     t3_m1z_to_lookup = t3_m1z.getPosition() - t3_m1z.getUserOffset()
     lookupT3m1yVal = lookupT3M1y(moduleNum, t3_m1z_to_lookup)
     return lookupT3m1yVal - t3_m1y.userOffset
@@ -322,9 +321,9 @@ move t3_m1z to the desired position, subsequently move t3_x and t3_m1y to positi
 '''
 def moveT3M1ZTo(moduleNum, t3M1zPosition):
     try:
-        t3_m1z = f.find("t3_m1z")
-        t3_m1y = f.find("t3_m1y")
-        t3_x = f.find("t3_x")
+        t3_m1z = Finder.find("t3_m1z")
+        t3_m1y = Finder.find("t3_m1y")
+        t3_x = Finder.find("t3_x")
         #moving z
         if verbose:
             print "Moving t3_m1z to :" + `t3M1zPosition`
@@ -373,12 +372,12 @@ def moveToModule(moduleNum):
         return
     handle_messages.simpleLog("Move To module:" + `moduleNum`)
     try:
-        t3_x = f.find("t3_x")
-        t3_m1y = f.find("t3_m1y")
-        ss1_rx = f.find("ss1_rx")
-        ss1_rz = f.find("ss1_rz")
-        cam1_z = f.find("cam1_z")
-        cam1_x = f.find("cam1_x")
+        t3_x = Finder.find("t3_x")
+        t3_m1y = Finder.find("t3_m1y")
+        ss1_rx = Finder.find("ss1_rx")
+        ss1_rz = Finder.find("ss1_rz")
+        cam1_z = Finder.find("cam1_z")
+        cam1_x = Finder.find("cam1_x")
         sampleTiltX = 0.0615;
         sampleTiltZ = 0.0
         cameraSafeZ = -10.0
@@ -393,7 +392,7 @@ def moveToModule(moduleNum):
         checkForPauses()
         ss1_rz.asynchronousMoveTo(sampleTiltZ)
         
-        cameraModuleLookup = f.find("moduleMotorPositionLUT")
+        cameraModuleLookup = Finder.find("moduleMotorPositionLUT")
         
         cam1xLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_x")
         cam1zLookup = cameraModuleLookup.lookupValue(moduleNum, "cam1_z")
@@ -489,7 +488,7 @@ class TomoAlignmentConfigurationManager:
         updateScriptController('RunningConfig#' + `self.currentConfigInProgress`)
         
     def runConfigs(self):
-        commandQ = Finder.getInstance().find("commandQueueProcessor")
+        commandQ = Finder.find("commandQueueProcessor")
         for i in range(len(self.tomoAlignmentConfigurations)):
             config = self.tomoAlignmentConfigurations[i]
             cmdToQueue = 'tomoAlignment.tomographyConfigurationManager.tomoAlignmentConfigurations[' + `i` + '].doTomographyAlignmentAndScan()'
@@ -529,7 +528,7 @@ class TomoAlignmentConfiguration:
         pass
     
     def doTomographyAlignmentAndScan(self):
-        scriptController = Finder.getInstance().find("tomoAlignmentConfigurationScriptController")
+        scriptController = Finder.find("tomoAlignmentConfigurationScriptController")
         try:
             self.status = "Running"
             self.tomographyConfigurationManager.setConfigRunning(self.configId)

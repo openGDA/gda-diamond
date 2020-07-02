@@ -7,18 +7,18 @@ import sys
 from gda.factory import Finder
 
 def reloadModuleLookup():
-    moduleLookupTable =Finder.getInstance().find("moduleMotorPositionLUT")
+    moduleLookupTable =Finder.find("moduleMotorPositionLUT")
     moduleLookupTable.reload()
     
 def reloadCameraMotionLookup():
-    cameraMotionLookup =Finder.getInstance().find("cameraMotionLUT")
+    cameraMotionLookup =Finder.find("cameraMotionLUT")
     cameraMotionLookup.reload()
     
 def reloadTiltBallPositionLookup():
-    tiltBallPositionLookup= Finder.getInstance().find("tiltBallRoiLut")
+    tiltBallPositionLookup= Finder.find("tiltBallRoiLut")
     tiltBallPositionLookup.reload()
     
 def reloadScanResolutionLookup():
-    tiltBallPositionLookup= Finder.getInstance().find("scanResolutionLut")
+    tiltBallPositionLookup= Finder.find("scanResolutionLut")
     tiltBallPositionLookup.reload()
     

@@ -1,8 +1,6 @@
 from gda.device.scannable import ScannableMotionBase
 from gda.factory import Finder
 
-finder = Finder.getInstance()
-
 class edxd_count(ScannableMotionBase):
     # constructor
     def __init__(self, name, detector):
