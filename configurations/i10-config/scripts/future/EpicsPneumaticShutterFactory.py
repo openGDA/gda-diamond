@@ -7,8 +7,7 @@ for use with GDA at Diamond Light Source
 from time import sleep
 
 """
-global finder
-beamline = finder.find("Beamline")
+beamline = Finder.find("Beamline")
 shopen = EpicsPneumaticShutterFactory(beamline, "EH Shutter", "-PS-SHTR-02", True)
 shclose = EpicsPneumaticShutterFactory(beamline, "EH Shutter", "-PS-SHTR-02", False)
 """

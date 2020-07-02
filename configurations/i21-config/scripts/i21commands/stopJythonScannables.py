@@ -7,7 +7,7 @@ def stopJythonScannablesExceptExcluded():
     print("!!! Stopping Jython scannables")
     from gda.factory import Finder
     from gda.device.scannable import ScannableMotionBase, ScannableBase
-    commandServer = Finder.getInstance().find("command_server")
+    commandServer = Finder.find("command_server")
     scannables = commandServer.getAllFromJythonNamespace()
     #     print scannables
     excluded_scannables = scannables["STOP_ALL_EXCLUSIONS"]

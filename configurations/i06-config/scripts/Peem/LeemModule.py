@@ -26,7 +26,6 @@ class LeemModuleClass(ScannableBase):
 		self.setExtraNames([]);
 #		self.Units=[strUnit];
 		self.setLevel(7);
-		finder = Finder.getInstance();
 		self.leem = leem;
 		self.index = index;
 		self.value = 0;
@@ -56,7 +55,7 @@ class LeemFieldOfViewClass(ScannableBase):
 		self.setOutputFormat(['%s'])
 		self.setLevel(7);
 
-#		peemBridge = finder.find("peemBridge");
+#		peemBridge = Finder.find("peemBridge");
 #		msImpl=peemBridge.connect()
 		self.msImpl = msImpl;
 		self.fov = None;

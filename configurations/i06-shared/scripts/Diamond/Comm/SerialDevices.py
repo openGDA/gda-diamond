@@ -253,8 +253,8 @@ class EpicsAsynRS232DeviceClass(object):
 
 
 #Example port of using the GDA RS232 SerialController
-#c=finder.find("com1")
-#sc=finder.find("sc1")
+#c=Finder.find("com1")
+#sc=Finder.find("sc1")
 
 #sc.setCommandTerminator('')
 #sc.setReplyTerminator('\r')

@@ -28,8 +28,8 @@ class DeviceDerivativeClass(ScannableBase):
 		self.x1 = 0.0;
 		self.x2 = 0.0;
 		self.y = 0.0;
-		self.refObj1 = Finder.getInstance().find(scannableX)
-		self.refObj2 = Finder.getInstance().find(scannableY)
+		self.refObj1 = Finder.find(scannableX)
+		self.refObj2 = Finder.find(scannableY)
 		self.deviceFun = deviceFun
 		
 	def getPosition(self):

@@ -17,7 +17,7 @@ class UtilFunctions(object):
     def __init__(self):
 #        self.nsh=globals();
         self.nsh=vars(gdamain);
-#        self.cs=finder.find("command_server");
+#        self.cs=Finder.find("command_server");
         self.cs = self.nsh['command_server'];
         self.pickleFileName='/dls_sw/i06/var/defaultList.txt';
 

@@ -72,7 +72,7 @@ class FastScanControlClass(object):
 
 	def setDof(self, dof):
 		if dof in MOTORS.keys():
-			self.motor= Finder.getInstance().find( MOTORS[dof] );
+			self.motor= Finder.find( MOTORS[dof] );
 		else:
 			raise ValueError("No Motor found Error");
 		self.dof = dof;

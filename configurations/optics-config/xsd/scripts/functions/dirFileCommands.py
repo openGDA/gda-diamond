@@ -16,7 +16,6 @@ import sys
   
 # set up a nice method for getting the latest file path
 numTracker = NumTracker("scanbase_numtracker");
-finder=Finder.getInstance()
  
 # function to find the working directory
 def pwd():
@@ -51,7 +50,7 @@ def setSubdirectory(dirname):
         subdirectory = getSubdirectory()
         if subdirectory:
             dirname=str(subdirectory)+os.sep+str(dirname)
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+    Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
     try:
         os.mkdir(pwd())
     except :
@@ -60,5 +59,5 @@ def setSubdirectory(dirname):
         print "Error value: ", exception
  
 def getSubdirectory():
-    return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+    return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
 

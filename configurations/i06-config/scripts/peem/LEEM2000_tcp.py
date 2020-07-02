@@ -5,12 +5,12 @@ from gda.device.scannable import ScannableBase
 from gda.device import DeviceException
 from gda.factory import Finder
 from gda.io.socket import SocketBidiAsciiCommunicator
-finder=Finder.getInstance()
+
 class leem2000:
     def __init__(self):
         self.comms_started=False
         try:
-            self.leem_com=(finder.find("leem2000_objects")).get("leem2000_com")
+            self.leem_com=(Finder.find("leem2000_objects")).get("leem2000_com")
             self.leem_com.setReplyTerm('\0')
             self.leem_com.setCmdTerm('\0')
         except:
@@ -50,7 +50,7 @@ class leem2000:
         new_com.setCmdTerm( self.leem_com.cmdTerm )
         new_com.setReplyTerm( self.leem_com.replyTerm )
         new_finder_map = {"leem2000_com" : new_com}
-        finder.find("leem2000_objects").setMap(new_finder_map)
+        Finder.find("leem2000_objects").setMap(new_finder_map)
         self.leem_com = new_com
 
 class leem_scannable(ScannableBase):

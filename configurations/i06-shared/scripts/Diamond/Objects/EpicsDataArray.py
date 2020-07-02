@@ -85,7 +85,7 @@ class EpicsDataArrayClass:
 
 		self.dataSetCh01=dnp.zeros([maxLength]); 
 		self.dataSetCh01.setName("Channel 1");
-		self.js = Finder.getInstance().find("command_server");
+		self.js = Finder.find("command_server");
 
 
 	def setBlockSize(self, size):

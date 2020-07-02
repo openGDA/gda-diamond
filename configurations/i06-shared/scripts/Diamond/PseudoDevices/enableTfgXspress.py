@@ -13,10 +13,9 @@ class TfgDetectorClass(ScannableMotionBase):
 		self.setExtraNames([name]);
 #		self.Units=[strUnit];
 		self.setLevel(7);
-		finder = Finder.getInstance();
-		self.tfgXs = finder.find("counterTimer02");
-		self.xs2 = finder.find("xspress2system");
-		self.tfg = finder.find("tfg");
+		self.tfgXs = Finder.find("counterTimer02");
+		self.xs2 = Finder.find("xspress2system");
+		self.tfg = Finder.find("tfg");
 
 	def atScanStart(self):
 #		self.tfgXs.countAsync(1000);

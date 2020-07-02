@@ -14,6 +14,7 @@ from uk.ac.diamond.scisoft.analysis import SDAPlotter
 
 from gda.jython import InterfaceProvider
 from gda.data import ObservablePathConstructor
+from gda.factory import Finder
 
 from gda.observable import IObserver
 from gda.data.metadata import MetadataBlaster
@@ -273,7 +274,7 @@ class ADPilatusPseudoDeviceClass(DetectorBase, ShutterDeviceClass, MetadataConsu
 		opc=ObservablePathConstructor();
 		opc.setName("opc");
 		opc.setTemplate("${gda.data}/$year$/$visit$/$subdirectory$")
-		opc.setGdaMetadata( finder.find("GDAMetadata") );
+		opc.setGdaMetadata( Finder.find("GDAMetadata") );
 		opc.configure();
 		
 		dataDir = opc.getPath();

@@ -307,8 +307,8 @@ class TroughSpeedDevice(ScannableMotionBase):
     
    
 #GDA RS232 communication
-#c=finder.find("com1")
-#sc=finder.find("sc1")
+#c=Finder.find("com1")
+#sc=Finder.find("sc1")
 
 #sc.setCommandTerminator('')
 #sc.setReplyTerminator('\r')

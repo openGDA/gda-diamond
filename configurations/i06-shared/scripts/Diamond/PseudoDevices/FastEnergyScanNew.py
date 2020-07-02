@@ -638,7 +638,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		self.low = 0;
 		self.high = 1000;
 		self.keyChannel=None;
-		self.fastScanElementCounter = Finder.getInstance().find("fastScanElementCounter")
+		self.fastScanElementCounter = Finder.find("fastScanElementCounter")
 
 		self.reset();
 

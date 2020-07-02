@@ -18,7 +18,7 @@ from gda.factory import Finder;
 
 from Diamond.PseudoDevices.FileFilter import SrsFileFilterClass;
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
-from i06shared.commands.dirFileCommands import finder, nfn
+from i06shared.commands.dirFileCommands import nfn
 from gda.device.detector.nxdetector.roi import ImutableRectangularIntegerROI
 from gda.device.detector import NXDetector
 from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
@@ -357,11 +357,11 @@ class FastEnergyScanControlClass(object):
 			newRoi=ImutableRectangularIntegerROI(roi[0],roi[1],roi[2],roi[3],'Region'+str(i))
 			i +=1
 			newRois.append(newRoi)
-		roi_provider=finder.find(roi_provider_name)
+		roi_provider=Finder.find(roi_provider_name)
 		roi_provider.updateRois(newRois)
 		
 	def clearAreaDetectorROIs(self, roi_provider_name='pco_roi'):
-		roi_provider=finder.find(roi_provider_name)
+		roi_provider=Finder.find(roi_provider_name)
 		roi_provider.updateRois([])
 	
 	def getROIStatsPair4DetectorFromGDA(self, areadet):
@@ -1072,7 +1072,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		self.keyChannel=None;
 
 #		self.fastScanElementCounter = None;
-		self.fastScanElementCounter = Finder.getInstance().find(elementCounter);
+		self.fastScanElementCounter = Finder.find(elementCounter);
 
 		self.reset();
 

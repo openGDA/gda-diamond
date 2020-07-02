@@ -5,6 +5,7 @@ import math
 from gda.epics import CAClient;
 from gda.device.scannable import ScannableMotionBase;
 from gda.device import DeviceBase
+from gda.factory import Finder
 
 import __main__ as gdamain
 
@@ -457,7 +458,7 @@ class TroughPressureDevice(TroughAreaDevice):
 trough1 = NimaLangmuirBlodgettTroughDeviceClass('trough', port1);
 
 #Trough over GDA RS232
-sc=finder.find("sc");
+sc=Finder.find("sc");
 port2=GdaRS232DeviceClass(sc)
 trough2 = NimaLangmuirBlodgettTroughDeviceClass('trough', port2);
 

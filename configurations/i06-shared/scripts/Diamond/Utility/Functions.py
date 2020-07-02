@@ -24,7 +24,6 @@ print "    'restoreDefaults()' restores GDA defaults list from GDA cache"
 
 #Introduce the script logger
 logger=ScriptLoggerClass()
-finder=Finder.getInstance()
 
 def swap(a, b):
     return b,a
@@ -100,14 +99,14 @@ def isDefaultDevice(deviceName):
         print "device %s does not exist" %deviceName;
         return False;
         
-    cs=finder.find("command_server");
+    cs=Finder.find("command_server");
     defaultList = cs.getDefaultScannables();
     result = device in defaultList;
     
     return result;
 
 def removeDefaults(nameList):
-    cs=finder.find("command_server");
+    cs=Finder.find("command_server");
 #    nsh=globals();
     nsh=vars(gdamain);
     
@@ -116,7 +115,7 @@ def removeDefaults(nameList):
     return
    
 def backupDefaults():
-    cs=finder.find("command_server");
+    cs=Finder.find("command_server");
     defaultscannables=cs.getDefaultScannables()
     defaultScannableNames=[]
     for each in defaultscannables:
@@ -152,7 +151,7 @@ def restoreDefaults():
         print "Nothing to restore";
         return;
     
-    cs=finder.find("command_server");
+    cs=Finder.find("command_server");
 #    nsh=globals();
     nsh=vars(gdamain);
     

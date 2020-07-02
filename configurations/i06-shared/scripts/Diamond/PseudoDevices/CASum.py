@@ -36,8 +36,7 @@ class CurrentAmplifierSumClass(ScannableMotionBase):
 		self.total = 1; #default number of counts
 
 #		self.refCA = globals()[refCA];
-		finder = Finder.getInstance();
-		self.refCA = finder.find(refCA);
+		self.refCA = Finder.find(refCA);
 		
 
 	def atScanStart(self):

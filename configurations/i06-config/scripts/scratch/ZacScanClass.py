@@ -20,6 +20,7 @@ import jarray
 from java.util import Date
 from java.text import SimpleDateFormat
 from gda.jython import InterfaceProvider
+from gda.factory import Finder
 
 # ========================================
 # EXAFS SCAN
@@ -42,16 +43,16 @@ class I18ExafsScanClass(ScriptBase):
 		self.detectorNamesVector=Vector()
 		self.detectorNamesVector.add("counterTimer01")
 		self.detectorNamesVector.add("counterTimer02") 
-		self.controller = finder.find("ExafsController")
-		self.mcontroller = finder.find("MicroFocusController")
+		self.controller = Finder.find("ExafsController")
+		self.mcontroller = Finder.find("MicroFocusController")
 		self.title="TITLE"
 		self.condition1="CONDITION1"
 		self.condition2="CONDITION2"
 		self.condition3="CONDITION3"
 		# Script code
-		self.das=finder.find("daserver")
+		self.das=Finder.find("daserver")
 		self.ionchambers=SlaveCounterTimer()
-		self.converter = finder.find("auto_mDeg_idGap_mm_converter")
+		self.converter = Finder.find("auto_mDeg_idGap_mm_converter")
 		self.windowValues=[[0,4095]]*9
 		self.windowName='ALL'
 		self.ionchamberData=[]

@@ -38,6 +38,6 @@ class EuroThermoLoopOutputClass(ScannableBase):
 #The Class is for creating a device to get/set the Output field of a EuroThermo loop based on the EuroThermo controller
 #from Diamond.PseudoDevices.EuroThermo import EuroThermoLoopOutputClass
 
-#etc11=finder.find("etcontroller11");
+#etc11=Finder.find("etcontroller11");
 
 #etoutput11 = EuroThermoLoopOutputClass("etoutput11", etc11);

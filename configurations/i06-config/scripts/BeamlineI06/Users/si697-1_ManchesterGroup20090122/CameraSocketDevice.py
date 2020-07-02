@@ -1,7 +1,6 @@
 from time import sleep
 from java import lang
 
-from gda.factory import Finder
 from gda.data import NumTracker
 
 #New style Pseudo devices use gda.device.scannable.ScannableMotionBase 
@@ -24,7 +23,6 @@ class CameraSockteDeviceClass(ScannableBase):
         self.setExtraNames([name]);
 #        self.Units=[strUnit];
         self.setLevel(7);
-        finder = Finder.getInstance();
         self.serverHost = hostName;
         self.serverPort = hostPort;
         self.exposureTime = 1;

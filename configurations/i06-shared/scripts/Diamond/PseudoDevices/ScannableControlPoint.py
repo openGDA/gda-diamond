@@ -1,5 +1,6 @@
 from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
+from gda.factory import Finder
 
 import time;
 
@@ -29,7 +30,7 @@ class ScannalbeControlPointClass(ScannableMotionBase):
 		self.value = 0.0;
 		self.lowLimit = lowLimit;
 		self.highLimit = highLimit;
-		self.refObj = finder.find(refObj);
+		self.refObj = Finder.find(refObj);
 		self.delay = delay;
 
 	def setDelay(self, newDelay):

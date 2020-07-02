@@ -15,8 +15,7 @@ class UViewDetectorClass(ScannableMotionBase):
 		self.setExtraNames([name]);
 #		self.Units=[strUnit];
 		self.setLevel(7);
-		finder = Finder.getInstance();
-		self.uview = finder.find("uview");
+		self.uview = Finder.find("uview");
 
 	def atScanStart(self):
 		self.uview.prepare();
@@ -56,13 +55,11 @@ class UViewDetectorROIClass(ScannableMotionBase):
 		self.setExtraNames([]);
 #		self.Units=[strUnit];
 		self.setLevel(7);
-		finder = Finder.getInstance();
-		self.roi = finder.find(roi);
+		self.roi = Finder.find(roi);
 
 
 	def reset(self):
-		finder = Finder.getInstance();
-		self.roi = finder.find(roi);
+		self.roi = Finder.find(roi);
 		
 	#Scannable Implementations
 	def getPosition(self):

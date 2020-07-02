@@ -25,7 +25,6 @@ from gda.jython import InterfaceProvider
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
 
 logger=ScriptLoggerClass();
-finder = Finder.getInstance();
 
 class BeamlineFunctionClass(object):
 	ELOG_IDs={#beamlineName: log book ID
@@ -47,7 +46,7 @@ class BeamlineFunctionClass(object):
 			
 #		self.nsh=globals();
 		self.nsh=vars(gdamain);
-#		self.cs=finder.find("command_server");
+#		self.cs=Finder.find("command_server");
 
 		self.cs = self.nsh['command_server'];
 		self.pickleFileName='/dls_sw/'+beamlineName+'/software/gda_versions/var/defaultList.txt';
@@ -226,7 +225,7 @@ class BeamlineFunctionClass(object):
 		return lastSRSFileName;
 
 	def setSubDir(self, newSubDirName):
-		sd=finder.find("subdirectory");
+		sd=Finder.find("subdirectory");
 		sd.setValue( str(newSubDirName) );
 		print "New data path: %s" %( self.getDataPath() );
 
@@ -234,7 +233,7 @@ class BeamlineFunctionClass(object):
 		tlPath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
 		
 		tlFile = os.path.join(tlPath, newLoggerName);
-		tlpp=finder.find("terminallog_path_provider")
+		tlpp=Finder.find("terminallog_path_provider")
 		tlpp.setTemplate( str(tlFile) );
 
 	def getDataPath(self):
@@ -242,7 +241,7 @@ class BeamlineFunctionClass(object):
 		return dataPath;
 	
 	def registerForPathUpdate(self, observerObject):
-		observableSubdirectory=finder.find("observableSubdirectory");
+		observableSubdirectory=Finder.find("observableSubdirectory");
 		observableSubdirectory.addIObserver(observerObject);
 		
 	def setTitle(self, title):
@@ -323,20 +322,20 @@ class BeamlineFunctionClass(object):
 		return;
 
 	def stopArchiving(self):
-		ddwf=finder.find("DefaultDataWriterFactory");
-# 		fr=finder.find("FileRegistrar");
-		fr=finder.find("file_registrar")
+		ddwf=Finder.find("DefaultDataWriterFactory");
+# 		fr=Finder.find("FileRegistrar");
+		fr=Finder.find("file_registrar")
 		ddwf.removeDataWriterExtender(fr);
 		
 	def restoreArchiving(self):
-		ddwf=finder.find("DefaultDataWriterFactory");
-# 		fr=finder.find("FileRegistrar");
-		fr=finder.find("file_registrar")
+		ddwf=Finder.find("DefaultDataWriterFactory");
+# 		fr=Finder.find("FileRegistrar");
+		fr=Finder.find("file_registrar")
 		ddwf.addDataWriterExtender(fr);
 
 	def registerFileForArchiving(self, fileName):
-# 		fr=finder.find("FileRegistrar");
-		fr=finder.find("file_registrar")
+# 		fr=Finder.find("FileRegistrar");
+		fr=Finder.find("file_registrar")
 		if os.path.exists(fileName) and os.path.isfile(fileName):
 			fr.registerFile(fileName);
 

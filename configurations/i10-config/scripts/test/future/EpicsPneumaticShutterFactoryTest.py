@@ -18,8 +18,7 @@ class EpicsPneumaticShutterFactoryTest(unittest.TestCase):
         
         ################### Start Example configuration ###################
         
-        #global finder
-        #beamline = finder.find("Beamline")
+        #beamline = Finder.find("Beamline")
         shopen = EpicsPneumaticShutterFactory(beamline, "EH Shutter", "-PS-SHTR-02", True)
         shclose = EpicsPneumaticShutterFactory(beamline, "EH Shutter", "-PS-SHTR-02", False)
         

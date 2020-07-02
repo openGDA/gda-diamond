@@ -2,6 +2,7 @@ from gda.device.scannable import ScannableBase
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
 from org.apache.commons.configuration import XMLConfiguration
 from gda.jython.commands.ScannableCommands import pos
+from gda.factory import Finder
 
 print"-"*100
 class SaveAndReload(object):
@@ -13,7 +14,7 @@ class SaveAndReload(object):
     '''
     def __init__(self, name, listOfScannables=[]):
         if listOfScannables == []:
-            scannable_group = finder.find(name)
+            scannable_group = Finder.find(name)
             nameslist = scannable_group.getGroupMemberNames()
             self.listOfScannables=[]
             for scname in nameslist:

@@ -31,7 +31,7 @@ class EpicsRS232PVClass(ScannableMotionBase):
 		self.chTimeOut.configure();
 		
 		self.lastingTime=60;
-        self.cs=Finder.getInstance().find("command_server");
+        self.cs=Finder.find("command_server");
         
         self.resultSentout=False;
 
