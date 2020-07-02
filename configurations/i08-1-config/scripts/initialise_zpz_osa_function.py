@@ -2,8 +2,8 @@
 
 from gdaserver import ZonePlateZ, osa_z
 from gda.util import QuantityFactory
-from i08_1_utilities import finder
 from tec.units.indriya.quantity import Quantities
+from gda.factory import Finder
 
 def initialise_zpz_osa_function():
     # Calculate the parameters of the linear function that combines ZonePlateZ & OSA Z motion
@@ -20,7 +20,7 @@ def initialise_zpz_osa_function():
     interception = zpz_quantity.add(osaz_quantity)
     print(u'Calling initialise_zpz_osa_function: zpz: {}, osaz: {}, interception: {}'.format(zpz_quantity, osaz_quantity, interception))
 
-    zpz_osa_function = finder.find('zpz_osa_function')
+    zpz_osa_function = Finder.find('zpz_osa_function')
     zpz_osa_function.setSlopeDividend(Quantities.getQuantity('-1 mm'))
     zpz_osa_function.setSlopeDivisor(Quantities.getQuantity('1 mm'))
     zpz_osa_function.setInterception(interception)

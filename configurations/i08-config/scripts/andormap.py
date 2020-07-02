@@ -89,7 +89,7 @@ class AndorMap(RasterScan):
             plotter.getPlotter().setRate(1200)
 
 # then create the scan wrapper for map scans
-#_andorrastor = Finder.getInstance().find("_andorrastor")
+#_andorrastor = Finder.find("_andorrastor")
 #andormap = AndorMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor)
 #alias("andormap")
 #print "Command andormap(mapSize) created for arming the Andor detector before running STXM maps"

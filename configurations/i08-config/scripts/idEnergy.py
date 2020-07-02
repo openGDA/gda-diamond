@@ -9,7 +9,7 @@ class my_energy_class1(ScannableMotionBase):
         self.setInputNames([name])
         self.setExtraNames([])
         self.setOutputFormat(["%5.5g"])
-        my_pgm_energy = Finder.getInstance().find("pgm_energy")
+        my_pgm_energy = Finder.find("pgm_energy")
         self.currentposition = (float)(my_pgm_energy.getPosition()) # this template scannable represents a single number
         self.iambusy = 0 # flag to hold the status of the scannable
         
@@ -30,8 +30,8 @@ class my_energy_class1(ScannableMotionBase):
     
     def SetEnergy(self, e):
         gap = self.CalcGap(e)
-        my_idgap = Finder.getInstance().find("idgap")
-        #my_pgm_energy = Finder.getInstance().find("pgm_energy")
+        my_idgap = Finder.find("idgap")
+        #my_pgm_energy = Finder.find("pgm_energy")
         my_idgap.moveTo(gap)        
         #my_pgm_energy.moveTo(e)
         
