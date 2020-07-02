@@ -45,10 +45,9 @@ def isRegionValid(regionValidator, region, elementset, excitationenergy):
         return True
     
 def analyserscancheck(*args):
-    finder=Finder.getInstance()
-    regionValidator=finder.find("regionvalidator")
-    dcmenergy=finder.find("dcmenergy")
-    pgmenergy=finder.find("pgmenergy")
+    regionValidator=Finder.find("regionvalidator")
+    dcmenergy=Finder.find("dcmenergy")
+    pgmenergy=Finder.find("pgmenergy")
     xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') +os.sep;
     i=0
     arg=args[i]
@@ -175,7 +174,7 @@ def analyserscan(*args):
             newargs.append(arg)
         i=i+1
         if isinstance( arg,  EW4000 ):
-            controller = Finder.getInstance().find("SequenceFileObserver")
+            controller = Finder.find("SequenceFileObserver")
             xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') +os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
@@ -208,7 +207,7 @@ def analyserscan_v1(*args):
         newargs.append(arg)
         i=i+1
         if isinstance( arg,  RegionScannable ):
-            controller = Finder.getInstance().find("SequenceFileObserver")
+            controller = Finder.find("SequenceFileObserver")
             xmldir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"xml"+os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :

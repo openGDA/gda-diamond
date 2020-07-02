@@ -1,5 +1,5 @@
 from gda.device.scannable import ScannableMotionBase
-import gda.factory.Finder as Finder
+from gda.factory import Finder
 import sys
 import math
 from time import sleep
@@ -30,7 +30,6 @@ class HardEnergy(ScannableMotionBase):
         Constructor - Only succeeds if it finds the lookup table,
         otherwise raises exception.
         """
-        finder = Finder.getInstance()
         self.lut = readLookupTable(LocalProperties.get("gda.config")
                                    + "/lookupTables/" + lut)
         self.gap = "igap"
@@ -38,7 +37,7 @@ class HardEnergy(ScannableMotionBase):
         self.lambdau = 27  # undulator period
         self.scannableNames = ["dcmenergy", "igap"]
         self.scannables = ScannableGroup(name,
-                                         [finder.find(x) for x in self.scannableNames])
+                                         [Finder.find(x) for x in self.scannableNames])
         self._busy = 0
         self.setName(name)
         self.setLevel(3)

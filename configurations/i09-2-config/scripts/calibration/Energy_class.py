@@ -1,5 +1,5 @@
 from gda.device.scannable import ScannableMotionBase
-import gda.factory.Finder as Finder
+from gda.factory import Finder
 import sys
 #from gda.function.lookup import LookupTable
 import math
@@ -20,7 +20,6 @@ class BeamEnergy(ScannableMotionBase):
         
     def __init__(self, name, gap="jgap", dcm="pgmenergy", undulatorperiod=27, lut="JIDCalibrationTable.txt"):
         '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
-        finder=Finder.getInstance()
         self.lut=readLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.gap=gap
         self.dcm=dcm
@@ -29,7 +28,7 @@ class BeamEnergy(ScannableMotionBase):
             self.scannableNames=[gap]
         else:
             self.scannableNames=[dcm,gap]
-        self.scannables=ScannableGroup(name, [finder.find(x) for x in self.scannableNames])
+        self.scannables=ScannableGroup(name, [Finder.find(x) for x in self.scannableNames])
         self._busy=0
         self.setName(name)
         self.setLevel(3)

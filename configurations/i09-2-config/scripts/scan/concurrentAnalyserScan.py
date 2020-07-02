@@ -65,7 +65,7 @@ def analyserpathscan(scannables, path, *args):
         newargs.append(arg)
         i=i+1
         if isinstance( arg,  EW4000 ):
-            controller = Finder.getInstance().find("SequenceFileObserver")
+            controller = Finder.find("SequenceFileObserver")
             xmldir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"xml"+os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
@@ -100,7 +100,7 @@ def analyserpathscan_v1(scannables, path, *args):
         newargs.append(arg)
         i=i+1
         if isinstance( arg,  RegionScannable ):
-            controller = Finder.getInstance().find("SequenceFileObserver")
+            controller = Finder.find("SequenceFileObserver")
             xmldir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"xml"+os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :

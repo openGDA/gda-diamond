@@ -30,7 +30,7 @@ class SampleNameScannable(gda.device.scannable.ScannableBase):
        self.setName(name)
        self.setInputNames([name])
        self.setOutputFormat(["%s"])
-       self.metadata=Finder.getInstance().find(metadataname)
+       self.metadata=Finder.find(metadataname)
 
    def getfalse(self):
        return False

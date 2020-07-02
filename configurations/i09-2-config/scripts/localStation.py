@@ -33,7 +33,6 @@ print "    scansReturnToOriginalPositions=0, not return to its start position (t
 print "    scansReturnToOriginalPositions=1, return to its start position;"
 scansReturnToOriginalPositions=0;
 print
-finder=Finder.getInstance()
 
 _epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda-epics.git/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
@@ -91,7 +90,7 @@ print "    setSubdirectory('newdir/newsubdir')"
 # the subdirectory parts
 def setSubdirectory(dirname):
     '''create a new sub-directory for data collection that follows'''
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+    Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
     try:
         os.mkdir(pwd())
     except :
@@ -108,9 +107,9 @@ atime=actualTimeClass('atime')
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create 'beam' object for get/set photon beam properties such as wavelength, energy"
-beam = finder.find("beam")
+beam = Finder.find("beam")
 print "create 'beamline' object for access beamline parameters such as data directory"
-beamline=finder.find("beamline")
+beamline=Finder.find("beamline")
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"

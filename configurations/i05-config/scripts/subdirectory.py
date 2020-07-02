@@ -1,6 +1,7 @@
 import re
+from gda.factory import Finder
 
-metadata=finder.find("GDAMetadata")
+metadata=Finder.find("GDAMetadata")
 
 def pwd():
         print gda.jython.InterfaceProvider.getPathConstructor().createFromDefaultProperty()

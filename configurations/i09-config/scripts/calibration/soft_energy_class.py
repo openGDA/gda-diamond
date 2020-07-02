@@ -1,5 +1,5 @@
 from gda.device.scannable import ScannableMotionBase
-import gda.factory.Finder as Finder
+from gda.factory import Finder
 import sys
 from time import sleep
 from LookupTables import readLookupTable
@@ -29,12 +29,11 @@ class SoftEnergy(ScannableMotionBase):
         Constructor -
         Only succeeds if it finds the lookup table, otherwise raises exception.
         """
-        finder = Finder.getInstance()
         self.lut = readLookupTable(LocalProperties.get("gda.config") + "/lookupTables/" + lut)
         self.gap = 'jgap'
         self.dcm = "pgmenergy"
         self.scannableNames = ["pgmenergy", "jgap"]
-        self.scannables = ScannableGroupNamed(name, [finder.find(x) for x in self.scannableNames])
+        self.scannables = ScannableGroupNamed(name, [Finder.find(x) for x in self.scannableNames])
         self.detune=gap_offset
         self.feedbackPV=feedbackPV
         self._busy = 0
@@ -45,7 +44,7 @@ class SoftEnergy(ScannableMotionBase):
         self.SCANNING=False
         self.order = 1
         self.polarisation = 'LH'
-        self.jidphase = finder.find("jidphase")
+        self.jidphase = Finder.find("jidphase")
         self.logger = logger.getChild(self.__class__.__name__)
 
     def setPolarisation(self, value):

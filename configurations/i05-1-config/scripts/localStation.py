@@ -13,6 +13,7 @@ from time import sleep, localtime
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.pd.time_pds import actualTimeClass
 from dirFileCommands import pwd, lwf, nwf, nfn
+from gda.factory import Finder
 
 # Get the location of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/"
@@ -46,7 +47,7 @@ centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
 
 # Add the MCP ROI to the global namespace, must match the name in spring.
-mcp_roi = finder.find('mcp_roi')
+mcp_roi = Finder.find('mcp_roi')
 
 import arpes
 
@@ -56,7 +57,7 @@ run "beamline/sampleStage.py"
 print "Installing archiver client"
 from gdascripts.archiver.archiver import archive
 alias('archive')
-archiver = Finder.getInstance().find("archiver")
+archiver = Finder.find("archiver")
 
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
     # Run the beamline staff scripts
