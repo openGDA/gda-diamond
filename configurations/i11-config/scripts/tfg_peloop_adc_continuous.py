@@ -45,7 +45,7 @@ class PELoop(ScannableBase):
         self.adc=adc
         self.pedata=pe
         self.detector=detector
-        self.fastshutter=Finder.getInstance().find("fastshutter")
+        self.fastshutter=Finder.find("fastshutter")
         self.numGates=1
         self.numCycles=1
         self.numFrames=1

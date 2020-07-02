@@ -5,9 +5,8 @@ Created on 17 Oct 2011
 '''
 from gda.factory import Finder
 from gda.hrpd.pmac import UnsafeOperationException
-finder=Finder.getInstance()
-macsafeposition=finder.find("macsafeposition")
-psdsafeposition=finder.find("psdsafeposition")
+macsafeposition=Finder.find("macsafeposition")
+psdsafeposition=Finder.find("psdsafeposition")
 MAC_SAFE_POSITION=macsafeposition.getPosition()
 MAC_SAFE_POSITION_TOLERANCE=macsafeposition.getTolerance()
 PSD_SAFE_POSITION=psdsafeposition.getPosition()

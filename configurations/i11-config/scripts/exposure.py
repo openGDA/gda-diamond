@@ -7,7 +7,7 @@ import logging
 import datetime
 
 LOG = logging.getLogger('exposure')
-beamline = Finder.getInstance().find('beamline')
+beamline = Finder.find('beamline')
 ZERO_TIME = datetime.timedelta(0)
 
 class RadiationExposure(ZeroInputExtraFieldsDummyPD, IObserver):

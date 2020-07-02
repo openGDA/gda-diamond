@@ -16,13 +16,13 @@ class StageDataCollection:
     def __init__(self, stageName):
         self.name=stageName
         self.calibrant_file_name=None
-        self.stage_x=Finder.getInstance().find(stageName+"x")
-        self.stage_y=Finder.getInstance().find(stageName+"y")
-        self.stage_rot=Finder.getInstance().find(stageName+"rot")
+        self.stage_x=Finder.find(stageName+"x")
+        self.stage_y=Finder.find(stageName+"y")
+        self.stage_rot=Finder.find(stageName+"rot")
         self.lookup_table = readLookupTable(LocalProperties.get("gda.function.lookupTable.dir")+os.path.sep+"lde_stages_home_positions.txt")
         self.samples=[]
         self.calibration_required=True
-        self.pixium=Finder.getInstance().find('pixium_hdf')
+        self.pixium=Finder.find('pixium_hdf')
 
     def addSample(self, sample={}):
         self.samples.append(sample)
@@ -45,7 +45,7 @@ class StageDataCollection:
 
     def doCalibration(self, calibrant='Si', calibrant_x=0, calibrant_y=0, calibrant_exposure=1.0):
         if self.calibration_required:
-            mycalibrant=Finder.getInstance().find("calibrant_name")
+            mycalibrant=Finder.find("calibrant_name")
             mycalibrant.moveTo(calibrant)
 
             dummyScannable=DummyScannable("dummyScannable")

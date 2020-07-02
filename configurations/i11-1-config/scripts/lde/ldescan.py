@@ -11,9 +11,9 @@ from gda.jython.commands.ScannableCommands import scan
 ds1=DummyScannable("ds1")
 NDR=0
 CAL=1
-calName=Finder.getInstance().find("calibrantName")
+calName=Finder.find("calibrantName")
 
-dr=Finder.getInstance().find("datareduction")
+dr=Finder.find("datareduction")
 def ldescan(*args):
     MUSTADDDATAREDUCTIONATEND=False
     newargs=[]

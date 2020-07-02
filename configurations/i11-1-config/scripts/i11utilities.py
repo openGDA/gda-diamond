@@ -17,7 +17,6 @@ from epics_scripts.pv_scannable_utils import caputStringAsWaveform
 
 # set up a nice method for getting the latest file path
 i11NumTracker = NumTracker("i11");
-finder = Finder.getInstance()
 ca=CAClient()
 
 def wd():
@@ -54,7 +53,7 @@ def cfn():
 # the subdirectory parts
 def setSubdirectory(dirname):
     try:
-        finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
+        Finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem setting metadata value for 'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
@@ -63,7 +62,7 @@ def setSubdirectory(dirname):
 
 def getSubdirectory():
     try:
-        return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+        return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
@@ -93,7 +92,7 @@ def getVisitRootPath():
     Returns string representing current visit root path, eg /dls/i12/data/2014/cm4963-2
     """
     try:
-        subDirname = finder.find("GDAMetadata").getMetadataValue("subdirectory")
+        subDirname = Finder.find("GDAMetadata").getMetadataValue("subdirectory")
     except:
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
@@ -131,7 +130,7 @@ class DocumentationScannable(gda.device.scannable.DummyScannable):
         pass
 
     def __doc__(self):
-        hSC = finder.find("helpScriptController")
+        hSC = Finder.find("helpScriptController")
         if self.url != None and hSC != None:
             #subprocess.Popen(['python2.6', '-m', 'webbrowser', '-t', self.url])
             hSC.update(hSC, "URL:" + `self.url`)

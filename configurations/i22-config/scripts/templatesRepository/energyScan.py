@@ -1,3 +1,5 @@
+from gda.factory import Finder
+
 title = "Toluene"
 
 samples= []
@@ -17,7 +19,7 @@ energies.sort()
 for e in energies:
     sample=samples[position]
     print "Position "+position.__str__()+" sample "+sample.__str__()
-    finder.find("GDAMetadata").setMetadataValue("title", sample.__str__()+", basex "+position.__str__())
+    Finder.find("GDAMetadata").setMetadataValue("title", sample.__str__()+", basex "+position.__str__())
     pos basex position
     staticscan ncddetectors
     pause

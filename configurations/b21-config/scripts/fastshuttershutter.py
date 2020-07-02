@@ -1,5 +1,6 @@
 from gda.observable import IObserver
 from gda.device.scannable import ScannableMotionBase
+from gda.factory import Finder
 
 class FastShutterShutter(IObserver, ScannableMotionBase):
     def __init__(self, name, tfg):
@@ -39,4 +40,4 @@ class FastShutterShutter(IObserver, ScannableMotionBase):
 	self.tfg.loadFrameSets()
 	self.tfg.clearFrameSets()
 
-fss=FastShutterShutter("fss", finder.find("Tfg"))
+fss=FastShutterShutter("fss", Finder.find("Tfg"))

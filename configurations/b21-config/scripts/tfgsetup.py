@@ -12,7 +12,7 @@ DEFAULT_WAIT_PAUSE = 0 #no pause
 INVERSION = 'Inversion'
 fs_channel = 2
 
-timer = Finder.getInstance().find('Tfg')
+timer = Finder.find('Tfg')
 
 
 def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, runPulse=DEFAULT_RUN_PULSE, waitPause=DEFAULT_WAIT_PAUSE, runPause=DEFAULT_RUN_PAUSE):

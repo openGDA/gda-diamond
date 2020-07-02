@@ -76,14 +76,14 @@ alias("nfn")
 # the subdirectory parts
 def setSubdirectory(dirname):
     '''create a new sub-directory for data collection that follows'''
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+    Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
     try:
         os.mkdir(pwd())
     except :
         pass
 
 def getSubdirectory():
-    return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+    return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
 
 def abspath(*bits):
     return os.path.abspath(os.path.join(*bits))
@@ -98,7 +98,7 @@ def cdd(dirname):
         visitdir=InterfaceProvider.getPathConstructor().createFromTemplate(propertyValue)
         dirname=os.path.realpath(os.path.join(visitdir, "..", dirname))
         LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, dirname)
-    eventAdmin=Finder.getInstance().find("eventadmin")
+    eventAdmin=Finder.find("eventadmin")
     if eventAdmin is None:
         print "Cannot find 'eventAdmin' on the GDA server. Please create a Spring bean using 'Scriptcontroller' Java class"
     else:
@@ -113,14 +113,13 @@ from gda.factory import Finder
 from time import sleep  # @UnusedImport
 import java #@UnresolvedImport
 
-finder=Finder.getInstance()
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create 'beam' object for get/set photon beam properties such as wavelength, energy"
-beam = finder.find("beam")
+beam = Finder.find("beam")
 print "create 'beamline' object for access beamline parameters such as data directory"
-beamline=finder.find("beamline")
+beamline=Finder.find("beamline")
 print "create 'sampleinfo' object for accessing Sample Information users provided in a spreadsheet."
-sampleinfo=finder.find("SampleInfo")
+sampleinfo=Finder.find("SampleInfo")
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -203,7 +202,7 @@ print
 #print "    To change the rocking limits, use 'rocktheta.setLowerLimit(10)', 'rocktheta.setUpperLimit(10)'; "
 #print "    To view the rocking limits, use 'rocktheta.getLowerLimit()', 'rockthets.getUpperLimit()'."
 from rockingMotion_class import RockingMotion  # @UnusedImport
-#theta1=finder.find("theta")
+#theta1=Finder.find("theta")
 #rocktheta=RockingMotion("rocktheta", theta1, -10, 10)
 
 print
@@ -226,7 +225,7 @@ fg2=FunctionGenerator("fg2")
 print "create 'tfg2' object to provide control of Time Frame Generator device"
 from peloop.tfg2 import TFG2
 tfg2=TFG2("tfg2")
-daserver=finder.find("daserver")
+daserver=Finder.find("daserver")
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create derivative scannable 'deriv' object to provide derivative value of enegry to Ie2"
@@ -276,8 +275,8 @@ _meta_scannables_names_PIXIUM.append("pixium_EarlyFrames")
 _meta_scannables_PIXIUM = []
 def meta_add_allPIXIUM():
     for sname in _meta_scannables_names_PIXIUM:
-        if type(finder.find(sname)) is not NoneType:
-            _meta_scannables_PIXIUM.append(finder.find(sname))
+        if type(Finder.find(sname)) is not NoneType:
+            _meta_scannables_PIXIUM.append(Finder.find(sname))
         else:
             try:
                 print "at adding: " + sname
@@ -335,7 +334,7 @@ print "=========================================================================
 print "Initialisation script complete."
 print
 ###Must leave what after this line last.
-bm1=finder.find("bm")
+bm1=Finder.find("bm")
 if bm1.isBeamOn():
     print "PHOTON BEAM IS ON SAMPLE NOW."
 else:

@@ -1,6 +1,6 @@
 from java.math import BigDecimal
 import time
-from localStation import finder
+from gda.factory import Finder
 from gda.epics.CAClient import caput
 
 # parameters
@@ -13,8 +13,8 @@ target_count = 100000
 data=[]
 
 # get objects
-motor = finder.find(motor_name)
-detector = finder.find(detector_name)
+motor = Finder.find(motor_name)
+detector = Finder.find(detector_name)
 
 def startAcquisition(duration):
     print "collecting data"

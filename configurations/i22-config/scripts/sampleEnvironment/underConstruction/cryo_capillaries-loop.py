@@ -47,6 +47,8 @@ temperatures= {
     290.0 : "290 K"
     300.0 : "300 K"}
 
+from gda.factory import Finder
+
 print "Start collecting data"
 
 positions=samples.keys()
@@ -64,7 +66,7 @@ for position in positions:
         pos pxyy(position)
         pos cryojet(temperature)
         cryojet.wait(3600, 10)
-        finder.find("GDAMetadata").setMetadataValue("title", sample.__str__()+", pxyy "+position.__str__()+", Temperature "+temperature.__str__()+" K")
+        Finder.find("GDAMetadata").setMetadataValue("title", sample.__str__()+", pxyy "+position.__str__()+", Temperature "+temperature.__str__()+" K")
 	scan pxyy position position 1 ncddetectors
 	pause
 

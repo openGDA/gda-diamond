@@ -11,6 +11,7 @@ from gda.configuration.properties import LocalProperties
 from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep
 from gda.jython.commands.GeneralCommands import alias
+from gda.factory import Finder
 
 
 # Get the locatation of the GDA beamline script directory
@@ -52,8 +53,8 @@ scan_processor.rootNamespaceDict=globals()
 # ncdredux = NcdRedux(ncddetectors)
 
 # preseed listener dispatcher
-finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
-finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
+Finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
+Finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 ## import gridscan
 ## 
 ## print "Create ncdgridscan"

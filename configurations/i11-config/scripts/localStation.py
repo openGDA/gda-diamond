@@ -82,14 +82,14 @@ alias("nfn")
 # the subdirectory parts
 def setSubdirectory(dirname):
     '''create a new sub-directory for data collection that follows'''
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+    Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
     try:
         os.mkdir(pwd())
     except :
         pass
 
 def getSubdirectory():
-    return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+    return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
 
 print
 
@@ -97,14 +97,13 @@ from gda.factory import Finder
 from time import sleep  # @UnusedImport
 import java #@UnresolvedImport
 
-finder=Finder.getInstance()
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create 'beam' object for get/set photon beam properties such as wavelength, energy"
-beam = finder.find("beam")
+beam = Finder.find("beam")
 print "create 'beamline' object for access beamline parameters such as data directory"
-beamline=finder.find("beamline")
+beamline=Finder.find("beamline")
 print "create 'sampleinfo' object for accessing Sample Information users provided in a spreadsheet."
-sampleinfo=finder.find("SampleInfo")
+sampleinfo=Finder.find("SampleInfo")
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -213,7 +212,7 @@ print "    To change the rocking limits, use 'rocktheta.setLowerLimit(10)', 'roc
 print "    To view the rocking limits, use 'rocktheta.getLowerLimit()', 'rockthets.getUpperLimit()'."
 from rockingMotion_class import RockingMotion, PmacRock
 pmac = PmacRock('BL11I-MO-DIFF-01:ROCK:')
-theta1=finder.find("theta")
+theta1=Finder.find("theta")
 rocktheta=RockingMotion("rocktheta", theta1, -10, 10)
 print "Create 'psdrt' command for PSD data collection with theta rocking"
 def psdrt(t, n=1.0):
@@ -270,7 +269,7 @@ pedata=DataCapturer("pedata")
 print "create 'pel' object for PE Loop experiment"
 from tfg_peloop import PELoop
 pel=PELoop("pel", tfg2, fg2, adc2, pedata, mythen)  # @UndefinedVariable
-daserver=finder.find("daserver")
+daserver=Finder.find("daserver")
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create derivative scannable 'deriv' object to provide derivative value of enegry to elt1"
@@ -293,7 +292,7 @@ print '-------------------------------------------------------------------------
 #print "Initialisation script complete."
 #print
 ###Must leave what after this line last.
-bm1=finder.find("bm")
+bm1=Finder.find("bm")
 bm1.on()
 sleep(2)
 

@@ -46,7 +46,7 @@ class PELoop(ScannableBase):
         self.adc=adc
         self.pedata=pe
         self.detector=detector
-        self.fastshutter=Finder.getInstance().find("fastshutter")
+        self.fastshutter=Finder.find("fastshutter")
         self.numGates=1
         self.numCycles=1
         self.numFrames=1
@@ -236,11 +236,10 @@ class PELoop(ScannableBase):
                     self.tfg.start()
                     sleep(1/frequency+GDAPROCESSTIME)
             else:
-                finder=Finder.getInstance()
                 print "\nPlease start PSD collection from Mythen QT client ..."
                 print "    1. select 'Gated' option in the 'Runs' box first"
                 print "    2. then set 'Acquisition time' to %d, 'Repetitions' to %d" % (self.numGates, self.numFrames * self.numDefinedSequency*self.numCycles)
-                print "    3. set 'Output Directory' to subdirector %s under 'processing' directory, 'File name root' to %d, 'Start index' to %d" % (finder.find("GDAMetadata").getMetadataValue("subdirectory"), self.scanNumber, 0)
+                print "    3. set 'Output Directory' to subdirector %s under 'processing' directory, 'File name root' to %d, 'Start index' to %d" % (Finder.find("GDAMetadata").getMetadataValue("subdirectory"), self.scanNumber, 0)
                 target = requestInput("Is PSD ready, Yes or No?")
                 print str(target)
                 if str(target)!="Yes":

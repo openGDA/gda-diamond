@@ -28,7 +28,7 @@ class Grid(DataWriterExtenderBase):
 		self.scanrunning=0
 		self.cameraPanel = cameraPanel
 		self.gridPanel = gridPanel
-		dwfs=Finder.getInstance().getFindablesOfType(DataWriterFactory)
+		dwfs=Finder.getFindablesOfType(DataWriterFactory)
 		for fac in dwfs.values():
 			dwf=fac
 			break

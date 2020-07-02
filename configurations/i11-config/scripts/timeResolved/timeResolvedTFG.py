@@ -1,7 +1,5 @@
 from gda.factory import Finder
 
-finder = Finder.getInstance()
-
 class TimeResolvedTFG():
 
 
@@ -145,8 +143,8 @@ class TimeResolvedTFG():
     #EndRegion
 
     def __init__(self):
-        self.tfg = finder.find("tfg")
-        self.daserver = finder.find("daserver")
+        self.tfg = Finder.find("tfg")
+        self.daserver = Finder.find("daserver")
         self.cyc = ""
         self._config()
 

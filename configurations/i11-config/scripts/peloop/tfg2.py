@@ -11,8 +11,8 @@ from gda.factory import Finder
 
 class TFG2(ScannableBase):
     def __init__(self, name):
-        self.tfg=Finder.getInstance().find("tfg")
-        self.daserver=Finder.getInstance().find("daserver")
+        self.tfg=Finder.find("tfg")
+        self.daserver=Finder.find("daserver")
         # to support showArmed status
         self.tfg.setShowArmed(True)
 

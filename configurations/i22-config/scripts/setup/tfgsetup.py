@@ -23,7 +23,7 @@ NORMAL = {'Open': State.HIGH, 'Close': State.LOW}
 
 FS_MODES = {'Main Beam': NORMAL, 'Microfocus': MF, 'GISAXS': NORMAL}
 
-timer = Finder.getInstance().find('Tfg')
+timer = Finder.find('Tfg')
 
 _bin_format = '{:08b}'.format
 

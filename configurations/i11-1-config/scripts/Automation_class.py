@@ -13,8 +13,7 @@ class Automation(ScannableMotionBase):
 
     def __init__(self, name, lutObj='energytable', objType=0, rootNameSpace={}):
         '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
-        self.finder=Finder.getInstance()
-        self.lut=self.finder.find(lutObj)
+        self.lut=Finder.find(lutObj)
         if self.lut==None:
             raise Exception, "Can not find the Lookup Table object"
         self.rootNameSpace=rootNameSpace

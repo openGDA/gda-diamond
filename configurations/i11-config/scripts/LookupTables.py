@@ -22,8 +22,7 @@ def reloadLookupTables():
     controller = None
     prefix = "reloadLookupTables:"
     update(controller, prefix, " - started.")
-    finder = Finder.getInstance()
-    converters = finder.listFindablesOfType(IReloadableQuantitiesConverter)
+    converters = Finder.listFindablesOfType(IReloadableQuantitiesConverter)
     for converter in converters:
         update(controller, prefix, "..." + converter.getName() )
         converter.reloadConverter()
