@@ -4,16 +4,16 @@ from gda.factory import Finder
 from gda.jython.commands.GeneralCommands import alias
 
 def set_ifsy_offset(offset):
-    Finder.getInstance().find('ifsy_offset').setOffset(offset)
+    Finder.find('ifsy_offset').setOffset(offset)
 
 def get_ifsy_offset():
-    return Finder.getInstance().find('ifsy_offset').getOffset()
+    return Finder.find('ifsy_offset').getOffset()
 
 def set_ifsz_offset(offset):
-    Finder.getInstance().find('ifsz_offset').setOffset(offset)
+    Finder.find('ifsz_offset').setOffset(offset)
 
 def get_ifsz_offset():
-    return Finder.getInstance().find('ifsz_offset').getOffset()
+    return Finder.find('ifsz_offset').getOffset()
 
 def get_ifs_offsets():
     print('ifsy_offset: ' + str(get_ifsy_offset()))

@@ -1,12 +1,8 @@
 from gda.configuration.properties import LocalProperties
 from gda.device import Scannable
-from gda.factory import Finder
 from gda.jython.commands.GeneralCommands import ls_names
 
-
 print("Running i08_utilities.py")
-
-finder = Finder.getInstance()
 
 def is_live():
     mode = LocalProperties.get("gda.mode")

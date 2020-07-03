@@ -6,7 +6,7 @@ from java.lang.Math import abs
 class PositionInvertedValue(ScannableMotionBase):
     def __init__(self,name,scannableName):
         self.name = name
-        self.scannable= Finder.getInstance().find(scannableName)
+        self.scannable= Finder.find(scannableName)
         self.iambusy = 0
         self.setInputNames([name])
         self.currentposition = abs((float)(self.scannable.getPosition()))
