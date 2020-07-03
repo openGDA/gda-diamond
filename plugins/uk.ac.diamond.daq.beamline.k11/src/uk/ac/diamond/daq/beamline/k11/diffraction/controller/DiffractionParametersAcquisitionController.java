@@ -33,7 +33,7 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.event.DiffractionRunAcquisitio
 import uk.ac.diamond.daq.beamline.k11.diffraction.service.message.DiffractionRunMessage;
 import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.api.document.DocumentMapper;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
@@ -52,13 +52,13 @@ import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
  */
 @Controller
 public class DiffractionParametersAcquisitionController
-		implements AcquisitionController<DiffractionParameterAcquisition>, ApplicationListener<ApplicationEvent> {
+		implements AcquisitionController<ScanningAcquisition>, ApplicationListener<ApplicationEvent> {
 	private static final Logger logger = LoggerFactory.getLogger(DiffractionParametersAcquisitionController.class);
 
 	@Autowired
 	private IStageController stageController;
 
-	private DiffractionParameterAcquisition acquisition;
+	private ScanningAcquisition acquisition;
 
 	// private TomographyFileService fileService;
 	// @Autowired
@@ -72,7 +72,7 @@ public class DiffractionParametersAcquisitionController
 	}
 
 	@Override
-	public DiffractionParameterAcquisition getAcquisition() {
+	public ScanningAcquisition getAcquisition() {
 		if (acquisition == null) {
 			acquisition = DiffractionParametersAcquisitionController.createNewAcquisition();
 		}
@@ -104,13 +104,13 @@ public class DiffractionParametersAcquisitionController
 	}
 
 	@Override
-	public void loadAcquisitionConfiguration(DiffractionParameterAcquisition acquisition)
+	public void loadAcquisitionConfiguration(ScanningAcquisition acquisition)
 			throws AcquisitionControllerException {
 		this.acquisition = acquisition;
 	}
 
 	@Override
-	public AcquisitionConfigurationResource<DiffractionParameterAcquisition> parseAcquisitionConfiguration(URL url)
+	public AcquisitionConfigurationResource<ScanningAcquisition> parseAcquisitionConfiguration(URL url)
 			throws AcquisitionControllerException {
 		return new AcquisitionConfigurationResource(url, null);
 	}
@@ -126,8 +126,8 @@ public class DiffractionParametersAcquisitionController
 		// SpringApplicationContextProxy.publishEvent(new AcquisitionConfigurationResourceSaveEvent(url));
 	}
 
-	public static DiffractionParameterAcquisition createNewAcquisition() {
-		DiffractionParameterAcquisition newConfiguration = new DiffractionParameterAcquisition();
+	public static ScanningAcquisition createNewAcquisition() {
+		ScanningAcquisition newConfiguration = new ScanningAcquisition();
 
 		newConfiguration.setAcquisitionConfiguration(new ScanningConfiguration());
 		ScanningParameters acquisitionParameters = new ScanningParameters();

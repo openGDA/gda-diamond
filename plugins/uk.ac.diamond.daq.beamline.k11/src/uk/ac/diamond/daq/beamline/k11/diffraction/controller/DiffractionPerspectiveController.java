@@ -21,7 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 
 /**
@@ -32,9 +32,9 @@ import uk.ac.gda.api.acquisition.AcquisitionController;
 @Controller
 public class DiffractionPerspectiveController {
 	@Autowired
-	private AcquisitionController<DiffractionParameterAcquisition> diffractionAcquisitionController;
+	private AcquisitionController<ScanningAcquisition> scanningAcquisitionController;
 
-	public AcquisitionController<DiffractionParameterAcquisition> getDiffractionAcquisitionController() {
-		return diffractionAcquisitionController;
+	public AcquisitionController<ScanningAcquisition> getScanningAcquisitionController() {
+		return scanningAcquisitionController;
 	}
 }
