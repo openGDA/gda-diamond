@@ -29,13 +29,13 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Controller;
 
-import uk.ac.diamond.daq.beamline.k11.diffraction.event.DiffractionRunAcquisitionEvent;
-import uk.ac.diamond.daq.beamline.k11.diffraction.service.message.DiffractionRunMessage;
 import uk.ac.diamond.daq.mapping.api.document.DetectorDocument;
 import uk.ac.diamond.daq.mapping.api.document.DocumentMapper;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionRunEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.service.message.ScanningMessage;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.gda.api.acquisition.AcquisitionController;
@@ -94,8 +94,8 @@ public class DiffractionParametersAcquisitionController
 		publishRun(createRunMessage());
 	}
 
-	private void publishRun(DiffractionRunMessage runMessage) {
-		SpringApplicationContextProxy.publishEvent(new DiffractionRunAcquisitionEvent(this, runMessage));
+	private void publishRun(ScanningMessage runMessage) {
+		SpringApplicationContextProxy.publishEvent(new ScanningAcquisitionRunEvent(this, runMessage));
 	}
 
 	@Override
@@ -142,8 +142,8 @@ public class DiffractionParametersAcquisitionController
 		return newConfiguration;
 	}
 
-	private DiffractionRunMessage createRunMessage() throws AcquisitionControllerException {
-		return new DiffractionRunMessage(dataToJson(getAcquisition()));
+	private ScanningMessage createRunMessage() throws AcquisitionControllerException {
+		return new ScanningMessage(dataToJson(getAcquisition()));
 	}
 
 	private String dataToJson(Object acquisition) throws AcquisitionControllerException {

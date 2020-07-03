@@ -34,16 +34,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gda.configuration.properties.LocalProperties;
-import uk.ac.diamond.daq.beamline.k11.diffraction.event.DiffractionRunAcquisitionEvent;
 import uk.ac.diamond.daq.beamline.k11.diffraction.service.DiffractionService;
 import uk.ac.diamond.daq.beamline.k11.diffraction.service.DiffractionServiceException;
-import uk.ac.diamond.daq.beamline.k11.diffraction.service.message.DiffractionRunMessage;
 import uk.ac.diamond.daq.mapping.api.IScanBeanSubmitter;
 import uk.ac.diamond.daq.mapping.api.document.DocumentMapper;
 import uk.ac.diamond.daq.mapping.api.document.ScanRequestFactory;
 import uk.ac.diamond.daq.mapping.api.document.base.AcquisitionBase;
 import uk.ac.diamond.daq.mapping.api.document.base.AcquisitionConfigurationBase;
 import uk.ac.diamond.daq.mapping.api.document.base.AcquisitionParametersBase;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionRunEvent;
+import uk.ac.diamond.daq.mapping.api.document.service.message.ScanningMessage;
 import uk.ac.gda.api.exception.GDAException;
 import uk.ac.gda.tomography.service.Arrangement;
 
@@ -62,16 +62,16 @@ public class DiffractionServiceImpl implements DiffractionService {
 	}
 
 	@Override
-	public void onApplicationEvent(DiffractionRunAcquisitionEvent event) {
+	public void onApplicationEvent(ScanningAcquisitionRunEvent event) {
 		try {
-			runAcquisition(event.getRunDiffractionMessage(), null, null, null);
+			runAcquisition(event.getScanningMessage(), null, null, null);
 		} catch (DiffractionServiceException e) {
 			logger.error("TODO put description of error here", e);
 		}
 	}
 
 	@Override
-	public void runAcquisition(DiffractionRunMessage message, File script, File onError, File onSuccess)
+	public void runAcquisition(ScanningMessage message, File script, File onError, File onSuccess)
 			throws DiffractionServiceException {
 		executeCommand(message, script, onError, onSuccess, "doAcquisition");
 	}
@@ -82,24 +82,24 @@ public class DiffractionServiceImpl implements DiffractionService {
 	}
 
 	@Override
-	public URL takeDarkImage(DiffractionRunMessage message, File script) throws DiffractionServiceException {
+	public URL takeDarkImage(ScanningMessage message, File script) throws DiffractionServiceException {
 		return null;
 	}
 
 	@Override
-	public URL takeFlatImage(DiffractionRunMessage message, File script) throws DiffractionServiceException {
+	public URL takeFlatImage(ScanningMessage message, File script) throws DiffractionServiceException {
 		return null;
 	}
 
-	private void executeCommand(DiffractionRunMessage message, File script, File onError, File onSuccess,
+	private void executeCommand(ScanningMessage message, File script, File onError, File onSuccess,
 			String command) throws DiffractionServiceException {
 		submitScan(message);
 	}
 
 	private AcquisitionBase<? extends AcquisitionConfigurationBase<? extends AcquisitionParametersBase>> deserializeAcquisition(
-			DiffractionRunMessage message) throws DiffractionServiceException {
+			ScanningMessage message) throws DiffractionServiceException {
 		try {
-			return documentMapper.fromJSON((String) message.getConfiguration(), AcquisitionBase.class);
+			return documentMapper.fromJSON((String) message.getAcquisition(), AcquisitionBase.class);
 		} catch (GDAException e) {
 			throw new DiffractionServiceException("Json error", e);
 		}
@@ -111,7 +111,7 @@ public class DiffractionServiceImpl implements DiffractionService {
 	 * @param filePath
 	 *            The filepath of the output NeXus file. If {@code null} it is generated through default properties.
 	 */
-	private void submitScan(DiffractionRunMessage message) {
+	private void submitScan(ScanningMessage message) {
 		final IScanBeanSubmitter submitter = PlatformUI.getWorkbench().getService(IScanBeanSubmitter.class);
 		try {
 			AcquisitionBase<? extends AcquisitionConfigurationBase<? extends AcquisitionParametersBase>> acquisition = deserializeAcquisition(
