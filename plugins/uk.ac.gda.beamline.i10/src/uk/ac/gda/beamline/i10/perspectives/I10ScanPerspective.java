@@ -92,7 +92,6 @@ public class I10ScanPerspective implements IPerspectiveFactory {
         layout.addPerspectiveShortcut(AreaDetectorPerspective.ID);
         layout.addPerspectiveShortcut(JythonPerspective.ID);
         layout.addPerspectiveShortcut(MappingPerspective.ID);
-        layout.addPerspectiveShortcut(ScanPerspective.ID);
 
         layout.addNewWizardShortcut(PythonProjectWizard.WIZARD_ID); //$NON-NLS-1$
         layout.addNewWizardShortcut(PythonSourceFolderWizard.WIZARD_ID); //$NON-NLS-1$
