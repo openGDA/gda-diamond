@@ -55,8 +55,8 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeF
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameterAcquisition;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
@@ -69,7 +69,7 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
- * This Composite allows to edit a {@link DiffractionParameters} object.
+ * This Composite allows to edit a {@link ScanningParameters} object.
  *
  * @author Maurizio Nagni
  */
@@ -214,7 +214,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		components.forEach(DiffractionCompositeInterface::bindControls);
 	}
 
-	private DiffractionParameters getTemplateData() {
+	private ScanningParameters getTemplateData() {
 		return getController().getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 

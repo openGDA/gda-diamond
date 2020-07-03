@@ -49,8 +49,8 @@ import org.eclipse.swt.widgets.Text;
 import com.google.common.primitives.Ints;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.ClientVerifyListener;
@@ -83,7 +83,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	private final DataBindingContext regionDBC;
 
 	public DensityCompositeFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
-			DiffractionParameters templateData, SelectObservableValue<ShapeType> selectedShapeType) {
+			ScanningParameters templateData, SelectObservableValue<ShapeType> selectedShapeType) {
 		super();
 		this.densityTemplateHelper = new DensityTemplateDataHelper(templateData);
 		this.selectedShapeType = selectedShapeType;

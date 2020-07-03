@@ -20,7 +20,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
 import java.util.function.Consumer;
 
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 
 /**
  * Formats a report for {@link ShapeType#CENTRED_RECTANGLE} elements

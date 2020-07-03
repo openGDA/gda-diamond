@@ -23,7 +23,7 @@ import java.util.Objects;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.swt.events.SelectionListener;
 
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.gda.ui.tool.ClientMessages;
 

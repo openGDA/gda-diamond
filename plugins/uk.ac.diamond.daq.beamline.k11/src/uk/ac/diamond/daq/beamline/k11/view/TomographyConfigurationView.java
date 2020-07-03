@@ -34,8 +34,8 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.view.control.StageController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.tomography.TomographyParameterAcquisition;
-import uk.ac.diamond.daq.mapping.api.document.tomography.TomographyParameters;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
@@ -46,7 +46,7 @@ import uk.ac.gda.tomography.ui.controller.TomographyPerspectiveController;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
- * This Composite allows to edit a {@link TomographyParameters} object.
+ * This Composite allows to edit a {@link ScanningParameters} object.
  *
  * @author Maurizio Nagni
  */
@@ -115,7 +115,8 @@ public class TomographyConfigurationView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					controller.runAcquisition(getOutputPath());
+					controller.getAcquisition().setAcquisitionLocation(getOutputPath());
+					controller.runAcquisition();
 				} catch (AcquisitionControllerException e) {
 					UIHelper.showError("Run Acquisition", e.getMessage());
 					logger.error("Cannot run the acquisition", e);

@@ -49,8 +49,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.DiffractionParameters;
-import uk.ac.diamond.daq.mapping.api.document.diffraction.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
@@ -79,7 +79,7 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	private final ScanManagementController smController;
 
 	public MutatorsTemplateFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
-			DiffractionParameters templateData, SelectObservableValue<ShapeType> selectedShapeObservable,
+			ScanningParameters templateData, SelectObservableValue<ShapeType> selectedShapeObservable,
 			RegionAndPathController rapController, ScanManagementController smController) {
 		super();
 		this.viewDBC = viewDBC;
