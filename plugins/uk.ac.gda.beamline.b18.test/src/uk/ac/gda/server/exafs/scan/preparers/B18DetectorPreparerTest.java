@@ -19,7 +19,7 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -31,7 +31,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -183,7 +183,7 @@ public class B18DetectorPreparerTest {
 
 	private void setupMockXmlHelper(FluorescenceDetectorParameters params) throws Exception {
 		PowerMockito.mockStatic(XMLHelpers.class);
-		PowerMockito.when(XMLHelpers.getBean(Matchers.any())).thenReturn(params);
+		PowerMockito.when(XMLHelpers.getBean(ArgumentMatchers.any())).thenReturn(params);
 	}
 
 	@Test

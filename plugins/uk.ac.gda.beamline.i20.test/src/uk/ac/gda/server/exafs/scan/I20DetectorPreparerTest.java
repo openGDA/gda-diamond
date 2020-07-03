@@ -29,7 +29,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -182,7 +182,7 @@ public class I20DetectorPreparerTest {
 
 	private void setupMockXmlHelper(FluorescenceDetectorParameters params) throws Exception {
 		PowerMockito.mockStatic(XMLHelpers.class);
-		PowerMockito.when(XMLHelpers.getBean(Matchers.any())).thenReturn(params);
+		PowerMockito.when(XMLHelpers.getBean(ArgumentMatchers.any())).thenReturn(params);
 	}
 
 	@Test
@@ -260,7 +260,7 @@ public class I20DetectorPreparerTest {
 		assertEquals(xspressSystem.getName(), preparer.getSelectedXspressDetector().getName());
 		Mockito.verify(xspressSystem).applyConfigurationParameters(xspressParams);
 		Mockito.verify(xspressSystem).setConfigFileName(Paths.get(experimentFullPath, fluoParams.getConfigFileName()).toString());
-		Mockito.verify(xmapFluoDetector, Mockito.never()).applyConfigurationParameters(Matchers.any(XspressParameters.class));
+		Mockito.verify(xmapFluoDetector, Mockito.never()).applyConfigurationParameters(ArgumentMatchers.any(XspressParameters.class));
 
 		preparer.beforeEachRepetition();
 		Mockito.verify(topupChecker).setCollectionTime(2.5);
@@ -306,7 +306,7 @@ public class I20DetectorPreparerTest {
 		assertEquals(preparer.getVortex().getName(), xmpaMca.getName());
 		Mockito.verify(xmapFluoDetector).applyConfigurationParameters(vortexParams);
 		Mockito.verify(xmpaMca).setConfigFileName(Paths.get(experimentFullPath, fluoParams.getConfigFileName()).toString());
-		Mockito.verify(xspressSystem, Mockito.never()).applyConfigurationParameters(Matchers.any(XspressParameters.class));
+		Mockito.verify(xspressSystem, Mockito.never()).applyConfigurationParameters(ArgumentMatchers.any(XspressParameters.class));
 
 		preparer.beforeEachRepetition();
 		Mockito.verify(topupChecker).setCollectionTime(2.5);

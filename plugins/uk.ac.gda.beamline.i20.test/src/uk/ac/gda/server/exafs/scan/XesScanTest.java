@@ -31,8 +31,8 @@ import java.util.Vector;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InOrder;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.powermock.api.mockito.PowerMockito;
@@ -301,7 +301,7 @@ public class XesScanTest {
 
 		BeansFactory.setClasses(new Class[] { XanesScanParameters.class });
 		PowerMockito.mockStatic(XMLHelpers.class);
-		PowerMockito.when(XMLHelpers.getBeanObject(Matchers.anyString(), Matchers.anyObject())).thenReturn(xanesParams);
+		PowerMockito.when(XMLHelpers.getBeanObject(ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(xanesParams);
 		return xanesParams;
 	}
 
