@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Configuration to log Java classes loaded from Jython -->
+
+<included>
+
+	<timestamp key="contextTimestamp"
+		datePattern="yyyyMMdd-HHmmss" timeReference="contextBirth" />
+	<appender name="JythonClasses"
+		class="ch.qos.logback.core.FileAppender">
+		<file>${gda.jython.classloader.logging.loc}/${contextTimestamp}-jython-classes.log
+		</file>
+		<encoder>
+			<pattern>%m%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Set additivity to false so that messages are not logged to the root
+		logger's appenders as well -->
+	<logger name="jython-class-loader" additivity="false"
+		level="TRACE">
+		<appender-ref ref="JythonClasses" />
+	</logger>
+
+</included>

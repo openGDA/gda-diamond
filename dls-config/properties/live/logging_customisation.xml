@@ -5,6 +5,9 @@
 
 <included>
 
+	<!-- DAQ-2618 Log Java classes loaded from Jython -->
+	<include file="${gda.facility.dir}/properties/_common/jython_class_loading_logging.xml" />
+
 	<!-- Use the central Graylog appender definition -->
 	<include file="/dls_sw/dasc/graylog/graylog_appender.xml" />
 
