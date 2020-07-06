@@ -32,9 +32,9 @@ import uk.ac.gda.api.acquisition.AcquisitionController;
 @Controller
 public class DiffractionPerspectiveController {
 	@Autowired
-	private AcquisitionController<ScanningAcquisition> scanningAcquisitionController;
+	private AcquisitionController<ScanningAcquisition> diffractionParametersAcquisitionController;
 
 	public AcquisitionController<ScanningAcquisition> getScanningAcquisitionController() {
-		return scanningAcquisitionController;
+		return diffractionParametersAcquisitionController;
 	}
 }
