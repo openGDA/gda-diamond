@@ -50,7 +50,7 @@ import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
  * Controls the Diffraction Scan configuration view
  * @author Maurizio Nagni
  */
-@Controller
+@Controller(value="diffractionParametersAcquisitionController")
 public class DiffractionParametersAcquisitionController
 		implements AcquisitionController<ScanningAcquisition>, ApplicationListener<ApplicationEvent> {
 	private static final Logger logger = LoggerFactory.getLogger(DiffractionParametersAcquisitionController.class);
