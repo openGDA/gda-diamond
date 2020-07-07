@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,6 +28,7 @@ import java.util.Optional;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -64,6 +67,7 @@ import gda.device.Scannable;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.scan.SpectrumEvent;
+import gda.scan.TurboSlitTimingGroup;
 
 public class SpectrumEventsEditor extends Dialog {
 
@@ -167,6 +171,19 @@ public class SpectrumEventsEditor extends Dialog {
 
 		spectrumNumColumn.setEditingSupport(new SpectrumNumberEditingSupport(tableView));
 		addSelectionListener(spectrumNumColumn, 0);
+
+		// Add column for spectrum number
+		TableViewerColumn spectrumTimeColumn = new TableViewerColumn(tableView, SWT.NONE);
+		spectrumTimeColumn.getColumn().setWidth(200);
+		spectrumTimeColumn.getColumn().setText("Start time");
+		spectrumTimeColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+		    public String getText(Object element) {
+				SpectrumEvent event = (SpectrumEvent) element;
+				double timeAtSpectrumStart = getTimeForSpectrum(event.getSpectrumNumber());
+				return String.format("%.4g s", timeAtSpectrumStart);
+		    }
+		});
 
 		// Add column for name of scannable
 		TableViewerColumn scannableNameColumn = new TableViewerColumn(tableView, SWT.NONE);
@@ -364,6 +381,7 @@ public class SpectrumEventsEditor extends Dialog {
 	 */
 	private static class ScannableNameCellEditor extends DialogCellEditor {
 		private Text textBox;
+		private Button button;
 
 		public ScannableNameCellEditor(Composite parent) {
 			super(parent);
@@ -372,7 +390,8 @@ public class SpectrumEventsEditor extends Dialog {
 		@Override
 		protected Control createContents(Composite cell) {
 			textBox = new Text(cell, SWT.LEFT);
-			textBox.addListener(SWT.FocusOut, focusEvent -> {setValueToModel();deactivate();} );
+			textBox.addListener(SWT.FocusOut, focusEvent -> focusLost() );
+
 			textBox.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent event) {
@@ -401,9 +420,12 @@ public class SpectrumEventsEditor extends Dialog {
 
 		@Override
 	    protected Button createButton(Composite parent) {
-	        Button button = new Button(parent, SWT.DOWN);
-	        button.setText("...");
+	        button = super.createButton(parent);
 	        button.setToolTipText("Select scannable from list");
+	        button.addSelectionListener(widgetSelectedAdapter(event -> {
+	        	logger.info("Button clicked");
+	        }
+	        ));
 	        return button;
 	    }
 
@@ -437,7 +459,11 @@ public class SpectrumEventsEditor extends Dialog {
 
 		@Override
 		protected void focusLost() {
+			if (button != null && !button.isDisposed()) {
+				return;
+			}
 			if (isActivated()) {
+				setValueToModel();
 				deactivate();
 			}
 		}
@@ -576,6 +602,42 @@ public class SpectrumEventsEditor extends Dialog {
 			}
 		}
 		display.dispose();
+	}
+
+	private List<Double> totalTimeForSpectum = Collections.emptyList();
+
+	/** Using List of TurboSlitTimingGroups to make list of total time for each spectrum, across all groups
+	 * (i.e. time between spectrum starts)
+	 * @param timingGroups
+	 */
+	public void setSpectrumTimes(List<TurboSlitTimingGroup> timingGroups) {
+		if (timingGroups == null || timingGroups.isEmpty()) {
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(),
+					"No timing groups have been set",
+					"No timing groups have been set - time start times will be incorrect");
+			logger.warn("No timing groups have been set - spectrum start times will be incorrect");
+			return;
+		}
+
+		totalTimeForSpectum = new ArrayList<>();
+		for(TurboSlitTimingGroup timingGroup : timingGroups) {
+			double timeBetweenStarts = timingGroup.getTimePerSpectrum() + timingGroup.getTimeBetweenSpectra();
+			for(int i=0; i<timingGroup.getNumSpectra(); i++) {
+				totalTimeForSpectum.add(timeBetweenStarts);
+			}
+		}
+	}
+
+	private double getTimeForSpectrum(int spectrumNumber) {
+		double startTime = 0.0;
+		int lastIndex = Math.min(spectrumNumber, totalTimeForSpectum.size());
+		if (lastIndex < spectrumNumber) {
+			logger.warn("Time for spectrum {} will be incorrect - it is after the last spectrum in the timing groups", spectrumNumber);
+		}
+		for (int i = 0; i < lastIndex; i++) {
+			startTime += totalTimeForSpectum.get(i);
+		}
+		return startTime;
 	}
 
 }

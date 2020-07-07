@@ -259,6 +259,7 @@ public class TurboXasExperimentView extends ViewPart {
 		openEditorButton.addListener(SWT.Selection, e -> {
 			SpectrumEventsEditor editor = new SpectrumEventsEditor(mainComposite.getShell());
 			editor.setTableValues(turboXasParameters.getSpectrumEvents());
+			editor.setSpectrumTimes(turboXasParameters.getTimingGroups());
 			editor.setBlockOnOpen(true);
 			if (editor.open() == Window.OK) {
 				turboXasParameters.setSpectrumEvents(editor.getTableValues());
