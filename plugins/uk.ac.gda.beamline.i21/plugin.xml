@@ -33,11 +33,6 @@
             id="uk.ac.gda.beamline.i21.perspectives.rixs"
             name="RIXS">
       </perspective>
-      <perspective
-            class="uk.ac.gda.beamline.i21.perspectives.ScanPerspective"
-            id="uk.ac.gda.beamline.i21.perspectives.scan"
-            name="Scan">
-      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
