@@ -82,6 +82,7 @@ public class TomographyConfigurationView extends ViewPart {
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
+		builder.addNewSelectionListener(getNewConfigurationListener());
 		builder.addSaveSelectionListener(getSaveListener());
 		builder.addRunSelectionListener(getRunListener());
 		builder.build().createComposite(parent, SWT.NONE);
@@ -106,6 +107,24 @@ public class TomographyConfigurationView extends ViewPart {
 
 	private CompositeFactory getBottomArea() {
 		return new AcquisitionsBrowserCompositeFactory<ScanningAcquisition>(new TomoBrowser(getController()));
+	}
+
+	private SelectionListener getNewConfigurationListener() {
+		return new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
+				if (confirmed) {
+					controller.createNewAcquisition();
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// not required
+			}
+		};
 	}
 
 	private SelectionListener getSaveListener() {
