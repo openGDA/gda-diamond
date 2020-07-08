@@ -30,7 +30,6 @@ import static uk.ac.gda.ui.tool.ClientMessages.STOP_POINT_AND_SHOOT_TP;
 import static uk.ac.gda.ui.tool.ClientMessagesUtility.getMessage;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -67,16 +66,13 @@ import uk.ac.diamond.daq.mapping.ui.experiment.file.FileScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.file.SavedScanMetaData;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.PersistenceScanSaver;
 import uk.ac.diamond.daq.mapping.ui.experiment.saver.ScanSaver;
-import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
-import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
-import uk.ac.gda.client.properties.DetectorProperties;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
@@ -108,12 +104,6 @@ public class DiffractionScanSelection extends ViewPart {
 		controller.createNewAcquisition();
 
 		logger.info("{} createPartControl - start", this.getClass());
-		Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.DIFFRACTION);
-		int index = 0; // in future may be parametrised
-		if (dp.isPresent()) {
-			DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
-			getTemplateData().setDetector(dd);
-		}
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
@@ -145,8 +135,9 @@ public class DiffractionScanSelection extends ViewPart {
 		// Do not necessary
 	}
 
+	@SuppressWarnings("unchecked")
 	private AcquisitionController<ScanningAcquisition> getPerspectiveController() {
-		return SpringApplicationContextProxy.getBean(ScanningAcquisitionController.class);
+		return (AcquisitionController<ScanningAcquisition>)SpringApplicationContextProxy.getBean("scanningAcquisitionController", AcquisitionType.DIFFRACTION);
 	}
 
 	private void buildDiffractionPathComposite(Composite parent) {
@@ -293,6 +284,11 @@ public class DiffractionScanSelection extends ViewPart {
 		return SpringApplicationContextProxy.getOptionalBean(ExperimentController.class);
 	}
 
+	/**
+	 * Creates a new {@link ScanningAcquisition} for a diffraction acquisition.
+	 * Note that the Detectors set by the {@link ScanningAcquisitionController#createNewAcquisition()}
+	 * @return
+	 */
 	private Supplier<ScanningAcquisition> newScanningAcquisition() {
 		return () -> {
 			ScanningAcquisition newConfiguration = new ScanningAcquisition();
@@ -301,12 +297,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 			newConfiguration.setName("Default name");
 			ScanningParameters acquisitionParameters = new ScanningParameters();
-			Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.DIFFRACTION);
-			int index = 0; // in future may be parametrised
-			if (dp.isPresent()) {
-				DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
-				acquisitionParameters.setDetector(dd);
-			}
+			// Diffraction detectors are set by the controller
 			configuration.setImageCalibration(new ImageCalibration());
 			// *-------------------------------
 

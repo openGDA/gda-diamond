@@ -45,7 +45,6 @@ import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.controller.StageController;
-import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.diamond.daq.mapping.ui.stage.enumeration.StageDevice;
 import uk.ac.gda.api.acquisition.AcquisitionController;
@@ -53,10 +52,8 @@ import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
 import uk.ac.gda.api.acquisition.configuration.MultipleScans;
 import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
-import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
-import uk.ac.gda.client.properties.DetectorProperties;
 import uk.ac.gda.tomography.browser.TomoBrowser;
 import uk.ac.gda.tomography.scan.editor.view.TomographyConfigurationCompositeFactory;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
@@ -94,7 +91,7 @@ public class TomographyConfigurationView extends ViewPart {
 	}
 
 	private ScanningAcquisitionController getPerspectiveController() {
-		return SpringApplicationContextProxy.getBean(ScanningAcquisitionController.class);
+		return (ScanningAcquisitionController)SpringApplicationContextProxy.getBean("scanningAcquisitionController", AcquisitionType.TOMOGRAPHY);
 	}
 
 	private StageController getStageController() {
@@ -186,6 +183,11 @@ public class TomographyConfigurationView extends ViewPart {
 		return controller;
 	}
 
+	/**
+	 * Creates a new {@link ScanningAcquisition} for a tomography acquisition.
+	 * Note that the Detectors set by the {@link ScanningAcquisitionController#createNewAcquisition()}
+	 * @return
+	 */
 	private Supplier<ScanningAcquisition> newScanningAcquisition() {
 		return () -> {
 			ScanningAcquisition newConfiguration = new ScanningAcquisition();
@@ -194,12 +196,6 @@ public class TomographyConfigurationView extends ViewPart {
 
 			newConfiguration.setName("Default name");
 			ScanningParameters acquisitionParameters = new ScanningParameters();
-			Optional<List<DetectorProperties>> dp = DetectorHelper.getAcquistionDetector(AcquisitionType.TOMOGRAPHY);
-			int index = 0; // in future may be parametrised
-			if (dp.isPresent()) {
-				DetectorDocument dd = new DetectorDocument(dp.get().get(index).getDetectorBean(), 0);
-				acquisitionParameters.setDetector(dd);
-			}
 			configuration.setImageCalibration(new ImageCalibration());
 
 			// *-------------------------------
