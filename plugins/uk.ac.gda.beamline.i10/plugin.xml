@@ -46,11 +46,6 @@
             id="uk.ac.gda.beamline.i10.perspectives.areadetector"
             name="Area Detector">
       </perspective>
-      <perspective
-            class="uk.ac.gda.beamline.i10.perspectives.ScanPerspective"
-            id="uk.ac.gda.beamline.i10.perspectives.scan"
-            name="MScan">
-      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
