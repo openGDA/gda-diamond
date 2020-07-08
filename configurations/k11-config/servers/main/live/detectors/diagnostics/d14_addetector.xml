@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+
+	<bean id="d14_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL11K-DI-PHDGN-14:CAM:" />
+	</bean>
+	
+	<bean id="d14_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="basePVName" value="BL11K-DI-PHDGN-14:ROI:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-DI-PHDGN-14:ROI:" />
+				<property name="initialArrayPort" value="D14.cam" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d14_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL11K-DI-PHDGN-14:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-DI-PHDGN-14:STAT:" />
+				<property name="initialArrayPort" value="D14.cam" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d14_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL11K-DI-PHDGN-14:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-DI-PHDGN-14:ARR:" />
+				<property name="initialArrayPort" value="D14.roi" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d14_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL11K-DI-PHDGN-14:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-DI-PHDGN-14:HDF5:" />
+				<property name="initialArrayPort" value="D14.stat" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="d14" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+
+	<bean id="d14_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL11K-DI-PHDGN-14:HDF5:" />
+		<property name="file" ref="d14_ndfile" />
+	</bean>
+
+	<bean id="d14_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="d14_adbase" />
+		<constructor-arg ref="d14_roi" />
+	</bean>
+</beans>
