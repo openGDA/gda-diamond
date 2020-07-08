@@ -3,19 +3,19 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-        <bean id="mapping_malcolm_model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+        <bean id="malcolm_diff_model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
                 <property name="name" value="BL11K-ML-SCAN-01" />
                 <property name="exposureTime" value="0.1" />
         </bean>
     
-        <bean id="mapping_malcolm_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+        <bean id="malcolm_diff_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
                 <property name="label" value="Diffraction (Malcolm)" />
                 <property name="description" value="Malcolm: KB x vs y w/ Pilatus detector" /> 
         </bean>
     
-        <bean id="mapping_malcolm_device" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+        <bean id="malcolm_diff_device" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
                 <property name="name" value="BL11K-ML-SCAN-01" />
-                <property name="model" ref="mapping_malcolm_model" />
-                <property name="deviceInformation" ref="mapping_malcolm_info" />
+                <property name="model" ref="malcolm_diff_model" />
+                <property name="deviceInformation" ref="malcolm_diff_info" />
         </bean>
 </beans>
