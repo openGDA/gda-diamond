@@ -70,6 +70,9 @@
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/dbsel_addetector.xml" />		
 	<import
 		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d11_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d14_addetector.xml" />
+
 
 	<!-- shutters -->
 	<import
@@ -149,6 +152,8 @@
 		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/dbsel_addetector.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d11_addetector.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d14_addetector.xml" />
 
 	<import
 		resource="file:${gda.config}/servers/main/_common/metadata.xml" />

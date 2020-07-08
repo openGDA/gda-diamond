@@ -46,6 +46,12 @@
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 	</bean>
 
+	<bean id="d14_cam_config"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D14" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+	</bean>
+
 	<bean id="d4_cam_config"
 		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D4" />
