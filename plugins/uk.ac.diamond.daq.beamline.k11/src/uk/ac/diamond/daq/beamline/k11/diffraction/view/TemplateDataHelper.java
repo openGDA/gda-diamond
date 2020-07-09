@@ -20,6 +20,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.eclipse.scanning.api.points.models.AbstractMapModel;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
@@ -28,20 +29,20 @@ import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
 
 import gda.configuration.properties.LocalProperties;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 
 public class TemplateDataHelper extends TemplateHelperBase {
 
-	public TemplateDataHelper(ScanningParameters templateData) {
-		super(templateData);
+	public TemplateDataHelper(Supplier<ScanningAcquisition> acquisitionSupplier) {
+		super(acquisitionSupplier);
 	}
 
 	public void updateTemplateData() {
 		getShapeType().ifPresent(this::updateTemplateData);
 		if (getLogger().isDebugEnabled()) {
-			getLogger().debug(getTemplateData().toString());
+			getLogger().debug(getScanningParameters().toString());
 		}
 	}
 

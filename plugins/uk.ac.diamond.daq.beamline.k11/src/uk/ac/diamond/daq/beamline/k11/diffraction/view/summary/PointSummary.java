@@ -19,7 +19,9 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 
 /**
@@ -27,13 +29,13 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
  *
  * @author Maurizio Nagni
  */
-public class PointSummary extends ShapeSummaryBase  {
+public class PointSummary extends ShapeSummaryBase {
 
 	private double xPosition;
 	private double yPosition;
 
-	public PointSummary(Consumer<String> printOut) {
-		super(printOut);
+	public PointSummary(Consumer<String> printOut, Supplier<ScanningAcquisition> acquisitionSupplier) {
+		super(printOut, acquisitionSupplier);
 	}
 
 	public double getxPosition() {
@@ -56,6 +58,6 @@ public class PointSummary extends ShapeSummaryBase  {
 
 	@Override
 	public String toString() {
-		return String.format("Point\n" + "Centre: [%.1f, %.1f]", xPosition, yPosition);
+		return String.format("Point%nCentre: [%.1f, %.1f] Duration: %.1fs", xPosition, yPosition, getExposure());
 	}
 }

@@ -31,6 +31,7 @@ import static uk.ac.gda.ui.tool.ClientMessagesUtility.getMessage;
 
 import java.net.URL;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
@@ -292,6 +293,7 @@ public class DiffractionScanSelection extends ViewPart {
 	private Supplier<ScanningAcquisition> newScanningAcquisition() {
 		return () -> {
 			ScanningAcquisition newConfiguration = new ScanningAcquisition();
+			newConfiguration.setUuid(UUID.randomUUID());
 			ScanningConfiguration configuration = new ScanningConfiguration();
 			newConfiguration.setAcquisitionConfiguration(configuration);
 

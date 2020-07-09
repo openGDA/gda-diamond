@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.eclipse.swt.SWT;
@@ -191,6 +192,7 @@ public class TomographyConfigurationView extends ViewPart {
 	private Supplier<ScanningAcquisition> newScanningAcquisition() {
 		return () -> {
 			ScanningAcquisition newConfiguration = new ScanningAcquisition();
+			newConfiguration.setUuid(UUID.randomUUID());
 			ScanningConfiguration configuration = new ScanningConfiguration();
 			newConfiguration.setAcquisitionConfiguration(configuration);
 

@@ -28,6 +28,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -49,7 +50,7 @@ import org.eclipse.swt.widgets.Widget;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
@@ -96,17 +97,15 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	private final List<MutablePair<Button, IMappingScanRegionShape>> buttonToRegionShape = new ArrayList<>();
 
 	private final DataBindingContext dbc;
-	private final ScanningParameters templateData;
 	private final RegionAndPathController rapController;
 	private ShapeTemplateDataHelper templateHelper;
 
-	public ShapesTemplateFactory(DataBindingContext dbc, ScanningParameters templateData,
+	public ShapesTemplateFactory(DataBindingContext dbc, Supplier<ScanningAcquisition> acquisitionSupplier,
 			RegionAndPathController rapController) {
 		super();
 		this.dbc = dbc;
-		this.templateData = templateData;
 		this.rapController = rapController;
-		this.templateHelper = new ShapeTemplateDataHelper(templateData);
+		this.templateHelper = new ShapeTemplateDataHelper(acquisitionSupplier);
 	}
 
 	@Override
@@ -201,10 +200,6 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	@SuppressWarnings("unchecked")
 	private IObservableValue<Boolean> getRadioButtonSelectionObservableValue(Button button) {
 		return WidgetProperties.selection().observe(button);
-	}
-
-	private ScanningParameters getTemplateData() {
-		return templateData;
 	}
 
 	private ShapeComposite createShapeComposite(ShapeType shapeType, ClientMessages tooltip, ClientImages icon) {

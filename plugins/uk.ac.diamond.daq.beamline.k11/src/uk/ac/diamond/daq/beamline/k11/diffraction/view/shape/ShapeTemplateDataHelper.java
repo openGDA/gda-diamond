@@ -18,22 +18,24 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.shape;
 
+import java.util.function.Supplier;
+
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.TemplateHelperBase;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 
 public class ShapeTemplateDataHelper extends TemplateHelperBase {
 
-	public ShapeTemplateDataHelper(ScanningParameters templateData) {
-		super(templateData);
+	public ShapeTemplateDataHelper(Supplier<ScanningAcquisition> acquisitionSupplier) {
+		super(acquisitionSupplier);
 	}
 
 	public void update(ShapeType shapeType) {
 		updateTemplate(getBuilder().withModelDocument(shapeType.getAcquisitionTemplateType()));
 
-		getTemplateData().setShapeType(shapeType);
+		getScanningParameters().setShapeType(shapeType);
 		if (getLogger().isDebugEnabled()) {
-			getLogger().debug(getTemplateData().toString());
+			getLogger().debug(getScanningParameters().toString());
 		}
 	}
 }

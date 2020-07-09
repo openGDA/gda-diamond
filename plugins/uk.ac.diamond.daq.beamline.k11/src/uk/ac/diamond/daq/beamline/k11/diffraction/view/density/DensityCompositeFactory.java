@@ -24,6 +24,7 @@ import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionComposi
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.stringToInteger;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -49,7 +50,7 @@ import org.eclipse.swt.widgets.Text;
 import com.google.common.primitives.Ints;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -83,9 +84,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	private final DataBindingContext regionDBC;
 
 	public DensityCompositeFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
-			ScanningParameters templateData, SelectObservableValue<ShapeType> selectedShapeType) {
+			Supplier<ScanningAcquisition> acquisitionSupplier, SelectObservableValue<ShapeType> selectedShapeType) {
 		super();
-		this.densityTemplateHelper = new DensityTemplateDataHelper(templateData);
+		this.densityTemplateHelper = new DensityTemplateDataHelper(acquisitionSupplier);
 		this.selectedShapeType = selectedShapeType;
 		this.viewDBC = viewDBC;
 		this.regionDBC = regionDBC;
