@@ -215,11 +215,11 @@ public class TomographyConfigurationView extends ViewPart {
 			scanpathBuilder.withScannableTrackDocuments(scannableTrackDocuments);
 			acquisitionParameters.setScanpathDocument(scanpathBuilder.build());
 
-			MultipleScans multipleScan = new MultipleScans();
-			multipleScan.setMultipleScansType(MultipleScansType.REPEAT_SCAN);
-			multipleScan.setNumberRepetitions(1);
-			multipleScan.setWaitingTime(0);
-			configuration.setMultipleScans(multipleScan);
+			MultipleScans.Builder multipleScanBuilder = new MultipleScans.Builder();
+			multipleScanBuilder.withMultipleScansType(MultipleScansType.REPEAT_SCAN);
+			multipleScanBuilder.withNumberRepetitions(1);
+			multipleScanBuilder.withWaitingTime(0);
+			configuration.setMultipleScans(multipleScanBuilder.build());
 			// *-------------------------------
 
 			newConfiguration.getAcquisitionConfiguration().setAcquisitionParameters(acquisitionParameters);

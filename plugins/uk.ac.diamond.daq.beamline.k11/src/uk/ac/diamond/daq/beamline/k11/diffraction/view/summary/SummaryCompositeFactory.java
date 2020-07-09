@@ -59,6 +59,9 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
  *
  * @author Maurizio Nagni
  */
+/**
+ *
+ */
 public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
 	private final DataBindingContext regionDBC;
