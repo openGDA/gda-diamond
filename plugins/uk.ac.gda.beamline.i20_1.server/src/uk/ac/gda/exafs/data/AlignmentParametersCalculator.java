@@ -111,8 +111,8 @@ public class AlignmentParametersCalculator {
 		pitchAttenuatorsSi311_atn45.add(new PitchAtn(12200, 13500, 4.5, ATN4[6],  ATN5[8]));
 		pitchAttenuatorsSi311_atn45.add(new PitchAtn(13500, 15200, 4.0, ATN4[10], ATN5[8]));
 		pitchAttenuatorsSi311_atn45.add(new PitchAtn(15200, 17400, 3.5, ATN4[9],  ATN5[9]));
-		pitchAttenuatorsSi311_atn45.add(new PitchAtn(17400, 20300, 3.0, ATN4[6],  ATN5[8]));
-		pitchAttenuatorsSi311_atn45.add(new PitchAtn(20300, 99999,-1.0, ATN4[6],  ATN5[8]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(17400, 20300, 3.0, ATN4[11],  ATN5[9]));
+		pitchAttenuatorsSi311_atn45.add(new PitchAtn(20300, 99999,-1.0, ATN4[11],  ATN5[10]));
 	}
 
 	private List<PitchAtn> atnsSi311 = pitchAttenuatorsSi311_atn123;

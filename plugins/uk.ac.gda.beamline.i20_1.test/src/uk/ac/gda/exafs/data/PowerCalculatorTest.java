@@ -44,10 +44,10 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.EdeDummyDetector;
 import gda.device.enumpositioner.DummyEnumPositioner;
+import gda.device.scannable.DummyScannable;
 import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
 import gda.scan.EdeTestBase;
 import uk.ac.gda.exafs.data.PowerCalulator.FilterMirrorElementType;
 import uk.ac.gda.exafs.data.PowerCalulator.Mirrors;
@@ -67,9 +67,6 @@ public class PowerCalculatorTest {
 
 	@Before
 	public void prepare() throws FactoryException, DeviceException {
-		// clear command runner left over from other tests!
-		InterfaceProvider.setCommandRunnerForTesting(null);
-
 		// Set the Realm so that Writeable lists and listeners for databinding can initialise without errors.
 		// (Realm is set automatically when running the GUI)
 		CurrentRealm realm = new CurrentRealm(true);
@@ -95,6 +92,9 @@ public class PowerCalculatorTest {
 		me1Stripe = createPositioner("me1_stripe");
 		me2Stripe = createPositioner("me2_stripe");
 
+		Scannable detectorDistance = new DummyScannable("det_distance", 500.0);
+		detectorDistance.configure();
+
 		EdeDummyDetector detector = new EdeDummyDetector();
 		detector.setName("xstrip");
 		detector.setMainDetectorName("xstrip");
@@ -108,8 +108,11 @@ public class PowerCalculatorTest {
 		factory.addFindable(me1Stripe);
 		factory.addFindable(me2Stripe);
 		factory.addFindable(detector);
+		factory.addFindable(detectorDistance);
 		Finder.getInstance().addFactory(factory);
 
+		// Unit tests are based on attenuators 1, 2, 3.
+		AlignmentParametersModel.INSTANCE.setUseAtn45(false);
 	}
 
 	@AfterClass
