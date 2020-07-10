@@ -23,6 +23,9 @@
 		<property name="upperGdaLimits" value="300.0" />
 		<property name="lowerGdaLimits" value="16.0" />
 	</bean>
+	<bean id="jidscannable" class="gda.device.insertiondevice.Apple2IDGapPolarPos">
+		<property name="controller" ref="idcontrol" />
+	</bean>
 <!-- 	<bean id="jphaseurp" class="gda.device.scannable.ScannableMotor"> -->
 <!-- 		<property name="motor" ref="jidphaseurp_motor" /> -->
 <!-- 		<property name="initialUserUnits" value="mm" /> -->
