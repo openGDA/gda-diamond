@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class HardwareDisplayComposite {
 
-	protected static final Logger logger = LoggerFactory.getLogger(HardwareDisplayComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(HardwareDisplayComposite.class);
 
 	protected final Composite parent;
 

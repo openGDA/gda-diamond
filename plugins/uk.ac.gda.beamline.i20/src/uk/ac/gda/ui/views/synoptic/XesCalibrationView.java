@@ -30,12 +30,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
 import gda.exafs.xes.IXesOffsets;
 import gda.factory.Finder;
 
 public class XesCalibrationView extends HardwareDisplayComposite {
+
+	private static final Logger logger = LoggerFactory.getLogger(XesCalibrationView.class);
 
 	private IXesOffsets offsets;
 	private Text loadedOffsetFileTextbox;

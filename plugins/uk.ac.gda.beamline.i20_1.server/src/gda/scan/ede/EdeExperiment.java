@@ -84,7 +84,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public abstract class EdeExperiment implements IObserver {
 
-	protected static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
 
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
