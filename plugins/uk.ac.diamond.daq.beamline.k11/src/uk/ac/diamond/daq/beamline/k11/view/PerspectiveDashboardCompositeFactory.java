@@ -30,8 +30,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
@@ -53,8 +51,6 @@ import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
  * @author Maurizio Nagni
  */
 public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
-
-	private static final Logger logger = LoggerFactory.getLogger(PerspectiveDashboardCompositeFactory.class);
 
 	private Group source;
 	private Button energyButton;

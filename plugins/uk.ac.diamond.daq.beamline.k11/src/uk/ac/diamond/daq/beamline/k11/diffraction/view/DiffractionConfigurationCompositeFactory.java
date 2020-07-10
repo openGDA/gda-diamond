@@ -43,8 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
@@ -92,8 +90,6 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	private DataBindingContext regionDBC = new DataBindingContext(); // For bindings that refresh with the region
 
 	private ScanManagementController smController;
-
-	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationCompositeFactory.class);
 
 	private final List<DiffractionCompositeInterface> components = new ArrayList<>();
 

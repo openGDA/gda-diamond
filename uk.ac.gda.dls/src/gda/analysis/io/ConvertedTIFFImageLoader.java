@@ -19,12 +19,17 @@
 
 package gda.analysis.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader;
 
 /**
  * Loads TIFF images after first running them through tiff2tiff.
  */
 public class ConvertedTIFFImageLoader extends TIFFImageLoader {
+
+	private static final Logger logger = LoggerFactory.getLogger(ConvertedTIFFImageLoader.class);
 
 	/**
 	 * @param FileName
