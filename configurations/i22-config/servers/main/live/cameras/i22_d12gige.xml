@@ -13,6 +13,7 @@
 		<property name="basePVName" value="BL22I-DI-PHDGN-12:"/>
 		<property name="areaDetector" ref="d12gige_ad"/>
 		<property name="array" ref="d12gige_array"/>
+		<property name="configureAtStartup" value="false" />
 	</bean>
 
 	<bean id="d12gige_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
