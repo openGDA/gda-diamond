@@ -25,8 +25,6 @@ import java.io.File;
 
 import org.junit.Test;
 
-import gda.device.DeviceException;
-
 /**
  * Tests the {@link Utilities} class.
  */
@@ -123,7 +121,7 @@ public class UtilitiesTest extends OavTestBase {
 	protected static Camera createDummyCamera() {
 		return new DummyOpticalCamera() {
 			@Override
-			public double getZoom() throws DeviceException {
+			public double getZoom() {
 				return 1.0;
 			}
 

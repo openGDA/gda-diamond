@@ -112,13 +112,59 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 		final double[] intensities = targetIntensities.entrySet().stream().map(Map.Entry<Double, Double>::getValue).mapToDouble(x -> x).toArray();
 		beamIntensityFunction = new LinearInterpolator().interpolate(energies, intensities);
 
+		logger.debug("BeamlineReadinessDisplay initialised");
+		logger.debug("xTolerance: {}%, yTolerance: {}%, intensityTolerance: {}%",
+				displayParams.getxTolerance(), displayParams.getyTolerance(), displayParams.getIntensityTolerance());
+		logCurrentValues();
+
 		// Set initial state of the readiness indicator
 		setReadinessStatus();
+
+		logger.debug("Initial state: {}", state);
+	}
+
+	private void logCurrentValues() {
+		try {
+			logger.debug(
+					"intensity: {}, xPosition: {}, yPosition: {}, xSetpoint: {}, ySetpoint: {}, energy: {}, ringCurrent: {}, targetIntensity: {}",
+					formatIntensity(), xPosition.getPosition(), yPosition.getPosition(), xSetpoint.getPosition(),
+					ySetpoint.getPosition(), energy.getPosition(), ringCurrent.getPosition(), getTargetIntensity((double) energy.getPosition()));
+		} catch (DeviceException e) {
+			logger.error("Error getting beamline state", e);
+		}
+	}
+
+	private String formatIntensity() {
+		try {
+			final Object value = intensity.getPosition();
+			if (value instanceof double[]) {
+				final double[] valueList = (double[]) value;
+				final StringBuilder sb = new StringBuilder("[");
+				for (int i = 0; i < valueList.length; i++) {
+					if (i > 0) {
+						sb.append(", ");
+					}
+					sb.append(valueList[i]);
+				}
+				sb.append("]");
+				return sb.toString();
+			} else {
+				return value.toString();
+			}
+		} catch (DeviceException e) {
+			logger.error("Error getting value of intensity", e);
+			return "(Error)";
+		}
 	}
 
 	@SuppressWarnings("unused")
 	private void handleUpdate(Object source, Object arg) {
+		final ReadinessState oldState = state;
 		setReadinessStatus();
+		if (state != oldState) {
+			logger.debug("Readiness state changed from {} to {}", oldState, state);
+			logCurrentValues();
+		}
 	}
 
 	private void setReadinessStatus() {

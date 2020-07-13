@@ -27,6 +27,11 @@ import gda.device.DeviceException;
  * /tmp/test.jpg.
  */
 public class DummyOpticalCamera extends CameraBase {
+
+	private static final int RESET_INDEX = 0;
+
+	private static final double SIMILARITY_THRESHOLD = 0.01;
+
 	private double[] zoomPositions = { 1.0, 1.25, 1.5, 1.75 };
 
 	private double[] focusPositions = { 1.0, 1.25, 1.5, 1.75 };
@@ -55,41 +60,47 @@ public class DummyOpticalCamera extends CameraBase {
 	}
 
 	@Override
+	public void configure() {
+		setZoomIndex(RESET_INDEX);
+		setConfigured(true);
+	}
+
+	@Override
 	public void captureImage(String imageName) throws DeviceException {
 		notifyIObservers(this, IMAGE_UPDATED + cameraName);
 	}
 
 	@Override
-	public BufferedImage getImage() throws DeviceException {
+	public BufferedImage getImage() {
 		// do nothing
 		return null;
 	}
 
 	@Override
-	public double getFocus() throws DeviceException {
+	public double getFocus() {
 		return this.focus;
 	}
 
 	@Override
-	public double[] getFocusLevels() throws DeviceException {
+	public double[] getFocusLevels() {
 		return focusPositions;
 	}
 
 	@Override
-	public double getZoom() throws DeviceException {
+	public double getZoom() {
 		return this.zoom;
 	}
 
 	@Override
-	public double[] getZoomLevels() throws DeviceException {
+	public double[] getZoomLevels() {
 		return zoomPositions;
 	}
 
 	@Override
-	public void setFocus(double focus) throws DeviceException {
+	public void setFocus(double focus) {
 		// loop through possible positions, if a match found then set it.
 		for (double known : focusPositions) {
-			if (known == focus) {
+			if( areSimilar(focus, known, SIMILARITY_THRESHOLD) ) {
 				this.focus = focus;
 				notifyIObservers(this, FOCUS_SET + focus);
 				return;
@@ -97,16 +108,11 @@ public class DummyOpticalCamera extends CameraBase {
 		}
 	}
 
-	@Override
-	public void setZoom(double zoom) throws DeviceException {
-		// loop through possible positions, if a match found then set it.
-		for (double known : zoomPositions) {
-			if (known == zoom) {
-				this.zoom = zoom;
-				notifyIObservers(this, ZOOM_SET + zoom);
-				return;
-			}
-		}
+    @Override
+	protected void updateCameraToIndexedSettings(int verifiedIndex) {
+
+    	zoom = getZoomLevels()[verifiedIndex];
+		notifyIObservers(this, ZOOM_SET + zoom);
 	}
 
 	@Override
@@ -117,6 +123,11 @@ public class DummyOpticalCamera extends CameraBase {
 	@Override
 	public double getMicronsPerYPixel() {
 		return micronsPerYPixel;
+	}
+
+	@Override
+	protected double getZoomSimilarityTolerance() {
+		return SIMILARITY_THRESHOLD;
 	}
 
 }

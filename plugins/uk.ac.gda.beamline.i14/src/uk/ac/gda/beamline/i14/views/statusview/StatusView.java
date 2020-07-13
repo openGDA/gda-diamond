@@ -70,6 +70,7 @@ public abstract class StatusView extends ViewPart {
 	private String iconFilePath;
 	private Double ringCurrentAlarmThreshold;
 	private Double timeToRefillAlarmThreshold;
+	private boolean showBeamlineReadiness = true;
 
 	@SuppressWarnings("unused")
 	@Override
@@ -92,7 +93,9 @@ public abstract class StatusView extends ViewPart {
 		createNumericComposite(grpBeamline, "id_gap_monitor", "ID Gap", "mm", 2, 1000);
 		createNumericComposite(grpBeamline, "dcm_bragg", "Bragg", "degrees", 4, 1000);
 		createNumericComposite(grpBeamline, "dcm_enrg", "Energy", "KeV", 4, 1000);
-		new BeamlineReadinessDisplay(grpBeamline);
+		if (showBeamlineReadiness) {
+			new BeamlineReadinessDisplay(grpBeamline);
+		}
 	}
 
 	protected void setIcon() {
@@ -184,6 +187,10 @@ public abstract class StatusView extends ViewPart {
 
 	public void setTimeToRefillAlarmThreshold(Double timeToRefillAlarmThreshold) {
 		this.timeToRefillAlarmThreshold = timeToRefillAlarmThreshold;
+	}
+
+	public void setShowBeamlineReadiness(boolean showBeamlineReadiness) {
+		this.showBeamlineReadiness = showBeamlineReadiness;
 	}
 
 	/**
