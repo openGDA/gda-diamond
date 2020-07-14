@@ -3,7 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <import resource="detectors/malcolm/diffraction.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+	<import resource="detectors/malcolm/diffraction.xml" />
+	<import resource="detectors/malcolm/tomography.xml" />
+	<import resource="detectors/malcolm/beamSelectorScan.xml" />
+	<import
+		resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>
