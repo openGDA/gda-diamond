@@ -184,4 +184,34 @@
 		<property name="bottomUi" ref="medipix4_histogramBottomUI" />
 	</bean>
 
+	<bean id="pslv1_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="pslv1_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="pslv1_histogramTopUI" />
+	</bean>
+	<bean id="pslv1_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="pslv1_camera_control" />
+	</bean>
+	<bean id="pslv1_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="pslv1_controlsUI" />
+				<ref bean="pslv1_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pslv1_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="PSL via Viewer (pslv1)" />
+		<property name="arrayPv" value="BL16B-EA-PSL-01:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="pslv1_topUI" />
+		<property name="bottomUi" ref="pslv1_histogramBottomUI" />
+	</bean>
+
 </beans>

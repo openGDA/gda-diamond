@@ -47,7 +47,6 @@
 		<property name="adBase" ref="dcam3_adbase" />
 		<property name="ndFile" ref="dcam3_ndfile" />
 		<property name="ndArray" ref="dcam3_ndarray" />
-		<property name="ndStats" ref="dcam3_ndstats" />
 		<property name="fileWriter" ref="dcam3_hdf5_writer" />
 		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
 		<property name="computeStats" value="false" />
@@ -68,7 +67,6 @@
 		<property name="adBase" ref="dcam3_adbase" />
 		<property name="ndFile" ref="dcam3_ndfile_fimg" />
 		<property name="ndArray" ref="dcam3_ndarray" />
-		<property name="ndStats" ref="dcam3_ndstats" />
 		<property name="fileWriter" ref="dcam3_fimg_writer" />
 		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
 		<property name="computeStats" value="false" />

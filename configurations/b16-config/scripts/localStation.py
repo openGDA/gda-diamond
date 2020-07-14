@@ -861,6 +861,22 @@ if installation.isLive() and ENABLE_PCO4000:
 	pcoedgepeak2d = DetectorDataProcessorWithRoi('pcoedgepeak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
 	pcoedgemax2d = DetectorDataProcessorWithRoi('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
 	pcoedgeintensity2d = DetectorDataProcessorWithRoi('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+
+if installation.isLive():
+	pslv1 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'pslv1',
+		_pslv1,  # @UndefinedVariable
+		None,
+		_pslv1_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name_rcp='pslv1',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	pslv1peak2d = DetectorDataProcessorWithRoi('pslv1peak2d', pslv1, [TwodGaussianPeak()],prefix_name_to_extranames=False)
+	pslv1max2d = DetectorDataProcessorWithRoi('pslv1max2d', pslv1, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pslv1intensity2d = DetectorDataProcessorWithRoi('pslv1intensity2d', pslv1, [PixelIntensity()],prefix_name_to_extranames=False)
+
 ###############################################################################
 ###                                   TEMPORARY                              ###
 ###############################################################################
