@@ -19,8 +19,11 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * Formats a report for {@link ShapeType#CENTRED_RECTANGLE} elements
@@ -37,11 +40,10 @@ public class CentredRectangleSummary extends ShapeSummaryBase {
 	private double xRange;
 	private double yRange;
 
-	private int xAxisPoints;
-	private int yAxisPoints;
-
-	public CentredRectangleSummary(Consumer<String> printOut) {
-		super(printOut);
+	public CentredRectangleSummary(Consumer<String> printOut, Supplier<ScanningAcquisition> acquisitionSupplier) {
+		super(printOut, acquisitionSupplier);
+		SpringApplicationContextProxy.addDisposableApplicationListener(this,
+				new ScanningAcquisitionListener(this, acquisitionSupplier));
 	}
 
 	public boolean isAlternating() {
@@ -99,33 +101,27 @@ public class CentredRectangleSummary extends ShapeSummaryBase {
 	}
 
 	public int getxAxisPoints() {
-		return xAxisPoints;
-	}
-
-	public void setxAxisPoints(int xAxisPoints) {
-		this.xAxisPoints = xAxisPoints;
-		printOut(toString());
+		return getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0).getPoints();
 	}
 
 	public int getyAxisPoints() {
-		return yAxisPoints;
-	}
-
-	public void setyAxisPoints(int yAxisPoints) {
-		this.yAxisPoints = yAxisPoints;
-		printOut(toString());
+		return getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(1).getPoints();
 	}
 
 	@Override
 	public String toString() {
+		double stepX = xRange / getxAxisPoints();
+		double stepY = yRange / getyAxisPoints();
+		int totalPoints = getxAxisPoints() * getyAxisPoints();
+		double duration = totalPoints * getExposure();
 		return String.format(
-				"Rectangle\n" + "Centre: [%.1f, %.1f]\n" + "Size: [%.1f,%.1f]\n"
-						+ "Points - Per side: [%d,%d] Total: [%d]\n" + printOutMutators(),
-				xCentre, yCentre, xRange, yRange, xAxisPoints, yAxisPoints, xAxisPoints * yAxisPoints);
+				"Rectangle%nCentre: [%.1f, %.1f]%nSize: [%.1f,%.1f]%nPoints: [%d,%d] Steps: [%.1f,%.1f] Duration: %.1fs Total: [%d]%n%s",
+				xCentre, yCentre, xRange, yRange, getxAxisPoints(), getyAxisPoints(), stepX, stepY, duration, totalPoints,
+				printOutMutators());
 	}
 
 	private String printOutMutators() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (isContinuous()) {
 			sb.append("Continuous ");
 		} else {

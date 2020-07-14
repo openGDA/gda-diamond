@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -49,7 +50,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
@@ -79,12 +80,12 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	private final ScanManagementController smController;
 
 	public MutatorsTemplateFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
-			ScanningParameters templateData, SelectObservableValue<ShapeType> selectedShapeObservable,
+			Supplier<ScanningAcquisition> acquisitionSupplier, SelectObservableValue<ShapeType> selectedShapeObservable,
 			RegionAndPathController rapController, ScanManagementController smController) {
 		super();
 		this.viewDBC = viewDBC;
 		this.regionDBC = regionDBC;
-		this.mutatorTemplateHelper = new MutatorsTemplateDataHelper(templateData);
+		this.mutatorTemplateHelper = new MutatorsTemplateDataHelper(acquisitionSupplier);
 		this.selectedShapeObservable = selectedShapeObservable;
 		this.rapController = rapController;
 		this.smController = smController;

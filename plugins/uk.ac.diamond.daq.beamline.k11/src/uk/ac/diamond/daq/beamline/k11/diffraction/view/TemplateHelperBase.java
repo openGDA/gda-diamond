@@ -25,16 +25,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionEvent;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * Collection of methods to update a {@link ScanningParameters} instance. Constructor and methods are protected
@@ -47,18 +51,24 @@ public class TemplateHelperBase {
 	private static final Logger logger = LoggerFactory.getLogger(TemplateHelperBase.class);
 
 	/**
-	 * The diffraction acquisition configuration data
+	 * The acquisition configuration supplier
 	 */
-	private final ScanningParameters templateData;
+	private final Supplier<ScanningAcquisition> acquisitionSupplier;
 
 	/**
-	 *
-	 * @param templateData
-	 *            the diffraction acquisition configuration data
+	 * @param acquisitionSupplier
+	 *            the acquisition configuration
 	 */
-	protected TemplateHelperBase(ScanningParameters templateData) {
+	protected TemplateHelperBase(Supplier<ScanningAcquisition> acquisitionSupplier) {
 		super();
-		this.templateData = templateData;
+		this.acquisitionSupplier = acquisitionSupplier;
+	}
+
+	/**
+	 * Used to publish {@link ScanningAcquisitionEvent} when the internal {@code acquisition} has been updated
+	 */
+	protected void publishAcquisitionChanged() {
+		SpringApplicationContextProxy.publishEvent(new ScanningAcquisitionEvent(acquisitionSupplier.get()));
 	}
 
 	/**
@@ -81,7 +91,7 @@ public class TemplateHelperBase {
 	 * @return {@code ScannableTrackDocument.Builder}
 	 */
 	protected ScannableTrackDocument.Builder getScannableTrackDocumentBuilder(int index) {
-		return Optional.ofNullable(getTemplateData().getScanpathDocument())
+		return Optional.ofNullable(getScanningParameters().getScanpathDocument())
 				.map(scanpath -> findOrCreateScannableTrackDocument(scanpath, index))
 				.orElse(new ScannableTrackDocument.Builder());
 	}
@@ -108,7 +118,7 @@ public class TemplateHelperBase {
 	 * @return clones the existing scanpathDocument otherwise creates a new one
 	 */
 	protected ScanpathDocument.Builder getBuilder() {
-		return ScanpathDocument.Builder.cloneScanpathDocument(getTemplateData().getScanpathDocument());
+		return ScanpathDocument.Builder.cloneScanpathDocument(getScanningParameters().getScanpathDocument());
 	}
 
 	/**
@@ -116,7 +126,7 @@ public class TemplateHelperBase {
 	 * @param builder the new, to build, {@code ScanpathDocument}
 	 */
 	protected void updateTemplate(ScanpathDocument.Builder builder) {
-		getTemplateData().setScanpathDocument(builder.build());
+		getScanningParameters().setScanpathDocument(builder.build());
 	}
 
 	/**
@@ -127,8 +137,13 @@ public class TemplateHelperBase {
 		updateTemplate(getBuilder().withScannableTrackDocuments(scannableTrackDocuments));
 	}
 
+	/**
+	 * @return the inner {@code scanningParameters}
+	 * @deprecated use {@link #getScanningParameters()}
+	 */
+	@Deprecated
 	protected ScanningParameters getTemplateData() {
-		return templateData;
+		return acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 
 	protected static Logger getLogger() {
@@ -151,5 +166,9 @@ public class TemplateHelperBase {
 	protected Optional<ShapeType> getShapeType() {
 		//To review is is possible to remove the dependency from {@link getRapController()}
 		return shapeFromMappingRegion(getRapController().getScanRegionShape());
+	}
+
+	protected ScanningParameters getScanningParameters() {
+		return acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 }

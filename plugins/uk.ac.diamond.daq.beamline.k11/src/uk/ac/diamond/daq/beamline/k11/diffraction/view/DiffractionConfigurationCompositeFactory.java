@@ -96,7 +96,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	public DiffractionConfigurationCompositeFactory(AcquisitionController<ScanningAcquisition> controller) {
 		super();
 		this.controller = controller;
-		this.templateHelper = new TemplateDataHelper(getTemplateData());
+		this.templateHelper = new TemplateDataHelper(controller::getAcquisition);
 		// create and initialise the controller to manage updates to the selected region and path
 		viewUpdater = this::updateView;
 		rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
@@ -104,13 +104,14 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
 		smController.initialise();
 
-		stf = new ShapesTemplateFactory(viewDBC, getTemplateData(), rapController);
-		DiffractionCompositeInterface dcf = new DensityCompositeFactory(viewDBC, regionDBC, getTemplateData(),
+		stf = new ShapesTemplateFactory(viewDBC, controller::getAcquisition, rapController);
+		DiffractionCompositeInterface dcf = new DensityCompositeFactory(viewDBC, regionDBC, controller::getAcquisition,
 				stf.getSelectedShape());
-		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(viewDBC, regionDBC, getTemplateData(),
+		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(viewDBC, regionDBC, controller::getAcquisition,
 				stf.getSelectedShape(), rapController, smController);
 		DiffractionCompositeInterface scf = new SummaryCompositeFactory(regionDBC,
-				stf.getMappingScanRegionShapeObservableValue(), stf.getSelectedShape(), rapController);
+				stf.getMappingScanRegionShapeObservableValue(),
+				stf.getSelectedShape(), rapController, controller::getAcquisition);
 
 		components.add(stf);
 		components.add(dcf);

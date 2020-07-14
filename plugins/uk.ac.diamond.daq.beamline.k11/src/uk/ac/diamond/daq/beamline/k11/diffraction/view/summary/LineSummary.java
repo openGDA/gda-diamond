@@ -19,8 +19,11 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * Formats a report for {@link ShapeType#LINE} elements
@@ -36,10 +39,11 @@ public class LineSummary extends ShapeSummaryBase {
 	private double xStop;
 	private double yStart;
 	private double yStop;
-	private int points;
 
-	public LineSummary(Consumer<String> printOut) {
-		super(printOut);
+	public LineSummary(Consumer<String> printOut, Supplier<ScanningAcquisition> acquisitionSupplier) {
+		super(printOut, acquisitionSupplier);
+		SpringApplicationContextProxy.addDisposableApplicationListener(this,
+				new ScanningAcquisitionListener(this, acquisitionSupplier));
 	}
 
 	public double getxStart() {
@@ -78,13 +82,8 @@ public class LineSummary extends ShapeSummaryBase {
 		printOut(toString());
 	}
 
-	public int getPoints() {
-		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
-		printOut(toString());
+	private int getPoints() {
+		return getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0).getPoints();
 	}
 
 	public boolean isAlternating() {
@@ -107,13 +106,15 @@ public class LineSummary extends ShapeSummaryBase {
 
 	@Override
 	public String toString() {
+		double step = Math.sqrt(Math.pow(xStop - xStart, 2) + Math.pow(yStop - yStart, 2)) / getPoints();
+		double duration = getPoints() * getExposure();
 		return String.format(
-				"Line\n" + "Start: [%.1f,%.1f], End: [%.1f,%.1f]\n" + "Points: [%d]\n" + printOutMutators(),
-				xStart, yStart, xStop, yStop, points);
+				"Line%nStart: [%.1f,%.1f], End: [%.1f,%.1f]%nPoints: [%d]%nStep: [%.1f] Duration: %.1fs %n%s", xStart,
+				yStart, xStop, yStop, getPoints(), step, duration, printOutMutators());
 	}
 
 	private String printOutMutators() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (isContinuous()) {
 			sb.append("Continuous ");
 		} else {

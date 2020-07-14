@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.eclipse.core.databinding.Binding;
@@ -45,6 +46,7 @@ import org.eclipse.swt.widgets.Composite;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -52,8 +54,8 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
 /**
  * Components representing the GUI summary element per {@link ShapeType}. As not all the elements are available through
  * the update {@link IScanPointGeneratorModel}, some properties are binded/retrieved using
- * {@link RegionAndPathController}. In both cases to simplify the code specific {@link ShapeSummaryBase} property
- * names match the ones in {@link IScanPointGeneratorModel} or {@link RegionAndPathController}.
+ * {@link RegionAndPathController}. In both cases to simplify the code specific {@link ShapeSummaryBase} property names
+ * match the ones in {@link IScanPointGeneratorModel} or {@link RegionAndPathController}.
  *
  * @author Maurizio Nagni
  */
@@ -63,6 +65,7 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
 	private final IObservableValue<IMappingScanRegionShape> mbShapeObservableValue;
 	private final SelectObservableValue<ShapeType> selectedShape;
+	private final Supplier<ScanningAcquisition> acquisitionSupplier;
 
 	private final RegionAndPathController rapController;
 
@@ -73,12 +76,14 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
 	public SummaryCompositeFactory(DataBindingContext regionDBC,
 			IObservableValue<IMappingScanRegionShape> mbShapeObservableValue,
-			SelectObservableValue<ShapeType> selectedShape, RegionAndPathController rapController) {
+			SelectObservableValue<ShapeType> selectedShape, RegionAndPathController rapController,
+			Supplier<ScanningAcquisition> acquisitionSupplier) {
 		super();
 		this.regionDBC = regionDBC;
 		this.mbShapeObservableValue = mbShapeObservableValue;
 		this.selectedShape = selectedShape;
 		this.rapController = rapController;
+		this.acquisitionSupplier = acquisitionSupplier;
 	}
 
 	@Override
@@ -114,9 +119,10 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 		summaryText.setFont(new Font(parent.getDisplay(), new FontData("PT Sans Narrow", 13, SWT.NONE)));
 		summaryText.setCaret(null);
 		summaryText.setEditable(false);
-		summaryMap.put(ShapeType.POINT, new PointSummary(summaryText::setText));
-		summaryMap.put(ShapeType.LINE, new LineSummary(summaryText::setText));
-		summaryMap.put(ShapeType.CENTRED_RECTANGLE, new CentredRectangleSummary(summaryText::setText));
+		summaryMap.put(ShapeType.POINT, new PointSummary(summaryText::setText, acquisitionSupplier));
+		summaryMap.put(ShapeType.LINE, new LineSummary(summaryText::setText, acquisitionSupplier));
+		summaryMap.put(ShapeType.CENTRED_RECTANGLE,
+				new CentredRectangleSummary(summaryText::setText, acquisitionSupplier));
 	}
 
 	/**

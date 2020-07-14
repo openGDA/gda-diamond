@@ -18,21 +18,24 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.density;
 
+import java.util.function.Supplier;
+
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.TemplateHelperBase;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 
 public class DensityTemplateDataHelper extends TemplateHelperBase {
 
-	public DensityTemplateDataHelper(ScanningParameters templateData) {
-		super(templateData);
+	public DensityTemplateDataHelper(Supplier<ScanningAcquisition> acquisitionSupplier) {
+		super(acquisitionSupplier);
 	}
 
 	public void updateTemplateData(int points) {
 		getShapeType().ifPresent(shape -> updateTemplateData(shape, points));
 		if (getLogger().isDebugEnabled()) {
-			getLogger().debug(getTemplateData().toString());
+			getLogger().debug(getScanningParameters().toString());
 		}
+		publishAcquisitionChanged();
 	}
 
 	private void updateTemplateData(ShapeType shapeType, int points) {
