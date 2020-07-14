@@ -82,6 +82,7 @@
 	<import resource="epics/detector/dataFileMonitor.xml" />
 	<import resource="epics/detector/pco1_ndplugins.xml" />
 	<import resource="epics/detector/pco1.xml" />
+	<import resource="epics/detector/pslv1.xml" />
 	<import resource="zebra.xml" />
 	<import resource="epics/detector/zebra.xml" />
 	<import resource="epics/detector/zylar.xml" /> <!-- temporary, from I16 -->
