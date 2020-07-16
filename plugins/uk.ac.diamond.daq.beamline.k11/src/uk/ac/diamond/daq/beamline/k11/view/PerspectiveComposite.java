@@ -18,7 +18,11 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import static uk.ac.gda.ui.tool.ClientMessages.MODE;
+import static uk.ac.gda.ui.tool.ClientMessages.MODE_TP;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createCombo;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -44,8 +48,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated;
 import uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot;
 import uk.ac.diamond.daq.beamline.k11.perspective.Tomography;
-import uk.ac.gda.ui.tool.ClientMessages;
-import uk.ac.gda.ui.tool.ClientSWTElements;
 
 /**
  * Drop-down list to switch between different perspectives
@@ -104,11 +106,11 @@ public class PerspectiveComposite {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildModeComposite() {
-		Label label = createClientLabel(getParent(), SWT.NONE, ClientMessages.MODE);
-		ClientSWTElements.createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(label);
+		Label label = createClientLabel(getParent(), SWT.NONE, MODE);
+		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(label);
 
-		modeCombo = ClientSWTElements.createCombo(parent, SWT.READ_ONLY, getTypes(), ClientMessages.MODE_TP);
-		ClientSWTElements.createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(modeCombo);
+		modeCombo = createCombo(parent, SWT.READ_ONLY, getTypes(), MODE_TP);
+		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(modeCombo);
 
 		comboModeSelectionListener();
 		setModeComboSelection(getActiveWindow().getActivePage().getPerspective().getId());

@@ -20,6 +20,10 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.POLICY_NEVER;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.mappingRegionShapeToShape;
+import static uk.ac.gda.ui.tool.ClientMessages.SUMMARY;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -34,14 +38,12 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
@@ -49,7 +51,7 @@ import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
-import uk.ac.gda.ui.tool.ClientSWTElements;
+import uk.ac.gda.ui.tool.ClientResourceManager;
 
 /**
  * Components representing the GUI summary element per {@link ShapeType}. As not all the elements are available through
@@ -91,9 +93,13 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		container = ClientSWTElements.createComposite(parent, SWT.NONE, 1);
+		container = createClientCompositeWithGridLayout(parent, style, 1);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
+
+		Label label = createClientLabel(container, style, SUMMARY);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
+
 		createControl(container);
-		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(container);
 		return parent;
 	}
 
@@ -119,13 +125,14 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 		summaryText = new StyledText(parent, SWT.BORDER);
 		summaryText.setMargins(PADDING, PADDING, PADDING, PADDING);
 		summaryText.setWordWrap(true);
-		summaryText.setFont(new Font(parent.getDisplay(), new FontData("PT Sans Narrow", 13, SWT.NONE)));
+		summaryText.setFont(ClientResourceManager.getInstance().getTextDefaultItalicFont());
 		summaryText.setCaret(null);
 		summaryText.setEditable(false);
 		summaryMap.put(ShapeType.POINT, new PointSummary(summaryText::setText, acquisitionSupplier));
 		summaryMap.put(ShapeType.LINE, new LineSummary(summaryText::setText, acquisitionSupplier));
 		summaryMap.put(ShapeType.CENTRED_RECTANGLE,
 				new CentredRectangleSummary(summaryText::setText, acquisitionSupplier));
+		createClientGridDataFactory().applyTo(summaryText);
 	}
 
 	/**

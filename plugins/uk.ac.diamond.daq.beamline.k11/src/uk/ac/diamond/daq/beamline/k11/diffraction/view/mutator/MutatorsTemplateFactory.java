@@ -18,8 +18,13 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator;
 
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.POLICY_NEVER;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.scanPathToRandomised;
+import static uk.ac.gda.ui.tool.ClientMessages.MUTATORS_MODE;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -32,7 +37,6 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.conversion.IConverter;
-import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
@@ -44,9 +48,9 @@ import org.eclipse.scanning.api.points.models.IScanPathModel;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
@@ -56,8 +60,6 @@ import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
-import uk.ac.gda.ui.tool.ClientMessages;
-import uk.ac.gda.ui.tool.ClientSWTElements;
 
 /**
  * Components representing the GUI mutators elements
@@ -93,12 +95,15 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		Composite container = ClientSWTElements.createComposite(parent, SWT.NONE, 1);
-		ClientSWTElements.createLabel(container, SWT.NONE, ClientMessages.SHAPE);
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
 
-		mutators.add(new AlternatingMutator(mutatorListener));
-		mutators.add(new ContinuousMutator(mutatorListener));
-		mutators.add(new RandomMutator(mutatorListener));
+		Label label = createClientLabel(container, style, MUTATORS_MODE);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
+
+		mutators.add(new AlternatingMutator(widgetSelectedAdapter(this::mutatorListener)));
+		mutators.add(new ContinuousMutator(widgetSelectedAdapter(this::mutatorListener)));
+		mutators.add(new RandomMutator(widgetSelectedAdapter(this::mutatorListener)));
 
 		mutators.stream().forEach(s -> s.createComposite(container, style));
 
@@ -110,23 +115,19 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	@Override
 	public void bindControls() {
 		mutators.stream().forEach(m -> bindMutatorCheckboxWidget(m.getMutatorDefinition().getValue(), m.filterShape()));
-		selectedShapeObservable.addChangeListener(new IChangeListener() {
-			@Override
-			public void handleChange(ChangeEvent event) {
-				ShapeType shapeType = ShapeType.class.cast(((SelectObservableValue)event.getObservable()).getValue());  //<-- ShapeType
-				mutators.stream().forEach(m -> {
-					Button mutator = m.getMutatorDefinition().getValue();
-					mutator.setSelection(false);
-					if(m.acceptShape(shapeType)) {
-						mutator.setVisible(true);
-					} else {
-						mutator.setVisible(false);
-					}
-					updateMutator(mutator);
-				});
-			}
-		});
+		selectedShapeObservable.addChangeListener(selectedShapedListener);
 	}
+
+	IChangeListener selectedShapedListener = event -> {
+		ShapeType shapeType = ShapeType.class.cast(((SelectObservableValue<?>) event.getObservable()).getValue()); // <--
+		// ShapeType
+		mutators.stream().forEach(m -> {
+			Button mutator = m.getMutatorDefinition().getValue();
+			mutator.setSelection(false);
+			mutator.setVisible(m.acceptShape(shapeType));
+			updateMutator(mutator);
+		});
+	};
 
 	@Override
 	public void updateScanPointBindings(final IScanPointGeneratorModel newPathValue, ShapeType shapeType) {
@@ -144,17 +145,9 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 				POLICY_NEVER);
 	}
 
-	private SelectionListener mutatorListener = new SelectionListener() {
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			updateMutator(Button.class.cast(e.getSource()));
-		}
-
-		@Override
-		public void widgetDefaultSelected(SelectionEvent e) {
-			// do nothing
-		}
-	};
+	private void mutatorListener(SelectionEvent event) {
+		updateMutator(Button.class.cast(event.getSource()));
+	}
 
 	private void updateMutator(Button mutator) {
 		// updates the mutators list into the templateData collecting data from the selected check boxes
@@ -214,12 +207,6 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 			getRapController().triggerRegionUpdate(selectedMSRSObservable);
 		}
 	};
-
-	// private IStatus changeGridModelValidator(Object stringContent) {
-	// return rapController.getScanRegionShape().getName()
-	// .equalsIgnoreCase(ShapeType.CENTRED_RECTANGLE.getMappingScanRegionName()) ? ValidationStatus.ok()
-	// : ValidationStatus.error("");
-	// }
 
 	@SuppressWarnings("unchecked")
 	private IObservableValue<IScanPathModel> getMappingBeanPathObservableValue() {

@@ -22,6 +22,14 @@ import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionComposi
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.POLICY_UPDATE;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.integerToString;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.stringToInteger;
+import static uk.ac.gda.ui.tool.ClientMessages.POINTS_DENSITY;
+import static uk.ac.gda.ui.tool.ClientMessages.POINTS_PER_SIDE;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientText;
+import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyIntegerText;
+import static uk.ac.gda.ui.tool.images.ClientImages.EXCLAMATION_RED;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -44,6 +52,7 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
 
@@ -52,10 +61,7 @@ import com.google.common.primitives.Ints;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
-import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
-import uk.ac.gda.ui.tool.ClientVerifyListener;
-import uk.ac.gda.ui.tool.images.ClientImages;
 
 /**
  * Component representing the GUI density elements
@@ -94,11 +100,13 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		final Composite shapesComposite = ClientSWTElements.createComposite(parent, SWT.NONE);
-		ClientSWTElements.createLabel(shapesComposite, SWT.NONE, ClientMessages.POINTS_DENSITY);
-		final Composite content = ClientSWTElements.createComposite(shapesComposite, SWT.NONE, 2);
+		Composite container = createClientCompositeWithGridLayout(parent, style, 2);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
 
-		densityScale = new Scale(content, SWT.VERTICAL);
+		Label label = createClientLabel(container, style, POINTS_DENSITY);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
+
+		densityScale = new Scale(container, SWT.VERTICAL);
 		densityScale.setMinimum(1);
 		densityScale.setMaximum(HALF_RANGE + HALF_RANGE);
 		densityScale.setSelection(HALF_RANGE);
@@ -106,12 +114,12 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		densityScale.setPageIncrement(HALF_RANGE);
 		densityScale.setToolTipText("Set number of points per side of the region");
 
-		points = ClientSWTElements.createText(content, SWT.BORDER, ClientVerifyListener.verifyOnlyIntegerText, null,
-				ClientMessages.POINTS_PER_SIDE, null);
+		points = createClientText(container, SWT.BORDER, POINTS_PER_SIDE, Optional.ofNullable(verifyOnlyIntegerText));
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.CENTER).applyTo(points);
 		points.setText(String.valueOf(densityScale.getSelection()));
 
 		readoutTextDecoration = new ControlDecoration(points, SWT.LEFT | SWT.TOP);
-		readoutTextDecoration.setImage(ClientSWTElements.getImage(ClientImages.EXCLAMATION_RED));
+		readoutTextDecoration.setImage(ClientSWTElements.getImage(EXCLAMATION_RED));
 		readoutTextDecoration.setDescriptionText("Please enter an integer value between 1 and 50 inclusive");
 		return parent;
 	}

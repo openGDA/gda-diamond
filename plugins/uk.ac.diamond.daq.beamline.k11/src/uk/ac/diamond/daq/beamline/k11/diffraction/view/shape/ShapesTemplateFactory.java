@@ -19,6 +19,15 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.shape;
 
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.mappingRegionShapeToShape;
+import static uk.ac.gda.ui.tool.ClientMessages.CENTERED_RECTANGULAR_SHAPE_TP;
+import static uk.ac.gda.ui.tool.ClientMessages.LINE_SHAPE_TP;
+import static uk.ac.gda.ui.tool.ClientMessages.POINT_SHAPE_TP;
+import static uk.ac.gda.ui.tool.ClientMessages.SHAPE;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+import static uk.ac.gda.ui.tool.images.ClientImages.CENTERED_RECTAGLE;
+import static uk.ac.gda.ui.tool.images.ClientImages.LINE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +53,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Widget;
 
@@ -57,7 +67,6 @@ import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.gda.ui.tool.ClientMessages;
-import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
 
 /**
@@ -110,12 +119,16 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		Composite container = ClientSWTElements.createComposite(parent, SWT.NONE, 1);
-		ClientSWTElements.createLabel(container, SWT.NONE, ClientMessages.SHAPE);
-		shapes.add(createShapeComposite(ShapeType.POINT, ClientMessages.POINT_SHAPE_TP, ClientImages.POINT));
-		shapes.add(createShapeComposite(ShapeType.CENTRED_RECTANGLE, ClientMessages.CENTERED_RECTANGULAR_SHAPE_TP,
-				ClientImages.CENTERED_RECTAGLE));
-		shapes.add(createShapeComposite(ShapeType.LINE, ClientMessages.LINE_SHAPE_TP, ClientImages.LINE));
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
+
+		Label label = createClientLabel(container, style, SHAPE);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, SWT.DEFAULT).applyTo(label);
+
+		shapes.add(createShapeComposite(ShapeType.POINT, POINT_SHAPE_TP, ClientImages.POINT));
+		shapes.add(createShapeComposite(ShapeType.CENTRED_RECTANGLE, CENTERED_RECTANGULAR_SHAPE_TP,
+				CENTERED_RECTAGLE));
+		shapes.add(createShapeComposite(ShapeType.LINE, LINE_SHAPE_TP, LINE));
 		shapes.stream().forEach(s -> s.createComposite(container, style));
 		return parent;
 	}
