@@ -29,6 +29,24 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- Merlin -->
+	<bean id="malcolmInfoMerlin" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Merlin" />
+		<property name="description" value="Merlin Malcolm scan" />
+	</bean>
+
+	<bean id="malcolmModelMerlin" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL13J-ML-SCAN-03" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDeviceMerlin" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL13J-ML-SCAN-03" />
+		<property name="model" ref="malcolmModelMerlin" />
+		<property name="deviceInformation" ref="malcolmInfoMerlin" />
+		<property name="activated" value="false" />
+	</bean>
+
 	<!-- PandA only -->
 	<bean id="malcolmInfoPanda" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="PandA only" />
@@ -44,6 +62,24 @@
 		<property name="name" value="BL13J-ML-SCAN-04" />
 		<property name="model" ref="malcolmModelPanda" />
 		<property name="deviceInformation" ref="malcolmInfoPanda" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Xspress -->
+	<bean id="malcolmInfoXspress" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Xspress" />
+		<property name="description" value="Xspress Malcolm scan" />
+	</bean>
+
+	<bean id="malcolmModelXspress" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL13J-ML-SCAN-05" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDeviceXspress" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL13J-ML-SCAN-05" />
+		<property name="model" ref="malcolmModelXspress" />
+		<property name="deviceInformation" ref="malcolmInfoXspress" />
 		<property name="activated" value="false" />
 	</bean>
 
