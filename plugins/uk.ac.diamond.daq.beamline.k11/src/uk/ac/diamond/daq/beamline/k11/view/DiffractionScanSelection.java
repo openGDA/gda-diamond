@@ -101,6 +101,7 @@ public class DiffractionScanSelection extends ViewPart {
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
+		builder.addNewSelectionListener(widgetSelectedAdapter(event -> controller.createNewAcquisition()));
 		builder.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
 		builder.addRunSelectionListener(widgetSelectedAdapter(this::submitExperiment));
 		builder.build().createComposite(parent, SWT.NONE);
