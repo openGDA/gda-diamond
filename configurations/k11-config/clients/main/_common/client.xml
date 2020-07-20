@@ -42,7 +42,5 @@
 	<import resource="mapping.xml"/>
 
 	<import resource="experiment.xml" />
-	
-	<import resource="workflow_controllers.xml" />
 
 </beans>
