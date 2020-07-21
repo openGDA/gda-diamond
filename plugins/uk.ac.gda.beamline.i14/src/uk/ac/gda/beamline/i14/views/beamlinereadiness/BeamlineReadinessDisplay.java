@@ -127,33 +127,10 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 		try {
 			logger.debug(
 					"intensity: {}, xPosition: {}, yPosition: {}, xSetpoint: {}, ySetpoint: {}, energy: {}, ringCurrent: {}, targetIntensity: {}",
-					formatIntensity(), xPosition.getPosition(), yPosition.getPosition(), xSetpoint.getPosition(),
+					getIntensity(), xPosition.getPosition(), yPosition.getPosition(), xSetpoint.getPosition(),
 					ySetpoint.getPosition(), energy.getPosition(), ringCurrent.getPosition(), getTargetIntensity((double) energy.getPosition()));
 		} catch (DeviceException e) {
 			logger.error("Error getting beamline state", e);
-		}
-	}
-
-	private String formatIntensity() {
-		try {
-			final Object value = intensity.getPosition();
-			if (value instanceof double[]) {
-				final double[] valueList = (double[]) value;
-				final StringBuilder sb = new StringBuilder("[");
-				for (int i = 0; i < valueList.length; i++) {
-					if (i > 0) {
-						sb.append(", ");
-					}
-					sb.append(valueList[i]);
-				}
-				sb.append("]");
-				return sb.toString();
-			} else {
-				return value.toString();
-			}
-		} catch (DeviceException e) {
-			logger.error("Error getting value of intensity", e);
-			return "(Error)";
 		}
 	}
 
