@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="classLoaderService" class="uk.ac.diamond.daq.persistence.classloader.PersistenceClassLoader" />
+
+	<bean id="visitService" class="uk.ac.diamond.daq.persistence.manager.GDAVisitService" />
+
+	<bean id="persistenceServiceWrapper" class="uk.ac.diamond.daq.persistence.manager.PersistenceServiceWrapper">
+		<constructor-arg name="persistenceServiceFactory" ref="persistenceServiceFactory" />
+	</bean>
+
+	<bean id="persistenceServiceFactory" class="uk.ac.diamond.daq.application.persistence.factory.impl.MongoPersistenceServiceFactory">
+		<constructor-arg name="databaseUrl" ref="mongodb_url" />
+		<constructor-arg name="databaseName" value="gda" />
+		<constructor-arg name="classLoaderService" ref="classLoaderService" />
+		<constructor-arg name="visitService" ref="visitService" />
+	</bean>
+
+</beans>
