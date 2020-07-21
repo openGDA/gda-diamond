@@ -12,6 +12,7 @@
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
+	<import resource="file://${gda.facility.dir}/clients/${gda.mode}/persistence.xml" />
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/rmi_imports.xml" />
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
 
@@ -24,6 +25,7 @@
 	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping_view.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/persistence.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/view_factories.xml" />
