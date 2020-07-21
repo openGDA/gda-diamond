@@ -215,13 +215,26 @@ ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt", gap_offset=igap_offse
 #ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt", feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])
 # print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
 # dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
-print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
-jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')
+#print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
+#jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')
 #jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt", feedbackPV='BL09J-EA-FDBK-01:ENABLE')
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 
+print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables."
+LH,LV,CR,CL=["LH","LV","CR","CL"]
+from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+
+jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True, gap_offset=igap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+jenergy.configure()
+polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True, gap_offset=igap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+polarisation.configure()
+jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", gap_offset=igap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+jenergypolarisation.configure()
+jenergypolarisation.setInputNames(["jenergy"])
+jenergypolarisation.setExtraNames(["polarisation"])
+print "-----------------------------------------------------------------------------------------------------------------"
 
 print "Create an 'analyserscan' command for scanning the electron analyser."
 from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
