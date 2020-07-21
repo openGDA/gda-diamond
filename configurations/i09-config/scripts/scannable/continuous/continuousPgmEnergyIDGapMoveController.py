@@ -29,11 +29,11 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self._movelog_time = datetime.now()
         self._energy = energy
         #PGM
-        self._pgm_energy=self._energy.scannables.getGroupMemberByName("pgmenergy")
+        self._pgm_energy=self._energy.scannables.getGroupMember("pgmenergy")
         self._pgm_energy_speed_orig = None
         self._pgm_runupdown_time = None
         #ID
-        self._id_gap=self._energy.scannables.getGroupMemberByName("jgap")
+        self._id_gap=self._energy.scannables.getGroupMember("jgap")
         self._id_gap_speed_orig=None
         self._id_runupdown_time = None
         self.idpvs = PvManager({'vel':'BLGSETVEL',
