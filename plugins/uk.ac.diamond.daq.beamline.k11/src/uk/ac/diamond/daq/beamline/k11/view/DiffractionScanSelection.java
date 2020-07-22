@@ -49,7 +49,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationCompositeFactory;
@@ -63,10 +62,6 @@ import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
-import uk.ac.diamond.daq.mapping.ui.experiment.file.FileScanSaver;
-import uk.ac.diamond.daq.mapping.ui.experiment.file.SavedScanMetaData;
-import uk.ac.diamond.daq.mapping.ui.experiment.saver.PersistenceScanSaver;
-import uk.ac.diamond.daq.mapping.ui.experiment.saver.ScanSaver;
 import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
@@ -85,10 +80,8 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private AcquisitionController<ScanningAcquisition> controller;
 
-	private DiffractionConfigurationCompositeFactory dcf;
 	private ScanManagementController smController;
 	private PointAndShootController pointAndShootController;
-	private ScanSaver scanSaver;
 	private Button pointAndShoot;
 
 	private LayoutUtilities layoutUtils = new LayoutUtilities();
@@ -108,7 +101,7 @@ public class DiffractionScanSelection extends ViewPart {
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
-		builder.addSaveSelectionListener(widgetSelectedAdapter(this::save));
+		builder.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
 		builder.addRunSelectionListener(widgetSelectedAdapter(this::submitExperiment));
 		builder.build().createComposite(parent, SWT.NONE);
 
@@ -143,8 +136,8 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private void buildDiffractionPathComposite(Composite parent) {
 		Group group = ClientSWTElements.createGroup(parent, 1, DIFFRACTION_SCAN_PATH);
-		dcf = new DiffractionConfigurationCompositeFactory(controller);
-		dcf.createComposite(group, SWT.NONE);
+		DiffractionConfigurationCompositeFactory factory = new DiffractionConfigurationCompositeFactory(controller);
+		factory.createComposite(group, SWT.NONE);
 	}
 
 	private CompositeFactory getTopArea() {
@@ -163,8 +156,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private void buildSavedComposite(Composite parent) {
 		Group group = ClientSWTElements.createGroup(parent, 1, SAVED_SCAN_DEFINITION);
-		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<SavedScanMetaData>(
-				new MapBrowser(getScanSaver()));
+		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<>(new MapBrowser(controller));
 		layoutUtils.fillGrab().applyTo(cf.createComposite(group, SWT.BORDER));
 	}
 
@@ -175,8 +167,12 @@ public class DiffractionScanSelection extends ViewPart {
 		};
 	}
 
-	private void save(SelectionEvent event) {
-		getScanSaver().save();
+	private void save() {
+		try {
+			controller.saveAcquisitionConfiguration();
+		} catch (AcquisitionControllerException e) {
+			UIHelper.showError("Cannot save acquisition", e, logger);
+		}
 	}
 
 	private void submitExperiment(SelectionEvent event) {
@@ -209,17 +205,6 @@ public class DiffractionScanSelection extends ViewPart {
 		smController.submitScan(acquisitionOutput, getAcquisition());
 		getAcquisition().setAcquisitionLocation(acquisitionOutput);
 		controller.runAcquisition();
-	}
-
-	private ScanSaver getScanSaver() {
-		if (scanSaver == null) {
-			if (LocalProperties.isPersistenceServiceAvailable()) {
-				scanSaver = new PersistenceScanSaver(dcf::load, smController);
-			} else {
-				scanSaver = new FileScanSaver(dcf::load, smController);
-			}
-		}
-		return scanSaver;
 	}
 
 	private void togglePointAndShoot() {
@@ -275,10 +260,6 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private AcquisitionController<ScanningAcquisition> getController() {
 		return controller;
-	}
-
-	private ScanningParameters getTemplateData() {
-		return getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 
 	private Optional<ExperimentController> getExperimentController() {
