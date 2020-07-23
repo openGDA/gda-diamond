@@ -46,8 +46,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/malcolm.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
-	
-	<import resource="file:${gda.config}/servers/main/_common/cluster_processing.xml"/>
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />

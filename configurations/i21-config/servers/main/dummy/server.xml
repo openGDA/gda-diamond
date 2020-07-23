@@ -6,7 +6,6 @@
 	<import resource="../../../properties/_common/gdaProperties.xml"/>
 
 	<import resource="devices/_all.xml"/>
-	<import resource="clusterProcessingDevice.xml"/>
 
 	<!-- add dummy motors from dls-config  for solstice scanning testing-->
 	<import resource="../../../../../dls-config/servers/dummy/mapping_motors.xml"/> <!-- Dummy motor -->

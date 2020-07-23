@@ -44,7 +44,6 @@
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/processing.xml" />
 
  	<import resource="file:${gda.config}/servers/main/_common/devices/andor_stage.xml" />
 	<import resource="file://${gda.facility.dir}/servers/_common/beam_watchdogs.xml" />

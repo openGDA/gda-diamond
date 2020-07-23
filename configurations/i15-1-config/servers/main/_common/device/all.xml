@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<import resource="detectorProcessing.xml"/>
 	<import resource="dummy.xml"/>
 	<import resource="I15-1-JADC1.xml"/>
 	<import resource="I15-1-JBPM1.xml"/>

@@ -2,7 +2,7 @@
 
 import sys
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialMultiStepModel
-from org.eclipse.scanning.api.device.models import ClusterProcessingModel
+from mapping_scan_commands import submit
 
 def run_xanes_scan_request(scanRequest, xanesEdgeParams):
     try:
@@ -37,14 +37,11 @@ def run_scan_request(scanRequest, xanesEdgeParams):
     print("Bounding box for map: {}".format(map_box))
 
     # Extract processing file name.
-    # Processing is treated as a detector described by a ClusterProcessingModel
-    detectors = scanRequest.getDetectors()
-    for d in detectors:
-        detector = detectors[d]
-        if isinstance(detector, ClusterProcessingModel):
-            processing_file_path = detector.getProcessingFilePath()
-            print("Processing file: {}".format(processing_file_path))
-            break
+    processingRequest = scanRequest.getProcessingRequest()
+    if not processingRequest is None:
+        request = processingRequest.getRequest()
+        if not request is None:
+            print("Processing request: {}".format(request))
 
     # Set ROIs to null, as they will interfere with the bounding box of the map
     compound_model.setRegions(None)
