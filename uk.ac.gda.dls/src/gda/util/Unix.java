@@ -228,28 +228,6 @@ public class Unix {
 	}
 
 	/**
-	 * Start the firewire digital camera program. This C daemon interfaces to digital cameras over firewire. It accepts
-	 * commands as strings over a socket to grab an image.
-	 *
-	 * @throws Exception
-	 */
-	public static void startFirewireCameraDaemon() throws Exception {
-		start(LocalProperties.get("gda.firewireCameraCommand"));
-	}
-
-	/**
-	 * Stop the firewire digital camera program. This C daemon interfaces to digital cameras over firewire. It accepts
-	 * commands as strings over a socket to grab an image.
-	 */
-	public static void stopFirewireCameraDaemon() {
-		try {
-			stop(LocalProperties.get("gda.firewireCameraCommand"));
-		} catch (Exception ex) {
-			logger.debug(ex.getMessage());
-		}
-	}
-
-	/**
 	 * Start the grip program for controlling the Rigaku MSC automatic sample changer. This can be used interactively or
 	 * accepts commands as strings over a socket.
 	 *
