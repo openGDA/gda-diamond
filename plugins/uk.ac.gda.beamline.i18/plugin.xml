@@ -169,6 +169,18 @@
          </separator>
       </menuContribution>
       <menuContribution
+      		locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+      	 <toolbar
+      	 		id="uk.ac.gda.client.exafs.toolbar1">
+      	 	<command
+      	 		  commandId="uk.ac.gda.client.exafs.resetperspective"
+      	 		  label="Reset perspective"
+      	 		  style="push"
+      	 		  tooltip="Resets the current perspective to its default layout">
+      	 	</command>
+      	 </toolbar>
+      </menuContribution>
+      <menuContribution
             allPopups="false"
             locationURI="menu:window?after=showView">
          <menu
@@ -225,6 +237,14 @@
                visible="true">
          </separator>
       </menuContribution>
+   </extension>
+   <extension
+   		 point="org.eclipse.ui.commands">
+   	  <command
+   	  		defaultHandler="org.eclipse.ui.internal.handlers.ResetPerspectiveHandler"
+   	  		id="uk.ac.gda.client.exafs.resetperspective"
+   	  		name="Reset Perspective">
+   	  </command>
    </extension>
    <extension
          point="uk.ac.gda.microfocus.display.default.detectorfile">
