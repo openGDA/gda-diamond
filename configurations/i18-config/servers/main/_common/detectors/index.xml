@@ -27,7 +27,5 @@
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/vma_motions.xml" />
 	<import resource="vma_motions.xml" />
-	
-	<import resource="processing.xml" />
 
 </beans>
