@@ -28,6 +28,10 @@ import static uk.ac.gda.ui.tool.ClientMessages.START_POINT_AND_SHOOT_TP;
 import static uk.ac.gda.ui.tool.ClientMessages.STOP;
 import static uk.ac.gda.ui.tool.ClientMessages.STOP_POINT_AND_SHOOT_TP;
 import static uk.ac.gda.ui.tool.ClientMessagesUtility.getMessage;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
+import static uk.ac.gda.ui.tool.ClientSWTElements.updateButton;
 
 import java.net.URL;
 import java.util.Optional;
@@ -37,8 +41,6 @@ import java.util.function.Supplier;
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MappedDataView;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -104,7 +106,11 @@ public class DiffractionScanSelection extends ViewPart {
 		builder.addNewSelectionListener(widgetSelectedAdapter(event -> controller.createNewAcquisition()));
 		builder.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
 		builder.addRunSelectionListener(widgetSelectedAdapter(this::submitExperiment));
-		builder.build().createComposite(parent, SWT.NONE);
+
+		Composite container = ClientSWTElements.createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
+		ClientSWTElements.createClientGridDataFactory().applyTo(container);
+
+		builder.build().createComposite(container, SWT.NONE);
 
 		prepareMapEvents();
 		MappingServices.updateDetectorParameters();
@@ -132,11 +138,14 @@ public class DiffractionScanSelection extends ViewPart {
 
 	@SuppressWarnings("unchecked")
 	private AcquisitionController<ScanningAcquisition> getPerspectiveController() {
-		return (AcquisitionController<ScanningAcquisition>)SpringApplicationContextProxy.getBean("scanningAcquisitionController", AcquisitionType.DIFFRACTION);
+		return (AcquisitionController<ScanningAcquisition>) SpringApplicationContextProxy
+				.getBean("scanningAcquisitionController", AcquisitionType.DIFFRACTION);
 	}
 
 	private void buildDiffractionPathComposite(Composite parent) {
-		Group group = ClientSWTElements.createGroup(parent, 1, DIFFRACTION_SCAN_PATH);
+		Group group = createClientGroup(parent, SWT.NONE, 1, DIFFRACTION_SCAN_PATH);
+		createClientGridDataFactory().applyTo(group);
+
 		DiffractionConfigurationCompositeFactory factory = new DiffractionConfigurationCompositeFactory(controller);
 		factory.createComposite(group, SWT.NONE);
 	}
@@ -144,19 +153,21 @@ public class DiffractionScanSelection extends ViewPart {
 	private CompositeFactory getTopArea() {
 		return (parent, style) -> {
 			buildDiffractionPathComposite(parent);
-			Group group = ClientSWTElements.createGroup(parent, 1, POINT_AND_SHOOT);
-			GridLayoutFactory.fillDefaults().applyTo(group);
-			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).applyTo(group);
+			Group group = createClientGroup(parent, SWT.NONE, 1, POINT_AND_SHOOT);
+			createClientGridDataFactory().applyTo(group);
 
-			pointAndShoot = ClientSWTElements.createButton(group, SWT.NONE, START, START_POINT_AND_SHOOT_TP,
-					ClientImages.RUN);
+			pointAndShoot = createClientButton(group, SWT.NONE, START, START_POINT_AND_SHOOT_TP, ClientImages.RUN);
+			createClientGridDataFactory().applyTo(pointAndShoot);
+
 			pointAndShoot.addListener(SWT.Selection, e -> togglePointAndShoot());
 			return parent;
 		};
 	}
 
 	private void buildSavedComposite(Composite parent) {
-		Group group = ClientSWTElements.createGroup(parent, 1, SAVED_SCAN_DEFINITION);
+		Group group = createClientGroup(parent, SWT.NONE, 1, SAVED_SCAN_DEFINITION);
+		createClientGridDataFactory().applyTo(group);
+
 		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<>(new MapBrowser(controller));
 		layoutUtils.fillGrab().applyTo(cf.createComposite(group, SWT.BORDER));
 	}
@@ -226,7 +237,7 @@ public class DiffractionScanSelection extends ViewPart {
 		if (experimentController.isExperimentInProgress()) {
 			try {
 				pointAndShootController = new PointAndShootController(getAcquisitionName(), experimentController);
-				ClientSWTElements.updateButton(pointAndShoot, STOP, STOP_POINT_AND_SHOOT_TP, ClientImages.STOP);
+				updateButton(pointAndShoot, STOP, STOP_POINT_AND_SHOOT_TP, ClientImages.STOP);
 				getMapPlottingSystem().setTitle("Point and Shoot: Ctrl+Click to scan");
 			} catch (ExperimentControllerException e) {
 				UIHelper.showError(getMessage(CANNOT_START_POINT_AND_SHOOT_SESSION), e);
@@ -240,7 +251,7 @@ public class DiffractionScanSelection extends ViewPart {
 		try {
 			pointAndShootController.endSession();
 			pointAndShootController = null;
-			ClientSWTElements.updateButton(pointAndShoot, START, START_POINT_AND_SHOOT_TP, ClientImages.RUN);
+			updateButton(pointAndShoot, START, START_POINT_AND_SHOOT_TP, ClientImages.RUN);
 			getMapPlottingSystem().setTitle(" ");
 		} catch (ExperimentControllerException e) {
 			UIHelper.showError("Cannot stop Point and Shoot session", e);
@@ -268,8 +279,9 @@ public class DiffractionScanSelection extends ViewPart {
 	}
 
 	/**
-	 * Creates a new {@link ScanningAcquisition} for a diffraction acquisition.
-	 * Note that the Detectors set by the {@link ScanningAcquisitionController#createNewAcquisition()}
+	 * Creates a new {@link ScanningAcquisition} for a diffraction acquisition. Note that the Detectors set by the
+	 * {@link ScanningAcquisitionController#createNewAcquisition()}
+	 *
 	 * @return
 	 */
 	private Supplier<ScanningAcquisition> newScanningAcquisition() {
