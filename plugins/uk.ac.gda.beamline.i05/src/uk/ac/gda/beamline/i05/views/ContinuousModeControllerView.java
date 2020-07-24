@@ -2,8 +2,12 @@ package uk.ac.gda.beamline.i05.views;
 
 import java.util.List;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+
+import com.swtdesigner.SWTResourceManager;
 
 import gda.factory.Finder;
 import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
@@ -25,7 +29,14 @@ public class ContinuousModeControllerView extends ViewPart {
 		// TODO Might actually want to handle the case where more than on
 		final IVGScientaAnalyserRMI analyserRmiProxy = analyserRmiList.get(0);
 
-		continuousModeControllerComposite = new ContinuousModeControllerComposite(parent, analyserRmiProxy);
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL);
+		scroller.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		continuousModeControllerComposite = new ContinuousModeControllerComposite(scroller, analyserRmiProxy);
+		scroller.setContent(continuousModeControllerComposite);
+		scroller.setExpandHorizontal(true);
+		scroller.setExpandVertical(true);
+		scroller.setMinSize(continuousModeControllerComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	@Override
