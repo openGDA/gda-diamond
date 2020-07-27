@@ -29,7 +29,6 @@
 				<pathelement location="${workspace.git.loc}/gda-common.git/uk.ac.gda.common/bin" />
 				<pathelement location="${workspace.git.loc}/gda-common-rcp.git/uk.ac.gda.common.rcp/bin" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.core/classes/main" />
-				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.core/classes/test" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.client/bin" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.client.experimentdefinition/bin" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.diamond.daq.client.gui.rcpcontroller/bin" />
