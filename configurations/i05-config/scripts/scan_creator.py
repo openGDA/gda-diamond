@@ -51,8 +51,8 @@ class ScanCreator:
             scan_group = ScannableGroup()
             self.insert_into_namespace("scan_group", scan_group)
         else:
-            for member in scan_group.getGroupMemberNames():
-                scan_group.removeGroupMember(member)
+            for member in scan_group.getGroupMembers():
+                scan_group.removeGroupMemberByScannable(member)
 
         # Add the primary scannable to the group
         self.add_scannable_to_group(self.scannable_func_list[0])
