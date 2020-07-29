@@ -18,16 +18,21 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
 import uk.ac.diamond.daq.mapping.ui.controller.StageController;
 import uk.ac.diamond.daq.mapping.ui.stage.IStageController;
+import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientResourceManager;
-import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
@@ -40,9 +45,11 @@ public class PerspectiveDashboard extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		final Composite composite = ClientSWTElements.createComposite(parent, SWT.NONE, 1);
-		ClientSWTElements.createLabel(composite, SWT.NONE, "DIAD",
+		final Composite composite = createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
+
+		Label labelName = createClientLabel(composite, SWT.NONE, ClientMessages.DIAD,
 				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, 5).applyTo(labelName);
 
 		PerspectiveComposite.buildModeComposite(composite, PerspectiveType.TOMOGRAPHY);
 		new PerspectiveDashboardCompositeFactory(getStageController()).createComposite(composite, SWT.NONE);
