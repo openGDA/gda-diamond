@@ -64,10 +64,6 @@ print "Adding timer devices t, dt, and w, clock"
 from gdascripts.scannable.timerelated import timerelated #@UnusedImport
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Adding timer devices t, dt, and w, clock"
-print "Adding dummy devices dummies.x, dummies.y and dummies.z"
-dummies = ScannableGroup()
-dummies.setName("dummies")
-dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")])
 
 ds=DummyScannable("ds")
 

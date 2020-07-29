@@ -224,20 +224,32 @@ scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from data_process.scanDataProcess import *  # @UnusedWildImport
 
-#Continuous Scan scannables and commands
-from scannable.id_energys.idu_energy_gap import * # @UnusedWildImport
-from scannable.id_energys.idd_energy_gap import *  # @UnusedWildImport
-from scannable.id_energys.idu_energy_jawphase import *  # @UnusedWildImport
-from scannable.id_energys.idd_lin_energy import * # @UnusedWildImport
-from scannable.id_energys.idu_switchable import *  # @UnusedWildImport
-from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
-from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
-from scan.cvscan import cvscan, cvscan2 # @UnusedImport
+#####source_polarisation specific energy scannables - using lookup table individually
+# from scannable.id_energys.idu_energy_gap import * # @UnusedWildImport
+# from scannable.id_energys.idd_energy_gap import *  # @UnusedWildImport
+# from scannable.id_energys.idu_energy_jawphase import *  # @UnusedWildImport
+# from scannable.id_energys.idd_lin_energy import * # @UnusedWildImport
+# from scannable.id_energys.idu_switchable import *  # @UnusedWildImport
+# from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
+#####create 'smode', 'pol', and 'energy' - using source polarisation specific energy scannables
+# from scannable.idcontrols.mode_polarisation_energy_instances import *  # @UnusedWildImport
+# idd,idu,unknown = SourceMode.SOURCE_MODES
+# pc,nc,lh,lv,la,lh3,unknown = Polarisation.POLARISATIONS
+#####Continuous Scan scannables and commands - support egy, egy_g, and 'energy'
+#from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
+#from scan.cvscan_0 import cvscan, cvscan2  # @UnusedImport
+
+#####
+from calibrations.mode_polarisation_energy_instances import smode, pol, energy_s, energy_pol, setBeamHarmonicsOrder, initialisation  # @UnusedImport
+from calibrations.xraysource import X_RAY_SOURCE_MODES
+from calibrations.energy_polarisation_class import X_RAY_POLARISATIONS
+idd,idu,unknown = X_RAY_SOURCE_MODES
+pc,nc,lh,lv,la,lh3,unknown = X_RAY_POLARISATIONS
+initialisation()
+
+from scannable.continuous.continuous_energy_scannables_new import energy, energy_controller, mcs16,mcs17,mcs18,mcs19  # @UnusedImport
+from scan.cvscan import cvscan  # @UnusedImport
 alias('cvscan')
-#create 'smode', 'pol', and 'enenry'
-from scannable.idcontrols.mode_polarisation_energy_instances import *  # @UnusedWildImport
-idd,idu,unknown = SourceMode.SOURCE_MODES
-pc,nc,lh,lv,la,lh3,unknown = Polarisation.POLARISATIONS
 
 print
 print "*"*80
