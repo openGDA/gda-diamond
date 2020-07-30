@@ -50,7 +50,6 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
         self.energy = energy
         self.idd = energy.idd
         self.idu = energy.idu
-        self._id_gap = None
         self._id_gap_speed_orig=None
         self._id_runupdown_time = None
         self.idupvs = PvManager({'vel':'BLGSETVEL',
@@ -74,6 +73,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
         self._move_end = 1.0
         self._move_step = 0.1
         self._triggerPeriod = 0.0
+        self.idcontrols = None
        
     def setIDStartDelayTime(self, t):
         self.idstartdelaytime=t
@@ -218,14 +218,14 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_start + self._pgm_runupdown) * 1000.)
 
     def PrepareIDForMove(self):
-        if self.energy.source == X_RAY_SOURCE_MODES[0]:
+        if self.energy.source.getPosition() == X_RAY_SOURCE_MODES[0]:
             self.idcontrols = self.idd
             self.idpvs = self.iddpvs
-        elif self.energy.source == X_RAY_SOURCE_MODES[1]:
+        elif self.energy.source.getPosition()== X_RAY_SOURCE_MODES[1]:
             self.idcontrols = self.idu
             self.idpvs = self.idupvs
         else:
-            raise ValueError("X-ray source mode %s is not supported!" % self.energy.source)
+            raise ValueError("X-ray source mode %s is not supported!" % self.energy.source.getPosition())
         self.prepareID(self.idcontrols, self.idpvs)
         
     def prepareID(self, idcontrols, idpvs):
@@ -348,7 +348,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
                 self._pgm_mirr_pitch.isBusy(), self._pgm_mirr_pitch(),
                 self.idcontrols['gap'].isBusy(), self.idcontrols['gap']()))
             self._movelog_time = datetime.now()
-        return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy() or self.idcontrols.isIDBusy()
+        return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy() or self.idcontrols['gap'].isBusy()
 
     def waitWhileMoving(self):
         if self.verbose: self.logger.info('waitWhileMoving()...')
@@ -367,7 +367,8 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             if installation.isLive():
                 print("ID gap motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
             else:
-                self.idcontrols['gap'].stop()
+                if self.idcontrols:
+                    self.idcontrols['gap'].stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
@@ -485,7 +486,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
                     if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
                     self.idpvs['vel'].caput(self._id_gap_speed_orig)
                 else:
-                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self._id_gap.speed))
+                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idcontrols['gap'].speed))
                     self.idcontrols['gap'].speed = self._id_gap_speed_orig 
                 self._id_gap_speed_orig = None
 

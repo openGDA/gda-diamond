@@ -9,18 +9,16 @@ from scannable.waveform_channel.McsWaveformChannelController import McsWaveformC
 from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
 from scannable.continuous.ContinuousPgmGratingIDGapMoveController import ContinuousPgmGratingIDGapMoveController
 
-from gdaserver import pgm_energy, pgm_grat_pitch, pgm_m2_pitch
+from gdaserver import pgm_grat_pitch, pgm_m2_pitch  # @UnresolvedImport
 from calibrations.mode_polarisation_energy_instances import energy_s
 from scannable.continuous.ContinuousMovePgmEnergyIDGapBinpointScannable import ContinuousMovePgmEnergyIDGapBinpointScannable
 
-print "-"*100
-print "Creating scannables for continuous energy scanning using cvscan"
-print "   These Objects deliver constant velocity motion in PGM grating pitch motor and ID gap at the same time:"
-print "      'energy' - energy scannable used in 'cvscan' to control beam energy via PGM Grating pitch, PGM mirror pitch and ID gap"
-print "      'mcs16', 'mcs17', 'mcs18', 'mcs19' - RASOR scannables used in 'cvscan' to collect data from MCS channel 17, 18, 19, 20 respectively"
-print "      'binpoint_GrtPitch','binpoint_MirPitch','binpoint_PgmEnergy','binpoint_McaTime'"
-print "                       - position capturer waveform scannables used in 'cvscan' to collect data from Bin-Point"
-
+print("-"*100)
+print("Creating scannables for continuous energy scanning using cvscan")
+print("  These Objects deliver constant velocity motion in PGM grating pitch motor and ID gap at the same time:")
+print("   'energy' - energy scannable used in 'cvscan' to control beam energy via PGM Grating pitch, PGM mirror pitch and ID gap")
+print("            - this scannable can also be used in step 'scan' command, in which it delegates energy move to 'energy_s scannable.")
+print("   'mcs16', 'mcs17', 'mcs18', 'mcs19', 'mcs20', 'mcs21', 'mcs11', 'mcs23'- RASOR scannables used in 'cvscan' to collect data from MCS channel 17, 18, 19, 20, 21, 22, 23, 24, respectively")
 
 # RASOR counter controller - reading collected data from multi-channel scaler:    ME01D-EA-SCLR-01:MCA01:
 mcs_controller = McsWaveformChannelController('mcs_controller', 'ME01D-EA-SCLR-01:MCA01:', channelAdvanceInternalNotExternal=True); mcs_controller.verbose=True

@@ -49,10 +49,7 @@ See &lt;http://www.opengda.org/&gt;
 -Dgda.config=${project_loc:i10-config}
 -Dgda.propertiesFile=${project_loc:i10-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i10-config}/properties/dummy/JCALibrary.properties
--Dgda.logs.dir=/scratch/logs
--Dgda.data=/scratch/2018
 -Dgda.gui.beans.xml=${project_loc:i10-config}/clients/main/dummy/client.xml
--Dgda.var=/scratch/gda_versions/var
 -Dgda.mode=dummy
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.client.jython.automatic.interpreter=1
@@ -61,7 +58,7 @@ See &lt;http://www.opengda.org/&gt;
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Xms512m
--Xmx4g
+-Xmx2g
 -Dpydev.funding.hide=true
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts

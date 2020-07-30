@@ -247,7 +247,7 @@ idd,idu,unknown = X_RAY_SOURCE_MODES
 pc,nc,lh,lv,la,lh3,unknown = X_RAY_POLARISATIONS
 initialisation()
 
-from scannable.continuous.continuous_energy_scannables_new import energy, energy_controller, mcs16,mcs17,mcs18,mcs19  # @UnusedImport
+from scannable.continuous.continuous_energy_scannables_new import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
 alias('cvscan')
 
