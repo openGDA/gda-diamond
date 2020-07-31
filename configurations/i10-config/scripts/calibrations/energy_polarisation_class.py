@@ -10,6 +10,7 @@ from calibrations.xraysource import X_RAY_SOURCE_MODES
 import math
 from utils.ExceptionLogs import localStation_exception
 from gdascripts.messages.handle_messages import simpleLog
+import installation
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
@@ -29,7 +30,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         instance.
         '''
         
-    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap="IDEnergy2GapCalibrations.csv", lut4phase="IDEnergy2PhaseCalibration.csv", energyConstant=False, polarisationConstant=False, maxGap=200, minGap=16, maxPhase=24):
+    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap="IDEnergy2GapCalibrations.csv", lut4phase="IDEnergy2PhaseCalibrations.csv", energyConstant=False, polarisationConstant=False, maxGap=200, minGap=16, maxPhase=24):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut4gap, self.header = load_lookup_table(LocalProperties.get("gda.config")+"/lookupTables/"+lut4gap)
         self.lut4phase, self.header = load_lookup_table(LocalProperties.get("gda.config")+"/lookupTables/"+lut4phase)
@@ -87,10 +88,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''get gap and phase from ID hardware controller, and set polarisation mode in GDA 'idscannable' instance
         This method sync current object states with ID state in EPICS IOC.
         '''
-        if self.source==X_RAY_SOURCE_MODES[0]:
+        if self.source.getPosition()==X_RAY_SOURCE_MODES[0]:
             self.gap=float(self.idd['gap'].getPosition())
             self.polarisation, self.phase = self.determinePhaseFromHardware(self.idd)            
-        elif self.source==X_RAY_SOURCE_MODES[1]:
+        elif self.source.getPosition()==X_RAY_SOURCE_MODES[1]:
             self.gap=float(self.idu['gap'].getPosition())
             self.polarisation, self.phase = self.determinePhaseFromHardware(self.idu)
         else:
@@ -126,7 +127,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''converts energy and polarisation to  gap and phase. It supports polarisation modes: 'pc','nc', 'lh', 'lv', 'la', 'lh3'.
         '''
         #find ID gap from energy
-        coef=get_fitting_coefficents(source, polar, Ep, self.lut4gap)
+        coef=get_fitting_coefficents(source.getPosition(), polar, Ep, self.lut4gap)
         gap = coef[0] + coef[1]*Ep + coef[2]*Ep**2 +coef[3]*Ep**3 + coef[4]*Ep**4 + coef[5]*Ep**5 + coef[6]*Ep**6 + coef[7]*Ep**7
         
         if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
@@ -137,7 +138,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         elif polar == "lv":
             phase=self.maxPhase
         elif polar in ["pc", "nc", 'la']:
-            coef2=get_fitting_coefficents(source, polar, Ep, self.lut4phase)
+            coef2=get_fitting_coefficents(source.getPosition(), polar, Ep, self.lut4phase)
             phase = coef2[0] + coef2[1]*Ep + coef2[2]*Ep**2 +coef2[3]*Ep**3 + coef2[4]*Ep**4 + coef2[5]*Ep**5 + coef2[6]*Ep**6 + coef2[7]*Ep**7
         else:
             raise ValueError("Unsupported polarisation mode %s" % polar)
@@ -174,12 +175,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             idcontrol['gap'].asynchronousMoveTo(gap)
             idcontrol['rowphase1'].asynchronousMoveTo(phase)
             idcontrol['rowphase2'].asynchronousMoveTo(0.0)
-            if polarisation==X_RAY_POLARISATIONS['la']:
+            if polarisation==X_RAY_POLARISATIONS[4]:
                 phase = -phase
             idcontrol['rowphase3'].asynchronousMoveTo(phase)
             idcontrol['rowphase4'].asynchronousMoveTo(0.0)
         except:
-            localStation_exception(sys.exc_info(), "Error move %s to position (%f, %s, %f)" % (self.source, gap, polarisation, phase))
+            localStation_exception(sys.exc_info(), "Error move %s to position (%f, %s, %f)" % (self.source.getPosition(), gap, polarisation, phase))
             simpleLog(localStation_exception)
             raise
     
@@ -241,15 +242,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             gap, phase = self.idgapphase(self.source, Ep=energy, polar=new_polarisation_mode)
 
             #move ID to positions
-            if self.source == X_RAY_SOURCE_MODES[0]:
+            if self.source.getPosition() == X_RAY_SOURCE_MODES[0]:
                 self.move_id_to_positions(self.idd, gap, phase, new_polarisation_mode)
-            elif self.source == X_RAY_SOURCE_MODES[1]:
+            elif self.source.getPosition() == X_RAY_SOURCE_MODES[1]:
                 self.move_id_to_positions(self.idu, gap, phase, new_polarisation_mode)
             else:
-                raise ValueError("Source mode %s is not supported!" % self.source)
+                raise ValueError("Source mode %s is not supported!" % self.source.getPosition())
             
             # move PGM to position
-            if self.polarisationConstant:
+            if self.polarisationConstant or not self.energyConstant :
                 try:
                     self.pgmenergy.asynchronousMoveTo(energy)
                 except:
@@ -264,7 +265,31 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             sleep(0.1)
             return False
         else: #real hardware
-            return self.pgmenergy.isBusy() or self.isIDBusy(self.idd if self.source == X_RAY_SOURCE_MODES[0] else self.idu)
+            return self.pgmenergy.isBusy() or self.isIDBusy(self.idd if self.source.getPosition() == X_RAY_SOURCE_MODES[0] else self.idu)
+
+    def stop_id(self, idcontrol):
+        try:
+            idcontrol['gap'].stop()
+            idcontrol['rowphase1'].stop()
+            idcontrol['rowphase2'].stop()
+            idcontrol['rowphase3'].stop()
+            idcontrol['rowphase4'].stop()
+        except:
+            localStation_exception(sys.exc_info(), "Error stop %s" % (self.source.getPosition()))
+            simpleLog(localStation_exception)
+            raise
+        
+    def stop(self):
+        self.pgmenergy.stop()
+        if installation.isLive():
+            print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
+        else:  
+            if self.source.getPosition() == X_RAY_SOURCE_MODES[0]:
+                self.stop_id(self.idd)
+            elif self.source.getPosition() == X_RAY_SOURCE_MODES[1]:
+                self.stop_id(self.idu)
+            else:
+                raise ValueError("Source mode %s is not supported!" % self.source.getPosition())
 
     def atScanStart(self):
         if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":

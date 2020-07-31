@@ -123,18 +123,17 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         self.mybusy=False
         
     def stop(self):
-        self._binpointPgmEnergy.stop()
-        self._binpointGrtPitch.stop()
-        self._binpointMirPitch.stop()
-        self._move_controller.stopAndReset()
+        if self._operating_continuously:
+            self._binpointPgmEnergy.stop()
+            self._binpointGrtPitch.stop()
+            self._binpointMirPitch.stop()
+            self._move_controller.stopAndReset()
+        else:
+            self._move_controller.energy.stop()
         self.mybusy=False
     
     def atCommandFailure(self):
-        self._binpointPgmEnergy.stop()
-        self._binpointGrtPitch.stop()
-        self._binpointMirPitch.stop()
-        self._move_controller.stopAndReset()
-        self.mybusy=False
+        self.stop()
         
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
