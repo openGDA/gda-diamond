@@ -18,18 +18,20 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.resource.FontDescriptor;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+
+import java.util.Optional;
+
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
@@ -40,19 +42,17 @@ import uk.ac.diamond.daq.mapping.ui.stage.IStageController;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
 import uk.ac.diamond.daq.mapping.ui.stage.enumeration.Position;
 import uk.ac.gda.ui.tool.ClientMessages;
-import uk.ac.gda.ui.tool.ClientResourceManager;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
- * Tomography dashboard
+ * Acquisition dashboard
  *
  * @author Maurizio Nagni
  */
 public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 
-	private Group source;
 	private Button energyButton;
 	private Label energy;
 	private Label energyValue;
@@ -60,6 +60,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	private Label shutterLabel;
 	private Label shutterValue;
 	private Button experimentDriver;
+	private Button outOfBeam;
 
 	private final IStageController stageController;
 
@@ -70,88 +71,106 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		Composite composite = ClientSWTElements.createComposite(parent, style);
-		GridLayoutFactory.swtDefaults().margins(ClientSWTElements.defaultCompositeMargin()).applyTo(composite);
-		GridDataFactory.swtDefaults().grab(true, true).align(SWT.LEFT, SWT.TOP).applyTo(composite);
-		createElements(composite, SWT.NONE);
-		bindElements(composite);
-		return composite;
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
+
+		createElements(container, SWT.NONE);
+		bindElements(container);
+		return container;
 	}
 
 	private void createElements(Composite parent, int style) {
-		createExperimentManager(ClientSWTElements.createComposite(parent, SWT.NONE));
-		headerElements(ClientSWTElements.createComposite(parent, SWT.NONE, 3), style);
-		stageCompose(ClientSWTElements.createComposite(parent, SWT.NONE, 1));
-		cameraGroupElements(parent);
-		experimentDriverButton(parent);
+		createExperimentManager(parent, style);
+		createSource(parent, style);
+		createStage(parent, style);
+		createCameraControl(parent, style);
+		createExperimentDriver(parent, style);
+		createOutOfBeam(parent, style);
 	}
 
-	private void createExperimentManager(Composite parent) {
-		new ExperimentManager(getExperimentController()).createComposite(parent, SWT.NONE);
+	private void createExperimentManager(Composite parent, int style) {
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
+
+		new ExperimentManager(getExperimentController()).createComposite(container, SWT.NONE);
 	}
 
-	private void headerElements(Composite parent, int style) {
-		createSource(ClientSWTElements.createGroup(parent, 3, ClientMessages.SOURCE), style);
+	private void createStage(Composite parent, int style) {
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
+
+		StagesComposite.buildModeComposite(container, stageController);
 	}
 
-	private void stageCompose(Composite parent) {
-		StagesComposite.buildModeComposite(parent, stageController);
+	private Button createOutOfBeam(Composite parent, int style) {
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
+
+		outOfBeam = createClientButton(container, SWT.PUSH, ClientMessages.OUT_OF_BEAM, ClientMessages.OUT_OF_BEAM_TP);
+		return outOfBeam;
 	}
 
-	private Button appendOutOfBeamSelectionListener(Composite parent) {
-		Button button = ClientSWTElements.createButton(parent, SWT.PUSH, ClientMessages.OUT_OF_BEAM,
-				ClientMessages.OUT_OF_BEAM_TP);
-		SelectionListener listener = new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				stageController.savePosition(Position.OUT_OF_BEAM);
-			}
-		};
-		button.addSelectionListener(listener);
-		return button;
+	private void createCameraControl(Composite parent, int style) {
+		Group container = createClientGroup(parent, style, 1, ClientMessages.CAMERAS);
+		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
+
+		CameraConfigurationView.openCameraConfigurationViewButton(container);
 	}
 
-	private void cameraGroupElements(Composite parent) {
-		Group cameras = ClientSWTElements.createGroup(parent, 1, ClientMessages.CAMERAS);
-		CameraConfigurationView.openCameraConfigurationViewButton(cameras);
-	}
+	private void createExperimentDriver(Composite parent, int style) {
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
 
-	private void experimentDriverButton(Composite parent) {
-		experimentDriver = ClientSWTElements.createButton(parent, SWT.PUSH,
-				ClientMessages.EXPERIMENT_DRIVER, ClientMessages.CONFIGURE_EXPERIMENT_DRIVER);
+		experimentDriver = createClientButton(container, SWT.PUSH, ClientMessages.EXPERIMENT_DRIVER,
+				ClientMessages.CONFIGURE_EXPERIMENT_DRIVER);
 	}
 
 	private void createSource(Composite parent, int style) {
-		energyButton = ClientSWTElements.createButton(parent, style, ClientMessages.EMPTY_MESSAGE,
-				ClientMessages.ENERGY_KEV, ClientImages.BEAM_16);
-		energy = ClientSWTElements.createLabel(parent, style, ClientMessages.ENERGY_KEV);
-		energyValue = ClientSWTElements.createLabel(parent, style, ClientMessages.NOT_AVAILABLE, null,
-				FontDescriptor.createFrom(ClientResourceManager.getInstance().getTextDefaultFont()));
+		Group container = createClientGroup(parent, style, 3, ClientMessages.SOURCE);
+		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
 
-		shutter = ClientSWTElements.createButton(parent, SWT.CHECK, ClientMessages.EMPTY_MESSAGE,
-				ClientMessages.SHUTTER_TP);
-		shutterLabel = ClientSWTElements.createLabel(parent, style, ClientMessages.SHUTTER);
-		shutterValue = ClientSWTElements.createLabel(parent, style, ClientMessages.NOT_AVAILABLE, null,
-				FontDescriptor.createFrom(ClientResourceManager.getInstance().getTextDefaultFont()));
+		energyButton = createClientButton(container, style, ClientMessages.EMPTY_MESSAGE, ClientMessages.ENERGY_KEV,
+				ClientImages.BEAM_16);
+		ClientSWTElements.createClientGridDataFactory().applyTo(energyButton);
+
+		energy = createClientLabel(container, style, ClientMessages.ENERGY_KEV);
+		ClientSWTElements.createClientGridDataFactory().applyTo(energy);
+
+		energyValue = createClientLabel(container, style, ClientMessages.NOT_AVAILABLE);
+		ClientSWTElements.createClientGridDataFactory().applyTo(energyValue);
+
+		shutter = createClientButton(container, SWT.CHECK, ClientMessages.EMPTY_MESSAGE, ClientMessages.SHUTTER_TP);
+		ClientSWTElements.createClientGridDataFactory().applyTo(shutter);
+
+		shutterLabel = createClientLabel(container, style, ClientMessages.SHUTTER);
+		ClientSWTElements.createClientGridDataFactory().applyTo(shutterLabel);
+
+		shutterValue = createClientLabel(container, style, ClientMessages.NOT_AVAILABLE);
+		ClientSWTElements.createClientGridDataFactory().applyTo(shutterValue);
 	}
 
 	private void bindElements(Composite parent) {
-		energyButton.addListener(SWT.Selection, event -> {
+		Listener outOfBeamListener = e -> Optional.ofNullable(stageController)
+				.ifPresent(c -> c.savePosition(Position.OUT_OF_BEAM));
+		outOfBeam.addListener(SWT.Selection, outOfBeamListener);
+
+		Listener energyButtonListener = e -> {
 			BeamEnergyDialogBuilder builder = new BeamEnergyDialogBuilder();
 			builder.addBeamSelector();
 			builder.addImagingController();
 			builder.addDiffractionController();
 			builder.build(parent.getShell()).open();
-		});
-		appendOutOfBeamSelectionListener(parent);
+		};
+		energyButton.addListener(SWT.Selection, energyButtonListener);
 
-		experimentDriver.addListener(SWT.Selection, event -> {
+		Listener experimentDriverListener = e -> {
 			// FIXME ID: Experiment name? Visit ID?
 			ExperimentDriverWizard driverWizard = new ExperimentDriverWizard(null);
 			WizardDialog wizardDialog = new WizardDialog(parent.getShell(), driverWizard);
 			wizardDialog.setPageSize(driverWizard.getPreferredPageSize());
 			wizardDialog.open();
-		});
+		};
+		experimentDriver.addListener(SWT.Selection, experimentDriverListener);
 	}
 
 	private ExperimentController getExperimentController() {
