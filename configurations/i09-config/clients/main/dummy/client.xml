@@ -21,7 +21,12 @@
 	</bean>
 
 	<import resource="../_common/rcp-common.xml" />
+	<import resource="camera_controls.xml" />
 	<import resource="stream_views.xml" />
 	<import resource="../_common/alignment_controls.xml" />
+	<import resource="drain_currents.xml" />
+	<import resource="nixswr_roi.xml" />
+	<import resource="../_common/monitor_controls.xml" />
+	
 
 </beans>
