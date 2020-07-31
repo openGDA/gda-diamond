@@ -81,7 +81,6 @@
             value="10000">
       </preference>
    </extension>
-  
    <extension
          point="org.eclipse.ui.views">
       <view
@@ -116,6 +115,80 @@
             name="Processing Queue View"
             restorable="true">
       </view>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.mapping"
+            icon="icons/map.png"
+            name="Mapping">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.plotting"
+            icon="icons/chart_curve.png"
+            name="Plot">
+      </perspective>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.mapping">
+         <view
+               id="org.dawnsci.mapping.ui.mappeddataview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss" />
+         <view
+               id="org.dawnsci.mapping.ui.mapview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.dawnsci.mapping.ui.mappeddataview" />
+         <view
+               id="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView"
+               ratio="0.58f"
+               relationship="right"
+               relative="org.dawnsci.mapping.ui.mapview" />
+         <view
+               id="uk.ac.gda.client.microfocus.SelectExafsView"
+               relationship="stack"
+               relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView" />
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.dawnsci.mapping.ui.mappeddataview" />
+         <view
+               id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Queue"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview" />
+         <view
+               id="org.dawnsci.mapping.ui.spectrumview"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.dawnsci.mapping.ui.mapview" />
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.plotting">
+         <view
+               id="uk.ac.gda.client.liveplotview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss" />
+         <view
+               id="uk.ac.gda.client.CommandQueueViewFactory"
+               ratio="0.7f"
+               relationship="bottom"
+               relative="uk.ac.gda.client.liveplotview" />
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.5f"
+               relationship="right"
+               relative="uk.ac.gda.client.CommandQueueViewFactory" />
+      </perspectiveExtension>
    </extension>
    <extension
          point="uk.ac.gda.microfocus.display.detectorfile">

@@ -59,7 +59,7 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 		if (scanParameters instanceof MicroFocusScanParameters) {
 			rcpController.openPerspective("uk.ac.gda.microfocus.ui.MicroFocusPerspective");
 		} else {
-			rcpController.openPerspective("org.diamond.exafs.ui.PlottingPerspective");
+			rcpController.openPerspective("uk.ac.gda.beamline.i18.perspective.plotting");
 
 			SampleStageParameters stage = parameters.getSampleStageParameters();
 
