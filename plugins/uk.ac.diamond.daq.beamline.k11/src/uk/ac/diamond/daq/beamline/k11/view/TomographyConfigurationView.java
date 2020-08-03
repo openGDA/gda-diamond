@@ -87,6 +87,12 @@ public class TomographyConfigurationView extends ViewPart {
 	}
 
 	@Override
+	public void dispose() {
+		Optional.ofNullable(controller).ifPresent(AcquisitionController::releaseResources);
+		super.dispose();
+	}
+
+	@Override
 	public void setFocus() {
 		// Do not necessary
 	}
