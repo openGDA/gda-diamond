@@ -72,7 +72,7 @@ public class ShapeSummaryBase  {
 	}
 
 	protected double getExposure() {
-		Optional<Double> exposure = Optional.ofNullable(getScanningParameters().getDetector()).map(DetectorDocument::getExposureTime);
+		Optional<Double> exposure = Optional.ofNullable(getScanningParameters().getDetector()).map(DetectorDocument::getExposure);
 		if (exposure.isPresent()) {
 			return exposure.get();
 		}
