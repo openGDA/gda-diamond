@@ -24,11 +24,11 @@ import org.eclipse.scanning.event.ui.view.StatusQueueView;
 import gda.configuration.properties.LocalProperties;
 import uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection;
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard;
-import uk.ac.diamond.daq.beamline.k11.view.TomographyConfigurationView;
 import uk.ac.diamond.daq.experiment.ui.plan.DetectorFramePeekView;
 import uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView;
 import uk.ac.diamond.daq.experiment.ui.plan.PlanOverview;
 import uk.ac.diamond.daq.experiment.ui.plan.PlanProgressPlotView;
+import uk.ac.gda.tomography.view.TomographyConfigurationView;
 
 public final class K11DefaultViews {
 
