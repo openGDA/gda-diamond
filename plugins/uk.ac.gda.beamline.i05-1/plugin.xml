@@ -80,7 +80,7 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="uk.ac.gda.arpes.perspectives.Startup">
+            class="uk.ac.gda.beamline.i05_1.I05_1Startup">
       </startup>
    </extension>
  </plugin>
