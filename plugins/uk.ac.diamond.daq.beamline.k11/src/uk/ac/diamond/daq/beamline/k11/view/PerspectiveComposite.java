@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,6 +30,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbench;
@@ -58,9 +61,8 @@ public class PerspectiveComposite {
 
 	public enum PerspectiveType {
 
-		TOMOGRAPHY("Plain Tomography", Tomography.ID),
-		FULLY_AUTOMATED("Fully Automated", FullyAutomated.ID),
-		POINT_AND_SHOOT("Point and Shoot", PointAndShoot.ID);
+		TOMOGRAPHY("Plain Tomography", Tomography.ID), FULLY_AUTOMATED("Fully Automated",
+				FullyAutomated.ID), POINT_AND_SHOOT("Point and Shoot", PointAndShoot.ID);
 
 		private final String id;
 		private final String label;
@@ -102,8 +104,12 @@ public class PerspectiveComposite {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildModeComposite() {
-		ClientSWTElements.createLabel(getParent(), SWT.NONE, ClientMessages.MODE);
+		Label label = createClientLabel(getParent(), SWT.NONE, ClientMessages.MODE);
+		ClientSWTElements.createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(label);
+
 		modeCombo = ClientSWTElements.createCombo(parent, SWT.READ_ONLY, getTypes(), ClientMessages.MODE_TP);
+		ClientSWTElements.createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(modeCombo);
+
 		comboModeSelectionListener();
 		setModeComboSelection(getActiveWindow().getActivePage().getPerspective().getId());
 
