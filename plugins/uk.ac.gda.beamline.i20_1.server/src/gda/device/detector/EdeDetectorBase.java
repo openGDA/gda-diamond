@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import gda.data.NumTracker;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
+import gda.data.scan.datawriter.INexusDataWriter;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
 import gda.epics.util.EpicsGlobals;
@@ -274,7 +275,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			NumTracker runNumber = new NumTracker("scanbase_numtracker");
 			int scanNumber = runNumber.incrementNumber();
 
-			NexusDataWriter writer = new NexusDataWriter();
+			final INexusDataWriter writer = new NexusDataWriter();
 			writer.configureScanNumber(scanNumber);
 			writer.setNexusFileNameTemplate("nexus/%s.nxs");
 			writer.addData(sdp);
