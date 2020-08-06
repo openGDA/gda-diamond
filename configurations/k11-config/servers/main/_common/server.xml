@@ -127,6 +127,8 @@
 	<import
 		resource="file:${gda.config}/servers/main/_common/stages/gts.xml" />
 	<import
+		resource="file:${gda.config}/servers/main/_common/stages/smaract.xml" />		
+	<import
 		resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/_common/stages/stage_manager.xml" />

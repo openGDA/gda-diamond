@@ -5,44 +5,47 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
+	<bean id="GTS_PV_NAME" class="java.lang.String">
+		<constructor-arg value="BL11K-MO-STAGE-02" />
+	</bean>
 
 	<gda:motor id="gts_x"
-		live-pvName="BL11K-MO-STAGE-02:X"
+		live-pvName="#{GTS_PV_NAME}:X"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="gts_y"
-		live-pvName="BL11K-MO-STAGE-02:Y"
+		live-pvName="#{GTS_PV_NAME}:Y"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="gts_z"
-		live-pvName="BL11K-MO-STAGE-02:Z"
+		live-pvName="#{GTS_PV_NAME}:Z"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 
-	<gda:motor id="gts_rot"
-		live-pvName="BL11K-MO-STAGE-02:ROT"
+	<gda:motor id="gts_theta"
+		live-pvName="#{GTS_PV_NAME}:ROT"
 		dummy-minPosition="0"
 		dummy-maxPosition="3600"
 		dummy-position="9.45"
 		dummy-unitString="deg"/>
 
 	<gda:motor id="gts_pitch"
-		live-pvName="BL11K-MO-STAGE-02:PITCH"
+		live-pvName="#{GTS_PV_NAME}:PITCH"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mrad"/>
 
 	<gda:motor id="gts_roll"
-		live-pvName="BL11K-MO-STAGE-02:ROLL"
+		live-pvName="#{GTS_PV_NAME}:ROLL"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
@@ -51,21 +54,21 @@
 	
 	<!-- RAW MOTION -->
 	<gda:motor id="gts_y1"
-		live-pvName="BL11K-MO-STAGE-02:Y1"
+		live-pvName="#{GTS_PV_NAME}:Y1"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="gts_y2"
-		live-pvName="BL11K-MO-STAGE-02:Y2"
+		live-pvName="#{GTS_PV_NAME}:Y2"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="gts_y3"
-		live-pvName="BL11K-MO-STAGE-02:Y3"
+		live-pvName="#{GTS_PV_NAME}:Y3"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
@@ -85,7 +88,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="gts_y" />
-				<ref bean="gts_rot" />
+				<ref bean="gts_theta" />
 				<ref bean="gts_centring" />
 			</list>
 		</property>
