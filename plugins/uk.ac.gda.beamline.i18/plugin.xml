@@ -131,6 +131,12 @@
             icon="icons/chart_curve.png"
             name="Plot">
       </perspective>
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.synoptic"
+            icon="icons/eye.png"
+            name="Synoptic" >
+      </perspective>
    </extension>
 
    <extension
@@ -189,7 +195,25 @@
                relationship="right"
                relative="uk.ac.gda.client.CommandQueueViewFactory" />
       </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.synoptic">
+         <view
+               id="uk.ac.gda.beamline.i18.cameraView"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss"
+               moveable="false"
+               closeable="false" />
+         <view
+               id="uk.ac.gda.client.livecontrol.LiveControlsView"
+               ratio="0.5f"
+               relationship="right"
+               relative="uk.ac.gda.beamline.i18.cameraView"
+               moveable="false"
+               closeable="false" />
+      </perspectiveExtension>
    </extension>
+
    <extension
          point="uk.ac.gda.microfocus.display.detectorfile">
       <detectorfile
