@@ -121,6 +121,12 @@ public class DiffractionScanSelection extends ViewPart {
 		logger.info("{} createPartControl - end", this.getClass());
 	}
 
+	@Override
+	public void dispose() {
+		Optional.ofNullable(controller).ifPresent(AcquisitionController::releaseResources);
+		super.dispose();
+	}
+
 	/**
 	 * Point&Shoot depends on {@link IMapClickEvent}s firing when users click on the map. The producer of these is
 	 * registered once the {@link MappedDataView} is created; here Eclipse finds it, creating it and registering all the
