@@ -1,25 +1,34 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <context:component-scan base-package="uk.ac.diamond.daq.experiment.structure"></context:component-scan>
+	<context:component-scan
+		base-package="uk.ac.diamond.daq.experiment.structure"></context:component-scan>
+
 	<context:property-placeholder />
+	<context:property-placeholder
+		properties-ref="configProperties" />
+
+	<util:properties id="configProperties">
+		<prop key="DIAGNOSTIC_CAMERAS_PV_PREFIX">BL11K-DI-PHDGN-</prop>
+	</util:properties>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<!-- This must be included early on, as configuration of ROI/Stats modules 
 		requires plot service -->
-	<import
-		resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
 	<!-- Command Server -->
-	<import
-		resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
 
 	<bean id="GDAHashtable"
 		class="gda.util.findableHashtable.FindableHashtable" />
@@ -29,56 +38,28 @@
 	<!-- =========================================================== -->
 
 	<!-- beam -->
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
 
 	<!-- mirrors -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/kb.xml" />
-	
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/kb.xml" />
+
 	<!-- DCMs -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm1.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm2.xml" />
-	
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm1.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm2.xml" />
+
 	<!-- stages -->
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
 
 	<!-- detectors -->
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
 
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_motion.xml" />
-
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_motion.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_motion.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d3_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d4_addetector.xml" />		
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/dbsel_addetector.xml" />		
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d11_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d14_addetector.xml" />
-
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_motion.xml" />
 
 	<!-- shutters -->
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/shutters/fe_shutter.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/${gda.mode}/shutters/eh_shutter.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/shutters/fe_shutter.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/shutters/eh_shutter.xml" />
 
 	<!-- file registration -->
 	<import
@@ -97,77 +78,48 @@
 	<!-- =========================================================== -->
 
 	<!-- beam -->
-	<import
-		resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
 
 	<!-- slits -->
-	<import
-		resource="file:${gda.config}/servers/main/_common/slits/s1.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/slits/s2.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/slits/s3.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/slits/s4.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/slits/s1.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/slits/s2.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/slits/s3.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/slits/s4.xml" />
 
 	<!-- mirrors -->
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/kb/kb.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/kb/vfm.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/mirrors/kb/hfm.xml" />
-	
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/kb/kb.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/kb/vfm.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/kb/hfm.xml" />
+
 	<!-- dcms -->
-	<import resource="file:${gda.config}/servers/main/_common/dcms/dcm1.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/dcms/dcm2.xml" />
-	
+	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcm1.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcm2.xml" />
+
 	<!-- stages -->
-	<import
-		resource="file:${gda.config}/servers/main/_common/stages/gts.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/stages/smaract.xml" />		
-	<import
-		resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/stages/stage_manager.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/stages/gts.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/stages/smaract.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/stages/stage_manager.xml" />
 
 	<!-- detectors -->
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/imaging/pco_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/imaging/imaging_rail.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/imaging/pco_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/imaging/imaging_rail.xml" />
 
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diffraction/pilatus_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diffraction/pilatus_addetector.xml" />
 
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d1_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d2_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d3_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d4_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/dbsel_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d11_addetector.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d14_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/diagnostics.xml" />
 
-	<import
-		resource="file:${gda.config}/servers/main/_common/metadata.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 
-	<import
-		resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+	<import	resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 
 	<!-- file registration -->
-	<import
-		resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-	<import
-		resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
+	<import	resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
 
 
 	<!-- Dummies -->
@@ -176,14 +128,12 @@
 	<bean id="DashboardObserver"
 		class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
-	<import
-		resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
-		
+	<import	resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
+
 	<!-- Mapping scans IMPORTANT: this will start processing the scanning queue. 
 		Detectors must be created before doing this. ADVISED: do it last or towards 
 		the end, scan will now start to run! -->
-	<import
-		resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml" />
 
 	<!-- Initialise Jython late on, as localStation refers to beans -->
 	<import resource="jythonServerFacade.xml" />
