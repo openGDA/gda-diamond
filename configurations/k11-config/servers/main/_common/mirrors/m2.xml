@@ -7,35 +7,35 @@
 
 	<!-- COMBINED MOTION -->
 	<gda:motor id="m2_x"
-		live-pvName="BL11K-OP-MR-02:X"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:X"
 		dummy-minPosition="-20"
 		dummy-maxPosition="20"
 		dummy-position="-16"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_y"
-		live-pvName="BL11K-OP-MR-02:Y"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:Y"
 		dummy-minPosition="-17"
 		dummy-maxPosition="17"
 		dummy-position="0.004"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_roll"
-		live-pvName="BL11K-OP-MR-02:ROLL"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:ROLL"
 		dummy-minPosition="55"
 		dummy-maxPosition="63"
 		dummy-position="57.42"
 		dummy-unitString="mrad" />
 
 	<gda:motor id="m2_pitch"
-		live-pvName="BL11K-OP-MR-02:PITCH"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:PITCH"
 		dummy-minPosition="-25"
 		dummy-maxPosition="25"
 		dummy-position="0.0025"
 		dummy-unitString="mrad" />
 
 	<gda:motor id="m2_yaw"
-		live-pvName="BL11K-OP-MR-02:YAW"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:YAW"
 		dummy-minPosition="-0.75"
 		dummy-maxPosition="0.75"
 		dummy-position="-0.0002"
@@ -43,49 +43,49 @@
 
 	<!-- RAW MOTION -->
 	<gda:motor id="m2_x1"
-		live-pvName="BL11K-OP-MR-02:X1"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:X1"
 		dummy-minPosition="-21.4066"
 		dummy-maxPosition="19.1986"
 		dummy-position="-16.0497"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_x2"
-		live-pvName="BL11K-OP-MR-02:X2"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:X2"
 		dummy-minPosition="-19.8011"
 		dummy-maxPosition="20.6973"
 		dummy-position="-15.9503"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_y1"
-		live-pvName="BL11K-OP-MR-02:Y1"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:Y1"
 		dummy-minPosition="-17.6044"
 		dummy-maxPosition="17.9506"
 		dummy-position="0"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_y2"
-		live-pvName="BL11K-OP-MR-02:Y2"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:Y2"
 		dummy-minPosition="-17.1142"
 		dummy-maxPosition="18.412"
 		dummy-position="0.0012"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_y3"
-		live-pvName="BL11K-OP-MR-02:Y3"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:Y3"
 		dummy-minPosition="-18.1286"
 		dummy-maxPosition="19.684"
 		dummy-position="0.0002"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_bendus"
-		live-pvName="BL11K-OP-MR-02:BENDUS"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:BENDUS"
 		dummy-minPosition="-7.85"
 		dummy-maxPosition="9.2"
 		dummy-position="9.0003"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m2_bendds"
-		live-pvName="BL11K-OP-MR-02:BENDDS"
+		live-pvName="#{configProperties.MR_PV_PREFIX}02:BENDDS"
 		dummy-minPosition="-10.5"
 		dummy-maxPosition="11.95"
 		dummy-position="11.75"

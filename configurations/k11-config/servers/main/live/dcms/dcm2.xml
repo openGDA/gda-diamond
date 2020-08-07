@@ -5,21 +5,93 @@
 
 
 	<bean id="dcm2_roll" class="gda.device.scannable.MultiPVScannable">
-		<property name="writePV" value="BL11K-OP-DCM-02:ROLL:POS" />
-		<property name="readPV" value="BL11K-OP-DCM-02:ROLL:POS_RBV" />
+		<property name="writePV" value="#{configProperties.DCM_PV_PREFIX}02:ROLL:POS" />
+		<property name="readPV" value="#{configProperties.DCM_PV_PREFIX}02:ROLL:POS_RBV" />
 		<property name="hardwareUnitString" value="microns" />
 		<property name="userUnits" value="microns" />
 	</bean>
 	
 	<bean id="dcm2_pitch" class="gda.device.scannable.MultiPVScannable">
-		<property name="writePV" value="BL11K-OP-DCM-02:PITCH:POS" />
-		<property name="readPV" value="BL11K-OP-DCM-02:PITCH:POS_RBV" />
+		<property name="writePV" value="#{configProperties.DCM_PV_PREFIX}02:PITCH:POS" />
+		<property name="readPV" value="#{configProperties.DCM_PV_PREFIX}02:PITCH:POS_RBV" />
 		<property name="hardwareUnitString" value="microns" />
 		<property name="userUnits" value="microns" />
 	</bean>
 	
 	<bean id="dcm2_y_positioner" class="gda.device.enumpositioner.EpicsEnumPositioner" >
-		<property name="pvBase" value="BL11K-OP-DCM-02:Y:SELECT" />
+		<property name="pvBase" value="#{configProperties.DCM_PV_PREFIX}02:Y:SELECT" />
+	</bean>
+
+	<!-- MONITORS -->
+	<bean id="dcm2_temp_heater1"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}02:HEATER1:T" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="dcm2_temp_heater2"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}02:HEATER2:T" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="dcm2_temp_heater3"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}02:HEATER3:T" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="dcm2_temp_heater4"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}02:HEATER4:T" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="dcm2_temp_xtal1u"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}02:TEMP:XTAL1U" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
 	</bean>
 	
+	<bean id="dcm2_temp_xtal1d"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}02:TEMP:XTAL1D" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>	
+
+	<bean id="dcm2_temp_xtal2u"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}02:TEMP:XTAL2U" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+	
+	<bean id="dcm1_temp_xtal2d"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.DCM_PV_PREFIX}01:TEMP:XTAL2D" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>	
 </beans>

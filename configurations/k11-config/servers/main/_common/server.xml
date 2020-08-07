@@ -17,7 +17,14 @@
 		properties-ref="configProperties" />
 
 	<util:properties id="configProperties">
+		<prop key="BSEL_PV_PREFIX">BL11K-MO-BSEL-</prop>
+		<prop key="CRYO_PV_PREFIX">BL11K-CG-CRYO-</prop>
+		<prop key="DCM_PV_PREFIX">BL11K-OP-DCM-</prop>
 		<prop key="DIAGNOSTIC_CAMERAS_PV_PREFIX">BL11K-DI-PHDGN-</prop>
+		<prop key="FE_ABSORBER_PV_PREFIX">FE11K-RS-ABSB-</prop>
+		<prop key="FE_SHUTTER_PV_PREFIX">FE11K-PS-SHTR-</prop>
+		<prop key="KBM_PV_PREFIX">BL11K-OP-KBM-</prop>
+		<prop key="MR_PV_PREFIX">BL11K-OP-MR-</prop>
 	</util:properties>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
@@ -34,19 +41,8 @@
 		class="gda.util.findableHashtable.FindableHashtable" />
 
 	<!-- =========================================================== -->
-	<!-- 					mode specific files 					 -->
+	<!-- 					mode specific files 			 		 -->
 	<!-- =========================================================== -->
-
-	<!-- beam -->
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
-
-	<!-- mirrors -->
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/kb.xml" />
-
-	<!-- DCMs -->
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm1.xml" />
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/dcms/dcm2.xml" />
 
 	<!-- stages -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
@@ -80,24 +76,23 @@
 	<!-- beam -->
 	<import	resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
 
+	<!-- cryo -->
+	<import	resource="file:${gda.config}/servers/main/_common/cryo/cryo.xml" />
+
+	<!-- dcms -->
+	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcms.xml" />
+
+	<!-- mirrors -->
+	<import	resource="file:${gda.config}/servers/main/_common/mirrors/mirrors.xml" />
+
+	<!-- others -->
+	<import	resource="file:${gda.config}/servers/main/_common/others/others.xml" />
+		
 	<!-- slits -->
 	<import	resource="file:${gda.config}/servers/main/_common/slits/s1.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/slits/s2.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/slits/s3.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/slits/s4.xml" />
-
-	<!-- mirrors -->
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/m4.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/kb/kb.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/kb/vfm.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/kb/hfm.xml" />
-
-	<!-- dcms -->
-	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcm1.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcm2.xml" />
 
 	<!-- stages -->
 	<import	resource="file:${gda.config}/servers/main/_common/stages/gts.xml" />
@@ -120,7 +115,6 @@
 	<!-- file registration -->
 	<import	resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
-
 
 	<!-- Dummies -->
 	<import resource="temporary_dummy_objects.xml" />

@@ -1,16 +1,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<alias name="sim_adbase" alias="d2_adbase" />
 	<alias name="sim_stats" alias="d2_stats" />
 	<alias name="sim_array" alias="d2_ndarray" />
 	<alias name="sim_hdf5" alias="d2_hdf5" />
 
-	<bean id="d2_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_file_hdf5">
+	<bean id="d2_ndfile"
+		class="gda.device.detector.areadetector.v17.impl.NDFileImpl"
+		parent="sim_file_hdf5">
 		<property name="initialFileName" value="d2" />
 	</bean>
-	
+
 	<alias name="sim_camera_control" alias="d2_camera_control" />
+
+	<!-- MONITORS -->
+	<bean id="d2_gain"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="a.u." />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
 </beans>
