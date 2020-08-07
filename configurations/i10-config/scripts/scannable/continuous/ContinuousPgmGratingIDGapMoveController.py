@@ -274,11 +274,11 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareIDForMove:asynchronousMoveTo(%r) @ %r (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), self._id_gap_speed_orig))
+                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (+ve)' % (self.source.getPosition(), (self._id_gap_start - self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
             self.energy.move_id_to_positions(idcontrols, self._id_gap_start - self._id_gap_runupdown, phase_midpoint, self.energy.polarisation)
         else:
             if self.verbose:
-                self.logger.info('prepareIDForMove:asynchronousMoveTo(%r) @ %r (-ve)' % ((self._id_gap_start + self._id_gap_runupdown), self._id_gap_speed_orig))
+                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (-ve)' % (self.source.getPosition(), (self._id_gap_start + self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
             self.energy.move_id_to_positions(idcontrols, self._id_gap_start + self._id_gap_runupdown, phase_midpoint, self.energy.polarisation)
 
     def prepareForMove(self):
@@ -357,9 +357,9 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
         if self.verbose: self.logger.info('...waitWhileMoving()')
 
     def stopAndReset(self):
+        if self.verbose: self.logger.info('stopAndReset()...')
         self._start_time = None
         self._start_event.clear()
-        if self.verbose: self.logger.info('stopAndReset()...')
         if self.isPGMMoveEnabled():
             self._pgm_grat_pitch.stop()
             self._pgm_mirr_pitch.stop()
