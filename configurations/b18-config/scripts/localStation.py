@@ -171,6 +171,8 @@ qexafs_counterTimer01.setFrameDeadTime(5e-3)
 
 run("default_scannable_class.py")
 
+run("continuous_scans.py")
+
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"
     run("userStartupScript")

@@ -24,6 +24,7 @@
 
 	<import resource="spreadsheet-view.xml" />
 	<import resource="detector-rate-views.xml" />
+	<import resource="live_controls.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />

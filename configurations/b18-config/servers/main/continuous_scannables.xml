@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="qexafs_sam2x" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="SAM2X_motor" />
+		<property name="maxMotorSpeed" value="0.7" />
+	</bean>
+    <bean id="qexafs_sam2y" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="SAM2Y_motor" />
+		<property name="maxMotorSpeed" value="7.0" />
+	</bean>
+</beans>
