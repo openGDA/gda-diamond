@@ -75,10 +75,10 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
-public class DiffractionScanSelection extends ViewPart {
+public class DiffractionConfigurationView extends ViewPart {
 
-	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection";
-	private static final Logger logger = LoggerFactory.getLogger(DiffractionScanSelection.class);
+	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionConfigurationView";
+	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationView.class);
 
 	private AcquisitionController<ScanningAcquisition> controller;
 
@@ -88,7 +88,7 @@ public class DiffractionScanSelection extends ViewPart {
 
 	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
-	public DiffractionScanSelection() {
+	public DiffractionConfigurationView() {
 		smController = MappingServices.getScanManagementController();
 		smController.initialise();
 	}

@@ -39,7 +39,7 @@ public class PointAndShoot implements IPerspectiveFactory {
 		helper.addFolderThenViewToCentralFolder(K11DefaultViews.SPECTRUM_VIEW, false, 0.5f);
 
 		// Right area
-		helper.addViewToRightFolder(K11DefaultViews.SCAN_SETUP_VIEW, false);
+		helper.addViewToRightFolder(K11DefaultViews.DIFFRACTION_ACQUISITION_CONFIGURATION, false);
 		helper.addViewToRightFolder(K11DefaultViews.MAPPING_EXPERIMENT_VIEW, false);
 		helper.addFolderThenViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false, 0.5f);
 		helper.addViewToRightFolder(K11DefaultViews.getQueueId(), false);
