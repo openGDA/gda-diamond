@@ -28,6 +28,8 @@ import java.util.Optional;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -40,6 +42,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.richbeans.widgets.cell.SpinnerCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
@@ -175,12 +178,12 @@ public class SpectrumEventsEditor extends Dialog {
 		// Add column for spectrum number
 		TableViewerColumn spectrumTimeColumn = new TableViewerColumn(tableView, SWT.NONE);
 		spectrumTimeColumn.getColumn().setWidth(200);
-		spectrumTimeColumn.getColumn().setText("Start time");
+		spectrumTimeColumn.getColumn().setText("Event start time");
 		spectrumTimeColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 		    public String getText(Object element) {
 				SpectrumEvent event = (SpectrumEvent) element;
-				double timeAtSpectrumStart = getTimeForSpectrum(event.getSpectrumNumber());
+				double timeAtSpectrumStart = getTimeAtSpectrumEnd(event.getSpectrumNumber());
 				return String.format("%.4g s", timeAtSpectrumStart);
 		    }
 		});
@@ -283,11 +286,38 @@ public class SpectrumEventsEditor extends Dialog {
 	 */
 	private void copyRows() {
 		List<SpectrumEvent> selectedItems = getSelectedItems();
-		for(SpectrumEvent item : selectedItems) {
-			tableValues.add(item);
+		if (selectedItems.isEmpty()) {
+			return;
+		}
+
+		InputDialog numberInput = new InputDialog(getParentShell(), "Copy trigger parameters", "Enter start spectrum number to place copied triggers : ", "0.0", doubleValidator);
+		if(numberInput.open() == Window.OK) {
+			int startIndex = Integer.parseInt(numberInput.getValue());
+			int minIndex = Collections.min(selectedItems, (v1, v2) -> Integer.compare(v1.getSpectrumNumber(), v2.getSpectrumNumber())).getSpectrumNumber();
+			for(SpectrumEvent item : selectedItems) {
+				int origIndex = item.getSpectrumNumber();
+				item.setSpectrumNumber( startIndex + origIndex - minIndex);
+				tableValues.add(item);
+			}
 		}
 		tableView.refresh();
 	}
+
+	/**
+	 * Validator used to check floating point number input (collection time dialog box)
+	 */
+	private IInputValidator doubleValidator =  newText -> {
+		Integer value = null;
+		try {
+			value = Integer.valueOf(newText);
+		} catch (NumberFormatException nfe) {
+			// swallow, value==null
+		}
+		if (value == null || value < 0) {
+			return "Text should be a number >= 0";
+		}
+		return null;
+	};
 
 	/** Sort direction of items in the table */
 	private int direction = 1;
@@ -605,10 +635,10 @@ public class SpectrumEventsEditor extends Dialog {
 		display.dispose();
 	}
 
-	private List<Double> totalTimeForSpectum = Collections.emptyList();
+	private List<Double> timeAtSpectrumEnd = Collections.emptyList();
 
-	/** Using List of TurboSlitTimingGroups to make list of total time for each spectrum, across all groups
-	 * (i.e. time between spectrum starts)
+	/** Using List of TurboSlitTimingGroups to make list of the end times of each spectrum, across all groups
+	 *
 	 * @param timingGroups
 	 */
 	public void setSpectrumTimes(List<TurboSlitTimingGroup> timingGroups) {
@@ -620,25 +650,28 @@ public class SpectrumEventsEditor extends Dialog {
 			return;
 		}
 
-		totalTimeForSpectum = new ArrayList<>();
+		double totalTime = 0;
+		timeAtSpectrumEnd = new ArrayList<>();
 		for(TurboSlitTimingGroup timingGroup : timingGroups) {
-			double timeBetweenStarts = timingGroup.getTimePerSpectrum() + timingGroup.getTimeBetweenSpectra();
 			for(int i=0; i<timingGroup.getNumSpectra(); i++) {
-				totalTimeForSpectum.add(timeBetweenStarts);
+				totalTime += timingGroup.getTimePerSpectrum();
+				timeAtSpectrumEnd.add(totalTime);
+				totalTime += timingGroup.getTimeBetweenSpectra();
 			}
 		}
 	}
 
-	private double getTimeForSpectrum(int spectrumNumber) {
-		double startTime = 0.0;
-		int lastIndex = Math.min(spectrumNumber, totalTimeForSpectum.size());
-		if (lastIndex < spectrumNumber) {
+	private double getTimeAtSpectrumEnd(int spectrumNumber) {
+		if (spectrumNumber > timeAtSpectrumEnd.size()-1) {
+			MessageDialog.openWarning(this.getParentShell(), "Warning!", "Time for spectrum "+spectrumNumber +" will be incorrect - it is after the last spectrum in the timing groups");
 			logger.warn("Time for spectrum {} will be incorrect - it is after the last spectrum in the timing groups", spectrumNumber);
+			if (timeAtSpectrumEnd.isEmpty()) {
+				return 0;
+			} else {
+				return timeAtSpectrumEnd.get(timeAtSpectrumEnd.size()-1);
+			}
 		}
-		for (int i = 0; i < lastIndex; i++) {
-			startTime += totalTimeForSpectum.get(i);
-		}
-		return startTime;
+		return timeAtSpectrumEnd.get(spectrumNumber);
 	}
 
 }
