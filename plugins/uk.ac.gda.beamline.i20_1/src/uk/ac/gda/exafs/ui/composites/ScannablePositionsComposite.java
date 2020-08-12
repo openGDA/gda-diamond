@@ -21,33 +21,20 @@ package uk.ac.gda.exafs.ui.composites;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import gda.device.FindableObjectHolder;
 import gda.device.Scannable;
-import gda.device.scannable.ScannableMotor;
-import gda.device.scannable.scannablegroup.ScannableGroup;
-import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
@@ -60,7 +47,6 @@ public class ScannablePositionsComposite implements IObservable {
 	private Text scannableToMoveTextbox;
 	private Button collectMultipleSpectraButton;
 
-	private static final String SAFE_SCANNABLES_OBJECT_NAME = "safeScannablesForPositionsComposite";
 
 	private String scannableName = "";
 	private List< List<Double> > scannablePositions = Collections.emptyList();
@@ -94,99 +80,22 @@ public class ScannablePositionsComposite implements IObservable {
 		setPositionButton.addListener(SWT.Selection, e -> setPositions());
 	}
 
-	private static class ListDialogWithAdvanced extends ListDialog {
-
-		private List<String> model;
-		private List<String> shortNameList = Collections.emptyList();
-		private List<String> longNameList = Collections.emptyList();
-
-		public ListDialogWithAdvanced(Shell parent) {
-			super(parent);
-		}
-
-		@Override
-		protected void createButtonsForButtonBar(Composite parent) {
-	    	createShowAllButton(parent);
-	    	super.createButtonsForButtonBar(parent);
-	    }
-
-		public void setInput(List<String> input) {
-			model = new ArrayList<>(input);
-			super.setInput(model);
-		}
-
-		private void createShowAllButton(Composite parent) {
-			// Create extra button to show/hide the extra scannables
-//			Button extraButton = createButton(parent, 9999, "Show/hide extra scannables...", false);
-
-			// Create checkbox to control whether all scannables are shown in the list.
-			((GridLayout) parent.getLayout()).numColumns++;
-			Button extraButton = new Button(parent, SWT.CHECK);
-			extraButton.setText("Show all scannables");
-			setButtonLayoutData(extraButton);
-
-			extraButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
-				model.clear();
-				model.addAll(shortNameList);
-				if (extraButton.getSelection()) {
-					model.addAll(longNameList);
-				}
-				getTableViewer().refresh();
-			}));
-		}
-
-		public void setLongNameList(List<String> allNames) {
-			this.longNameList = allNames;
-		}
-
-		public void setShortNameList(List<String> safeNames) {
-			this.shortNameList = safeNames;
-		}
-	}
-
 	/**
 	 * Display list dialog to select scannable from list of all available ones.
 	 * Currently set scannable name is first in the list and selected when dialog is opened.
 	 */
 	private void selectScannable() {
-		// Make sorted list of names of available scannables
-		Optional<Findable> safeScannables = Finder.getInstance().findOptional(SAFE_SCANNABLES_OBJECT_NAME);
-
-		Map<String, Scannable> all = new HashMap<>();
-		Map<String, ScannableMotor> scannableMotors = Finder.getFindablesOfType(ScannableMotor.class);
-		Map<String, ScannableGroup> scannableGroups = Finder.getFindablesOfType(ScannableGroup.class);
-		if (scannableGroups != null) {
-			all.putAll(scannableMotors);
-		}
-		if (scannableGroups != null) {
-			all.putAll(scannableGroups);
-		}
-
-		List<String> scnNames = all.keySet().stream().collect(Collectors.toList());
-		scnNames.sort((String s1, String s2) -> s1.compareTo(s2) );
-
+		List<String> allScnNames = ScannableListEditor.getScannableNames();
 		// Move selected selected scannable to top of the list,
-		if (!scannableName.isEmpty() && scnNames.contains(scannableName)) {
-			scnNames.remove(scannableName);
-			scnNames.add(0, scannableName);
+		if (!scannableName.isEmpty() && allScnNames.contains(scannableName)) {
+			allScnNames.remove(scannableName);
+			allScnNames.add(0, scannableName);
 		}
 
-		ListDialogWithAdvanced ld = new ListDialogWithAdvanced(parent.getShell());
-		ld.setAddCancelButton(true);
-		ld.setContentProvider(new ArrayContentProvider());
-		ld.setLabelProvider(new LabelProvider());
-		ld.setInput(scnNames);
-		ld.setTitle("Select scannable");
-		ld.setBlockOnOpen(true);
-		if (safeScannables.isPresent()) {
-			FindableObjectHolder map = (FindableObjectHolder) safeScannables.get();
-			String objName = map.keySet().iterator().next();
-			List<String> names = (List<String>) map.get(objName);
-			ld.setShortNameList(names);
-			ld.setInput(names);
-			scnNames.removeAll(names);
-		}
-		ld.setLongNameList(scnNames);
+		List<String> shortNames = ScannableListEditor.getSafeScannableNames();
+		allScnNames.removeAll(shortNames);
+
+		ListDialog ld = ScannableListEditor.createSelectScannableDialog(parent, allScnNames, shortNames);
 
 		// select the scannable in the list
 		if (!scannableName.isEmpty()) {

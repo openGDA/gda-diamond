@@ -431,7 +431,8 @@ public class SpectrumEventsEditor extends Dialog {
 
 		@Override
 		protected Object openDialogBox(Control cellEditorWindow) {
-			final String name = ScannableListEditor.showSelectScannableDialog(cellEditorWindow.getParent());
+			List<String> safeScannables = ScannableListEditor.getSafeScannableNames();
+			final String name = ScannableListEditor.showSelectScannableDialog(cellEditorWindow.getParent(), safeScannables);
 			if (name != null) {
 				textBox.setText(name);
 				setValueToModel();
