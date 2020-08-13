@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="focus_scan_bean" parent="focus_scan_bean_base">
+		<property name="focusScanDevices">
+			<list>
+				<value>Simulated motors for mapping</value>
+				<value>Simulated motors for tomography</value>
+				<value>Simulated motors for load</value>
+			</list>
+		</property>
+ 		<property name="defaultFocusScanDevice" value="Simulated motors for mapping" />
+	</bean>
+
+
+</beans>

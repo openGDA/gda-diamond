@@ -29,7 +29,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/dark_field_collector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d7_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d8_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
 
 	<!-- Devices -->
 	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/frontEnd.xml" />
@@ -57,7 +56,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d7_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d8_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/dark_field_collector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/malcolm.xml" />
 
 	<!-- Devices -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />

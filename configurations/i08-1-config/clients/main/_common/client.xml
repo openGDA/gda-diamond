@@ -18,8 +18,14 @@
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<!-- =========================================================== -->
+	<!-- 	mode-specific files -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/focus_scan.xml" />
+
+	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/_common/focus_scan.xml" />
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping_view.xml" />

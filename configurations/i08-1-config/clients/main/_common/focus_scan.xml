@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
+	<bean id="focus_scan_bean_base" class="uk.ac.diamond.daq.mapping.api.FocusScanBean" abstract="true">
+		<property name="focusScannableName" value="ZonePlateZ"/>
+		<property name="focusRange" value="0.05"/>
+		<property name="numberOfFocusSteps" value="20"/>
+		<property name="numberOfLinePoints" value="40"/>
+		<property name="energyFocusBean">
+			<bean class="uk.ac.diamond.daq.mapping.api.EnergyFocusBean">
+				<property name="energyFocusConfigPath" value="${gda.var}/energyFocusFunction.json" />
+				<property name="energyFocusFunction" ref="energyFocusFunction" />
+				<property name="changeInterceptionDecimalPlaces" value="1" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>
