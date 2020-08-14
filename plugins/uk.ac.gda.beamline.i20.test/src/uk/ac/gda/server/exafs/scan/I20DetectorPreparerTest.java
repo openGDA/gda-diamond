@@ -26,14 +26,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import gda.TestHelpers;
 import gda.device.Detector;
@@ -64,9 +63,9 @@ import uk.ac.gda.devices.detector.FluorescenceDetectorParameters;
 import uk.ac.gda.server.exafs.scan.preparers.I20DetectorPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ XMLHelpers.class })
 public class I20DetectorPreparerTest {
+
+	private static MockedStatic<XMLHelpers> xmlHelpersMock;
 
 	private Xspress2Detector xspressSystem;
 	private NexusXmap xmpaMca;
@@ -84,6 +83,17 @@ public class I20DetectorPreparerTest {
 	private VortexParameters vortexParams;
 	private MonoOptimisation monoOptimiser;
 
+
+	@BeforeClass
+	public static void initStaticMock() {
+		xmlHelpersMock = Mockito.mockStatic(XMLHelpers.class);
+	}
+
+	@AfterClass
+	public static void releaseStaticMock() {
+		xmlHelpersMock.close();
+	}
+
 	@Before
 	public void setup() {
 		JythonServerFacade jythonserverfacade = mock(JythonServerFacade.class);
@@ -96,7 +106,7 @@ public class I20DetectorPreparerTest {
 		I1 =  createMock(TfgScalerWithFrames.class, "ionchambers");
 		ffI1 = createMock(TfgXMapFFoverI0.class, "ffI0");
 
-		xmapFluoDetector = PowerMockito.mock(NexusXmapFluorescenceDetectorAdapter.class);
+		xmapFluoDetector = Mockito.mock(NexusXmapFluorescenceDetectorAdapter.class);
 		Mockito.when(xmapFluoDetector.getName()).thenReturn("xmapFluoDetector");
 		Mockito.when(xmapFluoDetector.getXmap()).thenReturn(xmpaMca);
 
@@ -175,14 +185,13 @@ public class I20DetectorPreparerTest {
 	}
 
 	private <T extends Scannable> T createMock(Class<T> clazz, String name) {
-		T newMock = PowerMockito.mock(clazz);
+		T newMock = Mockito.mock(clazz);
 		Mockito.when(newMock.getName()).thenReturn(name);
 		return newMock;
 	}
 
 	private void setupMockXmlHelper(FluorescenceDetectorParameters params) throws Exception {
-		PowerMockito.mockStatic(XMLHelpers.class);
-		PowerMockito.when(XMLHelpers.getBean(ArgumentMatchers.any())).thenReturn(params);
+		Mockito.when(XMLHelpers.getBean(ArgumentMatchers.any())).thenReturn(params);
 	}
 
 	@Test

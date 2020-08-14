@@ -30,12 +30,9 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
@@ -67,8 +64,6 @@ import uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controlle
 import uk.ac.gda.server.exafs.b18.scan.preparers.B18DetectorPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ XMLHelpers.class })
 public class B18DetectorPreparerTest {
 
 	private Scannable energy_scannable;
@@ -86,9 +81,11 @@ public class B18DetectorPreparerTest {
 	private B18DetectorPreparer thePreparer;
 	private NexusXmapFluorescenceDetectorAdapter xmapFluoDetector;
 	private Map<Detector, FluorescenceDetectorParameters> params;
+	private MockedStatic<XMLHelpers> xmlHelpersMock;
 
 	@Before
 	public void setup() throws Exception {
+		xmlHelpersMock = Mockito.mockStatic(XMLHelpers.class);
 		mythen_scannable = createMock(MythenDetectorImpl.class, "mythen_scannable");
 		Mockito.when(mythen_scannable.readout()).thenReturn("/scratch/test/xml/path/0001.dat");
 
@@ -99,7 +96,7 @@ public class B18DetectorPreparerTest {
 		xspress3Controller = Mockito.mock(DummyXspress3Controller.class);
 		Mockito.when(xspress3Detector.getController()).thenReturn(xspress3Controller);
 
-		xmapFluoDetector = PowerMockito.mock(NexusXmapFluorescenceDetectorAdapter.class);
+		xmapFluoDetector = Mockito.mock(NexusXmapFluorescenceDetectorAdapter.class);
 		Mockito.when(xmapFluoDetector.getName()).thenReturn("xmapFluoDetector");
 		Mockito.when(xmapFluoDetector.getXmap()).thenReturn(xmapMca);
 
@@ -150,6 +147,7 @@ public class B18DetectorPreparerTest {
 	public void tearDown() {
 		// Remove factories from Finder so they do not affect other tests
 		Finder.removeAllFactories();
+		xmlHelpersMock.close();
 	}
 
 	private void setupFinder() throws Exception {
@@ -173,7 +171,7 @@ public class B18DetectorPreparerTest {
 	}
 
 	private <T extends Scannable> T createMock(Class<T> clazz, String name) {
-		T newMock = PowerMockito.mock(clazz);
+		T newMock = Mockito.mock(clazz);
 		Mockito.when(newMock.getName()).thenReturn(name);
 		Mockito.when(newMock.getInputNames()).thenReturn(new String[]{name});
 		Mockito.when(newMock.getExtraNames()).thenReturn(new String[]{});
@@ -182,8 +180,7 @@ public class B18DetectorPreparerTest {
 	}
 
 	private void setupMockXmlHelper(FluorescenceDetectorParameters params) throws Exception {
-		PowerMockito.mockStatic(XMLHelpers.class);
-		PowerMockito.when(XMLHelpers.getBean(ArgumentMatchers.any())).thenReturn(params);
+			Mockito.when(XMLHelpers.getBean(ArgumentMatchers.any())).thenReturn(params);
 	}
 
 	@Test

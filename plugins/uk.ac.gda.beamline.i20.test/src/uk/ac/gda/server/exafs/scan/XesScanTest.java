@@ -20,26 +20,22 @@ package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InOrder;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.api.support.membermodification.MemberModifier;
-import org.powermock.api.support.membermodification.strategy.MethodStubStrategy;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
@@ -74,8 +70,6 @@ import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 import uk.ac.gda.util.beans.BeansFactory;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ ScannableCommands.class, ConcurrentScan.class, XMLHelpers.class, XanesScanParameters.class })
 public class XesScanTest {
 
 	private Scannable analyserAngle;
@@ -97,12 +91,17 @@ public class XesScanTest {
 	private ConcurrentScan mockScan;
 	private ScanPlotSettings mockPlotSettings;
 	private final String experimentalFullPath = "/scratch/test/xml/path/";
+	private MockedStatic<XMLHelpers> staticMock;
+	private MockedStatic<ScannableCommands> staticMock2;
 
 	@Before
 	public void setup() throws DeviceException {
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "DummyDataWriter");
 
-		ionchambers = PowerMockito.mock(TfgScalerWithFrames.class);
+		staticMock = Mockito.mockStatic(XMLHelpers.class);
+		staticMock2 = Mockito.mockStatic(ScannableCommands.class);
+
+		ionchambers = Mockito.mock(TfgScalerWithFrames.class);
 		Mockito.when(ionchambers.getName()).thenReturn("ionchambers");
 		Mockito.when(ionchambers.readout()).thenReturn(new double[] { 1.0, 2.0, 3.0 });
 		Mockito.when(ionchambers.getExtraNames()).thenReturn(new String[] { "i0", "it", "iref" });
@@ -138,14 +137,14 @@ public class XesScanTest {
 		InterfaceProvider.setScanDataPointProviderForTesting(jythonserverfacade);
 
 		// create the preparers
-		beamlinePreparer = PowerMockito.mock(BeamlinePreparer.class);
-		detectorPreparer = PowerMockito.mock(DetectorPreparer.class);
-		samplePreparer = PowerMockito.mock(SampleEnvironmentPreparer.class);
-		outputPreparer = PowerMockito.mock(OutputPreparer.class);
+		beamlinePreparer = Mockito.mock(BeamlinePreparer.class);
+		detectorPreparer = Mockito.mock(DetectorPreparer.class);
+		samplePreparer = Mockito.mock(SampleEnvironmentPreparer.class);
+		outputPreparer = Mockito.mock(OutputPreparer.class);
 		metashop = new NXMetaDataProvider();
-		loggingScriptController = PowerMockito.mock(LoggingScriptController.class);
+		loggingScriptController = Mockito.mock(LoggingScriptController.class);
 
-		mono_energy = PowerMockito.mock(ScannableMotor.class);
+		mono_energy = Mockito.mock(ScannableMotor.class);
 		Mockito.when(mono_energy.getName()).thenReturn("mono_energy");
 		Mockito.when(mono_energy.getInputNames()).thenReturn(new String[] { "mono_energy" });
 		Mockito.when(mono_energy.getExtraNames()).thenReturn(new String[] {});
@@ -194,7 +193,7 @@ public class XesScanTest {
 		detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 		detParams.setDetectorGroups(detectorGroups);
 
-		sampleParams = PowerMockito.mock(ISampleParameters.class);
+		sampleParams = Mockito.mock(ISampleParameters.class);
 		Mockito.when(sampleParams.getName()).thenReturn("My Sample");
 		Mockito.when(sampleParams.getDescriptions()).thenReturn(new ArrayList<String>());
 
@@ -221,6 +220,14 @@ public class XesScanTest {
 		xesScan.setMetashop(metashop);
 		xesScan.setIncludeSampleNameInNexusName(true);
 
+
+
+	}
+
+	@After
+	public void closeStaticMock() {
+		staticMock.close();
+		staticMock2.close();
 	}
 
 	private Set<IonChamberParameters> makeIonChamberParameters() {
@@ -255,18 +262,18 @@ public class XesScanTest {
 	}
 
 	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
-		Scannable newMock = PowerMockito.mock(clazz);
+		Scannable newMock = Mockito.mock(clazz);
 		Mockito.when(newMock.getName()).thenReturn(name);
 		return newMock;
 	}
 
-	private void prepareMockScan() throws NoSuchMethodException, SecurityException {
+	private void prepareMockScan() throws NoSuchMethodException, SecurityException, Exception {
 		// create mock scan
-		mockScan = PowerMockito.mock(ConcurrentScan.class);
+		mockScan = Mockito.mock(ConcurrentScan.class);
 
 		// runScan is a void method, so have to make an Answer for just that method
 		try {
-			PowerMockito.doAnswer(new org.mockito.stubbing.Answer<Void>() {
+			Mockito.doAnswer(new org.mockito.stubbing.Answer<Void>() {
 				@Override
 				public Void answer(InvocationOnMock invocation) throws Throwable {
 					return null;
@@ -277,13 +284,11 @@ public class XesScanTest {
 			fail(e.getMessage());
 		}
 
-		mockPlotSettings = PowerMockito.mock(ScanPlotSettings.class);
+		mockPlotSettings = Mockito.mock(ScanPlotSettings.class);
 		Mockito.when(mockScan.getScanPlotSettings()).thenReturn(mockPlotSettings);
 
 		// then stub the factory method and make sure that it always retruns the stub
-		Method staticMethod = ScannableCommands.class.getMethod("createConcurrentScan", Object[].class);
-		MethodStubStrategy<Object> stubbedMethod = MemberModifier.stub(staticMethod);
-		stubbedMethod.toReturn(mockScan);
+		Mockito.when(ScannableCommands.createConcurrentScan(any())).thenReturn(mockScan);
 
 	}
 
@@ -300,8 +305,7 @@ public class XesScanTest {
 		xanesParams.setFinalEnergy(7021.0);
 
 		BeansFactory.setClasses(new Class[] { XanesScanParameters.class });
-		PowerMockito.mockStatic(XMLHelpers.class);
-		PowerMockito.when(XMLHelpers.getBeanObject(ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(xanesParams);
+		Mockito.when(XMLHelpers.getBeanObject(ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(xanesParams);
 		return xanesParams;
 	}
 
@@ -323,7 +327,7 @@ public class XesScanTest {
 	}
 
 	protected SampleEnvironmentIterator mockSampleEnvIterator() {
-		SampleEnvironmentIterator it = PowerMockito.mock(SampleEnvironmentIterator.class);
+		SampleEnvironmentIterator it = Mockito.mock(SampleEnvironmentIterator.class);
 		Mockito.when(it.getNumberOfRepeats()).thenReturn(1);
 		Mockito.when(it.getNextSampleName()).thenReturn("My sample");
 		Mockito.when(it.getNextSampleDescriptions()).thenReturn(new ArrayList<String>());
@@ -563,7 +567,7 @@ public class XesScanTest {
 	}
 
 	protected void mockI20OutputParameters() {
-		outputParams = PowerMockito.mock(I20OutputParameters.class);
+		outputParams = Mockito.mock(I20OutputParameters.class);
 		Mockito.when(outputParams.getAsciiFileName()).thenReturn("");
 		Mockito.when(outputParams.getAsciiDirectory()).thenReturn("ascii");
 		Mockito.when(outputParams.getNexusDirectory()).thenReturn("nexus");

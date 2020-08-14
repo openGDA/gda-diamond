@@ -27,7 +27,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
@@ -45,7 +44,6 @@ import gda.scan.ede.drivers.SingleSpectrumDriver;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 @Ignore("2015/09/29 All tests in the class are currently ignored, so just ignore the entire class")
-@PowerMockIgnore({"javax.management.*", "javax.xml.parsers.*", "org.apache.xerces.*" ,"com.sun.org.apache.xerces.internal.jaxp.*", "ch.qos.logback.*", "org.slf4j.*"})
 public class EdeScanDriversTest extends EdeTestBase {
 	private static DummyXStripDAServer daserver;
 	private static XhDetector xh;
