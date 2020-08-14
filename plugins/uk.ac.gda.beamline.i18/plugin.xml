@@ -81,7 +81,6 @@
             value="10000">
       </preference>
    </extension>
-  
    <extension
          point="org.eclipse.ui.views">
       <view
@@ -117,6 +116,104 @@
             restorable="true">
       </view>
    </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.mapping"
+            icon="icons/map.png"
+            name="Mapping">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.plotting"
+            icon="icons/chart_curve.png"
+            name="Plot">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.synoptic"
+            icon="icons/eye.png"
+            name="Synoptic" >
+      </perspective>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.mapping">
+         <view
+               id="org.dawnsci.mapping.ui.mappeddataview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss" />
+         <view
+               id="org.dawnsci.mapping.ui.mapview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.dawnsci.mapping.ui.mappeddataview" />
+         <view
+               id="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView"
+               ratio="0.58f"
+               relationship="right"
+               relative="org.dawnsci.mapping.ui.mapview" />
+         <view
+               id="uk.ac.gda.client.microfocus.SelectExafsView"
+               relationship="stack"
+               relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView" />
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.dawnsci.mapping.ui.mappeddataview" />
+         <view
+               id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Queue"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview" />
+         <view
+               id="org.dawnsci.mapping.ui.spectrumview"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.dawnsci.mapping.ui.mapview" />
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.plotting">
+         <view
+               id="uk.ac.gda.client.liveplotview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss" />
+         <view
+               id="uk.ac.gda.client.CommandQueueViewFactory"
+               ratio="0.7f"
+               relationship="bottom"
+               relative="uk.ac.gda.client.liveplotview" />
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.5f"
+               relationship="right"
+               relative="uk.ac.gda.client.CommandQueueViewFactory" />
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.synoptic">
+         <view
+               id="uk.ac.gda.beamline.i18.cameraView"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss"
+               moveable="false"
+               closeable="false" />
+         <view
+               id="uk.ac.gda.client.livecontrol.LiveControlsView"
+               ratio="0.5f"
+               relationship="right"
+               relative="uk.ac.gda.beamline.i18.cameraView"
+               moveable="false"
+               closeable="false" />
+      </perspectiveExtension>
+   </extension>
+
    <extension
          point="uk.ac.gda.microfocus.display.detectorfile">
       <detectorfile
@@ -167,6 +264,18 @@
                name="uk.ac.gda.beamline.i20.separator1"
                visible="true">
          </separator>
+      </menuContribution>
+      <menuContribution
+      		locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+      	 <toolbar
+      	 		id="uk.ac.gda.client.exafs.toolbar1">
+      	 	<command
+      	 		  commandId="uk.ac.gda.client.exafs.resetperspective"
+      	 		  label="Reset perspective"
+      	 		  style="push"
+      	 		  tooltip="Resets the current perspective to its default layout">
+      	 	</command>
+      	 </toolbar>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -225,6 +334,14 @@
                visible="true">
          </separator>
       </menuContribution>
+   </extension>
+   <extension
+   		 point="org.eclipse.ui.commands">
+   	  <command
+   	  		defaultHandler="org.eclipse.ui.internal.handlers.ResetPerspectiveHandler"
+   	  		id="uk.ac.gda.client.exafs.resetperspective"
+   	  		name="Reset Perspective">
+   	  </command>
    </extension>
    <extension
          point="uk.ac.gda.microfocus.display.default.detectorfile">
