@@ -4,7 +4,7 @@ Bundle-Name: Beamline B18 Test
 Bundle-SymbolicName: uk.ac.gda.beamline.b18.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
-Fragment-Host: uk.ac.gda.beamline.b18;bundle-version="1.0.0"
+Fragment-Host: uk.ac.gda.beamline.b18
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  uk.ac.diamond.org.powermock,
@@ -17,7 +17,4 @@ Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  javassist;bundle-version="3.21.0",
  uk.ac.gda.common,
  uk.ac.gda.test.helpers
-Import-Package: gda.device.detector.xmap,
- gda.device.scannable,
- uk.ac.gda.server.exafs.scan.iterators
 Automatic-Module-Name: uk.ac.gda.beamline.b18.test
