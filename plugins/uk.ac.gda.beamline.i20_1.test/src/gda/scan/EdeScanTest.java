@@ -53,7 +53,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
@@ -93,7 +92,6 @@ import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-@PowerMockIgnore({"javax.management.*", "javax.xml.parsers.*", "com.sun.org.apache.xerces.internal.jaxp.*", "ch.qos.logback.*", "org.slf4j.*"})
 public class EdeScanTest extends EdeTestBase {
 
 	private static final int MCA_WIDTH = 1024;

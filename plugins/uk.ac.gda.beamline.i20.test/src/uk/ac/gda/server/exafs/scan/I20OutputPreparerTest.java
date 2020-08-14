@@ -26,7 +26,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 
 import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
@@ -68,14 +67,14 @@ public class I20OutputPreparerTest {
 //		factory.addFindable(metashop);
 //		Finder.addFactory(factory);
 
-		datawriterconfig = PowerMockito.mock(AsciiDataWriterConfiguration.class);
-		datawriterconfig_xes = PowerMockito.mock(AsciiDataWriterConfiguration.class);
+		datawriterconfig = Mockito.mock(AsciiDataWriterConfiguration.class);
+		datawriterconfig_xes = Mockito.mock(AsciiDataWriterConfiguration.class);
 
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		xmpaMca = (Xmap) createMock(Xmap.class, "xmpaMca");
 
-		i20DetectorPreparer = PowerMockito.mock(I20DetectorPreparer.class);
+		i20DetectorPreparer = Mockito.mock(I20DetectorPreparer.class);
 		List<Detector> detList = new ArrayList<Detector>();
 		detList.add(ionchambers);
 		detList.add(xspressSystem);
@@ -89,7 +88,7 @@ public class I20OutputPreparerTest {
 	}
 
 	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
-		Scannable newMock = PowerMockito.mock(clazz);
+		Scannable newMock = Mockito.mock(clazz);
 		Mockito.when(newMock.getName()).thenReturn(name);
 		return newMock;
 	}

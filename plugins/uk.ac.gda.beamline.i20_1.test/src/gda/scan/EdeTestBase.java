@@ -42,7 +42,6 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +69,7 @@ public class EdeTestBase {
 
 	public static ScannableMotor createMotor(String name, double position) throws Exception {
 
-		ScannableMotor energy_scannable = PowerMockito.mock(ScannableMotor.class);
+		ScannableMotor energy_scannable = Mockito.mock(ScannableMotor.class);
 		Mockito.when(energy_scannable.getName()).thenReturn(name);
 		Mockito.when(energy_scannable.getInputNames()).thenReturn(new String[] { name });
 		Mockito.when(energy_scannable.getExtraNames()).thenReturn(new String[] {});
@@ -169,7 +168,7 @@ public class EdeTestBase {
 		return shutter2;
 	}
 
-	public static void assertDimensions(IDataset dataset, int[] expectedDims) throws NexusException {
+	public static void assertDimensions(IDataset dataset, int[] expectedDims) {
 		assertArrayEquals("Shape of "+dataset.getName()+" is not correct", expectedDims,  dataset.getShape());
 		logger.info("Shape of {} dataset is ok ", dataset.getName());
 	}

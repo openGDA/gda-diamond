@@ -26,7 +26,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
@@ -65,7 +64,7 @@ public class I20SamplePreparerTest {
 	}
 
 	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
-		Scannable newMock = PowerMockito.mock(clazz);
+		Scannable newMock = Mockito.mock(clazz);
 		Mockito.when(newMock.getName()).thenReturn(name);
 		return newMock;
 	}

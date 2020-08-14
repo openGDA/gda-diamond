@@ -24,7 +24,6 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 
 import gda.device.scannable.ScannableMotor;
 import gda.jython.InterfaceProvider;
@@ -70,7 +69,7 @@ public class B18SamplePreparerTest {
 	}
 
 	private ScannableMotor createMockScannableMotor(String string) {
-		ScannableMotor newMock = PowerMockito.mock(ScannableMotor.class);
+		ScannableMotor newMock = Mockito.mock(ScannableMotor.class);
 		Mockito.when(newMock.getName()).thenReturn(string);
 		return newMock;
 	}
