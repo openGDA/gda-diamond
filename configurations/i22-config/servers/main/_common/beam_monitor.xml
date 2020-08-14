@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<bean id="det_shutter_check" class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
+		<property name="positioner" ref="det_shutter" />
+		<property name="allowedPositions" value="Open" />
+	</bean>
+	<bean id="beam_monitor" class="uk.ac.diamond.daq.beamcondition.BeamMonitor">
+		<!-- <property name="checks"> -->
+		<!-- 	<list> -->
+		<!-- 		<ref bean="det_shutter_check" /> -->
+		<!-- 	</list> -->
+		<!-- </property> -->
+	</bean>
+
+</beans>
