@@ -150,6 +150,8 @@ public class TurboXasParameters {
 		setDefaults();
 		startEnergy = contparams.getStartPosition();
 		endEnergy = contparams.getEndPosition();
+		startPosition = startEnergy;
+		endPosition = endEnergy;
 
 		energyCalibrationPolynomial = "";
 
@@ -157,7 +159,9 @@ public class TurboXasParameters {
 		energyCalibrationMinPosition = startEnergy*0.8;
 		energyCalibrationMaxPosition = endEnergy*1.2;
 
-		energyStepSize = (endEnergy - startEnergy)/contparams.getNumberDataPoints();
+		energyStepSize = (endEnergy - startEnergy)/(contparams.getNumberDataPoints()+1);
+		positionStepSize = energyStepSize;
+
 		double timeForSpectra = contparams.getTotalTime();
 		timingGroups.add( new TurboSlitTimingGroup("group1", timeForSpectra, timeForSpectra, 1) );
 	}

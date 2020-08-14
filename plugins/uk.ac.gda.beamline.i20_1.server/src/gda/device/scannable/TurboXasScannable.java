@@ -67,6 +67,9 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	private long trajectoryScanInitialWaitTimeMs = 1000;
 
+	private Double rampDistance; /** Motor ramp distance when doing scan based on ContinuousParameters */
+	private Double maxMotorSpeed; /** Maximum motor speed when doing scan based on ContinuousParameters */
+
 	public TurboXasScannable() {
 	}
 
@@ -138,7 +141,15 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	private TurboXasMotorParameters getMotorParametersFromContinuous(ContinuousParameters continuousParameters) {
 		TurboXasParameters scanParams = new TurboXasParameters(continuousParameters);
 		TurboXasMotorParameters motorParams = scanParams.getMotorParameters();
+		if (rampDistance != null && rampDistance > 0) {
+			motorParams.setMotorTimeToVelocity(0.0);
+			motorParams.setMotorStabilisationDistance(rampDistance);
+		}
 		motorParams.setMotorParametersForTimingGroup(0);
+		/** Replace the return motor speed calculated by {@link TurboXasMotorParameters#setMotorParametersForTimingGroup} from 'time between spectra' */
+		if (maxMotorSpeed != null && maxMotorSpeed > 0) {
+			motorParams.setReturnMotorSpeed(maxMotorSpeed);
+		}
 		return motorParams;
 	}
 
@@ -231,7 +242,11 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	 */
 	@Override
 	public int getNumberOfDataPoints() {
-		return zebraGatePulsePreparer.getNumReadoutsForScan();
+		if (lastParameterSetType==ScanParametersType.CONTINUOUSPARAMS) {
+			return continuousParameters.getNumberDataPoints();
+		} else {
+			return zebraGatePulsePreparer.getNumReadoutsForScan();
+		}
 	}
 
 	public void armZebra() throws Exception {
@@ -497,5 +512,23 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
  	 */
 	public void setTrajectoryScanInitialWaitTimeMs(long trajectoryScanInitialWaitTimeMs) {
 		this.trajectoryScanInitialWaitTimeMs = trajectoryScanInitialWaitTimeMs;
+	}
+
+	public double getRampDistance() {
+		return rampDistance;
+	}
+
+	/** Motor runup distance to use for scans based on ContinuousParameters */
+	public void setRampDistance(double rampDistance) {
+		this.rampDistance = rampDistance;
+	}
+
+	public double getMaxMotorSpeed() {
+		return maxMotorSpeed;
+	}
+
+	/** Maximum motor speed for scans based on ContinuousParameters (used when moving to scan runup postion)*/
+	public void setMaxMotorSpeed(double maxMotorSpeed) {
+		this.maxMotorSpeed = maxMotorSpeed;
 	}
 }
