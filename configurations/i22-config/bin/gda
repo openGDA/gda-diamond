@@ -56,4 +56,5 @@ if [[ "$@" == *"servers"* ]] && [[ "$@" != *"stop"* ]]; then
     fi
 fi
 
+export SWT_GTK3=0
 source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
