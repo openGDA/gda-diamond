@@ -6,14 +6,14 @@
 				http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="tetramm_hdf5" class="uk.ac.gda.server.ncd.epics.NDFileHDF5Impl">
-		<property name="basePVName" value="BL22I-EA-TTRM-01:HDF5:"/>
+		<property name="basePVName" value="BL22I-EA-XBPM-02:HDF5:"/>
 		<property name="numRowChunks" value="5"/>
 		<property name="framesPerChunk" value="1"/>
 		<property name="columnsPerChunk" value="1"/>
 		<property name="chunkAlignment" value="0"/>
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="BL22I-EA-TTRM-01:HDF5:"/>
+				<property name="basePVName" value="BL22I-EA-XBPM-02:HDF5:"/>
 				<property name="initialAutoIncrement" value="0"/>
 				<property name="initialAutoSave" value="0"/>
 				<property name="initialWriteMode" value="0"/>
@@ -22,7 +22,7 @@
 				<property name="initialFileTemplate" value="%s/%s-%d.h5"/>
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL22I-EA-TTRM-01:HDF5:"/>
+						<property name="basePVName" value="BL22I-EA-XBPM-02:HDF5:"/>
 					</bean>
 				</property>
 			</bean>
@@ -30,7 +30,7 @@
 	</bean>
 	<bean id="tetramm_controller" class="uk.ac.gda.server.ncd.subdetector.NcdEpicsTetramm" >
 		<property name="fileWriter" ref="tetramm_hdf5" />
-		<property name="basePv" value="BL22I-EA-TTRM-01" />
+		<property name="basePv" value="BL22I-EA-XBPM-02" />
 		<property name="collectionGeometry" value="SQUARE" />
 	</bean>
 	<bean id="I0" class="uk.ac.gda.server.ncd.subdetector.NcdTetrammDetector" >

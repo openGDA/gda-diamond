@@ -7,15 +7,7 @@
 	<bean id="bs2diode" class="gda.device.currentamplifier.CalibratedAmplifier">
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
-		<property name="pvName" value="BL22I-EA-TTRM-02:Current2:MeanValue_RBV"/>
-		<property name="settletime" value="500"/>
-		<property name="upperThreshold" value="8.5"/>
-	</bean>
-
-	<bean id="diode" class="gda.device.currentamplifier.CalibratedAmplifier">
-		<property name="useNameAsExtraName" value="true"/>
-		<property name="hasUnits" value="false"/>
-		<property name="pvName" value="BL22I-EA-TTRM-02:Current3:MeanValue_RBV"/>
+		<property name="pvName" value="BL22I-EA-TTRM-02:Cur2:MeanValue_RBV"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
@@ -23,7 +15,7 @@
 	<bean id="bs1diode" class="gda.device.currentamplifier.CalibratedAmplifier">
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
-		<property name="pvName" value="BL22I-EA-TTRM-02:Current1:MeanValue_RBV"/>
+		<property name="pvName" value="BL22I-EA-TTRM-02:Cur1:MeanValue_RBV"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
