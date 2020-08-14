@@ -3,28 +3,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
+	<alias name="sim_adbase" alias="vma_adbase" />
+	<alias name="sim_stats" alias="vma_stats" />
+	<alias name="sim_array" alias="vma_ndarray" />
+	<alias name="sim_hdf5" alias="vma_hdf5" />
 
-	<bean id="vma_dummy_cam_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
-		<property name="dims" value="1000,1000"/>
-		<property name="datatype" value="UINT32"/>
-	</bean>
-
-	<bean id="vma_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
-
-	<bean id="vma_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
-		<constructor-arg ref="vma_dummy_cam_pluginBase" />
-	</bean>
-
-	<bean id="vma_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
-		<property name="file" ref="vma_ndfile" />
-	</bean>
-
-	<bean id="vma_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
-		<property name="pluginBase" ref="vma_dummy_cam_pluginBase" />
-	</bean>
-
-	<bean id="vma_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
-		<property name="pluginBase" ref="vma_dummy_cam_pluginBase" />
+	<bean id="vma_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_file_hdf5">
+		<property name="initialFileName" value="vma" />
 	</bean>
 
 </beans>
