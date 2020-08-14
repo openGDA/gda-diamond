@@ -8,6 +8,8 @@ def setDetectorRoiDefaults() :
     setDetectorRoi(64, 1984)
 
 def setDetectorRoi(verticalBinning, verticalStart) :
+    print "Setting detector kinetic ROI : vertical binning = "+str(verticalBinning)+" , vertical start pixel = "+str(verticalStart)
+    
     fr = frelon.getFrelon()
     # set roi_bin_offset to 0 otherwise might get problem setting new ROI if value is inconsistent with ROI...
     fr.setROIBinOffset(0)
@@ -22,10 +24,14 @@ def setDetectorRoi(verticalBinning, verticalStart) :
     # ccdConfig.setImageMode(ImageMode.FRAME_TRANSFER) # this is for 'half ccd' image modes
     ccdConfig.setImageMode(ImageMode.FULL_FRAME)
     ccdConfig.setInputChannel(InputChannels.I3_4)
+    ccdConfig.setTriggerMode(LimaCCD.AcqTriggerMode.INTERNAL_TRIGGER)
 
     ## Apply the above settings to detector and set the ROI based on vertical binning size and vertical pixel to readout :
     frelon.configureDetectorForROI(verticalBinning, verticalStart) # vertical binning, vertical pixel
     # roi_bin_offset=vertical pixel%vertical binning;
+    
+    print "    Setting frelon 'drop first frame' to True (for ssfrelon step scans and 'live' mode)"
+    frelon.setDropFirstFrame(True)
 
 # Can also apply settings directly on detector using frelon and limaCcd objects :
 def setDetectorRoiDirectly(verticalBinning, verticalStart) :
@@ -62,6 +68,100 @@ def setDetectorRoiDirectly(verticalBinning, verticalStart) :
     offset = verticalStart%verticalBinning
     fr.setROIBinOffset(offset)
 
+from gda.device.lima.LimaCCD import AcqTriggerMode
+from uk.ac.gda.exafs.ui.data import TimingGroup
+
+def setupForSpectra(numFrames, accumulationTime, numAccumulations):
+    group = TimingGroup()
+    group.setTimePerScan(accumulationTime)
+    group.setNumberOfScansPerFrame(numAccumulations)
+    group.setNumberOfFrames(numFrames)
+
+    frelon.setDropFirstFrame(False)
+    frelon.configureDetectorForTimingGroup(group)
+    
+accumulationReadoutTime = 0.536e-3
+triggerPulseLength = 10e-6 
+triggerExtraGap = 2e-6 # extra wait time added between each accumulation trigger 
+
+def getReadoutTime() :
+    latency = frelon.getLimaCcd().getLatencyTime()
+    print "Latency time from frelon (accumulation readout time?) : "+str(latency)+"sec"
+
+def setupTfg(cycles, timeBetweenSpectra, accumulationTime, numAccumulations):
+    timeBetweenTriggers = accumulationTime + accumulationReadoutTime - triggerPulseLength  + triggerExtraGap
+    print "Time between triggers = "+str(timeBetweenTriggers)+" sec"
+    if timeBetweenTriggers < 0 :
+        print "Cannot setup tfg - time betyween triggers is "+str(timeBetweenTriggers)+" sec. Check input parameters..."
+        return
+    
+    command="tfg setup-groups cycles " + str(cycles) + "\n"+\
+            str(numAccumulations) +" " + str(triggerPulseLength) +" " + str(timeBetweenTriggers) + " 2 0 0 0 \n"
+
+    waitTime = timeBetweenSpectra - numAccumulations*(triggerPulseLength + accumulationReadoutTime)
+    print "Wait time = "+str(waitTime)+" sec"
+    if waitTime>0 :
+        command = command + "1 0.0 " + str(waitTime) + " 0 0 0 0 \n"
+
+    command = command + "-1 0 0 0 0 0 0"
+    daserverForTfg.sendCommand(command)
+    
+def setupTriggers(numTriggers, length, gap) :
+    daserverForTfg.sendCommand("tfg setup-groups\n"+str(numTriggers)+" "+str(length)+ " " +str(gap)+" 2 0 0 0\n-1 0 0 0 0 0 0")
+def startTriggers() :
+    daserverForTfg.sendCommand("tfg start")
+def stopTriggers() :
+    daserverForTfg.sendCommand("tfg stop")
+
+def testAccumulationTriggeredSpectra() :
+    numFrames = 100
+    timeBetweenSpectra = 0.1
+    accumulationTime = 1e-3
+    numAccumulations = 4
+    
+    
+    setupTfg(numFrames, timeBetweenSpectra, accumulationTime, numAccumulations)
+    
+    # Update settings from detector
+    frelon.fetchDetectorSettings()
+    detData = frelon.getDetectorData();
+    #detData.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER)
+    detData.setTriggerMode(AcqTriggerMode.EXTERNAL_TRIGGER_MULTI)
+    
+    setupForSpectra(numFrames, accumulationTime, numAccumulations)
+    sleep(2.0)
+    frelon.collectData()
+    sleep(2)
+    startTriggers()
+    
+    for i in range(numFrames) :
+        waitForImage(i)
+    print "Finished"
+    
+    
+def testGateTriggeredSpectra() :
+    numFrames = 100
+    timePerSpectrum = 0.1
+    accumulationTime = 1e-3
+    numAccumulations = 1
+    
+    setupTriggers(numFrames, timePerSpectrum, 0.00054)
+
+    # Update settings from detector
+    frelon.fetchDetectorSettings()
+    detData = frelon.getDetectorData();
+    detData.setTriggerMode(AcqTriggerMode.EXTERNAL_GATE)
+    
+    setupForSpectra(numFrames, accumulationTime, numAccumulations)
+    sleep(2.0)
+    frelon.collectData()
+    sleep(2)
+    startTriggers()
+        
+    for i in range(numFrames) :
+        waitForImage(i)
+    print "Finished"
+    
 def setImageMode(exposureTime, numFrames) :
     fr = frelon.getFrelon()
     ccd = frelon.getLimaCcd()
@@ -86,6 +186,8 @@ def setImageMode(exposureTime, numFrames) :
     ccd.setAcqMode(LimaCCD.AcqMode.SINGLE)
 
     ccd.setAcqTriggerMode(LimaCCD.AcqTriggerMode.INTERNAL_TRIGGER)
+
+    # ccd.setAcqTriggerMode(LimaCCD.AcqTriggerMode.EXTERNAL_TRIGGER)
 
     ccd.setAcqExpoTime(exposureTime)
 
@@ -138,7 +240,16 @@ def collectImageInLoop(exposureTime, numFrames) :
         waitForImage(i)
         plotImage(i)
 
-print "Functions from frelon02-kinetic-roi-settings.py : "
-print "    Set detector ROI (kinetic ROI mode) : setDetectorRoi(verticalBinning, verticalStart)"
+def collectSpectraInLoop(exposureTime, numFrames) :
+
+    setDetectorRoiDefaults()
+    firstTime = True
+    collectImage()
+    for i in range(numFrames) :
+        waitForImage(i)
+        plotImage(i)
+
+print "Functions from frelon-kinetic-roi-settings.py : "
+print "    Set detector ROI (kinetic ROI mode) : setDetectorRoi(verticalBinning, verticalStart), setDetectorRoiDefaults()"
 print "    Collect several images in loop : collectImageInLoop(exposureTime, numFrames)  "
-print "    Collect image in infinte loop  : collectSingleImageInLoop(exposureTime)"
+print "    Collect image in infinite loop  : collectSingleImageInLoop(exposureTime)"

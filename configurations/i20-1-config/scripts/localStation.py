@@ -12,6 +12,7 @@ run 'gdascripts/metadata/metadata_commands.py'
 run("frelon_scan_runner.py")
 run("turboxas_scan_runner.py")
 run("frelon-kinetic-roi-settings.py")
+run("frelon-adc-status.py")
 
 if LocalProperties.isDummyModeEnabled() == False:
     run("shutter_functions.py")

@@ -71,7 +71,6 @@ import gda.device.zebra.controller.impl.ZebraDummy;
 import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
-import gda.scan.TurboXasScan.SpectrumEvent;
 import gda.scan.ede.datawriters.AsciiWriterTest;
 import uk.ac.gda.beans.vortex.Xspress3Parameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;

@@ -7,7 +7,9 @@
 	<bean id="expt_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL18B-PS-SHTR-01" />
 	</bean>
-
+	<bean id="d7_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL18B-DI-PHDGN-07" />
+	</bean>
 	<bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
 	</bean>

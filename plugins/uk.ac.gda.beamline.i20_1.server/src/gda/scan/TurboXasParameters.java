@@ -139,6 +139,8 @@ public class TurboXasParameters {
 
 	private List<List<Double>> scannablePositions;
 
+	private List<SpectrumEvent> spectrumEvents;
+
 	public TurboXasParameters() {
 		setDefaults();
 	}
@@ -148,6 +150,8 @@ public class TurboXasParameters {
 		setDefaults();
 		startEnergy = contparams.getStartPosition();
 		endEnergy = contparams.getEndPosition();
+		startPosition = startEnergy;
+		endPosition = endEnergy;
 
 		energyCalibrationPolynomial = "";
 
@@ -155,7 +159,9 @@ public class TurboXasParameters {
 		energyCalibrationMinPosition = startEnergy*0.8;
 		energyCalibrationMaxPosition = endEnergy*1.2;
 
-		energyStepSize = (endEnergy - startEnergy)/contparams.getNumberDataPoints();
+		energyStepSize = (endEnergy - startEnergy)/(contparams.getNumberDataPoints()+1);
+		positionStepSize = energyStepSize;
+
 		double timeForSpectra = contparams.getTotalTime();
 		timingGroups.add( new TurboSlitTimingGroup("group1", timeForSpectra, timeForSpectra, 1) );
 	}
@@ -511,6 +517,8 @@ public static String doubleToString( double doubleVal ) {
 		xstream.registerConverter(new MapConverter(), XStream.PRIORITY_VERY_HIGH);
 		xstream.alias("scannablesToMonitorDuringScan", LinkedHashMap.class);
 
+		xstream.alias("SpectrumEvent", SpectrumEvent.class);
+
 		return xstream;
 	}
 
@@ -700,6 +708,12 @@ public static String doubleToString( double doubleVal ) {
 				logger.warn("Can't set scannableToMove - scannable '{}' not found on server", scannableToMove);
 			}
 		}
+
+		if (spectrumEvents != null) {
+			for(SpectrumEvent event : spectrumEvents) {
+				scan.addSpectrumEvent(event.getSpectrumNumber(), event.getScannableName(), event.getPosition());
+			}
+		}
 		return scan;
 	}
 
@@ -709,5 +723,13 @@ public static String doubleToString( double doubleVal ) {
 
 	public void setNamesOfDatasetsToAverage(List<String> namesOfDatasetsToAverage) {
 		this.namesOfDatasetsToAverage = new ArrayList<>(namesOfDatasetsToAverage);
+	}
+
+	public List<SpectrumEvent> getSpectrumEvents() {
+		return spectrumEvents;
+	}
+
+	public void setSpectrumEvents(List<SpectrumEvent> spectrumEvents) {
+		this.spectrumEvents = new ArrayList<>(spectrumEvents);
 	}
 }

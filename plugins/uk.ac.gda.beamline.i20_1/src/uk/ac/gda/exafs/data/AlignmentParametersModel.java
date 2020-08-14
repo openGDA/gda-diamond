@@ -46,7 +46,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public static final AlignmentParametersModel INSTANCE = new AlignmentParametersModel();
 
-	private static final int COMMAND_WAIT_TIME_IN_MILLI_SEC = 100;
+	private boolean useAtn45 = true;
 
 	public enum QValue {
 		Q_0_8(0.8),
@@ -86,9 +86,6 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	private String elementSymbol;
 
 	public static final String ELEMENT_ENERGY_PROP_NAME = "energy";
-
-	public static final String ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME = ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME;
-	public static final String ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME = "beamlinealignmentparameters";
 
 	private static final String POWER_PROP_NAME = "power";
 	private Double power = null; // W
@@ -280,23 +277,19 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		}
 		try {
 			AlignmentParametersBean bean = new AlignmentParametersBean(crystalType.name(), crystalCut.name(), q.getQValue(), DetectorModel.INSTANCE.getCurrentDetector().getName(), edge);
-			String jsonString = AlignmentParametersBean.toJson(bean);
-			InterfaceProvider.getCommandRunner().runCommand("from uk.ac.gda.exafs.data import AlignmentParametersBean; "
-														   + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + " = AlignmentParametersBean.fromJson(\'"+jsonString+"\'); "
-														   + ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = None; from alignment import alignment_parameters; "
-														   + ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = alignment_parameters.calc_parameters(" + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + ")");
+			AlignmentParametersCalculator parametersCalculator = new AlignmentParametersCalculator(bean);
+			double detectorDistanceMm = (double)ScannableSetup.DETECTOR_DISTANCE.getScannable().getPosition();
+			parametersCalculator.setRealDetectorDistance(detectorDistanceMm*0.001);
+			parametersCalculator.setUseAtn45(useAtn45);
+			parametersCalculator.calculateParameters();
+			AlignmentParametersBean result = parametersCalculator.getParameterBean();
 
-			// give the command a chance to run.
-			boolean waitForResult = true;
-			Object result = null;
-			while (waitForResult) {
-				Thread.sleep(COMMAND_WAIT_TIME_IN_MILLI_SEC);
-				result = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
-				if (result != null && (result instanceof AlignmentParametersBean)) {
-					waitForResult = false;
-				}
-			}
-			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, alignmentSuggestedParameters = (AlignmentParametersBean) result);
+			// Update the bean on the server
+			String jsonString = AlignmentParametersBean.toJson(result);
+			InterfaceProvider.getCommandRunner().runCommand("from uk.ac.gda.exafs.data import AlignmentParametersBean; "
+					+ ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = AlignmentParametersBean.fromJson(\'"+jsonString+"\'); ");
+
+			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, alignmentSuggestedParameters = result);
 		} catch (Exception e) {
 			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
 			logger.error("Problem running power calculation", e);
@@ -357,5 +350,13 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		AlignmentParametersModel paramModel = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, AlignmentParametersModel.class);
 		setFromModel( paramModel );
 		parametersLoaded = true;
+	}
+
+	public void setUseAtn45(boolean useAtn45) {
+		this.useAtn45 = useAtn45;
+	}
+
+	public boolean isUseAtn45() {
+		return useAtn45;
 	}
 }

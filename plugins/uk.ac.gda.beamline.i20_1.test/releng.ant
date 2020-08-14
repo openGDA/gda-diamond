@@ -60,6 +60,7 @@
 				<path refid="tp.hamcrest.path" />  <!-- ensure that latest version appears first in classpath -->
 				<path refid="tp.javax.measure.unit.path" />
 				<path refid="tp.path" />  <!-- target platform -->
+				<path refid="tp.swt.path" />
 			</classpath>
 			<batchtest todir="@{report.dir}">
 				<fileset dir="${plugin.basedir}/src">

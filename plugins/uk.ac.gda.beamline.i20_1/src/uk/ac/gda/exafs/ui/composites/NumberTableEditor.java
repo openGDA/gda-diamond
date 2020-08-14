@@ -621,12 +621,11 @@ public class NumberTableEditor extends Dialog {
 
 	// Magic tweaks so to allow cursor keys to be used to navigate between elements in the table...
 	// (from Snippet035TableCursorCellHighlighter)
-	private void setupForCursorNavigation(TableViewer v) {
+	public static void setupForCursorNavigation(TableViewer v) {
 		TableViewerFocusCellManager focusCellManager = new TableViewerFocusCellManager(v, new FocusCellOwnerDrawHighlighter(v));
 		ColumnViewerEditorActivationStrategy actSupport = new ColumnViewerEditorActivationStrategy(v) {
 			@Override
 			protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {
-				// TODO see AbstractComboBoxCellEditor for how list is made visible
 				return super.isEditorActivationEvent(event)
 						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED
 						&& (event.keyCode == KeyLookupFactory.getDefault().formalKeyLookup(IKeyLookup.ENTER_NAME)));

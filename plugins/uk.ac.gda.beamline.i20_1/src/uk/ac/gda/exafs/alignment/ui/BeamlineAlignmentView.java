@@ -353,7 +353,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			} catch (FileNotFoundException e1) {
 				labelPowerEstimateValue.setText(
 						getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
-				logger.warn("Power calculation file not found");
+				logger.warn("Power calculation file not found", e1);
 			} catch (Exception e2) {
 				labelPowerEstimateValue.setText(
 						getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
@@ -374,9 +374,16 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 	private void bindFiltersForPowerCalculation() throws Exception {
-		ScannableSetup.ATN1.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
-		ScannableSetup.ATN2.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
-		ScannableSetup.ATN3.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+		if (AlignmentParametersModel.INSTANCE.isUseAtn45()) {
+			ScannableSetup.ATN4.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+			ScannableSetup.ATN5.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+
+		} else {
+			ScannableSetup.ATN1.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+			ScannableSetup.ATN2.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+			ScannableSetup.ATN3.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+		}
+
 		ScannableSetup.ME1_STRIPE.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
 		ScannableSetup.ME2_STRIPE.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
 	}
@@ -539,17 +546,27 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		applyButton = createApplyButtonControl(motorSectionComposite);
 		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP, lblSlitGapSuggestion, applyButton);
 
-		lblAtn1Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN1);
-		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN1, lblAtn1Suggestion);
-		createEnumPositioner(motorSectionComposite, ScannableSetup.ATN1, lblAtn1Suggestion, applyButton);
+		if (AlignmentParametersModel.INSTANCE.isUseAtn45()) {
+			lblAtn1Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN4);
+			applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN4, lblAtn1Suggestion);
+			createEnumPositioner(motorSectionComposite, ScannableSetup.ATN4, lblAtn1Suggestion, applyButton);
 
-		lblAtn2Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN2);
-		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN2, lblAtn2Suggestion);
-		createEnumPositioner(motorSectionComposite, ScannableSetup.ATN2, lblAtn2Suggestion, applyButton);
+			lblAtn2Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN5);
+			applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN5, lblAtn2Suggestion);
+			createEnumPositioner(motorSectionComposite, ScannableSetup.ATN5, lblAtn2Suggestion, applyButton);
+		} else {
+			lblAtn1Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN1);
+			applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN1, lblAtn1Suggestion);
+			createEnumPositioner(motorSectionComposite, ScannableSetup.ATN1, lblAtn1Suggestion, applyButton);
 
-		lblAtn3Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN3);
-		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN3, lblAtn3Suggestion);
-		createEnumPositioner(motorSectionComposite, ScannableSetup.ATN3, lblAtn3Suggestion, applyButton);
+			lblAtn2Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN2);
+			applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN2, lblAtn2Suggestion);
+			createEnumPositioner(motorSectionComposite, ScannableSetup.ATN2, lblAtn2Suggestion, applyButton);
+
+			lblAtn3Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN3);
+			applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN3, lblAtn3Suggestion);
+			createEnumPositioner(motorSectionComposite, ScannableSetup.ATN3, lblAtn3Suggestion, applyButton);
+		}
 
 		lblMe1StripSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ME1_STRIPE);
 		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ME1_STRIPE, lblMe1StripSuggestion);
@@ -586,7 +603,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gridData.horizontalSpan = 3;
 		labelPowerEstimateValue.setLayoutData(gridData);
-
+		labelPowerEstimateValue.setToolTipText("Estimated power for current configuration (suggested maximum = "+ScannableSetup.MAX_POWER_IN_WATT+" W)");
 		lblDetectorHeightSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_HEIGHT);
 		applyButton = createApplyButtonControl(motorSectionComposite);
 		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.DETECTOR_HEIGHT, lblDetectorHeightSuggestion, applyButton);
@@ -742,7 +759,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			List<String> attenuatorPositions = results.getAttenuatorPositions();
 			lblAtn1Suggestion.setText(attenuatorPositions.get(0));
 			lblAtn2Suggestion.setText(attenuatorPositions.get(1));
-			lblAtn3Suggestion.setText(attenuatorPositions.get(2));
+			if (attenuatorPositions.size() == 3 && lblAtn3Suggestion != null) {
+				lblAtn3Suggestion.setText(attenuatorPositions.get(2));
+			}
 
 			if (results.getEnergyBandwidth() != null) {
 				String value1 = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getEnergyBandwidth().intValue())));

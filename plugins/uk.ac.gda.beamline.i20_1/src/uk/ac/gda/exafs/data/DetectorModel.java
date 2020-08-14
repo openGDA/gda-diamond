@@ -310,14 +310,15 @@ public class DetectorModel extends ObservableModel {
 			accumulationReadoutTime = valueFromStore;
 		} else {
 			// try to use value from plugin_customization.ini
-			double timeMs = Activator.getDefault().getPreferenceStore().getDouble(ACCUMULATION_READOUT_TIME_PROPERTY);
-			if (timeMs > 0) {
-				// Convert from preference value in ms to default units (nanoseconds)
-				accumulationReadoutTime = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(timeMs);
-			} else {
-				// default value if no value specified
-				accumulationReadoutTime = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(INTIAL_ACCUMULATION_READOUT_TIME_MS);
+			double timeMs = 0;
+			if (Activator.getDefault() != null) {
+				timeMs = Activator.getDefault().getPreferenceStore().getDouble(ACCUMULATION_READOUT_TIME_PROPERTY);
 			}
+			if (timeMs == 0) {
+				// default value if no value specified
+				timeMs = INTIAL_ACCUMULATION_READOUT_TIME_MS;
+			}
+			accumulationReadoutTime = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(timeMs);
 		}
 	}
 

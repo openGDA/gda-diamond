@@ -49,7 +49,7 @@ public enum ScannableSetup {
 	ATN2 ("ATN 2", "atn2", UnitSetup.SELECTION),
 	ATN3 ("ATN 3", "atn3", UnitSetup.SELECTION),
 	ATN4 ("ATN 4", "atn4", UnitSetup.SELECTION),
-	ATN5 ("ATN 5", "atn6", UnitSetup.SELECTION),
+	ATN5 ("ATN 5", "atn5", UnitSetup.SELECTION),
 
 	ME1_STRIPE("ME1 stripe", "me1_stripe", UnitSetup.SELECTION),
 	ME2_STRIPE("ME2 stripe", "me2_stripe", UnitSetup.SELECTION),
@@ -103,7 +103,7 @@ public enum ScannableSetup {
 				if (scannable == null) {
 					Scannable scannable = Finder.find(scannableName);
 					if (scannable == null) {
-						throw new Exception(label + " object is not found on GDA server");
+						throw new Exception(scannableName + " object is not found on GDA server");
 					}
 					this.scannable = scannable;
 				}

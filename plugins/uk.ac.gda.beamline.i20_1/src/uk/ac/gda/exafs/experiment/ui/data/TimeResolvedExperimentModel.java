@@ -44,6 +44,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
 import gda.device.DeviceException;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerStatus;
@@ -612,15 +613,19 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	 */
 	protected List<TimingGroup> getTimingGroupList() {
 		final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
-
+		boolean isFrelon = DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData;
 		for (Object object : groupList) {
 			TimingGroupUIModel uiTimingGroup = (TimingGroupUIModel) object;
 			TimingGroup timingGroup = new TimingGroup();
 			timingGroup.setLabel(uiTimingGroup.getName());
 			timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
 			timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
-			timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getTimePerSpectrum(), ExperimentUnit.SEC)); // convert to S
-			// integration time is always in milli sec
+			double timePerSpectrum = uiTimingGroup.getTimePerSpectrum();
+			if (isFrelon) {
+				timePerSpectrum = uiTimingGroup.getRealTimePerSpectrum();
+			}
+			timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timePerSpectrum, ExperimentUnit.SEC)); // convert to S
+
 			timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 			timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
 			timingGroup.setGroupTrig(uiTimingGroup.isUseExternalTrigger());

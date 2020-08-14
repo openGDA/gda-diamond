@@ -5,7 +5,8 @@
 
 	<bean id="oh_shutter" class="gda.device.enumpositioner.DummyValve" />
 	<bean id="expt_shutter" class="gda.device.enumpositioner.DummyValve" />
-
+	<bean id="d7_shutter" class="gda.device.enumpositioner.DummyValve" />
+	
 	<bean id="ringCurrent" class="gda.device.monitor.DummyMonitor"/>
 	<bean id="ringEnergy" class="gda.device.monitor.DummyMonitor"/>
 	<bean id="fillMode" class="gda.device.monitor.DummyMonitor"/>

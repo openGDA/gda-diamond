@@ -25,7 +25,20 @@
 		<property name="controller" ref="cryostat_controller" />
 		<property name="tolerance" value="300" /> <!--  so that 'moveTo' returns immediately -->
 	</bean>
-    
+
+    <!-- Sample temperature readback from Lakeshore340 -->
+    <bean id="cryo_samp_temp" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG1" />
+		<property name="canMove" value="false" />
+	</bean>
+
+    <!--  Scannable to set the heater range of Lakeshore340 -->
+    <bean id="cryo_heater_range" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:RANGE" />
+		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:RANGE_S" />
+	</bean>
+
+	<!-- Scannables to control the Lakeshore336 cryostat -->
 	<bean id="cryo_setpoint1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:SETP1" />
 		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:SETP_S1" />

@@ -27,6 +27,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/continuous_scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/datawriter.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />

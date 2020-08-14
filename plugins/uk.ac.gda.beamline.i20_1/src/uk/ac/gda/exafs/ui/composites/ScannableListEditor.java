@@ -169,25 +169,11 @@ public class ScannableListEditor extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				//Display Dialog with list of all scannables
-				Map<String, Scannable> scannables = Finder.getFindablesOfType(Scannable.class);
-				List<String> scnNames = new ArrayList<>(scannables.keySet());
-				scnNames.sort((String s1, String s2) -> s1.compareTo(s2) );
-
-				ListDialog ld = new ListDialog(parent.getShell());
-				ld.setAddCancelButton(true);
-				ld.setContentProvider(new ArrayContentProvider());
-				ld.setLabelProvider(new LabelProvider());
-				ld.setInput(scnNames);
-				ld.setTitle("Select scannable to add");
-				ld.setBlockOnOpen(true);
-				ld.open();
-
 				// Get name of selected scannable, add to list ...
-				Object[] result = ld.getResult();
-				if (result != null && result.length > 0) {
-					logger.debug("Scannable name : {}", result[0].toString());
-					scannableInfoList.add(new ScannableInfo(result[0].toString()));
+				String result = showSelectScannableDialog(parent);
+				if (result != null) {
+					logger.debug("Scannable name : {}", result);
+					scannableInfoList.add(new ScannableInfo(result));
 					refreshListViewer();
 				}
 			}
@@ -202,6 +188,35 @@ public class ScannableListEditor extends Dialog {
 				listViewer.refresh(false);
 			}
 		});
+	}
+
+	/**
+	 * Display Dialog with list of all scannables
+	 * @param parent composite
+	 * @return name of the selected scannable (null if nothing selected or cancel button was pressed).
+	 */
+	public static String showSelectScannableDialog(Composite parent) {
+		//Display Dialog with list of all scannables
+		Map<String, Scannable> scannables = Finder.getFindablesOfType(Scannable.class);
+		List<String> scnNames = new ArrayList<>(scannables.keySet());
+		scnNames.sort((String s1, String s2) -> s1.compareTo(s2) );
+
+		ListDialog ld = new ListDialog(parent.getShell());
+		ld.setAddCancelButton(true);
+		ld.setContentProvider(new ArrayContentProvider());
+		ld.setLabelProvider(new LabelProvider());
+		ld.setInput(scnNames);
+		ld.setTitle("Select scannable to add");
+		ld.setBlockOnOpen(true);
+		ld.open();
+
+		// Get name of selected scannable, add to list ...
+		Object[] result = ld.getResult();
+		if (result != null && result.length > 0) {
+			return result[0].toString();
+		} else {
+			return null;
+		}
 	}
 
 	private void refreshListViewer() {
