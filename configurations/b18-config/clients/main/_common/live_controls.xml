@@ -36,6 +36,13 @@
 		<property name="group" value="Shutters" />
 	</bean>
 
+	<bean id="d7_valve_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Laser shutter (D7 valve)" />
+		<property name="scannableName" value="d7_shutter" />
+		<property name="showStop" value="False" />
+		<property name="group" value="Shutters" />
+	</bean>
+
 <!-- User stages 2...6 -->
 	<bean id="user2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="User stage 2" />
@@ -84,6 +91,7 @@
 			<list>
 				<ref bean="expt_shutter_control" />
 				<ref bean="oh_shutter_control" />
+				<ref bean="d7_valve_control" />
 				<ref bean="sam2x_control" />
 				<ref bean="sam2y_control" />
 				<ref bean="sam2rot_control" />
