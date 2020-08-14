@@ -15,24 +15,18 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   </parent>
 
   <modules>
-<!-- Not plug-ins. Are these still needed?
-<module>b18</module>
-<module>i18</module>
-<module>i20</module>
-<module>i20-1</module>
- -->
     <module>uk.ac.diamond.daq.beamline.i18.controls</module>
-<!--module>uk.ac.diamond.daq.beamline.i18.controls.test</module [fragment-host unresolved]-->
+    <module>uk.ac.diamond.daq.beamline.i18.controls.test</module>
     <module>uk.ac.gda.beamline.b18</module>
     <module>uk.ac.gda.beamline.b18.server</module>
-<!--module>uk.ac.gda.beamline.b18.test</module [import issue]-->
+    <module>uk.ac.gda.beamline.b18.test</module>
     <module>uk.ac.gda.beamline.i18</module>
     <module>uk.ac.gda.beamline.i20</module>
     <module>uk.ac.gda.beamline.i20_1</module>
     <module>uk.ac.gda.beamline.i20_1.server</module>
-<!--module>uk.ac.gda.beamline.i20_1.test</module [import issue]-->
-<!--module>uk.ac.gda.beamline.i20.test</module [import issue]-->
+    <module>uk.ac.gda.beamline.i20_1.test</module>
     <module>uk.ac.gda.beamline.i20.server</module>
+    <module>uk.ac.gda.beamline.i20.test</module>
   </modules>
 
   <profiles>

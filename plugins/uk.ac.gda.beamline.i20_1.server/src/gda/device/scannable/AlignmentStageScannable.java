@@ -80,8 +80,8 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	public enum FastShutter {
 		FIRST_SHUTTER_INSTANCE;
 
-		Location inLocation = new Location();
-		Location outLocation = new Location();
+		private Location inLocation = new Location();
+		private Location outLocation = new Location();
 
 		public void save(PropertiesConfiguration configuration) {
 			configuration.setProperty(this.name(), GSON.toJson(new Location[]{inLocation, outLocation}));
@@ -93,6 +93,14 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 				inLocation = location[0];
 				outLocation = location[1];
 			}
+		}
+
+		public Location getInLocation() {
+			return inLocation;
+		}
+
+		public Location getOutLocation() {
+			return outLocation;
 		}
 	}
 

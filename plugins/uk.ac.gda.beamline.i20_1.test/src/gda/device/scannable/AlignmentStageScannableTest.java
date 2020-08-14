@@ -37,10 +37,10 @@ public class AlignmentStageScannableTest {
 		configuration.save(tempFile.toFile());
 
 		tempFile = Files.createTempFile(null, null);
-		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.setxPosition(6.0);
-		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.setyPosition(6.0);
-		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.outLocation.setxPosition(9.0);
-		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.outLocation.setyPosition(9.0);
+		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.getInLocation().setxPosition(6.0);
+		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.getInLocation().setyPosition(6.0);
+		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.getOutLocation().setxPosition(9.0);
+		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.getOutLocation().setyPosition(9.0);
 		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.save(configuration);
 		configuration.save(tempFile.toFile());
 		PropertiesConfiguration configuration2 = new PropertiesConfiguration();

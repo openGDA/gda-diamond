@@ -56,6 +56,7 @@ import gda.configuration.properties.LocalProperties;
 import gda.data.ServiceHolder;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyDAServer;
 import gda.device.detector.countertimer.BufferedScaler;
@@ -645,13 +646,17 @@ public class TurboXasScanTest extends EdeTestBase {
 
 		// At scan start should add turboxas and xspress parameter metadata to metashop
 		NXMetaDataProvider metaShop = Finder.find("metaShop");
-		scan.callScannablesAtScanStart();
+		for (Scannable scannable : scan.getAllScannables()) {
+			scannable.atScanStart();
+		}
+
 		assertEquals(TURBOXAS_METADATA_NAME+" in metashop does not match expected value", parameters.toXML(), metaShop.get(TURBOXAS_METADATA_NAME));
 		assertEquals(XSPRESS3_METADATA_NAME+" parameters in metashop does not match expected value", getXspress3ConfigParmeters(), metaShop.get(XSPRESS3_METADATA_NAME));
 
-
 		// At scan end should remove the metadata from metashop
-		scan.callScannablesAtScanEnd();
+		for (Scannable scannable : scan.getAllScannables()) {
+			scannable.atScanEnd();
+		}
 		assertNull(TURBOXAS_METADATA_NAME+" parameters not removed from metashop", metaShop.get(TURBOXAS_METADATA_NAME));
 		assertNull(XSPRESS3_METADATA_NAME+" parameters not removed from metashop", metaShop.get(XSPRESS3_METADATA_NAME));
 	}
