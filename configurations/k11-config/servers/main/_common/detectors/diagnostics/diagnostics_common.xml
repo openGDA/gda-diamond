@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d1_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d2_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d3_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d4_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d11_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d13_addetector.xml" />		
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d14_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d15_addetector.xml" />		
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/dbsel_addetector.xml" />
+</beans>

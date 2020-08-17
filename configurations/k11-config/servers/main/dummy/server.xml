@@ -1,13 +1,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/util 
+           http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- Contains all configuration for the malcolm simulations -->
-	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> 
-	<import resource="file://${gda.config}/servers/main/dummy/sim_area_detector.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
-	<import resource="file:${gda.config}/servers/main/dummy/detectors/simulation/mandelbrot_detectors.xml" />
-	
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+	<import	resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
+	<import	resource="file://${gda.config}/servers/main/dummy/sim_area_detector.xml" />
+	<import	resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/dummy/detectors/simulation/mandelbrot_detectors.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/server.xml" />
 </beans>
