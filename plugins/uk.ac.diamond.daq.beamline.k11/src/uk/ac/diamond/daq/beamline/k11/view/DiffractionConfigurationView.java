@@ -42,7 +42,6 @@ import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MappedDataView;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -105,7 +104,7 @@ public class DiffractionConfigurationView extends ViewPart {
 		builder.addBottomArea(getBottomArea());
 		builder.addNewSelectionListener(widgetSelectedAdapter(event -> controller.createNewAcquisition()));
 		builder.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
-		builder.addRunSelectionListener(widgetSelectedAdapter(this::submitExperiment));
+		builder.addRunSelectionListener(widgetSelectedAdapter(event -> submitExperiment()));
 
 		Composite container = ClientSWTElements.createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
 		ClientSWTElements.createClientGridDataFactory().applyTo(container);
@@ -150,7 +149,7 @@ public class DiffractionConfigurationView extends ViewPart {
 
 	private void buildDiffractionPathComposite(Composite parent) {
 		Group group = createClientGroup(parent, SWT.NONE, 1, DIFFRACTION_SCAN_PATH);
-		createClientGridDataFactory().applyTo(group);
+		createClientGridDataFactory().grab(true, false).applyTo(group);
 
 		DiffractionConfigurationCompositeFactory factory = new DiffractionConfigurationCompositeFactory(controller);
 		factory.createComposite(group, SWT.NONE);
@@ -193,7 +192,7 @@ public class DiffractionConfigurationView extends ViewPart {
 		}
 	}
 
-	private void submitExperiment(SelectionEvent event) {
+	private void submitExperiment() {
 		if (isPointAndShootActive()) {
 			UIHelper.showWarning("Cannot run Acquisition", "Point and Shoot mode is active");
 			return;

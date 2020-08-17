@@ -21,7 +21,10 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.shapeFromMappingRegion;
 import static uk.ac.gda.ui.tool.ClientMessages.ACQUISITION;
 import static uk.ac.gda.ui.tool.ClientMessages.ACQUISITION_NAME_TP;
-import static uk.ac.gda.ui.tool.ClientMessagesUtility.getMessage;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +37,16 @@ import org.eclipse.dawnsci.plotting.api.IPlottingService;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
@@ -50,6 +54,7 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.DensityCompositeF
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator.MutatorsTemplateFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.ShapesTemplateFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.view.CalibrationFileComposite;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
@@ -63,7 +68,6 @@ import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResource
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.ui.tool.ClientBindingElements;
-import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
@@ -93,6 +97,8 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 	private final List<DiffractionCompositeInterface> components = new ArrayList<>();
 
+	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationCompositeFactory.class);
+
 	public DiffractionConfigurationCompositeFactory(AcquisitionController<ScanningAcquisition> controller) {
 		super();
 		this.controller = controller;
@@ -110,8 +116,8 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(viewDBC, regionDBC, controller::getAcquisition,
 				stf.getSelectedShape(), rapController, smController);
 		DiffractionCompositeInterface scf = new SummaryCompositeFactory(regionDBC,
-				stf.getMappingScanRegionShapeObservableValue(),
-				stf.getSelectedShape(), rapController, controller::getAcquisition);
+				stf.getMappingScanRegionShapeObservableValue(), stf.getSelectedShape(), rapController,
+				controller::getAcquisition);
 
 		components.add(stf);
 		components.add(dcf);
@@ -121,9 +127,10 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		Composite composite = ClientSWTElements.createComposite(parent, SWT.NONE, 2);
+		Composite composite = createClientCompositeWithGridLayout(parent, style, 1);
+		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(composite);
 
-		createElements(parent, SWT.NONE, SWT.BORDER);
+		createElements(composite, SWT.NONE, SWT.BORDER);
 		bindElements();
 		try {
 			SpringApplicationContextProxy.addDisposableApplicationListener(composite, new LoadListener(composite));
@@ -191,28 +198,30 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	}
 
 	private void createElements(Composite parent, int labelStyle, int textStyle) {
-		createName(parent, textStyle);
-		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		GridLayoutFactory.swtDefaults().margins(ClientSWTElements.defaultCompositeMargin()).applyTo(parent);
-		Composite container = ClientSWTElements.createComposite(parent, SWT.NONE, 4);
-		ClientSWTElements.gridMargin(container, 100, 50);
-		components.forEach(c -> c.createComposite(container, SWT.NONE));
+		createName(parent, labelStyle, textStyle);
+
+		Composite container = createClientCompositeWithGridLayout(parent, labelStyle, 4);
+		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
+		components.forEach(c -> c.createComposite(container, labelStyle));
+
+		CalibrationFileComposite calibrationComposite = new CalibrationFileComposite();
+		calibrationComposite.createComposite(parent, labelStyle);
 	}
 
-	private void createName(Composite parent, int textStyle) {
-		Composite container = ClientSWTElements.createComposite(parent, textStyle, 2, SWT.FILL, SWT.FILL);
-		ClientSWTElements.createLabel(container, SWT.NONE).setText(getMessage(ACQUISITION));
-		name = ClientSWTElements.createText(container, SWT.NONE, null, null, ACQUISITION_NAME_TP,
-				GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.FILL));
+	private void createName(Composite parent, int labelStyle, int textStyle) {
+		Composite container = createClientCompositeWithGridLayout(parent, labelStyle, 3);
+		createClientGridDataFactory().applyTo(container);
+
+		Label label = createClientLabel(container, labelStyle, ACQUISITION);
+		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, SWT.DEFAULT).applyTo(label);
+
+		name = createClientText(container, textStyle, ACQUISITION_NAME_TP, Optional.empty());
+		createClientGridDataFactory().grab(true, true).span(2, 1).applyTo(name);
 	}
 
 	private void bindElements() {
 		ClientBindingElements.bindText(viewDBC, name, String.class, "name", getController().getAcquisition());
 		components.forEach(DiffractionCompositeInterface::bindControls);
-	}
-
-	private ScanningParameters getTemplateData() {
-		return getController().getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 
 	private class LoadListener implements ApplicationListener<AcquisitionConfigurationResourceLoadEvent> {
