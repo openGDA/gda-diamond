@@ -6,7 +6,6 @@
 	<bean id="macdatawriter" class="gda.hrpd.data.EpicsCVscanDataWriter">
 		<property name="beamInfo" ref="beam"/>
 		<property name="beamlineInfo" ref="beamline"/>
-		<property name="sampleInfo" ref="SampleInfo"/>
 		<property name="metadata" ref="GDAMetadata"/>
 	</bean>
 

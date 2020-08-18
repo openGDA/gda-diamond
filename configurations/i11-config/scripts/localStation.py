@@ -102,8 +102,6 @@ print "create 'beam' object for get/set photon beam properties such as wavelengt
 beam = Finder.find("beam")
 print "create 'beamline' object for access beamline parameters such as data directory"
 beamline=Finder.find("beamline")
-print "create 'sampleinfo' object for accessing Sample Information users provided in a spreadsheet."
-sampleinfo=Finder.find("SampleInfo")
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -138,11 +136,6 @@ print "To diagnose MAC run: " + diagnoseMAC.getName()+".run()"
 from diagnostics.diagnose import listOfDiagnoseticsObjects, rundiagnose #@UnusedImport
 listOfDiagnoseticsObjects.append(diagnoseMAC)
 print "To run all diagnose implemented for I11, use: rundiagnose() on command line."
-print
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Create method for load sample information spreadsheet to GDA system."
-from loadfile import * #@UnusedWildImport
 print
 
 print "-----------------------------------------------------------------------------------------------------------------"
