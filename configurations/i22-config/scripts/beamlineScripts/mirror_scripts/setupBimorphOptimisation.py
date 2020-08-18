@@ -41,7 +41,19 @@ cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name='None')
 cam1.include_path_in_output=False
 cam1.display_image=False
 
-peak2d = DetectorDataProcessorWithRoi('peak2d', cam1, [TwodGaussianPeak()])
+
+d12fields = {'background': 'CentroidThreshold_RBV',
+        'peakx': 'CentroidX_RBV',
+        'peaky': 'CentroidY_RBV',
+        'topx' : 'MaxX_RBV',
+        'topy': 'MaxY_RBV',
+        'fwhmx': 'SigmaX_RBV',
+        'fwhmy':'SigmaY_RBV'}
+
+d12_base_pv = 'BL22I-DI-PHDGN-12:STAT:'
+peak2d = ScannableGroup('peak2d', [DisplayEpicsPVClass('peak2d_'+field, d12_base_pv + pv, '', '%.f') for field, pv in d12fields.items()])
+peak2d.configure()
+
 max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])
 
 slitscanner = SlitScanner()

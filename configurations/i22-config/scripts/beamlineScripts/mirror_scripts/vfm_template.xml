@@ -7,23 +7,23 @@
     <voltageIncrement>0.0</voltageIncrement>
     <slitSizeScannable>s2_ygap</slitSizeScannable>
     <slitPosScannable>s2_ycentre</slitPosScannable>
-    <slitSize>0.03</slitSize>
-    <slitStart>-0.65</slitStart>
-    <slitEnd>0.2</slitEnd>
+    <slitSize>0.02</slitSize>
+    <slitStart>-0.8</slitStart>
+    <slitEnd>0.8</slitEnd>
     <slitStep>0.01</slitStep>
     <otherSlitSizeScannable>s2_xgap</otherSlitSizeScannable>
     <otherSlitPosScannable>s2_xcentre</otherSlitPosScannable>
     <otherSlitPosValue>0.0</otherSlitPosValue>
     <otherSlitSize>2.04</otherSlitSize>
-    <detectorName>cam1</detectorName>
-    <exposureTime>0.3</exposureTime>
+    <detectorName>name</detectorName>
+    <exposureTime>0.0</exposureTime>
     <settleTime>0.0</settleTime>
     <scanDirectory>/dls/ixx/users/</scanDirectory>
-    <scanNumberInputs>459896,459897,459898,459899,459900,459901,459902,459903,459904,459905,459906,459907,459908,459909,459910,459911,459912</scanNumberInputs>
-    <errorFile>459896</errorFile>
+    <scanNumberInputs>548849,548850,548851,548852,548853,548854,548855,548856,548857,548858,548859,548860,548861,548862,548863,548864,548865</scanNumberInputs>
+    <errorFile>548849</errorFile>
     <beamOffset>0.0</beamOffset>
     <bimorphScannableName>vfm_v</bimorphScannableName>
-    <bimorphVoltages>-259.7, -416.9, 83.1, 86.2, -131.0, -365.7, -50.1, -160.0, -177.1, 72.1, -369.7, -135.5, 79.7, 39.6, -331.3, -400.0</bimorphVoltages>
+    <bimorphVoltages>-190.0,-131.2,218.5,94.2,-38.2,-168.0,44.5,-37.5,23.3,120.0,-127.6,245.4,190.6,202.9,77.8,0</bimorphVoltages>
     <pixelSize>1.93</pixelSize>
     <detectorDistance>19.625</detectorDistance>
     <iSign>downstream</iSign>
@@ -44,6 +44,6 @@
     <presentDetDist>22.625</presentDetDist>
     <bimorphGroups></bimorphGroups>
     <btnGroupElectrodesTogether>false</btnGroupElectrodesTogether>
-    <minSlitPos>-0.62</minSlitPos>
-    <maxSlitPos>0.62</maxSlitPos>
+    <minSlitPos>-0.69</minSlitPos>
+    <maxSlitPos>0.51</maxSlitPos>
 </BimorphParameters>
