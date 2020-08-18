@@ -219,7 +219,6 @@ public class DiffractionConfigurationView extends ViewPart {
 	}
 
 	private void submit(URL acquisitionOutput) throws AcquisitionControllerException {
-		smController.submitScan(acquisitionOutput, getAcquisition());
 		getAcquisition().setAcquisitionLocation(acquisitionOutput);
 		controller.runAcquisition();
 	}
