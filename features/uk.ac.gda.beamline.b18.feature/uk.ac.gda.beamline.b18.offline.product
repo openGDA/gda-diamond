@@ -11,9 +11,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.install.workspace.loc=${workspace_loc}
+      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
 -Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
 -Dgda.core.dir=${project_loc:uk.ac.gda.core/}/../core-config
@@ -29,8 +27,7 @@
 -Dgda.logs.dir=${workspace_loc}/../logs
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
--Xmx1024m
--XX:MaxPermSize=1024m
+-Xmx4g
 -XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
