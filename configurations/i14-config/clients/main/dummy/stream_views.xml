@@ -25,6 +25,10 @@
 	<bean id="sim_cam_with_controls_and_calibration" parent="sim_cam">
 		<property name="displayName" value="Simulated Area Detector (with controls and calibration)" />
 		<property name="calibratedAxesProvider" ref="sim_cam_beam_position_calibration" />
+		<!-- Uncomment the following lines to view the real camera output -->
+		<!-- You will also have to modify sim_cam_extension_autofocus - see the comments in that bean -->
+ 		<!-- <property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/HOTEL.mjpg.mjpg" /> -->
+		<!-- <property name="arrayPv" value="BL14I-OP-DCAM-12:ARR" /> -->
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg name="cameraControl" ref="sim_camera_control" />
@@ -60,7 +64,9 @@
 
 	<bean id="sim_cam_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
 		<constructor-arg name="secondaryId" value="sim_cam_with_controls_and_calibration" />
-		<constructor-arg name="focusPoints" ref="autofocus_points" />
+		<constructor-arg name="focusPoints" ref="sim_cam_autofocus_points" />
+		<!-- Use the following line instead if viewing the live sample camera -->
+		<!-- <constructor-arg name="focusPoints" ref="sample_cam_autofocus_points" /> -->
  		<property name="activeFocusPoints">
 			<list>
 				<value>af05</value>
