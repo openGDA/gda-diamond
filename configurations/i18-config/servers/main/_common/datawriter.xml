@@ -364,6 +364,7 @@
 				<value>It_stanford_sensitivity_units</value>
 				<value>I0_stanford_sensitivity</value>
 				<value>I0_stanford_sensitivity_units</value>
+				<value>vma_zoom</value>
 			</set>
 		</property>
 	</bean>
