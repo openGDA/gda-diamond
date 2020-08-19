@@ -3,8 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="beam_selector" class="gda.device.enumpositioner.EpicsEnumPositioner">
-		<property name="pvBase" value="#{configProperties.BSEL_PV_PREFIX}01:MP:SELECT" />
-	</bean>
-	
+	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcm1.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcm2.xml" />
 </beans>

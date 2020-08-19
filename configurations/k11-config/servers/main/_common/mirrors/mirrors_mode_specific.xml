@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4.xml" />
+</beans>

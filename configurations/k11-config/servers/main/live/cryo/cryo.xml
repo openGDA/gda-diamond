@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+ 	<!-- MONITORS -->
+	<bean id="cryo_filllevel"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:L:SC:STAT" />
+		<property name="unit" value="perc." />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="cryo_p_fwd"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:P:FWD:STAT" />
+		<property name="unit" value="bar" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+	
+	<bean id="cryo_t_fwd"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:T:FWD:STAT" />
+		<property name="unit" value="degK" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>	
+
+	<bean id="cryo_t_ret"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:T:RET:STAT" />
+		<property name="unit" value="degK" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>	
+
+	<bean id="cryo_f_ret"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:F:RET:STAT" />
+		<property name="unit" value="Lpermin" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>	
+	
+	<bean id="cryo_consumer_power"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:power" />
+		<property name="unit" value="W" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>	
+    
+	<bean id="cryo_valve_ret"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:V:RET:STAT" />
+		<property name="unit" value="status" />
+		<property name="poll" value="true" />
+	</bean>	
+	
+	<bean id="cryo_valve_bypass"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:V:BYP:STAT" />
+		<property name="unit" value="perc." />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>		
+
+	<bean id="cryo_valve_fwd"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:V:FWD:STAT" />
+		<property name="unit" value="status" />
+		<property name="poll" value="true" />
+	</bean>		
+
+	<bean id="cryo_pressure"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:P:PV:STAT" />
+		<property name="unit" value="bar" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>		
+
+	<bean id="cryo_vessel_filllevel"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:L:PV:STAT" />
+		<property name="unit" value="bar" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>		
+
+	<bean id="cryo_vessel_inlet_valve"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:V:PV:FILL:STAT" />
+		<property name="unit" value="status" />
+		<property name="poll" value="true" />
+	</bean>		
+
+	<bean id="cryo_tank_inlet_valve"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.CRYO_PV_PREFIX}01:CC:V:SC:FILL:STAT" />
+		<property name="unit" value="status" />
+		<property name="poll" value="true" />
+	</bean>		
+
+</beans>

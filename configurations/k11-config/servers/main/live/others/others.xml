@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- MONITORS -->
+	<bean id="fe_abs" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.FE_ABSORBER_PV_PREFIX}01:STA" />
+		<property name="unit" value="status" />
+		<property name="poll" value="true" />
+	</bean>
+
+	<bean id="fe_shutter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.FE_SHUTTER_PV_PREFIX}01:STA" />
+		<property name="unit" value="status" />
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="fe_shutter_port" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.FE_SHUTTER_PV_PREFIX}01:STA" />
+		<property name="unit" value="status" />
+		<property name="poll" value="true" />
+	</bean>
+
+</beans>

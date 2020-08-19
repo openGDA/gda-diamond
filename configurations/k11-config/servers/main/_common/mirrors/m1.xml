@@ -7,28 +7,28 @@
 
 	<!-- COMBINED MOTION -->
 	<gda:motor id="m1_x"
-		live-pvName="BL11K-OP-MR-01:X"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:X"
 		dummy-minPosition="-20"
 		dummy-maxPosition="20"
 		dummy-position="2.339"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="m1_y"
-		live-pvName="BL11K-OP-MR-01:Y"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:Y"
 		dummy-minPosition="-17"
 		dummy-maxPosition="17"
 		dummy-position="11.01"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m1_roll"
-		live-pvName="BL11K-OP-MR-01:ROLL"
+		live-pvName="#{configProperties.MR_PV_PREFIX}MR-01:ROLL"
 		dummy-minPosition="-4"
 		dummy-maxPosition="4"
 		dummy-position="0.001"
 		dummy-unitString="mrad" />
 
 	<gda:motor id="m1_pitch"
-		live-pvName="BL11K-OP-MR-01:PITCH"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:PITCH"
 		dummy-minPosition="-25"
 		dummy-maxPosition="25"
 		dummy-position="-0.5598"
@@ -43,35 +43,35 @@
 
 	<!-- RAW MOTION -->
 	<gda:motor id="m1_x1"
-		live-pvName="BL11K-OP-MR-01:X1"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:X1"
 		dummy-minPosition="-23.871"
 		dummy-maxPosition="16.735"
 		dummy-position="2.6767"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m1_x2"
-		live-pvName="BL11K-OP-MR-01:X2"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:X2"
 		dummy-minPosition="-22.937"
 		dummy-maxPosition="17.561"
 		dummy-position="2.0014"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m1_y1"
-		live-pvName="BL11K-OP-MR-01:Y1"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:Y1"
 		dummy-minPosition="-17.604"
 		dummy-maxPosition="17.951"
 		dummy-position="11.0"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m1_y2"
-		live-pvName="BL11K-OP-MR-01:Y2"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:Y2"
 		dummy-minPosition="-17.114"
 		dummy-maxPosition="18.412"
 		dummy-position="11.0"
 		dummy-unitString="mm" />
 
 	<gda:motor id="m1_y3"
-		live-pvName="BL11K-OP-MR-01:Y3"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:Y3"
 		dummy-minPosition="-18.129"
 		dummy-maxPosition="19.684"
 		dummy-position="11.0"

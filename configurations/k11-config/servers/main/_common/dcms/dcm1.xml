@@ -5,28 +5,35 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
+	<!-- These items break the separation between dummy and live components as 
+		the gda:motor element may automatically morph into a dummy or live one -->
 	<gda:motor id="dcm1_y"
-		live-pvName="BL11K-OP-DCM-01:Y"
-		dummy-minPosition="-6.126"
-		dummy-maxPosition="6.974"
-		dummy-position="-2.0"
-		dummy-unitString="mm"/>
+		live-pvName="#{configProperties.DCM_PV_PREFIX}01:Y"
+		dummy-minPosition="-6.126" dummy-maxPosition="6.974"
+		dummy-position="-2.0" dummy-unitString="mm" />
 
 	<gda:motor id="dcm1_bragg"
-		live-pvName="BL11K-OP-DCM-01:BRAGG"
-		dummy-minPosition="-6.126"
-		dummy-maxPosition="6.974"
-		dummy-position="-2.0"
-		dummy-unitString="deg"/>
+		live-pvName="#{configProperties.DCM_PV_PREFIX}01:BRAGG"
+		dummy-minPosition="-6.126" dummy-maxPosition="6.974"
+		dummy-position="-2.0" dummy-unitString="deg" />
 
 	<gda:motor id="dcm1_z"
-		live-pvName="BL11K-OP-DCM-01:Z"
-		dummy-minPosition="-6.126"
-		dummy-maxPosition="15.974"
-		dummy-position="-2.0"
-		dummy-unitString="mm"/>
+		live-pvName="#{configProperties.DCM_PV_PREFIX}01:Z"
+		dummy-minPosition="-6.126" dummy-maxPosition="15.974"
+		dummy-position="-2.0" dummy-unitString="mm" />
 
-	<bean id="dcm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<gda:motor id="dcm1_epics_pitch"
+		live-pvName="#{configProperties.DCM_PV_PREFIX}01:PITCH_MOT"
+		dummy-minPosition="-6.126" dummy-maxPosition="15.974"
+		dummy-position="-2.0" dummy-unitString="mm" />
+
+	<gda:motor id="dcm1_epics_roll"
+		live-pvName="#{configProperties.DCM_PV_PREFIX}01:ROLL_MOT"
+		dummy-minPosition="-6.126" dummy-maxPosition="15.974"
+		dummy-position="-2.0" dummy-unitString="mm" />
+
+	<bean id="dcm1"
+		class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="dcm1_y" />
@@ -35,6 +42,8 @@
 				<ref bean="dcm1_roll" />
 				<ref bean="dcm1_pitch" />
 				<ref bean="dcm1_y_positioner" />
+				<ref bean="dcm1_epics_pitch" />
+				<ref bean="dcm1_epics_roll" />
 			</list>
 		</property>
 	</bean>

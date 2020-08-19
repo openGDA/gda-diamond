@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+	<!-- MONITORS -->
+	<bean id="m4_temp_x1"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MR_PV_PREFIX}04:TEMP:X1" />
+		<property name="unit" value="degC" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="m4_temp_x2"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MR_PV_PREFIX}04:TEMP:X2" />
+		<property name="unit" value="degC" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="m4_temp_mask1"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MR_PV_PREFIX}04:MSK" />
+		<property name="unit" value="degC" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+	<bean id="m4_temp_mask2"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MR_PV_PREFIX}04:MSKSPR" />
+		<property name="unit" value="degC" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="0.1" />
+	</bean>
+
+</beans>

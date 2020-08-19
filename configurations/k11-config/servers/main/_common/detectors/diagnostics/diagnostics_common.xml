@@ -14,4 +14,5 @@
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d14_addetector.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/d15_addetector.xml" />		
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/dbsel_addetector.xml" />
+
 </beans>

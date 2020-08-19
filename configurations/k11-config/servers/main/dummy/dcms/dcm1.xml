@@ -4,17 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="dcm1_roll" class="gda.device.scannable.DummyScannableMotor">
+	<bean id="dcm1_roll"
+		class="gda.device.scannable.DummyScannableMotor">
 		<property name="hardwareUnitString" value="um" />
 		<property name="userUnits" value="um" />
 	</bean>
-	
-	<bean id="dcm1_pitch" class="gda.device.scannable.DummyScannableMotor">
+
+	<bean id="dcm1_pitch"
+		class="gda.device.scannable.DummyScannableMotor">
 		<property name="hardwareUnitString" value="um" />
 		<property name="userUnits" value="um" />
 	</bean>
-	
-	<bean id="dcm1_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+
+	<bean id="dcm1_y_positioner"
+		class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>In</value>
@@ -23,4 +26,92 @@
 		</property>
 	</bean>
 
+	<!-- MONITORS -->
+	<bean id="dcm1_temp_heater1"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="dcm1_temp_heater2"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="dcm1_temp_heater3"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="dcm1_temp_heater4"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="dcm1_temp_xtal1u"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="dcm1_temp_xtal1d"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="dcm1_temp_xtal2u"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="dcm1_temp_xtal2d"
+		class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">1.2</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
 </beans>

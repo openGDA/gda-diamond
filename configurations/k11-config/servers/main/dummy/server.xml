@@ -15,4 +15,5 @@
 	<import	resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml" />
 	<import	resource="file:${gda.config}/servers/main/dummy/detectors/simulation/mandelbrot_detectors.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/server.xml" />
+
 </beans>

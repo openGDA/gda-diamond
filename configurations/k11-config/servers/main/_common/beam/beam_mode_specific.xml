@@ -5,10 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<!-- imports the specific mode configurations live/dummy -->
-	<import resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/diagnostics_mode_specific.xml" />
-		
-	<!-- imports the common configurations -->		
-	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/diagnostics_common.xml" />
-
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
 </beans>
