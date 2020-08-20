@@ -18,6 +18,9 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.shape;
 
+import static uk.ac.gda.ui.tool.ClientMessages.EMPTY_MESSAGE;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -64,7 +67,9 @@ class ShapeCompositeBase implements ShapeComposite {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		button = ClientSWTElements.createButton(parent, SWT.RADIO, ClientMessages.EMPTY_MESSAGE, tooltip, icon);
+		button = createClientButton(parent, SWT.RADIO, EMPTY_MESSAGE, tooltip, icon);
+		ClientSWTElements.createClientGridDataFactory().applyTo(button);
+
 		// sets the button data (the shape it refers to)
 		button.setData(shapeType);
 		WidgetUtilities.addWidgetDisposableListener(button, SWT.Selection, selectionListener);
