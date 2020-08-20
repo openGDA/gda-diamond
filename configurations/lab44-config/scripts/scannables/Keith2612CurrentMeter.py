@@ -16,7 +16,7 @@ class Keith2612CurrentMeter(ScannableMotionBase):
 		self.currentPosition = 0 #self.PS.getVoltage()
 		self.iambusy = 0
 
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def atScanStart(self):
 		return;
 

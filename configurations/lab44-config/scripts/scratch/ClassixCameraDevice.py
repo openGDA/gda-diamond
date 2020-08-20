@@ -4,10 +4,10 @@ from java import lang
 from gda.factory import Finder
 from gda.data import NumTracker
 
-#New style Pseudo devices use gda.device.scannable.PseudoDevice 
-from gda.device.scannable import PseudoDevice
-#New style Pseudo detectors use gda.device.detector.PseudoDetector 
-from gda.device.detector import PseudoDetector
+#New style Pseudo devices use gda.device.scannable.ScannableMotionBase 
+from gda.device.scannable import ScannableMotionBase
+#New style Pseudo detectors use gda.device.detector.DetectorBase 
+from gda.device.detector import DetectorBase
 
 #Old style Pseudo devices use gda.device.scannable.ScannableBase
 #from gda.device.scannable import ScannableBase
@@ -17,7 +17,7 @@ from temp.SocketDevice import SockteDeviceClass;
 
 #The Class for creating a socket-based Psuedo Device
 #class CameraSockteDeviceClass(ScannableBase):
-class ClassixCameraDeviceClass(SockteDeviceClass, PseudoDetector):
+class ClassixCameraDeviceClass(SockteDeviceClass, DetectorBase):
     def __init__(self, name, hostName, hostPort):
         self.setName(name);
         self.setInputNames([]);
@@ -86,7 +86,7 @@ class ClassixCameraDeviceClass(SockteDeviceClass, PseudoDetector):
         return rlist[0];
 
 
-    #PseudoDetector Implementation
+    #DetectorBase Implementation
     def getPosition(self):
         return self.readout();
         
@@ -126,7 +126,7 @@ class ClassixCameraDeviceClass(SockteDeviceClass, PseudoDetector):
         else:
             return BUSY;
 
-    #Only used for oly ScannableBase, not the new PseudoDetector
+    #Only used for oly ScannableBase, not the new DetectorBase
 #    def isBusy(self):
 #        if  self.checkStatus() == 'READY':
 #            return False;

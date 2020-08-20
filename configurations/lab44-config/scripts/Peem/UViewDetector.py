@@ -69,7 +69,7 @@ class UViewDetectorClass(DetectorBase):
 
 		self.verbose = False
 
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 	def getPosition(self):
 		return self.readout();
 
@@ -327,7 +327,7 @@ class UViewDetectorRoiClass(DetectorBase):
 		self.setLevel(7);
 		self.roi = roi;
 		self.cacheExistingValue=False
-	#PseudoDetector Implementation
+	#DetectorBase Implementation
 #	def getPosition(self):
 #		return self.readout();
 	def atScanStart(self):

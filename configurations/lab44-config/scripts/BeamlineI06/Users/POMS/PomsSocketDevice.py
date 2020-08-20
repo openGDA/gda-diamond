@@ -2,14 +2,14 @@
 
 from time import sleep
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import __main__ as gdamain
 
 from Diamond.Comm.SocketDevice import SocketDeviceClass
 
 #The Class for creating a socket-based Psuedo Device to control the magnet
-class PomsSockteDeviceClass(PseudoDevice):
+class PomsSockteDeviceClass(ScannableMotionBase):
 	def __init__(self, name, hostName, hostPort):
 		self.setName(name);
 		self.setInputNames(['field', 'theta', 'phi']);
@@ -46,7 +46,7 @@ class PomsSockteDeviceClass(PseudoDevice):
 			rf=int(float(rlist[1]));
 		return rf;
 		
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def toString(self):
 		ss=self.getName() + " [field, theta, phi]: " + str(self.getPosition());
 		return ss;
@@ -91,7 +91,7 @@ class PomsSockteDeviceClass(PseudoDevice):
 		
 
 #The Class for creating a flipper based on the POMS magnet control 
-class FlipperDeviceClass(PseudoDevice):
+class FlipperDeviceClass(ScannableMotionBase):
 	def __init__(self, name, nameMagnet, nameCounterTimerA, nameCounterTimerB, nameCounterTimerC):
 		self.setName(name);
 		self.setInputNames(['field', 'theta1', 'theta2', 'phi1', 'phi2', 'countTime', 'zeroRestTime']);
@@ -121,7 +121,7 @@ class FlipperDeviceClass(PseudoDevice):
 		self.counterC = vars(gdamain)[nameCounterTimerC];
 		return;
 	
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def atScanStart(self):
 		return;
 

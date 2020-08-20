@@ -1,10 +1,10 @@
 '''
 script provided by Francesco Maccherozzi
 '''
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep
 
-class LEEM_Scannable_Class(PseudoDevice):
+class LEEM_Scannable_Class(ScannableMotionBase):
     def __init__(self,name,units,module,leem2000):
         self.setName(name);
         self.setInputNames([name])

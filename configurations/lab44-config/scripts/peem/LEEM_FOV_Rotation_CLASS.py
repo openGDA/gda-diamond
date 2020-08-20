@@ -1,10 +1,10 @@
 '''
 script provided by Francesco Maccherozzi
 '''
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from peem.LEEM2000_tcp import leem2000
 
-class LEEM_FOV_Rotation_Class(PseudoDevice):
+class LEEM_FOV_Rotation_Class(ScannableMotionBase):
     def __init__(self,name, leem2000):
         self.setName(name);
         self.setInputNames([name])

@@ -1,12 +1,12 @@
 from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 #use \r terminator for output (2612SourceMeter) and \n\r for input
 #Baud = 9600, bit = 8, bitstop = 1, parity = None, Flow Control = None
 #Create Pseudo Device for IsoTech IPS=2010 controlled over Epics Patch Panel
 #patch panel RS232 channel 1 (BL06I-EA-USER-01:ASYN1.AOUT)
  
-class Lakeshore331_class(PseudoDevice): 
+class Lakeshore331_class(ScannableMotionBase): 
     def __init__(self, name, comPort):
         self.setName(name);
         self.setInputNames(['temp[K]'])
@@ -120,7 +120,7 @@ class Lakeshore331_class(PseudoDevice):
     def isBusy(self):
         return self.iambusy
 
-class LakeshoreTemperature_class(PseudoDevice): 
+class LakeshoreTemperature_class(ScannableMotionBase): 
     def __init__(self, name, lakeshore):
         self.setName(name);
         self.setInputNames(['temperature[k]'])
@@ -140,7 +140,7 @@ class LakeshoreTemperature_class(PseudoDevice):
     def isBusy(self):
         return False
 
-class LakeshoreHeaterOut_class(PseudoDevice): 
+class LakeshoreHeaterOut_class(ScannableMotionBase): 
     def __init__(self, name, lakeshore):
         self.setName(name);
         self.setInputNames(['Percent'])
@@ -159,7 +159,7 @@ class LakeshoreHeaterOut_class(PseudoDevice):
     def isBusy(self):
         return False
     
-class LakeshoreSetPoint_class(PseudoDevice): 
+class LakeshoreSetPoint_class(ScannableMotionBase): 
     def __init__(self, name, lakeshore):
         self.setName(name);
         self.setInputNames(['setPoint[k]'])

@@ -3,9 +3,9 @@ from time import sleep
 import math;
 
 from gda.epics import CAClient 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
-class LaserMotorClass(PseudoDevice):
+class LaserMotorClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner which respond only to set and get'''
 	def __init__(self, name, pvinstring, pvoutstring, unitstring, formatstring,help=None):
 		self.setName(name);

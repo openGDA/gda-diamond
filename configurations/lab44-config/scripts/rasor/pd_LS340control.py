@@ -1,8 +1,8 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from misc_functions import caput, caget, frange
 from time import sleep
 
-class EpicsLScontrol(PseudoDevice):
+class EpicsLScontrol(ScannableMotionBase):
 	'''
 	self(value) - command value (pseudo-device)
 	self.hrange(value) - heater range: 0=OFF, 1-5: increasing power (use 0 or 5)

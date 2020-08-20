@@ -1,11 +1,11 @@
 from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 #use \r terminator for output (2612SourceMeter) and \n\r for input
 #Baud = 9600, bit = 8, bitstop = 1, parity = None, Flow Control = None
 #Create Pseudo Device for IsoTech IPS=2010 controlled over Epics Patch Panel
 #patch panel RS232 channel 1 (BL06I-EA-USER-01:ASYN1.AOUT)
 
-class Delta(PseudoDevice): 
+class Delta(ScannableMotionBase): 
     def __init__(self, name, channel, Imax, comPort):
         self.setName(name);
         self.setInputNames(['V_'+name])

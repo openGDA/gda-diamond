@@ -2,8 +2,6 @@
 import random, time, inspect;
 
 from gda.device.scannable import ScannableBase
-from gda.device.scannable import PseudoDevice
-from gda.device.detector import PseudoDetector
 
 import __main__ as gdamain
 

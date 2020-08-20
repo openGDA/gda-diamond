@@ -107,7 +107,7 @@ class Keithley2612DoublePt100(ScannableMotionBase):
 		self.chOut.caput(strOut);
 		return;
 
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def atScanStart(self):
 		self.turnOff()
 		return;
