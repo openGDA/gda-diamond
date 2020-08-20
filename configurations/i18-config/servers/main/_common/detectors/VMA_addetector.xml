@@ -46,6 +46,7 @@
 	<bean id="vmaModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 		<property name="name" value="VMA" />
 		<property name="exposureTime" value="0.1" />
+		<property name="timeout" value="55000" />
 	</bean>
 	<bean id="vmaInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id"          value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />

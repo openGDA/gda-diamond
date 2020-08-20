@@ -3,6 +3,10 @@
 
 <product name="GDA I18 Beamline" uid="uk.ac.gda.beamline.i18.product" id="uk.ac.gda.beamline.i18.product" application="uk.ac.gda.client.application" version="9.19.0" useFeatures="true" includeLaunchers="true">
 
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+   </aboutInfo>
+
    <configIni use="default">
    </configIni>
 
@@ -21,18 +25,20 @@
 -Xms512m
 -Xmx4g
 -XX:+DisableExplicitGC
--Xdebug
--Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
    </launcherArgs>
 
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
    <launcher name="gda-i18">
+   	  <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

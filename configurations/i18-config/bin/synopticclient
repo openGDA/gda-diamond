@@ -1,0 +1,9 @@
+#!/bin/bash
+# This is required to be on the path until the Diamond Launcher scripts in 
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands. 
+
+export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=/dls_sw/i18/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.i18/plugin_customization_synoptic.ini"
+
+WORKSPACE="/scratch/gda_workspaces/${USER}_synoptic"
+gda -v --data $WORKSPACE client $*

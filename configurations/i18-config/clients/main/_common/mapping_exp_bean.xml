@@ -23,6 +23,7 @@
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 							<property name="name" value="VMA" />
 							<property name="exposureTime" value="0.5" />
+							<property name="timeout" value="5000" />
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
