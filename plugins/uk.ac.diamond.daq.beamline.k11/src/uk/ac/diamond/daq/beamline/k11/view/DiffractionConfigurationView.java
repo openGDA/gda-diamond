@@ -63,7 +63,7 @@ import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
-import uk.ac.diamond.daq.mapping.ui.properties.DetectorHelper.AcquisitionType;
+import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionsPropertiesHelper;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
@@ -144,7 +144,7 @@ public class DiffractionConfigurationView extends ViewPart {
 	@SuppressWarnings("unchecked")
 	private AcquisitionController<ScanningAcquisition> getPerspectiveController() {
 		return (AcquisitionController<ScanningAcquisition>) SpringApplicationContextProxy
-				.getBean("scanningAcquisitionController", AcquisitionType.DIFFRACTION);
+				.getBean("scanningAcquisitionController", AcquisitionsPropertiesHelper.AcquisitionPropertyType.DIFFRACTION);
 	}
 
 	private void buildDiffractionPathComposite(Composite parent) {
@@ -297,11 +297,13 @@ public class DiffractionConfigurationView extends ViewPart {
 
 			newConfiguration.setName("Default name");
 			ScanningParameters acquisitionParameters = new ScanningParameters();
-			// Diffraction detectors are set by the controller
 			configuration.setImageCalibration(new ImageCalibration());
-			// *-------------------------------
-
 			newConfiguration.getAcquisitionConfiguration().setAcquisitionParameters(acquisitionParameters);
+
+			// --- NOTE---
+			// The creation of the acquisition engine and the used detectors documents are delegated to the ScanningAcquisitionController
+			// --- NOTE---
+
 			return newConfiguration;
 		};
 	}
