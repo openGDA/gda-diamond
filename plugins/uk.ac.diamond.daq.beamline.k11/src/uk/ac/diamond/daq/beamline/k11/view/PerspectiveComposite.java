@@ -29,12 +29,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbench;
@@ -48,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated;
 import uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot;
 import uk.ac.diamond.daq.beamline.k11.perspective.Tomography;
+import uk.ac.gda.ui.tool.WidgetUtilities;
 
 /**
  * Drop-down list to switch between different perspectives
@@ -112,7 +111,7 @@ public class PerspectiveComposite {
 		modeCombo = createCombo(parent, SWT.READ_ONLY, getTypes(), MODE_TP);
 		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(modeCombo);
 
-		comboModeSelectionListener();
+		WidgetUtilities.addWidgetDisposableListener(modeCombo, SWT.Selection, getComboModeSelectionListener());
 		setModeComboSelection(getActiveWindow().getActivePage().getPerspective().getId());
 
 		getActiveWindow().addPerspectiveListener(new IPerspectiveListener() {
@@ -126,25 +125,18 @@ public class PerspectiveComposite {
 			 */
 			@Override
 			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
-				if (!filterPerspectiveId(perspective.getId()).findAny().isPresent()) {
-					setModeComboSelection(perspective.getId());
-				}
+				setModeComboSelection(perspective.getId());
 			}
 		});
 	}
 
-	private void comboModeSelectionListener() {
-		SelectionListener listener = new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				Combo source = Combo.class.cast(e.getSource());
-				if (source.getSelectionIndex() > -1) {
-					filterPerspectiveLabel(getTypes()[source.getSelectionIndex()]).findFirst()
-							.ifPresent(p -> setModeComboSelection(p.getId()));
-				}
+	private Listener getComboModeSelectionListener() {
+		return selection -> {
+			if (modeCombo.getSelectionIndex() > -1) {
+				filterPerspectiveLabel(getTypes()[modeCombo.getSelectionIndex()]).findFirst()
+					.ifPresent(p -> setModeComboSelection(p.getId()));
 			}
 		};
-		modeCombo.addSelectionListener(listener);
 	}
 
 	/**
