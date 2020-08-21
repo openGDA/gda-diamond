@@ -92,7 +92,7 @@
 
 	<bean id="sample_microscope_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
 		<constructor-arg name="secondaryId" value="sample_microscope_cam" />
-		<constructor-arg name="focusPoints" ref="autofocus_points" />
+		<constructor-arg name="focusPoints" ref="sample_cam_autofocus_points" />
  		<property name="activeFocusPoints">
 			<list>
 				<value>af05</value>
@@ -131,7 +131,6 @@
 					<list>
 						<ref bean="sample_dtab_extension_calibrate" />
 						<ref bean="sample_dtab_extension_toggle_overlay" />
-						<ref bean="sample_dtab_extension_autofocus" />
 					</list>
 				</property>
 			</bean>
@@ -154,18 +153,6 @@
 				<property name="pvName" value="BL14I-OP-DCAM-10:OVER:1:Use" />
 			</bean>
 		</constructor-arg>
-	</bean>
-
-	<bean id="sample_dtab_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
-		<constructor-arg name="secondaryId" value="sample_dtab_cam" />
-		<constructor-arg name="focusPoints" ref="autofocus_points" />
- 		<property name="activeFocusPoints">
-			<list>
-				<value>af05</value>
-				<value>af08</value>
-				<value>af09</value>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="sample_dtab_extension_calibrate" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
