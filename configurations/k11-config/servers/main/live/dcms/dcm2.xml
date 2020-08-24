@@ -86,10 +86,10 @@
 		<property name="sensitivity" value="0.1" />
 	</bean>
 	
-	<bean id="dcm1_temp_xtal2d"
+	<bean id="dcm2_temp_xtal2d"
 		class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName"
-			value="#{configProperties.DCM_PV_PREFIX}01:TEMP:XTAL2D" />
+			value="#{configProperties.DCM_PV_PREFIX}02:TEMP:XTAL2D" />
 		<property name="unit" value="C" />
 		<property name="poll" value="true" />
 		<property name="sensitivity" value="0.1" />

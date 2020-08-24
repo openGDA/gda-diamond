@@ -11,7 +11,7 @@
 		<property name="poll" value="true" />
 	</bean>
 
-	<bean id="fe_shutter" class="gda.device.monitor.EpicsMonitor">
+	<bean id="fe_shutter_monitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName"
 			value="#{configProperties.FE_SHUTTER_PV_PREFIX}01:STA" />
 		<property name="unit" value="status" />
