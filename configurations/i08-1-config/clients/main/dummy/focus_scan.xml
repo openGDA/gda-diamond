@@ -6,6 +6,7 @@
 	<bean id="focus_scan_bean" parent="focus_scan_bean_base">
 		<property name="focusScanDevices">
 			<list>
+				<value>Andor software</value>
 				<value>Simulated motors for mapping</value>
 				<value>Simulated motors for tomography</value>
 				<value>Simulated motors for load</value>
