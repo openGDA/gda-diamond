@@ -6,17 +6,19 @@
 
 
 	<bean id="idgapMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="19.6" />
-		<property name="maxPosition" value="360.1" />
-		<property name="fastSpeed" value="400" />
-		<property name="mediumSpeed" value="200" />
-		<property name="slowSpeed" value="100" />
+		<property name="minPosition" value="19.85" />
+		<property name="maxPosition" value="100.0" />
+		<property name="fastSpeed" value="1" />
+		<property name="mediumSpeed" value="1" />
+		<property name="slowSpeed" value="1" />
 	</bean>
 
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDDummy">
-		<property name="maxPhaseMotorPos" value="30.0" />
-		<property name="minGapPos" value="25.0" />
-		<property name="speed" value="6.0" />
+		<property name="maxPhaseMotorPos" value="28.0" />
+		<property name="minGapPos" value="19.85" />
+		<property name="maxGapPos" value="100.0" />
+		<property name="gapMotor" ref="idgapMotor"/>
+		<property name="speed" value="1.0" />
 	</bean>
 
 </beans>
