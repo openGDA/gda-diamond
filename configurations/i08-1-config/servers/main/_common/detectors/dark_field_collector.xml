@@ -10,7 +10,7 @@
 			</map>
 		</constructor-arg>
 		<constructor-arg name="nexusFieldName" value="darkField" />
-		<constructor-arg name="malcolmDetectorNames" ref="malcolmDetectorNames" />
+		<constructor-arg name="malcolmDetectorNames" ref="darkFieldDetectorNames" />
 		<property name="name" value="darkFieldCollector" />
 	</bean>
 
