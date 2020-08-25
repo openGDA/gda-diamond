@@ -5,7 +5,7 @@
 
 	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
 	<bean id="focus_scan_bean_base" class="uk.ac.diamond.daq.mapping.api.FocusScanBean" abstract="true">
-		<property name="focusScannableName" value="ZonePlateZ"/>
+		<property name="focusScannableName" value="zpz_osa"/>
 		<property name="focusRange" value="0.05"/>
 		<property name="numberOfFocusSteps" value="20"/>
 		<property name="numberOfLinePoints" value="40"/>
