@@ -3,6 +3,7 @@ import csv
 from time import sleep
 import logging
 from gdascripts.utils import caput
+import installation
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
@@ -12,9 +13,9 @@ from lookup.fourKeysLookupTable import loadLookupTable
 import numbers
 
 def getFittingCoefficents(polarisation_mode, Ep, vpg, lut={}):
-    lowEnergies=sorted([e[1] for e in lut[0].keys() if (e[0]==polarisation_mode and e[3]==vpg)])
+    lowEnergies=sorted([e[1] for e in lut.keys() if (e[0]==polarisation_mode and e[3]==vpg)])
     #print lowEnergies
-    highEnergies=sorted([e[2] for e in lut[0].keys() if (e[0]==polarisation_mode and e[3]==vpg)])
+    highEnergies=sorted([e[2] for e in lut.keys() if (e[0]==polarisation_mode and e[3]==vpg)])
     #print highEnergies
     minEnergy=min(lowEnergies)
     maxEnergy=max(highEnergies)
@@ -25,7 +26,7 @@ def getFittingCoefficents(polarisation_mode, Ep, vpg, lut={}):
     else:
         for low, high in limits:
             if (Ep>=low and Ep<high): 
-                return lut[0][(polarisation_mode, low, high, vpg)]
+                return lut[(polarisation_mode, low, high, vpg)]
 
 def loadDataset(filename):
     '''loads a CSV with the provided filename 
@@ -49,7 +50,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         
     def __init__(self, name, idctrl, pgmenergy, pgmgratingselect, idlamlookup, lut="IDEnergy2GapCalibrations.cvs", energyConstant=False, polarisationConstant=False, feedbackPV=None):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
-        self.lut=loadLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
+        self.lut,self.header=loadLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.idscannable=idctrl
         self.pgmenergy=pgmenergy
         self.idlamlookup=idlamlookup
@@ -112,6 +113,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def getHarmonic(self):
         return self.order
     
+    def get_ID_gap_phase_at_current_polarisation(self, energy):
+        self.getIDPositions() # update cached value from hardware positions
+        return self.idgapphase(Ep=energy, mode=self.polarisationMode, n=self.order)
+
     def idgapphase(self, Ep=None, polar=None, mode='LH',n=1):
         '''coverts energy and polarisation to  gap and phase. It supports polarisation modes: LH, LV, CR, CL, LAP, LAN.
         Harmonic order is not yet implemented.
@@ -337,6 +342,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             else:
                 return 1
 
+    def stop(self):
+        self.pgmenergy.stop()
+        if installation.isLive():
+            print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
+        else:  
+            self.idscannable.stop()
+            
     def atScanStart(self):
         if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":
             return;

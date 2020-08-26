@@ -4,20 +4,30 @@ Created on 30 Aug 2016
 @author: fy65
 '''
 from external import create_function
-#from scisoftpy.external import create_function
+# from scisoftpy.external import create_function
 import time
 
 starttime=time.time()
-#The lookupTable table
-lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv'
-#Lookup module - a symlink to 'i21-python' project
-local_module_path='/dls_sw/i21/software/gda/pythonscript/lookupTable'
-
-# To solve the problem that PyDev/ Jython was passing JYTHONPATH as PYTHONPATH to the subprocess.
-# The fix was to load all the environment variables, change the Python Path to the correct spot for Python 2.7 and pass it to Popen through the env argument.
-python_path="/dls_sw/i21/software/miniconda2/envs/gdaenv/lib/python2.7/"
-python_exe="/dls_sw/i21/software/miniconda2/envs/gdaenv/bin/python"
-
+INSIDE_DIAMOND_NETWORK=True
+if INSIDE_DIAMOND_NETWORK:
+    #The lookupTable table
+    lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv'
+    #Lookup module - a symlink to 'i21-python' project
+    local_module_path='/dls_sw/i21/software/gda/pythonscript/lookupTable'
+    # To solve the problem that PyDev/ Jython was passing JYTHONPATH as PYTHONPATH to the subprocess.
+    # The fix was to load all the environment variables, change the Python Path to the correct spot for Python 2.7 and pass it to Popen through the env argument.
+    python_path="/dls_sw/i21/software/miniconda2/envs/gdaenv/lib/python2.7/"
+    python_exe="/dls_sw/i21/software/miniconda2/envs/gdaenv/bin/python"
+else:
+    #The lookupTable table
+    lookup_file='/home/fy65/gda_versions/gda-master-20200626/workspace_git/gda-diamond.git/configurations/i21-config/lookupTables/LinearAngle.csv'
+    #Lookup module - a symlink to 'i21-python' project
+    local_module_path='/home/fy65/gda_versions/gda-master-20200626/workspace_git/gda-diamond.git/configurations/i21-python/src/lookupTable'
+    # To solve the problem that PyDev/ Jython was passing JYTHONPATH as PYTHONPATH to the subprocess.
+    # The fix was to load all the environment variables, change the Python Path to the correct spot for Python 2.7 and pass it to Popen through the env argument.
+    python_path="/home/fy65/miniconda2/envs/gdaenv/lib/python2.7/"
+    python_exe="/home/fy65/miniconda2/envs/gdaenv/bin/python"
+    
 class IDLookup4LinearAngleMode():
     def __init__(self, name, lut=lookup_file):
         self.name=name

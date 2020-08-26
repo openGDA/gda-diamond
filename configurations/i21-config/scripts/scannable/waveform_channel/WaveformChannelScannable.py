@@ -5,10 +5,11 @@ from gda.device.scannable import PositionCallableProvider, PositionStreamIndexer
 from gda.device import Detector, DeviceException
 from org.slf4j import LoggerFactory
 from threading import Timer
+from scannable.waveform_channel.ADCWaveformChannelController import ADCWaveformChannelController
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
-    def __init__(self, name, waveform_channel_controller, channel):
+    def __init__(self, name, waveform_channel_controller, channel, det, controller_active=False):
         self.logger = LoggerFactory.getLogger("WaveformChannelScannable:%s" % name)
         self.verbose = False
         
@@ -20,6 +21,9 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         self.waveform_channel_controller = waveform_channel_controller
 
         self.channel_input_stream = waveform_channel_controller.getChannelInputStream(channel)
+        self.scannable = det
+        self.det = det
+        self.controller_active=controller_active
         self.stream_indexer = None
         self.number_of_positions = 0
         self.delayed_collection_timer = None
@@ -29,12 +33,17 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
     
     def stop(self):
         self.waveform_channel_controller.stop()
-        
+        if self.det:
+            self.det.atScanEnd() # restore ADC settings
+        if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
+            self.waveform_channel_controller.erase_called = False
+            self.waveform_channel_controller.erase_start_called = False
+            self.waveform_channel_controller.stop_called = False
+                    
     def collectData(self):
         if self.verbose: self.logger.info('collectData()...')
-        # Here we need to wait for the motor run_up to complete when our Trigger_able Detector is actually
-        # a Software trigger_able detector rather than a Hardware one. We do this by getting the run_up time
-        # from the motion controller.
+        # Here we need to wait for the motor run_up to complete before starting collect data from detector.
+        # We do this by getting the run_up time from the motion controller.
         motion_controller = self.getHardwareTriggerProvider()
         runupdown_time = motion_controller.getTimeToVelocity()
         if self.verbose: self.logger.info('collectData()... motion_controller=%r, runupdown_time=%r' % (motion_controller, runupdown_time))
@@ -53,9 +62,11 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         if self.verbose: self.logger.info('..._delayed_collectData()')
 
     def getStatus(self):
+        # always return IDLE in continuous scanning
         return Detector.IDLE
 
     def setCollectionTime(self, t):
+        # collection time must be set in controller as it is used in pulling detector data in the pull stream
         if self.verbose: self.logger.info('setCollectionTime(%r)' % t)
         self.waveform_channel_controller.exposure_time = t
 
@@ -68,10 +79,15 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
-        
+        if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
+            self.waveform_channel_controller.erase_called = False
+            self.waveform_channel_controller.erase_start_called = False
+            self.waveform_channel_controller.stop_called = False
+        if self.det:
+            self.det.atScanStart() # call to capture current ADC settings before cvscan starts
+            self.det.setCollectionTime(self.waveform_channel_controller.exposure_time) # set ADC SAMPLES and AVERAGE
         #pass hardware trigger provider to waveform channel controller so WaveformChannelPollingInputStream can access to its property
-        self.waveform_channel_controller.setHardwareTriggerProvider(self.getHardwareTriggerProvider())
-        
+        self.waveform_channel_controller.set_hardware_trigger_provider(self.getHardwareTriggerProvider())
         self.waveform_channel_controller.erase() # Prevent a race condition which results in stale data being returned
         self.channel_input_stream.reset()
         self.stream_indexer = PositionStreamIndexer(self.channel_input_stream);
@@ -80,7 +96,12 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
     def atScanLineEnd(self):
         if self.verbose: self.logger.info('...atScanLineEnd()')
-        # Don't call self.waveform_channel_controller.stop() here as PositionCallable may have not completed yet
+        if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
+            self.waveform_channel_controller.erase_called = False
+            self.waveform_channel_controller.erase_start_called = False
+            self.waveform_channel_controller.stop_called = False
+        if self.det:
+            self.det.atScanEnd() # restore ADC stettings
         
     def getPositionCallable(self):
         if self.verbose: self.logger.info('getPositionCallable()... number_of_positions=%i' % self.number_of_positions)
