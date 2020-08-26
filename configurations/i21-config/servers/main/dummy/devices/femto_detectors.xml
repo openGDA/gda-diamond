@@ -12,7 +12,11 @@
 	
 	<!-- S2 Femtos -->
 	<bean id="s2cupper" class="gda.device.detector.countertimer.DummyCounterTimer">
-		<property name="name" value="s2cupper"/>
+		<property name="inputNames">
+			<list>
+				<value>s2cupper</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -21,6 +25,11 @@
 	</bean>
 	<bean id="s2clower" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="s2clower"/>
+		<property name="inputNames">
+			<list>
+				<value>s2clower</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -29,6 +38,11 @@
 	</bean>
 	<bean id="s2coffside" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="s2coffside"/>
+		<property name="inputNames">
+			<list>
+				<value>s2coffside</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -37,6 +51,11 @@
 	</bean>
 	<bean id="s2cnearside" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="s2cnearside"/>
+		<property name="inputNames">
+			<list>
+				<value>s2cnearside</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -46,6 +65,11 @@
 		
 	<bean id="s3cupper" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="s3cupper"/>
+		<property name="inputNames">
+			<list>
+				<value>s3cupper</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -54,6 +78,11 @@
 	</bean>
 	<bean id="s3clower" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="s3clower"/>
+		<property name="inputNames">
+			<list>
+				<value>s3clower</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -62,6 +91,11 @@
 	</bean>
 	<bean id="s3coffside" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="s3coffside"/>
+		<property name="inputNames">
+			<list>
+				<value>s3coffside</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -70,6 +104,11 @@
 	</bean>
 	<bean id="s3cnearside" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="s3cnearside"/>
+		<property name="inputNames">
+			<list>
+				<value>s3cnearside</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -80,6 +119,11 @@
 	<!-- D3B Femto -->
 	<bean id="d3bc" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="d3bc"/>
+		<property name="inputNames">
+			<list>
+				<value>d3bc</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -90,6 +134,11 @@
 	<!-- Gas Cell Femtos -->
 	<bean id="d7cwire" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="d7cwire"/>
+		<property name="inputNames">
+			<list>
+				<value>d7cwire</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -98,6 +147,11 @@
 	</bean>
 	<bean id="d7cdiode" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="d7cdiode"/>
+		<property name="inputNames">
+			<list>
+				<value>d7cdiode</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -108,6 +162,11 @@
 	<!--  M4 Femtos -->
 	<bean id="m4c1" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="m4c1"/>
+		<property name="inputNames">
+			<list>
+				<value>m4c1</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -117,6 +176,11 @@
 	</bean>
 	<bean id="m4c2" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="m4c2"/>
+		<property name="inputNames">
+			<list>
+				<value>m4c2</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -127,6 +191,11 @@
 	<!-- D8 FEMTO -->
 	<bean id="d8c" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="d8c"/>
+		<property name="inputNames">
+			<list>
+				<value>d8c</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -137,6 +206,11 @@
 	<!-- Sample Femtos -->
 	<bean id="draincurrent_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="draincurrent_i"/>
+		<property name="inputNames">
+			<list>
+				<value>draincurrent_i</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -146,6 +220,11 @@
 	</bean>
 	<bean id="fy1_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="fy1_i"/>
+		<property name="inputNames">
+			<list>
+				<value>fy1_i</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -154,6 +233,11 @@
 	</bean>
 	<bean id="fy3_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="fy3_i"/>
+		<property name="inputNames">
+			<list>
+				<value>fy3_i</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -162,6 +246,11 @@
 	</bean>
 	<bean id="diff3_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="diff3_i"/>
+		<property name="inputNames">
+			<list>
+				<value>diff3_i</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -170,6 +259,11 @@
 	</bean>
 	<bean id="fy2_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="fy2_i"/>
+		<property name="inputNames">
+			<list>
+				<value>fy2_i</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -178,6 +272,11 @@
 	</bean>
 	<bean id="diff1_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="diff1_i"/>
+		<property name="inputNames">
+			<list>
+				<value>diff1_i</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -187,6 +286,11 @@
 	</bean>
 	<bean id="diff2_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="diff2_i"/>
+		<property name="inputNames">
+			<list>
+				<value>diff2_ie</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
@@ -196,6 +300,11 @@
 
 	<bean id="extradrain_i" class="gda.device.detector.countertimer.DummyCounterTimer">
 		<property name="name" value="extradrain_i"/>
+		<property name="inputNames">
+			<list>
+				<value>extradrain_i</value>
+			</list>
+		</property>
 		<property name="noiseLevel" value="0.1"/>
 		<property name="totalChans" value="1" />
 		<property name="timeChannelRequired" value="false"/>
