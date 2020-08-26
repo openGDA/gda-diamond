@@ -2,14 +2,9 @@ import sys
 import installation
 
 from gdascripts.messages.handle_messages import simpleLog
-from gdascripts.scannable.dummy import SingleInputDummy
-from gda.device.scannable.scannablegroup import ScannableGroup
-
 from gdascripts.degas.degas import Degas  # @UnusedImport
-
 from gda.jython.commands.GeneralCommands import alias
 from time import sleep  # @UnusedImport
-
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
 with overwriting:  # @UndefinedVariable
@@ -19,61 +14,61 @@ from utils.ExceptionLogs import localStation_exception
 from gda.device.scannable import DummyScannable
 from calibration.Energy2Gap4ID import idgap_calc
 
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Set scan returns to the original positions on completion to false (0); default is 0."
-print "   To set scan returns to its start positions on completion please do:"
-print "      >>>scansReturnToOriginalPositions=1"
+print("-"*100)
+print("Set scan returns to the original positions on completion to false (0); default is 0.")
+print("   To set scan returns to its start positions on completion please do:")
+print("      >>>scansReturnToOriginalPositions=1")
+#turn off return to the original position before scan off, to turn it on set it to 1
 scansReturnToOriginalPositions=0;
-print
-print sys.path
-print
+print()
+
 # set up a nice method for getting the latest file path
 from i21commands.dirFileCommands import pwd, lwf, nwf, nfn, setSubdirectory, getSubdirectory  # @UnusedImport
 alias("pwd")
 alias("lwf")
 alias("nwf")
 alias("nfn")
-print
+print()
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
-print
+print()
 def interruptable():
     GeneralCommands.pause()
 alias("interruptable")
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
-from gdascripts.pd.epics_pds import * #@UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load time utilities for creating timer objects."
-from gdascripts.pd.time_pds import * #@UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
-print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
-from gdascripts.utils import * #@UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load common physical constants"
-from gdascripts.constants import * #@UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Adding timer devices t, dt, and w, clock"
-from gdascripts.scannable.timerelated import timerelated #@UnusedImport
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Adding timer devices t, dt, and w, clock"
+print()
+print("-"*100)
+print("load EPICS Pseudo Device utilities for creating scannable object from a PV name.")
+from gdascripts.pd.epics_pds import EpicsReadWritePVClass, DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerNoStatusClassDeadband  # @UnusedImport
+print()
+print("-"*100)
+print("load time utilities for creating timer objects.")
+from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc,showtimeClass,showincrementaltimeClass,waittimeClass2  # @UnusedImport
+print()
+print("-"*100)
+print("Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), ")
+print("    iterableprint(iterable), listprint(list), frange(start,end,step)")
+from gdascripts.utils import frange,listprint,iterableprint,attributes,caget, caput, cagetArray, caput_wait,caput_string2waveform,default_scannables,jobs  # @UnusedImport
+print()
+print("-"*100)
+print("load common physical constants")
+from gdascripts.constants import pi,eV,hPlanck,hbar,hPlanckeV,hbareV, clight,m_e,r_e,aum,me  # @UnusedImport
+print()
+print("-"*100)
+print("Adding timer devices t, dt, and w, clock")
+from gdascripts.scannable.timerelated import timerelated, t,dt,clock,epoch #@UnusedImport
+print("-"*100)
+print("Adding timer devices t, dt, and w, clock")
 
 ds=DummyScannable("ds")
 ds1=DummyScannable("ds1")
 
-print
+print()
 simpleLog("================ INITIALISING I21 GDA ================")
 
 if installation.isLive():
-    print "Running in live mode"
-    print "create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total"
+    print("Running in live mode")
+    print("create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total")
     d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 'counts', '%10d')
     d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
     d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
@@ -120,9 +115,9 @@ if installation.isLive():
     alias("lightOff")
 
 else:
-    print "Running in dummy mode"
+    print("Running in dummy mode")
 
-print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2"
+print("create clever amplifier scannables: cleverd7femto1, cleverd7femto2")
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
 d7femto1_neg = DisplayEpicsPVClass_neg('d7femto1_neg', d7femto1)  # @UndefinedVariable
 d7femto2_pos = DisplayEpicsPVClass_pos('d7femto2_pos', d7femto2)  # @UndefinedVariable
@@ -134,11 +129,11 @@ cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.
 cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 clevertdiff1=CleverAmplifier("clevertdiff1", diff1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'ds' and 'ds1'"
+print()
+print("-"*100)
+print("Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'ds' and 'ds1'")
 dummyenergy=BeamEnergy("dummyenergy",idscannable, ds, ds1, pgmGratingSelect)  # @UndefinedVariable
-print "Create an 'energy', 'polarisation', and 'energypolarisation' scannables"
+print("Create an 'energy', 'polarisation', and 'energypolarisation' scannables")
 
 LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
 from lookup.IDLookup import IDLookup4LinearAngleMode
@@ -183,14 +178,15 @@ def input_tcryostat():
 alias("input_tsample")
 alias("input_tshield")
 alias("input_tcryostat")
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
-from metashop import *  # @UnusedWildImport
+
+print()
+print("-"*100)
+print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
+from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
 import metashop  # @UnusedImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Add meta data items to be captured in data files."
+print()
+print("-"*100)
+print("Add meta data items to be captured in data files.")
 metadatalist=[ringCurrent, idgap, idscannable, energy_s, fastshutter_x]  # @UndefinedVariable
 if installation.isLive():
     metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
@@ -223,10 +219,10 @@ alias("meta_rm")
 b2.setOutputFormat(["%7.4f"])
 x.setOutputFormat(["%10.6f"])
 
-print
-print "*"*80
+print()
+print("-"*100)
 #DiffCalc
-print "import DIFFCALC support for I21"
+print("import DIFFCALC support for I21")
 # Import toolpoint scannables into namespace
 from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw  # @UnusedImport
 
