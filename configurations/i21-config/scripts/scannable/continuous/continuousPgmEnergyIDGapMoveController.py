@@ -1,7 +1,10 @@
 """
-A Controller for Continuous Energy moving of both PGM energy and ID gap motors at Constant Velocity
+A Controller for Continuous Energy moving of both PGM energy and ID gap motors at Constant Velocity.
+
+During the constant velocity scanning, the beam polarisation will be set to the ID row phase at the middle point of the scanned energy range.
 
 @author: Fajin Yuan 
+@organization: Diamond Light Source Ltd
 @since: 12 August 2019
 """
 
@@ -16,12 +19,16 @@ import installation
 from time import sleep
 
 ID_GAP_END_OFFSET=0.00 # value used to make sure ID gap stops at the same time as PGM Energy
+ID_GAP_SPEED_LOWER_LIMIT = 0.005
+ID_GAP_SPEED_UPPER_LIMIT = 1.0
+PGM_ENERGY_SPEED_LOWER_LIMIT = 0.0
+PGM_ENERGY_SPEED_UPPER_LIMIT = 200.0
 
 class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, DeviceBase):
     '''Controller for constant velocity scan moving both PGM Energy and ID Gap at same time at constant speed respectively.
         It works for both Live and Dummy mode.
     '''
-    def __init__(self, name, energy, idpvroot, move_pgm=True, move_id=True): # motors, maybe also detector to set the delay time
+    def __init__(self, name, energy, idgap, idpvroot, move_pgm=True, move_id=True): 
         self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyIDGapMoveController:%s" % name)
         self.verbose = False
         self.setName(name)
@@ -29,11 +36,12 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self._movelog_time = datetime.now()
         self._energy = energy
         #PGM
-        self._pgm_energy=self._energy.scannables.getGroupMember("pgmenergy")
+        self._pgm_energy=self._energy.pgmenergy
         self._pgm_energy_speed_orig = None
         self._pgm_runupdown_time = None
         #ID
-        self._id_gap=self._energy.scannables.getGroupMember("jgap")
+        self._id_scannable=self._energy.idscannable
+        self._id_gap = idgap
         self._id_gap_speed_orig=None
         self._id_runupdown_time = None
         self.idpvs = PvManager({'vel':'BLGSETVEL',
@@ -71,13 +79,13 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self._pgm_energy_speed_orig = self._pgm_energy.speed #current speed in EPICS
    
         ### Calculate main cruise moves & speeds from start/end/step in eV
-        self._pgm_energy_speed = (abs(self._move_end - self._move_start) * 1000.0/ self.getTotalTime())*self.getPGMSpeedFactor()
+        self._pgm_energy_speed = (abs(self._move_end - self._move_start) / self.getTotalTime())*self.getPGMSpeedFactor()
         
         ### Calculate ramp distance from required speed and ramp times
         #check speed within limits
-        if self._pgm_energy_speed<=0.000 or self._pgm_energy_speed>10.0: #eV/sec
-            print ("Calculated PGM energy speed %f is outside limits [%f, %f]!" % (self._pgm_energy_speed, 0.000, 10.0))
-            raise DeviceException("Calculated PGM energy speed %f is outside limits [%f, %f]!" % (self._pgm_energy_speed, 0.000, 10.0))
+        if self._pgm_energy_speed <= PGM_ENERGY_SPEED_LOWER_LIMIT or self._pgm_energy_speed > PGM_ENERGY_SPEED_UPPER_LIMIT: #eV/sec
+            print ("Calculated PGM energy speed %f is outside limits [%f, %f]!" % (self._pgm_energy_speed, PGM_ENERGY_SPEED_LOWER_LIMIT, PGM_ENERGY_SPEED_UPPER_LIMIT))
+            raise DeviceException("Calculated PGM energy speed %f is outside limits [%f, %f]!" % (self._pgm_energy_speed, PGM_ENERGY_SPEED_LOWER_LIMIT, PGM_ENERGY_SPEED_UPPER_LIMIT))
         
         # Set the speed before we read out ramp times in case it is dependent
         self._pgm_energy.speed = self._pgm_energy_speed 
@@ -88,12 +96,12 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self._pgm_energy.speed = self._pgm_energy_speed_orig
         if self.getEnergyMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('preparePGMForMove:_pgm_energy.asynchronousMoveTo(%r) @ %r (+ve)' % ((self._move_start * 1000.0 - self._pgm_runupdown), self._pgm_energy_speed_orig))
-            self._pgm_energy.asynchronousMoveTo((self._move_start*1000.0 - self._pgm_runupdown))
+                self.logger.info('preparePGMForMove:_pgm_energy.asynchronousMoveTo(%r) @ %r eV/sec (+ve)' % ((self._move_start - self._pgm_runupdown), self._pgm_energy_speed_orig))
+            self._pgm_energy.asynchronousMoveTo((self._move_start - self._pgm_runupdown))
         else:
             if self.verbose:
-                self.logger.info('preparePGMForMove:_pgm_energy.asynchronousMoveTo(%r) @ %r (-ve)' % ((self._energy_start * 1000.0 + self._pgm_runupdown), self._pgm_energy_speed_orig))
-            self._pgm_energy.asynchronousMoveTo((self._move_start * 1000.0 + self._pgm_runupdown))
+                self.logger.info('preparePGMForMove:_pgm_energy.asynchronousMoveTo(%r) @ %r eV/sec (-ve)' % ((self._energy_start + self._pgm_runupdown), self._pgm_energy_speed_orig))
+            self._pgm_energy.asynchronousMoveTo((self._move_start + self._pgm_runupdown))
 
     def PrepareIDForMove(self):
 
@@ -103,20 +111,25 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         else:
             self._id_gap_speed_orig = self._id_gap.speed
             
-        #assume no rowphase motors need to move during continuous energy move
-        
+        # Calculate the energy midpoint
+        energy_midpoint = (self._move_end + self._move_start) / 2.
+        if self.verbose:
+            self.logger.info('prepareID: energy_midpoint = %r ' % (energy_midpoint))
+        # Calculate phase position for current polarisation at energy midpoint
+        gap_midpoint, phase_midpoint = self._energy.get_ID_gap_phase_at_current_polarisation(energy_midpoint)  # @UnusedVariable
+       
         # Calculate grating angles for given grating density, energy, mirror angle and offsets
-        self._id_gap_start = self._energy.idgap(self._move_start, 1) #idgap calculation using energy in keV
-        self._id_gap_end = self._energy.idgap(self._move_end, 1)
+        self._id_gap_start, phase_start = self._energy.get_ID_gap_phase_at_current_polarisation(self._move_start)  # @UnusedVariable
+        self._id_gap_end, phase_end = self._energy.get_ID_gap_phase_at_current_polarisation(self._move_end)  # @UnusedVariable
         
             ### Calculate main cruise moves & speeds from start/end/step
         self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()*self.idspeedfactor
         
         ### Calculate ramp distance from required speed and ramp times
         #check speed within limits
-        if self._id_gap_speed<0.01 or self._id_gap_speed>1.0:
-            print ("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.01, 1.0))
-            raise DeviceException("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.01, 1.0))
+        if self._id_gap_speed < ID_GAP_SPEED_LOWER_LIMIT or self._id_gap_speed > ID_GAP_SPEED_UPPER_LIMIT:
+            print ("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, ID_GAP_SPEED_LOWER_LIMIT, ID_GAP_SPEED_UPPER_LIMIT))
+            raise DeviceException("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, ID_GAP_SPEED_LOWER_LIMIT, ID_GAP_SPEED_UPPER_LIMIT))
         if installation.isLive():
             #Cannot set id_gap.speed through soft motor which in EPICS is read-only 
             self.idpvs['vel'].caput(self._id_gap_speed)
@@ -137,12 +150,12 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareIDForMove:_id_gap.asynchronousMoveTo(%r) @ %r (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), self._id_gap_speed_orig))
-            self._id_gap.asynchronousMoveTo((self._id_gap_start - self._id_gap_runupdown))
+                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), self._energy.polarisationMode, phase_midpoint, self._id_gap_speed_orig))
+            self._id_scannable.asynchronousMoveTo([self._id_gap_start - self._id_gap_runupdown, self._energy.polarisationMode, phase_midpoint])
         else:
             if self.verbose:
-                self.logger.info('prepareIDForMove:_id_gap.asynchronousMoveTo(%r) @ %r (-ve)' % ((self._id_gap_start + self._id_gap_runupdown), self._id_gap_speed_orig))
-            self._id_gap.asynchronousMoveTo((self._id_gap_start + self._id_gap_runupdown))
+                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (-ve)' % ((self._id_gap_start + self._id_gap_runupdown), self._energy.polarisationMode, phase_midpoint, self._id_gap_speed_orig))
+            self._id_scannable.asynchronousMoveTo([self._id_gap_start + self._id_gap_runupdown, self._energy.polarisationMode, phase_midpoint])
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
@@ -185,24 +198,24 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         
         if self.isPGMMoveEnabled():
             if self.getEnergyMoveDirectionPositive():
-                if self.verbose: self.logger.info('startMove PGM Energy: _pgm_energy.asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                                        (self._move_end * 1000.0 + self._pgm_runupdown), self._pgm_energy_speed))
-                self._pgm_energy.asynchronousMoveTo((self._move_end * 1000.0 + self._pgm_runupdown))
+                if self.verbose: self.logger.info('startMove PGM Energy: _pgm_energy.asynchronousMoveTo(%r) @ %r eV/sec (+ve)' % (
+                                                        (self._move_end + self._pgm_runupdown), self._pgm_energy_speed))
+                self._pgm_energy.asynchronousMoveTo((self._move_end + self._pgm_runupdown))
             else:
-                if self.verbose: self.logger.info('startMove PGM Energy: _pgm_energy.asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                                        (self._move_end * 1000.0 - self._pgm_runupdown), self._pgm_energy_speed))
-                self._pgm_energy.asynchronousMoveTo((self._move_end * 1000.0 - self._pgm_runupdown))
+                if self.verbose: self.logger.info('startMove PGM Energy: _pgm_energy.asynchronousMoveTo(%r) @ %r eV/sec (-ve)' % (
+                                                        (self._move_end - self._pgm_runupdown), self._pgm_energy_speed))
+                self._pgm_energy.asynchronousMoveTo((self._move_end - self._pgm_runupdown))
                 
         if self.isIDMoveEnabled():
             sleep(self.getIDStartDelayTime())
             if self.getIDGapMoveDirectionPositive():
-                if self.verbose: self.logger.info('startMove ID Gap: _id_gap.asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                                        (self._id_gap_end + ID_GAP_END_OFFSET + self._id_gap_runupdown), self._id_gap_speed))
-                self._id_gap.asynchronousMoveTo((self._id_gap_end + ID_GAP_END_OFFSET + self._id_gap_runupdown))
+                if self.verbose:
+                    self.logger.info('prepareIDForMove:_id_gap.asynchronousMoveTo(%f) @ %f mm/sec (+ve)' % ((self._id_gap_end + ID_GAP_END_OFFSET + self._id_gap_runupdown), self._id_gap_speed))
+                self._id_gap.asynchronousMoveTo(self._id_gap_end + ID_GAP_END_OFFSET + self._id_gap_runupdown)
             else:
-                if self.verbose: self.logger.info('startMove ID Gap: _id_gap.asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                                        (self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown), self._id_gap_speed))
-                self._id_gap.asynchronousMoveTo((self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown))
+                if self.verbose:
+                    self.logger.info('prepareIDForMove:_id_gap.asynchronousMoveTo(%f) @ %f mm/sec (-ve)' % ((self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown), self._id_gap_speed))
+                self._id_gap.asynchronousMoveTo(self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown)
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
         if self.verbose: self.logger.info('...startMove')
 
@@ -221,13 +234,16 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         if self.verbose: self.logger.info('...waitWhileMoving()')
 
     def stopAndReset(self):
-        if self.verbose: self.logger.info('stopAndReset()')
+        if self.verbose: self.logger.info('stopAndReset()...')
         self._start_time = None
         self._start_event.clear()
         if self.isPGMMoveEnabled():
             self._pgm_energy.stop()
         if self.isIDMoveEnabled():
-            self._id_gap.stop()
+            if installation.isLive():
+                print("ID gap motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
+            else:
+                self._id_gap.stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
@@ -283,7 +299,7 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
                 timeout=60
                 self.start_event.wait(timeout)
                 if not self.start_event.isSet():
-                    raise Exception("%rs timeout waiting for startMove() to be called on %s at position %r." % (timeout, self._controller.name, self._demand_position))
+                    raise RuntimeError("%rs timeout waiting for startMove() to be called on %s at position %r." % (timeout, self._controller.name, self._demand_position))
                 if self._controller.verbose: self.logger.info('...wait()')
             # Wait for delay before actually move start and then a time given by
             # how far through the scan this point is
@@ -319,25 +335,22 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         return self.DelayableCallable(self, position)
     
     def _restore_orig_speed(self):
-        if self.isPGMMoveEnabled():
-            if self._pgm_energy_speed_orig:
-                if self.verbose: self.logger.info('Restoring original PGM Energy speed %r, was %r' % (self._pgm_energy_speed_orig, self._pgm_energy.speed))
-                self._pgm_energy.speed = self._pgm_energy_speed_orig
-                self._pgm_energy_speed_orig = None
-        if self.isIDMoveEnabled():
-            if self._id_gap_speed_orig:
-                if installation.isLive():
-                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
-                    self.idpvs['vel'].caput(self._id_gap_speed_orig)
-                else:
-                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self._id_gap.speed))
-                    self._id_gap.speed = self._id_gap_speed_orig 
-                self._id_gap_speed_orig = None
+        if self.isPGMMoveEnabled() and self._pgm_energy_speed_orig:
+            if self.verbose: self.logger.info('Restoring original PGM Energy speed %r, was %r' % (self._pgm_energy_speed_orig, self._pgm_energy.speed))
+            self._pgm_energy.speed = self._pgm_energy_speed_orig
+            self._pgm_energy_speed_orig = None
+        if self.isIDMoveEnabled()and self._id_gap_speed_orig:
+            if installation.isLive():
+                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
+                self.idpvs['vel'].caput(self._id_gap_speed_orig)
+            else:
+                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self._id_gap.speed))
+                self._id_gap.speed = self._id_gap_speed_orig 
+            self._id_gap_speed_orig = None
 
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()...')
         self._restore_orig_speed()
-        # Should we also move the pgm_energy to a known value too, such as the midpoint?
        
     def setIDStartDelayTime(self, t):
         self.idstartdelaytime=t

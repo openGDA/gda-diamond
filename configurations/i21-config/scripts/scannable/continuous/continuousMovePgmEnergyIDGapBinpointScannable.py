@@ -2,9 +2,11 @@
 An energy scannable designed to be used for continuous energy scan operation. 
 
 The PGM energy and corresponding ID gap for the same energy are moved continuously at constant velocity via the specified move controller.
-The actual positions of energy and corresponding ID gap along with detector data collected at the same time during scan are captured into EPICS Bin points waveforms,
+The actual positions of energy and corresponding ID gap along with scannable data collected at the same time during scan are captured into EPICS Bin points waveforms,
 These data are read from EPICS waveforms during scanning using the specified Waveform Channel Scannables along with their corresponding demanding values for diagnosis.
-    
+
+@author: Fajin Yuan
+@since: 10 Auguest 2020
 """
 
 from gda.device.scannable import ContinuouslyScannableViaController, \
@@ -17,10 +19,11 @@ import installation
 import java
 from scannable.continuous.continuousPgmEnergyIDGapMoveController import ContinuousPgmEnergyIDGapMoveController
 from gda.device import DeviceException
+from gdaserver import pgmEnergy  # @UnresolvedImport
+
 
 class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
-    """ Since the bin points are slaved from a multi channel scaler card, motion will fail if there is
-        no scaler channels are specified in the scan.
+    """ Since the bin points are slaved from a ADC in EPICS, motion will fail if there is no ADC channels are specified in the scan.
         
         Also, since this scannable takes over starting the bin point mechanism, it may not work if
         individual binpoint scannables are added to the scan. """
@@ -78,12 +81,10 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         position = float(position)
         self._last_requested_position = position
         if self._operating_continuously:
-            if installation.isLive():
-                pass
-            else:
+            if not installation.isLive():
                 #in dummy mode, it needs to keep or cache all the positions so it can be returned during continuous move
-                id_gap_requested=self._move_controller._energy.idgap(position, 1)
                 self._move_controller.pgm_energy_positions.append(position)
+                id_gap_requested=self._move_controller._energy.get_ID_gap_phase_at_current_polarisation(position)[0]
                 self._move_controller.id_gap_positions.append(id_gap_requested)
         else:
             if isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
@@ -93,9 +94,12 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         self.mybusy=False
 
     def stop(self):
-        self._binpointIdGap.stop()
-        self._binpointPgmEnergy.stop()
-        self._move_controller.stopAndReset()
+        if self._operating_continuously:
+            self._binpointIdGap.stop()
+            self._binpointPgmEnergy.stop()
+            self._move_controller.stopAndReset()
+        else:
+            self._move_controller._energy.stop()
         self.mybusy=False
         
     def atCommandFailure(self):
@@ -128,19 +132,24 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         if self._operating_continuously:
             raise DeviceException("%s: getPosition() is not supported during continuous operation" % self.name)
         else:
-            return self._move_controller._energy.getPosition()
+            if isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
+                return self._move_controller._energy.getPosition()
+            else:
+                return pgmEnergy.getPosition()
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
         while self.isBusy():
             sleep(0.1)
-        return 
 
     def isBusy(self):
         if self._operating_continuously:
             return self.mybusy  #cannot call self._move_controller.isBusy() in continuous moving mode 
         else:
-            return self._move_controller._energy.isBusy()
+            if isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
+                return self._move_controller._energy.isBusy()
+            else:
+                return self._move_controller.isMoving()
 
             
     # public interface ScannableMotion extends Scannable
@@ -161,13 +170,19 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         if self._operating_continuously:
             return self.super__getExtraNames()
         else:
-            return self._move_controller._energy.getExtraNames()
+            try: 
+                return self._move_controller._energy.pgmenergy.getExtraNames()
+            except:
+                return pgmEnergy.getExtraNames()
     
     def getOutputFormat(self):
         if self._operating_continuously:
             return self.super__getOutputFormat()
         else:
-            return self._move_controller._energy.getOutputFormat()
+            try:
+                return self._move_controller._energy.pgmenergy.getOutputFormat()
+            except: #
+                return pgmEnergy.getOutputFormat()
 
 class GapCalculatingCallable(Callable):
     def __init__(self, 
@@ -176,13 +191,10 @@ class GapCalculatingCallable(Callable):
                parent,       demand_position,       pgmEnergyCallable,       idGapCallable)
 
     def call(self):
-        if installation.isLive():
-            pgmEnergy = self._pgmEnergyCallable.call()/1000 #EPICS unit is eV, beamline wants keV
-        else:
-            pgmEnergy = self._pgmEnergyCallable.call()
+        pgmEnergy = self._pgmEnergyCallable.call()
         idGap     = self._idGapCallable.call()
         
-        idGap_demand = self._parent._move_controller._energy.idgap(self._demand_position, 1)
+        idGap_demand = self._parent._move_controller._energy.get_ID_gap_phase_at_current_polarisation(self._demand_position)[0]
         
         self._parent.logger.info('pgmenergy=%r, energy_demand=%r, idgap=%r, idgad_demand=%r' % (pgmEnergy, self._demand_position, idGap, idGap_demand))
         return pgmEnergy, self._demand_position, self._demand_position-pgmEnergy, idGap, idGap_demand, idGap_demand-idGap

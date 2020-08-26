@@ -1,5 +1,14 @@
-# Based on gda-diamond.git/configurations/i10-config/scripts/future/scannable/scaler.py at c35fcbb
+""" 
+define a Binpoint class to control data collection during continuous move.
 
+Note that the Binpoint device is slaved from the ADC_ACQ_GRP, therefore there is no concept of exposure time.
+However collection time is required for data pulling stream timing in order to retrieve collected data in
+a more or less synchronised fashion between different channels.
+
+@author: Fajin Yuan
+@organization: Diamond Light Source Ltd
+@since: 25 August 2020
+"""
 from gda.epics import CAClient
 from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream
 from org.slf4j import LoggerFactory
@@ -7,22 +16,16 @@ import installation
 
 TIMEOUT = 5
 
-""" Note that the Binpoint device is slaved from the MCA, therefore changing the collection time will have no effect other than
-    changing the value returned by getCollectionTime().
-
-    Also, its operation is triggered by the MCA and synchronised to it. If getPositionCallable() is called on this scannable more
-    times than getPositionCallable() is called on the MCA, this will sit waiting forever for the points it has been asked to
-    acquire.
-"""
 
 class BinpointWaveformChannelController(object):
 
-    def __init__(self, name, binpoint_root_pv, all_pv_suffix):
+    def __init__(self, name, binpoint_root_pv):
         self.logger = LoggerFactory.getLogger("BinpointWaveformChannelController:%s" % name)
         self.verbose = False
         
         self.name = name
-        self.pv_erasestart = CAClient(binpoint_root_pv + all_pv_suffix + 'RESET.PROC')
+        #ADC_ACQ_GRP in EPICS doing the Binpoint reset so comment out following line
+        #self.pv_trigger_start = CAClient(binpoint_root_pv + all_pv_suffix + 'RESET.PROC')
         self.binpoint_root_pv = binpoint_root_pv
 
         self.configure()
@@ -32,16 +35,16 @@ class BinpointWaveformChannelController(object):
         self.hardware_trigger_provider=None
         self.stream=None
         
-    def setHardwareTriggerProvider(self, hardwareTriggerProvider):
+    def set_hardware_trigger_provider(self, hardwareTriggerProvider):
         self.hardware_trigger_provider=hardwareTriggerProvider
     
-    def getHardwareTriggerProvider(self):
+    def get_hardware_trigger_provider(self):
         return self.hardware_trigger_provider
     
     def configure(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
-        if installation.isLive():
-            self.pv_erasestart.configure()
+#         if installation.isLive():
+#             self.pv_trigger_start.configure()
 
     def erase(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
@@ -50,14 +53,14 @@ class BinpointWaveformChannelController(object):
 
     def erase_and_start(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase_and_start()...'))
-        if installation.isLive():
-            self.pv_erasestart.caput(1)
+#         if installation.isLive():
+#             self.pv_trigger_start.caput(1)
         self.started = True
         if self.verbose: self.logger.info("%s %s" % (self.name,'...erase_and_start()'))
 
     def stop(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'stop()...'))
-        # Binpoint has no stop, since it is slaved from the MCA.
+        # Binpoint has no stop, since it is slaved from the ADC.
         if self.stream:
             self.stream.stop()
         self.started = False # added after I10-145

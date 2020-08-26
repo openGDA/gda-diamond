@@ -66,6 +66,7 @@ print "-------------------------------------------------------------------------
 print "Adding timer devices t, dt, and w, clock"
 
 ds=DummyScannable("ds")
+ds1=DummyScannable("ds1")
 
 print
 simpleLog("================ INITIALISING I21 GDA ================")
@@ -135,29 +136,30 @@ clevertdiff1=CleverAmplifier("clevertdiff1", diff1, 0.5, 9.0, "%.4f", "%.4e")  #
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'dummies.x' and 'dummies.y'"
-dummyenergy=BeamEnergy("dummyenergy",idscannable, dummies.x, dummies.y,pgmGratingSelect)  # @UndefinedVariable
+print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'ds' and 'ds1'"
+dummyenergy=BeamEnergy("dummyenergy",idscannable, ds, ds1, pgmGratingSelect)  # @UndefinedVariable
 print "Create an 'energy', 'polarisation', and 'energypolarisation' scannables"
 
 LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
 from lookup.IDLookup import IDLookup4LinearAngleMode
 from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv' #theoretical table from ID group
- 
+lookup_file='${gda.config}/lookupTables/LinearAngle.csv' #theoretical table from ID group
+ID_ENERGY_TO_GAP_CALIBRATION_FILE = "IDEnergy2GapCalibrations.csv"
+EPICS_FEEDBACK_PV = "BL21I-OP-MIRR-01:FBCTRL:MODE"
 idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
 if installation.isLive():
-    energy=BeamEnergyPolarisationClass("energy", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", polarisationConstant=True,feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
-    energy.configure()
-    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", energyConstant=True,feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
+    energy_s=BeamEnergyPolarisationClass("energy_s", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, polarisationConstant=True,feedbackPV=EPICS_FEEDBACK_PV)  # @UndefinedVariable
+    energy_s.configure()
+    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, energyConstant=True,feedbackPV=EPICS_FEEDBACK_PV)  # @UndefinedVariable
     polarisation.configure()
-    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv",feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
+    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE,feedbackPV=EPICS_FEEDBACK_PV)  # @UndefinedVariable
     energypolarisation.configure()
 else:
-    energy=BeamEnergyPolarisationClass("energy", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", polarisationConstant=True)  # @UndefinedVariable
-    energy.configure()
-    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", energyConstant=True)  # @UndefinedVariable
+    energy_s=BeamEnergyPolarisationClass("energy_s", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, polarisationConstant=True)  # @UndefinedVariable
+    energy_s.configure()
+    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, energyConstant=True)  # @UndefinedVariable
     polarisation.configure()
-    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv")  # @UndefinedVariable
+    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE)  # @UndefinedVariable
     energypolarisation.configure()
 
 energypolarisation.setInputNames(["energy"])
@@ -189,7 +191,7 @@ import metashop  # @UnusedImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items to be captured in data files."
-metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x]  # @UndefinedVariable
+metadatalist=[ringCurrent, idgap, idscannable, energy_s, fastshutter_x]  # @UndefinedVariable
 if installation.isLive():
     metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
@@ -347,23 +349,26 @@ GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checked
 def goLH(en_val_std):
     LH_id_std=idgap_calc(en_val_std, "LH")
     from gdaserver import idscannable  # @UnresolvedImport
-    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",0)
+    caput (EPICS_FEEDBACK_PV,0)
     idscannable.moveTo([LH_id_std, 'LH', 0])
-    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)
-    energy.moveTo(en_val_std)
+    caput (EPICS_FEEDBACK_PV,4)
+    energy_s.moveTo(en_val_std)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, "LH"))
 
 def goLV(en_val_std):
     LV_id_std=idgap_calc(en_val_std, "LV")
     from gdaserver import idscannable  # @UnresolvedImport
-    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",0)
+    caput (EPICS_FEEDBACK_PV,0)
     idscannable.moveTo([LV_id_std, 'LV', 28])
-    caput ("BL21I-OP-MIRR-01:FBCTRL:MODE",4)
-    energy.moveTo(en_val_std)
+    caput (EPICS_FEEDBACK_PV,4)
+    energy_s.moveTo(en_val_std)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, "LV"))
     
 from scan.miscan import miscan  # @UnusedImport
 alias('miscan')
+
+from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c  # @UnusedImport
+from scan.cvscan import cvscan  # @UnusedImport
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
