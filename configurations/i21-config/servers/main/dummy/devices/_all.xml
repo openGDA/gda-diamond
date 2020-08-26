@@ -66,6 +66,7 @@
 	<import resource="andor.xml"/> <!-- CAM Top -->
 	<import resource="andor2.xml"/> <!-- CAM Top -->
 	<import resource="polariser.xml"/>
+	<import resource="femto_detectors.xml" />
 	<import resource="dummysmp_m5tth.xml" />
 	<import resource="topup.xml" />
 	<import resource="feedback.xml"/>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!--  Time Frame Generator - used to synchronise different channels-->
+	<bean id="dummytfg" class="gda.device.timer.DummyTfg"/>
+	
+	<!-- S2 Femtos -->
+	<bean id="s2cupper" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s2cupper"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="s2clower" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s2clower"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="s2coffside" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s2coffside"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="s2cnearside" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s2cnearside"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+		
+	<bean id="s3cupper" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s3cupper"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="s3clower" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s3clower"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="s3coffside" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s3coffside"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="s3cnearside" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="s3cnearside"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	
+	<!-- D3B Femto -->
+	<bean id="d3bc" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="d3bc"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	
+	<!-- Gas Cell Femtos -->
+	<bean id="d7cwire" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="d7cwire"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="d7cdiode" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="d7cdiode"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	
+	<!--  M4 Femtos -->
+	<bean id="m4c1" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="m4c1"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+		<property name="timerName" value="dummytfg"/>
+	</bean>
+	<bean id="m4c2" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="m4c2"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	
+	<!-- D8 FEMTO -->
+	<bean id="d8c" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="d8c"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	
+	<!-- Sample Femtos -->
+	<bean id="draincurrent_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="draincurrent_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+		<property name="timerName" value="dummytfg"/>
+	</bean>
+	<bean id="fy1_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="fy1_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="fy3_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="fy3_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="diff3_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="diff3_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="fy2_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="fy2_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	<bean id="diff1_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="diff1_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+		<property name="timerName" value="dummytfg"/>
+	</bean>
+	<bean id="diff2_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="diff2_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+
+	<bean id="extradrain_i" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="name" value="extradrain_i"/>
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="1" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+
+</beans>
