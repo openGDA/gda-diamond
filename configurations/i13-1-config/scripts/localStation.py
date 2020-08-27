@@ -12,7 +12,7 @@ from gda.device.scannable import ScannableBase
 from gda.device.scannable.scannablegroup import ScannableGroup
 from i13j_utilities import createScannableFromPV, clear_defaults, isLive
 from gda.jython import InterfaceProvider
-from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crls_present, m1_strip, optics_zp, eh_shtr, fs
+from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crly_mp, m1_strip, optics_zp, eh_shtr, fs
 from gdaserver import d4_i, expt_fastshutter_raw, qcm_bragg1, fes1, id_gap, ionc_i, ionc_photonflux, ix, iy, iz
 from gdaserver import mpx, mpx_wrap, qcm_energy, s1, s2, s4, s5, s6, s7, sample_lab_x, scope1_turret, t1, t1_pitch, t2
 
@@ -426,7 +426,7 @@ try:
 	meta_add("ionc_gainmode", ionc_gainmode())
 	meta_add("ionc_acdc", ionc_coupling())
 	meta_add("mirror_stripe", m1_strip())
-	meta_add("crls_present", f1_crls_present())
+	meta_add("crls_present", f1_crly_mp())
 
 	print "\n Finished adding beamline meta scannables."
 	print "\n The following meta scannables will be recorded once per scan under /entry1/before_scan in every Nexus scan file:"

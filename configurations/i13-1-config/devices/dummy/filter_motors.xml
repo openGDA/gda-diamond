@@ -132,8 +132,4 @@
 		</property>
 	</bean>
 
-	<bean id="f1_crls_present" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition" value="1: 7 x 300 um, 18.0KeV" />
-	</bean>
-
 </beans>
