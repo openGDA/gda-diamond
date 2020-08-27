@@ -3,6 +3,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<import resource="file://${gda.facility.dir}/clients/dummy/persistence.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/persistence.xml" />
 
     <import resource="../_common/client.xml"/>
 
