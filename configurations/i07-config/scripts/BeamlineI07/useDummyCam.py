@@ -50,7 +50,6 @@ dcroi.setAlive(True);
 
 from Diamond.PseudoDevices.MetadataHeaderDevice import MetadataHeaderDeviceClass
 dcHeader = MetadataHeaderDeviceClass("dcHeader");
-dcHeader.add([testMotor1, testMotor2, testMotor3]);
 
 from Diamond.PseudoDevices.DummyShutter import DummyShutterClass
 dummyCameraShutter = DummyShutterClass('dummyCameraShutter', delayAfterOpening=0.5, delayAfterClosing=0);

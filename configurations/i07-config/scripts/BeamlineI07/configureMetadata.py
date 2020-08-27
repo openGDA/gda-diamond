@@ -5,13 +5,18 @@ from gdascripts.metadata.metadata_commands import \
         meta_clear_alldynamical
 from gdascripts.scannable.installStandardScannableMetadataCollection import meta, lsmeta, addmeta, rmmeta
 
+# Configure metadata and add the required devices
+# If any device doesn't exist, no devices will be added at all
+
 # defined in i07-config required_at_start.xml
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 
-# Temp workaround to retain order of insertion
-# Can be deleted once change 22260 is merged
-from java.util import LinkedHashSet
-NexusDataWriter.setMetadatascannables(LinkedHashSet())
+meta.readFromNexus = True
+meta.rootNamespaceDict = globals()
+meta.prepend_keys_with_scannable_names = False
+meta.quiet = True
+
+add_default(meta)
 
 blList = [beamenergy, ringcurrent]
 idList = [idgap]
@@ -96,15 +101,3 @@ meta_clear_alldynamical()
 for _m in metadata:
     meta_add(_m)
     del _m
-
-meta.readFromNexus = True
-meta.rootNamespaceDict = globals()
-meta.prepend_keys_with_scannable_names = False
-meta.quiet = True
-
-try:
-    remove_default(fileHeader)
-except:
-    pass
-
-add_default(meta)

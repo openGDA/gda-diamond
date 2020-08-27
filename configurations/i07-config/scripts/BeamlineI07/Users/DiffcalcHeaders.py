@@ -36,8 +36,6 @@ class DiffcalcHeaders(ScannableMotionBase):
 		return str(self.getPosition())
 
 diffcalchdr = DiffcalcHeaders("diffcalchdr")
-fileHeader.add([diffcalchdr])
-pilatusHeader.add([diffcalchdr])
 meta_add(diffcalchdr)
 
 
