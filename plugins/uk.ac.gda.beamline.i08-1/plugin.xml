@@ -40,7 +40,29 @@
                showTitle="true"
                visible="true">
          </view>
+         <view
+               id="uk.ac.gda.beamline.i08_1.views.I08_1StatusView"
+               minimized="false"
+               relative="org.dawnsci.mapping.ui.mappeddataview"
+               relationship="bottom"
+               ratio="0.70">
+         </view>
       </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="I08-1 Views"
+            id="uk.ac.gda.beamline.i08-1">
+      </category>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i08-1"
+            class="gda.rcp.views.ViewFactory:statusView"
+            icon="platform:/plugin/uk.ac.gda.beamline.i08-1/icons/status.png"
+            id="uk.ac.gda.beamline.i08_1.views.I08_1StatusView"
+            name="Status">
+      </view>
    </extension>
 
 </plugin>
