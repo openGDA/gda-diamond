@@ -37,6 +37,7 @@
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+	<gda:rbac />
 
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 

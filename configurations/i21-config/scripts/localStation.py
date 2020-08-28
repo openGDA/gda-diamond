@@ -10,10 +10,11 @@ from gda.jython.commands import GeneralCommands
 with overwriting:  # @UndefinedVariable
     from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnresolvedImport
 import gdascripts
-from utils.ExceptionLogs import localStation_exception
+from utils.ExceptionLogs import localStation_exception, localStation_exceptions
 from gda.device.scannable import DummyScannable
 from calibration.Energy2Gap4ID import idgap_calc
 
+simpleLog("================ INITIALISING I21 GDA ================")
 print("-"*100)
 print("Set scan returns to the original positions on completion to false (0); default is 0.")
 print("   To set scan returns to its start positions on completion please do:")
@@ -64,34 +65,43 @@ ds=DummyScannable("ds")
 ds1=DummyScannable("ds1")
 
 print()
-simpleLog("================ INITIALISING I21 GDA ================")
-
 if installation.isLive():
     print("Running in live mode")
     print("create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total")
-    d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 'counts', '%10d')
-    d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
-    d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
-    d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
-    d8camtotal=DisplayEpicsPVClass('d8camtotal', 'BL21I-DI-DCAM-24:STAT:Total_RBV', 'counts', '%10d')
-    smpcam1total=DisplayEpicsPVClass('smpcam1total', 'BL21I-DI-DCAM-20:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam2total=DisplayEpicsPVClass('smpcam2total', 'BL21I-DI-DCAM-21:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam3total=DisplayEpicsPVClass('smpcam3total', 'BL21I-DI-DCAM-22:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam4total=DisplayEpicsPVClass('smpcam4total', 'BL21I-DI-DCAM-23:STAT1:Total_RBV', 'counts', '%10d')
-    s5camtotal=DisplayEpicsPVClass('s5camtotal', 'BL21I-DI-DCAM-55:STAT:Total_RBV', 'counts', '%10d')
-    andortotal=DisplayEpicsPVClass('andortotal', 'BL21I-EA-DET-01:STAT:Total_RBV', 'counts', '%10d')
-    m1fpsetpoint=DisplayEpicsPVClass('m1fpsetpoint', 'BL21I-OP-MIRR-01:FP:FB.CVAL', 'unitless', '%.10f')
-    m2fpsetpoint=DisplayEpicsPVClass('m2fpsetpoint', 'BL21I-OP-MIRR-02:FP:FB.CVAL', 'px', '%.10f')
+    try:
+        d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 'counts', '%10d')
+        d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
+        d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
+        d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
+        d8camtotal=DisplayEpicsPVClass('d8camtotal', 'BL21I-DI-DCAM-24:STAT:Total_RBV', 'counts', '%10d')
+        smpcam1total=DisplayEpicsPVClass('smpcam1total', 'BL21I-DI-DCAM-20:STAT1:Total_RBV', 'counts', '%10d')
+        smpcam2total=DisplayEpicsPVClass('smpcam2total', 'BL21I-DI-DCAM-21:STAT1:Total_RBV', 'counts', '%10d')
+        smpcam3total=DisplayEpicsPVClass('smpcam3total', 'BL21I-DI-DCAM-22:STAT1:Total_RBV', 'counts', '%10d')
+        smpcam4total=DisplayEpicsPVClass('smpcam4total', 'BL21I-DI-DCAM-23:STAT1:Total_RBV', 'counts', '%10d')
+        s5camtotal=DisplayEpicsPVClass('s5camtotal', 'BL21I-DI-DCAM-55:STAT:Total_RBV', 'counts', '%10d')
+        andortotal=DisplayEpicsPVClass('andortotal', 'BL21I-EA-DET-01:STAT:Total_RBV', 'counts', '%10d')
+    except:
+        localStation_exception(sys.exc_info(), "Error creating scannables for camera total count.")
+    try:
+        m1fpsetpoint=DisplayEpicsPVClass('m1fpsetpoint', 'BL21I-OP-MIRR-01:FP:FB.CVAL', 'unitless', '%.10f')
+        m2fpsetpoint=DisplayEpicsPVClass('m2fpsetpoint', 'BL21I-OP-MIRR-02:FP:FB.CVAL', 'px', '%.10f')
+    except:
+        localStation_exception(sys.exc_info(), "Error creating 'm1fpsetpoint' or 'm2fpsetpoint'.")
 
     from epics_scripts.pv_scannable_utils import createPVScannable
     with overwriting:  # @UndefinedVariable
-        pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
-        pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
-    
+        try:
+            pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
+            pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
+        except:
+            localStation_exception(sys.exc_info(), "Error creating 'pgmMirrorPitch_UserOffset'  or 'pgmGratingPitch_UserOffset'.")
+
     from scannabledevices.feedbackScannable import FeedbackScannable, FeedbackOffScannable
-    fbs=FeedbackScannable("fbs", pvroot="BL21I-OP-MIRR-01:FBCTRL")
-    fboff=FeedbackOffScannable("fboff", pvroot="BL21I-OP-MIRR-01:FBCTRL")
-    
+    try:
+        fbs=FeedbackScannable("fbs", pvroot="BL21I-OP-MIRR-01:FBCTRL")
+        fboff=FeedbackOffScannable("fboff", pvroot="BL21I-OP-MIRR-01:FBCTRL")
+    except:
+        localStation_exception(sys.exc_info(), "Error creating 'fbs' or 'fboff'.")
     #fast shutter source control
     def erio():
         caput("BL21I-OP-SHTR-01:SRC", 0)
@@ -369,5 +379,11 @@ from scan.cvscan import cvscan  # @UnusedImport
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
+
+if len(localStation_exceptions) > 0:
+    simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
+
+for localStationException in localStation_exceptions:
+    simpleLog(localStationException)
 
 simpleLog("===================== GDA ONLINE =====================")
