@@ -30,5 +30,6 @@
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping_view.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/view_factories.xml" />
 
 </beans>
