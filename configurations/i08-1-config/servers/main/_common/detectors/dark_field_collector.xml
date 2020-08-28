@@ -6,7 +6,7 @@
 	<bean id="darkFieldCollector" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector" init-method="register">
 		<constructor-arg name="beamlineConfiguration">
 			<map>
-				<entry key="shutter2" value="Close" />
+				<entry key="s3_shutter" value="Closed" />
 			</map>
 		</constructor-arg>
 		<constructor-arg name="nexusFieldName" value="darkField" />
