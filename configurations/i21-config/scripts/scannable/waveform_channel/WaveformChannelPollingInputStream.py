@@ -61,7 +61,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
             elif self.channel == 'PGME:':
                 all_data=self.hardwareTriggerProvider.pgm_energy_positions[:self.elements_read + new_available]
             else:
-                all_data = self.pv_waveform.generateData(self.pv_waveform.channel, self.elements_read + new_available)
+                all_data = [round(x,2) for x in self.pv_waveform.generateData(self.pv_waveform.channel, self.elements_read + new_available)]
                 self.logger.debug("DUMMY mode: generate %r elements" % (new_available))
         new_data = all_data[self.elements_read:self.elements_read + new_available]
         self.elements_read += new_available
