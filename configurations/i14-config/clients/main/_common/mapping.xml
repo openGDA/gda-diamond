@@ -24,7 +24,7 @@
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
 		<property name="detectorParameters">
 			<list>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+<!-- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Excalibur software" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
@@ -34,7 +34,7 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 					<property name="shownByDefault" value="false" />
-				</bean>
+				</bean> -->
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Merlin software" />
 					<constructor-arg name="model">

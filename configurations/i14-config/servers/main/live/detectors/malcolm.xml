@@ -19,12 +19,11 @@
 		<property name="name" value="BL14I-ML-SCAN-01" />
 		<property name="model" ref="malcolmModelXsp3" />
 		<property name="deviceInformation" ref="malcolmInfoXsp3" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
 	<!-- Excalibur software: using Malcolm to collect data; GDA moves all devices -->
-	<bean id="malcolmInfoExcaliburSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoExcaliburSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur Malcolm software" />
 		<property name="description" value="Malcolm Excalibur for software scanning" />
 	</bean>
@@ -39,10 +38,10 @@
 		<property name="model" ref="malcolmModelExcaliburSoftware" />
 		<property name="deviceInformation" ref="malcolmInfoExcaliburSoftware" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- Excalibur hardware (coarse motors) -->
-	<bean id="malcolmInfoExcaliburHardwareCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoExcaliburHardwareCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur coarse" />
 		<property name="description" value="Excalibur for true hardware scanning (coarse motors)" />
 	</bean>
@@ -57,7 +56,7 @@
 		<property name="model" ref="malcolmModelExcaliburHardwareCoarse" />
 		<property name="deviceInformation" ref="malcolmInfoExcaliburHardwareCoarse" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- Excalibur hardware (fine motors) -->
 	<bean id="malcolmInfoExcaliburHardwareFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -78,7 +77,7 @@
 	</bean>
 
 	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
-	<bean id="malcolmInfoExcaliburXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoExcaliburXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur/XSP3" />
 		<property name="description" value="Combined Excalibur and Xspress3 hardware scanning" />
 	</bean>
@@ -93,10 +92,10 @@
 		<property name="model" ref="malcolmModelExcaliburXsp3" />
 		<property name="deviceInformation" ref="malcolmInfoExcaliburXsp3" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- XRF TetrAMM scan -->
-	<bean id="malcolmInfoXrfTetrAMM" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoXrfTetrAMM" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XRF TetrAMM" />
 		<property name="description" value="XRF TetrAMM scanning" />
 	</bean>
@@ -111,10 +110,10 @@
 		<property name="model" ref="malcolmModelXrfTetrAMM" />
 		<property name="deviceInformation" ref="malcolmInfoXrfTetrAMM" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- Xspress3 fine scan -->
-	<bean id="malcolmInfoXsp3Fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoXsp3Fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XSP3 fine" />
 		<property name="description" value="Xspress III fine motors scan" />
 	</bean>
@@ -129,10 +128,10 @@
 		<property name="model" ref="malcolmModelXsp3Fine" />
 		<property name="deviceInformation" ref="malcolmInfoXsp3Fine" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- Xspress3 coarse/fine scan -->
-	<bean id="malcolmInfoXsp3CoarseFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoXsp3CoarseFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XSP3 coarse/fine" />
 		<property name="description" value="Xspress III combined coarse and fine motors scan" />
 	</bean>
@@ -147,10 +146,10 @@
 		<property name="model" ref="malcolmModelXsp3CoarseFine" />
 		<property name="deviceInformation" ref="malcolmInfoXsp3CoarseFine" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- Merlin coarse -->
-	<bean id="malcolmInfoMerlinCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoMerlinCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Merlin coarse" />
 		<property name="description" value="Merlin coarse scan" />
 	</bean>
@@ -165,10 +164,10 @@
 		<property name="model" ref="malcolmModelMerlinCoarse" />
 		<property name="deviceInformation" ref="malcolmInfoMerlinCoarse" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- Merlin fine -->
-	<bean id="malcolmInfoMerlinFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoMerlinFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Merlin fine" />
 		<property name="description" value="Merlin fine scan" />
 	</bean>
@@ -183,7 +182,7 @@
 		<property name="model" ref="malcolmModelMerlinFine" />
 		<property name="deviceInformation" ref="malcolmInfoMerlinFine" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 	<!-- XSP3/Merlin coarse -->
 	<bean id="malcolmInfoXsp3MerlinCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -204,7 +203,7 @@
 	</bean>
 
 	<!-- XSP3/Merlin fine -->
-	<bean id="malcolmInfoXsp3MerlinFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+<!-- 	<bean id="malcolmInfoXsp3MerlinFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XSP3/Merlin fine" />
 		<property name="description" value="Combined XSP3 and Merlin fine scan" />
 	</bean>
@@ -219,6 +218,6 @@
 		<property name="model" ref="malcolmModelXsp3MerlinFine" />
 		<property name="deviceInformation" ref="malcolmInfoXsp3MerlinFine" />
 		<property name="activated" value="false" />
-	</bean>
+	</bean> -->
 
 </beans>
