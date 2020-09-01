@@ -58,25 +58,9 @@
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 	</bean>
 
-    <bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
-	<bean id="pco_cam_config"
-		class="uk.ac.gda.client.live.stream.simulator.connector.BeamSimulationCamera">
+	<bean id="pco_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
 		<property name="displayName" value="Imaging Camera" />
-		<property name="arrayPv" value="gdaSimulator:BeamSimulationCamera" />
-		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
-		
-		<!-- In the simulation, represent camera array X size -->
-		<property name="cameraWidth" value="1280"/>
-		<!-- In the simulation, represent camera array Y size -->
-		<property name="cameraHeight" value="960"/>
-		
-		<property name="driverX" value="kb_x"/>
-		<!-- In the simulation, represent the ratio between kbX position with with offset to pixel camera zero -->
-		<property name="scaleX" value="100"/>
-		
-		<property name="driverY" value="kb_y"/>
-		<!-- In the simulation, represent the ratio between kbX position with with offset to pixel camera zero -->
-		<property name="scaleY" value="100"/>
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 	</bean>
 
 	<bean id="pilatus_cam_config"
