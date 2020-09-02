@@ -18,7 +18,7 @@ from gda.factory import Finder
 print ("-"*100)
 print ("Creating scannables for continuous energy scanning with ADCs")
 print ("    Objects for constant velocity energy scan are:")
-print ("    1. 'cenergy'   - energy scannable used to perform continuous energy scan by moving PGM energy and ID gap continuously at constant velocity")
+print ("    1. 'energy'   - energy scannable used to perform continuous energy scan by moving PGM energy and ID gap continuously at constant velocity")
 print ("    2. 'mcs2','mcs3','mcs4', 'mcs5' - scannables used with 'cenergy' scannable, mapped to MCS channel 2, 3, 4, 5 respectively")
 print ("    3. 'binpointPgmEnergy','binpointIdGap','binpointMcaTime' - position capturer waveform scannables used with 'cenergy' scannable in continuous scan")
 

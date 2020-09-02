@@ -16,6 +16,7 @@ from dataGenerator.waveformDataGenerator import WaveformDataGenerator
 from scisoftpy.jython.jyrandom import randint
 
 TIMEOUT = 5
+ADC_SAMPLING_RATE=1000.0
     
 class ADCWaveformChannelController(object):
     # e.g. adc_root_pv = BL21I-EA-SMPL-01:ADC_ACQ_GRP:
@@ -26,11 +27,11 @@ class ADCWaveformChannelController(object):
         self.name = name
         #EPICS PVs control 3 ADCs: ADC_ACQ_GRP 
         self.adc_root_pv = adc_root_pv
-        self.pv_disa= CAClient(adc_root_pv + 'DISA')
-#         self.pv_samples= CAClient(adc_root_pv + 'SAMPLES')
-#         self.pv_average= CAClient(adc_root_pv + 'AVERAGE')
-        self.pv_required_capture_number = CAClient(adc_root_pv + 'REQ_CAPS')
         self.pv_reset = CAClient(adc_root_pv + 'RESET.PROC')
+        self.pv_disa = CAClient(adc_root_pv + 'DISA')
+        self.pv_average= CAClient(adc_root_pv + 'AVERAGE')
+        self.pv_samples= CAClient(adc_root_pv + 'SAMPLES')
+        self.pv_required_capture_number = CAClient(adc_root_pv + 'REQ_CAPS')
         self.pv_trigger_start = CAClient(adc_root_pv + 'TRIGGER.PROC')
 
         self.configure()
@@ -41,7 +42,6 @@ class ADCWaveformChannelController(object):
         self.hardware_trigger_provider=None
         self.stream=None
         #state variables to ensure method of this object is only called once as EPICS is doing the fan-out to 3 ADCs
-        self.erase_called=False
         self.erase_start_called = False
         self.stop_called = False
         
@@ -55,8 +55,8 @@ class ADCWaveformChannelController(object):
         if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
         if installation.isLive():
             self.pv_disa.configure()
-#             self.pv_samples.configure()
-#             self.pv_average.configure()
+            self.pv_samples.configure()
+            self.pv_average.configure()
             self.pv_required_capture_number.configure()
             self.pv_reset.configure()
             self.pv_trigger_start.configure()
@@ -65,9 +65,6 @@ class ADCWaveformChannelController(object):
             
     def erase(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
-        if installation.isLive() and not self.erase_called:
-            self.erase_called = True
-            self.pv_reset.caput(1)
         self.started = False
         if self.verbose: self.logger.info("%s %s" % (self.name,'...erase()'))
 
@@ -75,8 +72,11 @@ class ADCWaveformChannelController(object):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase_and_start()...'))
         if installation.isLive() and not self.erase_start_called:
             self.erase_start_called = True
+            self.pv_reset.caput(1)
             self.pv_disa.caput(0)  # enable the ADC detectors
-            self.erase()           # reset to clear waveform buffers
+            samples = round(self.exposure_time * ADC_SAMPLING_RATE)
+            self.pv_average.caput(samples)
+            self.pv_samples.caput(samples)
             self.pv_required_capture_number.caput(self.number_of_positions) # Set the total number of points to be captured time
             self.pv_trigger_start.caput(TIMEOUT, 1)
         else:

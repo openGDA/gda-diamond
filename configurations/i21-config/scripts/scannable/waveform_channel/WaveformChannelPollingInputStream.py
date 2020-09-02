@@ -41,6 +41,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         if self.verbose: self.logger.info('reset()...')
         self.verbose = self._controller.verbose
         self.elements_read = 0
+        self.collectionCompleted = False
         
     def stop(self):
         #flag to stop polling loop
@@ -82,7 +83,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         
         while True and not self.stoppedExplicitly:
             if installation.isLive():
-                elements_available = int(float(self.pv_count.caget()))
+                elements_available = int(float(self.pv_count.caget()) + 1) #BINPOINT:NLAST.B index starts at 0, -1 is waveform empty.
             else:
                 self.logger.info("DUMMY mode: number of positions set in WaveformChannelScannable to its controller is %r" % self._controller.number_of_positions)
                 energy_at=float(self.hardwareTriggerProvider._energy.getPosition())

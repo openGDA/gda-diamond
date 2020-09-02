@@ -9,7 +9,7 @@ from scannable.waveform_channel.ADCWaveformChannelController import ADCWaveformC
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
-    def __init__(self, name, waveform_channel_controller, channel, det, controller_active=False):
+    def __init__(self, name, waveform_channel_controller, channel, det):
         self.logger = LoggerFactory.getLogger("WaveformChannelScannable:%s" % name)
         self.verbose = False
         
@@ -21,11 +21,9 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         self.waveform_channel_controller = waveform_channel_controller
 
         self.channel_input_stream = waveform_channel_controller.getChannelInputStream(channel)
-        self.scannable = det
         self.det = det
-        self.controller_active=controller_active
         self.stream_indexer = None
-        self.number_of_positions = 0
+        self.number_of_positions = -1
         self.delayed_collection_timer = None
 
     def integratesBetweenPoints(self):
@@ -36,7 +34,6 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         if self.det:
             self.det.atScanEnd() # restore ADC settings
         if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
-            self.waveform_channel_controller.erase_called = False
             self.waveform_channel_controller.erase_start_called = False
             self.waveform_channel_controller.stop_called = False
                     
@@ -80,12 +77,10 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
         if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
-            self.waveform_channel_controller.erase_called = False
             self.waveform_channel_controller.erase_start_called = False
             self.waveform_channel_controller.stop_called = False
         if self.det:
             self.det.atScanStart() # call to capture current ADC settings before cvscan starts
-            self.det.setCollectionTime(self.waveform_channel_controller.exposure_time) # set ADC SAMPLES and AVERAGE
         #pass hardware trigger provider to waveform channel controller so WaveformChannelPollingInputStream can access to its property
         self.waveform_channel_controller.set_hardware_trigger_provider(self.getHardwareTriggerProvider())
         self.waveform_channel_controller.erase() # Prevent a race condition which results in stale data being returned
@@ -97,7 +92,6 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
     def atScanLineEnd(self):
         if self.verbose: self.logger.info('...atScanLineEnd()')
         if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
-            self.waveform_channel_controller.erase_called = False
             self.waveform_channel_controller.erase_start_called = False
             self.waveform_channel_controller.stop_called = False
         if self.det:

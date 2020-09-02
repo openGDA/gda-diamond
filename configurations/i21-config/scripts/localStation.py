@@ -21,7 +21,6 @@ print("   To set scan returns to its start positions on completion please do:")
 print("      >>>scansReturnToOriginalPositions=1")
 #turn off return to the original position before scan off, to turn it on set it to 1
 scansReturnToOriginalPositions=0;
-print()
 
 # set up a nice method for getting the latest file path
 from i21commands.dirFileCommands import pwd, lwf, nwf, nfn, setSubdirectory, getSubdirectory  # @UnusedImport
@@ -29,32 +28,25 @@ alias("pwd")
 alias("lwf")
 alias("nwf")
 alias("nfn")
-print()
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
-print()
 def interruptable():
     GeneralCommands.pause()
 alias("interruptable")
-print()
 print("-"*100)
 print("load EPICS Pseudo Device utilities for creating scannable object from a PV name.")
 from gdascripts.pd.epics_pds import EpicsReadWritePVClass, DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerNoStatusClassDeadband  # @UnusedImport
-print()
 print("-"*100)
 print("load time utilities for creating timer objects.")
 from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc,showtimeClass,showincrementaltimeClass,waittimeClass2  # @UnusedImport
-print()
 print("-"*100)
 print("Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), ")
 print("    iterableprint(iterable), listprint(list), frange(start,end,step)")
 from gdascripts.utils import frange,listprint,iterableprint,attributes,caget, caput, cagetArray, caput_wait,caput_string2waveform,default_scannables,jobs  # @UnusedImport
-print()
 print("-"*100)
 print("load common physical constants")
 from gdascripts.constants import pi,eV,hPlanck,hbar,hPlanckeV,hbareV, clight,m_e,r_e,aum,me  # @UnusedImport
-print()
 print("-"*100)
 print("Adding timer devices t, dt, and w, clock")
 from gdascripts.scannable.timerelated import timerelated, t,dt,clock,epoch #@UnusedImport
@@ -64,7 +56,6 @@ print("Adding timer devices t, dt, and w, clock")
 ds=DummyScannable("ds")
 ds1=DummyScannable("ds1")
 
-print()
 if installation.isLive():
     print("Running in live mode")
     print("create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total")
@@ -139,11 +130,10 @@ cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.
 cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 clevertdiff1=CleverAmplifier("clevertdiff1", diff1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 
-print()
 print("-"*100)
 print("Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'ds' and 'ds1'")
 dummyenergy=BeamEnergy("dummyenergy",idscannable, ds, ds1, pgmGratingSelect)  # @UndefinedVariable
-print("Create an 'energy', 'polarisation', and 'energypolarisation' scannables")
+print("Create an 'energy_s', 'polarisation', and 'energypolarisation' scannables")
 
 LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
 from lookup.IDLookup import IDLookup4LinearAngleMode
@@ -189,12 +179,11 @@ alias("input_tsample")
 alias("input_tshield")
 alias("input_tcryostat")
 
-print()
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
 from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
 import metashop  # @UnusedImport
-print()
+
 print("-"*100)
 print("Add meta data items to be captured in data files.")
 metadatalist=[ringCurrent, idgap, idscannable, energy_s, fastshutter_x]  # @UndefinedVariable
@@ -228,20 +217,6 @@ alias("meta_rm")
 
 b2.setOutputFormat(["%7.4f"])
 x.setOutputFormat(["%10.6f"])
-
-print()
-print("-"*100)
-#DiffCalc
-print("import DIFFCALC support for I21")
-# Import toolpoint scannables into namespace
-from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw  # @UnusedImport
-
-try:
-    with overwriting:  # @UndefinedVariable
-        from startup.i21 import *  # @UnusedWildImport
-    #toolpoint_off()  # @UndefinedVariable
-except:
-    localStation_exception(sys.exc_info(), "import diffcalc error.")
 
 #Mapping scan
 #from mapping_scan_commands import *
@@ -323,7 +298,6 @@ def clearEncoderLoss():
 #         sgmpitch.moveTo(ENCODER_POSITION_AFTER_LIGHT_OFF)
         
 alias("clearEncoderLoss")
-
     
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
@@ -337,9 +311,9 @@ def scan_processing_on():
 def scan_processing_off():
     scan_processor.processors = scan_processor_empty_processes
  
-print "Switch off scan processor by default !!!"    
-print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
-print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
+print("Switch off scan processor by default !!!")    
+print(" To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal.")
+print(" To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal.")
 scan_processing_off()
 
 #check beam scannables
@@ -375,6 +349,19 @@ alias('miscan')
 
 from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
+
+print("-"*100)
+#DiffCalc
+print("import DIFFCALC support for I21")
+# Import toolpoint scannables into namespace
+from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw  # @UnusedImport
+
+try:
+    with overwriting:  # @UndefinedVariable
+        from startup.i21 import *  # @UnusedWildImport
+    #toolpoint_off()  # @UndefinedVariable
+except:
+    localStation_exception(sys.exc_info(), "import diffcalc error.")
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

@@ -14,7 +14,10 @@
 		<property name="pvName" value="BL21I-MO-ARM-01:HORZ"/>
 	</bean>
 	<bean id="spectthMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-ARM-01:TTH:WHEEL"/>
+		<property name="pvName" value="BL21I-MO-ARM-01:TTH:ANGLE"/>
+	</bean>
+	<bean id="spectthOffsetMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-MO-ARM-01:TTH:OFFSET"/>
 	</bean>
 	
 	<bean id="andorEffectiveHorizontal" class="gda.device.monitor.EpicsMonitor">
