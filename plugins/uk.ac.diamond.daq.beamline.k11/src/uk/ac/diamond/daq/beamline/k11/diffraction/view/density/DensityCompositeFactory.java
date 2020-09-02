@@ -31,6 +31,7 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientText;
 import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyIntegerText;
 import static uk.ac.gda.ui.tool.images.ClientImages.EXCLAMATION_RED;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -59,9 +60,14 @@ import org.eclipse.swt.widgets.Text;
 import com.google.common.primitives.Ints;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionEvent;
+import uk.ac.diamond.daq.mapping.api.document.helper.ScannableTrackDocumentHelper;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.gda.ui.tool.ClientSWTElements;
+import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * Component representing the GUI density elements
@@ -83,7 +89,8 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	private static final int MAX_POINT_DENSITY = 50;
 	private Color invalidEntryColor;
 
-	private final DensityTemplateDataHelper densityTemplateHelper;
+	private final ScannableTrackDocumentHelper scannableTrackDocumentHelper;
+	private final Supplier<ScanningAcquisition> acquisitionSupplier;
 	private final SelectObservableValue<ShapeType> selectedShapeType;
 
 	private final DataBindingContext viewDBC;
@@ -92,7 +99,8 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	public DensityCompositeFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
 			Supplier<ScanningAcquisition> acquisitionSupplier, SelectObservableValue<ShapeType> selectedShapeType) {
 		super();
-		this.densityTemplateHelper = new DensityTemplateDataHelper(acquisitionSupplier);
+		this.acquisitionSupplier = acquisitionSupplier;
+		this.scannableTrackDocumentHelper = new ScannableTrackDocumentHelper(this::getScanningParameters);
 		this.selectedShapeType = selectedShapeType;
 		this.viewDBC = viewDBC;
 		this.regionDBC = regionDBC;
@@ -129,8 +137,8 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		scaleObservableValue = WidgetProperties.selection().observe(densityScale);
 		readoutObservableValue = WidgetProperties.text(SWT.Modify).observe(points);
 		bindPointDensityWidgetBehaviour();
-		updateTemplateData();
-		points.addModifyListener(event -> updateTemplateData());
+		updateScannableTrackDocumentsPoints();
+		points.addModifyListener(event -> updateScannableTrackDocumentsPoints());
 	}
 
 	@Override
@@ -139,10 +147,31 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
 	}
 
-	private void updateTemplateData() {
+	private void updateScannableTrackDocumentsPoints() {
 		Integer intPoints = Optional.ofNullable(points.getText()).filter(s -> !s.isEmpty()).map(Integer::parseInt)
 				.orElse(0);
-		densityTemplateHelper.updateTemplateData(intPoints);
+		int[] trackDocumentsPoints = null;
+		switch (getScanpathDocument().getModelDocument()) {
+		case ONE_DIMENSION_LINE:
+			trackDocumentsPoints = new int[1];
+			break;
+		case TWO_DIMENSION_POINT:
+		case TWO_DIMENSION_LINE:
+		case TWO_DIMENSION_GRID:
+			trackDocumentsPoints = new int[2];
+			break;
+		default:
+			break;
+		}
+		Optional.ofNullable(trackDocumentsPoints).ifPresent(p -> {
+			Arrays.fill(p, intPoints);
+			scannableTrackDocumentHelper.updateScannableTrackDocumentsPoints(intPoints);
+			SpringApplicationContextProxy.publishEvent(new ScanningAcquisitionEvent(acquisitionSupplier.get()));
+		});
+	}
+
+	private ScanpathDocument getScanpathDocument() {
+		return acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters().getScanpathDocument();
 	}
 
 	/**
@@ -261,5 +290,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
 	private IObservableValue<String> getReadoutObservableValue() {
 		return readoutObservableValue;
+	}
+
+	private ScanningParameters getScanningParameters() {
+		return this.acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 }
