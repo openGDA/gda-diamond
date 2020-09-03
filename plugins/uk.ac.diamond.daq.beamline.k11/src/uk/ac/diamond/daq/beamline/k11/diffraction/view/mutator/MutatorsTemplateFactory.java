@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -52,9 +53,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import gda.mscan.element.Mutator;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.document.helper.ScanpathDocumentHelper;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
@@ -77,9 +81,11 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
 	private final DataBindingContext viewDBC;
 	private final DataBindingContext regionDBC;
-	private final MutatorsTemplateDataHelper mutatorTemplateHelper;
+
 	private final RegionAndPathController rapController;
 	private final ScanManagementController smController;
+	private ScanpathDocumentHelper scanpathDocumentHelper;
+	private final Supplier<ScanningAcquisition> acquisitionSupplier;
 
 	public MutatorsTemplateFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
 			Supplier<ScanningAcquisition> acquisitionSupplier, SelectObservableValue<ShapeType> selectedShapeObservable,
@@ -87,9 +93,10 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		super();
 		this.viewDBC = viewDBC;
 		this.regionDBC = regionDBC;
-		this.mutatorTemplateHelper = new MutatorsTemplateDataHelper(acquisitionSupplier);
 		this.selectedShapeObservable = selectedShapeObservable;
 		this.rapController = rapController;
+		this.acquisitionSupplier = acquisitionSupplier;
+		this.scanpathDocumentHelper = new ScanpathDocumentHelper(this::getScanningParameters);
 		this.smController = smController;
 	}
 
@@ -149,12 +156,17 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		updateMutator(Button.class.cast(event.getSource()));
 	}
 
-	private void updateMutator(Button mutator) {
+	private void updateMutator(Button mutatorButton) {
 		// updates the mutators list into the templateData collecting data from the selected check boxes
-		if (mutator.getSelection()) {
-			mutatorTemplateHelper.addMutator((MutatorType) mutator.getData(), null);
+		Mutator mutator = Optional.ofNullable(mutatorButton.getData())
+				.map(MutatorType.class::cast)
+				.map(MutatorType::getMscanMutator)
+				.orElseGet(() -> null);
+
+		if (mutatorButton.getSelection() && mutator != null) {
+			scanpathDocumentHelper.addMutators(mutator, new ArrayList<>());
 		} else {
-			mutatorTemplateHelper.removeMutator((MutatorType) mutator.getData());
+			scanpathDocumentHelper.removeMutators(mutator);
 		}
 	}
 
@@ -227,5 +239,9 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
 	private ScanManagementController getSmController() {
 		return smController;
+	}
+
+	private ScanningParameters getScanningParameters() {
+		return this.acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 }
