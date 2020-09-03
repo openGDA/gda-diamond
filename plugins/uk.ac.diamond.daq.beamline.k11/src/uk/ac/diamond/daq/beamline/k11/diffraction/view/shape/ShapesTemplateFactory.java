@@ -60,6 +60,7 @@ import org.eclipse.swt.widgets.Widget;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.helper.ScanpathDocumentHelper;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
@@ -78,16 +79,17 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 
-	private final static Map<ShapeType, Class<? extends IMappingScanRegionShape>> shapeToMappingScan = new HashMap<ShapeType, Class<? extends IMappingScanRegionShape>>() {
+	private static final Map<AcquisitionTemplateType, Class<? extends IMappingScanRegionShape>> acquisitionTemplateTypeToMappingScan
+		= new HashMap<AcquisitionTemplateType, Class<? extends IMappingScanRegionShape>>() {
 		{
-			put(ShapeType.POINT, PointMappingRegion.class);
-			put(ShapeType.LINE, LineMappingRegion.class);
-			put(ShapeType.CENTRED_RECTANGLE, CentredRectangleMappingRegion.class);
+			put(AcquisitionTemplateType.TWO_DIMENSION_POINT, PointMappingRegion.class);
+			put(AcquisitionTemplateType.TWO_DIMENSION_LINE, LineMappingRegion.class);
+			put(AcquisitionTemplateType.TWO_DIMENSION_GRID, CentredRectangleMappingRegion.class);
 		}
 	};
 
-	public static final Predicate<? super IMappingScanRegionShape> filterRegionScan(ShapeType shapeType) {
-		return mappingRegion -> shapeToMappingScan.get(shapeType).isInstance(mappingRegion);
+	public static final Predicate<? super IMappingScanRegionShape> filterRegionScan(AcquisitionTemplateType acquisitionTemplateType) {
+		return mappingRegion -> acquisitionTemplateTypeToMappingScan.get(acquisitionTemplateType).isInstance(mappingRegion);
 	}
 
 	/**
@@ -167,14 +169,16 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	private void bindShape(ImmutablePair<ShapeType, Button> shapeDefinition) {
 		selectedShapeObservable.addOption(shapeDefinition.getKey(),
 				getRadioButtonSelectionObservableValue(shapeDefinition.getValue()));
-		regionFromShapeType(shapeDefinition.getKey())
+		regionFromShapeType(shapeDefinition.getKey().getAcquisitionTemplateType())
 				.ifPresent(reg -> buttonToRegionShape.add(MutablePair.of(shapeDefinition.getValue(), reg)));
 	}
 
-	private Optional<IMappingScanRegionShape> regionFromShapeType(ShapeType shapeType) {
-		if (shapeType == null)
+	private Optional<IMappingScanRegionShape> regionFromShapeType(AcquisitionTemplateType acquisitionTemplateType) {
+		if (acquisitionTemplateType == null)
 			return Optional.empty();
-		return rapController.getTemplateRegions().stream().filter(filterRegionScan(shapeType)).findFirst();
+		return rapController.getTemplateRegions().stream()
+				.filter(filterRegionScan(acquisitionTemplateType))
+				.findFirst();
 	}
 
 	/**
@@ -190,7 +194,7 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	}
 
 	private IConverter shapeToMappingRegionShape = IConverter.create(ShapeType.class, IMappingScanRegionShape.class,
-			shapeType -> regionFromShapeType((ShapeType) shapeType).orElse(null));
+			shapeType -> regionFromShapeType(((ShapeType) shapeType).getAcquisitionTemplateType()).orElse(null));
 
 	/**
 	 * Sets the state of the composite radio button observable used to set the region shape when this has happened by
