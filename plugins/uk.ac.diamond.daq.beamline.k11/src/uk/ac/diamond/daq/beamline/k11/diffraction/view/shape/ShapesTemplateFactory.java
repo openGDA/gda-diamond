@@ -60,7 +60,9 @@ import org.eclipse.swt.widgets.Widget;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.document.helper.ScanpathDocumentHelper;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
@@ -107,14 +109,16 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 
 	private final DataBindingContext dbc;
 	private final RegionAndPathController rapController;
-	private ShapeTemplateDataHelper templateHelper;
+	private ScanpathDocumentHelper scanpathDocumentHelper;
+	private final Supplier<ScanningAcquisition> acquisitionSupplier;
 
 	public ShapesTemplateFactory(DataBindingContext dbc, Supplier<ScanningAcquisition> acquisitionSupplier,
 			RegionAndPathController rapController) {
 		super();
 		this.dbc = dbc;
 		this.rapController = rapController;
-		this.templateHelper = new ShapeTemplateDataHelper(acquisitionSupplier);
+		this.acquisitionSupplier = acquisitionSupplier;
+		this.scanpathDocumentHelper = new ScanpathDocumentHelper(this::getScanningParameters);
 	}
 
 	@Override
@@ -220,11 +224,19 @@ public class ShapesTemplateFactory implements DiffractionCompositeInterface {
 	}
 
 	private BiConsumer<ShapeType, Widget> selectButton = (shapeType, radio) -> {
-		if (Button.class.isInstance(radio) && Button.class.cast(radio).getSelection()) {
-			templateHelper.update(shapeType);
+		boolean selected = Optional.ofNullable(radio)
+				.map(Button.class::cast)
+				.map(Button::getSelection)
+				.orElseGet(() -> false);
+		if (selected) {
+			scanpathDocumentHelper.updateModelDocument(shapeType.getAcquisitionTemplateType());
 		}
 	};
 
 	private Function<ShapeType, Listener> selectionListener = shapeType -> event -> selectButton.accept(shapeType,
 			event.widget);
+
+	private ScanningParameters getScanningParameters() {
+		return this.acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters();
+	}
 }
