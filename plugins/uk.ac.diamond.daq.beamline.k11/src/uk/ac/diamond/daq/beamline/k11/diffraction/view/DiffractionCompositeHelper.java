@@ -50,7 +50,10 @@ public class DiffractionCompositeHelper {
 	public static final Optional<ShapeType> shapeFromMappingRegion(IMappingScanRegionShape mappingRegion) {
 		if (mappingRegion == null)
 			return Optional.empty();
-		return Arrays.stream(ShapeType.values()).filter(sh -> ShapesTemplateFactory.filterRegionScan(sh).test(mappingRegion)).findFirst();
+		return Arrays.stream(ShapeType.values()).filter(sh ->
+			ShapesTemplateFactory.filterRegionScan(sh.getAcquisitionTemplateType())
+				.test(mappingRegion))
+				.findFirst();
 	}
 
 	public static final IConverter scanPathToRandomised = IConverter.create(IScanPathModel.class, Boolean.class,
