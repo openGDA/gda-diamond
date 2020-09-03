@@ -18,8 +18,6 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.density;
 
-import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.POLICY_NEVER;
-import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.POLICY_UPDATE;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.integerToString;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.stringToInteger;
 import static uk.ac.gda.ui.tool.ClientMessages.POINTS_DENSITY;
@@ -32,42 +30,42 @@ import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyIntegerText;
 import static uk.ac.gda.ui.tool.images.ClientImages.EXCLAMATION_RED;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.databinding.observable.value.SelectObservableValue;
 import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
-
-import com.google.common.primitives.Ints;
+import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
-import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionEvent;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.helper.ScannableTrackDocumentHelper;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientSWTElements;
-import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * Component representing the GUI density elements
@@ -76,34 +74,41 @@ import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
  */
 public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
-	private Scale densityScale;
+	/**
+	 * Maps, for each AcquisitionTemplateType, the relevant density properties for the associated IScanPointGeneratorModel class
+	 */
+	private static final Map<AcquisitionTemplateType, String[]> acquisitionTemplateTypeProperties
+		= new HashMap<AcquisitionTemplateType, String[]>() {
+			{
+				put(AcquisitionTemplateType.TWO_DIMENSION_POINT, new String[] {});
+				put(AcquisitionTemplateType.TWO_DIMENSION_LINE, new String[] { "points" });
+				put(AcquisitionTemplateType.TWO_DIMENSION_GRID, new String[] { "xAxisPoints", "yAxisPoints" });
+			}
+	};
+
 	private Text points;
 
 	private ControlDecoration readoutTextDecoration;
 
-	private IObservableValue<Integer> scaleObservableValue;
 	private IObservableValue<String> readoutObservableValue;
 
-	private static final int HALF_RANGE = 25;
 	private static final int MIN_POINT_DENSITY = 1;
 	private static final int MAX_POINT_DENSITY = 50;
 	private Color invalidEntryColor;
 
 	private final ScannableTrackDocumentHelper scannableTrackDocumentHelper;
 	private final Supplier<ScanningAcquisition> acquisitionSupplier;
-	private final SelectObservableValue<ShapeType> selectedShapeType;
 
-	private final DataBindingContext viewDBC;
-	private final DataBindingContext regionDBC;
+	private final DataBindingContext regionDBC = new DataBindingContext();
+	private Binding densityBinding;
 
-	public DensityCompositeFactory(DataBindingContext viewDBC, DataBindingContext regionDBC,
-			Supplier<ScanningAcquisition> acquisitionSupplier, SelectObservableValue<ShapeType> selectedShapeType) {
+	private RegionAndPathController rapController;
+
+	public DensityCompositeFactory(Supplier<ScanningAcquisition> acquisitionSupplier, RegionAndPathController rapController) {
 		super();
 		this.acquisitionSupplier = acquisitionSupplier;
+		this.rapController = rapController;
 		this.scannableTrackDocumentHelper = new ScannableTrackDocumentHelper(this::getScanningParameters);
-		this.selectedShapeType = selectedShapeType;
-		this.viewDBC = viewDBC;
-		this.regionDBC = regionDBC;
 	}
 
 	@Override
@@ -114,129 +119,73 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		Label label = createClientLabel(container, style, POINTS_DENSITY);
 		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
 
-		densityScale = new Scale(container, SWT.VERTICAL);
-		densityScale.setMinimum(1);
-		densityScale.setMaximum(HALF_RANGE + HALF_RANGE);
-		densityScale.setSelection(HALF_RANGE);
-		densityScale.setIncrement(1);
-		densityScale.setPageIncrement(HALF_RANGE);
-		densityScale.setToolTipText("Set number of points per side of the region");
-
-		points = createClientText(container, SWT.BORDER, POINTS_PER_SIDE, Optional.ofNullable(verifyOnlyIntegerText));
+		points = createClientText(container, SWT.BORDER, POINTS_PER_SIDE, verifyOnlyIntegerText);
 		createClientGridDataFactory().align(SWT.BEGINNING, SWT.CENTER).applyTo(points);
-		points.setText(String.valueOf(densityScale.getSelection()));
 
 		readoutTextDecoration = new ControlDecoration(points, SWT.LEFT | SWT.TOP);
 		readoutTextDecoration.setImage(ClientSWTElements.getImage(EXCLAMATION_RED));
 		readoutTextDecoration.setDescriptionText("Please enter an integer value between 1 and 50 inclusive");
+
+		points.addModifyListener(modifyPointListener);
+		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
 		return parent;
 	}
 
 	@Override
-	public void bindControls() {
-		scaleObservableValue = WidgetProperties.selection().observe(densityScale);
-		readoutObservableValue = WidgetProperties.text(SWT.Modify).observe(points);
-		bindPointDensityWidgetBehaviour();
-		updateScannableTrackDocumentsPoints();
-		points.addModifyListener(event -> updateScannableTrackDocumentsPoints());
+	public void initialiseElements() {
+		points.setEnabled(true);
+
+		// Required to avoid an infinite loop on update
+		points.removeModifyListener(modifyPointListener);
+		ScannableTrackDocument trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0);
+		points.setText(Integer.toString(trackDocument.getPoints()));
+		// Re-enable the text listener
+		points.addModifyListener(modifyPointListener);
+
+		if (AcquisitionTemplateType.TWO_DIMENSION_POINT.equals(getSelectedAcquisitionTemplateType()))
+			points.setEnabled(false);
 	}
 
 	@Override
-	public void updateScanPointBindings(final IScanPointGeneratorModel newPathValue, ShapeType shapeType) {
-		updateScanPathPropertyBindings(newPathValue, shapeType);
+	public void initializeBinding() {
+		// Executed only on composite creation
+		if (readoutObservableValue == null) {
+			readoutObservableValue = WidgetProperties.text(SWT.Modify).observe(points);
+		}
+	}
 
+	private final ModifyListener modifyPointListener = event -> updateScannableTrackDocumentsPoints();
+
+	/**
+	 * Despite this is a two way binding, is useful only to report the new number of points to the rapController.
+	 */
+	@Override
+	public void updateScanPointBindings() {
+		Optional.ofNullable(densityBinding).ifPresent(regionDBC::removeBinding);
+		String[] properties = acquisitionTemplateTypeProperties.get(getSelectedAcquisitionTemplateType());
+		IntStream.range(0, properties.length)
+			.forEach(index -> {
+				IObservableValue<Integer> pointsObservableValue = BeanProperties.value(properties[index])
+						.observe(rapController.getScanPathModel());
+				densityBinding = regionDBC.bindValue(getReadoutObservableValue(), pointsObservableValue,
+					validatedReadoutToPointsStrategy(), validatedPointsToReadoutStrategy());
+			});
 	}
 
 	private void updateScannableTrackDocumentsPoints() {
-		Integer intPoints = Optional.ofNullable(points.getText()).filter(s -> !s.isEmpty()).map(Integer::parseInt)
-				.orElse(0);
-		int[] trackDocumentsPoints = null;
-		switch (getScanpathDocument().getModelDocument()) {
-		case ONE_DIMENSION_LINE:
-			trackDocumentsPoints = new int[1];
-			break;
-		case TWO_DIMENSION_POINT:
-		case TWO_DIMENSION_LINE:
-		case TWO_DIMENSION_GRID:
-			trackDocumentsPoints = new int[2];
-			break;
-		default:
-			break;
-		}
-		Optional.ofNullable(trackDocumentsPoints).ifPresent(p -> {
-			Arrays.fill(p, intPoints);
-			scannableTrackDocumentHelper.updateScannableTrackDocumentsPoints(intPoints);
-			SpringApplicationContextProxy.publishEvent(new ScanningAcquisitionEvent(acquisitionSupplier.get()));
-		});
-	}
+		int numPoints = Integer.parseInt(points.getText());
+		initialiseElements();
 
-	private ScanpathDocument getScanpathDocument() {
-		return acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters().getScanpathDocument();
-	}
+		// Skip the update if number of points is the same
+		if (numPoints == getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0).getPoints())
+			return;
 
-	/**
-	 * Creates the static bindings that control whether the point density controls are enabled based on the selected
-	 * {@link ShapeType}. Listeners are also added to make mouse wheeel and pgUp/pgDn event move the scale to the min,
-	 * max or centre point values.
-	 *
-	 * @param densityScale
-	 *            The number of points scale control
-	 * @param readoutText
-	 *            The number of points text box
-	 */
-	private void bindPointDensityWidgetBehaviour() {
-		viewDBC.bindValue(selectedShapeType, WidgetProperties.enabled().observe(densityScale),
-				UpdateValueStrategy.create(hideControlForPoint), POLICY_NEVER);
-		viewDBC.bindValue(selectedShapeType, WidgetProperties.enabled().observe(points),
-				UpdateValueStrategy.create(hideControlForPoint), POLICY_NEVER);
-
-		densityScale.addKeyListener(new KeyListener() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// no action
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.keyCode == SWT.PAGE_UP || e.keyCode == SWT.PAGE_DOWN) {
-					adjustPageIncrement(e.keyCode == SWT.PAGE_UP);
-				}
-			}
-		});
-		densityScale.addMouseWheelListener(e -> adjustPageIncrement(e.count > 0));
-	}
-
-	private void adjustPageIncrement(final boolean up) {
-		int adjustment = HALF_RANGE;
-		if ((up && densityScale.getSelection() > HALF_RANGE) || (!up && densityScale.getSelection() < HALF_RANGE)) {
-			adjustment = Math.abs(densityScale.getSelection() - HALF_RANGE);
-		}
-		densityScale.setPageIncrement(adjustment);
-	}
-
-	private void updateScanPathPropertyBindings(final IScanPointGeneratorModel newPathValue, ShapeType shapeType) {
-		if (ShapeType.LINE.equals(shapeType)) {
-			IObservableValue<Integer> pointsObservableValue = BeanProperties.value("points").observe(newPathValue);
-			regionDBC.bindValue(getReadoutObservableValue(), pointsObservableValue, validatedReadoutToPointsStrategy(),
-					validatedPointsToReadoutStrategy());
-			regionDBC.bindValue(getScaleObservableValue(), pointsObservableValue, POLICY_UPDATE,
-					validatedPointsToScaleStrategy());
-		} else {
-			IntStream.range(0, shapeType.getProperties().length).forEach(index -> {
-				IObservableValue<Integer> pointsObservableValue = BeanProperties.value(shapeType.getProperties()[index])
-						.observe(newPathValue);
-				if (index == 0) {
-					regionDBC.bindValue(getReadoutObservableValue(), pointsObservableValue,
-							validatedReadoutToPointsStrategy(), validatedPointsToReadoutStrategy());
-					regionDBC.bindValue(getScaleObservableValue(), pointsObservableValue, POLICY_UPDATE,
-							validatedPointsToScaleStrategy());
-				} else {
-					regionDBC.bindValue(getReadoutObservableValue(), pointsObservableValue,
-							validatedReadoutToPointsStrategy(), POLICY_NEVER);
-					regionDBC.bindValue(getScaleObservableValue(), pointsObservableValue, POLICY_UPDATE, POLICY_NEVER);
-				}
-			});
-		}
+		int size = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().size();
+		int[] trackDocumentsPoints = new int[size];
+		Arrays.fill(trackDocumentsPoints, numPoints);
+		scannableTrackDocumentHelper.updateScannableTrackDocumentsPoints(trackDocumentsPoints);
+		SpringApplicationContextFacade.publishEvent(
+				new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
 	}
 
 	private UpdateValueStrategy validatedReadoutToPointsStrategy() {
@@ -256,17 +205,17 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	 * @return Success if the value is numeric and between the required min and max otherwise error
 	 */
 	private IStatus densityReadoutValidator(Object stringContent) {
-		return densityRangeValidator(Ints.tryParse((String) stringContent));
+		int density = 0;
+		try {
+			density = Integer.parseInt((String) stringContent);
+			return densityRangeValidator(density);
+		} catch (NumberFormatException e) {
+			return ValidationStatus.error("");
+		}
 	}
 
-	private UpdateValueStrategy validatedPointsToScaleStrategy() {
-		return new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE)
-				.setAfterConvertValidator(this::densityRangeValidator);
-	}
-
-	private IStatus densityRangeValidator(Object integerContent) {
+	private IStatus densityRangeValidator(Integer value) {
 		IStatus result = ValidationStatus.error("");
-		Integer value = (Integer) integerContent;
 		Control readoutText = readoutTextDecoration.getControl();
 
 		if (value != null && value.intValue() >= MIN_POINT_DENSITY && value.intValue() <= MAX_POINT_DENSITY) {
@@ -281,18 +230,49 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		return result;
 	}
 
-	private final IConverter hideControlForPoint = IConverter.create(ShapeType.class, Boolean.class,
-			shape -> !((ShapeType) shape).equals(ShapeType.POINT));
-
-	private IObservableValue<Integer> getScaleObservableValue() {
-		return scaleObservableValue;
-	}
+	private final IConverter hideControlForPoint = IConverter.create(AcquisitionTemplateType.class, Boolean.class,
+			shape -> !((AcquisitionTemplateType) shape).equals(AcquisitionTemplateType.TWO_DIMENSION_POINT));
 
 	private IObservableValue<String> getReadoutObservableValue() {
 		return readoutObservableValue;
 	}
 
+	// At the moment is not possible to use anonymous lambda expression because it
+	// generates a class cast exception
+	private ApplicationListener<ScanningAcquisitionChangeEvent> listenToScanningAcquisitionChanges = new ApplicationListener<ScanningAcquisitionChangeEvent>() {
+		@Override
+		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
+			UUID eventUUID = Optional.ofNullable(event.getScanningAcquisition())
+					.map(ScanningAcquisition.class::cast)
+					.map(ScanningAcquisition::getUuid)
+					.orElseGet(UUID::randomUUID);
+
+			UUID scanningAcquisitionUUID = Optional.ofNullable(acquisitionSupplier.get())
+					.map(ScanningAcquisition::getUuid)
+					.orElseGet(UUID::randomUUID);
+
+			if (eventUUID.equals(scanningAcquisitionUUID)) {
+				updatePoints();
+			}
+		}
+
+		private void updatePoints() {
+			Optional.ofNullable(getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0).getPoints())
+				.map(p -> Integer.toString(p))
+				.ifPresent(points::setText);
+		}
+	};
+
+	// ------------ UTILS ----
+	private ScanningAcquisition getScanningAcquisition() {
+		return this.acquisitionSupplier.get();
+	}
+
 	private ScanningParameters getScanningParameters() {
-		return this.acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters();
+		return getScanningAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
+	}
+
+	private AcquisitionTemplateType getSelectedAcquisitionTemplateType() {
+		return getScanningParameters().getScanpathDocument().getModelDocument();
 	}
 }

@@ -18,7 +18,6 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view;
 
-import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.shapeFromMappingRegion;
 import static uk.ac.gda.ui.tool.ClientMessages.ACQUISITION;
 import static uk.ac.gda.ui.tool.ClientMessages.ACQUISITION_NAME_TP;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
@@ -45,21 +44,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.DensityCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator.MutatorsTemplateFactory;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.ShapesTemplateFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.AcquisitionTemplateTypeCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.view.CalibrationFileComposite;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
@@ -67,6 +64,7 @@ import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.exception.GDAClientException;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientBindingElements;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
@@ -82,7 +80,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	private Text name;
 
 	// ----- Helper ------//
-	private final ShapesTemplateFactory stf;
+	private final AcquisitionTemplateTypeCompositeFactory stf;
 	protected final AcquisitionController<ScanningAcquisition> controller;
 	private final TemplateDataHelper templateHelper;
 	private RegionAndPathController rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
@@ -91,13 +89,10 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable = new SelectObservableValue<>();
 
 	private DataBindingContext viewDBC = new DataBindingContext(); // for bindings valid for the view's lifetime
-	private DataBindingContext regionDBC = new DataBindingContext(); // For bindings that refresh with the region
 
 	private ScanManagementController smController;
 
 	private final List<DiffractionCompositeInterface> components = new ArrayList<>();
-
-	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationCompositeFactory.class);
 
 	public DiffractionConfigurationCompositeFactory(AcquisitionController<ScanningAcquisition> controller) {
 		super();
@@ -110,14 +105,10 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
 		smController.initialise();
 
-		stf = new ShapesTemplateFactory(viewDBC, controller::getAcquisition, rapController);
-		DiffractionCompositeInterface dcf = new DensityCompositeFactory(viewDBC, regionDBC, controller::getAcquisition,
-				stf.getSelectedShape());
-		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(viewDBC, regionDBC, controller::getAcquisition,
-				stf.getSelectedShape(), rapController, smController);
-		DiffractionCompositeInterface scf = new SummaryCompositeFactory(regionDBC,
-				stf.getMappingScanRegionShapeObservableValue(), stf.getSelectedShape(), rapController,
-				controller::getAcquisition);
+		stf = new AcquisitionTemplateTypeCompositeFactory(controller::getAcquisition, rapController);
+		DiffractionCompositeInterface dcf = new DensityCompositeFactory(controller::getAcquisition, rapController);
+		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(controller::getAcquisition, rapController, smController);
+		DiffractionCompositeInterface scf = new SummaryCompositeFactory(controller::getAcquisition);
 
 		components.add(stf);
 		components.add(dcf);
@@ -131,13 +122,17 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(composite);
 
 		createElements(composite, SWT.NONE, SWT.BORDER);
-		bindElements();
+
+		ClientBindingElements.bindText(viewDBC, name, String.class, "name", getController().getAcquisition());
+		loadElements();
 		try {
 			SpringApplicationContextProxy.addDisposableApplicationListener(composite, new LoadListener(composite));
 		} catch (GDAClientException e) {
 			UIHelper.showWarning("Loading a file will not refresh the gui",
 					"Spring application listener not registered");
 		}
+		SpringApplicationContextFacade.publishEvent(
+				new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
 		return composite;
 	}
 
@@ -206,6 +201,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 		CalibrationFileComposite calibrationComposite = new CalibrationFileComposite();
 		calibrationComposite.createComposite(parent, labelStyle);
+		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
 	}
 
 	private void createName(Composite parent, int labelStyle, int textStyle) {
@@ -219,9 +215,9 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		createClientGridDataFactory().grab(true, true).span(2, 1).applyTo(name);
 	}
 
-	private void bindElements() {
-		ClientBindingElements.bindText(viewDBC, name, String.class, "name", getController().getAcquisition());
-		components.forEach(DiffractionCompositeInterface::bindControls);
+	private void loadElements() {
+		components.forEach(DiffractionCompositeInterface::initialiseElements);
+		components.forEach(DiffractionCompositeInterface::initializeBinding);
 	}
 
 	private class LoadListener implements ApplicationListener<AcquisitionConfigurationResourceLoadEvent> {
@@ -235,23 +231,24 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 		@Override
 		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
-			bindElements();
+			loadElements();
+			templateHelper.updateIMappingScanRegionShape();
+			//rapController.getScanRegionShape().centre(300, 300);
+			rapController.updatePlotRegion();
 			composite.layout(true, true);
 		}
 	}
 
 	/**
-	 * This is triggered when a shape selection takes place to dispose of the mapping bean bindings so that they can be
-	 * replaced with a new set that relate to the newly chosen shape. Thus this will be the case at startup and also if
-	 * a scan is loaded and if the settings are changed by a different actor on the mapping bean.
-	 *
-	 * The scan path is set to the default value for the selected shape before updating the bindings for both region and
-	 * path. This is done whilst the controllers region selector listener is not linked.
+	 * This method is invoked when the IMappingScanRegionShape is change in the rapController.
+	 * This may happen when
+	 * <ul>
+	 * <li> a different radio is selected (AcquisitionTemplateTypeCompositeFactory) </li>
+     * <li> when a new ScanningAcquisition is loaded (LoadListener) </li>
+	 * </ul>
 	 */
 	private final void updateView(RegionPathState regionPathState) {
-		selectedMSRSObservable.removeValueChangeListener(rapController.getRegionSelectorListener());
 		updateScanPathBindings();
-		selectedMSRSObservable.addValueChangeListener(rapController.getRegionSelectorListener());
 		getMap().ifPresent(pl -> pl.addTraceListener(iTraceListener));
 	}
 
@@ -259,7 +256,10 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		@Override
 		public void traceAdded(TraceEvent evt) {
 			super.traceAdded(evt);
-			templateHelper.updateTemplateData();
+			if (templateHelper.updateScannableTracksDocument()) {
+				SpringApplicationContextFacade.publishEvent(
+						new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+			}
 		}
 	};
 
@@ -272,16 +272,29 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	 *            The resulting updated default scan path
 	 */
 	private void updateScanPathBindings() {
-		IScanPointGeneratorModel newPathValue = rapController.getScanPathListAndLinkPath().get(0);
-		regionDBC.dispose();
-		rapController.changePath(newPathValue);
-
-		Optional<ShapeType> shapeType = shapeFromMappingRegion(rapController.getScanRegionShape());
-		shapeType.ifPresent(sh -> components.forEach(c -> c.updateScanPointBindings(newPathValue, sh)));
+		IScanPointGeneratorModel scanPointGeneratorModel = rapController.getScanPathListAndLinkPath().get(0);
+		rapController.changePath(scanPointGeneratorModel);
+		components.forEach(DiffractionCompositeInterface::updateScanPointBindings);
 	}
 
 	private Optional<IPlottingSystem<Composite>> getMap() {
 		return Optional
 				.ofNullable(PlatformUI.getWorkbench().getService(IPlottingService.class).getPlottingSystem("Map"));
+	}
+
+	// At the moment is not possible to use anonymous lambda expression because it
+	// generates a class cast exception
+	private ApplicationListener<AcquisitionConfigurationResourceLoadEvent> listenToScanningAcquisitionChanges = new ApplicationListener<AcquisitionConfigurationResourceLoadEvent>() {
+		@Override
+		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
+			SpringApplicationContextFacade.publishEvent(
+					new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+		}
+	};
+
+	// ------------ UTILS ----
+
+	private ScanningAcquisition getScanningAcquisition() {
+		return controller.getAcquisition();
 	}
 }

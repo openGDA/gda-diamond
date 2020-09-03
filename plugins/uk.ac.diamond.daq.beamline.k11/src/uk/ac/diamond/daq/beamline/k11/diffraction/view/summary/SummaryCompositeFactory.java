@@ -18,39 +18,25 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
-import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.POLICY_NEVER;
-import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.mappingRegionShapeToShape;
 import static uk.ac.gda.ui.tool.ClientMessages.SUMMARY;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.eclipse.core.databinding.Binding;
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.UpdateValueStrategy;
-import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.databinding.observable.value.SelectObservableValue;
-import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
-import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
-import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
-import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 
 /**
@@ -66,29 +52,18 @@ import uk.ac.gda.ui.tool.ClientResourceManager;
  */
 public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
-	private final DataBindingContext regionDBC;
-
-	private final IObservableValue<IMappingScanRegionShape> mbShapeObservableValue;
-	private final SelectObservableValue<ShapeType> selectedShape;
 	private final Supplier<ScanningAcquisition> acquisitionSupplier;
-
-	private final RegionAndPathController rapController;
 
 	private static final int PADDING = 15;
 	private StyledText summaryText;
 	private Composite container;
-	private final Map<ShapeType, ShapeSummaryBase> summaryMap = new HashMap<>();
+	private final AcquisitionTemplateTypeSummaryBase summaryBase;
 
-	public SummaryCompositeFactory(DataBindingContext regionDBC,
-			IObservableValue<IMappingScanRegionShape> mbShapeObservableValue,
-			SelectObservableValue<ShapeType> selectedShape, RegionAndPathController rapController,
-			Supplier<ScanningAcquisition> acquisitionSupplier) {
+
+	public SummaryCompositeFactory(Supplier<ScanningAcquisition> acquisitionSupplier) {
 		super();
-		this.regionDBC = regionDBC;
-		this.mbShapeObservableValue = mbShapeObservableValue;
-		this.selectedShape = selectedShape;
-		this.rapController = rapController;
 		this.acquisitionSupplier = acquisitionSupplier;
+		this.summaryBase = new AcquisitionTemplateTypeSummaryBase(acquisitionSupplier);
 	}
 
 	@Override
@@ -100,19 +75,7 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
 
 		createControl(container);
-		return parent;
-	}
-
-	@Override
-	public void bindControls() {
-		update();
-		container.getParent().layout(true, true);
-	}
-
-	@Override
-	public void updateScanPointBindings(final IScanPointGeneratorModel newPathValue, ShapeType shapeType) {
-		updateRegionShapeBindings(shapeType);
-		updateBinding(shapeType);
+		return container;
 	}
 
 	/**
@@ -128,58 +91,28 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 		summaryText.setFont(ClientResourceManager.getInstance().getTextDefaultItalicFont());
 		summaryText.setCaret(null);
 		summaryText.setEditable(false);
-		summaryMap.put(ShapeType.POINT, new PointSummary(summaryText::setText, acquisitionSupplier));
-		summaryMap.put(ShapeType.LINE, new LineSummary(summaryText::setText, acquisitionSupplier));
-		summaryMap.put(ShapeType.CENTRED_RECTANGLE,
-				new CentredRectangleSummary(summaryText::setText, acquisitionSupplier));
 		createClientGridDataFactory().applyTo(summaryText);
+		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
 	}
 
-	/**
-	 * Refresh the content of the @link StyledText} control with updated text reflecting the current field values
-	 */
-	private void update() {
-		if (summaryText != null) {
-			summaryText.setText(getText());
-		}
-	}
+	// At the moment is not possible to use anonymous lambda expression because it
+	// generates a class cast exception
+	private ApplicationListener<ScanningAcquisitionChangeEvent> listenToScanningAcquisitionChanges = new ApplicationListener<ScanningAcquisitionChangeEvent>() {
+		@Override
+		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
+			UUID eventUUID = Optional.ofNullable(event.getScanningAcquisition())
+					.map(ScanningAcquisition.class::cast)
+					.map(ScanningAcquisition::getUuid)
+					.orElseGet(UUID::randomUUID);
 
-	/**
-	 * Fill in the text content based on the currently active {@link ShapeType}
-	 *
-	 * @return The text content {@link String}
-	 */
-	private String getText() {
-		return summaryMap.get(selectedShape.getValue()).toString();
-	}
+			UUID scanningAcquisitionUUID = Optional.ofNullable(acquisitionSupplier.get())
+					.map(ScanningAcquisition::getUuid)
+					.orElseGet(UUID::randomUUID);
 
-	/**
-	 * Rewrites the bindings relating to the mapping bean's region shape so that the {@link Button}s and
-	 * {@link StyledText} summary controls get linked to the correct property on the correct {@link IMappingScanRegion}
-	 * when the region shape is changed by any linked views
-	 */
-	private void updateRegionShapeBindings(ShapeType shapeType) {
-		// SUMMARY
-		regionDBC.bindValue(mbShapeObservableValue, selectedShape,
-				UpdateValueStrategy.create(mappingRegionShapeToShape), POLICY_NEVER);
-		updateBinding(shapeType);
-	}
-
-	private void updateBinding(ShapeType shapeType) {
-		ShapeSummaryBase st = summaryMap.get(shapeType);
-		Class<?> cls = st.getClass();
-		Field[] fieldlist = cls.getDeclaredFields();
-		Arrays.stream(fieldlist).filter(f -> PropertyUtils.isReadable(st, f.getName())).forEach(f -> {
-			if (PropertyUtils.isReadable(rapController.getScanRegionShape(), f.getName())) {
-				bindFromModelToTarget(regionDBC, BeanProperties.value(f.getName()).observe(st),
-						BeanProperties.value(f.getName()).observe(rapController.getScanRegionShape()));
+			if (eventUUID.equals(scanningAcquisitionUUID)) {
+				summaryText.setText(summaryBase.toString());
+				container.getParent().layout(true, true);
 			}
-		});
-	}
-
-	private Binding bindFromModelToTarget(final DataBindingContext dbc, final IObservableValue<?> target,
-			final IObservableValue<?> model) {
-		return dbc.bindValue(target, model, new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_UPDATE));
-	}
+		}
+	};
 }

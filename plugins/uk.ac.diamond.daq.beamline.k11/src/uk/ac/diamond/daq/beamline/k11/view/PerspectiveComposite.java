@@ -62,8 +62,9 @@ public class PerspectiveComposite {
 
 	public enum PerspectiveType {
 
-		TOMOGRAPHY("Plain Tomography", Tomography.ID), FULLY_AUTOMATED("Fully Automated",
-				FullyAutomated.ID), POINT_AND_SHOOT("Point and Shoot", PointAndShoot.ID);
+		TOMOGRAPHY("Plain Tomography", Tomography.ID),
+		FULLY_AUTOMATED("Fully Automated",	FullyAutomated.ID),
+		POINT_AND_SHOOT("Point and Shoot", PointAndShoot.ID);
 
 		private final String id;
 		private final String label;
