@@ -105,7 +105,9 @@ if installation.isLive():
     temp2_EC3=DisplayEpicsPVClass('temp2_EC3','BL06I-EA-EC3-01:TEMP2','C','%f')
     temp3_EC3=DisplayEpicsPVClass('temp3_EC3','BL06I-EA-EC3-01:TEMP3','C','%f')
     temp4_EC3=DisplayEpicsPVClass('temp4_EC3','BL06I-EA-EC3-01:TEMP4','C','%f')
-
+    
+    mediexp = EpicsReadWritePVClass("mediexp", "BL06I-EA-DET-02:CAM:AcquireTime","s", "%.3f")
+    
     mpxmode=EnumPVScannable("mpxmode", "BL06I-EA-DET-02:CAM:QuadMerlinMode")
     mpxmode.configure()
     

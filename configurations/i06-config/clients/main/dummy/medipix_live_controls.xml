@@ -4,20 +4,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="medipixExposureTime" class="gda.device.scannable.EpicsScannable">
+	<bean id="medipixExposureTime" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquireTime"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipixAcquirePeriod" class="gda.device.scannable.EpicsScannable">
+	<bean id="medipixAcquirePeriod" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquirePeriod"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -59,10 +55,8 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipixProcNumFilter" class="gda.device.scannable.EpicsScannable">
+	<bean id="medipixProcNumFilter" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%2d</value>
@@ -70,20 +64,16 @@
 		</property>	
 	</bean>
 
-	<bean id="medipixProcResetFilter" class="gda.device.scannable.EpicsScannable">
+	<bean id="medipixProcResetFilter" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="TS-TS-MPX3-01:PROC:ResetFilter"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%1d</value>
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipixProcEnableFilter" class="gda.device.scannable.EpicsScannable">
+	<bean id="medipixProcEnableFilter" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="TS-TS-MPX3-01:PROC:EnableFilter"/>
-		<property name="useNameAsInputName" value="true"/>
-		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
 				<value>%1d</value>
