@@ -794,7 +794,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
 
-	def check_zebra(zebraPositionScannable):
+	def check_zebra(zebraPositionScannable, reportOk=True):
 		position_mismatch = "    Mismatch between {} motor position and zebra encoder - Rocking it will probably fail!\n" + \
 			"     * To fix, run '{}.copyMotorPosToZebra()' when motor is static (it must not be moving at all).\n" + \
 			"     * Then run 'pos {} 1' to check that the reported diff is now small or re-run `check_zebra {}` again.\n" + \
@@ -811,14 +811,19 @@ try:
 				print "*"*80
 				print msg
 				print "*"*80
+			elif reportOk:
+				msg = "    No significant mismatch between {} motor position and zebra encoder\n".format(zebraPositionScannable.getName()) + \
+					"     * Run 'pos {} 1' to check how big the reported diff is now.\n".format(zebraPositionScannable.getName()) + \
+					"     * See 'http://confluence.diamond.ac.uk/x/9AVBAg' for more details."
+				print msg
 		except:
 			localStation_exception(sys.exc_info(), position_error.format(
 				zebraPositionScannable.check_scannable.getName(), zebraPositionScannable.getName()))
 
-	check_zebra(dkphiZebraPositionScannable)
-	check_zebra(dkappaZebraPositionScannable)
-	check_zebra(dkthetaZebraPositionScannable)
-	check_zebra(sphiZebraPositionScannable)
+	check_zebra(dkphiZebraPositionScannable, False)
+	check_zebra(dkappaZebraPositionScannable, False)
+	check_zebra(dkthetaZebraPositionScannable, False)
+	check_zebra(sphiZebraPositionScannable, False)
 
 	alias("check_zebra")
 except:
