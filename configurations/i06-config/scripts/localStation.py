@@ -100,13 +100,22 @@ if installation.isLive():
         caput("BL06I-EA-DET-01:ROT:Angle",rot)
     alias("rotate")
     
+    def set_medipix_acquire_time(t):
+        stopped_by_me=False
+        ACQUIRE_PV = "BL06I-EA-DET-02:CAM:Acquire"
+        if caget(ACQUIRE_PV) == 1:
+            caput(ACQUIRE_PV,0)
+            stopped_by_me = True
+        caput("BL06I-EA-DET-02:CAM:AcquireTime", t)
+        caput("BL06I-EA-DET-02:CAM:AcquirePeriod", t+0.003)
+        if stopped_by_me:
+            caput(ACQUIRE_PV,1)
+    
     # I06-406   
     temp1_EC3=DisplayEpicsPVClass('temp1_EC3','BL06I-EA-EC3-01:TEMP1','C','%f')
     temp2_EC3=DisplayEpicsPVClass('temp2_EC3','BL06I-EA-EC3-01:TEMP2','C','%f')
     temp3_EC3=DisplayEpicsPVClass('temp3_EC3','BL06I-EA-EC3-01:TEMP3','C','%f')
     temp4_EC3=DisplayEpicsPVClass('temp4_EC3','BL06I-EA-EC3-01:TEMP4','C','%f')
-    
-    mediexp = EpicsReadWritePVClass("mediexp", "BL06I-EA-DET-02:CAM:AcquireTime","s", "%.3f")
     
     mpxmode=EnumPVScannable("mpxmode", "BL06I-EA-DET-02:CAM:QuadMerlinMode")
     mpxmode.configure()
