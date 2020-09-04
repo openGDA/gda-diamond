@@ -1,30 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="m1bend" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1bend_motor"/>
-	</bean>
-	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1pitch_motor"/>
-	</bean>
-	<bean id="m1roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1roll_motor"/>
-	</bean>
-	<bean id="m1x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1x_motor"/>
-	</bean>
-	<bean id="m1y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1y_motor"/>
-	</bean>
-	<bean id="m2x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m2x_motor"/>
-	</bean>
-	<bean id="m2y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m2y_motor"/>
-	</bean>
-
+	<gda:motor id="m1bend" live-pvName="BL11I-OP-VFM-01:M1:BEND"/>
+	<gda:motor id="m1pitch" live-pvName="BL11I-OP-VFM-01:M1:PITCH"/>
+	<gda:motor id="m1roll" live-pvName="BL11I-OP-VFM-01:M1:ROLL"/>
+	<gda:motor id="m1x" live-pvName="BL11I-OP-VFM-01:M1:X"/>
+	<gda:motor id="m1y" live-pvName="BL11I-OP-VFM-01:M1:Y"/>
+	<gda:motor id="m2x" live-pvName="BL11I-OP-VFM-01:M2:X"/>
+	<gda:motor id="m2y" live-pvName="BL11I-OP-VFM-01:M2:Y"/>
 	<bean id="M1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

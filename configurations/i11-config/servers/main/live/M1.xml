@@ -1,4 +1,3 @@
-<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -6,28 +5,7 @@
 
 	<!-- Strip selection -->
 	<bean id="m1stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL11I-OP-VFM-01:MP" />
+		<property name="recordName" value="BL11I-OP-VFM-01:MP"/>
 	</bean>
 	<!-- Mirror M1 Motors (individual Motions) -->
-	<bean id="m1bend_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11I-OP-VFM-01:M1:BEND" />
-	</bean>
-	<bean id="m1pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11I-OP-VFM-01:M1:PITCH" />
-	</bean>
-	<bean id="m1roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11I-OP-VFM-01:M1:ROLL" />
-	</bean>
-	<bean id="m1x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11I-OP-VFM-01:M1:X" />
-	</bean>
-	<bean id="m1y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11I-OP-VFM-01:M1:Y" />
-	</bean>
-	<bean id="m2x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11I-OP-VFM-01:M2:X" />
-	</bean>
-	<bean id="m2y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11I-OP-VFM-01:M2:Y" />
-	</bean>
 </beans>

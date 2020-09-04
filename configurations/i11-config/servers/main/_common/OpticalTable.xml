@@ -1,29 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<!--  table motors -->
-	<bean id="otx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="otx_motor"/>
-	</bean>
-	<bean id="oty" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="oty_motor"/>
-	</bean>
-	<bean id="otz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="otz_motor"/>
-	</bean>
+	<gda:motor id="otx" live-pvName="BL11I-OP-TABLE-01:X"/>
+	<gda:motor id="oty" live-pvName="BL11I-OP-TABLE-01:Y"/>
+	<gda:motor id="otz" live-pvName="BL11I-OP-TABLE-01:Z"/>
 	<!-- Focus motors -->
-	<bean id="yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="otmot_yaw_motor"/>
-	</bean>
-	<bean id="pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="otmot_pitch_motor"/>
-	</bean>
-
-	<bean id="htran" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="otmot_posn_motor"/>
-	</bean>
+	<gda:motor id="yaw" live-pvName="BL11I-OP-MOT-01:YAW"/>
+	<gda:motor id="pitch" live-pvName="BL11I-OP-MOT-01:PITCH"/>
+	<gda:motor id="htran" live-pvName="BL11I-OP-MOT-01:POSN"/>
 	<bean id="OT" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

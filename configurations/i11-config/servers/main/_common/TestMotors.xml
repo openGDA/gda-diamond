@@ -1,58 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="dm_x" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400"/>
-		<property name="mediumSpeed" value="200"/>
-		<property name="slowSpeed" value="100"/>
-	</bean>
-	<bean id="dm_y" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400"/>
-		<property name="mediumSpeed" value="200"/>
-		<property name="slowSpeed" value="100"/>
-	</bean>
-	<bean id="dm_z" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400"/>
-		<property name="mediumSpeed" value="200"/>
-		<property name="slowSpeed" value="100"/>
-	</bean>
-	<bean id="dm_a" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400"/>
-		<property name="mediumSpeed" value="200"/>
-		<property name="slowSpeed" value="100"/>
-	</bean>
-	<bean id="dm_b" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400"/>
-		<property name="mediumSpeed" value="200"/>
-		<property name="slowSpeed" value="100"/>
-	</bean>
-	<bean id="dm_c" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400"/>
-		<property name="mediumSpeed" value="200"/>
-		<property name="slowSpeed" value="100"/>
-	</bean>
-
-	<bean id="x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dm_x"/>
-	</bean>
-	<bean id="y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dm_y"/>
-	</bean>
-	<bean id="z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dm_z"/>
-	</bean>
-	<bean id="a" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dm_a"/>
-	</bean>
-	<bean id="b" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dm_b"/>
-	</bean>
-	<bean id="c" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dm_c"/>
-	</bean>
-
+	<gda:motor id="x" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
+	<gda:motor id="y" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
+	<gda:motor id="z" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
+	<gda:motor id="a" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
+	<gda:motor id="b" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
+	<gda:motor id="c" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
 	<bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

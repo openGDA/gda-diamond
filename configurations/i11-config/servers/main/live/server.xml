@@ -3,26 +3,22 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-
 	<import resource="BPM3.xml"/>
-<!-- 	<import resource="CVScanController.xml"/> -->
+	<!-- 	<import resource="CVScanController.xml"/> -->
 	<import resource="EpicsCVScan.xml"/>
 	<import resource="CommandServer.xml"/>
 	<import resource="CyberStarBlower.xml"/>
 	<import resource="D1.xml"/>
 	<import resource="D2.xml"/>
 	<import resource="D3.xml"/>
-	<import resource="D4.xml" />
+	<import resource="D4.xml"/>
 	<import resource="D5.xml"/>
 	<import resource="daserver.xml"/>
-	<import resource="DCM.xml"/>
-<!-- 	<import resource="DCMxtal.xml"/> -->
-	<import resource="Diffractometer.xml"/>
+	<!-- 	<import resource="DCMxtal.xml"/> -->
 	<import resource="ETL.xml"/>
 	<import resource="ExperimentHutchShutter.xml"/>
 	<import resource="FastShutter.xml"/>
-<!-- 	<import resource="FrontEndAperture.xml"/> -->
+	<!-- 	<import resource="FrontEndAperture.xml"/> -->
 	<import resource="FrontEndShutter.xml"/>
 	<import resource="GBC.xml"/>
 	<import resource="GV1.xml"/>
@@ -33,8 +29,8 @@
 	<import resource="GV6.xml"/>
 	<import resource="GDAMetadata.xml"/>
 	<!-- <import resource="HidenRGA.xml" /> -->
-<!-- 	<import resource="Ic1.xml"/> -->
-<!-- 	<import resource="Ic2.xml"/> -->
+	<!-- 	<import resource="Ic1.xml"/> -->
+	<!-- 	<import resource="Ic2.xml"/> -->
 	<import resource="Ic3.xml"/>
 	<import resource="Ic4.xml"/>
 	<import resource="Ic5.xml"/>
@@ -44,38 +40,27 @@
 	<import resource="etl1.xml"/>
 	<import resource="etl2.xml"/>
 	<import resource="LakeShore.xml"/>
-	<import resource="LargeSampleTable.xml"/>
 	<import resource="M1.xml"/>
 	<import resource="MachineStatus.xml"/>
-	<import resource="MACMotors.xml"/>
 	<import resource="MACDetectors.xml"/>
 	<import resource="mythen3.xml"/>
-<!-- 	<import resource="Mar345.xml"/> -->
+	<!-- 	<import resource="Mar345.xml"/> -->
 	<import resource="MCSSis3820.xml"/>
 	<import resource="MCS.xml"/>
 	<import resource="MRIFurnace.xml"/>
 	<import resource="NewCVScan.xml"/>
-<!-- 	<import resource="BatteryHeater.xml"/> -->
-	<import resource="OpticalTable.xml"/>
+	<!-- 	<import resource="BatteryHeater.xml"/> -->
 	<import resource="OxfordCryoStream.xml"/>
 	<import resource="PhenixCryostat.xml"/>
 	<import resource="RobotNX100.xml"/>
 	<import resource="S1.xml"/>
-	<import resource="S2.xml"/>
-	<import resource="S3.xml"/>
 	<import resource="S4.xml"/>
-	<import resource="S5.xml"/>
 	<import resource="Scaler1.xml"/>
 	<import resource="Scaler2.xml"/>
-	<import resource="SmallSampleTable.xml"/>
 	<import resource="Spinner.xml"/>
 	<import resource="StoeFurnace.xml"/>
-	<import resource="GrazingIncidentStage.xml"/>
-
 	<import resource="../_common/*.xml"/>
-
-	<beans profile="eh2" >
-		<import resource="eh2/*.xml" />
+	<beans profile="eh2">
+		<import resource="eh2/*.xml"/>
 	</beans>
-
 </beans>

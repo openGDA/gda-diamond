@@ -1,16 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<!-- MAC stage 1 Motors -->
-	<bean id="alp1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac1a_motor"/>
-	</bean>
-	<bean id="talp1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac12a_motor"/>
-	</bean>
-
+	<gda:motor id="alp1" live-pvName="BL11I-EA-MAC-01:A"/>
+	<gda:motor id="talp1" live-pvName="BL11I-EA-MAC-01:2A"/>
 	<bean id="MAC1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -20,13 +18,8 @@
 		</property>
 	</bean>
 	<!-- MAC stage 2 Motors -->
-	<bean id="alp2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac2a_motor"/>
-	</bean>
-	<bean id="talp2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac22a_motor"/>
-	</bean>
-
+	<gda:motor id="alp2" live-pvName="BL11I-EA-MAC-02:A"/>
+	<gda:motor id="talp2" live-pvName="BL11I-EA-MAC-02:2A"/>
 	<bean id="MAC2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -36,13 +29,8 @@
 		</property>
 	</bean>
 	<!-- MAC stage 3 Motors -->
-	<bean id="alp3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac3a_motor"/>
-	</bean>
-	<bean id="talp3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac32a_motor"/>
-	</bean>
-
+	<gda:motor id="alp3" live-pvName="BL11I-EA-MAC-03:A"/>
+	<gda:motor id="talp3" live-pvName="BL11I-EA-MAC-03:2A"/>
 	<bean id="MAC3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -52,13 +40,8 @@
 		</property>
 	</bean>
 	<!-- MAC stage 4 Motors -->
-	<bean id="alp4" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac4a_motor"/>
-	</bean>
-	<bean id="talp4" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac42a_motor"/>
-	</bean>
-
+	<gda:motor id="alp4" live-pvName="BL11I-EA-MAC-04:A"/>
+	<gda:motor id="talp4" live-pvName="BL11I-EA-MAC-04:2A"/>
 	<bean id="MAC4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -68,13 +51,8 @@
 		</property>
 	</bean>
 	<!-- MAC stage 5 Motors -->
-	<bean id="alp5" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac5a_motor"/>
-	</bean>
-	<bean id="talp5" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mac52a_motor"/>
-	</bean>
-
+	<gda:motor id="alp5" live-pvName="BL11I-EA-MAC-05:A"/>
+	<gda:motor id="talp5" live-pvName="BL11I-EA-MAC-05:2A"/>
 	<bean id="MAC5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -83,6 +61,4 @@
 			</list>
 		</property>
 	</bean>
-
-
 </beans>

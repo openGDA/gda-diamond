@@ -1,33 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="tth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tth_motor"/>
-	</bean>
-	<bean id="theta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="theta_motor"/>
-	</bean>
-	<bean id="delta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="delta_motor"/>
-	</bean>
-	<bean id="trans" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="trans_motor"/>
-	</bean>
-	<bean id="y1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="y1_motor"/>
-	</bean>
-	<bean id="y2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="y2_motor"/>
-	</bean>
-	<bean id="y3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="y3_motor"/>
-	</bean>
-	<bean id="spos" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="spos_motor"/>
-	</bean>
-
+	<gda:motor id="tth" live-pvName="BL11I-MO-DIFF-01:2THETA"/>
+	<gda:motor id="theta" live-pvName="BL11I-MO-DIFF-01:THETA"/>
+	<gda:motor id="delta" live-pvName="BL11I-MO-DIFF-01:DELTA"/>
+	<gda:motor id="trans" live-pvName="BL11I-MO-DIFF-01:BASE:X"/>
+	<gda:motor id="y1" live-pvName="BL11I-MO-DIFF-01:BASE:Y1"/>
+	<gda:motor id="y2" live-pvName="BL11I-MO-DIFF-01:BASE:Y2"/>
+	<gda:motor id="y3" live-pvName="BL11I-MO-DIFF-01:BASE:Y3"/>
+	<gda:motor id="spos" live-pvName="BL11I-MO-DIFF-01:SPOS"/>
 	<bean id="Diff" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

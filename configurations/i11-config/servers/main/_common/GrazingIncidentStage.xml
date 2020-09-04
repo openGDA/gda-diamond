@@ -1,18 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="height" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gis_y_motor"/>
-	</bean>
-	<bean id="chi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gis_chi_motor"/>
-	</bean>
-	<bean id="psi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gis_psi_motor"/>
-	</bean>
-
+	<gda:motor id="height" live-pvName="BL11I-MO-TABLE-03:Y"/>
+	<gda:motor id="chi" live-pvName="BL11I-MO-TABLE-03:ROLL"/>
+	<gda:motor id="psi" live-pvName="BL11I-MO-TABLE-03:YAW"/>
 	<bean id="gis" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
