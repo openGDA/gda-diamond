@@ -20,7 +20,6 @@
 	<import resource="FastShutter.xml"/>
 	<!-- 	<import resource="FrontEndAperture.xml"/> -->
 	<import resource="FrontEndShutter.xml"/>
-	<import resource="GBC.xml"/>
 	<import resource="GV1.xml"/>
 	<import resource="GV2.xml"/>
 	<import resource="GV3.xml"/>
@@ -53,7 +52,6 @@
 	<import resource="OxfordCryoStream.xml"/>
 	<import resource="PhenixCryostat.xml"/>
 	<import resource="RobotNX100.xml"/>
-	<import resource="S1.xml"/>
 	<import resource="S4.xml"/>
 	<import resource="Scaler1.xml"/>
 	<import resource="Scaler2.xml"/>

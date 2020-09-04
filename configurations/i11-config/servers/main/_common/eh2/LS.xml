@@ -58,4 +58,6 @@
 		<property name="positionTolerance" value="0.01"/>
 		<property name="zPosition" value="-400.0"/>
 	</bean>
+	<gda:monitor id="linkam1" live-pvName="BL11J-EA-TEMPC-01:TEMP" unit="C"/>
+	<gda:monitor id="linkam2" live-pvName="BL11J-EA-TEMPC-02:TEMP" unit="C"/>
 </beans>

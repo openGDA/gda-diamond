@@ -28,4 +28,12 @@
 			</list>
 		</property>
 	</bean>
+	<gda:monitor id="s1temp1" live-pvName="BL11I-AL-SLITS-01:TEMP1"/>
+	<gda:monitor id="s1temp2" live-pvName="BL11I-AL-SLITS-01:TEMP2"/>
+	<gda:monitor id="s1temp3" live-pvName="BL11I-AL-SLITS-01:TEMP3"/>
+	<gda:monitor id="s1temp4" live-pvName="BL11I-AL-SLITS-01:TEMP4"/>
+	<gda:monitor id="s1temp5" live-pvName="BL11I-AL-SLITS-01:TEMP5"/>
+	<gda:monitor id="s1temp6" live-pvName="BL11I-AL-SLITS-01:TEMP6"/>
+	<gda:monitor id="s1temp7" live-pvName="BL11I-AL-SLITS-01:TEMP7"/>
+	<gda:monitor id="s1temp8" live-pvName="BL11I-AL-SLITS-01:TEMP8"/>
 </beans>

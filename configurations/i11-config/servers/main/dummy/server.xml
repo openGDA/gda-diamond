@@ -33,7 +33,6 @@
 	<import resource="OxfordCryoStream.xml"/>
 	<import resource="PhenixCryostat.xml"/>
 	<import resource="RobotNX100.xml"/>
-	<import resource="S1.xml"/>
 	<import resource="S4.xml"/>
 	<import resource="SmallSampleTable.xml"/>
 	<import resource="Spinner.xml"/>

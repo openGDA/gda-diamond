@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="operationmode" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
@@ -29,11 +29,4 @@
 			<value>Seq Shift Fill</value>
 		</property>
 	</bean>
-	<bean id="ringcurrent" class="gda.device.monitor.DummyMonitor"/>
-	<bean id="ringenergy" class="gda.device.monitor.DummyMonitor"/>
-	<bean id="idgap" class="gda.device.monitor.DummyMonitor"/>
-	<bean id="idname" class="gda.device.monitor.DummyMonitor"/>
-	<bean id="lifetime" class="gda.device.monitor.DummyMonitor"/>
-	<bean id="countdown" class="gda.device.monitor.DummyMonitor"/>
-
 </beans>

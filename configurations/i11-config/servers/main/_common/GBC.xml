@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<gda:monitor id="gbdtemp1" live-pvName="BL11I-RS-ABSB-01:TEMP1"/>
+	<gda:monitor id="gbdtemp2" live-pvName="BL11I-RS-ABSB-01:TEMP2"/>
+	<gda:monitor id="gbdtemp3" live-pvName="BL11I-RS-ABSB-01:TEMP3"/>
+	<gda:monitor id="gbdtemp4" live-pvName="BL11I-RS-ABSB-01:TEMP4"/>
+</beans>
