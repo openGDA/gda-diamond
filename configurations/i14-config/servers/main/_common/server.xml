@@ -53,7 +53,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
 
 	<!-- detectors -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/excalibur_addetector.xml" />
+	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/excalibur_addetector.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/excalibur_motions.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/merlin_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/sample_dtab_addetector.xml" />
@@ -120,7 +120,7 @@
 
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/autofocus_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/excalibur_addetector.xml" />
+	<!-- <import resource="file:${gda.config}/servers/main/_common/detectors/excalibur_addetector.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/excalibur_motions.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/merlin_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/sample_dtab_addetector.xml" />
