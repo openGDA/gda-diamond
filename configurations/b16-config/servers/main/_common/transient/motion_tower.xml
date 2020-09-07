@@ -8,14 +8,14 @@
 	profile="motion_tower">
 
 
-	<gda:motor id="mtYaw" pv="BL16B-MO-TAB-02:YAW" />
-	<gda:motor id="mtY" pv="BL16B-MO-TAB-02:Y" />
-	<gda:motor id="mtPitch" pv="BL16B-MO-TAB-02:PITCH" />
-	<gda:motor id="mtRoll" pv="BL16B-MO-TAB-02:ROLL" />
-	<gda:motor id="mtX" pv="BL16B-MO-TAB-02:X" />
-	<gda:motor id="mtZ" pv="BL16B-MO-TAB-02:Z" />
-	<gda:motor id="mtXcoarse" pv="BL16B-MO-TAB-02:X:COARSE" />
-	<gda:motor id="mtYcoarse" pv="BL16B-MO-TAB-02:Y:COARSE" />
+	<gda:motor id="mtYaw" live-pvName="BL16B-MO-TAB-02:YAW" />
+	<gda:motor id="mtY" live-pvName="BL16B-MO-TAB-02:Y" />
+	<gda:motor id="mtPitch" live-pvName="BL16B-MO-TAB-02:PITCH" />
+	<gda:motor id="mtRoll" live-pvName="BL16B-MO-TAB-02:ROLL" />
+	<gda:motor id="mtX" live-pvName="BL16B-MO-TAB-02:X" />
+	<gda:motor id="mtZ" live-pvName="BL16B-MO-TAB-02:Z" />
+	<gda:motor id="mtXcoarse" live-pvName="BL16B-MO-TAB-02:X:COARSE" />
+	<gda:motor id="mtYcoarse" live-pvName="BL16B-MO-TAB-02:Y:COARSE" />
 
 	<bean id="mt" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
