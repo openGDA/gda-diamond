@@ -27,13 +27,7 @@
 			</list>
 		</property>
 		<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateAcquirePeriodWhenAcquireTimeChanges"/>
-		<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo">
-			<list>
-				<value>gda.device.Scannable</value>
-				<value>gda.device.Scannable</value>
-				<value>java.lang.Double</value>
-			</list>
-		</property>
+		<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo" value="'gda.device.Scannable','gda.device.Scannable','java.lang.Double'"/>
 		<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, #input)"/>
 	</bean>
 	<bean id="medipixIdleTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
@@ -86,14 +80,7 @@
 			</list>
 		</property>	
 		<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateNumFilterInProc"/>
-		<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo">
-			<list>
-				<value>gda.device.Scannable</value>
-				<value>gda.device.Scannable</value>
-				<value>gda.device.Scannable</value>
-				<value>java.lang.Integer</value>
-			</list>
-		</property>
+		<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo" value="'gda.device.Scannable','gda.device.Scannable','gda.device.Scannable','java.lang.Integer'"/>
 		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
 	</bean>	
 </beans>

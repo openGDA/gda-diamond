@@ -35,6 +35,10 @@ public class SpELUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(SpELUtils.class);
 
+	private SpELUtils() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	/**
 	 * keep detector Idle time same when change exposure time
 	 *
@@ -45,8 +49,8 @@ public class SpELUtils {
 	 */
 	public static void updateAcquirePeriodWhenAcquireTimeChanges(Scannable acquireTime, Scannable acquirePeriod, Double time) throws DeviceException {
 		try {
-			double exposureTime = Double.valueOf(acquireTime.getPosition().toString()).doubleValue();
-			double period = Double.valueOf(acquirePeriod.getPosition().toString()).doubleValue();
+			double exposureTime = Double.parseDouble(acquireTime.getPosition().toString());
+			double period = Double.parseDouble(acquirePeriod.getPosition().toString());
 			double idle = period - exposureTime;
 			acquireTime.asynchronousMoveTo(time);
 			acquirePeriod.asynchronousMoveTo(time + idle);// keep idle time the same
@@ -59,8 +63,8 @@ public class SpELUtils {
 
 	public static void updateNumFilterInProc(Scannable enableFilter, Scannable resetFilter, Scannable numFilter, Integer num) throws DeviceException {
 		// when detector exposure time is very small, proc plugin will not have time to response to further request.
-		// disable filtering
 		try {
+			// disable filtering
 			enableFilter.asynchronousMoveTo(0);
 			// change number of images to filter
 			numFilter.asynchronousMoveTo(num);
