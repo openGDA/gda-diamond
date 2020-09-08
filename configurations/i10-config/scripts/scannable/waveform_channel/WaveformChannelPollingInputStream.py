@@ -89,6 +89,9 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         while True and not self.stoppedExplicitly:
             if installation.isLive():
                 elements_available = int(float(self.pv_count.caget()))
+                from scannable.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
+                if isinstance(self._controller, BinpointWaveformChannelController):   
+                    elements_available = elements_available + 1 #BINPOINT:NLAST.B index starts at 0, -1 is waveform empty
             else:
                 self.logger.info("DUMMY mode: number of positions set in WaveformChannelScannable to its controller is %r" % self._controller.number_of_positions)
                 #the following line does not ensure cvscan complete 100%

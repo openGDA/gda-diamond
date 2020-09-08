@@ -104,6 +104,10 @@ mcsr16_g              = WaveformChannelScannable('mcsr16_g',              mcsrc,
 mcsr17_g              = WaveformChannelScannable('mcsr17_g',              mcsrc,     18);                            mcsr17_g.setHardwareTriggerProvider(cemc_g);              mcsr17_g.verbose=True
 mcsr18_g              = WaveformChannelScannable('mcsr18_g',              mcsrc,     19);                            mcsr18_g.setHardwareTriggerProvider(cemc_g);              mcsr18_g.verbose=True
 mcsr19_g              = WaveformChannelScannable('mcsr19_g',              mcsrc,     20);                            mcsr19_g.setHardwareTriggerProvider(cemc_g);              mcsr19_g.verbose=True
+mcsr20_g              = WaveformChannelScannable('mcsr20_g',              mcsrc,     21);                            mcsr20_g.setHardwareTriggerProvider(cemc_g);              mcsr20_g.verbose=True
+mcsr21_g              = WaveformChannelScannable('mcsr21_g',              mcsrc,     22);                            mcsr21_g.setHardwareTriggerProvider(cemc_g);              mcsr21_g.verbose=True
+mcsr22_g              = WaveformChannelScannable('mcsr22_g',              mcsrc,     23);                            mcsr22_g.setHardwareTriggerProvider(cemc_g);              mcsr22_g.verbose=True
+mcsr23_g              = WaveformChannelScannable('mcsr23_g',              mcsrc,     24);                            mcsr23_g.setHardwareTriggerProvider(cemc_g);              mcsr23_g.verbose=True
 binpointGrtPitch_g    = WaveformChannelScannable('binpointGrtPitch_g',    binpointc, 'GRT:PITCH:');        binpointGrtPitch_g.setHardwareTriggerProvider(cemc_g);    binpointGrtPitch_g.verbose=True
 binpointMirPitch_g    = WaveformChannelScannable('binpointMirPitch_g',    binpointc, 'MIR:PITCH:');        binpointMirPitch_g.setHardwareTriggerProvider(cemc_g);    binpointMirPitch_g.verbose=True
 binpointPgmEnergy_g   = WaveformChannelScannable('binpointPgmEnergy_g',   binpointc, 'PGM:ENERGY:');      binpointPgmEnergy_g.setHardwareTriggerProvider(cemc_g);   binpointPgmEnergy_g.verbose=True

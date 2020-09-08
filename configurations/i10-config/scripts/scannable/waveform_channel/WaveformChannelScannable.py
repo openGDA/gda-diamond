@@ -21,7 +21,7 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
         self.channel_input_stream = waveform_channel_controller.getChannelInputStream(channel)
         self.stream_indexer = None
-        self.number_of_positions = 0
+        self.number_of_positions = -1
         self.delayed_collection_timer = None
 
     def integratesBetweenPoints(self):
@@ -65,7 +65,7 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
     def readout(self):
         # read the last element collected
-        raise RuntimeError(self.name + " for use only in Continuous scans")
+        raise Exception(self.name + " for use only in Continuous scans")
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
