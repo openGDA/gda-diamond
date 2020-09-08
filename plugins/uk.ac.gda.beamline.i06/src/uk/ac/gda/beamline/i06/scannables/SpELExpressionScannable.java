@@ -69,7 +69,13 @@ import uk.ac.gda.beamline.i06.spring.spel.SpELUtils;
  * 		</list>
  * 	</property>
  * 	<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateAcquirePeriodWhenAcquireTimeChanges"/>
- * 	<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo" value="'gda.device.Scannable','gda.device.Scannable','java.lang.Double'"/>
+ * 	<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo">
+ *		<list>
+ *			<value>gda.device.Scannable</value>
+ *			 <value>gda.device.Scannable</value>
+ *			<value>java.lang.Double</value>
+ *		</list>
+ *	</property>
  *	<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, #input)"/>
  * </bean>
  * }

@@ -110,6 +110,7 @@ if installation.isLive():
         caput("BL06I-EA-DET-02:CAM:AcquirePeriod", t+0.003)
         if stopped_by_me:
             caput(ACQUIRE_PV,1)
+    alias("set_medipix_acquire_time")
     
     # I06-406   
     temp1_EC3=DisplayEpicsPVClass('temp1_EC3','BL06I-EA-EC3-01:TEMP1','C','%f')
