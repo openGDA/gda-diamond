@@ -18,15 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.data.metadata.GDAMetadataProvider;
-import gda.data.metadata.GdaMetadata;
-import gda.data.metadata.IMetadataEntry;
-import gda.data.metadata.Metadata;
-import gda.data.metadata.StoredMetadataEntry;
-import gda.device.DeviceException;
-import gda.observable.IObserver;
-import gda.rcp.views.CompositeFactory;
-
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -47,6 +38,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.springframework.beans.factory.InitializingBean;
 
+import gda.data.metadata.GDAMetadataProvider;
+import gda.data.metadata.GdaMetadata;
+import gda.data.metadata.IMetadataEntry;
+import gda.data.metadata.Metadata;
+import gda.data.metadata.StoredMetadataEntry;
+import gda.observable.IObserver;
+import gda.rcp.views.CompositeFactory;
 import uk.ac.gda.ui.utils.SWTUtils;
 
 /**
@@ -187,7 +185,7 @@ public class MetadataObjectCompositeFactory implements CompositeFactory, Initial
 				testEntry, "%s","", TEXTAREA_STYLE, new String[] {}, 1);
 		GridDataFactory.fillDefaults().applyTo(compo3);
 		compo3.setVisible(true);
-		
+
 		final MetadataObjectComposite compo4 = new MetadataObjectComposite(shell, SWT.NONE, "hello4",
 				testEntry2, "###.##","mm", LABEL_STYLE, new String[] {}, 1);
 		GridDataFactory.fillDefaults().applyTo(compo4);
@@ -281,14 +279,9 @@ class MetadataObjectComposite extends Composite {
 		return new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				try {
-					int index = ((Combo) text).getSelectionIndex();
-					String selection = ((Combo) text).getItem(index);
-					GDAMetadataProvider.getInstance().setMetadataValue(entry.getName(), selection);
-				} catch (DeviceException e1) {
-					// TODO Auto-generated catch block
-					// logger.error("TODO put description of error here", e1);
-				}
+				int index = ((Combo) text).getSelectionIndex();
+				String selection = ((Combo) text).getItem(index);
+				GDAMetadataProvider.getInstance().setMetadataValue(entry.getName(), selection);
 			}
 		};
 	}
@@ -301,20 +294,16 @@ class MetadataObjectComposite extends Composite {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				try {
-					String theText = ((Text) text).getText();
-					if (unitString.isEmpty()) {
+				String theText = ((Text) text).getText();
+				if (unitString.isEmpty()) {
+					GDAMetadataProvider.getInstance().setMetadataValue(entry.getName(), theText );
+				} else {
+					if (theText.endsWith(unitString)) {
 						GDAMetadataProvider.getInstance().setMetadataValue(entry.getName(), theText );
 					} else {
-						if (theText.endsWith(unitString)) {
-							GDAMetadataProvider.getInstance().setMetadataValue(entry.getName(), theText );
-						} else {
-							GDAMetadataProvider.getInstance().setMetadataValue(entry.getName(), theText  + unitString);
-						}
+						GDAMetadataProvider.getInstance().setMetadataValue(entry.getName(), theText  + unitString);
 					}
-				} catch (DeviceException e1) {
 				}
-				
 			}
 		};
 	}
@@ -335,7 +324,7 @@ class MetadataObjectComposite extends Composite {
 				formattedString += unitString;
 			}
 		}
-		
+
 		final String newValueToDisplay = formattedString;
 
 		if (!newValueToDisplay.equals(valueToDisplay) && !isDisposed()) {
