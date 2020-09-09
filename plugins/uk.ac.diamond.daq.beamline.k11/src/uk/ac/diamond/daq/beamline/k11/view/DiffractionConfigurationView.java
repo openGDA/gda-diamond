@@ -52,13 +52,16 @@ import org.slf4j.LoggerFactory;
 
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
@@ -68,6 +71,8 @@ import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
+import uk.ac.gda.api.acquisition.configuration.MultipleScans;
+import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -298,6 +303,27 @@ public class DiffractionConfigurationView extends ViewPart {
 			newConfiguration.setName("Default name");
 			ScanningParameters acquisitionParameters = new ScanningParameters();
 			configuration.setImageCalibration(new ImageCalibration());
+
+			// When a new acquisitionType is selected, replaces the acquisition scanPathDocument
+			ScanpathDocument.Builder scanpathBuilder = Optional.ofNullable(AcquisitionTemplateType.TWO_DIMENSION_POINT)
+				.map(DiffractionAcquisitionTypeProperties::createScanpathDocument)
+				.orElseGet(ScanpathDocument.Builder::new);
+			// *-------------------------------
+//			ScannableTrackDocument.Builder scannableTrackBuilder = new ScannableTrackDocument.Builder();
+//			scannableTrackBuilder.withPoints(1);
+//			IScannableMotor ism = getStageController().getStageDescription().getMotors()
+//					.get(StageDevice.MOTOR_STAGE_ROT_Y);
+//			scannableTrackBuilder.withScannable(ism.getName());
+//			List<ScannableTrackDocument> scannableTrackDocuments = new ArrayList<>();
+//			scannableTrackDocuments.add(scannableTrackBuilder.build());
+//			scanpathBuilder.withScannableTrackDocuments(scannableTrackDocuments);
+			acquisitionParameters.setScanpathDocument(scanpathBuilder.build());
+
+			MultipleScans.Builder multipleScanBuilder = new MultipleScans.Builder();
+			multipleScanBuilder.withMultipleScansType(MultipleScansType.REPEAT_SCAN);
+			multipleScanBuilder.withNumberRepetitions(1);
+			multipleScanBuilder.withWaitingTime(0);
+			configuration.setMultipleScans(multipleScanBuilder.build());
 			newConfiguration.getAcquisitionConfiguration().setAcquisitionParameters(acquisitionParameters);
 
 			// --- NOTE---

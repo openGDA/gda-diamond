@@ -18,10 +18,7 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view;
 
-import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
-
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
 
 /**
  * Defines the operations supported by a {@link DiffractionConfigurationCompositeFactory} component
@@ -29,15 +26,12 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
  */
 public interface DiffractionCompositeInterface extends CompositeFactory {
 
-	/**
-	 * At the creation of the component, binds the gui elements to the underlying models
-	 */
-	public void bindControls();
+	default void initialiseElements() {};
+
+	default void initializeBinding() {};
 
 	/**
 	 * Updates the binding after a GUI event
-	 * @param scanPointmodel the mapping scan point generator model
-	 * @param shapeType the mapping selected shape
 	 */
-	public void updateScanPointBindings(final IScanPointGeneratorModel scanPointmodel, ShapeType shapeType);
+	default void updateScanPointBindings() {}
 }

@@ -26,9 +26,9 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisGridPointsRandomOffsetModel;
 
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.ShapesTemplateFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.AcquisitionTemplateTypeCompositeFactory;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ShapeType;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 
 /**
  * Contains methods and function to support the DiffractionConfigurationCompositeFactory family
@@ -44,14 +44,14 @@ public class DiffractionCompositeHelper {
 	public static final UpdateValueStrategy POLICY_UPDATE = new UpdateValueStrategy(false,
 			UpdateValueStrategy.POLICY_UPDATE);
 	public static final IConverter mappingRegionShapeToShape = IConverter.create(IMappingScanRegionShape.class,
-			ShapeType.class,
-			mappingRegion -> shapeFromMappingRegion((IMappingScanRegionShape) mappingRegion).orElse(null));
+			AcquisitionTemplateType.class,
+			mappingRegion -> acquisitionTypeFromMappingRegion((IMappingScanRegionShape) mappingRegion).orElse(null));
 
-	public static final Optional<ShapeType> shapeFromMappingRegion(IMappingScanRegionShape mappingRegion) {
+	public static final Optional<AcquisitionTemplateType> acquisitionTypeFromMappingRegion(IMappingScanRegionShape mappingRegion) {
 		if (mappingRegion == null)
 			return Optional.empty();
-		return Arrays.stream(ShapeType.values()).filter(sh ->
-			ShapesTemplateFactory.filterRegionScan(sh.getAcquisitionTemplateType())
+		return Arrays.stream(AcquisitionTemplateType.values()).filter(sh ->
+			AcquisitionTemplateTypeCompositeFactory.filterRegionScan(sh)
 				.test(mappingRegion))
 				.findFirst();
 	}
