@@ -35,5 +35,15 @@
 		<property name="filterBasePV" value="BL18B-EA-SAMPL-03:ROT:POS" />
 		<property name="numberOfFilters" value="36" />
 	</bean>
+
+	<bean id="samplewheel_pos_name" class="gda.device.scannable.PVStringScannable" >
+		<property name="pvName" value="BL18B-EA-SAMPL-03:ROT:POS:DESC" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+	</bean>
 	
 </beans>

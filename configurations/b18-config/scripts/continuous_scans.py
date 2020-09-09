@@ -1,7 +1,6 @@
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
-from uk.ac.gda.server.exafs.epics.device.scannable import QexafsTestingScannable
 
 print "Running 'continuous_scans.py"
 
