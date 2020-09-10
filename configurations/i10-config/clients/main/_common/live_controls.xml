@@ -272,14 +272,14 @@
 	<!-- PIMTE Controls -->
 	<bean id="pimte_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure" />
-		<property name="group" value="PIMTE Acquire Time" />
+		<property name="group" value="PIMTE Controls" />
 		<property name="scannableName" value="pimteExposureTime" />
 		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="pimte_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Period" />
-		<property name="group" value="PIMTE Acquire Time" />
+		<property name="group" value="PIMTE Controls" />
 		<property name="scannableName" value="pimteAcquirePeriod" />
 		<property name="textWidth" value="35" />
 	</bean>
@@ -289,6 +289,12 @@
 		<property name="scannableName" value="pimteProcNumFilter" />
 		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
+	</bean>
+	<bean id="pimte_cover_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="scannableName" value="pimtecover" />
+		<property name="showStop" value="False" />
+		<property name="group" value="PIMTE Controls" />
 	</bean>
 	<bean id="pimteCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
 		<property name="cameraConfig" ref="pimte_cam"/>
@@ -301,6 +307,7 @@
 					<list>
 						<ref bean="pimte_expsure_time_control" />
 						<ref bean="pimte_acquire_period_control"/>
+						<ref bean="pimte_cover_control"/>
 						<ref bean="pimte_proc_num_filter_control" />
 					</list>
 				</property>
