@@ -10,15 +10,16 @@
 	<bean id="iidvelocity" class="gda.device.scannable.DummyScannable"/>
 
 	<bean id="jidgap_motor" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400" />
-		<property name="mediumSpeed" value="200" />
-		<property name="slowSpeed" value="100" />
+		<property name="fastSpeed" value="40" />
+		<property name="mediumSpeed" value="20" />
+		<property name="slowSpeed" value="1" />
 	</bean>
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDDummy">
 		<property name="maxPhaseMotorPos" value="30.0" />
 		<property name="minGapPos" value="16.0" />
 		<property name="maxGapPos" value="60.0"/>
-		<property name="speed" value="6.0" />
+		<property name="speed" value="1.0" />
+		<property name="gapMotor" ref="jidgap_motor"/>
 	</bean>
 	<bean id="jidphaseurp_motor" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />

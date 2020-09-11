@@ -23,7 +23,7 @@ from gda.util import PropertyUtils
 import sys
 from java.lang import System
 from org.opengda.detector.electronanalyser.utils import FilenameUtil
-from gdaserver import sd1_cam, sd3_cam
+from gdaserver import sd1_cam, sd3_cam  # @UnresolvedImport
 import installation
 from gda.device.scannable import PVScannable
 
@@ -226,11 +226,11 @@ print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables.
 LH,LV,CR,CL=["LH","LV","CR","CL"]
 from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 
-jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True, gap_offset=igap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
 jenergy.configure()
-polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True, gap_offset=igap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
 polarisation.configure()
-jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", gap_offset=igap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
 jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
