@@ -92,6 +92,7 @@
 				<value>Closed</value>
 			</list>
 		</property>
+		<property name="position" value="Closed" />
 	</bean>
 
 </beans>
