@@ -166,7 +166,7 @@ public class DiffractionConfigurationView extends ViewPart {
 			Group group = createClientGroup(parent, SWT.NONE, 1, POINT_AND_SHOOT);
 			createClientGridDataFactory().applyTo(group);
 
-			pointAndShoot = createClientButton(group, SWT.NONE, START, START_POINT_AND_SHOOT_TP, ClientImages.RUN);
+			pointAndShoot = createClientButton(group, SWT.NONE, START, START_POINT_AND_SHOOT_TP, ClientImages.START);
 			createClientGridDataFactory().applyTo(pointAndShoot);
 
 			pointAndShoot.addListener(SWT.Selection, e -> togglePointAndShoot());

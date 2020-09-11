@@ -39,6 +39,7 @@ import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
 import org.eclipse.scanning.api.points.models.IScanPathModel;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
@@ -65,7 +66,6 @@ import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResource
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
-import uk.ac.gda.ui.tool.ClientBindingElements;
 import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
@@ -122,8 +122,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(composite);
 
 		createElements(composite, SWT.NONE, SWT.BORDER);
-
-		ClientBindingElements.bindText(viewDBC, name, String.class, "name", getController().getAcquisition());
+		name.addModifyListener(modifyNameListener);
 		loadElements();
 		try {
 			SpringApplicationContextProxy.addDisposableApplicationListener(composite, new LoadListener(composite));
@@ -134,6 +133,12 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		SpringApplicationContextFacade.publishEvent(
 				new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
 		return composite;
+	}
+
+	private final ModifyListener modifyNameListener = event -> updateAcquisitionName();
+
+	private void updateAcquisitionName() {
+		getController().getAcquisition().setName(name.getText());
 	}
 
 	/**
@@ -218,6 +223,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	private void loadElements() {
 		components.forEach(DiffractionCompositeInterface::initialiseElements);
 		components.forEach(DiffractionCompositeInterface::initializeBinding);
+		name.setText(getScanningAcquisition().getName());
 	}
 
 	private class LoadListener implements ApplicationListener<AcquisitionConfigurationResourceLoadEvent> {
@@ -233,7 +239,6 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
 			loadElements();
 			templateHelper.updateIMappingScanRegionShape();
-			//rapController.getScanRegionShape().centre(300, 300);
 			rapController.updatePlotRegion();
 			composite.layout(true, true);
 		}

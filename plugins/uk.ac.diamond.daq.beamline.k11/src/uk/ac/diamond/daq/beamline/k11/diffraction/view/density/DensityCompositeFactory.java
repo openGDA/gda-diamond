@@ -18,7 +18,6 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.density;
 
-import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.integerToString;
 import static uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeHelper.stringToInteger;
 import static uk.ac.gda.ui.tool.ClientMessages.POINTS_DENSITY;
 import static uk.ac.gda.ui.tool.ClientMessages.POINTS_PER_SIDE;
@@ -113,14 +112,14 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		Composite container = createClientCompositeWithGridLayout(parent, style, 2);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
+		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		createClientGridDataFactory().align(SWT.CENTER, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
 
 		Label label = createClientLabel(container, style, POINTS_DENSITY);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
+		createClientGridDataFactory().align(SWT.CENTER, SWT.END).indent(5, SWT.DEFAULT).applyTo(label);
 
 		points = createClientText(container, SWT.BORDER, POINTS_PER_SIDE, verifyOnlyIntegerText);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.CENTER).applyTo(points);
+		createClientGridDataFactory().align(SWT.CENTER, SWT.CENTER).indent(5, SWT.DEFAULT).hint(ClientSWTElements.DEFAULT_TEXT_SIZE).applyTo(points);
 
 		readoutTextDecoration = new ControlDecoration(points, SWT.LEFT | SWT.TOP);
 		readoutTextDecoration.setImage(ClientSWTElements.getImage(EXCLAMATION_RED));
@@ -167,8 +166,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 			.forEach(index -> {
 				IObservableValue<Integer> pointsObservableValue = BeanProperties.value(properties[index])
 						.observe(rapController.getScanPathModel());
+				// The scan path is driven by the gui, NOT the other way (because the ScanningAcquisition drives all)
 				densityBinding = regionDBC.bindValue(getReadoutObservableValue(), pointsObservableValue,
-					validatedReadoutToPointsStrategy(), validatedPointsToReadoutStrategy());
+					validatedReadoutToPointsStrategy(), new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
 			});
 	}
 
@@ -190,10 +190,6 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
 	private UpdateValueStrategy validatedReadoutToPointsStrategy() {
 		return UpdateValueStrategy.create(stringToInteger).setAfterGetValidator(this::densityReadoutValidator);
-	}
-
-	private UpdateValueStrategy validatedPointsToReadoutStrategy() {
-		return UpdateValueStrategy.create(integerToString).setAfterConvertValidator(this::densityReadoutValidator);
 	}
 
 	/**
@@ -260,6 +256,8 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 			Optional.ofNullable(getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0).getPoints())
 				.map(p -> Integer.toString(p))
 				.ifPresent(points::setText);
+			// sets the cursor at the end
+			points.setSelection(points.getCharCount());
 		}
 	};
 

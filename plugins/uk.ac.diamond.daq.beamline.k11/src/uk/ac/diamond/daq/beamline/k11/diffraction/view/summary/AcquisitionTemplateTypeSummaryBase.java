@@ -23,9 +23,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
@@ -45,7 +42,9 @@ import uk.ac.gda.client.UIHelper;
  */
 public class AcquisitionTemplateTypeSummaryBase  {
 
-	protected static final Logger logger = LoggerFactory.getLogger(AcquisitionTemplateTypeSummaryBase.class);
+	private static final  DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+	private static final DecimalFormat integerFormat = new DecimalFormat("#");
+	private static final String PROPERTY_FORMAT = "%s: [%s]";
 	private final Supplier<ScanningAcquisition> acquisitionSupplier;
 
 	public AcquisitionTemplateTypeSummaryBase(Supplier<ScanningAcquisition> acquisitionSupplier) {
@@ -67,43 +66,39 @@ public class AcquisitionTemplateTypeSummaryBase  {
 	}
 
 	protected String startToString() {
-		DecimalFormat df = new DecimalFormat("#0.00");
 		String content = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().stream()
 			.map(ScannableTrackDocument::getStart)
-			.map(df::format)
+			.map(decimalFormat::format)
 			.collect(Collectors.joining(", "));
-		return String.format("%s: [%s]", "Start", content);
+		return String.format(PROPERTY_FORMAT, "Start", content);
 	}
 
 	protected String stopToString() {
-		DecimalFormat df = new DecimalFormat("#0.00");
 		String content = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().stream()
 			.map(ScannableTrackDocument::getStop)
-			.map(df::format)
+			.map(decimalFormat::format)
 			.collect(Collectors.joining(", "));
-		return String.format("%s: [%s]", "Stop", content);
+		return String.format(PROPERTY_FORMAT, "Stop", content);
 	}
 
 	protected String pointsToString() {
-		DecimalFormat df = new DecimalFormat("#");
 		String content = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().stream()
 			.map(ScannableTrackDocument::getPoints)
-			.map(df::format)
+			.map(integerFormat::format)
 			.collect(Collectors.joining(", "));
-		return String.format("%s: [%s]", "Points", content);
+		return String.format(PROPERTY_FORMAT, "Points", content);
 	}
 
 	protected String stepToString() {
-		DecimalFormat df = new DecimalFormat("#0.00");
 		String content = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().stream()
-			.map(c -> Math.sqrt(Math.pow(c.getStop() - c.getStop(), 2) / c.getPoints()))
-			.map(df::format)
+			.map(c -> Math.sqrt(Math.pow(c.getStop() - c.getStart(), 2) / c.getPoints()))
+			.map(decimalFormat::format)
 			.collect(Collectors.joining(", "));
-		return String.format("%s: [%s]", "Steps", content);
+		return String.format(PROPERTY_FORMAT, "Steps", content);
 	}
 
 	protected String durationToString() {
-		return String.format("%s: [%s]s", "Duration", totPoints() * getExposure());
+		return String.format("%s: [%s]s", "Duration", decimalFormat.format(totPoints() * getExposure()));
 	}
 
 	protected String lineDurationToString() {
@@ -123,7 +118,7 @@ public class AcquisitionTemplateTypeSummaryBase  {
 		String content = getScanningParameters().getScanpathDocument().getMutators().entrySet().stream()
 			.map(c -> c.getKey().name())
 			.collect(Collectors.joining(", "));
-		return String.format("%s: [%s]", "Mutators", content);
+		return String.format(PROPERTY_FORMAT, "Mutators", content);
 	}
 
 	@Override
