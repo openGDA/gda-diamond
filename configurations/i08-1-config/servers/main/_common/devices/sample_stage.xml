@@ -20,19 +20,19 @@
 		<property name="motor" ref="sample_y_fine_motor" />
 	</bean>
 
-	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
+	<bean id="SampleX" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_x_motor" />
 	</bean>
 
-	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
+	<bean id="SampleY" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_y_motor" />
 	</bean>
 
 	<bean id="sample_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="sample_x" />
-				<ref bean="sample_y" />
+				<ref bean="SampleX" />
+				<ref bean="SampleY" />
 				<ref bean="sample_x_coarse" />
 				<ref bean="sample_y_coarse" />
 				<ref bean="sample_x_fine" />
