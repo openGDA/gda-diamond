@@ -7,10 +7,12 @@
 		<property name="positions">
 			<list>
 				<value>Open</value>
-				<value>Close</value>
-				<value>Reset</value>
+				<value>Opening</value>
+				<value>Closed</value>
+				<value>Closing</value>
 			</list>
 		</property>
+		<property name="position" value="Open" />
 	</bean>
 
 </beans>

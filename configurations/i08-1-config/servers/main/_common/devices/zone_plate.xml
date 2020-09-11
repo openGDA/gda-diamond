@@ -33,7 +33,14 @@
 		- Energy decreases and ZPZ moves positive: First move OSAz in negative direction by the amount ZPz has to move,
 		  then move ZPz
 	-->
-	<bean id="zpz_osa_function" class="gda.function.LinearFunction" />
+	<!-- This function must be initialised by localStation -->
+	<bean id="zpz_osa_coupling_function" class="gda.function.LinearFunction" />
+
+	<bean id="zpz_osa_function" class="gda.function.RelativeMotionFunction">
+		<property name="primaryScannable" ref="ZonePlateZ" />
+		<property name="secondaryScannable" ref="osa_z" />
+		<property name="couplingFunction" ref="zpz_osa_coupling_function" />
+	</bean>
 
 	<bean id="zpz_osa" class="gda.device.scannable.SequentialScannable">
 		<property name="scannables">

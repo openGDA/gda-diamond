@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<!-- PandAs only (no detector) -->
+	<!-- PandAs only (no detector): Malcolm does not control the fast shutter -->
 	<bean id="malcolm_info_pandas" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="PandAs" />
 		<property name="description" value="PandAs only (no detectors)" />
 	</bean>
 
 	<bean id="malcolm_model_pandas" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL08J-ML-SCAN-01" />
+		<property name="name" value="BL08J-ML-SCAN-11" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
 	<bean id="malcolm_device_pandas" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="BL08J-ML-SCAN-01" />
+		<property name="name" value="BL08J-ML-SCAN-11" />
 		<property name="model" ref="malcolm_model_pandas" />
 		<property name="deviceInformation" ref="malcolm_info_pandas" />
 		<property name="activated" value="false" />
 	</bean>
 
-	<!-- Andor -->
+	<!-- Andor: Malcolm does not control the fast shutter -->
 	<bean id="malcolm_info_andor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Andor" />
 		<property name="description" value="Andor" />
 	</bean>
 
 	<bean id="malcolm_model_andor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL08J-ML-SCAN-02" />
+		<property name="name" value="BL08J-ML-SCAN-12" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
 	<bean id="malcolm_device_andor" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="BL08J-ML-SCAN-02" />
+		<property name="name" value="BL08J-ML-SCAN-12" />
 		<property name="model" ref="malcolm_model_andor" />
 		<property name="deviceInformation" ref="malcolm_info_andor" />
 		<property name="activated" value="false" />
@@ -56,5 +60,10 @@
 		<property name="deviceInformation" ref="malcolm_info_xmap" />
 		<property name="activated" value="false" />
 	</bean>
+
+	<!-- Configuration for dark field collection -->
+	<util:map id="darkFieldDetectorNames" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="BL08J-ML-SCAN-12" value="andor2" />
+	</util:map>
 
 </beans>
