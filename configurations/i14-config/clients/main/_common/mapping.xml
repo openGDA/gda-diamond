@@ -192,7 +192,7 @@
 	</bean>
 
 	<!-- Define the initial units for the various region fields -->
-	<bean id="initialLengthUnits" class="uk.ac.diamond.daq.mapping.ui.experiment.InitialLengthUnits">
+	<bean id="initialLengthUnits" class="uk.ac.diamond.daq.mapping.api.MappingRegionUnits">
 		<constructor-arg>
 			<map>
 				<entry key="xAxisStep" value="nm" />
