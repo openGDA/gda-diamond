@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- detector ROI PVs -->
+	
+	<bean id="x_roi_enable" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL09I-MO-ES-03:ROI:EnableX" />
+	</bean>
+	
+	<bean id="x_min_roi" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL09I-MO-ES-03:ROI:MinX_RBV" />
+		<property name="pvNameSetPoint" value="BL09I-MO-ES-03:ROI:MinX" />
+	</bean>
+	
+	<bean id="x_size_roi" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL09I-MO-ES-03:ROI:SizeX_RBV" />
+		<property name="pvNameSetPoint" value="BL09I-MO-ES-03:ROI:SizeX" />
+	</bean>
+	
+	<bean id="y_roi_enable" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL09I-MO-ES-03:ROI:EnableY" />
+	</bean>
+	
+	<bean id="y_min_roi" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL09I-MO-ES-03:ROI:MinY_RBV" />
+		<property name="pvNameSetPoint" value="BL09I-MO-ES-03:ROI:MinY" />
+	</bean>
+	
+	<bean id="y_size_roi" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL09I-MO-ES-03:ROI:SizeY_RBV" />
+		<property name="pvNameSetPoint" value="BL09I-MO-ES-03:ROI:SizeY" />
+	</bean>
+
+</beans>

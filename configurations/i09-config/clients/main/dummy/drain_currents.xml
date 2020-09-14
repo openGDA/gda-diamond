@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="soft_mirror_drain_current" class="gda.device.scannable.DummyScannable"/>
+	<bean id="hard_mirror_drain_current" class="gda.device.scannable.DummyScannable"/>
+	<bean id="sample_drain_current" class="gda.device.scannable.DummyScannable"/>
+		
+	<bean id="hard_mirror_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>10^3 low noise</value>
+				<value>10^4 low noise</value>
+				<value>10^5 low noise</value>
+				<value>10^6 low noise</value>
+				<value>10^7 low noise</value>
+				<value>10^8 low noise</value>
+				<value>10^9 low noise</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="soft_mirror_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>10^3 low noise</value>
+				<value>10^4 low noise</value>
+				<value>10^5 low noise</value>
+				<value>10^6 low noise</value>
+				<value>10^7 low noise</value>
+				<value>10^8 low noise</value>
+				<value>10^9 low noise</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sample_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>10^3 low noise</value>
+				<value>10^4 low noise</value>
+				<value>10^5 low noise</value>
+				<value>10^6 low noise</value>
+				<value>10^7 low noise</value>
+				<value>10^8 low noise</value>
+				<value>10^9 low noise</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

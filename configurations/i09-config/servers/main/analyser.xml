@@ -223,4 +223,19 @@
 		<property name="pvName" value="BL09I-EA-DET-01:CAM:ENERGY_WIDTH_RBV" />
 		<property name="canMove" value="false" />
 	</bean>
+	
+	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL09I-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />
+		<property name="pvNameSetPoint" value="BL09I-EA-DET-01:CAM:CENTRE_ENERGY" />
+	</bean>
+	
+	<bean id="cam_frames" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL09I-EA-DET-01:CAM:FRAMES_RBV" />
+		<property name="pvNameSetPoint" value="BL09I-EA-DET-01:CAM:FRAMES" />
+	</bean>
+	
+	<bean id="analyser_acquisition_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL09I-EA-DET-01:CAM:ACQ_MODE" />
+	</bean>
+	
 </beans>

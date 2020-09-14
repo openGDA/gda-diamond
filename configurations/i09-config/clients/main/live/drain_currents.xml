@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="soft_mirror_drain_current" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09J-MO-SM-05:IAMP8:I" />
+		<property name="canMove" value="false" />
+	</bean>
+	
+	<bean id="hard_mirror_drain_current" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-HM-03:IAMP20:I" />
+		<property name="canMove" value="false" />
+	</bean>
+	
+	<bean id="sample_drain_current" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-SMPM-01:IAMP39:I" />
+		<property name="canMove" value="false" />
+	</bean>
+	
+	<bean id="soft_mirror_gain" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09J-MO-SM-05:IAMP8:GAIN" />
+	</bean>
+		
+	<bean id="hard_mirror_gain" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-MO-HM-03:IAMP20:GAIN" />
+	</bean>
+	
+	<bean id="sample_gain" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-MO-SMPM-01:IAMP39:GAIN" />
+	</bean>
+	
+	
+</beans>
