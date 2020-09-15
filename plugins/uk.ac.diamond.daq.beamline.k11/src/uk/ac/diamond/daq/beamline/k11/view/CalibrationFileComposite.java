@@ -36,11 +36,11 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.experiment.structure.URLFactory;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.ButtonGroupFactoryBuilder;
+import uk.ac.gda.core.tool.spring.AcquisitionFileContext;
+import uk.ac.gda.core.tool.spring.AcquisitionFileContext.ContextFile;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.images.ClientImages;
-import uk.ac.gda.ui.tool.spring.ClientContext;
-import uk.ac.gda.ui.tool.spring.ClientContext.ContextFile;
-import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * Selects and uploads configuration files.
@@ -112,8 +112,8 @@ public class CalibrationFileComposite implements CompositeFactory {
 		UIHelper.showWarning("Not working", "Feature still not activated");
 	}
 
-	private ClientContext getClientContext() {
-		return SpringApplicationContextProxy.getBean(ClientContext.class);
+	private AcquisitionFileContext getClientContext() {
+		return SpringApplicationContextFacade.getBean(AcquisitionFileContext.class);
 	}
 
 	private URL getCalibrationDirectory() {
