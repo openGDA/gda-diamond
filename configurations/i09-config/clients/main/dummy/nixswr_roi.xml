@@ -8,28 +8,28 @@
 		<property name="pvName" value="BL09I-EA-DET-01:ROI:EnableX" />
 	</bean>
 	
-	<bean id="x_min_roi" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-EA-DET-01:ROI:MinX_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-EA-DET-01:ROI:MinX" />
+	<bean id="x_min_roi" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-DET-01:ROI:MinX" />
+		<property name="outputFormat" value="%1.0f"/>
 	</bean>
 	
-	<bean id="x_size_roi" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-EA-DET-01:ROI:SizeX_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-EA-DET-01:ROI:SizeX" />
+	<bean id="x_size_roi" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-DET-01:ROI:SizeX" />
+		<property name="outputFormat" value="%1.0f"/>
 	</bean>
 	
 	<bean id="y_roi_enable" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL09I-EA-DET-01:ROI:EnableY" />
 	</bean>
 	
-	<bean id="y_min_roi" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-EA-DET-01:ROI:MinY_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-EA-DET-01:ROI:MinY" />
+	<bean id="y_min_roi" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-DET-01:ROI:MinY" />
+		<property name="outputFormat" value="%1.0f"/>
 	</bean>
 	
-	<bean id="y_size_roi" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-EA-DET-01:ROI:SizeY_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-EA-DET-01:ROI:SizeY" />
+	<bean id="y_size_roi" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-DET-01:ROI:SizeY" />
+		<property name="outputFormat" value="%1.0f"/>
 	</bean>
 
 </beans>

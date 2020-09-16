@@ -6,28 +6,34 @@
 	<bean id="soft_mirror_drain_current" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09J-MO-SM-05:IAMP8:I" />
 		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3f" />
 	</bean>
 	
 	<bean id="hard_mirror_drain_current" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09I-MO-HM-03:IAMP20:I" />
 		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3f" />
 	</bean>
 	
 	<bean id="sample_drain_current" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09I-MO-SMPM-01:IAMP39:I" />
 		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3f" />
 	</bean>
 	
 	<bean id="soft_mirror_gain" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL09J-MO-SM-05:IAMP8:GAIN" />
+		<property name="readOnly" value="false"/>
 	</bean>
 		
 	<bean id="hard_mirror_gain" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL09I-MO-HM-03:IAMP20:GAIN" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
 	<bean id="sample_gain" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL09I-MO-SMPM-01:IAMP39:GAIN" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
 	

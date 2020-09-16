@@ -62,6 +62,7 @@
 		<constructor-arg ref="analyser.cam" />
 		<constructor-arg ref="analyser.roi" />
 		<property name="ndProcess" ref="analyser.proc" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 
 

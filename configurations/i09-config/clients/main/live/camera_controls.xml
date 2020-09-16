@@ -60,6 +60,7 @@
 		<constructor-arg ref="analyser.cam" />
 		<constructor-arg ref="analyser.roi" />
 		<property name="ndProcess" ref="analyser.proc" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 	
 	<!-- SD2-1 -->
@@ -119,6 +120,7 @@
 		<constructor-arg ref="es2_1.cam" />
 		<constructor-arg ref="es2_1.roi" />
 		<property name="ndProcess" ref="es2_1.proc" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 	
 	<!-- SD2-2 -->
@@ -178,6 +180,7 @@
 		<constructor-arg ref="es2_2.cam" />
 		<constructor-arg ref="es2_2.roi" />
 		<property name="ndProcess" ref="es2_2.proc" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 	
 	<!-- SD2-3 -->
@@ -237,6 +240,7 @@
 		<constructor-arg ref="es2_3.cam" />
 		<constructor-arg ref="es2_3.roi" />
 		<property name="ndProcess" ref="es2_3.proc" />
+		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
 
 </beans>

@@ -3,9 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="soft_mirror_drain_current" class="gda.device.scannable.DummyScannable"/>
-	<bean id="hard_mirror_drain_current" class="gda.device.scannable.DummyScannable"/>
-	<bean id="sample_drain_current" class="gda.device.scannable.DummyScannable"/>
+	<bean id="soft_mirror_drain_current" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	<bean id="hard_mirror_drain_current" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	<bean id="sample_drain_current" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
 		
 	<bean id="hard_mirror_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
