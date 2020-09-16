@@ -64,24 +64,6 @@
 				<value>energyFocus</value>
 			</set>
 		</property>
-		<property name="startPosition">
-			<bean class="org.eclipse.scanning.api.points.MapPosition">
-				<constructor-arg>
-					<map>
-						<entry key="s3_shutter" value="Open" />
-					</map>
-				</constructor-arg>
-			</bean>
-		</property>
-		<property name="endPosition">
-			<bean class="org.eclipse.scanning.api.points.MapPosition">
-				<constructor-arg>
-					<map>
-						<entry key="s3_shutter" value="Closed" />
-					</map>
-				</constructor-arg>
-			</bean>
-		</property>
 	</bean>
 
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">

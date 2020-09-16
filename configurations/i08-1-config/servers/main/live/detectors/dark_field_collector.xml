@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/util
-	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="darkFieldCollector" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector" init-method="register">
 		<constructor-arg name="beamlineConfiguration">
@@ -16,12 +18,12 @@
 		<constructor-arg name="nexusFieldName" value="darkField" />
 		<constructor-arg name="malcolmDetectorNames">
 			<util:map map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
-				<entry key="#{workstation_malcolmsims}-ML-SCAN-01" value="DIFFRACTION" />
-				<entry key="#{workstation_malcolmsims}-ML-SCAN-02" value="IMAGING" />
+				<entry key="BL08J-ML-SCAN-02" value="andor2" />
+				<entry key="BL08J-ML-SCAN-12" value="andor2" />
 			</util:map>
 		</constructor-arg>
 		<property name="name" value="darkFieldCollector" />
-		<property name="detector" ref="TomoMalcolmDevice" />
+		<property name="detector" ref="malcolm_device_andor_no_shutter" />
 	</bean>
 
 </beans>

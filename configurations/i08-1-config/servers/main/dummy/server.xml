@@ -5,7 +5,6 @@
 
 	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
 	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
-	<import resource="file:${gda.config}/servers/main/dummy/detectors/dark_field_collector.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
