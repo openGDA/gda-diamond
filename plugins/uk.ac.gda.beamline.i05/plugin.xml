@@ -45,6 +45,15 @@
          <Scannable name="psu_mode" tooltip="Analyser high or low pass mode" />
    </extension>
    <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.arpes.perspectives.HRMonitoringPerspective"
+            id="uk.ac.gda.arpes.perspectives.HRMonitoringPerspective"
+            icon="icons/application_view_gallery.png"
+            name="HR Monitoring">
+      </perspective>
+   </extension>
+   <extension
          point="org.eclipse.ui.views">
       <category
             name="Data Acquisition - ARPES"

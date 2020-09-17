@@ -3,6 +3,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="ll_pressure" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05I-VA-GAUGE-20:P" />
+		<property name="unit" value="mbar" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
 	<bean id="lc_pressure" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05I-VA-HCG-02:P" />
 		<property name="unit" value="mbar" />

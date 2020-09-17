@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="analyser_overexposure_monitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="Peak Intensity" />
+		<property name="value">
+			<value type="double">20</value>
+		</property>
+	</bean>
+
+	<bean id="cryostat_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="K" />
+		<property name="value">
+			<value type="double">310</value>
+		</property>
+	</bean>
+
+	<bean id="sample_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="K" />
+		<property name="value">
+			<value type="double">300</value>
+		</property>
+	</bean>
+
+	<bean id="cryostat_set_point_demand" class="gda.device.scannable.DummyScannable">
+	</bean>
+
+	<bean id="cryostat_set_point_rbv" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="K" />
+		<property name="value">
+			<value type="double">1</value>
+		</property>
+	</bean>
+
+	<bean class="gda.device.enumpositioner.DummyEnumPositioner" id="heater_range_demand">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>Low</value>
+				<value>Medium</value>
+				<value>High</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.device.enumpositioner.DummyEnumPositioner" id="heater_range_rbv">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>Low</value>
+				<value>Medium</value>
+				<value>High</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="shield_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="K" />
+		<property name="value">
+			<value type="double">297</value>
+		</property>
+	</bean>
+
+	<bean id="ramp_rate_demand" class="gda.device.scannable.DummyScannable">
+	</bean>
+
+	<bean id="ramp_rate_rbv" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="K/min" />
+		<property name="value">
+			<value type="double">1</value>
+		</property>
+	</bean>
+
+	<bean id="dewar_weight_monitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="kg" />
+		<property name="value">
+			<value type="double">5.54</value>
+		</property>
+	</bean>
+
+	<bean id="ramp_enable_demand" class="gda.device.scannable.DummyScannable">
+	</bean>
+
+	<bean id="ramp_enable_rbv" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">1</value>
+		</property>
+	</bean>
+</beans>

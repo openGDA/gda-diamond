@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.diamond.ac.uk/schema/gda/gda
+	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+	
+	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	
+	<bean id="analyser_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
+		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+	</bean>
+	
+	<bean id="es_i1_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
+		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="es_i2_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
+		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="i05_camera11" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://i05-webcam10.diamond.ac.uk/mjpg/1/video.mjpg?camera=1" />
+		<property name="rgb" value="true" />
+	</bean>
+
+	<bean id="i05_camera10" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://i05-webcam11.diamond.ac.uk/mjpg/1/video.mjpg?camera=1" />
+		<property name="rgb" value="true" />
+	</bean>
+
+	<bean id="i05_camera8" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://i05-webcam9.diamond.ac.uk/mjpg/1/video.mjpg" />
+		<property name="rgb" value="true" />
+	</bean>
+
+	<bean id="i05_camera9" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://i05-webcam9.diamond.ac.uk/mjpg/1/video.mjpg" />
+		<property name="rgb" value="true" />
+	</bean>
+</beans>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="analyser_overexposure_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
+	</bean>
+
+	<bean id="cryostat_temperature_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG0" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="sample_temperature_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG1" />
+		<property name="canMove" value="false" />	
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="cryostat_set_point_demand" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:SETP_S1" />
+		<property name="canMove" value="true" />	
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="cryostat_set_point_rbv" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:SETP1" />
+		<property name="canMove" value="false" />	
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="heater_range_demand" class="gda.device.enumpositioner.EpicsSimpleBinary" >
+		<property name="pvName" value="BL05I-EA-TCTRL-02:RANGE_S1" />
+	</bean>
+
+	<bean id="heater_range_rbv" class="gda.device.enumpositioner.EpicsSimpleBinary" >
+		<property name="pvName" value="BL05I-EA-TCTRL-02:RANGE1" />
+	</bean>
+
+	<bean id="shield_temperature_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG2" />
+		<property name="canMove" value="false" />	
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="ramp_rate_demand" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:RAMP_S1" />
+		<property name="canMove" value="true" />	
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="ramp_rate_rbv" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:RAMP1" />
+		<property name="canMove" value="false" />	
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="dewar_weight_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-CG-BALNC-01:STS:MEASUREDWEIGHT" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.2f" />
+	</bean>
+
+	<bean id="ramp_enable_demand" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:RAMPST_S1" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="ramp_enable_rbv" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL05I-EA-TCTRL-02:RAMPST1" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+</beans>

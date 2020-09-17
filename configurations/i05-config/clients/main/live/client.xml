@@ -8,6 +8,8 @@
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
 
+	<import resource="stream_views.xml" />
+	<import resource="monitors.xml" />
 	<import resource="../_common/client.xml"/>
 
 </beans>

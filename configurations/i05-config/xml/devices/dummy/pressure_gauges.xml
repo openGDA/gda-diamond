@@ -4,6 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="ll_pressure" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">1.4e-10</value>
+		</property>
+	</bean>
+
 	<bean id="lc_pressure" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="unit" value="mbar" />
 		<property name="value">

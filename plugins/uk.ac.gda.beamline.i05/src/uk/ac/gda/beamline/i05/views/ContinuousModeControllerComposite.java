@@ -56,7 +56,8 @@ public class ContinuousModeControllerComposite extends Composite {
 	private Button startButton;
 	private Button stopButton;
 	private boolean running = false;
-	private Button shutterButton;
+	private Button closeShutterButton;
+	private Button openShutterButton;
 	private IVGScientaAnalyserRMI analyser;
 	static final int NPC_INCREMENT_TEXT_WIDTH = 30;
 
@@ -203,16 +204,33 @@ public class ContinuousModeControllerComposite extends Composite {
 		s2XsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
 		s2XsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 
+		Composite buttonsComposite = new Composite(beamlineGroup, SWT.NONE);
+		buttonsComposite.setLayoutData(new GridData(120, SWT.DEFAULT));
+		GridLayoutFactory.swtDefaults().numColumns(1).spacing(10, 0).applyTo(buttonsComposite);
+
 		// Beamline shutter button
-		shutterButton = new Button(beamlineGroup, SWT.NONE);
-		shutterButton.setText("Close Shutter");
-		shutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		shutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
-		shutterButton.addSelectionListener(new SelectionAdapter() {
+		closeShutterButton = new Button(buttonsComposite, SWT.NONE);
+		closeShutterButton.setText("Close Shutter");
+		closeShutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		closeShutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
+		closeShutterButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Closing beamline shutter");
-				InterfaceProvider.getCommandRunner().runCommand("hr_shutter(1)");
+				InterfaceProvider.getCommandRunner().runCommand("hr_shutter('Close')");
+			}
+		});
+
+		// Beamline shutter button
+		openShutterButton = new Button(buttonsComposite, SWT.NONE);
+		openShutterButton.setText("Open Shutter");
+		openShutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
+		openShutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
+		openShutterButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				logger.info("Closing beamline shutter");
+				InterfaceProvider.getCommandRunner().runCommand("hr_shutter('Open')");
 			}
 		});
 
