@@ -363,7 +363,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 				log("moving ln2 cryo transmission to " + sampleNumberA + ", " + sampleNumberB);
 				angle = angleOffset + ((sampleNumberB - 1) * 16.36);
 			} else if (cylinderType.equals("fluo")) {
-				log("moving ln2 cryo fluoresence to " + sampleNumberA + ", " + sampleNumberB);
+				log("moving ln2 cryo fluorescence to " + sampleNumberA + ", " + sampleNumberB);
 				if (sampleNumberB < 5) {
 					angle = angleOffset + ((sampleNumberB - 1) * 22.5);
 				} else {

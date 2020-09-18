@@ -195,19 +195,19 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		selectedXspressDetector = null;
 
 		// Get the detector parameters
-		FluorescenceParameters fluoresenceParameters = null;
+		FluorescenceParameters fluorescenceParameters = null;
 		if (experimentType.equals(DetectorParameters.FLUORESCENCE_TYPE)) {
-			fluoresenceParameters = detectorBean.getFluorescenceParameters();
+			fluorescenceParameters = detectorBean.getFluorescenceParameters();
 		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
-			fluoresenceParameters = detectorBean.getXesParameters();
+			fluorescenceParameters = detectorBean.getXesParameters();
 		}
 
 		// No fluorescence parameters for Transmission experiments
-		if (fluoresenceParameters != null) {
+		if (fluorescenceParameters != null) {
 			// See if detector group to be used contains medipix - this is configured differently to FluorescenceDetector
 
 			// name of detector group to use - this is the detectorType field in the xes/transmission/fluorescence bean
-			String detGroupToUse = fluoresenceParameters.getDetectorType();
+			String detGroupToUse = fluorescenceParameters.getDetectorType();
 			boolean useMedipixDetector = false;
 			// see if detectors listed in detector group contains medipix
 			for(DetectorGroup detGroup : detectorBean.getDetectorGroups()) {
@@ -222,7 +222,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 			// Configure the detector
 			medipixHdfPathTemplate = "";
-			String xmlFileName = Paths.get(experimentFullPath, fluoresenceParameters.getConfigFileName()).toString();
+			String xmlFileName = Paths.get(experimentFullPath, fluorescenceParameters.getConfigFileName()).toString();
 			if (useMedipixDetector) {
 				setupMedipixHdfPaths();
 				if (configureMedipixRois) {

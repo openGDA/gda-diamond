@@ -98,13 +98,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		this.outputBean = outputBean;
 
 		if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.FLUORESCENCE_TYPE)) {
-			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
-			String xmlFileName = Paths.get(experimentXmlFullPath, fluoresenceParameters.getConfigFileName()).toString();
+			FluorescenceParameters fluorescenceParameters = detectorBean.getFluorescenceParameters();
+			String xmlFileName = Paths.get(experimentXmlFullPath, fluorescenceParameters.getConfigFileName()).toString();
 			selectedDetector = detectorPreparerFunctions.configureDetector(xmlFileName);
 			logger.info("Configuring {} using parameter file {}", selectedDetector.getName(), xmlFileName);
 			String dirForHdfFile = Paths.get(getDataFolderFullPath(), selectedDetector.getName()).toString();
 			hdfFilePath = DetectorHdfFunctions.setHdfFilePath(selectedDetector, dirForHdfFile);
-			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
+			control_all_ionc(fluorescenceParameters.getIonChamberParameters());
 		} else if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.TRANSMISSION_TYPE)) {
 			selectedDetector = null;
 			TransmissionParameters transmissionParameters = detectorBean.getTransmissionParameters();
@@ -225,7 +225,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		}
 	}
 
-	protected void control_mythen(IExperimentDetectorParameters fluoresenceParameters, IOutputParameters outputBean,
+	protected void control_mythen(IExperimentDetectorParameters fluorescenceParameters, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
 		String experimentFolderName = experimentFullPath.substring(experimentFullPath.indexOf("xml") + 4,
@@ -239,9 +239,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		// Save currently set mythen subdirectory - so it can be set back to original value after the scan
 		String mythenSubdirectoryBeforeScan = mythen_scannable.getSubDirectory();
 
-		energy_scannable.moveTo(fluoresenceParameters.getMythenEnergy());
+		energy_scannable.moveTo(fluorescenceParameters.getMythenEnergy());
 
-		mythen_scannable.setCollectionTime(fluoresenceParameters.getMythenTime());
+		mythen_scannable.setCollectionTime(fluorescenceParameters.getMythenTime());
 		mythen_scannable.setSubDirectory(mythenSubFolder);
 
 		StaticScan staticscan = new StaticScan(new Scannable[] { mythen_scannable, energy_scannable});

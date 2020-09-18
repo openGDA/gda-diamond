@@ -15,7 +15,7 @@ from gda.jython.scriptcontroller.logging import LoggingScriptController
 from gda.scan import ScanBase  #this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
 from gda.data.scan.datawriter import NexusDataWriter
-# from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
+# from exafsscripts.exafs.config_fluorescence_detectors import XspressConfig, VortexConfig, Xspress3Config
 from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
 
 XASLoggingScriptController = Finder.find("XASLoggingScriptController")

@@ -57,9 +57,9 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		this.detectorBean = detectorBean;
 
 		if (detectorBean.getExperimentType().equals(DetectorParameters.FLUORESCENCE_TYPE)) {
-			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
-			String detType = fluoresenceParameters.getDetectorType();
-			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
+			FluorescenceParameters fluorescenceParameters = detectorBean.getFluorescenceParameters();
+			String detType = fluorescenceParameters.getDetectorType();
+			String xmlFileName = experimentFullPath + fluorescenceParameters.getConfigFileName();
 			if (detType.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
 				xspress3.setConfigFileName(xmlFileName);
 				xspress3.loadConfigurationFromFile();
