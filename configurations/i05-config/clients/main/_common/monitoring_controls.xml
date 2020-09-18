@@ -14,37 +14,31 @@
 		<property name="name" value="monitoring_config" />
 		<property name="analyserLiveStreamConfiguration" ref="analyser_live_stream" />
 		<property name="overExposureControl">
-			<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
 				<property name="displayName" value="Analyser Overexposure" />
 				<property name="group" value="Analyser Controls" />
 				<property name="scannableName" value="analyser_overexposure_monitor" />
-				<property name="readOnly" value="true" />
 				<property name="textWidth" value="50" />
-				<property name="boldLabel" value="true" />
-				<property name="userUnits" value="K" />
+				<property name="valueTextSize" value="14" />
+				<property name="labelTextSize" value="14" />
+				<property name="boldValue" value="true" />
 			</bean>
 		</property>
 		<property name="temperatureControls">
 			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
 				<property name="controls">
 					<list>
-						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Cryostat Temperature" />
+						<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+							<property name="displayName" value="Cryostat [K]" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="cryostat_temperature_monitor" />
-							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
-							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
 						</bean>
-						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Sample Temperature" />
+						<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+							<property name="displayName" value="Sample [K]" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="sample_temperature_monitor" />
-							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
-							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
 						</bean>
 					</list>
 				</property>
@@ -62,108 +56,95 @@
 				<property name="controls">
 					<list>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Cryostat" />
+							<property name="displayName" value="Cryostat [K]" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="cryostat_temperature_monitor" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Set Point Demand" />
+							<property name="displayName" value="Set Point [K]" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="cryostat_set_point_demand" />
 							<property name="readOnly" value="false" />
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
 						</bean>
-						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Set Point Actual" />
+						<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+							<property name="displayName" value="" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="cryostat_set_point_rbv" />
-							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
-							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
+							<property name="valueColour" value="16" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Sample" />
+							<property name="displayName" value="Sample [K]" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="sample_temperature_monitor" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-							<property name="displayName" value="Heater Range Demand" />
+							<property name="displayName" value="Heater Range" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="heater_range_demand" />
 							<property name="showStop" value="false" />
 							<property name="boldLabel" value="true" />
 						</bean>
-						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Heater Range Actual" />
+						<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+							<property name="displayName" value="" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="heater_range_rbv" />
-							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
-							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
+							<property name="valueColour" value="16" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Shield" />
+							<property name="displayName" value="Shield [K]" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="shield_temperature_monitor" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Ramp Rate Demand" />
+							<property name="displayName" value="Ramp Rate" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="ramp_rate_demand" />
 							<property name="readOnly" value="false" />
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
 						</bean>
-						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Ramp Rate Actual" />
+						<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+							<property name="displayName" value="" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="ramp_rate_rbv" />
-							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
-							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="K" />
+							<property name="valueColour" value="16" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Dewar Weight" />
+							<property name="displayName" value="Dewar Weight [kg]" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="dewar_weight_monitor" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="kg" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Ramp Enable Demand" />
+							<property name="displayName" value="Ramp Enable" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="ramp_enable_demand" />
 							<property name="readOnly" value="false" />
 							<property name="textWidth" value="50" />
 							<property name="boldLabel" value="true" />
 						</bean>
-						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Ramp Enable Actual" />
+						<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+							<property name="displayName" value="" />
 							<property name="group" value="Temperature Controls" />
 							<property name="scannableName" value="ramp_enable_rbv" />
-							<property name="readOnly" value="true" />
 							<property name="textWidth" value="50" />
-							<property name="boldLabel" value="true" />
+							<property name="valueColour" value="16" />
 						</bean>
 					</list>
 				</property>
@@ -174,40 +155,36 @@
 				<property name="controls">
 					<list>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Load Lock" />
+							<property name="displayName" value="Load Lock [mbar]" />
 							<property name="group" value="Pressure Controls" />
 							<property name="scannableName" value="ll_pressure" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="100" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="mbar" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Interface Chamber" />
+							<property name="displayName" value="Interface Chamber [mbar]" />
 							<property name="group" value="Pressure Controls" />
 							<property name="scannableName" value="ic_pressure" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="100" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="mbar" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Upper Chamber" />
+							<property name="displayName" value="Upper Chamber [mbar]" />
 							<property name="group" value="Pressure Controls" />
 							<property name="scannableName" value="uc_pressure" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="100" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="mbar" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Lower Chamber" />
+							<property name="displayName" value="Lower Chamber [mbar]" />
 							<property name="group" value="Pressure Controls" />
 							<property name="scannableName" value="lc_pressure" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="100" />
 							<property name="boldLabel" value="true" />
-							<property name="userUnits" value="mbar" />
 						</bean>
 					</list>
 				</property>
