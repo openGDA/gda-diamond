@@ -185,15 +185,8 @@ class HardEnergy(ScannableMotionBase):
 
     def atScanStart(self):
         self.SCANNING=True
-        if self.feedbackPVs is not None:
-            #during scan, stop feedback
-            caput(self.feedbackPVs[0], 1)
-            caput(self.feedbackPVs[1], 1)
-            
+             
     def atScanEnd(self):
         self.SCANNING=False
-        if self.feedbackPVs is not None:
-            #restore feedback
-            caput(self.feedbackPVs[0], 0)
-            caput(self.feedbackPVs[1], 0)
+
 

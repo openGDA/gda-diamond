@@ -21,7 +21,7 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
     '''Controller for constant velocity scan moving both PGM Energy and ID Gap at same time at constant speed respectively.
         It works for both Live and Dummy mode.
     '''
-    def __init__(self, name, energy, idpvroot, move_pgm=True, move_id=True, detune=None): # motors, maybe also detector to set the delay time
+    def __init__(self, name, energy, idgap, idpvroot, move_pgm=True, move_id=True, detune=None): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyIDGapMoveController:%s" % name)
         self.verbose = False
         self.setName(name)
@@ -29,11 +29,12 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self._movelog_time = datetime.now()
         self._energy = energy
         #PGM
-        self._pgm_energy=self._energy.scannables.getGroupMember("pgmenergy")
+        self._pgm_energy=self._energy.pgmenergy
         self._pgm_energy_speed_orig = None
         self._pgm_runupdown_time = None
         #ID
-        self._id_gap=self._energy.scannables.getGroupMember("jgap")
+        self._id_scannable = self._energy.idscannable
+        self._id_gap = idgap
         self._id_gap_speed_orig=None
         self._id_runupdown_time = None
         self.idpvs = PvManager({'vel':'BLGSETVEL',
@@ -110,11 +111,7 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self._id_gap_start = self._energy.idgap(self._move_start, 1) #idgap calculation using energy in keV
         self._id_gap_end = self._energy.idgap(self._move_end, 1)
         
-        if self.detune:
-            self._id_gap_start = self._id_gap_start + float(self.detune.getPosition())
-            self._id_gap_end = self._id_gap_end + float(self.detune.getPosition())
-            
-            ### Calculate main cruise moves & speeds from start/end/step
+        ### Calculate main cruise moves & speeds from start/end/step
         self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()*self.idspeedfactor
         
         ### Calculate ramp distance from required speed and ramp times
@@ -232,7 +229,10 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         if self.isPGMMoveEnabled():
             self._pgm_energy.stop()
         if self.isIDMoveEnabled():
-            self._id_gap.stop()
+            if installation.isLive():
+                print("ID gap motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
+            else:
+                self._id_gap.stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
