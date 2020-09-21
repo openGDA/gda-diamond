@@ -84,6 +84,14 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def getHarmonic(self):
         return self.order
 
+    def idgap(self, energy, order):
+        '''return gap for the given energy at given harmonic order for current polarisation.
+            used in cvscan where polarisation doesn't change during continuous energy moving.
+        '''
+        gap, polarisation, phase = self.getIDPositions()
+        gap, phase = self.idgapphase(energy, polarisation, order)
+        return gap
+
     def idgapphase(self, Ep=None, mode='LH',n=1):
         '''coverts energy and polarisation to  gap and phase. It supports polarisation modes: LH, LV, CR, CL.
         '''
@@ -133,6 +141,22 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 self.setOutputFormat(["%10.6f","%s"])
                 self.polarisation = polarisation
                 return energy, polarisation
+
+
+    def moveDevices(self, gap, new_polarisation, phase, energy):
+        for s in self.scannables.getGroupMembers():
+            if str(s.getName()) == str(self.idscannable.getName()):
+                try:
+                    s.asynchronousMoveTo([gap, new_polarisation, phase])
+                except:
+                    print "cannot set %s to [%f, %s, %f]" % (s.getName(), gap, new_polarisation, phase)
+                    raise
+            elif not self.energyConstant:
+                try:
+                    s.asynchronousMoveTo(energy * 1000)
+                except:
+                    print "cannot set %s to %f." % (s.getName(), energy)
+                    raise
 
     def rawAsynchronousMoveTo(self, new_position):
         '''move beam energy, polarisation, or both to specified values.
@@ -185,27 +209,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         if self.feedbackPV is not None and not self.SCANNING:
             #stop feedback
             from gdascripts.utils import caput
-            caput(self.feedbackPV, 1)
-        
-        for s in self.scannables.getGroupMembers():
-            if str(s.getName()) == str(self.idscannable.getName()):
-                try:
-                    s.asynchronousMoveTo([gap, new_polarisation, phase])
-                except:
-                    print ("cannot set %s to [%f, %s, %f]" % (s.getName(), gap, new_polarisation, phase))
-                    raise
-            else:
-                if self.energyConstant: #polarisation change only
-                    continue #do not need to move PGM energy
-                else:
-                    try:
-                        s.asynchronousMoveTo(energy*1000)
-                    except:
-                        print ("cannot set %s to %f." % (s.getName(), energy))
-                        raise
-                    
-        if self.feedbackPV is not None and not self.SCANNING:           
+            caput(self.feedbackPV, 1)        
+            self.moveDevices(gap, new_polarisation, phase, energy)
+            self.waitWhileBusy()
             caput(self.feedbackPV, 0)
+        else:
+            self.moveDevices(gap, new_polarisation, phase, energy)
 
     def rawIsBusy(self):
         '''checks the busy status of all child scannables.
@@ -230,14 +239,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def atScanStart(self):
         self.rawGetPosition() #ensure ID hardware in sync at start of scan
         self.SCANNING=True
-        if self.feedbackPV is not None:
-            #during scan, stop feedback
-            from gdascripts.utils import caput
-            caput(self.feedbackPV, 1)
-
+ 
     def atScanEnd(self):
         self.SCANNING=False
-        if self.feedbackPV is not None:
-            #restore feedback
-            from gdascripts.utils import caput
-            caput(self.feedbackPV, 0)
+
