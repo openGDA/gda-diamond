@@ -112,23 +112,23 @@
 		<property name="activated" value="false" />
 	</bean> -->
 
-	<!-- Xspress3 fine scan -->
-<!-- 	<bean id="malcolmInfoXsp3Fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3 fine" />
-		<property name="description" value="Xspress III fine motors scan" />
+	<!-- XRF-only scan -->
+	<bean id="malcolmInfoXrfOnly" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRF only" />
+		<property name="description" value="XRF only scan" />
 	</bean>
 
-	<bean id="malcolmModelXsp3Fine" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<bean id="malcolmModelXrfOnly" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-06" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
-	<bean id="malcolmDeviceXsp3Fine" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceXrfOnly" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL14I-ML-SCAN-06" />
-		<property name="model" ref="malcolmModelXsp3Fine" />
-		<property name="deviceInformation" ref="malcolmInfoXsp3Fine" />
+		<property name="model" ref="malcolmModelXrfOnly" />
+		<property name="deviceInformation" ref="malcolmInfoXrfOnly" />
 		<property name="activated" value="false" />
-	</bean> -->
+	</bean>
 
 	<!-- Xspress3 coarse/fine scan -->
 <!-- 	<bean id="malcolmInfoXsp3CoarseFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
