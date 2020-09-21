@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import org.eclipse.scanning.api.points.models.AbstractMapModel;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.scanning.api.points.models.TwoAxisGridPointsModel;
 import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
@@ -33,7 +32,7 @@ import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
 import org.eclipse.ui.PlatformUI;
 import org.springframework.util.CollectionUtils;
 
-import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.helper.ScannableTrackDocumentHelper;
@@ -78,19 +77,20 @@ public class TemplateDataHelper {
 	public boolean updateScannableTracksDocument() {
 		Optional<List<ScannableTrackDocument>> scannableDocuments = Optional.empty();
 		List<IScanPointGeneratorModel> pathList = getRapController().getScanPathListAndLinkPath();
-		AcquisitionTemplateType acquisitionTemplateType = getScanningParameters().getScanpathDocument().getModelDocument();
-		switch (acquisitionTemplateType) {
+		switch (getScanningParameters().getScanpathDocument().getModelDocument()) {
 		case TWO_DIMENSION_GRID:
 			scannableDocuments = pathList.stream()
 				.filter(TwoAxisGridPointsModel.class::isInstance)
 				.findFirst()
-				.map(c -> extractScannableTrackDocument(TwoAxisGridPointsModel.class.cast(c)));
+				.map(TwoAxisGridPointsModel.class::cast)
+				.map(this::extractScannableTrackDocument);
 			break;
 		case TWO_DIMENSION_LINE:
 			scannableDocuments = pathList.stream()
 				.filter(TwoAxisLinePointsModel.class::isInstance)
 				.findFirst()
-				.map(c -> extractScannableTrackDocument(TwoAxisLinePointsModel.class.cast(c)));
+				.map(TwoAxisLinePointsModel.class::cast)
+				.map(this::extractScannableTrackDocument);
 			break;
 		case TWO_DIMENSION_POINT:
 			scannableDocuments = pathList.stream()
@@ -118,33 +118,39 @@ public class TemplateDataHelper {
 	}
 
 	/**
-	 * Called when a ScanningAcquisition is loaded
+	 * Called when a ScanningAcquisition is loaded.
+	 *
+	 * The {@link PointMappingRegion}, {@link LineMappingRegion} and {@link CentredRectangleMappingRegion}
+	 * define explicitly an X and a Y axes.
+	 * Even if the {@link ScannableTrackDocument} may use any name for the axis for consistency is worth for now to
+	 * assume for the {@link ScannableTrackDocument}s to use the same axes names.
+	 * This is enforced by the properties parsed by {@link DiffractionAcquisitionTypeProperties}
 	 */
 	public void updateIMappingScanRegionShape() {
 		IMappingScanRegionShape mappingRegionShape = getRapController().getScanRegionShape();
 		ScannableTrackDocument trackDocument;
 		if (PointMappingRegion.class.isInstance(mappingRegionShape)) {
 			PointMappingRegion region = PointMappingRegion.class.cast(rapController.getScanRegionShape());
-			trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0);
+			trackDocument = scannableTrackDocumentHelper.getScannableTrackDocumentPerAxis("x");
 			region.setxPosition(trackDocument.getStart());
-			trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(1);
+			trackDocument = scannableTrackDocumentHelper.getScannableTrackDocumentPerAxis("y");
 			region.setyPosition(trackDocument.getStart());
 		} else if (LineMappingRegion.class.isInstance(mappingRegionShape)) {
 			LineMappingRegion region = LineMappingRegion.class.cast(rapController.getScanRegionShape());
-			trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0);
+			trackDocument = scannableTrackDocumentHelper.getScannableTrackDocumentPerAxis("x");
 			region.setxStart(trackDocument.getStart());
 			region.setxStop(trackDocument.getStop());
-			trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(1);
+			trackDocument = scannableTrackDocumentHelper.getScannableTrackDocumentPerAxis("y");
 			region.setyStart(trackDocument.getStart());
 			region.setyStop(trackDocument.getStop());
 		} else if (CentredRectangleMappingRegion.class.isInstance(mappingRegionShape)) {
 			CentredRectangleMappingRegion region = CentredRectangleMappingRegion.class.cast(rapController.getScanRegionShape());
-			trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0);
+			trackDocument = scannableTrackDocumentHelper.getScannableTrackDocumentPerAxis("x");
 			double centre = (trackDocument.getStart() + trackDocument.getStop())/2;
 			double range = (trackDocument.getStop() - trackDocument.getStart());
 			region.setxCentre(centre);
 			region.setxRange(range);
-			trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(1);
+			trackDocument = scannableTrackDocumentHelper.getScannableTrackDocumentPerAxis("y");
 			centre = (trackDocument.getStart() + trackDocument.getStop())/2;
 			range = (trackDocument.getStop() - trackDocument.getStart());
 			region.setyCentre(centre);
@@ -153,69 +159,53 @@ public class TemplateDataHelper {
 	}
 
 	private List<ScannableTrackDocument> extractScannableTrackDocument(TwoAxisGridPointsModel model) {
-		ScannableTrackDocument.Builder[] tracks = new ScannableTrackDocument.Builder[2];
+		ScannableTrackDocument.Builder[] builders = new ScannableTrackDocument.Builder[2];
 
-		tracks[0] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder(0);
+		builders[0] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder("x");
 		Optional.ofNullable(model.getBoundingBox()).ifPresent(b -> {
-			tracks[0].withStart(b.getxAxisStart());
-			tracks[0].withStop(b.getxAxisEnd());
+			builders[0].withStart(b.getxAxisStart());
+			builders[0].withStop(b.getxAxisEnd());
 		});
-		tracks[0].withScannable(getScannableX(model));
 
-		tracks[1] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder(1);
+		builders[1] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder("y");
 		Optional.ofNullable(model.getBoundingBox()).ifPresent(b -> {
-			tracks[1].withStart(b.getyAxisStart());
-			tracks[1].withStop(b.getyAxisEnd());
+			builders[1].withStart(b.getyAxisStart());
+			builders[1].withStop(b.getyAxisEnd());
 		});
-		tracks[1].withScannable(getScannableY(model));
-
-		return ScanningParametersHelperBase.assembleScannableTracks(tracks);
+		return ScanningParametersHelperBase.assembleScannableTracks(builders);
 	}
 
 	private List<ScannableTrackDocument> extractScannableTrackDocument(TwoAxisLinePointsModel model) {
-		ScannableTrackDocument.Builder[] tracks = new ScannableTrackDocument.Builder[2];
+		ScannableTrackDocument.Builder[] builders = new ScannableTrackDocument.Builder[2];
 
-		tracks[0] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder(0);
+		builders[0] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder("x");
 		Optional.ofNullable(model.getBoundingLine()).ifPresent(b -> {
-			tracks[0].withStart(b.getxStart());
-			tracks[0].withStop(Math.cos(b.getAngle()) * b.getLength() + b.getxStart());
+			builders[0].withStart(b.getxStart());
+			builders[0].withStop(Math.cos(b.getAngle()) * b.getLength() + b.getxStart());
 		});
-		tracks[0].withScannable(getScannableX(model));
 
-		tracks[1] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder(1);
+		builders[1] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder("y");
 		Optional.ofNullable(model.getBoundingLine()).ifPresent(b -> {
-			tracks[1].withStart(b.getyStart());
-			tracks[1].withStop(Math.sin(b.getAngle()) * b.getLength() + b.getyStart());
+			builders[1].withStart(b.getyStart());
+			builders[1].withStop(Math.sin(b.getAngle()) * b.getLength() + b.getyStart());
 		});
-		tracks[1].withScannable(getScannableY(model));
-
-		return ScanningParametersHelperBase.assembleScannableTracks(tracks);
+		return ScanningParametersHelperBase.assembleScannableTracks(builders);
 	}
 
 	private List<ScannableTrackDocument> extractScannableTrackDocument(TwoAxisPointSingleModel model) {
-		ScannableTrackDocument.Builder[] tracks = new ScannableTrackDocument.Builder[2];
+		ScannableTrackDocument.Builder[] builders = new ScannableTrackDocument.Builder[2];
 
-		tracks[0] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder(0);
-		tracks[0].withStart(model.getX());
-		tracks[0].withStop(model.getX());
-		tracks[0].withStep(0);
-		tracks[0].withScannable(getScannableX(model));
+		builders[0] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder("x");
+		builders[0].withStart(model.getX());
+		builders[0].withStop(model.getX());
+		builders[0].withStep(0);
 
-		tracks[1] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder(1);
-		tracks[1].withStart(model.getY());
-		tracks[1].withStop(model.getY());
-		tracks[1].withStep(0);
-		tracks[1].withScannable(getScannableY(model));
+		builders[1] = scannableTrackDocumentHelper.getScannableTrackDocumentBuilder("y");
+		builders[1].withStart(model.getY());
+		builders[1].withStop(model.getY());
+		builders[1].withStep(0);
 
-		return ScanningParametersHelperBase.assembleScannableTracks(tracks);
-	}
-
-	private String getScannableX(AbstractMapModel model) {
-		return LocalProperties.get("client.diffraction.scannable.motor.x", model.getxAxisName());
-	}
-
-	private String getScannableY(AbstractMapModel model) {
-		return LocalProperties.get("client.diffraction.scannable.motor.y", model.getyAxisName());
+		return ScanningParametersHelperBase.assembleScannableTracks(builders);
 	}
 
 	private ScanningParameters getScanningParameters() {
