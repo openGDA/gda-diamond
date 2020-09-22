@@ -30,19 +30,19 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot"
-            icon="icons/target.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/target-16.png"
             id="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot"
             name="DIAD Point and Shoot">
       </perspective>
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated"
-            icon="icons/node-select.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/node-select.png"
             id="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated"
             name="DIAD Fully Automated">
       </perspective>
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
-            icon="icons/tomography-16.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/tomography/tomography-16.png"
             id="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
             name="Tomography">
       </perspective>      
@@ -52,7 +52,7 @@
       <view
             allowMultiple="true"
             class="uk.ac.diamond.daq.experiment.ui.plan.DetectorFramePeekView"
-            icon="icons/camera-lens.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/camera-lens.png"
             id="uk.ac.diamond.daq.experiment.ui.plan.DetectorFramePeekView"
             name="Latest Detector Frame"
             restorable="true">
@@ -60,14 +60,14 @@
       <view
             allowMultiple="false"
             class="uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard"
-            icon="icons/perspective-16.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/perspective-16.png"
             id="uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard"
             name="Dashboard"
             restorable="true">
       </view>
       <view
             class="uk.ac.diamond.daq.beamline.k11.view.DiffractionConfigurationView"
-            icon="icons/scanner--pencil.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/plan/scanner--pencil.png"
             id="uk.ac.diamond.daq.beamline.k11.view.DiffractionConfigurationView"
             name="Scan Selection"
             restorable="true">
@@ -75,21 +75,21 @@
       <view
       		allowMultiple="false"
       		class="uk.ac.diamond.daq.experiment.ui.plan.PlanProgressPlotView"
-      		icon="icons/system-monitor.png"
+      		icon="platform:/plugin/uk.ac.gda.client/icons/plan/system-monitor.png"
       		id="uk.ac.diamond.daq.experiment.ui.plan.PlanProgressPlotView"
       		name="Plan Progress Plot View"
       		restorable="true">
       </view>
       <view
             class="uk.ac.diamond.daq.experiment.ui.plan.PlanOverview"
-            icon="icons/node-insert-previous.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/plan/node-insert-previous.png"
             id="uk.ac.diamond.daq.experiment.ui.plan.PlanOverview"
             name="Plan Overview"
             restorable="true">
       </view>
       <view
             class="uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView"
-            icon="icons/briefcase.png"
+            icon="platform:/plugin/uk.ac.gda.client/icons/plan/briefcase.png"
             id="uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView"
             name="Plan Manager"
             restorable="true">
