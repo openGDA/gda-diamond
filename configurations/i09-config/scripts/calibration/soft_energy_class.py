@@ -3,7 +3,7 @@ from gda.factory import Finder
 import sys
 from time import sleep
 from LookupTables import readLookupTable
-from gda.device.scannable.scannablegroup import ScannableGroupNamed
+from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
 import logging
 from gdascripts.utils import caput
@@ -24,16 +24,15 @@ class SoftEnergy(ScannableMotionBase):
     class.
     """
 
-    def __init__(self, name, lut, gap_offset=None, feedbackPV=None):
+    def __init__(self, name, idgap, pgmenergy, lut, gap_offset=None, feedbackPV=None):
         """
         Constructor -
         Only succeeds if it finds the lookup table, otherwise raises exception.
         """
         self.lut = readLookupTable(LocalProperties.get("gda.config") + "/lookupTables/" + lut)
-        self.gap = 'jgap'
-        self.dcm = "pgmenergy"
-        self.scannableNames = ["pgmenergy", "jgap"]
-        self.scannables = ScannableGroupNamed(name, [Finder.find(x) for x in self.scannableNames])
+        self.gap = idgap
+        self.mono_energy = pgmenergy
+        self.scannables = ScannableGroup(name, [pgmenergy, idgap])
         self.detune=gap_offset
         self.feedbackPV=feedbackPV
         self._busy = 0
@@ -49,10 +48,7 @@ class SoftEnergy(ScannableMotionBase):
 
     def setPolarisation(self, value):
         """Sets the polarisation."""
-        if value == "LH":
-            self.jidphase.hortizontal()
-            self.polarisation = value
-        elif value == "LH3":
+        if value == "LH" or value == "LH3":
             self.jidphase.hortizontal() 
             self.polarisation=value
         elif value == "LV":
@@ -168,14 +164,14 @@ class SoftEnergy(ScannableMotionBase):
 
     def rawGetPosition(self):
         """returns the current position of the beam energy."""
-        return self.scannables.getGroupMember(self.scannableNames[0]).getPosition()/1000.0
+        return self.mono_energy.getPosition()/1000.0
 
     def calc(self, energy, order):
         return self.idgap(energy, order)
 
     def moveDevices(self, energy, gap):
         for s in self.scannables.getGroupMembers():
-            if s.getName() == self.gap:
+            if s.getName() == self.gap.getName():
                 try:
                     if self.detune:
                         gap = gap + float(self.detune.getPosition())
@@ -222,7 +218,7 @@ class SoftEnergy(ScannableMotionBase):
             try:
                 self._busy += s.isBusy()
             except:
-                print s.getName() + " isBusy() throws exception ", sys.exc_info()
+                print ("%s isBusy() throws exception" % (s.getName()), sys.exc_info())
                 raise
         if self._busy == 0:
             return 0
@@ -235,12 +231,7 @@ class SoftEnergy(ScannableMotionBase):
 
     def atScanStart(self):
         self.SCANNING=True
-        if self.feedbackPV is not None:
-            #during scan, stop feedback
-            caput(self.feedbackPV, 1)
             
     def atScanEnd(self):
         self.SCANNING=False
-        if self.feedbackPV is not None:
-            #restore feedback
-            caput(self.feedbackPV, 0)
+

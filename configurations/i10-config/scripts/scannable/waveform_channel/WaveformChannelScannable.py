@@ -21,7 +21,7 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
         self.channel_input_stream = waveform_channel_controller.getChannelInputStream(channel)
         self.stream_indexer = None
-        self.number_of_positions = -1
+        self.number_of_positions = 0
         self.delayed_collection_timer = None
 
     def integratesBetweenPoints(self):

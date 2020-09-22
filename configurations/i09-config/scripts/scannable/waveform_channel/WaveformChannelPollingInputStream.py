@@ -50,13 +50,11 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         if installation.isLive():
             all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         else:
-            if self.channel in ['B1:','B2:']:
-                if self.channel == 'B2:':
-#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.id_gap_positions)
+            if self.channel in ['B1:','B2:', 'B4:','B5:']:
+                if self.channel in ['B2:', 'B5:']:
                     all_data=self.hardwareTriggerProvider.id_gap_positions[:self.elements_read + new_available]
-                elif self.channel == 'B1:':
-#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.pgm_energy_positions)
-                    all_data=self.hardwareTriggerProvider.pgm_energy_positions[:self.elements_read + new_available]
+                elif self.channel in ['B1:','B4:']:
+                    all_data=self.hardwareTriggerProvider.mono_energy_positions[:self.elements_read + new_available]
             else:
                 all_data = self.pv_waveform.generateData(self.channel, self.elements_read + new_available)
                 self.logger.debug("DUMMY mode: generate %r elements" % (new_available))
@@ -82,7 +80,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
                 elements_available = int(float(self.pv_count.caget()))
             else:
                 self.logger.info("DUMMY mode: number of positions set in WaveformChannelScannable to its controller is %r" % self._controller.number_of_positions)
-                elements_available = sum(x<=float(self.hardwareTriggerProvider._energy.getPosition()) for x in self.hardwareTriggerProvider.pgm_energy_positions)
+                elements_available = sum(x<=float(self.hardwareTriggerProvider._energy.getPosition()) for x in self.hardwareTriggerProvider.mono_energy_positions)
             # Some waveform PVs keep returning old data for a short time even after a new acq is started and even retain the old count
             # for some time after the new acq has started, so check with the controller before trusting the count
             acquiring = self._controller.getChannelInputStreamAcquiring() and self.hardwareTriggerProvider._start_event.isSet()

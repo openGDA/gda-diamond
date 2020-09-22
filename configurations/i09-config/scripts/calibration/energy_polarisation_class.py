@@ -31,7 +31,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut,self.header = load_lookup_table(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.idscannable = idctrl
-        self.pgmenergy = pgmenergy
+        self.mono_energy = pgmenergy
         self.scannables = ScannableGroup(name, [pgmenergy, idctrl])
         self.detune = gap_offset
         self.feedbackPV = feedbackPV
@@ -128,7 +128,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''returns the current beam energy, or polarisation, or both.'''
 
         gap, polarisation, phase = self.getIDPositions()
-        energy=float(self.pgmenergy.getPosition()/1000.0) #energy unit is in keV
+        energy=float(self.mono_energy.getPosition()/1000.0) #energy unit is in keV
 
         if polarisation in ["LH","LV","CR","CL"]:
             if self.polarisationConstant:
@@ -173,7 +173,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 self.logger.debug("Single argument: {} given".format(type(new_position)))
                 if isinstance(new_position, basestring):
                     #polarisation change requested
-                    energy=float(self.pgmenergy.getPosition())/1000.0 #get existing energy
+                    energy=float(self.mono_energy.getPosition())/1000.0 #get existing energy
                     if self.polarisationConstant: #input must be for energy
                         raise ValueError("Input value must be a number.")
                     new_polarisation=str(new_position)

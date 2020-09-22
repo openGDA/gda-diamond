@@ -210,27 +210,29 @@ globals()['sm3pitch'].setOutputFormat(["%10.1f"])
 from pseudodevices.IDGap_Offset import igap_offset, jgap_offset
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Create an 'ienergy' scannable which can be used for energy scan in GDA. It moves both hard X-ray ID gap and DCM energy"
-ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])
-#ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt", feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])
-# print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
-# dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
-#print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
-#jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')
-#jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt", feedbackPV='BL09J-EA-FDBK-01:ENABLE')
-
+print "Create an 'ienergy_s' scannable which can be used for energy scan in GDA. It moves both hard X-ray ID gap and DCM energy"
+if installation.isLive():
+    ienergy_s = HardEnergy("ienergy_s", igap, dcmenergy, "IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])  # @UndefinedVariable
+else:
+    ienergy_s = HardEnergy("ienergy_s", igap, dcmenergy, "IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=None)  # @UndefinedVariable
+    
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 
-print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables."
+print "Create an 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables."
 LH,LV,CR,CL=["LH","LV","CR","CL"]
 from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-
-jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
-jenergy.configure()
-polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+if installation.isLive():
+    jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+    polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+    jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+else:
+    jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
+    polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
+    jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
+   
+jenergy_s.configure()
 polarisation.configure()
-jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
 jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
@@ -264,7 +266,7 @@ from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, check
 #create 'move' command
 run("/dls_sw/i09/software/gda/config/scripts/command/checkedMotion.py")  # @UndefinedVariable
 
-from scannable.continuous.continuous_energy_scannables import cenergy, mcs2, mcs3, mcs4, mcs5  # @UnusedImport
+from scannable.continuous.continuous_energy_scannables import ienergy,jenergy, ienergy_move_controller, jenergy_move_controller, jI0, iI0, sdc  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
 
 print

@@ -1,22 +1,25 @@
 '''
-Extracted from i10-config/scripts/scannable/continuous/try_continuous_energy.py in GDA 9.8
-Created on 13 Apr 2018
+create controller and scannable instances to be used in continuous energy moving scan i.e. cvscan.
+'ienergy' and 'jenergy' scannables are also working with classic scan i.e.'scan' command, but the detector scannables and controllers should not be used with 'scan'
 
 @author: fy65
+@since: 22 September 2020
 '''
 from scannable.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
 from scannable.waveform_channel.McsWaveformChannelController import McsWaveformChannelController
+from scannable.continuous.continuousEnergyMoveController import ContinuousEnergyMoveController
 from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
-from scannable.continuous.continuousMovePgmEnergyIDGapBinpointScannable import ContinuousMovePgmEnergyIDGapBinpointScannable
-from scannable.continuous.continuousPgmEnergyIDGapMoveController import ContinuousPgmEnergyIDGapMoveController
+from scannable.continuous.continuousMoveEnergyIDGapBinpointScannable import ContinuousMoveEnergyIDGapBinpointScannable
 import __main__  # @UnresolvedImport
 
-print "-"*100
-print "Creating scannables for continuous energy scan"
-print "    Objects for constant velocity in PGM grating picth motor with ID moving as follower:"
-print "    1. 'cenergy'   - energy scannable used to perform continuous energy scan via PGM energy and ID gap"
-print "    2. 'mcs2','mcs3','mcs4', 'mcs5' - scannables used with 'cenergy' scannable, mapped to MCS channel 2, 3, 4, 5 respectively"
-print "    3. 'binpointPgmEnergy','binpointIdGap','binpointMcaTime' - position capturer waveform scannables used with 'cenergy' scannable in continuous scan"
+print ("-"*100)
+print ("Creating scannables for continuous energy scanning with 'cvscan' command")
+print ("    Objects for constant velocity in PGM grating pitch motor with ID moving as follower:")
+print ("    1. 'jenergy' - soft X-ray energy scannable that works with both 'cvscan' and 'scan' command")
+print ("    2. 'jI0'     - soft X-ray I0 scannable used in 'cvscan' ONLY")
+print ("    3. 'sdc'     - sample drain current scannable used in 'cvscan' ONLY")
+print ("    4. 'ienergy' - Hard X-ray energy scannable that works with both 'cvscan' and 'scan' command")
+print ("    5. 'iI0'     - Hard X-ray I0 scannable used in 'cvscan' ONLY")
 
 # ES2 Scaler controller:  BL09L-VA-SCLR-01:MCA-01:
 #mcscontroller  = McsWaveformChannelController('mcscontroller', 'BL09L-VA-SCLR-01:MCA-01:', channelAdvanceInternalNotExternal=True); mcscontroller.verbose=True
@@ -30,22 +33,23 @@ mcscontroller.exposure_time_offset=0.001
 # Binpoint is slaved from (triggered by) scaler (mcscontroller)    BL09J-CS-CSCAN-01:IDPGM:BINPOINTALL:TRIGGER
 binpointc = BinpointWaveformChannelController('binpointc', 'BL09J-CS-CSCAN-01:', 'IDPGM:BINPOINTALL:'); binpointc.verbose=True
 
-from pseudodevices.IDGap_Offset import jgap_offset
-energy_move_controller = ContinuousPgmEnergyIDGapMoveController('energy_move_controller', __main__.jenergy, __main__.jgap, 'SR09J-MO-SERVC-01:', detune=jgap_offset); energy_move_controller.verbose=True
-#hm3amp20
-mcs2 = WaveformChannelScannable('mcs2', mcscontroller, 2); mcs2.setHardwareTriggerProvider(energy_move_controller); mcs2.verbose=True
-#sm5amp8
-mcs3 = WaveformChannelScannable('mcs3', mcscontroller, 3); mcs3.setHardwareTriggerProvider(energy_move_controller); mcs3.verbose=True
-#smpmamp39
-mcs4 = WaveformChannelScannable('mcs4', mcscontroller, 4); mcs4.setHardwareTriggerProvider(energy_move_controller); mcs4.verbose=True
-#rfdamp10
-mcs5 = WaveformChannelScannable('mcs5', mcscontroller, 5); mcs5.setHardwareTriggerProvider(energy_move_controller); mcs5.verbose=True
+jenergy_move_controller = ContinuousEnergyMoveController('jenergy_move_controller', __main__.jenergy_s, __main__.jgap, 'SR09J-MO-SERVC-01:'); jenergy_move_controller.verbose=True
+ienergy_move_controller = ContinuousEnergyMoveController('ienergy_move_controller', __main__.ienergy_s, __main__.igap, 'SR09I-MO-SERVC-01:'); ienergy_move_controller.verbose=True
 
-binpointPgmEnergy = WaveformChannelScannable('binpointPgmEnergy', binpointc, 'B1:'); binpointPgmEnergy.setHardwareTriggerProvider(energy_move_controller); binpointPgmEnergy.verbose=True
-binpointIdGap     = WaveformChannelScannable('binpointIdGap',     binpointc, 'B2:'); binpointIdGap.setHardwareTriggerProvider(energy_move_controller);     binpointIdGap.verbose=True
-binpointMcaTime   = WaveformChannelScannable('binpointMcaTime',   binpointc, 'B3:'); binpointMcaTime.setHardwareTriggerProvider(energy_move_controller);   binpointMcaTime.verbose=True
-binpointCustom    = WaveformChannelScannable('binpointCustom',    binpointc, 'B4:'); binpointCustom.setHardwareTriggerProvider(energy_move_controller);    binpointCustom.verbose=True
+#sm5amp8 - soft X-ray I0
+jI0 = WaveformChannelScannable('jI0', mcscontroller, 3); jI0.setHardwareTriggerProvider(jenergy_move_controller); jI0.verbose=True
+#hm3amp20 - Hard X-ray I0
+sdc = WaveformChannelScannable('sdc', mcscontroller, 5); sdc.setHardwareTriggerProvider(ienergy_move_controller); sdc.verbose=True
+#smpmamp39 - Sample Drain Current - hardware trigger provider cannot be set here as it is used for both hard and soft X-ray energy scan so it must be set dynamically in cvscan parser 
+iI0 = WaveformChannelScannable('iI0', mcscontroller, 4); iI0.verbose=True
 
-cenergy = ContinuousMovePgmEnergyIDGapBinpointScannable('cenergy', energy_move_controller, binpointPgmEnergy, binpointIdGap); cenergy.verbose=True
+binpointPgmEnergy = WaveformChannelScannable('binpointPgmEnergy', binpointc, 'B1:'); binpointPgmEnergy.setHardwareTriggerProvider(jenergy_move_controller); binpointPgmEnergy.verbose=True
+binpointJidGap    = WaveformChannelScannable('binpointJidGap',    binpointc, 'B2:'); binpointJidGap.setHardwareTriggerProvider(jenergy_move_controller);    binpointJidGap.verbose=True
+binpointMcaTime   = WaveformChannelScannable('binpointMcaTime',   binpointc, 'B3:'); binpointMcaTime.setHardwareTriggerProvider(jenergy_move_controller);   binpointMcaTime.verbose=True
+binpointDcmEnergy = WaveformChannelScannable('binpointDcmEnergy', binpointc, 'B4:'); binpointDcmEnergy.setHardwareTriggerProvider(ienergy_move_controller); binpointDcmEnergy.verbose=True
+binpointIidGap    = WaveformChannelScannable('binpointIidGap',    binpointc, 'B5:'); binpointIidGap.setHardwareTriggerProvider(ienergy_move_controller);    binpointIidGap.verbose=True
 
-# cvscan cenergy 695 705 1 mcs2 2 mcs3 2 mcs4 2 mcs5 2  binpointPgmEnergy binpointIdGap binpointMcaTime 
+jenergy = ContinuousMoveEnergyIDGapBinpointScannable('jenergy', jenergy_move_controller, binpointPgmEnergy, binpointJidGap); jenergy.verbose=True
+ienergy = ContinuousMoveEnergyIDGapBinpointScannable('ienergy', ienergy_move_controller, binpointDcmEnergy, binpointIidGap); ienergy.verbose=True
+
+# cvscan jenergy 695 705 1 jI0 2 sdc 2

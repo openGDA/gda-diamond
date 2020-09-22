@@ -1,10 +1,8 @@
 from gda.device.scannable import ScannableMotionBase
-from gda.factory import Finder
-import sys
 import math
 from time import sleep
 from LookupTables import readLookupTable
-from gda.device.scannable.scannablegroup import ScannableGroupNamed
+from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
 import logging
 from gdascripts.utils import caput
@@ -26,18 +24,16 @@ class HardEnergy(ScannableMotionBase):
     class.
     """
 
-    def __init__(self, name, lut, gap_offset=None, feedbackPVs=None):
+    def __init__(self, name, idgap, dcmenergy, lut, gap_offset=None, feedbackPVs=None):
         """
         Constructor - Only succeeds if it finds the lookup table,
         otherwise raises exception.
         """
-        self.lut = readLookupTable(LocalProperties.get("gda.config")
-                                   + "/lookupTables/" + lut)
-        self.gap = "igap"
-        self.dcm = "dcmenergy"
+        self.lut = readLookupTable(LocalProperties.get("gda.config") + "/lookupTables/" + lut)
+        self.gap = idgap
+        self.mono_energy = dcmenergy
         self.lambdau = 27  # undulator period
-        self.scannableNames = ["dcmenergy", "igap"]
-        self.scannables = ScannableGroupNamed(name,[Finder.find(x) for x in self.scannableNames])
+        self.scannables = ScannableGroup(name, [dcmenergy, idgap])
         self.detune=gap_offset
         self.feedbackPVs=feedbackPVs
         self._busy = 0
@@ -51,14 +47,12 @@ class HardEnergy(ScannableMotionBase):
 
     def harmonicEnergyRanges(self):
         """
-        Prints out a table of harmonics with corresponding min
-        and max energies
+        Prints out a table of harmonics with corresponding minimum and maximum energies
         """
         print ("%s\t%s\t%s" % ("Harmonic", "Min Energy", "Max Energy"))
         keys = [int(key) for key in self.lut.keys()]
         for key in sorted(keys):
-            print ("%8.0d\t%10.2f\t%10.2f" % (key, self.lut[key][2],
-                                              self.lut[key][3]))
+            print ("%8.0d\t%10.2f\t%10.2f" % (key, self.lut[key][2], self.lut[key][3]))
 
     def energyRangeForOrder(self, order):
         """Returns a tuple with min and max energies for a harmonic order
@@ -87,45 +81,44 @@ class HardEnergy(ScannableMotionBase):
         Ep -- Energy
         n  -- order
         """
-        lambdaU = self.lambdau
+        lambda_u = self.lambdau
         M = 4
         h = 16
         me = 0.510999
         gamma = 1000 * self.lut[n][0] / me
-        Ksquared = (4.959368e-6 * (n * gamma * gamma / (lambdaU * Ep)) - 2)
-        if Ksquared < 0:
-            raise ValueError("Ksquared must be positive!")
-        K = math.sqrt(Ksquared)
-        A = ((2 * 0.0934 * lambdaU * self.lut[n][1] * M / math.pi) * math.sin(math.pi / M)
-             * (1 - math.exp(-2 * math.pi * h / lambdaU)))
-        gap = (lambdaU / math.pi) * math.log(A / K) + self.lut[n][6]
+        k_squared = (4.959368e-6 * (n * gamma * gamma / (lambda_u * Ep)) - 2)
+        if k_squared < 0:
+            raise ValueError("k_squared must be positive!")
+        K = math.sqrt(k_squared)
+        A = ((2 * 0.0934 * lambda_u * self.lut[n][1] * M / math.pi) * math.sin(math.pi / M)
+             * (1 - math.exp(-2 * math.pi * h / lambda_u)))
+        gap = (lambda_u / math.pi) * math.log(A / K) + self.lut[n][6]
+        if self.detune:
+            gap = gap + float(self.detune.getPosition())
         self.logger.debug("Required gap calculated to be {}".format(gap))
-
         return gap
 
     def rawGetPosition(self):
         """Returns the current position of the beam energy."""
-        return self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
+        return self.mono_energy.getPosition()
     
     def calc(self, energy, order):
         return self.idgap(energy, order)
 
     def moveDevices(self, energy, gap):
         for scannable in self.scannables.getGroupMembers():
-            if scannable.getName() == self.gap:
+            if scannable.getName() == self.gap.getName():
                 try:
-                    if self.detune:
-                        gap = gap + float(self.detune.getPosition())
                     scannable.asynchronousMoveTo(gap)
                 except:
-                    print "cannot set " + scannable.getName() + " to " + str(gap)
+                    print ("cannot set %s to %f " % (scannable.getName(), gap))
                     raise
-            elif scannable.getName() == self.dcm:
+            elif scannable.getName() == self.mono_energy.getName():
                 try:
-                    scannable.asynchronousMoveTo(energy) # Allow time for s to become busy
-                    sleep(0.1)
+                    scannable.asynchronousMoveTo(energy) 
+                    sleep(0.1) # Allow time for s to become busy
                 except:
-                    print "cannot set " + scannable.getName() + " to " + str(energy)
+                    print ("cannot set %s to %f" % (scannable.getName(), energy))
                     raise
 
     def rawAsynchronousMoveTo(self, new_position):
@@ -140,11 +133,9 @@ class HardEnergy(ScannableMotionBase):
         self.logger.debug(("rawAsynchronousMoveTo called for energy {}. "
                            "min_energy for order is: {}, max_energy is: {}")
                           .format(energy, min_energy, max_energy))
-        gap = 7
-        try:
-            gap = self.idgap(energy, self.order)
-        except:
-            raise
+
+        gap = self.idgap(energy, self.order)
+
         if not min_energy < energy < max_energy:
             raise ValueError(("Requested photon energy {} is out of range for "
                               "harmonic {}: min: {}, max: {}")
