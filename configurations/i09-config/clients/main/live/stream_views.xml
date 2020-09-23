@@ -54,6 +54,16 @@
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
 	</bean>
 	
+	<bean id="xbpmCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+		<constructor-arg ref="xbpmCameraControl" />
+		<property name="changeExposureWhileCameraAcquiring" value="true" />
+	</bean>
+	
+	<bean id="sd3CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+		<constructor-arg ref="sd3CameraControl" />
+		<property name="changeExposureWhileCameraAcquiring" value="true" />
+	</bean>
+	
 	<!-- Import the server side object over RMI -->
 	<bean id="analyser_eav_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy">
 	</bean>
@@ -67,7 +77,7 @@
 		<property name="rgb" value="true" />
 	</bean>
 	
-	<!-- diagnostic cameras -->
+	<!-- diagnostic cameras on Monitor perspective-->
 	<bean id="es2_1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="topUi" ref="es2_1CameraControlsUi" />
 		<property name="displayName" value="ES2-1" />
@@ -85,6 +95,19 @@
 		<property name="displayName" value="ES2-3" />
 		<property name="url" value="http://bl09i-di-serv-01.diamond.ac.uk:8080/ES2-3.mjpg.mjpg" />
 		<property name="rgb" value="true" />
+	</bean>
+	
+	<!-- Feedback perspective -->
+	<bean id="sd3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="topUi" ref="sd3CameraControlsUi" />
+		<property name="displayName" value="SD3" />
+		<property name="url" value="http://bl09j-di-serv-01.diamond.ac.uk:8080/SD3.mjpg.mjpg" />
+	</bean>
+	
+	<bean id="xbpm" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="topUi" ref="xbpmCameraControlsUi" />
+		<property name="displayName" value="XBPM" />
+		<property name="url" value="http://bl09i-di-serv-01.diamond.ac.uk:8080/XBPM.mjpg.mjpg" />
 	</bean>
 
 </beans>
