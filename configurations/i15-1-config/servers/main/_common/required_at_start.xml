@@ -18,4 +18,7 @@
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
 		<property name="name" value="metashop" />
 	</bean>
+
+	<bean id="defaultScanConfiguration" class="org.eclipse.scanning.server.servlet.DefaultScanConfiguration">
+	</bean>
 </beans>
