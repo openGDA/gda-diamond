@@ -523,13 +523,17 @@ try:
 			print "Installing atto devices from epics BL15I-EA-ATTO..."
 			
 			from future.anc150axis import createAnc150Axis
-			
+			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
 			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25)
 			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25)
 			atto3 = createAnc150Axis("atto3", "BL15I-EA-ATTO-03:PIEZO3:", 0.25)
 			atto4 = createAnc150Axis("atto4", "BL15I-EA-ATTO-04:PIEZO1:", 0.25)
 			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25)
 			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25)
+			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
+			atto7 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO1:", 0.25)
+			atto8 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO2:", 0.25)
+			atto9 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO3:", 0.25)
 			
 			atto1.setFrequency(900)
 			atto2.setFrequency(900)
@@ -537,6 +541,8 @@ try:
 			atto4.setFrequency(900)
 			atto5.setFrequency(900)
 			atto6.setFrequency(900)
+			# Do not override the current EPICS frequency for atto7 to atto9
+			# See https://jira.diamond.ac.uk/browse/I15-587
 		except:
 			localStation_exception(sys.exc_info(), "creating atto devices")
 	else:
