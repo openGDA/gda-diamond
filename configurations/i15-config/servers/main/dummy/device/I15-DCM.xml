@@ -9,6 +9,7 @@
 
 	<!-- Mixture -->
 
+	<bean id="DcmenergyCalMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="Dcmxtl1rollMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="Dcmx1Motor" class="gda.device.motor.DummyMotor"/>
 	<!-- 

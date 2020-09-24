@@ -12,6 +12,11 @@
 
 	<!-- Mixture -->
 
+	<bean id="dcmenergy_cal" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="eV"/>
+		<property name="motor" ref="DcmenergyCalMotor" />
+	</bean>
+
 	<bean id="dcmxtl1roll" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="deg"/>
 		<property name="motor" ref="Dcmxtl1rollMotor" />
