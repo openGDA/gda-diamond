@@ -126,8 +126,8 @@
 					 If no other plugins are in this list then pilatus3_force_callbacks should be
 					 enabled so other plugins see data
 				<ref bean="pilatus3_force_callbacks" />
-				 -->
 				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+				 -->
 			</list>
 		</property>
 	</bean>
