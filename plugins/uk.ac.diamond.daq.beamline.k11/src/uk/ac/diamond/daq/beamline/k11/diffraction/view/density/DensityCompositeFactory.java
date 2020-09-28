@@ -127,6 +127,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
 		points.addModifyListener(modifyPointListener);
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
+
+		container.addDisposeListener(ev -> points.removeModifyListener(modifyPointListener));
+
 		return parent;
 	}
 
