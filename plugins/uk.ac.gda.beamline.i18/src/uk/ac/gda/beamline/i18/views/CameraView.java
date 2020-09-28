@@ -55,17 +55,10 @@ public class CameraView extends ViewPart {
 	private VideoReceiver<ImageData> videoReceiver;
 	private ImageListener<ImageData> listener = new VideoListener();
 	private Rectangle beamCentreFigurePosition = new Rectangle(0, 0, -1, -1);
-	private Action openFiles;
-	private Action resetView;
-	private Action start;
-	private Action stop;
 	private BeamCentreFigure beamCentreFigure;
 	private boolean layoutReset;
-	private Action snap;
 	private String snapDirectory = InterfaceProvider.getPathConstructor().createFromProperty("gda.cameraview.snapshot.dir");
 
-	public CameraView() {
-	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -115,7 +108,7 @@ public class CameraView extends ViewPart {
 	private void initializeToolBar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
 
-		openFiles = new Action() {
+		Action openFiles = new Action() {
 			@Override
 			public void run() {
 				viewer.onFileOpen();
@@ -125,37 +118,37 @@ public class CameraView extends ViewPart {
 		openFiles.setToolTipText("Opens browser to locate an image file on disk");
 		openFiles.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/folder_camera.png"));
 
-		resetView = new Action() {
+		Action resetView = new Action() {
 			@Override
 			public void run() {
-				viewer.resetView();
+				viewer.zoomFit();
 			}
 		};
 		resetView.setText("Reset view");
 		resetView.setToolTipText("Reset panning and zooming");
 		resetView.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/page_refresh.png"));
-		start = new Action() {
+
+		Action start = new Action() {
 			@Override
 			public void run() {
 				start();
-				// videoReceiver.start();
 			}
 		};
 		start.setText("Start");
 		start.setToolTipText("Start video capture");
 		start.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/camera.png"));
-		stop = new Action() {
+
+		Action stop = new Action() {
 			@Override
 			public void run() {
 				stop();
-				// videoReceiver.stop();
 			}
 		};
 		stop.setText("stop");
 		stop.setToolTipText("stop video capture");
 		stop.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/stop.png"));
 
-		snap = new Action() {
+		Action snap = new Action() {
 			@Override
 			public void run() {
 				FileDialog fileChooser = new FileDialog(viewer.getCanvas().getShell(), SWT.SAVE);
@@ -185,42 +178,13 @@ public class CameraView extends ViewPart {
 		ImageLoader loader = new ImageLoader();
 		loader.data = new ImageData[] { viewer.getImageData() };
 		try {
-			logger.info("Trying to save file " + filename + " of the format " + format);
+			logger.debug("Saving file {} of the format {}", filename, format);
 			if (loader.data != null && loader.data.length != 0 && loader.data[0] != null)
 				loader.save(filename, SWT.IMAGE_JPEG);
 			else
 				logger.error("No image available");
 		} catch (SWTException e) {
 			logger.error("problem saving the image as " + format + "in file " + filename, e);
-		}
-	}
-
-	private void initViewer() {
-		if (!layoutReset) {
-			layoutReset = true;
-			viewer.getCanvas().getDisplay().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					viewer.resetView();
-					initializeBeamFigures();
-					updateBeamCentreFigure();
-				}
-			});
-		}
-	}
-
-	private void updateBeamCentreFigure() {
-		int x = (viewer.getImageData().width - beamCentreFigure.getCrossHairSize().width) / 2;
-		int y = (viewer.getImageData().height - beamCentreFigure.getCrossHairSize().height) / 2;
-		beamCentreFigurePosition = new Rectangle(x, y, -1, -1);
-		viewer.getTopFigure().setConstraint(beamCentreFigure, beamCentreFigurePosition);
-	}
-
-	private void initializeBeamFigures() {
-		if (beamCentreFigure == null) {
-			beamCentreFigure = new BeamCentreFigure();
-			beamCentreFigure.setForegroundColor(ColorConstants.red);
-			viewer.getTopFigure().add(beamCentreFigure, new Rectangle(0, 0, -1, -1));
 		}
 	}
 
@@ -235,28 +199,60 @@ public class CameraView extends ViewPart {
 				initViewer();
 			}
 		}
+
+		private void initViewer() {
+			if (!layoutReset) {
+				layoutReset = true;
+				viewer.getCanvas().getDisplay().asyncExec(() -> {
+					viewer.resetView();
+					initializeBeamFigures();
+					updateBeamCentreFigure();
+				});
+			}
+		}
+
+		private void updateBeamCentreFigure() {
+			int x = (viewer.getImageData().width - beamCentreFigure.getCrossHairSize().width) / 2;
+			int y = (viewer.getImageData().height - beamCentreFigure.getCrossHairSize().height) / 2;
+			beamCentreFigurePosition = new Rectangle(x, y, -1, -1);
+			viewer.getTopFigure().setConstraint(beamCentreFigure, beamCentreFigurePosition);
+		}
+
+		private void initializeBeamFigures() {
+			if (beamCentreFigure == null) {
+				beamCentreFigure = new BeamCentreFigure();
+				beamCentreFigure.setForegroundColor(ColorConstants.red);
+				viewer.getTopFigure().add(beamCentreFigure, new Rectangle(0, 0, -1, -1));
+			}
+		}
 	}
 
-	public void start() {
+	private void start() {
 		// only do this if we are connected
 		if (viewer != null) {
 			CAClient ca = new CAClient();
 			try {
 				ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 1);
 			} catch (CAException e) {
+				logger.error("Error starting streaming", e);
 			} catch (InterruptedException e) {
+				logger.error("Interrupted while starting streaming");
+				Thread.currentThread().interrupt();
 			}
 		}
 	}
 
-	public void stop() {
+	private void stop() {
 		// only do this if we are connected
 		if (viewer != null) {
 			CAClient ca = new CAClient();
 			try {
 				ca.caput("BL18I-DI-DCAM-01:CAM:CAM:Acquire", 0);
 			} catch (CAException e) {
+				logger.error("Error stopping streaming", e);
 			} catch (InterruptedException e) {
+				logger.error("Interrupted while stoppin streaming");
+				Thread.currentThread().interrupt();
 			}
 		}
 	}
