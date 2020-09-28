@@ -1182,6 +1182,8 @@ except gda.factory.FactoryException as e:
 	localStation_exception("connecting to medipix (FactoryException)", e)
 except java.lang.IllegalStateException as e:
 	localStation_exception("connecting to medipix (IllegalStateException)", e)
+except:
+	localStation_exception("connecting to medipix (Other)")
 localStation_print("-------------------------------MEDIPIX INIT COMPLETE---------------------------------------")
 
 
@@ -1204,6 +1206,8 @@ except gda.factory.FactoryException as e:
 	localStation_exception("connecting to merlin (FactoryException)", e)
 except java.lang.IllegalStateException as e:
 	localStation_exception("connecting to merlin (IllegalStateException)", e)
+except:
+	localStation_exception("connecting to merlin (Other)")
 localStation_print("-------------------------------MERLIN INIT COMPLETE---------------------------------------")
 ###############################################################################
 ###                              Configure Xmap                            ###
