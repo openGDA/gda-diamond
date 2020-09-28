@@ -971,6 +971,9 @@ if USE_PIL3:
 
 		pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 		pil3_100kgain =        PilatusGain('pil3_100kgain',   pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+
+		# Make sure hdf5 writer isn't still running
+		caput('BL16I-EA-PILAT-03:HDF5:Capture',0)
 	except:
 		localStation_exception("configuring pilatus 3 (100k)")
 else:
