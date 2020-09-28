@@ -52,7 +52,7 @@
 	<!-- NXDetector file writers -->
 	
 	<bean id="merlin_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="merlin" />
 		<property name="ndFile" ref="merlin_ndfiletif" />
 		<property name="keyNameForMetadataPathTemplate" value="merlin_path_template" />
@@ -62,7 +62,7 @@
 	</bean>
 
 	<bean id="merlin_hdf5_filewriter_for_scans"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="merlin_ndfile_hdf5" />
 		<property name="fileNameTemplate" value="$scan$-merlin" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -76,7 +76,7 @@
 	</bean>
 
 	<bean id="merlin_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="merlin" />
 		<property name="ndFile" ref="merlin_ndfiletif" />
 		<property name="numTrackerExtension" value="merlin_snaps_numracker" />
@@ -85,7 +85,7 @@
 	</bean>
 	
 <!-- 	<bean id="rasterpil1_camserver_nxfilewriter_for_hardware_triggering" -->
-<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter"> -->
+<!-- 		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter"> -->
 <!-- 		<constructor-arg value="rasterpil1" /> -->
 <!-- 		<property name="ndFile" ref="pilatus1_camserver_ndfile" /> -->
 <!--  		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" /> -->

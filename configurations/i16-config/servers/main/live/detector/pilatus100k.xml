@@ -77,7 +77,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="pilatus1_nxfilewriter_for_scans"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
@@ -96,7 +96,7 @@
 	</bean>
 
 	<bean id="pilatus1_hdf5filewriter_for_scans"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pilatus1_ndfile_hdf5" />
 		<property name="fileNameTemplate" value="" />
 		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus100k-files" />
@@ -107,7 +107,7 @@
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_hardware_triggering"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
@@ -120,7 +120,7 @@
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_snaps"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus100ksnaps" />
@@ -130,7 +130,7 @@
 	</bean>
 	
 	<bean id="pilatus1_nxfilewriter_for_multiple_exposures_per_collection_internal_triggering"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus100kmulti" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
@@ -229,7 +229,7 @@
 	</bean>
 
 	<bean id="zebrapil1_camserver_nxfilewriter_for_hardware_triggering"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="zebrapil1" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="waitForFileArrival" value="false" />

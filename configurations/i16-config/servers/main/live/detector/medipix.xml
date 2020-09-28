@@ -37,7 +37,7 @@
 	<!-- NXDetector file writers -->
 	
 	<bean id="medipix_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="medipix" />
 		<property name="ndFile" ref="medipix_ndfiletif" />
 		<property name="keyNameForMetadataPathTemplate" value="medipix_path_template" />
@@ -47,7 +47,7 @@
 	</bean>
 
 	<bean id="medipix_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="medipix" />
 		<property name="ndFile" ref="medipix_ndfiletif" />
 		<property name="numTrackerExtension" value="medipix_snaps_numracker" />
@@ -56,7 +56,7 @@
 	</bean>
 	
 <!-- 	<bean id="rasterpil1_camserver_nxfilewriter_for_hardware_triggering" -->
-<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter"> -->
+<!-- 		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter"> -->
 <!-- 		<constructor-arg value="rasterpil1" /> -->
 <!-- 		<property name="ndFile" ref="pilatus1_camserver_ndfile" /> -->
 <!--  		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" /> -->
