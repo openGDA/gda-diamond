@@ -6,8 +6,8 @@
 
 	<!-- Xspress3 coarse scan -->
 	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3 coarse" />
-		<property name="description" value="Xspress III coarse scan" />
+		<property name="label" value="XRF" />
+		<property name="description" value="Xspress3 coarse scan" />
 	</bean>
 
 	<bean id="malcolmModelXsp3" class="org.eclipse.scanning.api.device.models.MalcolmModel">
@@ -58,21 +58,21 @@
 		<property name="activated" value="false" />
 	</bean> -->
 
-	<!-- Excalibur hardware (fine motors) -->
-	<bean id="malcolmInfoExcaliburHardwareFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur/XRF coarse/fine" />
+	<!-- Excalibur/XRF coarse/fine motors -->
+	<bean id="malcolmInfoExcaliburXrf" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRD/XRF" />
 		<property name="description" value="Excalibur/XRF combined scan with coarse and fine motors" />
 	</bean>
 
-	<bean id="malcolmModelExcaliburHardwareFine" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<bean id="malcolmModelExcaliburXrf" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-07" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
-	<bean id="malcolmDeviceExcaliburHardwareFine" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceExcaliburXrf" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL14I-ML-SCAN-07" />
-		<property name="model" ref="malcolmModelExcaliburHardwareFine" />
-		<property name="deviceInformation" ref="malcolmInfoExcaliburHardwareFine" />
+		<property name="model" ref="malcolmModelExcaliburXrf" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburXrf" />
 		<property name="activated" value="false" />
 	</bean>
 
@@ -184,21 +184,21 @@
 		<property name="activated" value="false" />
 	</bean> -->
 
-	<!-- XSP3/Merlin coarse -->
-	<bean id="malcolmInfoXsp3MerlinCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3/Merlin coarse/fine" />
+	<!-- XSP3/Merlin coarse/fine -->
+	<bean id="malcolmInfoXsp3Merlin" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRF/Imaging" />
 		<property name="description" value="Combined XSP3 and Merlin coarse/fine scan" />
 	</bean>
 
-	<bean id="malcolmModelXsp3MerlinCoarse" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<bean id="malcolmModelXsp3Merlin" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-08" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
-	<bean id="malcolmDeviceXsp3MerlinCoarse" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceXsp3Merlin" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL14I-ML-SCAN-08" />
-		<property name="model" ref="malcolmModelXsp3MerlinCoarse" />
-		<property name="deviceInformation" ref="malcolmInfoXsp3MerlinCoarse" />
+		<property name="model" ref="malcolmModelXsp3Merlin" />
+		<property name="deviceInformation" ref="malcolmInfoXsp3Merlin" />
 		<property name="activated" value="false" />
 	</bean>
 
