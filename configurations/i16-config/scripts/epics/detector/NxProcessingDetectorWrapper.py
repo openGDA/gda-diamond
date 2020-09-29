@@ -49,10 +49,11 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
     def atScanEnd(self):
         SwitchableHardwareTriggerableProcessingDetectorWrapper.atScanEnd(self)
         plugins = self.det.getAdditionalPluginList()
-        writers = [ wr for wr in plugins if isinstance(wr, gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter) ]
+        writers = [ wr for wr in plugins if isinstance(wr, gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter) ]
         if len(writers) == 0:
+            print "Warning: No HDF file writers present"
             return
-        if not LocalProperties.get("gda.scan.endscan.neworder", "False").lower() == "true":
+        if not LocalProperties.get("gda.scan.endscan.neworder", "True").lower() == "true":
             print "Warning: gda.scan.endscan.neworder must be True to create hdf links"
             return
         writer = writers[0]
