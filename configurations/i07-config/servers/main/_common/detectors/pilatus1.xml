@@ -44,7 +44,7 @@
 		<property name="readCapturedFramesCount" value="true" />
 		<property name="adBase" ref="pilatus1_adbaseT" />
 		<property name="nonHardwareTriggeredCollectionStrategy"
-			ref="pilatus1_swTrigger" />
+			ref="pilatus1_collection_strategy" />
 		<property name="hardwareTriggering" value="false" />
 		<property name="ndFile" ref="pilatus1_ndfile" />
 		<property name="ndArray" ref="pilatus1_ndarray" />
