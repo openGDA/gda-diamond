@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<bean id="rad_shutter_set" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="rad_shutter_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Failed</value>
+				<value>Run Ilks Ok</value>
+				<value>OK</value>
+				<value>Disarmed</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="last_vac_valve_set" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="last_vac_valve_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Failed</value>
+				<value>Run Ilks Ok</value>
+				<value>OK</value>
+				<value>Disarmed</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="fsj1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out</value>
+				<value>In</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="fsi1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out</value>
+				<value>In</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

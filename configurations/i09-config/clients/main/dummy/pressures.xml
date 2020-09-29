@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="analysis_pressure" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	<bean id="spc1_pressure" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	<bean id="spc2_pressure" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	<bean id="main_loadlock_pressure" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	<bean id="spc2_loadlock_pressure" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	
+	
+	
+
+</beans>

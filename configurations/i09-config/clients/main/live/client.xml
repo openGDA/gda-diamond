@@ -37,5 +37,10 @@
 	<import resource="drain_currents.xml" />
 	<import resource="nixswr_roi.xml" />
 	<import resource="../_common/monitor_controls.xml" />
+	<import resource="pressures.xml"/>
+	<import resource="sample_temperature.xml"/>
+	<import resource="gate_valves.xml"/>
+	<import resource="ring_status.xml"/>
+	<import resource="../_common/feedback_controls.xml" />
 
 </beans>

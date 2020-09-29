@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="analysis_pressure" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-IMG-01:P" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3e" />
+	</bean>
+	
+	<bean id="spc1_pressure" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-IMG-10:P" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3e" />
+	</bean>
+	
+	<bean id="spc2_pressure" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-IMG-13:P" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3e" />
+	</bean>
+	
+	<bean id="main_loadlock_pressure" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-IMG-07:P" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3e" />
+	</bean>
+	
+	<bean id="spc2_loadlock_pressure" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-IMG-15:P" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3e" />
+	</bean>
+	
+	
+	
+	
+
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="cold_head_temp" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-LAKE-01:KRDG0" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	<bean id="cu_ring_temp" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-LAKE-01:KRDG1" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	<bean id="receptor_temp" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-LAKE-01:KRDG2" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	<bean id="sample_temp" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09L-VA-LAKE-01:KRDG3" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.3f" />
+	</bean>
+	
+	
+	
+	
+
+</beans>

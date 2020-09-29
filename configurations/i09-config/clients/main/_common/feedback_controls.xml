@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<bean id="feedback_controls" class="uk.ac.gda.sisa.feedback.ui.FeedbackControls">
+		<property name="pressureControls">
+			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
+				<property name="controls">
+					<list>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="Analysis" />
+							<property name="scannableName" value="analysis_pressure" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="100" />
+							<property name="boldLabel" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="SPC1" />
+							<property name="scannableName" value="spc1_pressure" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="100" />
+							<property name="boldLabel" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="SPC2" />
+							<property name="scannableName" value="spc2_pressure" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="100" />
+							<property name="boldLabel" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="Main loadlock" />
+							<property name="scannableName" value="main_loadlock_pressure" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="100" />
+							<property name="boldLabel" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="SPC2 loadlock" />
+							<property name="scannableName" value="spc2_loadlock_pressure" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="100" />
+							<property name="boldLabel" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="temperatureControls">
+			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
+				<property name="controls">
+					<list>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="cold head" />
+							<property name="scannableName" value="cold_head_temp" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="Cu ring" />
+							<property name="scannableName" value="cu_ring_temp" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="receptor" />
+							<property name="scannableName" value="receptor_temp" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="sample" />
+							<property name="scannableName" value="sample_temp" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="gateValveControls">
+			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
+				<property name="controls">
+					<list>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="" />
+							<property name="group" value="radiation shutter" />
+							<property name="scannableName" value="rad_shutter_set" />
+							<property name="showStop" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="" />
+							<property name="group" value="radiation shutter" />
+							<property name="scannableName" value="rad_shutter_status" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="100" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="" />
+							<property name="group" value="last vacuum valve" />
+							<property name="scannableName" value="last_vac_valve_set" />
+							<property name="showStop" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="" />
+							<property name="group" value="last vacuum valve" />
+							<property name="scannableName" value="last_vac_valve_status" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="100" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="hard" />
+							<property name="group" value="fast shutter" />
+							<property name="scannableName" value="fsj1" />
+							<property name="showStop" value="false" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+							<property name="displayName" value="soft" />
+							<property name="group" value="fast shutter" />
+							<property name="scannableName" value="fsi1" />
+							<property name="showStop" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="ringStatusControls">
+			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
+				<property name="controls">
+					<list>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="ring current" />
+							<property name="scannableName" value="ringCurrent" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="fill" />
+							<property name="scannableName" value="rs_fill" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="lifetime" />
+							<property name="scannableName" value="rs_lifetime" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="top-up countdown" />
+							<property name="scannableName" value="rs_countdown" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="50" />
+							<property name="boldLabel" value="true" />
+						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+							<property name="displayName" value="message" />
+							<property name="scannableName" value="rs_message" />
+							<property name="readOnly" value="true" />
+							<property name="textWidth" value="650" />
+							<property name="boldLabel" value="true" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+</beans>
