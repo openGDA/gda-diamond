@@ -125,8 +125,8 @@
 
 					 If no other plugins are in this list then pilatus3_force_callbacks should be
 					 enabled so other plugins see data
-				 -->
 				<ref bean="pilatus3_force_callbacks" />
+				 -->
 				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 			</list>
 		</property>
@@ -147,8 +147,9 @@
 
 					 If no other plugins are in this list then pilatus3_force_callbacks should be
 					 enabled so other plugins see data
-				 -->
 				<ref bean="pilatus3_force_callbacks" />
+				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
@@ -176,17 +177,18 @@
 		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
 		<property name="additionalPluginList">
 			<list>
+				<!-- 
 				<ref bean="kphiZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
+				 -->
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
 				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
 					 files via the CAM plugin, so no AD plugin other than CAM will see data
 
 					 If no other plugins are in this list then pilatus3_force_callbacks should be
 					 enabled so other plugins see data
-				 -->
 				<ref bean="pilatus3_force_callbacks" />
-				<!-- 
-				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
@@ -198,17 +200,18 @@
 		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
 		<property name="additionalPluginList">
 			<list>
+				<!-- 
 				<ref bean="kthZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
+				 -->
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
 				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
 					 files via the CAM plugin, so no AD plugin other than CAM will see data
 
 					 If no other plugins are in this list then pilatus3_force_callbacks should be
 					 enabled so other plugins see data
-				 -->
 				<ref bean="pilatus3_force_callbacks" />
-				<!-- 
-				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
@@ -225,6 +228,8 @@
 		<property name="returnPathRelativeToDatadir" value="true" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="fileNumberAtScanStart" value="0" />
+		<!-- Override default ...-kphiZebraPil3-files so files end up in the same dir as the hdf5 files. -->
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
 	</bean>
 
 	<bean id="kthZebraPil3_camserver_nxfilewriter_for_hardware_triggering"
@@ -239,6 +244,8 @@
 		<property name="returnPathRelativeToDatadir" value="true" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="fileNumberAtScanStart" value="0" />
+		<!-- Override default ...-kthZebraPil3-files so files end up in the same dir as the hdf5 files. -->
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
 	</bean>
 
 	<bean id="smargonZebraPil3"
@@ -248,17 +255,18 @@
 		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
 		<property name="additionalPluginList">
 			<list>
+				<!-- 
 				<ref bean="smargonZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
+				 -->
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
 				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
 					 files via the CAM plugin, so no AD plugin other than CAM will see data
 
 					 If no other plugins are in this list then pilatus3_force_callbacks should be
 					 enabled so other plugins see data
-				 -->
 				<ref bean="pilatus3_force_callbacks" />
-				<!-- 
-				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
@@ -275,5 +283,7 @@
 		<property name="returnPathRelativeToDatadir" value="true" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="fileNumberAtScanStart" value="0" />
+		<!-- Override default ...-smargonZebraPil3-files so files end up in the same dir as the hdf5 files. -->
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
 	</bean>
 </beans>
