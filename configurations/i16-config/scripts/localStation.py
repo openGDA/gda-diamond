@@ -969,8 +969,8 @@ if USE_PIL3:
 		pil3 = pil3_100k
 		pil3s = pil3_100ks
 
-		pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
-		pil3_100kgain =        PilatusGain('pil3_100kgain',   pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+		pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pil3_100k.hardware_triggered_detector.driver.getAdDriverPilatus())
+		pil3_100kgain =        PilatusGain('pil3_100kgain',   pil3_100k.hardware_triggered_detector.driver.getAdDriverPilatus())
 
 		# Make sure hdf5 writer isn't still running
 		caput('BL16I-EA-PILAT-03:HDF5:Capture',0)
