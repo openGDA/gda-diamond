@@ -33,7 +33,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="andor1_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="andor" />
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="andor_path_template" />
@@ -44,7 +44,7 @@
 	</bean>
 
 	<bean id="andor1_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="andor" />
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="numTrackerExtension" value="andor1snaps" />

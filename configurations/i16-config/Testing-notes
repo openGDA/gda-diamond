@@ -1,5 +1,56 @@
 ================================================================================
+I16-477 Investigate problems with I16 cv scanning
 I16-350 Switch I16 data files to use nexus image data rather than tif
 I16-299 Implement GDA side of cvscan for remaining diffractometer axes
 I16-211 Solstice scanning on I16
+================================================================================
+Template I16-299
+
+------------------------------------------------------------------- Before test:
+
+kphiZebraPos=kphiZebra() ; kthZebraPos=kthZebra()
+print "kphiZebraPos=%f ; kthZebraPos=%f" % (kphiZebraPos, kthZebraPos)
+pos pil3_100k 1								# Check Pilatus is capturing images
+
+-------------------------------------- Tests with pil3_100k using kphiZebraPil3:
+
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+scan   kth        kthZebraPos-1  kthZebraPos+1 1   pil3_100k 0.1
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1
+pos pil3_100k 1
+cvscan kthZebra   kthZebraPos-1  kthZebraPos+1 .01 kthZebraPil3 0.1    # Failure expected
+pos pil3_100k 1
+# Switch pil3_100k NxProcessingDetectorWrapper to kthZebraPil3
+cvscan kthZebra   kthZebraPos-1  kthZebraPos+1 .01 kthZebraPil3 0.1    # Success expected
+
+# Maybe we also need to test sgphiZebra, sgomegaZebra & smargonZebraPil3
+
+sgphiZebraPos=sgphiZebra() ; sgomegaZebraPos=sgomegaZebra()
+print "sgphiZebraPos=%f ; sgomegaZebraPos=%f" % (sgphiZebraPos, sgomegaZebraPos)
+pos pil3_100k 1
+
+cvscan   sgphiZebra   sgphiZebraPos-1   sgphiZebraPos+1 .01 smargonZebraPil3 0.1    # Failure expected
+cvscan sgomegaZebra sgomegaZebraPos-1 sgomegaZebraPos+1 .01 smargonZebraPil3 0.1    # Failure expected
+pos pil3_100k 1
+# Switch pil3_100k NxProcessingDetectorWrapper to 
+kthZebraPil3
+cvscan   sgphiZebra   sgphiZebraPos-1   sgphiZebraPos+1 .01 smargonZebraPil3 0.1    # Success expected
+cvscan sgomegaZebra sgomegaZebraPos-1 sgomegaZebraPos+1 .01 smargonZebraPil3 0.1    # Success expected
+
+================================================================================
+Zebra reference:
+
+Zebra   Motor 1     Motor 2     Motor 3     Motor 4
+1       KPHI                                KAPPA
+2       KTHETA                  DELTA
+3                   MU                      GAMMA
+pcEnc
+
+sixcGammaMotor	sixcGammaEpicsMotor	gammaZebra
+sixcDeltaMotor	sixcDeltaEpicsMotor	deltaZebra
+sixcMuMotor		sixcMuEpicsMotor	muZebra
+sixcKthMotor	sixcKthEpicsMotor	kthZebra
+sixcKappaMotor	sixcKappaEpicsMotor	kappaZebra
+sixcKphiMotor	sixcKphiEpicsMotor	kphiZebra
+
 ================================================================================

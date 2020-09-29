@@ -24,7 +24,7 @@
 	</bean>
 
 	<bean id="c10_nxfilewriter_for_scans"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="c10" />
 		<property name="ndFile" ref="c10_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="c10_path_template" />
@@ -34,7 +34,7 @@
 	</bean>
 
 	<bean id="c10_nxfilewriter_for_snaps"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="c10" />
 		<property name="ndFile" ref="c10_ndfile" />
 		<property name="numTrackerExtension" value="c10snaps" />
