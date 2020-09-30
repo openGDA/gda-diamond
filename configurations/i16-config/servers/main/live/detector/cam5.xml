@@ -35,7 +35,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="cam5_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="cam5" />
 		<property name="ndFile" ref="cam5_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="cam5_path_template" />
@@ -44,7 +44,7 @@
 	</bean>
 
 	<bean id="cam5_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="cam5" />
 		<property name="ndFile" ref="cam5_ndfile" />
 		<property name="numTrackerExtension" value="cam5snaps" />

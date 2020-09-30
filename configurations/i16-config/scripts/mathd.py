@@ -14,7 +14,7 @@ def interplin(xTable,yTable,x):
 		return 'Wrong table input: x and y have different sizes'
 #		raise Exception('Wrong table input: x and y have different sizes')
 	if x<min(xTable) or x>max(xTable):
-#		print 'x out of range: x: %f, min(xTable): %f, max(xTable): %f' % (x, min(xTable), max(xTable))
+		print 'x out of range: x: %f, min(xTable): %f, max(xTable): %f' % (x, min(xTable), max(xTable))
 		return None
 #		raise Exception('x out of range: x: %f, min(xTable): %f, max(xTable): %f' % (x, min(xTable), max(xTable)))  #  Too risky without thorough testing --- RobW
 	for i in range(len(xTable)):

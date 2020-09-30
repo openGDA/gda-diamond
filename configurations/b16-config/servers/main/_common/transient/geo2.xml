@@ -8,14 +8,14 @@
 	profile="geo2">
 
 
-	<gda:motor id="geo2mot1" pv="BL16B-MO-BRICK-02:AXIS1" />
-	<gda:motor id="geo2mot2" pv="BL16B-MO-BRICK-02:AXIS2" />
-	<gda:motor id="geo2mot3" pv="BL16B-MO-BRICK-02:AXIS3" />
-	<gda:motor id="geo2mot4" pv="BL16B-MO-BRICK-02:AXIS4" />
-	<gda:motor id="geo2mot5" pv="BL16B-MO-BRICK-02:AXIS5" />
-	<gda:motor id="geo2mot6" pv="BL16B-MO-BRICK-02:AXIS6" />
-	<gda:motor id="geo2mot7" pv="BL16B-MO-BRICK-02:AXIS7" />
-	<gda:motor id="geo2mot8" pv="BL16B-MO-BRICK-02:AXIS8" />
+	<gda:motor id="geo2mot1" live-pvName="BL16B-MO-BRICK-02:AXIS1" />
+	<gda:motor id="geo2mot2" live-pvName="BL16B-MO-BRICK-02:AXIS2" />
+	<gda:motor id="geo2mot3" live-pvName="BL16B-MO-BRICK-02:AXIS3" />
+	<gda:motor id="geo2mot4" live-pvName="BL16B-MO-BRICK-02:AXIS4" />
+	<gda:motor id="geo2mot5" live-pvName="BL16B-MO-BRICK-02:AXIS5" />
+	<gda:motor id="geo2mot6" live-pvName="BL16B-MO-BRICK-02:AXIS6" />
+	<gda:motor id="geo2mot7" live-pvName="BL16B-MO-BRICK-02:AXIS7" />
+	<gda:motor id="geo2mot8" live-pvName="BL16B-MO-BRICK-02:AXIS8" />
 
 	<bean id="geo2mot" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

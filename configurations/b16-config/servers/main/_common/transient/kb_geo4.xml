@@ -8,14 +8,14 @@
 	profile="kb_geo4">
 
 
-	<gda:motor id="kohzu_tilt" pv="BL16B-MO-BRICK-04:AXIS1" />
-	<gda:motor id="kbvfmTilt" pv="BL16B-MO-BRICK-04:AXIS2" />
-	<gda:motor id="kbhfmTilt" pv="BL16B-MO-BRICK-04:AXIS3" />
-	<gda:motor id="kbphY" pv="BL16B-MO-BRICK-04:AXIS4" />
-	<gda:motor id="kbphX" pv="BL16B-MO-BRICK-04:AXIS5" />
-	<gda:motor id="kbwireX" pv="BL16B-MO-BRICK-04:AXIS6" />
-	<gda:motor id="kbwireY" pv="BL16B-MO-BRICK-04:AXIS7" />
-	<gda:motor id="aerotech_tilt" pv="BL16B-MO-BRICK-04:AXIS8" />
+	<gda:motor id="kohzu_tilt" live-pvName="BL16B-MO-BRICK-04:AXIS1" />
+	<gda:motor id="kbvfmTilt" live-pvName="BL16B-MO-BRICK-04:AXIS2" />
+	<gda:motor id="kbhfmTilt" live-pvName="BL16B-MO-BRICK-04:AXIS3" />
+	<gda:motor id="kbphY" live-pvName="BL16B-MO-BRICK-04:AXIS4" />
+	<gda:motor id="kbphX" live-pvName="BL16B-MO-BRICK-04:AXIS5" />
+	<gda:motor id="kbwireX" live-pvName="BL16B-MO-BRICK-04:AXIS6" />
+	<gda:motor id="kbwireY" live-pvName="BL16B-MO-BRICK-04:AXIS7" />
+	<gda:motor id="aerotech_tilt" live-pvName="BL16B-MO-BRICK-04:AXIS8" />
 
 	<bean id="kb" class="gda.device.scannable.scannablegroup.ScannableGroup">
 	<property name="groupMembers">

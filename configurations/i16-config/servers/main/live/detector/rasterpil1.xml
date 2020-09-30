@@ -17,7 +17,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="rasterpil1_camserver_nxfilewriter_for_hardware_triggering"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="rasterpil1" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 <!-- 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" /> -->

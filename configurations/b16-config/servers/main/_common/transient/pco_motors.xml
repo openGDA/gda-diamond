@@ -9,9 +9,9 @@
 
 	<!-- NOTE: pcocam 1 2 and 3 are cobbled up bodge motors and not included here-->
 
-	<gda:motor id="pcocam4" pv="BL16B-EA-DET-02:CAM4" />
-	<gda:motor id="pcocam5" pv="BL16B-EA-DET-02:CAM5" />
-	<gda:motor id="pcocam6" pv="BL16B-EA-DET-02:CAM6" />
+	<gda:motor id="pcocam4" live-pvName="BL16B-EA-DET-02:CAM4" />
+	<gda:motor id="pcocam5" live-pvName="BL16B-EA-DET-02:CAM5" />
+	<gda:motor id="pcocam6" live-pvName="BL16B-EA-DET-02:CAM6" />
 
 	<bean id="pcocam" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

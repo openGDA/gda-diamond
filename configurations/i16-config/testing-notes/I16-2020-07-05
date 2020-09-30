@@ -1,0 +1,186 @@
+================================================================================
+I16-350 & i16-477
+------------------------------------------------------------------- Before test:
+
+datadir('/dls/i16/data/2020/cm26473-1/DAQ-2020-07-05')
+
+kphiZebraPos=kphiZebra() ; kthZebraPos=kthZebra()
+print "kphiZebraPos=%f ; kthZebraPos=%f" % (kphiZebraPos, kthZebraPos)
+
+# kphiZebraPos=57.045000 ; kthZebraPos=57.045164
+
+pos pil3_100k 1								# Check Pilatus is capturing images
+scan x 1 10 1 pil3 1						# Check Pilatus is able to scan
+	# 822426 & 822427:	Ok: dat, nxs, tif* & hdf
+
+--------------------------------------------------------------------------------
+------------------------------------------------------------------------- Tests:
+
+kphiZebraPos=57.045000 ; kthZebraPos=57.045164
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1	# Expected to work
+	# 822428 & 822429:	Ok: dat, nxs, tif* & hdf
+
+scan   kth        kthZebraPos-1  kthZebraPos+1 1   pil3_100k 0.1	# Expected to work
+	# 822430 & 822431:	Ok: dat, nxs, tif* & hdf
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1	# Expected to work without hdf
+	# First attempts failed
+	#	Error time: 2020-07-05T13:21:32.570Z
+	#	java.lang.Exception: during scan collection: DeviceException: Error arming the zebra: ZebraConstantVelocityMoveController: Wrote 56.04 to pcGateStart but read back -0.5000000000000142 (diff=56.54000000000001)
+	# Second attempt froze at start
+		# Pressing the Stop button did nothing
+		# Double clicking the stop button started 822433 running.
+	# Third attempt froze at start, but started showing the Waiting for file messages
+		# Pressing the Stop button did nothing
+		# Double clicking the stop button started 822435 running.
+	# 822434 & 822435:	Eventually: dat, nxs, tif* but no hdf
+	# After, "No scan running" "No Scaript running" and "Queue - waiting" in bottom panels
+
+pil3_100k
+	# Froze at start, but started showing the Waiting for file messages
+
+pil3_100k
+	# Froze at start, but started showing the Waiting for file messages
+		# Pressing the Stop caused it to stop immediately with
+		#	pil3_100k : UNAVAILABLE
+
+pos pil3 1
+	# Fixed it
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1	# Expected to work without hdf
+	# Third try 822435 worked as expected: dat, nxs, tif* but no hdf
+	# Fourth try 822536 froze, pressing stop got it going again
+
+--------------------------------------------------------------------------------
+
+# Replaced pilatus3_force_callbacks with pilatus3_hdf5filewriter_for_scans in kphiZebraPil3
+# and restarted the GDA server and client.
+
+kphiZebraPos=57.045000 ; kthZebraPos=57.045164
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1	# Now expected to work with hdf
+	# Froze after Image location: pilatus3_100k_path_template='822437-kphiZebraPil3-files/00000_%05d.tif
+	# Pressing the stop button caused
+Exception: during scan collection: DeviceException: Error during 'kphiZebraPil3' readout.
+Error occurred when closing data file(s): 
+Error time: 2020-07-05T13:54:56.926Z
+	# 822437-kphiZebraPil3-files & 822437-pilatus3_100k-files folders, but no dat, nxs, tif* or hdf files!
+
+pos pil3 1
+	# Worked to recover it
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1	# Now expected to work with hdf
+	# Same result but neither Stop nor double Stop worked, even Stop All failed to do anything, still
+	# said "Scan '822438.nxs' running though.
+	# Had to double tap Stop All to get it to stop!
+	#	gdascripts.scan.concurrentScanWrapper.ConcurrentScanWrapper: Scan was interrupted - Scan aborted on request.
+	#	Error time: 2020-07-05T14:05:20.746Z
+	# 822438 ended up with: dat, nxs and hdf but no tif* !
+
+pos pil3 1
+	# Appeared to recover it once the scan had actually stopped
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1
+	# Froze at start.
+
+--------------------------------------------------------------------------------
+# Restarted the GDA server.
+
+pos pil3 1
+kphiZebraPos=57.045000 ; kthZebraPos=57.045164
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1	# Expected to work
+	# 822440: dat, nxs, tif* but no hdf file!
+	# 822441: dat, nxs, tif* & hdf
+	# 822442: dat, nxs, tif* & hdf
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1
+	# Scan 822443 dat, nxs, tif* & hdf all written but
+	#	tifs went into		822443-kphiZebraPil3-files
+	#	the hdf went into	822443-pilatus3_100k-files
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1
+	# Scan 822444 was the same.
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1
+	# Froze after "Image location: pilatus3_100k_path_template='822445-kphiZebraPil3-files/00000_%05d.tif"
+	# Stop, Stop all, single click, double click, nothing helped.
+	# 822445-kphiZebraPil3-files & 822445-pilatus3_100k-files folders created, but no dat, nxs, tif* or hdf files!
+
+--------------------------------------------------------------------------------
+# Restarted the GDA server.
+
+# After restart, BL16I-EA-PILAT-03:HDF5:Capture was still in "Capture" state, which is why 822440
+# failed to write an hdf5 file
+
+# Added a caput("BL16I-EA-PILAT-03:HDF5:Capture",0) to localStation.py
+
+# Also added <property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
+# to 
+
+kphiZebraPos=57.045000 ; kthZebraPos=57.045164
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1	# Expected to not work
+	# Froze after "Image location: pilatus3_100k_path_template='822446-pilatus3_100k-files/00000_%05d.tif"
+	# Stop did result in an error
+	#	Exception: during scan collection: DeviceException: Error during 'kphiZebraPil3' readout.
+	#	Error occurred when closing data file(s): 
+	#	Error time: 2020-07-05T15:54:43.013Z
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1
+	# Froze after "Image location: pilatus3_100k_path_template='822447-pilatus3_100k-files/00000_%05d.tif"
+	# Again, stop did result in an error
+	#	Exception: during scan collection: DeviceException: Error during 'kphiZebraPil3' readout.
+	#	Error occurred when closing data file(s): 
+	#	Error time: 2020-07-05T15:58:51.387Z
+
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1	# Expected to work
+	# 822448: dat, nxs, tif* & hdf
+	# Missing kap, kth, kmu, kdelta, kgam, delta_axis_offset, TimeSec, TimeFromEpoch, ic1monitor, rc
+
+reset_namespace
+kphiZebraPos=57.045000 ; kthZebraPos=57.045164
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1	# Expected to work
+	# 822449: dat, nxs, tif* & hdf
+
+--------------------------------------------------------------------------------
+# Simplified the pilatus configuration and restarted the GDA server.
+
+kphiZebraPos=57.045000 ; kthZebraPos=57.045164
+scan x 1 10 1 pil3 1
+	# 822450: dat, nxs, tif* & hdf
+
+pos pil3 1
+	# Ok
+
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1	# Expected to work
+	# 822451: dat, nxs, tif* & hdf
+
+scan   kth        kthZebraPos-1  kthZebraPos+1 1   pil3_100k 0.1	# Expected to work
+	# 822452: dat, nxs, tif* & hdf
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1	# Expected to work without processing
+	# 822453: dat, nxs, tif* & hdf
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1	# Expected to work without processing
+	# 822454: dat, nxs, tif* & hdf
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1	# 
+	# Froze after "Image location: pilatus3_100k_path_template='822455-pilatus3_100k-files/%05d.tif"
+	# 822455-pilatus3_100k-files created
+	# After 202 presses of Stop the scan completed.
+
+cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 kphiZebraPil3 0.1
+	# 822456: dat, nxs, tif* & hdf
+
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+	# 822457: dat, nxs, tif* & hdf but default scannables missing
+
+add_default kphi kap kth kmu kdelta kgam delta_axis_offset meta atime atimetwo ic1monitor rc waitforinjection
+
+scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+	# 822457: dat, nxs, tif* & hdf default scannables back
+
+-------------------------------------------------------------------- After test:
+
+datadir('/dls/i16/data/2020/cm26473-1/phaseplate_July_2020')
+
+================================================================================
