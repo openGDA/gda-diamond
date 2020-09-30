@@ -43,6 +43,15 @@ class ContinuousMoveEnergyIDGapBinpointScannable(ContinuouslyScannableViaControl
         self.mybusy=False
         
         self.stream_indexer=None
+        
+    def setOrder(self,n):
+        self._move_controller._energy.setOrder(n)
+        
+    def getOrder(self):
+        return self._move_controller._energy.getOrder()
+    
+    def calc(self, energy, order):
+        return self._move_controller._energy.calc(energy, order)
 
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
     def setOperatingContinuously(self, b):

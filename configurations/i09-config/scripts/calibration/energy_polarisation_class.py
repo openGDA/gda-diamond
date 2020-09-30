@@ -42,7 +42,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.setInputNames([name])
         self.setExtraNames([])
         self.order = 1  #default to 1st harmonic order
-        self.polarisation = 'UNKNOWN'
+        self.polarisation = 'LH'
         self.gap = 50
         self.phase = 0
         self.energyConstant = energyConstant
@@ -67,10 +67,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         This method sync current object states with ID state in EPICS IOC.
         '''
         result = list(self.idscannable.getPosition())
-        gap = float(result[0])
-        polarisation = str(result[1])
-        phase = float(result[2])
-        return (gap, polarisation, phase)
+        self.gap = float(result[0])
+        self.polarisation = str(result[1])
+        self.phase = float(result[2])
+        return (self.gap, self.polarisation, self.phase)
 
     def showFittingCoefficentsLookupTable(self):
         formatstring="%4s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s"
@@ -78,18 +78,18 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         for key, value in sorted(self.lut.iteritems()):
             print (formatstring % tuple([x for x in key] + [x for x in value]))
 
-    def setHarmonic(self,n):
+    def setOrder(self,n):
         self.order=n
 
-    def getHarmonic(self):
+    def getOrder(self):
         return self.order
 
     def idgap(self, energy, order):
         '''return gap for the given energy at given harmonic order for current polarisation.
             used in cvscan where polarisation doesn't change during continuous energy moving.
         '''
-        gap, polarisation, phase = self.getIDPositions()
-        gap, phase = self.idgapphase(energy, polarisation, order)
+        self.gap, self.polarisation, self.phase = self.getIDPositions()
+        gap, phase = self.idgapphase(energy, self.polarisation, order)
         return gap
 
     def idgapphase(self, Ep=None, mode='LH',n=1):
@@ -121,8 +121,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, 0, self.maxPhase))
         return (gap, phase)
 
-    def calc(self, energy, mode):
-        return self.idgapphase(energy, mode, self.order)
+    def calc(self, energy, order):
+        return self.idgap(energy, order)
 
     def rawGetPosition(self):
         '''returns the current beam energy, or polarisation, or both.'''
