@@ -2,39 +2,49 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="mpxsim_localhostname" class="java.net.InetAddress"
+		factory-method="getLocalHost" />
+	<bean id="mpxsim_workstation" class="java.lang.String">
+		<constructor-arg
+			value="#{ mpxsim_localhostname.hostName.split('\.')[0] }" />
+	</bean>
+	<bean id="mpxsim_pvbase" class="java.lang.String">
+		<constructor-arg value="#{mpxsim_workstation}-AD-SIM-01" />
+	</bean>
+
     <bean id="merlinAD_config_base" class="gda.spring.V17ADBaseFactoryBean">
-        <property name="prefix" value="BL07I-EA-DET-10:CAM:" />
+        <property name="prefix" value="#{mpxsim_pvbase}:CAM:" />
     </bean>
 
     <bean id="merlinAD_summary_arr" class="gda.spring.V17NDArrayFactoryBean">
-        <property name="prefix" value="BL07I-EA-DET-10:ARR:" />
+        <property name="prefix" value="#{mpxsim_pvbase}:ARR:" />
     </bean>
 
     <bean id="merlinAD_summary_stat" class="gda.spring.V17NDStatsFactoryBean">
-        <property name="prefix" value="BL07I-EA-DET-10:STAT:" />
+        <property name="prefix" value="#{mpxsim_pvbase}:STAT:" />
     </bean>
 
     <bean id="merlinAD_summary_roi" class="gda.spring.V17NDROIFactoryBean">
-        <property name="prefix" value="BL07I-EA-DET-10:ROI:" />
+        <property name="prefix" value="#{mpxsim_pvbase}:ROI:" />
     </bean>
 
     <bean id="merlinAD_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
-        <property name="prefix" value="BL07I-EA-DET-10:MJPG:" />
+        <property name="prefix" value="#{mpxsim_pvbase}:MJPG:" />
     </bean>
 
     <bean id="merlinAD_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
-        <property name="prefix" value="BL07I-EA-DET-10:PROC:" />
+        <property name="prefix" value="#{mpxsim_pvbase}:PROC:" />
     </bean>
 
     <bean id="merlinAD_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
-        <property name="prefix" value="BL07I-EA-DET-10:TIFF:" />
+        <property name="prefix" value="#{mpxsim_pvbase}:TIFF:" />
         <property name="resetToInitialValues" value="false" />
     </bean>
 
     <bean id="merlinAD_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
         <property name="ndFileImpl">
             <bean class="gda.spring.V17NDFileFactoryBean">
-                <property name="prefix" value="BL07I-EA-DET-10:HDF5:" />
+                <property name="prefix" value="#{mpxsim_pvbase}:HDF5:" />
                 <property name="resetToInitialValues" value="false" />
             </bean>
         </property>
@@ -77,17 +87,17 @@
     </bean>
 
     <bean id="merlin_ndprocess" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-        <property name="basePVName" value="BL07I-EA-DET-10:PROC:" />
+        <property name="basePVName" value="#{mpxsim_pvbase}:PROC:" />
         <property name="pluginBase">
             <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL07I-EA-DET-10:PROC:" />
+                <property name="basePVName" value="#{mpxsim_pvbase}:PROC:" />
             </bean>
         </property>
     </bean>
 
     <bean id="merlin_proc" class="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin">
         <constructor-arg value="proc1" />
-        <property name="inputPort" value="merlin.cam" />
+        <property name="inputPort" value="ADSIM.CAM" />
         <property name="blocking" value="false" />
         <property name="enableLowClip" value="true" />
         <property name="lowClip" value="0" />
@@ -110,9 +120,9 @@
                 <bean
                     class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
                     <property name="pluginName" value="roistats1" />
-                    <property name="baseRoiPVName" value="BL07I-EA-DET-10:ROI1:" />
-                    <property name="baseStatsPVName" value="BL07I-EA-DET-10:STAT1:" />
-                    <property name="roiInputNdArrayPort" value="pilatus1.proc" />
+                    <property name="baseRoiPVName" value="#{mpxsim_pvbase}:ROI1:" />
+                    <property name="baseStatsPVName" value="#{mpxsim_pvbase}:STAT1:" />
+                    <property name="roiInputNdArrayPort" value="ADSIM.proc" />
                     <property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
                     <property name="roiProvider">
                         <bean
@@ -125,9 +135,9 @@
                 <bean
                     class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
                     <property name="pluginName" value="roistats2" />
-                    <property name="baseRoiPVName" value="BL07I-EA-DET-10:ROI2:" />
-                    <property name="baseStatsPVName" value="BL07I-EA-DET-10:STAT2:" />
-                    <property name="roiInputNdArrayPort" value="pilatus1.proc" />
+                    <property name="baseRoiPVName" value="#{mpxsim_pvbase}:ROI2:" />
+                    <property name="baseStatsPVName" value="#{mpxsim_pvbase}:STAT2:" />
+                    <property name="roiInputNdArrayPort" value="ADSIM.proc" />
                     <property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
                     <property name="roiProvider">
                         <bean
@@ -140,9 +150,9 @@
                 <bean
                     class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
                     <property name="pluginName" value="roistats3" />
-                    <property name="baseRoiPVName" value="BL07I-EA-DET-10:ROI3:" />
-                    <property name="baseStatsPVName" value="BL07I-EA-DET-10:STAT3:" />
-                    <property name="roiInputNdArrayPort" value="pilatus1.proc" />
+                    <property name="baseRoiPVName" value="#{mpxsim_pvbase}:ROI3:" />
+                    <property name="baseStatsPVName" value="#{mpxsim_pvbase}:STAT3:" />
+                    <property name="roiInputNdArrayPort" value="ADSIM.proc" />
                     <property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
                     <property name="roiProvider">
                         <bean
@@ -155,9 +165,9 @@
                 <bean
                     class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
                     <property name="pluginName" value="roistats4" />
-                    <property name="baseRoiPVName" value="BL07I-EA-DET-10:ROI4:" />
-                    <property name="baseStatsPVName" value="BL07I-EA-DET-10:STAT4:" />
-                    <property name="roiInputNdArrayPort" value="pilatus1.proc" />
+                    <property name="baseRoiPVName" value="#{mpxsim_pvbase}:ROI4:" />
+                    <property name="baseStatsPVName" value="#{mpxsim_pvbase}:STAT4:" />
+                    <property name="roiInputNdArrayPort" value="ADSIM.proc" />
                     <property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
                     <property name="roiProvider">
                         <bean
@@ -170,9 +180,9 @@
                 <bean
                     class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
                     <property name="pluginName" value="roistats5" />
-                    <property name="baseRoiPVName" value="BL07I-EA-DET-10:ROI5:" />
-                    <property name="baseStatsPVName" value="BL07I-EA-DET-10:STAT5:" />
-                    <property name="roiInputNdArrayPort" value="pilatus1.proc" />
+                    <property name="baseRoiPVName" value="#{mpxsim_pvbase}:ROI5:" />
+                    <property name="baseStatsPVName" value="#{mpxsim_pvbase}:STAT5:" />
+                    <property name="roiInputNdArrayPort" value="ADSIM.proc" />
                     <property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
                     <property name="roiProvider">
                         <bean
@@ -185,9 +195,9 @@
                 <bean
                     class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
                     <property name="pluginName" value="roistats6" />
-                    <property name="baseRoiPVName" value="BL07I-EA-DET-10:ROI6:" />
-                    <property name="baseStatsPVName" value="BL07I-EA-DET-10:STAT6:" />
-                    <property name="roiInputNdArrayPort" value="pilatus1.proc" />
+                    <property name="baseRoiPVName" value="#{mpxsim_pvbase}:ROI6:" />
+                    <property name="baseStatsPVName" value="#{mpxsim_pvbase}:STAT6:" />
+                    <property name="roiInputNdArrayPort" value="ADSIM.proc" />
                     <property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
                     <property name="roiProvider">
                         <bean

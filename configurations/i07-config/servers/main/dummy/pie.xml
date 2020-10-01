@@ -3,9 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="pie"
-		class="gda.device.scannable.PIE725ConstantVelocityRasterScannable3Axis">
+		class="gda.device.scannable.gda.device.scannable.DummyConstantVelocityRasterScannable">
 		<constructor-arg name="name" value="pie" />
-		<constructor-arg name="pvName" value="BL07I-MO-PIEZO-01:C1:" />
 	</bean>
 
 </beans>
