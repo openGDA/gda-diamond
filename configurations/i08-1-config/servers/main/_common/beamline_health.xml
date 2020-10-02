@@ -1,0 +1,85 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="beamline_health_monitor" class="gda.beamline.health.BeamlineHealthMonitor">
+ 		<property name="conditions">
+			<list>
+				<ref bean="ring_current_condition" />
+ 				<ref bean="optics_shutter_condition" />
+				<ref bean="fe_shutter_condition" />
+				<ref bean="samplex_position_condition" />
+				<ref bean="sampley_position_condition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ring_current_condition" class="gda.beamline.health.BeamlineHealthCondition">
+		<property name="scannable" ref="ring_current" />
+		<property name="description" value="Ring current" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
+				<property name="scannable" ref="ring_current" />
+				<property name="lowerLimit" value="250" />
+			</bean>
+		</property>
+		<property name="critical" value="true" />
+		<property name="errorMessage" value="Insufficient ring current" />
+	</bean>
+
+	<bean id="optics_shutter_condition" class="gda.beamline.health.BeamlineHealthCondition">
+		<property name="scannable" ref="opticsShutter" />
+		<property name="description" value="Optics shutter" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
+				<property name="positioner" ref="opticsShutter" />
+				<property name="allowedPositions" value="Open" />
+			</bean>
+		</property>
+		<property name="critical" value="true" />
+		<property name="errorMessage" value="Optics shutter is not open" />
+	</bean>
+
+	<bean id="fe_shutter_condition" class="gda.beamline.health.BeamlineHealthCondition">
+		<property name="scannable" ref="fe_shutter" />
+		<property name="description" value="Front end shutter" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
+				<property name="positioner" ref="fe_shutter" />
+				<property name="allowedPositions" value="Open" />
+			</bean>
+		</property>
+		<property name="critical" value="true" />
+		<property name="errorMessage" value="Front end shutter is not open" />
+	</bean>
+
+	<bean id="samplex_position_condition" class="gda.beamline.health.BeamlineHealthCondition">
+		<property name="scannable" ref="SampleX" />
+		<property name="description" value="SampleX position" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
+				<property name="scannable" ref="SampleX" />
+				<property name="lowerLimit" value="-5" />
+				<property name="upperLimit" value="5" />
+			</bean>
+		</property>
+		<property name="critical" value="false" />
+		<property name="errorMessage" value="SampleX is not in position" />
+	</bean>
+
+	<bean id="sampley_position_condition" class="gda.beamline.health.BeamlineHealthCondition">
+		<property name="scannable" ref="SampleY" />
+		<property name="description" value="SampleY position" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
+				<property name="scannable" ref="SampleY" />
+				<property name="lowerLimit" value="-5" />
+				<property name="upperLimit" value="5" />
+			</bean>
+		</property>
+		<property name="critical" value="false" />
+		<property name="errorMessage" value="SampleY is not in position" />
+	</bean>
+
+</beans>
