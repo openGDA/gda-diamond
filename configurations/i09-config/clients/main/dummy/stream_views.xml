@@ -7,12 +7,82 @@
 			1) Launch the Utilities > GDA SWMR AreaDetector Simulation
 				on the local machine and start the IOC on localhost.
 	</description>
+	
 	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	
+	<!-- Live controls for controlling cross -->
+	<bean id="sim_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
+		<constructor-arg name="controlScannable">
+			<bean class="gda.device.scannable.SimplePVScannable">
+				<property name="pvName" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:Use" />
+				<property name="textInput" value="true" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="monitorScannable">
+			<bean class="gda.device.monitor.EpicsMonitor">
+				<property name="pvName" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:Use" />
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="cross_centre_x" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:CenterX_RBV" />
+		<property name="pvNameSetPoint" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:CenterX" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+	
+	<bean id="cross_centre_y" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:CenterY_RBV" />
+		<property name="pvNameSetPoint" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:CenterY" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="cross_size_x" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:SizeX" />
+	</bean>
+	
+	<bean id="cross_size_y" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:OVER:1:SizeY" />
+	</bean>
+	
+	<bean id="cross_position_control" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCrosshair">
+		<constructor-arg name="centreX">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="X" />
+				<property name="scannableName" value="cross_centre_x" />
+				<property name="boldLabel" value="true" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="centreY">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="Y" />
+				<property name="scannableName" value="cross_centre_y" />
+				<property name="boldLabel" value="true" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="sizeX" ref="cross_size_x" />
+		<constructor-arg name="sizeY" ref="cross_size_y" />
+		<property name="crosshairSizeFactor" value="3" />
+	</bean>
 
 	<!-- Camera controls -->
 	<bean id="analyserCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
 		<constructor-arg ref="analyserCameraControl" />
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
+		<property name="extensions">
+			<list>
+				<ref bean="sim_cam_extension_toggle_overlay" />
+				<ref bean="cross_position_control" />
+			</list>
+		</property>
 	</bean>
 
 	<!-- Analyser Cam -->

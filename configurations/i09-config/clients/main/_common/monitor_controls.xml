@@ -40,7 +40,7 @@
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-							<property name="displayName" value="Frames" />
+							<property name="displayName" value="Frames " />
 							<property name="group" value="Analyser Controls" />
 							<property name="scannableName" value="cam_frames" />
 							<property name="boldLabel" value="true" />
