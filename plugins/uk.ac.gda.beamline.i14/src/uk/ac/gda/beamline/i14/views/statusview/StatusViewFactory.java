@@ -101,8 +101,9 @@ public class StatusViewFactory extends FindableBase implements FindableExecutabl
 
 	@Override
 	public String toString() {
-		return "I14StatusViewFactory [viewName=" + viewName + ", iconPlugin=" + iconPlugin + ", iconFilePath="
-				+ iconFilePath + ", ringCurrentAlarmThreshold=" + ringCurrentAlarmThreshold
-				+ ", timeToRefillAlarmThreshold=" + timeToRefillAlarmThreshold + "]";
+		return "StatusViewFactory [viewName=" + viewName + ", viewType=" + viewType + ", iconPlugin=" + iconPlugin
+				+ ", iconFilePath=" + iconFilePath + ", ringCurrentAlarmThreshold=" + ringCurrentAlarmThreshold
+				+ ", timeToRefillAlarmThreshold=" + timeToRefillAlarmThreshold + ", showBeamlineReadiness="
+				+ showBeamlineReadiness + "]";
 	}
 }
