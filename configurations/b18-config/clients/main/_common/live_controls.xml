@@ -4,28 +4,44 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- 	<bean id="sam2x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+  	<bean id="sam2x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Sample stage X" />
 		<property name="scannableName" value="sam2x" />
-		<property name="group" value="Sample stage" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 
 	 <bean id="sam2y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Sample stage Y" />
 		<property name="scannableName" value="sam2y" />
-		<property name="group" value="Sample stage" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 
 	<bean id="sam2rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Sample stage rotation" />
 		<property name="scannableName" value="sam2rot" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_controls_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
 		<property name="group" value="Sample stage" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="sam2x_control" />
+				<ref bean="sam2y_control" />
+				<ref bean="sam2rot_control" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="expt_shutter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Experiment shutter" />
 		<property name="scannableName" value="expt_shutter" />
 		<property name="showStop" value="False" />
+		<property name="horizontalLayout" value="true" />
 		<property name="group" value="Shutters" />
 	</bean>
 
@@ -33,6 +49,7 @@
 		<property name="displayName" value="Optics hutch shutter" />
 		<property name="scannableName" value="oh_shutter" />
 		<property name="showStop" value="False" />
+		<property name="horizontalLayout" value="true" />
 		<property name="group" value="Shutters" />
 	</bean>
 
@@ -40,7 +57,20 @@
 		<property name="displayName" value="Laser shutter (D7 valve)" />
 		<property name="scannableName" value="d7_shutter" />
 		<property name="showStop" value="False" />
+		<property name="horizontalLayout" value="true" />
 		<property name="group" value="Shutters" />
+	</bean>
+
+	<bean id="shutter_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Shutters" />
+		<property name="numColumns" value="3" />
+		<property name="controls">
+			<list>
+				<ref bean="expt_shutter_control" />
+				<ref bean="oh_shutter_control" />
+				<ref bean="d7_valve_control" />
+			</list>
+		</property>
 	</bean>
 
 <!-- User stages 2...6 -->
@@ -48,26 +78,46 @@
 		<property name="displayName" value="User stage 2" />
 		<property name="scannableName" value="user2" />
 		<property name="group" value="User motors" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 	<bean id="user3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="User stage 3" />
 		<property name="scannableName" value="user3" />
-		<property name="group" value="User motors" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 	<bean id="user4_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="User stage 4" />
 		<property name="scannableName" value="user4" />
-		<property name="group" value="User motors" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 	<bean id="user5_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="User stage 5" />
 		<property name="scannableName" value="user5" />
-		<property name="group" value="User motors" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 	<bean id="user6_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="User stage 6" />
 		<property name="scannableName" value="user6" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="user_motors_controls_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
 		<property name="group" value="User motors" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="user2_control" />
+				<ref bean="user3_control" />
+				<ref bean="user4_control" />
+				<ref bean="user5_control" />
+				<ref bean="user6_control" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="s3xsize_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -79,11 +129,15 @@
 		<property name="displayName" value="HR mirror pitch" />
 		<property name="scannableName" value="hrpitch" />
 		<property name="group" value="HR mirror" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 	<bean id="hry_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="HR mirror height" />
 		<property name="scannableName" value="hry" />
 		<property name="group" value="HR mirror" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
 
 <!-- samplewheel_pos_name -->
@@ -97,17 +151,12 @@
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
+				<ref bean="shutter_group" />
 				<ref bean="expt_shutter_control" />
 				<ref bean="oh_shutter_control" />
 				<ref bean="d7_valve_control" />
-				<ref bean="sam2x_control" />
-				<ref bean="sam2y_control" />
-				<ref bean="sam2rot_control" />
-<!-- 				<ref bean="user2_control" /> -->
-<!-- 				<ref bean="user3_control" /> -->
-<!-- 				<ref bean="user4_control" /> -->
-				<ref bean="user5_control" />
-				<ref bean="user6_control" />
+				<ref bean="sample_controls_group" />
+				<ref bean="user_motors_controls_group" />
 				<ref bean="s3xsize_control" />
 				<ref bean="hrpitch_control" />
 				<ref bean="hry_control" />
@@ -140,20 +189,60 @@
 		<property name="displayName" value="Sample front camera" />
 		<property name="url" value="http://b18:b18@172.23.88.181/mjpg/video.mjpg" />
 		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 	<bean id="sample_back_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample back camera" />
 		<property name="url" value="http://b18:b18@172.23.88.182/mjpg/video.mjpg" />
-		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
+	
 	<bean id="eh_front_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="EH front camera" />
 		<property name="url" value="http://b18:b18@172.23.88.183/mjpg/video.mjpg" />
-		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
+
 	<bean id="eh_back_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="EH back camera" />
 		<property name="url" value="http://b18:b18@172.23.88.179/mjpg/video.mjpg" />
-		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
+	
 </beans>

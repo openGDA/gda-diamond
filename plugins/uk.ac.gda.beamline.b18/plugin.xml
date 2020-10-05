@@ -393,4 +393,13 @@
             </hiddenToolBarItem>
          </perspectiveExtension>
       </extension>
+      <extension 
+      		point="org.eclipse.ui.perspectives">
+        <perspective
+            class="uk.ac.gda.beamline.b18.LiveViewPerspective"
+            icon="icons/application_form.png"
+            id="uk.ac.gda.beamline.b18.LiveViewPerspective"
+            name="Live view perspective">
+      	</perspective>
+      </extension>
 </plugin>
