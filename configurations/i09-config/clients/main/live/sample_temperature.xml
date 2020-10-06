@@ -9,7 +9,7 @@
 		<property name="outputFormat" value="%1.3f" />
 	</bean>
 	
-	<bean id="cu_ring_temp" class="gda.device.scannable.PVScannable">
+	<bean id="al_body_temp" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09L-VA-LAKE-01:KRDG1" />
 		<property name="canMove" value="false" />
 		<property name="outputFormat" value="%1.3f" />
