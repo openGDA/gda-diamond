@@ -25,6 +25,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -67,8 +68,8 @@ public class ContinuousModeControllerComposite extends Composite {
 		this.analyser = analyser;
 
 		// Overall layout of groups
-		RowLayoutFactory.swtDefaults().type(SWT.VERTICAL).spacing(5).wrap(false).applyTo(this);
-
+		//RowLayoutFactory.swtDefaults().type(SWT.VERTICAL).spacing(5).wrap(false).applyTo(this);
+		GridLayoutFactory.fillDefaults().numColumns(5).equalWidth(false).applyTo(this);
 		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 
 		// Analyser group
@@ -76,6 +77,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		analyserGroup.setText("Analyser");
 		analyserGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(analyserGroup);
+		GridDataFactory.fillDefaults().span(5, 1).applyTo(analyserGroup);
 
 		// Lens mode
 		Label lensModeLabel = new Label(analyserGroup, SWT.NONE);
@@ -184,11 +186,29 @@ public class ContinuousModeControllerComposite extends Composite {
 			}
 		});
 
+		// Sample Translations
+		Group translationNpcGroup = new Group(this, SWT.NONE);
+		translationNpcGroup.setText("Sample Translations");
+		translationNpcGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).wrap(true).applyTo(translationNpcGroup);
+		GridDataFactory.fillDefaults().span(3, 1).applyTo(translationNpcGroup);
+
+		NudgePositionerComposite saxNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
+		saxNPC.setScannable((Scannable) Finder.find("sax"));
+		saxNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+		NudgePositionerComposite sayNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
+		sayNPC.setScannable((Scannable) Finder.find("say"));
+		sayNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+		NudgePositionerComposite sazNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
+		sazNPC.setScannable((Scannable) Finder.find("saz"));
+		sazNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+
 		// Beamline group
 		Group beamlineGroup = new Group(this, SWT.NONE);
 		beamlineGroup.setText("Beamline");
 		beamlineGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
+		GridLayoutFactory.swtDefaults().numColumns(2).spacing(10, 0).applyTo(beamlineGroup);
+		GridDataFactory.fillDefaults().span(2, 2).applyTo(beamlineGroup);
 
 		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
 		energyNPC.setScannable((Scannable) Finder.find("energy"));
@@ -204,12 +224,13 @@ public class ContinuousModeControllerComposite extends Composite {
 		s2XsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
 		s2XsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 
-		Composite buttonsComposite = new Composite(beamlineGroup, SWT.NONE);
-		buttonsComposite.setLayoutData(new GridData(120, SWT.DEFAULT));
-		GridLayoutFactory.swtDefaults().numColumns(1).spacing(10, 0).applyTo(buttonsComposite);
+//		Composite buttonsComposite = new Composite(beamlineGroup, SWT.NONE);
+//		GridLayoutFactory.swtDefaults().numColumns(2).spacing(10, 0).applyTo(buttonsComposite);
+//		GridDataFactory.fillDefaults().span(5, 1).applyTo(buttonsComposite);
 
 		// Beamline shutter button
-		closeShutterButton = new Button(buttonsComposite, SWT.NONE);
+		closeShutterButton = new Button(beamlineGroup, SWT.NONE);
+		GridDataFactory.fillDefaults().grab(true,  false).applyTo(closeShutterButton);
 		closeShutterButton.setText("Close Shutter");
 		closeShutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		closeShutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
@@ -222,9 +243,10 @@ public class ContinuousModeControllerComposite extends Composite {
 		});
 
 		// Beamline shutter button
-		openShutterButton = new Button(buttonsComposite, SWT.NONE);
+		openShutterButton = new Button(beamlineGroup, SWT.NONE);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(openShutterButton);
 		openShutterButton.setText("Open Shutter");
-		openShutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
+		openShutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_BLUE));
 		openShutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
 		openShutterButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -234,30 +256,12 @@ public class ContinuousModeControllerComposite extends Composite {
 			}
 		});
 
-		// Sample Translations
-		Group translationNpcGroup = new Group(this, SWT.NONE);
-		translationNpcGroup.setText("Sample Translations");
-		translationNpcGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).wrap(true).applyTo(translationNpcGroup);
-
-		NudgePositionerComposite saxNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		saxNPC.setScannable((Scannable) Finder.find("sax"));
-		saxNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-		NudgePositionerComposite sayNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		sayNPC.setScannable((Scannable) Finder.find("say"));
-		sayNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-		NudgePositionerComposite sazNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		sazNPC.setScannable((Scannable) Finder.find("saz"));
-		sazNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-		NudgePositionerComposite salongNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
-		salongNPC.setScannable((Scannable) Finder.find("salong"));
-		salongNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-
 		// Sample Rotations
 		Group rotationNpcGroup = new Group(this, SWT.NONE);
 		rotationNpcGroup.setText("Sample Rotations");
 		rotationNpcGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).applyTo(rotationNpcGroup);
+		GridDataFactory.fillDefaults().span(3, 1).applyTo(rotationNpcGroup);
 
 		NudgePositionerComposite satiltNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
 		satiltNPC.setScannable((Scannable) Finder.find("satilt"));
@@ -294,6 +298,12 @@ public class ContinuousModeControllerComposite extends Composite {
 				});
 			}
 		});
+
+		ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL);
+		scroller.setContent(this);
+		scroller.setExpandHorizontal(true);
+		scroller.setExpandVertical(true);
+		scroller.setMinSize(this.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	private void updatePassEnergyCombo() {
