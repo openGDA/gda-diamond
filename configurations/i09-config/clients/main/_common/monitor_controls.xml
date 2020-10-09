@@ -76,7 +76,7 @@
 							<property name="scannableName" value="smpmx" />
 							<property name="incrementTextWidth" value="30"/>
 							<property name="userUnits" value="mm" />
-							<property name="showStop" value="false" />
+							<property name="showStop" value="true" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -85,7 +85,7 @@
 							<property name="scannableName" value="smpmy" />
 							<property name="incrementTextWidth" value="30"/>
 							<property name="userUnits" value="mm" />
-							<property name="showStop" value="false" />
+							<property name="showStop" value="true" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -94,7 +94,7 @@
 							<property name="scannableName" value="smpmz" />
 							<property name="incrementTextWidth" value="30"/>
 							<property name="userUnits" value="mm" />
-							<property name="showStop" value="false" />
+							<property name="showStop" value="true" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -102,8 +102,8 @@
 							<property name="group" value="Sample Controls" />
 							<property name="scannableName" value="smpmpolar" />
 							<property name="incrementTextWidth" value="30"/>
-							<property name="userUnits" value="mm" />
-							<property name="showStop" value="false" />
+							<property name="userUnits" value="deg" />
+							<property name="showStop" value="true" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -111,8 +111,8 @@
 							<property name="group" value="Sample Controls" />
 							<property name="scannableName" value="smpmazimuth" />
 							<property name="incrementTextWidth" value="30"/>
-							<property name="userUnits" value="mm" />
-							<property name="showStop" value="false" />
+							<property name="userUnits" value="deg" />
+							<property name="showStop" value="true" />
 							<property name="boldLabel" value="true" />
 						</bean>
 					</list>
