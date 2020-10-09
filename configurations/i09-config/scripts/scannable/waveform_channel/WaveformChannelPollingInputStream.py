@@ -47,10 +47,10 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         if self.hardwareTriggerProvider is None:
             self.hardwareTriggerProvider=self._controller.getHardwareTriggerProvider()
         new_available = self._waitForNewElements()
-        if installation.isLive():
+        if installation.isLive() and new_available is not None:
             all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         else:
-            if self.channel in ['B1:','B2:', 'B4:','B5:']:
+            if self.channel in ['B1:','B2:', 'B4:','B5:']and new_available is not None:
                 if self.channel in ['B2:', 'B5:']:
                     all_data=self.hardwareTriggerProvider.id_gap_positions[:self.elements_read + new_available]
                 elif self.channel in ['B1:','B4:']:
