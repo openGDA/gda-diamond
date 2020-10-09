@@ -128,7 +128,8 @@ from javashell import * #@UnusedWildImport
 localStation_print("Importing various gda classes")
 from gda.analysis.io import  PilatusTiffLoader
 from gda.device.epicsdevice import ReturnType #@UnusedImport
-from gda.device.scannable import PseudoDevice, ScannableBase #@UnusedImport
+from gda.device.scannable import ScannableBase #@UnusedImport
+from gda.device.scannable import ScannableMotionBase as PseudoDevice
 from gda.epics import CAClient #@UnusedImport
 from gda.jython.commands.GeneralCommands import alias, run #@UnusedImport
 
@@ -166,8 +167,8 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 localStation_print("Importing MultiInputExtraFieldsDummy, SingleInputDummy")
 from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy, SingleInputDummy #@UnusedImport
 
-localStation_print("Importing EpicsFirewireCamera")
-from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera #@UnusedImport
+#localStation_print("Importing EpicsFirewireCamera")
+#from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera #@UnusedImport
 
 localStation_print("Importing NxProcessingDetectorWrapper")
 from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapper #@UnusedImport
