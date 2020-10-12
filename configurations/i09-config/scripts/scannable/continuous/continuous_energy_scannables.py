@@ -38,10 +38,10 @@ ienergy_move_controller = ContinuousEnergyMoveController('ienergy_move_controlle
 
 #sm5amp8 - soft X-ray I0
 jI0 = WaveformChannelScannable('jI0', mcscontroller, 3); jI0.setHardwareTriggerProvider(jenergy_move_controller); jI0.verbose=True
+#smpmamp39 - Sample Drain Current - hardware trigger provider set here will be override dynamically in cvscan command as it is used for both hard and soft X-ray energy scan  
+sdc = WaveformChannelScannable('sdc', mcscontroller, 4); sdc.setHardwareTriggerProvider(jenergy_move_controller); sdc.verbose=True
 #hm3amp20 - Hard X-ray I0
-sdc = WaveformChannelScannable('sdc', mcscontroller, 5); sdc.setHardwareTriggerProvider(ienergy_move_controller); sdc.verbose=True
-#smpmamp39 - Sample Drain Current - hardware trigger provider cannot be set here as it is used for both hard and soft X-ray energy scan so it must be set dynamically in cvscan parser 
-iI0 = WaveformChannelScannable('iI0', mcscontroller, 4); iI0.verbose=True
+iI0 = WaveformChannelScannable('iI0', mcscontroller, 5); iI0.setHardwareTriggerProvider(ienergy_move_controller); iI0.verbose=True
 
 binpointPgmEnergy = WaveformChannelScannable('binpointPgmEnergy', binpointc, 'B1:'); binpointPgmEnergy.setHardwareTriggerProvider(jenergy_move_controller); binpointPgmEnergy.verbose=True
 binpointJidGap    = WaveformChannelScannable('binpointJidGap',    binpointc, 'B2:'); binpointJidGap.setHardwareTriggerProvider(jenergy_move_controller);    binpointJidGap.verbose=True
