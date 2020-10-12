@@ -102,25 +102,25 @@
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="" />
-							<property name="group" value="Gate valve V10" />
+							<property name="group" value="gate valve V10" />
 							<property name="scannableName" value="last_vac_valve_set" />
 							<property name="showStop" value="false" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 							<property name="displayName" value="" />
-							<property name="group" value="last vacuum valve" />
+							<property name="group" value="gate valve V10" />
 							<property name="scannableName" value="last_vac_valve_status" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="100" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-							<property name="displayName" value="hard" />
+							<property name="displayName" value="soft" />
 							<property name="group" value="fast shutter" />
 							<property name="scannableName" value="fsj1" />
 							<property name="showStop" value="false" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-							<property name="displayName" value="soft" />
+							<property name="displayName" value="hard" />
 							<property name="group" value="fast shutter" />
 							<property name="scannableName" value="fsi1" />
 							<property name="showStop" value="false" />

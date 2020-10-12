@@ -16,10 +16,11 @@
 	<bean id="rad_shutter_status" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Failed</value>
-				<value>Run Ilks Ok</value>
-				<value>OK</value>
-				<value>Disarmed</value>
+				<value>Fault</value>
+				<value>Open</value>
+				<value>Opening</value>
+				<value>Closed</value>
+				<value>Closing</value>
 			</list>
 		</property>
 	</bean>
@@ -37,10 +38,11 @@
 	<bean id="last_vac_valve_status" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Failed</value>
-				<value>Run Ilks Ok</value>
-				<value>OK</value>
-				<value>Disarmed</value>
+				<value>Fault</value>
+				<value>Open</value>
+				<value>Opening</value>
+				<value>Closed</value>
+				<value>Closing</value>
 			</list>
 		</property>
 	</bean>
