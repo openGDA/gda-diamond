@@ -4,5 +4,6 @@
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<import resource="../_common/client.xml"/>
+	<import resource="camera_controls.xml"/>
 	<import resource="stream_views.xml"/>
 </beans>

@@ -75,6 +75,24 @@
 		<property name="userUnits" value="degrees" />
 		<property name="increment" value="0.1" />
 	</bean>
+	
+	<!-- Mirrors -->
+	<bean id="m4c_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="M4C" />
+		<property name="group" value="Pitch" />
+		<property name="scannableName" value="m4c_pitch" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="deg" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="m5c_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="M5C" />
+		<property name="group" value="Pitch" />
+		<property name="scannableName" value="m5c_pitch" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="deg" />
+		<property name="increment" value="0.01" />
+	</bean>
 
 	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -83,6 +101,8 @@
 				<ref bean="cff_control" />
 				<ref bean="exit_slit_x_gap" />
 				<ref bean="exit_slit_y_gap" />
+				<ref bean="m4c_pitch_control" />
+				<ref bean="m5c_pitch_control" />
 				<ref bean="sm_x_axis"/>
 				<ref bean="sm_y_axis"/>
 				<ref bean="sm_z_axis"/>

@@ -8,16 +8,24 @@
 				on the local machine and start the IOC on localhost.
 	</description>
 	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	
+	<!-- Camera controls -->
+	<bean id="analyserCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+		<constructor-arg ref="analyserCameraControl" />
+		<property name="changeExposureWhileCameraAcquiring" value="true" />
+	</bean>
 
 	<bean id="sim_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<bean id="d22c_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="topUi" ref="analyserCameraControlsUi" />
 		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="sim_roi" />
+		<property name="rgb" value="true" />
 	</bean>
 </beans>
