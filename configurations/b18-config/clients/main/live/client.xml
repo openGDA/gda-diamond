@@ -6,9 +6,12 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+	<bean id="medipixBasePv" class="java.lang.String">
+	  <constructor-arg value="BL18B-EA-DET-18"/>
+	</bean>
+
 	<import resource="../_common/client.xml" />
 <!-- 	<import resource="rga.xml" /> -->
-	<import resource="medipix.xml" />
 	
 
 </beans>

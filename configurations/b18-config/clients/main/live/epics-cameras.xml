@@ -7,9 +7,21 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="medipixBasePv" class="java.lang.String">
-	  <constructor-arg value="BL18B-EA-DET-18"/>
+	<!-- AD hardware -->
+	<bean id="d2_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-02:STD" />
 	</bean>
-	<import resource="../_common/medipix.xml" />
+	<bean id="d3_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-03:STD" />
+	</bean>
+	<bean id="d6_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-06:STD" />
+	</bean>
+	<bean id="d7_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-07:STD" />
+	</bean>
+	<bean id="d8_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-08:STD" />
+	</bean>
 
 </beans>

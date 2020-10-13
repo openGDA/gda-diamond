@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dcam_02_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL18B-DI-DCAM-02:CAM:" />
+	</bean>
+	<bean id="dcam_03_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL18B-DI-DCAM-03:CAM:" />
+	</bean>
+	<bean id="dcam_06_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL18B-DI-DCAM-06:CAM:" />
+	</bean>
+	<bean id="dcam_07_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL18B-DI-DCAM-07:CAM:" />
+	</bean>
+
+</beans>

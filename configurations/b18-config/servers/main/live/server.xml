@@ -28,6 +28,9 @@
     <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress4.xml" />
     <import resource="file:${gda.config}/servers/main/xspress4.xml" />
 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/epics-cameras.xml" />
+	<import resource="file:${gda.config}/servers/main/epics-cameras.xml" />
+
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stanfords.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/ion-chambers.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />

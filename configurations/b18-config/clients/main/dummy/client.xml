@@ -6,7 +6,18 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+	
+<!-- 	Set the simulated area detector base PV from hostname  -->
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
+	<bean id="hostName" class="java.lang.String">
+		<constructor-arg value="#{localhostInetAddress.hostName.split('\.')[0]}" />
+	</bean>
+
+	<bean id="medipixBasePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	</bean>
+
 	<import resource="../_common/client.xml" />
-	<import resource="medipix.xml" />
 	
 </beans>

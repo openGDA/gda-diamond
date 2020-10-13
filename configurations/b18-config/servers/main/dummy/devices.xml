@@ -5,8 +5,13 @@
 
 	<bean id="oh_shutter" class="gda.device.enumpositioner.DummyValve" />
 	<bean id="expt_shutter" class="gda.device.enumpositioner.DummyValve" />
-	<bean id="d7_shutter" class="gda.device.enumpositioner.DummyValve" />
 	
+	<bean id="D2" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D3" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D7" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D8" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D9" class="gda.device.enumpositioner.DummyValve" />
+		
 	<bean id="ringCurrent" class="gda.device.monitor.DummyMonitor"/>
 	<bean id="ringEnergy" class="gda.device.monitor.DummyMonitor"/>
 	<bean id="fillMode" class="gda.device.monitor.DummyMonitor"/>

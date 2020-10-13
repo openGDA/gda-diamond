@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcam_02_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_03_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_06_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_07_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="d2_valve_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D2 valve camera" />
+		<property name="arrayPv" value="#{d6_cam_basePv}" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+							<constructor-arg ref="dcam_06_camera_control" />
+						</bean>
+					</list>
+				</property>
+				<property name="liveControls">
+					<list>
+						<ref bean="d2_valve_control" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d3_valve_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D3 valve camera" />
+		<property name="arrayPv" value="#{d7_cam_basePv}" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+							<constructor-arg ref="dcam_07_camera_control" />
+						</bean>
+					</list>
+				</property>
+				<property name="liveControls">
+					<list>
+						<ref bean="d3_valve_control" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="a3_attenuator_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="A3 attenuator camera" />
+		<property name="arrayPv" value="#{d8_cam_basePv}" />
+	</bean>
+
+	<bean id="d8_valve_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D8 valve camera" />
+		<property name="arrayPv" value="#{d2_cam_basePv}" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+							<constructor-arg ref="dcam_02_camera_control" />
+						</bean>
+					</list>
+				</property>
+				<property name="liveControls">
+					<list>
+						<ref bean="d8_valve_control" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d9_valve_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D9 valve camera" />
+		<property name="arrayPv" value="#{d3_cam_basePv}" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+							<constructor-arg ref="dcam_03_camera_control" />
+						</bean>
+					</list>
+				</property>
+				<property name="liveControls">
+					<list>
+						<ref bean="d9_valve_control" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

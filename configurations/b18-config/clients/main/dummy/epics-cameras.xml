@@ -7,17 +7,20 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
-
-	<bean id="hostName" class="java.lang.String">
-		<constructor-arg value="#{localhostInetAddress.hostName.split('\.')[0]}" />
-	</bean>
-
 	<!-- AD hardware -->
-	<bean id="medipixBasePv" class="java.lang.String">
-		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	<bean id="d2_cam_basePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01:ARR" />
 	</bean>
-
-	<import resource="../_common/medipix.xml" />
-
+	<bean id="d3_cam_basePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01:ARR" />
+	</bean>
+	<bean id="d6_cam_basePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01:ARR" />
+	</bean>
+	<bean id="d7_cam_basePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01:ARR" />
+	</bean>
+	<bean id="d8_cam_basePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01:ARR" />
+	</bean>
 </beans>

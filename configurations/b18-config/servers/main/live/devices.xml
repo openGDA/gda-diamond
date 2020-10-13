@@ -4,12 +4,45 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="oh_shutter" class="gda.device.enumpositioner.DummyValve" />
+
+	<bean id="oh_shutter_state" class="gda.device.scannable.PVStringScannable" >
+		<property name="pvName" value="FE18B-PS-SHTR-02:STA" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="expt_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL18B-PS-SHTR-01" />
 	</bean>
+
+	<bean id="expt_shutter_state" class="gda.device.scannable.PVStringScannable" >
+		<property name="pvName" value="BL18B-PS-SHTR-01:STA" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="d7_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL18B-DI-PHDGN-07" />
 	</bean>
+
+	<bean id="d7_shutter_state" class="gda.device.scannable.PVStringScannable" >
+		<property name="pvName" value="BL18B-DI-PHDGN-07:STA" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
 	</bean>
@@ -240,7 +273,16 @@
 	<bean id="D4" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL18B-DI-PHDGN-04" />
 	</bean>
-
+	<bean id="D7" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL18B-DI-PHDGN-07" />
+	</bean>
+	<bean id="D8" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL18B-DI-PHDGN-08" />
+	</bean>
+	<bean id="D9" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL18B-DI-PHDGN-09" />
+	</bean>
+	
 	<bean id="i0_position_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-DI-IZERO-01:POSN" />
 	</bean>
