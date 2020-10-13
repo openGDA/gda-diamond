@@ -46,7 +46,10 @@
 		<property name="scannableName" value="sm_xp" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="userUnits" value="mm" />
-		<property name="increment" value="0.1" />
+		<property name="increment" value="0.01" />
+		<property name="nonEditableIncrement" value="true" />
+		<property name="readOnly" value="true" />
+		
 	</bean>
 	
 	<bean id="sm_y_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
