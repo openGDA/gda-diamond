@@ -8,7 +8,7 @@
 	</bean>
 	
 	<bean id="rad_shutter_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="BL09I-PS-SHTR-02:ILKSTA" />
+		<property name="recordName" value="BL09I-PS-SHTR-02:STA" />
 	</bean>
 	
 	<bean id="last_vac_valve_set" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
@@ -17,7 +17,7 @@
 	</bean>
 	
 	<bean id="last_vac_valve_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="BL09I-VA-VALVE-10:ILKSTA" />
+		<property name="recordName" value="BL09I-VA-VALVE-10:STA" />
 	</bean>
 	
 	<bean id="fsj1" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
