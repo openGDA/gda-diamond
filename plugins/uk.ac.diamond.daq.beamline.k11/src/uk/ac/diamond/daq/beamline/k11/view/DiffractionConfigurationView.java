@@ -302,7 +302,7 @@ public class DiffractionConfigurationView extends ViewPart {
 
 			newConfiguration.setName("Default name");
 			ScanningParameters acquisitionParameters = new ScanningParameters();
-			configuration.setImageCalibration(new ImageCalibration());
+			configuration.setImageCalibration(new ImageCalibration.Builder().build());
 
 			// When a new acquisitionType is selected, replaces the acquisition scanPathDocument
 			ScanpathDocument.Builder scanpathBuilder = Optional.ofNullable(AcquisitionTemplateType.TWO_DIMENSION_POINT)
