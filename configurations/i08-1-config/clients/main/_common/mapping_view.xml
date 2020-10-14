@@ -17,6 +17,7 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DarksAndFlatsSection">
 					<property name="darkFieldCollectorName" value="darkFieldCollector" />
+					<property name="collectDarkByDefault" value="true" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
