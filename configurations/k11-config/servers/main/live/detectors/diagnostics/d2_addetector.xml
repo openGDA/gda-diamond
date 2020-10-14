@@ -83,7 +83,7 @@
 	<!-- CAMERAS -->
 	<bean id="d2_gain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName"
-			value="#{configProperties.DIAGNOSTIC_CAMERAS_PV_PREFIX}02:SIGNAL" />
+			value="#{configProperties.DIAGNOSTIC_CAMERAS_PV_PREFIX}02:Gain" />
 		<property name="unit" value="a.u." />
 		<property name="poll" value="true" />
 		<property name="sensitivity" value="0.1" />

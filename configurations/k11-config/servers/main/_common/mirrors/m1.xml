@@ -21,7 +21,7 @@
 		dummy-unitString="mm" />
 
 	<gda:motor id="m1_roll"
-		live-pvName="#{configProperties.MR_PV_PREFIX}MR-01:ROLL"
+		live-pvName="#{configProperties.MR_PV_PREFIX}01:ROLL"
 		dummy-minPosition="-4"
 		dummy-maxPosition="4"
 		dummy-position="0.001"

@@ -27,7 +27,7 @@
 	<bean id="m4_temp_mask1"
 		class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName"
-			value="#{configProperties.MR_PV_PREFIX}04:MSK" />
+			value="#{configProperties.MR_PV_PREFIX}04:TEMP:MSK" />
 		<property name="unit" value="degC" />
 		<property name="poll" value="true" />
 		<property name="sensitivity" value="0.1" />
@@ -36,7 +36,7 @@
 	<bean id="m4_temp_mask2"
 		class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName"
-			value="#{configProperties.MR_PV_PREFIX}04:MSKSPR" />
+			value="#{configProperties.MR_PV_PREFIX}04:TEMP:MSKSPR" />
 		<property name="unit" value="degC" />
 		<property name="poll" value="true" />
 		<property name="sensitivity" value="0.1" />
