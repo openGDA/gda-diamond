@@ -10,5 +10,4 @@ PLUGIN_CUSTOMIZATION="-Declipse.pluginCustomization=/dls_sw/i20/software/gda_git
 
 # set GDA_CLIENT_VMARGS to use custom pluginCustomization file that disable opening of plot view when scan starts
 export GDA_CLIENT_VMARGS=$PLUGIN_CUSTOMIZATION
-export SWT_GTK3=0
 /dls_sw/i20/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient "$@" -data $WORKSPACE_DIR 
