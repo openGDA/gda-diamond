@@ -34,7 +34,7 @@
 	<bean id="m2_temp_mask2"
 		class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName"
-			value="#{configProperties.MR_PV_PREFIX}02:TEMP:MSKPR" />
+			value="#{configProperties.MR_PV_PREFIX}02:TEMP:MSKSPR" />
 		<property name="unit" value="degC" />
 		<property name="poll" value="true" />
 		<property name="sensitivity" value="0.1" />
