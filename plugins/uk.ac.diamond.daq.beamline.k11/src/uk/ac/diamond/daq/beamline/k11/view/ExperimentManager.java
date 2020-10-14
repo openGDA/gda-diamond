@@ -22,10 +22,10 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
-
-import java.util.Optional;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientText;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -68,32 +68,38 @@ public class ExperimentManager implements CompositeFactory {
 		Label name = createClientLabel(group, style, ClientMessages.NAME);
 		ClientSWTElements.createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(name);
 
-		experimentName = ClientSWTElements.createClientText(group, style, ClientMessages.EMPTY_MESSAGE,
-				Optional.empty());
+		experimentName = createClientText(group, style, ClientMessages.EMPTY_MESSAGE, (VerifyListener) null);
 		ClientSWTElements.createClientGridDataFactory().hint(ClientSWTElements.DEFAULT_TEXT_SIZE)
 				.applyTo(experimentName);
 
 		toggleExperiment = createClientButton(group, SWT.TOGGLE, ClientMessages.START, ClientMessages.START_EXPERIMENT, ClientImages.START);
 		ClientSWTElements.createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(toggleExperiment);
 
-		WidgetUtilities.addWidgetDisposableListener(toggleExperiment, SWT.Selection, doExperimentListener);
+		WidgetUtilities.addWidgetDisposableListener(toggleExperiment, SWT.Selection, toggleExperimentListener);
+
+		if (getExperimentController().isExperimentInProgress()) {
+			experimentName.setText(getExperimentController().getExperimentName());
+			updateWidgets();
+		}
+
 		return composite;
 	}
 
 	private void updateWidgets() {
-		if (getExperimentController().isExperimentInProgress()) {
+		boolean running = getExperimentController().isExperimentInProgress();
+		if (running) {
 			ClientSWTElements.updateButton(toggleExperiment, ClientMessages.STOP, ClientMessages.STOP_EXPERIMENT, ClientImages.STOP);
 		} else {
 			ClientSWTElements.updateButton(toggleExperiment, ClientMessages.START, ClientMessages.START_EXPERIMENT, ClientImages.START);
 		}
-		experimentName.setEnabled(!getExperimentController().isExperimentInProgress());
+		experimentName.setEnabled(!running);
 	}
 
 	private ExperimentController getExperimentController() {
 		return experimentController;
 	}
 
-	private Listener doExperimentListener = event -> {
+	private Listener toggleExperimentListener = event -> {
 		if (getExperimentController().isExperimentInProgress()) {
 			// the button is ready to stop an experiment
 			try {
@@ -101,7 +107,6 @@ public class ExperimentManager implements CompositeFactory {
 			} catch (ExperimentControllerException e) {
 				UIHelper.showError("Cannot stop the Experiment", e);
 			}
-			Display.getDefault().syncExec(this::updateWidgets);
 		} else {
 			// the button is ready to start an experiment
 			try {
@@ -109,7 +114,7 @@ public class ExperimentManager implements CompositeFactory {
 			} catch (ExperimentControllerException e) {
 				UIHelper.showError("Cannot start the Experiment", e);
 			}
-			Display.getDefault().syncExec(this::updateWidgets);
 		}
+		Display.getDefault().syncExec(this::updateWidgets);
 	};
 }
