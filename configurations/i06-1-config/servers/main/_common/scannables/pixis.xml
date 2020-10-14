@@ -8,7 +8,7 @@
 	<!-- SingleImagePerFileWriter(String detectorName)
 	 -->
 	<bean id="pixis_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pixis" />
 		<property name="ndFile" ref="pixis_ndfile_tiff" />
 		<property name="keyNameForMetadataPathTemplate" value="pixis_path_template" />

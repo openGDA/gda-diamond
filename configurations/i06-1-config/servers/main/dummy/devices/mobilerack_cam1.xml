@@ -65,7 +65,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="lab46cam1_hdf5_MultipleImagesPerHDF5FileWriter"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="lab46cam1_NDFileHDF5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -78,7 +78,7 @@
 	<!-- SingleImagePerFileWriter(String detectorName)
 	 -->
 	<bean id="lab46cam1_tiff_SingleImagePerFileWriter"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="lab46cam1" />
 		<property name="ndFile" ref="lab46cam1_NDFileTiff" />
 		<property name="keyNameForMetadataPathTemplate" value="lab46cam1_path_template" />

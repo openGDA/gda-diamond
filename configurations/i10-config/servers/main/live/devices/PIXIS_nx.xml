@@ -209,7 +209,7 @@
 	<!-- SingleImagePerFileWriter(String detectorName)
 	 -->
 	<bean id="pixis1_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pixis" />
 		<property name="ndFile" ref="pixis_ndfile" />
 		<property name="ndArrayPortVal" value="PIXIS1.CAM"/>
@@ -217,7 +217,7 @@
 	</bean>
 
 	<bean id="pixis1_summed_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pixis" />
 		<property name="ndFile" ref="pixis_ndfile" />
 		<property name="ndArrayPortVal" value="PIXIS1.proc"/>
@@ -227,7 +227,7 @@
 	<!-- SingleImagePerFileWriterWithNumTracker(String detectorName)
 	 -->
 	<bean id="pixis1_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pixis" />
 		<property name="ndFile" ref="pixis_ndfile" />
 		<property name="numTrackerExtension" value="pixis1snaps" />
