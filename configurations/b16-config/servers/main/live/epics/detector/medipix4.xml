@@ -27,14 +27,14 @@
 	<!-- NXDetector file writers -->
 	
 	<bean id="medipix4_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="medipix4" />
 		<property name="ndFile" ref="medipix4_ndfiletif" />
 		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
 	<bean id="medipix4_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="medipix4" />
 		<property name="ndFile" ref="medipix4_ndfiletif" />
 		<property name="numTrackerExtension" value="medipix4_snaps_numracker" />

@@ -52,7 +52,7 @@
 	</bean>
 
 	<bean id="cam2_filewriter_tif"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="cam2" />
 		<property name="ndFile" ref="cam2_ndfiletif" />
 		<property name="keyNameForMetadataPathTemplate" value="cam2_path_template" />

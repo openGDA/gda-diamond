@@ -26,7 +26,7 @@
 	</bean>
 
 	<bean id="fastpil2_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="fastpil2" />
 		<property name="ndFile" ref="fastpil2_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />

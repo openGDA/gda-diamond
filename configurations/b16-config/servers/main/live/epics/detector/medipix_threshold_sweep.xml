@@ -45,7 +45,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="medipix_hdf5_nxfilewriter"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="medipix_ndfilehdf5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />

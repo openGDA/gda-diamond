@@ -50,7 +50,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="fastpil1_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="fastpil1" />
 		<property name="ndFile" ref="fastpil1_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />
@@ -110,7 +110,7 @@
 	</bean>
 
 	<bean id="fastpil1_hdf5filewriter"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="fastpil1_ndfile_hdf5" />
 		<property name="fileNameTemplate" value="" />
 		<property name="filePathTemplate" value="$datadir$/$scan$-fastpil1-files" />

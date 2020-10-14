@@ -40,7 +40,7 @@
 	</bean>
 
 	<bean id="cam7_filewriter_tif"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="cam7" />
 		<property name="ndFile" ref="cam7_ndfiletif" />
 		<property name="keyNameForMetadataPathTemplate" value="cam7_path_template" />

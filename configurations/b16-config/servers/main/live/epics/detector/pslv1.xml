@@ -55,14 +55,14 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="pslv1_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pslv1" />
 		<property name="ndFile" ref="pslv1_ndfiletif" />
 		<property name="waitForFileArrival" value="false"/>
 	</bean>
 
 	<bean id="pslv1_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pslv1" />
 		<property name="ndFile" ref="pslv1_ndfiletif" />
 		<property name="numTrackerExtension" value="pslv1_snaps_numracker" />

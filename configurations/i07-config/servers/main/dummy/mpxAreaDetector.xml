@@ -53,20 +53,20 @@
     </bean>
 
     <bean id="merlinAD_tiff_SingleImagePerFileWriterWithNumTracker"
-        class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+        class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
         <constructor-arg value="merlin" />
         <property name="ndFile" ref="merlinAD_NDFileTiff" />
         <property name="numTrackerExtension" value="merlin_numtracker" />
     </bean>
 
     <bean id="merlinAD_tiff_SingleImagePerFileWriter"
-        class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+        class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
         <constructor-arg value="merlin" />
         <property name="ndFile" ref="merlinAD_NDFileTiff" />
     </bean>
 
     <bean id="merlinAD_hdf5_MultipleImagesPerHDF5FileWriter"
-        class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+        class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
         <property name="ndFileHDF5" ref="merlinAD_NDFileHDF5" />
         <property name="fileTemplate" value="%s%s%05d.hdf5" />
         <property name="filePathTemplate" value="$datadir$" />

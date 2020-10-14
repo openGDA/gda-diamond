@@ -79,7 +79,7 @@
 	<!-- NXDetector file writers -->
 	
 	<bean id="pcoedge_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pcoedge" />
 		<property name="ndFile" ref="pcoedge_ndfile" />
 		<property name="writeErrorStatusSupported" value="false"/>
@@ -87,7 +87,7 @@
 	</bean>
 
 	<bean id="pcoedge_multi_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pcoedge" />
 		<property name="ndFile" ref="pcoedge_ndfile" />
 		<property name="writeErrorStatusSupported" value="false"/>
@@ -95,7 +95,7 @@
 	</bean>
 
 	<bean id="pcoedge_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pcoedge" />
 		<property name="ndFile" ref="pcoedge_ndfile" />
 		<property name="numTrackerExtension" value="pcoedge_snaps_numtracker" />

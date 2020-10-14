@@ -47,7 +47,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="simad_tiffilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="simad" />
 		<property name="ndFile" ref="simad_ndfile_tiff" />
 		<property name="keyNameForMetadataPathTemplate" value="simad_path_template" />
@@ -55,7 +55,7 @@
 	</bean>
 
 	<bean id="simad_hdf5filewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="simad_ndfile_hdf5" />
 		<property name="fileNameTemplate" value="simad" />
 		<property name="filePathTemplate" value="$datadir$" />
