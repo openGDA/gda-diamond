@@ -5,10 +5,6 @@
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/i21-config/scripts</path>
 </pydev_pathproperty>
-<pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
-<key>GDA_WORKSPACE_PARENT</key>
-<value>/dls_sw/i21/software/gda</value>
-</pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 <path>${BUNDLE_POOL_LOC}/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar</path>
 <path>${BUNDLE_POOL_LOC}/plugins/org.epics.jca_2.4.2.jar</path>
