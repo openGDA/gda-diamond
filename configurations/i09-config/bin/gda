@@ -8,7 +8,6 @@
 # so it can be checked automatically to prevent accidental startup of the wrong beamline.
 
 EXPECTED_BEAMLINE_VALUE=i09
-export SWT_GTK3=0
 
 # Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the
 # config tree contains the dls-config/bin folder. This will define the following environment variables which

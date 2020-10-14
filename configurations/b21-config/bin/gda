@@ -47,7 +47,6 @@ fi
 # before the gda-core script is invoked using the environment settings
 ######################################################################
 
-export SWT_GTK3=0
 echo "GDA_MODE = ${GDA_MODE}"
 if [[ "$@" == *"servers"* ]] && [[ "$@" != *"stop"* ]]; then
     if [ "${GDA_MODE}" == "live" ]; then
