@@ -15,7 +15,7 @@
 	
 	<!-- TIFF -->
 	
-	<bean id="pco2_nxfilewriter_tif" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+	<bean id="pco2_nxfilewriter_tif" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pco2" />
 		<property name="ndFile" ref="pco2_ndfile_tif" />
 		<property name="writeErrorStatusSupported" value="false"/>

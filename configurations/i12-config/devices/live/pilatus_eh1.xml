@@ -210,7 +210,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="pilatus2_eh1_nxfilewriter_for_scans_tif"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus2M" />
 		<property name="ndFile" ref="pilatus2_eh1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />
@@ -232,7 +232,7 @@
 	</bean>
 	
 	<bean id="pilatus2_eh1_nxfilewriter_for_scans_cbf"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<!-- <constructor-arg value="pilatus2M" /> -->
 		<property name="ndFile" ref="pilatus2_eh1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />

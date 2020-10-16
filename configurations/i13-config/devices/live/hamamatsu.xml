@@ -44,7 +44,7 @@
 	
 	<!-- NXDetector file writers -->
 		
-	<bean id="hama_nxfilewriter_tif" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+	<bean id="hama_nxfilewriter_tif" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="hama" />
 		<property name="ndFile" ref="hama_ndfile_tif" />
 		<property name="writeErrorStatusSupported" value="false"/>
