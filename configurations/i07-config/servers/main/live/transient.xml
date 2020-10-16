@@ -20,5 +20,7 @@
 
 	<!-- <import resource="transient/xmap.xml" /> -->
 
+	<!-- <import resource="transient/hex3.xml" /> -->
+
 
 </beans>
