@@ -25,7 +25,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +65,7 @@ public class CopyTemplateFiles {
 
 		// If destination and source directories are the same, do nothing
 		if (destDir.equals(sourceDir)) {
-			logger.warn("Not copying template files - source and destination directories ({}) are the same!", destDir.toString());
+			logger.warn("Not copying template files - source and destination directories ({}) are the same!", destDir);
 			return;
 		}
 
@@ -77,10 +83,15 @@ public class CopyTemplateFiles {
 
 		// Copy the xml files in
 		boolean filesUpdated = false;
-		logger.info("Copying template files from {} to {}.", sourceDir.toString(), destDir.toString());
+		StringBuilder errorMessages = new StringBuilder();
+
+		logger.info("Copying template files from {} to {}.", sourceDir, destDir);
 		for(File xmlFile : xmlFiles) {
-			File destFile = destDir.resolve(xmlFile.getName()).toFile();
 			try {
+				if (xmlFile.exists() && !xmlFile.canRead()) {
+					throw new IOException("Don't have read permission for file "+xmlFile.getAbsolutePath());
+				}
+				File destFile = destDir.resolve(xmlFile.getName()).toFile();
 				if (!destFile.exists()) {
 					logger.debug("Copying template file from {} to {}.", xmlFile.getAbsolutePath(), destFile.getAbsolutePath());
 					FileUtils.copy(xmlFile, destFile);
@@ -90,8 +101,19 @@ public class CopyTemplateFiles {
 
 				}
 			} catch (IOException e) {
-				logger.warn("Problem copying template file", e);
+				errorMessages.append(e.getMessage() +"\n");
+				logger.warn("Problem copying template file {}", e.getMessage());
 			}
+		}
+
+		// Show any errors in a dialog box
+		if (errorMessages.length()>0) {
+			MessageDialog dialog = new FileWarningDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					"Problem copying XML templates", null,
+					"Problem copying XML templates to "+destDir+" : \n\n"+errorMessages.toString(),
+					MessageDialog.WARNING, 0, new String[] {"OK"});
+			dialog.setBlockOnOpen(true);
+			dialog.open();
 		}
 
 		// Update the Experiment Explorer view to make sure the new folder is show in the scan tree.
@@ -126,5 +148,23 @@ public class CopyTemplateFiles {
 			}
 		}
 		return matchingFiles;
+	}
+
+	private static class FileWarningDialog extends MessageDialog {
+
+		public FileWarningDialog(Shell parentShell, String dialogTitle, Image dialogTitleImage, String dialogMessage,
+				int dialogImageType, int defaultIndex, String[] dialogButtonLabels) {
+			super(parentShell, dialogTitle, dialogTitleImage, dialogMessage, dialogImageType, defaultIndex, dialogButtonLabels);
+		}
+
+		@Override
+		protected boolean isResizable() {
+			return true;
+		}
+
+		@Override
+		protected Point getInitialSize() {
+			return getShell().computeSize(600, SWT.DEFAULT);
+		}
 	}
 }
