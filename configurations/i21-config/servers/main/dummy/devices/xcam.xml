@@ -7,7 +7,7 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 	
-	<bean id="SWMRSimhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+<!-- 	<bean id="SWMRSimhostname" class="java.net.InetAddress" factory-method="getLocalHost"/> -->
 
 <!-- XCAM driver specific information for metadata -->
 <!-- 	<bean id="xcamAccumulatePeriod" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->

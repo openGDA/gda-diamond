@@ -89,45 +89,7 @@
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
-	<!-- use EPICS HDF plugin to write XIP data to file -->
-	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
-		<property name="name" value="xip1"/>
-		<property name="ndFileHDF5" ref="xcam_xip1_hdf5"/>
-		<property name="fileNameTemplate" value="xcam-xip1"/>
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setFileNameAndNumber" value="true" />
-		<property name="rowChunks" value="0" />
-		<property name="colChunks" value="0" />
-		<property name="framesChunks" value="1" />
-		<property name="framesFlush" value="1" />
-		<property name="storeAttr" value="true" />
-		<property name="lazyOpen" value="true" />
-		<property name="blocking" value="false" />
-		<property name="attrByDimSupported" value="true" />
-		<property name="attrByDim" value="true" />
-		<property name="pathErrorSuppressed" value="true" />
-	</bean>
-	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
-		<property name="name" value="xip2"/>
-		<property name="ndFileHDF5" ref="xcam_xip2_hdf5"/>
-		<property name="fileNameTemplate" value="xcam-xip2"/>
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setFileNameAndNumber" value="true" />
-		<property name="rowChunks" value="0" />
-		<property name="colChunks" value="0" />
-		<property name="framesChunks" value="1" />
-		<property name="framesFlush" value="1" />
-		<property name="storeAttr" value="true" />
-		<property name="lazyOpen" value="true" />
-		<property name="blocking" value="false" />
-		<property name="attrByDimSupported" value="true" />
-		<property name="attrByDim" value="true" />
-		<property name="pathErrorSuppressed" value="true" />
-	</bean>
+
 	<!-- used with live stream view -->
  	<bean id="xcam" class="gda.device.detector.NXDetector">
 		<property name="name" value="xcam" />
@@ -141,23 +103,6 @@
 				<ref bean="xcam_RoiStats5" />
 				<ref bean="xcam_RoiStats6" />
 				<ref bean="xcamHdf5Filewriter" />
-			</list>
-		</property>
-	</bean>
- 	<bean id="xcamxip" class="gda.device.detector.NXDetector">
-		<property name="name" value="xcamxip" />
-		<property name="collectionStrategy" ref="xcamCollectionStrategy_triggered" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="xcam_RoiStats1" />
-				<ref bean="xcam_RoiStats2" />
-				<ref bean="xcam_RoiStats3" />
-				<ref bean="xcam_RoiStats4" />
-				<ref bean="xcam_RoiStats5" />
-				<ref bean="xcam_RoiStats6" />
-				<ref bean="xcamHdf5Filewriter" />
-				<ref bean="xcamXip1Hdf5Filewriter" />
-				<ref bean="xcamXip2Hdf5Filewriter" />
 			</list>
 		</property>
 	</bean>
