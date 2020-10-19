@@ -1,3 +1,5 @@
+if __name__ != "__main__":
+	raise RuntimeError("localStation should not be used in import statements")
 #### Take out if causes problem - Pete won't be happy.
 from scisoftpy import *
 ####
@@ -62,6 +64,7 @@ from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntens
 from gdascripts.scannable.dummy import SingleInputDummy, SingleInputStringDummy
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 from gda.device.scannable.scannablegroup import ScannableGroup
+
 
 print "======================================================================"
 print "Running B16 specific initialisation code"
