@@ -2,28 +2,35 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
-
-
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+	
 	<gda:motor id="pco_x"
-		live-pvName="BL11K-EA-DET-02:X"
+		live-pvName="#{configProperties.EA_DET_PREFIX}02:X"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 	<gda:motor id="pco_z"
-		live-pvName="BL11K-EA-DET-02:Z"
+		live-pvName="#{configProperties.EA_DET_PREFIX}02:Z"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
+	<gda:motor id="pco_focus"
+		live-pvName="#{configProperties.EA_DET_PREFIX}02:FOCUS"
+		dummy-minPosition="-12.5"
+		dummy-maxPosition="12.5"
+		dummy-position="9.45"
+		dummy-unitString="mm"/>		
 
 	<bean id="imaging_rail" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="pco_x" />
 				<ref bean="pco_z" />
+				<ref bean="pco_focus" />
 			</list>
 		</property>
 	</bean>
