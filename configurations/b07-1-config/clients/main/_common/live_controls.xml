@@ -86,7 +86,7 @@
 		<property name="scannableName" value="m4c_pitch" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="userUnits" value="deg" />
-		<property name="increment" value="0.01" />
+		<property name="increment" value="0.00001" />
 	</bean>
 	<bean id="m5c_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="M5C" />
@@ -94,7 +94,7 @@
 		<property name="scannableName" value="m5c_pitch" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="userUnits" value="deg" />
-		<property name="increment" value="0.01" />
+		<property name="increment" value=" 0.0001" />
 	</bean>
 
 	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
