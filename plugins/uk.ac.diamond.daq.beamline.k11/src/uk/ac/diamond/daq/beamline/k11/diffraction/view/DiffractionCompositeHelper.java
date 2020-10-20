@@ -43,9 +43,9 @@ public class DiffractionCompositeHelper {
 			UpdateValueStrategy.POLICY_NEVER);
 	public static final UpdateValueStrategy POLICY_UPDATE = new UpdateValueStrategy(false,
 			UpdateValueStrategy.POLICY_UPDATE);
-	public static final IConverter mappingRegionShapeToShape = IConverter.create(IMappingScanRegionShape.class,
+	public static final IConverter<IMappingScanRegionShape, AcquisitionTemplateType> mappingRegionShapeToShape = IConverter.create(IMappingScanRegionShape.class,
 			AcquisitionTemplateType.class,
-			mappingRegion -> acquisitionTypeFromMappingRegion((IMappingScanRegionShape) mappingRegion).orElse(null));
+			mappingRegion -> acquisitionTypeFromMappingRegion(mappingRegion).orElse(null));
 
 	public static final Optional<AcquisitionTemplateType> acquisitionTypeFromMappingRegion(IMappingScanRegionShape mappingRegion) {
 		if (mappingRegion == null)
@@ -56,10 +56,10 @@ public class DiffractionCompositeHelper {
 				.findFirst();
 	}
 
-	public static final IConverter scanPathToRandomised = IConverter.create(IScanPathModel.class, Boolean.class,
+	public static final IConverter<IScanPathModel, Boolean> scanPathToRandomised = IConverter.create(IScanPathModel.class, Boolean.class,
 			scanPathModel -> scanPathModel.getClass().equals(TwoAxisGridPointsRandomOffsetModel.class));
 
-	public static final IConverter integerToString = IConverter.create(Integer.class, String.class, String::valueOf);
-	public static final IConverter stringToInteger = IConverter.create(String.class, Integer.class,
-			string -> Integer.valueOf((String) string));
+	public static final IConverter<Integer, String> integerToString = IConverter.create(Integer.class, String.class, String::valueOf);
+	public static final IConverter<String, Integer> stringToInteger = IConverter.create(String.class, Integer.class,
+			Integer::valueOf);
 }
