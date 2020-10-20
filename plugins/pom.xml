@@ -14,6 +14,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   </parent>
 
   <modules>
+    <module>uk.ac.diamond.daq.beamline.htss</module>
     <module>uk.ac.diamond.daq.beamline.i15-1.api</module>
     <module>uk.ac.diamond.daq.beamline.i15-1.server</module>
     <module>uk.ac.diamond.daq.beamline.i21.server</module>
