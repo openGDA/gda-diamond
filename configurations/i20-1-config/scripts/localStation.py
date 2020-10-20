@@ -13,6 +13,7 @@ run("frelon_scan_runner.py")
 run("turboxas_scan_runner.py")
 run("frelon-kinetic-roi-settings.py")
 run("frelon-adc-status.py")
+run("run_in_try_catch.py")
 
 if LocalProperties.isDummyModeEnabled() == False:
     run("shutter_functions.py")
@@ -78,23 +79,27 @@ for zebra in [ zebra_device , zebra_device2 ]:
     zebra.encCopyMotorPosToZebra(3)
     zebra.encCopyMotorPosToZebra(4)
 
-print "Stopping tfg and setting it to use scaler64 collection mode"
-das4tfg.sendCommand("tfg stop")
-das4tfg.sendCommand("tfg setup-cc-mode scaler64");
 
-# -- DAserver options for triggering XSpress3 ((TTL VETO 0)
-print "Setting Veto options for XSpress3"
-# veto signal : high veto signal when input is high
-das4tfg.sendCommand("tfg setup-veto veto0-inv 0")
-# veto output termination (see manual)
-das4tfg.sendCommand("tfg setup-veto veto0-drive 1")
+def setupTfg() :
+    print "Stopping tfg and setting it to use scaler64 collection mode"
+    das4tfg.sendCommand("tfg stop")
+    das4tfg.sendCommand("tfg setup-cc-mode scaler64");
+    
+    # -- DAserver options for triggering XSpress3 ((TTL VETO 0)
+    print "Setting Veto options for XSpress3"
+    # veto signal : high veto signal when input is high
+    das4tfg.sendCommand("tfg setup-veto veto0-inv 0")
+    # veto output termination (see manual)
+    das4tfg.sendCommand("tfg setup-veto veto0-drive 1")
+    
+    # Output trigger for ADC (TTL VETO 1)
+    das4tfg.sendCommand("tfg setup-veto veto1-inv 0")
+    das4tfg.sendCommand("tfg setup-veto veto1-drive 1")
+    
+    # Scaler channel input 0 : Record when input level is high (topup signal for TurboXas)
+    das4tfg.sendCommand("tfg setup-cc-chan 0 level")
 
-# Output trigger for ADC (TTL VETO 1)
-das4tfg.sendCommand("tfg setup-veto veto1-inv 0")
-das4tfg.sendCommand("tfg setup-veto veto1-drive 1")
-
-# Scaler channel input 0 : Record when input level is high (topup signal for TurboXas)
-das4tfg.sendCommand("tfg setup-cc-chan 0 level")
+run_in_try_catch(setupTfg)
 
 xspress3Controller = Finder.find("xspress3Controller")
 # xspress3 = Finder.get("xspress3")

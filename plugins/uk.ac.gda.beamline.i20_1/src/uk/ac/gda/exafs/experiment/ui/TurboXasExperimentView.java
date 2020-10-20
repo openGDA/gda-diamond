@@ -763,7 +763,7 @@ public class TurboXasExperimentView extends ViewPart {
 		String paramString = turboXasParameters.toXML().replace("\n", " ");
 
 		String imports = "from gda.scan import TurboXasParameters\n";
-		String command = "turboXasParams = TurboXasParameters.fromXML(\""+paramString+"\") \n"+
+		String command = "turboXasParams = TurboXasParameters.fromXML(\'"+paramString+"\') \n"+
 				"txasScan = turboXasParams.createScan() \n" +
 				setPlotString +
 				"txasScan.runScan()";

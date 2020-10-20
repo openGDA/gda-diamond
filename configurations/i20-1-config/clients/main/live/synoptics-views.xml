@@ -34,42 +34,36 @@
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="trajBuildStatus" />
 								<property name="label" value="Build status  " />
-								<property name="preferredLabelWidth" value="100" />
 								<property name="preferredWidth" value="80" />
 								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="trajBuildState" />
 								<property name="label" value="Build state" />
-								<property name="preferredLabelWidth" value="100" />
 								<property name="preferredWidth" value="80" />
 								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="trajBuildMessage" />
 								<property name="label" value="Build message" />
-								<property name="preferredLabelWidth" value="100" />
 								<property name="preferredWidth" value="200" />
 								<property name="forceLayoutOnLengthChange" value="true" />
 							</bean>	
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="trajExecuteStatus" />
 								<property name="label" value="Execute status" />
-								<property name="preferredLabelWidth" value="100" />
 								<property name="preferredWidth" value="80" />
 								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="trajExecuteState" />
 								<property name="label" value="Execute state" />
-								<property name="preferredLabelWidth" value="100" />
 								<property name="preferredWidth" value="80" />
 								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="trajExecuteMessage" />
 								<property name="label" value="Build message" />
-								<property name="preferredLabelWidth" value="100" />
 								<property name="preferredWidth" value="200" />
 								<property name="forceLayoutOnLengthChange" value="true" />
 							</bean>	

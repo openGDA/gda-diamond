@@ -86,6 +86,14 @@
 		<property name="group" value="HR mirror" />
 	</bean>
 
+<!-- samplewheel_pos_name -->
+	<bean id="samplewheel_pos_name_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Sample wheel position"/>
+		<property name="scannableName" value="samplewheel_pos_name" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+	</bean>
+
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -103,6 +111,7 @@
 				<ref bean="s3xsize_control" />
 				<ref bean="hrpitch_control" />
 				<ref bean="hry_control" />
+				<ref bean="samplewheel_pos_name_control" />
 			</list>
 		</property>
 	</bean>
@@ -130,17 +139,21 @@
 	<bean id="sample_front_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample front camera" />
 		<property name="url" value="http://b18:b18@172.23.88.181/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
 	</bean>
 	<bean id="sample_back_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample back camera" />
 		<property name="url" value="http://b18:b18@172.23.88.182/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
 	</bean>
 	<bean id="eh_front_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="EH front camera" />
 		<property name="url" value="http://b18:b18@172.23.88.183/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
 	</bean>
 	<bean id="eh_back_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="EH back camera" />
 		<property name="url" value="http://b18:b18@172.23.88.179/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
 	</bean>
 </beans>

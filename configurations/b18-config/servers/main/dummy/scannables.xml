@@ -13,6 +13,14 @@
 		<property name="numberOfFilters" value="36" />
 	</bean>
 
+	<bean id="samplewheel_pos_name" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Filter 1</value>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="energy" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="energy" />
 		<property name="motor" ref="energy_bragg_pv" />

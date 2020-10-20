@@ -1,9 +1,11 @@
 package uk.ac.gda.exafs.ui.composites;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.Dialog;
@@ -17,6 +19,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -33,7 +36,10 @@ import org.eclipse.ui.dialogs.ListDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.Detector;
+import gda.device.FindableObjectHolder;
 import gda.device.Scannable;
+import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
@@ -47,6 +53,8 @@ import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
  */
 public class ScannableListEditor extends Dialog {
 	private static final Logger logger = LoggerFactory.getLogger(ScannableListEditor.class);
+
+	private static final String SAFE_SCANNABLES_OBJECT_NAME = "safeScannablesForPositionsComposite";
 
 	private Composite mainDialogArea;
 	private Button buttonAddScannable;
@@ -170,7 +178,7 @@ public class ScannableListEditor extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 
 				// Get name of selected scannable, add to list ...
-				String result = showSelectScannableDialog(parent);
+				String result = showSelectScannableDialog(parent, getSafeScannableNames());
 				if (result != null) {
 					logger.debug("Scannable name : {}", result);
 					scannableInfoList.add(new ScannableInfo(result));
@@ -196,16 +204,11 @@ public class ScannableListEditor extends Dialog {
 	 * @return name of the selected scannable (null if nothing selected or cancel button was pressed).
 	 */
 	public static String showSelectScannableDialog(Composite parent) {
-		//Display Dialog with list of all scannables
-		Map<String, Scannable> scannables = Finder.getFindablesOfType(Scannable.class);
-		List<String> scnNames = new ArrayList<>(scannables.keySet());
-		scnNames.sort((String s1, String s2) -> s1.compareTo(s2) );
-
 		ListDialog ld = new ListDialog(parent.getShell());
 		ld.setAddCancelButton(true);
 		ld.setContentProvider(new ArrayContentProvider());
 		ld.setLabelProvider(new LabelProvider());
-		ld.setInput(scnNames);
+		ld.setInput(getScannableNames());
 		ld.setTitle("Select scannable to add");
 		ld.setBlockOnOpen(true);
 		ld.open();
@@ -216,6 +219,128 @@ public class ScannableListEditor extends Dialog {
 			return result[0].toString();
 		} else {
 			return null;
+		}
+	}
+
+	/**
+	 *
+	 * @return List of Scannables that are not Detectors (sorted into alphabetical order).
+	 */
+	public static List<String> getScannableNames() {
+		Map<String, Scannable> scannables = Finder.getInstance().getFindablesOfType(Scannable.class);
+		Map<String, Detector> detectors = Finder.getInstance().getFindablesOfType(Detector.class);
+		List<String> allScnNames = new ArrayList<>();
+		if (!scannables.isEmpty()) {
+			allScnNames.addAll(scannables.keySet());
+		}
+		// remove the detectors
+		if (!detectors.isEmpty()) {
+			allScnNames.removeAll(detectors.keySet());
+		}
+		allScnNames.sort((String s1, String s2) -> s1.compareTo(s2) );
+		return allScnNames;
+	}
+
+	/**
+	 *
+	 * @return List of scannables that are 'safe' for user to move. (List is defined in client side object 'safeScannablesForPositionsComposite'.).
+	 */
+	public static List<String> getSafeScannableNames() {
+		Optional<Findable> safeScannables = Finder.getInstance().findOptional(SAFE_SCANNABLES_OBJECT_NAME);
+		if (safeScannables.isPresent()) {
+			FindableObjectHolder map = (FindableObjectHolder) safeScannables.get();
+			String objName = map.keySet().iterator().next();
+			// return copy of the list, to avoid modifying it!
+			return new ArrayList<>((List<String>) map.get(objName));
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public static String showSelectScannableDialog(Composite parent, List<String> shortListOfName) {
+		ListDialog ld = createSelectScannableDialog(parent, getScannableNames(), shortListOfName);
+		ld.setTitle("Select scannable to add");
+		ld.setBlockOnOpen(true);
+		ld.open();
+
+		// Get name of selected scannable, add to list ...
+		Object[] result = ld.getResult();
+		if (result != null && result.length > 0) {
+			return result[0].toString();
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Create Dialog with list of names of scannables for user to select from. Contains a button to switch the displayed
+	 * list between 'short' and 'long' lists (the short list is displayed by default if it's provided).
+	 * @param parent composite
+	 * @param longNameList list of scannables (typically all scannables)
+	 * @param shortNameList list of scannables, can be null or empty (typically, just the frequently used scannables)
+	 * @return Dialog
+	 */
+	public static ListDialog createSelectScannableDialog(Composite parent, List<String> longNameList, List<String> shortNameList) {
+		ListDialogWithAdvanced ld = new ListDialogWithAdvanced(parent.getShell());
+		ld.setAddCancelButton(true);
+		ld.setContentProvider(new ArrayContentProvider());
+		ld.setLongNameList(longNameList);
+		ld.setInput(longNameList);
+		if (shortNameList != null && !shortNameList.isEmpty()) {
+			ld.setShortNameList(shortNameList);
+			ld.setInput(shortNameList);
+		}
+		ld.setLabelProvider(new LabelProvider());
+		ld.setBlockOnOpen(true);
+
+		return ld;
+	}
+
+	public static class ListDialogWithAdvanced extends ListDialog {
+
+		private List<String> model;
+		private List<String> shortNameList = Collections.emptyList();
+		private List<String> longNameList = Collections.emptyList();
+
+		public ListDialogWithAdvanced(Shell parent) {
+			super(parent);
+		}
+
+		@Override
+		protected void createButtonsForButtonBar(Composite parent) {
+	    	createShowAllButton(parent);
+	    	super.createButtonsForButtonBar(parent);
+	    }
+
+
+		public void setInput(List<String> input) {
+			model = new ArrayList<>(input);
+			super.setInput(model);
+		}
+
+		private void createShowAllButton(Composite parent) {
+			// Create checkbox to control whether all scannables are shown in the list.
+			((GridLayout) parent.getLayout()).numColumns++;
+			Button extraButton = new Button(parent, SWT.CHECK);
+			extraButton.setText("Show all scannables");
+			setButtonLayoutData(extraButton);
+
+			extraButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+				model.clear();
+				model.addAll(shortNameList);
+				if (extraButton.getSelection()) {
+					model.addAll(longNameList);
+				}
+				getTableViewer().refresh();
+			}));
+		}
+
+		public void setLongNameList(List<String> allNames) {
+			this.longNameList = allNames;
+		}
+
+		public void setShortNameList(List<String> safeNames) {
+			this.shortNameList = safeNames;
 		}
 	}
 

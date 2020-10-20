@@ -166,9 +166,6 @@ run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMythen)
 
-# Set the scaler dead frame time (for continuous detector scans with medipix)
-qexafs_counterTimer01.setFrameDeadTime(5e-3)
-
 run("default_scannable_class.py")
 
 run("continuous_scans.py")
@@ -176,5 +173,10 @@ run("continuous_scans.py")
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"
     run("userStartupScript")
+    print "User startup scripts finished"
+
+# Set the scaler dead frame time (for continuous detector scans with medipix)
+print 'Tfg frame dead time : set using qexafs_counterTimer01.setFrameDeadTime(1e-6) (time in seconds)'
+print 'Deadtime is currently set to : '+str(qexafs_counterTimer01.getFrameDeadTime())+" secs"
 
 print "Initialization Complete";
