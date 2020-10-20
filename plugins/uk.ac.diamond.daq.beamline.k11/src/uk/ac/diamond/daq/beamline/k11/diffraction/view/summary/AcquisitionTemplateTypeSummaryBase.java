@@ -28,7 +28,6 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
-import uk.ac.gda.client.UIHelper;
 
 /**
  * A base class common to all the shape reporting.
@@ -56,13 +55,9 @@ public class AcquisitionTemplateTypeSummaryBase  {
 	}
 
 	protected double getExposure() {
-		Optional<Double> exposure = Optional.ofNullable(getScanningParameters().getDetector())
-				.map(DetectorDocument::getExposure);
-		if (exposure.isPresent()) {
-			return exposure.get();
-		}
-		UIHelper.showWarning("Exposure is zero", "No DetectorDocument is defined");
-		return 0d;
+		return Optional.ofNullable(getScanningParameters().getDetector())
+				.map(DetectorDocument::getExposure)
+				.orElseGet(() -> 0d);
 	}
 
 	protected String startToString() {

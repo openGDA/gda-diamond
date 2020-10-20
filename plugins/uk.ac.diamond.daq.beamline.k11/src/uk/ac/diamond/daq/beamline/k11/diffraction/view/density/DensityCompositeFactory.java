@@ -29,7 +29,7 @@ import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyIntegerText;
 import static uk.ac.gda.ui.tool.images.ClientImages.EXCLAMATION_RED;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,11 +40,10 @@ import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
@@ -62,6 +61,7 @@ import uk.ac.diamond.daq.mapping.api.document.helper.ScannableTrackDocumentHelpe
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -76,14 +76,13 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	/**
 	 * Maps, for each AcquisitionTemplateType, the relevant density properties for the associated IScanPointGeneratorModel class
 	 */
-	private static final Map<AcquisitionTemplateType, String[]> acquisitionTemplateTypeProperties
-		= new HashMap<AcquisitionTemplateType, String[]>() {
-			{
-				put(AcquisitionTemplateType.TWO_DIMENSION_POINT, new String[] {});
-				put(AcquisitionTemplateType.TWO_DIMENSION_LINE, new String[] { "points" });
-				put(AcquisitionTemplateType.TWO_DIMENSION_GRID, new String[] { "xAxisPoints", "yAxisPoints" });
-			}
-	};
+	private static final Map<AcquisitionTemplateType, String[]> acquisitionTemplateTypeProperties = new EnumMap<>(AcquisitionTemplateType.class);
+
+	static {
+		acquisitionTemplateTypeProperties.put(AcquisitionTemplateType.TWO_DIMENSION_POINT, new String[] {});
+		acquisitionTemplateTypeProperties.put(AcquisitionTemplateType.TWO_DIMENSION_LINE, new String[] { "points" });
+		acquisitionTemplateTypeProperties.put(AcquisitionTemplateType.TWO_DIMENSION_GRID, new String[] { "xAxisPoints", "yAxisPoints" });
+	}
 
 	private Text points;
 
@@ -139,8 +138,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 
 		// Required to avoid an infinite loop on update
 		points.removeModifyListener(modifyPointListener);
-		ScannableTrackDocument trackDocument = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0);
-		points.setText(Integer.toString(trackDocument.getPoints()));
+
+		updatePoints(0);
+
 		// Re-enable the text listener
 		points.addModifyListener(modifyPointListener);
 
@@ -180,7 +180,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		initialiseElements();
 
 		// Skip the update if number of points is the same
-		if (numPoints == getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0).getPoints())
+		if (getScannableTrackDocument(0) == null || numPoints == getScannableTrackDocument(0).getPoints())
 			return;
 
 		int size = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().size();
@@ -191,7 +191,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 				new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
 	}
 
-	private UpdateValueStrategy validatedReadoutToPointsStrategy() {
+	private UpdateValueStrategy<String, Integer> validatedReadoutToPointsStrategy() {
 		return UpdateValueStrategy.create(stringToInteger).setAfterGetValidator(this::densityReadoutValidator);
 	}
 
@@ -229,9 +229,6 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		return result;
 	}
 
-	private final IConverter hideControlForPoint = IConverter.create(AcquisitionTemplateType.class, Boolean.class,
-			shape -> !((AcquisitionTemplateType) shape).equals(AcquisitionTemplateType.TWO_DIMENSION_POINT));
-
 	private IObservableValue<String> getReadoutObservableValue() {
 		return readoutObservableValue;
 	}
@@ -251,20 +248,30 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 					.orElseGet(UUID::randomUUID);
 
 			if (eventUUID.equals(scanningAcquisitionUUID)) {
-				updatePoints();
+				updatePoints(0);
 			}
-		}
-
-		private void updatePoints() {
-			Optional.ofNullable(getScanningParameters().getScanpathDocument().getScannableTrackDocuments().get(0).getPoints())
-				.map(p -> Integer.toString(p))
-				.ifPresent(points::setText);
-			// sets the cursor at the end
-			points.setSelection(points.getCharCount());
 		}
 	};
 
+	private void updatePoints(int index) {
+		Optional.ofNullable(getScannableTrackDocument(index))
+			.map(ScannableTrackDocument::getPoints)
+			.map(p -> Integer.toString(p))
+			.ifPresent(points::setText);
+		// sets the cursor at the end
+		points.setSelection(points.getCharCount());
+	}
+
 	// ------------ UTILS ----
+	private ScannableTrackDocument getScannableTrackDocument(int index) {
+		return Optional.ofNullable(getScanningParameters())
+			.map(ScanningParameters::getScanpathDocument)
+			.map(ScanpathDocument::getScannableTrackDocuments)
+			.filter(l -> !l.isEmpty())
+			.map(l -> l.get(index))
+			.orElseGet(() -> null);
+	}
+
 	private ScanningAcquisition getScanningAcquisition() {
 		return this.acquisitionSupplier.get();
 	}
