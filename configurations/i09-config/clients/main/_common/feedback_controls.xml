@@ -99,6 +99,7 @@
 							<property name="scannableName" value="rad_shutter_status" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="100" />
+							<property name="textInput" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="" />
@@ -112,6 +113,7 @@
 							<property name="scannableName" value="last_vac_valve_status" />
 							<property name="readOnly" value="true" />
 							<property name="textWidth" value="100" />
+							<property name="textInput" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="soft" />
