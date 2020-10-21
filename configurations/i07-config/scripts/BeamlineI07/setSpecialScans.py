@@ -28,13 +28,11 @@ print "For example:"
 print "    iscan testMotor1 1 100, 1 dummyCounter1 0.1"
 
 
-del cscan
 cscan=CentroidScanClass()
 alias('cscan');
 #Usage:
 #print "Use cscan motor centre width step for centroid scan"
 
-del scan
 scan=BasicScanClass()
 alias('scan');
 
