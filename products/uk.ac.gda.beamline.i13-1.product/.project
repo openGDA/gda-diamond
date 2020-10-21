@@ -3,7 +3,7 @@
 	<name>uk.ac.gda.beamline.i13-1.product</name>
 	<comment></comment>
 	<projects>
-		<project>uk.ac.gda.beamline.i13-1.feature</project>
+		<project>uk.ac.gda.beamline.i13_1.feature</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
