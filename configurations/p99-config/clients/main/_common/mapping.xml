@@ -48,9 +48,6 @@
 				</property>
 			</bean>
 		</property>
-		<property name="templateFilePaths">
-			<list></list>
-		</property>		
 	</bean>
 
 	<bean id="mapping_experiment_bean_provider" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBeanProvider">

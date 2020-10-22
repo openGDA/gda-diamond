@@ -64,9 +64,6 @@
 				</property>
 			</bean>
 		</property>
-		<property name="templateFilePaths">
-			<list></list>
-		</property>
 	</bean>
 
 	<!-- Create a mapping experiment bean provider and register it as an OSGi service -->
