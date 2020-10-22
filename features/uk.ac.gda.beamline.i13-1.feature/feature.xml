@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="uk.ac.gda.beamline.i13-1.feature"
+      id="uk.ac.gda.beamline.i13_1.feature"
       label="Beamline I13-1 Feature"
       version="9.19.0.qualifier"
       provider-name="Diamond Light Source">
