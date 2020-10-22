@@ -109,14 +109,14 @@ public class ContinuousModeControllerComposite extends Composite {
 
 		// Centre energy
 		NudgePositionerComposite centreEnergyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
-		centreEnergyNPC.setScannable((Scannable) Finder.getInstance().find("raw_centre_energy"));
+		centreEnergyNPC.setScannable((Scannable) Finder.find("raw_centre_energy"));
 		centreEnergyNPC.setDisplayName("centre_energy");
 		centreEnergyNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		centreEnergyNPC.hideStopButton();
 		GridDataFactory.swtDefaults().span(1, 2).applyTo(centreEnergyNPC);
 		// Acquire time
 		NudgePositionerComposite acquireTimeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
-		acquireTimeNPC.setScannable((Scannable) Finder.getInstance().find("acquire_time"));
+		acquireTimeNPC.setScannable((Scannable) Finder.find("acquire_time"));
 		acquireTimeNPC.hideStopButton();
 		acquireTimeNPC.setIncrement(0.5);
 		acquireTimeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
