@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Example configuration for beamline health on I08-1 -->
+	<!-- This is for testing purposes only and has not been verified with the beamline -->
 	<bean id="beamline_health_monitor" class="gda.beamline.health.BeamlineHealthMonitor">
  		<property name="conditions">
 			<list>

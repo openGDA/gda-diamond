@@ -73,7 +73,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/beamline_health.xml" />
+	<!-- <import resource="file:${gda.config}/servers/main/_common/beamline_health.xml" /> -->
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
