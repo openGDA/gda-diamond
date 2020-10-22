@@ -44,7 +44,7 @@ public class I05_1Startup implements IStartup {
 	 */
 	private final IPerspectiveListener analyserListener = new IPerspectiveListener() {
 
-		private final IVGScientaAnalyserRMI analyser = Finder.getInstance().find("analyser");
+		private final IVGScientaAnalyserRMI analyser = Finder.find("analyser");
 
 		@Override
 		public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId) {
