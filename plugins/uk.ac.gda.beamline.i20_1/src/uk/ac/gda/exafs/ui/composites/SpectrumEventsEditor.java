@@ -390,7 +390,7 @@ public class SpectrumEventsEditor extends Dialog {
 		 */
 		private Object getCurrentPosition(SpectrumEvent e) {
 			Object defaultPosition = 0.0;
-			Optional<Findable> scn = Finder.getInstance().findOptional(e.getScannableName());
+			Optional<Findable> scn = Finder.findOptional(e.getScannableName());
 	    	if (scn.isPresent()) {
 	    		try {
 					return ((Scannable)scn.get()).getPosition();
@@ -551,7 +551,7 @@ public class SpectrumEventsEditor extends Dialog {
 	    	enumPositions = Collections.emptyList();
 	    	isEnum = false;
 
-	    	Optional<Findable> scn = Finder.getInstance().findOptional(se.getScannableName());
+	    	Optional<Findable> scn = Finder.findOptional(se.getScannableName());
 	    	if (scn.isPresent() && scn.get() instanceof EnumPositioner) {
 	    		try {
 	    			enumPositions = ((EnumPositioner)scn.get()).getPositionsList();

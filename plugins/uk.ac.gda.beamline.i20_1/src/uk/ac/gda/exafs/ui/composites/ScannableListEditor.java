@@ -227,8 +227,8 @@ public class ScannableListEditor extends Dialog {
 	 * @return List of Scannables that are not Detectors (sorted into alphabetical order).
 	 */
 	public static List<String> getScannableNames() {
-		Map<String, Scannable> scannables = Finder.getInstance().getFindablesOfType(Scannable.class);
-		Map<String, Detector> detectors = Finder.getInstance().getFindablesOfType(Detector.class);
+		Map<String, Scannable> scannables = Finder.getFindablesOfType(Scannable.class);
+		Map<String, Detector> detectors = Finder.getFindablesOfType(Detector.class);
 		List<String> allScnNames = new ArrayList<>();
 		if (!scannables.isEmpty()) {
 			allScnNames.addAll(scannables.keySet());
@@ -246,7 +246,7 @@ public class ScannableListEditor extends Dialog {
 	 * @return List of scannables that are 'safe' for user to move. (List is defined in client side object 'safeScannablesForPositionsComposite'.).
 	 */
 	public static List<String> getSafeScannableNames() {
-		Optional<Findable> safeScannables = Finder.getInstance().findOptional(SAFE_SCANNABLES_OBJECT_NAME);
+		Optional<Findable> safeScannables = Finder.findOptional(SAFE_SCANNABLES_OBJECT_NAME);
 		if (safeScannables.isPresent()) {
 			FindableObjectHolder map = (FindableObjectHolder) safeScannables.get();
 			String objName = map.keySet().iterator().next();
