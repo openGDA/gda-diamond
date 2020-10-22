@@ -29,16 +29,6 @@
 		dummy-position="-2.0"
 		dummy-unitString="mm"/>
 
-	<gda:motor id="dcm2_epics_pitch"
-		live-pvName="#{configProperties.DCM_PV_PREFIX}02:PITCH_MOT"
-		dummy-minPosition="-6.126" dummy-maxPosition="15.974"
-		dummy-position="-2.0" dummy-unitString="mm" />
-
-	<gda:motor id="dcm2_epics_roll"
-		live-pvName="#{configProperties.DCM_PV_PREFIX}02:ROLL_MOT"
-		dummy-minPosition="-6.126" dummy-maxPosition="15.974"
-		dummy-position="-2.0" dummy-unitString="mm" />
-
 	<bean id="dcm2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -48,8 +38,6 @@
 				<ref bean="dcm2_roll" />
 				<ref bean="dcm2_pitch" />
 				<ref bean="dcm2_y_positioner" />
-				<ref bean="dcm2_epics_pitch" />
-				<ref bean="dcm2_epics_roll" />				
 			</list>
 		</property>
 	</bean>
