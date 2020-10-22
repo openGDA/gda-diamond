@@ -39,9 +39,6 @@
 		<property name="scriptFiles">
 			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
 		</property>
-		<property name="templateFilePaths">
-			<list></list>
-		</property>
 	</bean>
 
 	<!-- Create a mapping experiment bean provider -->
