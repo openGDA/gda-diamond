@@ -45,9 +45,6 @@
 				</property>
 			</bean>
 		</property>
-		<property name="templateFilePaths">
-			<list></list>
-		</property>	
 	</bean>
 
 </beans>
