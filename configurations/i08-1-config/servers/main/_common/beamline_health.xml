@@ -17,8 +17,7 @@
 		</property>
 	</bean>
 
-	<bean id="ring_current_condition" class="gda.beamline.health.BeamlineHealthCondition">
-		<property name="scannable" ref="ring_current" />
+	<bean id="ring_current_condition" class="gda.beamline.health.ScannableThresholdCondition">
 		<property name="description" value="Ring current" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
@@ -30,8 +29,7 @@
 		<property name="errorMessage" value="Insufficient ring current" />
 	</bean>
 
-	<bean id="optics_shutter_condition" class="gda.beamline.health.BeamlineHealthCondition">
-		<property name="scannable" ref="opticsShutter" />
+	<bean id="optics_shutter_condition" class="gda.beamline.health.EnumPositionCondition">
 		<property name="description" value="Optics shutter" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
@@ -43,8 +41,7 @@
 		<property name="errorMessage" value="Optics shutter is not open" />
 	</bean>
 
-	<bean id="fe_shutter_condition" class="gda.beamline.health.BeamlineHealthCondition">
-		<property name="scannable" ref="fe_shutter" />
+	<bean id="fe_shutter_condition" class="gda.beamline.health.EnumPositionCondition">
 		<property name="description" value="Front end shutter" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
@@ -56,8 +53,7 @@
 		<property name="errorMessage" value="Front end shutter is not open" />
 	</bean>
 
-	<bean id="samplex_position_condition" class="gda.beamline.health.BeamlineHealthCondition">
-		<property name="scannable" ref="SampleX" />
+	<bean id="samplex_position_condition" class="gda.beamline.health.ScannableThresholdCondition">
 		<property name="description" value="SampleX position" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
@@ -70,8 +66,7 @@
 		<property name="errorMessage" value="SampleX is not in position" />
 	</bean>
 
-	<bean id="sampley_position_condition" class="gda.beamline.health.BeamlineHealthCondition">
-		<property name="scannable" ref="SampleY" />
+	<bean id="sampley_position_condition" class="gda.beamline.health.ScannableThresholdCondition">
 		<property name="description" value="SampleY position" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
