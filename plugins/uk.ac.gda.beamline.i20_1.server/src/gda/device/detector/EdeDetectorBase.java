@@ -365,7 +365,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 * @return an 1D integer array containing all frames concatenated from start frame to the final frame inclusively.
 	 * @throws DeviceException
 	 */
-	protected abstract int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException;
+	@Override
+	public abstract int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException;
 
 	protected int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
 

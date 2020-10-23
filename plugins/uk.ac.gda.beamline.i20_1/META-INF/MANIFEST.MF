@@ -36,13 +36,16 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.eclipse.nebula.visualization.xygraph,
  uk.ac.gda.client.exafs;bundle-version="1.0.0",
  org.eclipse.dawnsci.nexus,
- org.dawnsci.plotting
+ org.dawnsci.plotting,
+ uk.ac.gda.client.live.stream,
+ org.gda.tango
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: uk.ac.gda.beamline.i20_1,
  uk.ac.gda.exafs.experiment.ui.data
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
-Import-Package: org.apache.commons.collections,
+Import-Package: gda.device.frelon,
+ org.apache.commons.collections,
  org.apache.commons.lang3.tuple;version="3.1.0",
  org.dawnsci.plotting.tools.hyper2d,
  org.eclipse.core.commands,
