@@ -13,7 +13,7 @@
 		<property name="motor" ref="s1yb_motor"/>
 	</bean>
 	<bean id="s1yminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1xa_motor"/>
+		<property name="motor" ref="s1ya_motor"/>
 	</bean>
 	<bean id="s1xcentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s1xpos_motor"/>
