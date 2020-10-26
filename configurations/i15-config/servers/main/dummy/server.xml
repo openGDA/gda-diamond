@@ -21,6 +21,10 @@
 		</property>
 	</bean>
 
+	<bean id="ADSIM_HOST" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
+	</bean>
+
 	<import resource="../_common/server.xml"/>
 	<import resource="device/all.xml"/>
 	<import resource="scannable/all.xml"/>

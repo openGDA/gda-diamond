@@ -13,6 +13,8 @@
 	<import resource="I15-BS.xml"/>
 	<import resource="I15-BS2.xml"/>
 	<import resource="I15-BS3.xml"/>
+	<import resource="I15-CAM-LH-downstream-AD.xml"/>
+	<import resource="I15-CAM-LH-upstream-AD.xml"/>
 	<import resource="I15-CAM-PSL-AD.xml"/>
 	<import resource="I15-CAM-XEYE-AD.xml"/>
 	<import resource="I15-D3.xml"/>
