@@ -14,6 +14,7 @@
 				<ref bean="samplex_position_condition" />
 				<ref bean="sampley_position_condition" />
 				<ref bean="activemq_server_condition" />
+				<ref bean="ispyb_server_condition" />
 			</list>
 		</property>
 	</bean>
@@ -84,6 +85,12 @@
 		<property name="description" value="ActiveMQ server" />
 		<property name="critical" value="true" />
 		<property name="errorMessage" value="ActiveMQ server is not active" />
+	</bean>
+
+	<bean id="ispyb_server_condition" class="gda.beamline.health.IspybServiceCondition">
+		<property name="description" value="ISPyB server" />
+		<property name="critical" value="true" />
+		<property name="errorMessage" value="ISPyB service is not active" />
 	</bean>
 
 </beans>
