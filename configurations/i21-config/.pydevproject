@@ -6,7 +6,7 @@
 <path>/i21-config/scripts</path>
 </pydev_pathproperty>
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
-<path>${BUNDLE_POOL_LOC}/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar</path>
+<path>${BUNDLE_POOL_LOC}/plugins/org.apache.commons.logging_1.2.0.v20180409-1502.jar</path>
 <path>${BUNDLE_POOL_LOC}/plugins/org.epics.jca_2.4.2.jar</path>
 </pydev_pathproperty>
 </pydev_project>
