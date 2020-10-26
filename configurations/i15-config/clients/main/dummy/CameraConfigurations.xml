@@ -6,7 +6,7 @@
 
 	<description>
 		To use the Simulated Area detector in dummy mode:
-			1) Launch the Utilities > GDA SWMR AreaDetector Simulation
+			1) Launch the Utilities > GDA AreaDetector Simulation
 				on the local machine and start the IOC.
 			2) If you want to use an Area detector on another machine, or
 				you are also launching the GDA servers, export the
@@ -15,63 +15,38 @@
 	</description>
 
 	<bean id="ADSIM_HOST" class="java.lang.String">
-	    <constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
-	</bean>
-
-	<bean id="ADSIM_SWMR_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA SWMR AreaDetector Simulation (ARR+MJPG)" />
-		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/CAM.mjpg.mjpg" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
+		<constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
 	</bean>
 
 	<bean id="ADSIM_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR+MJPG)" />
+		<property name="displayName" value="Utilities > GDA AreaDetector Simulation" />
 		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
 	</bean>
 
-	<bean id="ADSIM0_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR0 Int8)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR0" />
+	<bean id="mar_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Mar (aka Utilities > GDA AreaDetector Simulation)" />
+		<!-- 
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		 -->
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
 	</bean>
 
-	<bean id="ADSIM1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR1 Uint8)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR1" />
+	<bean id="pe_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Perkin Elmer (aka Utilities > GDA AreaDetector Simulation)" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
 	</bean>
 
-	<bean id="ADSIM2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR2 Int16)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR2" />
+	<bean id="pil3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="PIL3 (aka Utilities > GDA AreaDetector Simulation)" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
 	</bean>
 
-	<bean id="ADSIM3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR3 Uint16)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR3" />
-	</bean>
-
-	<bean id="ADSIM4_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR4 Int32)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR4" />
-	</bean>
-
-	<bean id="ADSIM5_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR5 Uint32)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR5" />
-	</bean>
-
-	<bean id="ADSIM6_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR6 Float32)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR6" />
-	</bean>
-
-	<bean id="ADSIM7_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR7 Float64)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR7" />
-	</bean>
-
-	<bean id="ADSIM8_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA AreaDetector Simulation > ADSIM (ARR8 RGB)" />
-		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR8" />
+	<bean id="psl_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="PSL (aka Utilities > GDA AreaDetector Simulation)" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
 	</bean>
 </beans>
