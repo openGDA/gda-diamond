@@ -15,9 +15,15 @@
 	<!-- Classes for which TRACE messages are excessive
 	<logger name="gda.device.zebra.ZebraConstantVelocityMoveController">				<level value="DEBUG"/></logger>
 	<logger name="gda.epics.LazyPVFactory">												<level value="DEBUG"/></logger>
+	 -->
+	<logger name="gda.jython.batoncontrol.BatonManager">								<level value="DEBUG"/></logger>
 	<logger name="gda.observable.ObservableComponent">									<level value="DEBUG"/></logger>
+	<logger name="gda.rcp.ApplicationWorkbenchAdvisor">									<level value="DEBUG"/></logger>
+	<logger name="gda.util.logging.LogbackUtils">										<level value="DEBUG"/></logger>
+	<!-- 
 	<logger name="org.eclipse.scanning.api.event.scan.ScanRequest">						<level value="DEBUG"/></logger>
 	 -->
+	<logger name="uk.ac.gda.menu.JythonControlsFactory">								<level value="DEBUG"/></logger>
 
 	<!-- Classes where we want all messages
 	 -->
