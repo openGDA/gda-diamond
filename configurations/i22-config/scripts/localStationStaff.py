@@ -16,6 +16,8 @@ gridscan_stage = [base_x, base_y]
 # ===================================================================================
 #diode_y = SingleEpicsPositionerClass('diode_y', 'BL22I-MO-TABLE-05:Y', 'BL22I-MO-TABLE-05:Y.RBV' , 'BL22I-MO-TABLE-05:Y.DMOV' , 'BL22I-MO-TABLE-05:Y.STOP','mm', '%.4f')
 #diode_x = SingleEpicsPositionerClass('diode_x', 'BL22I-MO-TABLE-05:X', 'BL22I-MO-TABLE-05:X.RBV' , 'BL22I-MO-TABLE-05:X.DMOV' , 'BL22I-MO-TABLE-05:X.STOP','mm', '%.4f')
+from gdascripts.pd.epics_pds import DisplayEpicsPVClass
+
 qbpm1_xpos = DisplayEpicsPVClass("qbpm1_xpos","BL22I-EA-XBPM-01:PosX:MeanValue_RBV","um","%.6f")
 qbpm1_ypos = DisplayEpicsPVClass("qbpm1_ypos","BL22I-EA-XBPM-01:PosY:MeanValue_RBV","um","%.6f")
 qbpm1_quad1 = DisplayEpicsPVClass("qbpm1_quad1","BL22I-EA-XBPM-01:Cur1:MeanValue_RBV","A","%.6e")
@@ -32,32 +34,7 @@ qbpm2_quad4 = DisplayEpicsPVClass("qbpm2_quad4","BL22I-EA-XBPM-02:Cur4:MeanValue
 qbpm2_total = DisplayEpicsPVClass("qbpm2_total","BL22I-EA-XBPM-02:SumAll:MeanValue_RBV","A","%.6e")
 
 sample_diode = DisplayEpicsPVClass("sample_diode","BL22I-EA-TTRM-02:Cur3:MeanValue_RBV","A","%.6e")
-
-def tfgAcquisition():
-    print('Changing from PandA to TFG acquisition system...')
-    caput('BL22I-EA-PILAT-01:STAT:NDArrayPort', 'SAXS.PIL.CAM')
-    sleep(1)
-    caput('BL22I-EA-PILAT-03:STAT:NDArrayPort', 'TWOML.PIL.CAM')
-    sleep(1)
-    caput('BL22I-EA-PILAT-01:STAT:NDAttributesFile', [0])
-    sleep(1)
-    caput('BL22I-EA-PILAT-03:STAT:NDAttributesFile', [0])
-    sleep(1)
-    caput('BL22I-EA-PILAT-01:HDF5:XMLFileName', [0])
-    sleep(1)
-    caput('BL22I-EA-PILAT-03:HDF5:XMLFileName', [0])
-    sleep(1)
-    caput ('BL22I-EA-PILAT-01:CAM:ImageMode', "Multiple")
-    sleep(1)
-    caput ('BL22I-EA-PILAT-03:CAM:ImageMode', "Multiple")
-    sleep(1)
-    caput('BL22I-EA-PILAT-01:CAM:TriggerMode', "Ext. Enable")
-    sleep(1)
-    caput('BL22I-EA-PILAT-03:CAM:TriggerMode', "Ext. Enable")
-    sleep(1)
-    caput('BL22I-EA-PILAT-01:HDF5:PositionMode', 'Off')
-    sleep(1)
-    caput('BL22I-EA-PILAT-03:HDF5:PositionMode', 'Off')
-    sleep(1)
-    print('Data acquisition methodology changed!')
-
+user_tetrAMM_ch1 = DisplayEpicsPVClass("user_tetrAMM_ch1","BL22I-EA-TTRM-01:Cur1:MeanValue_RBV","A","%.6e")
+user_tetrAMM_ch2 = DisplayEpicsPVClass("user_tetrAMM_ch2","BL22I-EA-TTRM-01:Cur2:MeanValue_RBV","A","%.6e")
+user_tetrAMM_ch3 = DisplayEpicsPVClass("user_tetrAMM_ch3","BL22I-EA-TTRM-01:Cur3:MeanValue_RBV","A","%.6e")
+user_tetrAMM_ch4 = DisplayEpicsPVClass("user_tetrAMM_ch4","BL22I-EA-TTRM-01:Cur4:MeanValue_RBV","A","%.6e")
