@@ -13,6 +13,7 @@
 				<ref bean="fe_shutter_condition" />
 				<ref bean="samplex_position_condition" />
 				<ref bean="sampley_position_condition" />
+				<ref bean="activemq_server_condition" />
 			</list>
 		</property>
 	</bean>
@@ -77,6 +78,12 @@
 		</property>
 		<property name="critical" value="false" />
 		<property name="errorMessage" value="SampleY is not in position" />
+	</bean>
+
+	<bean id="activemq_server_condition" class="gda.beamline.health.ActiveMQServerCondition">
+		<property name="description" value="ActiveMQ server" />
+		<property name="critical" value="true" />
+		<property name="errorMessage" value="ActiveMQ server is not active" />
 	</bean>
 
 </beans>
