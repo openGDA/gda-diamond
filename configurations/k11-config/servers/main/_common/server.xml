@@ -11,7 +11,8 @@
 
 	<context:component-scan
 		base-package="uk.ac.diamond.daq.experiment.structure"></context:component-scan>
-	<context:component-scan base-package="uk.ac.gda.core.tool.spring"></context:component-scan>
+	<context:component-scan
+		base-package="uk.ac.gda.core.tool.spring"></context:component-scan>
 
 	<context:property-placeholder />
 	<context:property-placeholder
