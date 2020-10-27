@@ -1,0 +1,108 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description>
+		To use the Simulated Area detector in dummy mode:
+			1) Launch the Utilities > GDA SWMR AreaDetector Simulation
+				on the local machine and start the IOC.
+			2) If you want to use an Area detector on another machine, or
+				you are also launching the GDA servers, export the
+				WORKSTATION environment variable with the short name for
+				the machine the Simulation IOC is running on.
+	</description>
+
+	<!-- AD hardware -->
+
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="cam3AD_cam" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:CAM:" />
+	</bean>
+
+	<bean id="cam3AD_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ARR:" />
+	</bean>
+
+	<bean id="cam3AD_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT:" />
+	</bean>
+
+	<bean id="cam3AD_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI:" />
+	</bean>
+
+	<bean id="cam3AD_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:MJPG:" />
+	</bean>
+
+	<bean id="cam3AD_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
+
+	<bean id="cam3AD_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI1:" />
+	</bean>
+
+	<bean id="cam3AD__roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI2:" />
+	</bean>
+
+	<bean id="cam3AD__roi3" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI3:" />
+	</bean>
+
+	<bean id="cam3AD__roi4" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI4:" />
+	</bean>
+
+	<bean id="cam3AD_roi5" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI5:" />
+	</bean>
+
+	<bean id="cam3AD_roi6" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI6:" />
+	</bean>
+
+	<bean id="cam3AD_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT1:" />
+	</bean>
+
+	<bean id="cam3AD_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT2:" />
+	</bean>
+
+	<bean id="cam3AD_stat3" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT3:" />
+	</bean>
+
+	<bean id="cam3AD_stat4" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT4:" />
+	</bean>
+
+	<bean id="cam3AD_stat5" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT5:" />
+	</bean>
+
+	<bean id="cam3AD_stat6" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT6:" />
+	</bean>
+
+	<bean id="cam3_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="cam3_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="cam3_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="cam3_NDFileHDF5file" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+</beans>

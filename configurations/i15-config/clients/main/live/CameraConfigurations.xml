@@ -5,9 +5,6 @@
 
 	<bean id="mar_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Mar" />
-		<!-- 
-		<property name="url" value="http://i15-1-motion01.diamond.ac.uk:8089/JBPM1.mjpg.mjpg" />
-		 -->
 		<property name="arrayPv" value="BL15I-EA-MAR-01:ARR" />
 	</bean>
 

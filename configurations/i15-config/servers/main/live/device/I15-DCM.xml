@@ -11,6 +11,10 @@
 
 	<!-- Mixture -->
 
+	<bean id="DcmenergyCalMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-OP-DCM-01:CAL" />
+	</bean>
+
 	<bean id="Dcmxtl1rollMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:ROLL" />
 	</bean>

@@ -524,13 +524,17 @@ try:
 			print "Installing atto devices from epics BL15I-EA-ATTO..."
 			
 			from future.anc150axis import createAnc150Axis
-			
+			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
 			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25)
 			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25)
 			atto3 = createAnc150Axis("atto3", "BL15I-EA-ATTO-03:PIEZO3:", 0.25)
 			atto4 = createAnc150Axis("atto4", "BL15I-EA-ATTO-04:PIEZO1:", 0.25)
 			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25)
 			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25)
+			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
+			atto7 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO1:", 0.25)
+			atto8 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO2:", 0.25)
+			atto9 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO3:", 0.25)
 			
 			atto1.setFrequency(900)
 			atto2.setFrequency(900)
@@ -538,6 +542,8 @@ try:
 			atto4.setFrequency(900)
 			atto5.setFrequency(900)
 			atto6.setFrequency(900)
+			# Do not override the current EPICS frequency for atto7 to atto9
+			# See https://jira.diamond.ac.uk/browse/I15-587
 		except:
 			localStation_exception(sys.exc_info(), "creating atto devices")
 	else:
@@ -795,7 +801,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
 
-	def check_zebra(zebraPositionScannable):
+	def check_zebra(zebraPositionScannable, reportOk=True):
 		position_mismatch = "    Mismatch between {} motor position and zebra encoder - Rocking it will probably fail!\n" + \
 			"     * To fix, run '{}.copyMotorPosToZebra()' when motor is static (it must not be moving at all).\n" + \
 			"     * Then run 'pos {} 1' to check that the reported diff is now small or re-run `check_zebra {}` again.\n" + \
@@ -812,14 +818,19 @@ try:
 				print "*"*80
 				print msg
 				print "*"*80
+			elif reportOk:
+				msg = "    No significant mismatch between {} motor position and zebra encoder\n".format(zebraPositionScannable.getName()) + \
+					"     * Run 'pos {} 1' to check how big the reported diff is now.\n".format(zebraPositionScannable.getName()) + \
+					"     * See 'http://confluence.diamond.ac.uk/x/9AVBAg' for more details."
+				print msg
 		except:
 			localStation_exception(sys.exc_info(), position_error.format(
 				zebraPositionScannable.check_scannable.getName(), zebraPositionScannable.getName()))
 
-	check_zebra(dkphiZebraPositionScannable)
-	check_zebra(dkappaZebraPositionScannable)
-	check_zebra(dkthetaZebraPositionScannable)
-	check_zebra(sphiZebraPositionScannable)
+	check_zebra(dkphiZebraPositionScannable, False)
+	check_zebra(dkappaZebraPositionScannable, False)
+	check_zebra(dkthetaZebraPositionScannable, False)
+	check_zebra(sphiZebraPositionScannable, False)
 
 	alias("check_zebra")
 except:

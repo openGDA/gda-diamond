@@ -16,14 +16,7 @@
 	</bean>
 
 	<bean id="cam1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Cam 1 (Mono)" />
-		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8087/JCAM1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL15J-DI-CAM-01:ARR" />
-		<property name="rgb" value="false" />
-	</bean>
-
-	<bean id="cam1rgb_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Cam 1 (Colour)" />
+		<property name="displayName" value="Cam 1" />
 		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8087/JCAM1.mjpg.mjpg" />
 		<property name="arrayPv" value="BL15J-DI-CAM-01:ARR" />
 		<property name="rgb" value="true" />
@@ -33,6 +26,14 @@
 		<property name="displayName" value="Cam 2" />
 		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8087/JCAM2.mjpg.mjpg" />
 		<property name="arrayPv" value="BL15J-DI-CAM-02:ARR" />
+		<property name="rgb" value="true" />
+	</bean>
+
+	<bean id="cam3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Cam 3" />
+		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8087/JCAM3.mjpg.mjpg" />
+		<property name="arrayPv" value="BL15J-DI-CAM-03:ARR" />
+		<property name="rgb" value="true" />
 	</bean>
 
 	<bean id="pe1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
