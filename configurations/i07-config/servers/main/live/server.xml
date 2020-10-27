@@ -55,6 +55,8 @@
 	<import resource="detectors/pilatus3.xml" />
 	<import resource="detectors/excalibur.xml" />
 
+	<import resource="detectors/malcolm.xml" />
+
 	<import resource="devices/fastshutter.xml" />
 
 	<import resource="server_core.xml" />
