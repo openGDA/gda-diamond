@@ -13,6 +13,8 @@
 	<import resource="I15-BS.xml"/>
 	<import resource="I15-BS2.xml"/>
 	<import resource="I15-BS3.xml"/>
+	<import resource="I15-CAM-LH-downstream-AD.xml"/>
+	<import resource="I15-CAM-LH-upstream-AD.xml"/>
 	<import resource="I15-CAM-PSL-AD.xml"/>
 	<import resource="I15-CAM-XEYE-AD.xml"/>
 	<import resource="I15-D3.xml"/>
@@ -21,9 +23,11 @@
 	<import resource="I15-D7.xml"/>
 	<import resource="I15-D8.xml"/>
 	<import resource="I15-DCM.xml"/>
+	<import resource="I15-DET-ATLAS.xml" />
 	<import resource="I15-DET-MAR-AD.xml" />
 	<import resource="I15-DET-MPX-AD.xml" />
 	<import resource="I15-DET-PE-AD.xml" />
+	<import resource="I15-DET-PIL3-AD.xml" />
 	<import resource="I15-DET1.xml"/>
 	<import resource="I15-DET2.xml"/>
 	<import resource="I15-F2.xml"/>

@@ -9,6 +9,7 @@
 	<import resource="I15-1-JBPM2.xml"/>
 	<import resource="I15-1-JCAM1.xml"/>
 	<import resource="I15-1-JCAM2.xml"/>
+	<import resource="I15-1-JCAM3.xml"/>
 	<!-- 
 	<import resource="I15-1-JCL.xml"/>
 	<import resource="I15-1-JD1.xml"/>
