@@ -7,6 +7,6 @@ def setpos(motor, newpos):
 	if (type(newpos) != int and type(newpos) != float):
 		raise typeError('Position must be given a value')
 
-	motor.setPosition(newpos)
+	motor.setPosition(float(newpos))
 
 alias("setpos")
