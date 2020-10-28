@@ -9,25 +9,25 @@ import scisoftpy as dnp
 class JythonRunnableDeviceDelegate (AbstractRunnableDeviceDelegate):
     logger = LoggerFactory.getLogger("JythonRunnableDeviceDelegate");
 
-    # Delegated AbstractRunnableDevice<AreaDetectorRunnableDeviceModel> methods
+    # Delegated AbstractRunnableDevice<T> methods
 
     def configure(self, model):
         self.logger.info("configure({})", model)
         AbstractRunnableDeviceDelegate.configure(self, model)
 
-    # Delegated interface IRunnableDevice<AreaDetectorRunnableDeviceModel> methods
+    # Delegated interface IRunnableDevice<T> methods
 
     def run(self, position):
         self.logger.info("run({})", position);
         AbstractRunnableDeviceDelegate.run(self, position)
 
-    # Delegated interface IWritableDetector<AreaDetectorRunnableDeviceModel> methods
+    # Delegated interface IWritableDetector<T> methods
 
     def write(self, position):
         self.logger.info("write({})", position);
         return AbstractRunnableDeviceDelegate.write(self, position);
 
-    # Delegated interface INexusDevice<NXdetector> methods
+    # Delegated interface INexusDevice<NXobject> methods
 
     def getNexusProvider(self, info):
         self.logger.info("getNexusProvider({})", info);
