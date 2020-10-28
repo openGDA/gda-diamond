@@ -5,7 +5,7 @@
 			http://www.springframework.org/schema/beans/spring-beans.xsd" >
 
 	<bean id="_oav_base_pv" class="java.lang.String">
-		<constructor-arg value="BL22I-DI-OAV-01:DET:" />
+		<constructor-arg value="BL22I-DI-OAV-01:" />
 	</bean>
 	<bean id="oav_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="#{_oav_base_pv}DET:" />
@@ -19,10 +19,10 @@
 		</property>
 	</bean>
 	<bean id="oav_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL22I-DI-OAV-01:ARR:"/>
+		<property name="basePVName" value="#{_oav_base_pv}ARR:"/>
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL22I-DI-OAV-01:ARR:"/>
+				<property name="basePVName" value="#{_oav_base_pv}ARR:"/>
 			</bean>
 		</property>
 	</bean>
@@ -31,7 +31,7 @@
 		<constructor-arg ref="oav_roi" />
 	</bean>
 	<bean id="oav_cam" class="uk.ac.gda.server.ncd.camera.ADCameraDetector">
-		<property name="basePVName" value="#{_oav_base_pv}"/>
+		<property name="basePVName" value="#{_oav_base_pv}DET:"/>
 		<property name="areaDetector" ref="oav_base"/>
 		<property name="array" ref="oav_array"/>
 	</bean>

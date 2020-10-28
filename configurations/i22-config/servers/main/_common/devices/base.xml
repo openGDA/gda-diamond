@@ -7,9 +7,9 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-    <gda:motor id="base_x" pv="BL22I-MO-STABL-01:X" />
-    <gda:motor id="base_y" pv="BL22I-MO-STABL-01:Y" />
-    <gda:motor id="base_pitch" pv="BL22I-MO-STABL-01:PITCH" />
+    <gda:motor id="base_x" live-pvName="BL22I-MO-STABL-01:X" />
+    <gda:motor id="base_y" live-pvName="BL22I-MO-STABL-01:Y" />
+    <gda:motor id="base_pitch" live-pvName="BL22I-MO-STABL-01:PITCH" />
 
     <!-- aliases to match the names mapping scans expect -->
     <alias name="base_x" alias="t1x" />

@@ -3,6 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
 
 	<bean id="v8" class="gda.device.enumpositioner.EpicsValve" >
-		<property name="epicsRecordName" value="BL22I-VA-VALVE-08:CON" />
+		<property name="epicsRecordName" value="BL22I-VA-VALVE-08" />
 	</bean>
 </beans>
