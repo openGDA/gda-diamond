@@ -15,7 +15,7 @@
 		</filter>
 		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
 		<encoder>
-			<pattern>%date %-5level %logger - %m [%t]%n%rEx</pattern>
+			<pattern>${gda.logserver.console.pattern}</pattern>
 		</encoder>
 	</appender>
 
