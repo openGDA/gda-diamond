@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="frelon_image_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Frelon image view" />
+		<property name="arrayPv" value="gdaSimulator:BeamSimulationCamera" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.EdeDetectorCustomUI">
+							<property name="detectorName" value="frelon" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="webcam2_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 2" />
+		<property name="url" value="http://i20:!20@i20-1-webcam2/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="webcam6_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 6" />
+		<property name="url" value="http://i20:!20@i20-1-webcam6/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="webcam7_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 7" />
+		<property name="url" value="http://i20:!20@i20-1-webcam7/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

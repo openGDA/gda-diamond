@@ -10,25 +10,8 @@ def setDetectorRoiDefaults() :
 def setDetectorRoi(verticalBinning, verticalStart) :
     print "Setting detector kinetic ROI : vertical binning = "+str(verticalBinning)+" , vertical start pixel = "+str(verticalStart)
     
-    fr = frelon.getFrelon()
-    # set roi_bin_offset to 0 otherwise might get problem setting new ROI if value is inconsistent with ROI...
-    fr.setROIBinOffset(0)
-    ## Set the parameters on FrelonCcdDetector data object...
-    ccdConfig = frelon.getDetectorData()
-    ## CcdBeginLine, verticalBinValue, areaOfInterest are set in call to configureDetectorForROI(...)
-    #ccdConfig.setCcdBeginLine(1984)
-    #ccdConfig.setVerticalBinValue(64)
-    #ccdConfig.setAreaOfInterest(LimaROIIntImpl(0, 31, 2048, 1))
-    ccdConfig.setSpb2Config(fr.SPB2Config.SPEED)
-    ccdConfig.setRoiMode(fr.ROIMode.KINETIC)
-    # ccdConfig.setImageMode(ImageMode.FRAME_TRANSFER) # this is for 'half ccd' image modes
-    ccdConfig.setImageMode(ImageMode.FULL_FRAME)
-    ccdConfig.setInputChannel(InputChannels.I3_4)
-    ccdConfig.setTriggerMode(LimaCCD.AcqTriggerMode.INTERNAL_TRIGGER)
-
-    ## Apply the above settings to detector and set the ROI based on vertical binning size and vertical pixel to readout :
-    frelon.configureDetectorForROI(verticalBinning, verticalStart) # vertical binning, vertical pixel
-    # roi_bin_offset=vertical pixel%vertical binning;
+    frelon.setDefaultVerticalBinning(verticalBinning)
+    frelon.setDefaultVerticalStart(verticalStart)
     
     print "    Setting frelon 'drop first frame' to True (for ssfrelon step scans and 'live' mode)"
     frelon.setDropFirstFrame(True)
