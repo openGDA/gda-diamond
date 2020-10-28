@@ -22,6 +22,7 @@ import static java.lang.Math.abs;
 
 import gda.device.DeviceBase;
 import gda.device.DeviceException;
+import uk.ac.gda.util.array.ArrayUtils;
 
 /**
  * Base class for object implementing the Camera interface
@@ -83,9 +84,8 @@ public abstract class CameraBase extends DeviceBase implements Camera {
 	protected abstract double getZoomSimilarityTolerance();
 
 	@Override
-	public final void setZoom(double zoom) throws DeviceException
-	{
-		selectZoomAt( indexOfFirstSimilarElement(getZoomLevels(), zoom, getZoomSimilarityTolerance()) );
+	public final void setZoom(double zoom) throws DeviceException {
+		selectZoomAt( ArrayUtils.indexOfNearest(getZoomLevels(), zoom) );
 	}
 
 	/**
@@ -97,25 +97,5 @@ public abstract class CameraBase extends DeviceBase implements Camera {
 	 */
 	protected static boolean areSimilar(double x, double reference, double tol) {
 		return abs(x - reference) < abs(tol);
-	}
-
-	/**
-	 * Searches an array for first element found to be within tolerance of a reference value:
-	 * (See {@link #areSimilar(double, double, double)} for within tolerance definition.
-	 * @param array An array to search
-	 * @param reference A reference value to compare
-	 * @param tol the similarity tolerance
-	 * @return array index of the first similar element, or -1 if no similar elements are found
-	 */
-	protected static int indexOfFirstSimilarElement(double[] array, double reference, double tol) {
-		int ii = UNSET_ARRAY_INDEX;
-
-		for(double element : array) {
-			ii++;
-			if(areSimilar(reference, element, tol)) {
-				return ii;
-			}
-		}
-		return UNSET_ARRAY_INDEX;
 	}
 }
