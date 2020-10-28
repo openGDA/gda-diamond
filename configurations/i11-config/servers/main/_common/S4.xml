@@ -1,34 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<!--  Motors -->
-	<bean id="s4xplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4xplus_motor"/>
-	</bean>
-	<bean id="s4xminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4xminus_motor"/>
-	</bean>
-	<bean id="s4yplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4yplus_motor"/>
-	</bean>
-	<bean id="s4yminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4yminus_motor"/>
-	</bean>
-	<bean id="s4xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4xpos_motor"/>
-	</bean>
-	<bean id="s4xgap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4xgap_motor"/>
-	</bean>
-	<bean id="s4ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4ypos_motor"/>
-	</bean>
-	<bean id="s4ygap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4ygap_motor"/>
-	</bean>
-
+	<gda:motor id="s4xplus" live-pvName="BL11I-AL-SLITS-04:X:PLUS"/>
+	<gda:motor id="s4xminus" live-pvName="BL11I-AL-SLITS-04:X:MINUS"/>
+	<gda:motor id="s4yplus" live-pvName="BL11I-AL-SLITS-04:Y:PLUS"/>
+	<gda:motor id="s4yminus" live-pvName="BL11I-AL-SLITS-04:Y:MINUS"/>
+	<gda:motor id="s4xcentre" live-pvName="BL11I-AL-SLITS-04:X:CENTRE"/>
+	<gda:motor id="s4xgap" live-pvName="BL11I-AL-SLITS-04:X:SIZE"/>
+	<gda:motor id="s4ycentre" live-pvName="BL11I-AL-SLITS-04:Y:CENTRE"/>
+	<gda:motor id="s4ygap" live-pvName="BL11I-AL-SLITS-04:Y:SIZE"/>
 	<bean id="S4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

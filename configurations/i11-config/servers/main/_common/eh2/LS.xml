@@ -1,33 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="ls1x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="lsx_motor"/>
-	</bean>
-	<bean id="ls1y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls1y1_motor"/>
-	</bean>
-	<bean id="ls1rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls1yrot_motor"/>
-	</bean>
-	<bean id="ls1xtop" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls1x_motor"/>
-	</bean>
-	<bean id="ls1ytop" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls1y2_motor"/>
-	</bean>
-	<bean id="ls1ztop" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls1z_motor"/>
-	</bean>
-	<bean id="ls1roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls1roll_motor"/>
-	</bean>
-	<bean id="ls1pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls1pitch_motor"/>
-	</bean>
-
+	<gda:motor id="ls1x" live-pvName="BL11J-MO-LSLID-01:X:POSN"/>
+	<gda:motor id="ls1y" live-pvName="BL11J-MO-GONIO-01:Y1"/>
+	<gda:motor id="ls1rot" live-pvName="BL11J-MO-GONIO-01:YROT"/>
+	<gda:motor id="ls1xtop" live-pvName="BL11J-MO-GONIO-01:X"/>
+	<gda:motor id="ls1ytop" live-pvName="BL11J-MO-GONIO-01:Y2"/>
+	<gda:motor id="ls1ztop" live-pvName="BL11J-MO-GONIO-01:Z"/>
+	<gda:motor id="ls1roll" live-pvName="BL11J-MO-GONIO-01:ROLL"/>
+	<gda:motor id="ls1pitch" live-pvName="BL11J-MO-GONIO-01:PITCH"/>
 	<bean id="ls1" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
 			<list>
@@ -46,32 +32,14 @@
 		<property name="positionTolerance" value="0.01"/>
 		<property name="zPosition" value="-400.0"/>
 	</bean>
-
-	<bean id="ls2x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="lsx_motor"/>
-	</bean>
-	<bean id="ls2y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls2y1_motor"/>
-	</bean>
-	<bean id="ls2rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls2yrot_motor"/>
-	</bean>
-	<bean id="ls2xtop" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls2x_motor"/>
-	</bean>
-	<bean id="ls2ytop" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls2y2_motor"/>
-	</bean>
-	<bean id="ls2ztop" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls2z_motor"/>
-	</bean>
-	<bean id="ls2roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls2roll_motor"/>
-	</bean>
-	<bean id="ls2pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ls2pitch_motor"/>
-	</bean>
-
+	<gda:motor id="ls2x" live-pvName="BL11J-MO-LSLID-01:X:POSN"/>
+	<gda:motor id="ls2y" live-pvName="BL11J-MO-GONIO-02:Y1"/>
+	<gda:motor id="ls2rot" live-pvName="BL11J-MO-GONIO-02:YROT"/>
+	<gda:motor id="ls2xtop" live-pvName="BL11J-MO-GONIO-02:X"/>
+	<gda:motor id="ls2ytop" live-pvName="BL11J-MO-GONIO-02:Y2"/>
+	<gda:motor id="ls2ztop" live-pvName="BL11J-MO-GONIO-02:Z"/>
+	<gda:motor id="ls2roll" live-pvName="BL11J-MO-GONIO-02:ROLL"/>
+	<gda:motor id="ls2pitch" live-pvName="BL11J-MO-GONIO-02:PITCH"/>
 	<bean id="ls2" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
 			<list>

@@ -1,12 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<import resource="BPM3.xml"/>
 	<import resource="CyberStarBlower.xml"/>
@@ -16,7 +19,6 @@
 	<import resource="D3.xml"/>
 	<import resource="D4.xml"/>
 	<import resource="D5.xml"/>
-	<import resource="Diffractometer.xml" />
 	<import resource="etl1.xml"/>
 	<import resource="etl2.xml"/>
 	<import resource="ExperimentHutchShutter.xml"/>
@@ -24,7 +26,6 @@
 	<import resource="FrontEndShutter.xml"/>
 	<import resource="FrontEndAperture.xml"/>
 	<import resource="GDAMetadata.xml"/>
-	<import resource="GrazingIncidentStage.xml"/>
 	<import resource="Ic1.xml"/>
 	<import resource="Ic2.xml"/>
 	<import resource="Ic3.xml"/>
@@ -32,25 +33,19 @@
 	<import resource="ID.xml"/>
 	<import resource="Ie.xml"/>
 	<import resource="Io.xml"/>
-	<import resource="LargeSampleTable.xml"/>
 	<import resource="MACDetectors.xml"/>
 	<import resource="MACMotors.xml"/>
 	<import resource="Mar345.xml"/>
 	<import resource="MRIFurnace.xml"/>
 	<import resource="M1.xml"/>
-	<import resource="OpticalTable.xml"/>
 	<import resource="OxfordCryoStream.xml"/>
 	<import resource="PhenixCryostat.xml"/>
 	<import resource="RobotNX100.xml"/>
 	<import resource="S1.xml"/>
-	<import resource="S2.xml"/>
-	<import resource="S3.xml"/>
 	<import resource="S4.xml"/>
-	<import resource="S5.xml"/>
 	<import resource="SmallSampleTable.xml"/>
 	<import resource="Spinner.xml"/>
-	<import resource="StoeFurnace.xml" />
-	<import resource="DCM.xml"/>
+	<import resource="StoeFurnace.xml"/>
 	<import resource="CommandServer.xml"/>
 	<import resource="../_common/*.xml"/>
 </beans>
