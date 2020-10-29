@@ -46,6 +46,9 @@
 	<!-- =========================================================== -->
 	<!-- 					mode specific files 			 		 -->
 	<!-- =========================================================== -->
+	
+	<!-- beam -->
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
 
 	<!-- stages -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />

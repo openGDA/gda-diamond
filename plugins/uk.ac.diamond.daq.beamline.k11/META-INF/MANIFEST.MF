@@ -68,7 +68,8 @@ Require-Bundle: uk.ac.gda.common,
  uk.ac.diamond.daq.client.gui.energy;bundle-version="1.0.0",
  uk.ac.diamond.org.springframework,
  uk.ac.diamond.daq.mapping,
- uk.ac.gda.core
+ uk.ac.gda.core,
+ org.eclipse.scanning.event
 Export-Package: uk.ac.diamond.daq.beamline.k11
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
 Service-Component: OSGI-INF/*.xml
