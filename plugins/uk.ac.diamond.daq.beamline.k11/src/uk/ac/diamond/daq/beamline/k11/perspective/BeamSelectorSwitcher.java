@@ -28,10 +28,9 @@ import org.eclipse.ui.PerspectiveAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.factory.Finder;
+import uk.ac.diamond.daq.mapping.ui.properties.stages.ManagedScannable;
+import uk.ac.diamond.daq.mapping.ui.properties.stages.ScannablesPropertiesHelper;
+import uk.ac.gda.client.exception.GDAClientException;
 
 /**
  * Perspective listener responsible for positioning the beam selector
@@ -41,32 +40,31 @@ public class BeamSelectorSwitcher extends PerspectiveAdapter {
 
 	private static final Logger logger = LoggerFactory.getLogger(BeamSelectorSwitcher.class);
 
-	private static final String MONO_IMAGING = "Mono imaging beam";
-
 	private static final Map<String, String> POSITION_PER_PERSPECTIVE = new HashMap<>();
 
-	private static final String BEAM_SELECTOR_SCANNABLE_PROPERTY = "beam.selector.scannable.name";
-	private static final String BEAM_SELECTOR_SCANNABLE_DEFAULT_NAME = "beam_selector";
+	private static final String BEAM_SELECTOR_GROUP_ID = "beam_selector";
+	private static final String BEAM_SELECTOR_SCANNABLE_ID = "selector";
+	private static final String BEAM_SELECTOR_MONO_IMAGING_POSITON = "MONO";
 
-	private final Scannable beamSelector;
+	private ManagedScannable<String> managedBeamSelector;
 
 	public BeamSelectorSwitcher() {
-		beamSelector = Finder.find(LocalProperties.get(BEAM_SELECTOR_SCANNABLE_PROPERTY, BEAM_SELECTOR_SCANNABLE_DEFAULT_NAME));
+		managedBeamSelector = ScannablesPropertiesHelper.getManagedScannable(BEAM_SELECTOR_GROUP_ID, BEAM_SELECTOR_SCANNABLE_ID, String.class);
 	}
 
 	static {
-		POSITION_PER_PERSPECTIVE.put(Tomography.ID, MONO_IMAGING);
-		POSITION_PER_PERSPECTIVE.put(PointAndShoot.ID, MONO_IMAGING);
+		POSITION_PER_PERSPECTIVE.put(Tomography.ID, BEAM_SELECTOR_MONO_IMAGING_POSITON);
+		POSITION_PER_PERSPECTIVE.put(PointAndShoot.ID, BEAM_SELECTOR_MONO_IMAGING_POSITON);
 	}
 
 	private void moveBeamSelector(String perspectiveId) {
 		if (POSITION_PER_PERSPECTIVE.containsKey(perspectiveId)
 				&& allowedToMove()) {
-			try {
-				beamSelector.moveTo(POSITION_PER_PERSPECTIVE.get(perspectiveId));
-			} catch (DeviceException e) {
-				logger.error("Could not move beam selector", e);
-			}
+				try {
+					managedBeamSelector.moveTo(POSITION_PER_PERSPECTIVE.get(perspectiveId));
+				} catch (GDAClientException e) {
+					logger.error("Could not move beam selector", e);
+				}
 		}
 	}
 
