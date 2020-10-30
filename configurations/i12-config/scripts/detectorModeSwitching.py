@@ -20,7 +20,7 @@ except:
 def masterPositions():
     print "in masterPositions"
     detector_table = t3.m2z
-    detector_diffzposition= 1030
+    detector_diffzposition= 700
     detector_SAFEdiffzposition= 1300 # MUST be above 1300 - SAFE position to avoid collision with Granite block
     return detector_table , detector_diffzposition , detector_SAFEdiffzposition
     
@@ -41,8 +41,8 @@ def monodiffractionPositions():
     s3_diffysize=2 # s3_diffysize > s2_diffysize
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 95.1
-    beamstopInBeam_y = 6.1055
+    beamstopInBeam_x = 114.2
+    beamstopInBeam_y = 73
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-10
@@ -52,7 +52,7 @@ def monodiffractionPositions():
     
 def monoimagingPositions():
     # detector positions
-    detector_imagingxposition=1350.15
+    detector_imagingxposition=1348
     
     #slitpositions
     s2_imagingxcentre= 0
@@ -63,11 +63,11 @@ def monoimagingPositions():
     s3_yheight= 50 # ' For MONO-beam: s3_yheight = 50 for M4 & M3; s3_yheight = -150 for M2 & M1
     s3_imagingxcentre=0
     s3_imagingycentre=0
-    s3_imagingxsize=2 # s3_imagingxsize > s2_imagingxsize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
-    s3_imagingysize=2 # s3_imagingysize > s2_imagingysize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
+    s3_imagingxsize=8 # s3_imagingxsize > s2_imagingxsize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
+    s3_imagingysize=8 # s3_imagingysize > s2_imagingysize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
     
-    beamstopOutofBeam_x = 105.1
-    beamstopOutofBeam_y = 6.1055
+    beamstopOutofBeam_x = 124.2
+    beamstopOutofBeam_y = 7.3
     
     #calculated values
     detector_imagingxposition_lowLimit = detector_imagingxposition-15   ## to restrict movement of pilatus into beam when imaging
