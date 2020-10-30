@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i09.feature"
       label="SISA Feature"
-      version="9.19.0.qualifier"
+      version="9.20.0.qualifier"
       provider-name="Diamond Light Source"
       plugin="uk.ac.gda.beamline.i09"
       exclusive="true">
