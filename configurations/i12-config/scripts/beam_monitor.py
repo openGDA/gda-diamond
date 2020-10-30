@@ -2,6 +2,7 @@ from gda.device.scannable import ScannableMotionBase
 from gda.jython import JythonServerFacade
 from gda.jython.JythonStatus import RUNNING
 from gda.jython.commands.ScannableCommands import pos, scan
+from gdascripts.utils import caput, caget, caput_wait
 
 from time import sleep, strftime
 from datetime import datetime
@@ -75,7 +76,7 @@ class WaitWhileScannableBelowThresholdMonitorOnly(ScannableMotionBase):
         return self._operating_continuously
 
     def atScanStart(self):
-        print '=== Beam checking enabled: '+self.scannableToMonitor.getName()+' must exceed '+str(self.minimumThreshold)+', currently '+str(self._getStatus())
+        print '=== Beam checking enabled: '+self.scannableToMonitor.getName()+' must exceed '+str(self.minimumThreshold)+', currently '+str(self._getStatus())+'; and the FE absorber and the port shutter be opened'
         self.statusRemainedGoodSinceLastGetPosition = True
         if self._operating_continuously:
             while not self._getStatusAndHandleChange():  
@@ -131,7 +132,8 @@ class WaitWhileScannableBelowThresholdMonitorOnly(ScannableMotionBase):
         #ensure scan continues when topup is shutdown. 
         if val==-1 and self.scannableToMonitor.getName()=="topup_time":
             return True
-        status =  (val >= self.minimumThreshold)
+        #status = (val >= self.minimumThreshold)
+        status = (val >= self.minimumThreshold) and (int(caget('FE12I-RS-ABSB-01:STA'))==1) and (int(caget('FE12I-PS-SHTR-01:STA'))==1)
         return status
 
     def _getStatusAndHandleChange(self):
@@ -147,7 +149,7 @@ class WaitWhileScannableBelowThresholdMonitorOnly(ScannableMotionBase):
         if status and not self.lastStatus:
             self.beamDownEndTm = reprtime(self.time_fmt)
             self.beamDownElapsedInterval = datetime.strptime(self.beamDownEndTm, self.time_fmt) - datetime.strptime(self.beamDownStartTm, self.time_fmt)
-            print "*** " + self.name + ": Beam back up at: " + self.beamDownEndTm + "(elapsed time " + str(self.beamDownElapsedInterval) + " " + self.time_fmt +"). Resuming scan in " + str(self.secondsToWaitAfterBeamBackUp) + "s..."
+            print "*** " + self.name + ": Beam back up at " + self.beamDownEndTm + " (elapsed downtime = " + str(self.beamDownElapsedInterval) + " [" + self.time_fmt.replace('%','') +"]). Will resume scan in " + str(self.secondsToWaitAfterBeamBackUp) + "s..."
             self.lastStatus = True
             sleep(self.secondsToWaitAfterBeamBackUp)
             # handle extra conditions
@@ -165,7 +167,7 @@ class WaitWhileScannableBelowThresholdMonitorOnly(ScannableMotionBase):
             pass # beam still down
         if not status and self.lastStatus:
             self.beamDownStartTm = reprtime(self.time_fmt)
-            print "*** " + self.name + ": Beam down at: " + self.beamDownStartTm + ". Pausing scan..."
+            print "*** " + self.name + ": Beam down at " + self.beamDownStartTm + ". Pausing scan..."
             self.lastStatus = False
             
     def _collectNewMonitorValue(self):
