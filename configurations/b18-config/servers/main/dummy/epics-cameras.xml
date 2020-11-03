@@ -9,5 +9,6 @@
 	<alias name="medipix_adbase" alias="dcam_03_adbase"/>
 	<alias name="medipix_adbase" alias="dcam_06_adbase"/>
 	<alias name="medipix_adbase" alias="dcam_07_adbase"/>
+	<alias name="medipix_adbase" alias="dcam_08_adbase"/>
 
 </beans>

@@ -19,5 +19,8 @@
 		<constructor-arg ref="dcam_07_adbase" />
 		<property name="useAcquireTimeMonitor" value="true" />
 	</bean>
-
+	<bean id="dcam_08_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="dcam_08_adbase" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
 </beans>

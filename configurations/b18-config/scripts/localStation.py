@@ -170,6 +170,18 @@ run("default_scannable_class.py")
 
 run("continuous_scans.py")
 
+from gda.data.metadata import GDAMetadataProvider
+def setVisit(visitStr) :
+    metaDataProv=GDAMetadataProvider.getInstance()
+    currentVisit=metaDataProv.getMetadataValue("visit") # current visit
+    metaDataProv.setMetadataValue("visit", visitStr) # set the new visit
+    print "Changing visit from ",currentVisit," to ",visitStr
+
+def pwd() :
+    return InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+
+alias("pwd")
+
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"
     run("userStartupScript")
