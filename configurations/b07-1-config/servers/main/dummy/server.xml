@@ -54,6 +54,12 @@
 	<!-- Stanford -->
 	<import resource="stanford.xml"/>
 
+	<import resource="gv22.xml"/>
+	<import resource="gv24.xml"/>
+	<import resource="gv25.xml"/>
+	<import resource="gv36.xml"/>
+	<import resource="gv50.xml"/>
+	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
