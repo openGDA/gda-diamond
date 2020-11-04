@@ -43,6 +43,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.daq.beamline.k11.perspective.BeamSelectorSwitcher;
 import uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated;
 import uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot;
 import uk.ac.diamond.daq.beamline.k11.perspective.Tomography;
@@ -129,6 +130,8 @@ public class PerspectiveComposite {
 				setModeComboSelection(perspective.getId());
 			}
 		});
+
+		getActiveWindow().addPerspectiveListener(new BeamSelectorSwitcher());
 	}
 
 	private Listener getComboModeSelectionListener() {
