@@ -21,9 +21,9 @@ package uk.ac.gda.beamline.i14.views.customscript;
 import static org.eclipse.jface.dialogs.IMessageProvider.INFORMATION;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.PojoProperties;
+import org.eclipse.core.databinding.beans.typed.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -68,18 +68,14 @@ class EditParameterDialog extends TitleAreaDialog {
 
 		createLabel(parameterComposite, "Name:");
 		final Text nameText = createText(parameterComposite, parameter.getName());
-		@SuppressWarnings("unchecked")
 		final IObservableValue<String> nameTextObs = WidgetProperties.text(SWT.Modify).observe(nameText);
-		@SuppressWarnings("unchecked")
-		final IObservableValue<String> nameParamObs = PojoProperties.value("name").observe(parameter);
+		final IObservableValue<String> nameParamObs = PojoProperties.value("name", String.class).observe(parameter);
 		bindingContext.bindValue(nameTextObs, nameParamObs);
 
 		createLabel(parameterComposite, "Value:");
 		final Text valueText = createText(parameterComposite, parameter.getValue());
-		@SuppressWarnings("unchecked")
 		final IObservableValue<String> valueTextObs = WidgetProperties.text(SWT.Modify).observe(valueText);
-		@SuppressWarnings("unchecked")
-		final IObservableValue<String> valueParamObs = PojoProperties.value("value").observe(parameter);
+		final IObservableValue<String> valueParamObs = PojoProperties.value("value", String.class).observe(parameter);
 		bindingContext.bindValue(valueTextObs, valueParamObs);
 
 		return dialogComposite;
