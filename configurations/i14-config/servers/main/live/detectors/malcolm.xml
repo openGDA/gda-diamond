@@ -6,7 +6,7 @@
 
 	<!-- Xspress3 coarse scan -->
 	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XRF" />
+		<property name="label" value="XRF coarse" />
 		<property name="description" value="Xspress3 coarse scan" />
 	</bean>
 
