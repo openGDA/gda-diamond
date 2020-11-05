@@ -45,6 +45,7 @@ public class EdeDataStoreTest {
 	@Test
 	public void jsonTest() throws IOException {
 		Path tempFile = Files.createTempFile(null, null);
+		tempFile.toFile().deleteOnExit();
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		final PropertiesConfiguration configuration = new PropertiesConfiguration();
 		configuration.setDelimiterParsingDisabled(true);

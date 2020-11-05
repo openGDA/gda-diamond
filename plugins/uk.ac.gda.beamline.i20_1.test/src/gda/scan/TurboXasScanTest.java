@@ -113,6 +113,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	@Before
 	public void setupEnvironment() throws Exception {
 		Path tempDataDir = Files.createTempDirectory(TurboXasScanTest.class.getName());
+		tempDataDir.toFile().deleteOnExit();
 		LocalProperties.set(LocalProperties.GDA_VAR_DIR, tempDataDir.toString());
 		new ServiceHolder().setNexusTemplateService(new NexusTemplateServiceImpl());
 
