@@ -8,7 +8,6 @@ from gda.jython import InterfaceProvider
 import time
 import java.lang.Boolean
 import java.util.function.Predicate
-from gda.jython import InterfaceProvider
 import os
 
 

@@ -1475,8 +1475,11 @@ run('diffractometer/pid.py')
 ###############################################################################
 ###                           Diff - xpsgather                              ###
 ###############################################################################
-from scannable.xpsdatagathering import ScannableXPSDataGatherer
-xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:')
+try:
+	from scannable.xpsdatagathering import ScannableXPSDataGatherer
+	xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:')
+except:
+	localStation_exception("creating xps data gathering scannable")
 
 ###############################################################################
 ###                           Defaults - keep at end                        ###
