@@ -16,6 +16,7 @@ __pycache__/
 *.py[cod]
 jythonCache/
 cachedir/
+.jython_cache/
 gdaserver.py
 
 ### Build output ###
