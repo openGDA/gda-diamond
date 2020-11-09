@@ -22,6 +22,7 @@ __pycache__/
 *.py[cod]
 jythonCache/
 cachedir/
+.jython_cache/
 .cmdHistory.txt
 gdaserver.py
 
