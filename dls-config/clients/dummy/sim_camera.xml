@@ -18,9 +18,13 @@
 	<bean id="ix" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="iy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<!-- Camera configuration for stream views -->
-	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Area Detector (with calibration)" />
+	<!-- Camera configurations for stream views -->
+	<bean id="sim_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="sim_camera_reset" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<!-- View including camera offset calibration -->
+	<bean id="sim_cam_offset_calibration" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Area Detector (with offset calibration)" />
 		<property name="url" ref="sim_mjpg_url" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 		<property name="pvAccessPv" value="#{sim_pvbase}:PVA:ARRAY" />
@@ -36,11 +40,74 @@
 		</property>
 	</bean>
 
+	<!--  View without calibration -->
 	<bean id="sim_cam_no_calibration" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Simulated Area Detector (no calibration)" />
 		<property name="url" ref="sim_mjpg_url" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 		<property name="pvAccessPv" value="#{sim_pvbase}:PVA:ARRAY" />
+	</bean>
+
+	<!--
+		Camera configuration including GUI to control the camera
+		Uses the "no calibration" version so cross hairs stay in the camera plane
+	-->
+	<bean id="sim_cam_with_controls" parent="sim_cam_no_calibration">
+		<property name="displayName" value="Simulated Area Detector (with controls)" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="sim_camera_control" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--
+		Camera configuration with control GUI and beam position calibration
+	-->
+	<bean id="sim_cam_with_controls_and_beam_calibration" parent="sim_cam_offset_calibration">
+		<property name="displayName" value="Simulated Area Detector (with controls and beam calibration)" />
+		<property name="calibratedAxesProvider" ref="sim_cam_beam_position_calibration" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg name="cameraControl" ref="sim_camera_control" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
+				<property name="extensions">
+					<list>
+						<ref bean="sim_cam_extension_calibrate" />
+						<ref bean="sim_cam_extension_toggle_overlay" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sim_cam_extension_calibrate" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
+		<property name="calibration" ref="sim_cam_beam_position_calibration" />
+	</bean>
+
+	<bean id="sim_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
+		<constructor-arg name="controlScannable">
+			<bean class="gda.device.scannable.SimplePVScannable">
+				<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
+				<property name="textInput" value="true" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="monitorScannable">
+			<bean class="gda.device.monitor.EpicsMonitor">
+				<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="sim_cam_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
+		<constructor-arg name="xAxisScannable" ref="ix"/>
+	    <constructor-arg name="yAxisScannable" ref="iy"/>
+	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>
+	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
+	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
 	</bean>
 
 </beans>

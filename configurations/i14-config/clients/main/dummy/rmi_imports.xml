@@ -3,9 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-	<bean id="sim_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-
-	<bean id="sim_camera_reset" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<!--  Nothing required at the moment -->
 
 </beans>
