@@ -7,6 +7,7 @@ from gda.jython.commands.GeneralCommands import run, alias  # @UnusedImport
 from gdascripts.pd.time_pds import waittimeClass, showtimeClass, showincrementaltimeClass, actualTimeClass
 from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
 from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
+from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 
 
 # Add config/scripts to import search path (why is this not already set in gda9?).

@@ -1,6 +1,7 @@
 from java.io import FileNotFoundException # @UnresolvedImport
 from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
 from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
+from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 from ScannableInvertedValue import PositionInvertedValue
 from gda.jython.commands.GeneralCommands import run
 
