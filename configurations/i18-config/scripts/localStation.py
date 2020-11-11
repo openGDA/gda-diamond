@@ -60,6 +60,8 @@ alias("listWatchdogs")
 alias("topup_watchdog")
 alias("beam_available_watchdog")
 
+from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
+
 topup_watchdog.setEnabled(True)
 beam_available_watchdog.setEnabled(True)
 
