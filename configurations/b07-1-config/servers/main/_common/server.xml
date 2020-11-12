@@ -41,6 +41,7 @@
 	<import resource="jython_server_facade.xml" />
 	<import resource="common_nxplugins.xml"/>
 	<import resource="nexus_datawriter.xml"/>
+	<import resource="archiver.xml" />
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />

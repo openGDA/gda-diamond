@@ -34,6 +34,11 @@ alias('mrscan')
 print "Installing configure_analyser_fixed_transmission"
 from beamline.configure_analyser_fixed_transmission import configure_analyser_fixed_transmission
 
+print "Installing EPICS archiver client"
+from gdascripts.archiver.archiver import archive
+alias('archive')
+from gdaserver import archiver
+
 # Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
