@@ -16,7 +16,7 @@ import installation
 from time import sleep
 
 ID_GAP_END_OFFSET = 0.00 # value used to make sure ID gap stops at the same time as PGM Energy
-IID_GAP_SPEED_LOWER_LIMIT = 0.010
+IID_GAP_SPEED_LOWER_LIMIT = 0.002
 IID_GAP_SPEED_UPPER_LIMIT = 1.0
 JID_GAP_SPEED_LOWER_LIMIT = 0.010
 JID_GAP_SPEED_UPPER_LIMIT = 1.0
