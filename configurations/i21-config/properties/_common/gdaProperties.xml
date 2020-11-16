@@ -6,7 +6,7 @@
                       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<context:property-placeholder location="
+	<context:property-placeholder ignore-unresolvable="true" location="
 		file:${gda.core.dir}/properties/core_java.properties,
 		file:${gda.facility.dir}/properties/_common/common_facility_java.properties,
 		file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties,

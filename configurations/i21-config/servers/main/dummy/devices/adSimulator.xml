@@ -2,8 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
@@ -12,10 +15,18 @@
 	<!-- You will have to change the PVs to those corresponding to your simulator -->
 	
 	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+<!-- 	<bean id="simCamPV" class="java.lang.String"> -->
+<!-- 		<constructor-arg type="java.lang.String" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01"/> -->
+<!-- 	</bean> -->
+	<context:property-placeholder properties-ref="cameraPVs"/>
+
+	<util:properties id="cameraPVs">
+	    <prop key="sim">#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01</prop>
+	</util:properties>
 	
 	<!-- Area Detector -->
 	<bean id="simCamBase" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
+		<property name="prefix" value="${sim}:CAM:" />
 	</bean>
 	<bean id="simCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
@@ -42,7 +53,7 @@
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
 				<property name="ndFileImpl">
 					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+						<property name="prefix" value="${sim}:HDF5:" />
 						<property name="resetToInitialValues" value="false" />
 					</bean>
 				</property>
@@ -60,8 +71,8 @@
 		
 	<bean id="sim_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="sim_RoiStats1" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+		<property name="baseRoiPVName" value="${sim}:ROI1:" />
+		<property name="baseStatsPVName" value="${sim}:STAT1:" />
 		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -74,8 +85,8 @@
 	</bean>
 	<bean id="sim_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="sim_RoiStats2" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
+		<property name="baseRoiPVName" value="${sim}:ROI2:" />
+		<property name="baseStatsPVName" value="${sim}:STAT2:" />
 		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -88,8 +99,8 @@
 	</bean>
 	<bean id="sim_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="sim_RoiStats3" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
+		<property name="baseRoiPVName" value="${sim}:ROI3:" />
+		<property name="baseStatsPVName" value="${sim}:STAT3:" />
 		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -102,8 +113,8 @@
 	</bean>
 	<bean id="sim_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="sim_RoiStats4" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
+		<property name="baseRoiPVName" value="${sim}:ROI4:" />
+		<property name="baseStatsPVName" value="${sim}:STAT4:" />
 		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -116,8 +127,8 @@
 	</bean>
 	<bean id="sim_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="sim_RoiStats5" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
+		<property name="baseRoiPVName" value="${sim}:ROI5:" />
+		<property name="baseStatsPVName" value="${sim}:STAT5:" />
 		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -130,8 +141,8 @@
 	</bean>
 	<bean id="sim_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="sim_RoiStats6" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
+		<property name="baseRoiPVName" value="${sim}:ROI6:" />
+		<property name="baseStatsPVName" value="${sim}:STAT6:" />
 		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />

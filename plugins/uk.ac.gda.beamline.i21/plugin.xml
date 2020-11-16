@@ -38,10 +38,6 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:window?after=showView">
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView">
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
