@@ -83,5 +83,7 @@
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="5" />
 	</bean>
-
+	<import resource="adSimulator.xml"/>
+	<import resource="es-i3.xml"/>
+	
 </beans>

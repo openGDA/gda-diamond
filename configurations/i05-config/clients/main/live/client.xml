@@ -8,6 +8,7 @@
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
 
+	<import resource="es_i3_live_controls.xml"/>
 	<import resource="stream_views.xml" />
 	<import resource="monitors.xml" />
 	<import resource="../_common/client.xml"/>

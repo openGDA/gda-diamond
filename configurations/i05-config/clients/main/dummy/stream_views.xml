@@ -10,47 +10,80 @@
 	http://www.diamond.ac.uk/schema/gda/gda
 	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 	
-	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
-	
 	<bean id="analyser_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
+		<property name="displayName" value="Analyser" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpeg" />
 		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 	</bean>
 	
-	<bean id="es_i1_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
+	<bean id="es_i1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="ES-i1" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpeg" />
 		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 	</bean>
 
-	<bean id="es_i2_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
+	<bean id="es_i2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="ES-i2" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpeg" />
 		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 	</bean>
 
-	<bean id="i05_camera11" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
+	<bean id="webcam10" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="webcam10" />
 		<property name="url" value="http://i05-webcam10.diamond.ac.uk/mjpg/1/video.mjpg?camera=1" />
 		<property name="rgb" value="true" />
 	</bean>
 
-	<bean id="i05_camera10" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
+	<bean id="webcam11" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="webcam11" />
 		<property name="url" value="http://i05-webcam11.diamond.ac.uk/mjpg/1/video.mjpg?camera=1" />
 		<property name="rgb" value="true" />
 	</bean>
 
-	<bean id="i05_camera8" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://i05-webcam9.diamond.ac.uk/mjpg/1/video.mjpg" />
+	<bean id="webcam8" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="webcam8" />
+		<property name="url" value="http://i05-webcam8.diamond.ac.uk/mjpg/1/video.mjpg" />
 		<property name="rgb" value="true" />
 	</bean>
 
-	<bean id="i05_camera9" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
+	<bean id="webcam9" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="webcam9" />
 		<property name="url" value="http://i05-webcam9.diamond.ac.uk/mjpg/1/video.mjpg" />
 		<property name="rgb" value="true" />
 	</bean>
+		
+	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
+	<import resource="../_common/es_i3_live_controls.xml"/>
+	<bean id="es-i3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="ES-i3" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="${sim}:ARR" />
+		<property name="roiProvider" ref="es_i3_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="es_i3_expsure_time_control" />
+						<ref bean="es_i3_acquire_period_control"/>
+						<ref bean="es_i3_time_remaining" />
+						<ref bean="es_i3_time_remaining_progress" />
+					</list>				
+				</property>
+				<property name="cameraState">
+					<bean id="es_i3CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="pvName" value="${sim}:CAM:Acquire"/>
+						<property name="stateVariableName" value="i05.es_i3.live.stream.active"/>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+		
+	<bean id="es_i3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>	
+	
 </beans>
