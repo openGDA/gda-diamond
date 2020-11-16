@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<context:property-placeholder properties-ref="cameraPVs"/>
+
+	<util:properties id="cameraPVs">
+	    <prop key="sim">#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01</prop>
+	</util:properties>
+
+	<bean id="es_i3ExposureTime" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="${sim}:CAM:AcquireTime"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="es_i3AcquirePeriod" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="${sim}:CAM:AcquirePeriod"/>
+		<property name="useNameAsInputName" value="true"/>	
+		<property name="hasUnits" value="false"/>	
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="es_i3Countdown" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimer" init-method="init" destroy-method="destroy">
+		<property name="countdownTimePvName" value="${sim}:CAM:AcquireTime_RBV"/>
+		<property name="countdownTriggerPvName" value="${sim}:CAM:Acquire"/>
+		<property name="updateIntervalInSeconds" value="1"/>
+		<property name="timeFormatInSeconds" value="%4d"/>
+	</bean>	
+	<bean id="es_i3CountdownProgress" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimerProgress" init-method="init" destroy-method="destroy">
+		<property name="countdownTimePvName" value="${sim}:CAM:AcquireTime_RBV"/>
+		<property name="countdownTriggerPvName" value="${sim}:CAM:Acquire"/>
+		<property name="updateIntervalInSeconds" value="1"/>
+	</bean>	
+
+</beans>

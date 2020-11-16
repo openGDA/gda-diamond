@@ -11,7 +11,7 @@
 	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd" >
 
 	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
 		<property name="locations">
 			<list value-type="java.lang.String">
 				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
@@ -20,6 +20,7 @@
 				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
 			</list>
 		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
 	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
@@ -40,6 +41,7 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<import resource="datawriter.xml" />
+	<import resource="abstract_nxplugins.xml"/>
 
 	<import resource="../../../xml/devices/${gda.mode}/i05_server_devices.xml" />
 	<import resource="gda_metadata.xml" />
