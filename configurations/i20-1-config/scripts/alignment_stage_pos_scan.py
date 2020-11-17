@@ -9,7 +9,6 @@ import math
 
 print "running alignment_stage_pos_scan.py"
 
-Finder = Finder.getInstance();
 #  as_hoffset = Finder.find("as_hoffset")
 # scaler_for_zebra = Finder.find("scaler_for_zebra")
 as_hoffset_motor = as_hoffset.getMotor()
