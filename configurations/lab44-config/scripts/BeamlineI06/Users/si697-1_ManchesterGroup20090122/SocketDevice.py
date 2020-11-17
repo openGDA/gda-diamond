@@ -1,7 +1,6 @@
 from time import sleep
 from java import lang
 
-from gda.factory import Finder
 #New style Pseudo devices use gda.device.scannable.ScannableMotionBase
 from gda.device.scannable import ScannableMotionBase
 
@@ -20,7 +19,6 @@ class SockteDeviceClass(ScannableMotionBase):
         self.setExtraNames([name]);
 #        self.Units=[strUnit];
         self.setLevel(7);
-        finder = Finder.getInstance();
         self.serverHost = hostName;
         self.serverPort = hostPort;
 

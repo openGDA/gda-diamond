@@ -6,7 +6,7 @@ from gdascripts.utils import caget
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from types import ListType
 from gda.device.detector.nxdetector.roi import ImutableRectangularIntegerROI
-from i06shared.commands.dirFileCommands import finder
+from gda.factory import Finder
 from gda.device.detector import NXDetector
 from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
 from gda.scan import ScanInformation
@@ -163,7 +163,7 @@ class BeamStablisationUsingAreaDetectorRoiStatPair(BeamStabilisation):
         '''
         BeamStabilisation.__init__(self, rois, leem_fov, leem_rot, m4fpitch, m5fpitch, m4fpitchRead, m5fpitchRead, psphi, roistat_index, pvRootName)
         self.detector=detector
-        self.roiProvider=finder.find(roi_provider_name)
+        self.roiProvider=Finder.find(roi_provider_name)
         
     def rot_dS(self, dS):
         #rotate the beam displacement vector

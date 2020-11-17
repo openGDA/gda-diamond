@@ -3,14 +3,15 @@ from BeamlineI06.PseudoDevices.ScannableControlPoint import ScannalbeControlPoin
 
 #Create the scannable PatchPanel Analogue Output
 
-#ppao1 = finder.find("cpPPAO1");
-#ppao2 = finder.find("cpPPAO2");
-#ppao3 = finder.find("cpPPAO3");
-#ppao4 = finder.find("cpPPAO4");
-#ppao5 = finder.find("cpPPAO5");
-#ppao6 = finder.find("cpPPAO6");
-#ppao7 = finder.find("cpPPAO7");
-#ppao8 = finder.find("cpPPAO8");
+#from gda.factory import Finder
+#ppao1 = Finder.find("cpPPAO1");
+#ppao2 = Finder.find("cpPPAO2");
+#ppao3 = Finder.find("cpPPAO3");
+#ppao4 = Finder.find("cpPPAO4");
+#ppao5 = Finder.find("cpPPAO5");
+#ppao6 = Finder.find("cpPPAO6");
+#ppao7 = Finder.find("cpPPAO7");
+#ppao8 = Finder.find("cpPPAO8");
 
 #####################################################################################
 #

@@ -9,7 +9,7 @@ from gda.jython.commands.GeneralCommands import alias
 #from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 #from gda.analysis.io import PNGLoader, TIFFImageLoader
 
-#global run, finder, alias, sleep, ConcurrentScan
+#global run, alias, sleep, ConcurrentScan
 #global testMotor1, psx, psy
 import __main__  # @UnresolvedImport
 
