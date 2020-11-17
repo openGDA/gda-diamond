@@ -158,7 +158,7 @@
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
- 	<bean id="es-i3" class="gda.device.detector.NXDetector">
+ 	<bean id="es_i3" class="gda.device.detector.NXDetector">
 		<property name="name" value="es-i3" />
 		<property name="collectionStrategy" ref="es_i3CollectionStrategy" />
 		<property name="additionalPluginList">
