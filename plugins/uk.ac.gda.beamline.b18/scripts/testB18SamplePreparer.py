@@ -3,7 +3,6 @@ from exafsscripts.exafs.b18SamplePreparer import B18SamplePreparer
 from gda.device import Scannable
 from uk.ac.gda.beans.exafs.b18 import B18SampleParameters, XYThetaStageParameters, LN2CryoStageParameters, SXCryoStageParameters, PulseTubeCryostatParameters
 import unittest
-from nose.tools import eq_ #@UnresolvedImport
 from gda.device.scannable import PulseTube
 
 class TestB18SamplePreparer(unittest.TestCase):
