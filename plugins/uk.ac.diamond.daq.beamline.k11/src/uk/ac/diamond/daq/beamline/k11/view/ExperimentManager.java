@@ -23,6 +23,7 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridL
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientText;
+import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyListener;
@@ -35,7 +36,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.ui.tool.ClientMessages;
@@ -48,14 +48,8 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 public class ExperimentManager implements CompositeFactory {
 
-	private final ExperimentController experimentController;
-
 	private Text experimentName;
 	private Button toggleExperiment;
-
-	public ExperimentManager(ExperimentController experimentController) {
-		this.experimentController = experimentController;
-	}
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
@@ -93,10 +87,6 @@ public class ExperimentManager implements CompositeFactory {
 			ClientSWTElements.updateButton(toggleExperiment, ClientMessages.START, ClientMessages.START_EXPERIMENT, ClientImages.START);
 		}
 		experimentName.setEnabled(!running);
-	}
-
-	private ExperimentController getExperimentController() {
-		return experimentController;
 	}
 
 	private Listener toggleExperimentListener = event -> {
