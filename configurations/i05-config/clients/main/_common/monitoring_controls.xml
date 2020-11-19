@@ -15,7 +15,7 @@
 		<property name="analyserLiveStreamConfiguration" ref="analyser_live_stream" />
 		<property name="overExposureControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
-				<property name="displayName" value="Analyser Overexposure" />
+				<property name="displayName" value="Ana. Over." />
 				<property name="group" value="Analyser Controls" />
 				<property name="scannableName" value="analyser_overexposure_monitor" />
 				<property name="textWidth" value="50" />
