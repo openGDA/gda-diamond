@@ -22,8 +22,6 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
-import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
-
 
 import java.util.Optional;
 
@@ -38,16 +36,13 @@ import org.eclipse.swt.widgets.Listener;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.diamond.daq.client.gui.energy.BeamEnergyDialogBuilder;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.mapping.ui.stage.IStageController;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
 import uk.ac.diamond.daq.mapping.ui.stage.enumeration.Position;
-import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
-import uk.ac.gda.ui.tool.rest.ExperimentControllerService;
 
 /**
  * Acquisition dashboard
