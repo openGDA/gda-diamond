@@ -111,6 +111,7 @@
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/imaging/imaging_rail.xml" />
 
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diffraction/pilatus_addetector.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/detectors/diffraction/calibration_merge.xml" />
 
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/diagnostics.xml" />
 
