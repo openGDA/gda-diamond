@@ -1,8 +1,6 @@
 
 from time import sleep;
 
-from gda.epics.interfaceSpec import GDAEpicsInterfaceReader
-
 from Diamond.Objects.EpicsPv import EpicsButtonClass
 from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
 
@@ -10,12 +8,12 @@ from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
 
 class HexapodPivotDeviceClass(EpicsDeviceClass):
     
-    def __init__(self, name, deviceName, syncButton, homeButton):
+    def __init__(self, name, pvName, syncButton, homeButton):
         
         strUnit='mm';
         strFormat='%8.5f';
-        pvGet=GDAEpicsInterfaceReader.getPVFromSimplePVType(deviceName);
-        pvSet=GDAEpicsInterfaceReader.getPVFromSimplePVType(deviceName);
+        pvGet = pvName
+        pvSet = pvName
         pvStatus=None;
         timeout=None;
         EpicsDeviceClass.__init__(self, name, pvSet, pvGet, pvStatus, strUnit, strFormat, timeout);

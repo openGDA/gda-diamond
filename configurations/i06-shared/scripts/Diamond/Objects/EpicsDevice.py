@@ -1,5 +1,4 @@
 from gda.epics import CAClient;
-from gda.epics.interfaceSpec import GDAEpicsInterfaceReader
 
 
 
@@ -13,11 +12,8 @@ from gda.epics.interfaceSpec import GDAEpicsInterfaceReader
 #####################################################################################
 
 class EpicsDeviceClass(object):
-	def __init__(self, deviceName=None, pv=None):
-		if deviceName is None:
-			self.pv=pv;
-		else:
-			self.pv=GDAEpicsInterfaceReader.getPVFromSimplePVType(deviceName);
+	def __init__(self, pv):
+		self.pv=pv;
 		self.ch=CAClient(self.pv);
 		self.ch.configure();
 
@@ -47,8 +43,8 @@ class EpicsDeviceClass(object):
 #
 #####################################################################################
 class EpicsButtonDeviceClass(EpicsDeviceClass):
-	def __init__(self, buttonDeviceName=None, buttonPv=None):
-		EpicsDeviceClass.__init__(self, buttonDeviceName, buttonPv);
+	def __init__(self, buttonPv):
+		EpicsDeviceClass.__init__(self, buttonPv);
 
 	def press(self):
 		self.caput(1);

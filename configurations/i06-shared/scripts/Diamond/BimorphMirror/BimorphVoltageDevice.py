@@ -62,7 +62,7 @@ class BimorphVoltageDeviceClass(object):
 			self.bm_vts[-1].delay = 0
 
 		pvApplyProfile=self.basePV + ":SET-ALLTRGT";
-		self.buttonApplyProfile=EpicsButtonDeviceClass(buttonPv=pvApplyProfile);
+		self.buttonApplyProfile=EpicsButtonDeviceClass(pvApplyProfile);
 		self.setDelay(self.delay);
 
 	def getPosPlusIncrement(self, increment):
