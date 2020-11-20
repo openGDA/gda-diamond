@@ -37,6 +37,43 @@
 		</property>
 	</bean>
 
+  	<bean id="gantry_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gantry stage X" />
+		<property name="scannableName" value="gantry_x" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+  	<bean id="gantry_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gantry stage Y" />
+		<property name="scannableName" value="gantry_y" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+	<bean id="gantry_gripper_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gripper" />
+		<property name="scannableName" value="gantry_gripper" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+  	<bean id="gantry_gripper_angle_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gripper Angle" />
+		<property name="scannableName" value="gantry_gripper_angle" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+	<bean id="gantry_controls_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Gantry stage" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="gantry_x_control" />
+				<ref bean="gantry_y_control" />
+				<ref bean="gantry_gripper_control" />
+				<ref bean="gantry_gripper_angle_control" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="expt_shutter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Experiment shutter" />
 		<property name="scannableName" value="expt_shutter_state" />
@@ -51,6 +88,13 @@
 		<property name="textWidth" value="100" />
 	</bean>
 
+	<bean id="a3_filter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="A3 filter" />
+		<property name="scannableName" value="a3_mapped_positioner" />
+		<property name="showStop" value="False" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+	
 	<bean id="d2_valve_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="D2 valve" />
 		<property name="scannableName" value="D2" />
@@ -99,6 +143,7 @@
 				<ref bean="expt_shutter_control" />
 				<ref bean="oh_shutter_control" />
 				<ref bean="d7_valve_control" />
+				<ref bean="a3_filter_control" />
 			</list>
 		</property>
 	</bean>
@@ -195,6 +240,7 @@
 				<ref bean="shutter_group" />
 				<ref bean="sample_controls_group" />
 				<ref bean="user_motors_controls_group" />
+				<ref bean="gantry_controls_group" />
 				<ref bean="hr_mirror_group" />
 				<ref bean="s3xsize_control" />
 				<ref bean="samplewheel_pos_name_control" />

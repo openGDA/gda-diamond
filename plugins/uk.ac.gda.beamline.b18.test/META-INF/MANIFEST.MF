@@ -15,5 +15,6 @@ Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  uk.ac.gda.beamline.b18.server,
  javassist;bundle-version="3.21.0",
  uk.ac.gda.common,
- uk.ac.gda.test.helpers
+ uk.ac.gda.test.helpers,
+ uk.ac.gda.core
 Automatic-Module-Name: uk.ac.gda.beamline.b18.test
