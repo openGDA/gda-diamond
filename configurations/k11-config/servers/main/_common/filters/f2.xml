@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+	<!-- COMBINED MOTION -->
+	<gda:motor id="f2_y"
+		live-pvName="#{configProperties.AL_ATTN_PREFIX}02:y"
+		dummy-minPosition="-1.4996"
+		dummy-maxPosition="15.0004"
+		dummy-position="4.0014"
+		dummy-unitString="mm"/>
+
+</beans>

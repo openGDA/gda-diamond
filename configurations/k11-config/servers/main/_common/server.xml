@@ -27,7 +27,8 @@
 		<prop key="FE_SHUTTER_PV_PREFIX">FE11K-PS-SHTR-</prop>
 		<prop key="KBM_PV_PREFIX">BL11K-OP-KBM-</prop>
 		<prop key="MR_PV_PREFIX">BL11K-OP-MR-</prop>
-		<prop key="EA_DET_PREFIX">BL11K-EA-DET-</prop>		
+		<prop key="EA_DET_PREFIX">BL11K-EA-DET-</prop>
+		<prop key="AL_ATTN_PREFIX">BL11K-AL-ATTN-</prop>
 	</util:properties>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
@@ -87,6 +88,9 @@
 
 	<!-- dcms -->
 	<import	resource="file:${gda.config}/servers/main/_common/dcms/dcms.xml" />
+
+	<!-- filters -->
+	<import	resource="file:${gda.config}/servers/main/_common/filters/filters.xml" />
 
 	<!-- mirrors -->
 	<import	resource="file:${gda.config}/servers/main/_common/mirrors/mirrors.xml" />

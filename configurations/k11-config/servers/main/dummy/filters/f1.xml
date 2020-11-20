@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="f1_selector"
+		class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>empty</value>
+				<value>Cu 0.5 mm halfway</value>
+				<value>Cu 0.5mm</value>
+				<value>empty aperture</value>
+				<value>Al 0.1 mm</value>
+				<value>Al 0.5 mm</value>
+				<value>Al 1 mm</value>
+				<value>Al 2 mm</value>
+				<value>Al 4 mm</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
