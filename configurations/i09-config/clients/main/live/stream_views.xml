@@ -33,67 +33,76 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	
-	<!-- Live controls eav -->
-	<bean id="eav_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="BL09I-DI-EAN-01:OVER:1:Use" />
-				<property name="textInput" value="true" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="BL09I-DI-EAN-01:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
-	</bean>
 	
-	<bean id="eav_cross_centre_x" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-DI-EAN-01:OVER:1:PositionX_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-DI-EAN-01:OVER:1:PositionX" />
+	<!-- Epics camera viewer cross controls EAV -->
+	
+	<bean id="cross_x_eav" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-DI-EAN-01:MJPG:GX" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="cross_y_eav" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-DI-EAN-01:MJPG:GY" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="eav_cross_centre_y" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-DI-EAN-01:OVER:1:PositionY_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-DI-EAN-01:OVER:1:PositionY" />
+	<bean id="cross_spacing_eav" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-DI-EAN-01:MJPG:GS" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="eav_cross_size_x" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-DI-EAN-01:OVER:1:SizeX" />
+	<bean id="cross_toggle_eav" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-DI-EAN-01:MJPG:GRID" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
-	<bean id="eav_cross_size_y" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-DI-EAN-01:OVER:1:SizeY" />
-	</bean>
-	
-	<bean id="eav_cross_position_control" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCrosshair">
-		<constructor-arg name="centreX">
+	<bean id="analyser_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="X" />
-				<property name="scannableName" value="eav_cross_centre_x" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_eav" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="centreY">
+		<constructor-arg name="centreYControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="Y" />
-				<property name="scannableName" value="eav_cross_centre_y" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_eav" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="sizeX" ref="eav_cross_size_x" />
-		<constructor-arg name="sizeY" ref="eav_cross_size_y" />
-		<property name="crosshairSizeFactor" value="0.5" />
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_eav" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_eav" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="analyser_stream#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_eav" />
+		<property name="centreXScannable" ref="cross_x_eav" />
+		<property name="centreYScannable" ref="cross_y_eav" />
+		<property name="toggleScannable" ref="cross_toggle_eav" />
+		<property name="showCrossOnly" value="true" />
 	</bean>
 	
 	<bean id="analyserCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -101,295 +110,378 @@
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
 		<property name="extensions">
 			<list>
-				<ref bean="eav_cam_extension_toggle_overlay" />
-				<ref bean="eav_cross_position_control" />
+				<ref bean="analyser_cross" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="analyser_cross2" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_eav" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="centreYControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_eav" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_eav" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_eav" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="analyser_stream2#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_eav" />
+		<property name="centreXScannable" ref="cross_x_eav" />
+		<property name="centreYScannable" ref="cross_y_eav" />
+		<property name="toggleScannable" ref="cross_toggle_eav" />
+		<property name="showCrossOnly" value="true" />
+	</bean>
+	
+	<bean id="analyserCameraControlsUi2" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+		<constructor-arg ref="analyserCameraControl" />
+		<property name="changeExposureWhileCameraAcquiring" value="true" />
+		<property name="extensions">
+			<list>
+				<ref bean="analyser_cross2" />
 			</list>
 		</property>
 	</bean>
 	
 	<!-- Live controls ES2-1 -->
-	<bean id="es2_1_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="BL09I-MO-ES-01:OVER:1:Use" />
-				<property name="textInput" value="true" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="BL09I-MO-ES-01:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
+	<bean id="cross_x_es2_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-01:MJPG:GX" />
+		<property name="outputFormat" value="%1.0f" />
 	</bean>
-	
-	<bean id="es2_1_cross_centre_x" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-MO-ES-01:OVER:1:CenterX_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-MO-ES-01:OVER:1:CenterX" />
+
+	<bean id="cross_y_es2_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-01:MJPG:GY" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="es2_1_cross_centre_y" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-MO-ES-01:OVER:1:CenterY_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-MO-ES-01:OVER:1:CenterY" />
+	<bean id="cross_spacing_es2_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-01:MJPG:GS" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="es2_1_cross_size_x" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-MO-ES-01:OVER:1:SizeX" />
+	<bean id="cross_toggle_es2_1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-MO-ES-01:MJPG:GRID" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
-	<bean id="es2_1_cross_size_y" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-MO-ES-01:OVER:1:SizeY" />
-	</bean>
-	
-	<bean id="es2_1_cross_position_control" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCrosshair">
-		<constructor-arg name="centreX">
+	<bean id="es2_1_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="X" />
-				<property name="scannableName" value="es2_1_cross_centre_x" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_es2_1" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="centreY">
+		<constructor-arg name="centreYControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="Y" />
-				<property name="scannableName" value="es2_1_cross_centre_y" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_es2_1" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="sizeX" ref="es2_1_cross_size_x" />
-		<constructor-arg name="sizeY" ref="es2_1_cross_size_y" />
-		<property name="crosshairSizeFactor" value="0.5" />
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_es2_1" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_es2_1" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="es2_1#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_es2_1" />
+		<property name="centreXScannable" ref="cross_x_es2_1" />
+		<property name="centreYScannable" ref="cross_y_es2_1" />
+		<property name="toggleScannable" ref="cross_toggle_es2_1" />
+		<property name="showCrossOnly" value="true" />
 	</bean>
-	
+
 	<bean id="es2_1CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
 		<constructor-arg ref="es2_1CameraControl" />
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
 		<property name="extensions">
 			<list>
-				<ref bean="es2_1_cam_extension_toggle_overlay" />
-				<ref bean="es2_1_cross_position_control" />
+				<ref bean="es2_1_cross" />
 			</list>
 		</property>
 	</bean>
 	
 	<!-- Live controls ES2-2 -->
-	<bean id="es2_2_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="BL09I-MO-ES-02:OVER:1:Use" />
-				<property name="textInput" value="true" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="BL09I-MO-ES-02:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
+	<bean id="cross_x_es2_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-02:MJPG:GX" />
+		<property name="outputFormat" value="%1.0f" />
 	</bean>
-	
-	<bean id="es2_2_cross_centre_x" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-MO-ES-02:OVER:1:CenterX_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-MO-ES-02:OVER:1:CenterX" />
+
+	<bean id="cross_y_es2_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-02:MJPG:GY" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="es2_2_cross_centre_y" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-MO-ES-02:OVER:1:CenterY_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-MO-ES-02:OVER:1:CenterY" />
+	<bean id="cross_spacing_es2_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-02:MJPG:GS" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="es2_2_cross_size_x" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-MO-ES-02:OVER:1:SizeX" />
+	<bean id="cross_toggle_es2_2" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-MO-ES-02:MJPG:GRID" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
-	<bean id="es2_2_cross_size_y" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-MO-ES-02:OVER:1:SizeY" />
-	</bean>
-	
-	<bean id="es2_2_cross_position_control" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCrosshair">
-		<constructor-arg name="centreX">
+	<bean id="es2_2_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="X" />
-				<property name="scannableName" value="es2_2_cross_centre_x" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_es2_2" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="centreY">
+		<constructor-arg name="centreYControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="Y" />
-				<property name="scannableName" value="es2_2_cross_centre_y" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_es2_2" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="sizeX" ref="es2_2_cross_size_x" />
-		<constructor-arg name="sizeY" ref="es2_2_cross_size_y" />
-		<property name="crosshairSizeFactor" value="0.5" />
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_es2_2" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_es2_2" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="es2_2#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_es2_1" />
+		<property name="centreXScannable" ref="cross_x_es2_1" />
+		<property name="centreYScannable" ref="cross_y_es2_1" />
+		<property name="toggleScannable" ref="cross_toggle_es2_1" />
+		<property name="showCrossOnly" value="true" />
 	</bean>
-	
+
 	<bean id="es2_2CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
 		<constructor-arg ref="es2_2CameraControl" />
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
 		<property name="extensions">
 			<list>
-				<ref bean="es2_2_cam_extension_toggle_overlay" />
-				<ref bean="es2_2_cross_position_control" />
+				<ref bean="es2_2_cross" />
 			</list>
 		</property>
 	</bean>
 	
 	<!-- Live controls ES2-3 -->
-	<bean id="es2_3_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="BL09I-MO-ES-03:OVER:1:Use" />
-				<property name="textInput" value="true" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="BL09I-MO-ES-03:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
+	<bean id="cross_x_es2_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-03:MJPG:GX" />
+		<property name="outputFormat" value="%1.0f" />
 	</bean>
-	
-	<bean id="es2_3_cross_centre_x" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-MO-ES-03:OVER:1:CenterX_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-MO-ES-03:OVER:1:CenterX" />
+
+	<bean id="cross_y_es2_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-03:MJPG:GY" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="es2_3_cross_centre_y" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-MO-ES-03:OVER:1:CenterY_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-MO-ES-03:OVER:1:CenterY" />
+	<bean id="cross_spacing_es2_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-MO-ES-03:MJPG:GS" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="es2_3_cross_size_x" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-MO-ES-03:OVER:1:SizeX" />
+	<bean id="cross_toggle_es2_3" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-MO-ES-03:MJPG:GRID" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
-	<bean id="es2_3_cross_size_y" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-MO-ES-03:OVER:1:SizeY" />
-	</bean>
-	
-	<bean id="es2_3_cross_position_control" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCrosshair">
-		<constructor-arg name="centreX">
+	<bean id="es2_3_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="X" />
-				<property name="scannableName" value="es2_3_cross_centre_x" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_es2_3" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="centreY">
+		<constructor-arg name="centreYControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="Y" />
-				<property name="scannableName" value="es2_3_cross_centre_y" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_es2_3" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="sizeX" ref="es2_3_cross_size_x" />
-		<constructor-arg name="sizeY" ref="es2_3_cross_size_y" />
-		<property name="crosshairSizeFactor" value="0.5" />
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_es2_3" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_es2_3" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="es2_3#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_es2_3" />
+		<property name="centreXScannable" ref="cross_x_es2_3" />
+		<property name="centreYScannable" ref="cross_y_es2_3" />
+		<property name="toggleScannable" ref="cross_toggle_es2_3" />
+		<property name="showCrossOnly" value="true" />
 	</bean>
-	
+
 	<bean id="es2_3CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
 		<constructor-arg ref="es2_3CameraControl" />
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
 		<property name="extensions">
 			<list>
-				<ref bean="es2_3_cam_extension_toggle_overlay" />
-				<ref bean="es2_3_cross_position_control" />
+				<ref bean="es2_3_cross" />
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Live controls XBPM -->
-	<bean id="xbpm_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="BL09I-EA-XBPM-01:OVER:1:Use" />
-				<property name="textInput" value="true" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="BL09I-EA-XBPM-01:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
+	<bean id="cross_x_xbpm" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-XBPM-01:MJPG:GX" />
+		<property name="outputFormat" value="%1.0f" />
 	</bean>
-	
-	<bean id="xbpm_cross_centre_x" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-EA-XBPM-01:OVER:1:CenterX_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-EA-XBPM-01:OVER:1:CenterX" />
+
+	<bean id="cross_y_xbpm" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-XBPM-01:MJPG:GY" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="xbpm_cross_centre_y" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09I-EA-XBPM-01:OVER:1:CenterY_RBV" />
-		<property name="pvNameSetPoint" value="BL09I-EA-XBPM-01:OVER:1:CenterY" />
+	<bean id="cross_spacing_xbpm" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09I-EA-XBPM-01:MJPG:GS" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="xbpm_cross_size_x" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-EA-XBPM-01:OVER:1:SizeX" />
+	<bean id="cross_toggle_xbpm" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-EA-XBPM-01:MJPG:GRID" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
-	<bean id="xbpm_cross_size_y" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-EA-XBPM-01:OVER:1:SizeY" />
-	</bean>
-	
-	<bean id="xbpm_cross_position_control" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCrosshair">
-		<constructor-arg name="centreX">
+	<bean id="xbpm_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="X" />
-				<property name="scannableName" value="xbpm_cross_centre_x" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_xbpm" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="centreY">
+		<constructor-arg name="centreYControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="Y" />
-				<property name="scannableName" value="xbpm_cross_centre_y" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_xbpm" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="sizeX" ref="xbpm_cross_size_x" />
-		<constructor-arg name="sizeY" ref="xbpm_cross_size_y" />
-		<property name="crosshairSizeFactor" value="0.5" />
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_xbpm" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_xbpm" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="xbpm#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_xbpm" />
+		<property name="centreXScannable" ref="cross_x_xbpm" />
+		<property name="centreYScannable" ref="cross_y_xbpm" />
+		<property name="toggleScannable" ref="cross_toggle_xbpm" />
+		<property name="showCrossOnly" value="true" />
 	</bean>
 	
 	<bean id="xbpmCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -397,73 +489,79 @@
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
 		<property name="extensions">
 			<list>
-				<ref bean="xbpm_cam_extension_toggle_overlay" />
-				<ref bean="xbpm_cross_position_control" />
+				<ref bean="xbpm_cross" />
 			</list>
 		</property>		
 	</bean>
 	
 	<!-- Live controls SD3 -->
-	<bean id="sd3_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="BL09J-MO-SD-03:OVER:1:Use" />
-				<property name="textInput" value="true" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="BL09J-MO-SD-03:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
+	<bean id="cross_x_sd3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09J-MO-SD-03:MJPG:GX" />
+		<property name="outputFormat" value="%1.0f" />
 	</bean>
-	
-	<bean id="sd3_cross_centre_x" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09J-MO-SD-03:OVER:1:CenterX_RBV" />
-		<property name="pvNameSetPoint" value="BL09J-MO-SD-03:OVER:1:CenterX" />
+
+	<bean id="cross_y_sd3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09J-MO-SD-03:MJPG:GY" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="sd3_cross_centre_y" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL09J-MO-SD-03:OVER:1:CenterY_RBV" />
-		<property name="pvNameSetPoint" value="BL09J-MO-SD-03:OVER:1:CenterY" />
+	<bean id="cross_spacing_sd3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09J-MO-SD-03:MJPG:GS" />
 		<property name="outputFormat" value="%1.0f" />
 	</bean>
 	
-	<bean id="sd3_cross_size_x" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09J-MO-SD-03:OVER:1:SizeX" />
+	<bean id="cross_toggle_sd3" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09J-MO-SD-03:MJPG:GRID" />
+		<property name="readOnly" value="false"/>
 	</bean>
 	
-	<bean id="sd3_cross_size_y" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09J-MO-SD-03:OVER:1:SizeY" />
-	</bean>
-	
-	<bean id="sd3_cross_position_control" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCrosshair">
-		<constructor-arg name="centreX">
+	<bean id="sd3_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="X" />
-				<property name="scannableName" value="sd3_cross_centre_x" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_sd3" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="centreY">
+		<constructor-arg name="centreYControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-				<property name="displayName" value="Y" />
-				<property name="scannableName" value="sd3_cross_centre_y" />
-				<property name="boldLabel" value="true" />
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_sd3" />
 				<property name="horizontalLayout" value="true" />
 				<property name="showStop" value="false" />
 				<property name="incrementTextWidth" value="30" />
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<constructor-arg name="sizeX" ref="sd3_cross_size_x" />
-		<constructor-arg name="sizeY" ref="sd3_cross_size_y" />
-		<property name="crosshairSizeFactor" value="0.5" />
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_sd3" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_sd3" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="sd3#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_sd3" />
+		<property name="centreXScannable" ref="cross_x_sd3" />
+		<property name="centreYScannable" ref="cross_y_sd3" />
+		<property name="toggleScannable" ref="cross_toggle_sd3" />
+		<property name="showCrossOnly" value="true" />
 	</bean>
 	
 	<bean id="sd3CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -471,8 +569,7 @@
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
 		<property name="extensions">
 			<list>
-				<ref bean="sd3_cam_extension_toggle_overlay" />
-				<ref bean="sd3_cross_position_control" />
+				<ref bean="sd3_cross" />
 			</list>
 		</property>
 	</bean>
@@ -481,13 +578,20 @@
 	<bean id="analyser_eav_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy">
 	</bean>
 
-	<!-- Analyser Cam -->
+	<!-- Analyser CameraConfiguration for alignment perspective -->
 	<bean id="analyser_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="topUi" ref="analyserCameraControlsUi" />
 		<property name="displayName" value="EAV" />
 		<property name="url" value="http://bl09j-di-serv-01.diamond.ac.uk:8081/EAV.MJPG.mjpg" />
 		<property name="roiProvider" ref="analyser_eav_roi" />
-		<property name="rgb" value="true" />
+	</bean>
+	
+	<!-- Analyser CameraConfiguration for monitor perspective-->
+	<bean id="analyser_stream2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="topUi" ref="analyserCameraControlsUi2" />
+		<property name="displayName" value="EAV" />
+		<property name="url" value="http://bl09j-di-serv-01.diamond.ac.uk:8081/EAV.MJPG.mjpg" />
+		<property name="roiProvider" ref="analyser_eav_roi" />
 	</bean>
 	
 	<!-- diagnostic cameras on Monitor perspective-->
@@ -495,19 +599,20 @@
 		<property name="topUi" ref="es2_1CameraControlsUi" />
 		<property name="displayName" value="ES2-1" />
 		<property name="url" value="http://bl09i-di-serv-01.diamond.ac.uk:8080/ES2-1.mjpg.mjpg" />
+		<property name="rgb" value="true" />
 	</bean>
 	
 	<bean id="es2_2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="topUi" ref="es2_2CameraControlsUi" />
 		<property name="displayName" value="ES2-2" />
 		<property name="url" value="http://bl09i-di-serv-01.diamond.ac.uk:8080/ES2-2.mjpg.mjpg" />
+		<property name="rgb" value="true" />
 	</bean>
 	
 	<bean id="es2_3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="topUi" ref="es2_3CameraControlsUi" />
 		<property name="displayName" value="ES2-3" />
 		<property name="url" value="http://bl09i-di-serv-01.diamond.ac.uk:8080/ES2-3.mjpg.mjpg" />
-		<property name="rgb" value="true" />
 	</bean>
 	
 	<!-- Feedback perspective -->
