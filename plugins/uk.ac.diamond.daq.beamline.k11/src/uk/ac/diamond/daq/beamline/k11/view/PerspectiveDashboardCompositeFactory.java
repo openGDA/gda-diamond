@@ -159,7 +159,6 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 
 		Listener energyButtonListener = e -> {
 			BeamEnergyDialogBuilder builder = new BeamEnergyDialogBuilder();
-			builder.addBeamSelector();
 			builder.addImagingController();
 			builder.addDiffractionController();
 			builder.build(parent.getShell()).open();
