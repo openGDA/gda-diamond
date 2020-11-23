@@ -2,15 +2,16 @@ from gda.device.detector.uview import UViewImageDetectorROI
 from Diamond.Peem.LeemModule import LeemFieldOfViewClass;
 from Diamond.Peem.UViewDetector import UViewDetectorClass;
 from gda.analysis.io import TIFFImageLoader
+from gda.factory import Finder
 
-global finder, logger
+global logger
 global uview, ViewerPanelName
 
 print "-------------------------------------------------------------------"
 print "To set up the PEEM Corba Bridge Connection"
 
 try:
-    peemBridge = finder.find("peemBridge");
+    peemBridge = Finder.find("peemBridge");
     msImpl=peemBridge.connect()
 except:
     exceptionType, exception, traceback=sys.exc_info();
@@ -28,7 +29,7 @@ fov = LeemFieldOfViewClass("fov", msImpl);
 #Setup the UView
 print "-------------------------------------------------------------------"
 #PEEM UViewImage Detector
-#uview = finder.find("uview")
+#uview = Finder.find("uview")
 print "CONFIGURING CORBA UVIEW\n"
 uview.configure()
 print "CORBA UVIEW CONFIGURED!"

@@ -71,7 +71,7 @@ class FastScanControlClass(object):
 
 	def setDof(self, dof):
 		if dof in MOTORS.keys():
-			self.motor= Finder.getInstance().find( MOTORS[dof] );
+			self.motor= Finder.find( MOTORS[dof] );
 		else:
 			raise ValueError("No Motor found Error");
 		self.dof = dof;
@@ -470,7 +470,7 @@ exec("[fastController, fastData, fastMotor] = [None, None, None]");
 rootPV = "BL07I-EA-DET-01:MCA-01";
 numberOfMCA=1;
 
-#motor=finder.find("MotorFoil_D4");
+#motor=Finder.find("MotorFoil_D4");
 fastController = FastScanControlClass("fastController", testMotor1);
 fastData = EpicsMCADataDeviceClass("fastData", rootPV, numberOfMCA);
 fastMotion = FastMotionDeviceClass("fastMotion", fastController, fastData);

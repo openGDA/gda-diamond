@@ -28,8 +28,7 @@ class PEEMModuleClass(ScannableMotionBase):
 		self.setExtraNames([name]);
 #		self.Units=[strUnit];
 		self.setLevel(7);
-		finder = Finder.getInstance();
-		self.peem = finder.find("leem");
+		self.peem = Finder.find("leem");
 		self.index = index;
 		self.value = 0;
 

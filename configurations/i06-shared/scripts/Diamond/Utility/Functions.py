@@ -12,7 +12,6 @@ from gda.configuration.properties import LocalProperties
 print "-"*100
 print "Setup the utility functions"
 print "    'logger' object for script logging"
-print "    'finder' object for finding object by object's name"
 print "    'getScanNumber()' returns current scan file number "
 print "    'interruptable()' used in script to make the script interruptable when click STOP button in GDA client"
 print "    'removeDevices(nameList)' remvoe all devices inside a given list"
