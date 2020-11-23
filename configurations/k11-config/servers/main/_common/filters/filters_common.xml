@@ -4,6 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import	resource="file:${gda.config}/servers/main/_common/filters/f1.xml" />
-	<import	resource="file:${gda.config}/servers/main/_common/mirrors/f2.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/filters/f2.xml" />
 		
 </beans>
