@@ -125,10 +125,7 @@ public class MonoOptimisation extends FindableBase {
 		logger.info("Running optimisation for single energy "+lowEnergy);
 		Object initialPos = bragg.getPosition();
 
-		moveEnergyScannable(bragg, lowEnergy);
-		String filename = doOffsetScan();
-		Dataset dataFromFile = loadDataFromNexusFile(filename);
-		fittedGaussianLowEnergy = findPeakOutput(dataFromFile);
+		fittedGaussianLowEnergy = runAndFitOffsetScan(bragg, lowEnergy);
 		this.lowEnergy = lowEnergy;
 		this.highEnergy = lowEnergy;
 
@@ -158,17 +155,11 @@ public class MonoOptimisation extends FindableBase {
 		logger.info("Running optimisation for energies "+lowEnergy+" and "+highEnergy);
 		Object initialPos = bragg.getPosition();
 
-		moveEnergyScannable(bragg, lowEnergy);
-		String filename = doOffsetScan();
-		Dataset dataFromFile = loadDataFromNexusFile(filename);
-		fittedGaussianLowEnergy = findPeakOutput(dataFromFile);
-		this.lowEnergy = lowEnergy;
-
-		moveEnergyScannable(bragg, highEnergy);
-		filename = doOffsetScan();
-		dataFromFile = loadDataFromNexusFile(filename);
-		fittedGaussianHighEnergy = findPeakOutput(dataFromFile);
+		fittedGaussianHighEnergy = runAndFitOffsetScan(bragg, highEnergy);
 		this.highEnergy = highEnergy;
+
+		fittedGaussianLowEnergy = runAndFitOffsetScan(bragg, lowEnergy);
+		this.lowEnergy = lowEnergy;
 
 		moveEnergyScannable(bragg, initialPos);
 
@@ -176,6 +167,20 @@ public class MonoOptimisation extends FindableBase {
 		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
 			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
 		}
+	}
+
+	/**
+	 * Move bragg scannable to given energy, run offset scan and find best fit parameters for the profile.
+	 * @param bragg
+	 * @param energy
+	 * @return Gaussian best fit parameters.
+	 * @throws Exception
+	 */
+	private Gaussian runAndFitOffsetScan(Scannable bragg, double energy) throws Exception {
+		moveEnergyScannable(bragg, energy);
+		String filename = runOffsetScan();
+		Dataset data = loadDataFromNexusFile(filename);
+		return findPeakOutput(data);
 	}
 
 	/**
@@ -299,7 +304,7 @@ public class MonoOptimisation extends FindableBase {
 	 * @return return filename of nxs file produced
 	 * @throws Exception
 	 */
-	private String doOffsetScan() throws Exception {
+	private String runOffsetScan() throws Exception {
 
 		if ( scannableToMonitor instanceof TFGCounterTimer) {
 			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
@@ -397,8 +402,8 @@ public class MonoOptimisation extends FindableBase {
 	}
 
 	/**
-	 * Load scan data from nexus file, find position of scannableToMove that gives peak output on scannableToMonitor
-	 * @param dataToFit
+	 * Find peak position in x, y profile by fitting a Gaussian to it
+	 * @param dataToFit (column 0 = x values, column 1 = y values)
 	 * @return Gaussian object of 'best fit' parameters
 	 */
 	public Gaussian findPeakOutput(Dataset dataToFit) {

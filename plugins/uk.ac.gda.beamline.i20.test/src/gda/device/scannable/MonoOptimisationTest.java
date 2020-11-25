@@ -26,7 +26,10 @@ import static org.junit.Assert.assertThat;
 import org.eclipse.january.dataset.Dataset;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
+import gda.MockFactory;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
@@ -44,8 +47,12 @@ public class MonoOptimisationTest {
 	private MonoOptimisation optimisation;
 	private Scannable offsetMotor;
 	private Scannable braggMotor;
-	private double area = 1.0, centrePos = 0.1, fwhm = 0.3;
+	private double area = 1.0;
+	private final double centrePos = 0.1;
+	private final double fwhm = 0.3;
 	private double numericalTolerance = 1e-5;
+	private final double lowMonoEnergy = 0;
+	private final double highMonoEnergy = 5;
 
 	public void prepareScannables() {
 		offsetMotor = new DummyScannableMotor();
@@ -65,7 +72,7 @@ public class MonoOptimisationTest {
 	}
 
 	@Before
-	public void setup() throws Exception {
+	public void setup() {
 		prepareScannables();
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter");
 		LocalProperties.set(LocalProperties.GDA_SCAN_CONCURRENTSCAN_READOUT_CONCURRENTLY, "false"); // default as interpreted by ConcurrentScan
@@ -75,9 +82,8 @@ public class MonoOptimisationTest {
 	public void testMonoOptimisationCurveFittingIsAccurate() throws Exception {
 		TestHelpers.setUpTest(MonoOptimisationTest.class, "testMonoOptimisationFitting", true);
 
-		double lowEnergy = 0, highEnergy = 5;
 		optimisation.setBraggScannable(braggMotor);
-		optimisation.optimise(lowEnergy, highEnergy);
+		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
 
 		// Check fitted width and position are within acceptable tolerance
 		Gaussian gaussLow = optimisation.getFittedGaussianLowEnergy();
@@ -86,8 +92,21 @@ public class MonoOptimisationTest {
 		assertEquals(fwhm, gaussLow.getFWHM(), 1e-2);
 		assertEquals(centrePos, gaussHigh.getPosition(), numericalTolerance);
 		assertEquals(fwhm, gaussHigh.getFWHM(), 1e-2);
+	}
 
-		optimisation.setFitToPeakPointsOnly(true);
+	@Test
+	public void testMonoMovesInCorrectOrder() throws Exception {
+		TestHelpers.setUpTest(MonoOptimisationTest.class, "testMonoMovesInCorrectOrder", true);
+		Scannable mockBraggMotor = MockFactory.createMockScannable("mockBraggMotor");
+
+		optimisation.setBraggScannable(mockBraggMotor);
+
+		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
+		InOrder inorder = Mockito.inOrder(mockBraggMotor);
+		inorder.verify(mockBraggMotor).getPosition();  // record initial mono position
+		inorder.verify(mockBraggMotor).moveTo(highMonoEnergy); // mono to the high energy position for offset scan
+		// mono to the low energy position for the offset scan, then back to original (low energy) position
+		inorder.verify(mockBraggMotor,Mockito.times(2)).moveTo(lowMonoEnergy);
 	}
 
 	@Test
@@ -95,9 +114,8 @@ public class MonoOptimisationTest {
 		TestHelpers.setUpTest(MonoOptimisationTest.class, "testOffsetValuesInMonoMoveScannable", true);
 
 		// Run optimisation ...
-		double lowEnergy = 0, highEnergy = 5;
 		optimisation.setBraggScannable(braggMotor);
-		optimisation.optimise(lowEnergy, highEnergy);
+		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
 
 		Gaussian gaussLow = optimisation.getFittedGaussianLowEnergy();
 		Gaussian gaussHigh = optimisation.getFittedGaussianHighEnergy();
@@ -110,11 +128,11 @@ public class MonoOptimisationTest {
 		optimisation.configureOffsetParameters(braggWithOffset);
 
 		// Check offset calculation is working correctly
-		double midPos = 0.5*(lowEnergy + highEnergy);
+		double midPos = 0.5*(lowMonoEnergy + highMonoEnergy);
 		double midOffset = 0.5*(gaussLow.getPosition() + gaussHigh.getPosition());
 
-		assertEquals(braggWithOffset.getOffsetForEnergy(lowEnergy), gaussLow.getPosition(), numericalTolerance);
-		assertEquals(braggWithOffset.getOffsetForEnergy(highEnergy), gaussHigh.getPosition(), numericalTolerance);
+		assertEquals(braggWithOffset.getOffsetForEnergy(lowMonoEnergy), gaussLow.getPosition(), numericalTolerance);
+		assertEquals(braggWithOffset.getOffsetForEnergy(highMonoEnergy), gaussHigh.getPosition(), numericalTolerance);
 		assertEquals(braggWithOffset.getOffsetForEnergy(midPos), midOffset, numericalTolerance);
 
 		// Value of bragg and offset after motor move
@@ -131,13 +149,13 @@ public class MonoOptimisationTest {
 		TestHelpers.setUpTest(MonoOptimisationTest.class, "testGoldenSectionSearchConvergesCorrectly", true);
 
 		ScannableGaussian gaussianFunc = (ScannableGaussian) optimisation.getScannableToMonitor();
-		double centre = 0, fwhm = 0.5, area = 1.0;
+		double centre = 0;
 
 		gaussianFunc.setParams(centre, fwhm, area);
 		double bestX = MonoOptimisation.goldenSectionSearch(offsetMotor, gaussianFunc, centre-1.0, centre+1.0, 1e-10);
 		assertEquals(centre, bestX, numericalTolerance);
 
-		centre = 0.234; fwhm = 0.1;
+		centre = 0.234;
 		gaussianFunc.setParams(centre, fwhm, area);
 		bestX = MonoOptimisation.goldenSectionSearch(offsetMotor, gaussianFunc, centre-1, centre+0.4, 1e-10);
 		assertEquals(centre, bestX, numericalTolerance);
