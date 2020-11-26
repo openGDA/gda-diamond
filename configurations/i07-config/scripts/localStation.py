@@ -131,6 +131,7 @@ try_execfile("BeamlineI07/htc_temp.py")
 htc = TemperatureSocketDevice('htc', 'localhost', 10002)
 
 try_execfile("BeamlineI07/useVirtual6CircleMotors.py")
+try_execfile("BeamlineI07/useElectroChemValves.py")
 
 try:
 	from gdaserver import d5i
