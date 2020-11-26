@@ -60,5 +60,28 @@
 		<property name="deviceInformation" ref="pco_info" />
 		<property name="activated" value="true" />
 	</bean>
+	
+	<!-- The following alternative PCO object allows software-triggered scans
+	     with exposures greater than 2 seconds by accumulation -->
+	
+	<bean id="accumulation_strategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pco_adbase" />
+		<constructor-arg value=".03" />
+		<property name="accumlationMode" value="True" /> <!-- [sic] -->
+		<property name="acc_expo_time" value="2" /> <!-- the maximum supported by the hardware -->
+	</bean>
+	
+	<bean id="pco_accum" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco_accum"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="accumulation_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+					<constructor-arg ref="pco_ndarray"/>
+				</bean>
+			</list>
+		</property>
+	</bean>	
 
 </beans>
