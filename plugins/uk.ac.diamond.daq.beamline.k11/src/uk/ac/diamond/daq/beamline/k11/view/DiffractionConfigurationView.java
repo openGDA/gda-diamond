@@ -32,6 +32,7 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 import static uk.ac.gda.ui.tool.ClientSWTElements.updateButton;
+import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 
 import java.net.URL;
 import java.util.Optional;
@@ -55,7 +56,6 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
@@ -202,22 +202,17 @@ public class DiffractionConfigurationView extends ViewPart {
 			UIHelper.showWarning("Cannot run Acquisition", "Point and Shoot mode is active");
 			return;
 		}
-
-		if (getExperimentController().isPresent()) {
-			validateExperimentRequest(getExperimentController().get());
-		} else {
-			UIHelper.showError("Cannot start acquisition", "Experiment Controller not present");
-		}
+		validateExperimentRequest();
 	}
 
-	private void validateExperimentRequest(ExperimentController experimentController) {
-		if (!experimentController.isExperimentInProgress()) {
+	private void validateExperimentRequest() {
+		if (!getExperimentController().isExperimentInProgress()) {
 			UIHelper.showError("Cannot start acquisition", "You must start an experiment first");
 			return;
 		}
 
 		try {
-			submit(experimentController.prepareAcquisition(getAcquisitionName()));
+			submit(getExperimentController().prepareAcquisition(getAcquisitionName()));
 		} catch (ExperimentControllerException | AcquisitionControllerException e) {
 			UIHelper.showError("Cannot run acquisition", e);
 		}
@@ -234,7 +229,7 @@ public class DiffractionConfigurationView extends ViewPart {
 			endPointAndShootSession();
 		} else {
 			// start new session
-			getExperimentController().ifPresent(this::startPointAndShootSession);
+			startPointAndShootSession();
 		}
 	}
 
@@ -242,10 +237,10 @@ public class DiffractionConfigurationView extends ViewPart {
 		return MappingServices.getPlottingService().getPlottingSystem("Map");
 	}
 
-	private void startPointAndShootSession(ExperimentController experimentController) {
-		if (experimentController.isExperimentInProgress()) {
+	private void startPointAndShootSession() {
+		if (getExperimentController().isExperimentInProgress()) {
 			try {
-				pointAndShootController = new PointAndShootController(getAcquisitionName(), experimentController);
+				pointAndShootController = new PointAndShootController(getAcquisitionName());
 				updateButton(pointAndShoot, STOP, STOP_POINT_AND_SHOOT_TP, ClientImages.STOP);
 				getMapPlottingSystem().setTitle("Point and Shoot: Ctrl+Click to scan");
 			} catch (ExperimentControllerException e) {
@@ -281,10 +276,6 @@ public class DiffractionConfigurationView extends ViewPart {
 
 	private AcquisitionController<ScanningAcquisition> getController() {
 		return controller;
-	}
-
-	private Optional<ExperimentController> getExperimentController() {
-		return SpringApplicationContextProxy.getOptionalBean(ExperimentController.class);
 	}
 
 	/**

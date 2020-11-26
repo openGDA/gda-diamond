@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.pointandshoot;
 
+import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -33,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.daq.beamline.k11.Activator;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.client.UIHelper;
@@ -50,9 +51,6 @@ import uk.ac.gda.client.UIHelper;
 public class PointAndShootController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PointAndShootController.class);
-
-	/** generates correct URLs for each sub-scan */
-	private final ExperimentController experimentController;
 
 	/** Common name root for all sub-scans */
 	private final String sessionName;
@@ -75,22 +73,20 @@ public class PointAndShootController {
 	 *
 	 * @throws ExperimentControllerException if the session cannot be started
 	 */
-	public PointAndShootController(String sessionName, ExperimentController experimentControllerSupplier) throws ExperimentControllerException{
+	public PointAndShootController(String sessionName) throws ExperimentControllerException{
 		this.sessionName = sessionName;
-		this.experimentController = experimentControllerSupplier;
-
 		startSession();
 	}
 
 	private void startSession() throws ExperimentControllerException {
-		experimentController.startMultipartAcquisition(sessionName);
+		getExperimentController().startMultipartAcquisition(sessionName);
 		registerClickEventHandler();
 		logger.info("Point and Shoot session '{}' started", sessionName);
 	}
 
 	public void endSession() throws ExperimentControllerException {
 		unregisterClickEventHandler();
-		experimentController.stopMultipartAcquisition();
+		getExperimentController().stopMultipartAcquisition();
 		logger.info("Point and Shoot session '{}' ended", sessionName);
 	}
 
@@ -117,7 +113,7 @@ public class PointAndShootController {
 			try {
 				MappingServices.getRegionAndPathController().createRegionWithCurrentRegionValuesAt(mapClickEvent.getxValue(),
 						mapClickEvent.getyValue());
-				MappingServices.getScanManagementController().submitScan(experimentController.prepareAcquisition(sessionName), null);
+				MappingServices.getScanManagementController().submitScan(getExperimentController().prepareAcquisition(sessionName), null);
 			} catch (Exception e) {
 				logger.error("Scan submission failed", e);
 				String detail = e.getMessage() == null ? "See log for details" : e.getMessage();
@@ -125,5 +121,4 @@ public class PointAndShootController {
 			}
 		}
 	}
-
 }

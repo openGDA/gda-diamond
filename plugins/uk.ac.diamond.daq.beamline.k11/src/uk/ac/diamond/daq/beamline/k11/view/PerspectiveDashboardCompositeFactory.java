@@ -22,6 +22,8 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
+
 
 import java.util.Optional;
 
@@ -41,10 +43,11 @@ import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.mapping.ui.stage.IStageController;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
 import uk.ac.diamond.daq.mapping.ui.stage.enumeration.Position;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
-import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
+import uk.ac.gda.ui.tool.rest.ExperimentControllerService;
 
 /**
  * Acquisition dashboard
@@ -92,7 +95,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
 		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
 
-		new ExperimentManager(getExperimentController()).createComposite(container, SWT.NONE);
+		new ExperimentManager().createComposite(container, SWT.NONE);
 	}
 
 	private void createStage(Composite parent, int style) {
@@ -171,9 +174,5 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 			wizardDialog.open();
 		};
 		experimentDriver.addListener(SWT.Selection, experimentDriverListener);
-	}
-
-	private ExperimentController getExperimentController() {
-		return SpringApplicationContextProxy.getBean(ExperimentController.class);
 	}
 }
