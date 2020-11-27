@@ -13,8 +13,4 @@
 
 	<bean id="m4c_yaw_motor" class="gda.device.motor.DummyMotor"/>
 
-	<!-- femto_18 used to be called m4c_current1 -->
-	<bean id="femto_18" class="gda.device.scannable.DummyScannable" />
-	<bean id="m4c_current2" class="gda.device.scannable.DummyScannable" />
-
 </beans>

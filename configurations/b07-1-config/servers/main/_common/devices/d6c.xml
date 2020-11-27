@@ -9,7 +9,7 @@
 				<ref bean="d6c_y" />
 				<ref bean="d6c_y_positioner"/>
 				<ref bean="d6c_cam"/>
-				<ref bean="d6c_mesh" />
+				<ref bean="ca15c" />
 			</list>
 		</property>
 	</bean>

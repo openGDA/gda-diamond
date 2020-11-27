@@ -34,10 +34,10 @@
 				<ref bean="s4b_ygap" />
 				<ref bean="s4b_ygapsize" />
 				<ref bean="s4b_z" />
-				<ref bean="ca10" />
-				<ref bean="ca11" />
-				<ref bean="ca12" />
-				<ref bean="ca13" />
+				<ref bean="ca10b" />
+				<ref bean="ca11b" />
+				<ref bean="ca12b" />
+				<ref bean="ca13b" />
 			</list>
 		</property>
 	</bean>

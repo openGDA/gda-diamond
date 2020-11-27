@@ -33,7 +33,7 @@
 		</entry>
 	</util:map>
 
-	<bean id="ca1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca1b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-02:YPLUS:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -41,7 +41,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca2b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-02:YMINUS:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -49,7 +49,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca3" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca3b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-02:XRING:"/>
 		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -57,7 +57,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca4" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca4b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-02:XHALL:"/>
 		<property name="adcChannel" value="4" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -65,7 +65,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca5" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca5b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-03:YPLUS:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -73,7 +73,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca6" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca6b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-03:YMINUS:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -81,7 +81,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca7" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca7b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-03:XRING:"/>
 		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -89,7 +89,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca8" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca8b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-03:XHALL:"/>
 		<property name="adcChannel" value="4" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -97,7 +97,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca9" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca9b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-DI-IAMP-09:SIG1:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -105,7 +105,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca10" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca10b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-04:YBBTM:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -113,7 +113,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca11" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca11b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-04:YBTOP:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -121,7 +121,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca12" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca12b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-04:XBRING:"/>
 		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -129,7 +129,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca13" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca13b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-AL-SLITS-04:XBHALL:"/>
 		<property name="adcChannel" value="4" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -137,7 +137,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca14" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca14b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-DI-IAMP-14:SIG1:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -145,7 +145,7 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca15" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca15b" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07B-DI-IAMP-15:SIG1:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>

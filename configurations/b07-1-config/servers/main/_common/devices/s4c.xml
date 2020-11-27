@@ -34,11 +34,11 @@
 				<ref bean="s4c_ygap" />
 				<ref bean="s4c_ygapsize" />
 				<ref bean="s4c_z" />
-				<ref bean="s4c_ytop_current" />
-				<ref bean="s4c_ybottom_current" />
-				<ref bean="s4c_xring_current" />
-				<ref bean="s4c_xhall_current" />
-				<ref bean="s4c_plate_current" />
+				<ref bean="ca13c" />
+				<ref bean="ca14c" />
+				<ref bean="ca11c" />
+				<ref bean="ca12c" />
+				<ref bean="ca52c" />
 			</list>
 		</property>
 	</bean>

@@ -29,19 +29,19 @@
 		</entry>
 	</util:map>
 
-	<bean id="ca1" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca2" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca3" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca4" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca5" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca6" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca7" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca8" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca9" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca10" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca11" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca12" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca13" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca14" class="gda.device.scannable.DummyScannable" />
-	<bean id="ca15" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca1b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca2b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca3b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca4b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca5b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca6b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca7b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca8b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca9b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca10b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca11b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca12b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca13b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca14b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca15b" class="gda.device.scannable.DummyScannable" />
 </beans>

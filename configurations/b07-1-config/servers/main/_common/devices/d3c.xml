@@ -8,7 +8,7 @@
 			<list>
 				<ref bean="d3c_y" />
 				<ref bean="d3c_cam"/>
-				<ref bean="d3c_foil" />
+				<ref bean="ca9c" />
 			</list>
 		</property>
 	</bean>
