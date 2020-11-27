@@ -61,6 +61,7 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
+import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
 import uk.ac.gda.client.UIHelper;
@@ -83,7 +84,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	private final AcquisitionTemplateTypeCompositeFactory stf;
 	protected final AcquisitionController<ScanningAcquisition> controller;
 	private final TemplateDataHelper templateHelper;
-	private RegionAndPathController rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
+	private RegionAndPathController rapController;
 	private Consumer<RegionPathState> viewUpdater;
 
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable = new SelectObservableValue<>();
@@ -100,8 +101,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		this.templateHelper = new TemplateDataHelper(controller::getAcquisition);
 		// create and initialise the controller to manage updates to the selected region and path
 		viewUpdater = this::updateView;
-		rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
-		rapController.initialise(Optional.of(viewUpdater), Optional.empty());
+
 		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
 		smController.initialise();
 
@@ -178,8 +178,8 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 			// Now refresh the mapping bean provider and trigger the refreshed observable to propagate the update. For
 			// the time being also need to update the grid model index.
-			rapController.setMappingBean(bean.get());
-			rapController.refreshFromMappingBean();
+			getRegionAndPathController().setMappingBean(bean.get());
+			getRegionAndPathController().refreshFromMappingBean();
 			smController.updateGridModelIndex();
 			selectedMSRSObservable.setValue(loadedShape);
 
@@ -187,9 +187,9 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 			// it manually. It does however update its selection state and selected index which is why we always have
 			// to call it.
 			if (noShapeChange) {
-				rapController.triggerRegionUpdate(selectedMSRSObservable);
+				getRegionAndPathController().triggerRegionUpdate(selectedMSRSObservable);
 			}
-			rapController.updatePlotRegion();
+			getRegionAndPathController().updatePlotRegion();
 		}
 	}
 
@@ -216,7 +216,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		Label label = createClientLabel(container, labelStyle, ACQUISITION);
 		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, SWT.DEFAULT).applyTo(label);
 
-		name = createClientText(container, textStyle, ACQUISITION_NAME_TP, Optional.empty());
+		name = createClientText(container, textStyle, ACQUISITION_NAME_TP);
 		createClientGridDataFactory().grab(true, true).span(2, 1).applyTo(name);
 	}
 
@@ -239,7 +239,7 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
 			loadElements();
 			templateHelper.updateIMappingScanRegionShape();
-			rapController.updatePlotRegion();
+			getRegionAndPathController().updatePlotRegion();
 			composite.layout(true, true);
 		}
 	}
@@ -277,8 +277,8 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 	 *            The resulting updated default scan path
 	 */
 	private void updateScanPathBindings() {
-		IScanPointGeneratorModel scanPointGeneratorModel = rapController.getScanPathListAndLinkPath().get(0);
-		rapController.changePath(scanPointGeneratorModel);
+		IScanPointGeneratorModel scanPointGeneratorModel = getRegionAndPathController().getScanPathListAndLinkPath().get(0);
+		getRegionAndPathController().changePath(scanPointGeneratorModel);
 		components.forEach(DiffractionCompositeInterface::updateScanPointBindings);
 	}
 
@@ -301,5 +301,22 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 
 	private ScanningAcquisition getScanningAcquisition() {
 		return controller.getAcquisition();
+	}
+
+	private RegionAndPathController getRegionAndPathController() {
+		return Optional.ofNullable(rapController)
+			.orElseGet(this::initializeRegionAndPathController);
+	}
+
+	private RegionAndPathController initializeRegionAndPathController() {
+		rapController = getMappingRemoteServices().getRegionAndPathController();
+		if (rapController != null) {
+			rapController.initialise(Optional.of(viewUpdater), Optional.empty());
+		}
+		return rapController;
+	}
+
+	private MappingRemoteServices getMappingRemoteServices() {
+		return SpringApplicationContextFacade.getBean(MappingRemoteServices.class);
 	}
 }

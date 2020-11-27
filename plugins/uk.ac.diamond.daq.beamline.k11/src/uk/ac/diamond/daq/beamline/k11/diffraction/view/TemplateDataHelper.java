@@ -29,7 +29,6 @@ import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.scanning.api.points.models.TwoAxisGridPointsModel;
 import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
-import org.eclipse.ui.PlatformUI;
 import org.springframework.util.CollectionUtils;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
@@ -45,6 +44,8 @@ import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
+import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 
 /**
  * Adapt
@@ -63,6 +64,10 @@ public class TemplateDataHelper {
 
 	private final ScannableTrackDocumentHelper scannableTrackDocumentHelper;
 	private final Supplier<ScanningAcquisition> acquisitionSupplier;
+	/**
+	 * To review and remove. This property does not really fit the purpose of this class
+	 */
+	private RegionAndPathController rapController;
 
 	public TemplateDataHelper(Supplier<ScanningAcquisition> acquisitionSupplier) {
 		this.acquisitionSupplier = acquisitionSupplier;
@@ -217,14 +222,18 @@ public class TemplateDataHelper {
 		return acquisitionTypeFromMappingRegion(getRapController().getScanRegionShape());
 	}
 
-	/**
-	 * To review and remove. This property does not really fit the purpose of this class
-	 */
-	private final RegionAndPathController rapController = PlatformUI.getWorkbench()
-			.getService(RegionAndPathController.class);
-
 	protected RegionAndPathController getRapController() {
+		return Optional.ofNullable(rapController)
+				.orElseGet(this::initializeRegionAndPathController);
+	}
+
+	private RegionAndPathController initializeRegionAndPathController() {
+		rapController = getMappingRemoteServices().getRegionAndPathController();
 		return rapController;
+	}
+
+	private MappingRemoteServices getMappingRemoteServices() {
+		return SpringApplicationContextFacade.getBean(MappingRemoteServices.class);
 	}
 
 	/**
