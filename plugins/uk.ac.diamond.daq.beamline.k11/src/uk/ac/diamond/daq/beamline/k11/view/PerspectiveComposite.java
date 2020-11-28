@@ -44,9 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.daq.beamline.k11.perspective.BeamSelectorSwitcher;
+import uk.ac.diamond.daq.beamline.k11.perspective.Diffraction;
 import uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated;
-import uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot;
-import uk.ac.diamond.daq.beamline.k11.perspective.Tomography;
+import uk.ac.diamond.daq.beamline.k11.perspective.Imaging;
 import uk.ac.gda.ui.tool.WidgetUtilities;
 
 /**
@@ -63,9 +63,9 @@ public class PerspectiveComposite {
 
 	public enum PerspectiveType {
 
-		TOMOGRAPHY("Plain Tomography", Tomography.ID),
+		IMAGING("Imaging", Imaging.ID),
 		FULLY_AUTOMATED("Fully Automated",	FullyAutomated.ID),
-		POINT_AND_SHOOT("Point and Shoot", PointAndShoot.ID);
+		DIFFRACTION("Diffraction", Diffraction.ID);
 
 		private final String id;
 		private final String label;

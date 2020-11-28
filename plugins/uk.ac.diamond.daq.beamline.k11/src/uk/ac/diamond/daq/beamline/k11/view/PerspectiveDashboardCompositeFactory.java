@@ -18,12 +18,11 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import static uk.ac.gda.core.tool.spring.SpringApplicationContextFacade.getBean;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
-import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
-
 
 import java.util.Optional;
 
@@ -38,16 +37,13 @@ import org.eclipse.swt.widgets.Listener;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.diamond.daq.client.gui.energy.BeamEnergyDialogBuilder;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentController;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
-import uk.ac.diamond.daq.mapping.ui.stage.IStageController;
+import uk.ac.diamond.daq.mapping.ui.controller.StageController;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
 import uk.ac.diamond.daq.mapping.ui.stage.enumeration.Position;
-import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.images.ClientImages;
-import uk.ac.gda.ui.tool.rest.ExperimentControllerService;
 
 /**
  * Acquisition dashboard
@@ -65,11 +61,8 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	private Button experimentDriver;
 	private Button outOfBeam;
 
-	private final IStageController stageController;
-
-	public PerspectiveDashboardCompositeFactory(IStageController stageController) {
+	public PerspectiveDashboardCompositeFactory() {
 		super();
-		this.stageController = stageController;
 	}
 
 	@Override
@@ -102,7 +95,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
 		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
 
-		StagesComposite.buildModeComposite(container, stageController);
+		StagesComposite.buildModeComposite(container);
 	}
 
 	private Button createOutOfBeam(Composite parent, int style) {
@@ -153,7 +146,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	}
 
 	private void bindElements(Composite parent) {
-		Listener outOfBeamListener = e -> Optional.ofNullable(stageController)
+		Listener outOfBeamListener = e -> Optional.ofNullable(getBean(StageController.class))
 				.ifPresent(c -> c.savePosition(Position.OUT_OF_BEAM));
 		outOfBeam.addListener(SWT.Selection, outOfBeamListener);
 
