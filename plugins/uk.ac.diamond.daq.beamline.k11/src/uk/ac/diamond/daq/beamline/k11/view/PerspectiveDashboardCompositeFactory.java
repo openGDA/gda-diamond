@@ -22,7 +22,6 @@ import static uk.ac.gda.core.tool.spring.SpringApplicationContextFacade.getBean;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
 import java.util.Optional;
 
@@ -31,19 +30,18 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
-import uk.ac.diamond.daq.client.gui.energy.BeamEnergyDialogBuilder;
+import uk.ac.diamond.daq.client.gui.energy.summary.EnergySummaryComposite;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.mapping.ui.controller.StageController;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
 import uk.ac.diamond.daq.mapping.ui.stage.enumeration.Position;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
-import uk.ac.gda.ui.tool.images.ClientImages;
+
 
 /**
  * Acquisition dashboard
@@ -52,12 +50,6 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 
-	private Button energyButton;
-	private Label energy;
-	private Label energyValue;
-	private Button shutter;
-	private Label shutterLabel;
-	private Label shutterValue;
 	private Button experimentDriver;
 	private Button outOfBeam;
 
@@ -122,41 +114,13 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	}
 
 	private void createSource(Composite parent, int style) {
-		Group container = createClientGroup(parent, style, 3, ClientMessages.SOURCE);
-		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
-
-		energyButton = createClientButton(container, style, ClientMessages.EMPTY_MESSAGE, ClientMessages.ENERGY_KEV,
-				ClientImages.BEAM_16);
-		ClientSWTElements.createClientGridDataFactory().applyTo(energyButton);
-
-		energy = createClientLabel(container, style, ClientMessages.ENERGY_KEV);
-		ClientSWTElements.createClientGridDataFactory().applyTo(energy);
-
-		energyValue = createClientLabel(container, style, ClientMessages.NOT_AVAILABLE);
-		ClientSWTElements.createClientGridDataFactory().applyTo(energyValue);
-
-		shutter = createClientButton(container, SWT.CHECK, ClientMessages.EMPTY_MESSAGE, ClientMessages.SHUTTER_TP);
-		ClientSWTElements.createClientGridDataFactory().applyTo(shutter);
-
-		shutterLabel = createClientLabel(container, style, ClientMessages.SHUTTER);
-		ClientSWTElements.createClientGridDataFactory().applyTo(shutterLabel);
-
-		shutterValue = createClientLabel(container, style, ClientMessages.NOT_AVAILABLE);
-		ClientSWTElements.createClientGridDataFactory().applyTo(shutterValue);
+		new EnergySummaryComposite().createComposite(parent, style);
 	}
 
 	private void bindElements(Composite parent) {
 		Listener outOfBeamListener = e -> Optional.ofNullable(getBean(StageController.class))
 				.ifPresent(c -> c.savePosition(Position.OUT_OF_BEAM));
 		outOfBeam.addListener(SWT.Selection, outOfBeamListener);
-
-		Listener energyButtonListener = e -> {
-			BeamEnergyDialogBuilder builder = new BeamEnergyDialogBuilder();
-			builder.addImagingController();
-			builder.addDiffractionController();
-			builder.build(parent.getShell()).open();
-		};
-		energyButton.addListener(SWT.Selection, energyButtonListener);
 
 		Listener experimentDriverListener = e -> {
 			// FIXME ID: Experiment name? Visit ID?
