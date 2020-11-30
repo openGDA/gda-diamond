@@ -126,7 +126,7 @@ public class XesScan extends XasScanBase implements XasScan {
 
 	// args do run a single concurrentscan
 	@Override
-	protected Object[] createScanArguments(String sampleName, List<String> descriptions) throws Exception {
+	public Object[] createScanArguments(String sampleName, List<String> descriptions) throws Exception {
 
 		int innerScanType = xesScanParameters.getScanType();
 
