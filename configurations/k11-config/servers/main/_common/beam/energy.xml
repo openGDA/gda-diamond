@@ -140,7 +140,7 @@
 		<constructor-arg name="inputProperty" value="energy" />
 	</bean>
 	
-		<bean id="diffraction_mono_workflow" class="uk.ac.diamond.daq.beamline.configuration.DefaultConfigurationWorkflow">
+	<bean id="diffraction_mono_workflow" class="uk.ac.diamond.daq.beamline.configuration.DefaultConfigurationWorkflow">
 		<constructor-arg name="workflowItems">
 			<map>
 				<entry key-ref="close_shutter">
@@ -204,7 +204,7 @@
 	
 	
 	<!-- The following don't do anything (yet!) -->
-	<bean id="diffraction_pink_workflow" class="uk.ac.diamond.daq.beamline.configuration.DefaultConfigurationWorkflow">
+	<bean id="imaging_pink_workflow" class="uk.ac.diamond.daq.beamline.configuration.DefaultConfigurationWorkflow">
 		<constructor-arg name="workflowItems">
 			<map />
 		</constructor-arg>
