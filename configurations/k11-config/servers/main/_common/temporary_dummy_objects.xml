@@ -10,14 +10,8 @@
 	</description>
 	
 	<!--           energy workflow           -->
-	<bean id="dummy_fe_shutter"  class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-			</list>
-		</property>
-	</bean>
+	<bean id="dummy_eh_shutter"  class="gda.device.enumpositioner.DummyValve" />
+	<bean id="dummy_fe_shutter"  class="gda.device.enumpositioner.DummyValve" />
 	<bean id="dummy_s1_xcentre" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_s1_xsize" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_s1_ycentre" class="gda.device.scannable.DummyScannableMotor" />
@@ -38,6 +32,10 @@
 	<bean id="dummy_s2_xsize" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_s2_ycentre" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_s2_ysize" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s2_xplus" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s2_xminus" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s2_yplus" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s2_yminus" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_dcm1_y"  class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
@@ -50,6 +48,18 @@
 	<bean id="dummy_dcm1_z" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_dcm1_roll" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_dcm1_pitch" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_beam_selector" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>All beams through</value>
+				<value>Mono imaging beam</value>
+				<value>Diffraction beam</value>
+				<value>Pink imaging beam</value>
+				<value>No beam</value>
+			</list>
+		</property>
+	</bean>
+	
 	<!--           energy workflow           -->
 	
 </beans>
