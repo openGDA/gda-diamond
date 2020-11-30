@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import java.util.Arrays;
-
 import org.dawnsci.ede.DataHelper;
 import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -27,6 +25,8 @@ import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Maths;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -61,7 +61,6 @@ import gda.jython.JythonStatus;
 import gda.observable.IObserver;
 import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanEvent;
-import gda.scan.ede.datawriters.ScanDataHelper;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
@@ -102,7 +101,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	private ILineTrace lineTrace;
 	private EdeDetector detector;
 
-	private double[] countsForI0;
+	private Dataset countsForI0;
 	private Button showLiveI0ItCheckbox;
 	protected boolean liveModeIsRunning;
 
@@ -270,7 +269,8 @@ public class XHControlComposite extends Composite implements IObserver {
 				"/icons/camera.png").createImage());
 		takeSnapShotButton.addListener(SWT.Selection, event ->  {
 			try {
-				collectAndPlotSnapshot(false, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
+				prepareDetector(detectorControlModel.getSnapshotIntegrationTime(), 1, detectorControlModel.getNumberOfAccumulations());
+				collectAndPlotSnapshot(false, detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 			} catch (DeviceException | InterruptedException e) {
 				displayAndLogMessage("Unable to collect data", e);
 			}
@@ -281,7 +281,8 @@ public class XHControlComposite extends Composite implements IObserver {
 				"/icons/camera_edit.png").createImage());
 		takeSnapShotAndSaveButton.addListener(SWT.Selection, event -> {
 			try {
-				collectAndPlotSnapshot(true, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
+				prepareDetector(detectorControlModel.getSnapshotIntegrationTime(), 1, detectorControlModel.getNumberOfAccumulations());
+				collectAndPlotSnapshot(true, detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 			} catch (DeviceException | InterruptedException e) {
 				displayAndLogMessage("Unable to collect data", e);
 			}
@@ -419,8 +420,16 @@ public class XHControlComposite extends Composite implements IObserver {
 		section.setSeparatorControl(sectionSeparator);
 	}
 
-
-	private void collectData(Double collectionPeriod, int numberOfFrames, Integer scansPerFrame) throws DeviceException, InterruptedException {
+	/**
+	 * Setup detector with spectrum acquisition parameters
+	 * @param accumulationTime
+	 * @param numberOfFrames
+	 * @param numAccumulations
+	 * @throws DeviceException
+	 */
+	private void prepareDetector(Double accumulationTime, int numberOfFrames, Integer numAccumulations) throws DeviceException {
+		logger.debug("Preparing {} detector with scan parameters : {} frames, {} ms accumulation time, {} accumulations",
+				detector.getName(), numberOfFrames, accumulationTime, numAccumulations);
 		EdeScanParameters simpleParams = new EdeScanParameters();
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		simpleParams.setIncludeCountsOutsideROIs(true);
@@ -428,14 +437,17 @@ public class XHControlComposite extends Composite implements IObserver {
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(numberOfFrames);
-		group1.setNumberOfScansPerFrame(scansPerFrame);
-		group1.setTimePerScan(collectionPeriod/1000);
-		group1.setTimePerFrame(collectionPeriod/1000*scansPerFrame);
+		group1.setNumberOfScansPerFrame(numAccumulations);
+		group1.setTimePerScan(accumulationTime/1000);
+		group1.setTimePerFrame(accumulationTime/1000*numAccumulations);
 		simpleParams.addGroup(group1);
 		detector.prepareDetectorwithScanParameters(simpleParams);
 		if (detector.getName().equals("frelon")) {
 			detector.configureDetectorForTimingGroup(simpleParams.getGroups().get(0));
 		}
+	}
+
+	private void collectData() throws DeviceException, InterruptedException {
 		detector.collectData();
 		detector.waitWhileBusy();
 	}
@@ -446,45 +458,40 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * @param writeData - writes a file of the data
 	 * @param collectionPeriod - ms
 	 * @param title
-	 * @return double values from the detector - the FF and sector totals
 	 * @throws InterruptedException
 	 * @throws DeviceException
 	 */
-	private Double[] collectAndPlotSnapshot(boolean writeData, Double collectionPeriod, Integer scansPerFrame,
-			final String title) throws DeviceException, InterruptedException {
+	private void collectAndPlotSnapshot(boolean writeData, final String title) throws DeviceException, InterruptedException {
 
-		collectData(collectionPeriod, 1,scansPerFrame);
+		collectData();
 
-		// Get pixel corrected data from detector
+		// Readout count data from detector and put into dataset
 		NXDetectorData readout = (NXDetectorData) detector.readout();
 		final NexusGroupData ydata = readout.getData(detector.getName(), EdeDataConstants.DATA_COLUMN_NAME, NexusExtractor.SDSClassName);
-		final double[] counts=(double[]) ScanDataHelper.extractDataFromNexusGroup(ydata).getBuffer();
 
-		//Note: scientist wanted the live mode always plot in pixels not energy.
-		Integer[] pixels = detector.getPixels();
-		final double[] xdata=new double[pixels.length];
-		for (int i=0; i<pixels.length; i++) {
-			xdata[i]=pixels[i].doubleValue();
-		}
+		if (ydata.getBuffer() != null) {
 
-		if (counts != null) {
-			// Make copy of data for using with live I0/It view (only if if not currently in 'live' mode).
-			if ( !liveModeIsRunning ) {
-				countsForI0 = Arrays.copyOf( counts,  counts.length );
+			Dataset detectorCounts = ydata.toDataset().copy(DoubleDataset.class);
+
+			// Make copy of the count data for using with live I0/It view (if taking a snapshot, i.e. not currently in 'live' mode).
+			if (!liveModeIsRunning) {
+				countsForI0 = detectorCounts.copy(DoubleDataset.class);
 				// Enable live ln(I0/It) mode button once I0 data has been collected
 				runInGuiThread(() -> showLiveI0ItCheckbox.setEnabled(true));
 			}
 
 			// If live mode is running and show live I0It is selected, convert 'counts' to ln( I0/It )
-			if ( liveModeIsRunning && detectorControlModel.getLiveModeShowI0It() &&
-					countsForI0 != null && countsForI0.length == counts.length ) {
-				for( int i = 0; i<counts.length; i++) {
-					double logI0It = Math.log(countsForI0[i]) - Math.log(counts[i]);
-					counts[i] = logI0It;
-				}
+			if (liveModeIsRunning && detectorControlModel.getLiveModeShowI0It() &&
+					countsForI0 != null && countsForI0.getSize() == detectorCounts.getSize()) {
+				Dataset div = Maths.divide(countsForI0, detectorCounts);
+				// Calculate logItI0 and put the values in detectorCounts dataset
+				Maths.log(div, detectorCounts);
 			}
 
-			runInGuiThread(() -> updatePlotWithData(title, DatasetFactory.createFromObject(xdata), DatasetFactory.createFromObject(counts)));
+			//Note : X axis for live mode plot is always pixels, not energy.
+			Dataset pixelIndex = DatasetFactory.createFromObject(DoubleDataset.class, detector.getPixels());
+
+			runInGuiThread(() -> updatePlotWithData(title, pixelIndex, detectorCounts));
 
 		} else {
 			logger.info("Nothing returned!");
@@ -493,12 +500,11 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (writeData) {
 			detector.writeLiveDataFile();
 		}
-		return readout.getDoubleVals();
 	}
 
-	private void updatePlotWithData(final String title, final Dataset energies, final Dataset results) {
+	private void updatePlotWithData(final String title, final Dataset xData, final Dataset yData) {
 		plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
-		lineTrace.setData(energies, results);
+		lineTrace.setData(xData, yData);
 		if (!plottingSystem.getTitle().equals(title)) {
 			plottingSystem.setTitle(title);
 		}
@@ -536,13 +542,26 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		liveLoop = new Thread( () -> {
 			try {
+				double lastIntegrationTime = 0;
+				int lastNumAccumulations = 0;
+
 				while (liveLoopIsAllowed()) {
 					long startTime = System.currentTimeMillis();
-					String collectionPeriodMillis = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
-					collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), detectorControlModel.getLiveNumberOfAccumulations(),
-							"Live reading (" + collectionPeriodMillis + " ms integration, every " + detectorControlModel.getRefreshPeriod()
-							+ " s)");
-					// Sleep for a bit to get the required refresh inverval (convert refresh period from secs to milliseconds)
+
+					double integrationTime = detectorControlModel.getLiveIntegrationTime();
+					int numAccumulations = detectorControlModel.getLiveNumberOfAccumulations();
+					if (integrationTime != lastIntegrationTime || numAccumulations != lastNumAccumulations) {
+						prepareDetector(integrationTime, 1, numAccumulations);
+						lastIntegrationTime = integrationTime;
+						lastNumAccumulations = numAccumulations;
+					}
+
+					String title = String.format("Live reading (%s ms integration, %d accumulations every %s sec)",
+							DataHelper.roundDoubletoStringWithOptionalDigits(integrationTime), numAccumulations,
+							DataHelper.roundDoubletoStringWithOptionalDigits(detectorControlModel.getRefreshPeriod()));
+
+					collectAndPlotSnapshot(false, title);
+					// Sleep for a bit to get the required refresh interval (convert refresh period from secs to milliseconds)
 					double sleepTime = 1000*detectorControlModel.getRefreshPeriod() - (System.currentTimeMillis() - startTime);
 					if (sleepTime > 0) {
 						logger.info("Sleeping for {} ms", sleepTime);
