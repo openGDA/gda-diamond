@@ -91,10 +91,10 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
+		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(container);
 
 		Label label = createClientLabel(container, style, MUTATORS_MODE);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
+		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(label);
 
 		mutators.add(createMutatorTypeCheck(container, MutatorType.ALTERNATING, ClientMessages.ALTERNATING_MUTATOR,
 				ClientMessages.ALTERNATING_MUTATOR_TP));
@@ -103,20 +103,24 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		mutators.add(createMutatorTypeCheck(container, MutatorType.RANDOM, ClientMessages.RANDOM_MUTATOR,
 				ClientMessages.RANDOM_MUTATOR_TP));
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
-		return parent;
+
+		// Releases resources before dispose
+		container.addDisposeListener(event -> dispose()	);
+		return container;
 	}
 
 	@Override
 	public void initialiseElements() {
-		mutators.stream().forEach(mutator -> {
-			mutator.setSelection(false);
-			mutator.setEnabled(true);
-			MutatorType mutatorType = getDataObject(mutator, MutatorType.class, MUTATOR_TYPE);
-			mutator.setSelection(getScanningParameters().getScanpathDocument().getMutators()
-									.containsKey(mutatorType.getMscanMutator()));
-			if (AcquisitionTemplateType.TWO_DIMENSION_POINT.equals(getSelectedAcquisitionTemplateType())
-					&& (mutatorType.equals(MutatorType.ALTERNATING) || mutatorType.equals(MutatorType.CONTINUOUS))) {
-				mutator.setEnabled(false);
+		mutators.stream()
+			.forEach(mutator -> {
+				mutator.setSelection(false);
+				mutator.setEnabled(true);
+				MutatorType mutatorType = getDataObject(mutator, MutatorType.class, MUTATOR_TYPE);
+				mutator.setSelection(getScanningParameters().getScanpathDocument().getMutators()
+										.containsKey(mutatorType.getMscanMutator()));
+				if (AcquisitionTemplateType.TWO_DIMENSION_POINT.equals(getSelectedAcquisitionTemplateType())
+						&& (mutatorType.equals(MutatorType.ALTERNATING) || mutatorType.equals(MutatorType.CONTINUOUS))) {
+					mutator.setEnabled(false);
 			}
 		});
 	}
@@ -126,13 +130,19 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		scanPointListenToMutatorSelection();
 	}
 
+	private void dispose() {
+		SpringApplicationContextFacade.removeApplicationListener(listenToScanningAcquisitionChanges);
+	}
+
 	/**
 	 * Observes the value of the radios so the rapController.regionSelectorListener can listen at it
 	 */
 	private void scanPointListenToMutatorSelection() {
 		IScanPointGeneratorModel scanPointGeneratorModel = rapController.getScanPathModel();
 
-		mutators.stream().forEach(mutator -> {
+		mutators.stream()
+			.filter(w -> !w.isDisposed())
+			.forEach(mutator -> {
 			switch (getDataObject(mutator, MutatorType.class, MUTATOR_TYPE)) {
 				case CONTINUOUS:
 					BeanProperties.value("continuous").setValue(scanPointGeneratorModel, false);

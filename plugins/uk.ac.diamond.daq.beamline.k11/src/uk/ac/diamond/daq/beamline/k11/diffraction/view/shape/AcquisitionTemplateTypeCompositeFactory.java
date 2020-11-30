@@ -80,6 +80,7 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompositeInterface {
 
+	private static final String ACQUISITION_TEMPLATE_TYPE_LISTENER = "AcquisitionTemplateTypeListener";
 	private static final String ACQUISITION_TEMPLATE_TYPE = "AcquisitionTemplateType";
 	private static final String MAPPING_SCAN_REGION_SHAPE_TYPE = "MappingScanRegionShapeType";
 
@@ -127,10 +128,10 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
+		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).grab(true, true).applyTo(container);
 
 		Label label = createClientLabel(container, style, SHAPE);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, SWT.DEFAULT).applyTo(label);
+		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(label);
 
 		acquisitionTypeRadios.add(createAcquisitionTypeRadio(container,
 				AcquisitionTemplateType.TWO_DIMENSION_POINT, POINT_SHAPE_TP, ClientImages.POINT));
@@ -138,7 +139,10 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 				AcquisitionTemplateType.TWO_DIMENSION_GRID, CENTERED_RECTANGULAR_SHAPE_TP, ClientImages.CENTERED_RECTAGLE));
 		acquisitionTypeRadios.add(createAcquisitionTypeRadio(container,
 				AcquisitionTemplateType.TWO_DIMENSION_LINE, LINE_SHAPE_TP, ClientImages.LINE));
-		return parent;
+
+		// Releases resources before dispose
+		container.addDisposeListener(event -> dispose()	);
+		return container;
 	}
 
 	@Override
@@ -159,29 +163,37 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 			acquisitionTemplateTypeCompositeListenToMappingScanRegionShape();
 		}
 
-		acquisitionTypeRadios.stream().forEach(radio -> {
-			if (radio.getSelection()) {
-				selectedMappingScanRegionShape.setValue(getDataObject(radio, IMappingScanRegionShape.class, MAPPING_SCAN_REGION_SHAPE_TYPE));
-				rapController.getRegionSelectorListener().handleValueChange(new ValueChangeEvent<>(selectedMappingScanRegionShape,
-						new ValueDiff<IMappingScanRegionShape>() {
+		acquisitionTypeRadios.stream()
+			.forEach(radio -> {
+				if (radio.getSelection()) {
+					selectedMappingScanRegionShape.setValue(getDataObject(radio, IMappingScanRegionShape.class, MAPPING_SCAN_REGION_SHAPE_TYPE));
+					rapController.getRegionSelectorListener().handleValueChange(new ValueChangeEvent<>(selectedMappingScanRegionShape,
+							new ValueDiff<IMappingScanRegionShape>() {
 
-					@Override
-					public IMappingScanRegionShape getOldValue() {
-						return null;
-					}
+						@Override
+						public IMappingScanRegionShape getOldValue() {
+							return null;
+						}
 
-					@Override
-					public IMappingScanRegionShape getNewValue() {
-						return selectedMappingScanRegionShape.getValue();
-					}
-				}));
-			}
+						@Override
+						public IMappingScanRegionShape getNewValue() {
+							return selectedMappingScanRegionShape.getValue();
+						}
+					}));
+				}
 		});
 	}
 
 	@SuppressWarnings("unchecked")
 	public final IObservableValue<IMappingScanRegionShape> getMappingScanRegionShapeObservableValue() {
 		return BeanProperties.value("region").observe(rapController.getScanRegionFromBean());
+	}
+
+	private void dispose() {
+		acquisitionTypeRadios.stream()
+			.forEach(r -> {
+				r.removeListener(SWT.SELECTED, getDataObject(r, Listener.class, ACQUISITION_TEMPLATE_TYPE_LISTENER));
+			});
 	}
 
 	public SelectObservableValue<AcquisitionTemplateType> getSelectedAcquisitionType() {
@@ -209,15 +221,18 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 		});
 	}
 
-	public Button createAcquisitionTypeRadio(Composite parent,
+	private Button createAcquisitionTypeRadio(Composite parent,
 			AcquisitionTemplateType acquisitionTemplateType, ClientMessages tooltip, ClientImages icon) {
 		Button button = createClientButton(parent, SWT.RADIO, EMPTY_MESSAGE, tooltip, icon);
 		ClientSWTElements.createClientGridDataFactory().applyTo(button);
 
 		// sets the button data (the shape it refers to)
-		WidgetUtilities.addWidgetDisposableListener(button, SWT.Selection,  selectionListener.apply(acquisitionTemplateType));
-
+		Listener listener = selectionListener.apply(acquisitionTemplateType);
+		button.setData(ACQUISITION_TEMPLATE_TYPE_LISTENER, listener);
 		button.setData(ACQUISITION_TEMPLATE_TYPE, acquisitionTemplateType);
+
+		WidgetUtilities.addWidgetDisposableListener(button, SWT.Selection,  listener);
+
 		setIMappingScanRegionShape(button);
 		return button;
 	}

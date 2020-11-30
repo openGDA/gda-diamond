@@ -28,7 +28,7 @@ public class Diffraction implements IPerspectiveFactory {
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
-		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout);
+		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout, 0.20f, 0.74f, 0.16f);
 
 		// Left area
 		helper.addViewToLeftFolder(K11DefaultViews.PERSPECTIVE_DASHBOARD_VIEW, false);
@@ -41,7 +41,7 @@ public class Diffraction implements IPerspectiveFactory {
 		// Right area
 		helper.addViewToRightFolder(K11DefaultViews.DIFFRACTION_ACQUISITION_CONFIGURATION, false);
 		helper.addViewToRightFolder(K11DefaultViews.MAPPING_EXPERIMENT_VIEW, false);
-		helper.addFolderThenViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false, 0.5f);
+		helper.addFolderThenViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false, 0.7f);
 		helper.addViewToRightFolder(K11DefaultViews.getQueueId(), false);
 	}
 }
