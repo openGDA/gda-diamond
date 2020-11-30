@@ -53,8 +53,8 @@ public class BeamSelectorSwitcher extends PerspectiveAdapter {
 	}
 
 	static {
-		POSITION_PER_PERSPECTIVE.put(Tomography.ID, BEAM_SELECTOR_MONO_IMAGING_POSITON);
-		POSITION_PER_PERSPECTIVE.put(PointAndShoot.ID, BEAM_SELECTOR_MONO_IMAGING_POSITON);
+		POSITION_PER_PERSPECTIVE.put(Imaging.ID, BEAM_SELECTOR_MONO_IMAGING_POSITON);
+		POSITION_PER_PERSPECTIVE.put(Diffraction.ID, BEAM_SELECTOR_MONO_IMAGING_POSITON);
 	}
 
 	private void moveBeamSelector(String perspectiveId) {

@@ -29,10 +29,10 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot"
+            class="uk.ac.diamond.daq.beamline.k11.perspective.Diffraction"
             icon="platform:/plugin/uk.ac.gda.client/icons/target-16.png"
-            id="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot"
-            name="DIAD Point and Shoot">
+            id="uk.ac.diamond.daq.beamline.k11.perspective.Diffraction"
+            name="Diffraction">
       </perspective>
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated"
@@ -41,10 +41,10 @@
             name="DIAD Fully Automated">
       </perspective>
       <perspective
-            class="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
+            class="uk.ac.diamond.daq.beamline.k11.perspective.Imaging"
             icon="platform:/plugin/uk.ac.gda.client/icons/tomography/tomography-16.png"
-            id="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
-            name="Tomography">
+            id="uk.ac.diamond.daq.beamline.k11.perspective.Imaging"
+            name="Imaging">
       </perspective>      
    </extension>
    <extension
@@ -99,7 +99,7 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot">
+            targetID="uk.ac.diamond.daq.beamline.k11.perspective.Diffraction">
             <hiddenMenuItem
             id="org.eclipse.ui.run">
       </hiddenMenuItem>

@@ -29,11 +29,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
-import uk.ac.diamond.daq.mapping.ui.controller.StageController;
-import uk.ac.diamond.daq.mapping.ui.stage.IStageController;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientResourceManager;
-import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -51,17 +48,12 @@ public class PerspectiveDashboard extends ViewPart {
 				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
 		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, 5).applyTo(labelName);
 
-		PerspectiveComposite.buildModeComposite(composite, PerspectiveType.TOMOGRAPHY);
-		new PerspectiveDashboardCompositeFactory(getStageController()).createComposite(composite, SWT.NONE);
+		PerspectiveComposite.buildModeComposite(composite, PerspectiveType.IMAGING);
+		new PerspectiveDashboardCompositeFactory().createComposite(composite, SWT.NONE);
 	}
 
 	@Override
 	public void setFocus() {
 		// experimentCompose.setFocus();
 	}
-
-	private IStageController getStageController() {
-		return SpringApplicationContextProxy.getBean(StageController.class);
-	}
-
 }
