@@ -8,7 +8,7 @@
 			<list>
 				<ref bean="d21c_x" />
 				<ref bean="d21c_positioner"/>
-				<ref bean="femto_21"/>
+				<ref bean="ca21c"/>
 				<ref bean="d21c_cam"/>
 			</list>
 		</property>

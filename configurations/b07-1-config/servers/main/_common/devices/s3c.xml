@@ -49,10 +49,10 @@
 				<ref bean="s3c_xhall" />
 				<ref bean="s3c_ytop" />
 				<ref bean="s3c_ybottom" />
-				<ref bean="s3c_ytop_current" />
-				<ref bean="s3c_ybottom_current" />
-				<ref bean="s3c_xring_current" />
-				<ref bean="s3c_xhall_current" />
+				<ref bean="ca5c" />
+				<ref bean="ca6c" />
+				<ref bean="ca7c" />
+				<ref bean="ca8c" />
 			</list>
 		</property>
 	</bean>

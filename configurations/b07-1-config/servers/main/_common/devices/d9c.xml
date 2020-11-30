@@ -8,7 +8,7 @@
 			<list>
 				<ref bean="d9c_y" />
 				<ref bean="d9c_y_positioner"/>
-				<ref bean="femto_19"/>
+				<ref bean="ca19c"/>
 				<ref bean="d9c_cam" />
 			</list>
 		</property>

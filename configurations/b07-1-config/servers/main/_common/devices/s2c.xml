@@ -49,10 +49,10 @@
 				<ref bean="s2c_xhall" />
 				<ref bean="s2c_ytop" />
 				<ref bean="s2c_ybottom" />
-				<ref bean="s2c_ytop_current" />
-				<ref bean="s2c_ybottom_current" />
-				<ref bean="s2c_xring_current" />
-				<ref bean="s2c_xhall_current" />
+				<ref bean="ca1c" />
+				<ref bean="ca2c" />
+				<ref bean="ca3c" />
+				<ref bean="ca4c" />
 			</list>
 		</property>
 	</bean>

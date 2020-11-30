@@ -7,30 +7,33 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="s2c_ytop_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s2c_ybottom_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s2c_xring_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s2c_xhall_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s3c_ytop_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s3c_ybottom_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s3c_xring_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s3c_xhall_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s4c_ytop_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s4c_ybottom_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s4c_xring_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s4c_xhall_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="s4c_plate_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="d3c_foil" class="gda.device.scannable.DummyScannable" />
-	<bean id="m3c_current1" class="gda.device.scannable.DummyScannable" />
-	<bean id="m3c_current2" class="gda.device.scannable.DummyScannable" />
-	<bean id="d6c_mesh" class="gda.device.scannable.DummyScannable" />
-	<bean id="d7c_cell" class="gda.device.scannable.DummyScannable" />
-	<bean id="d7c_diode" class="gda.device.scannable.DummyScannable" />
-	<!-- femto_21 is the former d21c_current -->
-	<bean id="femto_21" class="gda.device.scannable.DummyScannable" />
-	<!-- femto_22 is the former ap1c_current -->
-	<bean id="femto_22" class="gda.device.scannable.DummyScannable" />
-	<bean id="sample_current" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca1c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca2c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca3c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca4c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca5c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca6c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca7c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca8c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca13c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca14c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca11c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca12c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca52c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca9c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca10c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca51c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca15c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca16c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca17c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca18c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca53c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca19c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca20c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca54c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca21c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca22c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca23c" class="gda.device.scannable.DummyScannable" />
 
 	<util:map id="gainMap">
 		<entry key="Low Noise">

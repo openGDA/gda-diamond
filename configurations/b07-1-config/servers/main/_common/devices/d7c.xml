@@ -8,8 +8,8 @@
 			<list>
 				<ref bean="d7c_y" />
 				<ref bean="d7c_y_positioner"/>
-				<ref bean="d7c_cell" />
-				<ref bean="d7c_diode" />
+				<ref bean="ca16c" />
+				<ref bean="ca17c" />
 			</list>
 		</property>
 	</bean>

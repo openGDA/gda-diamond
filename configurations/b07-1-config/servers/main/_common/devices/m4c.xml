@@ -32,8 +32,8 @@
 				<ref bean="m4c_pitch" />
 				<ref bean="m4c_roll" />
 				<ref bean="m4c_yaw" />
-				<ref bean="femto_18" />
-				<ref bean="m4c_current2" />
+				<ref bean="ca18c" />
+				<ref bean="ca53c" />
 			</list>
 		</property>
 	</bean>

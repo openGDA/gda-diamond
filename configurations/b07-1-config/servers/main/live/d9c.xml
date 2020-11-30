@@ -11,15 +11,6 @@
 		<property name="pvName" value="BL07C-DI-PHDGN-09:Y" />
 	</bean>
 
-	<!-- femto_19 used to be called d9c_foil -->
-	<bean id="femto_19" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
-		<property name="basePVName" value="BL07C-DI-PHDGN-09:I1:"/>
-		<property name="adcChannel" value="1" />
-		<property name="lowerVoltageBound" value="0.5"/>
-		<property name="upperVoltageBound" value="9.5"/>
-		<property name="modeToGainToGainStringMap" ref="gainMap"/>
-	</bean>
-
 	<!-- d9c cam 1 -->
 	<bean id="d9c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL07C-DI-PHDGN-09:DCAM1:CAM:" />

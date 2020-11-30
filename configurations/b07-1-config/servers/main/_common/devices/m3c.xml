@@ -32,8 +32,8 @@
 				<ref bean="m3c_pitch" />
 				<ref bean="m3c_roll" />
 				<ref bean="m3c_yaw" />
-				<ref bean="m3c_current1"/>
-				<ref bean="m3c_current2"/>
+				<ref bean="ca10c"/>
+				<ref bean="ca51c"/>
 			</list>
 		</property>
 	</bean>
