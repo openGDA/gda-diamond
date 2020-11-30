@@ -405,19 +405,24 @@ public class TurboXasScan extends ContinuousScan {
 	 * @param turboXasScannable
 	 * @throws Exception
 	 */
-	private void moveToInitialPosition(TurboXasScannable turboXasScannable) throws Exception {
+	private void moveToInitialPosition(TurboXasScannable turboXasScannable) throws DeviceException {
 		double startPosition = turboXasMotorParams.getStartPosition();
-		try {
+		if (!doTrajectoryScan) {
 			logger.info("Moving turbo slit to {} at start of scan", startPosition);
-			TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
-			// Move the motor to the start position before arming zebras. Initial position is close to actual start position
-			// and outside of the zebra gate.
-			turboXasScannable.moveWithTrajectoryScan(startPosition, trajScanPreparer.getMaxTimePerStep());
-			turboXasScannable.waitForTrajectoryScan();
-		} catch(Exception e) {
-			logger.warn("Problem moving turbo slit to {} at start of scan using trajectory scan.", startPosition, e);
-			logger.info("Trying to move motor using Epics motor record instead");
 			turboXasScannable.moveTo(startPosition);
+		} else {
+			try {
+				logger.info("Moving turbo slit to {} at start of scan using Trajectory scan", startPosition);
+				TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
+				// Move the motor to the start position before arming zebras. Initial position is close to actual start position
+				// and outside of the zebra gate.
+				turboXasScannable.moveWithTrajectoryScan(startPosition, trajScanPreparer.getMaxTimePerStep());
+				turboXasScannable.waitForTrajectoryScan();
+			} catch(Exception e) {
+				logger.warn("Problem moving turbo slit to {} at start of scan using trajectory scan.", startPosition, e);
+				logger.info("Trying to move motor using Epics motor record instead");
+				turboXasScannable.moveTo(startPosition);
+			}
 		}
 	}
 

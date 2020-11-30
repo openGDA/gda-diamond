@@ -47,6 +47,7 @@ public class TurboXasMotorParameters {
 
 	@XStreamAlias("TurboXasParameters")
 	private TurboXasParameters scanParameters;
+	private TurboSlitTimingGroup currentTimingGroup = null;
 
 	// These are all set using values from TurboXasScanParameters
 	private double scanStartPosition, scanEndPosition;
@@ -160,6 +161,14 @@ public class TurboXasMotorParameters {
 		return scanParameters;
 	}
 
+	/**
+	 *
+	 * @return timing group last used to set motor parameters by call to {@link #setMotorParametersForTimingGroup(int)}
+	 */
+	public TurboSlitTimingGroup getCurrentTimingGroup() {
+		return currentTimingGroup;
+	}
+
 	public void setMotorParameters() {
 		setMotorParametersForTimingGroup(0);
 	}
@@ -182,9 +191,8 @@ public class TurboXasMotorParameters {
 			logger.warn("Specified timing group index {} > number of timing groups ({})", timingGroupIndex, numTimingGroups);
 			return;
 		}
-
+		currentTimingGroup = scanParameters.getTimingGroups().get(timingGroupIndex);
 		setMotorParametersForTimingGroup(scanParameters.getTimingGroups().get(timingGroupIndex));
-
 	}
 
 	/**

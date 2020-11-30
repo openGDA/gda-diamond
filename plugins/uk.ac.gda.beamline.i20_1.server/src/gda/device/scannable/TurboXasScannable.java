@@ -215,6 +215,15 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 					this.setSpeed(motorParameters.getScanMotorSpeed());
 					asynchronousMoveTo(getEndPositionForSweep());
 					sweepNumber++;
+				}  else {
+					double timeForSpectrum = motorParameters.getCurrentTimingGroup().getTimePerSpectrum();
+					double timeForRunups = motorParameters.getTotalTimeForScan() - timeForSpectrum;
+					double timeBetweenSpectra = motorParameters.getCurrentTimingGroup().getTimeBetweenSpectra();
+					double sleepTime = Math.max(0, timeBetweenSpectra - timeForRunups);
+					if (sleepTime > 0) {
+						logger.info("Sleeping for {} ms before starting next sweep of two way scan", sleepTime*1000);
+						Thread.sleep((long)(sleepTime * 1000));
+					}
 				}
 			} else {
 				logger.info("Moving motor to initial run-up position : {}", motorParameters.getStartPosition());
