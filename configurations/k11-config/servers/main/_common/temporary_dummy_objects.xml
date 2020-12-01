@@ -48,17 +48,7 @@
 	<bean id="dummy_dcm1_z" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_dcm1_roll" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_dcm1_pitch" class="gda.device.scannable.DummyScannableMotor" />
-	<bean id="dummy_beam_selector" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>All beams through</value>
-				<value>Mono imaging beam</value>
-				<value>Diffraction beam</value>
-				<value>Pink imaging beam</value>
-				<value>No beam</value>
-			</list>
-		</property>
-	</bean>
+	<bean id="dummy_beam_selector_motor" class="gda.device.scannable.DummyScannableMotor" />
 	
 	<!--           energy workflow           -->
 	
