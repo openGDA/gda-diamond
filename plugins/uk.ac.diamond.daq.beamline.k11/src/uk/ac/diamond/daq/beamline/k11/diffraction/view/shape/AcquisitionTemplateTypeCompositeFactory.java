@@ -55,7 +55,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Widget;
 
-import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
@@ -67,6 +66,7 @@ import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
+import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionTypeProperties;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -244,14 +244,15 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 				.orElseGet(() -> false);
 
 		if (selected) {
-			AcquisitionTemplateType actualAcquisitionType = getSelectedAcquisitionTemplateType();
+			AcquisitionTemplateType actualAcquisitionTemplateType = getSelectedAcquisitionTemplateType();
 			// The user clicked an already selected radio
 			if (getDataObject(radio, AcquisitionTemplateType.class, ACQUISITION_TEMPLATE_TYPE)
-					.equals(actualAcquisitionType)) return;
+					.equals(actualAcquisitionTemplateType)) return;
 
+			String acquisitionType = "diffraction";
 			// When a new acquisitionType is selected, replaces the acquisition scanPathDocument
-			Optional.ofNullable(acquisitionTemplateType)
-				.map(DiffractionAcquisitionTypeProperties::createScanpathDocument)
+			Optional.ofNullable(AcquisitionTypeProperties.getAcquisitionProperties(acquisitionType))
+				.map(a -> a.buildScanpathBuilder(acquisitionTemplateType))
 				.ifPresent(scanpathDocumentHelper::updateScanPathDocument);
 			SpringApplicationContextFacade.publishEvent(
 					new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
