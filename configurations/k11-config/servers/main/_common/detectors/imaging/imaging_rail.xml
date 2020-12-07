@@ -7,19 +7,19 @@
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 	
 	<gda:motor id="pco_x"
-		live-pvName="#{configProperties.EA_DET_PREFIX}02:X"
+		live-pvName="#{configProperties.MO_TABLE_PREFIX}02:X"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 	<gda:motor id="pco_z"
-		live-pvName="#{configProperties.EA_DET_PREFIX}02:Z"
+		live-pvName="#{configProperties.MO_TABLE_PREFIX}02:Z"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"
 		dummy-unitString="mm"/>
 	<gda:motor id="pco_focus"
-		live-pvName="#{configProperties.EA_DET_PREFIX}02:FOCUS"
+		live-pvName="#{configProperties.MO_TABLE_PREFIX}02:PCO01:FOCUS"
 		dummy-minPosition="-12.5"
 		dummy-maxPosition="12.5"
 		dummy-position="9.45"

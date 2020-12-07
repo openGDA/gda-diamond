@@ -62,7 +62,7 @@
 	<bean id="pco_cam_config"
 		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Imaging Camera" />
-		<property name="arrayPv" value="BL11K-EA-DET-03:ARR" />
+		<property name="arrayPv" value="BL11K-EA-PCO-01:ARR" />
 		<property name="calibratedAxesProvider"
 			ref="beam_position_calibration" />
 <!-- 		<property name="url" value="http://K11-IMAGING01:8080/pco.mjpg.mjpg" /> -->
