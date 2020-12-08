@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="f1_selector" class="gda.device.enumpositioner.EpicsEnumPositioner">
-		<property name="pvBase" value="#{configProperties.AL_ATTN_PREFIX}01:MP:SELECT" />
+	<bean id="a3_selector" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="#{configProperties.AL_ATTN_PREFIX}03:MP:SELECT" />
 	</bean>
 	
 </beans>

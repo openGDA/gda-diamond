@@ -3,7 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/filters/f1.xml" />
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/filters/f2.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/filters/a1.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/filters/a2.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/filters/a3.xml" />
 	
 </beans>
