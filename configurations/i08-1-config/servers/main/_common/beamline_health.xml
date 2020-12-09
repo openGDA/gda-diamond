@@ -40,7 +40,6 @@
 			</bean>
 		</property>
 		<property name="critical" value="true" />
-		<property name="errorMessage" value="Optics shutter is not open" />
 	</bean>
 
 	<bean id="fe_shutter_condition" class="gda.beamline.health.EnumPositionCondition">
@@ -56,7 +55,7 @@
 	</bean>
 
 	<bean id="samplex_position_condition" class="gda.beamline.health.ScannableThresholdCondition">
-		<property name="description" value="SampleX position" />
+		<property name="description" value="SampleX" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
 				<property name="scannable" ref="SampleX" />
@@ -65,11 +64,10 @@
 			</bean>
 		</property>
 		<property name="critical" value="false" />
-		<property name="errorMessage" value="SampleX is not in position" />
 	</bean>
 
 	<bean id="sampley_position_condition" class="gda.beamline.health.ScannableThresholdCondition">
-		<property name="description" value="SampleY position" />
+		<property name="description" value="SampleY" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
 				<property name="scannable" ref="SampleY" />
@@ -78,19 +76,16 @@
 			</bean>
 		</property>
 		<property name="critical" value="false" />
-		<property name="errorMessage" value="SampleY is not in position" />
 	</bean>
 
 	<bean id="activemq_server_condition" class="gda.beamline.health.ActiveMQServerCondition">
 		<property name="description" value="ActiveMQ server" />
 		<property name="critical" value="true" />
-		<property name="errorMessage" value="ActiveMQ server is not active" />
 	</bean>
 
 	<bean id="ispyb_server_condition" class="gda.beamline.health.IspybServiceCondition">
 		<property name="description" value="ISPyB server" />
 		<property name="critical" value="true" />
-		<property name="errorMessage" value="ISPyB service is not active" />
 	</bean>
 
 </beans>
