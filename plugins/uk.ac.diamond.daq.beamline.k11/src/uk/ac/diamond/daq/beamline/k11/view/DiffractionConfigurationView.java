@@ -23,7 +23,6 @@ import static uk.ac.gda.ui.tool.ClientMessages.SAVED_SCAN_DEFINITION;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
-import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,6 @@ import uk.ac.gda.api.acquisition.configuration.MultipleScans;
 import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
-import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.selectable.NamedComposite;
 import uk.ac.gda.ui.tool.selectable.SelectableContainedCompositeFactory;
@@ -77,7 +75,7 @@ public class DiffractionConfigurationView extends ViewPart {
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionConfigurationView";
 	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationView.class);
 
-	private AcquisitionController<ScanningAcquisition> controller;
+	private AcquisitionController<ScanningAcquisition> acquisitionController;
 
 	private ScanManagementController smController;
 
@@ -96,14 +94,13 @@ public class DiffractionConfigurationView extends ViewPart {
 		createClientGridDataFactory().applyTo(container);
 		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		controller = getPerspectiveController();
-		controller.setDefaultNewAcquisitionSupplier(newScanningAcquisition());
-		controller.createNewAcquisition();
+		getAcquisitionController().setDefaultNewAcquisitionSupplier(newScanningAcquisition());
+		getAcquisitionController().createNewAcquisition();
 
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
-		builder.addNewSelectionListener(widgetSelectedAdapter(event -> controller.createNewAcquisition()));
+		builder.addNewSelectionListener(widgetSelectedAdapter(event -> getAcquisitionController().createNewAcquisition()));
 		builder.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
 		builder.addRunSelectionListener(widgetSelectedAdapter(event -> submitExperiment()));
 		builder.build().createComposite(container, SWT.NONE);
@@ -118,7 +115,7 @@ public class DiffractionConfigurationView extends ViewPart {
 
 	@Override
 	public void dispose() {
-		Optional.ofNullable(controller).ifPresent(AcquisitionController::releaseResources);
+		getAcquisitionController().releaseResources();
 		super.dispose();
 	}
 
@@ -137,18 +134,12 @@ public class DiffractionConfigurationView extends ViewPart {
 		// Do not necessary
 	}
 
-	@SuppressWarnings("unchecked")
-	private AcquisitionController<ScanningAcquisition> getPerspectiveController() {
-		return (AcquisitionController<ScanningAcquisition>) SpringApplicationContextFacade
-				.getBean("scanningAcquisitionController", AcquisitionsPropertiesHelper.AcquisitionPropertyType.DIFFRACTION);
-	}
-
 	private CompositeFactory getTopArea() {
 		// Theses are the on-demand composites for the specific acquisition configurations
 		List<NamedComposite> configurations = new ArrayList<>();
-		configurations.add(new DiffractionConfigurationCompositeFactory(controller));
-		configurations.add(new PointAndShootConfigurationCompositeFactory(controller));
-		configurations.add(new BeamSelectorConfigurationCompositeFactory(controller));
+		configurations.add(new DiffractionConfigurationCompositeFactory(getAcquisitionController()));
+		configurations.add(new PointAndShootConfigurationCompositeFactory(getAcquisitionController()));
+		configurations.add(new BeamSelectorConfigurationCompositeFactory(getAcquisitionController()));
 
 		return new SelectableContainedCompositeFactory(configurations, ClientMessages.ACQUISITIONS);
 	}
@@ -157,7 +148,7 @@ public class DiffractionConfigurationView extends ViewPart {
 		Group group = createClientGroup(parent, SWT.NONE, 1, SAVED_SCAN_DEFINITION);
 		createClientGridDataFactory().applyTo(group);
 
-		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<>(new MapBrowser(controller));
+		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<>(new MapBrowser(getAcquisitionController()));
 		layoutUtils.fillGrab().applyTo(cf.createComposite(group, SWT.BORDER));
 	}
 
@@ -170,18 +161,15 @@ public class DiffractionConfigurationView extends ViewPart {
 
 	private void save() {
 		try {
-			controller.saveAcquisitionConfiguration();
+			getAcquisitionController().saveAcquisitionConfiguration();
 		} catch (AcquisitionControllerException e) {
 			UIHelper.showError("Cannot save acquisition", e, logger);
 		}
 	}
 
 	private void submitExperiment() {
-		if (!getExperimentController().isExperimentInProgress()) {
-			UIHelper.showError("Cannot start acquisition", "You must start an experiment first");
-		}
 		try {
-			controller.runAcquisition();
+			getAcquisitionController().runAcquisition();
 		} catch (AcquisitionControllerException e) {
 			UIHelper.showError(e.getMessage(), e.getCause().getMessage());
 		}
@@ -232,5 +220,12 @@ public class DiffractionConfigurationView extends ViewPart {
 
 			return newConfiguration;
 		};
+	}
+
+	private AcquisitionController<ScanningAcquisition> getAcquisitionController() {
+		if (acquisitionController == null) {
+			acquisitionController = new ExperimentScanningAcquisitionController(AcquisitionsPropertiesHelper.AcquisitionPropertyType.DIFFRACTION);
+		}
+		return acquisitionController;
 	}
 }
