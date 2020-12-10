@@ -49,4 +49,6 @@
 	<import resource="dummyMotor.xml" />
 	<import resource="es-i3.xml"/>
 
+	<!-- Tenma PSU -->
+	<import resource="tenma_psu.xml" />
 </beans>

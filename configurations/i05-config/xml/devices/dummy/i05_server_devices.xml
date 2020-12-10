@@ -16,6 +16,7 @@
 	<import resource="cryostat.xml" />
 	<import resource="shtr1.xml"/>
 	<import resource="analyser_over_exposure.xml" />
+	<import resource="tenma_psu.xml" />
 
 	<!-- Femtos -->
 	<import resource="femto.xml" />

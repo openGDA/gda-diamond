@@ -116,6 +116,9 @@ from gdascripts.archiver.archiver import archive
 alias('archive')
 archiver = Finder.find("archiver")
 
+print "Importing Tenma PSU"
+from gdaserver import tenma_psu
+
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
    print "Running i05 scripts."
