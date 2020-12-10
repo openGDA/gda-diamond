@@ -18,35 +18,21 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
-import static uk.ac.gda.ui.tool.ClientMessages.SAVED_SCAN_DEFINITION;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MappedDataView;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.part.ViewPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.swtdesigner.SWTResourceManager;
-
-import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
+import gda.rcp.views.Browser;
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.BeamSelectorConfigurationCompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationCompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.PointAndShootConfigurationCompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorButtonControlledCompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionButtonControlledCompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.pointandshoot.PointAndShootButtonControlledCompositeFactory;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
@@ -60,27 +46,21 @@ import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionTypeProperties;
 import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionsPropertiesHelper;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
-import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
 import uk.ac.gda.api.acquisition.configuration.MultipleScans;
 import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
-import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
-import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
+import uk.ac.gda.ui.tool.AcquisitionConfigurationView;
 import uk.ac.gda.ui.tool.ClientMessages;
-import uk.ac.gda.ui.tool.selectable.NamedComposite;
+import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
 import uk.ac.gda.ui.tool.selectable.SelectableContainedCompositeFactory;
 
-public class DiffractionConfigurationView extends ViewPart {
+public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.DiffractionConfigurationView";
-	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationView.class);
 
 	private AcquisitionController<ScanningAcquisition> acquisitionController;
 
 	private ScanManagementController smController;
-
-	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
 	public DiffractionConfigurationView() {
 		smController = MappingServices.getScanManagementController();
@@ -89,33 +69,11 @@ public class DiffractionConfigurationView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		logger.trace("Creating {}", this);
-		// The overall container
-		Composite container = createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
-		createClientGridDataFactory().applyTo(container);
-		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-
-		getAcquisitionController().setDefaultNewAcquisitionSupplier(newScanningAcquisition());
-		getAcquisitionController().createNewAcquisition();
-
-		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
-		builder.addTopArea(getTopArea());
-		builder.addBottomArea(getBottomArea());
-		builder.addAcquisitionButtonGroupFactoryBuilder(getAcquistionButtonGroupFacoryBuilder());
-		builder.build().createComposite(container, SWT.NONE);
-		logger.trace("Created {}", this);
-
+		super.createPartControl(parent);
 		prepareMapEvents();
 		MappingServices.updateDetectorParameters();
-
 		// Creates camera stream item in the context menu
 		EnableMappingLiveBackgroundAction.appendContextMenuAction();
-	}
-
-	@Override
-	public void dispose() {
-		getAcquisitionController().releaseResources();
-		super.dispose();
 	}
 
 	/**
@@ -129,41 +87,28 @@ public class DiffractionConfigurationView extends ViewPart {
 	}
 
 	@Override
-	public void setFocus() {
-		// Do not necessary
-	}
-
-	private CompositeFactory getTopArea() {
+	protected CompositeFactory getTopArea(Supplier<Composite> controlButtonsContainerSupplier) {
 		// Theses are the on-demand composites for the specific acquisition configurations
-		List<NamedComposite> configurations = new ArrayList<>();
-		configurations.add(new DiffractionConfigurationCompositeFactory(getAcquisitionController()));
-		configurations.add(new PointAndShootConfigurationCompositeFactory(getAcquisitionController()));
-		configurations.add(new BeamSelectorConfigurationCompositeFactory(getAcquisitionController()));
+		List<NamedCompositeFactory> configurations = new ArrayList<>();
+		configurations.add(new DiffractionButtonControlledCompositeFactory(getAcquisitionController(), controlButtonsContainerSupplier));
+		configurations.add(new PointAndShootButtonControlledCompositeFactory(getAcquisitionController(), controlButtonsContainerSupplier));
+		configurations.add(new BeamSelectorButtonControlledCompositeFactory(getAcquisitionController(), controlButtonsContainerSupplier));
 		return new SelectableContainedCompositeFactory(configurations, ClientMessages.ACQUISITIONS);
 	}
 
-	private void buildSavedComposite(Composite parent) {
-		Group group = createClientGroup(parent, SWT.NONE, 1, SAVED_SCAN_DEFINITION);
-		createClientGridDataFactory().applyTo(group);
-
-		CompositeFactory cf = new AcquisitionsBrowserCompositeFactory<>(new MapBrowser(getAcquisitionController()));
-		layoutUtils.fillGrab().applyTo(cf.createComposite(group, SWT.BORDER));
-	}
-
-	private CompositeFactory getBottomArea() {
-		return (parent, style) -> {
-			buildSavedComposite(parent);
-			return parent;
-		};
+	@Override
+	protected Browser<?> getBrowser() {
+		return new MapBrowser(getAcquisitionController());
 	}
 
 	/**
 	 * Creates a new {@link ScanningAcquisition} for a diffraction acquisition. Note that the Detectors set by the
 	 * {@link ScanningAcquisitionController#createNewAcquisition()}
 	 *
-	 * @return
+	 * @return the new scanning acquisition
 	 */
-	private Supplier<ScanningAcquisition> newScanningAcquisition() {
+	@Override
+	protected Supplier<ScanningAcquisition> newScanningAcquisition() {
 		return () -> {
 			ScanningAcquisition newConfiguration = new ScanningAcquisition();
 			newConfiguration.setUuid(UUID.randomUUID());
@@ -205,41 +150,11 @@ public class DiffractionConfigurationView extends ViewPart {
 		};
 	}
 
-	private AcquisitionController<ScanningAcquisition> getAcquisitionController() {
+	@Override
+	protected AcquisitionController<ScanningAcquisition> getAcquisitionController() {
 		if (acquisitionController == null) {
 			acquisitionController = new ExperimentScanningAcquisitionController(AcquisitionsPropertiesHelper.AcquisitionPropertyType.DIFFRACTION);
 		}
 		return acquisitionController;
-	}
-
-	private AcquisitionCompositeButtonGroupFactoryBuilder getAcquistionButtonGroupFacoryBuilder() {
-		AcquisitionCompositeButtonGroupFactoryBuilder acquisitionButtonGroup = new AcquisitionCompositeButtonGroupFactoryBuilder();
-		acquisitionButtonGroup.addNewSelectionListener(widgetSelectedAdapter(event -> createNewScanningAcquisition()));
-		acquisitionButtonGroup.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
-		acquisitionButtonGroup.addRunSelectionListener(widgetSelectedAdapter(event -> submitExperiment()));
-		return acquisitionButtonGroup;
-	}
-
-	private void createNewScanningAcquisition() {
-		boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
-		if (confirmed) {
-			getAcquisitionController().createNewAcquisition();
-		}
-	}
-
-	private void save() {
-		try {
-			getAcquisitionController().saveAcquisitionConfiguration();
-		} catch (AcquisitionControllerException e) {
-			UIHelper.showError("Cannot save acquisition", e, logger);
-		}
-	}
-
-	private void submitExperiment() {
-		try {
-			getAcquisitionController().runAcquisition();
-		} catch (AcquisitionControllerException e) {
-			UIHelper.showError(e.getMessage(), e.getCause().getMessage());
-		}
 	}
 }

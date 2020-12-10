@@ -25,6 +25,7 @@ import java.util.Hashtable;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MapPlotManager;
+import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.axis.ClickEvent;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -36,7 +37,9 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
+import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.client.UIHelper;
 
 /**
@@ -50,6 +53,7 @@ import uk.ac.gda.client.UIHelper;
  */
 public class PointAndShootController {
 
+	private final AcquisitionController<ScanningAcquisition> acquisitionController;
 	private static final Logger logger = LoggerFactory.getLogger(PointAndShootController.class);
 
 	/** Common name root for all sub-scans */
@@ -65,20 +69,21 @@ public class PointAndShootController {
 	/** Cached for disposal */
 	private ServiceRegistration<?> serviceRegistration;
 
-
 	/**
 	 * Instantiates the controller and immediately starts the session with the given name.
 	 * You <b>must</b> call {@link #endSession()} to ensure consistent experiment structure
 	 * and dispose internal listeners.
-	 *
-	 * @throws ExperimentControllerException if the session cannot be started
 	 */
-	public PointAndShootController(String sessionName) throws ExperimentControllerException{
+	public PointAndShootController(String sessionName,  AcquisitionController<ScanningAcquisition> acquisitionController) {
 		this.sessionName = sessionName;
-		startSession();
+		this.acquisitionController = acquisitionController;
 	}
 
-	private void startSession() throws ExperimentControllerException {
+	public void startSession() throws ExperimentControllerException {
+		if (!getExperimentController().isExperimentInProgress()) {
+			throw new ExperimentControllerException("An experiment must be started first");
+		}
+		getMapPlottingSystem().setTitle("Point and Shoot: Ctrl+Click to scan");
 		getExperimentController().startMultipartAcquisition(sessionName);
 		registerClickEventHandler();
 		logger.info("Point and Shoot session '{}' started", sessionName);
@@ -87,6 +92,7 @@ public class PointAndShootController {
 	public void endSession() throws ExperimentControllerException {
 		unregisterClickEventHandler();
 		getExperimentController().stopMultipartAcquisition();
+		getMapPlottingSystem().setTitle(" ");
 		logger.info("Point and Shoot session '{}' ended", sessionName);
 	}
 
@@ -111,14 +117,19 @@ public class PointAndShootController {
 		ClickEvent mapClickEvent = ((IMapClickEvent) event.getProperty("event")).getClickEvent();
 		if (mapClickEvent.isControlDown()) {
 			try {
-				MappingServices.getRegionAndPathController().createRegionWithCurrentRegionValuesAt(mapClickEvent.getxValue(),
-						mapClickEvent.getyValue());
-				MappingServices.getScanManagementController().submitScan(getExperimentController().prepareAcquisition(sessionName), null);
+				acquisitionController.runAcquisition();
+//				MappingServices.getRegionAndPathController().createRegionWithCurrentRegionValuesAt(mapClickEvent.getxValue(),
+//						mapClickEvent.getyValue());
+//				MappingServices.getScanManagementController().submitScan(getExperimentController().prepareAcquisition(sessionName), null);
 			} catch (Exception e) {
 				logger.error("Scan submission failed", e);
 				String detail = e.getMessage() == null ? "See log for details" : e.getMessage();
 				UIHelper.showError("Error submitting scan", detail);
 			}
 		}
+	}
+
+	private IPlottingSystem<Object> getMapPlottingSystem() {
+		return MappingServices.getPlottingService().getPlottingSystem("Map");
 	}
 }
