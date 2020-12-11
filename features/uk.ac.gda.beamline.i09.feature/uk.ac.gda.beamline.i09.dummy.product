@@ -122,7 +122,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="javax.xml.rpc"/>
       <plugin id="javax.xml.soap"/>
       <plugin id="javax.xml.stream"/>
-      <plugin id="jaxb-api"/>
       <plugin id="jcl.over.slf4j"/>
       <plugin id="jul.to.slf4j"/>
       <plugin id="log4j.over.slf4j"/>
