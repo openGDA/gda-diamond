@@ -105,9 +105,9 @@ public class DiffractionConfigurationCompositeFactory implements CompositeFactor
 		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
 		smController.initialise();
 
-		stf = new AcquisitionTemplateTypeCompositeFactory(controller::getAcquisition, rapController);
-		DiffractionCompositeInterface dcf = new DensityCompositeFactory(controller::getAcquisition, rapController);
-		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(controller::getAcquisition, rapController, smController);
+		stf = new AcquisitionTemplateTypeCompositeFactory(controller::getAcquisition, getRegionAndPathController() );
+		DiffractionCompositeInterface dcf = new DensityCompositeFactory(controller::getAcquisition, getRegionAndPathController() );
+		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(controller::getAcquisition, getRegionAndPathController() , smController);
 		DiffractionCompositeInterface scf = new SummaryCompositeFactory(controller::getAcquisition);
 
 		components.add(stf);
