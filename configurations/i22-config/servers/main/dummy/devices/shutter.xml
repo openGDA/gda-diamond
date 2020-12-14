@@ -3,6 +3,7 @@
                 xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="det_shutter" class="gda.device.enumpositioner.DummyValve" />
 	<bean id="eh_shutter" class="gda.device.enumpositioner.DummyValve" />
 	<bean id="fe_shutter" class="gda.device.enumpositioner.DummyValve" />
 </beans>
