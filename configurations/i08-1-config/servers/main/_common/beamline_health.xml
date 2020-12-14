@@ -15,6 +15,7 @@
 				<ref bean="sampley_position_condition" />
 				<ref bean="activemq_server_condition" />
 				<ref bean="ispyb_server_condition" />
+				<ref bean="daserver_condition" />
 			</list>
 		</property>
 	</bean>
@@ -86,6 +87,17 @@
 	<bean id="ispyb_server_condition" class="gda.beamline.health.IspybServiceCondition">
 		<property name="description" value="ISPyB server" />
 		<property name="critical" value="true" />
+	</bean>
+
+	<bean id="daserver_condition" class="gda.beamline.health.DAServerCondition">
+		<property name="description" value="DAServer" />
+		<property name="statusChecker" ref="daserver_checker" />
+		<property name="host" value="dummyhost" />
+		<property name="port" value="8000" />
+	</bean>
+
+	<bean id="daserver_checker" class="gda.device.detector.DummyDAServerStatusChecker">
+		<property name="running" value="true" />
 	</bean>
 
 </beans>
