@@ -19,31 +19,21 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
-import static uk.ac.gda.ui.tool.ClientMessages.CANNOT_START_POINT_AND_SHOOT_SESSION;
-import static uk.ac.gda.ui.tool.ClientMessages.DIFFRACTION_SCAN_PATH;
-import static uk.ac.gda.ui.tool.ClientMessages.POINT_AND_SHOOT;
 import static uk.ac.gda.ui.tool.ClientMessages.SAVED_SCAN_DEFINITION;
-import static uk.ac.gda.ui.tool.ClientMessages.START;
-import static uk.ac.gda.ui.tool.ClientMessages.START_POINT_AND_SHOOT_TP;
-import static uk.ac.gda.ui.tool.ClientMessages.STOP;
-import static uk.ac.gda.ui.tool.ClientMessages.STOP_POINT_AND_SHOOT_TP;
-import static uk.ac.gda.ui.tool.ClientMessagesUtility.getMessage;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
+import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
-import static uk.ac.gda.ui.tool.ClientSWTElements.updateButton;
 import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MappedDataView;
-import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPage;
@@ -51,12 +41,14 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.SWTResourceManager;
+
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.BeamSelectorConfigurationCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationCompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.PointAndShootConfigurationCompositeFactory;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
@@ -75,9 +67,10 @@ import uk.ac.gda.api.acquisition.configuration.MultipleScans;
 import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
-import uk.ac.gda.ui.tool.ClientSWTElements;
-import uk.ac.gda.ui.tool.images.ClientImages;
-import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
+import uk.ac.gda.ui.tool.ClientMessages;
+import uk.ac.gda.ui.tool.selectable.NamedComposite;
+import uk.ac.gda.ui.tool.selectable.SelectableContainedCompositeFactory;
 
 public class DiffractionConfigurationView extends ViewPart {
 
@@ -87,8 +80,6 @@ public class DiffractionConfigurationView extends ViewPart {
 	private AcquisitionController<ScanningAcquisition> controller;
 
 	private ScanManagementController smController;
-	private PointAndShootController pointAndShootController;
-	private Button pointAndShoot;
 
 	private LayoutUtilities layoutUtils = new LayoutUtilities();
 
@@ -99,30 +90,30 @@ public class DiffractionConfigurationView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		logger.trace("Creating {}", this);
+		// The overall container
+		Composite container = createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
+		createClientGridDataFactory().applyTo(container);
+		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+
 		controller = getPerspectiveController();
 		controller.setDefaultNewAcquisitionSupplier(newScanningAcquisition());
 		controller.createNewAcquisition();
 
-		logger.info("{} createPartControl - start", this.getClass());
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
 		builder.addNewSelectionListener(widgetSelectedAdapter(event -> controller.createNewAcquisition()));
 		builder.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
 		builder.addRunSelectionListener(widgetSelectedAdapter(event -> submitExperiment()));
-
-		Composite container = ClientSWTElements.createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
-		ClientSWTElements.createClientGridDataFactory().applyTo(container);
-
 		builder.build().createComposite(container, SWT.NONE);
+		logger.trace("Created {}", this);
 
 		prepareMapEvents();
 		MappingServices.updateDetectorParameters();
 
 		// Creates camera stream item in the context menu
 		EnableMappingLiveBackgroundAction.appendContextMenuAction();
-
-		logger.info("{} createPartControl - end", this.getClass());
 	}
 
 	@Override
@@ -148,30 +139,18 @@ public class DiffractionConfigurationView extends ViewPart {
 
 	@SuppressWarnings("unchecked")
 	private AcquisitionController<ScanningAcquisition> getPerspectiveController() {
-		return (AcquisitionController<ScanningAcquisition>) SpringApplicationContextProxy
+		return (AcquisitionController<ScanningAcquisition>) SpringApplicationContextFacade
 				.getBean("scanningAcquisitionController", AcquisitionsPropertiesHelper.AcquisitionPropertyType.DIFFRACTION);
 	}
 
-	private void buildDiffractionPathComposite(Composite parent) {
-		Group group = createClientGroup(parent, SWT.NONE, 1, DIFFRACTION_SCAN_PATH);
-		createClientGridDataFactory().grab(true, false).applyTo(group);
-
-		DiffractionConfigurationCompositeFactory factory = new DiffractionConfigurationCompositeFactory(controller);
-		factory.createComposite(group, SWT.NONE);
-	}
-
 	private CompositeFactory getTopArea() {
-		return (parent, style) -> {
-			buildDiffractionPathComposite(parent);
-			Group group = createClientGroup(parent, SWT.NONE, 1, POINT_AND_SHOOT);
-			createClientGridDataFactory().applyTo(group);
+		// Theses are the on-demand composites for the specific acquisition configurations
+		List<NamedComposite> configurations = new ArrayList<>();
+		configurations.add(new DiffractionConfigurationCompositeFactory(controller));
+		configurations.add(new PointAndShootConfigurationCompositeFactory(controller));
+		configurations.add(new BeamSelectorConfigurationCompositeFactory(controller));
 
-			pointAndShoot = createClientButton(group, SWT.NONE, START, START_POINT_AND_SHOOT_TP, ClientImages.START);
-			createClientGridDataFactory().applyTo(pointAndShoot);
-
-			pointAndShoot.addListener(SWT.Selection, e -> togglePointAndShoot());
-			return parent;
-		};
+		return new SelectableContainedCompositeFactory(configurations, ClientMessages.ACQUISITIONS);
 	}
 
 	private void buildSavedComposite(Composite parent) {
@@ -198,84 +177,14 @@ public class DiffractionConfigurationView extends ViewPart {
 	}
 
 	private void submitExperiment() {
-		if (isPointAndShootActive()) {
-			UIHelper.showWarning("Cannot run Acquisition", "Point and Shoot mode is active");
-			return;
-		}
-		validateExperimentRequest();
-	}
-
-	private void validateExperimentRequest() {
 		if (!getExperimentController().isExperimentInProgress()) {
 			UIHelper.showError("Cannot start acquisition", "You must start an experiment first");
-			return;
 		}
-
 		try {
-			submit(getExperimentController().prepareAcquisition(getAcquisitionName()));
-		} catch (ExperimentControllerException | AcquisitionControllerException e) {
-			UIHelper.showError("Cannot run acquisition", e);
+			controller.runAcquisition();
+		} catch (AcquisitionControllerException e) {
+			UIHelper.showError(e.getMessage(), e.getCause().getMessage());
 		}
-	}
-
-	private void submit(URL acquisitionOutput) throws AcquisitionControllerException {
-		getAcquisition().setAcquisitionLocation(acquisitionOutput);
-		controller.runAcquisition();
-	}
-
-	private void togglePointAndShoot() {
-		if (isPointAndShootActive()) {
-			// end current session
-			endPointAndShootSession();
-		} else {
-			// start new session
-			startPointAndShootSession();
-		}
-	}
-
-	private IPlottingSystem<Object> getMapPlottingSystem() {
-		return MappingServices.getPlottingService().getPlottingSystem("Map");
-	}
-
-	private void startPointAndShootSession() {
-		if (getExperimentController().isExperimentInProgress()) {
-			try {
-				pointAndShootController = new PointAndShootController(getAcquisitionName());
-				updateButton(pointAndShoot, STOP, STOP_POINT_AND_SHOOT_TP, ClientImages.STOP);
-				getMapPlottingSystem().setTitle("Point and Shoot: Ctrl+Click to scan");
-			} catch (ExperimentControllerException e) {
-				UIHelper.showError(getMessage(CANNOT_START_POINT_AND_SHOOT_SESSION), e);
-			}
-		} else {
-			UIHelper.showError("Cannot start Point and Shoot session", "An experiment must be started first");
-		}
-	}
-
-	private void endPointAndShootSession() {
-		try {
-			pointAndShootController.endSession();
-			pointAndShootController = null;
-			updateButton(pointAndShoot, START, START_POINT_AND_SHOOT_TP, ClientImages.RUN);
-			getMapPlottingSystem().setTitle(" ");
-		} catch (ExperimentControllerException e) {
-			UIHelper.showError("Cannot stop Point and Shoot session", e);
-		}
-	}
-
-	private boolean isPointAndShootActive() {
-		return pointAndShootController != null;
-	}
-
-	private String getAcquisitionName() {
-		return getAcquisition().getName();
-	}
-
-	private ScanningAcquisition getAcquisition() {
-		return getController().getAcquisition();
-	}
-
-	private AcquisitionController<ScanningAcquisition> getController() {
-		return controller;
 	}
 
 	/**

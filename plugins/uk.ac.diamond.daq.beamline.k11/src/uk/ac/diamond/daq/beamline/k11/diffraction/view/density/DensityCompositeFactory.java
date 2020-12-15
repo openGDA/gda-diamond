@@ -112,13 +112,13 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.CENTER, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
+		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(container);
 
 		Label label = createClientLabel(container, style, POINTS_DENSITY);
-		createClientGridDataFactory().align(SWT.CENTER, SWT.END).indent(5, SWT.DEFAULT).applyTo(label);
+		createClientGridDataFactory().align(SWT.CENTER, SWT.TOP).applyTo(label);
 
 		points = createClientText(container, SWT.BORDER, POINTS_PER_SIDE, verifyOnlyIntegerText);
-		createClientGridDataFactory().align(SWT.CENTER, SWT.CENTER).indent(5, SWT.DEFAULT).hint(ClientSWTElements.DEFAULT_TEXT_SIZE).applyTo(points);
+		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).hint(ClientSWTElements.DEFAULT_TEXT_SIZE).applyTo(points);
 
 		readoutTextDecoration = new ControlDecoration(points, SWT.LEFT | SWT.TOP);
 		readoutTextDecoration.setImage(ClientSWTElements.getImage(EXCLAMATION_RED));
@@ -127,9 +127,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		points.addModifyListener(modifyPointListener);
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
 
-		container.addDisposeListener(ev -> points.removeModifyListener(modifyPointListener));
-
-		return parent;
+		// Releases resources before dispose
+		container.addDisposeListener(event -> dispose()	);
+		return container;
 	}
 
 	@Override
@@ -148,13 +148,13 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 			points.setEnabled(false);
 	}
 
-	@Override
-	public void initializeBinding() {
-		// Executed only on composite creation
-		if (readoutObservableValue == null) {
-			readoutObservableValue = WidgetProperties.text(SWT.Modify).observe(points);
+	private void dispose() {
+		if (points != null) {
+			points.removeModifyListener(modifyPointListener);
 		}
+		SpringApplicationContextFacade.removeApplicationListener(listenToScanningAcquisitionChanges);
 	}
+
 
 	private final ModifyListener modifyPointListener = event -> updateScannableTrackDocumentsPoints();
 
@@ -230,6 +230,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	}
 
 	private IObservableValue<String> getReadoutObservableValue() {
+		if (readoutObservableValue == null) {
+			readoutObservableValue = WidgetProperties.text(SWT.Modify).observe(points);
+		}
 		return readoutObservableValue;
 	}
 

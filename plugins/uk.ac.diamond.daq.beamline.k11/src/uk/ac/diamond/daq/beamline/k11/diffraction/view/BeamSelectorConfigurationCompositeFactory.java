@@ -34,10 +34,10 @@ import uk.ac.gda.ui.tool.selectable.NamedComposite;
  *
  * @author Maurizio Nagni
  */
-public class DiffractionConfigurationCompositeFactory implements NamedComposite {
+public class BeamSelectorConfigurationCompositeFactory implements NamedComposite {
 
 	private final DiffractionConfigurationCompositeBaseFactory diffractionBase;
-	public DiffractionConfigurationCompositeFactory(AcquisitionController<ScanningAcquisition> controller) {
+	public BeamSelectorConfigurationCompositeFactory(AcquisitionController<ScanningAcquisition> controller) {
 		diffractionBase = new DiffractionConfigurationCompositeBaseFactory(controller);
 	}
 
@@ -57,11 +57,11 @@ public class DiffractionConfigurationCompositeFactory implements NamedComposite 
 
 	@Override
 	public ClientMessages getName() {
-		return ClientMessages.DIFFRACTION;
+		return ClientMessages.BEAM_SELECTOR_ACQUISITION;
 	}
 
 	@Override
 	public ClientMessages getTooltip() {
-		return ClientMessages.DIFFRACTION_TP;
+		return ClientMessages.BEAM_SELECTOR_ACQUISITION_TP;
 	}
 }

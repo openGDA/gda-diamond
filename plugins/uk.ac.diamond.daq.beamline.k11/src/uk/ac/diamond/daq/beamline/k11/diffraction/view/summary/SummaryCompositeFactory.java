@@ -18,10 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
-import static uk.ac.gda.ui.tool.ClientMessages.SUMMARY;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +28,6 @@ import java.util.function.Supplier;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
@@ -40,21 +37,14 @@ import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 
 /**
- * Components representing the GUI summary element per {@link ShapeType}. As not all the elements are available through
- * the update {@link IScanPointGeneratorModel}, some properties are binded/retrieved using
- * {@link RegionAndPathController}. In both cases to simplify the code specific {@link ShapeSummaryBase} property names
- * match the ones in {@link IScanPointGeneratorModel} or {@link RegionAndPathController}.
+ * Components representing the GUI acquisition configuration summary.
  *
  * @author Maurizio Nagni
- */
-/**
- *
  */
 public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
 	private final Supplier<ScanningAcquisition> acquisitionSupplier;
 
-	private static final int PADDING = 15;
 	private StyledText summaryText;
 	private Composite container;
 	private final AcquisitionTemplateTypeSummaryBase summaryBase;
@@ -69,13 +59,16 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		container = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.BEGINNING).indent(5, SWT.DEFAULT).applyTo(container);
-
-		Label label = createClientLabel(container, style, SUMMARY);
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).span(2, 1).indent(5, SWT.DEFAULT).applyTo(label);
-
+		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(container);
 		createControl(container);
+
+		// Releases resources before dispose
+		container.addDisposeListener(event -> dispose()	);
 		return container;
+	}
+
+	private void dispose() {
+		SpringApplicationContextFacade.removeApplicationListener(listenToScanningAcquisitionChanges);
 	}
 
 	/**
@@ -85,13 +78,12 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 	 *            The containing {@link Composite for the control}
 	 */
 	private void createControl(Composite parent) {
-		summaryText = new StyledText(parent, SWT.BORDER);
-		summaryText.setMargins(PADDING, PADDING, PADDING, PADDING);
+		summaryText = new StyledText(parent, SWT.NONE);
 		summaryText.setWordWrap(true);
 		summaryText.setFont(ClientResourceManager.getInstance().getTextDefaultItalicFont());
 		summaryText.setCaret(null);
 		summaryText.setEditable(false);
-		createClientGridDataFactory().applyTo(summaryText);
+		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(summaryText);
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
 	}
 
@@ -109,9 +101,9 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 					.map(ScanningAcquisition::getUuid)
 					.orElseGet(UUID::randomUUID);
 
-			if (eventUUID.equals(scanningAcquisitionUUID)) {
+			if (eventUUID.equals(scanningAcquisitionUUID) && !summaryText.isDisposed()) {
 				summaryText.setText(summaryBase.toString());
-				container.getParent().layout(true, true);
+				container.getShell().layout(true, true);
 			}
 		}
 	};
