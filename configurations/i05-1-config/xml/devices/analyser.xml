@@ -59,19 +59,19 @@
 	</bean>
 
 	<bean id="fixedConfiguration" class="uk.ac.gda.devices.vgscienta.DetectorConfiguration">
-		<property name="startX" value="1" />
-		<property name="sizeX" value="1064" />
-		<property name="startY" value="1" />
-		<property name="sizeY" value="1000" />
-		<property name="slices" value="1000" />
+		<property name="startX" value="150" />
+		<property name="sizeX" value="1170" />
+		<property name="startY" value="65" />
+		<property name="sizeY" value="920" />
+		<property name="slices" value="920" />
 	</bean>
 
 	<bean id="sweptConfiguration" class="uk.ac.gda.devices.vgscienta.DetectorConfiguration">
-		<property name="startX" value="55" />
-		<property name="sizeX" value="905" />
-		<property name="startY" value="166" />
-		<property name="sizeY" value="690" />
-		<property name="slices" value="690" />
+		<property name="startX" value="310" />
+		<property name="sizeX" value="915" />
+		<property name="startY" value="130" />
+		<property name="sizeY" value="785" />
+		<property name="slices" value="785" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
