@@ -7,7 +7,7 @@
 	<!-- Area detector camera -->
 
  	<bean id="es_i3" class="gda.device.detector.NXDetector">
-		<property name="name" value="es-i3" />
+		<property name="name" value="es_i3" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

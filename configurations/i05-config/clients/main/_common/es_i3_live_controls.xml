@@ -4,19 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- es_i3 Controls in Live Stream Views-->
-	<bean id="es_i3_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
-		<property name="displayName" value="Time remain"/>
-		<property name="group" value="Sample" />
-		<property name="observable" ref="es_i3Countdown" />
-		<property name="textWidth" value="30"/>
-		<property name="userUnits" value="s" />
-	</bean>
-	<bean id="es_i3_time_remaining_progress" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownProgressBarControl">
-		<property name="displayName" value=""/>
-		<property name="group" value="Sample" />
-		<property name="observable" ref="es_i3CountdownProgress" />
-		<property name="barWidth" value="110"/>
-	</bean>
 	<bean id="es_i3_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="Sample" />
