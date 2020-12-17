@@ -45,7 +45,6 @@ import com.swtdesigner.SWTResourceManager;
 
 import gda.rcp.views.AcquisitionCompositeFactoryBuilder;
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.BeamSelectorConfigurationCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.PointAndShootConfigurationCompositeFactory;
@@ -58,6 +57,7 @@ import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
+import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionTypeProperties;
 import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionsPropertiesHelper;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
@@ -205,9 +205,10 @@ public class DiffractionConfigurationView extends ViewPart {
 			configuration.setImageCalibration(new ImageCalibration.Builder().build());
 
 			// When a new acquisitionType is selected, replaces the acquisition scanPathDocument
-			ScanpathDocument.Builder scanpathBuilder = Optional.ofNullable(AcquisitionTemplateType.TWO_DIMENSION_POINT)
-				.map(DiffractionAcquisitionTypeProperties::createScanpathDocument)
-				.orElseGet(ScanpathDocument.Builder::new);
+			String acquisitionType = "diffraction";
+			ScanpathDocument.Builder scanpathBuilder =
+					AcquisitionTypeProperties.getAcquisitionProperties(acquisitionType)
+					.buildScanpathBuilder(AcquisitionTemplateType.TWO_DIMENSION_POINT);
 			// *-------------------------------
 //			ScannableTrackDocument.Builder scannableTrackBuilder = new ScannableTrackDocument.Builder();
 //			scannableTrackBuilder.withPoints(1);

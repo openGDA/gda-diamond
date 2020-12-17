@@ -31,7 +31,6 @@ import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
 import org.springframework.util.CollectionUtils;
 
-import uk.ac.diamond.daq.beamline.k11.diffraction.DiffractionAcquisitionTypeProperties;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.helper.ScannableTrackDocumentHelper;
@@ -44,6 +43,7 @@ import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
+import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionTypeProperties;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 
@@ -129,7 +129,7 @@ public class TemplateDataHelper {
 	 * define explicitly an X and a Y axes.
 	 * Even if the {@link ScannableTrackDocument} may use any name for the axis for consistency is worth for now to
 	 * assume for the {@link ScannableTrackDocument}s to use the same axes names.
-	 * This is enforced by the properties parsed by {@link DiffractionAcquisitionTypeProperties}
+	 * This is enforced by the properties parsed by {@link AcquisitionTypeProperties}
 	 */
 	public void updateIMappingScanRegionShape() {
 		IMappingScanRegionShape mappingRegionShape = getRapController().getScanRegionShape();
