@@ -76,7 +76,7 @@
 
 	<alias name="dcam7_png" alias="dcam7" />
 
-	<bean id="dcam7_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+	<bean id="dcam7_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
 		<property name="name" value="dcam7_det" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
@@ -85,7 +85,7 @@
 		<property name="label" value="dcam7" />
 		<property name="description" value="dcam7" />
 	</bean>
-	<bean id="dcam7RD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+	<bean id="dcam7RD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
 		<property name="name" value="dcam7_det" />
 		<property name="model" ref="dcam7_detModel" />
 		<property name="deviceInformation" ref="dcam7_detInfo" />

@@ -124,7 +124,7 @@
 
 	<!-- Objects for Solstice Scanning -->
 
-	<bean id="pilatus3_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+	<bean id="pilatus3_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
 		<property name="name" value="pilatus3_det" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
@@ -133,7 +133,7 @@
 		<property name="label"       value="pilatus3" />
 		<property name="description" value="pilatus3" />
 	</bean>
-	<bean id="pilatus3RD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+	<bean id="pilatus3RD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
 		<property name="name" value="pilatus3_det" />
 		<property name="model" ref="pilatus3_detModel" />
 		<property name="deviceInformation" ref="pilatus3_detInfo" />
