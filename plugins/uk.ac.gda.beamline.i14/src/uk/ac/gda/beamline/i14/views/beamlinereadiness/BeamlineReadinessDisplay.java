@@ -34,13 +34,13 @@ import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.factory.Finder;
-import uk.ac.gda.client.viewer.ThreeStateDisplay;
+import uk.ac.gda.client.viewer.FourStateDisplay;
 
 /**
- * Extends a {@link ThreeStateDisplay} to show whether the beamline is ready i.e. whether the beam is in position and the
+ * Extends a {@link FourStateDisplay} to show whether the beamline is ready i.e. whether the beam is in position and the
  * intensity is sufficient.
  */
-public class BeamlineReadinessDisplay extends ThreeStateDisplay {
+public class BeamlineReadinessDisplay extends FourStateDisplay {
 	private static final Logger logger = LoggerFactory.getLogger(BeamlineReadinessDisplay.class);
 
 	private enum ReadinessState {
@@ -51,7 +51,8 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 	private static final String BEAM_OFF_MESSAGE = "Beam is off";
 	private static final String BEAM_TOO_LOW_MESSAGE = "Beam intensity is too far from its target";
 	private static final String BEAMLINE_READY_MESSAGE = "Beamline is ready";
-	private static final String BEAMLINE_STATE_UNKNOWN_MESSAGE = "Beamline state unknown";
+	private static final String BEAMLINE_STATE_UNKNOWN_MESSAGE = "Beamline state unknown - see log for details";
+	private static final String ENERGY_OUTSIDE_RANGE_MESSAGE = "State unknown: energy {} is outside the calibrated range";
 
 	private Monitor xPosition;
 	private Monitor yPosition;
@@ -69,7 +70,7 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 	private ReadinessState state = ReadinessState.UNKNOWN;
 
 	public BeamlineReadinessDisplay(Composite parent) {
-		super(parent, "Ready", "Low intensity", "No beam");
+		super(parent, "Ready", "Low intensity", "No beam", "State unknown");
 
 		// Get configuration parameters
 		final Map<String, BeamlineReadinessParameters> params = Finder.getLocalFindablesOfType(BeamlineReadinessParameters.class);
@@ -184,7 +185,7 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 
 	private Double getTargetIntensity(double energy) {
 		if (!beamIntensityFunction.isValidPoint(energy)) {
-			logger.warn("Energy {} is outside the calibrated range", energy);
+			logger.warn(ENERGY_OUTSIDE_RANGE_MESSAGE, energy);
 			return null;
 		}
 		double targetIntensity = beamIntensityFunction.value(energy);
@@ -219,9 +220,8 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 			setGreen();
 			setToolTipText(BEAMLINE_READY_MESSAGE);
 		} else {
-			setYellow();
+			setGrey();
 			setToolTipText(BEAMLINE_STATE_UNKNOWN_MESSAGE);
-			logger.warn(BEAMLINE_STATE_UNKNOWN_MESSAGE);
 		}
 	}
 }
