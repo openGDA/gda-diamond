@@ -23,12 +23,9 @@ import java.util.ArrayList;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -40,8 +37,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.Scannable;
+import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.client.composites.MotorPositionEditorControl;
+import uk.ac.gda.client.livecontrol.ScannablePositionerControl;
+import uk.ac.gda.exafs.data.ScannableSetup;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
@@ -66,8 +65,6 @@ public class SampleStageMotorsView extends ViewPart {
 		ScrolledForm scrolledform = toolkit.createScrolledForm(parent);
 		Form form = scrolledform.getForm();
 		form.getBody().setLayout(new TableWrapLayout());
-		toolkit.decorateFormHeading(form);
-		form.setText("Sample Stage Motors");
 		try {
 			createFormSampleSection(form);
 		} catch (Exception e) {
@@ -77,33 +74,30 @@ public class SampleStageMotorsView extends ViewPart {
 		return scrolledform;
 	}
 
-	private void createFormSampleSection(Form form) throws Exception {
+	private void createFormSampleSection(final Form form) throws Exception {
 		final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 
-		final Section samplePositionSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		final Section samplePositionSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR);
 		toolkit.paintBordersFor(samplePositionSection);
-		samplePositionSection.setText("Sample position");
+		samplePositionSection.setText("Sample stage motors");
 		toolkit.paintBordersFor(samplePositionSection);
 		samplePositionSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		ScannableMotorMoveObserver.setupStopToolbarButton(samplePositionSection, movingScannables);
 
-		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
-		toolkit.paintBordersFor(defaultSectionSeparator);
-		samplePositionSection.setSeparatorControl(defaultSectionSeparator);
-
-		final Composite samplePositionComposite = toolkit.createComposite(samplePositionSection, SWT.NONE);
+		Composite samplePositionComposite = toolkit.createComposite(samplePositionSection, SWT.NONE);
 		toolkit.paintBordersFor(samplePositionComposite);
-		samplePositionComposite.setLayout(new GridLayout(2, false));
+		samplePositionComposite.setLayout(new GridLayout());
 		samplePositionSection.setClient(samplePositionComposite);
 
 		sampleStageMotorsChangeListener = evt -> {
 			try {
 				clearSampleStageMotorControls(samplePositionComposite);
 				addSampleStageMotorEditors(samplePositionComposite, moveObserver, (ExperimentMotorPostion[]) evt.getNewValue());
-				samplePositionSection.layout(true);
-				samplePositionSection.getParent().layout(true);
+				// Recompute composite sizes and adjust scrollbars for new content
+				ScrolledForm sf = (ScrolledForm) form.getParent();
+				sf.reflow(true);
 			} catch (Exception e) {
 				UIHelper.showError("Unable to add Sample stage motor controls", e.getMessage());
 				logger.error("Unable to add Sample stage motor controls", e);
@@ -111,6 +105,10 @@ public class SampleStageMotorsView extends ViewPart {
 		};
 		addSampleStageMotorEditors(samplePositionComposite, moveObserver, (SampleStageMotors.INSTANCE.getSelectedMotors()));
 		SampleStageMotors.INSTANCE.addPropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, sampleStageMotorsChangeListener);
+
+		Composite sectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
+		toolkit.paintBordersFor(sectionSeparator);
+		samplePositionSection.setSeparatorControl(sectionSeparator);
 	}
 
 	public void clearSampleStageMotorControls(final Composite samplePositionComposite) {
@@ -120,17 +118,32 @@ public class SampleStageMotorsView extends ViewPart {
 	}
 
 	private void addSampleStageMotorEditors(Composite parent, ScannableMotorMoveObserver moveObserver, ExperimentMotorPostion[] motors) throws Exception {
-		GridData labelGridData = new GridData(GridData.BEGINNING, GridData.CENTER, false, false);
-		labelGridData.widthHint = 120;
-		GridData controlGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		Composite composite = toolkit.createComposite(parent, SWT.NONE);
+		toolkit.paintBordersFor(composite);
+		composite.setLayout(new GridLayout());
+
 		for (ExperimentMotorPostion motor : motors) {
-			Label label = toolkit.createLabel(parent, motor.getScannableSetup().getLabel(), SWT.NONE);
-			label.setLayoutData(labelGridData);
 			Scannable scannable = motor.getScannableSetup().getScannable();
 			scannable.addIObserver(moveObserver);
-			MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  motor.getScannableSetup().getScannableWrapper(), true);
-			motorPositionEditorControl.setLayoutData(controlGridData);
+			createMotorControl(composite, motor.getScannableSetup().getLabel(), motor.getScannableSetup());
 		}
+	}
+
+	/**
+	 * Add a {@link NudgePositionerComposite} to parent composite to control the scannable in ScannableSetupObject
+	 * @param parent
+	 * @param label
+	 * @param scnSetup
+	 */
+	private void createMotorControl(Composite parent, String label, ScannableSetup scnSetup) {
+		ScannablePositionerControl control = new ScannablePositionerControl();
+		control.setDisplayName(label);
+		control.setHorizontalLayout(true);
+		control.setScannableName(scnSetup.getScannableName());
+		control.setUserUnits(scnSetup.getUnit().getText());
+		control.setDisplayNameWidth(150);
+		control.setIncrementTextWidth(30);
+		control.createControl(parent);
 	}
 
 	@Override

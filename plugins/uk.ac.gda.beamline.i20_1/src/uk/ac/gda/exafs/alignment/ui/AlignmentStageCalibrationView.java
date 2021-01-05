@@ -44,9 +44,10 @@ import gda.device.Scannable;
 import gda.device.scannable.AlignmentStage;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.client.composites.MotorPositionEditorControl;
+import uk.ac.gda.client.livecontrol.ScannablePositionerControl;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.data.ScannableSetup;
@@ -90,33 +91,19 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	// Make Listener object for given AlignmentStageDevice
 	private Listener makeListenerForDevice( final AlignmentStageDevice alignmentStageDevice )
 	{
-		Listener listenerForDevice = event -> {
-
-			Scannable xposScannable, yposScannable, xposFastShutter, yposFastShutter;
+		return event -> {
 			try {
-				// get current position for device and move the alignment motors
-				// double xpos =  alignmentStageDevice.getLocation().getxPosition();
-				// double ypos =  alignmentStageDevice.getLocation().getyPosition();
-
-				xposScannable = ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable();
-				yposScannable = ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable();
-
-				// xposScannable.asynchronousMoveTo(xpos);
-				// yposScannable.asynchronousMoveTo(ypos);
-
-				xposFastShutter = ScannableSetup.FAST_SHUTTER_X_POSITION.getScannable();
-				yposFastShutter = ScannableSetup.FAST_SHUTTER_Y_POSITION.getScannable();
-
-				alignmentStageDevice.moveLocation(xposScannable, yposScannable, xposFastShutter, yposFastShutter);
+				alignmentStageDevice.moveLocation(ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable(),
+						ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable(),
+						ScannableSetup.FAST_SHUTTER_X_POSITION.getScannable(),
+						ScannableSetup.FAST_SHUTTER_Y_POSITION.getScannable());
 			}
 			catch (DeviceException e1) {
 				logger.error("Problem moving alignment stage ", e1);
 			} catch (Exception e2) {
 				logger.error("Problem getting scannable for alignment stage ", e2);
 			}
-
 		};
-		return listenerForDevice;
 	}
 
 	protected String getDataStoreKey() {
@@ -311,33 +298,27 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		layout.marginHeight = 0;
 		xyPositionComposite.setLayout(layout);
 
-		Composite xPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(xPositionComposite);
-		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xPositionComposite.setLayout(new GridLayout(2, false));
-
-		Label xPosLabel = toolkit.createLabel(xPositionComposite, "Alignment stage x", SWT.None);
-		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		MotorPositionEditorControl xPosition = new MotorPositionEditorControl(xPositionComposite, SWT.None, xScannable.getScannableWrapper(), true);
-		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		xPosition.setUnit(xScannable.getUnit().getText());
-		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(yPositionComposite);
-		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		yPositionComposite.setLayout(new GridLayout(2, false));
-
-		Label yPosLabel = toolkit.createLabel(yPositionComposite, "Alignment stage y", SWT.None);
-		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		MotorPositionEditorControl yPosition = new MotorPositionEditorControl(yPositionComposite, SWT.None, yScannable.getScannableWrapper(), true);
-		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		yPosition.setUnit(yScannable.getUnit().getText());
-		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		createMotorControl(xyPositionComposite, "Alignment stage x", xScannable);
+		createMotorControl(xyPositionComposite, "Alignment stage y", yScannable);
 
 		return xyPositionComposite;
+	}
+
+	/**
+	 * Add a {@link NudgePositionerComposite} to parent composite to control the scannable in ScannableSetupObject
+	 * @param parent
+	 * @param label
+	 * @param scnSetup
+	 */
+	private void createMotorControl(Composite parent, String label, ScannableSetup scnSetup) {
+		ScannablePositionerControl control = new ScannablePositionerControl();
+		control.setDisplayName(label);
+		control.setHorizontalLayout(true);
+		control.setScannableName(scnSetup.getScannableName());
+		control.setUserUnits(scnSetup.getUnit().getText());
+		control.setDisplayNameWidth(150);
+		control.setIncrementTextWidth(30);
+		control.createControl(parent);
 	}
 
 	// Like createXY function except also creates 'Move' button and adds listener to it.
