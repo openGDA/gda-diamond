@@ -51,6 +51,7 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 	private static final String BEAM_OFF_MESSAGE = "Beam is off";
 	private static final String BEAM_TOO_LOW_MESSAGE = "Beam intensity is too far from its target";
 	private static final String BEAMLINE_READY_MESSAGE = "Beamline is ready";
+	private static final String BEAMLINE_STATE_UNKNOWN_MESSAGE = "Beamline state unknown";
 
 	private Monitor xPosition;
 	private Monitor yPosition;
@@ -154,12 +155,17 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 				state = ReadinessState.OUT_OF_POSITION_Y;
 			} else {
 				final double eh2Intensity = getIntensity();
-				final double targetIntensity = getTargetIntensity((double) energy.getPosition());
-				state = (eh2Intensity >= targetIntensity) ? ReadinessState.READY : ReadinessState.INTENSITY_TOO_LOW;
+				final Double targetIntensity = getTargetIntensity((double) energy.getPosition());
+				if (targetIntensity == null) {
+					state = ReadinessState.UNKNOWN;
+				} else {
+					state = (eh2Intensity >= targetIntensity) ? ReadinessState.READY : ReadinessState.INTENSITY_TOO_LOW;
+				}
 			}
 			Display.getDefault().asyncExec(this::setDisplay);
 		} catch (Exception e) {
 			logger.error("Error getting BPM data", e);
+			state = ReadinessState.UNKNOWN;
 		}
 	}
 
@@ -176,7 +182,11 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 		return Math.abs((position - setpoint) / position) * 100.0 < tolerance;
 	}
 
-	private double getTargetIntensity(double energy) {
+	private Double getTargetIntensity(double energy) {
+		if (!beamIntensityFunction.isValidPoint(energy)) {
+			logger.warn("Energy {} is outside the calibrated range", energy);
+			return null;
+		}
 		double targetIntensity = beamIntensityFunction.value(energy);
 		targetIntensity *= (1.0 - (displayParams.getIntensityTolerance() / 100.0));
 		return targetIntensity;
@@ -209,7 +219,9 @@ public class BeamlineReadinessDisplay extends ThreeStateDisplay {
 			setGreen();
 			setToolTipText(BEAMLINE_READY_MESSAGE);
 		} else {
-			logger.warn("Beamline state unknown");
+			setYellow();
+			setToolTipText(BEAMLINE_STATE_UNKNOWN_MESSAGE);
+			logger.warn(BEAMLINE_STATE_UNKNOWN_MESSAGE);
 		}
 	}
 }
