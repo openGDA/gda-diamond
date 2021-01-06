@@ -65,6 +65,7 @@ import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
 import uk.ac.gda.api.acquisition.configuration.MultipleScans;
 import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.composites.AcquisitionsBrowserCompositeFactory;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.selectable.NamedComposite;
@@ -100,9 +101,7 @@ public class DiffractionConfigurationView extends ViewPart {
 		AcquisitionCompositeFactoryBuilder builder = new AcquisitionCompositeFactoryBuilder();
 		builder.addTopArea(getTopArea());
 		builder.addBottomArea(getBottomArea());
-		builder.addNewSelectionListener(widgetSelectedAdapter(event -> getAcquisitionController().createNewAcquisition()));
-		builder.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
-		builder.addRunSelectionListener(widgetSelectedAdapter(event -> submitExperiment()));
+		builder.addAcquisitionButtonGroupFactoryBuilder(getAcquistionButtonGroupFacoryBuilder());
 		builder.build().createComposite(container, SWT.NONE);
 		logger.trace("Created {}", this);
 
@@ -140,7 +139,6 @@ public class DiffractionConfigurationView extends ViewPart {
 		configurations.add(new DiffractionConfigurationCompositeFactory(getAcquisitionController()));
 		configurations.add(new PointAndShootConfigurationCompositeFactory(getAcquisitionController()));
 		configurations.add(new BeamSelectorConfigurationCompositeFactory(getAcquisitionController()));
-
 		return new SelectableContainedCompositeFactory(configurations, ClientMessages.ACQUISITIONS);
 	}
 
@@ -157,22 +155,6 @@ public class DiffractionConfigurationView extends ViewPart {
 			buildSavedComposite(parent);
 			return parent;
 		};
-	}
-
-	private void save() {
-		try {
-			getAcquisitionController().saveAcquisitionConfiguration();
-		} catch (AcquisitionControllerException e) {
-			UIHelper.showError("Cannot save acquisition", e, logger);
-		}
-	}
-
-	private void submitExperiment() {
-		try {
-			getAcquisitionController().runAcquisition();
-		} catch (AcquisitionControllerException e) {
-			UIHelper.showError(e.getMessage(), e.getCause().getMessage());
-		}
 	}
 
 	/**
@@ -228,5 +210,36 @@ public class DiffractionConfigurationView extends ViewPart {
 			acquisitionController = new ExperimentScanningAcquisitionController(AcquisitionsPropertiesHelper.AcquisitionPropertyType.DIFFRACTION);
 		}
 		return acquisitionController;
+	}
+
+	private AcquisitionCompositeButtonGroupFactoryBuilder getAcquistionButtonGroupFacoryBuilder() {
+		AcquisitionCompositeButtonGroupFactoryBuilder acquisitionButtonGroup = new AcquisitionCompositeButtonGroupFactoryBuilder();
+		acquisitionButtonGroup.addNewSelectionListener(widgetSelectedAdapter(event -> createNewScanningAcquisition()));
+		acquisitionButtonGroup.addSaveSelectionListener(widgetSelectedAdapter(event -> save()));
+		acquisitionButtonGroup.addRunSelectionListener(widgetSelectedAdapter(event -> submitExperiment()));
+		return acquisitionButtonGroup;
+	}
+
+	private void createNewScanningAcquisition() {
+		boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
+		if (confirmed) {
+			getAcquisitionController().createNewAcquisition();
+		}
+	}
+
+	private void save() {
+		try {
+			getAcquisitionController().saveAcquisitionConfiguration();
+		} catch (AcquisitionControllerException e) {
+			UIHelper.showError("Cannot save acquisition", e, logger);
+		}
+	}
+
+	private void submitExperiment() {
+		try {
+			getAcquisitionController().runAcquisition();
+		} catch (AcquisitionControllerException e) {
+			UIHelper.showError(e.getMessage(), e.getCause().getMessage());
+		}
 	}
 }
