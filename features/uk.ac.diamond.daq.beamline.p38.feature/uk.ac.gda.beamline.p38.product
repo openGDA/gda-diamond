@@ -38,7 +38,6 @@
    <splash
       location="uk.ac.diamond.daq.beamline.p38" />
    <launcher name="gda-p38">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>

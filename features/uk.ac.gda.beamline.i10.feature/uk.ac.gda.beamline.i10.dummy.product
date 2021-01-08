@@ -73,7 +73,6 @@ See &lt;http://www.opengda.org/&gt;
       startupMessageRect="4,195,598,20"
       startupForegroundColor="000000" />
    <launcher name="gda-i10">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>

@@ -37,7 +37,6 @@ uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.specsperspective
    <splash
       location="uk.ac.gda.beamline.i09-1" />
    <launcher name="gda-i09-1">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>

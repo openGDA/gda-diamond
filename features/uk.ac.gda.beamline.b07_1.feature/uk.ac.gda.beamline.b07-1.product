@@ -34,7 +34,6 @@
    <splash
       location="uk.ac.gda.beamline.b07-1" />
    <launcher name="gda-b07-1">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>

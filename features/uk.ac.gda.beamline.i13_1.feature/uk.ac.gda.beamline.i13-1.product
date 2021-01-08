@@ -42,7 +42,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <splash
       location="uk.ac.gda.beamline.i13-1" />
    <launcher name="gda-i13-1">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>

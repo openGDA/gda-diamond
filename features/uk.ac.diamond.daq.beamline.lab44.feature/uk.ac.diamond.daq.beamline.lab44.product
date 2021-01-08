@@ -52,7 +52,6 @@
       startupMessageRect="4,195,598,20"
       startupForegroundColor="000000" />
    <launcher name="gda-lab44">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>

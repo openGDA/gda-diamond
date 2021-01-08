@@ -42,7 +42,6 @@
 
 
    <launcher name="gda-lab44">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>

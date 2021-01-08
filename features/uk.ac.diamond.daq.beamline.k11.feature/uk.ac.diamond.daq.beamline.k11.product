@@ -43,7 +43,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <splash
       location="uk.ac.diamond.daq.beamline.k11" />
    <launcher name="gda-k11">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>
