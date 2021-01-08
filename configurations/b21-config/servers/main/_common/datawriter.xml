@@ -6,15 +6,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<bean id="bssc_proc" class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
-		<property name="scriptPath" value="${gda.bssc.processingscript}"/>
-	</bean>
 
-	<bean id="autoPostProcessing" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
-		<property name="detector" ref="ncddetectors"/>
-		<property name="runner" ref="bssc_proc" />
-		<property name="enabled" value="true"/>
-	</bean>
 
 	<bean id="twodscan" class="gda.data.scan.TwoDPlotListener">
 		<property name="plotPanel" value="Plot 2D" />
@@ -38,7 +30,6 @@
 			<list>
 				<ref bean="file_registrar" />
 				<ref bean="scan2elog" />
-				<ref bean="autoPostProcessing" />
 				<ref bean="twodscan" />
 				<ref bean="scanListFileWriter" />
 				<ref bean="scan2terminal" />

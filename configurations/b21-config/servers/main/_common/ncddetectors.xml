@@ -50,6 +50,11 @@
 				<ref bean="TfgTimes" />
 			</list>
 		</property>
+		<property name="processingRequest">
+			<map>
+				<entry key="dawnlegacy" value=""/>
+			</map>
+		</property>
 	</bean>
 
 	<bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
