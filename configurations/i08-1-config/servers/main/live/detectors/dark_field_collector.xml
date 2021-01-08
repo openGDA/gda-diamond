@@ -20,10 +20,14 @@
 			<util:map map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="BL08J-ML-SCAN-02" value="andor2" />
 				<entry key="BL08J-ML-SCAN-12" value="andor2" />
+				<entry key="BL08J-ML-SCAN-21" value="photodiode" />
+				<entry key="BL08J-ML-SCAN-22" value="andor2" />
+				<entry key="BL08J-ML-SCAN-31" value="photodiode" />
+				<entry key="BL08J-ML-SCAN-32" value="andor2" />
 			</util:map>
 		</constructor-arg>
 		<property name="name" value="darkFieldCollector" />
-		<property name="detector" ref="malcolm_device_andor_no_shutter" />
+		<property name="detector" ref="malcolm_device_andor_combined_no_shutter" />
 	</bean>
 
 </beans>
