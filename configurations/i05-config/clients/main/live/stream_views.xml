@@ -65,8 +65,6 @@
 					<list>
 						<ref bean="es_i3_expsure_time_control" />
 						<ref bean="es_i3_acquire_period_control"/>
-						<ref bean="es_i3_time_remaining" />
-						<ref bean="es_i3_time_remaining_progress" />
 					</list>				
 				</property>
 				<property name="cameraState">
