@@ -40,6 +40,7 @@
 			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
+				<value>eh_shutter</value>
 				<value>ring_current</value>
 				<value>ring_energy</value>
 				<value>m1</value>
@@ -50,7 +51,7 @@
 				<value>dcm2</value>
 				<value>s2</value>
 				<value>s3</value>
-				<value>s4</value>
+				<value>s4</value>				
 			</set>
 		</property>
 	</bean>
@@ -61,6 +62,14 @@
 			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
 		<property name="arguments">
 			<map>
+				<entry key="eh_shutter">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/source:NXsource/eh_shutter" />
+						<property name="units" value="state" />
+					</bean>
+				</entry>
 				<entry key="ring_current">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
