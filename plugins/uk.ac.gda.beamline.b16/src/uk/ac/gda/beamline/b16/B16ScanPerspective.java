@@ -21,6 +21,8 @@ package uk.ac.gda.beamline.b16;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
@@ -59,6 +61,7 @@ public class B16ScanPerspective implements IPerspectiveFactory {
 				logger.warn("Problem initialising plot views");
 			}
 		});
+		setPreferences();
 	}
 
 	private void addViews(IPageLayout layout) {
@@ -95,6 +98,10 @@ public class B16ScanPerspective implements IPerspectiveFactory {
 		leftTopFolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
 	}
 
+	private void setPreferences() {
+		IEclipsePreferences pydevAnalysisPref = InstanceScope.INSTANCE.getNode("com.python.pydev.analysis");
+		pydevAnalysisPref.put("DO_AUTO_IMPORT", "false");
+	}
 
 
 }
