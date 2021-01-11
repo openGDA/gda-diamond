@@ -7,7 +7,7 @@
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
-	<bean id="d9b_cam1" class="gda.device.detector.NXDetector">
+	<bean id="d10b_cam1" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
