@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.daq.beamline.k11.diffraction.view;
+package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
@@ -52,6 +52,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.TemplateDataHelper;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.DensityCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator.MutatorsTemplateFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.AcquisitionTemplateTypeCompositeFactory;
@@ -67,20 +69,18 @@ import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPat
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
-import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
-import uk.ac.gda.ui.tool.spring.SpringApplicationContextProxy;
+import uk.ac.gda.ui.tool.Reloadable;
 
 /**
  * This Composite allows to edit a {@link ScanningParameters} object.
  *
  * @author Maurizio Nagni
  */
-class DiffractionConfigurationCompositeBaseFactory implements CompositeFactory {
+public class DiffractionConfigurationLayoutFactory implements CompositeFactory, Reloadable {
 
-	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationCompositeBaseFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(DiffractionConfigurationLayoutFactory.class);
 
 	// ----- Model GUI ------//
 	/** Scan prefix **/
@@ -88,7 +88,7 @@ class DiffractionConfigurationCompositeBaseFactory implements CompositeFactory {
 
 	// ----- Helper ------//
 	private AcquisitionTemplateTypeCompositeFactory stf;
-	protected final AcquisitionController<ScanningAcquisition> controller;
+	private final AcquisitionController<ScanningAcquisition> controller;
 	private TemplateDataHelper templateHelper;
 	private RegionAndPathController rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
 	private Consumer<RegionPathState> viewUpdater;
@@ -103,7 +103,9 @@ class DiffractionConfigurationCompositeBaseFactory implements CompositeFactory {
 
 	private final List<DiffractionCompositeInterface> components = new ArrayList<>();
 
-	public DiffractionConfigurationCompositeBaseFactory(AcquisitionController<ScanningAcquisition> controller) {
+	private Composite mainComposite;
+
+	public DiffractionConfigurationLayoutFactory(AcquisitionController<ScanningAcquisition> controller) {
 		this.controller = controller;
 	}
 
@@ -136,25 +138,28 @@ class DiffractionConfigurationCompositeBaseFactory implements CompositeFactory {
 	public Composite createComposite(Composite parent, int style) {
 		logger.trace("Creating {}", this);
 		prepareSupport();
-		Composite composite = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).applyTo(composite);
+		mainComposite = createClientCompositeWithGridLayout(parent, style, 1);
+		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).applyTo(mainComposite);
 
-		createElements(composite, SWT.NONE);
+		createElements(mainComposite, SWT.NONE);
 		loadElements();
-		try {
-			SpringApplicationContextProxy.addDisposableApplicationListener(composite, new LoadListener(composite));
-		} catch (GDAClientException e) {
-			UIHelper.showWarning("Loading a file will not refresh the gui",
-					"Spring application listener not registered");
-		}
+
 		SpringApplicationContextFacade.publishEvent(
 				new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
-		standardMarginHeight(composite.getLayout());
-		standardMarginWidth(composite.getLayout());
+		standardMarginHeight(mainComposite.getLayout());
+		standardMarginWidth(mainComposite.getLayout());
 
 		// Releases resources before dispose
-		composite.addDisposeListener(event -> dispose()	);
-		return composite;
+		mainComposite.addDisposeListener(event -> dispose()	);
+		return mainComposite;
+	}
+
+	@Override
+	public void reload() {
+		loadElements();
+		templateHelper.updateIMappingScanRegionShape();
+		rapController.updatePlotRegion();
+		mainComposite.getShell().layout(true, true);
 	}
 
 	private final ModifyListener modifyNameListener = event -> updateAcquisitionName();

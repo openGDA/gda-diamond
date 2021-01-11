@@ -19,9 +19,10 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view;
 
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionButtonControlledCompositeFactory;
 
 /**
- * Defines the operations supported by a {@link DiffractionConfigurationCompositeFactory} component
+ * Defines the operations supported by a {@link DiffractionButtonControlledCompositeFactory} component
  * @author Maurizio Nagni
  */
 public interface DiffractionCompositeInterface extends CompositeFactory {

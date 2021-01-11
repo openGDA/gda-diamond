@@ -24,6 +24,9 @@ import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 import java.net.URL;
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionsPropertiesHelper;
@@ -38,6 +41,8 @@ import uk.ac.gda.api.acquisition.response.RunAcquisitionResponse;
  * @author Maurizio Nagni
  */
 public class ExperimentScanningAcquisitionController implements AcquisitionController<ScanningAcquisition> {
+
+	private static final Logger logger = LoggerFactory.getLogger(ExperimentScanningAcquisitionController.class);
 
 	private final AcquisitionsPropertiesHelper.AcquisitionPropertyType acquisitionType;
 
