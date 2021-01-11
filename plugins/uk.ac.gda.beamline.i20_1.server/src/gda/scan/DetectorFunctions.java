@@ -304,12 +304,14 @@ public class DetectorFunctions  {
 			controller.doStopSavingFiles();
 			controller.doStop();
 			controller.doReset();
+
+			// set the HDF writer extra dimensions, so that MCA data has outer dimensions = [numSpectra, numReadoutsPerSpectrum]
+			controller.configureHDFDimensions(new int[] { numReadoutsPerSpectrum, numSpectra });
+
 			controller.setNumFramesToAcquire(totNumReadouts);
 			controller.setHDFNumFramesToAcquire(totNumReadouts);
 			controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only);
 
-			// set the HDF writer extra dimensions, so that MCA data has outer dimensions = [numSpectra, numReadoutsPerSpectrum]
-			controller.configureHDFDimensions(new int[] { numReadoutsPerSpectrum, numSpectra });
 
 			// controller.doReset();
 			controller.setNextFileNumber(0);
