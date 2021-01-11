@@ -3,9 +3,43 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="SR570_21_sensitivity" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_21_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SR570_21_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>ma/V</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="SR570_21_input_bias" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_21_bias_voltage" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="SR570_21_filter_type" class="gda.device.scannable.DummyScannable" />
 
@@ -15,9 +49,43 @@
 
 	<bean id="SR570_21_gain_mode" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_22_sensitivity" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_22_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SR570_22_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>ma/V</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="SR570_22_input_bias" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_22_bias_voltage" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="SR570_22_filter_type" class="gda.device.scannable.DummyScannable" />
 
@@ -27,9 +95,43 @@
 
 	<bean id="SR570_22_gain_mode" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_23_sensitivity" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_23_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SR570_23_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>ma/V</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="SR570_23_input_bias" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_23_bias_voltage" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="SR570_23_filter_type" class="gda.device.scannable.DummyScannable" />
 

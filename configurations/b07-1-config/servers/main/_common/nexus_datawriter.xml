@@ -106,17 +106,29 @@
 				<value>bl07c_space_11</value>
 				<!-- stanford -->
 				<value>SR570_21_sensitivity</value>
+				<value>SR570_21_sensitivity_units</value>
+				<value>SR570_21_input_bias</value>
+				<value>SR570_21_bias_voltage</value>
 				<value>SR570_21_filter_type</value>
 				<value>SR570_21_filter_highpass</value>
 				<value>SR570_21_filter_lowpass</value>
+				<value>SR570_21_gain_mode</value>
 				<value>SR570_22_sensitivity</value>
+				<value>SR570_22_sensitivity_units</value>
+				<value>SR570_22_input_bias</value>
+				<value>SR570_22_bias_voltage</value>
 				<value>SR570_22_filter_type</value>
 				<value>SR570_22_filter_highpass</value>
 				<value>SR570_22_filter_lowpass</value>
+				<value>SR570_22_gain_mode</value>
 				<value>SR570_23_sensitivity</value>
+				<value>SR570_23_sensitivity_units</value>
+				<value>SR570_23_input_bias</value>
+				<value>SR570_23_bias_voltage</value>
 				<value>SR570_23_filter_type</value>
 				<value>SR570_23_filter_highpass</value>
 				<value>SR570_23_filter_lowpass</value>
+				<value>SR570_23_gain_mode</value>
 				<value>SR830_sensitivity</value>
 				<value>SR830_time_constant</value>
 				<value>SR830_channel_one</value>
