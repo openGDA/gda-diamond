@@ -25,5 +25,6 @@
 	</bean>
 	
 	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="bragg_offset" class="gda.device.monitor.DummyMonitor"/>
 
 </beans>

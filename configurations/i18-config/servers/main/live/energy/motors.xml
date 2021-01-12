@@ -32,5 +32,9 @@
 	<bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.VMAX" />
 	</bean>
+	
+	<bean id="bragg_offset" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.OFF" />
+	</bean>
 
 </beans>
