@@ -7,8 +7,7 @@ from gda.epics import LazyPVFactory
 from gda.jython import InterfaceProvider
 import time
 import java.lang.Boolean
-import gda.observable.Predicate
-from gda.jython import InterfaceProvider
+import java.util.function.Predicate
 import os
 
 
@@ -28,7 +27,7 @@ def _get_datadir():
     return InterfaceProvider.getPathConstructor().createFromDefaultProperty()
 
 
-class IsFalsePredicate(gda.observable.Predicate):
+class IsFalsePredicate(java.util.function.Predicate):
     
     def apply(self, o):
         return not o
