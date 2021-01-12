@@ -4,22 +4,31 @@ print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
 from org.slf4j import LoggerFactory
-localStation_logger = LoggerFactory.getLogger("localStation.py")
+localStation_slf4j_logger = LoggerFactory.getLogger("localStation.py(slf4j)")
+import logging
+localStation_python_logger = logging.getLogger("localStation.py(python)")
 
 localStation_exceptions = []
 
 def localStation_exception(msg, exception=True):
+	"""Use exception=None if you don't want a stack trace."""
 	import java, sys, traceback
 	localStation_exceptions.append("    %s" % msg)
-	print "! Failure %s !" % msg
+	print "!"*(len(msg)+20)
+	print "!!!!  Failure %s  !!!!" % msg
+	print "!"*(len(msg)+20)
 	if isinstance(exception, java.lang.Exception) or exception == None:
-		localStation_logger.error(msg, exception)
+		localStation_slf4j_logger.error(msg, exception)
+		localStation_python_logger.error(msg, exc_info=exception)
 	else:
-		localStation_logger.error(msg + ':\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
+		localStation_slf4j_logger.error(msg + ':\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
+		localStation_python_logger.error(msg, exc_info=exception)
+	# Check out https://confluence.diamond.ac.uk/x/FZbCB
 
 def localStation_print(msg):
 	print msg
-	localStation_logger.info(msg)
+	localStation_slf4j_logger.info(msg)
+	localStation_python_logger.info(msg)
 
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
@@ -36,7 +45,7 @@ except:
 	USE_SMARGON = False
 	USE_PIL1 = True
 	USE_PIL2 = True
-	USE_PIL2 = True
+	USE_PIL3 = True
 	USE_ROCKING_SCANNABLES = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
 		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
@@ -103,18 +112,24 @@ except:
 localStation_print("Importing installation")
 import installation
 
-# USE_NEXUS, is now defined in the localStationConfiguration.py user script
-
 if installation.isDummy():
 	print "*"*80
 	localStation_print("DUMMY Mode!")
 	print "*"*80
-	USE_DIFFCALC = True
 	#USE_CRYO_GEOMETRY = False
-
-# USE_DIFFCALC, USE_CRYO_GEOMETRY, USE_DUMMY_IDGAP_MOTOR & USE_XMAP are now
-# defined in the localStationConfiguration.py user script
-
+	USE_DIFFCALC = True
+	USE_DUMMY_IDGAP_MOTOR = True
+	USE_SMARGON = False
+	USE_PIL1 = False
+	USE_PIL2 = False
+	localStation_print("Override some localStationConfiguration options in order to run in dummy mode:\n"+
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
+				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
+		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
+				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
+		)
 # Java
 import java
 from Jama import Matrix
@@ -182,6 +197,7 @@ import beamline_objects as BLobjects
 ### Configure shelveIO path
 localStation_print("Configuring ShelveIO system")
 installation.setLoadOldShelf(0)
+localStation_print("LoadOldShelf="+("True" if installation.loadOldShelf() else "False"))
 shelveIoDir = LocalProperties.get("gda.var")
 shelveIoDir  = shelveIoDir + "/oldStyleShelveIO/"
 ShelveIO.ShelvePath = shelveIoDir
@@ -244,9 +260,7 @@ if USE_CRYO_GEOMETRY:
 
 alias("jobs")
 
-if USE_NEXUS:
-	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
-else:
+if not USE_NEXUS:
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
 
 # USE_NEXUS & USE_NEXUS_METADATA_COMMANDS are now defined in the
@@ -561,13 +575,13 @@ except:
 #
 #                             END OF DUMMYSTARTUP
 #
-if installation.isDummy():
-	localStation_print("Running localStation.test_only.py ...")
-	run("localStationScripts/localStation.test_only")
-	localStation_print("... completed localStation.test_only.py")
-	print
-	setDatadirPropertyFromPersistanceDatabase()
-	raise Exception("Manually INTERRUPTING localStation.py run as this is a test installation")
+# if installation.isDummy():
+# 	localStation_print("Running localStation.test_only.py ...")
+# 	run("localStationScripts/localStation.test_only")
+# 	localStation_print("... completed localStation.test_only.py")
+# 	print
+# 	setDatadirPropertyFromPersistanceDatabase()
+# 	raise Exception("Manually INTERRUPTING localStation.py run as this is a test installation")
 
 ###############################################################################
 ###############################################################################
@@ -606,7 +620,7 @@ pitchup=pitchupClass()
 #	mcaSca1 = mca_utils.rdScaClass('mcaSca1',mca,910,917)
 #	mcaSca2 = mca_utils.rdScaClass('mcaSca2',mca,913,914)
 
-if installation.isLive():
+if True: #installation.isLive():
 
 	### Various ###
 	localStation_print("   running localStationScripts/startup_epics_monitors.py")      # [TODO: Replace with imports]
@@ -974,7 +988,8 @@ if USE_PIL3:
 		pil3_100kgain =        PilatusGain('pil3_100kgain',   pil3_100k.hardware_triggered_detector.driver.getAdDriverPilatus())
 
 		# Make sure hdf5 writer isn't still running
-		caput('BL16I-EA-PILAT-03:HDF5:Capture',0)
+		#caput('BL16I-EA-PILAT-03:HDF5:Capture',0)
+		pilatus3.hdfwriter.stop()
 	except:
 		localStation_exception("configuring pilatus 3 (100k)")
 else:
@@ -1320,7 +1335,7 @@ try:
 	if not USE_DIFFCALC:
 		meta_scannable_names += ['xtalinfo']
 	meta_scannable_names += ['source', 'jjslits', 'pa', 'PPR',
-			  'positions', 'gains_atten', 'mirrors', 'beamline_slits', 'mono', 'frontend', 'lakeshore', 'offsets',
+			  'positions', 'gains_atten', 'mirrors', 'beamline_slits', 'mono', 'lakeshore', 'offsets',
 			  's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans',
 			  'ppy', 'ppx', 'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
 			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans']
@@ -1342,36 +1357,15 @@ try:
 				meta_add(jythonNameMap[item])
 				localStation_print("  %s added" % item)
 			else:
-				localStation_print("  %s was not scannable and could not be entered as metadata" % item.name)
+				localStation_print("  %s was not scannable and could not be entered as metadata" % item)
 	else:
 		meta.add(*[jythonNameMap[item] for item in meta_scannable_names])
 
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
-	localStation_print("Removing frontend from metadata collection")
-	if USE_NEXUS_METADATA_COMMANDS:
-		meta_rm(frontend)
-	else:
-		meta.rm(frontend)
-	"""
-	try:
-		if USE_NEXUS_METADATA_COMMANDS:
-			meta_add(kbm1)
-			meta_add(kbmbase)
-		else:
-			addmeta(kbm1)
-			addmeta(kbmbase)
-	except NameError as e:
-		localStation_exception("adding kbm1 or kbm1base metadata as these are unavailable", e)
-	"""
-
 except NameError, e:
 	# diffractometer_sample,xtalinfo are not yet available with diffcalc
-	print "!*"*40
-	print "!*"*40
 	print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
-	print "!*"*40
-	print "!*"*40
 	localStation_exception("trying to set up metadata, metadata will not be properly written to files.", e)
 
 if USE_CRYO_GEOMETRY:
@@ -1484,12 +1478,12 @@ except:
 ###############################################################################
 ###                           Defaults - keep at end                        ###
 ###############################################################################
+add_default(meta)
+add_default(atime)
+add_default(atimetwo)
+add_default(ic1monitor)
+add_default(rc)
 if installation.isLive():
-	add_default(meta)
-	add_default(atime)
-	add_default(atimetwo)
-	add_default(ic1monitor)
-	add_default(rc)
 	add_default(waitforinjection)
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
 
@@ -1568,32 +1562,40 @@ if USE_ROCKING_SCANNABLES:
 else:
 	localStation_print("Not configuring kphirock, chirock or etarock")
 
-from sz_cryo import szCryoCompensation
-cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
-szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
+try:
+	from sz_cryo import szCryoCompensation
+	cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
+	szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
+except:
+	localStation_exception("setting up szc")
 
 if USE_SMARGON:
-	""" Smargon motors now defined in spring
-	sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
-	sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
-	sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
-	"""
-	exec("del hkl")
-	exec("del euler")
-	run("localStationScripts/SmargonTopClass")
-	from diffractometer.scannable import HklSmargon,EulerSmargonPseudoDevice
-	reload(HklSmargon)
-	reload(EulerSmargonPseudoDevice)
-	exec('phi =sgphi')
-	exec('eta =sgomega')
-	exec('chi =sgchi')
-	BLobjects.my_smarchi =chi
-	BLobjects.my_smaromega = eta
-	BLobjects.my_smarphi =phi
-	euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)
-	hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az)
-
-	localStation_print("Smargon script was successful")
+	try:
+		""" Smargon motors now defined in spring
+		sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
+		sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
+		sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
+		"""
+		exec("del hkl")
+		exec("del euler")
+		run("localStationScripts/SmargonTopClass")
+		from diffractometer.scannable import HklSmargon,EulerSmargonPseudoDevice
+		reload(HklSmargon)
+		reload(EulerSmargonPseudoDevice)
+		exec('phi =sgphi')
+		exec('eta =sgomega')
+		exec('chi =sgchi')
+		BLobjects.my_smarchi =chi
+		BLobjects.my_smaromega = eta
+		BLobjects.my_smarphi =phi
+		euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)
+		hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az)
+	
+		localStation_print("Smargon script was successful")
+	except:
+		localStation_exception("setting up smargon")
+else:
+	localStation_print("Not configuring smargon")
 
 ######### temp 24/04/2018 #############
 
@@ -1622,25 +1624,35 @@ def pilout():
     pos(s6ygap, 2.8)
     pos(s6ytrans, 0)
 
-print "*"*80
-localStation_print("Attempting to run localStationStaff.py from user scripts directory")
-try:
-	run("localStationStaff")
-	localStation_print("localStationStaff.py completed.")
-except java.io.FileNotFoundException, e:
-	localStation_print("No localStationStaff.py found in user scripts directory")
-except:
-	localStation_exception("running localStationStaff user script!")
+if installation.isLive():
+	print "*"*80
+	localStation_print("Attempting to run localStationStaff.py from user scripts directory")
+	try:
+		run("localStationStaff")
+		localStation_print("localStationStaff.py completed.")
+	except java.io.FileNotFoundException, e:
+		localStation_print("No localStationStaff.py found in user scripts directory")
+	except:
+		localStation_exception("running localStationStaff user script!")
 
-print "*"*80
-localStation_print("Attempting to run localStationUser.py from user scripts directory")
-try:
-	run("localStationUser")
-	localStation_print("localStationUser.py completed.")
-except java.io.FileNotFoundException, e:
-	localStation_print("No localStationUser.py found in user scripts directory")
-except:
-	localStation_exception("running localStationUser user script")
+	print "*"*80
+	localStation_print("Attempting to run localStationUser.py from user scripts directory")
+	try:
+		run("localStationUser")
+		localStation_print("localStationUser.py completed.")
+	except java.io.FileNotFoundException, e:
+		localStation_print("No localStationUser.py found in user scripts directory")
+	except:
+		localStation_exception("running localStationUser user script")
+else:
+	try:
+		run("dummy/localStationStaff")
+	except:
+		localStation_exception("running localStationStaff dummy script")
+	try:
+		run("dummy/localStationUser")
+	except:
+		localStation_exception("running localStationUser dummy script")
 
 if len(localStation_exceptions) > 0:
 	print "=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions)

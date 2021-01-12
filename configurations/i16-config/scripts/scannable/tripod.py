@@ -10,7 +10,7 @@ reload(scisoftpy.external)
 
 GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/config/pythonscripts/gda_external"
 
-print "Importing scannable.tripod. This calls the python code: '%s/tripod.p'y" % GDA_EXTERNAL_PATH
+print "Importing scannable.tripod. This calls the python code: '%s/tripod.py'" % GDA_EXTERNAL_PATH
 
 
 def tool_to_base(tp, x, y, z, a1, a2, a3):

@@ -59,15 +59,7 @@
 	<import resource="monitor/currentamps.xml" />
 	<import resource="monitor/machine.xml" />
 	<import resource="monitor/sixc.xml" />
-
-	<bean id="ic1monitor_" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
-		<property name="poll" value="false" />
-	</bean>
-	<bean id="ic1poll_" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
-		<property name="poll" value="true" />
-	</bean>
+	<import resource="monitor/user.xml" />
 
 	<!-- Detectors -->
 
@@ -120,7 +112,7 @@
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
-	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />

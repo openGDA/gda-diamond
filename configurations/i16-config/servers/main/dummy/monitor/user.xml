@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Synoptic > Sample Environment > User I/O -->
+
+	<!-- OB10 -->
+
+	<bean id="diode_"
+			class="gda.device.monitor.DummyEpicsMonitor"/>
+
+	<!-- OB13 -->
+
+	<bean id="ic1monitor_"
+			class="gda.device.monitor.DummyEpicsMonitor"/>
+
+	<bean id="ic1poll_"
+			class="gda.device.monitor.DummyEpicsMonitor"/>
+
+</beans>

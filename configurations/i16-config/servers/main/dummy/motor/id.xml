@@ -3,7 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="GapMotor" class="gda.device.motor.DummyMotor" />
-
+	<bean id="GapMotor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="5.85" />
+	</bean>
 
 </beans>

@@ -13,7 +13,6 @@ print "<<< Entering: startup_energy_related.py ..."
 #idgap=IDGapFromPVClass('IDgap',5,'SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:BLGSETP','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.3f')
 id_gap = idgap
 
-
 print "creating BLi"
 import beamline_info as BLi 
 # 1. works with module data energy and wavelength or provides a persistant dummy value
