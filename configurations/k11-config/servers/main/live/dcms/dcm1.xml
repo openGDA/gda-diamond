@@ -8,9 +8,9 @@
 
 	<bean id="dcm1_roll" class="gda.device.scannable.MultiPVScannable">
 		<property name="writePV"
-			value="#{configProperties.DCM_PV_PREFIX}01:ROLL:POS" />
+			value="#{configProperties.DCM_PV_PREFIX}01:ROLL:VAL" />
 		<property name="readPV"
-			value="#{configProperties.DCM_PV_PREFIX}01:ROLL:POS_RBV" />
+			value="#{configProperties.DCM_PV_PREFIX}01:ROLL:RBV" />
 		<property name="hardwareUnitString" value="microns" />
 		<property name="userUnits" value="microns" />
 	</bean>
@@ -18,9 +18,9 @@
 	<bean id="dcm1_pitch"
 		class="gda.device.scannable.MultiPVScannable">
 		<property name="writePV"
-			value="#{configProperties.DCM_PV_PREFIX}01:PITCH:POS" />
+			value="#{configProperties.DCM_PV_PREFIX}01:PITCH:VAL" />
 		<property name="readPV"
-			value="#{configProperties.DCM_PV_PREFIX}01:PITCH:POS_RBV" />
+			value="#{configProperties.DCM_PV_PREFIX}01:PITCH:RBV" />
 		<property name="hardwareUnitString" value="microns" />
 		<property name="userUnits" value="microns" />
 	</bean>
