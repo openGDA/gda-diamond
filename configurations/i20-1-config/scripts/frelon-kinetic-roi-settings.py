@@ -10,9 +10,9 @@ def setDetectorRoiDefaults() :
 def setDetectorRoi(verticalBinning, verticalStart) :
     print "Setting detector kinetic ROI : vertical binning = "+str(verticalBinning)+" , vertical start pixel = "+str(verticalStart)
     
-    frelon.setDefaultVerticalBinning(verticalBinning)
-    frelon.setDefaultVerticalStart(verticalStart)
-    
+    frelon.setRoiVerticalBinning(verticalBinning)
+    frelon.setRoiVerticalStart(verticalStart)
+
     print "    Setting frelon 'drop first frame' to True (for ssfrelon step scans and 'live' mode)"
     frelon.setDropFirstFrame(True)
 
@@ -236,3 +236,4 @@ print "Functions from frelon-kinetic-roi-settings.py : "
 print "    Set detector ROI (kinetic ROI mode) : setDetectorRoi(verticalBinning, verticalStart), setDetectorRoiDefaults()"
 print "    Collect several images in loop : collectImageInLoop(exposureTime, numFrames)  "
 print "    Collect image in infinite loop  : collectSingleImageInLoop(exposureTime)"
+    

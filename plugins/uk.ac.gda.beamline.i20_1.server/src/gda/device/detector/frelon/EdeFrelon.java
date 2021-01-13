@@ -18,8 +18,11 @@
 
 package gda.device.detector.frelon;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +43,7 @@ import gda.device.lima.LimaCCD.AcqStatus;
 import gda.device.lima.LimaCCD.ImageType;
 import gda.device.lima.impl.LimaROIIntImpl;
 import gda.factory.FactoryException;
+import uk.ac.diamond.daq.persistence.jythonshelf.LocalParameters;
 import uk.ac.gda.api.remoting.ServiceInterface;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -72,8 +76,11 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 
 	private Thread collectionThread;
 
-	private int defaultVerticalBinning = 64;
-	private int defaultVerticalStart = 1984;
+	private int roiVerticalBinning = 64;
+	private int roiVerticalStart = 1984;
+
+	private static final String ROI_BINNING_PARAM = "roiVerticalBinning";
+	private static final String ROI_START_PARAM = "roiVerticalStart";
 
 	public EdeFrelon() {
 		inputNames = new String[] {};
@@ -95,6 +102,7 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 				logger.error("Failed to get Image properties from the detector "+getName(), e);
 				throw new FactoryException(e.getMessage(), e);
 			}
+			loadRoiSettingsFromStore();
 			setConfigured(true);
 		}
 	}
@@ -209,9 +217,9 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 	 */
 	public void setKineticRoiMode() throws DeviceException {
 		logger.info("Setting Kinetic ROI mode and default binning values on detector (vertical binning = {}, vertical offset = {}",
-				defaultVerticalBinning, defaultVerticalStart);
+				roiVerticalBinning, roiVerticalStart);
 		setRoiMode(ROIMode.KINETIC);
-		configureDetectorForROI(defaultVerticalBinning, defaultVerticalStart);
+		configureDetectorForROI(roiVerticalBinning, roiVerticalStart);
 	}
 
 	@Override
@@ -712,19 +720,53 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 	@Override
 	public String getOrbitWaitMethod() { return ""; }
 
-	public int getDefaultVerticalBinning() {
-		return defaultVerticalBinning;
+	public int getRoiVerticalBinning() {
+		return roiVerticalBinning;
 	}
 
-	public void setDefaultVerticalBinning(int defaultVerticalBinning) {
-		this.defaultVerticalBinning = defaultVerticalBinning;
+	public void setRoiVerticalBinning(int verticalBinning) {
+		this.roiVerticalBinning = verticalBinning;
+		saveRoiSettingsToStore();
 	}
 
-	public int getDefaultVerticalStart() {
-		return defaultVerticalStart;
+	public int getRoiVerticalStart() {
+		return roiVerticalStart;
 	}
 
-	public void setDefaultVerticalStart(int defaultVerticalStart) {
-		this.defaultVerticalStart = defaultVerticalStart;
+	public void setRoiVerticalStart(int roiVerticalStart) {
+		this.roiVerticalStart = roiVerticalStart;
+		saveRoiSettingsToStore();
+	}
+
+	protected void loadRoiSettingsFromStore() {
+		try {
+			logger.info("Setting ROI parameters from stored values");
+			FileConfiguration store = getPersistenceStore();
+			if (store.getProperty(ROI_BINNING_PARAM) == null || store.getProperty(ROI_START_PARAM) == null ) {
+				logger.info("No stored ROI values - saving current ROI parameters to new settings file.");
+				saveRoiSettingsToStore();
+			}
+			roiVerticalBinning = Integer.parseInt(store.getProperty(ROI_BINNING_PARAM).toString());
+			roiVerticalStart = Integer.parseInt(store.getProperty(ROI_START_PARAM).toString());
+		} catch (IOException | ConfigurationException e) {
+			logger.error("Problem updating ROI settings from stored values", e);
+		}
+		logger.info("ROI parameters : vertical binning = {}, vertical start = {}", roiVerticalBinning, roiVerticalStart);
+	}
+
+	protected void saveRoiSettingsToStore() {
+		try {
+			logger.info("Saving ROI parameters : vertical binning = {}, vertical start = {}", roiVerticalBinning, roiVerticalStart);
+			FileConfiguration roiStoredParameters = getPersistenceStore();
+			roiStoredParameters.setProperty(ROI_BINNING_PARAM, roiVerticalBinning);
+			roiStoredParameters.setProperty(ROI_START_PARAM, roiVerticalStart);
+			roiStoredParameters.save();
+			} catch (IOException | ConfigurationException e) {
+				logger.error("Problem storing ROI settings", e);
+			}
+	}
+
+	private FileConfiguration getPersistenceStore() throws ConfigurationException, IOException {
+		return LocalParameters.getXMLConfiguration("FrelonRoiSettings");
 	}
 }
