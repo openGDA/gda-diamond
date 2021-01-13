@@ -244,7 +244,7 @@ PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG
 VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_SPRING_PROFILES $GDA_CLIENT_VMARGS"
 
 if [ ! -z $GDA_JAVA_DEBUG ] ; then
-    VMARGS=" -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8001 $VMARGS"
+    VMARGS=" -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:8001 $VMARGS"
     echo "Client starting in debug mode, connect on port 8001"
 fi
 
