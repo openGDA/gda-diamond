@@ -6,7 +6,7 @@
 
 	<description>
 		To use the Simulated Area detector in dummy mode:
-			1) Launch the Utilities > GDA SWMR AreaDetector Simulation
+			1) Launch the Utilities > GDA AreaDetector Simulation
 				on the local machine and start the IOC.
 			2) If you want to use an Area detector on another machine, or
 				you are also launching the GDA servers, export the
@@ -18,9 +18,39 @@
 		<constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
 	</bean>
 
-	<bean id="ADSIM_SWMR_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Utilities > GDA SWMR AreaDetector Simulation (ARR+MJPG)" />
-		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8081/CAM.mjpg.mjpg" />
+	<bean id="pil1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Pilatus 1 100k" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="pil2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Pailatus 2 2M" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="pil3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Pilatus 3 100k" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="mpx1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="MPX 1" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="mpx2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="MPX 2" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="andor1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="ANDOR 1" />
+		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
 	</bean>
 

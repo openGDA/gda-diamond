@@ -283,6 +283,7 @@ class I16NexusExtender(DataWriterExtenderBase):
                 DETECTOR_MODULES[detName][SLOW_PIXEL_SIZE] = [size]
                 DETECTOR_MODULES[detName][SLOW_PIXEL_UNITS] = units
 
+    # DataWriterExtenderBase Interface
 
     def addData(self, dwParent, scanDataPoint):
         self.complete = False
@@ -611,6 +612,8 @@ class I16NexusExtender(DataWriterExtenderBase):
             self.logger.error('writeStuffToFile() failed:\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
         finally:
             nFile.close()
+
+    # DataWriterExtenderBase Interface
 
     def completeCollection(self, dwParent):
         try:

@@ -133,6 +133,8 @@ class ShelveIO(java.lang.Object):
       if type(s) == unicode:
           print "WARNING: shelf '%s' received the unicode key '%s'" % (self.cname, s)
           return str(s)
+      else:
+          print "INFO:    shelf '%s' received the normal  key '%s'" % (self.cname, s)
       return s
 
 

@@ -1,5 +1,6 @@
 from pd_epics import DisplayEpicsPVClass
 from pd_metadata_group import ReadPDGroupClass
+from gdascripts.pd.dummy_pds import DummyPD
 
 #monoE=DisplayEpicsPVClass('monoE', 'BL16I-MO-DCM-01:EURB', 'keV', '%.3f')
 img2=DisplayEpicsPVClass('IMG02', 'BL16I-VA-IMG-02:P', 'mbar', '%.1e')
@@ -85,8 +86,16 @@ showkap6=ReadPDGroupClass('showkap6',[showkphi,showkap,showkth, showmu, showdelt
 
 blower_temp_c=DisplayEpicsPVClass('cyberstar_gas_blower_temp','BL16I-EA-BLOW-01:LOOP1:PV:RBV', 'C', '%.1f')
 
-ppchitemp=DisplayEpicsPVClass('ppchitemp', 'BL16I-OP-PPR-01:CHI:TEMP',      'deg', '%.9e'); ppchitemp.setLevel(9)
-ppth1temp=DisplayEpicsPVClass('ppth1temp', 'BL16I-OP-PPR-01:S1:THETA:TEMP', 'deg', '%.9e'); ppth1temp.setLevel(9)
-ppz1temp =DisplayEpicsPVClass('ppz1temp',  'BL16I-OP-PPR-01:S1:Z:TEMP',     'deg', '%.9e'); ppz1temp.setLevel(9)
-ppth2temp=DisplayEpicsPVClass('ppth2temp', 'BL16I-OP-PPR-01:S2:THETA:TEMP', 'deg', '%.9e'); ppth2temp.setLevel(9)
-ppz2temp =DisplayEpicsPVClass('ppz2temp',  'BL16I-OP-PPR-01:S2:Z:TEMP',     'deg', '%.9e'); ppz2temp.setLevel(9)
+if installation.isLive():
+	ppchitemp=DisplayEpicsPVClass('ppchitemp', 'BL16I-OP-PPR-01:CHI:TEMP',      'deg', '%.9e'); ppchitemp.setLevel(9)
+	ppth1temp=DisplayEpicsPVClass('ppth1temp', 'BL16I-OP-PPR-01:S1:THETA:TEMP', 'deg', '%.9e'); ppth1temp.setLevel(9)
+	ppz1temp =DisplayEpicsPVClass('ppz1temp',  'BL16I-OP-PPR-01:S1:Z:TEMP',     'deg', '%.9e'); ppz1temp.setLevel(9)
+	ppth2temp=DisplayEpicsPVClass('ppth2temp', 'BL16I-OP-PPR-01:S2:THETA:TEMP', 'deg', '%.9e'); ppth2temp.setLevel(9)
+	ppz2temp =DisplayEpicsPVClass('ppz2temp',  'BL16I-OP-PPR-01:S2:Z:TEMP',     'deg', '%.9e'); ppz2temp.setLevel(9)
+else:
+	ppchitemp=DummyPD('ppchitemp') ; ppchitemp.Units=['deg'], ppchitemp.setOutputFormat(['%.9e']); ppchitemp.setLevel(9)
+	ppth1temp=DummyPD('ppth1temp') ; ppth1temp.Units=['deg']; ppth1temp.setOutputFormat(['%.9e']); ppth1temp.setLevel(9)
+	ppz1temp =DummyPD('ppz1temp')  ;  ppz1temp.Units=['deg'];  ppz1temp.setOutputFormat(['%.9e']);  ppz1temp.setLevel(9)
+	ppth2temp=DummyPD('ppth2temp') ; ppth2temp.Units=['deg']; ppth2temp.setOutputFormat(['%.9e']); ppth2temp.setLevel(9)
+	ppz2temp =DummyPD('ppz2temp')  ;  ppz2temp.Units=['deg'];  ppz2temp.setOutputFormat(['%.9e']);  ppz2temp.setLevel(9)
+

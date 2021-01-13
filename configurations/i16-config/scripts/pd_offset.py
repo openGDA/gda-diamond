@@ -62,14 +62,20 @@ class Offset(ScannableMotionBase):
 		
 
 	def getPosition(self):
+		offsetShelfValue=self.offsetShelf.getValue(self.getName())
+		newShelfValue=self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
+
+		if not (offsetShelfValue == newShelfValue):
+			self.logger.error("getPosition() mismatch {} (new) != {} (old)", newShelfValue, offsetShelfValue)
+
 		if installation.loadOldShelf():
 			# <old shelf >
-			self.logger.debug("getPosition() returning {}", self.offsetShelf.getValue(self.getName()))
-			return self.offsetShelf.getValue(self.getName())
+			self.logger.debug("getPosition() returning {} (old)", offsetShelfValue)
+			return offsetShelfValue
 		else:
 			# <new shelf>
-			self.logger.debug("getPosition() returning {}", self.newshelf.getValue(self.getName(), None))
-			return self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
+			self.logger.debug("getPosition() returning {}", newShelfValue)
+			return newShelfValue
 
 	def isBusy(self):
 		return 0
@@ -113,14 +119,20 @@ class OffsetDualScannable(ScannableMotionBase):
 			print `self.scannables`
 
 	def getPosition(self):
+		offsetShelfValue=self.offsetShelf.getValue(self.getName())
+		newShelfValue=self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
+
+		if not (offsetShelfValue == newShelfValue):
+			self.logger.error("getPosition() mismatch {} (new) != {} (old)", newShelfValue, offsetShelfValue)
+
 		if installation.loadOldShelf():
 			# <old shelf >
-			self.logger.debug("getPosition() returning {}", self.offsetShelf.getValue(self.getName()))
-			return self.offsetShelf.getValue(self.getName())
+			self.logger.debug("getPosition() returning {} (old)", offsetShelfValue)
+			return offsetShelfValue
 		else:
 			# <new shelf>
-			self.logger.debug("getPosition() returning {}", self.newshelf.getValue(self.getName(), None))
-			return self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
+			self.logger.debug("getPosition() returning {}", newShelfValue)
+			return newShelfValue
 
 	def isBusy(self):
 		return 0
