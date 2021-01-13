@@ -62,6 +62,7 @@
 
 	<!-- detectors -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_nxdetector.xml" />
 
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_addetector.xml" />
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_motion.xml" />
@@ -118,6 +119,7 @@
 
 	<!-- detectors -->
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/imaging/pco_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/imaging/pco_nxdetector.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/imaging/imaging_rail.xml" />
 
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diffraction/pilatus_addetector.xml" />

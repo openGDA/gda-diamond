@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  Added to support NX detectors for command-line software scanning -->
+	<!--  See https://jira.diamond.ac.uk/browse/K11-1096 -->
+
+	<alias name="sim_file_tif" alias="pco_file_tif" />
+	<alias name="sim_addriver_pco" alias="pco_addriver_pco" />
+
+</beans>
