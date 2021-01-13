@@ -137,7 +137,8 @@ public class PerspectiveComposite {
 	private Listener getComboModeSelectionListener() {
 		return selection -> {
 			if (modeCombo.getSelectionIndex() > -1) {
-				filterPerspectiveLabel(getTypes()[modeCombo.getSelectionIndex()]).findFirst()
+				filterPerspectiveLabel(getTypes()[modeCombo.getSelectionIndex()])
+					.findFirst()
 					.ifPresent(p -> setModeComboSelection(p.getId()));
 			}
 		};
@@ -150,15 +151,19 @@ public class PerspectiveComposite {
 	 *            The id of the newly activated perspective
 	 */
 	private void setModeComboSelection(final String perspectiveId) {
-		filterPerspectiveId(perspectiveId).findFirst().ifPresent(this::setType);
+		filterPerspectiveId(perspectiveId)
+			.findFirst()
+			.ifPresent(this::setType);
 	}
 
 	private Stream<PerspectiveType> filterPerspectiveId(final String perspectiveId) {
-		return Arrays.stream(PerspectiveType.values()).filter(p -> p.getId().equals(perspectiveId));
+		return Arrays.stream(PerspectiveType.values())
+				.filter(p -> p.getId().equals(perspectiveId));
 	}
 
 	private Stream<PerspectiveType> filterPerspectiveLabel(final String perspectiveLabel) {
-		return Arrays.stream(PerspectiveType.values()).filter(p -> p.getLabel().equals(perspectiveLabel));
+		return Arrays.stream(PerspectiveType.values())
+				.filter(p -> p.getLabel().equals(perspectiveLabel));
 	}
 
 	private IWorkbenchWindow getActiveWindow() {

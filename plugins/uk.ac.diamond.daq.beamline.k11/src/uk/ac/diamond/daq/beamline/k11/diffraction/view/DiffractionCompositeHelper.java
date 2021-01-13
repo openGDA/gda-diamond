@@ -39,9 +39,9 @@ public class DiffractionCompositeHelper {
 	private DiffractionCompositeHelper() {
 	}
 
-	public static final UpdateValueStrategy POLICY_NEVER = new UpdateValueStrategy(false,
+	public static final UpdateValueStrategy<?, ?> POLICY_NEVER = new UpdateValueStrategy<>(false,
 			UpdateValueStrategy.POLICY_NEVER);
-	public static final UpdateValueStrategy POLICY_UPDATE = new UpdateValueStrategy(false,
+	public static final UpdateValueStrategy<?, ?> POLICY_UPDATE = new UpdateValueStrategy<>(false,
 			UpdateValueStrategy.POLICY_UPDATE);
 	public static final IConverter<IMappingScanRegionShape, AcquisitionTemplateType> mappingRegionShapeToShape = IConverter.create(IMappingScanRegionShape.class,
 			AcquisitionTemplateType.class,
@@ -50,9 +50,9 @@ public class DiffractionCompositeHelper {
 	public static final Optional<AcquisitionTemplateType> acquisitionTypeFromMappingRegion(IMappingScanRegionShape mappingRegion) {
 		if (mappingRegion == null)
 			return Optional.empty();
-		return Arrays.stream(AcquisitionTemplateType.values()).filter(sh ->
-			AcquisitionTemplateTypeCompositeFactory.filterRegionScan(sh)
-				.test(mappingRegion))
+		return Arrays.stream(AcquisitionTemplateType.values())
+				.filter(sh ->
+					AcquisitionTemplateTypeCompositeFactory.filterRegionScan(sh).test(mappingRegion))
 				.findFirst();
 	}
 
