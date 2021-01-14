@@ -60,7 +60,6 @@ http://www.opengda.org
    <splash
       location="uk.ac.gda.beamline.i07" />
    <launcher name="gda-i07">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
          <bmp/>
       </win>
