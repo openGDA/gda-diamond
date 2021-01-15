@@ -11,6 +11,8 @@ from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import Sum
 from gda.analysis.io import PilatusTiffLoader
 
 print "Create exc as the base detector for Excalibur 1M"
+print "WARNING This script is deprecated"
+print "Old scanning Excalibur scans now use objects implemented in Java and configured in Spring"
 
 exc = ExcaliburOdinI07("exc", "Area Detector", "excalibur");
 exc.setAlive(False);

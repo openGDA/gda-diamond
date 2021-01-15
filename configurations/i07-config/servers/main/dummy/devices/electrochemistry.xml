@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ecch1" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ecch2" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ecch3" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ecch4" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ecva1" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva2" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva3" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva4" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva5" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva6" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva7" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva8" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva9" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="ecva10" class="gda.device.enumpositioner.DummyValve" />
+
+</beans>

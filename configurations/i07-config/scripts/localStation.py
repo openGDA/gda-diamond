@@ -113,9 +113,7 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 
 try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
 
-try_execfile("BeamlineI07/useAreaDetectorExcalibur.py")
-
-try_execfile("BeamlineI07/useGigECams.py", full_log=True)
+try_execfile("BeamlineI07/useGigECams.py")
 
 try_execfile("BeamlineI07/useDummyCam.py")
 
@@ -131,6 +129,8 @@ try_execfile("BeamlineI07/htc_temp.py")
 htc = TemperatureSocketDevice('htc', 'localhost', 10002)
 
 try_execfile("BeamlineI07/useVirtual6CircleMotors.py")
+try_execfile("BeamlineI07/useElectroChemValves.py")
+try_execfile("BeamlineI07/i07_mscan.py")
 
 try:
 	from gdaserver import d5i
