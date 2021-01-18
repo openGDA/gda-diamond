@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<bean id="ecch1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-ECHEM-01:VOLT1" />
+	</bean>
+
+	<bean id="ecch2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-ECHEM-01:VOLT2" />
+	</bean>
+
+	<bean id="ecch3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-ECHEM-01:VOLT3" />
+	</bean>
+
+	<bean id="ecch4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-ECHEM-01:VOLT4" />
+	</bean>
+
+	<bean id="ecva1" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE1" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva2" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE2" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva3" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE3" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva4" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE4" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva5" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE5" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva6" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE6" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva7" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE7" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva8" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE8" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva9" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE9" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="ecva10" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL07I-EA-ECHEM-01:VALVE10" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+</beans>

@@ -76,7 +76,7 @@
 
 	<alias name="d4cam_png" alias="d4cam" />
 
-	<bean id="d4cam_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+	<bean id="d4cam_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
 		<property name="name" value="d4cam_det" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
@@ -85,7 +85,7 @@
 		<property name="label" value="d4cam" />
 		<property name="description" value="d4cam" />
 	</bean>
-	<bean id="d4camRD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+	<bean id="d4camRD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
 		<property name="name" value="d4cam_det" />
 		<property name="model" ref="d4cam_detModel" />
 		<property name="deviceInformation" ref="d4cam_detInfo" />
