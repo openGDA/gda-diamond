@@ -73,7 +73,7 @@
 		<property name="pluginName" value="sim_RoiStats1" />
 		<property name="baseRoiPVName" value="${sim}:ROI1:" />
 		<property name="baseStatsPVName" value="${sim}:STAT1:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -87,7 +87,7 @@
 		<property name="pluginName" value="sim_RoiStats2" />
 		<property name="baseRoiPVName" value="${sim}:ROI2:" />
 		<property name="baseStatsPVName" value="${sim}:STAT2:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -101,7 +101,7 @@
 		<property name="pluginName" value="sim_RoiStats3" />
 		<property name="baseRoiPVName" value="${sim}:ROI3:" />
 		<property name="baseStatsPVName" value="${sim}:STAT3:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -115,7 +115,7 @@
 		<property name="pluginName" value="sim_RoiStats4" />
 		<property name="baseRoiPVName" value="${sim}:ROI4:" />
 		<property name="baseStatsPVName" value="${sim}:STAT4:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -129,7 +129,7 @@
 		<property name="pluginName" value="sim_RoiStats5" />
 		<property name="baseRoiPVName" value="${sim}:ROI5:" />
 		<property name="baseStatsPVName" value="${sim}:STAT5:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -143,7 +143,7 @@
 		<property name="pluginName" value="sim_RoiStats6" />
 		<property name="baseRoiPVName" value="${sim}:ROI6:" />
 		<property name="baseStatsPVName" value="${sim}:STAT6:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
