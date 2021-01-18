@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:c="http://www.springframework.org/schema/c"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
@@ -9,9 +10,18 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<bean id="processingHandler" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
 	<bean id="dataplotviewfactory" class="org.opengda.lde.ui.viewfactories.ReducedDataPlotViewFactory">
 		<property name="viewPartName" value="Reduced Data" />
-		<property name="eventAdminName" value="eventadmin"/>
+		<property name="eventSource" ref="processingHandler"/>
 		<property name="resUtil" ref="resUtil"/>
+		<property name="config" ref="reducedDataConfig" />
 	</bean>
+
+	<bean id="reducedDataConfig" class="org.opengda.lde.ui.views.ReducedDataPlotView.ReducedDataConfig"
+		c:xName="2 Theta"
+		c:yName="Sum"
+		c:xPath="/processed/result/2-theta"
+		c:yPath="/processed/result/data" />
 </beans>
