@@ -24,7 +24,7 @@
 	<bean id="dummyMotorZ" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="testRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="test"/>
 	</bean>
 	<bean id="testRunnableDeviceProxyInfo"
