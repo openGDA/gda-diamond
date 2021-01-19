@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.processing;bundle-version="1.0.0",
  org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0",
- org.eclipse.january
+ org.eclipse.january,
+ org.eclipse.dawnsci.analysis.api,
+ org.eclipse.dawnsci.analysis.dataset
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Diamond Light Source
