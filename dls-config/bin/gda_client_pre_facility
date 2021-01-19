@@ -10,3 +10,13 @@ if [ "${GDA_MODE}" == "live" ]; then
 else
   export GDA_VAR=${GDA_WORKSPACE_PARENT}/gda_var_non_live
 fi
+
+# Unless overridden, limit the native memory used by each java process for
+# malloc arena to 256MB (4x 64MB):
+
+bashlog debug "gda_client_pre_instance" "Setting MALLOC_ARENA_MAX"
+export MALLOC_ARENA_MAX=${MALLOC_ARENA_MAX:-4}
+
+# Without this limit, the malloc arena memory usage per java process can rise
+# to 64MB per thread, up to 8x number of CPU hyperthreads (4GB on a 4C8T cpu).
+# See https://jira.diamond.ac.uk/browse/DAQ-2702
