@@ -1,13 +1,5 @@
 bashlog debug "gda_client_pre_instance" "Entered"
 
-# Unless overridden, limit Malloc arena memory usage to 512MB (4x 128MB):
-
-bashlog debug "gda_client_pre_instance" "Setting MALLOC_ARENA_MAX"
-export MALLOC_ARENA_MAX=${MALLOC_ARENA_MAX:-4}
-
-# Without this, Malloc arena memory usage to will rise to 128MB per thread, up
-# to 8x number of CPU hyperthreads (so 8GB on a 4C8T cpu). See I16-677
-
 bashlog debug "gda_client_pre_instance" "Ensure the Log panel is running..."
 bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core logpanel
 # Note that we don't want to source here, since this is already being run from gda_core
