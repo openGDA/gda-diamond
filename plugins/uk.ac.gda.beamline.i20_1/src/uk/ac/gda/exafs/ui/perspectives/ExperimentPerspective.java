@@ -25,6 +25,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 import gda.jython.InterfaceProvider;
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
+import uk.ac.gda.exafs.experiment.ui.CyclicExperimentView;
 import uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionView;
 import uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionViewWithMapping;
 import uk.ac.gda.exafs.experiment.ui.TimeResolvedExperimentView;
@@ -44,6 +45,7 @@ public class ExperimentPerspective implements IPerspectiveFactory {
 		alignmentControlsFolder.addView(SingleSpectrumCollectionView.ID);
 		alignmentControlsFolder.addView(SingleSpectrumCollectionViewWithMapping.ID);
 		alignmentControlsFolder.addView(TimeResolvedExperimentView.LINEAR_EXPERIMENT_VIEW_ID);
+		alignmentControlsFolder.addView(CyclicExperimentView.CYCLIC_EXPERIMENT_VIEW_ID);
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.60f, EXPERIMENT_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);

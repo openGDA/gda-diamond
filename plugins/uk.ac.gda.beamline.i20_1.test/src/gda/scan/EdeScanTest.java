@@ -51,7 +51,6 @@ import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.IDataset;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import gda.TestHelpers;
@@ -574,7 +573,7 @@ public class EdeScanTest extends EdeTestBase {
 		boolean checkForCycles = numberRepetitions>1;
 		if (numberRepetitions > 0){
 			// Scans with I0 measured before and after It
-			numberExpectedSpectra *= numberRepetitions;
+//			numberExpectedSpectra *= numberRepetitions;
 			for(String group : ALL_PROCESSED_DATA_GROUPS) {
 				assertLinearData(nexusFilename, group, numberExpectedSpectra, checkForCycles);
 			}
@@ -610,7 +609,6 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	@Test
-	@Ignore
 	public void testSimpleCyclicExperiment() throws Exception {
 		setup(EdeScanTest.class, "testSimpleCyclicExperiment");
 
@@ -643,31 +641,11 @@ public class EdeScanTest extends EdeTestBase {
 		CyclicExperiment theExperiment = new CyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
 				"xh", "topup", shutter.getName(), numCycles);
 		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
-		String filename = theExperiment.runExperiment();
+		theExperiment.runExperiment();
 
-		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, 3, false);
+		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, groups.size(), false);
 
-//
-//		testNumberColumnsInEDEFile(filename, 10);
-//		testNumberLinesInEDEFile(filename, (1024 * 25 * 3));
-//
-//		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
-//		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
-//
-//		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-//		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 2);
-//
-//		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 10);
-//		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));
-//
-//		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 10);
-//		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), (1024 * 25 * 3));
-//
-//		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 10);
-//		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25 * 3));
-
-
-		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, numCycles);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 	}
 
 	private String getAsciiName(String nexusFilename, String filenameExt) {

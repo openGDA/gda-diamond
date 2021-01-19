@@ -45,4 +45,13 @@ public class CyclicExperiment extends TimeResolvedExperiment {
 				topupMonitorName, beamShutterScannableName);
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
+
+	public CyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
+			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName)
+					throws DeviceException {
+		super(i0accumulationTime, itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName,
+				topupMonitorName, beamShutterScannableName);
+		this.numberOfRepetitions = 1;
+	}
 }

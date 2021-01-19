@@ -175,7 +175,7 @@ public class EdeTestBase {
 
 	public static void assertDimensions(String filename, String groupName, String dataName, int[] expectedDims) throws NexusException {
 		int[] shape = getDataset(filename, groupName, dataName).getShape();
-		assertArrayEquals("Shape of "+groupName+"/"+dataName+" is not correct", expectedDims,  shape);
+		assertArrayEquals("Shape of "+groupName+"/"+dataName+" in "+filename+" is not correct", expectedDims,  shape);
 		logger.info("Shape of {}/{} is ok ", groupName, dataName);
 	}
 
@@ -277,20 +277,21 @@ public class EdeTestBase {
 		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
 		int numDataLines = 0;
 		for (String line : lines) {
-			if (!line.trim().startsWith("#")) {
+			String trimmedLine = line.trim();
+			if (!trimmedLine.isEmpty() && !trimmedLine.startsWith("#")) {
 				numDataLines++;
 			}
 		}
-		assertEquals(numExpectedLines, numDataLines);
+		assertEquals("Number of lines in file : "+filename, numExpectedLines, numDataLines);
 	}
 
 	public static void testNumberColumnsInFile(String filename, int numExpectedColumns) throws FileNotFoundException, IOException {
 		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
 		for (String line : lines) {
 			String trimmedLine = line.trim();
-			if (!trimmedLine.startsWith("#")) {
+			if (!trimmedLine.isEmpty() && !trimmedLine.startsWith("#")) {
 				String[] dataParts = trimmedLine.split("\\s+");
-				assertEquals(numExpectedColumns, dataParts.length);
+				assertEquals("Number of columns in file : "+filename, numExpectedColumns, dataParts.length);
 			}
 		}
 	}
