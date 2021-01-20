@@ -54,7 +54,7 @@
 		<property name="description" value="Imaging camera" />
 	</bean>
 
-	<bean id="pco_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+	<bean id="pco_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
 		<property name="name" value="pco_addetector" />
 		<property name="model" ref="pco_model" />
 		<property name="deviceInformation" ref="pco_info" />
