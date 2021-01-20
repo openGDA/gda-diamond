@@ -55,6 +55,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.processing.operations.rixs.RixsImageReductionBase;
 import uk.ac.gda.beamline.i21.I21BeamlineActivator;
+import uk.ac.gda.client.live.stream.view.LivePlottingComposite;
 import uk.ac.gda.client.live.stream.view.customui.AbstractLiveStreamViewCustomUi;
 
 public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
@@ -86,8 +87,13 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		VerifyListener v = buildDoubleVerifyListener();
 
 		createLiveSpectrumPlot(composite, boxWidthHint, v);
+		
+		// initialize the trace reference to prevent NPE at client when region is added before camera is updating
+		activePaletteTrace.set((IImageTrace)getPlottingSystem().getTrace(LivePlottingComposite.LIVE_CAMERA_STREAM));
+		// add trace listener to capture image for data reduction spectrum plot
 		traceListener = new TraceListener();
 		getPlottingSystem().addTraceListener(traceListener);
+		// add Region listener to update ROI selection drop down menu in spectrum plot
 		regionListener = new RegionListener();
 		getPlottingSystem().addRegionListener(regionListener);
 	}
