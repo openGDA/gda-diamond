@@ -106,7 +106,7 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.diamond.daq.activemq.connection"
+         id="uk.ac.gda.common.activemq"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
