@@ -300,7 +300,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			startTime = endTime;
 			// endtime, including delay at end of group
 			endTime = startTime + convertSecWorkingUnit*(timingGroup.getTimePerFrame()*timingGroup.getNumberOfFrames() + timingGroup.getPreceedingTimeDelay());
-			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, timingGroup.getPreceedingTimeDelay(), convertSecWorkingUnit*timingGroup.getTimePerFrame());
+			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, convertSecWorkingUnit*timingGroup.getPreceedingTimeDelay(), convertSecWorkingUnit*timingGroup.getTimePerFrame());
 
 			// enable external trigger button for first group only
 			uiTimingGroup.setExternalTriggerAvailable(firstGroup);

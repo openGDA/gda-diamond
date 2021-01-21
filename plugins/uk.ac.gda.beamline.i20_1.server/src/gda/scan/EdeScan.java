@@ -347,6 +347,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				topupChecker.atScanStart();
 			}
 
+			waitBeforeCycle();
+
 			terminalPrinter.print("Opening shutter");
 			moveShutter(ValvePosition.OPEN);
 		}
@@ -398,6 +400,21 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			collectDetectorData();
 		}
 		fastShutterMoveTo(ValvePosition.CLOSE);
+	}
+
+	/**
+	 *  For 'light It' measurement wait for required time if {@link TimingGroup#getPreceedingTimeDelay()} is > 0.
+	 * @throws InterruptedException
+	 */
+	protected void waitBeforeCycle() throws InterruptedException {
+		if (motorPositions.getType() == EdePositionType.INBEAM) {
+			double delayBeforeMeasurement  = scanParameters.getGroups().get(0).getPreceedingTimeDelay();
+			if (delayBeforeMeasurement > 0) {
+				terminalPrinter.print("Waiting for "+delayBeforeMeasurement+" seconds before starting measurement");
+				logger.debug("Waiting for {} secs before starting scan", delayBeforeMeasurement);
+				Thread.sleep((long) delayBeforeMeasurement * 1000);
+			}
+		}
 	}
 
 	/**
@@ -859,6 +876,16 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 	}
 
+	private boolean includeCycleInPlotLabel = false;
+
+	public boolean isIncludeGroupNumberInSDPLabel() {
+		return includeCycleInPlotLabel;
+	}
+
+	public void setIncludeCyclePlotLabel(boolean includeGroupNumberInSDPLabel) {
+		this.includeCycleInPlotLabel = includeGroupNumberInSDPLabel;
+	}
+
 	/**
 	 * Create a label for scan data point showing the group, spectrum number of scan data point.
 	 * The current position of any scannable being moved during the scan is also included.
@@ -870,6 +897,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 */
 	private String getLabelForScanDataPoint(int groupNum, int frameNum) {
 		String label = "";
+
+		if (includeCycleInPlotLabel) {
+			label += "Cycle "+indexer.getRepetition()+" ";
+		}
+
 		// Only include group part of label if there's more than one timing group
 		if (scanParameters.getGroups().size()>1) {
 			label += "Group "+groupNum+" ";

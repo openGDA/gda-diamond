@@ -117,6 +117,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		// move into the it position
 		moveSampleIntoPosition();
 
+		waitBeforeCycle();
+
 		moveShutter(ValvePosition.OPEN);
 
 		// start the detector running (it waits for a pulse from the eTFG)

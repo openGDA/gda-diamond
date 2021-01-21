@@ -152,26 +152,53 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 				maxTimeToMove = Math.max( timeToMove, maxTimeToMove);
 			}
 			catch (DeviceException e) {
-				InterfaceProvider.getTerminalPrinter().print("Problem in getTimeToMove for "+positionEntry.getKey().getName() );
+				printMessage("Problem in getTimeToMove for "+positionEntry.getKey().getName() );
 			}
 		}
 		return maxTimeToMove;
 	}
 
+	private double moveTolerance = 1e-3;
+
+	/**
+	 * Test whether current position of scannable is within tolerance of a position
+	 * @param scn
+	 * @param newPosition
+	 * @return true if scn position is within {@link #moveTolerance} of newPosition
+	 * @throws DeviceException
+	 */
+	private boolean doMove(Scannable scn, Double newPosition) throws DeviceException {
+		double currentPos = (double) scn.getPosition();
+		return Math.abs(newPosition - currentPos) > moveTolerance;
+	}
+
 	@Override
 	public void moveIntoPosition() throws DeviceException, InterruptedException {
+		List<Scannable> scannablesToWaitFor = new ArrayList<>();
+
 		for (Entry<Scannable, Double> scannablePositionEntry : scannablePositions.entrySet()) {
-			InterfaceProvider.getTerminalPrinter().print("Moving " + scannablePositionEntry.getKey().getName() + " to " + scannablePositionEntry.getValue());
-			scannablePositionEntry.getKey().asynchronousMoveTo(scannablePositionEntry.getValue());
+			Scannable scn = scannablePositionEntry.getKey();
+			double newPosition = scannablePositionEntry.getValue();
+			if (doMove(scn, newPosition)) {
+				printMessage("Moving " + scn.getName() + " to " + newPosition);
+				scn.asynchronousMoveTo(newPosition);
+				scannablesToWaitFor.add(scn);
+			} else {
+				printMessage(scn.getName() + " is already at required position " + newPosition);
+			}
 		}
-		for (Entry<Scannable, Double> scannablePositionEntry : scannablePositions.entrySet()) {
-			scannablePositionEntry.getKey().waitWhileBusy();
+		for (Scannable scn : scannablesToWaitFor) {
+			scn.waitWhileBusy();
 		}
-		InterfaceProvider.getTerminalPrinter().print("Move completed");
+		printMessage("Move completed");
 	}
 
 	@Override
 	public EdePositionType getType() {
 		return type;
+	}
+
+	private void printMessage(String msg) {
+		InterfaceProvider.getTerminalPrinter().print(msg);
 	}
 }

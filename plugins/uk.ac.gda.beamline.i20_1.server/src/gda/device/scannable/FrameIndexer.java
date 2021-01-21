@@ -99,6 +99,10 @@ public class FrameIndexer extends ScannableBase {
 		return frameNumber;
 	}
 
+	public int getRepetition() {
+		return repetitionNumber;
+	}
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		// no inputs for this object so this method should not do anything.

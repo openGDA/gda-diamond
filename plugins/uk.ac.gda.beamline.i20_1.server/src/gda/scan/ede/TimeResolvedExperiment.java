@@ -239,6 +239,12 @@ public class TimeResolvedExperiment extends EdeExperiment {
 				scansForIt.add(itScans[repIndex]);
 			}
 		}
+		// Add the cycle number to plot label if num cycles is > 1
+		if (repetitions > 1) {
+			for(EdeScan sc : itScans) {
+				sc.setIncludeCyclePlotLabel(true);
+			}
+		}
 
 		// Make Topup checker for final I0 scan (I0 collection time + time for motor move from It to I0)
 		topupChecker= null;
