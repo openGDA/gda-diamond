@@ -59,6 +59,9 @@
 	<import resource="gv36.xml"/>
 	<import resource="gv50.xml"/>
 
+	<!-- Gas Rig -->
+	<import resource="gas_rig.xml"/>
+
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 

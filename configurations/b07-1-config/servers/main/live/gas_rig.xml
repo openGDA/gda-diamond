@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gr_pirg_04" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-PIRG-04:PRESSURE3_RBV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_pirg_06" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-PIRG-06:PRESSURE3_RBV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_01" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-01:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_02" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-02:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_03" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-03:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_04" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-04:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_05" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-05:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_06" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-06:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_07" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-07:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_08" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-08:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_09" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-09:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_10" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-10:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_11" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-11:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_12" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-12:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_13" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-13:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_14" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-MFC-14:MASS:FLOW:RD" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_line_switching_valve" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-GA-VALVE-10:STA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
+	<bean id="gr_line_switching_valve_status" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-10:STA" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+	
+	<bean id="gr_line_switching_valve_control" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-10:CON" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+	
+	<bean id="gr_butterfly_valve_pressure" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-92:SETPRESSURE" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_butterfly_valve_position" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-92:POSITION" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+</beans>
