@@ -13,14 +13,14 @@
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_21_input_bias" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_21_bias_voltage" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-99:BSLV"/>
 		<property name="unit" value="V"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_21_bias_voltage" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_21_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-99:BSON"/>
 		<property name="readOnly" value="false"/>
 	</bean>
@@ -61,14 +61,14 @@
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_22_input_bias" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_22_bias_voltage" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-98:BSLV"/>
 		<property name="unit" value="V"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_22_bias_voltage" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_22_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-98:BSON"/>
 		<property name="readOnly" value="false"/>
 	</bean>
@@ -109,14 +109,14 @@
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_23_input_bias" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_23_bias_voltage" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-97:BSLV"/>
 		<property name="unit" value="V"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_23_bias_voltage" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_23_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-97:BSON"/>
 		<property name="readOnly" value="false"/>
 	</bean>
