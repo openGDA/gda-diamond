@@ -28,6 +28,7 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider" ref="mcp_roi" />
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="mcp_roi"
