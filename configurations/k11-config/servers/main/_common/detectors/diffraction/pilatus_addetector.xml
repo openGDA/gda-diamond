@@ -54,7 +54,7 @@
 		<property name="description" value="Diffraction detector" />
 	</bean>
 
-	<bean id="pilatus_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+	<bean id="pilatus_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
 		<property name="name" value="pilatus_addetector" />
 		<property name="model" ref="pilatus_model" />
 		<property name="deviceInformation" ref="pilatus_info" />

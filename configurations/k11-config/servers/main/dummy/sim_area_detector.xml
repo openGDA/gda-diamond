@@ -119,7 +119,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{sim_pvbase}:HDF5:" />
-				<property name="initialArrayPort" value="ADSIM.stat" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 		<property name="initialAutoSave" value="Not hooked up to anything!" />

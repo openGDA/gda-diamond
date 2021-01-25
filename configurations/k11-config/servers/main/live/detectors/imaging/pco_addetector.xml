@@ -41,7 +41,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{configProperties.EA_PCO_PREFIX}01:HDF5:" />
-				<property name="initialArrayPort" value="pco.stat" />
+				<property name="initialArrayPort" value="pco.cam" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
