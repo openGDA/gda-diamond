@@ -114,6 +114,15 @@
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
 		id="pilatus1_stats">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>MAX_X</value>
+				<value>MAX_Y</value>
+				<value>MEAN</value>
+				<value>SUM</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
