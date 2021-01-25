@@ -1,0 +1,175 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
+	profile="mx-devices">
+
+	<description>These devices for an I04 experiment on B16 using
+	the Pilatus detector in Zebra controlled scans.</description>
+
+	<!-- From mx-config/servers/main/live/PXDetector_Pilatus.xml -->
+	<bean id="PXDetector" class="gda.px.detector.EpicsAreaDetectorPilatus">
+		<property name="basePv" value="BL16B-EA-DET-04:CAM" />
+		<property name="pilatusType" value="P6M" /> <!-- This is not correct but must match a supported case in AreaDetectorPilatusBase#setPilatusType  -->
+		<property name="id" value="B16_P300K" />
+		<property name="suffix" value="cbf" />
+	</bean>
+
+	<!-- From mx-config/servers/main/PXDetector_Pilatus.xml -->
+	<bean id="autoRunNumberUtils" class="gda.px.pxgen.AutoRunNumberUtils">
+		<constructor-arg name="suffix" value="cbf" />
+	</bean>
+
+	<!-- The existing b16 zebra is called zebra, in mx-config they are zebra1 -->
+	<!-- Not sure if this is needed -->
+	<alias name="zebra" alias="zebra1"/>
+
+	<bean id="pc_gate_out" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:PC_GATE_OUT" />
+	</bean>
+
+	<bean id="fast_shutter_mode" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:SOFT_IN:B2" />
+	</bean>
+
+	<bean id="fast_shutter_demand" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:SOFT_IN:B3" />
+	</bean>
+
+	<bean id="fast_shutter_state" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:OUT4_TTL:STA" />
+	</bean>
+
+	<!-- The fast shutter is BL16B-MO-BRICK-03:AXIS5 which is defined in an existing
+	motor named "geo3mot5" -->
+
+	<gda:motor id="GONIOY" live-pvName="BL16B-MO-GONIO-01:Y" />
+	<gda:motor id="GONIOZ" live-pvName="BL16B-MO-GONIO-01:Z" />
+	<gda:motor id="GONIOOMEGA" live-pvName="BL16B-MO-GONIO-01:OMEGA" />
+
+	<bean class="gda.device.motor.DummyMotor" id="gonio_det_motor" />
+	<bean class="gda.device.scannable.ScannableMotor" id="GONIODET">
+		<property name="motor" ref="gonio_det_motor" />
+		<property name="name" value="GONIODET" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<bean class="gda.device.motor.DummyMotor" id="gonio_phi_motor" />
+	<bean class="gda.device.scannable.ScannableMotor" id="GONIOPHI">
+		<property name="motor" ref="gonio_phi_motor" />
+		<property name="name" value="GONIOPHI" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<bean class="gda.device.motor.DummyMotor" id="gonio_chi_motor" />
+	<bean class="gda.device.scannable.ScannableMotor" id="GONIOCHI">
+		<property name="motor" ref="gonio_chi_motor" />
+		<property name="name" value="GONIOCHI" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<bean class="gda.device.motor.DummyMotor" id="gonio_2theta_motor" />
+	<bean class="gda.device.scannable.ScannableMotor" id="GONIO2THETA">
+		<property name="motor" ref="gonio_2theta_motor" />
+		<property name="name" value="GONIO2THETA" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<bean class="gda.device.motor.DummyMotor" id="gonio_kappa_motor" />
+	<bean class="gda.device.scannable.ScannableMotor" id="GONIOKAPPA">
+		<property name="motor" ref="gonio_kappa_motor" />
+		<property name="name" value="GONIOKAPPA" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<bean id="dc_mode_index" class="gda.device.scannable.DummyScannable" />
+
+	<!--
+	Image Mode (BL16B-EA-DET-04:CAM:ImageMode): Multiple, Single, Continuous
+	Current GDA name: imageModePV
+	-->
+	<bean id="dc_imageMode" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:ImageMode"/>
+	</bean>
+
+	<!--
+	Trigger Mode (BL16B-EA-DET-04:CAM:TriggerMode): Internal, Ext. Enable, Ext. Trigger, Mult. Trigger, Alignment
+	Current GDA name: triggerModePV
+	-->
+	<bean id="dc_triggerMode" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:TriggerMode"/>
+	</bean>
+
+	<!--
+	#Images (BL16B-EA-DET-04:CAM:NumImages): number
+	Current GDA name: exposuresPV
+	-->
+	<bean id="dc_numImages" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:NumImages"/>
+	</bean>
+
+	<!--
+	#Exp/Image (BL16B-EA-DET-04:CAM:NumExposures): number
+	-->
+	<bean id="dc_numExposures" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:NumExposures"/>
+	</bean>
+
+	<!--
+	Exposure (s) (BL16B-EA-DET-04:CAM:AcquireTime): number
+	Current GDA name: timePV
+	-->
+	<bean id="dc_acquireTime" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:AcquireTime"/>
+	</bean>
+
+	<!--
+	Acq Period (BL16B-EA-DET-04:CAM:AcquirePeriod): number
+	Current GDA name: acqPV
+	-->
+	<bean id="dc_acquirePeriod" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:AcquirePeriod"/>
+	</bean>
+
+	<bean id="dc_start" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:Acquire"/>
+	</bean>
+
+	<!-- File name PVs -->
+	<bean id="dc_runNum" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:FileNumber"/>
+	</bean>
+
+	<bean id="dc_fileName" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:FileName"/>
+	</bean>
+	
+	<bean id="dc_filePath" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:FilePath"/>
+	</bean>
+
+	<bean id="dc_fileNameFormat" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:FileTemplate"/>
+	</bean>
+
+	<bean id="dc_cbftemplate" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="BL16B-EA-DET-04:CAM:CbfTemplateFile"/>
+	</bean>
+
+	<!-- Position Compare -->
+	<bean id="pc_compare" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL19I-MO-CIRC-02:SAM:PC:GPIO3DI.B0"/>
+	</bean>
+
+	<bean id="pc_disablePhi" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL19I-MO-CIRC-02:SAM:PHI:PC:DISABLE.PROC"/>
+	</bean>
+
+	<bean id="pc_disableOmega" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL19I-MO-CIRC-02:SAM:OMEGA:PC:DISABLE.PROC"/>
+	</bean>
+
+</beans>
