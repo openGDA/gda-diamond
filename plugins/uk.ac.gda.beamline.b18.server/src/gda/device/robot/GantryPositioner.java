@@ -25,6 +25,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,6 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.FactoryException;
-import gda.jython.InterfaceProvider;
 
 public class GantryPositioner extends SamplePlateMoverBase  {
 
@@ -260,6 +260,7 @@ public class GantryPositioner extends SamplePlateMoverBase  {
 	}
 
 	private void checkScannablePosition(Scannable scn, Object requiredPosition) throws DeviceException {
+		logger.debug("Checking {} is at required position ({})", scn.getName(), requiredPosition);
 		if (requiredPosition instanceof Double) {
 			Double[] dblPositions = ScannableUtils.objectToArray(scn.getPosition());
 			Double position = (Double) requiredPosition;
@@ -275,7 +276,7 @@ public class GantryPositioner extends SamplePlateMoverBase  {
 
 	protected void logMessage(String message) {
 		logger.info(message);
-		InterfaceProvider.getTerminalPrinter().print(message);
+		printConsoleMessage(message);
 	}
 
 	protected void logStatus() throws DeviceException {
@@ -303,7 +304,7 @@ public class GantryPositioner extends SamplePlateMoverBase  {
 
 	@Override
 	public boolean isBusy() throws DeviceException {
-		return getMotionState() == MotionState.IN_PROGRESS ||
+		return super.isBusy() ||
 				horizScannable.isBusy() || vertScannable.isBusy() || gripperScannable.isBusy() || gripperAngleScannable.isBusy();
 	}
 
@@ -337,6 +338,11 @@ public class GantryPositioner extends SamplePlateMoverBase  {
 	 */
 	public Map<String, Double> getPlatePositions() {
 		return platePositions;
+	}
+
+	@Override
+	public List<String> getPlateNames() {
+		return platePositions.keySet().stream().collect(Collectors.toList());
 	}
 
 	public void setPlatePositions(Map<String, Object> samplePlatePositions) {
@@ -404,10 +410,7 @@ public class GantryPositioner extends SamplePlateMoverBase  {
 		this.gripperLoadAngle = gripperLoadAngle;
 	}
 
-	/**
-	 *
-	 * @return Name of the currently held plate
-	 */
+	@Override
 	public String getCurrentPlate() {
 		return currentPlateName;
 	}
