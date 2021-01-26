@@ -38,7 +38,8 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningConfiguration;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
-import uk.ac.diamond.daq.mapping.ui.EnableMappingLiveBackgroundAction;
+import uk.ac.diamond.daq.mapping.ui.BackgroundStateHelper;
+import uk.ac.diamond.daq.mapping.ui.LiveStreamBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
@@ -62,6 +63,8 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 
 	private ScanManagementController smController;
 
+	private LiveStreamBackgroundAction liveStreamAction;
+
 	public DiffractionConfigurationView() {
 		smController = MappingServices.getScanManagementController();
 		smController.initialise();
@@ -73,7 +76,8 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 		prepareMapEvents();
 		MappingServices.updateDetectorParameters();
 		// Creates camera stream item in the context menu
-		EnableMappingLiveBackgroundAction.appendContextMenuAction();
+		liveStreamAction = new LiveStreamBackgroundAction(new BackgroundStateHelper());
+		//EnableMappingLiveBackgroundAction.appendContextMenuAction();
 	}
 
 	/**
