@@ -43,6 +43,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate.xml" />
 
+	<!-- Monitors -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/processing_monitor.xml" />
+
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 

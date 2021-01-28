@@ -16,6 +16,7 @@
 				<ref bean="activemq_server_condition" />
 				<ref bean="ispyb_server_condition" />
 				<ref bean="daserver_condition" />
+				<ref bean="processing_condition" />
 			</list>
 		</property>
 	</bean>
@@ -98,6 +99,12 @@
 
 	<bean id="daserver_checker" class="gda.device.detector.DummyDAServerStatusChecker">
 		<property name="running" value="true" />
+	</bean>
+
+	<bean id="processing_condition" class="gda.beamline.health.ProcessingServerCondition">
+		<property name="description" value="Processing" />
+		<property name="processingMonitor" ref="processing_monitor" />
+		<property name="errorMessage" value="Processing server is not running" />
 	</bean>
 
 </beans>
