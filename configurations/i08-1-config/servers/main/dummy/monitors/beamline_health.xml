@@ -15,4 +15,8 @@
 		<property name="running" value="true" />
 	</bean>
 
+	<bean id="malcolm_process_monitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{workstation_malcolmsims}-ML-MALC-01:PID.SEVR" />
+	</bean>
+
 </beans>

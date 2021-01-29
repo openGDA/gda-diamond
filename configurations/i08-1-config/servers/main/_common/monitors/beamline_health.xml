@@ -17,6 +17,7 @@
 				<ref bean="ispyb_server_condition" />
 				<ref bean="daserver_condition" />
 				<ref bean="processing_condition" />
+				<ref bean="malcolm_process_condition" />
 			</list>
 		</property>
 	</bean>
@@ -94,6 +95,11 @@
 		<property name="description" value="Processing" />
 		<property name="processingMonitor" ref="processing_monitor" />
 		<property name="errorMessage" value="Processing server is not running" />
+	</bean>
+
+	<bean id="malcolm_process_condition" class="gda.beamline.health.MalcolmProcessCondition">
+		<property name="description" value="Malcolm IOC" />
+		<property name="malcolmMonitor" ref="malcolm_process_monitor" />
 	</bean>
 
 </beans>
