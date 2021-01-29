@@ -28,6 +28,10 @@
 	<bean id="dummy_m2_yaw" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_m2_bendus" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_m2_bendds" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s1_xplus" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s1_xminus" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s1_yplus" class="gda.device.scannable.DummyScannableMotor" />
+	<bean id="dummy_s1_yminus" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_s2_xcentre" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_s2_xsize" class="gda.device.scannable.DummyScannableMotor" />
 	<bean id="dummy_s2_ycentre" class="gda.device.scannable.DummyScannableMotor" />
