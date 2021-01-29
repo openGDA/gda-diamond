@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m4b_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:X" />
+	</bean>
+
+	<bean id="m4b_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:Y" />
+	</bean>
+
+	<bean id="m4b_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:PITCH" />
+	</bean>
+
+	<bean id="m4b_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:ROLL" />
+	</bean>
+
+	<bean id="m4b_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:YAW" />
+	</bean>
+	
+	<bean id="m4b_y_base_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:YBASE" />
+	</bean>
+
+	<!-- Positioner -->
+	<bean id="m4b_y_base_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07B-OP-VRFM-01:YBASE:MP" />
+	</bean>
+
+	<bean id="m4b_y_combined" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:MIRCTRL:YCOMB:RBV"/>
+		<property name="unit" value="mm"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="0.01"/>
+	</bean>
+	<bean id="m4b_mirror" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-VRFM-01:MIRCTRL:RBV:MIRROR"/>
+		<property name="poll" value="true"/>
+	</bean>
+
+</beans>

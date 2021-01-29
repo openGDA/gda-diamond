@@ -7,11 +7,15 @@
 	<bean id="d3b_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>In</value>
-				<value>Out</value>
+			<!-- use real EPICS positioner value here -->
+				<value>Out of Beam</value>
+				<value>Metal Screen</value>
+				<value>YAG Ce Screen</value>
+				<value>Cu Foil</value>
 			</list>
 		</property>
 	</bean>
+	<bean id="d3b_y_motor" class="gda.device.motor.DummyMotor"/>
 
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->

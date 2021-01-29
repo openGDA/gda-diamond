@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m4b_x_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="m4b_y_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="m4b_pitch_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="m4b_roll_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="m4b_yaw_motor" class="gda.device.motor.DummyMotor"/>
+	
+	<bean id="m4b_y_base_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="m4b_y_base_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+			<!-- use real EPICS positioner value here -->
+				<value>Out of Beam</value>
+				<value>M4bHiTES1</value>
+				<value>M4bHiTES2</value>
+				<value>Reference</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="m4b_y_combined" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mm"/>
+		<property name="value">
+			<value type="double">0.234567</value>
+		</property>
+		<property name="lowerLimit" value="-10.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="m4b_mirror" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="M4bHiTES2"/>
+	</bean>
+	
+</beans>

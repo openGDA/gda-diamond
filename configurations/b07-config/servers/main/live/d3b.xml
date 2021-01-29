@@ -11,6 +11,9 @@
 	<bean id="d3b_y_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL07B-DI-PHDGN-03:Y:MP" />
 	</bean>
+	<bean id="d3b_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-DI-PHDGN-03:Y" />
+	</bean>
 
 	<!-- D3B cam plugin -->
 	<bean id="d3b_cam1_adbase" class="gda.spring.V17ADBaseFactoryBean">
