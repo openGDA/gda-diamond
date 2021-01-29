@@ -10,7 +10,7 @@
 	<alias name="sim_file_hdf5" alias="pilatus_ndfile" />
 	<alias name="sim_hdf5" alias="pilatus_hdf5" />
 
-	<bean id="diffraction_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+	<bean id="pilatus_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="pilatus_adbase" />
 		<constructor-arg ref="pilatus_roi" />
 		<property name="useAcquireTimeMonitor" value="true" />
