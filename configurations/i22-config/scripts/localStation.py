@@ -153,8 +153,8 @@ epoch=actualTimeClass("epoch")
 
 import uk.ac.gda.server.ncd.config.DeviceLister
 import gda.util.ElogEntry
-string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
-gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLI22", "BLI22-RUNL", None)
+device_list_html = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
+gda.util.ElogEntry("device list from gda", "gda", None, "BLI22", "BLI22-RUNL", None).addHtml(device_list_html).postAsync()
 print "importing bimorph"
 import bimorph
 
