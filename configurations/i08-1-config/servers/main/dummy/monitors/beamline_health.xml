@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="daserver_condition" class="gda.beamline.health.DAServerCondition">
+		<property name="description" value="DAServer" />
+		<property name="statusChecker" ref="daserver_checker" />
+		<property name="host" value="dummyhost" />
+		<property name="port" value="8000" />
+	</bean>
+
+	<bean id="daserver_checker" class="gda.device.detector.DummyDAServerStatusChecker">
+		<property name="running" value="true" />
+	</bean>
+
+</beans>
