@@ -6,6 +6,7 @@
 	<import resource="detectors/malcolm/diffraction.xml" />
 	<import resource="detectors/malcolm/tomography.xml" />
 	<import resource="detectors/malcolm/beamSelectorScan.xml" />
+	<import resource="detectors/malcolm/diffTomo.xml" />
 	<import
 		resource="file:${gda.config}/servers/main/_common/server.xml" />
 
