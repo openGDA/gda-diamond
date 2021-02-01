@@ -21,12 +21,13 @@ package uk.ac.gda.beamline.i14.views.statusview;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
@@ -75,21 +76,29 @@ public abstract class StatusView extends ViewPart {
 	@SuppressWarnings("unused")
 	@Override
 	public void createPartControl(Composite parent) {
-		GridDataFactory.swtDefaults().applyTo(parent);
-		RowLayoutFactory.swtDefaults().applyTo(parent);
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		parent.setLayout(new FillLayout());
+		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		parent.setBackgroundMode(SWT.INHERIT_FORCE);
+
+		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setLayout(new FillLayout());
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
+		final Composite content = new Composite(scrolledComposite, SWT.NONE);
+		RowLayoutFactory.swtDefaults().applyTo(content);
 
 		setPartName(name);
 		setIcon();
 		initialiseColourMap();
 
 		// Machine status
-		final Group grpMachine = createGroup(parent, "Machine", 1);
+		final Group grpMachine = createGroup(content, "Machine", 1);
 		createNumericCompositeWithAlarm(grpMachine, "ring_current", "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
 		createNumericCompositeWithAlarm(grpMachine, "topup_start_countdown_complete", "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
 
 		// Beamline status
-		final Group grpBeamline = createGroup(parent, "Beamline", 2);
+		final Group grpBeamline = createGroup(content, "Beamline", 2);
 		createNumericComposite(grpBeamline, "id_gap_monitor", "ID Gap", "mm", 2, 1000);
 		createNumericComposite(grpBeamline, "dcm_bragg", "Bragg", "degrees", 4, 1000);
 		createNumericComposite(grpBeamline, "dcm_enrg", "Energy", "KeV", 4, 1000);
@@ -98,15 +107,18 @@ public abstract class StatusView extends ViewPart {
 		}
 
 		// Shutter controls - user-dependent
-		createShutterControls(parent);
+		createShutterControls(content);
 
 		// State of processing
-		final Group grpProcessing = createGroup(parent, "Processing", 1);
+		final Group grpProcessing = createGroup(content, "Processing", 1);
 		createNumericCompositeForProcessing(grpProcessing, "processing_monitor", "Processing");
+
+		scrolledComposite.setContent(content);
+		scrolledComposite.setMinSize(content.computeSize(80, SWT.DEFAULT));
 	}
 
 	/**
-	 * Create subclass-controls
+	 * Create shutter controls (depends on the subclass)
 	 *
 	 * @param parent
 	 *            the {@link Composite} to draw these controls on
