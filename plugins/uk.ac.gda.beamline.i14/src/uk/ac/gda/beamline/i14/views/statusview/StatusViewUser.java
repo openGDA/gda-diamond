@@ -28,9 +28,7 @@ import org.eclipse.swt.widgets.Group;
 public class StatusViewUser extends StatusView {
 
 	@Override
-	public void createPartControl(Composite parent) {
-		super.createPartControl(parent);
-
+	protected void createShutterControls(Composite parent) {
 		// OH1 shutter
 		final Group grpOH1 = createGroup(parent, "OH1 Shutter", 1);
 		createShutterComposite(grpOH1, "oh1_shutter_status");
@@ -47,10 +45,5 @@ public class StatusViewUser extends StatusView {
 		final Group grpEH2Nano = createGroup(parent, "EH2 Nano Shutter", 1);
 		createShutterComposite(grpEH2Nano, "eh2_nano_shutter_status");
 		createCommandCompositeOpen(grpEH2Nano, "EH2 Nano", "open_eh2_nano_shtr()");
-
-		// State of processing
-		final Group grpProcessing = createGroup(parent, "Processing", 1);
-		createNumericCompositeForProcessing(grpProcessing, "processing_monitor", "Processing");
 	}
-
 }

@@ -96,7 +96,22 @@ public abstract class StatusView extends ViewPart {
 		if (showBeamlineReadiness) {
 			new BeamlineReadinessDisplay(grpBeamline);
 		}
+
+		// Shutter controls - user-dependent
+		createShutterControls(parent);
+
+		// State of processing
+		final Group grpProcessing = createGroup(parent, "Processing", 1);
+		createNumericCompositeForProcessing(grpProcessing, "processing_monitor", "Processing");
 	}
+
+	/**
+	 * Create subclass-controls
+	 *
+	 * @param parent
+	 *            the {@link Composite} to draw these controls on
+	 */
+	protected abstract void createShutterControls(Composite parent);
 
 	protected void setIcon() {
 		if (iconPlugin != null && iconFilePath != null) {
