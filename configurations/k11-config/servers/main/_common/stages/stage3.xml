@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+	<bean id="STAGE3_PV_NAME" class="java.lang.String">
+		<constructor-arg value="BL11K-MO-STAGE-03" />
+	</bean>
+
+	<gda:motor id="stage3_y"
+		live-pvName="#{STAGE3_PV_NAME}:Y"
+		dummy-minPosition="-12.5"
+		dummy-maxPosition="12.5"
+		dummy-position="9.45"
+		dummy-unitString="mm"/>
+
+	<gda:motor id="stage3_pitch"
+		live-pvName="#{STAGE3_PV_NAME}:PITCH"
+		dummy-minPosition="-12.5"
+		dummy-maxPosition="12.5"
+		dummy-position="9.45"
+		dummy-unitString="mrad"/>
+
+	<gda:motor id="stage3_roll"
+		live-pvName="#{STAGE3_PV_NAME}:ROLL"
+		dummy-minPosition="-12.5"
+		dummy-maxPosition="12.5"
+		dummy-position="9.45"
+		dummy-unitString="mrad"/>
+
+	<bean id="stage3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="stage3_y" />
+				<ref bean="stage3_pitch" />
+				<ref bean="stage3_roll" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
