@@ -15,4 +15,29 @@
 	<bean id="zpz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-ZP-01:Z" />
 	</bean>
+	
+	<bean id="zprot1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-EA-ZP-01:ROT1" />
+	</bean>
+	<bean id="zprot2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-EA-ZP-01:ROT2" />
+	</bean>
+	
+	<bean id="cmx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-EA-ZP-01:CM:X" />
+	</bean>
+
+	<bean id="cmy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-EA-ZP-01:CM:Y" />
+	</bean>
+
+	<bean id="cmalpha1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-EA-ZP-01:CM:ALPHA1" />
+	</bean>
+	
+	<bean id="cmalpha2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-EA-ZP-01:CM:ALPHA2" />
+	</bean>
+	
+	
 </beans>

@@ -183,6 +183,42 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
+				<entry key="zprot1">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/zone_plate:NXtransformations/zprot1" />
+						<property name="units" value="deg" />
+					</bean>
+				</entry>
+				<entry key="zprot2">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/zone_plate:NXtransformations/zprot2" />
+						<property name="units" value="deg" />
+					</bean>
+				</entry>
+				<entry key="cmx">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/zone_plate:NXtransformations/cmx" />
+						<property name="units" value="micron" />
+					</bean>
+				</entry>
+				<entry key="cmy">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/zone_plate:NXtransformations/cmy" />
+						<property name="units" value="micron" />
+					</bean>
+				</entry>
+				<entry key="cmalpha1">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/zone_plate:NXtransformations/cmalpha1" />
+						<property name="units" value="deg" />
+					</bean>
+				</entry>
+				<entry key="cmalpha2">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/zone_plate:NXtransformations/cmalpha2" />
+						<property name="units" value="deg" />
+					</bean>
+				</entry>
 				<!-- Order Sorting Aperture -->
 				<entry key="osax">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -291,6 +327,12 @@
 				<value>zpx</value>
 				<value>zpy</value>
 				<value>zpz</value>
+				<value>zprot1</value>
+				<value>zprot2</value>
+				<value>cmx</value>
+				<value>cmy</value>
+				<value>cmalpha1</value>
+				<value>cmalpha2</value>
 				<!-- Order Sorting Aperture -->
 				<value>osax</value>
 				<value>osay</value>
