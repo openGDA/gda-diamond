@@ -28,12 +28,66 @@
 		<property name="upperGdaLimits" value="12000" />
 	</bean>
 
+	<bean id="zprot1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zprot1_motor" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="-3.50" />
+		<property name="upperGdaLimits" value="3.50" />
+	</bean>
+
+	<bean id="zprot2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zprot2_motor" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="-3.5" />
+		<property name="upperGdaLimits" value="3.5" />
+	</bean>
+
+	<bean id="cmx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cmx_motor" />
+		<property name="initialUserUnits" value="micron" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="-6500" />
+		<property name="upperGdaLimits" value="6000" />
+	</bean>
+
+	<bean id="cmy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cmy_motor" />
+		<property name="initialUserUnits" value="micron" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="-7000" />
+		<property name="upperGdaLimits" value="7000" />
+	</bean>
+
+	<bean id="cmalpha1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cmalpha1_motor" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="-3.00" />
+		<property name="upperGdaLimits" value="3.00" />
+	</bean>
+
+	<bean id="cmalpha2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cmalpha2_motor" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="lowerGdaLimits" value="-3.0" />
+		<property name="upperGdaLimits" value="3.0" />
+	</bean>
+
 	<bean id="zp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="zpx" />
 				<ref bean="zpy" />
 				<ref bean="zpz" />
+				<ref bean="zprot1" />
+				<ref bean="zprot2" />
+				<ref bean="cmx" />
+				<ref bean="cmy" />
+				<ref bean="cmalpha1" />
+				<ref bean="cmalpha2" />
 			</list>
 		</property>
 	</bean>

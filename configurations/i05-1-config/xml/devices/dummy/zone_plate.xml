@@ -15,4 +15,25 @@
 	<bean id="zpz_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="mm" />
 	</bean>
+	
+	<bean id="zprot1_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="zprot2_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="cmx_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="mm" />
+	</bean>
+	<bean id="cmy_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="mm" />
+	</bean>
+	<bean id="cmalpha1_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="deg" />
+	</bean>
+	<bean id="cmalpha2_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="deg" />
+	</bean>
 </beans>
