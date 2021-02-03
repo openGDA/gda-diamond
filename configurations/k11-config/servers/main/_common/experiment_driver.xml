@@ -26,7 +26,7 @@
 	
 	<bean id="user_y_driver" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
 		<constructor-arg name="scannableMotor" ref="stage3_y" />
-		<constructor-arg name="quantityName" value="Height" />
+		<constructor-arg name="quantityName" value="Y" />
 		<constructor-arg name="quantityUnits" value="mm" />
 		<property name="readouts">
 			<map>
