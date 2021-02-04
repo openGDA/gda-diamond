@@ -1,6 +1,6 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import gda.gui.RCPController;
+import uk.ac.diamond.daq.server.rcpcontroller.RCPController;
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;

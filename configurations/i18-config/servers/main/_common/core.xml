@@ -7,7 +7,7 @@
 		<property name="jythonScriptPaths" ref="jython_script_paths" />
 	</bean>
 
-	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
+	<bean id="RCPController" class="uk.ac.diamond.daq.server.rcpcontroller.RCPControllerImpl"/>
 	
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 

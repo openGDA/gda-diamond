@@ -82,6 +82,6 @@
 		<property name="directory" value="${gda.var}/" />
 	</bean>
 
-	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
+	<bean id="RCPController" class="uk.ac.diamond.daq.server.rcpcontroller.RCPControllerImpl"/>
 
 </beans>

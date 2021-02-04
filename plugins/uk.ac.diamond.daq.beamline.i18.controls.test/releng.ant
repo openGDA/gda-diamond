@@ -29,7 +29,7 @@
 				<pathelement location="${workspace.git.loc}/diamond-springframework.git/uk.ac.diamond.org.springframework/jars/*" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.core/bin" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.client/bin" />
-				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.diamond.daq.client.gui.rcpcontroller/bin" />
+				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.diamond.daq.server.rcpcontroller/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.client.exafs/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.diamond.daq.microfocus.api/bin" />
