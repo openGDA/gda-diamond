@@ -3,11 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
+	<bean id="RCPController" class="uk.ac.diamond.daq.server.rcpcontroller.RCPControllerImpl"/>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/rcpController" />
 		<property name="service" ref="RCPController" />
-		<property name="serviceInterface" value="gda.gui.RCPController" />
+		<property name="serviceInterface" value="uk.ac.diamond.daq.server.rcpcontroller.RCPController" />
 	</bean>
 
 </beans>

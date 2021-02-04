@@ -5,7 +5,7 @@
 
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
-		<property name="serviceInterface" value="gda.gui.RCPController" />
+		<property name="serviceInterface" value="uk.ac.diamond.daq.server.rcpcontroller.RCPController" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
