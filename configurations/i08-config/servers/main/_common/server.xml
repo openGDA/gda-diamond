@@ -56,7 +56,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/dark_field_collector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />

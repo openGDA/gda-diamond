@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/util
-	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<util:map id="malcolmDetectorNames" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.String">
-		<entry key="BL08I-ML-SCAN-03" value="andor_addetector" />
-	</util:map>
+	<bean id="darkFieldCollector" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector" init-method="register">
+		<property name="name" value="darkFieldCollector" />
+		<property name="beamlineConfiguration">
+			<map>
+				<entry key="shutter1" value="Close" />
+			</map>
+		</property>
+		<property name="nexusFieldName" value="darkField" />
+		<property name="malcolmDetectorNames">
+			<map>
+				<entry key="BL08I-ML-SCAN-03" value="andor_addetector" />
+			</map>
+		</property>
+	</bean>
 
 </beans>
