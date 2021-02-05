@@ -47,7 +47,7 @@ import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 public class ReadonlyScannableComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(ReadonlyScannableComposite.class);
 
-	private Text text;
+	private final Text text;
 	private Scannable scannable;
 	private IObserver observer;
 	private String val = "...";
@@ -85,8 +85,7 @@ public class ReadonlyScannableComposite extends Composite {
 		lbl.setText(StringUtils.hasLength(label) ? label : scannableName);
 		lbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
-		final int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
-		text = new Text(this, textStyle);
+		text = new Text(this, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER);
 		text.setEditable(false);
 		text.setText("000000");
 		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
@@ -212,4 +211,7 @@ public class ReadonlyScannableComposite extends Composite {
 		this.minPeriodMS = minPeriodMS;
 	}
 
+	public Text getText() {
+		return this.text;
+	}
 }
