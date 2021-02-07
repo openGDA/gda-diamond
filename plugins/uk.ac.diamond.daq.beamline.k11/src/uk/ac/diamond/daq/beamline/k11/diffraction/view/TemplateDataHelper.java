@@ -43,8 +43,8 @@ import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
-import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionTypeProperties;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
+import uk.ac.gda.client.properties.acquisition.AcquisitionTypeProperties;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 
 /**
