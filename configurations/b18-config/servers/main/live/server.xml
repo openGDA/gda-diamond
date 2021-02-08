@@ -42,6 +42,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/hiden.xml" /> -->
 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/robot.xml" />
+	<import resource="file:${gda.config}/servers/main/robot.xml" />
+
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

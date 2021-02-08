@@ -12,13 +12,17 @@
 		</property>
 	</bean>
 
-	<bean id="gantry_gripper_angle_motor" class="gda.device.motor.DummyMotor" >
-		<property name="speed" value="25" />
-	</bean>
-	<bean id="gantry_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="10" />
-	</bean>
-	<bean id="gantry_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="10" />
-	</bean>
+	<alias name="USER5_motor" alias="gantry_x_motor" />
+	<alias name="USER6_motor" alias="gantry_y_motor" />
+	<alias name="USER7_motor" alias="gantry_gripper_angle_motor" />
+
+<!-- 	<bean id="gantry_gripper_angle_motor" class="gda.device.motor.DummyMotor" > -->
+<!-- 		<property name="speed" value="25" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="gantry_x_motor" class="gda.device.motor.DummyMotor"> -->
+<!-- 		<property name="speed" value="10" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="gantry_y_motor" class="gda.device.motor.DummyMotor"> -->
+<!-- 		<property name="speed" value="10" /> -->
+<!-- 	</bean> -->
 </beans>

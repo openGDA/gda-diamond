@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<alias name="USER5_motor" alias="gantry_x_motor" />
+	<alias name="USER6_motor" alias="gantry_y_motor" />
+	<alias name="USER7_motor" alias="gantry_gripper_angle_motor" />
+
+	<bean id="gantry_gripper" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS8" />
+		<property name="values">
+			<map>
+				<entry key="Open" value="100" />
+				<entry key="Close" value="200" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

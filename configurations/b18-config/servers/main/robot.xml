@@ -8,8 +8,8 @@
     <bean id="gantry_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="gantry_x_motor" />
 	</bean>
- 
-     <bean id="gantry_y" class="gda.device.scannable.ScannableMotor">
+  
+    <bean id="gantry_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="gantry_y_motor" />
 	</bean>
 	
@@ -17,7 +17,7 @@
 		<property name="motor" ref="gantry_gripper_angle_motor" />
 	</bean>
 
-    <bean id="gantry_positioner" class="gda.device.robot.GantryPositioner" >
+    <bean id="plate_positioner" class="gda.device.robot.GantryPositioner" >
     	<property name="horizScannable" ref="gantry_x" />
     	<property name="vertScannable" ref="gantry_y" />
     	<property name="gripperScannable" ref="gantry_gripper" />
@@ -40,8 +40,11 @@
 				<entry key="D" value="4.0" />
 			</map>
     	</property>
-    	
     </bean>          
-           
+
+    <bean id="plate_enum_positioner" class="gda.device.robot.SamplePlateEnumPositioner" >
+		<property name="samplePlateMover" ref="plate_positioner" />
+	</bean>
+
 </beans>
            
