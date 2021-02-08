@@ -6,18 +6,18 @@
 
 	<bean id="dcm2_roll" class="gda.device.scannable.MultiPVScannable">
 		<property name="writePV" 
-			value="#{configProperties.DCM_PV_PREFIX}02:ROLL:VAL" />
+			value="#{configProperties.DCM_PV_PREFIX}02:ROLL.VAL" />
 		<property name="readPV" 
-			value="#{configProperties.DCM_PV_PREFIX}02:ROLL:RBV" />
+			value="#{configProperties.DCM_PV_PREFIX}02:ROLL.RBV" />
 		<property name="hardwareUnitString" value="microns" />
 		<property name="userUnits" value="microns" />
 	</bean>
 	
 	<bean id="dcm2_pitch" class="gda.device.scannable.MultiPVScannable">
 		<property name="writePV" 
-			value="#{configProperties.DCM_PV_PREFIX}02:PITCH:VAL" />
+			value="#{configProperties.DCM_PV_PREFIX}02:PITCH.VAL" />
 		<property name="readPV" 
-			value="#{configProperties.DCM_PV_PREFIX}02:PITCH:RBV" />
+			value="#{configProperties.DCM_PV_PREFIX}02:PITCH.RBV" />
 		<property name="hardwareUnitString" value="microns" />
 		<property name="userUnits" value="microns" />
 	</bean>
