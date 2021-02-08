@@ -43,7 +43,7 @@ def setupMedipixPlugins() :
         cam_port = CAClient.get(medipix_basePvName+":CAM:PortName_RBV")
         CAClient.put(medipix_basePvName+":ARR:NDArrayPort", cam_port)
 
-    except Exception as err:
+    except (Exception, java.lang.Throwable) as err:
         print "Problem setting callbacks and array port for medipix :ARR plugin", err
 
 def setUseMedipixRoiFromGui(tf):

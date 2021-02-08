@@ -180,29 +180,6 @@ add_default detectorMonitorDataProvider
 # cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
 
 from gda.epics import CAClient
-## Set file path and filename format if using 'real' XSpress4 detector
-hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
-if xspress4.isConfigured() == True and xspress4.getXspress3Controller().isConfigured() and LocalProperties.get("gda.mode") == "live" :
-     print "Setting up XSpress4 : "
-     print "  Trigger mode = 'TTL Veto Only'"
-     xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
-     # Set the default deadtime correction energy if not already non-zero
-     if xspress4.getDtcEnergyKev() == 0 :
-         print "  Setting deadtime correction energy to 10Kev"
-         xspress4.setDtcEnergyKev(10)
-     ## Set to empty string, so that at scan start path is set to current visit directory.
-     xspress4.setFilePath("");
-     basename = xspress4.getController().getBasePv()
-     for key in hdf5Values :
-        pv = basename+":HDF5:"+key
-        print "  Setting "+pv+" to "+hdf5Values[key]
-        CAClient.putStringAsWaveform(pv, hdf5Values[key])
-
-     # Dimensions of data are not known by Epics ROI and HDF plugins after IOC restart and need to be set by collecting 1 frame of software triggered data.
-     nDimensions = CAClient.get(basename+":ROI:NDimensions_RBV")
-     if int(nDimensions) == 0 :
-         print "  Collecting 1 frame of data to make sure ROI and HDF Epics plugins have correct data dimensions"
-         v = xspress4.getMCAData(500)
 
 # Set default output format xspress4 ascii numbers
 xspress4.setOutputFormat(["%.6g"])
@@ -236,19 +213,38 @@ for scn in [ cut1, cut2, cut3 ] :
         print "Setting initial value of {0} to 1".format(scn.getName())
         scn.moveTo(1)
 
-#Set xspress3 triggermode to TTL veto and array port for HDF5 writing
-# (this is copied from i20-1's localStation ...)  imh 4/7/2019
-if LocalProperties.isDummyModeEnabled() == False :
-    xspress3Controller = xspress3.getController()
-    if xspress3Controller != None and xspress3Controller.isConfigured() :
-        print "Setting up XSpress3 : "
-        print "  Trigger mode = 'TTL Veto Only'"
-        from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
-        xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
 
-        basePvName = xspress3Controller.getEpicsTemplate()
-        detPort = CAClient.get(basePvName+":PortName_RBV")
-        print "  HDF5 array port name = ", detPort
-        CAClient.put(basePvName+":HDF5:NDArrayPort", detPort)
+run 'xspress_functions.py'
+
+""" setupXspress3 and setupXSpress4 use functions from xspress_functions.py """
+
+def setupXspress3() :
+    xspress3Controller = xspress3.getController()
+    basePvName = xspress3Controller.getEpicsTemplate()
+    setup_xspress_detector(basePvName)
+            
+    detPort = caget(basePvName+":PortName_RBV")
+    set_hdf_input_port(basePvName, detPort)
+
+def setupXspress4() : 
+    hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
+    print "Setting up XSpress4 : "
+    basename = xspress4.getController().getBasePv()
+    setup_xspress_detector(basename)  # set the trigger mode, 1 frame of data to set data dimensions
+
+    # Set the default deadtime correction energy if not already non-zero
+    if xspress4.getDtcEnergyKev() == 0 :
+        print "  Setting deadtime correction energy to 10Kev"
+        xspress4.setDtcEnergyKev(10)
+         
+    # # Set to empty string, so that at scan start path is set to current visit directory.
+    xspress4.setFilePath("");
+    for key in hdf5Values :
+        pv = basename + ":HDF5:" + key
+        print "  Setting " + pv + " to " + hdf5Values[key]
+        CAClient.putStringAsWaveform(pv, hdf5Values[key])
+
+run_in_try_catch(setupXspress3)
+run_in_try_catch(setupXspress4)
 
 print "****GDA startup script complete.****\n\n"
