@@ -21,7 +21,13 @@
 				<entry key="BL08J-ML-SCAN-32" value="andor2" />
 			</map>
 		</property>
-		<property name="snapshotDetector" ref="malcolm_device_andor_combined_no_shutter" />
+		<property name="snapshotDetectors">
+			<map>
+				<entry key="BL08J-ML-SCAN-02" value-ref="malcolm_device_andor_fine_no_shutter" />
+				<entry key="BL08J-ML-SCAN-21" value-ref="malcolm_device_pandas_combined_no_shutter" />
+				<entry key="BL08J-ML-SCAN-22" value-ref="malcolm_device_andor_combined_no_shutter" />
+			</map>
+		</property>
 	</bean>
 
 </beans>
