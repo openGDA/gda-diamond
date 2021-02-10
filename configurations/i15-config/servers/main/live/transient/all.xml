@@ -11,7 +11,7 @@
 	<import resource="I15-ETL.xml"/>
 	<import resource="../../dummy/transient/I15-geo2.xml"/>
 	<import resource="I15-Scaler.xml"/>
-	<import resource="../../dummy/transient/I15-VCOLD.xml"/>
+	<import resource="I15-VCOLD.xml"/>
 	<!-- 
 	<import resource="I16-FS.xml"/>
 	 -->

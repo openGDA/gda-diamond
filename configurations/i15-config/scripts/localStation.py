@@ -75,8 +75,8 @@ global run, etl, prop, add_default, vararg_alias, \
 	d7x, d7y,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
-	d1, d2, d3, d4, d5, d6, d7, d8, d9\
-#	,cryox, cryoy, cryoz, cryorot\
+	d1, d2, d3, d4, d5, d6, d7, d8, d9, \
+	cryox, cryoy, cryoz, cryorot\
 
 #	det2z,
 
@@ -247,6 +247,14 @@ try:
 		localStation_exception(sys.exc_info(), "creating devices")
 
 	#dummyDetector = SimpleDummyDetector()
+
+	print "Checking cryo motors are in the correct mode, dummy or live"
+	from localStationConfiguration import enableCryoMotors
+	if enableCryoMotors:
+		if isinstance(cryox.motor,gda.device.motor.DummyMotor):
+			localStation_exception(sys.exc_info(), "checking that cryo motors are in live mode. Please set enableCryoMotors=False or ask your GDA representative to switch VCOLD motors in transient/all.xml to live")
+	elif not isinstance(cryox.motor,gda.device.motor.DummyMotor):
+			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or ask your GDA representative to switch VCOLD motors in transient/all.xml to dummy")
 
 	try:
 		from dls_scripts.scannable.CryojetScannable import CryojetScannable
