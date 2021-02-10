@@ -540,9 +540,9 @@ try:
 			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25)
 			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25)
 			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
-			atto7 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO1:", 0.25)
-			atto8 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO2:", 0.25)
-			atto9 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO3:", 0.25)
+			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25)
+			atto8 = createAnc150Axis("atto8", "BL15I-EA-ATTO-05:PIEZO2:", 0.25)
+			atto9 = createAnc150Axis("atto9", "BL15I-EA-ATTO-05:PIEZO3:", 0.25)
 			
 			atto1.setFrequency(900)
 			atto2.setFrequency(900)
