@@ -3,8 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="diffraction_mono_workflow.xml"/>
-	<import resource="imaging_mono_workflow.xml" />
-	<import resource="imaging_pink_workflow.xml" />
+	<bean id="imaging_pink_workflow" class="uk.ac.diamond.daq.beamline.configuration.DefaultConfigurationWorkflow">
+		<constructor-arg name="workflowItems">
+			<map />
+		</constructor-arg>
+	</bean>
 	
 </beans>

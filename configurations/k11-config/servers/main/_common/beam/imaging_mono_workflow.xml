@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<!-- RESOURCES -->
+	<!-- Scripts -->
+	
+	<bean id="m3m4_functions" class="java.io.File">
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/m3m4_functions.py" />
+	</bean>
+
+	<bean id="dcm2_functions" class="java.io.File">
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/dcm2_functions.py" />
+	</bean>
+
+	<!-- Lookup tables -->
+	<bean id="m3m4_lut" class="uk.ac.diamond.daq.beamline.configuration.RangeLookupService">
+		<constructor-arg name="csvFile">
+			<bean class="java.io.File">
+				<constructor-arg value="${gda.function.columnDataFile.lookupDir}/m3m4_MonoImg_lookup.csv" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="lowColumn" value="Low" />
+		<constructor-arg name="highColumn" value="High" />
+	</bean>
+
+	<bean id="s1_monoimg_lut" class="uk.ac.diamond.daq.beamline.configuration.RangeLookupService">
+		<constructor-arg name="csvFile">
+			<bean class="java.io.File">
+				<constructor-arg value="${gda.function.columnDataFile.lookupDir}/s1_MonoImg_lookup.csv" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="lowColumn" value="Low" />
+		<constructor-arg name="highColumn" value="High" />
+	</bean>
+
+	<bean id="s3_lut" class="uk.ac.diamond.daq.beamline.configuration.RangeLookupService">
+		<constructor-arg name="csvFile">
+			<bean class="java.io.File">
+				<constructor-arg value="${gda.function.columnDataFile.lookupDir}/s3_MonoImg_lookup.csv" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="lowColumn" value="Low" />
+		<constructor-arg name="highColumn" value="High" />
+	</bean>
+	
+	
+	<!-- WORKFLOW ITEMS -->
+	
+	<!-- Mirrors -->
+	
+	<bean id="move_m3m4_x_pitch_roll_yaw" class="uk.ac.diamond.daq.beamline.configuration.LookupTableBasedItem">
+	 	<constructor-arg name="inputProperty" value="energy" />
+	 	<constructor-arg name="scannables">
+			<map>
+				<entry key="M3 X" value-ref="m3_x" />
+				<entry key="M3 Roll" value-ref="m3_roll" />
+				<entry key="M3 Pitch" value-ref="m3_pitch" />
+				<entry key="M3 Yaw" value-ref="m3_yaw" />
+				<entry key="M4 X" value-ref="m4_x" />
+				<entry key="M4 Roll" value-ref="m4_roll" />
+				<entry key="M4 Pitch" value-ref="m4_pitch" />
+				<entry key="M4 Yaw" value-ref="m4_yaw" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="positionLookupService" ref="m3m4_lut" />
+	</bean>
+
+	<bean id="move_m3m4_y" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script" ref="m3m4_functions" />
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="m3_y" value="m3_y_in" />
+				<entry key-ref="m4_y" value="m4_y_in" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+	</bean>
+	
+
+	<bean id="move_m3m4_benders" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script" ref="m3m4_functions" />
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="black_box_scannable" value="m4_bender_monoImg_current_position_check" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+	</bean>
+	
+	<!-- DCM -->
+	
+	<bean id="move_dcm2_bragg_y_z" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script" ref="dcm2_functions" />
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="dcm2_y" value="dcm2_y_in" />
+				<entry key-ref="dcm2_bragg" value="dcm2_bragg_position" />
+				<entry key-ref="dcm2_z" value="dcm2_z_position" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+	</bean>
+	
+	<bean id="move_dcm2_roll" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script" ref="dcm2_functions" />
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="dcm2_roll" value="dcm2_roll_position" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+	</bean>
+
+	<bean id="move_dcm2_pitch" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script" ref="dcm2_functions" />
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="dcm2_pitch" value="dcm2_pitch_position" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+	</bean>
+	
+	<!-- Slits -->
+	
+	<bean id="move_s1_monoimg" class="uk.ac.diamond.daq.beamline.configuration.LookupTableBasedItem">
+	 	<constructor-arg name="inputProperty" value="energy" />
+	 	<constructor-arg name="scannables">
+			<map>
+				<entry key="S1 X Plus" value-ref="s1_xplus" />
+				<entry key="S1 X Minus" value-ref="s1_xminus" />
+				<entry key="S1 Y Plus" value-ref="s1_yplus" />
+				<entry key="S1 Y Minus" value-ref="s1_yminus" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="positionLookupService" ref="s1_monoimg_lut" />
+	</bean>
+	
+	<bean id="move_s3" class="uk.ac.diamond.daq.beamline.configuration.LookupTableBasedItem">
+	 	<constructor-arg name="inputProperty" value="energy" />
+	 	<constructor-arg name="scannables">
+			<map>
+				<entry key="S3 X Plus" value-ref="s3_xplus" />
+				<entry key="S3 X Minus" value-ref="s3_xminus" />
+				<entry key="S3 Y Plus" value-ref="s3_yplus" />
+				<entry key="S3 Y Minus" value-ref="s3_yminus" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="positionLookupService" ref="s3_lut" />
+	</bean>
+	
+	<!-- Filter -->
+	<bean id="move_a3_empty" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script" ref="aux_functions" />
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="a3_selector" value="a3_filter_to_empty" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+	</bean>
+
+	<!-- Beam selector -->
+
+	<bean id="move_beam_selector_mono_img" class="uk.ac.diamond.daq.beamline.configuration.ScriptBasedItem">
+		<constructor-arg name="script" ref="aux_functions" />
+		<constructor-arg name="functionsPerScannable">
+			<map>
+				<entry key-ref="beam_selector" value="beam_selector_monoImg_pos" />
+			</map>
+		</constructor-arg>
+		<constructor-arg name="inputProperty" value="energy" />
+	</bean>
+	
+	<!-- WORKFLOWS -->	
+	
+	<bean id="imaging_mono_workflow" class="uk.ac.diamond.daq.beamline.configuration.DefaultConfigurationWorkflow">
+		<constructor-arg name="workflowItems">
+			<map>
+				<entry key-ref="close_shutters">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Closing front end and experimental hutch shutters"/>
+						<constructor-arg name="percentage" value="3" />
+					</bean>
+				</entry>
+				
+				<entry key-ref="move_s1_monoimg">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Adjusting S1 slits"/>
+						<constructor-arg name="percentage" value="7" />
+					</bean>
+				</entry>
+				
+				<entry key-ref="move_m3m4_x_pitch_roll_yaw">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="moving M3 and M4 mirrors (x, pitch, roll, yaw)"/>
+						<constructor-arg name="percentage" value="15" />
+					</bean>
+				</entry>
+
+				<entry key-ref="move_m3m4_y">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="moving M3 and M4 mirrors (y)"/>
+						<constructor-arg name="percentage" value="25" />
+					</bean>
+				</entry>
+
+				<entry key-ref="move_dcm2_bragg_y_z">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="moving DCM2 (bragg, y, z)"/>
+						<constructor-arg name="percentage" value="40" />
+					</bean>
+				</entry>
+
+				<entry key-ref="move_s3">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Adjusting S3 slits"/>
+						<constructor-arg name="percentage" value="50" />
+					</bean>
+				</entry>
+				
+				<entry key-ref="move_a3_empty">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Driving filter"/>
+						<constructor-arg name="percentage" value="50" />
+					</bean>
+				</entry>
+
+				<entry key-ref="move_m3m4_benders">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="moving M3 and M4 mirrors (benders)"/>
+						<constructor-arg name="percentage" value="70" />
+					</bean>
+				</entry>
+					
+				<entry key-ref="move_dcm2_roll">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Moving DCM 2 (roll)"/>
+						<constructor-arg name="percentage" value="80" />
+					</bean>
+				</entry>
+					
+				<entry key-ref="move_beam_selector_mono_img">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Moving beam selector"/>
+						<constructor-arg name="percentage" value="87" />
+					</bean>
+				</entry>
+					
+				<entry key-ref="move_dcm2_pitch">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Moving DCM2 pitch"/>
+						<constructor-arg name="percentage" value="90" />
+					</bean>
+				</entry>
+				
+				<entry key-ref="move_s1_operational">
+					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation">
+						<constructor-arg name="description" value="Moving S1"/>
+						<constructor-arg name="percentage" value="94" />
+					</bean>
+				</entry>
+				
+<!-- 				<entry key-ref="open_shutters"> -->
+<!-- 					<bean class="uk.ac.diamond.daq.beamline.configuration.ProgressInformation"> -->
+<!-- 						<constructor-arg name="description" value="Opening front end and experimental hutch shutters"/> -->
+<!-- 						<constructor-arg name="percentage" value="100" /> -->
+<!-- 					</bean> -->
+<!-- 				</entry> -->
+			</map>
+		</constructor-arg>
+	</bean>
+	
+</beans>
