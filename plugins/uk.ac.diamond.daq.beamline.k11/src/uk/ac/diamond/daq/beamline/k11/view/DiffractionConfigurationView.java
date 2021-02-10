@@ -43,6 +43,7 @@ import uk.ac.diamond.daq.mapping.ui.LiveStreamBackgroundAction;
 import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
+import uk.ac.diamond.daq.mapping.ui.experiment.controller.ExperimentScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionTypeProperties;
 import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionsPropertiesHelper;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
