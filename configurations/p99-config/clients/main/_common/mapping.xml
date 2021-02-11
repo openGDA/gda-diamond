@@ -44,6 +44,7 @@
 				<property name="permittedOuterScannables">
 					<list>
 						<value>sample_z</value>
+						<value>i18_theta</value>
 					</list>
 				</property>
 			</bean>
