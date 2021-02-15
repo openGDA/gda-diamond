@@ -52,6 +52,7 @@ import gda.jython.InterfaceProvider;
 import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
  * This is the with-beam It scan in linear and cyclic experiments.
@@ -140,11 +141,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			if (Thread.currentThread().isInterrupted()) {
 				break;
 			}
-			currentTimingGroup=scanParameters.getGroups().get(i);
+			TimingGroup currentTimingGroup = scanParameters.getGroups().get(i);
 
 			// set scans per frame on detector so TFG scans per frame is correct...
 			int scansPerFrame = currentTimingGroup.getNumberOfScansPerFrame();
-			// int numberOfFrames = scanParameters.getTotalNumberOfFrames()+1;
 
 			// Number of frames is now incremented in EdeFrelon.configureDetectorForTimingGroup
 			// dropFirstFrame flag is set to 'true' (true by default)
@@ -152,12 +152,6 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 			theDetector.setNumberScansInFrame(scansPerFrame);
 
-			// i.e. Only drop first frame for non It collection (helps with TFG timing calculations).
-//			if ( numberOfFrames > 1 ) {
-//				( (EdeFrelon) theDetector).setDropFirstFrame( false );
-//			} else {
-//				( (EdeFrelon) theDetector).setDropFirstFrame( true );
-//			}
 			// EdeScanWithTfgTrigger is *only* used for Tfg triggered light It - *never* drop 1st frame! imh 5/5/2016
 			((EdeFrelon) theDetector).setDropFirstFrame(false);
 
@@ -411,7 +405,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		}
 
 		boolean readFromScalers = readTopupFromScalers();
-		int numAccumulationsPerSpectrum = currentTimingGroup == null ? 1 : currentTimingGroup.getNumberOfScansPerFrame();
+		int numAccumulationsPerSpectrum = 1;
+		if (theDetector instanceof EdeFrelon) {
+			numAccumulationsPerSpectrum = ((EdeFrelon)theDetector).getCurrentTimingGroup().getNumberOfScansPerFrame();
+		}
 		double[][] topupValuePerSpectra = getTopupValuesForSpectra(lowFrame, highFrame, numAccumulationsPerSpectrum, readFromScalers);
 		if (topupValuePerSpectra != null) {
 			if (topupValuePerSpectra.length!=highFrame-lowFrame+1) {

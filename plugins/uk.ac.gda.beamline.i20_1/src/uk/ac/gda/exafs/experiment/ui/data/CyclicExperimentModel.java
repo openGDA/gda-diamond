@@ -19,6 +19,7 @@
 package uk.ac.gda.exafs.experiment.ui.data;
 
 import gda.device.DeviceException;
+import gda.jython.InterfaceProvider;
 import gda.scan.ede.CyclicExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 
@@ -80,5 +81,11 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 		scanCommand.append(String.format("%s.setRepetitions(%d);%n",CYCLIC_EXPERIMENT_OBJ, this.getNoOfRepeatedGroups()));
 		scanCommand.append(CYCLIC_EXPERIMENT_OBJ + ".runExperiment();");
 		return scanCommand.toString();
+	}
+
+	@Override
+	public void doStop() {
+		String stopCommand=CYCLIC_EXPERIMENT_OBJ+".getMultiScan().getCurrentRunningScan().setSmartstop(True);";
+		InterfaceProvider.getCommandRunner().runCommand(stopCommand);
 	}
 }

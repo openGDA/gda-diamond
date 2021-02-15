@@ -107,8 +107,6 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	private boolean smartstop=false;
 
-	protected TimingGroup currentTimingGroup;
-
 	private boolean useFastShutter;
 	private Scannable fastShutter;
 
@@ -420,9 +418,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				if (Thread.currentThread().isInterrupted()) {
 					break;
 				}
-				currentTimingGroup=scanParameters.getGroups().get(i);
 				((EdeFrelon) theDetector).setDropFirstFrame(true);
-				theDetector.configureDetectorForTimingGroup(currentTimingGroup);
+				theDetector.configureDetectorForTimingGroup(scanParameters.getGroups().get(i));
 				theDetector.collectData();
 				Thread.sleep(250);
 
@@ -518,10 +515,14 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				}
 			}
 			if (theDetector instanceof EdeFrelon) {
+				// Get final image number available on detector
+				int finalImage = ((EdeFrelon) theDetector).getLimaCcd().getLastImageReady();
+				logger.debug("Finished reading out {}. lastImageRead = {}, lastImageReady = {}, finalImage = {}",
+						theDetector.getName(), lastImageRead, lastImageReady, finalImage);
 				if (isSmartstop()) {
 					TimingGroup currentTimingGroup = ((EdeFrelon) theDetector).getCurrentTimingGroup();
+					currentTimingGroup.setNumberOfFrames(finalImage);
 					int indexOf = scanParameters.getGroups().indexOf(currentTimingGroup);
-					scanParameters.getGroups().get(indexOf).setNumberOfFrames(lastImageReady);
 					if (indexOf<scanParameters.getGroups().size()) {
 						for (int i=indexOf+1; i<scanParameters.getGroups().size(); i++) {
 							scanParameters.getGroups().get(i).setNumberOfFrames(0);
@@ -529,11 +530,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					}
 					setSmartstop(false);
 				}
-				if (lastImageRead!=lastImageReady) {
-					if (lastImageReady!=-1) {
-						createDataPoints(lastImageRead+1,lastImageReady);
+				if (lastImageRead != finalImage) {
+					if (finalImage != -1) {
+						createDataPoints(lastImageRead + 1, finalImage);
 					} else {
-						logger.warn("detector {} does not take any data yet. The lastImageReady = {}", getName(), lastImageReady);
+						logger.warn("detector {} does not take any data yet. The finalImage = {}", getName(), finalImage);
 					}
 				}
 			}
@@ -691,6 +692,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	private void setupFrameIndexer(int frameNumber) {
 		if (theDetector.getDetectorSetupType() == DetectorSetupType.FRELON) {
+			TimingGroup currentTimingGroup = ((EdeFrelon)theDetector).getCurrentTimingGroup();
 			indexer.setGroup(scanParameters.getGroups().indexOf(currentTimingGroup));
 			indexer.setFrame(frameNumber);
 		} else {
