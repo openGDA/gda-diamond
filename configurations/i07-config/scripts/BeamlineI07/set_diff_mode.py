@@ -39,10 +39,10 @@ def eh2(options=''):
     handle_options('eh2', options)
 
 # Necessary to store the active mode in a local property so that it can 
-# be updated without the need to restart the server. Defaults to eh1v
+# be updated without the need to restart the server. Defaults to eh1h
 diffmode = LocalProperties.get('gda.active.diffractometer.mode')
 if diffmode is None:
-    diffmode = LocalProperties.get('gda.spring.profiles.active', 'eh1v')
+    diffmode = LocalProperties.get('gda.spring.profiles.active', 'eh1h')
 LocalProperties.set('gda.active.diffractometer.mode', diffmode)
 
 if diffmode in ['eh1v', 'eh1h', 'eh2']:
