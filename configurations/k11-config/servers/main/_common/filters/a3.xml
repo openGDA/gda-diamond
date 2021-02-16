@@ -7,7 +7,7 @@
 
 	<!-- COMBINED MOTION -->
 	<gda:motor id="a3_y"
-		live-pvName="#{configProperties.AL_ATTN_PREFIX}03:y"
+		live-pvName="#{configProperties.AL_ATTN_PREFIX}03:Y"
 		dummy-minPosition="-1.4996"
 		dummy-maxPosition="15.0004"
 		dummy-position="4.0014"
