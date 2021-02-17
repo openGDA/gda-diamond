@@ -179,6 +179,9 @@ alias("input_tsample")
 alias("input_tshield")
 alias("input_tcryostat")
 
+from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c  # @UnusedImport
+from scan.cvscan import cvscan  # @UnusedImport
+
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
 from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
@@ -186,7 +189,7 @@ import metashop  # @UnusedImport
 
 print("-"*100)
 print("Add meta data items to be captured in data files.")
-metadatalist=[ringCurrent, idgap, idscannable, energy_s, fastshutter_x]  # @UndefinedVariable
+metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x]  # @UndefinedVariable
 if installation.isLive():
     metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
@@ -257,10 +260,10 @@ def acquireImages(n, det, exposure_time, *args):
                 sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
 
 def acquireRIXS(n, det, exposure_time, *args):
-    if det is andor:  # @UndefinedVariable
-        primary()
-    elif det is andor2:  # @UndefinedVariable
-        polarimeter()
+#     if det is andor:  # @UndefinedVariable
+#         primary()
+#     elif det is andor2:  # @UndefinedVariable
+#         polarimeter()
     fastshutter("Open")
     acquireImages(n, det, exposure_time, *args)
 
@@ -327,28 +330,19 @@ GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checked
 # alias("asynmove")
 
 def goLH(en_val_std):
-    LH_id_std=idgap_calc(en_val_std, "LH")
-    from gdaserver import idscannable  # @UnresolvedImport
     caput (EPICS_FEEDBACK_PV,0)
-    idscannable.moveTo([LH_id_std, 'LH', 0])
+    energypolarisation.moveTo([en_val_std, LH])
     caput (EPICS_FEEDBACK_PV,4)
-    energy_s.moveTo(en_val_std)
-    print("energy is now at %f, polarisation is now at %s" % (en_val_std, "LH"))
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, LH))
 
 def goLV(en_val_std):
-    LV_id_std=idgap_calc(en_val_std, "LV")
-    from gdaserver import idscannable  # @UnresolvedImport
     caput (EPICS_FEEDBACK_PV,0)
-    idscannable.moveTo([LV_id_std, 'LV', 28])
+    energypolarisation.moveTo([en_val_std, LV])
     caput (EPICS_FEEDBACK_PV,4)
-    energy_s.moveTo(en_val_std)
-    print("energy is now at %f, polarisation is now at %s" % (en_val_std, "LV"))
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, LV))
     
 from scan.miscan import miscan  # @UnusedImport
 alias('miscan')
-
-from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c  # @UnusedImport
-from scan.cvscan import cvscan  # @UnusedImport
 
 print("-"*100)
 #DiffCalc
@@ -362,6 +356,9 @@ try:
     #toolpoint_off()  # @UndefinedVariable
 except:
     localStation_exception(sys.exc_info(), "import diffcalc error.")
+    
+from calibration.extraPVCoupledScannable import ScannableWithPVControl
+pgm_energy = ScannableWithPVControl('pgm_energy', pgmEnergy, pvname=EPICS_FEEDBACK_PV,pvvaluebefore=0, pvvalueafter=4)  # @UndefinedVariable
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
