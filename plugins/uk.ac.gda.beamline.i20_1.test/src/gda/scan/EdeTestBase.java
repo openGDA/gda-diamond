@@ -306,6 +306,7 @@ public class EdeTestBase {
 		LocalProperties.set("gda.scanbase.firstScanNumber", "-1");
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter");
 		LocalProperties.set("gda.nexus.createSRS", "false");
+		LocalProperties.set(LocalProperties.GDA_DUMMY_MODE_ENABLED, "true");
 		testDir = LocalProperties.getBaseDataDir();
 	}
 

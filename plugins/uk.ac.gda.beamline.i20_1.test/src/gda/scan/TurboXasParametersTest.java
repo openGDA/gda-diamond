@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.math3.util.Pair;
 import org.dawnsci.ede.PolynomialParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -347,6 +348,32 @@ public class TurboXasParametersTest {
 		assertEquals(parameters.getSpectrumEvents(), paramsFromXml.getSpectrumEvents());
 		assertEquals(parameters.getTimingGroups(), paramsFromXml.getTimingGroups());
 
+	}
+
+	@Test
+	public void testGroupSpectrumIndices() {
+		parameters.addTimingGroup(new TurboSlitTimingGroup("3", 10.0, 1.0, 23));
+		parameters.addTimingGroup(new TurboSlitTimingGroup("4", 12.0, 1.0, 99));
+
+		List<Pair<Integer, Integer>> expectedIndices = createGroupSpectrumIndices();
+		for(int i=0; i<expectedIndices.size(); i++) {
+			assertEquals("Indices not correct for spectrum "+i, expectedIndices.get(i),  parameters.getGroupSpectrumIndices(i));
+		}
+	}
+
+	/**
+	 * Make list of group, spectrum indices for each spectrum in the scan
+	 * @return
+	 */
+	private List<Pair<Integer,Integer>> createGroupSpectrumIndices() {
+		List<TurboSlitTimingGroup> timingGroups = parameters.getTimingGroups();
+		List<Pair<Integer,Integer>> groupSpectrumIndex = new ArrayList<>();
+		for(int i=0; i<timingGroups.size(); i++) {
+			for(int j=0; j<timingGroups.get(i).getNumSpectra(); j++) {
+				groupSpectrumIndex.add(Pair.create(i, j));
+			}
+		}
+		return groupSpectrumIndex;
 	}
 
 	private String getXmlTagLine(String tag, double value) {

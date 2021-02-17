@@ -18,14 +18,10 @@
 
 package gda.scan;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import gda.jython.InterfaceProvider;
 
 /**
  * Runnable that can be used to collect detector data in a background thread.
@@ -41,17 +37,12 @@ public abstract class DetectorReadout implements Runnable {
 	private int numSpectraCollected;
 	private int totalNumSpectraToCollect;
 
-	private int currentTimingGroupIndex=0;
-	private int numSpectraCollectedForGroup=0;
 	private int lastFrameRead;
 	private boolean runMethodFinished = false;
-
+	private boolean forceQuit = false;
 	private int pollIntervalMillis;
 
-	private List<TurboSlitTimingGroup> timingGroups;
-
 	public DetectorReadout() {
-		timingGroups = new ArrayList<TurboSlitTimingGroup>();
 		pollIntervalMillis=500;
 	}
 
@@ -66,13 +57,11 @@ public abstract class DetectorReadout implements Runnable {
 	@Override
 	public void run() {
 
-		currentTimingGroupIndex=0;
-		numSpectraCollectedForGroup=0;
 		numSpectraCollected=0;
 
-		logger.debug("Readout loop started");
+		logger.debug("Readout loop started : total number of spectra to collect= {}", totalNumSpectraToCollect);
 		try {
-			while (numSpectraCollected < totalNumSpectraToCollect) {
+			while (numSpectraCollected < totalNumSpectraToCollect && !forceQuit) {
 
 				int numAvailableFrames = getNumAvailableFrames();
 
@@ -93,22 +82,7 @@ public abstract class DetectorReadout implements Runnable {
 
 				if (numNewFrames>=numFramesPerSpectrum) {
 
-					// Update timing group number and spectrum number for spectrum being read out
-					numSpectraCollectedForGroup++;
-					if (currentTimingGroupIndex<timingGroups.size() &&
-						numSpectraCollectedForGroup>timingGroups.get(currentTimingGroupIndex).getNumSpectra()) {
-
-						currentTimingGroupIndex++;
-						numSpectraCollectedForGroup=1;
-					}
-
-					logger.debug("Collecting data : timing group {}, spectrum {} of {}",
-							currentTimingGroupIndex, numSpectraCollectedForGroup, timingGroups.get(currentTimingGroupIndex).getNumSpectra());
-
-					String msg = "\tTiming group "+(currentTimingGroupIndex+1)+" : spectrum "+(numSpectraCollectedForGroup)+
-							" of "+timingGroups.get(currentTimingGroupIndex).getNumSpectra();
-					InterfaceProvider.getTerminalPrinter().print(msg);
-
+					logger.debug("Collecting spectrum {} of {}", numSpectraCollected, totalNumSpectraToCollect);
 					collectData();
 
 					numSpectraCollected++;
@@ -123,7 +97,7 @@ public abstract class DetectorReadout implements Runnable {
 		} catch (Exception e) {
 			logger.error("ReadoutThread encountered an error during data collection.", e);
 		} finally {
-			logger.debug("ReadoutThread finished.");
+			logger.debug("ReadoutThread finished - forceQuit = {}", forceQuit);
 			runMethodFinished = true;
 		}
 	}
@@ -164,14 +138,6 @@ public abstract class DetectorReadout implements Runnable {
 		}
 	}
 
-	public int getCurrentTimingGroupIndex() {
-		return currentTimingGroupIndex;
-	}
-
-	public int getNumSpectraCollectedForGroup() {
-		return numSpectraCollectedForGroup;
-	}
-
 	public int getNumSpectraCollected() {
 		return numSpectraCollected;
 	}
@@ -195,15 +161,18 @@ public abstract class DetectorReadout implements Runnable {
 		return runMethodFinished;
 	}
 
-	public void setTimingGroups(final List<TurboSlitTimingGroup> timingGroups) {
-		this.timingGroups = timingGroups;
-	}
-
 	public int getPollIntervalMillis() {
 		return pollIntervalMillis;
 	}
 
 	public void setPollIntervalMillis(int pollIntervalMillis) {
 		this.pollIntervalMillis = pollIntervalMillis;
+	}
+
+	public void forceQuit() {
+		forceQuit = true;
+	}
+	public boolean isForceQuit() {
+		return forceQuit;
 	}
 }
