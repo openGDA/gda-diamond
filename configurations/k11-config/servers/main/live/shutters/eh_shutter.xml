@@ -5,6 +5,7 @@
 
 	<bean id="eh_shutter" class="gda.device.enumpositioner.EpicsValve" >
 		<property name="epicsRecordName" value="BL11K-PS-SHTR-01" />
+		<property name="checkDemandInStatus" value ="true" />
 	</bean>
 
 </beans>
