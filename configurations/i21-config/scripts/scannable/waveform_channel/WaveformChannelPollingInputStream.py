@@ -54,6 +54,8 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         if self.hardwareTriggerProvider is None:
             self.hardwareTriggerProvider=self._controller.get_hardware_trigger_provider()
         new_available = self._waitForNewElements()
+        if new_available is None:
+            new_available = 0 # handle _waitForNewElements() return None when aborted cvscan
         if installation.isLive():
             all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         else:
