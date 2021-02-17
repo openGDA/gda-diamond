@@ -18,6 +18,7 @@ if conditions are not meet, the move is blocked and exception throw giving the r
 from lookup.twoKeysLookupTable2 import loadLookupTable
 import math
 from time import sleep
+from gdascripts.utils import caput
 
 __all__ = []
 __version__ = 0.1
@@ -26,7 +27,7 @@ __updated__ = '2019-04-25'
 
 SGMR1_TOLERANCE = 10.0
 SPECL_TOLERANCE = 20.0
-MOTOR_POSITION_TOLERANCE = 0.01
+MOTOR_POSITION_TOLERANCE = 0.005
 MOTION_INCREMENT = 10.0
 
 lookuptable = loadLookupTable("/dls_sw/i21/software/gda/config/lookupTables/ArmMotionProtectionLimits2.txt")
@@ -74,7 +75,13 @@ class IllegalMoveException(Exception):
     pass
 
 with overwriting:  # @UndefinedVariable
-    from gdaserver import sgmr1, specl, epics_armtth  # @UnresolvedImport
+    from gdaserver import sgmr1, specl, epics_armtth, spech  # @UnresolvedImport
+    
+def enable_arm_motion():
+    '''this function just clear errors
+    '''
+    caput("BL21I-MO-ARM-01:CLRF", 'clrf')
+    sleep(1)
 
 def checkIfMoveLegal(motor, new_position):
     '''
@@ -97,9 +104,12 @@ def checkIfMoveLegal(motor, new_position):
                     sleep(8.0)                    
                 if (math.fabs(sgmr1_current-lookuptable[find_range][0]) < math.fabs(sgmr1_current-lookuptable[find_range][1])):
                     sgmr1.moveTo(lookuptable[find_range][0]+1.0)
+                    print('sleep')
+                    sleep(1)
                 else:
                     sgmr1.moveTo(lookuptable[find_range][1]-1.0)
-                
+                    print('sleep')
+                    sleep(1)
 #             if math.fabs(float(sgmr1.getPosition()) - lookuptable[find_range][0]) > SGMR1_TOLERANCE:
 #                 raise UnsafeOperationException("Cannot proceed as 'sgmr1' is not at the required safe position of %f" % (lookuptable[find_range][0]))
 #            
@@ -123,7 +133,7 @@ def checkIfMoveLegal(motor, new_position):
                 sleep(8.0)
             return False
         else:
-            print "Motor '%s' is already in position." % (motor.getName())
+            print("Motor '%s' is already in position." % (motor.getName()))
             return True
     elif motor is sgmr1:
         if math.fabs(float(motor.getPosition()) - float(new_position)) > MOTOR_POSITION_TOLERANCE:
@@ -135,39 +145,51 @@ def checkIfMoveLegal(motor, new_position):
                 sleep(8.0)
             return False
         else:
-            print "Motor '%s' is already in position." % (motor.getName())
+            print("Motor '%s' is already in position." % (motor.getName()))
             return True
+    elif motor is spech:
+        enable_arm_motion()
+        return False
             
 
 def move(motor, new_position, sgmr1_val=None, specl_val=None):
+    if math.fabs(float(motor.getPosition()) - float(new_position)) <= MOTOR_POSITION_TOLERANCE:
+        print("Motor '%s' is already in position." % (motor.getName()))
+        return
     if not checkIfMoveLegal(motor, new_position):
         motor.moveTo(new_position)
-        if sgmr1_val:
-            if epics_armtth.isOn():
-                epics_armtth.off()
-                sleep(10.0)
-            if not sgmr1.isOn():
+        sleep (5)
+        if motor is epics_armtth:
+            epics_armtthoffset.moveTo(-0.14)  # @UndefinedVariable
+            if sgmr1_val:
+                if epics_armtth.isOn():
+                    epics_armtth.off()
+                    print("switch arm air off, wait for 15 seconds.")
+                    sleep(15.0)
+#                 if not sgmr1.isOn():
                 sgmr1.on()
                 sleep(10.0)
-            sgmr1.moveTo(sgmr1_val)
-        if specl_val:
-            specl.moveTo(specl_val)
-        print "%s moves completed at %f" % (motor.getName(), motor.getPosition())
-        epics_armtth.off()
-        sgmr1.off()
-        print "air supply is off for both sgmr1 and epics_armtth!"
+                sgmr1.moveTo(sgmr1_val)
+            if specl_val:
+                specl.moveTo(specl_val)
+            print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
+            if motor is epics_armtth or motor is sgmr1:
+                epics_armtth.off()
+                sgmr1.off()
+                print("air supply is off for both sgmr1 and epics_armtth!")
 
 
 def asynmove(motor, new_position):
     if not checkIfMoveLegal(motor, new_position):
         motor.asynchronousMoveTo(new_position)
-        print "%s starts to move to %f " % (motor.getName(), new_position)
+        print("%s starts to move to %f " % (motor.getName(), new_position))
 
 
 try:
     from gda.jython.commands.GeneralCommands import alias
     alias("move")
     alias("asynmove")
-except:
+    alias("enable_arm_motion")
+except Exception, e:
     pass
 
