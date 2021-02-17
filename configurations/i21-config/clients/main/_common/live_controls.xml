@@ -3,6 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="s5v1gap_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="s5v1gap" />
+		<property name="group" value="S5" />
+		<property name="scannableName" value="s5v1gap" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+	</bean>
 	<!-- 2-theta rotations -->
 	<bean id="m5tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="m5tth" />
@@ -189,6 +196,7 @@
 				<ref bean="feedback_time" />
 				<ref bean="feedback_mode" />
 				<ref bean="idscannable_control"/>
+				<ref bean="s5v1gap_control"/>
 			</list>
 		</property>
 	</bean>
