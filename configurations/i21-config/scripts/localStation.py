@@ -344,6 +344,10 @@ def goLV(en_val_std):
 from scan.miscan import miscan  # @UnusedImport
 alias('miscan')
 
+print("create 'm5group' scannable")
+from scannabledevices.M5GroupScannable import M5GroupScannable
+m5group = M5GroupScannable("m5group", epics_armtth, m5tth, m5hqry, m5hqrx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqrx_0=-363.5691038104, m5hqrx_1=-2.1936146304, m5hqrx_2=0.0074169737)  # @UndefinedVariable
+
 print("-"*100)
 #DiffCalc
 print("import DIFFCALC support for I21")
