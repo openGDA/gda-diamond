@@ -3,6 +3,8 @@
 	<name>b07-config</name>
 	<comment></comment>
 	<projects>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.epics</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
