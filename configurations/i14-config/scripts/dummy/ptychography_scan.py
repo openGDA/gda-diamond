@@ -11,6 +11,6 @@ def run_ptychography_scan_request(scanRequest, ptychoParams):
         print("Ptychography scan terminated abnormally: {}".format(sys.exc_info()[0]))
 
 def run_ptychography_scan_request_internal(scanRequest, ptychoParams):
-    print("Running ptychography scan with ScanRequest {} and PtychographyParams {}".format(scanRequest, ptychoParams))
+    print("Running ptychography scan with {} and {}".format(scanRequest, ptychoParams))
     sleep(2)
     print("Finished running ptychography scan")
