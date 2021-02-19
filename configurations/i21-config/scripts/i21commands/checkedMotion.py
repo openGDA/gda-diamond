@@ -116,6 +116,7 @@ def checkIfMoveLegal(motor, new_position):
             # check if specl is at safe position
             specl_current=float(specl.getPosition())
             if not isSpeclInRange(specl_current, find_range):
+                enable_arm_motion()
                 if (math.fabs(specl_current-lookuptable[find_range][2]) < math.fabs(specl_current-lookuptable[find_range][3])):
                     specl.moveTo(lookuptable[find_range][2]+1.0)
                 else:
@@ -147,7 +148,7 @@ def checkIfMoveLegal(motor, new_position):
         else:
             print("Motor '%s' is already in position." % (motor.getName()))
             return True
-    elif motor is spech:
+    elif motor is spech or motor is specl:
         enable_arm_motion()
         return False
             
@@ -158,6 +159,7 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
         return
     if not checkIfMoveLegal(motor, new_position):
         motor.moveTo(new_position)
+        print("move '%s' to %f is completed."  % (motor.getName(), new_position))
         sleep (5)
         if motor is armtth:
             armtthoffset.moveTo(-0.14)  # @UndefinedVariable
@@ -171,6 +173,7 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
                 sleep(10.0)
                 sgmr1.moveTo(sgmr1_val)
             if specl_val:
+                enable_arm_motion()
                 specl.moveTo(specl_val)
             print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
             if motor is armtth or motor is sgmr1:
