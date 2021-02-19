@@ -1,62 +1,35 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-        <bean id="bco_pitch" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_pitch_motor" />
-        </bean>
-
-        <bean id="bco_roll" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_roll_motor" />
-        </bean>
-
-        <bean id="bco_y" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_y_motor" />
-        </bean>
-
-        <bean id="bco_x" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_x_motor" />
-        </bean>
-
-        <bean id="bco_yaw" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_yaw_motor" />
-        </bean>
-
-        <bean id="bco_jack1" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_jack1_motor" />
-        </bean>
-
-        <bean id="bco_jack2" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_jack2_motor" />
-        </bean>
-
-        <bean id="bco_jack3" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_jack3_motor" />
-        </bean>
-
-        <bean id="bco_xslide1" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_xslide1_motor" />
-        </bean>
-
-        <bean id="bco_xslide2" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="bco_xslide2_motor" />
-        </bean>
-
-        <bean id="bco" class="gda.device.scannable.scannablegroup.ScannableGroup">
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="bco_pitch" />
-                                <ref bean="bco_roll" />
-                                <ref bean="bco_y" />
-                                <ref bean="bco_x" />
-                                <ref bean="bco_yaw" />
-                                <ref bean="bco_jack1" />
-                                <ref bean="bco_jack2" />
-                                <ref bean="bco_jack3" />
-                                <ref bean="bco_xslide1" />
-                                <ref bean="bco_xslide2" />
-                        </list>
-                </property>
-        </bean>
+	<gda:motor id="bco_pitch" live-pvName="BL21B-MO-TABLE-01:PITCH"/>
+	<gda:motor id="bco_roll" live-pvName="BL21B-MO-TABLE-01:ROLL"/>
+	<gda:motor id="bco_y" live-pvName="BL21B-MO-TABLE-01:Y"/>
+	<gda:motor id="bco_x" live-pvName="BL21B-MO-TABLE-01:X"/>
+	<gda:motor id="bco_yaw" live-pvName="BL21B-MO-TABLE-01:YAW"/>
+	<gda:motor id="bco_jack1" live-pvName="BL21B-MO-TABLE-01:Y1"/>
+	<gda:motor id="bco_jack2" live-pvName="BL21B-MO-TABLE-01:Y2"/>
+	<gda:motor id="bco_jack3" live-pvName="BL21B-MO-TABLE-01:Y3"/>
+	<gda:motor id="bco_xslide1" live-pvName="BL21B-MO-TABLE-01:X1"/>
+	<gda:motor id="bco_xslide2" live-pvName="BL21B-MO-TABLE-01:X2"/>
+	<bean id="bco" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bco_pitch"/>
+				<ref bean="bco_roll"/>
+				<ref bean="bco_y"/>
+				<ref bean="bco_x"/>
+				<ref bean="bco_yaw"/>
+				<ref bean="bco_jack1"/>
+				<ref bean="bco_jack2"/>
+				<ref bean="bco_jack3"/>
+				<ref bean="bco_xslide1"/>
+				<ref bean="bco_xslide2"/>
+			</list>
+		</property>
+	</bean>
 </beans>

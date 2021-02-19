@@ -1,20 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-
-	<bean id="d2motor_motor" class="gda.device.motor.DummyMotor"/>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean id="d2d1" class="gda.device.monitor.DummyMonitor"/>
 	<bean id="d2d1gain" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
-		<property name="offset" value="10" />
-		<property name="scaling" value="0.2" />
-		<property name="description" value="constant gain for d2d1" />
+		<property name="offset" value="10"/>
+		<property name="scaling" value="0.2"/>
+		<property name="description" value="constant gain for d2d1"/>
 	</bean>
-
 	<bean id="d2filter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>

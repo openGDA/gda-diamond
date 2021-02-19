@@ -1,55 +1,34 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="s2_xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xcentre_motor" />
-	</bean>
-
-	<bean id="s2_xgap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xgap_motor" />
-	</bean>
-
-	<bean id="s2_ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_ycentre_motor" />
-	</bean>
-
-	<bean id="s2_ygap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_ygap_motor" />
-	</bean>
-
-	<bean id="s2_xplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xplus_motor" />
-	</bean>
-
-	<bean id="s2_xminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_xminus_motor" />
-	</bean>
-
-	<bean id="s2_yplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_yplus_motor" />
-	</bean>
-
-	<bean id="s2_yminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s2_yminus_motor" />
-	</bean>
-
+	<gda:motor id="s2_xcentre" live-pvName="BL21B-AL-SLITS-02:X:CENTRE"/>
+	<gda:motor id="s2_xgap" live-pvName="BL21B-AL-SLITS-02:X:SIZE"/>
+	<gda:motor id="s2_ycentre" live-pvName="BL21B-AL-SLITS-02:Y:CENTRE"/>
+	<gda:motor id="s2_ygap" live-pvName="BL21B-AL-SLITS-02:Y:SIZE"/>
+	<gda:motor id="s2_xplus" live-pvName="BL21B-AL-SLITS-02:X:PLUS"/>
+	<gda:motor id="s2_xminus" live-pvName="BL21B-AL-SLITS-02:X:MINUS"/>
+	<gda:motor id="s2_yplus" live-pvName="BL21B-AL-SLITS-02:Y:PLUS"/>
+	<gda:motor id="s2_yminus" live-pvName="BL21B-AL-SLITS-02:Y:MINUS"/>
 	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s2_xcentre" />
-				<ref bean="s2_xgap" />
-				<ref bean="s2_ycentre" />
-				<ref bean="s2_ygap" />
-				<ref bean="s2_xplus" />
-				<ref bean="s2_xminus" />
-				<ref bean="s2_yplus" />
-				<ref bean="s2_yminus" />
-				<ref bean="s2_xplusi" />
-				<ref bean="s2_xminusi" />
-				<ref bean="s2_yplusi" />
-				<ref bean="s2_yminusi" />
+				<ref bean="s2_xcentre"/>
+				<ref bean="s2_xgap"/>
+				<ref bean="s2_ycentre"/>
+				<ref bean="s2_ygap"/>
+				<ref bean="s2_xplus"/>
+				<ref bean="s2_xminus"/>
+				<ref bean="s2_yplus"/>
+				<ref bean="s2_yminus"/>
+				<ref bean="s2_xplusi"/>
+				<ref bean="s2_xminusi"/>
+				<ref bean="s2_yplusi"/>
+				<ref bean="s2_yminusi"/>
 			</list>
 		</property>
 	</bean>

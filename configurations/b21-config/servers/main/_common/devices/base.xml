@@ -1,24 +1,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-
-
-        <bean id="base_x" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="base_x_motor" />
-        </bean>
-
-        <bean id="base_y" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="base_y_motor" />
-        </bean>
-
-        <bean id="base" class="gda.device.scannable.scannablegroup.ScannableGroup">
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="base_x" />
-                                <ref bean="base_y" />
-                        </list>
-                </property>
-        </bean>
+	<gda:motor id="base_x" live-pvName="BL21B-MO-TABLE-02:X"/>
+	<gda:motor id="base_y" live-pvName="BL21B-MO-TABLE-02:Y"/>
+	<bean id="base" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="base_x"/>
+				<ref bean="base_y"/>
+			</list>
+		</property>
+	</bean>
 </beans>
