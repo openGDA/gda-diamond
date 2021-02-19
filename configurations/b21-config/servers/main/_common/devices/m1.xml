@@ -8,7 +8,7 @@
 	</bean>
 
 	<bean id="m1_yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1_x_motor" />
+		<property name="motor" ref="m1_yaw_motor" />
 	</bean>
 
 	<bean id="m1_y" class="gda.device.scannable.ScannableMotor">
