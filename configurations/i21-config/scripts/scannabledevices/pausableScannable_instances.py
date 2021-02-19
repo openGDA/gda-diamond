@@ -7,7 +7,7 @@ from gov.aps.jca.event import MonitorListener
 from scannabledevices.pausableScannableWithListenerSupport import PauseableScannable
 from gda.observable import IObserver
 from org.slf4j import LoggerFactory
-from gdaserver import epics_armtth
+from gdaserver import armtth
 from time import sleep
 
 #I21 Laser Scanner listener
@@ -77,7 +77,7 @@ class FlowStatusMonitorListener(MonitorListener):
 PV_MonitorListener_Dictionary={'laser' : ("BL21I-MO-ARM-01:TTH:LASER:STATUS",LaserScannerMonitorListener()),
                                'flow'  : ("BL21I-MO-ARM-01:TTH:SSEAL:NTRGN:STATUS",FlowStatusMonitorListener())}
 
-armtth = PauseableScannable("armtth", epics_armtth, 0.01, PV_MonitorListener_Dictionary)
+armtthWithScanner = PauseableScannable("armtthWithScanner", armtth, 0.01, PV_MonitorListener_Dictionary)
 
 # CONTROL_STATUS={0:'pause', 1:'resume'}
 # class MyObserver(IObserver):

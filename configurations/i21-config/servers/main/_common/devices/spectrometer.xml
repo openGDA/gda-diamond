@@ -33,7 +33,7 @@
 		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
-	<bean id="epics_armtth" class="gda.device.scannable.AirBearingScannableMotor">
+	<bean id="armtth" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="spectthMotor" />
 		<property name="outputFormat">
 			<list>
@@ -45,7 +45,7 @@
 		<property name="onPositionValue" value="Air On"/>
 		<property name="offPositionValue" value="Air Off"/>
 	</bean>
-	<bean id="epics_armtthoffset" class="gda.device.scannable.AirBearingScannableMotor">
+	<bean id="armtthoffset" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="spectthOffsetMotor" />
 		<property name="outputFormat">
 			<list>
@@ -63,8 +63,8 @@
 				<ref bean="specgamma" />
 				<ref bean="spech" />
 				<ref bean="specl" />
-				<ref bean="epics_armtth" />
-				<ref bean="epics_armtthoffset" />
+				<ref bean="armtth" />
+				<ref bean="armtthoffset" />
 			</list>
 		</property>
 	</bean>	

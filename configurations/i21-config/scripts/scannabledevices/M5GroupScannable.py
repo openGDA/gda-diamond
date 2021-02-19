@@ -1,8 +1,8 @@
 '''
-A Scannable class that moves epics_armtth, m5tth, and m5hqry concurrently for a single given position. Polynomial coefficients are required to calculate the position for m5hqry, and m5hqrx, these are defined in the constructor.
+A Scannable class that moves armtth, m5tth, and m5hqry concurrently for a single given position. Polynomial coefficients are required to calculate the position for m5hqry, and m5hqrx, these are defined in the constructor.
 Further requirements implemented are:
 1. m5hqrx can only move after m5hqry motion completed
-2. this scannable should be supported in 'move' command just like 'epics_armtth'
+2. this scannable should be supported in 'move' command just like 'armtth'
 
 Created on Feb 17, 2021
 

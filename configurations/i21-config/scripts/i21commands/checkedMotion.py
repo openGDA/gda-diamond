@@ -75,7 +75,7 @@ class IllegalMoveException(Exception):
     pass
 
 with overwriting:  # @UndefinedVariable
-    from gdaserver import sgmr1, specl, epics_armtth, spech  # @UnresolvedImport
+    from gdaserver import sgmr1, specl, armtth, spech  # @UnresolvedImport
     
 def enable_arm_motion():
     '''this function just clear errors
@@ -86,7 +86,7 @@ def enable_arm_motion():
 def checkIfMoveLegal(motor, new_position):
     '''
     '''
-    if motor is epics_armtth:  # @UndefinedVariable
+    if motor is armtth:  # @UndefinedVariable
         if not moveWithinLimits(float(motor.getPosition()), float(new_position)):
             raise IllegalMoveException("Cannot move across region limits %s from %f to %f" % (sorted(lookuptable.keys()), float(motor.getPosition()), new_position))
         else:
@@ -96,8 +96,8 @@ def checkIfMoveLegal(motor, new_position):
             # check if sgmr1 is at safe position
             sgmr1_current=float(sgmr1.getPosition())
             if not isSgmr1InRange(sgmr1_current, find_range):
-                if epics_armtth.isOn():
-                    epics_armtth.off()
+                if armtth.isOn():
+                    armtth.off()
                     sleep(10.0)
                 if not sgmr1.isOn():
                     sgmr1.on()
@@ -128,8 +128,8 @@ def checkIfMoveLegal(motor, new_position):
             if sgmr1.isOn():
                 sgmr1.off()  # switch off air
                 sleep(8.0)
-            if not epics_armtth.isOn():
-                epics_armtth.on()  # switch on air
+            if not armtth.isOn():
+                armtth.on()  # switch on air
                 sleep(8.0)
             return False
         else:
@@ -137,8 +137,8 @@ def checkIfMoveLegal(motor, new_position):
             return True
     elif motor is sgmr1:
         if math.fabs(float(motor.getPosition()) - float(new_position)) > MOTOR_POSITION_TOLERANCE:
-            if epics_armtth.isOn():
-                epics_armtth.off()
+            if armtth.isOn():
+                armtth.off()
                 sleep(10.0)
             if not sgmr1.isOn():
                 sgmr1.on()
@@ -159,11 +159,11 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
     if not checkIfMoveLegal(motor, new_position):
         motor.moveTo(new_position)
         sleep (5)
-        if motor is epics_armtth:
-            epics_armtthoffset.moveTo(-0.14)  # @UndefinedVariable
+        if motor is armtth:
+            armtthoffset.moveTo(-0.14)  # @UndefinedVariable
             if sgmr1_val:
-                if epics_armtth.isOn():
-                    epics_armtth.off()
+                if armtth.isOn():
+                    armtth.off()
                     print("switch arm air off, wait for 15 seconds.")
                     sleep(15.0)
 #                 if not sgmr1.isOn():
@@ -173,10 +173,10 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
             if specl_val:
                 specl.moveTo(specl_val)
             print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
-            if motor is epics_armtth or motor is sgmr1:
-                epics_armtth.off()
+            if motor is armtth or motor is sgmr1:
+                armtth.off()
                 sgmr1.off()
-                print("air supply is off for both sgmr1 and epics_armtth!")
+                print("air supply is off for both sgmr1 and armtth!")
 
 
 def asynmove(motor, new_position):

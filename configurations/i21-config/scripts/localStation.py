@@ -205,7 +205,7 @@ s5list=[s5v1gap,s5v2gap,s5hgap,s5sut,s5vdso1,s5vdso2,s5hdso] #@UndefinedVariable
 s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
 samplelist=[th,x,y,z,phi,chi,difftth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
 sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
-spectrometerlist=[specgamma,spech,specl,epics_armtth] # @UndefinedVariable
+spectrometerlist=[specgamma,spech,specl,armtth] # @UndefinedVariable
 polariserlist=[polariserstick, polarisergamma]
 #andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
@@ -346,7 +346,7 @@ alias('miscan')
 
 print("create 'm5group' scannable")
 from scannabledevices.M5GroupScannable import M5GroupScannable
-m5group = M5GroupScannable("m5group", epics_armtth, m5tth, m5hqry, m5hqrx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqrx_0=-363.5691038104, m5hqrx_1=-2.1936146304, m5hqrx_2=0.0074169737)  # @UndefinedVariable
+m5group = M5GroupScannable("m5group", armtth, m5tth, m5hqry, m5hqrx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqrx_0=-363.5691038104, m5hqrx_1=-2.1936146304, m5hqrx_2=0.0074169737)  # @UndefinedVariable
 
 print("-"*100)
 #DiffCalc
