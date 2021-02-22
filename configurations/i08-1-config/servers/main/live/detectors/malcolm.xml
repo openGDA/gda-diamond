@@ -58,6 +58,24 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- Axis detector fine -->
+	<bean id="malcolm_info_axis_fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Axis detector fine" />
+		<property name="description" value="Axis detector fine scan" />
+	</bean>
+
+	<bean id="malcolm_model_axis_fine" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL08J-ML-SCAN-04" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolm_device_axis_fine" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL08J-ML-SCAN-04" />
+		<property name="model" ref="malcolm_model_axis_fine" />
+		<property name="deviceInformation" ref="malcolm_info_axis_fine" />
+		<property name="activated" value="false" />
+	</bean>
+
 	<!-- Andor: Malcolm does not control the fast shutter - to be used for dark field collection only -->
 	<bean id="malcolm_info_andor_fine_no_shutter" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Andor fine: dark field collection only" />
@@ -110,6 +128,24 @@
 		<property name="name" value="BL08J-ML-SCAN-22" />
 		<property name="model" ref="malcolm_model_andor_combined" />
 		<property name="deviceInformation" ref="malcolm_info_andor_combined" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Axis detector combined -->
+	<bean id="malcolm_info_axis_combined" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Axis detector combined" />
+		<property name="description" value="Axis detector combined scan" />
+	</bean>
+
+	<bean id="malcolm_model_axis_combined" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL08J-ML-SCAN-24" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolm_device_axis_combined" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL08J-ML-SCAN-24" />
+		<property name="model" ref="malcolm_model_axis_combined" />
+		<property name="deviceInformation" ref="malcolm_info_axis_combined" />
 		<property name="activated" value="false" />
 	</bean>
 
