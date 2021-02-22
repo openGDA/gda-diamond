@@ -6,217 +6,51 @@
 	<bean id="vma_zoom" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="t1x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="t1y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-
-	<bean id="zoom_dependent_calibration" class="uk.ac.gda.client.live.stream.calibration.CalibrationWithEnumZoomSupport">
-		<constructor-arg name="zoom" ref="vma_zoom" />
-		<constructor-arg name="zoomCalibrators">
-			<map>
-				<entry key="0">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.000416667" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.000424629" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="10">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.000556793" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.000566893" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="20">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00078329" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.000742575" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="30">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00106707" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00106383" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="40">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00145985" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00145455" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="50">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00198238" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00198238" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="60">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00273224" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00273224" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="70">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00381944" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.0037931" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="80">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t1x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.0054054" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t1y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.0054054" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-			</map>
-		</constructor-arg>
+	
+	<bean id="vma_t1_lut" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibrationStore">
+		<constructor-arg name="csvFilePath" value="${gda.function.columnDataFile.lookupDir}/vma_calibration.csv" />
+		<constructor-arg name="keyHeading" value="Zoom" />
+		<constructor-arg name="xScaleHeading" value="X Scale" />
+		<constructor-arg name="yScaleHeading" value="Y Scale" />
+		<constructor-arg name="xOffsetHeading" value="X Offset" />
+		<constructor-arg name="yOffsetHeading" value="Y Offset" />
+		<constructor-arg name="xAxis" ref="t1x" />
+		<constructor-arg name="yAxis" ref="t1y" />
 	</bean>
-
-	<bean id="vma_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="VMA" />
-		<property name="url" value="http://bl18i-di-serv-01.diamond.ac.uk:8081/DCAM.CAM1.mjpg.mjpg" />
-		<property name="rgb" value="true" />
-		<property name="calibratedAxesProvider" ref="zoom_dependent_calibration" />
+	
+	<bean id="zoom_dependent_calibration_t1" class="uk.ac.gda.client.live.stream.calibration.PositionerDeterminedCalibration">
+		<constructor-arg name="positioner" ref="vma_zoom" />
+		<constructor-arg name="calibrations" ref="vma_t1_lut" />
+	</bean>
+		
+	<bean id="vma_cam_config_t1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="VMA (T1)" />
+		<property name="arrayPv" value="ws413-AD-SIM-01:ARR" />
+		<property name="calibratedAxesProvider" ref="zoom_dependent_calibration_t1" />
 	</bean>
 	
 	<bean id="t3x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="t3y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	
-	<bean id="zoom_dependent_calibration_t3" class="uk.ac.gda.client.live.stream.calibration.CalibrationWithEnumZoomSupport">
-		<constructor-arg name="zoom" ref="vma_zoom" />
-		<constructor-arg name="zoomCalibrators">
-			<map>
-				<entry key="0">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.000416667" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.000424629" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="10">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.000556793" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.000566893" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="20">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00078329" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.000742575" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="30">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00106707" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00106383" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="40">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00145985" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00145455" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="50">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00198238" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00198238" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="60">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00273224" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.00273224" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="70">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.00381944" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.0037931" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-				<entry key="80">
-					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-						<constructor-arg name="xAxisScannable" ref="t3x" />
-						<constructor-arg name="xAxisPixelScaling" value="0.0054054" />
-						<constructor-arg name="xAxisOffset" value="0.0" />
-						<constructor-arg name="yAxisScannable" ref="t3y" />
-						<constructor-arg name="yAxisPixelScaling" value="0.0054054" />
-						<constructor-arg name="yAxisOffset" value="0.0" />
-					</bean>
-				</entry>
-			</map>
-		</constructor-arg>
+	<bean id="vma_t3_lut" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibrationStore">
+		<constructor-arg name="csvFilePath" value="${gda.function.columnDataFile.lookupDir}/vma_calibration.csv" />
+		<constructor-arg name="keyHeading" value="Zoom" />
+		<constructor-arg name="xScaleHeading" value="X Scale" />
+		<constructor-arg name="yScaleHeading" value="Y Scale" />
+		<constructor-arg name="xOffsetHeading" value="X Offset" />
+		<constructor-arg name="yOffsetHeading" value="Y Offset" />
+		<constructor-arg name="xAxis" ref="t3x" />
+		<constructor-arg name="yAxis" ref="t3y" />
+	</bean>
+	
+	<bean id="zoom_dependent_calibration_t3" class="uk.ac.gda.client.live.stream.calibration.PositionerDeterminedCalibration">
+		<constructor-arg name="positioner" ref="vma_zoom" />
+		<constructor-arg name="calibrations" ref="vma_t3_lut" />
 	</bean>
 
 	<bean id="vma_cam_config_t3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="VMA (T3)" />
-		<property name="url" value="http://bl18i-di-serv-01.diamond.ac.uk:8081/DCAM.CAM1.mjpg.mjpg" />
-		<property name="rgb" value="true" />
+		<property name="arrayPv" value="ws413-AD-SIM-01:ARR" />
 		<property name="calibratedAxesProvider" ref="zoom_dependent_calibration_t3" />
 	</bean>
 
