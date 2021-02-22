@@ -44,13 +44,13 @@ import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.experiment.controller.ExperimentScanningAcquisitionController;
-import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionTypeProperties;
-import uk.ac.diamond.daq.mapping.ui.properties.AcquisitionsPropertiesHelper;
 import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.configuration.ImageCalibration;
 import uk.ac.gda.api.acquisition.configuration.MultipleScans;
 import uk.ac.gda.api.acquisition.configuration.MultipleScansType;
+import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
+import uk.ac.gda.client.properties.acquisition.AcquisitionTypeProperties;
 import uk.ac.gda.ui.tool.AcquisitionConfigurationView;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
@@ -158,7 +158,7 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 	@Override
 	protected AcquisitionController<ScanningAcquisition> getAcquisitionController() {
 		if (acquisitionController == null) {
-			acquisitionController = new ExperimentScanningAcquisitionController(AcquisitionsPropertiesHelper.AcquisitionPropertyType.DIFFRACTION);
+			acquisitionController = new ExperimentScanningAcquisitionController(AcquisitionPropertyType.DIFFRACTION);
 		}
 		return acquisitionController;
 	}
