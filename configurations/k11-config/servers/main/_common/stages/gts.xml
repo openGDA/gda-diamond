@@ -90,6 +90,8 @@
 				<ref bean="gts_y" />
 				<ref bean="gts_theta" />
 				<ref bean="gts_centring" />
+				<ref bean="gts_pitch" />
+				<ref bean="gts_roll" />
 			</list>
 		</property>
 	</bean>

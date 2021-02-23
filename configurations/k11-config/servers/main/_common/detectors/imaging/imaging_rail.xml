@@ -30,7 +30,6 @@
 			<list>
 				<ref bean="pco_x" />
 				<ref bean="pco_z" />
-				<ref bean="pco_focus" />
 			</list>
 		</property>
 	</bean>
