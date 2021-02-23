@@ -10,6 +10,7 @@ For polarisation CL and CR, the ID phase is set to 15 mm fixed at the requested 
 import sys
 from time import sleep
 import logging
+from org.opengda.detector.electronanalyser import NotSupportedException
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
@@ -26,6 +27,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class
         instance.
         '''
+    harmonicOrder = 1
 
     def __init__(self, name, idctrl, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=False, polarisationConstant=False, gap_offset=None, feedbackPV=None):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
@@ -67,10 +69,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         This method sync current object states with ID state in EPICS IOC.
         '''
         result = list(self.idscannable.getPosition())
-        self.gap = float(result[0])
-        self.polarisation = str(result[1])
-        self.phase = float(result[2])
-        return (self.gap, self.polarisation, self.phase)
+        gap = float(result[0])
+        polarisation = str(result[1])
+        if BeamEnergyPolarisationClass.harmonicOrder > 1: # support other harmonic
+            polarisation = str(polarisation)+str(BeamEnergyPolarisationClass.harmonicOrder)
+        phase = float(result[2])
+        return (gap, polarisation, phase)
 
     def showFittingCoefficentsLookupTable(self):
         formatstring="%4s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s\t%11s"
@@ -84,21 +88,20 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def getOrder(self):
         return self.order
 
-    def idgap(self, energy, order):
+    def idgap(self, energy):
         '''return gap for the given energy at given harmonic order for current polarisation.
             used in cvscan where polarisation doesn't change during continuous energy moving.
         '''
-        self.gap, self.polarisation, self.phase = self.getIDPositions()
-        gap, phase = self.idgapphase(energy, self.polarisation, order)
+        gap, polarisation, phase = self.getIDPositions()
+        gap, phase = self.idgapphase(Ep=energy, mode=polarisation)
         return gap
 
-    def idgapphase(self, Ep=None, mode='LH',n=1):
-        '''coverts energy and polarisation to  gap and phase. It supports polarisation modes: LH, LV, CR, CL.
+    def idgapphase(self, Ep=None, mode='LH'):
+        '''coverts energy and polarisation to  gap and phase. It supports polarisation modes: LH, LV, CR, CL, and LH3
         '''
 
         phase = 0 #phase value for LH and LV is ignored by self.idscannable
-        if mode in ["LH", "LV", "CR", "CL"]:
-            Ep = Ep/n
+        if mode in ["LH", "LV", "CR", "CL", "LH3"]:
             #polarisation is constant in these modes
             coef = get_fitting_coefficents(mode, Ep, self.lut)
             gap = coef[0] + coef[1]*Ep + coef[2]*Ep**2 +coef[3]*Ep**3 + coef[4]*Ep**4 + coef[5]*Ep**5 + coef[6]*Ep**6 + coef[7]*Ep**7 + coef[8]*Ep**8 + coef[9]*Ep**9
@@ -109,6 +112,11 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
                 raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s)!" % (gap, self.minGap, self.maxGap))
 
+            if mode == "LH3":
+                BeamEnergyPolarisationClass.harmonicOrder = 3
+            if mode == "LH":
+                BeamEnergyPolarisationClass.harmonicOrder = 1
+                
             if mode == "LV":
                 phase = self.maxPhase
 
@@ -116,13 +124,14 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 phase=15.0
 
         else:
-            raise ValueError("Unsupported polarisation mode, only LH, LV, CR and CL are supported.")
+            raise ValueError("Unsupported polarisation mode, only LH, LV, CR, CL, and LH3 are supported.")
         if phase < 0 or phase > self.maxPhase: #Physical limits of ID Row Phase
             raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, 0, self.maxPhase))
         return (gap, phase)
 
     def calc(self, energy, order):
-        return self.idgap(energy, order)
+        raise NotSupportedException("This method is no longer supported. Please use idgap(energy) method instead.")
+        #return self.idgap(energy)
 
     def rawGetPosition(self):
         '''returns the current beam energy, or polarisation, or both.'''
@@ -130,7 +139,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         gap, polarisation, phase = self.getIDPositions()
         energy=float(self.mono_energy.getPosition()/1000.0) #energy unit is in keV
 
-        if polarisation in ["LH","LV","CR","CL"]:
+        if polarisation in ["LH","LV","CR","CL","LH3"]:
             if self.polarisationConstant:
                 return energy
             elif self.energyConstant:
@@ -147,6 +156,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         for s in self.scannables.getGroupMembers():
             if str(s.getName()) == str(self.idscannable.getName()):
                 try:
+                    if new_polarisation == "LH3" :
+                        new_polarisation = "LH"
                     s.asynchronousMoveTo([gap, new_polarisation, phase])
                 except:
                     print "cannot set %s to [%f, %s, %f]" % (s.getName(), gap, new_polarisation, phase)
@@ -177,8 +188,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     if self.polarisationConstant: #input must be for energy
                         raise ValueError("Input value must be a number.")
                     new_polarisation=str(new_position)
-                    if not new_polarisation in ["LH", "LV","CR", "CL"]:
-                        raise ValueError('Input value must be one of valid polarisation mode: "LH", "LV","CR", "CL"')
+                    if not new_polarisation in ["LH", "LV","CR", "CL", "LH3"]:
+                        raise ValueError('Input value must be one of valid polarisation mode: "LH", "LV","CR", "CL", "LH3"')
                 elif isinstance(new_position, numbers.Number):
                     # energy change requested
                     if self.polarisationConstant: #input must be for energy
@@ -202,7 +213,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 else:
                     raise ValueError("2nd input  for polarisation must be a string")
                 
-            gap, phase=self.idgapphase(Ep=energy, mode=new_polarisation, n=self.order)
+            gap, phase=self.idgapphase(Ep=energy, mode=new_polarisation)
         except:
             raise #re-raise any exception from above try block
 

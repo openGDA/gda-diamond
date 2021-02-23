@@ -120,8 +120,8 @@ class ContinuousEnergyMoveController(ConstantVelocityMoveController, DeviceBase)
             
         #assume no row phase motors need to move during continuous energy move
         
-        self._id_gap_start = self._energy.idgap(self._move_start, self._energy.order) #idgap calculation using energy in keV
-        self._id_gap_end = self._energy.idgap(self._move_end, self._energy.order)
+        self._id_gap_start = self._energy.idgap(self._move_start) #idgap calculation using energy in keV
+        self._id_gap_end = self._energy.idgap(self._move_end)
         
         ### Calculate main cruise moves & speeds from start/end/step
         self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()*self.idspeedfactor

@@ -220,7 +220,7 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 
 print "Create an 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables."
-LH,LV,CR,CL=["LH","LV","CR","CL"]
+LH,LV,CR,CL,LH3=["LH","LV","CR","CL","LH3"]
 from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 if installation.isLive():
     jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
