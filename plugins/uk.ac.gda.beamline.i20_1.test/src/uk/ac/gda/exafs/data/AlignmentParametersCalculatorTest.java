@@ -19,8 +19,12 @@
 package uk.ac.gda.exafs.data;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -56,6 +60,12 @@ public class AlignmentParametersCalculatorTest {
 
 	@BeforeClass
 	public static void preparePythonInterpreter() {
+
+		// This technique taken from AbstractJythonTest
+		Properties postProperties = new Properties();
+		postProperties.put("python.import.site", "false");
+		PythonInterpreter.initialize(System.getProperties(), postProperties, new String[0]);
+
 		interp = new PythonInterpreter();
 		interp.exec("from uk.ac.gda.exafs.data import AlignmentParametersBean;");
 		interp.exec("import sys\nsys.path.append('"+getScriptDir()+"')"); // add i20-1's script directory to the path
@@ -64,9 +74,9 @@ public class AlignmentParametersCalculatorTest {
 
 	private static String getScriptDir() {
 		// Get path to i20-1 scripts directory
-		String path = AlignmentParametersBean.class.getResource("").getPath();
-		int ind = path.indexOf("uk.ac.gda.beamline");
-		return Paths.get(path.substring(0, ind), "i20-1/scripts").toAbsolutePath().toString();
+		Path scriptsDir = Paths.get("").toAbsolutePath().getParent().resolve("i20-1/scripts");
+		assertTrue("i20-1 scripts directory not found", Files.exists(scriptsDir));
+		return scriptsDir.toString();
 	}
 
 	@Before
