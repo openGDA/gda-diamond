@@ -65,4 +65,6 @@
 	<import resource="frontEnd.xml"/>
 
 	<import resource="../main_common.xml" />
+	<import resource="../_common/server.xml"/>
+	
 </beans>
