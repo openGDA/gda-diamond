@@ -45,13 +45,13 @@ def configureFastShutter() :
     print fast_shutter.getName()," positions :",fast_shutter.getValues()
 
 shopen = openEHShutter
-alias shopen
+alias("shopen")
 
 shclose = closeEHShutter
-alias shclose
+alias("shclose")
 
 fso = openFastShutter
-alias fso
+alias("fso")
 
 fsc = closeFastShutter
-alias fsc
+alias("fsc")

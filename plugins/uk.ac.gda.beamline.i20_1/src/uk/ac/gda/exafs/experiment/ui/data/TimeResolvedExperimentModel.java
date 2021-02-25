@@ -300,7 +300,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			startTime = endTime;
 			// endtime, including delay at end of group
 			endTime = startTime + convertSecWorkingUnit*(timingGroup.getTimePerFrame()*timingGroup.getNumberOfFrames() + timingGroup.getPreceedingTimeDelay());
-			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, timingGroup.getPreceedingTimeDelay(), convertSecWorkingUnit*timingGroup.getTimePerFrame());
+			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, convertSecWorkingUnit*timingGroup.getPreceedingTimeDelay(), convertSecWorkingUnit*timingGroup.getTimePerFrame());
 
 			// enable external trigger button for first group only
 			uiTimingGroup.setExternalTriggerAvailable(firstGroup);
@@ -481,15 +481,19 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		experimentDataCollectionJob.schedule();
 	}
 
-	// Jython command build
-	// TODO This is very messy!
 	protected String buildScanCommand() {
-		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
+		StringBuilder scanCommand = buildScanCommand(LINEAR_EXPERIMENT_OBJ, TimeResolvedExperiment.class.getSimpleName());
+		scanCommand.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
+		return scanCommand.toString();
+	}
+
+	protected StringBuilder buildScanCommand(String objectName, String experimentType) {
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import "+experimentType + "\n");
 		// use %g format rather than %f for I0 and It integration times to avoid rounding to 0 for small values <1msec (i.e. requiring >6 decimal places). imh 7/12/2015
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%g",
+		builder.append(String.format("%s = %s(%g", objectName, experimentType,
 				ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)) );
 
-		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");\n",
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");%n",
 				"None",
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
@@ -497,39 +501,38 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				DetectorModel.TOPUP_CHECKER,
 				DetectorModel.SHUTTER_NAME));
 
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);\n", this.getNoOfSecPerSpectrumToPublish()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNameSuffix(\"%s\");\n", this.getExperimentDataModel().getFileNameSuffix()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setWriteAsciiData(%s);\n", getGenerateAsciiData() ? "True" : "False"));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");\n", this.getExperimentDataModel().getSampleDetails()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);\n", this.getExperimentDataModel().getUseFastShutter() ? "True" : "False" ) );
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFastShutterName(\"%s\");\n", DetectorModel.FAST_SHUTTER_NAME ) );
+		builder.append(String.format("%s.setNoOfSecPerSpectrumToPublish(%f);%n", objectName, this.getNoOfSecPerSpectrumToPublish()));
+		builder.append(String.format("%s.setFileNameSuffix(\"%s\");%n", objectName, this.getExperimentDataModel().getFileNameSuffix()));
+		builder.append(String.format("%s.setWriteAsciiData(%s);%n", objectName, getGenerateAsciiData() ? "True" : "False"));
+		builder.append(String.format("%s.setSampleDetails(\"%s\");%n", objectName, this.getExperimentDataModel().getSampleDetails()));
+		builder.append(String.format("%s.setUseFastShutter(%s);%n", objectName, this.getExperimentDataModel().getUseFastShutter() ? "True" : "False" ) );
+		builder.append(String.format("%s.setFastShutterName(\"%s\");%n", objectName, DetectorModel.FAST_SHUTTER_NAME ) );
 
 		// Add timing groups
-		addTimingGroupsMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+		addTimingGroupsMethodCallToCommand(objectName, builder);
 
 		// Add I0 accumulations
-		addI0AccumulationMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+		addI0AccumulationMethodCallToCommand(objectName, builder);
 
 		// Add external Tfg command
-		addItTriggerMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+		addItTriggerMethodCallToCommand(objectName, builder);
 
 		// Add Iref commands
-		addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+		addIRefMethodCallStrToCommand(objectName, builder);
 
 		// Add names of pvs/scannables to be monitored
-		addScannablesMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+		addScannablesMethodCallToCommand(objectName, builder);
 
 		// Add xml bean
 		try {
 			TimeResolvedExperimentParameters params = getParametersBeanFromCurrentSettings();
 			String paramString = params.toXML().replace("\n", " "); // Serialized xml string of bean
-			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setParameterBean('%s'); \n", paramString));
+			builder.append(String.format("%s.setParameterBean('%s');%n", objectName, paramString));
 		} catch (DeviceException e) {
 			logger.warn("Problem adding TimeResolvedExperimentParameters to experiment object", e);
 		}
 
-		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
-		return builder.toString();
+		return builder;
 	}
 
 	protected void addScannablesMethodCallToCommand(String expObject, StringBuilder builder) {
@@ -567,7 +570,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	protected void addI0AccumulationMethodCallToCommand(String expObject, StringBuilder builder) {
 		// Set number of I0 accumulations (if different from It accumulations)
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
-			builder.append(String.format(expObject + ".setNumberI0Accumulations(%d);\n", this.getExperimentDataModel().getI0NumberOfAccumulations()));
+			builder.append(String.format("%s.setNumberI0Accumulations(%d);%n", expObject, this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		}
 	}
 
@@ -580,7 +583,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		// Set number of I0 accumulations (if different from It accumulations)
 		if (this.getTimingGroupList().get(0).isGroupTrig()) {
 			String tfgTriggerString = gson.toJson(externalTriggerSetting.getTfgTrigger());
-			builder.append(String.format(expObject + ".setItTriggerOptions(\'%s\');\n", tfgTriggerString));
+			builder.append(String.format("%s.setItTriggerOptions(\'%s\');%n", expObject, tfgTriggerString));
 		}
 	}
 
@@ -597,7 +600,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			i0ForIRefNoOfAccumulations = irefNoOfAccumulations;
 		}
 		double irefIntegrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getIrefIntegrationTime(), ExperimentUnit.SEC);
-		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %g, %d, %g, %d);\n",
+		builder.append(String.format("%s.setIRefParameters(mapToJava(%s), mapToJava(%s), %g, %d, %g, %d);%n",
+				linearExperimentObj,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 				irefIntegrationTime,

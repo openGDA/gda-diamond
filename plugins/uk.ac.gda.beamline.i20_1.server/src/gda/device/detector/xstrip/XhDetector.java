@@ -193,7 +193,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 
 	@Override
-	protected synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
+	public synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] value = null;
 		if (hasValidDataHandle()) {
 			int numFrames = finalFrame - startFrame + 1;
@@ -739,6 +739,13 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	public void configureDetectorForROI(int verticalBinning, int ccdLineBegin) throws DeviceException {
 		throw new UnsupportedOperationException("This detector does not support vertival binning and offset.");
 
+	}
+
+	@Override
+	public int getLastImageAvailable() throws DeviceException {
+		DetectorStatus status = fetchStatus();
+		Integer currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(currentScanParameter, status.getCurrentScanInfo());
+		return currentFrame;
 	}
 
 	// Implementation of beam orbit synchronization. imh 11/12/2015

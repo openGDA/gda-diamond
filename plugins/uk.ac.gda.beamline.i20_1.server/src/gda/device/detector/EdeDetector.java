@@ -141,4 +141,23 @@ public interface EdeDetector extends NexusDetector {
 	public DetectorSetupType getDetectorSetupType();
 
 	public void setDetectorSetupType(DetectorSetupType detectorSetupType);
+
+	/**
+	 * implements the read out of frames from the actual detector used.
+	 *
+	 * @param startFrame
+	 * @param finalFrame
+	 * @return an 1D integer array containing all frames concatenated from start frame to the final frame inclusively.
+	 * @throws DeviceException
+	 */
+	public abstract int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException;
+
+	/**
+	 *
+	 * @return Index of last image on the detector available for reading out using.
+	 * (i.e. -1 = no image is ready, 0 = 1 image is ready)
+	 *
+	 * @throws DeviceException
+	 */
+	int getLastImageAvailable() throws DeviceException;
 }

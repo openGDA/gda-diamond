@@ -227,7 +227,7 @@ public class PowerCalulator {
 		return transmission;
 	}
 
-	private static List<ScannableSetup> getMirrorFilters() {
+	public static List<ScannableSetup> getMirrorFilters() {
 		List<ScannableSetup> mirrorFilters = new ArrayList<>();
 		if (AlignmentParametersModel.INSTANCE.isUseAtn45()) {
 			mirrorFilters.add(ScannableSetup.ATN4);

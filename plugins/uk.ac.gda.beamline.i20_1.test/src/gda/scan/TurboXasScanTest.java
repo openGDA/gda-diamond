@@ -151,6 +151,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		dummyMotor.setMinPosition(-10000);
 		dummyMotor.setMaxPosition(10000);
 		dummyMotor.setPosition(0);
+		dummyMotor.setSpeed(100000);
 		dummyMotor.configure();
 
 		TrajectoryScanPreparer trajectoryScanPreparer = new TrajectoryPreparerForTest();
@@ -629,7 +630,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		assertEquals(((StringDataset)groupNode.getAttribute(NexusConstants.DATA_SIGNAL).getValue()).getString(), signalName);
 
 		// Check that the _indices attributes have been set (energy_indices, frame_indices, position_indices, time_indices)
-		for (Entry<String, Integer> attrib : TurboXasNexusTree.getAttributeDataNames().entrySet()) {
+		for (Entry<String, Integer> attrib : new TurboXasNexusTree().getAttributeDataNames().entrySet()) {
 			String attributeName = attrib.getKey() + NexusConstants.DATA_INDICES_SUFFIX;
 			IDataset dataset = groupNode.getAttribute(attributeName).getValue();
 			assertEquals(attrib.getValue().intValue(), ((IntegerDataset) dataset).get());
@@ -708,7 +709,6 @@ public class TurboXasScanTest extends EdeTestBase {
 		addTimingGroups(parameters);
 		TurboXasScan scan = parameters.createScan();
 		scan.setScannableToMove(dummyScannableMotor);
-		scan.addScannableToMonitor(dummyScannableMotor);
 		List<Object> positionsForScan = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
 		scan.setPositionsForScan(positionsForScan);
 

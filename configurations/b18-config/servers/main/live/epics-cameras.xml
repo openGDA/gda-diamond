@@ -15,5 +15,7 @@
 	<bean id="dcam_07_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL18B-DI-DCAM-07:CAM:" />
 	</bean>
-
+	<bean id="dcam_08_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL18B-DI-DCAM-08:CAM:" />
+	</bean>
 </beans>

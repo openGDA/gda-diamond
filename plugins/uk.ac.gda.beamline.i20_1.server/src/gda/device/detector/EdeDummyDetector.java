@@ -174,7 +174,7 @@ public class EdeDummyDetector extends EdeDetectorBase {
 	 * <p> If number of frames required > number of rows, row values will be cycled repeatedly as necessary.
 	 */
 	@Override
-	protected int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
+	public int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
 		logger.debug("readoutFrames");
 
 		int[] datashape = new int[]{};
@@ -325,5 +325,10 @@ public class EdeDummyDetector extends EdeDetectorBase {
 	@Override
 	public String getOrbitWaitMethod() {
 		return null;
+	}
+
+	@Override
+	public int getLastImageAvailable() throws DeviceException {
+		return 0;
 	}
 }

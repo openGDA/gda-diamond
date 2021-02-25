@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdePositionType;
@@ -77,10 +78,6 @@ public class PlotUpdater {
 
 	public void setCurrentGroupNumber(int currentGroupNumber) {
 		this.currentGroupNumber = currentGroupNumber;
-	}
-
-	public void incrementCurrentSpectrumNumber() {
-		currentSpectrumNumber++;
 	}
 
 	public void setCurrentSpectrumNumber(int currentSpectrumNumber) {
@@ -199,14 +196,14 @@ public class PlotUpdater {
 
 		scanProgressBean.setCustomLabelForSDP(createPlotLabel());
 
-		for (String dataName : dataSets.keySet()) {
+		for (Entry<String,DoubleDataset> data : dataSets.entrySet()) {
 			// Don't plot position column or energy datasets
-			if (!dataNamesToIgnore.contains(dataName)) {
+			if (!dataNamesToIgnore.contains(data.getKey())) {
 				EdeExperimentProgressBean progressBean =  new EdeExperimentProgressBean(ExperimentCollectionType.MULTI,
-						scanProgressBean, dataName, dataSets.get(dataName), dataSets.get(energyAxisName));
+						scanProgressBean, data.getKey(), data.getValue(), dataSets.get(energyAxisName));
 
 				progressBean.setUncalibratedXAxisData(dataSets.get(positionColumnName));
-				progressBean.setSelectedByDefault(dataName.equals(dataNameToSelectInPlot));
+				progressBean.setSelectedByDefault(data.getKey().equals(dataNameToSelectInPlot));
 
 				controller.update(null, progressBean);
 			}

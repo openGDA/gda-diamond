@@ -99,7 +99,6 @@ public class TurboXasNexusTree {
 	private SwmrFileReader xspress3FileReader;
 	private int numReadoutsPerSpectrum;
 	private long startTimeUtcMillis = System.currentTimeMillis();
-	private List<String> extraScannables = new ArrayList<>();
 	private List<String> namesForDefaultNXData = Arrays.asList("FF", "It", "lnI0It");
 
 	private List<String> datasetsNamesToAverage = Collections.emptyList();
@@ -196,13 +195,12 @@ public class TurboXasNexusTree {
 	 * @return
 	 */
 
-	private Map<String, Object> addAttributesToMap(String signalName, Map<String, Object> mapObj) {
+	private void addAttributesToMap(String signalName, Map<String, Object> mapObj) {
 		mapObj.put(NexusConstants.NXCLASS + "@", NexusConstants.DATA);
-		TurboXasNexusTree.getAttributeDataNames().entrySet()
+		getAttributeDataNames().entrySet()
 				.forEach(entry -> mapObj.put(entry.getKey() + NexusConstants.DATA_INDICES_SUFFIX + "@", entry.getValue()));
 		mapObj.put(NexusConstants.DATA_SIGNAL + "@", signalName);
 		mapObj.put(NexusConstants.DATA_AXES + "@", new String[] {TurboXasNexusTree.TIME_COLUMN_NAME, TurboXasNexusTree.ENERGY_COLUMN_NAME});
-		return mapObj;
 	}
 
 	/**
@@ -211,13 +209,10 @@ public class TurboXasNexusTree {
 	 * @param mapObj
 	 * @return
 	 */
-	private Map<String, Object> addAxisDatasetLinksToMap(String sourceGroupName, Map<String, Object> mapObj) {
-		List<String> axisNames = Arrays.asList(TurboXasNexusTree.ENERGY_COLUMN_NAME, TurboXasNexusTree.POSITION_COLUMN_NAME,
-						TurboXasNexusTree.SPECTRUM_INDEX,  TurboXasNexusTree.TIME_COLUMN_NAME);
-		for(String name : axisNames) {
-			mapObj.put(name, "/entry1/"+sourceGroupName+"/"+name);
-		}
-		return mapObj;
+	private void addAxisDatasetLinksToMap(String sourceGroupName, Map<String, Object> mapObj) {
+		getAttributeDataNames()
+				.keySet()
+				.forEach(name -> mapObj.put(name, "/entry1/"+sourceGroupName+"/"+name));
 	}
 
 	private boolean isAddNxDataEntries = true;
@@ -230,7 +225,7 @@ public class TurboXasNexusTree {
 		this.isAddNxDataEntries = isAddNxDataEntries;
 	}
 
-	public static Map<String, Integer> getAttributeDataNames() {
+	public Map<String, Integer> getAttributeDataNames() {
 		Map<String, Integer> dataNames = new LinkedHashMap<>();
 		dataNames.put(TIME_COLUMN_NAME, 0);
 		dataNames.put(SPECTRUM_INDEX, 0);
@@ -653,13 +648,6 @@ public class TurboXasNexusTree {
 		return startTimeUtcMillis;
 	}
 
-	public void setExtraScannables(List<Scannable> scannablesToMonitor) {
-		extraScannables.clear();
-		if (scannablesToMonitor != null) {
-			scannablesToMonitor.forEach( scannable -> extraScannables.add(scannable.getName()));
-		}
-	}
-
 	public List<String> getNamesForDefaultNXData() {
 		return namesForDefaultNXData;
 	}
@@ -685,4 +673,5 @@ public class TurboXasNexusTree {
 		this.spectrumNumber = spectrumNumber;
 		this.groupNumber = groupNumber;
 	}
+
 }

@@ -45,8 +45,10 @@ Require-Bundle: uk.ac.gda.core,
  uk.ac.diamond.daq.dls.controls;bundle-version="1.0.0",
  org.dawnsci.ede,
  org.eclipse.january,
- org.eclipse.dawnsci.nexus.template
-Import-Package: org.eclipse.dawnsci.hdf5,
+ org.eclipse.dawnsci.nexus.template,
+ uk.ac.diamond.daq.persistence
+Import-Package: gda.device.frelon,
+ org.eclipse.dawnsci.hdf5,
  org.eclipse.dawnsci.hdf5.nexus,
  org.eclipse.january.dataset,
  org.python.core,

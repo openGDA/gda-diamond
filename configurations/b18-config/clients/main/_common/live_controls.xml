@@ -234,6 +234,14 @@
 		<property name="textWidth" value="100" />
 	</bean>
 
+<!-- Mapped positioner for A3 filter -->
+	<bean id="a3_mapped_filter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="A3 filter" />
+		<property name="scannableName" value="a3_mapped_positioner" />
+		<property name="showStop" value="False" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>

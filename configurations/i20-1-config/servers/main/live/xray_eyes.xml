@@ -261,4 +261,18 @@
 		</property>
 	</bean>
 
+
+<!-- Camera controllers for live stream view  -->
+	<bean id="d2_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="d2_adbase" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+	<bean id="d3_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="d3_adbase" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+	<bean id="d10_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="d10_adbase" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
 </beans>

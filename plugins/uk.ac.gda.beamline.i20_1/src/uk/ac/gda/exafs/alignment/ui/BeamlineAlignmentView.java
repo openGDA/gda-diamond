@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.alignment.ui;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.dawnsci.ede.DataHelper;
@@ -63,6 +64,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
@@ -341,8 +343,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			try {
 				double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
 				double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
-				final int powerValue = (int) PowerCalulator.getPower(wigglerGap, slitHGap, 300);
-				String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
+				logger.debug("Update power : wiggler gap = {}, slit gap = {}", wigglerGap, slitHGap);
+				final double powerValue = PowerCalulator.getPower(wigglerGap, slitHGap, 300);
+				String powerWatt = UnitSetup.WATT.addUnitSuffix(String.format("%4f", powerValue));
 				if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
 					String value ="Estimated power is " + powerWatt;
 					scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
@@ -363,29 +366,38 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 	private class BeamLightFilterPowerUpdate implements IObserver{
-		private String value = "";
+		private String lastPos = "";
 		@Override
 		public void update(Object source, Object arg) {
-			if (arg instanceof String && !value.equals(arg)) {
-				updatePower();
-				value = (String) arg;
+			if (source instanceof Scannable) {
+				Scannable scn = (Scannable) source;
+				try {
+					String newPos = scn.getPosition().toString();
+					if (!newPos.equals(lastPos)) {
+						updatePower();
+						lastPos = newPos;
+					}
+				} catch (DeviceException e) {
+					logger.error("Problem getting position of {} - updating power calculation anyway", scn.getName());
+					updatePower();
+				}
 			}
+
 		}
 	}
 
 	private void bindFiltersForPowerCalculation() throws Exception {
-		if (AlignmentParametersModel.INSTANCE.isUseAtn45()) {
-			ScannableSetup.ATN4.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
-			ScannableSetup.ATN5.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
 
-		} else {
-			ScannableSetup.ATN1.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
-			ScannableSetup.ATN2.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
-			ScannableSetup.ATN3.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
+		List<ScannableSetup> mirrorFilters = PowerCalulator.getMirrorFilters();
+		List<ScannableSetup> motors = Arrays.asList(ScannableSetup.ME1_STRIPE, ScannableSetup.ME2_STRIPE,
+				ScannableSetup.ME2_PITCH_ANGLE, ScannableSetup.WIGGLER_GAP, ScannableSetup.SLIT_1_HORIZONAL_GAP);
+
+		// Add IObservers
+		List<ScannableSetup> all = new ArrayList<>(mirrorFilters);
+		all.addAll(motors);
+		for(ScannableSetup s : all) {
+			s.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
 		}
-
-		ScannableSetup.ME1_STRIPE.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
-		ScannableSetup.ME2_STRIPE.getScannable().addIObserver(new BeamLightFilterPowerUpdate());
 	}
 
 	private void bindModelWithUI() {

@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd" >        
 
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="bragg" />
@@ -570,6 +573,23 @@
 <!-- samplewheel names - for use in client; list of available names updated on server using samplewheel.getFilterNames() -->
 	<bean id="samplewheel_names" class="gda.device.enumpositioner.DummyEnumPositioner" >
 		<property name="name" value="samplewheel_names" />
+	</bean>
+
+
+<!-- Mapped positioner for A3 filter with 2 positions : In = "Fluo screen", Out = out" -->
+	<bean id="a3_position_mapper" class="gda.device.enumpositioner.MapBasedEnumValueMapper">
+		<property name="map">
+			<util:map>
+				<entry key="In" value="Fluo screen" />
+				<entry key="Out" value="out" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="a3_mapped_positioner" class="gda.device.enumpositioner.StringMapperBasedEnumPositioner">
+		<property name="mapper" ref="a3_position_mapper" />
+		<property name="monitor" ref="A3" />
+		<property name="control" ref="A3" />
 	</bean>
 
 </beans>

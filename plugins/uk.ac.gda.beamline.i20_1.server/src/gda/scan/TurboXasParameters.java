@@ -33,6 +33,7 @@ import java.util.Optional;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -254,6 +255,7 @@ public class TurboXasParameters {
 	}
 	public void setTimingGroups( List<TurboSlitTimingGroup> groupList ) {
 		timingGroups = new ArrayList<>( groupList );
+
 	}
 	public List<TurboSlitTimingGroup> getTimingGroups() {
 		return timingGroups;
@@ -269,6 +271,27 @@ public class TurboXasParameters {
 			totNumSpectra += group.getNumSpectra();
 		}
 		return totNumSpectra;
+	}
+
+	/**
+	 * Return group and spectrum index for given absolute spectrum index in whole collection.
+	 * (this cycles around to first group again if specNumber > {@#getTotalNumSpectra()})
+	 * @param specNumber absolute spectrum index.
+	 * @return Group and spectrum indices.
+	 */
+	public Pair<Integer,Integer> getGroupSpectrumIndices(int absIndex) {
+		absIndex %= getTotalNumSpectra(); // Ensure index is between 0 and total num spectra
+		int groupStartIndex = 0;
+		for(int i=0; i<timingGroups.size(); i++) {
+			int numSpectraInGroup = timingGroups.get(i).getNumSpectra();
+			if (absIndex < groupStartIndex+numSpectraInGroup) {
+				return Pair.create(i,  absIndex - groupStartIndex);
+			} else {
+				groupStartIndex += numSpectraInGroup;
+			}
+		}
+		logger.warn("Could not get group, spectrum indices for spectrum with absolute index {}. Using (-1, -1) instead.", absIndex);
+		return Pair.create(-1, -1);
 	}
 
 	public String getEnergyCalibrationPolynomial() {
@@ -701,7 +724,6 @@ public static String doubleToString( double doubleVal ) {
 					logger.warn("Scannable positions have not been set");
 				} else {
 					scan.setPositionsForScan(TimeResolvedExperimentParameters.getPositionArray(scannablePositions));
-					scan.getScannablesToMonitor().add(scnToMove.get());
 					logger.info("Moving scannable '{}' to {} different position during scan.", scannableToMove, scannablePositions.size());
 				}
 			} else {

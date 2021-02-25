@@ -62,6 +62,7 @@ import gda.scan.EdeScan;
 import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
+import gda.scan.ScanInterruptedException;
 import gda.scan.ScanPlotSettings;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
@@ -395,28 +396,38 @@ public abstract class EdeExperiment implements IObserver {
 
 	public String runExperiment() throws Exception {
 		try {
-			clearScans();
-			addScansForExperiment();
-			addMetaData();
-			nexusFilename = addToMultiScanAndRun();
-			if (!useFastShutter) {
-				logger.info("Close shutter called in EdeExperiment.runExperiment() at end of scan before writing ascii files");
-				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of scan, before writing ascii files.");
-				mainShutterMoveTo(ValvePosition.CLOSE);
-			}
-			String asciiDataFile = writeToFiles();
-			return asciiDataFile;
+			return runScan();
 		} catch(Exception e) {
 			logger.error("Error running experiment", e);
 			throw e;
 		} finally {
 			theDetector.stop();
 			if (!useFastShutter) {
-				//logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
-				//InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
 				mainShutterMoveTo(ValvePosition.CLOSE);
 			}
 		}
+	}
+
+	private String runScan() throws Exception {
+		clearScans();
+		addScansForExperiment();
+		addMetaData();
+
+		try {
+			addToMultiScanAndRun();
+		} catch (ScanInterruptedException e) {
+			// Catch interrupted exception so can attempt to create ascii files and process the Nexus data
+			logger.warn("Caught 'scan interrupted' exception - attempting to write processed Nexus data and ascii files", e);
+		} finally {
+			nexusFilename = getMultiScan().getDataWriter().getCurrentFileName();
+		}
+
+		if (!useFastShutter) {
+			logger.info("Close shutter called in EdeExperiment.runExperiment() at end of scan before writing ascii files");
+			InterfaceProvider.getTerminalPrinter().print("Close shutter at end of scan, before writing ascii files.");
+			mainShutterMoveTo(ValvePosition.CLOSE);
+		}
+		return writeToFiles();
 	}
 
 	private void mainShutterMoveTo(String position) throws DeviceException, InterruptedException {
@@ -450,7 +461,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract boolean shouldPublishItScanData(EdeScanProgressBean progress);
 
-	private String addToMultiScanAndRun() throws Exception {
+	private void addToMultiScanAndRun() throws Exception {
 		try {
 			ScanPlotSettings plotNothing = new ScanPlotSettings();
 			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
@@ -477,7 +488,6 @@ public abstract class EdeExperiment implements IObserver {
 
 			logger.debug("Starting multiscan...");
 			getMultiScan().runScan();
-			return getMultiScan().getDataWriter().getCurrentFileName();
 		} finally {
 			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
 		}

@@ -84,7 +84,16 @@
 	<bean id="A3" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Al 1 mm</value>
+				<value>Al mylar</value>
+				<value>Ti 1 um</value>
+				<value>Cr 1 um</value>
+				<value>Cu 1 um</value>
+				<value>Ge 5 um</value>
+				<value>Zr 5 um</value>
+				<value>Mo 5 um</value>
+				<value>Au 0.1 um / Ag</value> 
+				<value>Fluo screen</value>
+				<value>out</value>
 			</list>
 		</property>
 	</bean>
