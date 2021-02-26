@@ -41,6 +41,7 @@
 	<import resource="cameras.xml" />
 	<import resource="analyser.xml" />
 	<import resource="analyser_over_exposure.xml" />
+	<import resource="mbs_analyser.xml" />
 
 	<!-- vacuum gauges -->
 	<import resource="pressure_gauges.xml" />
