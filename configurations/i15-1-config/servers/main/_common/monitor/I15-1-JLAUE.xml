@@ -29,32 +29,32 @@
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="pitch"/>
 					<property name="scannableName"			value="xtalBragg"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="pitch_fine"/>
 					<property name="scannableName"			value="xtalFine"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="yaw"/>
 					<property name="scannableName"			value="xtalYaw"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="roll"/>
 					<property name="scannableName"			value="xtalRoll"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="y_position"/>
 					<property name="scannableName"			value="xtalY"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="bender"/>
 					<property name="scannableName"			value="xtalBend"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 			</list>
 		</property>

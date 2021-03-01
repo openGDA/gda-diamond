@@ -27,12 +27,12 @@
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="sample_x"/>
 					<property name="scannableName"			value="samX"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="sample_y"/>
 					<property name="scannableName"			value="samY"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 			</list>
 		</property>
