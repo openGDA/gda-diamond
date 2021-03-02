@@ -24,8 +24,8 @@ class M5GroupScannable(ScannableMotionBase):
         '''
         self.logger = LoggerFactory.getLogger(M5GroupScannable.__class__.__name__)
         self.setName(name)
-        self.setInputNames([])
-        self.setExtraNames([armtth.getName(), m5tth.getName(), m5hqry.getName(), m5hqx.getName()])
+        self.setInputNames([armtth.getName()])
+        self.setExtraNames([m5tth.getName(), m5hqry.getName(), m5hqx.getName()])
         self.armtth = armtth
         self.m5tth = m5tth
         self.m5hqry = m5hqry
