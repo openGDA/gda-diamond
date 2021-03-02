@@ -2,14 +2,6 @@ from time import sleep, time;
 import os;
 from java.io import File;
 
-from javax.imageio import ImageIO;
-from java.awt.image import BufferedImage
-
-
-#import java
-from math import *
-
-
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 
@@ -17,33 +9,21 @@ from gda.device.detector import DetectorBase
 from gda.device.detector.areadetector.v17 import NDPluginBase;
 from gda.device import Detector
 
-from gda.analysis.datastructure import *
-from gda.analysis import *
-#from gda.analysis import DataSet
-from uk.ac.diamond.scisoft.analysis import SDAPlotter 
-from gda.analysis.io import PNGLoader, PNGSaver;
-
-
-
-from gov.aps.jca.event import PutEvent;
-from gov.aps.jca.event import PutListener;
-from gov.aps.jca import CAStatus;
-from gov.aps.jca.dbr import DBRType;
-
 import scisoftpy as dnp;
 
 from Diamond.Utility.Threads import BackgroundRunningTask
+import sys
 
 class ADDetectorDeviceClass(DetectorBase):
 	DETECTOR_STATUS_IDLE, DETECTOR_STATUS_BUSY, DETECTOR_STATUS_PAUSED, DETECTOR_STATUS_STANDBY, DETECTOR_STATUS_FAULT, DETECTOR_STATUS_MONITORING = range(6);
-	def __init__(self, name, adDetector, panelName="Fleacam"):
+	def __init__(self, name, ad_detector, panel_name="Fleacam"):
 
 		self.setName(name);
-		self.detector=adDetector
+		self.detector=ad_detector
 
 		self.level = self.detector.getLevel() + 1;
 
-		self.panel = panelName;
+		self.panel = panel_name;
 		
 		self.filePrefix = None;
 		self.pathPostfix = None;
@@ -80,13 +60,13 @@ class ADDetectorDeviceClass(DetectorBase):
 #		self.ndStats=self.detector.getNdStats();
 		
 		self.setInputNames([]);
-		extraNames = ['ExposureTime', 'file'];
-		extraNames.extend( self.extras );
-		outputFormat = ['%f', '%s'];
-		outputFormat.extend( ['%10.4f']*len(self.extras) );
+		extra_names = ['ExposureTime', 'file'];
+		extra_names.extend( self.extras );
+		output_format = ['%f', '%s'];
+		output_format.extend( ['%10.4f']*len(self.extras) );
 
-		self.setExtraNames(extraNames);
-		self.setOutputFormat(outputFormat);
+		self.setExtraNames(extra_names);
+		self.setOutputFormat(output_format);
 
 	def setAlive(self, alive=True):
 		self.alive = alive
@@ -116,14 +96,14 @@ class ADDetectorDeviceClass(DetectorBase):
 		self.exposureTime=self.detector.getCollectionTime();
 		return self.exposureTime;
 
-	def setCollectionTime(self, newExpos):
-		self.exposureTime = newExpos;
+	def setCollectionTime(self, new_expos):
+		self.exposureTime = new_expos;
 		self.detector.setCollectionTime(self.exposureTime);
-		adBase=self.detector.getAdBase();
+		ad_base=self.detector.getAdBase();
 
-		if (adBase.getAcquirePeriod_RBV() < self.exposureTime + 0.1 ):
-			adBase.setAcquirePeriod(self.exposureTime + 0.1)
-		adBase.setAcquireTime(self.exposureTime);
+		if (ad_base.getAcquirePeriod_RBV() < self.exposureTime + 0.1 ):
+			ad_base.setAcquirePeriod(self.exposureTime + 0.1)
+		ad_base.setAcquireTime(self.exposureTime);
 
 
 	def prepareForCollection(self):
@@ -143,7 +123,7 @@ class ADDetectorDeviceClass(DetectorBase):
 		return self.detector.getStatus();
 	
 	def readout(self):
-#		print "Debug: "+  sys._getframe().f_code.co_name +" is called";
+#		print("Debug: "+  sys._getframe().f_code.co_name +" is called")
 
 #		self.fileName=self.getFullFileName();
 #		print "First attemp: " + self.fileName;
@@ -154,7 +134,7 @@ class ADDetectorDeviceClass(DetectorBase):
 		sleep(self.delay);
 
 		self.fileName=self.getFullFileName();
-#		print "Second attemp: " + self.fileName;
+#		print("Second attemp: " + self.fileName)
 			
 		if self.alive:
 			self.loadImageFile(self.fileName)
@@ -169,7 +149,7 @@ class ADDetectorDeviceClass(DetectorBase):
 		return result;
 
 	def endCollection(self):
-#		print "Debug: "+  sys._getframe().f_code.co_name +" is called";
+		print("Debug: "+  sys._getframe().f_code.co_name +" is called")
 		self.enableNdFilePlugin(False, False);
 		self.restoreImageMode();
 
@@ -180,21 +160,21 @@ class ADDetectorDeviceClass(DetectorBase):
 	def atCommandFailure(self):
 		self.stop();
 
-
 #General camera operations:
 	def display(self,dataset=None):
 		if dataset is None:
 			dataset=self.dataset;
 			
 		if dataset is None:
-			print "No dataset to display";
+			print("No dataset to display")
 			return;
 
 		if self.panel:
+			from uk.ac.diamond.scisoft.analysis import SDAPlotter 
 			SDAPlotter.imagePlot(self.panel, dataset);
 		else:
-			print "No panel set to display"
-			raise Exception("No panel_name set in %s. Set this or set %s.setAlive(False)" % (self.name, self.name));
+			print("No panel set to display")
+			raise ValueError("No panel_name set in %s. Set this or set %s.setAlive(False)" % (self.name, self.name));
 
 	def stopIt(self):
 		self.previewThread.stop();
@@ -208,8 +188,8 @@ class ADDetectorDeviceClass(DetectorBase):
 		self.previewThread.start();
 
 	def previewLoop(self, t):
-		newExpos, acquirePeriod=t;
-		self.setCollectionTime(newExpos);
+		new_expos, acquire_period=t;
+		self.setCollectionTime(new_expos);
 		self.prepareForPreview();
 		
 #		self.prepareForCollection();
@@ -217,12 +197,11 @@ class ADDetectorDeviceClass(DetectorBase):
 		
 		while True:
 			t0=time();
-			self.getCameraData();#To get the dataset
+			self.getCameraData(); #To get the dataset
 			self.display();
-			lt= acquirePeriod - (time()-t0)/1000.;
+			lt= acquire_period - (time()-t0)/1000.;
 			if lt >=0:
 				sleep(lt);
-
 
 	def prepareForPreview(self):
 		#turn on the continuous viewing mode
@@ -236,22 +215,23 @@ class ADDetectorDeviceClass(DetectorBase):
 		self.detector.getAdBase().startAcquiring();
 
 	def prepareForSingleShot(self):
-		ndFile=self.detector.getNdFile();
-		ndFile.setNumCapture(1);
-		ndFile.setFileWriteMode(0);#Capture Mode: Single
+		nd_file=self.detector.getNdFile();
+		nd_file.setNumCapture(1);
+		nd_file.setFileWriteMode(0); #Capture Mode: Single
 
 		self.enableNdFilePlugin();
 
-	def prepareForMultiShot(self, numberOfImages):
-		ndFile=self.detector.getNdFile();
+	def prepareForMultiShot(self, number_of_images):
+		nd_file=self.detector.getNdFile();
 		self.enableNdFilePlugin();
-		ndFile.setNumCapture(numberOfImages);
-		ndFile.setFileWriteMode(1);#Capture Mode: Capture
-		ndFile.startCapture()
+		nd_file.setNumCapture(number_of_images);
+		nd_file.setFileWriteMode(1);#Capture Mode: Capture
+		nd_file.startCapture()
 
-	def singleShot(self, newExpos):
-		self.setCollectionTime(newExpos);
+	def singleShot(self, new_expos):
+		self.setCollectionTime(new_expos);
 		self.prepareForCollection();
+		self.prepareForSingleShot()
 		self.collectData();
 		sleep(self.exposureTime);
 		while self.getStatus() != Detector.IDLE:
@@ -262,9 +242,10 @@ class ADDetectorDeviceClass(DetectorBase):
 		
 		return result;
 
-	def multiShot(self, newExpos, numberOfShots):
-		self.setCollectionTime(newExpos);
+	def multiShot(self, new_expos, number_of_shots):
+		self.setCollectionTime(new_expos);
 		self.prepareForCollection();
+		self.prepareForMultiShot(number_of_shots)
 		self.collectData();
 		sleep(self.exposureTime);
 		while self.getStatus() != Detector.IDLE:
@@ -278,114 +259,113 @@ class ADDetectorDeviceClass(DetectorBase):
 
 #AdBase operation
 	def getDimensions(self):
-		adBase=self.detector.getAdBase();
-#		x=adBase.getMaxSizeX_RBV();
-#		y=adBase.getMaxSizeY_RBV();
-		x=adBase.getArraySizeX_RBV();
-		y=adBase.getArraySizeY_RBV();
-		z=adBase.getArraySizeZ_RBV();
+		ad_base=self.detector.getAdBase();
+#		x=ad_base.getMaxSizeX_RBV();
+#		y=ad_base.getMaxSizeY_RBV();
+		x=ad_base.getArraySizeX_RBV();
+		y=ad_base.getArraySizeY_RBV();
+		z=ad_base.getArraySizeZ_RBV();
 		
 		if x == 0:
-			x=adBase.getMaxSizeX_RBV();
+			x=ad_base.getMaxSizeX_RBV();
 		if y == 0:
-			y=adBase.getMaxSizeY_RBV();
+			y=ad_base.getMaxSizeY_RBV();
 			
 		return x,y,z;
 		
 #NdArray operations:
 	def getCameraData(self):
-		adBase=self.detector.getAdBase();
-		self.width, self.height, z = self.getDimensions();
+		self.width, self.height, z = self.getDimensions();  # @UnusedVariable
 
-		ndArray=self.detector.getNdArray();
-		self.dataType=ndArray.getPluginBase().getDataType_RBV();
+		nd_array=self.detector.getNdArray();
+		self.dataType=nd_array.getPluginBase().getDataType_RBV();
 		
 		t0=time();
 		if self.dataType==NDPluginBase.UInt8:
-#			print "Debug: Fetching UInt8 data started"
-			self.rawData=ndArray.getByteArrayData( self.width*self.height )
+#			print("Debug: Fetching UInt8 data started")
+			self.rawData=nd_array.getByteArrayData( self.width*self.height )
 			if self.shifting: #Need to cast the byte array to unsigned byte array  
-				tempDoubleList = [ float(x&0xFF) for x in self.rawData[0:self.width*self.height] ];
+				temp_double_list = [ float(x&0xFF) for x in self.rawData[0:self.width*self.height] ];
 			else:
-				tempDoubleList = self.rawData[0:self.width*self.height];
+				temp_double_list = self.rawData[0:self.width*self.height];
 		elif NDPluginBase.UInt16:
-#			print "Debug: Fetch UInt16 data started"
-			self.rawData=ndArray.getShortArrayData( self.width*self.height )
+#			print("Debug: Fetch UInt16 data started")
+			self.rawData=nd_array.getShortArrayData( self.width*self.height )
 			if self.shifting: #Need to cast the short array to unsigned short array  
-				tempDoubleList = [ float(x&0xFFFF) for x in self.rawData[0:self.width*self.height] ];
+				temp_double_list = [ float(x&0xFFFF) for x in self.rawData[0:self.width*self.height] ];
 			else:
-				tempDoubleList = self.rawData[0:self.width*self.height];
+				temp_double_list = self.rawData[0:self.width*self.height];
 		else:
-			print "Unknown data type"
+			print("Unknown data type")
 
-#		print "Dubug: Fetching data finished within %d seconds" %(time()-t0);
+		print("Dubug: Fetching data finished within %d seconds" %(time()-t0))
 
-		da = dnp.array(tempDoubleList);
+		da = dnp.array(temp_double_list);
 		self.dataset = da.reshape([self.height, self.width]);
 
 		return self.dataset;
 
 
 	def enableNdArrayPlugin(self, callback=True, blocking=True):
-		ndArray=self.detector.getNdArray();
+		nd_array=self.detector.getNdArray();
 		
 		if callback:
-			ndArray.getPluginBase().enableCallbacks();
+			nd_array.getPluginBase().enableCallbacks();
 		else:
-			ndArray.getPluginBase().disableCallbacks();
+			nd_array.getPluginBase().disableCallbacks();
 		
-		ndArray.getPluginBase().setBlockingCallbacks(blocking);
+		nd_array.getPluginBase().setBlockingCallbacks(blocking);
 
 #NdFile operations:		
-	def setFile(self, newPathPostfix, newFilePrefix):
-		self.pathPostfix = newPathPostfix;
-		self.filePrefix = newFilePrefix
+	def setFile(self, new_path_postfix, new_file_prefix):
+		self.pathPostfix = new_path_postfix;
+		self.filePrefix = new_file_prefix
 		self.setNewImagePath();
 
 	def resetImageNumber(self):
 		self.imageNumber=0;#To reset the image number
-		ndFile=self.detector.getNdFile();
-		ndFile.setFileNumber(0);
+		nd_file=self.detector.getNdFile();
+		nd_file.setFileNumber(0);
 
 	def enableNdFilePlugin(self, callback=True, blocking=True):
-		ndFile=self.detector.getNdFile();
+		nd_file=self.detector.getNdFile();
 		
 		if callback:
-			ndFile.getPluginBase().enableCallbacks();
+			nd_file.getPluginBase().enableCallbacks();
 		else:
-			ndFile.getPluginBase().disableCallbacks();
+			nd_file.getPluginBase().disableCallbacks();
 		
-		ndFile.getPluginBase().setBlockingCallbacks(blocking);
+		nd_file.getPluginBase().setBlockingCallbacks(blocking);
 			
 		
 	def setNewImagePath(self):
 		"""Set file path and name based on current scan run number"""
-		nextNum = NumTracker("tmp").getCurrentFileNumber();
+		next_num = NumTracker("tmp").getCurrentFileNumber();
 		
-		basePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
-		subDir="%d_%s"%(nextNum, self.pathPostfix); 
-		newImagePath = os.path.join(basePath, subDir);
+		base_path=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
+		sub_dir="%d_%s"%(next_num, self.pathPostfix); 
+		new_image_path = os.path.join(base_path, sub_dir);
 
-		if not os.path.exists(newImagePath):
-			#print "Path does not exist. Create new one."
-			os.makedirs(newImagePath);
+		if not os.path.exists(new_image_path):
+			#print("Path does not exist. Create new one.")
+			os.makedirs(new_image_path);
 			self.resetImageNumber();
 			
-		if not os.path.isdir(newImagePath):
-			print "Invalid path";
+		if not os.path.isdir(new_image_path):
+			print("Invalid path")
 			return;
 				
-		self.filePath = newImagePath;
-		#print "Image file path set to " + self.filePath;
+		self.filePath = new_image_path;
+		#print("Image file path set to " + self.filePath)
 		
-		ndFile=self.detector.getNdFile();
-		ndFile.setFilePath(self.filePath);
-		ndFile.setFileName(self.filePrefix);
-		ndFile.setFileTemplate(self.fileFormat);
+		nd_file=self.detector.getNdFile();
+		nd_file.setFilePath(self.filePath);
+		nd_file.setFileName(self.filePrefix);
+		nd_file.setFileTemplate(self.fileFormat);
 		
-		ndFile.setAutoIncrement(True);
-		ndFile.setAutoSave(True);
-		ndFile.setFileFormat(0);#Magic file format depending on the file extension
+		nd_file.setAutoIncrement(True);
+		nd_file.setAutoSave(True);
+		nd_file.setFileFormat(0);#Magic file format depending on the file extension
 		return self.filePath;
 
 	def backupImageMode(self):
@@ -400,17 +380,16 @@ class ADDetectorDeviceClass(DetectorBase):
 
 	def getFilePath(self):
 		return self.detector.getNdFile().getFilePath_RBV();
-#		return self.filePath;
 
 	def getFullFileName(self):
 		self.fileName=self.detector.getNdFile().getFullFileName_RBV();
 		return self.fileName;
 
-	def loadImageFile(self, fileName):
-		if fileName is None:
-			fileName=self.fileName;
+	def loadImageFile(self, file_name):
+		if file_name is None:
+			file_name=self.fileName;
 			
-		self.dataHolder=dnp.io.load(fileName);
+		self.dataHolder=dnp.io.load(file_name);
 		self.dataset = self.dataHolder[0];
 
 		return self.dataset;
@@ -418,32 +397,23 @@ class ADDetectorDeviceClass(DetectorBase):
 #NdStats operations:
 	def getCentroid(self):
 		self.ndStats=self.detector.getNdStats();
-		centroidX=self.ndStats.getCentroidX_RBV()
-		centroidY=self.ndStats.getCentroidY_RBV()
-		centroidSigmaX=self.ndStats.getSigmaX_RBV()
-		centroidSigmaY=self.ndStats.getSigmaY_RBV()
-		centroidSigmaXY=self.ndStats.getSigmaXY_RBV()
-		self.centroid=[centroidX, centroidY, centroidSigmaX, centroidSigmaY, centroidSigmaXY];
+		centroid_x=self.ndStats.getCentroidX_RBV()
+		centroid_y=self.ndStats.getCentroidY_RBV()
+		centroid_sigma_x=self.ndStats.getSigmaX_RBV()
+		centroid_sigma_y=self.ndStats.getSigmaY_RBV()
+		centroid_sigma_x_y=self.ndStats.getSigmaXY_RBV()
+		self.centroid=[centroid_x, centroid_y, centroid_sigma_x, centroid_sigma_y, centroid_sigma_x_y];
 
 		return self.centroid;
 
 	def getStatistics(self):
 		self.ndStats=self.detector.getNdStats();
-		statMax=self.ndStats.getMaxValue_RBV()
-		statMin=self.ndStats.getMinValue_RBV()
-		statTotal=self.ndStats.getTotal_RBV()
-		statMean=self.ndStats.getMeanValue_RBV()
-		statSigma=self.ndStats.getSigma_RBV()
-		self.statistics=[statMean, statSigma, statMax, statMin, statTotal];
+		stat_max=self.ndStats.getMaxValue_RBV()
+		stat_min=self.ndStats.getMinValue_RBV()
+		stat_total=self.ndStats.getTotal_RBV()
+		stat_mean=self.ndStats.getMeanValue_RBV()
+		stat_sigma=self.ndStats.getSigma_RBV()
+		self.statistics=[stat_mean, stat_sigma, stat_max, stat_min, stat_total];
 		
 		return self.statistics;
-
-
-#Usage
-#import Diamond.AreaDetector.ADDetectorDevice; reload(Diamond.AreaDetector.ADDetectorDevice)
-#from Diamond.AreaDetector.ADDetectorDevice import ADDetectorDeviceClass
-#camp = ADDetectorDeviceClass('camp', peemcam_ad, "Plot 1");
-#camp.setFile('CampImage', 'camp');
-#camp.setStats(True);
-
 
