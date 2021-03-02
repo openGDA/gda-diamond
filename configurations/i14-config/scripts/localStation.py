@@ -84,6 +84,9 @@ run('shutter_control.py')
 # Define autofocus function
 run('autofocus/autofocus.py')
 
+# Define tomography scan functions
+run('scanning/tomo_scan_functions.py')
+
 # Make DTAB overlay available
 dtab_overlay = sample_dtab_addetector.getNdOverlays().get(0)
 
