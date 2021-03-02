@@ -51,7 +51,14 @@
 				<value>dcm2</value>
 				<value>s2</value>
 				<value>s3</value>
-				<value>s4</value>				
+				<value>s4</value>
+				<value>gts</value>
+				<value>imaging_rail</value>
+				<value>pco_focus</value>
+				<value>kb_mirrors</value>
+				<value>vfm</value>
+				<value>hfm</value>
+				<value>base_x</value>
 			</set>
 		</property>
 	</bean>
@@ -84,6 +91,111 @@
 						<property name="paths"
 							value="instrument:NXinstrument/source:NXsource/energy" />
 						<property name="units" value="GeV" />
+					</bean>
+				</entry>
+				<entry key="gts">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_x</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_y</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_z</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_theta</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_pitch</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_roll</value>
+						</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>deg</value>
+								<value>mrad</value>
+								<value>mrad</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="imaging_rail">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/beamline:NXcollection/pco:NXcollection/pco_x</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/pco:NXcollection/pco_z</value>
+						</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="pco_focus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/pco:NXcollection/pco_focus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="kb_mirrors">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/beamline:NXcollection/KB:NXmirror/kb_x</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/KB:NXmirror/kb_y</value>
+						</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="vfm">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/beamline:NXcollection/VFM:NXmirror/vfm_pitch</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/VFM:NXmirror/vfm_bendds</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/VFM:NXmirror/vfm_bendus</value>
+						</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="hfm">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/beamline:NXcollection/HFM:NXmirror/hfm_pitch</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/HFM:NXmirror/hfm_bendds</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/HFM:NXmirror/hfm_bendus</value>
+						</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="base_x">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/beamline:NXcollection/base_x" />
 					</bean>
 				</entry>
 				<entry key="m1">
