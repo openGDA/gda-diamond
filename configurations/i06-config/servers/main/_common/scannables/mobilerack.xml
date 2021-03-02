@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Mobile Rack Motors U3 Motors -->
+	<bean id="u1m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR1_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u2m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR2_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u3m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR3_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u4m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR4_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u5m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR5_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u6m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR6_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u7m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR7_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u8m" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR8_U3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="U3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="u1m" />
+				<ref bean="u2m" />
+				<ref bean="u3m" />
+				<ref bean="u4m" />
+				<ref bean="u5m" />
+				<ref bean="u6m" />
+				<ref bean="u7m" />
+				<ref bean="u8m" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+	
+
+</beans>

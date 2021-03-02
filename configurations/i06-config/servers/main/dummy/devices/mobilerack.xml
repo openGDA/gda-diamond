@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Dichorism and Diffraction Motors -->
+	<bean id="MotorMTR1_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-70" />
+		<property name="maxPosition" value="110" />
+		<property name="speed" value="1.8150" />
+		<property name="unitString" value="deg"/>
+	</bean>
+	<bean id="MotorMTR2_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0" />
+		<property name="maxPosition" value="360" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="deg"/>
+	</bean>
+	<bean id="MotorMTR3_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.0000" />
+		<property name="maxPosition" value="5.0000" />
+		<property name="speed" value="0.07040" />
+		<property name="unitString" value="deg"/>
+	</bean>
+	<bean id="MotorMTR4_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-30.000" />
+		<property name="maxPosition" value="30.000" />
+		<property name="speed" value="0.3488" />
+		<property name="unitString" value="deg"/>
+	</bean>
+	<bean id="MotorMTR5_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="89.999999" />
+		<property name="maxPosition" value="90.000001" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="deg"/>
+	</bean>
+
+	<bean id="MotorMTR6_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50" />
+		<property name="maxPosition" value="50" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+	<bean id="MotorMTR7_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50" />
+		<property name="maxPosition" value="50" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+	<bean id="MotorMTR8_U3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50" />
+		<property name="maxPosition" value="50" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+</beans>

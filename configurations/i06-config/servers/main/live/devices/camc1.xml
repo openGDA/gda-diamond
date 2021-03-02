@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- camc1 plugins -->
+	<bean id="camc1_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-98:CAM:" />
+	</bean>
+	<bean id="camc1_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL06I-DI-PHDGN-98:PROC:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL06I-DI-PHDGN-98:PROC:" />
+				<property name="initialArrayPort" value="D98.CAM1.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL06I-DI-PHDGN-98:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL06I-DI-PHDGN-98:STAT:" />
+				<property name="initialArrayPort" value="D98.CAM1.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL06I-DI-PHDGN-98:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL06I-DI-PHDGN-98:ARR:" />
+				<property name="initialArrayPort" value="D98.CAM1.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL06I-DI-PHDGN-98:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL06I-DI-PHDGN-98:HDF5:" />
+				<property name="initialArrayPort" value="D98.CAM1.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="camc1" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	<bean id="camc1_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL06I-DI-PHDGN-98:HDF5:" />
+		<property name="file" ref="camc1_ndfile" />
+	</bean>
+	<bean id="camc1_tiffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL06I-DI-PHDGN-98:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL06I-DI-PHDGN-98:TIFF:" />
+				<property name="initialArrayPort" value="D98.CAM1.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="camc1" />
+		<property name="initialFileTemplate" value="%s%s_%05d.tif" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="camc1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/camc1Roi" />
+		<property name="service" ref="camc1_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<!-- ROI-STAT pairs for Live Stream View -->
+	<bean id="camc1_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="camc1_RoiStats1" />
+		<property name="baseRoiPVName" value="BL06I-DI-PHDGN-98:ROI1:" />
+		<property name="baseStatsPVName" value="BL06I-DI-PHDGN-98:STAT1:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="D98.CAM1.CAM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="camc1_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="camc1_RoiStats2" />
+		<property name="baseRoiPVName" value="BL06I-DI-PHDGN-98:ROI2:" />
+		<property name="baseStatsPVName" value="BL06I-DI-PHDGN-98:STAT2:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="D98.CAM1.CAM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="camc1_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="camc1_RoiStats3" />
+		<property name="baseRoiPVName" value="BL06I-DI-PHDGN-98:ROI3:" />
+		<property name="baseStatsPVName" value="BL06I-DI-PHDGN-98:STAT3:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="D98.CAM1.CAM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="camc1_roi" />
+				<property name="index" value="2" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="camc1_RoiStats4" />
+		<property name="baseRoiPVName" value="BL06I-DI-PHDGN-98:ROI4:" />
+		<property name="baseStatsPVName" value="BL06I-DI-PHDGN-98:STAT4:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="D98.CAM1.CAM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="camc1_roi" />
+				<property name="index" value="3" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="camc1_RoiStats5" />
+		<property name="baseRoiPVName" value="BL06I-DI-PHDGN-98:ROI5:" />
+		<property name="baseStatsPVName" value="BL06I-DI-PHDGN-98:STAT5:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="D98.CAM1.CAM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="camc1_roi" />
+				<property name="index" value="4" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="camc1_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="camc1_RoiStats6" />
+		<property name="baseRoiPVName" value="BL06I-DI-PHDGN-98:ROI6:" />
+		<property name="baseStatsPVName" value="BL06I-DI-PHDGN-98:STAT6:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="D98.CAM1.CAM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="camc1_roi" />
+				<property name="index" value="5" />
+			</bean>
+		</property>
+	</bean>
+</beans>
