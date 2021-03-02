@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- collection strategy and decorator chain -->
+	<bean id="camc2softstatrstop" class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+		<property name="adBase" ref="camc2_adbase" />
+		<property name="restoreAcquireState" value="true" />
+		<property name="stopAquiringInPreparation" value="true" />
+	</bean>
+	<bean id="camc2triggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+		<property name="restoreTriggerMode" value="true" />
+		<property name="triggerMode" value="0" /> <!-- {0:Auto} -->
+		<property name="decoratee" ref="camc2softstatrstop" />
+	</bean>	
+	<bean id="camc2acquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="restoreAcquirePeriod" value="true" />
+		<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
+		<property name="decoratee" ref="camc2triggermode_Auto"/>
+	</bean>
+	<!-- Single mode -->
+	<bean id="camc2CollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="false" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="0" /> <!-- Single image mode -->
+				<property name="decoratee" ref="camc2acquireperiod"/>
+			</bean>
+		</property>
+	</bean>
+	<!-- multiple mode --> 
+	<bean id="camc2MultipleCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="false" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="1" /> <!-- multiple image mode -->
+				<property name="decoratee" ref="camc2acquireperiod"/>
+			</bean>
+		</property>
+	</bean>
+	<!-- Continuous mode -->
+	<bean id="camc2ImagingCollectionStrategy"  class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="false" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="2" /> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
+				<property name="decoratee" ref="camc2acquireperiod"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- detector 'camc2' default to write HDF file -->
+	<bean id="camc2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="camc2_hdf5"/>
+		<property name="fileNameTemplate" value="camc2"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="storeAttr" value="false" />
+		<property name="storePerform" value="false"/>
+		<property name="boundaryAlign" value="0"/>
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="false" />
+		<property name="attrByDim" value="false" />
+		<property name="pathErrorSuppressed" value="false" />
+	</bean>
+	
+ 	<bean id="camc2" class="gda.device.detector.NXDetector">
+		<property name="name" value="camc2" />
+		<property name="collectionStrategy" ref="camc2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camc2_RoiStats1" />
+				<ref bean="camc2_RoiStats2" />
+				<ref bean="camc2_RoiStats3" />
+				<ref bean="camc2_RoiStats4" />
+				<ref bean="camc2_RoiStats5" />
+				<ref bean="camc2_RoiStats6" />
+				<ref bean="camc2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	 	
+ 	<bean id="camc2multiple" class="gda.device.detector.NXDetector">
+		<property name="name" value="camc2" />
+		<property name="collectionStrategy" ref="camc2MultipleCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camc2_RoiStats1" />
+				<ref bean="camc2_RoiStats2" />
+				<ref bean="camc2_RoiStats3" />
+				<ref bean="camc2_RoiStats4" />
+				<ref bean="camc2_RoiStats5" />
+				<ref bean="camc2_RoiStats6" />
+				<ref bean="camc2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+ 	<bean id="camc2imaging" class="gda.device.detector.NXDetector">
+		<property name="name" value="camc2imaging" />
+		<property name="collectionStrategy" ref="camc2ImagingCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camc2_RoiStats1" />
+				<ref bean="camc2_RoiStats2" />
+				<ref bean="camc2_RoiStats3" />
+				<ref bean="camc2_RoiStats4" />
+				<ref bean="camc2_RoiStats5" />
+				<ref bean="camc2_RoiStats6" />
+				<ref bean="camc2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+<!-- ADDetector used in new scanning -->
+	<bean id="camc2_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="camc2CollectionStrategy"/>
+		<property name="adBase" ref="camc2_adbase" />
+		<property name="ndFile" ref="camc2_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="camc2_ndarray" />
+		<property name="ndStats" ref="camc2_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="camc2Hdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<!-- support for TIFF format -->
+	<!-- detector 'camc2tif' default to write TIFF file during scan -->
+	<bean id="camc2_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="camc2" />
+		<property name="ndFile" ref="camc2_tiffile" />
+		<property name="keyNameForMetadataPathTemplate" value="camc2_path_template" />
+		<property name="fileTemplate" value="%s%s_%05d.tif"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$_camc2Image"/>
+		<property name="fileNameTemplate" value="camc2"/>
+		<property name="fileNumberAtScanStart" value="1"/>
+		<property name="fullFileNameFromRBV" value="true"/>
+	</bean>
+ 	<bean id="camc2tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="camc2tif" />
+		<property name="collectionStrategy" ref="camc2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camc2_RoiStats1" />
+				<ref bean="camc2_RoiStats2" />
+				<ref bean="camc2_RoiStats3" />
+				<ref bean="camc2_RoiStats4" />
+				<ref bean="camc2_RoiStats5" />
+				<ref bean="camc2_RoiStats6" />
+				<ref bean="camc2_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+	<!-- detector 'camc2snap' is used to get a snapshot of the camc2 detector.Data stored in $datadir$/snapped-data/ -->
+	<!-- SingleImagePerFileWriterWithNumTracker(String detectorName)	 -->
+	<bean id="camc2_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="camc2" />
+		<property name="ndFile" ref="camc2_tiffile" />
+		<property name="numTrackerExtension" value="camc2snaps" />
+		<property name="keyNameForMetadataPathTemplate" value="camc2_path_template" />
+	</bean>
+ 	<bean id="camc2snap" class="gda.device.detector.NXDetector">
+		<property name="name" value="camc2snap" />
+		<property name="collectionStrategy" ref="camc2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camc2_RoiStats1" />
+				<ref bean="camc2_RoiStats2" />
+				<ref bean="camc2_RoiStats3" />
+				<ref bean="camc2_RoiStats4" />
+				<ref bean="camc2_RoiStats5" />
+				<ref bean="camc2_RoiStats6" />
+				<ref bean="camc2_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+ 	<bean id="camc2multipletif" class="gda.device.detector.NXDetector">
+		<property name="name" value="camc2tif" />
+		<property name="collectionStrategy" ref="camc2MultipleCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camc2_RoiStats1" />
+				<ref bean="camc2_RoiStats2" />
+				<ref bean="camc2_RoiStats3" />
+				<ref bean="camc2_RoiStats4" />
+				<ref bean="camc2_RoiStats5" />
+				<ref bean="camc2_RoiStats6" />
+				<ref bean="camc2_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
