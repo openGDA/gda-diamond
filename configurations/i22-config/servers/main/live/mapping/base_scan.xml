@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="baseScanModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL22I-ML-SCAN-02"/>
+		<property name="exposureTime" value="0.1"/>
+	</bean>
+	
+	<bean id="baseScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Base Table Mapping"/>
+		<property name="description" value="Hardware mapping scanning using the base table"/>
+	</bean>
+	
+	<bean id="baseScanDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL22I-ML-SCAN-02"/>
+		<property name="model" ref="baseScanModel"/>
+		<property name="deviceInformation" ref="baseScanInfo"/>
+	</bean>
+</beans>
