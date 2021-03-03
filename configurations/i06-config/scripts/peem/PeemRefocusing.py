@@ -54,10 +54,9 @@ class PeemRefocusingClass():
         if self.yag_motorised :
             #pause to let user find beam spot on YAG screen
             InputCommands.requestInput("Use EPICS YAG motors to find the Beam spot, then press Enter...");
-            xc1, yc1=self.cam1x.getPosition(), self.cam1y.getPosition();
+            xc1, yc1 = self.cam1x.getPosition(), self.cam1y.getPosition();
         else:
-            xc1 = float(InputCommands.requestInput("Move YAG X axis to find the Beam spot, input X position"));
-            yc1 = float(InputCommands.requestInput("Move YAG Y axis to find the Beam spot, input Y position"));
+            xc1, yc1 = [float(x) for x in InputCommands.requestInput("Move YAG to find the Beam spot, input X and Y positions").split()]
             
         self.cam1.singleShot(1);
         [xz1, yz1, xsigma, ysigma, xysigma] = self.cam1.getCentroid();  # @UnusedVariable
@@ -70,10 +69,9 @@ class PeemRefocusingClass():
             while (self.cam1x.isBusy() or self.cam1y.isBusy()):
                 sleep(1);
             sleep(5);
-            xc2, yc2=self.cam1x.getPosition(), self.cam1y.getPosition();
+            xc2, yc2 = self.cam1x.getPosition(), self.cam1y.getPosition();
         else:
-            xc2 = float(InputCommands.requestInput("Move YAG X axis to 2nd position while still see the Beam spot, input X position"));
-            yc2 = float(InputCommands.requestInput("Move YAG Y axis to 2nd position while still see the Beam spot, input Y position"));
+            xc2, yc2 = [float(x) for x in InputCommands.requestInput("Move YAG to 2nd position while still see the Beam spot, input X and Y positions").split()]
             
         self.cam1.singleShot(1);
         [xz2, yz2, xsigma, ysigma, xysigma] = self.cam1.getCentroid();  # @UnusedVariable
