@@ -3,15 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="d4b_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d4b_y_motor" />
+	<bean id="d9b_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d9b_y_motor" />
 	</bean>
-	<bean id="d4b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="d9b" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d4b_y_positioner" />
-				<ref bean="d4b_y" />
-				<ref bean="d4b_cam1"/>
+				<ref bean="d9b_y_positioner" />
+				<ref bean="d9b_y" />
+				<ref bean="d9b_cam1"/>
 			</list>
 		</property>
 	</bean>

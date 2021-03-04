@@ -4,6 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="d10b_x_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+			<!-- use real EPICS positioner value here -->
+				<value>Out of Beam</value>
+				<value>Metal Screen</value>
+				<value>YAG Ce Screen</value>
+				<value>Au Mesh</value>
+				<value>Diode</value>
+				<value>QBPM</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="d10b_x_motor" class="gda.device.motor.DummyMotor"/>
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->

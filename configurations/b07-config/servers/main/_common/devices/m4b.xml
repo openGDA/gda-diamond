@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m4b_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4b_x_motor" />
+	</bean>
+
+	<bean id="m4b_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4b_y_motor" />
+	</bean>
+
+	<bean id="m4b_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4b_pitch_motor" />
+	</bean>
+
+	<bean id="m4b_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4b_roll_motor" />
+	</bean>
+
+	<bean id="m4b_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4b_yaw_motor" />
+	</bean>
+	<bean id="m4b_y_base" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4b_y_base_motor" />
+	</bean>
+
+	<bean id="m4b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m4b_x" />
+				<ref bean="m4b_y" />
+				<ref bean="m4b_pitch" />
+				<ref bean="m4b_roll" />
+				<ref bean="m4b_yaw" />
+				<ref bean="m4b_y_base" />
+				<ref bean="m4b_y_base_positioner" />
+				<ref bean="m4b_y_combined" />
+				<ref bean="m4b_mirror" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

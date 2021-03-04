@@ -11,6 +11,7 @@
 	<bean id="d2b" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="d2b_y_positioner" />
 				<ref bean="d2b_y" />
 				<ref bean="d2b_cam1"/>
 			</list>

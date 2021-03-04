@@ -7,6 +7,10 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<!-- Positioner -->
+	<bean id="d2b_y_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07B-DI-PHDGN-02:Y:MP" />
+	</bean>
 	<bean id="d2b_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-DI-PHDGN-02:Y" />
 	</bean>
