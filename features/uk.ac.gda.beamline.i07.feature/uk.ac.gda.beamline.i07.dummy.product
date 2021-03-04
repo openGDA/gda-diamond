@@ -36,6 +36,7 @@ http://www.opengda.org
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i07-config}/properties/dummy/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
 -Ddatavis.open.mode=DESELECT_OTHERS
+-Ddatavis.open.script=true
 -client
 -Xms128m
 -Xmx1024m
