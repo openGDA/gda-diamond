@@ -46,6 +46,5 @@ if is_live():
         print("Exception running localStationUser")
 else:
     print("Running in dummy mode")
-    run("dummy/properties.py")
 
 print("Initialisation Complete");

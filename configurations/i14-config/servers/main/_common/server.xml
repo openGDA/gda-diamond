@@ -19,6 +19,8 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
+	<bean id="RCPController" class="uk.ac.diamond.daq.server.rcpcontroller.RCPControllerImpl" />
+
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->

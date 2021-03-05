@@ -61,6 +61,7 @@ else:
     run("dummy/standards_scan.py")
     run("dummy/tomo_scan.py")
     run("dummy/ptychography_scan.py")
+    run("dummy/gui_automation.py")
 
 # Export dcm_enrg over RMI
 print("Exporting dcm_enrg")
