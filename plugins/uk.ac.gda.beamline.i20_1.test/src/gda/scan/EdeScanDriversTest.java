@@ -35,7 +35,6 @@ import gda.device.detector.xstrip.XhDetector;
 import gda.device.detector.xstrip.XhDetectorData;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Factory;
 import gda.factory.Finder;
@@ -80,7 +79,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 		sampleStageMotorOutPositions.put(sample_x.getName(), 1.0);
 		sampleStageMotorOutPositions.put(sample_y.getName(), 1.0);
 
-		alignment_stage = new AlignmentStageScannable(sample_x, sample_y, fastShutter_xMotor, fastShutter_yMotor);
+		alignment_stage = new AlignmentStageScannable(sample_x, sample_y);
 		alignment_stage.setName("alignment_stage");
 
 		// topup monitor
@@ -122,9 +121,9 @@ public class EdeScanDriversTest extends EdeTestBase {
 			test.mkdir();
 		}
 
-		for (AlignmentStageDevice device : AlignmentStageScannable.AlignmentStageDevice.values()) {
-			alignment_stage.saveDeviceFromCurrentMotorPositions(device.toString());
-		}
+//		for (AlignmentStageDevice device : AlignmentStageScannable.AlignmentStageDevice.values()) {
+//			alignment_stage.saveDeviceFromCurrentMotorPositions(device.toString());
+//		}
 
 	}
 

@@ -19,9 +19,18 @@
 package uk.ac.gda.exafs.alignment.ui;
 
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -29,12 +38,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,16 +52,15 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.AlignmentStage;
-import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.rcp.views.NudgePositionerComposite;
+import gda.scan.ede.position.AlignmentStageModel;
+import gda.scan.ede.position.Location;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.livecontrol.ScannablePositionerControl;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.data.ScannableSetup;
-import uk.ac.gda.exafs.ui.data.AlignmentStageModel;
+import uk.ac.gda.exafs.experiment.ui.SaveLoadButtonsComposite;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
@@ -65,127 +74,95 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	private Form form;
 
 	private AlignmentStage alignmentStage;
-
-	private final String ALIGNMENT_STAGE_DATA_STORE_KEY = "ALIGNMENT_STAGE_DATA_STORE_KEY";
+	private Collection<Location> positions = Collections.emptyList();
 
 	private final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 	private final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 
 	public AlignmentStageCalibrationView() {}
 
+	private Composite parent;
+
 	@Override
 	public void createPartControl(Composite parent) {
-		toolkit = new FormToolkit(parent.getDisplay());
-		ScrolledForm scrolledform = toolkit.createScrolledForm(parent);
-		form = scrolledform.getForm();
-		form.getBody().setLayout(new TableWrapLayout());
+		this.parent = parent;
 		try {
-			createControlsSection();
-			loadAlignmentStageSettings();
+			loadSettings();
+			createControls(parent);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
 	}
 
-	// Make Listener object for given AlignmentStageDevice
-	private Listener makeListenerForDevice( final AlignmentStageDevice alignmentStageDevice )
+	private void createControls(Composite parent) throws Exception {
+		toolkit = new FormToolkit(parent.getDisplay());
+		ScrolledForm scrolledform = toolkit.createScrolledForm(parent);
+		form = scrolledform.getForm();
+		form.getBody().setLayout(new GridLayout(1, true));
+		form.getBody().setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+		createControlsSection(form.getBody());
+		addLoadSaveButtons(form.getBody());
+	}
+
+	private void loadSettings() throws Exception {
+		alignmentStage = getAlignmentStage().orElseThrow(() -> new Exception("Problem"));
+		loadAlignmentStageSettings();
+	}
+
+	// Make Listener object to move alignment stage to specified position
+	private Listener makeMoveListener( final String name, final Location location )
 	{
 		return event -> {
 			try {
-				alignmentStageDevice.moveLocation(ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable(),
-						ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable(),
-						ScannableSetup.FAST_SHUTTER_X_POSITION.getScannable(),
-						ScannableSetup.FAST_SHUTTER_Y_POSITION.getScannable());
+				logger.debug("Moving alignment stage to '{}' position - {}", name, location);
+				alignmentStage.moveToLocation(location);
 			}
 			catch (DeviceException e1) {
-				logger.error("Problem moving alignment stage ", e1);
+				logger.error("Problem moving alignment stage to {}", location, e1);
 			} catch (Exception e2) {
 				logger.error("Problem getting scannable for alignment stage ", e2);
 			}
 		};
 	}
 
-	protected String getDataStoreKey() {
-		return ALIGNMENT_STAGE_DATA_STORE_KEY;
-	}
-
-	// Return model object with current device positions.
-	private AlignmentStageModel getModelFromDevicePositions() {
-		AlignmentStageModel model = new AlignmentStageModel(); // this model is apparently not used anywhere else - convenient structure for preference store.
-
-		model.setxXeye( AlignmentStageScannable.AlignmentStageDevice.eye.getLocation().getxPosition() );
-		model.setyXeye( AlignmentStageScannable.AlignmentStageDevice.eye.getLocation().getyPosition() );
-
-		model.setxSlits( AlignmentStageScannable.AlignmentStageDevice.slits.getLocation().getxPosition() );
-		model.setySlits( AlignmentStageScannable.AlignmentStageDevice.slits.getLocation().getyPosition() );
-
-		model.setxFoils( AlignmentStageScannable.AlignmentStageDevice.foil.getLocation().getxPosition() );
-		model.setyFoils( AlignmentStageScannable.AlignmentStageDevice.foil.getLocation().getyPosition() );
-
-		model.setxHole( AlignmentStageScannable.AlignmentStageDevice.hole.getLocation().getxPosition() );
-		model.setyHole( AlignmentStageScannable.AlignmentStageDevice.hole.getLocation().getyPosition() );
-
-		model.setxShutter( AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().getxPosition() );
-		model.setyShutter( AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().getyPosition() );
-
-		model.setxHole2( AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().getxPosition() );
-		model.setyHole2( AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().getyPosition() );
-
-		model.setxLaser( AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().getxPosition() );
-		model.setyLaser( AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().getyPosition() );
-
-		return model;
-	}
-
-	// Set device positions from model (NB. no motors are actually moved).
-	private void setDevicePositionsFromModel( AlignmentStageModel model ) {
-		if ( model == null ) {
-			return;
-		}
-
-		AlignmentStageScannable.AlignmentStageDevice.eye.getLocation().setxPosition( model.getxXeye() );
-		AlignmentStageScannable.AlignmentStageDevice.eye.getLocation().setyPosition( model.getyXeye() );
-
-		AlignmentStageScannable.AlignmentStageDevice.slits.getLocation().setxPosition( model.getxSlits() );
-		AlignmentStageScannable.AlignmentStageDevice.slits.getLocation().setyPosition( model.getySlits() );
-
-		AlignmentStageScannable.AlignmentStageDevice.foil.getLocation().setxPosition( model.getxFoils() );
-		AlignmentStageScannable.AlignmentStageDevice.foil.getLocation().setyPosition( model.getyFoils() );
-
-		AlignmentStageScannable.AlignmentStageDevice.hole.getLocation().setxPosition( model.getxHole() );
-		AlignmentStageScannable.AlignmentStageDevice.hole.getLocation().setyPosition( model.getyHole() );
-
-		AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().setxPosition( model.getxShutter() );
-		AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().setyPosition( model.getyShutter() );
-
-		AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().setxPosition( model.getxHole2() );
-		AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().setyPosition( model.getyHole2() );
-
-		AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().setxPosition( model.getxLaser() );
-		AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().setyPosition( model.getyLaser() );
-	}
-
 	// Save alignment settings to persistence store.
 	private void saveAlignmentStageSettings() {
-		AlignmentStageModel model = getModelFromDevicePositions();
-		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), model);
+		try {
+			// Update AlignmentStageScannale with updated location list from GUI
+			alignmentStage.clearLocations();
+			for(Location loc : positions) {
+				alignmentStage.setLocation(loc);
+			}
+			alignmentStage.saveConfiguration();
+
+//			saveToFile();
+		}catch(Exception e) {
+			logger.warn("Problem saving alignment settings", e);
+		}
 	}
 
 	// Load alignment settings from persistence store.
-	private void loadAlignmentStageSettings() {
-		AlignmentStageModel model = new AlignmentStageModel();
-		model = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(this.getDataStoreKey(), AlignmentStageModel.class);
-		setDevicePositionsFromModel( model );
+	private void loadAlignmentStageSettings() throws IOException {
+		alignmentStage.loadConfiguration();
 	}
 
-	@SuppressWarnings("static-access")
-	private void createControlsSection() throws Exception {
-		final Section section = toolkit.createSection(form.getBody(), Section.TITLE_BAR);
+	private Optional<AlignmentStage> getAlignmentStage() throws Exception {
+		Scannable scannable = ScannableSetup.ALIGNMENT_STAGE.getScannable();
+		if (scannable instanceof AlignmentStage) {
+			return Optional.of( (AlignmentStage) scannable);
+		}
+		return Optional.empty();
+	}
+
+	private void createControlsSection(Composite parent) throws Exception {
+		final Section section = toolkit.createSection(parent, Section.TITLE_BAR);
 		toolkit.paintBordersFor(section);
 		section.setText("Alignment stage");
 		toolkit.paintBordersFor(section);
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		section.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
 		toolkit.paintBordersFor(sectionComposite);
 		sectionComposite.setLayout(new GridLayout());
@@ -198,93 +175,77 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable().addIObserver(moveObserver);
 		ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable().addIObserver(moveObserver);
 
-//		Button alignmentStageCalibrationButton = toolkit.createButton(sectionComposite, "Calibrate aligment stage", SWT.None);
-//		alignmentStageCalibrationButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-//		alignmentStageCalibrationButton.addListener(SWT.Selection, new Listener() {
-//			@Override
-//			public void handleEvent(Event event) {
-//				// FIXME Complete implementation
-//			}
-//		});
-
 		Composite alignmentStageComposite = toolkit.createComposite(sectionComposite, SWT.None);
-		alignmentStageComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		alignmentStageComposite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		alignmentStageComposite.setLayout(new GridLayout(3, false));
 
-		Scannable scannable = ScannableSetup.ALIGNMENT_STAGE.getScannable();
-		if (scannable instanceof AlignmentStage) {
-			alignmentStage = (AlignmentStage) scannable;
+		positions = alignmentStage.getLocations();
 
-			Label label = toolkit.createLabel(alignmentStageComposite, "X-ray eye", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-			createXYControlsAndMoveButton(alignmentStageComposite,
-					AlignmentStageScannable.AlignmentStageDevice.eye,
-					AlignmentStageScannable.Location.X_POS_PROP_NAME,
-					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
-
-			label = toolkit.createLabel(alignmentStageComposite, "Slits", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-			createXYControlsAndMoveButton(alignmentStageComposite,
-					AlignmentStageScannable.AlignmentStageDevice.slits,
-					AlignmentStageScannable.Location.X_POS_PROP_NAME,
-					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
-
-			label = toolkit.createLabel(alignmentStageComposite, "Foils", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-			createXYControlsAndMoveButton(alignmentStageComposite,
-					AlignmentStageScannable.AlignmentStageDevice.foil,
-					AlignmentStageScannable.Location.X_POS_PROP_NAME,
-					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
-
-			label = toolkit.createLabel(alignmentStageComposite, "Hole", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-			createXYControlsAndMoveButton(alignmentStageComposite,
-					AlignmentStageScannable.AlignmentStageDevice.hole,
-					AlignmentStageScannable.Location.X_POS_PROP_NAME,
-					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
-
-
-			// Hole2
-			label = toolkit.createLabel(alignmentStageComposite, "Hole2", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-			createXYControlsAndMoveButton(alignmentStageComposite,
-					AlignmentStageScannable.AlignmentStageDevice.hole2,
-					AlignmentStageScannable.Location.X_POS_PROP_NAME,
-					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
-
-			// Laser
-			label = toolkit.createLabel(alignmentStageComposite, "Laser", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-			createXYControlsAndMoveButton(alignmentStageComposite,
-					AlignmentStageScannable.AlignmentStageDevice.laser,
-					AlignmentStageScannable.Location.X_POS_PROP_NAME,
-					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
-
-			//			Composite fastShutterComposite = toolkit.createComposite(sectionComposite, SWT.None);
-			//			fastShutterComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-			//			fastShutterComposite.setLayout(new GridLayout(3, false));
-
-			// label = toolkit.createLabel(alignmentStageComposite, "Fast shutter", SWT.None);
-			// label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-			// Fast shutter not currently used - don't add button for it for now...
-			/*
-			createXYControlsAndMoveButton(alignmentStageComposite,
-					AlignmentStageScannable.AlignmentStageDevice.shutter,
-					AlignmentStageScannable.Location.X_POS_PROP_NAME,
-					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
-			 */
+		for (Location location : positions) {
+			createXYControlsAndMoveButton(alignmentStageComposite, location);
 		}
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(sectionSeparator);
 		section.setSeparatorControl(sectionSeparator);
+	}
+	private class SaveLoadButtons extends SaveLoadButtonsComposite {
+
+		public SaveLoadButtons(Composite parent, FormToolkit toolkit) {
+			super(parent, toolkit);
+		}
+
+		@Override
+		protected void saveParametersToFile(String filename) throws Exception {
+			Path filePath = Paths.get(filename);
+			logger.info("Writing XML parameters to {}", filePath);
+			AlignmentStageModel pos = new AlignmentStageModel(positions);
+			FileUtils.writeStringToFile(filePath.toFile(), pos.toXml(), Charset.defaultCharset());
+		}
+
+		@Override
+		protected void loadParametersFromFile(String filename) throws Exception {
+			Path filePath = Paths.get(filename);
+			logger.info("Reading XML parameters from {}", filePath);
+			String xmlParameters = FileUtils.readFileToString(filePath.toFile(), Charset.defaultCharset());
+			AlignmentStageModel model = AlignmentStageModel.fromXml(xmlParameters);
+			positions = model.getDeviceLocations();
+			saveAlignmentStageSettings();
+			reOpenView(true);
+			// update the GUI with new controls
+
+		}
+
+	}
+
+
+	/**
+	 * Open a live stream view with the secondary ID specified
+	 *
+	 * @param closeExistingView close the existing view first
+	 */
+	protected void reOpenView(boolean closeExistingView) {
+		final IWorkbenchPage page = getSite().getPage();
+		if (closeExistingView) {
+			page.hideView(this);
+		}
+		try {
+			page.showView(AlignmentStageCalibrationView.ID, null, IWorkbenchPage.VIEW_ACTIVATE);
+		} catch (PartInitException e) {
+			logger.error("Error activating AlignmentStageCalibrationView view",  e);
+		}
+	}
+
+	private void addLoadSaveButtons(Composite parent) {
+		final Section startStopScanSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+		startStopScanSection.setText("Save and load settings");
+		startStopScanSection.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+//
+		Composite startStopSectionComposite = toolkit.createComposite(startStopScanSection, SWT.NONE);
+		startStopSectionComposite.setLayout(new GridLayout(1, true));
+		startStopScanSection.setClient(startStopSectionComposite);
+
+		new SaveLoadButtons(startStopSectionComposite, toolkit);
 	}
 
 	// Listener used to update persistence store when model changes.
@@ -322,59 +283,65 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	}
 
 	// Like createXY function except also creates 'Move' button and adds listener to it.
-	private void createXYControlsAndMoveButton(Composite parent, AlignmentStageDevice device, String xPropertyName, String yPropertyName) throws Exception {
-		ObservableModel model = alignmentStage.getAlignmentStageDevice( device.name()).getLocation();
-		Composite composite = createXY( parent, model, xPropertyName, yPropertyName );
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		model.addPropertyChangeListener( textBoxListener ); // add listener to update persistence store
+	private void createXYControlsAndMoveButton(Composite parent, Location location) throws Exception {
+		GridDataFactory factory = GridDataFactory.fillDefaults();
 
+		String xPropertyName = Location.X_POS_PROP_NAME;
+		String yPropertyName = Location.Y_POS_PROP_NAME;
+
+		Label label = toolkit.createLabel(parent, location.getDisplayLabel(), SWT.None);
+		factory.align(SWT.BEGINNING, SWT.CENTER).applyTo(label);
+		label.setToolTipText(location.getName());
+
+		Composite composite = createXY( parent, location, xPropertyName, yPropertyName );
+		factory.applyTo(composite);
+		location.addPropertyChangeListener( textBoxListener ); // add listener to update persistence store
+		composite.addDisposeListener(l -> {
+			logger.debug("Removing textbox property listener for {}", location.getName());
+			location.removePropertyChangeListener(textBoxListener);
+		});
 		Button moveToButton = toolkit.createButton(parent, "Move", SWT.None);
-		moveToButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
-		moveToButton.addListener(SWT.Selection, makeListenerForDevice( device ) );
+		factory.applyTo(moveToButton);
+		moveToButton.addListener(SWT.Selection, makeMoveListener(location.getName(), location));
 	}
 
 	private Composite createXY(Composite parent, ObservableModel model, String xPropertyName, String yPropertyName) throws Exception {
+		GridDataFactory factory = GridDataFactory.fillDefaults().hint(150, SWT.DEFAULT);
+
 		Composite xyPositionComposite = toolkit.createComposite(parent, SWT.NONE);
 		toolkit.paintBordersFor(xyPositionComposite);
-		GridLayout layout = new GridLayout(2, true);
-		layout.marginHeight = 0;
-		layout.marginHeight = 0;
-		xyPositionComposite.setLayout(layout);
+		xyPositionComposite.setLayout(new GridLayout(4, false));
 
-		Composite xPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(xPositionComposite);
-		xPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		xPositionComposite.setLayout(new GridLayout(2, false));
+		toolkit.createLabel(xyPositionComposite, "x", SWT.None);
 
-		Label xPosLabel = toolkit.createLabel(xPositionComposite, "x", SWT.None);
-		xPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		NumberEditorControl xPosition = new NumberEditorControl(xPositionComposite, SWT.None, model, xPropertyName, false);
-		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		NumberEditorControl xPosition = new NumberEditorControl(xyPositionComposite, SWT.None, model, xPropertyName, false);
+//		xPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		xPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		xPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		factory.applyTo(xPosition);
 
-		Composite yPositionComposite = toolkit.createComposite(xyPositionComposite, SWT.NONE);
-		toolkit.paintBordersFor(yPositionComposite);
-		yPositionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		yPositionComposite.setLayout(new GridLayout(2, false));
+		toolkit.createLabel(xyPositionComposite, "y", SWT.None);
 
-		Label yPosLabel = toolkit.createLabel(yPositionComposite, "y", SWT.None);
-		yPosLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		NumberEditorControl yPosition = new NumberEditorControl(yPositionComposite, SWT.None, model, yPropertyName, false);
-		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		NumberEditorControl yPosition = new NumberEditorControl(xyPositionComposite, SWT.None, model, yPropertyName, false);
+//		yPosition.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		yPosition.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
-		yPosition.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		factory.applyTo(yPosition);
 
 		return xyPositionComposite;
 	}
-
-
 
 	@Override
 	public void setFocus() {
 		form.setFocus();
 	}
 
+	@Override
+	public void dispose() {
+		logger.debug("Dispose called");
+		try {
+			ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable().deleteIObserver(moveObserver);
+			ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable().deleteIObserver(moveObserver);
+		} catch (Exception e) {
+			logger.error("Problem removing 'move observers'", e);
+		}
+	}
 }

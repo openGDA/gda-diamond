@@ -35,7 +35,6 @@ import com.google.gson.annotations.Expose;
 
 import gda.device.DeviceException;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
-import gda.device.scannable.AlignmentStageScannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
@@ -58,9 +57,6 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumCollectionModel.class);
-
-	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
-	private final AlignmentStageScannable.Location foilLocationForAlignment = new AlignmentStageScannable.Location();
 
 	private static final String SINGLE_JYTHON_DRIVER_OBJ = "singletimeresolveddriver";
 
@@ -422,15 +418,6 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	public void setItNumberOfAccumulations(int value) {
 		firePropertyChange(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, itNumberOfAccumulations, itNumberOfAccumulations = value);
-	}
-
-
-	public AlignmentStageScannable.Location getHoleLocationForAlignment() {
-		return holeLocationForAlignment;
-	}
-
-	public AlignmentStageScannable.Location getFoilLocationForAlignment() {
-		return foilLocationForAlignment;
 	}
 
 	public boolean getUseTopupCheckerForIt() {

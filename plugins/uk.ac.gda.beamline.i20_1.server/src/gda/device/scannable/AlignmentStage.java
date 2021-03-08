@@ -18,18 +18,34 @@
 
 package gda.device.scannable;
 
+import java.io.IOException;
+import java.util.List;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
-import gda.device.scannable.AlignmentStageScannable.FastShutter;
-
-import java.io.IOException;
-
-import org.apache.commons.configuration.ConfigurationException;
+import gda.scan.ede.position.Location;
 
 public interface AlignmentStage extends Scannable {
-	public AlignmentStageDevice getAlignmentStageDevice(String name);
-	public FastShutter getFastShutter();
-	void saveDeviceFromCurrentMotorPositions(Object positionName) throws ConfigurationException, DeviceException,
-	IOException;
+
+	List<Location> getLocations();
+
+	Location getLocation(String name);
+
+	boolean hasLocation(String name);
+
+	void setLocation(Location loc);
+
+	void clearLocations();
+
+	void moveToLocation(Location location) throws DeviceException;
+
+	void saveConfiguration() throws IOException;
+
+	/**
+	 * Reload the positions from the file.
+	 *
+	 * @throws IOException
+	 */
+	void loadConfiguration() throws IOException;
+
 }
