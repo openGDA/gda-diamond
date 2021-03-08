@@ -228,6 +228,9 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             raise ValueError("X-ray source mode %s is not supported!" % self.energy.source.getPosition())
         self.prepareID(self.idcontrols, self.idpvs)
         
+    def getIDGapFromEnergy(self, egy):
+        return self.energy.get_ID_gap_phase_at_current_source_polarisation(egy)[0]
+        
     def prepareID(self, idcontrols, idpvs):
         if installation.isLive():
             self._id_gap_speed_orig = float(idpvs['vel'].caget())
@@ -274,11 +277,11 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (+ve)' % (self.source.getPosition(), (self._id_gap_start - self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
+                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (+ve)' % (self.energy.source.getPosition(), (self._id_gap_start - self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
             self.energy.move_id_to_positions(idcontrols, self._id_gap_start - self._id_gap_runupdown, phase_midpoint, self.energy.polarisation)
         else:
             if self.verbose:
-                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (-ve)' % (self.source.getPosition(), (self._id_gap_start + self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
+                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (-ve)' % (self.energy.source.getPosition(), (self._id_gap_start + self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
             self.energy.move_id_to_positions(idcontrols, self._id_gap_start + self._id_gap_runupdown, phase_midpoint, self.energy.polarisation)
 
     def prepareForMove(self):

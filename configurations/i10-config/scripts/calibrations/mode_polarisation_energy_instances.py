@@ -21,12 +21,12 @@ print("    4. 'energy_pol' - a scannable to set and get both energy and polarisa
 idd_controls = {"gap":idd_gap,"rowphase1":idd_rowphase1, "rowphase2":idd_rowphase2, "rowphase3":idd_rowphase3, "rowphase4":idd_rowphase4}
 idu_controls = {"gap":idu_gap,"rowphase1":idu_rowphase1, "rowphase2":idu_rowphase2, "rowphase3":idu_rowphase3, "rowphase4":idu_rowphase4}
 ID_ENERGY_TO_GAP_CALIBRATION_FILE = "IDEnergy2GapCalibrations.csv"
-ID_ENERGYTO_PHASE_CALIBRATION_FILE = "IDEnergy2PhaseCalibrations.csv"
+ID_ENERGY_TO_PHASE_CALIBRATION_FILE = "IDEnergy2PhaseCalibrations.csv"
 
 smode=SourceMode('smode',idu_gap, idd_gap, opengap=200, defaultmode=None)
-pol=BeamEnergyPolarisationClass('pol', smode, pgm_energy, idd_controls, idu_controls, lut4gap=ID_ENERGY_TO_GAP_CALIBRATION_FILE, lut4phase=ID_ENERGYTO_PHASE_CALIBRATION_FILE, energyConstant=True, polarisationConstant=False, maxGap=200, minGap=16, maxPhase=24)
-energy_s=BeamEnergyPolarisationClass("energy_s", smode, pgm_energy, idd_controls, idu_controls, lut4gap=ID_ENERGY_TO_GAP_CALIBRATION_FILE, lut4phase=ID_ENERGYTO_PHASE_CALIBRATION_FILE, energyConstant=False, polarisationConstant=True, maxGap=200, minGap=16, maxPhase=24)
-energy_pol=BeamEnergyPolarisationClass("energy_pol", smode, pgm_energy, idd_controls, idu_controls, lut4gap=ID_ENERGY_TO_GAP_CALIBRATION_FILE, lut4phase=ID_ENERGYTO_PHASE_CALIBRATION_FILE, energyConstant=False, polarisationConstant=False, maxGap=200, minGap=16, maxPhase=24)
+pol=BeamEnergyPolarisationClass('pol', smode, pgm_energy, idd_controls, idu_controls, lut4gap=ID_ENERGY_TO_GAP_CALIBRATION_FILE, lut4phase=ID_ENERGY_TO_PHASE_CALIBRATION_FILE, energyConstant=True, polarisationConstant=False, maxGap=200, minGap=16, maxPhase=24)
+energy_s=BeamEnergyPolarisationClass("energy_s", smode, pgm_energy, idd_controls, idu_controls, lut4gap=ID_ENERGY_TO_GAP_CALIBRATION_FILE, lut4phase=ID_ENERGY_TO_PHASE_CALIBRATION_FILE, energyConstant=False, polarisationConstant=True, maxGap=200, minGap=16, maxPhase=24)
+energy_pol=BeamEnergyPolarisationClass("energy_pol", smode, pgm_energy, idd_controls, idu_controls, lut4gap=ID_ENERGY_TO_GAP_CALIBRATION_FILE, lut4phase=ID_ENERGY_TO_PHASE_CALIBRATION_FILE, energyConstant=False, polarisationConstant=False, maxGap=200, minGap=16, maxPhase=24)
 energy_pol.setInputNames(["energy","pol"])
 
 GAP_LIMIT=99.0
