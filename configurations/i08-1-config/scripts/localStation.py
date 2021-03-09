@@ -5,13 +5,9 @@ from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 from ScannableInvertedValue import PositionInvertedValue
 from gda.jython.commands.GeneralCommands import run
 
-from i08_1_utilities import is_live
+from i08_shared_utilities import is_live, ls_scannables
 
 print("Initialisation Started");
-
-run("i08_1_utilities.py")
-
-photoDiode1Inverted = PositionInvertedValue("photoDiode1Inverted", "photoDiode1")
 
 scan_processor.rootNamespaceDict = globals()  # @UndefinedVariable
 
@@ -22,6 +18,9 @@ run('mapping_scan_commands.py')
 # Energy to zone plate position
 run('initialiseEnergyFocusFunction.py')
 run('initialise_zpz_osa_function.py')
+
+# photoDiode1Inverted
+run('definePhotoDiode1Inverted.py')
 
 # Watchdogs
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")

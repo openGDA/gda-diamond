@@ -9,6 +9,7 @@ from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildI
 from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
 from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 
+from i08_shared_utilities import is_live, ls_scannables
 
 # Add config/scripts to import search path (why is this not already set in gda9?).
 # Also, this seems to be different to run search path... imh 11/11/2016
@@ -16,10 +17,6 @@ scriptDir = LocalProperties.get("gda.config") + "/scripts/"
 sys.path.append(os.path.abspath(scriptDir))
 
 print("Initialisation Started");
-
-run("i08_utilities.py")
-
-photoDiode1Inverted = PositionInvertedValue("photoDiode1Inverted", "photoDiode1")
 
 alias("setTitle")
 alias("meta_add")
@@ -40,6 +37,9 @@ run('mapping_scan_commands.py')
 
 # Energy to zone plate position
 run('initialiseEnergyFocusFunction.py')
+
+# photoDiode1Inverted
+run('definePhotoDiode1Inverted.py')
 
 # Define function for Live Controls
 run('sample_stage_control.py')

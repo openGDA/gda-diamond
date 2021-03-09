@@ -2,7 +2,7 @@ from gda.configuration.properties import LocalProperties
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names
 
-print("Running i08_utilities.py")
+print("Running i08_shared_utilities.py")
 
 def is_live():
     mode = LocalProperties.get("gda.mode")

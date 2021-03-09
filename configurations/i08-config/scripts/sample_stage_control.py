@@ -1,7 +1,7 @@
 # Functions to control the sample stage
 from gda.epics import CAClient
 from gdaserver import SampleX, SampleX_coarse, SampleX_fine, SampleY, SampleY_coarse, SampleY_fine
-from i08_utilities import is_live
+from i08_shared_utilities import is_live
 
 
 def sample_stage_home():

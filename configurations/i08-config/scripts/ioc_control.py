@@ -2,7 +2,7 @@
 import time
 
 from gda.epics import CAClient
-from i08_utilities import is_live
+from i08_shared_utilities import is_live
 
 
 def restart_ioc():
