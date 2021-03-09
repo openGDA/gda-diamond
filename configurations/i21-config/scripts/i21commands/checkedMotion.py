@@ -86,6 +86,13 @@ def enable_arm_motion():
 def checkIfMoveLegal(motor, new_position):
     '''
     '''
+    if motor is alltth:  # @UndefinedVariable
+        motor = motor.armtth # Only need to check epics_armtth motor in the group
+        
+    if math.fabs(float(motor.getPosition()) - float(new_position)) <= MOTOR_POSITION_TOLERANCE:
+        print("Motor '%s' is already in position." % (motor.getName()))
+        return True
+    
     if motor is armtth:  # @UndefinedVariable
         if not moveWithinLimits(float(motor.getPosition()), float(new_position)):
             raise IllegalMoveException("Cannot move across region limits %s from %f to %f" % (sorted(lookuptable.keys()), float(motor.getPosition()), new_position))
@@ -154,14 +161,11 @@ def checkIfMoveLegal(motor, new_position):
             
 
 def move(motor, new_position, sgmr1_val=None, specl_val=None):
-    if math.fabs(float(motor.getPosition()) - float(new_position)) <= MOTOR_POSITION_TOLERANCE:
-        print("Motor '%s' is already in position." % (motor.getName()))
-        return
     if not checkIfMoveLegal(motor, new_position):
+        print("moving '%s' to %f ...."  % (motor.getName(), new_position))
         motor.moveTo(new_position)
-        print("move '%s' to %f is completed."  % (motor.getName(), new_position))
         sleep (5)
-        if motor is armtth:
+        if motor is armtth or motor is alltth:  # @UndefinedVariable
             armtthoffset.moveTo(-0.14)  # @UndefinedVariable
             if sgmr1_val:
                 if armtth.isOn():
@@ -175,8 +179,8 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
             if specl_val:
                 enable_arm_motion()
                 specl.moveTo(specl_val)
-            print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
-            if motor is armtth or motor is sgmr1:
+            print("%s moves completed at "+ str(motor.getOutputFormat()) % (motor.getName(), motor.getPosition()))
+            if motor is armtth or motor is sgmr1 or motor is alltth:  # @UndefinedVariable
                 armtth.off()
                 sgmr1.off()
                 print("air supply is off for both sgmr1 and armtth!")
