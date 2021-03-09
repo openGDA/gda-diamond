@@ -26,6 +26,7 @@ class M5GroupScannable(ScannableMotionBase):
         self.setName(name)
         self.setInputNames([armtth.getName()])
         self.setExtraNames([m5tth.getName(), m5hqry.getName(), m5hqx.getName()])
+        self.setOutputFormat([armtth.getOutputFormat()[0], m5tth.getOutputFormat()[0], m5hqry.getOutputFormat()[0], m5hqx.getOutputFormat()[0]])
         self.armtth = armtth
         self.m5tth = m5tth
         self.m5hqry = m5hqry
@@ -36,27 +37,33 @@ class M5GroupScannable(ScannableMotionBase):
         self.m5hqx_0 = m5hqx_0
         self.m5hqx_1 = m5hqx_1
         self.m5hqx_2 = m5hqx_2
-        self._busy = False
+        self.markbusy = False
         
     def asynchronousMoveTo(self, newpos):
+        newpos = float(newpos)
         try:
-            self._busy = True  # need to set this to prevent race condition due to network communication and PV request response times.
-            asynmove(self.armtth, newpos)  # use 'asynmove' so air supply and other dependent motor positions can be checked!
+            self.markbusy = True  # need to set this to prevent race condition due to network communication and PV request response times.
+            print("moving armtth to %s ..." % newpos)
+            self.armtth.asynchronousMoveTo(newpos) 
+            print("moving m5tth to %s ..." % newpos)
             self.m5tth.asynchronousMoveTo(newpos)
+            print("moving m5hqry to %s ..." % (self.m5hqry_0 + self.m5hqry_1 * newpos + self.m5hqry_2 * newpos ** 2))
             self.m5hqry.asynchronousMoveTo(self.m5hqry_0 + self.m5hqry_1 * newpos + self.m5hqry_2 * newpos ** 2)
+            print("waiting for m5hqry to complete ...")
             self.m5hqry.waitWhileBusy()
+            print("moving m5hqx to %s ..." % (self.m5hqx_0 + self.m5hqx_1 * newpos + self.m5hqx_2 * newpos ** 2))
             self.m5hqx.asynchronousMoveTo(self.m5hqx_0 + self.m5hqx_1 * newpos + self.m5hqx_2 * newpos ** 2)
         except Exception, e:
             self.logger.error("Exception throws in asynchronousMoveTo ", e)
             raise e
         finally:
-            self._busy = False
+            self.markbusy = False
         
     def getPosition(self):
-        return self.armtth.getPosition(), self.m5tth.getPosition(), self.m5hqry.getPosition(), self.m5hqx.getPosition()
+        return float(self.armtth.getPosition()), float(self.m5tth.getPosition()), float(self.m5hqry.getPosition()), float(self.m5hqx.getPosition())
     
     def isBusy(self):
-        return self._busy or self.armtth.isBusy() or self.m5tth.isBusy() or self.m5hqry.isBusy() or self.m5hqx.isBusy()
+        return self.markbusy or self.armtth.isBusy() or self.m5tth.isBusy() or self.m5hqry.isBusy() or self.m5hqx.isBusy()
     
     def stop(self):
         self.armtth.stop()
