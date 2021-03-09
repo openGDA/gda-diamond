@@ -84,7 +84,8 @@ public class I05Startup implements IStartup {
 				for (String id : new String[] { "uk.ac.gda.arpes.perspectives.ArpesExperimentPerspective",
 						"uk.ac.gda.arpes.perspectives.ArpesAlignmentPerspective",
 						"uk.ac.gda.arpes.perspectives.ArpesRemoteExperimentPerspective",
-						"uk.ac.gda.arpes.perspectives.ArpesRemoteAlignmentPerspective"}) {
+						"uk.ac.gda.arpes.perspectives.ArpesRemoteAlignmentPerspective",
+						"uk.ac.gda.arpes.perspectives.HRMonitoringPerspective"}) {
 					try {
 						workbench.showPerspective(id, workbench.getActiveWorkbenchWindow());
 					} catch (WorkbenchException e) {
