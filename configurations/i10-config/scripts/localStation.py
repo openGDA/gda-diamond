@@ -241,6 +241,7 @@ from data_process.scanDataProcess import *  # @UnusedWildImport
 
 #####
 from calibrations.mode_polarisation_energy_instances import smode, pol, energy_s, energy_pol, setBeamHarmonicsOrder, initialisation  # @UnusedImport
+from calibrations.energy_polarisation_class import ROW_PHASE_MOTOR_TOLERANCE  # @UnusedImport
 from calibrations.xraysource import X_RAY_SOURCE_MODES
 from calibrations.energy_polarisation_class import X_RAY_POLARISATIONS
 idd,idu,unknown = X_RAY_SOURCE_MODES
@@ -255,8 +256,8 @@ print
 print "*"*80
 #DiffCalc
 print "import DIFFCALC support for I10"
-from rasor.scannable.ThArea import thArea
-from rasor.scannable.TthArea import tthArea
+from rasor.scannable.ThArea import thArea  # @UnusedImport
+from rasor.scannable.TthArea import tthArea  # @UnusedImport
 try:
     from startup.i10 import *  # @UnusedWildImport
 except:
@@ -284,10 +285,12 @@ except:
 alias('wh')
 
 from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion  # @UnusedImport
-from gdaserver import pimte, pixis
+from gdaserver import pimte, pixis  # @UnresolvedImport
 
 thpimte=NXDetectorWithRockingMotion("thpimte", th, pimte)
 thpixis=NXDetectorWithRockingMotion("thpixis", th, pixis)
+
+from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
