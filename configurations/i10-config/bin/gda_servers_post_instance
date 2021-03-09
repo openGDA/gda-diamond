@@ -13,9 +13,9 @@ if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "s
     ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME $SERVERS_SSH_PID
   fi
 
-  zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+  zenity --title "Start the Client?" --width 300 --question --text "The GDA servers have restarted. Click Yes to start the GDA Client." --window-icon=question
 
-  if [ $? == 0 ] ; then # 0=Ok, 1=Cancel
+  if [ $? == 0 ] ; then # 0=Yes, 1=No
     echo Starting GDA RCP Client...
     echo
     bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client &
