@@ -17,7 +17,11 @@
 				<entry key="#{workstation_malcolmsims}-ML-SCAN-01" value="DIFFRACTION" />
 			</map>
 		</property>
-		<property name="snapshotDetector" ref="MappingMalcolmDevice" />
+		<property name="snapshotDetectors">
+			<map>
+				<entry key="#{workstation_malcolmsims}-ML-SCAN-01" value-ref="MappingMalcolmDevice" />
+			</map>
+		</property>
 	</bean>
 
 </beans>
