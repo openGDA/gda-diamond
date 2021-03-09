@@ -260,10 +260,10 @@ def acquireImages(n, det, exposure_time, *args):
                 sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
 
 def acquireRIXS(n, det, exposure_time, *args):
-#     if det is andor:  # @UndefinedVariable
-#         primary()
-#     elif det is andor2:  # @UndefinedVariable
-#         polarimeter()
+    if det is andor:  # @UndefinedVariable
+        primary()
+    elif det is andor2:  # @UndefinedVariable
+        polarimeter()
     fastshutter("Open")
     acquireImages(n, det, exposure_time, *args)
 
@@ -344,9 +344,9 @@ def goLV(en_val_std):
 from scan.miscan import miscan  # @UnusedImport
 alias('miscan')
 
-print("create 'm5group' scannable")
+print("create 'alltth' scannable")
 from scannabledevices.M5GroupScannable import M5GroupScannable
-m5group = M5GroupScannable("m5group", armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737)  # @UndefinedVariable
+alltth = M5GroupScannable("alltth", armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737)  # @UndefinedVariable
 
 print("-"*100)
 #DiffCalc
