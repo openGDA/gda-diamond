@@ -56,10 +56,13 @@
 	<import resource="CAJ2.xml"/>
 	<import resource="GVJ6.xml"/>
 	<import resource="MAGJ1.xml"/>
+	<import resource="ScalerJ2.xml"/>
 	<import resource="UJ1_MAC.xml"/>
 
-	<import resource="LakeShore.xml"/>
-	<import resource="EM.xml"/>
+	<import resource="LakeShore340.xml"/>
+	<import resource="MES2.xml"/>
+	<import resource="ScalerJ3.xml"/>
+	<import resource="lakeshore336.xml"/>
 	
 	<!-- Temporary devices -->
 	<import resource="Zebra.xml"/>

@@ -42,8 +42,8 @@
 	<import resource="CAJ2.xml"/>
 	<import resource="MAGJ1.xml"/>
 	
-	<import resource="LakeShore.xml"/>
+	<import resource="LakeShore340.xml"/>
 <!-- 	<import resource="xmap_detector.xml"/> --><!-- xmapMca and _xmap for MCA mapping mode- requires trigger -->
-	<import resource="EM.xml"/>
+	<import resource="MES2.xml"/>
 
 </beans>
