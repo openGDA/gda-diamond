@@ -5,7 +5,14 @@
 	<description>
 		Configuration for DIFF1 (Diffractometer 1) in EH1
 	</description>
-
+	
+	<!-- I07-366 Aliases for backwards compatibility -->
+	<alias name="diff1omega" alias="diff1vomega"/>
+	<alias name="diff1alpha" alias="diff1valpha"/>
+	<alias name="diff1theta" alias="diff1homega"/>
+	<alias name="diff1chi" alias="diff1halpha"/>
+	<alias name="diff1delta" alias="diff1vdelta"/>
+	<alias name="diff1gamma" alias="diff1vgamma"/>
 
 	<!-- X, Y, Z -->
 	<bean id="diff1x" class="gda.device.scannable.ScannableMotor">
@@ -43,7 +50,7 @@
 	</bean>
 
 	<!-- Omega in Vertical mode -->
-	<bean id="diff1vomega" class="gda.device.scannable.ScannableMotor">
+	<bean id="diff1omega" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorOMEGA_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
@@ -54,8 +61,9 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Alpha in Vertical mode -->
-	<bean id="diff1valpha" class="gda.device.scannable.ScannableMotor">
+	<bean id="diff1alpha" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorALPHA_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
@@ -66,8 +74,9 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Omega in Horizental mode (Theta) -->
-	<bean id="diff1homega" class="gda.device.scannable.ScannableMotor">
+	<bean id="diff1theta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorTHETA_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
@@ -78,8 +87,9 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Alpha in Horizental mode (Chi) -->
-	<bean id="diff1halpha" class="gda.device.scannable.ScannableMotor">
+	<bean id="diff1chi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorCHI_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
@@ -90,6 +100,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Chi on Eulerian (Chi2) -->
 	<bean id="diff1cchi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorCHI2_DIFF1" />
@@ -102,6 +113,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Phi on Eulerian -->
 	<bean id="diff1cphi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorPHI_DIFF1" />
@@ -114,8 +126,9 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Delta in Vertical mode / Gamma in Horizental mode -->
-	<bean id="diff1vdelta" class="gda.device.scannable.ScannableMotor">
+	<bean id="diff1delta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorDELTA_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
@@ -126,14 +139,9 @@
 			</list>
 		</property>
 	</bean>
-	<!-- <bean id="diff1hgamma" class="gda.device.scannable.ScannableMotor"> 
-		<property name="motor" ref="MotorDELTA_DIFF1" /> <property name="protectionLevel" 
-		value="0" /> <property name="initialUserUnits" value="Deg" /> <property name="hardwareUnitString" 
-		value="Deg" /> <property name="outputFormat"> <list> <value>%9.5f</value> 
-		</list> </property> </bean> -->
 
 	<!-- Gamma in Vertical mode / Delta in Horizental mode -->
-	<bean id="diff1vgamma" class="gda.device.scannable.ScannableMotor">
+	<bean id="diff1gamma" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorGAMMA_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
@@ -144,11 +152,6 @@
 			</list>
 		</property>
 	</bean>
-	<!-- <bean id="diff1hdelta" class="gda.device.scannable.ScannableMotor"> 
-		<property name="motor" ref="MotorGAMMA_DIFF1" /> <property name="protectionLevel" 
-		value="0" /> <property name="initialUserUnits" value="Deg" /> <property name="hardwareUnitString" 
-		value="Deg" /> <property name="outputFormat"> <list> <value>%9.5f</value> 
-		</list> </property> </bean> -->
 
 	<!-- Gonio Rotation (DRot) -->
 	<bean id="diff1detselect"
@@ -163,6 +166,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Gonio Translation (DTrans) -->
 	<bean id="diff1detdist"
 		class="gda.device.scannable.ScannableMotor">
@@ -189,6 +193,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Point detector -->
 	<bean id="diff1dets2rot"
 		class="gda.device.scannable.ScannableMotor">
@@ -202,6 +207,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- Post sample slits rotation -->
 	<bean id="diff1dets1rot"
 		class="gda.device.scannable.ScannableMotor">
@@ -281,16 +287,14 @@
 				<ref bean="diff1x" />
 				<ref bean="diff1y" />
 				<ref bean="diff1z" />
-				<ref bean="diff1vomega" />
-				<ref bean="diff1valpha" />
-				<ref bean="diff1homega" />
-				<ref bean="diff1halpha" />
+				<ref bean="diff1alpha" />
+				<ref bean="diff1chi" />
+				<ref bean="diff1delta" />
+				<ref bean="diff1gamma" />
+				<ref bean="diff1omega" />
+				<ref bean="diff1theta" />
 				<ref bean="diff1cchi" />
 				<ref bean="diff1cphi" />
-				<ref bean="diff1vdelta" />
-				<!-- <ref bean="diff1hgamma" /> -->
-				<ref bean="diff1vgamma" />
-				<!-- <ref bean="diff1hdelta" /> -->
 				<ref bean="diff1detselect" />
 				<ref bean="diff1detdist" />
 				<ref bean="diff1prot" />
@@ -325,7 +329,5 @@
 		</property>
 		<property name="protectionLevel" value="0" />
 	</bean>
-
-
 
 </beans>
