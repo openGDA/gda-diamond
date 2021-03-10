@@ -669,48 +669,6 @@
 
     <bean id="MotorHeight_TS1" class="gda.device.motor.DummyMotor"/>
 
-    <!-- Diffractometer 1 (DIFF1) Motors -->
-    <bean id="MotorX_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorY_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorZ_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorOMEGA_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorALPHA_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorTHETA_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorCHI_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorCHI2_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorPHI_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorDELTA_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorGAMMA_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorDROT_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorDTRANS_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorDETROT_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorNU2_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorNU1_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEX_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEY_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEY1_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEY2_DIFF1" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEPITCH_DIFF1" class="gda.device.motor.DummyMotor"/>
 
     <!-- Detector Positioner System (DPS) Motors  -->
     <bean id="MotorX_DPS" class="gda.device.motor.DummyMotor"/>

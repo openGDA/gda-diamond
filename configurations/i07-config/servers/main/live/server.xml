@@ -57,8 +57,7 @@
 
 	<import resource="detectors/malcolm.xml" />
 
-	<import resource="devices/fastshutter.xml" />
-	<import resource="devices/electrochemistry.xml" />
+	<import resource="devices/*.xml" />
 
 	<import resource="server_core.xml" />
 	

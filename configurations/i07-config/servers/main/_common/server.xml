@@ -84,8 +84,7 @@
     <import resource="detectors/pilatus3.xml" />
     <import resource="detectors/excalibur.xml"/>
 
-    <import resource="devices/fastshutter.xml" />
-    <import resource="devices/malcolm_motors.xml" />
+    <import resource="devices/*.xml" />
 
     <import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
 
