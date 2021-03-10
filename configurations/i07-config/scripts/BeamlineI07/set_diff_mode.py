@@ -38,6 +38,16 @@ def eh1h(options=''):
 def eh2(options=''):
     handle_options('eh2', options)
 
+
+def set_motor_aliases(diffmode):
+    global alpha, chi, delta, gamma, omega, theta
+    alpha = {'eh1v' : None, 'eh1h' : diff1alpha, 'eh2' : None}.get(diffmode)
+    chi = {'eh1v' : None, 'eh1h' : diff1chi, 'eh2' : None}.get(diffmode)
+    delta = {'eh1v' : None, 'eh1h' : diff1delta, 'eh2' : None}.get(diffmode)
+    gamma = {'eh1v' : None, 'eh1h' : diff1gamma, 'eh2' : None}.get(diffmode)
+    omega  = {'eh1v' : None, 'eh1h' : diff1omega, 'eh2' : None}.get(diffmode)
+    theta = {'eh1v' : None, 'eh1h' : diff1theta, 'eh2' : None}.get(diffmode)
+
 # Necessary to store the active mode in a local property so that it can 
 # be updated without the need to restart the server. Defaults to eh1h
 diffmode = LocalProperties.get('gda.active.diffractometer.mode')
@@ -54,9 +64,7 @@ if diffmode in ['eh1v', 'eh1h', 'eh2']:
         reset_script_name,
         'Switching diffractometer mappings to {} mode'.format(diffmode),
         False, True)
-    alpha = {'eh1v' : mu, 'eh1h' : eta, 'eh2' : mu}.get(diffmode)
-    gamma = gam
-    omega = phi
+    set_motor_aliases(diffmode)
 
 silent = (lambda:'silent')()  # allows options without the need for brackets
 
