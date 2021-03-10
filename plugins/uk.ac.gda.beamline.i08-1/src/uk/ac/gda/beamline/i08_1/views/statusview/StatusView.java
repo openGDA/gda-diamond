@@ -68,8 +68,13 @@ public class StatusView extends ViewPart {
 		createNumericComposite(grpZonePlate, "osa_z", "osa_z", "mm", 2, 1000);
 
 		final Group grpEnergy = createGroup(parent, "Energy", 2);
+		createNumericComposite(grpEnergy, "idgap", "idgap", "mm", 2, 1000);
 		createNumericComposite(grpEnergy, "IDEnergy", "IDEnergy", "eV", 2, 1000);
 		createNumericComposite(grpEnergy, "pgm_energy", "pgm_energy", "eV", 2, 1000);
+
+		final Group grpPhase = createGroup(parent, "Phase", 2);
+		createNumericComposite(grpPhase, "phase_upper", "phase_upper", "mm", 4, 1000);
+		createNumericComposite(grpPhase, "phase_lower", "phase_lower", "mm", 4, 1000);
 	}
 
 	private void setIcon() {

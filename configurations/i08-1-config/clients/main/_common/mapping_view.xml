@@ -31,6 +31,7 @@
 					<property name="createSeparator" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
+				<!-- <bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection" /> -->
 			</list>
 		</property>
 	</bean>

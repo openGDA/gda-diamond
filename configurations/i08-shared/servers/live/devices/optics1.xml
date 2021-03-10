@@ -18,6 +18,14 @@
 		<property name="pvName" value="BL08I-MO-GLBL-01:ENERGY" />
 	</bean>
 
+	<!-- Phase motors -->
+	<bean id="phase_upper_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLPUSET" />
+	</bean>
+	<bean id="phase_lower_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLPLSET" />
+	</bean>
+
 	<!-- Frontend: Customized Aperture -->
 	<bean id="bda_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE08I-AL-APTR-02:X" />

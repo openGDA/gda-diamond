@@ -43,6 +43,7 @@
 	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="idgap" />
 				<ref bean="IDEnergy" />
 				<ref bean="energyFocus" />
 				<ref bean="energyFocusPGM" />

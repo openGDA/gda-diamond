@@ -83,6 +83,7 @@
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
+ 	<import resource="file:${gda.config.shared}/servers/_common/devices/polarisation.xml" />
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
