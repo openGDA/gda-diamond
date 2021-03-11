@@ -1057,8 +1057,8 @@ from dummy_pd_bimorph import Bimorph
 dummy_bimorph = Bimorph("dummy_bimorph", 0, 8)
 
 from pd_bimorph_caenels import BimorphCaenels
-bmcaenels_g1 = BimorphCaenels("bmcaenels_g1", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP0:")
-bmcaenels_g2 = BimorphCaenels("bmcaenels_g2", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP1:")
+bmcaenels_g1 = BimorphCaenels("bmcaenels_g1", range(1, 13), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP0:")
+bmcaenels_g2 = BimorphCaenels("bmcaenels_g2", range(1, 13), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP1:")
 
 from gdascripts.pd.dummy_pds import DummyPD
 dummy_x = DummyPD("x")
@@ -1191,6 +1191,7 @@ except:
 
 #ensure xmapMca2 settings are correct (no epics screen) - one off
 try:
+	#xmap2.getController().getEdxdController().getSubDetector(0).setReadingDoneIfNotAquiring(True)
 	caput("BL16B-EA-XMAP-02:CollectMode", 0) #MCA Spectra
 	caput("BL16B-EA-XMAP-02:PresetMode", 1) #Real mode
 	caput("BL16B-EA-XMAP-02:MCA1.NUSE", 2048) #binning
@@ -1198,6 +1199,7 @@ try:
 	caput("BL16B-EA-XMAP-02:DXP2:MaxEnergy", 20.48)
 	caput("BL16B-EA-XMAP-02:DXP3:MaxEnergy", 20.48)
 	caput("BL16B-EA-XMAP-02:DXP4:MaxEnergy", 20.48)
+	caput("BL16B-EA-XMAP-02:ReadAll.SCAN", 0)
 except:
 	print "WARNING: Could not ensure xmapMca settings are correct"
 
