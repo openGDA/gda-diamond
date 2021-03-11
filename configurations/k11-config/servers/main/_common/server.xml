@@ -23,6 +23,7 @@
 
 	<util:properties id="configProperties">
 		<prop key="BSEL_PV_PREFIX">BL11K-MO-BSEL-</prop>
+		<prop key="FRONTSTOP_PV_PREFIX">BL11K-AL-STOP-</prop>
 		<prop key="CRYO_PV_PREFIX">BL11K-CG-CRYO-</prop>
 		<prop key="DCM_PV_PREFIX">BL11K-OP-DCM-</prop>
 		<prop key="DIAGNOSTIC_CAMERAS_PV_PREFIX">BL11K-DI-PHDGN-</prop>

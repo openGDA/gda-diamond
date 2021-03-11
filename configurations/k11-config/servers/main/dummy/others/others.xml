@@ -3,5 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="front_stop"
+		class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In beam</value>
+				<value>Out of beam</value>
+				<value>Reset</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>
