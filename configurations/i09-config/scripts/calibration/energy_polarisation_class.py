@@ -10,7 +10,7 @@ For polarisation CL and CR, the ID phase is set to 15 mm fixed at the requested 
 import sys
 from time import sleep
 import logging
-from org.opengda.detector.electronanalyser import NotSupportedException
+import installation
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
@@ -43,7 +43,6 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.setOutputFormat(["%10.6f"])
         self.setInputNames([name])
         self.setExtraNames([])
-        self.order = 1  #default to 1st harmonic order
         self.polarisation = 'LH'
         self.gap = 50
         self.phase = 0
@@ -83,17 +82,17 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             print (formatstring % tuple([x for x in key] + [x for x in value]))
 
     def setOrder(self,n):
-        self.order=n
+        BeamEnergyPolarisationClass.harmonicOrder = n
 
     def getOrder(self):
-        return self.order
+        return BeamEnergyPolarisationClass.harmonicOrder
 
     def idgap(self, energy):
-        '''return gap for the given energy at given harmonic order for current polarisation.
+        '''return gap for the given energy for current polarisation.
             used in cvscan where polarisation doesn't change during continuous energy moving.
         '''
-        gap, polarisation, phase = self.getIDPositions()
-        gap, phase = self.idgapphase(Ep=energy, mode=polarisation)
+        gap, polarisation, phase = self.getIDPositions()  # @UnusedVariable
+        gap, phase = self.idgapphase(Ep=energy, mode=polarisation)  # @UnusedVariable
         return gap
 
     def idgapphase(self, Ep=None, mode='LH'):
@@ -129,14 +128,16 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, 0, self.maxPhase))
         return (gap, phase)
 
-    def calc(self, energy, order):
-        raise NotSupportedException("This method is no longer supported. Please use idgap(energy) method instead.")
-        #return self.idgap(energy)
+    def calc(self, energy, order=1):
+        message = "'order' input is no longer required. this is now merged into polarisation mode in the calibration lookup table!"
+        print(message)
+        self.logger.warn(message)
+        return self.idgap(energy)
 
     def rawGetPosition(self):
         '''returns the current beam energy, or polarisation, or both.'''
 
-        gap, polarisation, phase = self.getIDPositions()
+        gap, polarisation, phase = self.getIDPositions()  # @UnusedVariable
         energy=float(self.mono_energy.getPosition()/1000.0) #energy unit is in keV
 
         if polarisation in ["LH","LV","CR","CL","LH3"]:
@@ -160,13 +161,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                         new_polarisation = "LH"
                     s.asynchronousMoveTo([gap, new_polarisation, phase])
                 except:
-                    print "cannot set %s to [%f, %s, %f]" % (s.getName(), gap, new_polarisation, phase)
+                    print("cannot set %s to [%f, %s, %f]" % (s.getName(), gap, new_polarisation, phase))
                     raise
             elif not self.energyConstant:
                 try:
                     s.asynchronousMoveTo(energy * 1000)
                 except:
-                    print "cannot set %s to %f." % (s.getName(), energy)
+                    print("cannot set %s to %f." % (s.getName(), energy))
                     raise
 
     def rawAsynchronousMoveTo(self, new_position):
@@ -246,6 +247,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 return 0
             else:
                 return 1
+
+    def stop(self):
+        self.mono_energy.stop()
+        if installation.isLive():
+            print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
+        else:  
+            self.idscannable.stop()
 
     def atScanStart(self):
         self.rawGetPosition() #ensure ID hardware in sync at start of scan
