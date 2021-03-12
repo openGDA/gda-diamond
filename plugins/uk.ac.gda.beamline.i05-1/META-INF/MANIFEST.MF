@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.core,
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.2.0",
  uk.ac.gda.devices.vgscienta;bundle-version="1.0.0",
- uk.ac.gda.arpes;bundle-version="1.0.0"
+ uk.ac.gda.arpes;bundle-version="1.0.0",
+ uk.ac.diamond.daq.pes.api;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: uk.ac.gda.beamline.i05_1;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework"
 Bundle-Vendor: Diamond Light Source

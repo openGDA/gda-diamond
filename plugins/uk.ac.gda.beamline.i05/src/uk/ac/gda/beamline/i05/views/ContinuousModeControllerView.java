@@ -10,7 +10,7 @@ import org.eclipse.ui.part.ViewPart;
 import com.swtdesigner.SWTResourceManager;
 
 import gda.factory.Finder;
-import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
+import uk.ac.diamond.daq.pes.api.IElectronAnalyser;
 
 public class ContinuousModeControllerView extends ViewPart {
 
@@ -22,12 +22,12 @@ public class ContinuousModeControllerView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		// Should be local as its already imported by Spring
-		final List<IVGScientaAnalyserRMI> analyserRmiList = Finder.listLocalFindablesOfType(IVGScientaAnalyserRMI.class);
+		final List<IElectronAnalyser> analyserRmiList = Finder.listLocalFindablesOfType(IElectronAnalyser.class);
 		if (analyserRmiList.isEmpty()) {
 			throw new RuntimeException("No analyser was found over RMI");
 		}
 		// TODO Might actually want to handle the case where more than on
-		final IVGScientaAnalyserRMI analyserRmiProxy = analyserRmiList.get(0);
+		final IElectronAnalyser analyserRmiProxy = analyserRmiList.get(0);
 
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL);

@@ -68,11 +68,11 @@
 		<property name="slices" value="690" />
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	<!--<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/analyser" />
 		<property name="service" ref="analyser" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI" />
-	</bean>
+		<property name="serviceInterface" value="uk.ac.diamond.daq.pes.api.IElectronAnalyser" />
+	</bean>-->
 
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05J-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />
@@ -121,6 +121,6 @@
 	</bean>
 	
 	<!-- Import the other required analyser files -->
-	<import resource="../analyser_energy_range.xml"/>
+	<import resource="analyser_energy_range.xml"/>
 
 </beans>

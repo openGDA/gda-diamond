@@ -77,7 +77,7 @@
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/analyser" />
 		<property name="service" ref="analyser" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI" />
+		<property name="serviceInterface" value="uk.ac.diamond.daq.pes.api.IElectronAnalyser" />
 	</bean>
 
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
