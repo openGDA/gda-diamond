@@ -61,9 +61,6 @@ samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
 beamlinePreparer = I20BeamlinePreparer()
 
-twodplotter = TwoDScanPlotter()
-twodplotter.setName("twodplotter")
-
 xesOffsets=Finder.find("XesOffsets")
 
 theFactory = XesScanFactory();
@@ -80,6 +77,7 @@ theFactory.setAnalyserAngle(XESBragg)
 theFactory.setXes_energy(XESEnergy)
 theFactory.setXesOffsets(xesOffsets)
 xes = theFactory.createXesScan()
+xes.setTwoDPlotter(xes_2d_plotter)
 
 theFactory = XasScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);

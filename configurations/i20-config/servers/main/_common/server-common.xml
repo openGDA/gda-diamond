@@ -84,4 +84,10 @@
 
 	<bean id="RCPController" class="uk.ac.diamond.daq.server.rcpcontroller.RCPControllerImpl"/>
 
+	<bean id="xes_2d_plotter" class="gda.device.scannable.TwoDScanPlotter" >
+		<property name="plotViewname" value="2d XES Scan plot" />
+		<property name="rcpController" ref="RCPController" />
+		<property name="openPlotViewAtScanStart" value="true" />
+	</bean>
+	
 </beans>

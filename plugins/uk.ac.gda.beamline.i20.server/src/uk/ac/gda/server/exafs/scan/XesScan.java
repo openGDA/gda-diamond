@@ -160,7 +160,6 @@ public class XesScan extends XasScanBase implements XasScan {
 			// Add XESBragg angle
 			xes_args = ArrayUtils.add(xes_args, (Object)analyserAngle);
 			twodplotter.setZ_colName("FFI1");
-			twodplotter.setName("twoDPlotter");
 			xes_args = ArrayUtils.add(xes_args, twodplotter);
 		}
 		Detector[] detList = getDetectors();
@@ -315,5 +314,13 @@ public class XesScan extends XasScanBase implements XasScan {
 
 	public void setXesOffsets(IXesOffsets xesOffsets) {
 		this.xesOffsets = xesOffsets;
+	}
+
+	public TwoDScanPlotter getTwoDPlotter() {
+		return twodplotter;
+	}
+
+	public void setTwoDPlotter(TwoDScanPlotter twodplotter) {
+		this.twodplotter = twodplotter;
 	}
 }
