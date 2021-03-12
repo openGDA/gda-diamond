@@ -80,6 +80,7 @@ alias("d12Fe")
 alias("d12Ni")
 alias("d12Gd")
 
+fileHeader.add([iamp12_gain])  # @UndefinedVariable
 from gda.jython.commands.ScannableCommands import add_default
 add_default([fileHeader]);
 
@@ -100,6 +101,7 @@ def scan_processing_on():
  
 def scan_processing_off():
     scan_processor.processors = scan_processor_empty_processes
+    
 print
 print "*"*80
 #DiffCalc
