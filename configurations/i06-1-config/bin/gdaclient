@@ -1,5 +1,5 @@
 #!/bin/bash
 
-#gda --start logpanel
+gda --start logpanel
 export GDA_CLIENT_VMARGS=" -Xms256m -Xmx2048m"
 gda --start client "$@"
