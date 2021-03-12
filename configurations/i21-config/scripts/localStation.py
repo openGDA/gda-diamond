@@ -135,9 +135,9 @@ print("Create an 'dummyenergy' scannable which can be used for test energy scan 
 dummyenergy=BeamEnergy("dummyenergy",idscannable, ds, ds1, pgmGratingSelect)  # @UndefinedVariable
 print("Create an 'energy_s', 'polarisation', and 'energypolarisation' scannables")
 
-LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
+from calibration.energy_polarisation_class import X_RAY_POLARISATIONS, BeamEnergyPolarisationClass
+LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 from lookup.IDLookup import IDLookup4LinearAngleMode
-from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 lookup_file='${gda.config}/lookupTables/LinearAngle.csv' #theoretical table from ID group
 ID_ENERGY_TO_GAP_CALIBRATION_FILE = "IDEnergy2GapCalibrations.csv"
 EPICS_FEEDBACK_PV = "BL21I-OP-MIRR-01:FBCTRL:MODE"
