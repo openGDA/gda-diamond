@@ -13,8 +13,8 @@
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="rowChunks" value="0" />
 		<property name="colChunks" value="0" />
-		<property name="framesChunks" value="1292" />
-		<property name="framesFlush" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
