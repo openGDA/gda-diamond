@@ -35,6 +35,8 @@ http://www.opengda.org
 -Dgda.propertiesFile=${project_loc:i07-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i07-config}/properties/dummy/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
+-Ddatavis.open.mode=DESELECT_OTHERS
+-Ddatavis.open.script=true
 -client
 -Xms128m
 -Xmx1024m

@@ -31,6 +31,8 @@ http://www.opengda.org
 -Dgda.propertiesFile=../../workspace_git/gda-mt.git/configurations/i07-config/properties/live/java.properties
 -Dgov.aps.jca.JCALibrary.properties=../../workspace_git/gda-mt.git/configurations/i07-config/properties/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
+-Ddatavis.open.mode=DESELECT_OTHERS
+-Ddatavis.open.script=true
 -client
 -Xms128m
 -Xmx1024m
