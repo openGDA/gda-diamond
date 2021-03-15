@@ -117,9 +117,11 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 BeamEnergyPolarisationClass.harmonicOrder = 1
                 
             if mode == "LV":
+                BeamEnergyPolarisationClass.harmonicOrder = 1
                 phase = self.maxPhase
 
             if mode in ["CR", "CL"]:
+                BeamEnergyPolarisationClass.harmonicOrder = 1
                 phase=15.0
 
         else:
