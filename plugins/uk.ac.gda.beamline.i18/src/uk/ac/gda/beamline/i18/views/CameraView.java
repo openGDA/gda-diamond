@@ -33,7 +33,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
 import gda.epics.CAClient;
 import gda.factory.FactoryException;
 import gda.factory.FindableBase;
@@ -62,12 +61,6 @@ public class CameraView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-
-		String mode = LocalProperties.get("gda.mode");
-
-		if (mode.equalsIgnoreCase("dummy")) {
-			return;
-		}
 
 		viewer = new ImageViewer(parent, SWT.DOUBLE_BUFFERED);
 
