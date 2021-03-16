@@ -26,6 +26,10 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/zebra_turboslits.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/zebra_turboslits.xml" />
 
+<!--  Frelon camera - comment out when not testing live frelon in dummy mode -->
+<!-- 	<import resource="file:${gda.config}/servers/main/live/frelon_tango.xml" /> -->
+<!-- 	<import resource="file:${gda.config}/servers/main/live/frelon.xml" /> -->
+
 <!-- 	do this here as it may have object references to earlier XML files -->
 	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
 

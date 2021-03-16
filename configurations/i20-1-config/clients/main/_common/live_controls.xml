@@ -11,19 +11,169 @@
 		<property name="increment" value="1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
-	
- 	<bean id="as_slit_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Alignment Stage Slit X motor" />
-		<property name="scannableName" value="as_hoffset" />
-<!-- 		<property name="increment" value="1" /> -->
-		<property name="incrementTextWidth" value="60" />
+
+ 	<bean id="as_hgap_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Slit hgap" />
+		<property name="scannableName" value="as_hgap" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
 	</bean>
-	
+
+ 	<bean id="as_hoffset_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Slit offset" />
+		<property name="scannableName" value="as_hoffset" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="alignment_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Alignment stage x" />
+		<property name="scannableName" value="alignment_x" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="alignment_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Alignment stage y" />
+		<property name="scannableName" value="alignment_y" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_tablex_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample table x" />
+		<property name="scannableName" value="sample_tablex" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_tabley_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample table y" />
+		<property name="scannableName" value="sample_tabley" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample x" />
+		<property name="scannableName" value="sample_x" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample y" />
+		<property name="scannableName" value="sample_y" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample z" />
+		<property name="scannableName" value="sample_z" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_topx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample top x" />
+		<property name="scannableName" value="sample_topx" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_topy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample top y" />
+		<property name="scannableName" value="sample_topy" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_topz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample top z" />
+		<property name="scannableName" value="sample_topz" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample pitch" />
+		<property name="scannableName" value="sample_pitch" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="sample_roll_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample roll" />
+		<property name="scannableName" value="sample_roll" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="um1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="User motor 1" />
+		<property name="scannableName" value="um1" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="um2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="User motor 2" />
+		<property name="scannableName" value="um2" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean id="alignment_controls_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Alignment controls" />
+		<property name="numColumns" value="2" />
+		<property name="controls">
+			<list>
+				<ref bean="alignment_x_control" />
+				<ref bean="alignment_y_control" />
+				<ref bean="as_hoffset_control" />
+				<ref bean="as_hgap_control" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sample_controls_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Sample controls" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="sample_tablex_control" />
+				<ref bean="sample_tabley_control" />
+				<ref bean="sample_x_control" />
+				<ref bean="sample_y_control" />
+				<ref bean="sample_z_control" />
+				<ref bean="sample_topx_control" />
+				<ref bean="sample_topy_control" />
+				<ref bean="sample_topz_control" />
+				<ref bean="sample_pitch_control" />
+				<ref bean="sample_roll_control" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="user_motors_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="User motors" />
+		<property name="numColumns" value="2" />
+		<property name="controls">
+			<list>
+				<ref bean="um1_control" />
+				<ref bean="um2_control" />
+			</list>
+		</property>
+	</bean>
+
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="turbo_slit_x_control" />
-				<ref bean="as_slit_x_control" />
+				<ref bean="sample_controls_group" />
+				<ref bean="alignment_controls_group" />
+				<ref bean="user_motors_group" />
 			</list>
 		</property>
 	</bean>

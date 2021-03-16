@@ -172,4 +172,12 @@ if LocalProperties.get("gda.mode") == "live":
     powerSupply = StanfordPowerOnOff("powerSupply")
     add_default powerSupply
 
+
+print "\nReconnect daserver command : reconnect_daserver() "
+def reconnect_daserver() :
+    print "Trying to reconnect to DAServer..."
+    daserverForTfg.reconnect()
+    scalerForZebra.configure()
+    print "Ignore this error (it's 'normal'...)"
+    scalerForZebra.getScaler().clear()
 # industrialGasRigValve.configure()
