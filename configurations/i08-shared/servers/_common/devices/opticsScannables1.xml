@@ -18,6 +18,26 @@
 		<property name="motor" ref="idenergy_motor" />
 	</bean>
 
+	<!-- Phase motors -->
+	<bean id="phase_upper" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="phase_upper_motor" />
+	</bean>
+
+	<bean id="phase_lower" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="phase_lower_motor" />
+	</bean>
+
+	<bean id="phase" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="phase_upper" />
+				<ref bean="phase_lower" />
+			</list>
+		</property>
+	</bean>
+
 	<!-- Frontend: Customized Aperture -->
 	<bean id="bda_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
