@@ -8,6 +8,8 @@
 	<!-- This suppresses lots of warnings about chunking from the user see GDA-6192 -->
 	<logger name="org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5" level="ERROR"/>
 	
+	<logger name="org.apache.activemq" level="WARN"/>
+
 	<logger name="gda.device.motor.EpicsMotor">
     	<level value="INFO"/>
     </logger>
