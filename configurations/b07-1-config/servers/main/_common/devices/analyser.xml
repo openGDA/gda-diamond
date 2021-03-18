@@ -2,16 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+	
+	<bean id="collection_strategy" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSeparateIterationCollectionStrategy">
+		<property name="analyser" ref="analyser" />
+		<property name="safeStateAfterScan" value="false" />
+	</bean>
+	
 	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserSeparateIterations">
 		<property name="name" value="analyser" />
 		<property name="controller" ref="analyser_controller" />
-		<property name="collectionStrategy" >
-			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSeparateIterationCollectionStrategy">
-				<property name="analyser" ref="analyser" />
-				<property name="safeStateAfterScan" value="false" />
-			</bean>
-		</property>
+		<property name="collectionStrategy" ref="collection_strategy" />
 		<property name="photonEnergyProvider" ref="pgm_energy" />
 		<property name="prelensValve" ref="analyser_prelens_valve" />
 		<property name="experimentalShutter" ref="expt_shutter" />
@@ -41,7 +41,8 @@
 			</list>
 		</property>
 	</bean>
-
+	
+	<!-- Export analyser so that it will be available on client -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/analyser" />
 		<property name="service" ref="analyser" />

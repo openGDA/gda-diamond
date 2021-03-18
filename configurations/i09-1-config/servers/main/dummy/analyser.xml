@@ -6,4 +6,11 @@
 	<bean id="analyser_controller" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosController" >
 		<property name="basePVName" value="TEST-SPECS-01:" />
 	</bean>
+	
+	<bean id="analyser_status" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserStatus">
+		<property name="name" value="analyser_status"/>
+		<property name="pvName" value="TEST-SPECS-01:DetectorState_RBV" />
+	</bean>
+	
+	
 </beans>

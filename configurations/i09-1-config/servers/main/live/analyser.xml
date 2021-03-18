@@ -7,5 +7,10 @@
 		class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosController">
 		<property name="basePVName" value="BL09I-EA-DET-02:CAM:" />
 	</bean>
+	
+	<bean id="analyser_status" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserStatus">
+		<property name="name" value="analyser_status"/>
+		<property name="pvName" value="BL09I-EA-DET-02:CAM:DetectorState_RBV" />
+	</bean>
 
 </beans>
