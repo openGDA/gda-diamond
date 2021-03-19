@@ -21,12 +21,14 @@ package uk.ac.gda.beamline.i08_1.views.statusview;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -51,30 +53,41 @@ public class StatusView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		GridDataFactory.swtDefaults().applyTo(parent);
-		RowLayoutFactory.swtDefaults().applyTo(parent);
-		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		parent.setLayout(new FillLayout());
+		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		parent.setBackgroundMode(SWT.INHERIT_FORCE);
+
+		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setLayout(new FillLayout());
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
+		final Composite content = new Composite(scrolledComposite, SWT.NONE);
+		RowLayoutFactory.swtDefaults().applyTo(content);
 
 		setPartName(VIEW_NAME);
 		setIcon();
 		initialiseColourMap();
 
-		final Group grpShutters = createGroup(parent, "Shutters", 2);
+		final Group grpShutters = createGroup(content, "Shutters", 2);
 		createShutterComposite(grpShutters, "shutter2", "shutter2");
 		createShutterComposite(grpShutters, "s3_shutter", "s3_shutter");
 
-		final Group grpZonePlate = createGroup(parent, "Zone plate", 2);
+		final Group grpZonePlate = createGroup(content, "Zone plate", 2);
 		createNumericComposite(grpZonePlate, "ZonePlateZ", "ZonePlateZ", "mm", 2, 1000);
 		createNumericComposite(grpZonePlate, "osa_z", "osa_z", "mm", 2, 1000);
 
-		final Group grpEnergy = createGroup(parent, "Energy", 2);
+		final Group grpEnergy = createGroup(content, "Energy", 2);
 		createNumericComposite(grpEnergy, "idgap", "idgap", "mm", 2, 1000);
 		createNumericComposite(grpEnergy, "IDEnergy", "IDEnergy", "eV", 2, 1000);
 		createNumericComposite(grpEnergy, "pgm_energy", "pgm_energy", "eV", 2, 1000);
 
-		final Group grpPhase = createGroup(parent, "Phase", 2);
+		final Group grpPhase = createGroup(content, "Phase", 2);
 		createNumericComposite(grpPhase, "phase_upper", "phase_upper", "mm", 4, 1000);
 		createNumericComposite(grpPhase, "phase_lower", "phase_lower", "mm", 4, 1000);
+
+		scrolledComposite.setContent(content);
+		scrolledComposite.setMinSize(content.computeSize(80, SWT.DEFAULT));
 	}
 
 	private void setIcon() {
@@ -88,7 +101,7 @@ public class StatusView extends ViewPart {
 		}
 	}
 
-	protected void initialiseColourMap() {
+	private void initialiseColourMap() {
 		colourMap = new HashMap<>(6);
 		colourMap.put("Open", 6);
 		colourMap.put("Opening", 6);
@@ -98,7 +111,7 @@ public class StatusView extends ViewPart {
 		colourMap.put("moving", 8);
 	}
 
-	protected static Group createGroup(Composite parent, String name, int columns) {
+	private static Group createGroup(Composite parent, String name, int columns) {
 		final Group group = new Group(parent, SWT.NONE);
 		group.setText(name);
 		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
