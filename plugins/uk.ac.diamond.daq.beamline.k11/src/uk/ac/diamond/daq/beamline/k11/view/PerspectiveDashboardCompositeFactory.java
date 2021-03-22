@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Listener;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.diamond.daq.client.gui.energy.summary.EnergySummaryComposite;
+import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.mapping.ui.controller.StageController;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
