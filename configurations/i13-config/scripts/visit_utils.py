@@ -118,7 +118,26 @@ class ScanEndScriptRunner(ScannableBase):
 
 
 
-pixium_redux=ScanEndScriptRunner('pixium_redux', '/dls/tmp/vxu94780/xscan.sh')
+#pixium_redux=ScanEndScriptRunner('pixium_redux', '/dls/tmp/vxu94780/xscan.sh')
+
+from gda.data.metadata import GdaMetadata
+from gda.factory import Finder
+from __builtin__ import None
+from datetime import datetime
+
+def change_visit_id(visit_id):
+    data_dir = os.path.join(os.sep+'dls',LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME),'data')     #/dls/i13/data
+    sub_dir = 'raw'                     #can this be read from a property?
+    year = str(datetime.now().year)
+
+    #set output path
+    data_path = os.path.join(data_dir,year,visit_id,sub_dir)
+    print("GDA scan files will be saved in {}".format(data_path))
+    LocalProperties.set("gda.data.scan.datawriter.datadir",data_path)
+
+    #set visit in GDA metadata
+    md = Finder.getInstance().findSingleton(GdaMetadata)	#Finder.findSingleton(GdaMetadata)
+    md.setMetadataValue("visit", visit_id)
 
 
 
