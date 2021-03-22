@@ -135,7 +135,7 @@ import gdascripts.scannable.beamokay
 beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
 
 from i13j_utilities import WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback
-ebeamok = WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback("ebeamok",ic1,0.1,emails=['kaz.wanelik@diamond.ac.uk', 'silvia.cipiccia@diamond.ac.uk', 'darren.batey@diamond.ac.uk', 'xiaowen.shi@diamond.ac.uk', 'physicshome@gmail.com'])
+ebeamok = WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback("ebeamok",ic1,0.1,emails=['kaz.wanelik@diamond.ac.uk', 'silvia.cipiccia@diamond.ac.uk', 'darren.batey@diamond.ac.uk'])
 
 from i13j_utilities import ShutterDirector, CAShutterDirector, StepScanMinder, pcotif_minder
 #shutter_director = ShutterDirector('shutter_director', fs, delay_after_open_sec=0, delay_after_close_sec=0)
@@ -532,6 +532,12 @@ run("mapping_scan_commands.py")
 
 def douglas(start, stop, stepasdf):
 	mscan(step('t1_pi_lz', start, stop, stepasdf), det=[detector('BL13J-ML-SCAN-01', 0.01)])
+
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
+from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs, set_watchdog_enabled, is_watchdog_enabled
+alias("enableWatchdogs")
+alias("disableWatchdogs")
+alias("listWatchdogs")
 
 print(section_sep)
 print("\n Finished running localStation.py")
