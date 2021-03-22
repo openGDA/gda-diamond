@@ -4,65 +4,65 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="s5_xsize_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0000" />
-		<property name="maxPosition" value="20.000" />
-		<property name="position" value="10.5004" />
+		<property name="minPosition" value="-30.5000" />
+		<property name="maxPosition" value="20.0000" />
+		<property name="position" value="6.9000" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_xcenter_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10.000" />
-		<property name="maxPosition" value="10.000" />
-		<property name="position" value="-3.5953" />
+		<property name="minPosition" value="-100.0000" />
+		<property name="maxPosition" value="100.0000" />
+		<property name="position" value="7.3000" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_ysize_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0000" />
-		<property name="maxPosition" value="20.0000" />
-		<property name="position" value="7.0002" />
+		<property name="minPosition" value="-20.0000" />
+		<property name="maxPosition" value="50.0000" />
+		<property name="position" value="7.5000" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_ycenter_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10.000" />
-		<property name="maxPosition" value="10.000" />
-		<property name="position" value="4.1354" />
+		<property name="minPosition" value="-100.0000" />
+		<property name="maxPosition" value="100.0000" />
+		<property name="position" value="5.3000" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_xplus_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-11.0000" />
-		<property name="maxPosition" value="11.0000" />
-		<property name="position" value="6.1502" />
+		<property name="minPosition" value="-114.6990" />
+		<property name="maxPosition" value="85.3013" />
+		<property name="position" value="10.7500" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_xminus_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-11.000" />
-		<property name="maxPosition" value="11.0000" />
-		<property name="position" value="-2.3502" />
+		<property name="minPosition" value="-15.2000" />
+		<property name="maxPosition" value="50.0000" />
+		<property name="position" value="3.85002" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_yplus_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-11.0000" />
-		<property name="maxPosition" value="11.0000" />
-		<property name="position" value="-7.5400" />
+		<property name="minPosition" value="-5.0000" />
+		<property name="maxPosition" value="15.2000" />
+		<property name="position" value="9.0500" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_yminus_motor" class="gda.device.motor.DummyMotor">	
-		<property name="minPosition" value="-11.0000" />
-		<property name="maxPosition" value="11.0000" />
-		<property name="position" value="-3.9816" />
+		<property name="minPosition" value="-15.2000" />
+		<property name="maxPosition" value="10.0000" />
+		<property name="position" value="1.54999" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>

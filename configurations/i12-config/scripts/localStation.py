@@ -632,7 +632,7 @@ if isLive():
         meta_scannables.append(s1)
         meta_scannables.append(s2)
         meta_scannables.append(s3)
-        meta_scannables.append(s4)
+        #meta_scannables.append(s4)
         
         meta_scannables.append(t3)
         meta_scannables.append(t7)

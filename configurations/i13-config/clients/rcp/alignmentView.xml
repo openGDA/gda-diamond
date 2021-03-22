@@ -167,19 +167,19 @@
 										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="hex_rx" />
-										<property name="stepSize" value=".01" />
-										<property name="decimalPlaces" value="4" />
+										<property name="scannable" ref="hex_samplex" />
+										<property name="stepSize" value=".1" />
+										<property name="decimalPlaces" value="2" />
 									</bean>
+<!-- 									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="hex_sampley" />
+										<property name="stepSize" value=".1" />
+										<property name="decimalPlaces" value="2" />
+									</bean> -->
 									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="hex_ry" />
-										<property name="stepSize" value=".01" />
-										<property name="decimalPlaces" value="4" />
-									</bean>
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="hex_rz" />
-										<property name="stepSize" value=".01" />
-										<property name="decimalPlaces" value="4" />
+										<property name="scannable" ref="hex_samplez" />
+										<property name="stepSize" value=".1" />
+										<property name="decimalPlaces" value="2" />
 									</bean>
 								</util:list>
 							</property>

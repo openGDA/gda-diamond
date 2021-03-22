@@ -19,29 +19,29 @@ except:
 def masterPositions():
     print "in masterPositions"
     detector_table = t3.m2z
-    detector_diffzposition= 700
+    detector_diffzposition= 650
     detector_SAFEdiffzposition= 1300 # MUST be above 1300 - SAFE position to avoid collision with Granite block
     return detector_table , detector_diffzposition , detector_SAFEdiffzposition
     
 def monodiffractionPositions():
      # detector positions
-    detector_diffxposition= 747
-    detector_diffyposition= 50
+    detector_diffxposition= 753
+    detector_diffyposition= 51
     #slitpositions
     s2_diffxcentre= 0.0
     s2_diffycentre=50.0
-    s2_diffxsize=0.2 # BEAM SIZE for diffraction
-    s2_diffysize=0.2 # BEAM SIZE for diffraction
+    s2_diffxsize=0.5 # BEAM SIZE for diffraction
+    s2_diffysize=0.5 # BEAM SIZE for diffraction
     
     s3_yheight=50 # for MONO-beam: s3_yheight = 50 always
     s3_diffxcentre=0
     s3_diffycentre=0
-    s3_diffxsize=2 # s3_diffxsize > s2_diffxsize
-    s3_diffysize=2 # s3_diffysize > s2_diffysize
+    s3_diffxsize=3 # s3_diffxsize > s2_diffxsize
+    s3_diffysize=3 # s3_diffysize > s2_diffysize
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 114.2
-    beamstopInBeam_y = 73
+    beamstopInBeam_x = 116.5
+    beamstopInBeam_y = 9.2
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-10
@@ -51,22 +51,22 @@ def monodiffractionPositions():
     
 def monoimagingPositions():
     # detector positions
-    detector_imagingxposition=1348
+    detector_imagingxposition=1348.75
     
     #slitpositions
     s2_imagingxcentre= 0
-    s2_imagingycentre=50
-    s2_imagingxsize=2
-    s2_imagingysize=2
+    s2_imagingycentre=50.0
+    s2_imagingxsize=15
+    s2_imagingysize=10
     
-    s3_yheight= 50 # ' For MONO-beam: s3_yheight = 50 for M4 & M3; s3_yheight = -150 for M2 & M1
+    s3_yheight= -150 # ' For MONO-beam: s3_yheight = 50 for M4 & M3; s3_yheight = -150 for M2 & M1
     s3_imagingxcentre=0
     s3_imagingycentre=0
-    s3_imagingxsize=8 # s3_imagingxsize > s2_imagingxsize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
-    s3_imagingysize=8 # s3_imagingysize > s2_imagingysize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
+    s3_imagingxsize=3 # s3_imagingxsize > s2_imagingxsize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
+    s3_imagingysize=3 # s3_imagingysize > s2_imagingysize for M4 &M3, and they are out at s3_yheight=-150 for M2 & M1
     
-    beamstopOutofBeam_x = 124.2
-    beamstopOutofBeam_y = 7.3
+    beamstopOutofBeam_x = 126.5
+    beamstopOutofBeam_y = 9.2
     
     #calculated values
     detector_imagingxposition_lowLimit = detector_imagingxposition-15   ## to restrict movement of pilatus into beam when imaging
@@ -102,8 +102,8 @@ def monodiffractionMode():
     print "******* External Shutter Closed"
     
     print "***** Moving slits. "
-    pos(s2.xc, s2_diffxcentre, s2.xs, s2_diffxsize)
-    pos(s2.yc, s2_diffycentre, s2.ys, s2_diffysize)
+    pos(s2.xc, s2_diffxcentre, s2.yc, s2_diffycentre,)
+    pos(s2.xs, s2_diffxsize, s2.ys, s2_diffysize)
     
     pos(s3.y, s3_yheight)
     pos(s3.xc, s3_diffxcentre, s3.xs, s3_diffxsize)
@@ -161,8 +161,8 @@ def monoimagingMode():
     #print "******* Finished moving tilts of Sample table for imaging mode"
 
     print "***** Moving slits."
-    pos(s2.xc, s2_imagingxcentre, s2.xs, s2_imagingxsize)
-    pos(s2.yc, s2_imagingycentre, s2.ys, s2_imagingysize)
+    pos(s2.xc, s2_imagingxcentre, s2.yc, s2_imagingycentre)
+    pos(s2.xs, s2_imagingxsize, s2.ys, s2_imagingysize)
 
     pos(s3.y, s3_yheight)
     pos(s3.xc, s3_imagingxcentre, s3.xs, s3_imagingxsize)
@@ -223,3 +223,5 @@ alias("moveToEndOfHutchDiagnostic")
 
 
 print "finished loading 'moveToImagingMode', 'moveToDiffractionMode', 'moveToEndOfHutchDiagnostic' "
+print "..."
+print "..."

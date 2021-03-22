@@ -8,33 +8,34 @@
 # ss1_samplex - a virtual motor that takes account of rotation
 # ss1_samplez - only use if going from -90 to 90. otherwise use ss1_x which 
 #		is a virtual motor that takes account of rotation
-# ss1_sampley - to move the sample vertically
+ ss1_sampley - to move the sample vertically
 # translate_x - translation table on which the sample stages are mounted, 
 #		useful if using the hexapod
-tomography_translation=hex_samplex
+#tomography_translation=hex_samplex
 #tomography_translation=hex_samplez
 #tomography_translation=hex_x
 #tomography_translation=hex_y
 #tomography_translation=ss1_sampley
 #tomography_translation=ss1_X  #Base
-#tomography_translation=ss1_samplex
+tomography_translation=ss1_samplex
+#tomography_translation=ss1_samplez
 #tomography_translation=ss1_X_dummy
 #tomography_translation=translate_x
 #tomography_translation=newport_3
-tomography_translation=lowprof_samplex
+#tomography_translation=lowprof_samplex
 
 # tomography_theta is the motor used to rotate the sample
 # Possible values:
-# ss1_rot - normal goniometer
+#ss1_rot - normal goniometer
 # p2r_rot - p2r
 # hex_rot - slip-ring stage
 # ss1_rot_dummy - a dummy motor used for testing
-#tomography_theta=ss1_rot
+tomography_theta=ss1_rot
 #tomography_theta=smar_rot
 #tomography_theta=p2r_rot
 #tomography_theta=ss1_rot_dummy 
 #tomography_theta=hex_rot
-tomography_theta=lowprof_rot
+#tomography_theta=lowprof_rot
 #tomography_theta=deben_rot_bottom
 #tomography_theta=dbn_rotb
 
@@ -49,11 +50,11 @@ tomography_theta=lowprof_rot
 #	pco1_sw.collectionStrategy.accumlationMode=True, 
 #	pco1_sw.collectionStrategy.acc_expo_time=1
 #tomography_detector=pco1_sw
-#tomography_detector=pco1_hw_hdf_nochunking
+tomography_detector=pco1_hw_hdf_nochunking
 #tomography_detector=pco1_hw_tif
 #tomography_detector=pco1_tif
 #tomography_detector=pco1_sw_hdf  
-tomography_detector=pco1_sw_tif
+#tomography_detector=pco1_sw_tif
 
 # tomography_normalisedImage_detector: the detector used for normalised images
 # Possible values:
@@ -102,10 +103,10 @@ tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorNoChunking
 #tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorTIF
 
 # tomography_flyscan_theta is the rotation axis (i.e. the Zebra) used for flyscans
-#tomography_flyscan_theta=zebraSM1	# to use micos rot stage
+tomography_flyscan_theta=zebraSM1	# to use micos rot stage
 #tomography_flyscan_theta=zebraSM2	# to use slip-ring rot stage (hex_rot)
 #tomography_flyscan_theta=debenSM3	# to use deben rot stage
-tomography_flyscan_theta=zebraSM4	# to use low-profile rot stage (lowprof_rot)
+#tomography_flyscan_theta=zebraSM4	# to use low-profile rot stage (lowprof_rot)
  
 
 #### P2R Stage:
@@ -132,4 +133,17 @@ tomography_grating_translation_inner=smar_y
 #tomography_translation_vert=ss1_sampley_dummy
 #tomography_translation_vert=ss1_sampley
 #tomography_translation_vert=ss1_Y
+
+
+
+####  TXM
+txm_tomography_translation=ss1_sampley
+txm_tomography_translation=ss1_X_dummy
+txm_tomography_theta=ss1_rot
+txm_tomography_theta=ss1_rot_dummy
+txm_tomography_detector=hama_sw_hdf
+txm_tomography_shutter=s1_ysize		# slits
+txm_tomography_shutter=ix
+
+
 

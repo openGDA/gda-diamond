@@ -47,7 +47,7 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     exposureTime - exposure time in seconds ( default = 1)
     
     
-5. To perform a tomogram:
+5. To collect a tomogram:
 	>tomographyScan.tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
     
@@ -65,7 +65,7 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
 
-5a To perform a tomogram using flyscan
+5a To collect a tomogram using flyscan
 	>tomographyScan.tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1)
     inBeamPosition - position of X drive to move sample into the beam to take a projection
@@ -95,7 +95,7 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     >tomodet.pco1_cam_base.minY=100
     >tomodet.pco1_cam_base.sizeY=500
     
-10. Scannables for stroboscopic experiment: phase(in radians), frequency and amplitude
+10. Scannables for stroboscopic experiment: phase (in radians), frequency and amplitude
 
     To take mulitple images use detector pco1_multi_hdf
     Set exposure of each image by property pco1_multi_hdf.collectionStrategy.exposureTime
@@ -117,5 +117,21 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     Down Stream: 	http://172.23.113.211/view/index.shtml
 
 14. For details of PCO cabling, please go to:
-    http://confluence.diamond.ac.uk/display/I13/EH1+Detector+Cables    
+    http://confluence.diamond.ac.uk/display/I13/EH1+Detector+Cables
+    
+15. To use PCO Edge for effective exposure times greater than its maximum of 2s, follow this procedure:
+    (i) turn on the accumulation mode on, for example, pco1_sw_tif:
+    >pco1_sw_tif.collectionStrategy.accumlationMode=True
+    (ii) set exposure time for the individual frames that are to be accumulated together at each scan point to a value less or equal to 2s, e.g. 1s
+    >pco1_sw_tif.collectionStrategy.acc_expo_time=1
+    
+    To get 1 accumulated image with effective exposure time of 4s, execute:
+    >repscan 1 pco1_sw_tif 4
+    The above command generates a single image by accumulating 4 frames each recorded with exposure time of 1s.
+    NB. Set it back to the default values afterwards:
+    pco1_sw_tif.collectionStrategy.accumlationMode=False
+    pco1_sw_tif.collectionStrategy.acc_expo_time=0.01
+    
+16. For use by beamline staff only! If absolutely necessary, the change_visit_id command can be used to change the current visit directory to a desired one, eg change_visit_id("cm1234-5").
+
 """

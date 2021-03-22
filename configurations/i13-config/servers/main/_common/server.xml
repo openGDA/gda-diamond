@@ -59,11 +59,13 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/experiment_hutch_shutter.xml" />
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/s4_motors.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/s5_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers4.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/ion_chamber.xml" />
 	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/kb_motors.xml" /> -->
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/sample_stage_motors.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/sample_lab_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/translation_stage_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/table_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/camera_stage_motors.xml" />
@@ -87,7 +89,9 @@
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/pinhole_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/zone_plate_motors.xml" />
-	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/phase_ring_motors.xml" /> -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/phase_ring_motors.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/condenser_motors.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/central_stop_motors.xml" />
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/fast_shutter.xml" />
 
@@ -128,8 +132,10 @@
 	<import resource="file:${gda.config}/devices/_common/s3.xml" />
 	<import resource="file:${gda.config}/devices/_common/dcm.xml" />
 	<import resource="file:${gda.config}/devices/_common/s4.xml" />
+	<import resource="file:${gda.config}/devices/_common/s5.xml" />
 	<!-- <import resource="file:${gda.config}/devices/_common/kb.xml" /> -->
 	<import resource="file:${gda.config}/devices/_common/sample_stage.xml" />
+	<import resource="file:${gda.config}/devices/_common/sample_lab.xml" />
 	<import resource="file:${gda.config}/devices/_common/table.xml" />
 	<import resource="file:${gda.config}/devices/_common/camera_stage.xml" />
 	<import resource="file:${gda.config}/devices/_common/cam01.xml" />
@@ -144,7 +150,9 @@
 	<!-- <import resource="file:${gda.config}/devices/_common/newport_stage.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/pinhole.xml" />
 	<import resource="file:${gda.config}/devices/_common/zone_plate.xml" />
-	<!-- <import resource="file:${gda.config}/devices/_common/phase_ring.xml" /> -->
+	<import resource="file:${gda.config}/devices/_common/phase_ring.xml" />
+	<import resource="file:${gda.config}/devices/_common/condenser.xml" />
+	<import resource="file:${gda.config}/devices/_common/central_stop.xml" />
 	<import resource="file:${gda.config}/devices/_common/translation_stage.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/d1.xml" />

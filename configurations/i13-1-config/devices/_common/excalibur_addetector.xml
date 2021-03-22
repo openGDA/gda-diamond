@@ -26,8 +26,8 @@
 	</bean>
 
 	<bean id="excaliburInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Xspress3" />
-		<property name="description" value="Xspress3" />
+		<property name="label" value="Excalibur3M" />
+		<property name="description" value="Excalibur3M" />
 	</bean>
 
 	<bean id="excalibur_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">

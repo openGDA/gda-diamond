@@ -39,7 +39,7 @@
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13-1/data" />
 				<!-- <property name="windowsSubString" value="x:\\data" /> -->
-				<property name="windowsSubString" value="t:\\i13-1\\data" />
+				<property name="windowsSubString" value="g:\\i13-1\\data" />
 			</bean>
 		</property>
 	</bean>
@@ -51,7 +51,7 @@
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13-1/data" />
 				<!-- <property name="windowsSubString" value="x:\\data" /> -->
-				<property name="windowsSubString" value="t:\\i13-1\\data" />
+				<property name="windowsSubString" value="g:\\i13-1\\data" />
 			</bean>
 		</property>
 	</bean>

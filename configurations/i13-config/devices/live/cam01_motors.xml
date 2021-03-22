@@ -18,7 +18,7 @@
 	<bean id="cam01_objective" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="name" value="cam01_objective" />
 		<property name="controlPv" value="BL13I-MO-CAM-01:TURRET:DEMAND"/>
-		<property name="statusPv" value="BL13I-MO-CAM-01:TURRET:CURRENTPOS"/>
+		<property name="statusPv" value="BL13I-MO-CAM-01:TURRET:CURPOS"/>
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 
