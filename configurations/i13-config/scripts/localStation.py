@@ -19,6 +19,7 @@ import tomographyHelicalScan
 from tomographyHelicalScan import tomoHelicalScan
 
 from i13i_utilities import isLive, interruptable
+from visit_utils import change_visit_id
 
 section_sep = "-"*128
 class ExperimentShutterEnumPositioner(ScannableBase):
@@ -298,7 +299,7 @@ try:
 			LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
 		
 		print "---"*30
-		print "Local-station initialisation completed - GDA ready for use!"
+		print "Local-station initialisation completed - I13 GDA ready for use!"
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
