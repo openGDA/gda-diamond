@@ -41,6 +41,10 @@
 	<bean id="hex_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="hex_z" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
+	<bean id="hex_samplex" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
+	<bean id="hex_samplez" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="hex_rx" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
