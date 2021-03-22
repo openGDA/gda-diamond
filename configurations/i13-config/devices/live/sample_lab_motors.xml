@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="sample_lab_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-STAGE-01:LAB:X"/>
+	</bean>
+	<bean id="sample_lab_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-STAGE-01:LAB:Y"/>
+	</bean>
+	<bean id="sample_lab_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-STAGE-01:LAB:Z"/>
+	</bean>
+</beans>

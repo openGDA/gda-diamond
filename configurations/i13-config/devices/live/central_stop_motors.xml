@@ -4,10 +4,10 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="central_stop_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13I-RS-ABSB-05:X"/>
+		<property name="pvName" value="BL13I-MO-SMAR-02:BSX"/>
 	</bean>
 	<bean id="central_stop_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13I-RS-ABSB-05:Y"/>
+		<property name="pvName" value="BL13I-MO-SMAR-02:BSY"/>
 	</bean>
 
 </beans>	
