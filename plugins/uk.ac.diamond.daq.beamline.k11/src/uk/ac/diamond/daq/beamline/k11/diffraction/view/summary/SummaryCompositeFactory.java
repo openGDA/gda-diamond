@@ -28,9 +28,12 @@ import java.util.function.Supplier;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
+import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
+import uk.ac.diamond.daq.client.gui.camera.event.CameraControlSpringEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
@@ -69,6 +72,7 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
 	private void dispose() {
 		SpringApplicationContextFacade.removeApplicationListener(listenToScanningAcquisitionChanges);
+		SpringApplicationContextFacade.removeApplicationListener(cameraControlSpringEventListener);
 	}
 
 	/**
@@ -85,10 +89,13 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 		summaryText.setEditable(false);
 		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(summaryText);
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
+		SpringApplicationContextFacade.addDisposableApplicationListener(this, cameraControlSpringEventListener);
 	}
 
-	// At the moment is not possible to use anonymous lambda expression because it
-	// generates a class cast exception
+	/**
+	 * This listener updates the summary when acquisition configuration changes.
+	 * At the moment is not possible to use anonymous lambda expression because it generates a class cast exception
+	 */
 	private ApplicationListener<ScanningAcquisitionChangeEvent> listenToScanningAcquisitionChanges = new ApplicationListener<ScanningAcquisitionChangeEvent>() {
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
@@ -101,10 +108,34 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 					.map(ScanningAcquisition::getUuid)
 					.orElseGet(UUID::randomUUID);
 
-			if (eventUUID.equals(scanningAcquisitionUUID) && !summaryText.isDisposed()) {
-				summaryText.setText(summaryBase.toString());
-				container.getShell().layout(true, true);
+			if (eventUUID.equals(scanningAcquisitionUUID)) {
+				updateSummary();
 			}
 		}
 	};
+
+
+	/**
+	 * This listener updates the summary when the camera control, publishing the event, and the detector control associated in this acquisition match.
+	 * At the moment is not possible to use anonymous lambda expression because it generates a class cast exception
+	 */
+	private ApplicationListener<CameraControlSpringEvent> cameraControlSpringEventListener = new ApplicationListener<CameraControlSpringEvent>() {
+		@Override
+		public void onApplicationEvent(CameraControlSpringEvent event) {
+			String cameraName = acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters().getDetector().getName();
+			if (CameraHelper.getCameraConfigurationPropertiesByCameraControlName(cameraName)
+				.filter(c -> c.getCameraControl().equals(event.getName()))
+				.isPresent())
+				updateSummary();
+		}
+	};
+
+	private void updateSummary() {
+		if (!summaryText.isDisposed()) {
+			Display.getDefault().asyncExec(() -> {
+				summaryText.setText(summaryBase.toString());
+				container.getShell().layout(true, true);
+			});
+		}
+	}
 }
