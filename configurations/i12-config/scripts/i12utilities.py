@@ -302,8 +302,9 @@ def i12tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPositio
     #caput("BL12I-EA-ZEBRA-01:M1:SETPOS.PROC", 1)    # copy motor position to Zebra 1 (on POS1 of ENC tab)
     caput("BL12I-EA-ZEBRA-01:SYS_RESET.PROC", 1)
     defaults_save = clear_defaults()
-    atTomoFlyScanStart()
+#    atTomoFlyScanStart()
     try:
+        atTomoFlyScanStart()
         i13tomographyScan.tomoFlyScan(description=description, inBeamPosition=inBeamPosition, outOfBeamPosition=outOfBeamPosition, exposureTime=exposureTime, start=start, stop=stop, step=step, imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, extraFlatsAtEnd=extraFlatsAtEnd, closeShutterAfterScan=closeShutterAfterScan, beamline="I12", vetoFlatsDarksAtStart=vetoFlatsDarksAtStart, helical_axis_stage=helical_axis_stage)
     except:
         exceptionType, exception, traceback = sys.exc_info()
