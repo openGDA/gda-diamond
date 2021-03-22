@@ -201,11 +201,13 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
 
 def reportJythonNamespaceMapping(modality='micro', verbose=False):
     """
-    Fn to report relevant tomography object mappings found in live_jythonNamespaceMapping.
+    Fn to report mappings for tomography objects in live_jythonNamespaceMapping.
     Arg(s)
-    modality - type of scan
-        available options: 'all', 'micro', 'heli', 'xgi' or their first letters (all case insensitive)
+    modality - type of imaging scan
+        available options: 'all', 'micro', 'heli', 'xgi', 'txm' or their first letters (case insensitive)
     verbose - if True, PV names are displayed wherever appropriate
+    Example: reportJythonNamespaceMapping('all')
+    	     reportTomo('all')
     """
     def _get_pv_name(obj):
         out = None
@@ -242,25 +244,27 @@ def reportJythonNamespaceMapping(modality='micro', verbose=False):
     supported_desc_lst = []
     
     supported_names_lst.append('all')
-    supported_desc_lst.append('all scanning modalities')
+    supported_desc_lst.append('all imaging modalities')
     supported_names_lst.append('micro')
-    supported_desc_lst.append('micro-tomography (step & fly scans)')
+    supported_desc_lst.append('micro-tomography step & fly scans')
     supported_names_lst.append('heli')
-    supported_desc_lst.append('hellical micro-tomography step scan')
+    supported_desc_lst.append('helical micro-tomography step scan')
     supported_names_lst.append('xgi')
     supported_desc_lst.append('diffraction-grating interferometry (1d & 2d)')
+    supported_names_lst.append('txm')
+    supported_desc_lst.append('transmission micro-tomography step & fly scans')
     supported_abbrevs_lst = [s[0] for s in supported_names_lst]
     
     #supported_dct.update({'all': 'all scanning modalities'})
-    #supported_dct.update({'micro': 'micro-tomography (step & fly scans)'})
+    #supported_dct.update({'micro': 'micro-tomography step & fly scans'})
     #supported_dct.update({'xgi': 'diffraction-grating interferometry (1d & 2d)'})
-    #supported_dct.update({'heli': 'hellical micro-tomography step scan'})
+    #supported_dct.update({'heli': 'helical micro-tomography step scan'})
     
     #supported_lst = []
     #supported_lst.append(('all', 'all scan modalities'))
-    #supported_lst.append(('micro', 'micro-tomography (step & fly scans)'))
+    #supported_lst.append(('micro', 'micro-tomography step & fly scans'))
     #supported_lst.append(('xgi', 'diffraction-grating interferometry (1d & 2d)'))
-    #supported_lst.append(('heli', 'hellical micro-tomography step scan'))
+    #supported_lst.append(('heli', 'helical micro-tomography step scan'))
     
     modality_default = 'all'
     modality_desc_default = [kv[1] for kv in zip(supported_names_lst, supported_desc_lst) if kv[0]==modality_default][0]
@@ -278,9 +282,10 @@ def reportJythonNamespaceMapping(modality='micro', verbose=False):
     else:
         m_idx = [i for i, s in enumerate(supported_abbrevs_lst) if m.startswith(s)][0]
         m_desc = supported_desc_lst[m_idx]
-    print("Supported options: \n%s\n" %(options_str))
+    print("Supported options for the input arg: \n%s" %(options_str))
+    print("Example: reportTomo('all')\n")
     
-    print("REPORT on JYTHON NAMESPACE MAPPINGS for OPTION '%s' (%s):\n" %(m, m_desc))
+    print("REPORT ON JYTHON NAMESPACE MAPPINGS\n Option: '%s'\n Desc: %s\n" %(m, m_desc))
     
     jns=beamline_parameters.JythonNameSpaceMapping()
     objectOfInterest = {}
@@ -326,12 +331,19 @@ def reportJythonNamespaceMapping(modality='micro', verbose=False):
     objectOfInterestHELICAL['tomography_beammonitor'] = jns.tomography_beammonitor
     objectOfInterestHELICAL['tomography_translation_vert'] = jns.tomography_translation_vert
     
+    objectOfInterestTXM_STEP = {}
+    objectOfInterestTXM_STEP['txm_tomography_theta'] = jns.txm_tomography_theta
+    objectOfInterestTXM_STEP['tomography_shutter'] = jns.txm_tomography_shutter
+    objectOfInterestTXM_STEP['txm_tomography_translation'] = jns.txm_tomography_translation
+    objectOfInterestTXM_STEP['txm_tomography_detector'] = jns.txm_tomography_detector
+    objectOfInterestTXM_STEP['tomography_beammonitor'] = jns.tomography_beammonitor
+    
     msg = "Any of these mappings can be changed by editing a file named live_jythonNamespaceMapping, "
     msg += "\nlocated in i13-config/scripts (this can be done by beamline staff).\n"
 
     verbose_template = ""
     header_template = "****** %s ******"
-    if m in supported_names_lst or m.startswith(tuple(supported_abbrevs_lst)):
+    if (m in supported_names_lst or m.startswith(tuple(supported_abbrevs_lst))) and (not (m in ('txm') or m.startswith(('t')))):
         print(header_template %("NORMALISED-IMAGE SETTINGS"))
         for idx, (key, val) in enumerate(objectOfInterest.iteritems()):
             name = "object undefined!"
@@ -383,7 +395,7 @@ def reportJythonNamespaceMapping(modality='micro', verbose=False):
             #print("%d. %s = %s" %(idx+1, key, name))
             #print("%d. %s = %s %s" %(idx+1, key, name, '%s' %('('+get_pv_name(val)+')' if verbose and (not get_pv_name(val) is None) else '')))
             print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
-        print("\n")   
+        print("\n")
         
         print(header_template %("2D-XGI STEP-SCAN PRIMARY SETTINGS"))
         for idx, (key, val) in enumerate(objectOfInterestXGI_2D.iteritems()):
@@ -393,7 +405,18 @@ def reportJythonNamespaceMapping(modality='micro', verbose=False):
             #print("%d. %s = %s" %(idx+1, key, name))
             #print("%d. %s = %s %s" %(idx+1, key, name, '%s' %('('+get_pv_name(val)+')' if verbose and (not get_pv_name(val) is None) else '')))
             print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
-        print("\n")   
+        print("\n")
+    
+    if m in ('all', 'txm') or m.startswith(('a','t')): 
+        print(header_template %("TXM TOMO STEP-SCAN PRIMARY SETTINGS"))
+        for idx, (key, val) in enumerate(objectOfInterestTXM_STEP.iteritems()):
+            name = "object undefined!"
+            if val is not None:
+                name = str(val.getName())
+            #print("%d. %s = %s" %(idx+1, key, name))
+            #print("%d. %s = %s %s" %(idx+1, key, name, '(%s)' %(get_pv_name(val) if verbose and (not get_pv_name(val) is None) else '')))
+            print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
+        print("\n")
     print(msg)
     
 def reportTomo(modality='micro', verbose=False):
@@ -672,8 +695,8 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             _dct['pco.4000'].update({'focus': 'BL13I-MO-CAM-01:FOCUS.RBV'})
             _dct['pco.4000'].update({'turret': 'BL13I-MO-CAM-01:TURRET:P:UPD.D'})
             _dct['pco.4000'].update({'turret_name': 'BL13I-MO-CAM-01:TURRET:MP:RBV:CURPOS'})
-            _dct['pco.4000'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
-            _dct['pco.4000'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
+            _dct['pco.4000'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE_RBV'})
+            _dct['pco.4000'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE_RBV'})
 
             _dct.update({'pco.edge': {}}) # pco EDGE
             _dct['pco.edge'].update({'model': 'BL13I-EA-DET-01:CAM:Model_RBV'})
@@ -681,8 +704,26 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             _dct['pco.edge'].update({'focus': 'BL13I-MO-CAM-02:FOCUS.RBV'})
             _dct['pco.edge'].update({'turret': 'BL13I-MO-CAM-02:TURRET:P:UPD.D'})
             _dct['pco.edge'].update({'turret_name': 'BL13I-MO-CAM-02:TURRET:MP:RBV:CURPOS'})
-            _dct['pco.edge'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE'})
-            _dct['pco.edge'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE'})
+            _dct['pco.edge'].update({'pixel_rate': 'BL13I-EA-DET-01:CAM:PIX_RATE_RBV'})
+            _dct['pco.edge'].update({'adc_mode': 'BL13I-EA-DET-01:CAM:ADC_MODE_RBV'})
+            
+#            _dct['pco.edge'].update({'timestamp':'BL13I-EA-DET-01:CAM:TIMESTAMP_MODE_RBV'})
+#            _dct['pco.edge'].update({'hw_bin_hrz':'BL13I-EA-DET-01:CAM:MAXBINHORZ_RBV'})
+#            _dct['pco.edge'].update({'hw_bin_vrt':'BL13I-EA-DET-01:CAM:MAXBINVERT_RBV'})
+#            _dct['pco.edge'].update({'hw_roi_min_x':'BL13I-EA-DET-01:CAM:MinX_RBV'})
+#            _dct['pco.edge'].update({'hw_roi_min_y':'BL13I-EA-DET-01:CAM:MinY_RBV'})
+#            _dct['pco.edge'].update({'hw_roi_size_x':'BL13I-EA-DET-01:CAM:SizeX_RBV'})
+#            _dct['pco.edge'].update({'hw_roi_size_y':'BL13I-EA-DET-01:CAM:SizeY_RBV'})
+
+#            _dct['pco.edge'].update({'sw_roi_enable_x':'BL13I-EA-DET-01:ROI:EnableX_RBV'})
+#            _dct['pco.edge'].update({'sw_roi_enable_y':'BL13I-EA-DET-01:ROI:EnableY_RBV'})
+#            _dct['pco.edge'].update({'sw_bin_x':'BL13I-EA-DET-01:ROI:BinX_RBV'})
+#            _dct['pco.edge'].update({'sw_bin_y':'BL13I-EA-DET-01:ROI:BinY_RBV'})
+#            _dct['pco.edge'].update({'sw_roi_min_x':'BL13I-EA-DET-01:ROI:MinX_RBV'})
+#            _dct['pco.edge'].update({'sw_roi_min_y':'BL13I-EA-DET-01:ROI:MinY_RBV'})
+#            _dct['pco.edge'].update({'sw_roi_size_x':'BL13I-EA-DET-01:ROI:SizeX_RBV'})
+#            _dct['pco.edge'].update({'sw_roi_size_y':'BL13I-EA-DET-01:ROI:SizeY_RBV'})
+
 
             #det_base_pv=tomography_flyscan_det.getCollectionStrategy().getAdBase().getBasePVName()
             #print("det_base_pv = %s" %(det_base_pv))
@@ -1610,6 +1651,8 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     scan_cmd = ",".join(["%s=%s" %(p[0], str(p[1])) for p in _args])
     scan_cmd = "tomographyScan.tomoFlyScan(" + scan_cmd + ")"
     
+    if nScans==0:
+        print "WARNING: nScans=0 - NO SCANS WILL BE RUN!"
     for i in range(nScans):
         title_tmp = batchTitle
         if nScans > 1:
