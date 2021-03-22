@@ -37,7 +37,8 @@ class PCOXgraph():
         self.name = name
         self.hdfpath = None
         self.abort_state = False
-        self.visit = "mg21669-1"
+        self.visit = "mg25341-3"
+        self.year = 2021
         self.subdirpath = "raw"
         
     def set_data_collection_params(self, exposure_time_sec, acq_period_sec, nimages=1):
@@ -110,7 +111,7 @@ class PCOXgraph():
         subdirpath_sanitised_component_lst = subdirpath_sanitised.split("/")
         path_component_template = "\\%s"
         self.subdirpath = subdirpath_sanitised
-        outdirpath_template = "g:\\i13\\data\\\\2019\\%s" %(self.visit)
+        outdirpath_template = "g:\\i13\\data\\\\%i\\%s" %(self.year, self.visit)
         for c in subdirpath_sanitised_component_lst:
             outdirpath_template += path_component_template
         #self.outdirpath = "t:\\i12\\data\\\\2018\\%s\\%s" %(self.visit, self.subdirpath)
