@@ -43,6 +43,25 @@ JOB_DISPOSE = 'DISPOSE'
 START_CURRENT_JOB = 'START'
 
 
+MASKS = {}
+# STA1
+MASKS['playMode'] = 1<<6
+MASKS['teachMode'] = 1<<5
+MASKS['safetySpeedOp'] = 1<<4
+MASKS['running'] = 1<<3
+MASKS['autoMode'] = 1<<2
+MASKS['oneCycleMode'] = 1<<1
+MASKS['stepMode'] = 1<<0
+# STA2
+MASKS['servoOn'] = 1<<7
+MASKS['errorState'] = 1<<6
+MASKS['alarmState'] = 1<<5
+MASKS['holdCommand'] = 1<<4
+MASKS['holdExternal'] = 1<<3
+# 1<<2 is not used
+MASKS['holdPanel'] = 1<<1
+
+
 class RoboSampleChanger():
 
     def __init__(self, name, pvroot='BL13I-MO-ROBOT-01:', auto_start_jobs=True, robot_stage=None):
