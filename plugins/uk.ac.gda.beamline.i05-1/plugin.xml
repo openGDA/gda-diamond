@@ -20,10 +20,6 @@
                name="aboutImage"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
          </property>
-         <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>
       </product>
    </extension>
    <extension point="uk.ac.gda.client.dashboard.objects">

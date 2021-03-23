@@ -47,7 +47,7 @@ import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
 import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.diamond.daq.concurrent.Async;
-import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
+import uk.ac.diamond.daq.pes.api.IElectronAnalyser;
 
 public class ContinuousModeControllerComposite extends Composite {
 
@@ -59,10 +59,10 @@ public class ContinuousModeControllerComposite extends Composite {
 	private boolean running = false;
 	private Button closeShutterButton;
 	private Button openShutterButton;
-	private IVGScientaAnalyserRMI analyser;
+	private IElectronAnalyser analyser;
 	static final int NPC_INCREMENT_TEXT_WIDTH = 30;
 
-	public ContinuousModeControllerComposite(Composite parent, final IVGScientaAnalyserRMI analyser) {
+	public ContinuousModeControllerComposite(Composite parent, final IElectronAnalyser analyser) {
 		super(parent, SWT.NONE);
 
 		this.analyser = analyser;
@@ -87,6 +87,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		lensModeCombo = new Combo(analyserGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).applyTo(lensModeCombo);
 		// Setup lens modes and select currently selected one
+
 		lensModeCombo.setItems(analyser.getEnergyRange().getAllLensModes().toArray(new String[0]));
 		try {
 			String activeLensMode = analyser.getLensMode();

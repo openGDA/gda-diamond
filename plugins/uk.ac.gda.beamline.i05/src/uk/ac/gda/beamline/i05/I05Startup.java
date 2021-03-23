@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonStatus;
-import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
+import uk.ac.diamond.daq.pes.api.IElectronAnalyser;
 
 public class I05Startup implements IStartup {
 	private static final Logger logger = LoggerFactory.getLogger(I05Startup.class);
@@ -44,7 +44,7 @@ public class I05Startup implements IStartup {
 	 */
 	private final IPerspectiveListener analyserListener = new IPerspectiveListener() {
 
-		private final IVGScientaAnalyserRMI analyser = Finder.find("analyser");
+		private final IElectronAnalyser analyser = Finder.find("analyser");
 
 		@Override
 		public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId) {

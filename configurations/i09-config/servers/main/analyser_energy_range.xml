@@ -11,7 +11,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="analyser_energy_range" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange">
+    <bean id="analyser_energy_range" class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration">
         <constructor-arg>
             <map>
 				<entry key="Low">
@@ -19,49 +19,49 @@
 						<entry key="Transmission">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>6</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>12</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>1600</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>25</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3200</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>62</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3949</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>88</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3969</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>125</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3999</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>250</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4098</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4397</value></constructor-arg>
 									</bean>
@@ -71,49 +71,49 @@
 						<entry key="Angular45">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>6</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>450</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>12</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>900</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>25</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>1800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>62</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3949</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>88</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3969</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>125</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3999</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>250</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4098</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4397</value></constructor-arg>
 									</bean>
@@ -123,49 +123,49 @@
 						<entry key="Angular60">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>6</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>200</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>12</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>400</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>25</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>62</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>88</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>125</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>250</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4098</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4397</value></constructor-arg>
 									</bean>
@@ -175,49 +175,49 @@
 						<entry key="Angular56">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>6</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>200</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>12</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>400</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>25</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>62</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>88</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>125</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>250</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4098</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4397</value></constructor-arg>
 									</bean>
@@ -227,49 +227,49 @@
 						<entry key="Angular45VUV">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>45</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>7</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>90</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>14</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>180</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>35</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>450</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>49</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>630</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>70</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>900</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>140</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>1800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>350</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4397</value></constructor-arg>
 									</bean>
@@ -283,49 +283,49 @@
 						<entry key="Transmission">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>95</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>100</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>1600</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>110</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>3200</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>140</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>7878</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>160</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>8877</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>190</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>9899</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>289</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>9998</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>10297</value></constructor-arg>
 									</bean>
@@ -335,49 +335,49 @@
 						<entry key="Angular45">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>95</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>450</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>100</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>900</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>110</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>1800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>140</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4500</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>160</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>6300</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>190</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>9000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>289</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>9998</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>10297</value></constructor-arg>
 									</bean>
@@ -387,49 +387,49 @@
 						<entry key="Angular60">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>95</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>200</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>100</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>400</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>110</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>140</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>160</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>190</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>289</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>8000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>10297</value></constructor-arg>
 									</bean>
@@ -439,49 +439,49 @@
 						<entry key="Angular56">
 							<map>
 								<entry key="5">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>95</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>200</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="10">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>100</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>400</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>110</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>140</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>160</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>2800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>190</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>289</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>8000</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>625</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>10297</value></constructor-arg>
 									</bean>
@@ -491,37 +491,37 @@
 						<entry key="Angular45VUV">
 							<map>
 								<entry key="20">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>110</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>180</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="50">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>140</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>450</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="70">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>160</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>630</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="100">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>190</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>900</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="200">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>289</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>1800</value></constructor-arg>
 									</bean>
 								</entry>
 								<entry key="500">
-									<bean class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserEnergyRange$EnergyRange">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>588</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>4500</value></constructor-arg>
 									</bean>
