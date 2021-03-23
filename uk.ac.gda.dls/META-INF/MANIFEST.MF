@@ -4,7 +4,7 @@ Bundle-Name: DLS Plug-in
 Bundle-SymbolicName: uk.ac.gda.dls;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-NativeCode: lib/linux-x86/libJavaToUnix.so;
  osname=linux; processor=x86,
  lib/linux-x86_64/libJavaToUnix.so;

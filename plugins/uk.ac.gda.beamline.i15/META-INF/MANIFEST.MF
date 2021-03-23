@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.scanning.api;bundle-version="1.0.0",
  uk.ac.diamond.daq.mapping.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: uk.ac.gda.beamline.i15;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework"
 Bundle-Vendor: Diamond Light Source
 Import-Package: org.eclipse.ui.intro.config

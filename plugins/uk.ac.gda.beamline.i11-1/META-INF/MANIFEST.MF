@@ -33,7 +33,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0",
  org.opengda.lde.model.editor
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i11.lde
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework

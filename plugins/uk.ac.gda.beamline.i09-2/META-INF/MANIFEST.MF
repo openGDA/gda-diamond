@@ -19,6 +19,6 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
 Automatic-Module-Name: uk.ac.gda.beamline.i09-2

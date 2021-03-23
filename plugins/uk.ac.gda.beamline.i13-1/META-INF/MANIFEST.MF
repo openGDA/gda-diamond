@@ -22,7 +22,7 @@ Require-Bundle: org.eclipse.ui,
  org.dawnsci.processing.python;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.processing;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: uk.ac.gda.beamline.i13_1
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core
