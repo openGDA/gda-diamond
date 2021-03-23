@@ -1,31 +1,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="s7_xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s7_xcentre_motor" />
-	</bean>
-
-	<bean id="s7_xgap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s7_xgap_motor" />
-	</bean>
-
-	<bean id="s7_ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s7_ycentre_motor" />
-	</bean>
-
-	<bean id="s7_ygap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s7_ygap_motor" />
-	</bean>
-
+	<gda:motor id="s7_xcentre" live-pvName="BL21B-AL-SLITS-07:X:CENTRE"/>
+	<gda:motor id="s7_xgap" live-pvName="BL21B-AL-SLITS-07:X:GAP"/>
+	<gda:motor id="s7_ycentre" live-pvName="BL21B-AL-SLITS-07:Y:CENTRE"/>
+	<gda:motor id="s7_ygap" live-pvName="BL21B-AL-SLITS-07:Y:GAP"/>
 	<bean id="s7" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s7_xcentre" />
-				<ref bean="s7_xgap" />
-				<ref bean="s7_ycentre" />
-				<ref bean="s7_ygap" />
+				<ref bean="s7_xcentre"/>
+				<ref bean="s7_xgap"/>
+				<ref bean="s7_ycentre"/>
+				<ref bean="s7_ygap"/>
 			</list>
 		</property>
 	</bean>

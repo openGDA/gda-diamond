@@ -1,39 +1,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="absorbance.xml" />
-	<import resource="s1.xml" />
-	<import resource="s2.xml" />
-	<import resource="s3.xml" />
-	<import resource="s5.xml" />
-	<import resource="s6.xml" />
-	<import resource="s7.xml" />
-
-	<import resource="dmm.xml" />
-	<import resource="shutter.xml" />
-
-	<import resource="d1.xml" />
-	<import resource="d2.xml" />
-	<import resource="d3.xml" />
-	<import resource="d4.xml" />
-	<import resource="d5.xml" />
-	<import resource="d6.xml" />
-	<import resource="d7.xml" />
-	<import resource="d8.xml" />
-	<import resource="eiger.xml" />
-
-	<import resource="t3.xml" />
-	<import resource="bs.xml" />
-	<import resource="biotable.xml" />
-	<import resource="t5.xml" />
-
-	<import resource="m1.xml" />
-
-	<import resource="base.xml" />
-	<import resource="ion.xml" />
-
-	<import resource="bco.xml" />
-	<import resource="syringes.xml" />
-	<import resource="biosaxscam.xml" />
+	<import resource="absorbance.xml"/>
+	<import resource="s2.xml"/>
+	<import resource="s3.xml"/>
+	<import resource="shutter.xml"/>
+	<import resource="d1.xml"/>
+	<import resource="d2.xml"/>
+	<import resource="d3.xml"/>
+	<import resource="d4.xml"/>
+	<import resource="d5.xml"/>
+	<import resource="d6.xml"/>
+	<import resource="d7.xml"/>
+	<import resource="d8.xml"/>
+	<import resource="eiger.xml"/>
+	<import resource="ion.xml"/>
+	<import resource="syringes.xml"/>
+	<import resource="biosaxscam.xml"/>
 </beans>

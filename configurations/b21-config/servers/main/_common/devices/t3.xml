@@ -1,12 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="t3_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t3_x_motor" />
-	</bean>
-	<bean id="t3_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t3_y_motor" />
-	</bean>
-
+	<gda:motor id="t3_x" live-pvName="BL21B-MO-TABLE-03:X"/>
+	<gda:motor id="t3_y" live-pvName="BL21B-MO-TABLE-03:Y"/>
 </beans>
