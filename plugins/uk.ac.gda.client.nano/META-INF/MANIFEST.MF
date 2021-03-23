@@ -14,7 +14,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.eclipse.ui,
  uk.ac.gda.common.client;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.eclipse.debug.ui,
  org.eclipse.search.ui,
  org.eclipse.ui.console,
