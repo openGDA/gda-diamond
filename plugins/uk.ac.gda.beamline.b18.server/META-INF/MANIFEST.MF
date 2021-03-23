@@ -4,7 +4,7 @@ Bundle-Name: Server
 Bundle-SymbolicName: uk.ac.gda.beamline.b18.server
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Require-Bundle: uk.ac.gda.exafs.api,
  uk.ac.gda.core,

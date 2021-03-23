@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: i20_1.server
 Bundle-SymbolicName: uk.ac.gda.beamline.i20_1.server;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Export-Package: gda.device.detector,
  gda.device.detector.frelon,
