@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<import resource="../common/mbs_energy_range.xml"/>
+
 	<bean id="mbs_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05I-EA-SIM-02:CAM:" />
 	</bean>
@@ -29,6 +31,26 @@
 		<property name="name" value="mbs_analyser" />
 		<property name="collectionStrategy">
 			<bean id="mbs_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserCollectionStrategy" />
+		</property>
+		<property name="energyRange" ref="mbs_analyser_energy_range" />
+		<property name="defaultPsuModeName" value="N/A" />
+		<property name="fixedModeConfiguration">
+			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
+				<property name="startX" value="1" />
+				<property name="sizeX" value="1292" />
+				<property name="startY" value="1" />
+				<property name="sizeY" value="964" />
+				<property name="slices" value="1000" />
+			</bean>
+		</property>
+		<property name="sweptModeConfiguration">
+			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
+				<property name="startX" value="1" />
+				<property name="sizeX" value="1292" />
+				<property name="startY" value="1" />
+				<property name="sizeY" value="964" />
+				<property name="slices" value="1000" />
+			</bean>
 		</property>
 	</bean>
 
