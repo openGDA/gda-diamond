@@ -17,7 +17,7 @@
 
     <import resource="command_queue_processor.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	<import resource="mapping_view.xml" />
 
     <bean id="clientReferences" class="gda.device.FindableObjectHolder">
         <property name="map">

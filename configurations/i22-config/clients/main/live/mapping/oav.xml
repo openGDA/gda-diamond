@@ -5,14 +5,24 @@
 
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="p1xy_x" />
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="p1xy_y" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="base_x" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="base_y" />
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_x" />
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_y" />
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_z" />
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_zoom" />
-
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_cam_control" />
 
-	<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration" id="oav_zoom_calibration">
+	<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration" id="oav_zoom_calibration_base">
+		<constructor-arg name="xAxisScannable" ref="base_x" />
+		<constructor-arg name="xAxisPixelScaling" value="0.001037" />
+		<constructor-arg name="xAxisOffset" value="-0.050" />
+		<constructor-arg name="yAxisScannable" ref="base_y" />
+		<constructor-arg name="yAxisPixelScaling" value="0.001037" />
+		<constructor-arg name="yAxisOffset" value="-0.18" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration" id="oav_zoom_calibration_p1xy">
 		<constructor-arg name="xAxisScannable" ref="p1xy_x" />
 		<constructor-arg name="xAxisPixelScaling" value="0.001037" />
 		<constructor-arg name="xAxisOffset" value="-0.050" />
@@ -21,12 +31,25 @@
 		<constructor-arg name="yAxisOffset" value="-0.18" />
 	</bean>
 
-	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config">
-		<property name="displayName" value="OAV" />
+	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config_base">
+		<property name="displayName" value="OAV - base" />
+		<property name="arrayPv" value="BL22I-DI-OAV-01:ARR" />
 		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAV.CAM.mjpg.mjpg" />
-		<property name="rgb" value="true" />
 		<property name="sleepTime" value="500" />
-		<property name="calibratedAxesProvider" ref="oav_zoom_calibration" />
+		<property name="calibratedAxesProvider" ref="oav_zoom_calibration_base" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="oav_cam_control" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config_p1xy">
+		<property name="displayName" value="OAV - p1xy" />
+		<property name="arrayPv" value="BL22I-DI-OAV-01:ARR" />
+		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAV.CAM.mjpg.mjpg" />
+		<property name="sleepTime" value="500" />
+		<property name="calibratedAxesProvider" ref="oav_zoom_calibration_p1xy" />
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="oav_cam_control" />
