@@ -14,7 +14,7 @@ from i13j_utilities import createScannableFromPV, clear_defaults, isLive
 from gda.jython import InterfaceProvider
 from gdaserver import ionc_gain, ionc_gainmode, ionc_coupling, f1_crly_mp, m1_strip, optics_zp, eh_shtr, fs
 from gdaserver import d4_i, expt_fastshutter_raw, qcm_bragg1, fes1, id_gap, ionc_i, ionc_photonflux, ix, iy, iz
-from gdaserver import mpx, mpx_wrap, qcm_energy, s1, s2, s4, s5, s6, s7, sample_lab_x, scope1_turret, t1, t1_pitch, t2
+from gdaserver import qcm_energy, s1, s2, s4, s5, s6, s7, sample_lab_x, scope1_turret, t1, t1_pitch, t2
 
 section_sep = "-"*128
 
@@ -56,10 +56,8 @@ from gda.configuration.properties import LocalProperties
 import i13j
 
 #import for help
-from maxipix import mpx_set_folder, mpx_reset_configure, mpx_config_file_monitor
 from robots import calcRobotMotors, calcRobotMotorsInverse
 from gda.device.lima import LimaCCD
-from gda.device.maxipix2 import MaxiPix2
 from gda.util import VisitPath
 
 beamline = Finder.find("Beamline")
@@ -158,31 +156,7 @@ imageStats3 = Finder.find("imageStats3")
 imagePlotter3 = Finder.find("imagePlotter3")
 imageROI3 = Finder.find("imageROI3")
 
-import roi_operations
-mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
-mpx_roi_average_diff = roi_operations.roi_diff("mpx_roi_average_diff","mpx_roi_average_diff",mpx_wrap, "mpx", "image_data.average", "image_data.average2")
-
-#create objects in namespace
-try:
-	mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
-	mpx_threshold = mpx_controller.energyThreshold
-	mpx_limaCCD = mpx_controller.getLimaCCD()
-	mpx_maxipix = mpx_controller.getMaxiPix2()
-	mpx_reset_configure()
-except gda.factory.FactoryException, e:
-	print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring mpx detector"
-	print e
-	print "Continuing anyway..."
-
 import file_converter
-import mpx_external_scan_monitor
-import mll
-import integrate_mpx_scan
-#	try:
-#		mpx_set_folder("test","mpx")
-#	except :
-#		exceptionType, exception, traceback = sys.exc_info()
-#		handle_messages.log(None, "Problem setting mpx folder and prefix",exceptionType, exception, traceback,False)
 #from tests.testRunner import run_tests
 
 #comment out when not connected
