@@ -23,7 +23,7 @@ Require-Bundle: uk.ac.diamond.org.springframework;bundle-version="1.0.0",
  uk.ac.gda.client.live.stream;bundle-version="1.0.0",
  uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
 Import-Package: org.slf4j;version="[1.7.2,2.0.0)"
 Automatic-Module-Name: uk.ac.gda.beamline.i06_1

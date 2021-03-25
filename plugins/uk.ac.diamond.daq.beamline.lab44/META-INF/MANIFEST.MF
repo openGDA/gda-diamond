@@ -4,7 +4,7 @@ Bundle-Name: Lab44
 Bundle-SymbolicName: uk.ac.diamond.daq.beamline.lab44;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.lab44
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source Ltd
 Bundle-Activator: uk.ac.diamond.daq.beamline.lab44.Activator
 Require-Bundle: org.eclipse.ui.workbench,

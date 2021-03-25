@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.scanning.device.ui,
  uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: uk.ac.gda.beamline.i10;uses:="org.eclipse.ui.plugin,org.osgi.framework"
 Import-Package: org.dawb.workbench.ui.perspective,
  org.dawnsci.mapping.ui,

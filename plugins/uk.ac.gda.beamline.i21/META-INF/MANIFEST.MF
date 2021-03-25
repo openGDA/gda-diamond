@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.january,
  org.eclipse.dawnsci.analysis.api,
  org.eclipse.dawnsci.analysis.dataset
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i21,
