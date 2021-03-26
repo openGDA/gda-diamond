@@ -20,6 +20,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.summary;
 
 import java.text.DecimalFormat;
 import java.util.Optional;
+import java.util.function.IntBinaryOperator;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -86,7 +87,7 @@ public class AcquisitionTemplateTypeSummaryBase  {
 
 	protected String stepToString() {
 		String content = getScanningParameters().getScanpathDocument().getScannableTrackDocuments().stream()
-			.map(c -> Math.sqrt(Math.pow(c.getStop() - c.getStart(), 2) / c.getPoints()))
+			.map(ScannableTrackDocument::calculatedStep)
 			.map(decimalFormat::format)
 			.collect(Collectors.joining(", "));
 		return String.format(PROPERTY_FORMAT, "Steps", content);
@@ -98,15 +99,15 @@ public class AcquisitionTemplateTypeSummaryBase  {
 
 	protected String lineDurationToString() {
 		// divide by two because the totPoints are counted on all the axes (for now, no more than 2)
-		return String.format("%s: [%s]s", "Duration", (totPoints() * getExposure())
-				/  getScanningParameters().getScanpathDocument().getScannableTrackDocuments().size());
+		return String.format("%s: [%s]s", "Duration", totPoints() * getExposure());
 	}
 
 	private int totPoints() {
 		return getScanningParameters().getScanpathDocument().getScannableTrackDocuments().stream()
+				.filter(d -> d.calculatedStep() > 0)
 				.map(ScannableTrackDocument::getPoints)
 				.mapToInt(Integer::intValue)
-				.sum();
+				.reduce(1, totalPoints());
 	}
 
 	protected String mutatorToString() {
@@ -114,6 +115,10 @@ public class AcquisitionTemplateTypeSummaryBase  {
 			.map(c -> c.getKey().name())
 			.collect(Collectors.joining(", "));
 		return String.format(PROPERTY_FORMAT, "Mutators", content);
+	}
+
+	protected String exposureToString() {
+		return String.format("%s: [%s]s", "Exposure", getExposure());
 	}
 
 	@Override
@@ -130,18 +135,34 @@ public class AcquisitionTemplateTypeSummaryBase  {
 		}
 	}
 
+	private IntBinaryOperator totalPoints() {
+		switch (getSelectedAcquisitionTemplateType()) {
+		case TWO_DIMENSION_POINT:
+			// A Single point
+			return (a, b) -> 1;
+		case TWO_DIMENSION_LINE:
+			// Takes the axis with the max points (really they are the same)
+			return Math::max;
+		case TWO_DIMENSION_GRID:
+			// multiply the axes points
+			return (a, b) -> a*b;
+		default:
+			return (a, b) -> 0;
+		}
+	}
+
 	private String pointToString() {
-		return String.format("Point%n%s, %s%n%s", startToString(), lineDurationToString(), mutatorToString());
+		return String.format("Point%n%s%n%s %s%n%s", startToString(), exposureToString(), lineDurationToString(), mutatorToString());
 	}
 
 	private String lineToString() {
-		return String.format("Line%n%s, %s%n%s, %s%n%s, %s", startToString(), stopToString(),
-				pointsToString(), stepToString(), lineDurationToString(), mutatorToString());
+		return String.format("Line%n%s %s%n%s %s%n%s %s%n%s", startToString(), stopToString(),
+				pointsToString(), stepToString(), lineDurationToString(), exposureToString(), mutatorToString());
 	}
 
 	private String rectangleToString() {
-		return String.format("Rectangle%n%s, %s%n%s%n%s %s%n%s", startToString(), stopToString(),
-				pointsToString(), stepToString(), durationToString(), mutatorToString());
+		return String.format("Rectangle%n%s %s%n%s %s%n%s %s%n%s ", startToString(), stopToString(),
+				pointsToString(), stepToString(), durationToString(), exposureToString(), mutatorToString());
 	}
 
 	// ------------ UTILS ----
