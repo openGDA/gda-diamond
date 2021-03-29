@@ -4,12 +4,12 @@
 #
 # To use, run "run('utilities/centreBeam')"
 
-def centreBeam(pinsize_um, skipx=False, diode=d3, din=d3in, dout=None, auto=False):
+def centreBeam(pinsize_um, skipx=False, diode=d3, din=d3in, dout=None, auto=True):
     """
-    This centres the diffractometer to the beam. First it scans the pinhole
-    to find the offset between beam and diffractometer centre, then it adjusts
-    the diffractometer position to correct for the calculated offset.
-    
+    This automatically centres the diffractometer to the beam. First it scans
+    the pinhole to find the offset between beam and diffractometer centre, then
+    it adjusts the diffractometer position to correct for the calculated offset.
+
     Options:
     
     If skipx is True, only centre piny rather than pinx and piny.
@@ -19,22 +19,22 @@ def centreBeam(pinsize_um, skipx=False, diode=d3, din=d3in, dout=None, auto=Fals
     If dout is specified, then at the end of centreBeam() use dout to move
         the diode out and do a shclose. The default is to not move the diode
         out or close the shutters.
-    If auto=True, move to the calculated peaks automatically, without user
-        confirmation.
+    If auto=False, move to the calculated peaks, but give the user a chance
+        to confirm, abort or override the value of each correction.
     
     e.g.
         centreBeam(50)                     # Centre 50um pinhole
         centreBeam(50, True)               # Only centring y, skipping x
         centreBeam(50, False, d4, d4in)    # Centre both, using d4 rather than d3
         centreBeam(50, diode=d4, din=d4in) # As, above, alternate form
-        centreBeam(50, auto=True)          # Centre 50um pinhole automatically
+        centreBeam(50, auto=False)          # Centre 50um pinhole manually
     
     If dout is given then use it to take the diode out and close the shutter.
     
     e.g.
         centreBeam(50, dout=d3out)
     
-    See: http://wiki.diamond.ac.uk/Wiki/Preview.jsp?page=GDA%20commands%20reference%20for%20I15\#section-GDA+commands+reference+for+I15-SCRIPTTOALIGNASAMPLETOTHECENTEROFROTATIONOFTHEDIFFRACTOMETERALONGTHEBEAMDIRECTION"""
+    See: https://confluence.diamond.ac.uk/x/AwoCAg"""
     print "centreBeam(%f, %r, %r, %r)" % (pinsize_um, skipx, diode.name, din.__name__)
     
     from gda.jython.commands.InputCommands import requestInput as raw_input
