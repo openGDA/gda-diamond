@@ -80,6 +80,12 @@ global run, etl, prop, add_default, vararg_alias, \
 
 #	det2z,
 
+def isDummy():
+	mode = str(LocalProperties.get("gda.mode"))
+	if mode not in ("live", "dummy"):
+		raise ValueError("gda.mode LocalProperty (perhaps via a System property) must be 'live' or 'dummy' not:", mode)
+	return mode=="dummy"
+
 def peakFinder():
 	"""
 	This function runs the Epics Peak Finder proc for DCM-01
@@ -305,11 +311,17 @@ try:
 		simpleLog("Create diodes")
 
 		def diodeFactory(channel_name, finder_name):
-			simplePv = Finder.find(finder_name)
-			simplePv.configure()
-			diode = simplePv.createEpicsChannel(channel_name, ReturnType.DBR_NATIVE, "", "")
+			if isDummy():
+				from gda.device.monitor import DummyMonitor
+				diode = DummyMonitor()
+				diode.setName(channel_name)
+				diode.configure()
+			else:
+				simplePv = Finder.find(finder_name)
+				simplePv.configure()
+				diode = simplePv.createEpicsChannel(channel_name, ReturnType.DBR_NATIVE, "", "")
+				diode.setValue(".SCAN", 9)
 			diode.setLevel(6)
-			diode.setValue(".SCAN", 9)
 			return diode
 
 		simpleLog("Create diodes 1-5")
