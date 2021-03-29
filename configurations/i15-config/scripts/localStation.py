@@ -841,6 +841,20 @@ try:
 	check_zebra(sphiZebraPositionScannable, False)
 
 	alias("check_zebra")
+	
+	def getCbfTemplateFile():
+		cli=CAClient('BL15I-EA-PILAT-03:CAM:CbfTemplateFile')
+		cli.configure()
+		return String(cli.cagetArrayByte())
+
+	alias("getCbfTemplateFile")
+
+	def setCbfTemplateFile(path):
+		cli=CAClient('BL15I-EA-PILAT-03:CAM:CbfTemplateFile')
+		cli.configure()
+		cli.caput(String(path).getBytes())
+
+	alias("setCbfTemplateFile")
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
