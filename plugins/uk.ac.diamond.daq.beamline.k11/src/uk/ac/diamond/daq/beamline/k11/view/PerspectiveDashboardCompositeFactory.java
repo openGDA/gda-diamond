@@ -18,12 +18,9 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-import static uk.ac.gda.core.tool.spring.SpringApplicationContextFacade.getBean;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
-
-import java.util.Optional;
 
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -37,9 +34,8 @@ import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.diamond.daq.client.gui.energy.summary.EnergySummaryComposite;
 import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
-import uk.ac.diamond.daq.mapping.ui.controller.StageController;
+import uk.ac.diamond.daq.mapping.ui.position.summary.PositionSummaryComposite;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
-import uk.ac.diamond.daq.mapping.ui.stage.enumeration.Position;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 
@@ -52,7 +48,6 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
 public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 
 	private Button experimentDriver;
-	private Button outOfBeam;
 
 	public PerspectiveDashboardCompositeFactory() {
 		super();
@@ -91,12 +86,8 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		StagesComposite.buildModeComposite(container);
 	}
 
-	private Button createOutOfBeam(Composite parent, int style) {
-		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
-		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
-
-		outOfBeam = createClientButton(container, SWT.PUSH, ClientMessages.OUT_OF_BEAM, ClientMessages.OUT_OF_BEAM_TP);
-		return outOfBeam;
+	private void createOutOfBeam(Composite parent, int style) {
+		new PositionSummaryComposite().createComposite(parent, style);
 	}
 
 	private void createCameraControl(Composite parent, int style) {
@@ -119,10 +110,6 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	}
 
 	private void bindElements(Composite parent) {
-		Listener outOfBeamListener = e -> Optional.ofNullable(getBean(StageController.class))
-				.ifPresent(c -> c.savePosition(Position.OUT_OF_BEAM));
-		outOfBeam.addListener(SWT.Selection, outOfBeamListener);
-
 		Listener experimentDriverListener = e -> {
 			// FIXME ID: Experiment name? Visit ID?
 			ExperimentDriverWizard driverWizard = new ExperimentDriverWizard(null);
