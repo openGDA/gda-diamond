@@ -28,6 +28,7 @@
 	<import resource="I15-DET-MPX-AD.xml" />
 	<import resource="I15-DET-PE-AD.xml" />
 	<import resource="I15-DET-PIL3-AD.xml" />
+	<import resource="I15-DET-PIL3-AD-CBF.xml" />
 	<import resource="I15-DET1.xml"/>
 	<import resource="I15-DET2.xml"/>
 	<import resource="I15-F2.xml"/>

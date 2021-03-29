@@ -39,7 +39,7 @@
 	<bean id="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
 			class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
 		<constructor-arg ref="pil3AD_config_base" />
-		<constructor-arg value="-1" />
+		<constructor-arg value="0.003" />
 		<constructor-arg value="10" />
 	</bean>
 	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
