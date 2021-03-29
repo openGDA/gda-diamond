@@ -29,11 +29,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.scanning.api.points.models.AbstractPointsModel;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -96,11 +94,11 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		Label label = createClientLabel(container, style, MUTATORS_MODE);
 		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(label);
 
-		mutators.add(createMutatorTypeCheck(container, MutatorType.ALTERNATING, ClientMessages.ALTERNATING_MUTATOR,
+		mutators.add(createMutatorTypeCheckBox(container, MutatorType.ALTERNATING, ClientMessages.ALTERNATING_MUTATOR,
 				ClientMessages.ALTERNATING_MUTATOR_TP));
-		mutators.add(createMutatorTypeCheck(container, MutatorType.CONTINUOUS, ClientMessages.CONTINUOUS_MUTATOR,
+		mutators.add(createMutatorTypeCheckBox(container, MutatorType.CONTINUOUS, ClientMessages.CONTINUOUS_MUTATOR,
 				ClientMessages.CONTINUOUS_MUTATOR_TP));
-		mutators.add(createMutatorTypeCheck(container, MutatorType.RANDOM, ClientMessages.RANDOM_MUTATOR,
+		mutators.add(createMutatorTypeCheckBox(container, MutatorType.RANDOM, ClientMessages.RANDOM_MUTATOR,
 				ClientMessages.RANDOM_MUTATOR_TP));
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
 
@@ -145,23 +143,13 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 			.forEach(mutator -> {
 			switch (getDataObject(mutator, MutatorType.class, MUTATOR_TYPE)) {
 				case CONTINUOUS:
-					BeanProperties.value("continuous").setValue(scanPointGeneratorModel, false);
-					if (AbstractPointsModel.supportsContinuous(scanPointGeneratorModel.getClass())) {
-						BeanProperties.value("continuous").setValue(scanPointGeneratorModel, true);
-					}
+					scanPointGeneratorModel.setContinuous(mutator.getSelection());
 					break;
 				case ALTERNATING:
-					BeanProperties.value("alternating").setValue(scanPointGeneratorModel, false);
-					if (AbstractPointsModel.supportsAlternating(scanPointGeneratorModel.getClass())) {
-						BeanProperties.value("alternating").setValue(scanPointGeneratorModel, true);
-					}
+					scanPointGeneratorModel.setAlternating(mutator.getSelection());
 					break;
 				case RANDOM:
-					// TBD
-//					if (AbstractPointsModel.supportsRandomOffset(scanPointGeneratorModel.getClass())) {
-//						BeanProperties.value("scanPath").setValue(rapController.getScanRegionFromBean(),
-//								scanPathToRandomised);
-//					}
+					mutator.setEnabled(false); // TODO FIXME enable the button when appropriate and add a random offset
 					break;
 				default:
 					break;
@@ -205,7 +193,6 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
 			UUID eventUUID = Optional.ofNullable(event.getScanningAcquisition())
-					.map(ScanningAcquisition.class::cast)
 					.map(ScanningAcquisition::getUuid)
 					.orElseGet(UUID::randomUUID);
 
@@ -234,14 +221,14 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		return getScanningParameters().getScanpathDocument().getModelDocument();
 	}
 
-	public Button createMutatorTypeCheck(Composite parent, MutatorType mutatorType, ClientMessages title,
+	private Button createMutatorTypeCheckBox(Composite parent, MutatorType mutatorType, ClientMessages title,
 			ClientMessages tooltip) {
 		Button button = ClientSWTElements.createClientButton(parent, SWT.CHECK, title, tooltip);
 		// Sets the mutator type. In this way is easier to have the type should the element be selected
 		button.setData(MUTATOR_TYPE, mutatorType);
 		WidgetUtilities.addWidgetDisposableListener(button, SelectionListener.widgetSelectedAdapter(this::mutatorListener));
 
-		ISWTObservableValue checkedObservable = WidgetProperties.selection().observe(button);
+		ISWTObservableValue<Boolean> checkedObservable = WidgetProperties.buttonSelection().observe(button);
 		button.setData(MUTATOR_CHECKED_OBSERVABLE, checkedObservable);
 
 		if (MutatorType.RANDOM.equals(mutatorType)) {
