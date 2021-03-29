@@ -21,7 +21,7 @@
 			class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="SGphiMotor" />
 		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
-		<property name="pcEnc" value="0"/>
+		<property name="pcEnc" value="3"/>
 		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
 	</bean>
 
@@ -29,7 +29,7 @@
 			class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="SGomegaMotor" />
 		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
-		<property name="pcEnc" value="0"/>
+		<property name="pcEnc" value="1"/>
 		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
 	</bean>
 </beans>
