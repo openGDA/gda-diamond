@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1Motor" />
+	</bean>
+	<bean id="m1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{ADSIM_HOST}-MO-SIM-01:M1" />
+	</bean>
+</beans>

@@ -8,7 +8,7 @@
 	</description>
 
 	<bean id="beamlineRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="beamline"/>
 	</bean>
 	<bean id="beamlineRunnableDeviceProxyInfo"
@@ -33,7 +33,7 @@
 	</bean>
 
 	<bean id="metadataRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="metadata"/>
 	</bean>
 	<bean id="metadataRunnableDeviceProxyInfo"
@@ -58,7 +58,7 @@
 	</bean>
 
 	<bean id="multimetaRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="multimeta"/>
 	</bean>
 	<bean id="multimetaRunnableDeviceProxyInfo"
@@ -83,7 +83,7 @@
 	</bean>
 
 	<bean id="cryojetRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="cryojet"/>
 	</bean>
 	<bean id="cryojetRunnableDeviceProxyInfo"
@@ -108,7 +108,7 @@
 	</bean>
 
 	<bean id="xtalRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="xtal"/>
 	</bean>
 	<bean id="xtalRunnableDeviceProxyInfo"
@@ -133,7 +133,7 @@
 	</bean>
 
 	<bean id="positionerRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="positioner"/>
 	</bean>
 	<bean id="positionerRunnableDeviceProxyInfo"
@@ -158,7 +158,7 @@
 	</bean>
 
 	<bean id="blowerRunnableDeviceProxyModel"
-			class="org.eclipse.scanning.api.device.models.GenericModel">
+			class="org.eclipse.scanning.api.device.models.SimpleDetectorModel">
 		<property name="name"              value="blower"/>
 	</bean>
 	<bean id="blowerRunnableDeviceProxyInfo"

@@ -93,8 +93,8 @@ def _configureConstantVelocityMove(axis, detector):
 
 def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-	LoggerFactory.getLogger("detector_scan_commands.py").trace(
-		"configureDetector(detector=%r, exposureTime=%r, noOfExposures=%r, sampleSuffix=%r, dark=%r)" % (
+	logger = LoggerFactory.getLogger("detector_scan_commands.py")
+	logger.trace("configureDetector(detector=%r, exposureTime=%r, noOfExposures=%r, sampleSuffix=%r, dark=%r)" % (
 							detector, exposureTime, noOfExposures, sampleSuffix, dark))
 
 	supportedDetectors = {'mar':    jythonNameMap.marHWT
@@ -110,6 +110,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 						, 'mpxthrHWT':detector
 						, 'pil3':    jythonNameMap.pil3HWT
 						, 'pil3HWT': detector
+						, 'pil3cbf': detector
 						, 'atlas':   detector
 						, 'atlasOverflow': detector
 						}
@@ -165,6 +166,15 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		detector.tifwriter.setFileTemplate(fileTemplate+".tif")
 		detector.tifwriter.setFilePathTemplate(filePathTemplate)
 		detector.tifwriter.setFileNameTemplate(fileNameTemplate)
+	
+	if 'cbfwriter' in [p.getName() for p in detector.getPluginList()]:
+		# Hack attempt, may not work, even if it does,m may not work with outer scans  
+		fileTemplate="%s%s00001_%05d"
+		logger.debug("running setFileTemplate(%r) setFilePathTemplate(%r) & setFileNameTemplate(%r) on detector.cbfwriter" % (
+							fileTemplate+".cbf", filePathTemplate, fileNameTemplate))
+		detector.cbfwriter.setFileTemplate(fileTemplate+".cbf")
+		detector.cbfwriter.setFilePathTemplate(filePathTemplate)
+		detector.cbfwriter.setFileNameTemplate(fileNameTemplate)
 	
 	from gda.device.detector.odccd.collectionstrategy import ODCCDSingleExposure
 	if isinstance(collectionStrategy, ODCCDSingleExposure):

@@ -15,9 +15,9 @@ from localStationScripts.ccdScanMechanics import setMaxVelocity # @UnusedImport
 from localStationScripts.operationalControl import configure as operationalControl_configure
 from localStationScripts.operationalControl import * # @UnusedWildImport
 from gda.configuration.properties import LocalProperties
-from gdascripts.parameters import beamline_parameters
+from gdascripts.parameters import beamline_parameters	# @UnusedImport
 from gda.device.epicsdevice import ReturnType
-from gda.util import VisitPath
+from gda.util import VisitPath	# @UnusedImport
 from gda.factory import Finder
 from localStationScripts.constants import * # @UnusedWildImport
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
@@ -75,10 +75,16 @@ global run, etl, prop, add_default, vararg_alias, \
 	d7x, d7y,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
-	d1, d2, d3, d4, d5, d6, d7, d8, d9\
-#	,cryox, cryoy, cryoz, cryorot\
+	d1, d2, d3, d4, d5, d6, d7, d8, d9, \
+	cryox, cryoy, cryoz, cryorot\
 
 #	det2z,
+
+def isDummy():
+	mode = str(LocalProperties.get("gda.mode"))
+	if mode not in ("live", "dummy"):
+		raise ValueError("gda.mode LocalProperty (perhaps via a System property) must be 'live' or 'dummy' not:", mode)
+	return mode=="dummy"
 
 def peakFinder():
 	"""
@@ -248,6 +254,14 @@ try:
 
 	#dummyDetector = SimpleDummyDetector()
 
+	print "Checking cryo motors are in the correct mode, dummy or live"
+	from localStationConfiguration import enableCryoMotors
+	if enableCryoMotors:
+		if isinstance(cryox.motor,gda.device.motor.DummyMotor):
+			localStation_exception(sys.exc_info(), "checking that cryo motors are in live mode. Please set enableCryoMotors=False or ask your GDA representative to switch VCOLD motors in transient/all.xml to live")
+	elif not isinstance(cryox.motor,gda.device.motor.DummyMotor):
+			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or ask your GDA representative to switch VCOLD motors in transient/all.xml to dummy")
+
 	try:
 		from dls_scripts.scannable.CryojetScannable import CryojetScannable
 		cryojet = CryojetScannable('cryojet', 'BL15I-CG-CJET-01:', 
@@ -297,11 +311,17 @@ try:
 		simpleLog("Create diodes")
 
 		def diodeFactory(channel_name, finder_name):
-			simplePv = Finder.find(finder_name)
-			simplePv.configure()
-			diode = simplePv.createEpicsChannel(channel_name, ReturnType.DBR_NATIVE, "", "")
+			if isDummy():
+				from gda.device.monitor import DummyMonitor
+				diode = DummyMonitor()
+				diode.setName(channel_name)
+				diode.configure()
+			else:
+				simplePv = Finder.find(finder_name)
+				simplePv.configure()
+				diode = simplePv.createEpicsChannel(channel_name, ReturnType.DBR_NATIVE, "", "")
+				diode.setValue(".SCAN", 9)
 			diode.setLevel(6)
-			diode.setValue(".SCAN", 9)
 			return diode
 
 		simpleLog("Create diodes 1-5")
@@ -532,9 +552,9 @@ try:
 			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25)
 			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25)
 			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
-			atto7 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO1:", 0.25)
-			atto8 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO2:", 0.25)
-			atto9 = createAnc150Axis("atto6", "BL15I-EA-ATTO-05:PIEZO3:", 0.25)
+			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25, True, False)
+			atto8 = createAnc150Axis("atto8", "BL15I-EA-ATTO-05:PIEZO2:", 0.25, True, False)
+			atto9 = createAnc150Axis("atto9", "BL15I-EA-ATTO-05:PIEZO3:", 0.25, True, False)
 			
 			atto1.setFrequency(900)
 			atto2.setFrequency(900)
@@ -827,12 +847,30 @@ try:
 			localStation_exception(sys.exc_info(), position_error.format(
 				zebraPositionScannable.check_scannable.getName(), zebraPositionScannable.getName()))
 
+	print "*"*80
+
+	# Currently all of these tests fail as localStation is being run before devices are configured!
+	# TODO: Fix this and restore these tests
 	check_zebra(dkphiZebraPositionScannable, False)
-	check_zebra(dkappaZebraPositionScannable, False)
-	check_zebra(dkthetaZebraPositionScannable, False)
-	check_zebra(sphiZebraPositionScannable, False)
+	#check_zebra(dkappaZebraPositionScannable, False)
+	#check_zebra(dkthetaZebraPositionScannable, False)
+	#check_zebra(sphiZebraPositionScannable, False)
 
 	alias("check_zebra")
+	
+	def getCbfTemplateFile():
+		cli=CAClient('BL15I-EA-PILAT-03:CAM:CbfTemplateFile')
+		cli.configure()
+		return String(cli.cagetArrayByte())
+
+	alias("getCbfTemplateFile")
+
+	def setCbfTemplateFile(path):
+		cli=CAClient('BL15I-EA-PILAT-03:CAM:CbfTemplateFile')
+		cli.configure()
+		cli.caput(String(path).getBytes())
+
+	alias("setCbfTemplateFile")
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
