@@ -28,7 +28,6 @@
 	<!-- =========================================================== -->
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->
-	<import resource="file:${gda.config}/devices/${gda.mode}/maxipix_tango.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/tfg2.xml" />
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/undulator.xml"/>
@@ -177,7 +176,6 @@
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
 	<import resource="file:${gda.config}/devices/_common/merlin_addetector.xml" />
-	<import resource="file:${gda.config}/devices/_common/maxipix.xml" />
 	<import resource="file:${gda.config}/devices/_common/xspress3_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/excalibur_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1_addetector.xml"/>

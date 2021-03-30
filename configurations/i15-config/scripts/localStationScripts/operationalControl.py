@@ -3,11 +3,15 @@ from localStationScripts.shutterCommands import sh, openEHShutter, closeEHShutte
 #import marAuxiliary
 from gdascripts.messages.handle_messages import simpleLog
 import java
+from localStationConfiguration import d3x_in, d3y_in, d3x_out, d3y_out, d4x_in, d4y_in, d4x_out, d4y_out
 from localStationScripts.scan_commands import scan
 from gda.jython.commands.ScannableCommands import cscan
 
 global configured, isccd, beamline, dkappa, dktheta, cryobsx
 configured = False
+
+CON_IN=1
+CON_OUT=0
 
 def configure(jythonNameMap, beamlineParameters):
 	global configured, isccd, beamline, dkappa, dktheta, cryobsx, d3x, d3y, d4x, d4y
@@ -99,13 +103,13 @@ def d1in():
 	"""
 	move diode 1 in
 	"""
-	setState("D1", "-DI-PHDGN-01:CON", 1)
+	setState("D1", "-DI-PHDGN-01:CON", CON_IN)
 
 def d2in():
 	"""
 	move diode 2 in
 	"""
-	setState("D2", "-DI-PHDGN-02:CON", 1)
+	setState("D2", "-DI-PHDGN-02:CON", CON_IN)
 
 def moveMotorsTogether(motor1, position1, motor2, position2):
 	motor1.asynchronousMoveTo(position1)
@@ -117,26 +121,26 @@ def d3in():
 	"""
 	move diode 3 in
 	"""
-	moveMotorsTogether(d3x, 0, d3y, 0)
+	moveMotorsTogether(d3x, d3x_in, d3y, d3y_in)
 
 def d4in():
 	"""
 	move diode 4 in
 	"""
-	d4x.moveTo(0)
-	d4y.moveTo(0)
+	d4x.moveTo(d4x_in)
+	d4y.moveTo(d4y_in)
 
 def d1out():
 	"""
 	move diode 1 out
 	"""
-	setState("D1", "-DI-PHDGN-01:CON", 0)
+	setState("D1", "-DI-PHDGN-01:CON", CON_OUT)
 
 def d2out():
 	"""
 	move diode 2 out
 	"""
-	setState("D2", "-DI-PHDGN-02:CON", 0)
+	setState("D2", "-DI-PHDGN-02:CON", CON_OUT)
 
 def d3out():
 	"""
@@ -144,22 +148,22 @@ def d3out():
 	"""
 	#TODO: read these from the motor limits?
 	#      moveMotorsTogether(d3x, math.floor(d3x.upperMotorLimit), d3y, math.floor(d3y.upperMotorLimit)) ?
-	moveMotorsTogether(d3x, 90, d3y, 13.5)
+	moveMotorsTogether(d3x, d3x_out, d3y, d3y_out)
 
 def d4out():
 	"""
 	move diode 4 out
 	"""
-	d4x.moveTo(117)
-	d4y.moveTo(0)
+	d4x.moveTo(d4x_out)
+	d4y.moveTo(d4y_out)
 
 def d4cryoIn():
 	print "Moving d4cryo in."
-	setState("D4cryo", "-RS-ABSB-04:CON", 1)
+	setState("D4cryo", "-RS-ABSB-04:CON", CON_IN)
 
 def d4cryoOut():
 	print "Moving d4cryo out."
-	setState("D4cryo", "-RS-ABSB-04:CON", 0)
+	setState("D4cryo", "-RS-ABSB-04:CON", CON_OUT)
 
 def setState(name, pv, newState):
 	text = "IN"

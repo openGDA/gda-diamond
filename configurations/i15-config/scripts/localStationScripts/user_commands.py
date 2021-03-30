@@ -611,7 +611,7 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 													 sampleSuffix=fileName, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(
 													axis=rockMotor, detector=hardwareTriggeredNXDetector)
-	if len(continuousMoveController.getTriggeredControllers()) > 0:
+	if False: # len(continuousMoveController.getTriggeredControllers()) > 0:
 		i0Monitor, continuousMonitorController = jythonNameMap.etlZebraScannableMonitor, jythonNameMap.zebra2ZebraMonitorController
 		fastShutterFeedback = jythonNameMap.fastShutterFeedbackScannableMonitor
 		zebra2info = ",\n %r,\n %r,\n %r" % (i0Monitor.name, fastShutterFeedback.name, continuousMonitorController.name)
@@ -774,6 +774,47 @@ def _copyTmpRunFileToReal(runfilename, retry):
 		logger.info(msg_start+msg_end, e)
 		print msg_start+msg_end
 
+def _sweepScanParams(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle, totalExposures):
+	logger = LoggerFactory.getLogger("_sweepScanParams")
+	logger.info("Continuous sweep scan on {} using {}: start={}, stop={}, angle={}",
+				sweepMotor.name, detector.name, sweepStart, sweepEnd, sweepAngle)
+	logger.debug("detector.getCollectionStrategy()={} exposeTime={} fileName={} totalExposures={}", 
+				  detector.getCollectionStrategy(),   exposeTime,   fileName,   totalExposures)
+
+	totalExposures *= len(arange(sweepStart, sweepEnd, sweepAngle))
+
+	logger.debug("totalExposures={} after sweep images accounted for", totalExposures)
+
+	# TODO: There should also be feedback (error message of sorts) if the combination of exposure time and sweep angle either
+	#       result in the motor (dkphi) to move slower than it can or faster than it can.
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	hardwareTriggeredNXDetector = _configureDetector(detector=detector, exposureTime=exposeTime, noOfExposures=totalExposures,
+													 sampleSuffix=fileName, dark=False)
+	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(
+													axis=sweepMotor, detector=hardwareTriggeredNXDetector)
+	if len(continuousMoveController.getTriggeredControllers()) > 0:
+		i0Monitor, continuousMonitorController = jythonNameMap.etlZebraScannableMonitor, jythonNameMap.zebra2ZebraMonitorController
+		fastShutterFeedback = jythonNameMap.fastShutterFeedbackScannableMonitor
+		zebra2info = ",\n %r,\n %r,\n %r" % (i0Monitor.name, fastShutterFeedback.name, continuousMonitorController.name)
+		zebra2params = [                     i0Monitor,      fastShutterFeedback,      continuousMonitorController]
+	else:
+		zebra2info = ""
+		zebra2params = []	
+
+	logger.info("_sweepScanParams: [%r, %r, %r, %r,\n %r,\n %r, %r%s]" % (
+									continuouslyScannableViaController.name, sweepStart, sweepEnd, sweepAngle,
+									continuousMoveController.name, 
+									hardwareTriggeredNXDetector.name, exposeTime,
+									zebra2info
+								))
+	# TODO: We should probably also check that lineMotor and rockMotor aren't both the same!'
+	sc1=ConstantVelocityScanLine([continuouslyScannableViaController, sweepStart, sweepEnd, sweepAngle,
+								  continuousMoveController,
+								  hardwareTriggeredNXDetector, exposeTime,
+								]+zebra2params)
+	
+	return [sc1]
+
 def _sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle,
 				totalExposures, scan_params):
 	logger = LoggerFactory.getLogger("_sweepScan")
@@ -854,9 +895,15 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 		scan_params.extend(_rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures))
 	elif sweepMotor:
 		sweepMotorPosition = sweepMotor.getMotor().getTargetPosition()
-		_sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle,
+		if detector.name in ['pil3cbf']:
+			logger.info("Detector %s supports continuous sweep scans..." % (detector.name))
+			scan_params.extend(_sweepScanParams(detector, exposeTime, fileName,
+				sweepMotor, sweepStart, sweepEnd, sweepAngle, totalExposures))
+		else:
+			logger.info("Detector %s does not support continuous sweep scans, doing each rock individually..." % (detector.namee))
+			_sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle,
 				totalExposures, scan_params)
-		scan_params=[] # Delete original scan_params so the ConcurrentScan isn't performed too.
+			scan_params=[] # Delete original scan_params so the ConcurrentScan isn't performed too.
 	else:
 		scan_params.extend(_staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark=False))
 
