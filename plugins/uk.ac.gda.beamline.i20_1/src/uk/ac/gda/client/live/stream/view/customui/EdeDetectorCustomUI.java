@@ -18,8 +18,6 @@
 
 package uk.ac.gda.client.live.stream.view.customui;
 
-import java.util.Optional;
-
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -132,11 +130,10 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 		}
 		logger.debug("Finished waiting");
 	}
+
 	private void findDetector() {
-		Optional<EdeDetector> det = Finder.findOptionalOfType(detectorName, EdeDetector.class);
-		if (det.isPresent()) {
-			edeDetector = det.get();
-		}
+		edeDetector = Finder.findOptionalOfType(detectorName, EdeDetector.class)
+							.orElse(edeDetector);
 	}
 
 	private void addButtons(Composite parent) {

@@ -549,16 +549,16 @@ public class SpectrumEventsEditor extends Dialog {
 	    private void setIsEnum(SpectrumEvent se) {
 	    	enumPositions = Collections.emptyList();
 	    	isEnum = false;
-
-	    	Optional<EnumPositioner> scn = Finder.findOptionalOfType(se.getScannableName(), EnumPositioner.class);
-	    	if (scn.isPresent()) {
-	    		try {
-	    			enumPositions = scn.get().getPositionsList();
-	    			isEnum = true;
-	    		} catch (DeviceException e) {
-					logger.warn("Problem determining if {} is enum positioner - assuming it's not.", se.getScannableName(), e);
-	    		}
-	    	}
+	    	String spectrumEventScannableName = se.getScannableName();
+	    	Finder.findOptionalOfType(spectrumEventScannableName, EnumPositioner.class)
+	    			.ifPresent( scn -> {
+	    				try {
+	    					enumPositions = scn.getPositionsList();
+	    					isEnum = true;
+	    				} catch (DeviceException e) {
+	    					logger.warn("Problem determining if {} is enum positioner - assuming it's not.", spectrumEventScannableName, e);
+	    				}
+	    			});
 	    }
 
 	    @Override

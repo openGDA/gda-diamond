@@ -245,15 +245,15 @@ public class ScannableListEditor extends Dialog {
 	 * @return List of scannables that are 'safe' for user to move. (List is defined in client side object 'safeScannablesForPositionsComposite'.).
 	 */
 	public static List<String> getSafeScannableNames() {
-		Optional<FindableObjectHolder> safeScannables = Finder.findOptionalOfType(SAFE_SCANNABLES_OBJECT_NAME, FindableObjectHolder.class);
-		if (safeScannables.isPresent()) {
-			FindableObjectHolder map = safeScannables.get();
-			String objName = map.keySet().iterator().next();
-			// return copy of the list, to avoid modifying it!
-			return new ArrayList<>((List<String>) map.get(objName));
-		} else {
-			return Collections.emptyList();
-		}
+
+		Optional< List<String> > maybeList =
+				Finder.findOptionalOfType(SAFE_SCANNABLES_OBJECT_NAME, FindableObjectHolder.class)
+						.map( namesMap -> {
+								String objName = namesMap.keySet().iterator().next();
+								// return defensive copy
+								return new ArrayList<>((List<String>) namesMap.get(objName));
+							});
+		return maybeList.orElseGet(Collections::emptyList);
 	}
 
 	public static String showSelectScannableDialog(Composite parent, List<String> shortListOfName) {

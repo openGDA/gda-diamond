@@ -23,7 +23,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Vector;
 
 import org.dawnsci.ede.CalibrationDetails;
@@ -158,10 +157,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		experimentDataCollectionJob = new ScanJob("Linear experiment scan");
 		InterfaceProvider.getJSFObserver().addIObserver(experimentDataCollectionJob);
-		Optional<Scriptcontroller> controller = Finder.findOptionalOfType(EdeExperiment.PROGRESS_UPDATER_NAME, Scriptcontroller.class);
-		if (controller.isPresent()) {
-			controller.get().addIObserver(experimentDataCollectionJob);
-		}
+		Finder.findOptionalOfType(EdeExperiment.PROGRESS_UPDATER_NAME, Scriptcontroller.class)
+				.ifPresent( controller -> controller.addIObserver(experimentDataCollectionJob) );
+
 		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
 		loadGenerateAsciiData();

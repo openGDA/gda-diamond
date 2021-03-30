@@ -706,10 +706,8 @@ public static String doubleToString( double doubleVal ) {
 		scan.setWriteAsciiDataAfterScan(writeAsciiData);
 
 		// Set the fast shutter if found on server
-		Optional<Scannable> fastShutter = Finder.findOptionalOfType(fastShutterName, Scannable.class);
-		if (fastShutter.isPresent()) {
-			scan.setShutter(fastShutter.get());
-		}
+		Finder.findOptionalOfType(fastShutterName, Scannable.class)
+				.ifPresent(scan::setShutter);
 
 		scan.setTwoWayScan(twoWayScan);
 

@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.util.Pair;
@@ -884,12 +883,9 @@ public abstract class EdeExperiment implements IObserver {
 	 * @param nameOfScannable
 	 */
 	public void addScannableToMonitorDuringScan(String nameOfScannable) {
-		Optional<Scannable> scannable = Finder.findOptionalOfType(nameOfScannable, Scannable.class);
-		if (scannable.isPresent()) {
-			addScannableToMonitorDuringScan(scannable.get());
-		} else {
-			logger.warn("Scannable {} not found - not adding to list of scannables to monitor", nameOfScannable);
-		}
+		Finder.findOptionalOfType(nameOfScannable, Scannable.class)
+				.ifPresentOrElse(this::addScannableToMonitorDuringScan,
+						() -> logger.warn("Scannable {} not found - not adding to list of scannables to monitor", nameOfScannable));
 	}
 
 	/**

@@ -98,12 +98,11 @@ public class DetectorModel extends ObservableModel {
 	private void setupDetectors() {
 		for (DetectorSetupType detectorSetup : DetectorSetupType.values()) {
 
-			Optional<EdeDetector> detector = Finder.findOptionalOfType(detectorSetup.getDetectorName(), EdeDetector.class);
-			if (detector.isPresent()) {
-				EdeDetector ededetector = detector.get();
-				ededetector.setDetectorSetupType(detectorSetup);
-				availableDetectors.add(ededetector);
-			}
+			Finder.findOptionalOfType(detectorSetup.getDetectorName(), EdeDetector.class)
+					.ifPresent(ededetector -> {
+						ededetector.setDetectorSetupType(detectorSetup);
+						availableDetectors.add(ededetector);
+					} );
 		}
 		loadDetectorNameFromPreferenceStore();
 		if (currentDetector == null) {
