@@ -1217,7 +1217,7 @@ try:
 																	returnPathAsImageNumberOnly=True)
 	merlin.disable_operation_outside_scans = False
 	merlin.processors=[DetectorDataProcessorWithRoi('max', merlin, [SumMaxPositionAndValue()], False)]
-
+	merlins = DetectorWithShutter(merlin, x1)
 except gda.factory.FactoryException as e:
 	localStation_exception("connecting to merlin (FactoryException)", e)
 except java.lang.IllegalStateException as e:

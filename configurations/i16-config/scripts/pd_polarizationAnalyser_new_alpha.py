@@ -151,7 +151,16 @@ class PolarizationAnalyser(ScannableMotionBase):
 		"""
 		return self.crystal,self.dspace,self.offset7()
 
+	def checkerrors(self):
+		if self.offset1() == 1 or self.offset1() == -1:
+			return False
+		else:
+			print("please set the offset1 of the device to either 1 (upward scattering) or -1 (downward scattering)")
+			return True
+
 	def getPosition(self):
+		if self.checkerrors():
+			return 
 		"""Returns thp tthp and stokes without offsets"""
 		xxx1 = self.stokes()
 		xxx2 = self.thp()
@@ -166,6 +175,8 @@ class PolarizationAnalyser(ScannableMotionBase):
 
 	def asynchronousMoveTo(self,newpol):
 		"""Takes one real argument (the stokes value), moves the polarization analyser thp tthp and stokes """
+		if self.checkerrors():
+			return 
 		detlatoff=(self.offset9()-self.offset10())*cosd(newpol)+self.offset10()
 		newoffcry = (self.offset2()-self.offset3())*cosd(newpol)+self.offset3()
 		newdetoff = (self.offset4()-self.offset8())*cosd(newpol)+self.offset8() 
@@ -182,21 +193,27 @@ class PolarizationAnalyser(ScannableMotionBase):
 		self.dettrans(detlatoff)
 		#print 2*self.thbragg+self.offset4()
 
-	def calcPos(self,newpol):
+	def calcPos(self,newpol,myenergy=None):
 		"""Takes one real argument, calculates for the given stokes value the polarization analyser thp and tthp """
-
+		#print("This is the method I am using")
+		if self.checkerrors():
+			return 
 		detlatoff=(self.offset9()-self.offset10())*cosd(newpol)+self.offset10()
 		newoffcry = (self.offset2()-self.offset3())*cosd(newpol)+self.offset3()
 		newdetoff = (self.offset4()-self.offset8())*cosd(newpol)+self.offset8() +self.offset5()
-
-		wl = BLi.getWavelength()
-		self.thbragg = 180/pi*asin(wl/(2*self.dspace))
+		mywl = BLi.getWavelength()
+		if myenergy != None:
+			mywl = 12.39841938/myenergy
+		self.thbragg = 180/pi*asin(mywl/(2*self.dspace))
+		#print("this is the Bragg angle",self.thbragg)
 		newthp=self.offset1()*self.thbragg+newoffcry
 		newtthp=2*self.offset1()*self.thbragg+newdetoff
 		print "stokes=%1.2f thp=%1.2f tthp=%1.2f detlatoff=%1.2f"%(newpol,newthp,newtthp,detlatoff)
 
 	def isBusy(self):
 		""" Returns Busy if either stokes or thp or tthp are busy"""
+		if self.checkerrors():
+			return 
 		if self.stokes.isBusy() == 1 or self.thp.isBusy() == 1 or self.tthp.isBusy() == 1:
 			return 1
 		else:
@@ -208,6 +225,8 @@ class PolarizationAnalyser(ScannableMotionBase):
 	use: when stokes = 90 and the reflection on the analiser centered call pol.calibrate()
 	The set-up of the analyser is complete. 
 		"""
+		if self.checkerrors():
+			return 
 		wl = BLi.getWavelength()
 		if abs(self.stokes()) <= .5:
 			#xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp()*self.offset1()) #this seemed to work
@@ -239,10 +258,23 @@ class PolarizationAnalyser(ScannableMotionBase):
 			pos([self.stokes, 0, self.thp, self.offset1(), self.tthp, newtthp, self.zp, -10])
 
 	def reset(self):
-		""" Resets all the offsets to zero before changing crystal """
+		""" Resets all the offsets except the crystal """
+		print "Warning you are changing the offset position from:"
+		print self.offset1,'to', -1
+		print self.offset2,'to',  0
+		print self.offset3,'to',  0
+		print self.offset4,'to',  0
+		print self.offset8,'to',  0
+		print self.offset9,'to',  -27.
+		print "The crystal and the reflection will be not changed"		
+		print "The scattering will be downward if stokes is 0"
+		print "Do you want to continue?"
+		answer=input('True/False')
+		if answer:
 		#pos self.offset1 0 self.offset2 0 self.offset3 0 self.offset4 0 self.offset5 0
-		pos([self.offset1, 0, self.offset2, 0, self.offset3, 0, self.offset4, 0, self.offset5, 0]) 
-
+			pos([self.offset1, -1, self.offset2, 0, self.offset3, 0, self.offset4, 0, self.offset5, 0,self.offset8,0,self.offset9,-27]) 
+		else:
+			print "Change Aborted"
 
 	def _in(self): # in is a keyword in Jython2.5
 		if self.oldpos==None:
