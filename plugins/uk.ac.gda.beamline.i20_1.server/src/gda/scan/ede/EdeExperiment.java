@@ -884,7 +884,7 @@ public abstract class EdeExperiment implements IObserver {
 	 * @param nameOfScannable
 	 */
 	public void addScannableToMonitorDuringScan(String nameOfScannable) {
-		Optional<Scannable> scannable = Finder.findOptional(nameOfScannable);
+		Optional<Scannable> scannable = Finder.findOptionalOfType(nameOfScannable, Scannable.class);
 		if (scannable.isPresent()) {
 			addScannableToMonitorDuringScan(scannable.get());
 		} else {

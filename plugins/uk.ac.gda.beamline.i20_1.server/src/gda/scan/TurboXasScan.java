@@ -1033,9 +1033,9 @@ public class TurboXasScan extends ContinuousScan {
 	}
 
 	public void addSpectrumEvent(int spectrumNumber, String scannableName, Object position) {
-		Optional<Scannable> scannable = Finder.findOptional(scannableName);
+		Optional<Scannable> scannable = Finder.findOptionalOfType(scannableName, Scannable.class);
 		if (!scannable.isPresent()) {
-			logger.warn("Can't add spectrum event for {} - scannable called {} was not found!");
+			logger.warn("Can't add spectrum event for {} - scannable called {} was not found!", spectrumNumber, scannableName);
 			return;
 		}
 		addSpectrumEvent(spectrumNumber, scannable.get(), position);

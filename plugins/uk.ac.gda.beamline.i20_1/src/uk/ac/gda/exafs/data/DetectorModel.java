@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.detector.EdeDetector;
 import gda.device.detector.Roi;
-import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.observable.IObserver;
 import uk.ac.gda.beamline.i20_1.Activator;
@@ -99,9 +98,9 @@ public class DetectorModel extends ObservableModel {
 	private void setupDetectors() {
 		for (DetectorSetupType detectorSetup : DetectorSetupType.values()) {
 
-			Optional<Findable> detector = Finder.findOptional(detectorSetup.getDetectorName());
-			if (detector.isPresent() && detector.get() instanceof EdeDetector) {
-				EdeDetector ededetector = (EdeDetector) detector.get();
+			Optional<EdeDetector> detector = Finder.findOptionalOfType(detectorSetup.getDetectorName(), EdeDetector.class);
+			if (detector.isPresent()) {
+				EdeDetector ededetector = detector.get();
 				ededetector.setDetectorSetupType(detectorSetup);
 				availableDetectors.add(ededetector);
 			}

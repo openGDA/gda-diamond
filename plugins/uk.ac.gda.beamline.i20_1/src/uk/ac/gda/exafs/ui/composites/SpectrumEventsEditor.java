@@ -67,7 +67,6 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
-import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.scan.SpectrumEvent;
 import gda.scan.TurboSlitTimingGroup;
@@ -390,10 +389,10 @@ public class SpectrumEventsEditor extends Dialog {
 		 */
 		private Object getCurrentPosition(SpectrumEvent e) {
 			Object defaultPosition = 0.0;
-			Optional<Findable> scn = Finder.findOptional(e.getScannableName());
+			Optional<Scannable> scn = Finder.findOptionalOfType(e.getScannableName(), Scannable.class);
 	    	if (scn.isPresent()) {
 	    		try {
-					return ((Scannable)scn.get()).getPosition();
+					return scn.get().getPosition();
 				} catch (DeviceException e1) {
 					logger.warn("Problem getting current position for {}. Using {} instead", scn.get().getName(), defaultPosition);
 					return 0;
@@ -551,10 +550,10 @@ public class SpectrumEventsEditor extends Dialog {
 	    	enumPositions = Collections.emptyList();
 	    	isEnum = false;
 
-	    	Optional<Findable> scn = Finder.findOptional(se.getScannableName());
-	    	if (scn.isPresent() && scn.get() instanceof EnumPositioner) {
+	    	Optional<EnumPositioner> scn = Finder.findOptionalOfType(se.getScannableName(), EnumPositioner.class);
+	    	if (scn.isPresent()) {
 	    		try {
-	    			enumPositions = ((EnumPositioner)scn.get()).getPositionsList();
+	    			enumPositions = scn.get().getPositionsList();
 	    			isEnum = true;
 	    		} catch (DeviceException e) {
 					logger.warn("Problem determining if {} is enum positioner - assuming it's not.", se.getScannableName(), e);

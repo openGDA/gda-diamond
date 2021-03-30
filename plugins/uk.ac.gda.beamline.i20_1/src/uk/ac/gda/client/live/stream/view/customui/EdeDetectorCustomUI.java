@@ -39,7 +39,6 @@ import gda.device.detector.FrelonDetector;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.frelon.Frelon;
 import gda.device.lima.LimaCCD;
-import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
@@ -134,9 +133,9 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 		logger.debug("Finished waiting");
 	}
 	private void findDetector() {
-		Optional<Findable> det = Finder.findOptional(detectorName);
-		if (det.isPresent() && det.get() instanceof EdeDetector) {
-			edeDetector = (EdeDetector) det .get();
+		Optional<EdeDetector> det = Finder.findOptionalOfType(detectorName, EdeDetector.class);
+		if (det.isPresent()) {
+			edeDetector = det.get();
 		}
 	}
 

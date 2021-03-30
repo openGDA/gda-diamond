@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 import gda.device.Detector;
 import gda.device.FindableObjectHolder;
 import gda.device.Scannable;
-import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
@@ -246,9 +245,9 @@ public class ScannableListEditor extends Dialog {
 	 * @return List of scannables that are 'safe' for user to move. (List is defined in client side object 'safeScannablesForPositionsComposite'.).
 	 */
 	public static List<String> getSafeScannableNames() {
-		Optional<Findable> safeScannables = Finder.findOptional(SAFE_SCANNABLES_OBJECT_NAME);
+		Optional<FindableObjectHolder> safeScannables = Finder.findOptionalOfType(SAFE_SCANNABLES_OBJECT_NAME, FindableObjectHolder.class);
 		if (safeScannables.isPresent()) {
-			FindableObjectHolder map = (FindableObjectHolder) safeScannables.get();
+			FindableObjectHolder map = safeScannables.get();
 			String objName = map.keySet().iterator().next();
 			// return copy of the list, to avoid modifying it!
 			return new ArrayList<>((List<String>) map.get(objName));
