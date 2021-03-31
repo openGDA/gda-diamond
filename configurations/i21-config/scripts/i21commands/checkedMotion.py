@@ -87,7 +87,7 @@ def checkIfMoveLegal(motor, new_position):
     '''
     '''
     if motor is alltth:  # @UndefinedVariable
-        motor = motor.armtth # Only need to check epics_armtth motor in the group
+        motor = motor.armtth # Only need to check armtth motor in the group
         
     if math.fabs(float(motor.getPosition()) - float(new_position)) <= MOTOR_POSITION_TOLERANCE:
         print("Motor '%s' is already in position." % (motor.getName()))
