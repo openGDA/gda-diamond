@@ -1,8 +1,8 @@
 '''
-A Scannable class that moves epics_armtth, m5tth, and m5hqry concurrently for a single given position. Polynomial coefficients are required to calculate the position for m5hqry, and m5hqx, these are defined in the constructor.
+A Scannable class that moves armtth, m5tth, and m5hqry concurrently for a single given position. Polynomial coefficients are required to calculate the position for m5hqry, and m5hqx, these are defined in the constructor.
 Further requirements implemented are:
 1. m5hqx can only move after m5hqry motion completed
-2. this scannable should be supported in 'move' command just like 'epics_armtth'
+2. this scannable should be supported in 'move' command just like 'armtth'
 
 Created on Feb 17, 2021
 
@@ -10,12 +10,10 @@ Created on Feb 17, 2021
 '''
 from gda.device.scannable import ScannableMotionBase
 from org.slf4j import LoggerFactory
-from i21commands.checkedMotion import asynmove
-
 
 class M5GroupScannable(ScannableMotionBase):
     '''
-    A group scannable dedicated to two theta motion in I21. It has I21 arm tth motion specific logics.
+    A group scannable dedicated to two theta motion in I21. It has I21 armtth motion specific logics.
     '''
 
     def __init__(self, name, armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737):
