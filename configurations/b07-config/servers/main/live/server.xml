@@ -29,6 +29,7 @@
 	<import resource="d10b.xml"/>
 	<import resource="d21b.xml"/>
 	<import resource="femtos.xml"/>
+	<import resource="stanfords.xml"/>
 
 	<!-- Shutters -->
 	<import resource="shutter.xml"/>
