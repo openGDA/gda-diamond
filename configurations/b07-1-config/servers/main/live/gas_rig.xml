@@ -15,87 +15,87 @@
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_01" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-01:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_01" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-01:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-01:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_02" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-02:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_02" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-02:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-02:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_03" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-03:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_03" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-03:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-03:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_04" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-04:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_04" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-04:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-04:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_05" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-05:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_05" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-05:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-05:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_06" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-06:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_06" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-06:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-06:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_07" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-07:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_07" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-07:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-07:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_08" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-08:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_08" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-08:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-08:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_09" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-09:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_09" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-09:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-09:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_10" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-10:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_10" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-10:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-10:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_11" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-11:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_11" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-11:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-11:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_12" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-12:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_12" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-12:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-12:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_13" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-13:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_13" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-13:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-13:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
-	<bean id="gr_mfc_14" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-MFC-14:MASS:FLOW:RD" />
-		<property name="canMove" value="false" />
+	<bean id="gr_mfc_14" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-14:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-14:SETPOINT:WR" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
