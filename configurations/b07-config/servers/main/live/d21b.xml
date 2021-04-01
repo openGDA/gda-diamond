@@ -9,7 +9,7 @@
 
 	<!-- Positioner -->
 	<bean id="d21b_y_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL07B-DI-PHDGN-21:X:MP" />
+		<property name="recordName" value="BL07B-DI-PHDGN-21:Y:MP" />
 	</bean>
 	<bean id="d21b_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-DI-PHDGN-21:Y" />

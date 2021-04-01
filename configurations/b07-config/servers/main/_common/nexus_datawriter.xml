@@ -27,7 +27,6 @@
 				<value>s3b_xcentre</value>
 				<value>s3b_ycentre</value>
 				<!-- s4b -->
-				<value>s4b</value>
 				<value>s4b_xgapsize</value>
 				<value>s4b_ygapsize</value>
 				<value>s4b_z</value>
@@ -95,8 +94,8 @@
 				<value>d9b_y</value>
 				<value>d9b_y_positioner</value>
 				<!-- d10b -->
-				<value>d10b_y</value>
-				<value>d10b_y_positioner</value>
+				<value>d10b_x</value>
+				<value>d10b_x_positioner</value>
 				<!-- d21b -->
 				<value>d21b_y</value>
 				<value>d21b_y_positioner</value>
