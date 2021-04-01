@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Sample camera 3 controls -->
+	<bean id="xcamExposureTime" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="xcamAcquirePeriod" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+
+	<bean id="xcamCountdown" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimer" init-method="init" destroy-method="destroy">
+		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
+		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
+		<property name="updateIntervalInSeconds" value="1"/>
+		<property name="timeFormatInSeconds" value="%4d"/>
+	</bean>	
+	<bean id="xcamCountdownProgress" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimerProgress" init-method="init" destroy-method="destroy">
+		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
+		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
+		<property name="updateIntervalInSeconds" value="1"/>
+	</bean>	
+	
+</beans>
