@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+	
 	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyser">
 		<property name="name" value="analyser" />
 		<property name="controller" ref="analyser_controller" />
@@ -17,7 +17,8 @@
 		<!-- detectorEnergyWidth can be found by (analyser.highEnergy - analyser.lowEnergy)/analyser.passEnergy -->
 		<property name="detectorEnergyWidth" value="0.07386836678880104" />
 	</bean>
-
+	
+    <!-- Export analyser so that it will be available on client -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/analyser" />
 		<property name="service" ref="analyser" />
