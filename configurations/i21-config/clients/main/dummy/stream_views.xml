@@ -50,8 +50,8 @@
 		</property>
 		<property name="bottomUi">
 			<bean class="uk.ac.gda.beamline.i21.views.RixsSpectrumView">
-				<property name="xSizeHint" value="100"/>
-				<property name="ySizeHint" value="250"/>
+				<property name="xSizeHint" value="200"/>
+				<property name="ySizeHint" value="350"/>
 			</bean>
 		</property>
 	</bean>
@@ -91,8 +91,8 @@
 		</property>
 		<property name="bottomUi">
 			<bean class="uk.ac.gda.beamline.i21.views.RixsSpectrumView">
-				<property name="xSizeHint" value="100"/>
-				<property name="ySizeHint" value="250"/>
+				<property name="xSizeHint" value="200"/>
+				<property name="ySizeHint" value="350"/>
 			</bean>
 		</property>
 	</bean>
