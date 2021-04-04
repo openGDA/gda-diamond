@@ -118,6 +118,10 @@ public class DiffractionButtonControlledCompositeFactory implements NamedComposi
 	}
 
 	private void saveAcquisition() {
+		if (getAcquisitionController().getAcquisition().getUuid() != null && !UIHelper.showConfirm("Override the existing configuration?")) {
+			return;
+		}
+
 		try {
 			getAcquisitionController().saveAcquisitionConfiguration();
 		} catch (AcquisitionControllerException e) {
@@ -126,6 +130,7 @@ public class DiffractionButtonControlledCompositeFactory implements NamedComposi
 	}
 
 	private void runAcquisition() {
+		boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
 		try {
 			getAcquisitionController().runAcquisition();
 		} catch (AcquisitionControllerException e) {

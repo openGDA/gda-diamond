@@ -32,7 +32,6 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -241,18 +240,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	private ApplicationListener<ScanningAcquisitionChangeEvent> listenToScanningAcquisitionChanges = new ApplicationListener<ScanningAcquisitionChangeEvent>() {
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-			UUID eventUUID = Optional.ofNullable(event.getScanningAcquisition())
-					.map(ScanningAcquisition.class::cast)
-					.map(ScanningAcquisition::getUuid)
-					.orElseGet(UUID::randomUUID);
-
-			UUID scanningAcquisitionUUID = Optional.ofNullable(acquisitionSupplier.get())
-					.map(ScanningAcquisition::getUuid)
-					.orElseGet(UUID::randomUUID);
-
-			if (eventUUID.equals(scanningAcquisitionUUID)) {
 				updatePoints(0);
-			}
 		}
 	};
 
