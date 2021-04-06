@@ -442,7 +442,7 @@ class I16NexusExtender(DataWriterExtenderBase):
             except java.lang.Exception, e:
                 self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir() [Java.lang.Exception]", det, e)
             except:
-                self.logger.error('writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir( [except]):\n {}',
+                self.logger.error('writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir( [except]):\n {}', det,
                     ''.join(traceback.format_exception(*sys.exc_info())) )
             if pathTemplate:
                 self.logger.debug("writeDynamicDetectors() pathTemplate={}", pathTemplate)
