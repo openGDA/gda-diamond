@@ -45,4 +45,10 @@ from scannables.rga24 import rga24, rga24AR, rga24CF3, rga24CH2, rga24CH3, rga24
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
 
+print("-"*100)
+from gda.device.scannable import PVScannable
+print "To create a PVScannable from a PV:"
+print "   >>> my_scannable = PVScannable('my_scannable', 'PV_name')"
+print "   >>> my_scannable.configure()"
+
 print "-----------------------------------------------------------------------------------------------------------------"
