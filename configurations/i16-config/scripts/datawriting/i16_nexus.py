@@ -21,4 +21,4 @@ for dwe in ddwf.getDataWriterExtenders():
 
 nexusExtender = I16NexusExtender("/dls_sw/i16/scripts/pilatus_calibration/geometry.xml")
 # Comment this out if using gda.data.scan.datawriter.dataFormat = NexusScanDataWriter 
-#ddwf.addDataWriterExtender(nexusExtender)
+ddwf.addDataWriterExtender(nexusExtender)

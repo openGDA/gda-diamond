@@ -69,14 +69,6 @@ Differences between 867888 and 41:
 	
 	Is missing the ub_matrix (1x3x3) and unit_cell (1x6) nodes.
 
---------------------------------------------------------------------------------
->>>pos eta 12.5345
->>>scancn eta 0.02 32 pil3_100k 1 roi2
-
-[gda_data_non_live]$ll ?*
-
-[gda_data_non_live]$nexus.tree ?.nxs > ...example-eta-scan/?.nexus.tree
-
 ================================================================================
 example chi scan
 --------------------------------------------------------------------------------
@@ -139,13 +131,5 @@ Differences between 868222 and 42:
 	pil3_100k:NXdetector does. 
 	
 	Is missing the ub_matrix (1x3x3) and unit_cell (1x6) nodes.
-
---------------------------------------------------------------------------------
->>>pos chi 30.13350
->>>scancn chi 0.5 11 pil3_100k 1 roi2
-
-[gda_data_non_live]$ll ?*
-
-[gda_data_non_live]$nexus.tree ?.nxs > ...example-eta-scan/?.nexus.tree
 
 ================================================================================
