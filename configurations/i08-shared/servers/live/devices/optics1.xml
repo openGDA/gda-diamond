@@ -20,10 +20,10 @@
 
 	<!-- Phase motors -->
 	<bean id="phase_upper_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="SR08I-MO-SERVC-01:BLPUSET" />
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLPUMTR" />
 	</bean>
 	<bean id="phase_lower_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="SR08I-MO-SERVC-01:BLPLSET" />
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLPLMTR" />
 	</bean>
 
 	<!-- Frontend: Customized Aperture -->
