@@ -64,7 +64,7 @@ if diffmode in ['eh1v', 'eh1h', 'eh2']:
         reset_script_name,
         'Switching diffractometer mappings to {} mode'.format(diffmode),
         False, True)
-    set_motor_aliases(diffmode)
+    #set_motor_aliases(diffmode)
 
 silent = (lambda:'silent')()  # allows options without the need for brackets
 
