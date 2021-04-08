@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2020 Diamond Light Source Ltd.
+ * Copyright © 2021 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i08_1.views.statusview;
+package uk.ac.gda.beamline.i08.views.statusview;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -29,12 +29,10 @@ public class StatusView extends AbstractStatusView {
 	protected void createViewContent(Composite contentComposite) {
 
 		final Group grpShutters = createGroup(contentComposite, "Shutters", 2);
-		createShutterComposite(grpShutters, "shutter2", "shutter2");
-		createShutterComposite(grpShutters, "s3_shutter", "s3_shutter");
+		createShutterComposite(grpShutters, "shutter1", "shutter1");
 
 		final Group grpZonePlate = createGroup(contentComposite, "Zone plate", 2);
 		createNumericComposite(grpZonePlate, "ZonePlateZ", "ZonePlateZ", "mm", 2, 1000);
-		createNumericComposite(grpZonePlate, "osa_z", "osa_z", "mm", 2, 1000);
 
 		createEnergyGroup(contentComposite);
 		createPhaseGroup(contentComposite);
