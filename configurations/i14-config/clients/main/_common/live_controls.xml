@@ -5,25 +5,25 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Sample stage group -->
- 	<bean id="stage1_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Stage X" />
-		<property name="scannableName" value="stage1_x" />
+ 	<bean id="sample_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample X" />
+		<property name="scannableName" value="SampleX" />
 		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
- 	<bean id="stage1_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Stage Y" />
-		<property name="scannableName" value="stage1_y" />
+ 	<bean id="sample_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample Y" />
+		<property name="scannableName" value="SampleY" />
 		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
- 	<bean id="stage1_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Stage Z" />
-		<property name="scannableName" value="stage1_z" />
+ 	<bean id="sample_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sample Z" />
+		<property name="scannableName" value="SampleZ" />
 		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
@@ -34,23 +34,6 @@
 		<property name="scannableName" value="stage1_rotation" />
 		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.1" />
-		<property name="incrementTextWidth" value="60" />
-	</bean>
-
-	<!-- Sample stage fine motors -->
- 	<bean id="stage1_xf_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Stage X fine" />
-		<property name="scannableName" value="stage1_xf" />
-		<property name="group" value="Fine stage controls" />
-		<property name="increment" value="0.001" />
-		<property name="incrementTextWidth" value="60" />
-	</bean>
-
- 	<bean id="stage1_yf_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Stage Y fine" />
-		<property name="scannableName" value="stage1_yf" />
-		<property name="group" value="Fine stage controls" />
-		<property name="increment" value="0.001" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
@@ -120,15 +103,13 @@
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
-				<ref bean="stage1_x_control" />
-				<ref bean="stage1_y_control" />
-				<ref bean="stage1_z_control" />
+				<ref bean="sample_x_control" />
+				<ref bean="sample_y_control" />
+				<ref bean="sample_z_control" />
 				<ref bean="stage1_rotation_control" />
 				<ref bean="endstation_configurations" />
 				<ref bean="watchdog_control" />
 				<ref bean="dcm_enrg_control" />
-				<ref bean="stage1_xf_control" />
-				<ref bean="stage1_yf_control" />
 				<ref bean="ifsy_control" />
 				<ref bean="ifsz_control" />
 			</list>

@@ -302,15 +302,11 @@
 								<value>instrument:NXInstrument/sample:NXsample/sample_x</value>
 								<value>instrument:NXInstrument/sample:NXsample/sample_y</value>
 								<value>instrument:NXInstrument/sample:NXsample/sample_z</value>
-								<value>instrument:NXInstrument/sample:NXsample/sample_fine_x</value>
-								<value>instrument:NXInstrument/sample:NXsample/sample_fine_y</value>
 								<value>instrument:NXInstrument/sample:NXsample/sample_rot</value>
 							</list>
 						</property>
 						<property name="units">
 							<list>
-								<value>mm</value>
-								<value>mm</value>
 								<value>mm</value>
 								<value>mm</value>
 								<value>mm</value>

@@ -2,12 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<bean id="stage1_z_uiPrefs" class="org.eclipse.scanning.api.ui.ScannableUIPreferences" init-method="register" >
-		<property name="name" value="stage1_z" />
+		<property name="name" value="SampleZ" />
 		<property name="nudgeValue" value="1" />
 	</bean>
-	
+
 	<bean id="dcm_enrg_uiPrefs" class="org.eclipse.scanning.api.ui.ScannableUIPreferences" init-method="register" >
 		<property name="name" value="dcm_enrg" />
 		<property name="stepModelStart" value="5.0" />

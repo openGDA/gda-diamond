@@ -95,22 +95,14 @@
 			<list>
 				<value>SampleX</value>
 				<value>SampleY</value>
-				<value>stage1_xf</value>
-				<value>stage1_yf</value>
-				<value>stage1_x</value>
-				<value>stage1_y</value>
-				<value>stage1_z</value>
+				<value>SampleZ</value>
 			</list>
 		</property>
 		<property name="slowAxes">
 			<list>
 				<value>SampleX</value>
 				<value>SampleY</value>
-				<value>stage1_xf</value>
-				<value>stage1_yf</value>
-				<value>stage1_x</value>
-				<value>stage1_y</value>
-				<value>stage1_z</value>
+				<value>SampleZ</value>
 				<value>dcm_enrg</value>
 				<value>kbv1_pitch</value>
 				<value>kbh1_pitch</value>
@@ -176,7 +168,7 @@
 
 	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
 	<bean id="focus_scan_bean" class="uk.ac.diamond.daq.mapping.api.FocusScanBean">
-		<property name="focusScannableName" value="stage1_z" />
+		<property name="focusScannableName" value="SampleZ" />
 		<property name="focusRange" value="0.5" />
 		<property name="numberOfFocusSteps" value="20" />
 		<property name="numberOfLinePoints" value="40" />
