@@ -62,13 +62,13 @@ class Offset(ScannableMotionBase):
 		
 
 	def getPosition(self):
-		offsetShelfValue=self.offsetShelf.getValue(self.getName())
 		newShelfValue=self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
-
-		if not (offsetShelfValue == newShelfValue):
-			self.logger.error("getPosition() mismatch {} (new) != {} (old)", newShelfValue, offsetShelfValue)
-
 		if installation.loadOldShelf():
+			offsetShelfValue=self.offsetShelf.getValue(self.getName())
+
+			if not (offsetShelfValue == newShelfValue):
+				self.logger.error("getPosition() mismatch {} (new) != {} (old)", newShelfValue, offsetShelfValue)
+
 			# <old shelf >
 			self.logger.debug("getPosition() returning {} (old)", offsetShelfValue)
 			return offsetShelfValue
