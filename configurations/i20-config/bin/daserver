@@ -4,15 +4,10 @@
 XSPRESS_NUM_ELEMENTS=64
 #XSPRESS_NUM_ELEMENTS=36
 
-SSH_KEY_FILE=/dls_sw/i20/software/gda/config/daserver.key
-DASERVER_START_COMMAND="da.server -port=1972 -log"
-
 if [ "$XSPRESS_NUM_ELEMENTS" == "64" ]; then
 	DA_SERVER=i20-xspress0
-	CONFIG_DIR="xspress2_64element/"
 else
 	DA_SERVER=i20-xspress1
-	CONFIG_DIR="xspress2_36element/"
 fi
 
 echo "Checking to make sure da.server for $XSPRESS_NUM_ELEMENTS element detector is running..."
@@ -22,21 +17,12 @@ if [ $? -ne 0 ]; then
 	exit
 fi
 
-SSH_COMMAND="ssh -i $SSH_KEY_FILE i20detector@$DA_SERVER "
-
-echo "Stopping current da.server process for $XSPRESS_NUM_ELEMENTS element detector..."
-$SSH_COMMAND "pkill -9 da.server"
-
 # run the XMAP configuration script
 echo ""
-echo "Configure the XMAP/Vortex detector before (re)starting GDA servers..."
+echo "Configuring the XMAP/Vortex detector before (re)starting GDA servers..."
 /dls_sw/i20/software/gda/bin/vortex_config.sh
 
-echo ""
-echo "Will now sleep for 60 seconds for port 1972 to become available on da.server machine..."
-sleep 60
-echo "Restarting da.server on $XSPRESS_NUM_ELEMENTS element xspress control machine $DA_SERVER..."
-# $SSH_COMMAND "cd $CONFIG_DIR; da.server -port=1972 -log" &
-xterm -hold -e $SSH_COMMAND "cd $CONFIG_DIR ; echo \"Starting da.server : $DASERVER_START_COMMAND\"; $DASERVER_START_COMMAND" &
-	
+echo "(Re)starting DA server process..."
+/dls_sw/i20/software/gda/bin/restart_daserver.sh
+
 echo "Xspress system restarted."

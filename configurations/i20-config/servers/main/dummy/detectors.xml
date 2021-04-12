@@ -173,6 +173,11 @@
 				<value>FFI1</value>
 			</list>
 		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+			</list>
+		</property>
 	</bean>
 
 	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->

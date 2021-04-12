@@ -29,7 +29,7 @@
 		</property>
 		<property name="outputFormat">
 			<list>
-				<value>%.2f</value>
+				<value>%.6f</value>
 			</list>
 		</property>
 		<property name="alwaysRecordRawMCAs" value="true" />

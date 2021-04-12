@@ -180,7 +180,7 @@ add_default detectorMonitorDataProvider
 from gda.epics import CAClient
 
 # Set default output format xspress4 ascii numbers
-xspress4.setOutputFormat(["%.6g"])
+xspress4.setOutputFormat(["%.6f"])
 
 print "Setting Tfg veto options to normal values for output 0"
 DAServer.sendCommand("tfg setup-veto veto0-inv 0")
@@ -242,7 +242,13 @@ def setupXspress4() :
         print "  Setting " + pv + " to " + hdf5Values[key]
         CAClient.putStringAsWaveform(pv, hdf5Values[key])
 
+def setupMedipix() :
+    global medipix_basePvName
+    print "Setting up Medipix"
+    collect_software_triggered_frame(medipix_basePvName+":CAM", 1.0)
+    
 run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress4)
+run_in_try_catch(setupMedipix)
 
 print "****GDA startup script complete.****\n\n"
