@@ -10,7 +10,7 @@
     
         <bean id="malcolm_tomo_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
                 <property name="label" value="Tomography (Malcolm)" />
-                <property name="description" value="Malcolm: KB x vs y w/ imaging detector" /> 
+                <property name="description" value="Malcolm: GTS theta w/ imaging detector" /> 
         </bean>
     
         <bean id="malcolm_tomo_device" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
