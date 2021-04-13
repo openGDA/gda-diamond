@@ -4,24 +4,16 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="stage1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage1_x_motor" />
+	<bean id="SampleX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleX_motor" />
 	</bean>
 
-	<bean id="stage1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage1_y_motor" />
+	<bean id="SampleY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleY_motor" />
 	</bean>
 
-	<bean id="stage1_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage1_z_motor" />
-	</bean>
-
-	<bean id="stage1_xf" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage1_xf_motor" />
-	</bean>
-
-	<bean id="stage1_yf" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage1_yf_motor" />
+	<bean id="SampleZ" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleZ_motor" />
 	</bean>
 
 	<bean id="stage1_rotation" class="gda.device.scannable.ScannableMotor">
@@ -31,11 +23,9 @@
 	<bean id="stage1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="stage1_x" />
-				<ref bean="stage1_y" />
-				<ref bean="stage1_z" />
-				<ref bean="stage1_xf" />
-				<ref bean="stage1_yf" />
+				<ref bean="SampleX" />
+				<ref bean="SampleY" />
+				<ref bean="SampleZ" />
 				<ref bean="stage1_rotation" />
 			</list>
 		</property>

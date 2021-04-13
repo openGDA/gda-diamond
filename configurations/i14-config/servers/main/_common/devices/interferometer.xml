@@ -25,7 +25,7 @@
  	<bean id="ifsy" class="gda.device.scannable.CoupledScannable">
 		<property name="scannables">
 			<list>
-				<ref bean="stage1_y" />
+				<ref bean="SampleY" />
 				<ref bean="intf_y" />
 			</list>
 		</property>
@@ -41,7 +41,7 @@
  	<bean id="ifsz" class="gda.device.scannable.CoupledScannable">
 		<property name="scannables">
 			<list>
-				<ref bean="stage1_z" />
+				<ref bean="SampleZ" />
 				<ref bean="intf_z" />
 			</list>
 		</property>

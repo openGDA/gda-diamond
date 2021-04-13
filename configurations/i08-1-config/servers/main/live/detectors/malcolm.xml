@@ -8,6 +8,7 @@
 	<bean id="malcolm_info_pandas_fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Photodiode (fine)" />
 		<property name="description" value="Photodiode - PandAs only fine scan (no detectors)" />
+		<property name="shownByDefault" value="false" />
 	</bean>
 
 	<bean id="malcolm_model_pandas_fine" class="org.eclipse.scanning.api.device.models.MalcolmModel">
@@ -26,6 +27,7 @@
 	<bean id="malcolm_info_andor_fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="2D transmission detector (fine)" />
 		<property name="description" value="Andor 2D transmission detector fine scan" />
+		<property name="shownByDefault" value="false" />
 	</bean>
 
 	<bean id="malcolm_model_andor_fine" class="org.eclipse.scanning.api.device.models.MalcolmModel">
@@ -44,6 +46,7 @@
 	<bean id="malcolm_info_xmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XMAP" />
 		<property name="description" value="XMAP scan" />
+		<property name="shownByDefault" value="false" />
 	</bean>
 
 	<bean id="malcolm_model_xmap" class="org.eclipse.scanning.api.device.models.MalcolmModel">
@@ -95,10 +98,30 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- Axis detector fine: Malcolm does not control the fast shutter - to be used for dark field collection only -->
+	<bean id="malcolm_info_axis_fine_no_shutter" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Axis detector fine: dark field collection only" />
+		<property name="description" value="Axis detector fine scan: dark field collection only" />
+		<property name="shownByDefault" value="false" />
+	</bean>
+
+	<bean id="malcolm_model_axis_fine_no_shutter" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL08J-ML-SCAN-14" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolm_device_axis_fine_no_shutter" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL08J-ML-SCAN-14" />
+		<property name="model" ref="malcolm_model_axis_fine_no_shutter" />
+		<property name="deviceInformation" ref="malcolm_info_axis_fine_no_shutter" />
+		<property name="activated" value="false" />
+	</bean>
+
 	<!-- PandAs only (no detector) combined scan -->
 	<bean id="malcolm_info_pandas_combined" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Photodiode" />
 		<property name="description" value="Photodiode - PandAs only combined scan (no detectors)" />
+		<property name="shownByDefault" value="false" />
 	</bean>
 
 	<bean id="malcolm_model_pandas_combined" class="org.eclipse.scanning.api.device.models.MalcolmModel">
@@ -117,6 +140,7 @@
 	<bean id="malcolm_info_andor_combined" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="2D transmission detector" />
 		<property name="description" value="Andor 2D transmission detector (combined)" />
+		<property name="shownByDefault" value="false" />
 	</bean>
 
 	<bean id="malcolm_model_andor_combined" class="org.eclipse.scanning.api.device.models.MalcolmModel">
