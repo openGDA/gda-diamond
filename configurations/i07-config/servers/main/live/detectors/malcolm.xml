@@ -44,11 +44,20 @@
 		<property name="name" value="BL07I-ML-SCAN-02" />
 		<property name="exposureTime" value="1.0" />
 	</bean>
-	<bean id="malcolm_device_sacn02" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
+	<bean id="malcolm_device_scan02" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
 		<property name="name" value="BL07I-ML-SCAN-02" />
 		<property name="model" ref="malcolm_model_scan02" />
 		<property name="deviceInformation" ref="malcolm_info_scan02" />
 		<property name="activated" value="false" />
+		<property name="detFileNameSuffix" value="-PILATUS.h5" />
+		<property name="detFrameEntry" value="/entry/detector/detector" />
+		<property name="detUidEntry" value="/entry/NDAttributes/NDArrayUniqueId" />
+		<property name="processors">
+			<list>
+				<ref bean="MalcRoiProc" />
+				<ref bean="MalcPlotProc" />
+			</list>
+		</property>
 	</bean>
 	
 	<!-- scan 3 -->
