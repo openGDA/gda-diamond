@@ -1,11 +1,29 @@
 from gdascripts.mscanHandler import *
+from uk.ac.gda.analysis.mscan import HklAdapter
 
+# Excalibur
 exc = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
-m2 = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-02")
+# Pilatus 2M
+p2c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-02")
+# Exc and p2m
 m3 = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-03")
 
-#mscan testMotor1 axis 0 20 step 1 malc2 1.0
 
 from BeamlineI07.i07_fscan import fscan, fpscan
 alias(fscan)
 alias(fpscan)
+
+class DCHklAdapter(HklAdapter):
+# eh1h: '_fourc', (diff1delta, diff1gamma, diff1chi, diff1theta)
+    def getHkl(self, positions):
+        return hkl._diffcalc.angles_to_hkl(positions)[0]
+
+    def getCurrentAnglePositions(self):
+        return {scn_name:scn_pos for scn_name, scn_pos in zip(_fourc.getGroupMemberNames(), _fourc.getPosition())}
+
+    def getFourCNames(self):
+        return list(_fourc.getGroupMemberNames())
+
+hkl_prov = DCHklAdapter()
+exc.setHklProvider(hkl_prov)
+p2c.setHklProvider(hkl_prov)
