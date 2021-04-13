@@ -45,7 +45,7 @@
                minimized="false"
                relative="org.dawnsci.mapping.ui.mappeddataview"
                relationship="bottom"
-               ratio="0.70">
+               ratio="0.65">
          </view>
       </perspectiveExtension>
    </extension>

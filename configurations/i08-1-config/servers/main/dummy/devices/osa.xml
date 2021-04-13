@@ -4,25 +4,25 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="osa_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-5500" />
-		<property name="maxPosition" value="11000" />
+		<property name="minPosition" value="-5500.0" />
+		<property name="maxPosition" value="11000.0" />
 		<property name="position" value="7421.8" />
 		<property name="unitString" value="um" />
 	 	<property name="speed" value="100"/>
 	</bean>
 
 	<bean id="osa_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-11400" />
-		<property name="maxPosition" value="1500" />
+		<property name="minPosition" value="-11400.0" />
+		<property name="maxPosition" value="1500.0" />
 		<property name="position" value="-4695" />
 		<property name="unitString" value="um" />
 	 	<property name="speed" value="100"/>
 	</bean>
 
 	<bean id="osa_z_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="20600" />
-		<property name="maxPosition" value="22000" />
-		<property name="position" value="21711" />
+		<property name="minPosition" value="-1200.0" />
+		<property name="maxPosition" value="250.00" />
+		<property name="position" value="-57.1" />
 		<property name="unitString" value="um" />
 	 	<property name="speed" value="100"/>
 	</bean>

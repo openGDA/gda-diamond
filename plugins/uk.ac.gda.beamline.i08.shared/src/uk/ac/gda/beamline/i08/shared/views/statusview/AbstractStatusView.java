@@ -92,8 +92,8 @@ public abstract class AbstractStatusView extends ViewPart {
 
 	protected void createPhaseGroup(Composite parent) {
 		final Group grpPhase = createGroup(parent, "Phase", 2);
-		createNumericComposite(grpPhase, "phase_upper", "phase_upper", "mm", 4, 1000);
-		createNumericComposite(grpPhase, "phase_lower", "phase_lower", "mm", 4, 1000);
+		createNumericComposite(grpPhase, "phase_top", "phase_top", "mm", 4, 1000);
+		createNumericComposite(grpPhase, "phase_bottom", "phase_bottom", "mm", 4, 1000);
 	}
 
 	private void setIcon() {

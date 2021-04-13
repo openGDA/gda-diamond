@@ -5,7 +5,7 @@
 
 	<import resource="file://${gda.core.dir}/clients/_common/mapping_controllers.xml" />
 
-	<!-- Default mapping view. Beamlines can use an alternative bean if they wish to customise the view -->
+	<!-- Mapping view for I08-1 -->
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
 		<property name="scrolledSections">
 			<list>
@@ -30,8 +30,9 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel">
 					<property name="createSeparator" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
-				<!-- <bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection" /> -->
+				<bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection">
+					<property name="edgeToPhasePosition" ref="edgeToPhasePosition" />
+				</bean>	
 			</list>
 		</property>
 	</bean>
