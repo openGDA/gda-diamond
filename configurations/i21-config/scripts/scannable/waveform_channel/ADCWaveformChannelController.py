@@ -140,4 +140,5 @@ class ADCWaveformChannelController(object):
         return self.exposure_time
 
     def getChannelInputStreamAcquiring(self):
-        return self.started
+        # Only return True when and after continuous moving started!
+        return self.started and self.hardware_trigger_provider.continuousMovingStarted

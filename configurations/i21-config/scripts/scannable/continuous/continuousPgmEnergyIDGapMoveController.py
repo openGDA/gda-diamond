@@ -59,6 +59,7 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         self.idspeedfactor=1.0
         self.pgmspeedfactor=1.0
         self.idstartdelaytime=0.0
+        self.continuousMovingStarted = False
 
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
     def setStart(self, start): # double
@@ -150,15 +151,16 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), self._energy.polarisationMode, phase_midpoint, self._id_gap_speed_orig))
-            self._id_scannable.asynchronousMoveTo([self._id_gap_start - self._id_gap_runupdown, self._energy.polarisationMode, phase_midpoint])
+                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), self._energy.polarisation, phase_midpoint, self._id_gap_speed_orig))
+            self._id_scannable.asynchronousMoveTo([self._id_gap_start - self._id_gap_runupdown, self._energy.polarisation, phase_midpoint])
         else:
             if self.verbose:
-                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (-ve)' % ((self._id_gap_start + self._id_gap_runupdown), self._energy.polarisationMode, phase_midpoint, self._id_gap_speed_orig))
-            self._id_scannable.asynchronousMoveTo([self._id_gap_start + self._id_gap_runupdown, self._energy.polarisationMode, phase_midpoint])
+                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (-ve)' % ((self._id_gap_start + self._id_gap_runupdown), self._energy.polarisation, phase_midpoint, self._id_gap_speed_orig))
+            self._id_scannable.asynchronousMoveTo([self._id_gap_start + self._id_gap_runupdown, self._energy.polarisation, phase_midpoint])
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
+        self.continuousMovingStarted = False
         if self.isPGMMoveEnabled():
             self.PreparePGMForMove()
         else:
@@ -216,16 +218,18 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
                 if self.verbose:
                     self.logger.info('prepareIDForMove:_id_gap.asynchronousMoveTo(%f) @ %f mm/sec (-ve)' % ((self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown), self._id_gap_speed))
                 self._id_gap.asynchronousMoveTo(self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown)
+                
+        self.continuousMovingStarted = True
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
         if self.verbose: self.logger.info('...startMove')
 
     def isMoving(self):
         if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
-            self.logger.info('isMoving() _pgm_energy=%r @ %r, _id_gap=%r @ %r' % (
+            self.logger.info('isMoving() _pgm_energy=%r @ %r, _id_gap=%r @ %r, _id_scannable=%r' % (
                 self._pgm_energy.isBusy(), self._pgm_energy(),
-                self._id_gap.isBusy(), self._id_gap()))
+                self._id_gap.isBusy(), self._id_gap(), self._id_scannable.isBusy()))
             self._movelog_time = datetime.now()
-        return self._pgm_energy.isBusy() or self._id_gap.isBusy()
+        return self._pgm_energy.isBusy() or self._id_gap.isBusy() or self._id_scannable.isBusy()
 
     def waitWhileMoving(self):
         if self.verbose: self.logger.info('waitWhileMoving()...')
@@ -237,13 +241,11 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         if self.verbose: self.logger.info('stopAndReset()...')
         self._start_time = None
         self._start_event.clear()
+        self.continuousMovingStarted = False
         if self.isPGMMoveEnabled():
             self._pgm_energy.stop()
-        if self.isIDMoveEnabled():
-            if installation.isLive():
-                print("ID gap motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
-            else:
-                self._id_gap.stop()
+        if self.isIDMoveEnabled() and installation.isDummy():
+            self._id_gap.stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
@@ -257,9 +259,9 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         return int(triggers)
 
     def getTotalTime(self):
-        totalTime = self.getNumberTriggers() * self._triggerPeriod
-        if self.verbose: self.logger.info('getTotalTime()=%r' % totalTime)
-        return totalTime
+        total_time = self.getNumberTriggers() * self._triggerPeriod
+        if self.verbose: self.logger.info('getTotalTime()=%r' % total_time)
+        return total_time
 
     def getTimeToVelocity(self):
         return self._pgm_runupdown_time
@@ -269,9 +271,9 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
 
     # Other functions
     def getTotalMove(self):
-        totalMove = abs(self._move_end - self._move_start)
-        if self.verbose: self.logger.info('getTotalMove()=%r' % totalMove)
-        return totalMove
+        total_move = abs(self._move_end - self._move_start)
+        if self.verbose: self.logger.info('getTotalMove()=%r' % total_move)
+        return total_move
 
     def getEnergyMoveDirectionPositive(self):
         return (self._move_end - self._move_start) > 0
