@@ -32,6 +32,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <module>uk.ac.gda.beamline.i06_1</module>
     <module>uk.ac.gda.beamline.i08</module>
     <module>uk.ac.gda.beamline.i08-1</module>
+    <module>uk.ac.gda.beamline.i08.shared</module>
     <module>uk.ac.gda.beamline.i09</module>
     <module>uk.ac.gda.beamline.i09-1</module>
     <module>uk.ac.gda.beamline.i09-2</module>
