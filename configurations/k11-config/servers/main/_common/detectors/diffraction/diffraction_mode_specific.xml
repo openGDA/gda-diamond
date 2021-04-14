@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/calibration_merge.xml" />
+	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/radiograph_decorator.xml" />
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_addetector.xml" />
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/pilatus_motion.xml" />
 	
