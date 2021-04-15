@@ -184,7 +184,7 @@ class FlatFieldCalibration(ScannableMotionBase):
             self.stop()
             self._busy=False
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return self._busy
 
     def rawGetPosition(self):

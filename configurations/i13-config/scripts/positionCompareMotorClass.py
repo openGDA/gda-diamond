@@ -83,7 +83,7 @@ class PositionCompareMotorClass(ScannableMotionBase):
         except Exception, ex:
             print "error moving to position: ", ex
 
-    def rawIsBusy(self):
+    def isBusy(self):
         if self.wait_enabled:
             sleep(self.wait)
         return ( not abs(self.rawGetPosition() - self.getTargetPosition()) < self._tolerance)

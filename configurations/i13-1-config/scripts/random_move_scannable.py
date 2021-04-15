@@ -49,7 +49,7 @@ class RandomMoveScannable(ScannableMotionBase):
         self.delegateScannableHome = self.delegateScannable.getPosition()
         self.pos = 0
         
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.delegateScannable.isBusy()
 
     def rawGetPosition(self):

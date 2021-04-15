@@ -21,7 +21,7 @@ class WaitLineDummy(ScannableMotionBase):
         self.myposition = new_position
 
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def atScanLineStart(self):

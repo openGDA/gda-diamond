@@ -1199,7 +1199,7 @@ class SleepAtScanStart(ScannableMotionBase):
         self.sleep_sec = new_position
     
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
     
 #    def atScanStart(self):

@@ -115,6 +115,6 @@ class ZebraCheckScannable(ZebraPositionScannable):
     def rawAsynchronousMoveTo(self, new_position):
         return None
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 """

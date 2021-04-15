@@ -58,7 +58,7 @@ class PrePtWait(ScannableMotionBase):
         self.is_waiting = False
 
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         #return False
         return self.is_waiting
 

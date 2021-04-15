@@ -130,7 +130,7 @@ class SGMKinematicsClass(ScannableBase):
         else:
             self.demandingValues=[new_sgmalpha, r1, L, H, gamma]
         
-    def rawIsBusy(self):
+    def isBusy(self):
         if not self.dry_run:
             return self.specx.isBusy() or self.specz.isBusy() or self.specgamma.isBusy() or self.sgmr1.isBusy() or self.sgmpitch.isBusy()
         else:

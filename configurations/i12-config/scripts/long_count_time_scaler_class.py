@@ -161,7 +161,7 @@ class LongCountTimeScaler(ScannableMotionBase):
             print "Failed to set Counting time or start counting on ",self.getName(), value
                     
         
-    def rawIsBusy(self):
+    def isBusy(self):
         if not self.configured:
             self.configure()
         if not self.initialsed:

@@ -15,5 +15,5 @@ class FastShutter(ScannableBase):
         return None
     def rawAsynchronousMoveTo(self, posn):
         pass
-    def rawIsBusy(self):
+    def isBusy(self):
         return False

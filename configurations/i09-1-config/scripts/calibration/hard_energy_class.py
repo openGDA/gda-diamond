@@ -144,7 +144,7 @@ class HardEnergy(ScannableMotionBase):
                     print "cannot set " + scannable.getName() + " to " + str(energy)
                     raise
 
-    def rawIsBusy(self):
+    def isBusy(self):
         """
         Checks the busy status of all child scannable.
 

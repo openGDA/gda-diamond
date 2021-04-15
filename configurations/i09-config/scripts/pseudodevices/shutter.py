@@ -63,7 +63,7 @@ class EpicsShutterClass(ScannableMotionBase):
         except:
             print "error moving to position"
 
-    def rawIsBusy(self):
+    def isBusy(self):
         try:
             if self.statecli.isConfigured():
                 self.status = self.statecli.caget()

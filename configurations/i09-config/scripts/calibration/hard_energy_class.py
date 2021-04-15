@@ -151,7 +151,7 @@ class HardEnergy(ScannableMotionBase):
         else:
             self.moveDevices(energy, gap)
 
-    def rawIsBusy(self):
+    def isBusy(self):
         """
         Checks the busy status of all child scannable.
 

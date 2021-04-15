@@ -282,7 +282,7 @@ class StringDisplayEpicsPVClass(ScannableMotionBase):
     def rawAsynchronousMoveTo(self,position):
         return
     
-    def rawIsBusy(self):
+    def isBusy(self):
         return 0
     
     def set_pvstring(self, pvstring):
@@ -328,7 +328,7 @@ class StringListDisplayEpicsPVClass(ScannableMotionBase):
     def rawAsynchronousMoveTo(self,position):
         return
     
-    def rawIsBusy(self):
+    def isBusy(self):
         return 0
 
 

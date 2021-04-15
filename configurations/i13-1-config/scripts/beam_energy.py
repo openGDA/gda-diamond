@@ -114,7 +114,7 @@ class BeamEnergy(ScannableMotionBase):
             print "FAILED - requested energy %.3f (keV) is outside the allowable interval [%.3f, %.3f] keV!" %(self.energy_reqd_keV, self.qcmenergy_min_keV, self.qcmenergy_max_keV)
     
                
-    def rawIsBusy(self):    # what dtype?
+    def isBusy(self):    # what dtype?
         self._busy = False
         for each in self._delegate_lst:
             try:

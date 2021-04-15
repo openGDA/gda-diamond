@@ -24,7 +24,7 @@ class ScanPtIdx(ScannableMotionBase):
         return
 
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         return
         
     def atPointStart(self):

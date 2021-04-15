@@ -9,7 +9,7 @@ class XMap(MultiDetectorBase):
         self.setInputNames([name])
         self.X = position
         
-    def rawIsBusy(self):
+    def isBusy(self):
         return 0
 
     def rawGetPosition(self):

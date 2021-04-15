@@ -42,7 +42,7 @@ class ScannableWithPVControl(ScannableMotionBase):
             print("cannot move %s to %f" % (self.scannable.getName(), new_pos))
             raise e
         
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.scannable.isBusy()
     
     def stop(self):

@@ -83,7 +83,7 @@ class CleverAmplifier(ScannableMotionBase):
     def rawAsynchronousMoveTo(self,new_position):
         pass
     
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
     
     def atPointEnd(self):

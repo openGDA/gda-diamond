@@ -45,7 +45,7 @@ class Q(ScannableBase):
             self.twoThSign = 1.0
         
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.tth.isBusy() or self.th.isBusy()
     
     def asynchronousMoveTo(self, Q):

@@ -55,6 +55,6 @@ class ScJuSc(ScannableMotionBase):
     def stop(self):
         self.waitUntilTime = 0
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return (self.timer()<self.waitUntilTime) or (self.jumpscannable.isBusy())
 

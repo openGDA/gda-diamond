@@ -67,7 +67,7 @@ class SmpmthRotation(ScannableMotionBase):
         self.smpmz.asynchronousMoveTo(samplez)
         self.smpmth=float(new_position)
     
-    def rawIsBusy(self):
+    def isBusy(self):
         return (self.smpmx.isBusy() or self.smpmz.isBusy() or self.smpmpolar.isBusy())
     
     def stop(self):

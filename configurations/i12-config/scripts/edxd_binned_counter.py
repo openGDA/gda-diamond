@@ -31,5 +31,5 @@ class EdxdBinned(ScannableMotionBase):
         self.data = self.detector.acquire(self.count)        
 
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.detector.isBusy()

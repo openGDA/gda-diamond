@@ -88,7 +88,7 @@ class EpicsReadWriteEnum(ScannableMotionBase):
             raise Exception("%s: Error set position to '%s'" % (self.getName(), self.positions[lKey]))
        
     
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
     
     def atPointEnd(self):

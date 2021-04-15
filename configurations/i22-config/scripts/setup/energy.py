@@ -44,7 +44,7 @@ class PilatusThreshold(ScannableMotionBase):
             self.thres.caput(newpos / 2.0)
             self.timer.reset()
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return (self.timer()<self.waittime)
 
 class DummyThreshold:

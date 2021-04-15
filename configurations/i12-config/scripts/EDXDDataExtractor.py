@@ -213,7 +213,7 @@ class edxd2ascii(ScannableMotionBase):
         return
 
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         return
     
     def atScanStart(self):

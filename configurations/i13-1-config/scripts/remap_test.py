@@ -92,19 +92,19 @@ class RemappedMotor(ScannableMotionBase):
         except Exception, ex:
             print "Error in rawAsynchronousMoveTo: ", ex
 
-    def rawIsBusy(self):
+    def isBusy(self):
         try:
             if not self.busycli.isConfigured():
-                #print "rawIsBusy: not configured, so needs to be first configured"
+                #print "isBusy: not configured, so needs to be first configured"
                 self.busycli.configure()
                 isbusy=(not bool(self.busycli.caget()))
                 self.busycli.clearup()
             else:
-                #print "rawIsBusy: already configured!"
+                #print "isBusy: already configured!"
                 isbusy=(not bool(self.busycli.caget()))
             return isbusy
         except Exception, ex:
-            print "Error in rawIsBusy: ", ex
+            print "Error in isBusy: ", ex
             return True
 
     def atScanEnd(self):

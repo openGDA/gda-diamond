@@ -25,7 +25,7 @@ class edxd_count(ScannableMotionBase):
         self.edxd.collectData()
 
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.edxd.isBusy()
 
 

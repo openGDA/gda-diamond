@@ -17,7 +17,7 @@ class FastShutterShutter(IObserver, ScannableMotionBase):
 		self.ourpos = "unknown"
 	self.didsomething = False
         
-    def rawIsBusy(self):
+    def isBusy(self):
 	return self.didsomething
 
     def rawGetPosition(self):

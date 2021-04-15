@@ -87,7 +87,7 @@ class PositionCompareClass(ScannableMotionBase):
             print("error moving to demand position %r %s" % (new_position, self.unit))
             raise e
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return ( not abs(self.rawGetPosition() - self.getTargetPosition()) < self._tolerance)
 
     def atScanEnd(self):

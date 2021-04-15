@@ -38,8 +38,8 @@ class Trigger(ScannableMotionBase):
         return
 
     # Returns the status of this Scannable
-#    def rawIsBusy(self):
-#        #print "hello from rawIsBusy"
+#    def isBusy(self):
+#        #print "hello from isBusy"
 #        sleep(1)
 #        return
 

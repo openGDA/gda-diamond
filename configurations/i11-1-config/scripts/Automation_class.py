@@ -125,7 +125,7 @@ class Automation(ScannableMotionBase):
                         raise
 
 
-    def rawIsBusy(self):
+    def isBusy(self):
         '''checks the busy status of all child scannable.
 
         If and only if all child scannable are done this will be set to False.'''

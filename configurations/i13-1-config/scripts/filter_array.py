@@ -31,7 +31,7 @@ class filter_array(ScannableMotionBase):
         
 
         
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def rawGetPosition(self):

@@ -22,7 +22,7 @@ class TthArea(ScannableMotionBase):
         self.twoThetaOff = 0.0
         self.iambusy=0
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.iambusy or tth.isBusy()
     
     def asynchronousMoveTo(self, twoTheta):

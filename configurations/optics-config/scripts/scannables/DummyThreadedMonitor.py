@@ -63,7 +63,7 @@ class DummyEpicsPVWithDummyEpicsMonitorDouble(ScannableMotionBase, Runnable):
 		print "object " + self.getName()+" cannot be moved."
 		return
 
-	def rawIsBusy(self):
+	def isBusy(self):
 		'''monitoring object never busy'''
 		return 0
 

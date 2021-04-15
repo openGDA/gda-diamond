@@ -57,7 +57,7 @@ class PVMonitor(ScannableMotionBase, MonitorListener):
     def rawAsynchronousMoveTo(self,position):
         pass
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def monitorChanged(self, mevent):

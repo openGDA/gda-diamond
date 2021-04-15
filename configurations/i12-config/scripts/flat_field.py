@@ -49,7 +49,7 @@ class FlatField(ScannableMotionBase):
         self.iambusy = 0
 
     # Returns the status of this Scannable
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.iambusy
 
 

@@ -285,7 +285,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     print("cannot set %s to %f." % (self.pgmenergy.getName(), energy))
                     raise
                 
-    def rawIsBusy(self):
+    def isBusy(self):
         '''checks the busy status of all child scannables.        
         If and only if all child scannables are done this will be set to False.
         '''

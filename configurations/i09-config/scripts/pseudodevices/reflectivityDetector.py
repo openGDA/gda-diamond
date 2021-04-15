@@ -66,7 +66,7 @@ class ReflectivityDetectorMotor(ScannableMotionBase):
         self.xt.asynchronousMoveTo(Xtval)
         self.xr.asynchronousMoveTo(Xrval)
     
-    def rawIsBusy(self):
+    def isBusy(self):
         return (self.xt.isBusy() or self.xr.isBusy())
     
     def atScanEnd(self):

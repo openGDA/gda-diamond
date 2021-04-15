@@ -15,7 +15,7 @@ class beamLineEnergy(ScannableMotionBase):
 	def __init__(self):
 		self.name = "bl"
 		self.reload()
-	def rawIsBusy(self):
+	def isBusy(self):
 		return self.dcm_energy.isBusy()
 
 	def getPosition(self):

@@ -77,8 +77,8 @@ class PELoop(ScannableMotionBase):
     def rawAsynchronousMoveTo(self,new_position):
         self.evr.rawAsynchronousMoveTo(new_position)
 
-    def rawIsBusy(self):
-        return self.evr.rawIsBusy()
+    def isBusy(self):
+        return self.evr.isBusy()
 
 
 #    def toString(self):

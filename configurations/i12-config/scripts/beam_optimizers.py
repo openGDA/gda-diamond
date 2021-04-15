@@ -16,7 +16,7 @@ class beam_optimizer(ScannableMotionBase):
         self.monitor = monitor
         
         
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def rawGetPosition(self):

@@ -246,7 +246,7 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
     def rawAsynchronousMoveTo(self,new_position):
         pass
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
 

@@ -26,7 +26,7 @@ class simpleBeamMonitor(ScannableMotionBase):
     def rawAsynchronousMoveTo(self,new_position):
         return
 
-    def rawIsBusy(self):
+    def isBusy(self):
         busy = self.shutter.getPosition() != "Open" or self.diode.getPosition() < self.threshold
         if busy:
             print "no beam or shutter closed"

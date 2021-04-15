@@ -53,7 +53,7 @@ class CameraMag(ScannableMotionBase):
         self.cameraMag(new_position, self.rootNameSpace)
 
                 
-    def rawIsBusy(self):
+    def isBusy(self):
         '''checks the busy status of all child scannable.
            If and only if all child scannable are done this will be set to False.'''  
         return (self.rootNameSpace['ss1_rx'].isBusy()) or self.rootNameSpace['ss1_rz'].isBusy() or self.rootNameSpace['cam1_x'].isBusy() or self.rootNameSpace['cam1_z'].isBusy() or self.rootNameSpace['cam1_roll'].isBusy()

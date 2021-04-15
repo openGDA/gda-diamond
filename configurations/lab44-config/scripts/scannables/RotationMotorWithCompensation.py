@@ -62,6 +62,6 @@ class CompensedMotionScannable(ScannableMotionBase):
     def getPosition(self):
         return self.motorToBeMoved.getPosition()
     
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.motorToBeMoved.isBusy() or self.xmotor.isBusy() or self.ymotor.isBusy()
     

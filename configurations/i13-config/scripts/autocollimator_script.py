@@ -65,7 +65,7 @@ class auto_collimator(ScannableMotionBase):
         self.setLevel(8)
         
         
-    def rawIsBusy(self):
+    def isBusy(self):
         val = self.acoll.acoll_running()
         return val == 1
 
