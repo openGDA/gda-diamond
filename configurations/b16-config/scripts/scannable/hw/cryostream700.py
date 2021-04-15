@@ -19,7 +19,7 @@ class Cryostream700(ScannableMotionBase):
     def rawGetPosition(self):
         return [float(self.pvs['RTEMP'].caget()),float(self.pvs['SETPOINT'].caget()), float(self.pvs['TEMP'].caget())]
         
-    def rawIsBusy(self):
+    def isBusy(self):
         if self.fancy:
             return not(self.isAtTemp(float(self.pvs['RTEMP'].caget())))
         else:

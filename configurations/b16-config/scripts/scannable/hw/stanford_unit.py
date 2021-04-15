@@ -33,7 +33,7 @@ where <unit> is a string or an integer from %r""" % (name, name, self.unitFromVa
                 return
         self.pvs[self.UNIT].caput(value)
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def rawGetPosition(self):

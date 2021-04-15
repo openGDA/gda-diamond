@@ -49,7 +49,7 @@ class ScanAborter(ScannableMotionBase):
 	def __init__(self, qbpm, minValue):
 		self.qbpm = qbpm
 		self.minValue=minValue
-	def rawIsBusy(self):
+	def isBusy(self):
 		if not self.isOK():
 			raise RuntimeError("qbpm is < " + `self.minValue`)
 		return False

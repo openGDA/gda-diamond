@@ -68,7 +68,7 @@ class CaenHvSupply(ScannableMotionBase):
         self._check_for_fault()
 
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False  #  asynchMoveto blocks
 
     def rawGetPosition(self):

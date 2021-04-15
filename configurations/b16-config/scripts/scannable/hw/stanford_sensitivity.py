@@ -32,7 +32,7 @@ where <sensitivity> is one of %r""" % (name, name, sensitivities)
             return
         self.pvs[self.SENSITIVITY].caput(value)
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def rawGetPosition(self):
