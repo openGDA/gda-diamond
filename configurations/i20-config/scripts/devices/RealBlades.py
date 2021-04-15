@@ -16,7 +16,7 @@ class BladeAngle(ScannableMotionBase):
         self.observerName = observerName
         self.isBusy      = False
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return self.isBusy
 
     def rawGetPosition(self):
@@ -68,7 +68,7 @@ class SubtractAngle(ScannableMotionBase):
     def setRef(self, ref):
         self.ref     = ref
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def rawGetPosition(self):
@@ -123,7 +123,7 @@ class AverageAngle(ScannableMotionBase):
     def setRef(self, ref):
         self.ref     = ref
 
-    def rawIsBusy(self):
+    def isBusy(self):
         return False
 
     def rawGetPosition(self):
