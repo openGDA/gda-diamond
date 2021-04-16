@@ -2,6 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- beans shared across perspectives -->
+	<bean id="soft_fast_shutter" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="soft" />
+		<property name="group" value="fast shutters" />
+		<property name="scannableName" value="fsj1" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="hard_fast_shutter" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="hard" />
+		<property name="group" value="fast shutters" />
+		<property name="scannableName" value="fsi1" />
+		<property name="showStop" value="false" />
+	</bean>
 		
 	<bean id="feedback_controls" class="uk.ac.gda.sisa.feedback.ui.FeedbackControls">
 		<property name="pressureControls">
@@ -115,18 +129,8 @@
 							<property name="textWidth" value="100" />
 							<property name="textInput" value="true" />
 						</bean>
-						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-							<property name="displayName" value="soft" />
-							<property name="group" value="fast shutter" />
-							<property name="scannableName" value="fsj1" />
-							<property name="showStop" value="false" />
-						</bean>
-						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-							<property name="displayName" value="hard" />
-							<property name="group" value="fast shutter" />
-							<property name="scannableName" value="fsi1" />
-							<property name="showStop" value="false" />
-						</bean>
+						<ref bean="soft_fast_shutter"/>
+						<ref bean="hard_fast_shutter"/>
 					</list>
 				</property>
 			</bean>

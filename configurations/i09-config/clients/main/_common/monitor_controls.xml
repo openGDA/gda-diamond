@@ -10,44 +10,45 @@
 					<list>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="Centre Energy" />
-							<property name="group" value="Analyser Controls" />
+							<property name="group" value="" />
 							<property name="scannableName" value="raw_centre_energy" />
-							<property name="incrementTextWidth" value="60"/>
-							<property name="userUnits" value="eV" />
-							<property name="increment" value="1.0" />
+<!-- 							<property name="incrementTextWidth" value="60"/> -->
+<!-- 							<property name="userUnits" value="eV" /> -->
+<!-- 							<property name="increment" value="1.0" /> -->
+							<property name="showIncrement" value="false" />
 							<property name="showStop" value="false" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="Pass Energy" />
-							<property name="group" value="Analyser Controls" />
+							<property name="group" value="" />
 							<property name="scannableName" value="analyser_pass_energy" />
 							<property name="showStop" value="false" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="Lens Mode" />
-							<property name="group" value="Analyser Controls" />
+							<property name="group" value="" />
 							<property name="scannableName" value="analyser_lens_mode" />
 							<property name="showStop" value="false" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="Acquisition Mode" />
-							<property name="group" value="Analyser Controls" />
+							<property name="group" value="" />
 							<property name="scannableName" value="analyser_acquisition_mode" />
 							<property name="showStop" value="false" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 							<property name="displayName" value="Frames " />
-							<property name="group" value="Analyser Controls" />
+							<property name="group" value="" />
 							<property name="scannableName" value="cam_frames" />
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 							<property name="displayName" value="Element" />
-							<property name="group" value="Analyser Controls" />
+							<property name="group" value="" />
 							<property name="scannableName" value="analyser_element_set" />
 							<property name="showStop" value="false" />
 							<property name="boldLabel" value="true" />
@@ -55,13 +56,15 @@
 						<bean id="acquire_start" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 							<property name="jythonCommand" value="analyser.setIterations(1) ; analyser.adBase.startAcquiring()" />
 							<property name="buttonText" value="Start" />
-							<property name="group" value="Buttons" />
+							<property name="group" value="" />
 						</bean>
 						<bean id="acquire_stop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 							<property name="jythonCommand" value="analyser.adBase.stopAcquiring()" />
 							<property name="buttonText" value="Stop" />
-							<property name="group" value="Buttons" />
+							<property name="group" value="" />
 						</bean>
+						<ref bean="soft_fast_shutter"/>
+						<ref bean="hard_fast_shutter"/>
 					</list>
 				</property>
 			</bean>
