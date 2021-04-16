@@ -26,6 +26,7 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientText;
 import static uk.ac.gda.ui.tool.ClientSWTElements.standardMarginHeight;
 import static uk.ac.gda.ui.tool.ClientSWTElements.standardMarginWidth;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,6 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.DensityCompositeF
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator.MutatorsTemplateFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.AcquisitionTemplateTypeCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.view.CalibrationFileComposite;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
@@ -69,9 +69,14 @@ import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPat
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
+import uk.ac.gda.core.tool.spring.AcquisitionFileContext;
+import uk.ac.gda.core.tool.spring.DiffractionContextFile;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.Reloadable;
+import uk.ac.gda.ui.tool.processing.ProcessingRequestComposite;
+import uk.ac.gda.ui.tool.processing.ProcessingRequestContext;
+import uk.ac.gda.ui.tool.processing.ProcessingRequestKey;
 
 /**
  * This Composite allows to edit a {@link ScanningParameters} object.
@@ -264,17 +269,34 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		standardMarginWidth(summaryContent.getLayout());
 	}
 
+	private List<ProcessingRequestContext> getProcessingRequestContext() {
+		// The selectable process elements
+		List<ProcessingRequestContext> processingRequestContexts = new ArrayList<>();
 
+		// makes available for selection a SavuProcessingRequest element
+		processingRequestContexts.add(new ProcessingRequestContext(ProcessingRequestKey.DIFFRACTION_CALIBRATION_MERGE,
+				 getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false));
 
-	private void createCalibration(Composite parent, int labelStyle) {
-		Group calibrationContainer = createClientGroup(parent, SWT.NONE, 1, ClientMessages.CALIBRATION);
-		createClientGridDataFactory().applyTo(calibrationContainer);
-		Composite calibrationComposite = new CalibrationFileComposite().createComposite(calibrationContainer, labelStyle);
-		standardMarginHeight(calibrationContainer.getLayout());
-		standardMarginWidth(calibrationContainer.getLayout());
+		return processingRequestContexts;
 	}
 
+	private URL getDiffractionCalibrationMergeDirectory() {
+		return getClientContext().getDiffractionContext().getContextFile(DiffractionContextFile.DIFFRACTION_CALIBRATION_DIRECTORY);
+	}
 
+	private List<URL> getDefaultDiffractionCalibrationMergeFile() {
+		List<URL> urls = new ArrayList<>();
+		urls.add(getClientContext().getDiffractionContext().getContextFile(DiffractionContextFile.DIFFRACTION_DEFAULT_CALIBRATION));
+		return urls;
+	}
+
+	private void createCalibration(Composite parent, int labelStyle) {
+		Group calibrationContainer = createClientGroup(parent, SWT.NONE, 1, ClientMessages.PROCESS_REQUESTS);
+		createClientGridDataFactory().applyTo(calibrationContainer);
+
+		ProcessingRequestComposite processingRequest = new ProcessingRequestComposite(getProcessingRequestContext());
+		processingRequest.createComposite(calibrationContainer, labelStyle);
+	}
 
 	private void loadElements() {
 		components.forEach(DiffractionCompositeInterface::initialiseElements);
@@ -360,5 +382,9 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	private ScanningAcquisition getScanningAcquisition() {
 		return controller.getAcquisition();
+	}
+
+	private AcquisitionFileContext getClientContext() {
+		return SpringApplicationContextFacade.getBean(AcquisitionFileContext.class);
 	}
 }
