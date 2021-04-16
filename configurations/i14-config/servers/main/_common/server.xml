@@ -35,7 +35,6 @@
 	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/dcm.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/interferometer.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/kb1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m2.xml" />
@@ -100,7 +99,6 @@
 	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/dcm.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/interferometer.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/kb1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m2.xml" />
