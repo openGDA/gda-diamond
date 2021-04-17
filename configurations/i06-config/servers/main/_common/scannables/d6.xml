@@ -9,11 +9,19 @@
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="upperGdaLimits" value="50.0"/>
+	</bean>
+	<bean id="d6ay" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorD_D6AY" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="D6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d6y" />
+				<ref bean="d6ay" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

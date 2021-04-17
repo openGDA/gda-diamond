@@ -5,7 +5,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="medipixExposureTime" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquireTime"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -13,7 +13,7 @@
 		</property>	
 	</bean>
 	<bean id="medipixAcquirePeriod" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquirePeriod"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -21,7 +21,7 @@
 		</property>	
 	</bean>
 	<bean id="medipixAcquireTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquireTime"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -38,7 +38,7 @@
 		<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, #input)"/>
 	</bean>
 	<bean id="medipixIdleTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquirePeriod"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -56,7 +56,7 @@
 		</property>	
 	</bean>
 	<bean id="medipixProcNumFilter" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter"/>
 		<property name="outputFormat">
 			<list>
 				<value>%2d</value>
@@ -65,7 +65,7 @@
 	</bean>
 
 	<bean id="medipixProcResetFilter" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:ResetFilter"/>
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:ResetFilter"/>
 		<property name="outputFormat">
 			<list>
 				<value>%1d</value>
@@ -73,7 +73,7 @@
 		</property>	
 	</bean>
 	<bean id="medipixProcEnableFilter" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:EnableFilter"/>
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:EnableFilter"/>
 		<property name="outputFormat">
 			<list>
 				<value>%1d</value>
@@ -81,7 +81,7 @@
 		</property>	
 	</bean>
 	<bean id="medipixProcNumFilterWithResetEnableAfter" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter"/>
 		<property name="outputFormat">
 			<list>
 				<value>%2.0f</value>

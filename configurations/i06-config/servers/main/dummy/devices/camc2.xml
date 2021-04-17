@@ -15,7 +15,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
-				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -24,7 +24,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
-				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -33,7 +33,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
-				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -42,7 +42,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
-				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -63,7 +63,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF:" />
-				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -89,7 +89,7 @@
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -104,7 +104,7 @@
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -119,7 +119,7 @@
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -134,7 +134,7 @@
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -149,7 +149,7 @@
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -164,7 +164,7 @@
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">

@@ -50,7 +50,7 @@ public class EarlyStartup implements IStartup {
 						logger.warn("Property '{}' is not set", LocalProperties.GDA_BEAMLINE_NAME);
 					} else if (beamline.equals("i06")) {
 						logger.info("Running GDA in beamline '{}'", beamline);
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram","medipix_cam#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram","medipix#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);
 					} else if (beamline.equals("lab44")) {
 						logger.info("Running GDA in beamline '{}'", beamline);
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i06.sim.live.stream.view.LiveStreamViewWithHistogram","sim_cam#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);

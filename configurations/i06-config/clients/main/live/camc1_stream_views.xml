@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
+		 
+	<bean id="camc1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}camc1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
+	<bean id="camc1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<!-- this id string must be used in the view id definition in views extension point when withHistogram is set to true! -->
+		<property name="displayName" value="C1 Camera" />
+		<property name="url" value="http://bl06i-di-serv-01.diamond.ac.uk:8081/D98.CAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL06I-DI-PHDGN-98:ARR" />
+		<property name="roiProvider" ref="camc1_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="withHistogram" value="true"/>
+	</bean>
+
+</beans>

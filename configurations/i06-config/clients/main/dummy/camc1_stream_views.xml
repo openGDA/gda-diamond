@@ -3,20 +3,28 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="medipix_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}medipixRoi" />
+	<description>
+		To use the Simulated Area detector in dummy mode:
+			1) Launch the Utilities > GDA SWMR AreaDetector Simulation
+				on the local machine and start the IOC in localhost.
+	</description>
+
+	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	
+	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
+
+	<bean id="camc1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="medipix" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="medipix" />
+	<bean id="camc1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="C1 Camera" />
 		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
-<!-- 		<property name="url" value="http://localhost:8080/DET.mjpg.mjpg" /> -->
-<!-- 		<property name="arrayPv" value="TS-TS-MPX3-01:ARR" /> -->
-		<property name="roiProvider" ref="medipix_roi" />
+		<property name="roiProvider" ref="camc1_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="withHistogram" value="true"/>
 	</bean>
-
+		 
 </beans>

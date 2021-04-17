@@ -3,18 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="medipix_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}medipixRoi" />
+	<bean id="m4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}m4Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="medipix" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="medipix" />
+	<bean id="m4cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="M4 Cam1" />
 		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
-<!-- 		<property name="url" value="http://localhost:8080/DET.mjpg.mjpg" /> -->
-<!-- 		<property name="arrayPv" value="TS-TS-MPX3-01:ARR" /> -->
-		<property name="roiProvider" ref="medipix_roi" />
+		<property name="roiProvider" ref="m4_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="withHistogram" value="true"/>
 	</bean>

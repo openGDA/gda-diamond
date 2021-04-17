@@ -8,7 +8,7 @@
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="pco_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<bean id="pco" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="PCO" />
 <!-- 		<property name="url" value="http://bl06i-di-serv-01.diamond.ac.uk:8081/pcoview.MJPG.mjpg" /> -->
 		<property name="url" value="http://i06-control.diamond.ac.uk:8080/pcorx.mjpg.mjpg" />

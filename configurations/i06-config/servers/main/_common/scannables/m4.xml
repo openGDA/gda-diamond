@@ -4,50 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- KB Mirrors M4 (HFM) -->
-	<bean id="m4x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorHFMX_M4" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
 	<bean id="m4pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorHFMPitch_M4" />
+		<property name="motor" ref="MotorVFMPitch_M4" />
 		<property name="protectionLevel" value="0" />
 	</bean>
-	<bean id="m4fpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorHFMFinePitch_M4" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="V" />
-		<property name="hardwareUnitString" value="V" />
-	</bean>
-		<bean id="m4bend1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorHFMBender1_M4" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="N" />
-		<property name="hardwareUnitString" value="N" />
-	</bean>
-	<bean id="m4bend2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorHFMBender2_M4" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="N" />
-		<property name="hardwareUnitString" value="N" />
-	</bean>
+<!-- 	<bean id="m4fpitch" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="MotorVFMFinePitch_M4" /> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 		<property name="initialUserUnits" value="V" /> -->
+<!-- 		<property name="hardwareUnitString" value="V" /> -->
+<!-- 	</bean> -->
 	<bean id="m4roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorHFMRoll_M4" />
+		<property name="motor" ref="MotorVFMRoll_M4" />
 		<property name="protectionLevel" value="0" />
 	</bean>
 	
 	<bean id="M4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="m4x" />
 				<ref bean="m4pitch" />
-				<ref bean="m4fpitch"/>
-				<ref bean="m4bend1" />
-				<ref bean="m4bend2" />
+<!-- 				<ref bean="m4fpitch"/> -->
 				<ref bean="m4roll" />
-				<ref bean="m4bend1g" />
-				<ref bean="m4bend2g" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
@@ -102,8 +79,8 @@
 				<ref bean="m4_RoiStats4" />
 				<ref bean="m4_RoiStats5" />
 				<ref bean="m4_RoiStats6" />
-				<ref bean="m4cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
 				<ref bean="m4cam1_tiff_SingleImagePerFileWriter" />
+				<ref bean="m4cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
 			</list>
 		</property>
 	</bean>

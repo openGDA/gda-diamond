@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd ">
+
+	<bean id="m4cam1_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="M4 Cam1 Acquire Time" />
+		<property name="scannableName" value="m4cam1ExposureTime" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+
+	<bean id="m4cam1_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="M4 Cam1 Acquire Time" />
+		<property name="scannableName" value="m4cam1AcquirePeriod" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+
+	<bean id="m4cam1_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="m4cam1_expsure_time_control" />
+				<ref bean="m4cam1_acquire_period_control"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="m4cam1CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="m4cam1"/>
+		<property name="stateVariableName" value="i06.m4cam1.live.stream.active"/>
+	</bean>
+	<bean id="m4cam1ControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="m4cam1_expsure_time_control" />
+						<ref bean="m4cam1_acquire_period_control"/>
+					</list>
+				</property>
+				<property name="cameraState" ref="m4cam1CameraState"/>
+			</bean>
+		</property>
+	</bean>
+</beans>
