@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+		<property name="sourceName" value="source" />
+		<property name="insertionDeviceName" value="id" />
+		<!--  <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
+		<property name="monochromatorName" value="pgm" />
+		<property name="beamName" value="beam" />
+		<property name="userDeviceName" value="user" />
+		<property name="metadataDeviceNames">
+			<list>
+				<value>s1</value>
+				<value>m1</value>
+				<value>m6</value>
+				<value>m3</value>
+				<value>d5</value>
+				<value>d6</value>
+				<value>d7</value>
+				<value>s4</value>
+				<value>ps</value>
+			</list>
+		</property>
+	</bean>
+</beans>

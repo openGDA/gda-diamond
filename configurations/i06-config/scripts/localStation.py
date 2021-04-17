@@ -24,7 +24,7 @@ from BeamlineI06.beamline import peemline, getTitle,gettitle,getvisit,getVisit,l
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
 
 #To eLog the scan
-#from i06shared.setSrsDataFileHeader import fileHeader
+# from i06shared.metadata.setSrsDataFileHeader import fileHeader
 fileHeader.setScanLogger(peemline)
 
 if installation.isLive():
@@ -49,22 +49,22 @@ else:
 #         logger.dump("---> ", exceptionType, exception, traceback)
     
 #To add PEEM line device position to the SRS file header
-print "-"*100
-print "Add metadata required by PEEM to file header"
-fileHeader.add([m3x, m3pitch, m3qg]);  # @UndefinedVariable
-fileHeader.add([d5x, d6y, d7x, d7ax]);  # @UndefinedVariable
-fileHeader.add([s4x, s4xgap, s4y, s4ygap]);  # @UndefinedVariable
-fileHeader.add([psx, psy]);  # @UndefinedVariable
+# print "-"*100
+# print "Add metadata required by PEEM to file header"
+# fileHeader.add([m3x, m3pitch, m3qg]);  # @UndefinedVariable
+# fileHeader.add([d5x, d6y, d7x, d7ax]);  # @UndefinedVariable
+# fileHeader.add([s4x, s4xgap, s4y, s4ygap]);  # @UndefinedVariable
+# fileHeader.add([psx, psy]);  # @UndefinedVariable
 #Group the hexapod legs into list
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
 #PEEM End Station
 if installation.isLive():
     from peem.leem_instances import leem2000, FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
-    fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
+    # fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
     from peem.stv_obj_instance import stvobj  # @UnusedImport
     from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
-    fileHeader.add([leem_rot])
+    # fileHeader.add([leem_rot])
 else:
     print "No simulation for LEEM control yet!"
 
@@ -148,8 +148,8 @@ else:
         raise RuntimeException("EPICS PV and IOC required!")
     alias("rotate")
 
-from gda.jython.commands.ScannableCommands import add_default
-add_default([fileHeader]);
+# from gda.jython.commands.ScannableCommands import add_default
+# add_default([fileHeader]);
 
 print "==================================================================="
 print "end of localStation.py for Beamline I06)"

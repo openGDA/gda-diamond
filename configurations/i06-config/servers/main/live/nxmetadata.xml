@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="leemNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="leem" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="FOV"/>
+                    <property name="scannableName" value="FOV"/>
+          	    </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="obj"/>
+                    <property name="scannableName" value="leem_obj"/>
+          	    </bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="stv"/>
+                    <property name="scannableName" value="leem_stv"/>
+          	    </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="objStigmA"/>
+                    <property name="scannableName" value="leem_objStigmA"/>
+          	    </bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="objStigmB"/>
+                    <property name="scannableName" value="leem_objStigmB"/>
+          	    </bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="mcpPlate"/>
+                    <property name="scannableName" value="mcpPlate"/>
+          	    </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="rot"/>
+                    <property name="scannableName" value="leem_rot"/>
+          	    </bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+		<property name="sourceName" value="sourceNexusDevice" />
+		<property name="insertionDeviceName" value="idNexusDevice" />
+		<!--  <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
+		<property name="monochromatorName" value="monochromatorNexusDevice" />
+		<property name="beamName" value="beamNexusDevice" />
+		<property name="userDeviceName" value="userNexusDevice" />
+		<property name="metadataDeviceNames">
+			<list>
+				<value>s1</value>
+				<value>m1</value>
+				<value>m6</value>
+				<value>m3</value>
+				<value>d5</value>
+				<value>d6</value>
+				<value>d7</value>
+				<value>s4</value>
+				<value>ps</value>
+				<value>leem</value>
+			</list>
+		</property>
+	</bean>
+</beans>

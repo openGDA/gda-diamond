@@ -68,17 +68,18 @@ from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 #### Metadata definitions
 ## SRS or ASCII format
 from i06shared.metadata.setSrsDataFileHeader import fileHeader 
-## Nexus format
-print "-"*50
-print "Nexus file metadata commands:"
-print "    'meta_add' - add a scannable or scannables to the scan metadata"
-print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
-print "    'meta_ls'  - list only the items to be put into the scan metadata"
-print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
+from i06shared.devices.usePGM import grating
+# ## Nexus format
+# print "-"*50
+# print "Nexus file metadata commands:"
+# print "    'meta_add' - add a scannable or scannables to the scan metadata"
+# print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
+# print "    'meta_ls'  - list only the items to be put into the scan metadata"
+# print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
 
-from i06shared.metadata.metashop import *  # @UnusedWildImport
-for each in fileHeader.getDeviceList():
-    meta_add(each)
+# from i06shared.metadata.metashop import *  # @UnusedWildImport
+# for each in fileHeader.getDeviceList():
+    # meta_add(each)
 
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable

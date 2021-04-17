@@ -13,6 +13,8 @@ import __main__  # @UnresolvedImport
 from i06shared import installation
 import math
 from gda.configuration.properties import LocalProperties
+from i06shared.scannables.dummyListScannable import DummyListScannable
+from gda.device.scannable import DummyScannable
 
 GAP_LIMIT=99.0
 RAW_PHASE_MOTOR_TOLERANCE=1.0
@@ -94,9 +96,9 @@ if installation.isLive() and beamline != "lab44":
     __main__.laa=LinearArbitraryAngle('laa', __main__.iddlaangle, __main__.idulaangle, __main__.smode, __main__.pol)
     __main__.offhar.setPolScannable(__main__.pol)
 else:
-    print 80*"="
-    print "IMPORTANT Warning:"
-    print "    There are no 'smode', 'pol', 'energy', 'laa', 'offhar' and 'zacscan' scannables in DUMMY mode."
-    print "    These scannables require EPICS soft motors, and zacscan to work"
+    __main__.smode = DummyListScannable('smode', list_values=SourceMode.SOURCE_MODES[:-1])
+    __main__.offhar = DummyScannable('offhar')
+    __main__.pol = DummyListScannable('pol', list_values=Polarisation.POLARISATIONS[:-1])
     __main__.energy=__main__.pgmenergy
+    __main__.laa = DummyScannable('laa')
     

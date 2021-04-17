@@ -3,6 +3,7 @@
 	<name>i06-shared</name>
 	<comment></comment>
 	<projects>
+		<project>org.eclipse.scanning.device</project>
 		<project>uk.ac.diamond.daq.detectors.addetector</project>
 		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.scisoft.python</project>
