@@ -133,4 +133,4 @@ class McsWaveformChannelController(object):
 
     def getChannelInputStreamAcquiring(self):
         #if self.verbose: self.logger.info('getChannelInputStreamAcquiring() = %r' % self.started)
-        return self.started
+        return self.started and self.hardware_trigger_provider.continuousMovingStarted

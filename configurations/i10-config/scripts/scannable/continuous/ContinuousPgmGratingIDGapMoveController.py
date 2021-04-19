@@ -74,6 +74,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
         self._move_step = 0.1
         self._triggerPeriod = 0.0
         self.idcontrols = None
+        self.continuousMovingStarted = False
        
     def setIDStartDelayTime(self, t):
         self.idstartdelaytime=t
@@ -286,6 +287,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
+        self.continuousMovingStarted = False
         if self.isPGMMoveEnabled():
             self.PreparePGMForMove()
         else:
@@ -342,16 +344,27 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
                                                         (self._id_gap_end - 0.05 - self._id_gap_runupdown), self._id_gap_speed))
                 self.idcontrols['gap'].asynchronousMoveTo((self._id_gap_end - 0.05 - self._id_gap_runupdown))
 
+        self.continuousMovingStarted = True
         if self.verbose: self.logger.info('...startMove')
 
     def isMoving(self):
-        if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
-            self.logger.info('isMoving() _pgm_grat_pitch=%r @ %r, _pgm_mirr_pitch=%r @ %r, _id_gap=%r @ %r' % (
-                self._pgm_grat_pitch.isBusy(), self._pgm_grat_pitch(),
-                self._pgm_mirr_pitch.isBusy(), self._pgm_mirr_pitch(),
-                self.idcontrols['gap'].isBusy(), self.idcontrols['gap']()))
-            self._movelog_time = datetime.now()
-        return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy() or self.idcontrols['gap'].isBusy()
+        if self.isIDMoveEnabled():
+            if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
+                self.logger.info('isMoving() _pgm_grat_pitch=%r @ %r, _pgm_mirr_pitch=%r @ %r, _id_gap=%r @ %r, _id_energy=%r @ %r' % (
+                    self._pgm_grat_pitch.isBusy(), self._pgm_grat_pitch(),
+                    self._pgm_mirr_pitch.isBusy(), self._pgm_mirr_pitch(),
+                    self.idcontrols['gap'].isBusy(), self.idcontrols['gap'](),
+                    self.energy.isIDBusy(), self.energy()))
+                self._movelog_time = datetime.now()
+            return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy() or self.idcontrols['gap'].isBusy() or self.energy.isIDBusy()
+        else:
+            if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
+                self.logger.info('isMoving() _pgm_grat_pitch=%r @ %r, _pgm_mirr_pitch=%r @ %r' % (
+                    self._pgm_grat_pitch.isBusy(), self._pgm_grat_pitch(),
+                    self._pgm_mirr_pitch.isBusy(), self._pgm_mirr_pitch()))
+                self._movelog_time = datetime.now()
+            return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy()
+            
 
     def waitWhileMoving(self):
         if self.verbose: self.logger.info('waitWhileMoving()...')
@@ -366,12 +379,9 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
         if self.isPGMMoveEnabled():
             self._pgm_grat_pitch.stop()
             self._pgm_mirr_pitch.stop()
-        if self.isIDMoveEnabled():
-            if installation.isLive():
-                print("ID gap motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
-            else:
-                if self.idcontrols:
-                    self.idcontrols['gap'].stop()
+        if self.isIDMoveEnabled() and installation.isDummy() and self.idcontrols:
+            # real ID hardware does not support stop method!
+            self.idcontrols['gap'].stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
