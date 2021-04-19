@@ -68,6 +68,8 @@
 
 	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
 
+	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+
 	<import resource="commandQueueProcessor.xml" />
 
 </beans>

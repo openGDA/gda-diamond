@@ -73,5 +73,7 @@
 	<import resource="zone_plates.xml" />
 	-->
 
+	<import resource="solstice_scanning.xml"/>
+
 	<import resource="commandQueueProcessor.xml" />
 </beans>
