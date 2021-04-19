@@ -10,5 +10,11 @@
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
 	</bean>
+	<bean id="MotorD_D6AY" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-44.000000" />
+		<property name="maxPosition" value="0.500000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
 
 </beans>

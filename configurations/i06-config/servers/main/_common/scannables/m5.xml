@@ -5,39 +5,108 @@
 
 	<!-- KB Mirrors M4 (VFM) / M5 -->
 	<bean id="m5pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorVFMPitch_M5" />
+		<property name="motor" ref="MotorHFMPitch_M5" />
 		<property name="protectionLevel" value="0" />
 	</bean>
-		<bean id="m5fpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorVFMFinePitch_M5" />
+	<bean id="m5x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMx_M5" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="V" />
-		<property name="hardwareUnitString" value="V" />
 	</bean>
+<!-- 	<bean id="m5fpitch" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="MotorHFMFinePitch_M5" /> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 		<property name="initialUserUnits" value="V" /> -->
+<!-- 		<property name="hardwareUnitString" value="V" /> -->
+<!-- 	</bean> -->
 	<bean id="m5bend1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorVFMBender1_M5" />
+		<property name="motor" ref="MotorHFMBender1_M5" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="N" />
 		<property name="hardwareUnitString" value="N" />
 	</bean>
 	<bean id="m5bend2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorVFMBender2_M5" />
+		<property name="motor" ref="MotorHFMBender2_M5" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="N" />
 		<property name="hardwareUnitString" value="N" />
+	</bean>
+	<bean id="m5x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMx1_M5" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+	<bean id="m5x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMx2_M5" />
+		<property name="protectionLevel" value="0" />
 	</bean>
 	<bean id="M5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="m5pitch" />
-				<ref bean="m5fpitch"/>
+				<ref bean="m5x"/>
+<!-- 				<ref bean="m5fpitch"/> -->
 				<ref bean="m5bend1" />
 				<ref bean="m5bend2" />
-				<ref bean="m5bend1g" />
-				<ref bean="m5bend2g" />
+				<ref bean="m5x1" />
+				<ref bean="m5x2" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+	<bean id="m5cam1ADCollectionStrategy"
+		class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="m5cam1AD_cam" />
+								<property name="restoreAcquireState" value="true" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- NXDetector file writers -->
+	<bean id="m5cam1_hdf5_MultipleImagesPerHDF5FileWriter"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="m5cam1_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-m5cam1" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+	<!-- SingleImagePerFileWriter(String detectorName) -->
+	<bean id="m5cam1_tiff_SingleImagePerFileWriter"
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="m5cam1" />
+		<property name="ndFile" ref="m5cam1_NDFileTiff" />
+		<property name="keyNameForMetadataPathTemplate" value="m5cam1_path_template" />
+	</bean>
+
+	<bean id="m5cam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="m5cam1" />
+		<property name="collectionStrategy" ref="m5cam1ADCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="m5_RoiStats1" />
+				<ref bean="m5_RoiStats2" />
+				<ref bean="m5_RoiStats3" />
+				<ref bean="m5_RoiStats4" />
+				<ref bean="m5_RoiStats5" />
+				<ref bean="m5_RoiStats6" />
+				<ref bean="m5cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="m5cam1_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
 	</bean>
 
 </beans>

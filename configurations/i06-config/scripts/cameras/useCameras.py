@@ -1,6 +1,6 @@
 # new PVs for the device involved in PEEM Refocusing work!
 # camc1: BL06I-DI-PHDGN-98
-# camc2: BL06I-Di-GIGE-01
+# camc2: BL06I-DI-GIGE-01
 # X-axis: BL06I-EA-USER-03:MTR1: 
 # Y axis: BL06I-EA-USER-03:MTR2:
 # Z axis: BL06I-EA-USER-03:MTR3:

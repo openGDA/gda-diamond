@@ -61,7 +61,7 @@
 	</bean>
 
 	<bean id="medipixCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="medipix_cam"/>
+		<property name="cameraConfig" ref="medipix"/>
 		<property name="stateVariableName" value="i06.medipix.live.stream.active"/>
 	</bean>
 	<bean id="medipixControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">

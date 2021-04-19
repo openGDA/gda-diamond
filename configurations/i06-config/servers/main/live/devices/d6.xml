@@ -6,5 +6,8 @@
 	<bean id="MotorD_D6" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-DI-IONC-01:Y" />
 	</bean>
+	<bean id="MotorD_D6AY" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-DI-PHDGN-06:Y" />
+	</bean>
 
 </beans>
