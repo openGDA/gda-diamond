@@ -71,7 +71,7 @@
 		</property>
 	</bean>	
 	<!-- use EPICS HDF5 plugin to write raw data to file -->
-	<bean id="xcamHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
+	<bean id="xcamHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
 		<property name="ndFileHDF5" ref="xcam_hdf5"/>
 		<property name="fileNameTemplate" value="xcam"/>
 		<property name="filePathTemplate" value="$datadir$" />
@@ -88,6 +88,7 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="pvsToCollectMap" ref="xcam_settings"/>
 	</bean>
 
 	<!-- used with live stream view -->
@@ -106,6 +107,25 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="xcamxip" class="gda.device.detector.NXDetector">
+		<property name="name" value="xcamxip" />
+		<property name="collectionStrategy" ref="xcamCollectionStrategy_triggered" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xcam_RoiStats1" />
+				<ref bean="xcam_RoiStats2" />
+				<ref bean="xcam_RoiStats3" />
+				<ref bean="xcam_RoiStats4" />
+				<ref bean="xcam_RoiStats5" />
+				<ref bean="xcam_RoiStats6" />
+				<ref bean="xcamHdf5Filewriter" />
+				<ref bean="xcamXip1Hdf5Filewriter" />
+				<ref bean="xcamXip2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
  	<bean id="mixcam" class="gda.device.detector.NXDetector">
 		<property name="name" value="xcam" />
 		<property name="collectionStrategy" ref="xcamCollectionStrategy_Multiple" />

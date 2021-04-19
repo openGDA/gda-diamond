@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
 
 <!-- xcam driver specific information for metadata -->
 	<bean id="xcamADCOffset" class="gda.device.monitor.EpicsMonitor">
@@ -215,9 +218,129 @@
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
+	
+	<bean id="xcam_settings" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xcam_settings"/>
+		<property name="nestedMap" value="false"/>
+		<property name="name2PVSimpleMap">
+			<util:map>
+    			<entry key="manufacturer" value="BL21I-EA-DET-03:CAM:Manufacturer_RBV" />
+    			<entry key="model" value="BL21I-EA-DET-03:CAM:Model_RBV" />
+    			<entry key="serial_number" value="BL21I-EA-DET-03:CAM:CAM_SERIAL_RBV" />
+    			<entry key="adc_gain" value="BL21I-EA-DET-03:CAM:ADC_GAIN_RBV" />
+    			<entry key="adc_offset" value="BL21I-EA-DET-03:CAM:ADC_OFFSET_RBV" />
+    			<entry key="temperature_set" value="BL21I-EA-DET-03:CAM:Temperature_RBV" />
+    			<entry key="temperature_actual" value="BL21I-EA-DET-03:CAM:TemperatureActual" />
+    			<entry key="binning_x" value="BL21I-EA-DET-03:CAM:BinX_RBV" />
+    			<entry key="binning_y" value="BL21I-EA-DET-03:CAM:BinY_RBV" />
+			</util:map>		
+		</property>
+		<property name="fieldsToAppend">
+			<util:map>
+    			<entry key="description">
+    				<list>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0" value="CONSTANT"/>
+    						<constructor-arg index="1" value="XCAM - an in-vaccum X-ray camera with 2 CCD sensors."/>
+    					</bean>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0" value="PV"/>
+    						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:Manufacturer_RBV"/>
+    					</bean>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0" value="PV"/>
+    						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:Model_RBV"/>
+    					</bean>
+    				</list>
+    			</entry>
+    			<entry key="serial_number">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0" value="PV"/>
+    						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:CAM_SERIAL_RBV"/>
+    				</bean>
+     			</entry>
+			</util:map>		
+		</property>
+	</bean>
+	
+	<bean id="xip1_settings" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xip1_settings"/>
+		<property name="nestedMap" value="true"/>
+		<property name="name2PVNestedMap">
+			<util:map>
+				<entry key="centroid_algorithm">
+					<util:map>
+		    			<entry key="algorithm" value="BL21I-EA-DET-03:XIP1:ALGORITHM_RBV" />
+		    			<entry key="output_mode" value="BL21I-EA-DET-03:XIP1:OUTPUT_MODE_RBV" />
+		    			<entry key="background_update_mode" value="BL21I-EA-DET-03:XIP1:BACKGROUND_UPDATE_MODE_RBV" />
+		    			<entry key="background_value" value="BL21I-EA-DET-03:XIP1:BACKGROUND_VALUE_RBV" />
+		    			<entry key="sum_3x3_minimum_threshold" value="BL21I-EA-DET-03:XIP1:SUM3X3_THRESHOLD_MINIMUM_RBV" />
+		    			<entry key="sum_3x3_maximum_threshold" value="BL21I-EA-DET-03:XIP1:SUM3X3_THRESHOLD_MAXIMUM_RBV" />
+		    			<entry key="histogram_bin_width" value="BL21I-EA-DET-03:XIP1:HISTOGRAM_BINWIDTH_RBV" />
+		    			<entry key="histogram_bin_count" value="BL21I-EA-DET-03:XIP1:HISTOGRAM_BINCOUNT_RBV" />
+		    			<entry key="source_region" value="BL21I-EA-DET-03:XIP1:ENABLE_SOURCE_REGION_RBV" />
+		    			<entry key="region_start_x" value="BL21I-EA-DET-03:XIP1:DIM0_MIN_RBV" />
+		    			<entry key="region_start_y" value="BL21I-EA-DET-03:XIP1:DIM1_MIN_RBV" />
+		    			<entry key="region_size_x" value="BL21I-EA-DET-03:XIP1:DIM0_SIZE_RBV" />
+		    			<entry key="region_size_y" value="BL21I-EA-DET-03:XIP1:DIM1_SIZE_RBV" />
+		    			<entry key="eta_correction_file" value="1BL21I-EA-DET-03:XIP1:CENTROID_FILENAME_RBV" />
+		    			<entry key="xip1_event_count" value="BL21I-EA-DET-03:XIP1:EVENT_LIST_SIZE_RBV" />
+					</util:map>
+				</entry>
+				<entry key="isolinear_correction">
+					<util:map>
+		    			<entry key="beamline_energy" value="BL21I-EA-DET-03:XIP1:BEAMLINE_ENERGY_RBV" />
+		    			<entry key="isolinear_correction" value="BL21I-EA-DET-03:XIP1:ENABLE_ISOLINEAR_CORRECTION_RBV" />
+		    			<entry key="coefficient_x^2" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X2_RBV" />
+		    			<entry key="coefficient_x" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X1_RBV" />
+		    			<entry key="constant" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X0_RBV" />
+		    			<entry key="calibration_threshold" value="BL21I-EA-DET-03:XIP1:HR_ISOLINEAR_CALIBRATION_THRESHOLD_RBV" />
+					</util:map>	
+				</entry>
+			</util:map>		
+		</property>
+	</bean>
 
-	<!-- use EPICS HDF plugin to write XIP data to file -->
-	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
+	<bean id="xip2_settings" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xip2_settings"/>
+		<property name="nestedMap" value="true"/>
+		<property name="name2PVNestedMap">
+			<util:map>
+				<entry key="centroid_algorithm">
+					<util:map>
+		    			<entry key="algorithm" value="BL21I-EA-DET-03:XIP2:ALGORITHM_RBV" />
+		    			<entry key="output_mode" value="BL21I-EA-DET-03:XIP2:OUTPUT_MODE_RBV" />
+		    			<entry key="background_update_mode" value="BL21I-EA-DET-03:XIP2:BACKGROUND_UPDATE_MODE_RBV" />
+		    			<entry key="background_value" value="BL21I-EA-DET-03:XIP2:BACKGROUND_VALUE_RBV" />
+		    			<entry key="sum_3x3_minimum_threshold" value="BL21I-EA-DET-03:XIP2:SUM3X3_THRESHOLD_MINIMUM_RBV" />
+		    			<entry key="sum_3x3_maximum_threshold" value="BL21I-EA-DET-03:XIP2:SUM3X3_THRESHOLD_MAXIMUM_RBV" />
+		    			<entry key="histogram_bin_width" value="BL21I-EA-DET-03:XIP2:HISTOGRAM_BINWIDTH_RBV" />
+		    			<entry key="histogram_bin_count" value="BL21I-EA-DET-03:XIP2:HISTOGRAM_BINCOUNT_RBV" />
+		    			<entry key="source_region" value="BL21I-EA-DET-03:XIP2:ENABLE_SOURCE_REGION_RBV" />
+		    			<entry key="region_start_x" value="BL21I-EA-DET-03:XIP2:DIM0_MIN_RBV" />
+		    			<entry key="region_start_y" value="BL21I-EA-DET-03:XIP2:DIM1_MIN_RBV" />
+		    			<entry key="region_size_x" value="BL21I-EA-DET-03:XIP2:DIM0_SIZE_RBV" />
+		    			<entry key="region_size_y" value="BL21I-EA-DET-03:XIP2:DIM1_SIZE_RBV" />
+		    			<entry key="eta_correction_file" value="1BL21I-EA-DET-03:XIP2:CENTROID_FILENAME_RBV" />
+		    			<entry key="xip2_event_count" value="BL21I-EA-DET-03:XIP2:EVENT_LIST_SIZE_RBV" />
+					</util:map>
+				</entry>
+				<entry key="isolinear_correction">
+					<util:map>
+		    			<entry key="beamline_energy" value="BL21I-EA-DET-03:XIP2:BEAMLINE_ENERGY_RBV" />
+		    			<entry key="isolinear_correction" value="BL21I-EA-DET-03:XIP2:ENABLE_ISOLINEAR_CORRECTION_RBV" />
+		    			<entry key="coefficient_x^2" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X2_RBV" />
+		    			<entry key="coefficient_x" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X1_RBV" />
+		    			<entry key="constant" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X0_RBV" />
+		    			<entry key="calibration_threshold" value="BL21I-EA-DET-03:XIP2:HR_ISOLINEAR_CALIBRATION_THRESHOLD_RBV" />
+					</util:map>	
+				</entry>
+			</util:map>		
+		</property>
+	</bean>
+
+	<!-- use EPICS XIP1 and XIP2 HDF5 plugins to write XIP data to file -->
+	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
 		<property name="name" value="xip1"/>
 		<property name="ndFileHDF5" ref="xcam_xip1_hdf5"/>
 		<property name="fileNameTemplate" value="xcam-xip1"/>
@@ -235,8 +358,9 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="pvsToCollectMap" ref="xip1_settings"/>
 	</bean>
-	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
+	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
 		<property name="name" value="xip2"/>
 		<property name="ndFileHDF5" ref="xcam_xip2_hdf5"/>
 		<property name="fileNameTemplate" value="xcam-xip2"/>
@@ -254,23 +378,6 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
-	</bean>
-	 	<bean id="xcamxip" class="gda.device.detector.NXDetector">
-		<property name="name" value="xcamxip" />
-		<property name="collectionStrategy" ref="xcamCollectionStrategy_triggered" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="xcam_RoiStats1" />
-				<ref bean="xcam_RoiStats2" />
-				<ref bean="xcam_RoiStats3" />
-				<ref bean="xcam_RoiStats4" />
-				<ref bean="xcam_RoiStats5" />
-				<ref bean="xcam_RoiStats6" />
-				<ref bean="xcamHdf5Filewriter" />
-				<ref bean="xcamXip1Hdf5Filewriter" />
-				<ref bean="xcamXip2Hdf5Filewriter" />
-			</list>
-		</property>
-	</bean>
-	
+		<property name="pvsToCollectMap" ref="xip2_settings"/>
+	</bean>	
 </beans>

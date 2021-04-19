@@ -169,6 +169,49 @@
 		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
 		<property name="file" ref="xcam_ndfile" />
 	</bean>
+	<!-- simulated extra HDF5 files using the same HDF5 plugin -->
+	<bean id="xcam_xip1_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+						<property name="initialArrayPort" value="ADSIM.CAM" />
+					</bean>
+				</property>
+				<!-- These arguments are here to please Spring -->
+				<property name="initialAutoSave" value="Not hooked up to anything!" />
+				<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+				<property name="initialWriteMode" value="0" />
+				<property name="initialNumCapture" value="1" />
+				<property name="initialFileName" value="xcam-xip1" />
+				<property name="initialFileTemplate" value="%s%s.hdf5" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="xcam_xip2_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+						<property name="initialArrayPort" value="ADSIM.CAM" />
+					</bean>
+				</property>
+				<!-- These arguments are here to please Spring -->
+				<property name="initialAutoSave" value="Not hooked up to anything!" />
+				<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+				<property name="initialWriteMode" value="0" />
+				<property name="initialNumCapture" value="1" />
+				<property name="initialFileName" value="xcam-xip2" />
+				<property name="initialFileTemplate" value="%s%s.hdf5" />
+			</bean>
+		</property>
+	</bean>
 
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="xcam_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
@@ -267,5 +310,175 @@
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
+	
+	<!-- simulated detector setting collections -->
+	<bean id="xcam_settings" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xcam_settings"/>
+		<property name="nestedMap" value="false"/>
+		<property name="name2PVSimpleMap">
+			<util:map>
+    			<entry key="manufacturer" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV" />
+    			<entry key="model" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV" />
+    			<entry key="serial_number" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:PortName_RBV" />
+    			<entry key="adc_gain" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainX_RBV" />
+    			<entry key="adc_offset" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainY_RBV" />
+    			<entry key="temperature_set" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature" />
+    			<entry key="temperature_actual" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature_RBV" />
+    			<entry key="binning_x" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinX_RBV" />
+    			<entry key="binning_y" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV" />
+			</util:map>		
+		</property>
+		<property name="fieldsToAppend">
+			<util:map>
+    			<entry key="description">
+    				<list>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">CONSTANT</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="XCAM - an in-vaccum X-ray camera with 2 CCD sensors."/>
+    					</bean>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
+    					</bean>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-0:CAM:Model_RBV"/>
+    					</bean>
+    				</list>
+    			</entry>
+    			<entry key="serial_number">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-0:CAM:PortName_RBV"/>
+    				</bean>
+     			</entry>
+			</util:map>		
+		</property>
+	</bean>
+	
+	<bean id="xip1_settings" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xip1_settings"/>
+		<property name="nestedMap" value="true"/>
+		<property name="name2PVNestedMap">
+			<util:map>
+				<entry key="centroid_algorithm">
+					<util:map>
+		    			<entry key="algorithm" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-0:CAM:DetectorState_RBV" />
+		    			<entry key="output_mode" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:ColorMode" />
+		    			<entry key="background_update_mode" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:ImageMode" />
+		    			<entry key="background_value" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinX" />
+		    			<entry key="sum_3x3_minimum_threshold" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:PROC:OOffset_RBV" />
+		    			<entry key="sum_3x3_maximum_threshold" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:PROC:OScale_RBV" />
+		    			<entry key="histogram_bin_width" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeX_RBV" />
+		    			<entry key="histogram_bin_count" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeY_RBV" />
+		    			<entry key="source_region" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:DataType" />
+		    			<entry key="region_start_x" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:MinX_RBV" />
+		    			<entry key="region_start_y" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:MinY_RBV" />
+		    			<entry key="region_size_x" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeX_RBV" />
+		    			<entry key="region_size_y" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeY_RBV" />
+		    			<entry key="eta_correction_file" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:FullFileName_RBV" />
+		    			<entry key="xip1_event_count" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV" />
+					</util:map>
+				</entry>
+				<entry key="isolinear_correction">
+					<util:map>
+		    			<entry key="beamline_energy" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainRed_RBV" />
+		    			<entry key="isolinear_correction" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainGreen_RBV" />
+		    			<entry key="coefficient_x^2" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainBlue_RBV" />
+		    			<entry key="coefficient_x" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:SigmaXY_RBV" />
+		    			<entry key="constant" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:SigmaX_RBV" />
+		    			<entry key="calibration_threshold" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:CentroidThreshold_RBV" />
+					</util:map>	
+				</entry>
+			</util:map>		
+		</property>
+	</bean>
 
+	<bean id="xip2_settings" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xip2_settings"/>
+		<property name="nestedMap" value="true"/>
+		<property name="name2PVNestedMap">
+			<util:map>
+				<entry key="centroid_algorithm">
+					<util:map>
+		    			<entry key="algorithm" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:DetectorState_RBV" />
+		    			<entry key="output_mode" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:ColorMode" />
+		    			<entry key="background_update_mode" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:ImageMode" />
+		    			<entry key="background_value" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinX" />
+		    			<entry key="sum_3x3_minimum_threshold" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:PROC:OOffset_RBV" />
+		    			<entry key="sum_3x3_maximum_threshold" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:PROC:OScale_RBV" />
+		    			<entry key="histogram_bin_width" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeX_RBV" />
+		    			<entry key="histogram_bin_count" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeY_RBV" />
+		    			<entry key="source_region" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:DataType" />
+		    			<entry key="region_start_x" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:MinX_RBV" />
+		    			<entry key="region_start_y" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:MinY_RBV" />
+		    			<entry key="region_size_x" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeX_RBV" />
+		    			<entry key="region_size_y" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI:SizeY_RBV" />
+		    			<entry key="eta_correction_file" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:FullFileName_RBV" />
+		    			<entry key="xip2_event_count" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV" />
+					</util:map>
+				</entry>
+				<entry key="isolinear_correction">
+					<util:map>
+		    			<entry key="beamline_energy" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainRed_RBV" />
+		    			<entry key="isolinear_correction" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainGreen_RBV" />
+		    			<entry key="coefficient_x^2" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainBlue_RBV" />
+		    			<entry key="coefficient_x" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:SigmaXY_RBV" />
+		    			<entry key="constant" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:SigmaX_RBV" />
+		    			<entry key="calibration_threshold" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:CentroidThreshold_RBV" />
+					</util:map>	
+				</entry>
+			</util:map>		
+		</property>
+	</bean>
+	
+	<!-- use EPICS area detector's HDF5 plugin to emulate write XIP data to file as ADSIM only has 1 HDF5 plugin-->
+	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
+		<property name="name" value="xip1"/>
+		<property name="ndFileHDF5" ref="xcam_xip1_hdf5"/>
+		<property name="fileNameTemplate" value="xcam"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="pvsToCollectMap" ref="xip1_settings"/>
+	</bean>
+	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
+		<property name="name" value="xip2"/>
+		<property name="ndFileHDF5" ref="xcam_xip2_hdf5"/>
+		<property name="fileNameTemplate" value="xcam"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="pvsToCollectMap" ref="xip2_settings"/>
+	</bean>	
 </beans>
