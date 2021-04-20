@@ -94,4 +94,4 @@ class BinpointWaveformChannelController(object):
         return self.exposure_time
 
     def getChannelInputStreamAcquiring(self):
-        return self.started
+        return self.started and self.hardware_trigger_provider.continuousMovingStarted
