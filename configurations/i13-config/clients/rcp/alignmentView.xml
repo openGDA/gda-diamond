@@ -183,7 +183,7 @@
 									</bean>
 								</util:list>
 							</property>
-							<property name="labelWidth" value="80" />
+							<property name="labelWidth" value="100" />
 						</bean>
 					</property>
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
