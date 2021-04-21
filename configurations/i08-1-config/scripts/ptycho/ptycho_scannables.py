@@ -4,15 +4,16 @@ Information monitors that can be used to get info into the nexus file.
 from gda.device.scannable import DummyScannable
 
 '''
-Calculate the pixel size of the Andor detector.
-This should be initialised with a Monitor whose PV is a binning value, and its "position" is
-calculated from the binning PV.
+Calculate the binned pixel size of a detector.
+This should be initialised with two scannables: the pixel size of the detector and its binning value.  
+The "position" of the BinnedPixelSize scannable is calculated from these two values.
 Functions other than getPosition() will be inherited from DummyScannable and should not be called.
 '''
-class andorPixelSizeCalc(DummyScannable):
+class BinnedPixelSize(DummyScannable):
 
-    def __init__(self, monitor, name):
-        self.monitor = monitor
+    def __init__(self, pixel_size, binning, name):
+        self.pixel_size = pixel_size
+        self.binning = binning
         self.name = name
         self.setInputNames([self.name])
 
@@ -26,4 +27,4 @@ class andorPixelSizeCalc(DummyScannable):
         return None
 
     def getPosition(self):
-        return int(self.monitor.getPosition()) * 13e-6
+        return self.pixel_size.getPosition() * self.binning.getPosition() / 1e6 # convert to metres

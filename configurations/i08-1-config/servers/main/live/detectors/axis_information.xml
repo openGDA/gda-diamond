@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="axis_cooler_temperature_setpoint" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:Temperature" />
+	</bean>
+
+	<bean id="axis_cooler_temperature_readback" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:TemperatureActual" />
+	</bean>
+
+	<bean id="axis_gain_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:GainMode" />
+	</bean>
+
+	<bean id="axis_bin_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:BinMode" />
+	</bean>
+
+	<bean id="axis_frame_format" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:FrameFormat" />
+	</bean>
+
+	<bean id="axis_roi_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:ROIMode" />
+	</bean>
+
+	<bean id="axis_binning_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:BinX" />
+	</bean>
+
+	<bean id="axis_binning_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:BinY" />
+	</bean>
+
+	<bean id="axis_region_start_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:MinX" />
+	</bean>
+
+	<bean id="axis_region_start_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:MinY" />
+	</bean>
+
+	<bean id="axis_region_size_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:SizeX" />
+	</bean>
+
+	<bean id="axis_region_size_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:SizeY" />
+	</bean>
+
+</beans>
