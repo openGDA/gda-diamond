@@ -74,47 +74,6 @@
 		<property name="serviceInterface" value="uk.ac.diamond.daq.pes.api.IElectronAnalyser" />
 	</bean>-->
 
-	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL05J-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />
-		<property name="pvNameSetPoint" value="BL05J-EA-DET-01:CAM:CENTRE_ENERGY" />
-	</bean>
-
-	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL05J-EA-DET-01:CAM:AcquireTime_RBV" />
-		<property name="pvNameSetPoint" value="BL05J-EA-DET-01:CAM:STEP_TIME" />
-	</bean>
-
-	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
-		<property name="plotName" value="Detector Plot" />
-		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
-		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:ArrayCounter_RBV" />
-	</bean>
-
-	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
-		<property name="plotName" value="Detector Sum Plot" />
-		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
-		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:ArrayCounter_RBV" />
-		<property name="sumFrames" value="true" />
-		<property name="acquirePV" value="BL05J-EA-DET-01:CAM:Acquire" />
-	</bean>
-
-	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
-		<property name="plotName" value="Swept Plot" />
-		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
-		<!-- For the swept plot want to trigger an update after each step so use current channel PV -->
-		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:CURRENT_CHANNEL_RBV" />
-	</bean>
-
-	<bean id="sweepupdater" class="uk.ac.gda.devices.vgscienta.SweepUpdater">
-		<property name="currentPointPV" value="BL05J-EA-DET-01:CAM:CURRENT_POINT_RBV" />
-		<property name="maxSweepPV" value="BL05J-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV" />
-		<property name="percentagePV" value="BL05J-EA-DET-01:CAM:PROGRESS_RBV" />
-		<property name="currentIterationPV" value="BL05J-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
-	</bean>
-
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-DET-01:CAM:ELEMENT_SET" />
 		<property name="outputFormat" value="%s" />

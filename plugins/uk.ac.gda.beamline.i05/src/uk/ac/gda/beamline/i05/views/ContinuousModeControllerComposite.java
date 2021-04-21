@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.i05.views;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -44,7 +45,6 @@ import gda.device.MotorStatus;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
 import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.diamond.daq.pes.api.IElectronAnalyser;
@@ -275,12 +275,12 @@ public class ContinuousModeControllerComposite extends Composite {
 		saazimuthNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 
 		// Add an observer to the psu_mode scannable to automatically detect changes in EPICS and update the GUI
-		final Scannable psuModeScannable = Finder.find("psu_mode");
+		final Optional<Scannable> psuModeScannable = Finder.findOptionalOfType("psu_mode", Scannable.class);
 		// Connect observer to scannable.
-		psuModeScannable.addIObserver((source, arg) -> {
+		psuModeScannable.ifPresent(s -> s.addIObserver((source, arg) -> {
 			logger.info("Change of psu_mode detected, new mode = {}", arg);
 			Display.getDefault().asyncExec(this::updatePassEnergyCombo);
-		});
+		}));
 
 		// Observe the analyser, to get start and stop events
 		analyser.addIObserver((source, arg) -> {
@@ -328,7 +328,7 @@ public class ContinuousModeControllerComposite extends Composite {
 
 			// Automatically select the current pass energy if available in current PSU mode
 			logger.debug("Selecting currently active pass energy in combo box");
-			String activePassEnergy = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
+			String activePassEnergy = analyser.getPassEnergy().toString();
 			passEnergyCombo.select(Arrays.asList(passEnergyStrings).indexOf(activePassEnergy));
 		} catch (Exception e) {
 			logger.error("Failed to get PSU mode", e);
