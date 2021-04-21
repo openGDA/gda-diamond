@@ -55,6 +55,7 @@ class ContinuousEnergyMoveController(ConstantVelocityMoveController, DeviceBase)
         self.idspeedfactor=1.0
         self.monospeedfactor=1.0
         self.idstartdelaytime=0.0
+        self.continuousMovingStarted = False
 
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
     def setStart(self, start): # double
@@ -160,6 +161,7 @@ class ContinuousEnergyMoveController(ConstantVelocityMoveController, DeviceBase)
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
+        self.continuousMovingStarted = False
         if self.isMonoMoveEnabled():
             self.PrepareMonoForMove()
         else:
@@ -217,14 +219,23 @@ class ContinuousEnergyMoveController(ConstantVelocityMoveController, DeviceBase)
                                                         (self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown), self._id_gap_speed))
                 self._id_gap.asynchronousMoveTo((self._id_gap_end - ID_GAP_END_OFFSET - self._id_gap_runupdown))
 
+        self.continuousMovingStarted = True
         if self.verbose: self.logger.info('...startMove')
 
     def isMoving(self):
-        if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
-            self.logger.info('isMoving() _mono_energy=%r @ %r, _id_gap=%r @ %r' % (
-                self._mono_energy.isBusy(), self._mono_energy(), self._id_gap.isBusy(), self._id_gap()))
-            self._movelog_time = datetime.now()
-        return self._mono_energy.isBusy() or self._id_gap.isBusy()
+        if self.isIDMoveEnabled():
+            if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
+                self.logger.info('isMoving() _mono_energy=%r @ %r, _id_gap=%r @ %r' % (
+                    self._mono_energy.isBusy(), self._mono_energy(), self._id_gap.isBusy(), self._id_gap()))
+                self._movelog_time = datetime.now()
+            return self._mono_energy.isBusy() or self._id_gap.isBusy()
+        else:
+            if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
+                self.logger.info('isMoving() _mono_energy=%r @ %r' % (
+                    self._mono_energy.isBusy(), self._mono_energy()))
+                self._movelog_time = datetime.now()
+            return self._mono_energy.isBusy()
+            
 
     def waitWhileMoving(self):
         if self.verbose: self.logger.info('waitWhileMoving()...')
@@ -238,11 +249,8 @@ class ContinuousEnergyMoveController(ConstantVelocityMoveController, DeviceBase)
         self._start_event.clear()
         if self.isMonoMoveEnabled():
             self._mono_energy.stop()
-        if self.isIDMoveEnabled():
-            if installation.isLive():
-                print("ID gap motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
-            else:
-                self._id_gap.stop()
+        if self.isIDMoveEnabled() and installation.isDummy():
+            self._id_gap.stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device

@@ -83,7 +83,8 @@ class WaveformChannelPollingInputStream(PositionInputStream):
                 elements_available = sum(x<=float(self.hardwareTriggerProvider._energy.getPosition()) for x in self.hardwareTriggerProvider.mono_energy_positions)
             # Some waveform PVs keep returning old data for a short time even after a new acq is started and even retain the old count
             # for some time after the new acq has started, so check with the controller before trusting the count
-            acquiring = self._controller.getChannelInputStreamAcquiring() and self.hardwareTriggerProvider._start_event.isSet()
+            # check continuous move started then poll the data so far
+            acquiring = self._controller.getChannelInputStreamAcquiring()
             if acquiring:
                 if acquiring_old <> acquiring:
                     self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring now %r, was %r' % (
