@@ -1,5 +1,6 @@
 from utils.ExceptionLogs import localStation_exceptions
 import sys
+from Diamond.Poly import Poly
 try:
     from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta,\
         lgb, lgf, lgm, th, tth, sx, sy, sz
@@ -247,6 +248,9 @@ from calibrations.energy_polarisation_class import X_RAY_POLARISATIONS
 idd,idu,unknown = X_RAY_SOURCE_MODES
 pc,nc,lh,lv,la,lh3,unknown = X_RAY_POLARISATIONS
 initialisation()
+
+from calibrations.linearArbitraryAngle import LinearArbitraryAngle
+laa = LinearArbitraryAngle("laa", idu_jawphase, idd_jawphase, smode, pol, jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True), angle_threshold_deg = 30.0)
 
 from scannable.continuous.continuous_energy_scannables_new import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
