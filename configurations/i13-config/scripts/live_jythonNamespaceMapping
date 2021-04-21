@@ -17,10 +17,10 @@
 #tomography_translation=hex_y
 #tomography_translation=ss1_sampley
 #tomography_translation=ss1_X  #Base
-tomography_translation=ss1_samplex
+#tomography_translation=ss1_samplex
 #tomography_translation=ss1_samplez
 #tomography_translation=ss1_X_dummy
-#tomography_translation=translate_x
+tomography_translation=translate_x
 #tomography_translation=newport_3
 #tomography_translation=lowprof_samplex
 
