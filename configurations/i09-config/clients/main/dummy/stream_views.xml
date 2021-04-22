@@ -84,6 +84,7 @@
 	<bean id="analyserCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
 		<constructor-arg ref="analyserCameraControl" />
 		<property name="changeExposureWhileCameraAcquiring" value="true" />
+		<property name="includeExposureTimeControl" value="false" />
 		<property name="extensions">
 			<list>
 				<ref bean="analyser_cross" />
