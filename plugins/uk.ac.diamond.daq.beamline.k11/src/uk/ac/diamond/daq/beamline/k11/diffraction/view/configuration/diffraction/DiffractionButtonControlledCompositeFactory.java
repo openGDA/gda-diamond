@@ -130,7 +130,6 @@ public class DiffractionButtonControlledCompositeFactory implements NamedComposi
 	}
 
 	private void runAcquisition() {
-		boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
 		try {
 			getAcquisitionController().runAcquisition();
 		} catch (AcquisitionControllerException e) {
