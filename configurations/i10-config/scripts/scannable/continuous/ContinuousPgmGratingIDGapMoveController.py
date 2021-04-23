@@ -354,9 +354,9 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
                     self._pgm_grat_pitch.isBusy(), self._pgm_grat_pitch(),
                     self._pgm_mirr_pitch.isBusy(), self._pgm_mirr_pitch(),
                     self.idcontrols['gap'].isBusy(), self.idcontrols['gap'](),
-                    self.energy.isIDBusy(), self.energy()))
+                    self.energy.isIDBusy(self.idcontrols), self.energy()))
                 self._movelog_time = datetime.now()
-            return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy() or self.idcontrols['gap'].isBusy() or self.energy.isIDBusy()
+            return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy() or self.idcontrols['gap'].isBusy() or self.energy.isIDBusy(self.idcontrols)
         else:
             if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
                 self.logger.info('isMoving() _pgm_grat_pitch=%r @ %r, _pgm_mirr_pitch=%r @ %r' % (
