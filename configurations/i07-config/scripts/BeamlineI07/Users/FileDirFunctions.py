@@ -40,16 +40,21 @@ def setPilPaths():
 def i07userperm(visit = ''):
 	if visit == '':
 		visit = getvisit()
-	print "Applying permissions for i07user to visit " + visit
+	print "Applying permissions to visit " + visit
 	year = datetime.today().year
 	d = "/dls/i07/data/" + str(year) + "/" + visit
-	
-	print getoutput("setfacl -n -m u:i07user:rx " + d)
-	print getoutput("setfacl -n -m u:i07user:rx " + d + "/pilatus?")
-	print getoutput("setfacl -n -m u:i07user:rwx " + d + "/processing")
-	print getoutput("setfacl -n -m d:u:i07user:rx " + d)
-	print getoutput("setfacl -n -m d:u:i07user:rx " + d + "/pilatus?")
-	print getoutput("setfacl -n -m d:u:i07user:rwx " + d + "/processing")
+	if not visit.startswith("cm"):
+            print getoutput("setfacl -n -m u:i07user:rx " + d)
+            print getoutput("setfacl -n -m u:i07user:rx " + d + "/pilatus?")
+            print getoutput("setfacl -n -m u:i07user:rwx " + d + "/processing")
+            print getoutput("setfacl -n -m d:u:i07user:rx " + d)
+            print getoutput("setfacl -n -m d:u:i07user:rx " + d + "/pilatus?")
+            print getoutput("setfacl -n -m d:u:i07user:rwx " + d + "/processing")
+        else:
+            # remove write permission default for new files to prevent
+            # accidental corrupting of data
+            print getoutput("setfacl -n -m d:g:i07user:rx " + d)
+            print getoutput("setfacl -n -m d:g:i07_staff:rx " + d)
 
 # recursively sets permissions for i07user if you forget to do it at the start
 
