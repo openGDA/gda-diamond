@@ -119,12 +119,17 @@
 	<bean id="gr_butterfly_valve_pressure" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL07C-GA-VALVE-92:SETPRESSURE" />
 		<property name="canMove" value="true" />
-		<property name="outputFormat" value="%3.3f" />
+		<property name="outputFormat" value="%3.2f" />
 	</bean>
 
-	<bean id="gr_butterfly_valve_position" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07C-GA-VALVE-92:POSITION" />
-		<property name="canMove" value="true" />
-		<property name="outputFormat" value="%3.3f" />
+	<bean id="gr_butterfly_valve_position" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-VALVE-92:POSITION" />
+		<property name="pvNameSetPoint" value="BL07C-GA-VALVE-92:SETPOSITION" />
+		<property name="outputFormat" value="%3.2f" />
 	</bean>
+
+	<bean id="gr_butterfly_valve_mode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-GA-VALVE-92:CON"/>
+		<property name="readOnly" value="false"/>
+	</bean>	
 </beans>
