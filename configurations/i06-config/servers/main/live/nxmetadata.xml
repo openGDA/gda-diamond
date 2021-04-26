@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd"> 
+
 
 	<bean id="leemNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="leem" />
@@ -40,6 +45,17 @@
 			</list>
 		</property>
 	</bean>
+	
+ 	<bean id="medipixAppender" class="uk.ac.gda.epics.nexus.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="medipix" />
+		<property name="nexusMetadata">
+			<util:map>
+    			<entry key="data_type" value="BL06I-EA-DET-02:CAM:DataType" />
+    			<entry key="colour_mode" value="BL06I-EA-DET-02:CAM:ColorMode" />
+			</util:map>
+		</property>
+		<property name="pvsToCollectMap" ref="medipix_settings"/>
+	</bean> 	
 
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<!-- configure per-scan monitors -->
@@ -49,8 +65,8 @@
 		<property name="monochromatorName" value="monochromatorNexusDevice" />
 		<property name="beamName" value="beamNexusDevice" />
 		<property name="userDeviceName" value="userNexusDevice" />
-		<property name="metadataDeviceNames">
-			<list>
+		<property name="additionalDeviceNames">
+			<set>
 				<value>s1</value>
 				<value>m1</value>
 				<value>m6</value>
@@ -61,7 +77,7 @@
 				<value>s4</value>
 				<value>ps</value>
 				<value>leem</value>
-			</list>
+			</set>
 		</property>
 	</bean>
 </beans>
