@@ -71,7 +71,7 @@
 		</property>
 	</bean>	
 	<!-- use EPICS HDF5 plugin to write raw data to file -->
-	<bean id="xcamHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
+	<bean id="xcamHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
 		<property name="ndFileHDF5" ref="xcam_hdf5"/>
 		<property name="fileNameTemplate" value="xcam"/>
 		<property name="filePathTemplate" value="$datadir$" />

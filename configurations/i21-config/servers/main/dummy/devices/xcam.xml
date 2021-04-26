@@ -334,7 +334,7 @@
     				<list>
     					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
     						<constructor-arg index="0">
-    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">CONSTANT</value>
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">SCALAR</value>
     						</constructor-arg>
     						<constructor-arg index="1" value="XCAM - an in-vaccum X-ray camera with 2 CCD sensors."/>
     					</bean>
@@ -441,7 +441,7 @@
 	</bean>
 	
 	<!-- use EPICS area detector's HDF5 plugin to emulate write XIP data to file as ADSIM only has 1 HDF5 plugin-->
-	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
+	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
 		<property name="name" value="xip1"/>
 		<property name="ndFileHDF5" ref="xcam_xip1_hdf5"/>
 		<property name="fileNameTemplate" value="xcam"/>
@@ -461,7 +461,7 @@
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="pvsToCollectMap" ref="xip1_settings"/>
 	</bean>
-	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
+	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
 		<property name="name" value="xip2"/>
 		<property name="ndFileHDF5" ref="xcam_xip2_hdf5"/>
 		<property name="fileNameTemplate" value="xcam"/>
