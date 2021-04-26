@@ -240,22 +240,30 @@
     			<entry key="description">
     				<list>
     					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0" value="CONSTANT"/>
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">SCALAR</value>
+    						</constructor-arg>
     						<constructor-arg index="1" value="XCAM - an in-vaccum X-ray camera with 2 CCD sensors."/>
     					</bean>
     					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0" value="PV"/>
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
     						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:Manufacturer_RBV"/>
     					</bean>
     					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0" value="PV"/>
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
     						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:Model_RBV"/>
     					</bean>
     				</list>
     			</entry>
     			<entry key="serial_number">
    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0" value="PV"/>
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
     						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:CAM_SERIAL_RBV"/>
     				</bean>
      			</entry>
@@ -340,7 +348,7 @@
 	</bean>
 
 	<!-- use EPICS XIP1 and XIP2 HDF5 plugins to write XIP data to file -->
-	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
+	<bean id="xcamXip1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
 		<property name="name" value="xip1"/>
 		<property name="ndFileHDF5" ref="xcam_xip1_hdf5"/>
 		<property name="fileNameTemplate" value="xcam-xip1"/>
@@ -360,7 +368,7 @@
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="pvsToCollectMap" ref="xip1_settings"/>
 	</bean>
-	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriterWithPVCollection">
+	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
 		<property name="name" value="xip2"/>
 		<property name="ndFileHDF5" ref="xcam_xip2_hdf5"/>
 		<property name="fileNameTemplate" value="xcam-xip2"/>
