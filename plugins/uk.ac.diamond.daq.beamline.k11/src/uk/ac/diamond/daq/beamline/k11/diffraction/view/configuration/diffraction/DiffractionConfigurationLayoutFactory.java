@@ -32,9 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
-import org.eclipse.dawnsci.plotting.api.IPlottingService;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ITraceListener;
 import org.eclipse.dawnsci.plotting.api.trace.TraceEvent;
@@ -77,6 +75,7 @@ import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.processing.ProcessingRequestComposite;
 import uk.ac.gda.ui.tool.processing.ProcessingRequestContext;
 import uk.ac.gda.ui.tool.processing.ProcessingRequestKey;
+import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
 
 /**
  * This Composite allows to edit a {@link ScanningParameters} object.
@@ -99,8 +98,6 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	private Consumer<RegionPathState> viewUpdater;
 
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable = new SelectObservableValue<>();
-
-	private DataBindingContext viewDBC = new DataBindingContext(); // for bindings valid for the view's lifetime
 
 	private ScanManagementController smController;
 
@@ -137,6 +134,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	private void dispose() {
 		Optional.ofNullable(viewUpdater)
 			.ifPresent(rapController::detachViewUpdater);
+		getMap().ifPresent(plot -> plot.removeTraceListener(traceListener));
 	}
 
 	@Override
@@ -306,24 +304,6 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		name.setText(getScanningAcquisition().getName());
 	}
 
-	private class LoadListener implements ApplicationListener<AcquisitionConfigurationResourceLoadEvent> {
-
-		private final Composite composite;
-
-		public LoadListener(Composite composite) {
-			super();
-			this.composite = composite;
-		}
-
-		@Override
-		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
-			loadElements();
-			templateHelper.updateIMappingScanRegionShape();
-			rapController.updatePlotRegion();
-			composite.getShell().layout(true, true);
-		}
-	}
-
 	/**
 	 * This method is invoked when the IMappingScanRegionShape is change in the rapController.
 	 * This may happen when
@@ -334,10 +314,10 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	 */
 	private final void updateView(RegionPathState regionPathState) {
 		updateScanPathBindings();
-		getMap().ifPresent(pl -> pl.addTraceListener(iTraceListener));
+		getMap().ifPresent(pl -> pl.addTraceListener(traceListener));
 	}
 
-	private ITraceListener iTraceListener = new ITraceListener.Stub() {
+	private ITraceListener traceListener = new ITraceListener.Stub() {
 		@Override
 		public void traceAdded(TraceEvent evt) {
 			super.traceAdded(evt);
@@ -364,8 +344,8 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	}
 
 	private Optional<IPlottingSystem<Composite>> getMap() {
-		return Optional
-				.ofNullable(PlatformUI.getWorkbench().getService(IPlottingService.class).getPlottingSystem("Map"));
+		return Optional.ofNullable(SpringApplicationContextFacade.getBean(ClientRemoteServices.class)
+				.getIPlottingService().getPlottingSystem("Map"));
 	}
 
 	// At the moment is not possible to use anonymous lambda expression because it

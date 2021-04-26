@@ -22,6 +22,9 @@ import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MapPlotManager;
@@ -34,13 +37,21 @@ import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.Activator;
+import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
-import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
+import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
+import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
+import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
 
 /**
  * Controls the lifecycle of a Point and Shoot session
@@ -69,6 +80,9 @@ public class PointAndShootController {
 	/** Cached for disposal */
 	private ServiceRegistration<?> serviceRegistration;
 
+	/** Used to wait until acquisition coordinates have changed before starting the acquisition */
+	private RegionMovedLatch synchroniser;
+
 	/**
 	 * Instantiates the controller and immediately starts the session with the given name.
 	 * You <b>must</b> call {@link #endSession()} to ensure consistent experiment structure
@@ -77,12 +91,14 @@ public class PointAndShootController {
 	public PointAndShootController(String sessionName,  AcquisitionController<ScanningAcquisition> acquisitionController) {
 		this.sessionName = sessionName;
 		this.acquisitionController = acquisitionController;
+		synchroniser = new RegionMovedLatch();
 	}
 
 	public void startSession() throws ExperimentControllerException {
 		if (!getExperimentController().isExperimentInProgress()) {
 			throw new ExperimentControllerException("An experiment must be started first");
 		}
+		SpringApplicationContextFacade.addApplicationListener(synchroniser);
 		getMapPlottingSystem().setTitle("Point and Shoot: Ctrl+Click to scan");
 		getExperimentController().startMultipartAcquisition(sessionName);
 		registerClickEventHandler();
@@ -93,6 +109,7 @@ public class PointAndShootController {
 		unregisterClickEventHandler();
 		getExperimentController().stopMultipartAcquisition();
 		getMapPlottingSystem().setTitle(" ");
+		SpringApplicationContextFacade.removeApplicationListener(synchroniser);
 		logger.info("Point and Shoot session '{}' ended", sessionName);
 	}
 
@@ -113,23 +130,108 @@ public class PointAndShootController {
 		serviceRegistration = null;
 	}
 
+	/**
+	 * When the event is a ctrl+click event, we
+	 * 1) centre the current acquisition around the click coordinates,
+	 * 2) run the scan
+	 *
+	 * We do not change the coordinates of the acquisition controller's acquisition directly;
+	 * this is done via a series of events. We therefore use a latch mechanism to prevent a race condition.
+	 */
 	private void handleMapClickEvent(Event event) {
 		ClickEvent mapClickEvent = ((IMapClickEvent) event.getProperty("event")).getClickEvent();
-		if (mapClickEvent.isControlDown()) {
+		if (!mapClickEvent.isControlDown()) return;
+
+		Async.execute(() -> { // we do not want to hold up the messaging thread
+			double x = mapClickEvent.getxValue();
+			double y = mapClickEvent.getyValue();
+
+			synchroniser.listenFor(x, y);
+
+			SpringApplicationContextFacade.getBean(MappingRemoteServices.class)
+				.getRegionAndPathController().createRegionWithCurrentRegionValuesAt(x, y);
+
 			try {
-				acquisitionController.runAcquisition();
-//				MappingServices.getRegionAndPathController().createRegionWithCurrentRegionValuesAt(mapClickEvent.getxValue(),
-//						mapClickEvent.getyValue());
-//				MappingServices.getScanManagementController().submitScan(getExperimentController().prepareAcquisition(sessionName), null);
-			} catch (Exception e) {
+				if (synchroniser.await()) {
+					acquisitionController.runAcquisition();
+				} else {
+					logger.error("Region change not registered within timeout");
+				}
+			} catch (InterruptedException e) {
+				logger.error("Interrupted while waiting for region to change", e);
+				Thread.currentThread().interrupt();
+			} catch (AcquisitionControllerException e) {
 				logger.error("Scan submission failed", e);
 				String detail = e.getMessage() == null ? "See log for details" : e.getMessage();
 				UIHelper.showError("Error submitting scan", detail);
 			}
-		}
+
+		});
 	}
 
 	private IPlottingSystem<Object> getMapPlottingSystem() {
-		return MappingServices.getPlottingService().getPlottingSystem("Map");
+		return SpringApplicationContextFacade.getBean(ClientRemoteServices.class).getIPlottingService().getPlottingSystem("Map");
+	}
+
+	private class RegionMovedLatch implements ApplicationListener<ScanningAcquisitionChangeEvent> {
+
+		private CountDownLatch latch;
+		private boolean armed;
+
+		private double x;
+		private double y;
+
+		/**
+		 * Arms the counter which will count down when it receives an acquisition message
+		 * with a region centred around the given (x, y) coordinates
+		 */
+		public void listenFor(double x, double y) {
+			latch = new CountDownLatch(1);
+			this.x = x;
+			this.y = y;
+			armed = true;
+		}
+
+		/**
+		 * Blocks until the expected message is received (returning {@code true}),
+		 * or the waiting time elapses ({@code false}).
+		 */
+		public boolean await() throws InterruptedException {
+			return latch.await(5, TimeUnit.SECONDS);
+		}
+
+		/**
+		 * When the required region change is applied, an event is broadcast.
+		 * If this is said event, we countdown.
+		 */
+		@Override
+		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
+			if (armed && matches(event.getScanningAcquisition())) {
+				latch.countDown();
+				armed = false;
+			}
+		}
+
+		private boolean matches(ScanningAcquisition acquisition) {
+			ScanpathDocument scanpathDocument = acquisition.getAcquisitionConfiguration().getAcquisitionParameters().getScanpathDocument();
+			List<ScannableTrackDocument> paths = scanpathDocument.getScannableTrackDocuments();
+
+			boolean xMatches = paths.stream()
+					.filter(document -> document.getAxis().equals("x"))
+					.allMatch(document -> matches(document, x));
+
+			boolean yMatches = paths.stream()
+					.filter(document -> document.getAxis().equals("y"))
+					.allMatch(document -> matches(document, y));
+
+			return xMatches && yMatches;
+		}
+
+		private boolean matches(ScannableTrackDocument d, double target) {
+			double start = d.getStart();
+			double stop = d.getStop();
+			double centre = (start + stop) / 2;
+			return Math.abs(centre - target) < 1e-6;
+		}
 	}
 }
