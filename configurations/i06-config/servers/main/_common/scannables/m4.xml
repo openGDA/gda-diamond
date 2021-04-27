@@ -79,7 +79,7 @@
 				<ref bean="m4_RoiStats4" />
 				<ref bean="m4_RoiStats5" />
 				<ref bean="m4_RoiStats6" />
-				<ref bean="m4cam1_tiff_SingleImagePerFileWriter" />
+<!-- 				<ref bean="m4cam1_tiff_SingleImagePerFileWriter" /> -->
 				<ref bean="m4cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
 			</list>
 		</property>

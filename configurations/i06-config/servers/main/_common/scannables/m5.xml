@@ -104,7 +104,7 @@
 				<ref bean="m5_RoiStats5" />
 				<ref bean="m5_RoiStats6" />
 				<ref bean="m5cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
-				<ref bean="m5cam1_tiff_SingleImagePerFileWriter" />
+<!-- 				<ref bean="m5cam1_tiff_SingleImagePerFileWriter" /> -->
 			</list>
 		</property>
 	</bean>
