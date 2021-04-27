@@ -16,7 +16,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.january;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis;bundle-version="1.2.0",
  org.eclipse.dawnsci.plotting.api;bundle-version="1.0.0",
- uk.ac.diamond.org.springframework;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.plotserver;bundle-version="1.0.0",
  com.sun.mail.javax.mail;bundle-version="[1.5.2,1.6.0)"
 Bundle-ActivationPolicy: lazy

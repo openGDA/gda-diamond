@@ -16,6 +16,5 @@ Require-Bundle: org.eclipse.ui.workbench,
  uk.ac.gda.epics,
  uk.ac.gda.api,
  uk.ac.gda.dls.client,
- uk.ac.diamond.org.springframework,
  uk.ac.gda.client,
  uk.ac.gda.beamline.i08.shared
