@@ -175,6 +175,57 @@
 		</property>
 	</bean>
 
+	<!-- simulated detector setting collections -->
+	<bean id="medipix_settings" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="medipix_settings"/>
+		<property name="nestedMap" value="false"/>
+		<property name="name2PVSimpleMap">
+			<util:map>
+    			<entry key="manufacturer" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV" />
+    			<entry key="model" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV" />
+    			<entry key="gain" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainX_RBV" />
+    			<entry key="temperature_set" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature" />
+    			<entry key="temperature_actual" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature_RBV" />
+    			<entry key="binning_x" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinX_RBV" />
+    			<entry key="binning_y" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV" />
+			</util:map>		
+		</property>
+		<property name="fieldsToAppend">
+			<util:map>
+    			<entry key="description">
+    				<list>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">SCALAR</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="MediPix - a water cold X-ray camera."/>
+    					</bean>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
+    					</bean>
+    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-0:CAM:Model_RBV"/>
+    					</bean>
+    				</list>
+    			</entry>
+    			<entry key="serial_number">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-0:CAM:PortName_RBV"/>
+    				</bean>
+     			</entry>
+			</util:map>		
+		</property>
+	</bean>
+
 	<!-- collection strategy and decorator chain -->
 	<bean id="softstatrstop" class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 		<property name="adBase" ref="medipix_adbase" />
