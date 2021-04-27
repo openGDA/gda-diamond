@@ -14,7 +14,6 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  javassist;bundle-version="3.20.0",
  org.objenesis,
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
- uk.ac.diamond.org.springframework;bundle-version="4.0.6",
  uk.ac.gda.epics,
  uk.ac.gda.devices.xspress3.epics,
  uk.ac.gda.devices.xspress3,
@@ -26,5 +25,6 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  uk.ac.diamond.daq.persistence
 Import-Package: gda.scan.ede.position,
  org.eclipse.core.runtime;version="3.4.0",
- org.eclipse.january.dataset
+ org.eclipse.january.dataset,
+ org.springframework.beans;version="4.0.6.RELEASE"
 Automatic-Module-Name: uk.ac.gda.beamline.i20_1.test

@@ -10,7 +10,6 @@ Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  org.mockito.mockito-core,
  net.bytebuddy.byte-buddy,
  net.bytebuddy.byte-buddy-agent,
- uk.ac.diamond.org.springframework;bundle-version="4.0.6",
  uk.ac.gda.test.helpers;bundle-version="1.0.0",
  javassist;bundle-version="3.20.0",
  uk.ac.gda.server.exafs,
@@ -21,5 +20,6 @@ Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis
 Import-Package: gda.device.detector.xspress,
- org.eclipse.january.dataset
+ org.eclipse.january.dataset,
+ org.springframework.beans.factory;version="4.0.6.RELEASE"
 Automatic-Module-Name: uk.ac.gda.beamline.i20.test
