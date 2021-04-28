@@ -21,7 +21,7 @@ class DiffcalcHeaders(ScannableMotionBase):
 			output_ub = ubcalc.UB.tolist()
 		except(AttributeError, NameError, TypeError, diffcalc.util.DiffcalcException):
 			output_ub = 'None'
-		return [str(output_lattice), str(output_u), str(output_ub)]
+		return [output_lattice, output_u, output_ub]
 
 	def asynchronousMoveTo(self, position):
 		return None
