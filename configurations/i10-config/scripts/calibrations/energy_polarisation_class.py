@@ -213,13 +213,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 phase = -phase
             idcontrol['rowphase3'].asynchronousMoveTo(phase)
             idcontrol['rowphase4'].asynchronousMoveTo(0.0)
+            if not polarisation == X_RAY_POLARISATIONS[4]:
+                idcontrol['jawphase'].asynchronousMoveTo(0.0) #set ID jawphase to 0 position except for la
         except:
             localStation_exception(sys.exc_info(), "Error move %s to position (%f, %s, %f)" % (self.source.getPosition(), gap, polarisation, phase))
             simpleLog(localStation_exception)
             raise
     
     def isIDBusy(self, idcontrol):
-        return idcontrol['gap'].isBusy() or idcontrol['rowphase1'].isBusy() or idcontrol['rowphase2'].isBusy() or idcontrol['rowphase3'].isBusy() or idcontrol['rowphase4'].isBusy()
+        return idcontrol['gap'].isBusy() or idcontrol['rowphase1'].isBusy() or idcontrol['rowphase2'].isBusy() or idcontrol['rowphase3'].isBusy() or idcontrol['rowphase4'].isBusy() or idcontrol['jawphase'].isBusy()
             
     def rawAsynchronousMoveTo(self, new_position):
         '''move beam energy, polarisation, or both to specified value.
@@ -302,6 +304,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             idcontrol['rowphase2'].stop()
             idcontrol['rowphase3'].stop()
             idcontrol['rowphase4'].stop()
+            idcontrol['jawphase'].stop()
         except:
             localStation_exception(sys.exc_info(), "Error stop %s" % (self.source.getPosition()))
             simpleLog(localStation_exception)

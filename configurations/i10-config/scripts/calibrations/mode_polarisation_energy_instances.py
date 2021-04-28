@@ -7,7 +7,7 @@ Created on 9 May 2018
 @author: fy65
 '''
 from calibrations.xraysource import SourceMode, X_RAY_SOURCE_MODES
-from gdaserver import pgm_energy, idd_gap, idu_gap,idu_rowphase1,idu_rowphase2,idu_rowphase3,idu_rowphase4, idd_rowphase1,idd_rowphase2,idd_rowphase3,idd_rowphase4 # @UnresolvedImport
+from gdaserver import pgm_energy, idd_gap, idu_gap,idu_rowphase1,idu_rowphase2,idu_rowphase3,idu_rowphase4, idu_jawphase, idd_rowphase1,idd_rowphase2,idd_rowphase3,idd_rowphase4,idd_jawphase # @UnresolvedImport
 from calibrations.energy_polarisation_class import BeamEnergyPolarisationClass
     
 print()
@@ -18,8 +18,8 @@ print("    2. 'pol'        - a scannable to set and get polarisation of the X-ra
 print("    3. 'energy_s'   - a scannable to set and get energy of the X-ray beam. It cannot be used for cvscan!")
 print("    4. 'energy_pol' - a scannable to set and get both energy and polarisation of the X-ray beam at the same time concurrently!")
 
-idd_controls = {"gap":idd_gap,"rowphase1":idd_rowphase1, "rowphase2":idd_rowphase2, "rowphase3":idd_rowphase3, "rowphase4":idd_rowphase4}
-idu_controls = {"gap":idu_gap,"rowphase1":idu_rowphase1, "rowphase2":idu_rowphase2, "rowphase3":idu_rowphase3, "rowphase4":idu_rowphase4}
+idd_controls = {"gap":idd_gap,"rowphase1":idd_rowphase1, "rowphase2":idd_rowphase2, "rowphase3":idd_rowphase3, "rowphase4":idd_rowphase4, "jawphase":idd_jawphase}
+idu_controls = {"gap":idu_gap,"rowphase1":idu_rowphase1, "rowphase2":idu_rowphase2, "rowphase3":idu_rowphase3, "rowphase4":idu_rowphase4, "jawphase":idu_jawphase}
 ID_ENERGY_TO_GAP_CALIBRATION_FILE = "IDEnergy2GapCalibrations.csv"
 ID_ENERGY_TO_PHASE_CALIBRATION_FILE = "IDEnergy2PhaseCalibrations.csv"
 
