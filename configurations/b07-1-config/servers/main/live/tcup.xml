@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sm2_xp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-SM-02:XP" />
+	</bean>
+
+	<bean id="sm2_yp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-SM-02:YP" />
+	</bean>
+
+	<bean id="sm2_zp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-SM-02:ZP" />
+	</bean>
+
+	<bean id="sm2_xpc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-SM-02:XPC" />
+	</bean>
+
+	<bean id="sm2_ypc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-SM-02:YPC" />
+	</bean>
+	
+	<bean id="sm2_zpc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-SM-02:ZPC" />
+	</bean>
+
+</beans>
