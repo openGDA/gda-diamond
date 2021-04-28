@@ -12,7 +12,7 @@ class HexapodPivotDeviceClass(EpicsDeviceClass):
         
         strUnit='mm';
         strFormat='%8.5f';
-        pvGet = pvName
+        pvGet = pvName + "_RBV"
         pvSet = pvName
         pvStatus=None;
         timeout=None;
