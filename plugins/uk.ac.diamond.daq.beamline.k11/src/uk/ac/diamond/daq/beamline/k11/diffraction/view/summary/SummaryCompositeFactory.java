@@ -35,7 +35,9 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInter
 import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.client.gui.camera.event.CameraControlSpringEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
+import uk.ac.diamond.daq.mapping.api.document.helper.reader.AcquisitionReader;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
+import uk.ac.gda.client.properties.camera.CameraConfigurationProperties;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 
@@ -51,12 +53,14 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 	private StyledText summaryText;
 	private Composite container;
 	private final AcquisitionTemplateTypeSummaryBase summaryBase;
+	private final AcquisitionReader reader;
 
 
 	public SummaryCompositeFactory(Supplier<ScanningAcquisition> acquisitionSupplier) {
 		super();
 		this.acquisitionSupplier = acquisitionSupplier;
 		this.summaryBase = new AcquisitionTemplateTypeSummaryBase(acquisitionSupplier);
+		this.reader = new AcquisitionReader(acquisitionSupplier::get);
 	}
 
 	@Override
@@ -109,7 +113,7 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 					.orElseGet(UUID::randomUUID);
 
 			if (eventUUID.equals(scanningAcquisitionUUID)) {
-				updateSummary();
+				Display.getDefault().asyncExec(() -> updateSummary());
 			}
 		}
 	};
@@ -122,20 +126,20 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 	private ApplicationListener<CameraControlSpringEvent> cameraControlSpringEventListener = new ApplicationListener<CameraControlSpringEvent>() {
 		@Override
 		public void onApplicationEvent(CameraControlSpringEvent event) {
-			String cameraName = acquisitionSupplier.get().getAcquisitionConfiguration().getAcquisitionParameters().getDetector().getName();
-			if (CameraHelper.getCameraConfigurationPropertiesByCameraControlName(cameraName)
-				.filter(c -> c.getCameraControl().equals(event.getName()))
-				.isPresent())
-				updateSummary();
+			Optional.ofNullable(reader.getAcquisitionConfiguration().getAcquisitionParameters().getDetector().getName())
+				.map(CameraHelper::getCameraConfigurationPropertiesByCameraControlName)
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.map(CameraConfigurationProperties::getId)
+				.filter(c -> c.equals(event.getCameraId()))
+				.ifPresent(c -> Display.getDefault().asyncExec(() -> updateSummary()));
 		}
 	};
 
 	private void updateSummary() {
 		if (!summaryText.isDisposed()) {
-			Display.getDefault().asyncExec(() -> {
-				summaryText.setText(summaryBase.toString());
-				container.getShell().layout(true, true);
-			});
+			summaryText.setText(summaryBase.toString());
+			container.getShell().layout(true, true);
 		}
 	}
 }
