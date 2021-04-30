@@ -43,6 +43,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: uk.ac.gda.beamline.i20_1,
+ uk.ac.gda.exafs.experiment.ui,
  uk.ac.gda.exafs.experiment.ui.data
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
 Import-Package: gda.device.frelon,
