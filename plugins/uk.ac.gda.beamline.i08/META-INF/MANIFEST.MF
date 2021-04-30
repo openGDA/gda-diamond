@@ -16,3 +16,4 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.13.0",
  uk.ac.gda.api;bundle-version="9.20.0",
  uk.ac.gda.client
 Automatic-Module-Name: uk.ac.gda.beamline.i08
+Export-Package: uk.ac.gda.beamline.i08.views.statusview

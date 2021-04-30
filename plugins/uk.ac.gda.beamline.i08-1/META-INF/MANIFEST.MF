@@ -18,3 +18,4 @@ Require-Bundle: org.eclipse.ui.workbench,
  uk.ac.gda.dls.client,
  uk.ac.gda.client,
  uk.ac.gda.beamline.i08.shared
+Export-Package: uk.ac.gda.beamline.i08_1.views.statusview

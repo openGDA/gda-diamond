@@ -31,3 +31,5 @@ Require-Bundle: uk.ac.gda.api,
  org.eclipse.jface.databinding,
  org.eclipse.core.databinding.property;bundle-version="1.6.100",
  org.eclipse.core.databinding.beans
+Export-Package: uk.ac.gda.beamline.i14.views.beamlinereadiness,
+ uk.ac.gda.beamline.i14.views.statusview

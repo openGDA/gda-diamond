@@ -33,7 +33,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i06,
- uk.ac.gda.beamline.i06.perspective
+ uk.ac.gda.beamline.i06.perspective,
+ uk.ac.gda.beamline.i06.scannables
 Import-Package: gda.epics.connection,
  gov.aps.jca;version="2.4.1",
  gov.aps.jca.dbr;version="2.4.1",
