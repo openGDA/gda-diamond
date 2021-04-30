@@ -21,20 +21,16 @@ package gda.scan;
 import java.util.List;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
-import org.apache.commons.math3.analysis.solvers.PolynomialSolver;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.dawnsci.ede.PolynomialParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.Annotations;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.jython.InterfaceProvider;
+import gda.scan.ede.position.EnergyPositionCalculator;
 
 /**
  * This class calculates real space motor positions for a Turbo XAS scan from user specified set of parameters based on energy.
@@ -57,15 +53,14 @@ public class TurboXasMotorParameters {
 	private double startPosition, endPosition, motorRampDistance;
 	private int    numReadoutsForScan;
 	private double positionStepsize;
-	private PolynomialFunction positionToEnergyPolynomial;
-	private static final double energyPolynomialMaxXValue = 1.1;
-	private static final double energyPolynomialMinXValue = -0.1;
 
 	// These are parameters of the motor to be used for scan
 	private double motorMaxSpeed;
 	private double motorTimeToVelocity;
 	private double motorHighLimit;
 	private double motorLowLimit;
+
+	private EnergyPositionCalculator positionCalculator = new EnergyPositionCalculator();
 
 	// Resolution limit of position stepsize [mm] - should be set to match encoder resolution.
 	private double stepsizeResolution;
@@ -136,26 +131,16 @@ public class TurboXasMotorParameters {
 
 	public void setScanParameters(TurboXasParameters params) {
 		scanParameters = params;
-		setPositionToEnergyPolynomial(params.getEnergyCalibrationPolynomial());
+		positionCalculator = params.getEnergyPositionCalculator();
 	}
 
 	public void setPositionToEnergyPolynomial(String eqnString) {
-		if (eqnString != null && eqnString.length() > 0) {
-			double[] polynomialCoefficients = PolynomialParser.extractCoefficientsFromString(eqnString);
-			positionToEnergyPolynomial = new PolynomialFunction(polynomialCoefficients);
-		} else {
-			positionToEnergyPolynomial = null;
-		}
-	}
-
-	public void setPositionToEnergyPolynomial(PolynomialFunction positionToEnergyPolynomial) {
-		this.positionToEnergyPolynomial = positionToEnergyPolynomial;
+		positionCalculator.setPolynomial(eqnString);
 	}
 
 	public PolynomialFunction getPositionToEnergyPolynomial() {
-		return positionToEnergyPolynomial;
+		return positionCalculator.getPolynomial();
 	}
-
 
 	public TurboXasParameters getScanParameters() {
 		return scanParameters;
@@ -386,67 +371,13 @@ public class TurboXasMotorParameters {
 		return validMotorScanRange() && getMotorPositionsWithinLimits() && validMotorScanSpeeds();
 	}
 
-	/**
-	 *  Convert from energy to motor position by solving energy calibration
-	 *  polynomial for given value of energy. <p>
-	 *  An IllegalArgumentException will be thrown if the energy cannot be converted to position
-	 *  (i.e. polynomial cannot be solved by a value of x within valid range, normally [-0.1, 1.1] )
-	 * @param energy
-	 * @return motor position
-	 */
+
 	public double getPositionForEnergy(double energy) {
-
-		double position = energy;
-
-		// Solve energy calibration polynomial for position.
-		if ( positionToEnergyPolynomial != null ) {
-			double result = 0;
-			try {
-				// Construct new polynomial function to be used in solver, using coeffs
-				// of energy calibration polynomial with energy subtracted :
-				double[] coeffs = positionToEnergyPolynomial.getCoefficients();
-				coeffs[0] -= energy;
-				PolynomialFunction polynomial = new PolynomialFunction(coeffs);
-
-				// Run the solver
-				PolynomialSolver solver = new LaguerreSolver();
-				int maxEvaluations = 10;
-				result = solver.solve(maxEvaluations, polynomial, energyPolynomialMinXValue, energyPolynomialMaxXValue);
-			}catch(NoBracketingException nbe) {
-				String message = String.format("Cannot convert energy %5g eV to position. Requires x value outside of range of energy calibration polynomial. %.2f ... %.2f",
-						energy, energyPolynomialMinXValue, energyPolynomialMaxXValue);
-				logger.debug(message, nbe);
-				throw new IllegalArgumentException(message);
-			}
-
-			// convert x from normalised to real position
-			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();
-			position = (highLimit - lowLimit)*result + lowLimit;
-			logger.debug(String.format("Position to energy conversion : energy = %.5g, x = %.5g, position = %.5g", energy, result, position));
-		}
-		return position;
+		return positionCalculator.getPositionForEnergy(energy);
 	}
 
-	/**
-	 *  Convert from motor position to energy using polynomial from calibration measurement :
-	 *  	E(x) = a + b*x + c*x*x etc. where x is normalised motor position and E is energy
-	 *
-	 * @param position
-	 * @return energy
-	 */
 	public double getEnergyForPosition(double position) {
-		if ( positionToEnergyPolynomial != null && !scanParameters.isUsePositionsForScan()) {
-			// energy calibration polynomial works off normalised position (0 < x < 1)
-			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();
-			double normalisedPosition = (position - lowLimit) / (highLimit - lowLimit);
-			// show warning if position is out of range, but still calculate value.
-			if ( normalisedPosition < energyPolynomialMinXValue || normalisedPosition > energyPolynomialMaxXValue ) {
-				logger.warn(String.format("Possible problem converting from position to energy : value %.5g is out of range of calibration polynomial (%.5g, %.5g)", position, lowLimit, highLimit));
-			}
-			return positionToEnergyPolynomial.value(normalisedPosition);
-		}
-		else
-			return position;
+		return positionCalculator.getEnergyForPosition(position);
 	}
 
 	// Motor related parameters - ideally set these using values from the motor to be used for scan
@@ -563,10 +494,10 @@ public class TurboXasMotorParameters {
 	 * Return new XStream object that can serialize/deserialize {@link TurboXasMotorParameters} objects to/from XML
 	 * @return XStream
 	 */
-	static public XStream getXStream() {
+	private static XStream getXStream() {
 		XStream xstream = TurboXasParameters.getXStream();
-		Annotations.configureAliases(xstream,  TurboXasMotorParameters.class);
-		xstream.omitField(TurboXasMotorParameters.class , "positionToEnergyPolynomial");
+		xstream.alias("scanParameters", TurboXasParameters.class);
+		xstream.omitField(TurboXasMotorParameters.class , "positionCalculator");
 		return xstream;
 	}
 

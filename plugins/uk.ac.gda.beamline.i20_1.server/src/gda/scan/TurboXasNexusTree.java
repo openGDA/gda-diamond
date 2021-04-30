@@ -267,13 +267,19 @@ public class TurboXasNexusTree {
 
 			TurboXasScannable txasScannable = (TurboXasScannable)scanAxis;
 			TurboXasMotorParameters motorParams = txasScannable.getMotorParameters();
+			boolean usePositions = txasScannable.getMotorParameters().getScanParameters().isUsePositionsForScan();
+
 			// size of each frame (constant for scan)
 			for(int i=0; i<numAxisPoints; i++) {
 				position[i] = txasScannable.calculatePosition(i);
 
 				// energy for midpoint of frame
 				double midPointPosition = 0.5*(position[i] + txasScannable.calculatePosition(i+1));
-				energy[i] = motorParams.getEnergyForPosition(midPointPosition);
+				if (usePositions) {
+					energy[i] = midPointPosition;
+				} else {
+					energy[i] = motorParams.getEnergyForPosition(midPointPosition);
+				}
 			}
 			frame.addAxis(detector.getName(), POSITION_COLUMN_NAME, new NexusGroupData(position), 3, 1, POSITION_UNITS, false);
 			frame.addAxis(detector.getName(), ENERGY_COLUMN_NAME, new NexusGroupData(energy), 1, 1, ENERGY_UNITS, false);

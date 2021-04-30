@@ -57,6 +57,7 @@ import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.TimeResolvedExperimentParameters;
+import gda.scan.ede.position.EnergyPositionCalculator;
 
 
 /**
@@ -753,5 +754,12 @@ public static String doubleToString( double doubleVal ) {
 
 	public void setSpectrumEvents(List<SpectrumEvent> spectrumEvents) {
 		this.spectrumEvents = new ArrayList<>(spectrumEvents);
+	}
+
+	public EnergyPositionCalculator getEnergyPositionCalculator() {
+		EnergyPositionCalculator calculator = new EnergyPositionCalculator();
+		calculator.setPositionRange(getEnergyCalibrationMinPosition(), getEnergyCalibrationMaxPosition());
+		calculator.setPolynomial(getEnergyCalibrationPolynomial());
+		return calculator;
 	}
 }

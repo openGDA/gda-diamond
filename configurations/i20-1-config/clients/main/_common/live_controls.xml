@@ -7,11 +7,16 @@
 
  	<bean id="turbo_slit_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Turbo slit X Motor" />
-		<property name="scannableName" value="turbo_xas_slit" />
+		<property name="scannableName" value="turbo_slit_x" />
 		<property name="increment" value="1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
-
+ 	<bean id="turbo_slit_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Turbo slit X Energy" />
+		<property name="scannableName" value="turbo_slit_x_energy" />
+		<property name="increment" value="1" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
  	<bean id="as_hgap_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Slit hgap" />
 		<property name="scannableName" value="as_hgap" />
@@ -171,6 +176,7 @@
 		<property name="controls">
 			<list>
 				<ref bean="turbo_slit_x_control" />
+				<ref bean="turbo_slit_energy_control" />
 				<ref bean="sample_controls_group" />
 				<ref bean="alignment_controls_group" />
 				<ref bean="user_motors_group" />
