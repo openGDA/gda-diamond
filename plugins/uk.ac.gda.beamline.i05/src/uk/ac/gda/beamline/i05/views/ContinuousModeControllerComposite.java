@@ -137,7 +137,7 @@ public class ContinuousModeControllerComposite extends Composite {
 					// Shown in this GUI so resend the settings
 					analyser.setLensMode(lensModeCombo.getText());
 					analyser.setPassEnergy(Integer.parseInt(passEnergyCombo.getText()));
-					analyser.startContinuious();
+					analyser.startContinuous();
 				} catch (Exception ex) {
 					logger.error("Failed to start continuious acquisition", ex);
 				}

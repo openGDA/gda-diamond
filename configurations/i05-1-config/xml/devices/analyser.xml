@@ -58,7 +58,7 @@
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 	</bean>
 
-	<bean id="fixedConfiguration" class="uk.ac.gda.devices.vgscienta.DetectorConfiguration">
+	<bean id="fixedConfiguration" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
 		<property name="startX" value="150" />
 		<property name="sizeX" value="1170" />
 		<property name="startY" value="65" />
@@ -66,7 +66,7 @@
 		<property name="slices" value="920" />
 	</bean>
 
-	<bean id="sweptConfiguration" class="uk.ac.gda.devices.vgscienta.DetectorConfiguration">
+	<bean id="sweptConfiguration" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
 		<property name="startX" value="310" />
 		<property name="sizeX" value="915" />
 		<property name="startY" value="130" />
