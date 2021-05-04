@@ -37,10 +37,12 @@ from beamline.configure_analyser_fixed_transmission import configure_analyser_fi
 print "Installing EPICS archiver client"
 from gdascripts.archiver.archiver import archive
 alias('archive')
-from gdaserver import archiver  # @UnresolvedImport
+from gdaserver import archiver  # @UnresolvedImport @UnusedImport
 
 from scannables.rga21 import rga21, rga21AR, rga21CF3, rga21CH2, rga21CH3, rga21CH4, rga21CO, rga21CO2, rga21H2, rga21H2O, rga21HE, rga21O2, rga21sumofpeaks, rga21tot  # @UnusedImport
 from scannables.rga24 import rga24, rga24AR, rga24CF3, rga24CH2, rga24CH3, rga24CH4, rga24CO, rga24CO2, rga24H2, rga24H2O, rga24HE, rga24O2, rga24sumofpeaks, rga24tot  # @UnusedImport
+
+from scannables.PLV1000 import plv1, plv2  # @UnusedImport
 # Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
