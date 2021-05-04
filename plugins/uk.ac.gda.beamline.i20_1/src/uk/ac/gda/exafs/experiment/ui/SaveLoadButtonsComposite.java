@@ -19,6 +19,7 @@
 package uk.ac.gda.exafs.experiment.ui;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -41,6 +42,7 @@ import com.swtdesigner.ResourceManager;
 
 import gda.util.VisitPath;
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.util.beans.BeansFactory;
 
 /**
  * Class to add 'load' and 'save' to xml buttons to the parent composite - to allow a user to save a set of parameters currently displayed in GUI
@@ -151,7 +153,6 @@ public abstract class SaveLoadButtonsComposite {
 			try {
 				loadParametersFromFile(filename);
 				lastLoadedSettingsFile = filename;
-				logger.info("Settings loaded OK");
 			} catch (Exception e) {
 				// This would normally be caused by deserialization problem
 				logger.error("Problem loading scan settings from {}", filename, e);
@@ -180,6 +181,15 @@ public abstract class SaveLoadButtonsComposite {
 		} catch (Exception e1) {
 			logger.error("Problem saving scan settings", e1);
 		}
+	}
+
+	protected boolean beanIsCorrectType(String filename, Class<?> clazz) throws Exception {
+		if (!BeansFactory.isBean(Paths.get(filename).toFile(), clazz)) {
+			MessageDialog.openWarning(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Problem reading from file",
+					"Could not load parameters from "+filename+" - it does not contain "+clazz.getSimpleName()+" data");
+			return false;
+		}
+		return true;
 	}
 
 	/**

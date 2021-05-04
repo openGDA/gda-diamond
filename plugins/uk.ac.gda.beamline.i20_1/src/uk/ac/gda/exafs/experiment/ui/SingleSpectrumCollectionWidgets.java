@@ -328,6 +328,9 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
+			if (!beanIsCorrectType(filename, TimeResolvedExperimentParameters.class)) {
+				return;
+			}
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
 			updateCalibrationDetails(params);
 			getModel().setupFromParametersBean(params);

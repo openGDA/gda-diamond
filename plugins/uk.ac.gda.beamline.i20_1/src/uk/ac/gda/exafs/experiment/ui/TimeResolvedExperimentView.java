@@ -225,6 +225,9 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
+			if (!beanIsCorrectType(filename, TimeResolvedExperimentParameters.class)) {
+				return;
+			}
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
 			SingleSpectrumCollectionWidgets.updateCalibrationDetails(params);
 			getModel().setupFromParametersBean(params);
