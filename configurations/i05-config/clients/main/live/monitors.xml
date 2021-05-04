@@ -4,10 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="analyser_overexposure_monitor" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
-	</bean>
-
 	<bean id="cryostat_temperature_monitor" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL05I-EA-TCTRL-02:KRDG0" />
 		<property name="canMove" value="false" />

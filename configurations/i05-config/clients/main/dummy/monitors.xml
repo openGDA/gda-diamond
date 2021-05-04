@@ -4,13 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="analyser_overexposure_monitor" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="unit" value="Peak Intensity" />
-		<property name="value">
-			<value type="double">20</value>
-		</property>
-	</bean>
-
 	<bean id="cryostat_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="unit" value="K" />
 		<property name="value">

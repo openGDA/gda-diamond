@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="../common/mbs_energy_range.xml"/>
+	<import resource="mbs_energy_range.xml"/>
 
 	<bean id="mbs_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05I-EA-DET-02:CAM:" />
@@ -26,9 +26,9 @@
 		<constructor-arg name="basePvName" value="BL05I-EA-DET-02:" />
 	</bean>
 
-	<bean id="mbs_analyser" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
+	<bean id="analyser" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
 		<constructor-arg name="controller" ref="mbs_controller" />
-		<property name="name" value="mbs_analyser" />
+		<property name="name" value="analyser" />
 		<property name="collectionStrategy">
 			<bean id="mbs_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserCollectionStrategy" />
 		</property>
@@ -52,6 +52,47 @@
 				<property name="slices" value="1000" />
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="AnalyserLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-02:ARR:ArrayData" />
+		<property name="frameNumberPV" value="BL05I-EA-DET-02:CAM:ArrayCounter_RBV" />
+	</bean>
+
+	<bean id="AnalyserSumLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Sum Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-02:ARR:ArrayData" />
+		<property name="frameNumberPV" value="BL05I-EA-DET-02:CAM:ArrayCounter_RBV" />
+		<property name="sumFrames" value="true" />
+		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
+	</bean>
+
+	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:CentreKE" />
+	</bean>
+
+	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:AcquireTime" />
+	</bean>
+
+	<bean id="AnalyserSweptLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Swept Plot" />
+		<property name="arrayPV" value="BL05I-EA-DET-02:ARR:ArrayData" />
+		<!--For the swept plot want to trigger an update after each step so use current channel PV -->
+		<property name="frameNumberPV" value="BL05I-EA-DET-02:CAM:CurrentStepNumber_RBV" />
+	</bean>
+
+	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">
+		<property name="currentPointPV" value="BL05I-EA-DET-02:CAM:CurrentStepNumber_RBV" />
+		<property name="maxSweepPV" value="BL05I-EA-DET-02:CAM:NumSteps_RBV" />
+		<property name="percentagePV" value="BL05I-EA-DET-02:CAM:ProgressPct_RBV" />
+		<property name="currentIterationPV" value="BL05I-EA-DET-02:CAM:CurrentScanNumber_RBV"/>
 	</bean>
 
 </beans>

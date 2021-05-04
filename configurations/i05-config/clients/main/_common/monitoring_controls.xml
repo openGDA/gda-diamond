@@ -13,17 +13,6 @@
 	<bean id="monitoring_config" class="uk.ac.gda.apres.ui.config.MonitoringViewConfiguration">
 		<property name="name" value="monitoring_config" />
 		<property name="analyserLiveStreamConfiguration" ref="analyser_live_stream" />
-		<property name="overExposureControl">
-			<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
-				<property name="displayName" value="Ana. Over." />
-				<property name="group" value="Analyser Controls" />
-				<property name="scannableName" value="analyser_overexposure_monitor" />
-				<property name="textWidth" value="50" />
-				<property name="valueTextSize" value="14" />
-				<property name="labelTextSize" value="14" />
-				<property name="boldValue" value="true" />
-			</bean>
-		</property>
 		<property name="temperatureControls">
 			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
 				<property name="controls">

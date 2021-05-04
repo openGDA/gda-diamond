@@ -1,7 +1,5 @@
 package uk.ac.gda.beamline.i05.views;
 
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
@@ -14,20 +12,15 @@ import uk.ac.diamond.daq.pes.api.IElectronAnalyser;
 
 public class ContinuousModeControllerView extends ViewPart {
 
-	public ContinuousModeControllerView() {
-	}
-
 	private ContinuousModeControllerComposite continuousModeControllerComposite;
 
 	@Override
 	public void createPartControl(Composite parent) {
-		// Should be local as its already imported by Spring
-		final List<IElectronAnalyser> analyserRmiList = Finder.listLocalFindablesOfType(IElectronAnalyser.class);
-		if (analyserRmiList.isEmpty()) {
-			throw new RuntimeException("No analyser was found over RMI");
-		}
-		// TODO Might actually want to handle the case where more than on
-		final IElectronAnalyser analyserRmiProxy = analyserRmiList.get(0);
+
+		final IElectronAnalyser analyserRmiProxy = Finder.listLocalFindablesOfType(IElectronAnalyser.class)
+				.stream()
+				.findFirst()
+				.orElseThrow(() -> new RuntimeException("No analyser was found over RMI"));
 
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		ScrolledComposite scroller = new ScrolledComposite(parent, SWT.V_SCROLL);

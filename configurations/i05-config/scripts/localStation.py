@@ -62,20 +62,20 @@ def isgold():
 sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename",isgoldpost=isgold)
 
 # Setting Analyser slices to 1000
-try:
-    analyser.setSlices(1000)
-except:
-    print "There was a problem setting the analyser slices to 1000, please check detector parameters." 
-centre_energy=analyser.getCentreEnergyScannable()
-centre_energy.setName("centre_energy")
-centre_energy.setInputNames(["centre_energy"])
+#try:
+#    analyser.setSlices(1000)
+#except:
+#    print "There was a problem setting the analyser slices to 1000, please check detector parameters." 
+#centre_energy=analyser.getCentreEnergyScannable()
+#centre_energy.setName("centre_energy")
+#centre_energy.setInputNames(["centre_energy"])
 
 energy_group = ScannableGroup() # Make a new ScannableGroup
 energy_group.addGroupMember(energy) # Add members
-energy_group.addGroupMember(centre_energy)
+#energy_group.addGroupMember(centre_energy)
 energy_group.setName('energy_group') # Set the group name
 energy_group.configure() # Configure the group, once all the members are added
-print "Scannable group 'energy_group' created containing 'energy' and 'centre_energy'";
+print "Scannable group 'energy_group' created containing 'energy'";
 
 print "Loading Photon and Centre Energy Scan calculator... "
 print "Usage: calculate_hv_scan_values(hv_start, hv_end, hv_step, start_centre_energy, centre_energy_hv_function_name)"
@@ -94,9 +94,9 @@ wf_calculator = WorkFunctionCalculator()
 W_F = wf_calculator.getWorkFunction
 alias("W_F")
 # Add the work function calculator to the analyser
-analyser.setWorkFunctionProvider(wf_calculator)
-print "Added work function calculator - Usage: W_F(photon_energy)"
-binding_function = analyser.toBindingEnergy
+#analyser.setWorkFunctionProvider(wf_calculator)
+#print "Added work function calculator - Usage: W_F(photon_energy)"
+#binding_function = analyser.toBindingEnergy
 def B_E(photon_energy):
     """Since analyser.toBindingEnergy(scannable) returns an array,
     this function extracts the value from the array if that is the case"""
