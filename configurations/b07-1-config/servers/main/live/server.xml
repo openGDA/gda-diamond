@@ -61,6 +61,7 @@
 
 	<!-- Gas Rig -->
 	<import resource="gas_rig.xml"/>
+	<import resource="tcup.xml"/>
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />

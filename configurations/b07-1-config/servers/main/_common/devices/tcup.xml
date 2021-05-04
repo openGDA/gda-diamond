@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sm2_xp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm2_xp_motor" />
+	</bean>
+
+	<bean id="sm2_yp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm2_yp_motor" />
+	</bean>
+
+	<bean id="sm2_zp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm2_zp_motor" />
+	</bean>
+
+	<bean id="sm2_xpc" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm2_xpc_motor" />
+	</bean>
+
+	<bean id="sm2_ypc" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm2_ypc_motor" />
+	</bean>
+
+	<bean id="sm2_zpc" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm2_zpc_motor" />
+	</bean>
+
+	<bean id="sm2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sm2_xp" />
+				<ref bean="sm2_yp" />
+				<ref bean="sm2_zp" />
+				<ref bean="sm2_xpc" />
+				<ref bean="sm2_ypc" />
+				<ref bean="sm2_zpc" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
