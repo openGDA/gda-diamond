@@ -55,9 +55,10 @@ public class MerlinDetector extends DetectorBase{
 			String totalCounts = caClient.caget(totalCountsPV);
 			Double total = Double.valueOf(totalCounts);
 			return total;
-		} catch (CAException e) {
-		} catch (TimeoutException e) {
+		} catch (CAException | TimeoutException e) {
 		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
 		}
 		return 0;
 	}

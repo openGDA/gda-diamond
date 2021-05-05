@@ -618,6 +618,8 @@ public class MonoOptimisation extends FindableBase {
 				readout = scannable.getPosition();
 			}
 		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
 			throw new DeviceException(e);
 		}
 		return ScannableUtils.objectToArray(readout);

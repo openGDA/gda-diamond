@@ -112,6 +112,10 @@ public class GasInjectionScannable extends ScannableBase {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
+						// TODO: This may cause incorrect behaviour because it does
+						// not re-interrupt the thread when interrupted. We have chosen not
+						// to leave this unfixed because this code is not well-understood enough.
+						// See: https://alfred.diamond.ac.uk/documentation/manuals/GDA_Developer_Guide/master/java_development.html#handling-interrupts
 						e.printStackTrace();
 					}
 					voltageTimeout--;
@@ -180,6 +184,10 @@ public class GasInjectionScannable extends ScannableBase {
 	}
 
 	public void performFill(int totalFillPeriod) {
+		// TODO: This method may cause incorrect behaviour because it does
+		// not re-interrupt the thread when interrupted. We have chosen not
+		// to leave this unfixed because this code is not well-understood enough.
+		// See: https://alfred.diamond.ac.uk/documentation/manuals/GDA_Developer_Guide/master/java_development.html#handling-interrupts
 		try {
 			log("Filling gas. Voltage = " + power_supply.getPosition());
 			try {
@@ -330,6 +338,7 @@ public class GasInjectionScannable extends ScannableBase {
 		} catch (CAException e) {
 			logger.error("Could not abort gas filling", e);
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			logger.error("Could not abort gas filling", e);
 		}
 	}

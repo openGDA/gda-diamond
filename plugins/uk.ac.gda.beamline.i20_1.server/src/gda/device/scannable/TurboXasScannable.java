@@ -324,6 +324,9 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 			logger.error("DeviceException while waiting for Turbo slit to finish moving at end of scan "+e+"\n --- Stopping motor" );
 			stop();
 		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
+
 			// Scan is aborted for some other reason - rethrow as DeviceException
 			logger.error("InterruptedException while waiting for Turbo slit to finish moving at end of scan ", e);
 			throw new DeviceException(e.getMessage(), e);

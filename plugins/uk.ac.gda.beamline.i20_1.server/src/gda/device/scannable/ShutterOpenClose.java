@@ -86,6 +86,8 @@ public class ShutterOpenClose extends ScannableBase {
 			try {
 				Thread.sleep(sleepTimeMs);
 			} catch (InterruptedException e) {
+				// Reset interrupt status
+				Thread.currentThread().interrupt();
 				logger.warn("Sleep interrupted when moving shutter", e);
 			}
 		}

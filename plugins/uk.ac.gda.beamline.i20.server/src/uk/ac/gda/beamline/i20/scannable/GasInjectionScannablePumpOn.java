@@ -318,6 +318,8 @@ public class GasInjectionScannablePumpOn extends ScannableBase {
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
 			logger.error("Thread.sleep failed. Attempted time was " + time, e);
 		}
 	}
@@ -328,6 +330,8 @@ public class GasInjectionScannablePumpOn extends ScannableBase {
 		} catch (CAException e) {
 			logger.error("Could not set " + pv + " to " + value, e);
 		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
 			logger.error("Could not set " + pv + " to " + value, e);
 		}
 	}
@@ -340,6 +344,8 @@ public class GasInjectionScannablePumpOn extends ScannableBase {
 		} catch (TimeoutException e) {
 			logger.error("Could not get pv " + pv, e);
 		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
 			logger.error("Could not get pv " + pv, e);
 		}
 		return null;
@@ -353,6 +359,8 @@ public class GasInjectionScannablePumpOn extends ScannableBase {
 		} catch (CAException e) {
 			logger.error("Could not abort gas filling", e);
 		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
 			logger.error("Could not abort gas filling", e);
 		}
 	}

@@ -121,6 +121,12 @@ public class MonitorZebraAndMoveScannable extends ScannableBase {
 				InterfaceProvider.getTerminalPrinter().print("Moving "+scannableToMove.getName()+" to "+position+" after spectrum "+numSpectra);
 				scannableToMove.moveTo(position);
 			}
+		} catch(InterruptedException e) {
+			// An interrupt means the scan wishes to abort, the thread should be
+			// re-interrupted so the scanning engine aborts smoothly.
+			// See: https://alfred.diamond.ac.uk/documentation/manuals/GDA_Developer_Guide/master/java_development.html#handling-interrupts
+			logger.info("Thread waiting for Zebra pulses", e);
+			Thread.currentThread().interrupt();
 		} catch (Exception e) {
 			logger.error("Problem waiting for Zebra pulses", e);
 		} finally {
