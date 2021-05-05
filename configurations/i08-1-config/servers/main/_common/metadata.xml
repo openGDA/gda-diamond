@@ -59,7 +59,7 @@
 			<set>
 				<value>ring_current</value>
 				<value>ring_energy</value>
-				<value>andor_information</value>
+				<value>axis_information</value>
 				<value>pgm_energy</value>
 				<value>energyFocus</value>
 			</set>

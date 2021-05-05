@@ -24,6 +24,7 @@
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
 		<property name="detectorParameters">
 			<list>
+				<!--
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Andor software" />
 					<constructor-arg name="model">
@@ -35,6 +36,7 @@
 					<constructor-arg name="includeInScan" value="false" />
 					<property name="shownByDefault" value="false" />
 				</bean>
+				-->
 			</list>
 		</property>
 		<property name="scriptFiles">
