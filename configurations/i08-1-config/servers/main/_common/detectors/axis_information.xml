@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ptychography_distance" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="68.89" />
+		<property name="unit" value="mm" />
+	</bean>
+
+	<bean id="axis_pixel_size" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="6.5" />
+		<property name="unit" value="um" />
+	</bean>
+
+	<bean id="axis_information" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="axis_binning_x" />
+				<ref bean="axis_binning_y" />
+				<ref bean="axis_region_start_x"/>
+				<ref bean="axis_region_start_y"/>
+				<ref bean="axis_region_size_x"/>
+				<ref bean="axis_region_size_y"/>
+				<ref bean="axis_gain_mode"/>
+				<ref bean="axis_bin_mode"/>
+				<ref bean="axis_frame_format"/>
+				<ref bean="axis_roi_mode"/>
+				<ref bean="axis_cooler_temperature_setpoint"/>
+				<ref bean="axis_cooler_temperature_readback"/>
+				<ref bean="axis_pixel_size"/>
+				<ref bean="ptychography_distance"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

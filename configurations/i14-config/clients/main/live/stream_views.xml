@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+	<!-- Merlin camera -->
 	<bean id="merlin_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Merlin Detector" />
 		<property name="url" value="http://bl14i-mo-serv-01.diamond.ac.uk:8080/merlin1.mjpg.mjpg" />
@@ -16,6 +17,7 @@
 		</property>
 	</bean>
 
+	<!-- XrayEye camera -->
 	<bean id="xreye_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="X-ray Eye Detector" />
 		<property name="url" value="http://I14-X-RAYEYE:8080/XREYE.mjpg.mjpg" />
@@ -38,6 +40,7 @@
 		</property>
 	</bean>
 
+	<!-- Xspress3 camera -->
 	<bean id="xsp3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Xspress3 Detector" />
 		<property name="url" value="http://bl14i-ea-serv-01.diamond.ac.uk:8080/XSP3.mjpg.mjpg" />
@@ -50,10 +53,11 @@
 		</property>
 	</bean>
 
+	<!-- Sample microscope camera -->
 	<bean id="sample_microscope_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample microscope camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/HOTEL.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-12:ARR" />
+		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/MICRO.mjpg.mjpg" />
+		<property name="arrayPv" value="BL14I-OP-DCAM-14:ARR" />
 		<property name="sleepTime" value="5" />
 		<property name="rgb" value="true" />
 		<property name="calibratedAxesProvider" ref="sample_microscope_beam_position_calibration" />
@@ -73,19 +77,19 @@
 	</bean>
 
 	<bean id="sample_microscope_reset" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL14I-OP-DCAM-12:CAM:RESET" />
+		<property name="pvName" value="BL14I-OP-DCAM-14:CAM:RESET" />
 	</bean>
 
 	<bean id="sample_microscope_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
 		<constructor-arg name="controlScannable">
 			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="BL14I-OP-DCAM-12:OVER:1:Use" />
+				<property name="pvName" value="BL14I-OP-DCAM-14:OVER:1:Use" />
 				<property name="textInput" value="true" />
 			</bean>
 		</constructor-arg>
 		<constructor-arg name="monitorScannable">
 			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="BL14I-OP-DCAM-12:OVER:1:Use" />
+				<property name="pvName" value="BL14I-OP-DCAM-14:OVER:1:Use" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -116,6 +120,7 @@
 	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
 	</bean>
 
+	<!-- Sample DTAB camera -->
 	<bean id="sample_dtab_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Detector table camera" />
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/DTAB.mjpg.mjpg" />
