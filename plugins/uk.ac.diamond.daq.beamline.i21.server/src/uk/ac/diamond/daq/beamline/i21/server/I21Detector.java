@@ -104,6 +104,12 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 
 			// Change status back so isBusy will return false
 			status = IDLE;
+		} catch(InterruptedException e) {
+			// An interrupt means the scan wishes to abort, the thread should be
+			// re-interrupted so the scanning engine aborts smoothly.
+			// See: https://alfred.diamond.ac.uk/documentation/manuals/GDA_Developer_Guide/master/java_development.html#handling-interrupts
+			logger.info("Thread interrupted during collection", e);
+			Thread.currentThread().interrupt();
 		} catch (Exception e) {
 			status = FAULT;
 			logger.error("Failed during collection", e);
@@ -142,6 +148,12 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 			imageDimensions[0] = adDetector.getAdBase().getArraySizeX_RBV();
 			imageDimensions[1] = adDetector.getAdBase().getArraySizeY_RBV();
 			logger.debug("Image dimensions: x={}, y={}", imageDimensions[0], imageDimensions[1]);
+		} catch(InterruptedException e) {
+			// An interrupt means the scan wishes to abort, the thread should be
+			// re-interrupted so the scanning engine aborts smoothly.
+			// See: https://alfred.diamond.ac.uk/documentation/manuals/GDA_Developer_Guide/master/java_development.html#handling-interrupts
+			logger.info("Thread interrupted while preparing for collection", e);
+			Thread.currentThread().interrupt();
 		} catch (Exception e) {
 			throw new DeviceException("Failed configuring detector", e);
 		}
