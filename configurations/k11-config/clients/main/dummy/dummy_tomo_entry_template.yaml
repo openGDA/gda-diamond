@@ -1,0 +1,39 @@
+#https://manual.nexusformat.org/classes/applications/NXtomo.html
+/entry1/tomo_entry/:
+  NX_class@: NXsubentry # the '@' has to come at the end as 
+  definition: NXtomo
+  title: "unknown"
+#  control/:
+#    NX_class@: NXmonitor
+#    data: /entry1/instrument/ionc_i/ionc_i
+  instrument/:
+    NX_class@: NXinstrument
+    source/:
+      NX_class@: NXsource
+      name: Diamond Light Source
+      energy: /entry/instrument/source/energy
+      probe: X-ray
+      type: Synchrotron
+      current: /entry/instrument/source/current
+    detector/:
+      NX_class@: NXdetector
+      axes@: "[, data]"
+      signal@: data
+      data: /entry/instrument/IMAGING/data
+      x_pixel_size: NaN
+      y_pixel_size: NaN
+      x_rotation_axis_pixel_position: NaN
+      y_rotation_axis_pixel_position: NaN
+      distance: NaN
+      image_key: /entry/instrument/IMAGING/image_key
+  data/:
+    NX_class@: NXcollection
+    data: /entry/instrument/IMAGING/data
+    rotation_angle: /entry/IMAGING/simtheta
+  sample/:
+    NX_class@: NXsample
+    rotation_angle: /entry/IMAGING/simtheta
+#    x_translation: /entry1/before_scan/sample_stage/ss1_samplex
+#    y_translation: /entry1/before_scan/sample_stage/ss1_sampley
+#    z_translation: /entry1/before_scan/sample_stage/ss1_samplez
+
