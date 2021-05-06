@@ -32,7 +32,7 @@ import gda.device.DeviceException;
 public class StringPVConditionMonitor extends PVConditionMonitorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(StringPVConditionMonitor.class);
-	
+
 	String[] okStrings; // strings which mean beam is on target
 
 	@Override
@@ -61,6 +61,11 @@ public class StringPVConditionMonitor extends PVConditionMonitorBase {
 		try {
 			String value = controller.cagetString(theChannel);
 			return ArrayUtils.contains(okStrings, value);
+		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
+			logger.info("Interrupted while checking beam on target", e);
+			return true;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;

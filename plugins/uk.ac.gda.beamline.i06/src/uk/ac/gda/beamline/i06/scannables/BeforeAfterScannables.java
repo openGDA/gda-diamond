@@ -70,7 +70,8 @@ public class BeforeAfterScannables extends ScannableMotionUnitsBase {
 			logger.error("move scannable {} to {} failed with exception {}", scannable.getName(), value, e);
 			return Either.left(e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
 			logger.error("TODO put description of error here", e);
 			return Either.left(new DeviceException(e));
 		}

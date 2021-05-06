@@ -18,10 +18,10 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.device.DeviceException;
 
 /**
  * A zero-input, zero-output Scannable which when used in a scan will pause the scan if the machine ring current drops
@@ -63,6 +63,11 @@ public class RingCurrentMonitor extends PVConditionMonitorBase {
 		try {
 			Double current = controller.cagetDouble(theChannel);
 			return current > 1.0;
+		} catch (InterruptedException e) {
+			// Reset interrupt status
+			Thread.currentThread().interrupt();
+			logger.info("Interrupted while checking current", e);
+			return true;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;

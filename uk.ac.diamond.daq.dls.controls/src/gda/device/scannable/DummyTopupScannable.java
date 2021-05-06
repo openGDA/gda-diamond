@@ -90,6 +90,8 @@ public class DummyTopupScannable extends ScannableBase implements Monitor {
 					long fillTimeMs = (long) (fillTime * 1000);
 					Thread.sleep(fillTimeMs);
 				} catch (InterruptedException e) {
+					// Reset interrupt status
+					Thread.currentThread().interrupt();
 					logger.error("Error sleeping for " + fillTime + " seconds", e);
 				}
 				topupCount = topupInterval - fillTime;
