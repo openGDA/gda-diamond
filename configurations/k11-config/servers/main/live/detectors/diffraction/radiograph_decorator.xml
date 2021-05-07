@@ -15,8 +15,8 @@
 		<property name="nexusFieldName" value="data" />
 		<property name="malcolmDetectorNames">
 			<map>
-				<!-- You get to the radiograph in scan-04 via /entry/imaging -->
-				<entry key="BL11K-ML-SCAN-04" value="imaging" />
+				<!-- You get to the radiograph in scan-02 via /entry/imaging -->
+				<entry key="BL11K-ML-SCAN-02" value="imaging" />
 			</map>
 		</property>
 		<property name="snapshotDetectors">
