@@ -274,6 +274,8 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		// makes available for selection a SavuProcessingRequest element
 		processingRequestContexts.add(new ProcessingRequestContext(ProcessingRequestKey.DIFFRACTION_CALIBRATION_MERGE,
 				 getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false));
+		processingRequestContexts.add(new ProcessingRequestContext(ProcessingRequestKey.DAWN,
+				 getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false));
 
 		return processingRequestContexts;
 	}
