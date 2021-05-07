@@ -47,7 +47,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.DeviceException;
 import gda.jython.IJythonServerStatusObserver;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanEvent;
@@ -218,7 +217,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		}
 
 		@Override
-		protected void saveParametersToFile(String filename) throws DeviceException {
+		protected void saveParametersToFile(String filename) throws Exception {
 			TimeResolvedExperimentParameters params = getModel().getParametersBeanFromCurrentSettings();
 			params.saveToFile(filename);
 		}

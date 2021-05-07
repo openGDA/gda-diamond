@@ -1,16 +1,15 @@
 package gda.scan.ede;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.dawnsci.ede.CalibrationDetails;
@@ -25,6 +24,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.position.ExplicitScanPositions;
@@ -319,26 +319,20 @@ public class TimeResolvedExperimentParameters {
 
 	public static TimeResolvedExperimentParameters loadFromFile(String fname) throws IOException {
 		logger.debug("Loading parameters from file {}", fname);
-
-		StringBuilder xmlString = new StringBuilder();
-		try(BufferedReader bufferedReader = new BufferedReader(new FileReader(fname))) {
-			String line;
-			while( (line = bufferedReader.readLine()) != null ) {
-				xmlString.append(line);
-			}
-		} catch (IOException e) {
-			logger.error("Problem loading parameters from {}", fname, e);
-			throw e;
+		try {
+			String xmlString = FileUtils.readFileToString(Paths.get(fname).toFile(), Charset.defaultCharset());
+			return TimeResolvedExperimentParameters.fromXML(xmlString);
+		} catch(IOException e) {
+			InterfaceProvider.getTerminalPrinter().print("Problem loading data from file "+fname+" : "+e.getMessage());
+			throw new IOException("Problem loading serialized object from file "+fname, e);
 		}
-
-		return TimeResolvedExperimentParameters.fromXML(xmlString.toString());
 	}
 
 	/**
 	 * Serialize current object to xml file
 	 * @param filePath
 	 */
-	public void saveToFile(String filePath) {
+	public void saveToFile(String filePath) throws IOException {
 		try {
 			logger.debug("Saving current parameters to file {}", filePath);
 			XStream xstream = getXStream();
@@ -346,14 +340,11 @@ public class TimeResolvedExperimentParameters {
 			if (hideLemoFields || detectorName.equals(DetectorSetupType.FRELON.getDetectorName())) {
 				removeXhLemoTriggerFields(xstream);
 			}
-			String xmlString = XML_HEADER+xstream.toXML(this);
-			BufferedWriter bufWriter = new BufferedWriter( new FileWriter(filePath) );
-			bufWriter.write( xmlString );
-			bufWriter.close();
-		} catch (Exception e) {
-			String message = "Problem saving serialized object to file "+filePath;
-			System.out.println( message+"\n"+e );
-			logger.error(message,e);
+			String xmlString = XML_HEADER + xstream.toXML(this);
+			FileUtils.writeStringToFile(Paths.get(filePath).toFile(), xmlString, Charset.defaultCharset());
+		} catch (IOException e) {
+			InterfaceProvider.getTerminalPrinter().print("Problem saving data to file "+filePath+" : "+e.getMessage());
+			throw new IOException("Problem saving serialized object to file "+filePath, e);
 		}
 	}
 
