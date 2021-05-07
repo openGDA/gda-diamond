@@ -25,7 +25,7 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridL
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientText;
-import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyIntegerText;
+import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyPositiveIntegerText;
 import static uk.ac.gda.ui.tool.images.ClientImages.EXCLAMATION_RED;
 
 import java.util.Arrays;
@@ -116,7 +116,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		Label label = createClientLabel(container, style, POINTS_DENSITY);
 		createClientGridDataFactory().align(SWT.CENTER, SWT.TOP).applyTo(label);
 
-		points = createClientText(container, SWT.BORDER, POINTS_PER_SIDE, verifyOnlyIntegerText);
+		points = createClientText(container, SWT.BORDER, POINTS_PER_SIDE, verifyOnlyPositiveIntegerText);
 		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).hint(ClientSWTElements.DEFAULT_TEXT_SIZE).applyTo(points);
 
 		readoutTextDecoration = new ControlDecoration(points, SWT.LEFT | SWT.TOP);
