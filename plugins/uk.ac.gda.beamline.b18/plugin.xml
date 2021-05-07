@@ -73,6 +73,12 @@
             id="uk.ac.gda.exafs.ui.views.detectors.xspress2Rates"
             name="Xspress2 detector rates"
 	        restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetView"
+            id="uk.ac.gda.exafs.ui.dialogs.SpreadsheetView"
+            name="Spreadsheet view"
+            restorable="true">
       </view>   
    </extension>
    <extension
@@ -289,6 +295,15 @@
                </parameter>
             </command>
          </menu>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Show spreadsheet view"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.dialogs.SpreadsheetView">
+            </parameter>
+         </command>
       </menuContribution>      
    </extension>
     <extension

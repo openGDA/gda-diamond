@@ -4,6 +4,8 @@ import traceback
 
 print "Running detector_setup_functions.py"
 
+run("xspress_functions.py")
+
 # Set some scannables for Mythen, so they are added to header of output file
 def setupMythen() :
     mythen.addScannableForHeader(qexafs_energy)
@@ -16,15 +18,13 @@ def setupMythen() :
 def setupXspress3() :
     #Set the path to empty so default visit directory (and subdirectory) is used for hdf files
     xspress3.setFilePath("")
-
+    
     if LocalProperties.isDummyModeEnabled() :
         return
-
-    from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
-    controller=xspress3.getController()
+    basePv = xspress3.getController().getEpicsTemplate()
+    setup_xspress_detector(basePv)
     # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
-    controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
-    CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
+    CAClient.put(basePv+":CTRL_DTC", 1)
 
 
 def caputXspress4(pv, value) :
@@ -67,6 +67,8 @@ def setupXspress4() :
     
     setEnableDtc(True)
     setEnableMca(False)
+    
+    collect_software_triggered_frame(basePv, 1.0)
 
 # Set array input port name for the scaler pluginss (one for each detector element)
 def setScaArrayPorts(value) :
@@ -97,19 +99,6 @@ def setupMedipix() :
     CAClient.put(medipix_basePvName+":ARR:MinCallbackTime", 0)
     cam_port = CAClient.get(medipix_basePvName+":CAM:PortName_RBV")
     CAClient.put(medipix_basePvName+":ARR:NDArrayPort", cam_port)
-
-def run_in_try_catch(function):
-    logger = LoggerFactory.getLogger("run_in_try_catch")
-
-    try :
-        print "Running ",function.__name__," function"
-        function()
-    except (Exception, java.lang.Throwable) as ex:
-        stacktrace=traceback.format_exc()
-        print("Problem running ",function.__name__," - see log for more details")
-        print "Stack trace : ", stacktrace
-        logger.warn("Problem running jython function {} {}", function.__name__, stacktrace)
-
 
 def continuous_detector_scan(bufferedDetector, numReadouts, timePerReadout):
     # dummy_qexafs_energy = Finder.finf("dummy_qexafs_energy")

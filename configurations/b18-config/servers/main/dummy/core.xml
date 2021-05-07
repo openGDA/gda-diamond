@@ -6,25 +6,12 @@
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
-
 	<bean id="icat_xml_creator" class="gda.data.fileregistrar.IcatXMLCreator">
 		<property name="directory" value="/scratch/dropZone" />
 		<property name="filePrefix" value="${gda.instrument}" />
 	</bean>
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-
-	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
-		<property name="name" value="DataWriterFactory" />
-		<property name="dataWriterExtenders">
-			<list>
-				<ref bean="file_registrar" />
-			</list>
-		</property>
-	</bean>
 
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
@@ -59,37 +46,4 @@
 		</property>
 	</bean>
 
-<!-- 	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" /> -->
-
-	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
-	<bean class="uk.ac.gda.util.beans.BeansFactory">
-		<property name="classes">
-			<util:list>
-				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
-				<value>uk.ac.gda.beans.exafs.b18.B18SampleParameters</value>
-				<value>uk.ac.gda.beans.exafs.SampleElements</value>
-				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
-				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
-				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
-				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
-				<value>uk.ac.gda.beans.vortex.Xspress3Parameters</value>
-				<value>uk.ac.gda.beans.medipix.MedipixParameters</value>
-			</util:list>
-		</property>
-	</bean>
-
-	<bean id="commandQueue" class="gda.commandqueue.CommandQueue">
-	</bean>
-
-	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue">
-		<property name="queue" ref="commandQueue" />
-		<property name="startImmediately" value="false" />
-		<property name="pauseWhenQueueEmpty" value="true" />
-		<property name="logFilePath" value="${gda.logs.dir}/commandQueueProcessor.log" />
-	</bean>
-
-	<import resource="../LoggingScriptController.xml" />
 </beans>

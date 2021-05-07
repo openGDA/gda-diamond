@@ -168,4 +168,8 @@
 	<bean id="mcaProvider" class="gda.device.detector.FluorescenceDetectorMcaProviderImpl">
 		<property name="name" value="mcaProvider" />
 	</bean>
+
+	<bean id="daServerChecker" class="gda.device.detector.DAServerStatusChecker" >
+		<property name="daServer" ref="DAServer" />
+	</bean>
 </beans>
