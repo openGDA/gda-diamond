@@ -275,7 +275,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		processingRequestContexts.add(new ProcessingRequestContext(ProcessingRequestKey.DIFFRACTION_CALIBRATION_MERGE,
 				 getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false));
 		processingRequestContexts.add(new ProcessingRequestContext(ProcessingRequestKey.DAWN,
-				 getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false));
+				 getDiffractionCalibrationMergeDirectory(), new ArrayList<>(), false));
 
 		return processingRequestContexts;
 	}
