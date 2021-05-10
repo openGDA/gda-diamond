@@ -35,4 +35,6 @@
 	<!-- Dummy devices -->
 	<import resource="dummy.xml"/>
 
+	<!-- End station -->
+	<import resource="sm21b.xml"/>
 </beans>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<bean id="sm21b_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm21b_x_motor" />
+	</bean>
+
+	<bean id="sm21b_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm21b_z_motor" />
+	</bean>
+
+	<bean id="sm21b_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm21b_y_motor" />
+	</bean>
+
+	<bean id="sm21b_roty" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm21b_roty_motor" />
+	</bean>
+
+	<bean id="sm21b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sm21b_x" />
+				<ref bean="sm21b_z" />
+				<ref bean="sm21b_y" />
+				<ref bean="sm21b_roty"/>
+				<ref bean="sm21b_y_positioner"/>
+			</list>
+		</property>
+	</bean>
+</beans>

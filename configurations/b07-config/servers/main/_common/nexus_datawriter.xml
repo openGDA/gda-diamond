@@ -99,6 +99,12 @@
 				<!-- d21b -->
 				<value>d21b_y</value>
 				<value>d21b_y_positioner</value>
+				<!-- sm21b -->
+				<value>sm21b_x</value>
+				<value>sm21b_z</value>
+				<value>sm21b_y</value>
+				<value>sm21b_roty</value>
+				<value>sm21b_y_positioner</value>
 				<!-- ring -->
 				<value>ring_current</value>
 				<!-- pgm -->

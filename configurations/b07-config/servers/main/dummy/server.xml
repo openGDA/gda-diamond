@@ -42,6 +42,7 @@
 	<!-- Endstations -->
 	<import resource="es2b_cam1.xml"/>
 	<import resource="es2b_cam2.xml"/>
+	<import resource="sm21b.xml"/>
 
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
