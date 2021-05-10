@@ -53,4 +53,5 @@
 	<import resource="TestMotors.xml"/>
 	<import resource="i21_detector.xml"/>
 	<import resource="xcam.xml"/>
+	<import resource="jython_scannable_wrappers.xml"/>
 </beans>

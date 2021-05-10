@@ -10,10 +10,10 @@
 
 	<!-- PGM control -->
 	<bean id="pgmEnergyMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-5000.0000" />
-		<property name="maxPosition" value="5000.0000" />
+		<property name="minPosition" value="250.00" />
+		<property name="maxPosition" value="2600.00" />
 		<property name="position" value="886.4000" /> <!-- Start at a position inside the calibration -->
-		<property name="speed" value="200.0000" />
+		<property name="speed" value="2.0000" />
 	</bean>
 
 	<bean id="pgmB2ShadowMotor" class="gda.device.motor.DummyMotor">

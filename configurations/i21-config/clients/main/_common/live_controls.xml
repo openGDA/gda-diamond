@@ -2,126 +2,71 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+	<!-- Ring Current & Insertion Device -->
+	<bean id="idgap_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gap" />
+		<property name="group" value="Ring Current and Insertion Device" />
+		<property name="scannableName" value="idgap" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+	</bean>	
+	<bean id="polarisation_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Polarisation" />
+		<property name="group" value="Ring Current and Insertion Device" />
+		<property name="scannableName" value="polarisation_wrapper" />
+		<property name="userUnits" value=""/>
+		<property name="textInput" value="true"/>
+	</bean>	
+	<bean id="ringCurrent_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Ring Current" />
+		<property name="group" value="Ring Current and Insertion Device" />
+		<property name="scannableName" value="ringCurrent" />
+		<property name="readOnly" value="true"/>
+		<property name="userUnits" value="mA"/>
+		<property name="textWidth" value="40"/>
+	</bean>	
+	<!-- Beam -->
+	<bean id="energy_s_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Energy" />
+		<property name="group" value="Beam" />
+		<property name="scannableName" value="energy_s_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="userUnits" value="eV"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+	</bean>
+	<bean id="m4c1_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="m4c1" />
+		<property name="group" value="Beam" />
+		<property name="scannableName" value="m4femto1" />
+		<property name="readOnly" value="true"/>
+		<property name="userUnits" value="A"/>
+		<property name="textWidth" value="40"/>
+	</bean>	
 	<bean id="s5v1gap_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="s5v1gap" />
-		<property name="group" value="S5" />
+		<property name="group" value="Beam" />
 		<property name="scannableName" value="s5v1gap" />
 		<property name="increment" value="1" />
 		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
 	</bean>
-	<!-- 2-theta rotations -->
-	<bean id="m5tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="m5tth" />
-		<property name="group" value="2-theta Rotations" />
-		<property name="scannableName" value="m5tth" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-
-	<bean id="difftth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="difftth" />
-		<property name="group" value="2-theta Rotations" />
-		<property name="scannableName" value="difftth" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-
-	<bean id="armtth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="armtth" />
-		<property name="group" value="2-theta Rotations" />
-		<property name="scannableName" value="armtth" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-	
-	<!-- Translations -->
-	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="x" />
-		<property name="group" value="Sample Translations" />
-		<property name="scannableName" value="x" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-
-	<bean id="say_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="y" />
-		<property name="group" value="Sample Translations" />
-		<property name="scannableName" value="y" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-
-	<bean id="saz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="z" />
-		<property name="group" value="Sample Translations" />
-		<property name="scannableName" value="z" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-
-	<!-- Stage Rotations -->
-	<bean id="sapolar_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="th" />
-		<property name="group" value="Sample Rotations" />
-		<property name="scannableName" value="th" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-	
-	<bean id="satilt_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="chi" />
-		<property name="group" value="Sample Rotations" />
-		<property name="scannableName" value="chi" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-
-	<bean id="saazimuth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="phi" />
-		<property name="group" value="Sample Rotations" />
-		<property name="scannableName" value="phi" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-	
-	<bean id="sgmr1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sgmr1" />
-		<property name="group" value="Spectrometer" />
-		<property name="scannableName" value="sgmr1" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-	<bean id="spech_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="spech" />
-		<property name="group" value="Spectrometer" />
-		<property name="scannableName" value="spech" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-	<bean id="specl_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="specl" />
-		<property name="group" value="Spectrometer" />
-		<property name="scannableName" value="specl" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-	<bean id="specgamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="specgamma" />
-		<property name="group" value="Spectrometer" />
-		<property name="scannableName" value="specgamma" />
-		<property name="increment" value="1" />
-		<property name="showIncrement" value="false"/>
-	</bean>
-	<bean id="sample_temperature_display" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Temperature" />
-		<property name="group" value="Sample" />
-		<property name="scannableName" value="sampleTemperature" />
-		<property name="textWidth" value="50"/>
-		<property name="userUnits" value="K" />
+	<bean id="feedback_state" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Feedback" />
+		<property name="group" value="Beam" />
+		<property name="scannableName" value="feedbackState" />
+		<property name="textWidth" value="85"/>
+		<property name="userUnits" value="" />
 		<property name="readOnly" value="true"/>
 	</bean>	
-	<!-- Sample Positioner control -->
+	<!-- Sample Position control -->
 	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
 		<property name="buttonText" value="Screws" />
@@ -137,43 +82,188 @@
 		<property name="buttonText" value="RIXS" />
 		<property name="group" value="Sample" />
 	</bean>
-	<bean id="feedback_state" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="State" />
-		<property name="group" value="Feedback" />
-		<property name="scannableName" value="feedbackState" />
-		<property name="textWidth" value="85"/>
-		<property name="userUnits" value="" />
+	<bean id="sample_temperature_display" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Temperature" />
+		<property name="group" value="Sample" />
+		<property name="scannableName" value="sampleTemperature" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="K" />
 		<property name="readOnly" value="true"/>
 	</bean>	
-	<bean id="start_feedback" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="feedbackStart.asynchronousMoveTo(1)" />
-		<property name="buttonText" value="Start" />
-		<property name="group" value="Feedback" />
-	</bean>
-	<bean id="feedback_time" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Time" />
-		<property name="group" value="Feedback" />
-		<property name="scannableName" value="feedbackTime" />
-		<property name="textWidth" value="20"/>
-		<property name="userUnits" value="s" />
-	</bean>	
-	<bean id="feedback_mode" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Mode" />
-		<property name="group" value="Feedback" />
-		<property name="scannableName" value="feedbackMode" />
-		<property name="textWidth" value="100"/>
-		<property name="userUnits" value="" />
-	</bean>	
-	<bean id="idscannable_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl">
-		<property name="displayName" value="" />
-		<property name="group" value="Insertion Device" />
-		<property name="scannableName" value="idscannable" />
+	<!-- Sample Translations -->
+	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="x" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="x" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
 		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="say_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="y" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="y" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="saz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="z" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="z" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<!-- Sample Rotations -->
+	<bean id="sapolar_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="th" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="th" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="satilt_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="chi" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="chi" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="saazimuth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="phi" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="phi" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<!-- 2-theta rotations -->
+	<bean id="m5tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="m5tth" />
+		<property name="group" value="2-theta Rotations" />
+		<property name="scannableName" value="m5tth" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="difftth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="difftth" />
+		<property name="group" value="2-theta Rotations" />
+		<property name="scannableName" value="difftth" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="armtth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="armtth" />
+		<property name="group" value="2-theta Rotations" />
+		<property name="scannableName" value="armtth" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<!-- Spectrometer -->
+	<bean id="sgmr1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sgmr1" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="sgmr1" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="spech_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="spech" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="spech" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="specl_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="specl" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="specl" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<!-- Detector -->
+	<bean id="specgamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="specgamma" />
+		<property name="group" value="Detector" />
+		<property name="scannableName" value="specgamma" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="polarisergamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Polariser Gamma" />
+		<property name="group" value="Detector" />
+		<property name="scannableName" value="polarisergamma" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
 	</bean>	
 
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
+				<ref bean="ringCurrent_control" />
+				<ref bean="idgap_control" />
+				<ref bean="polarisation_control" />
+				<ref bean="energy_s_control" />
+				<ref bean="m4c1_control" />
+				<ref bean="s5v1gap_control" />
+				<ref bean="feedback_state" />
+				<ref bean="screws_position" />
+				<ref bean="transfer_position" />
+				<ref bean="rixs_position" />
+				<ref bean="sample_temperature_display" />
 				<ref bean="sax_control" />
 				<ref bean="say_control" />
 				<ref bean="saz_control" />
@@ -187,16 +277,7 @@
 				<ref bean="spech_control" />
 				<ref bean="specl_control" />
 				<ref bean="specgamma_control" />
-				<ref bean="screws_position" />
-				<ref bean="transfer_position" />
-				<ref bean="rixs_position" />
-				<ref bean="sample_temperature_display" />
-				<ref bean="feedback_state" />
-				<ref bean="start_feedback" />
-				<ref bean="feedback_time" />
-				<ref bean="feedback_mode" />
-				<ref bean="idscannable_control"/>
-				<ref bean="s5v1gap_control"/>
+				<ref bean="polarisergamma_control" />
 			</list>
 		</property>
 	</bean>

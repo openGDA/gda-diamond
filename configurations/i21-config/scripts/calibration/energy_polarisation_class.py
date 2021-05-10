@@ -3,6 +3,7 @@ import csv
 from time import sleep
 import logging
 import installation
+from uk.ac.diamond.daq.concurrent import Async
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
@@ -61,6 +62,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             raise RuntimeError("Cannot create an instance with both energy and polarisation being constant.")
         self.isConfigured = False
         self.inputSignSwitched = False
+        self.submit = None
         self.logger = logger.getChild(self.__class__.__name__)
     
     def configure(self):
@@ -69,6 +71,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.minGap=self.idscannable.getController().getMinGapPos()
             self.maxPhase=self.idscannable.getController().getMaxPhaseMotorPos()
         self.isConfigured=True
+        # if self.energyConstant:
+        #     self.idscannable.addIObserver(lambda source, change: self.notifyIObservers(source, change))
+        # if self.polarisationConstant:
+        #     self.pgmenergy.addIObserver(lambda source, change: self.notifyIObservers(source, change)) 
     
     def getIDPositions(self):
         '''get gap and phase from ID hardware controller, and set polarisation mode in GDA 'idscannable' instance
@@ -311,7 +317,14 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             caput(self.feedbackPV, 4)
         else:
             self.moveDevices(gap, new_polarisation, phase, energy)
-       
+        
+        self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
+    
+    def updateValue(self):
+        while self.isBusy():
+            sleep(0.5)
+            self.notifyIObservers(self, self.getPosition())
+            
     def isBusy(self):
         '''checks the busy status of all child scannables.        
         If and only if all child scannables are done this will be set to False.
@@ -338,6 +351,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
         else:  
             self.idscannable.stop()
+        self.submit.cancel(self.isBusy())
             
     def atScanStart(self):
         if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":
