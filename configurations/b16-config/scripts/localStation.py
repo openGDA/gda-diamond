@@ -409,7 +409,7 @@ if installation.isLive():
 
 	bi = SelectableCollectionOfScannables('bi', [ct7, ai13, ai1])#@UndefinedVariable
 	#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
-	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 1.0, 9.0, 0.1, ai1, .2) #@UndefinedVariable
+	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 0.0, 9.0, 0.1, ai1, .2) #@UndefinedVariable
 	monotuner.use_backlash_correction = True
 
 ###############################################################################
