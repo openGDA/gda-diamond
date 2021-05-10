@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="commonBeamlineDevicesConfiguration"
+		class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<property name="sourceName" value="sourceNexusDevice" />
+		<property name="insertionDeviceName" value="idNexusDevice" />
+		<!-- <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
+		<property name="monochromatorName"
+			value="monochromatorNexusDevice" />
+		<!-- property name="beamName" value="beamNexusDevice" /-->
+		<property name="userDeviceName" value="userNexusDevice" />
+	</bean>
+
+
+	<bean id="sourceNexusDevice"
+		class="org.eclipse.scanning.device.SourceNexusDevice"
+		init-method="register">
+		<property name="name" value="sourceNexusDevice" />
+		<property name="sourceName" value="Diamond Light Source" /> <!-- This is the default, so you can skip this line -->
+		<property name="currentScannableName" value="ringcurrent" />
+	</bean>
+
+	<bean id="idNexusDevice"
+		class="org.eclipse.scanning.device.InsertionDeviceNexusDevice"
+		init-method="register">
+		<property name="name" value="idNexusDevice" />
+		<property name="type" value="UNDULATOR" />
+		<!-- property name="gapScannableName" value="idgap" /-->
+		<!-- property name="taperScannableName" value="taper" /-->
+		<!-- property name="harmonicScannableName" value="uharmonic" /-->
+	</bean>
+
+	<bean id="monochromatorNexusDevice"
+		class="org.eclipse.scanning.device.MonochromatorNexusDevice"
+		init-method="register">
+		<property name="name" value="monochromatorNexusDevice" />
+		<property name="energyScannableName" value="dcm1energy" />
+		<property name="energyErrorScannableName" value="" />
+	</bean>
+
+	<!-- bean id="beamNexusDevice"
+		class="org.eclipse.scanning.device.BeamNexusDevice"
+		init-method="register">
+		<property name="name" value="beamNexusDevice" />
+		<property name="incidentEnergyScannableName" value="energy" />
+		<property name="incidentBeamDivergenceScannableName"
+			value="dummy1" />
+		<property name="incidentPolarizationScannableName"
+			value="dummy1" />
+		<property name="beamExtentScannableName" value="dummy1" />
+		<property name="fluxScannableName" value="dummy1" />
+	</bean-->
+
+	<bean id="userNexusDevice"
+		class="org.eclipse.scanning.device.UserNexusDevice"
+		init-method="register">
+		<property name="name" value="userNexusDevice" />
+		<!-- Note: The user name is retrieved from the baton holder -->
+	</bean>
+
+</beans>

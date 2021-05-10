@@ -5,6 +5,7 @@
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<import resource="required_at_start.xml" />
+	<import resource="data_writer.xml" />
 
     <bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 		<property name="template"

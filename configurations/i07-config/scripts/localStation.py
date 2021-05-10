@@ -22,7 +22,7 @@ def disable_nexus():
         LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
 
 def enable_nexus():
-        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusScanDataWriter")
 	
 def try_execfile(filepath, description=None, full_log=False, absolute=False):
 	print "-------------------------------------------------------------------"
