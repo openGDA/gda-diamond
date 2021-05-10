@@ -1,5 +1,6 @@
 from gdascripts.mscanHandler import *
 from uk.ac.gda.analysis.mscan import HklAdapter
+from gda.factory import Finder
 
 # Excalibur
 exc = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
@@ -39,5 +40,13 @@ except Exception as e:
 
 # Inject normaliser processor for use in namespace
 excalibur_norm = Finder.find("excalibur_norm")
+#####
+
+# PVA snapper
+try:
+    from exc_p import ExcPvaSnapper
+    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats"))
+except Exception as e:
+    print("Error setting up exc snapper", e)
 #####
 

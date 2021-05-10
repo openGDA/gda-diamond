@@ -20,8 +20,54 @@
 	<bean id="excalibur_multiple_strategy" class="uk.ac.gda.devices.odin.OdinMultipleFileStrategy">
 		<constructor-arg index="0" ref="excalibur_controller"/>
 	</bean>
-	
-	
+
+<!-- For PVA plugin -->
+
+
+	<bean id="exc_pva" class="gda.device.detector.NXDetector">
+		<property name="name" value="exc_pva" />
+		<property name="addCollectTimeMs" value="true" />
+		<property name="collectionStrategy"
+			ref="exc_pva_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.PVAPlugin">
+					<constructor-arg ref="excalibur_pva" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="exc_pva_strategy"
+		class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean
+				class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="decoratee">
+					<bean
+						class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean
+								class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="exc_pva_adbase" />
+								<property name="restoreAcquireState" value="true" />
+							</bean>
+						</property>
+						<property name="restoreTriggerMode" value="true" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+
+	<!-- End PVA -->
+
+
+
+
 		<!-- Objects for Processing -->
 
 	<bean
