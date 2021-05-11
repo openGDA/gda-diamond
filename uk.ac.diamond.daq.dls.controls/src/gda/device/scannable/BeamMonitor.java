@@ -151,6 +151,11 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 		try {
 			String value = controller.cagetString(channelToTest);
 			return value.equals("Open");
+		} catch (InterruptedException e) {
+			logger.info("Sleep interrupted", e);
+			// Restore interrupted state
+			Thread.currentThread().interrupt();
+			return true;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;
@@ -162,6 +167,11 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 		try {
 			Double current = controller.cagetDouble(ringCurrent);
 			return current > 1.0;
+		} catch (InterruptedException e) {
+			logger.info("Sleep interrupted", e);
+			// Restore interrupted state
+			Thread.currentThread().interrupt();
+			return true;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;
