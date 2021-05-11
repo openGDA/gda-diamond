@@ -276,9 +276,8 @@ class BeamlineFunctionClass(object):
 		# Since GroupIDs are limited to 10 characters, I06-1 had to be a special case:
 		if logID == "BLI06-1":
 			logGroupID= logID + "-UE";
-		logFile=[];
 		try:
-			ElogEntry.post(logTitle, logContent, logUserID, visit, logID, logGroupID, logFile);
+			ElogEntry(logTitle, logUserID, visit, logID, logGroupID).addHtml(logContent).post()
 		except:
 			exceptionType, exception, traceback=sys.exc_info();
 			print "eLog post failed."
