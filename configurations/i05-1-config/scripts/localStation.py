@@ -29,6 +29,12 @@ execfile(gdascripts + "/pd/time_pds.py");
 
 execfile(gdascripts + "/utils.py");
 
+print "Loading Secondary Scannable Group Creator Script... "
+print "Usage: scan_creator = ScanCreator(start, stop, step, input_list)"
+print "scan_creator.create_group_and_tuples()"
+execfile(gdaScriptDir + "scan_creator.py")
+print "-" *20
+
 print "Creating beamline specific devices...";
 
 import metadatatweaks
