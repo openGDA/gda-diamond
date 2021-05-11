@@ -26,6 +26,11 @@
 		<constructor-arg name="basePvName" value="BL05I-EA-DET-02:" />
 	</bean>
 
+	<bean id="mbs_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<property name="viewName" value="Detector Plot" />
+		<property name="maximumActiveRois" value="1" />
+	</bean>
+
 	<bean id="analyser" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
 		<constructor-arg name="controller" ref="mbs_controller" />
 		<property name="name" value="analyser" />
@@ -52,6 +57,7 @@
 				<property name="slices" value="963" />
 			</bean>
 		</property>
+		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 	</bean>
 
 	<bean id="AnalyserLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
