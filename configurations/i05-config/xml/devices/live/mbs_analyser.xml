@@ -36,20 +36,20 @@
 		<property name="defaultPsuModeName" value="N/A" />
 		<property name="fixedModeConfiguration">
 			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
-				<property name="startX" value="1" />
-				<property name="sizeX" value="1292" />
+				<property name="startX" value="178" />
+				<property name="sizeX" value="929" />
 				<property name="startY" value="1" />
-				<property name="sizeY" value="964" />
-				<property name="slices" value="1000" />
+				<property name="sizeY" value="963" />
+				<property name="slices" value="963" />
 			</bean>
 		</property>
 		<property name="sweptModeConfiguration">
 			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
-				<property name="startX" value="1" />
-				<property name="sizeX" value="1292" />
+				<property name="startX" value="178" />
+				<property name="sizeX" value="929" />
 				<property name="startY" value="1" />
-				<property name="sizeY" value="964" />
-				<property name="slices" value="1000" />
+				<property name="sizeY" value="963" />
+				<property name="slices" value="963" />
 			</bean>
 		</property>
 	</bean>
