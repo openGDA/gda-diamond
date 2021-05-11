@@ -91,8 +91,8 @@ alias("setVisit")
 
 import uk.ac.gda.server.ncd.config.DeviceLister
 import gda.util.ElogEntry
-string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
-gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLB21", "BLB21-RUNL", None)
+device_list_html = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
+gda.util.ElogEntry("device list from gda", "gda", None, "BLB21", "BLB21-RUNL").addHtml(device_list_html).postAsync()
 
 print 'Importing fast shutter control: fs'
 from tfgsetup import fs
