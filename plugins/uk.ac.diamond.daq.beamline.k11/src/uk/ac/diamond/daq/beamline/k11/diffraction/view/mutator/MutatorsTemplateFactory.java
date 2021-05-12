@@ -24,6 +24,7 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,10 +49,12 @@ import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEve
 import uk.ac.diamond.daq.mapping.api.document.helper.ScanpathDocumentHelper;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
+import uk.ac.gda.api.acquisition.configuration.AcquisitionConfiguration;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -113,14 +116,23 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 			.forEach(mutator -> {
 				mutator.setSelection(false);
 				mutator.setEnabled(true);
-				MutatorType mutatorType = getDataObject(mutator, MutatorType.class, MUTATOR_TYPE);
-				mutator.setSelection(getScanningParameters().getScanpathDocument().getMutators()
-										.containsKey(mutatorType.getMscanMutator()));
+				var mutatorType = getDataObject(mutator, MutatorType.class, MUTATOR_TYPE);
+				Optional.ofNullable(mutatorType)
+					.map(this::getSelection)
+					.ifPresent(mutator::setSelection);
 				if (AcquisitionTemplateType.TWO_DIMENSION_POINT.equals(getSelectedAcquisitionTemplateType())
 						&& (mutatorType.equals(MutatorType.ALTERNATING) || mutatorType.equals(MutatorType.CONTINUOUS))) {
 					mutator.setEnabled(false);
 			}
 		});
+	}
+
+	private boolean getSelection(MutatorType mutatorType) {
+		var filteredMutators = Optional.ofNullable(getScanningParameters())
+				.map(ScanningParameters::getScanpathDocument)
+				.map(ScanpathDocument::getMutators)
+				.orElseGet(Collections::emptyMap);
+		return filteredMutators.containsKey(mutatorType.getMscanMutator());
 	}
 
 	@Override
@@ -214,11 +226,17 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	}
 
 	private ScanningParameters getScanningParameters() {
-		return getScanningAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
+		return Optional.ofNullable(getScanningAcquisition())
+				.map(ScanningAcquisition::getAcquisitionConfiguration)
+				.map(AcquisitionConfiguration::getAcquisitionParameters)
+				.orElse(null);
 	}
 
 	private AcquisitionTemplateType getSelectedAcquisitionTemplateType() {
-		return getScanningParameters().getScanpathDocument().getModelDocument();
+		return Optional.ofNullable(getScanningParameters())
+				.map(ScanningParameters::getScanpathDocument)
+				.map(ScanpathDocument::getModelDocument)
+				.orElse(null);
 	}
 
 	private Button createMutatorTypeCheckBox(Composite parent, MutatorType mutatorType, ClientMessages title,

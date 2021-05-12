@@ -44,8 +44,8 @@ import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
-import uk.ac.gda.client.properties.acquisition.AcquisitionTypeProperties;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
+import uk.ac.gda.ui.tool.document.DocumentFactory;
 
 /**
  * Adapt
@@ -129,7 +129,7 @@ public class TemplateDataHelper {
 	 * define explicitly an X and a Y axes.
 	 * Even if the {@link ScannableTrackDocument} may use any name for the axis for consistency is worth for now to
 	 * assume for the {@link ScannableTrackDocument}s to use the same axes names.
-	 * This is enforced by the properties parsed by {@link AcquisitionTypeProperties}
+	 * This is enforced by the properties parsed by {@link DocumentFactory}
 	 */
 	public void updateIMappingScanRegionShape() {
 		IMappingScanRegionShape mappingRegionShape = getRapController().getScanRegionShape();
