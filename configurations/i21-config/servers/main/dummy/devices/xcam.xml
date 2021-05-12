@@ -314,7 +314,6 @@
 	<!-- simulated detector setting collections -->
 	<bean id="xcam_settings" class="gda.device.detector.EpicsProcessVariableCollection">
 		<property name="name" value="xcam_settings"/>
-		<property name="nestedMap" value="false"/>
 		<property name="name2PVSimpleMap">
 			<util:map>
     			<entry key="manufacturer" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV" />
@@ -357,16 +356,70 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-0:CAM:PortName_RBV"/>
+    						<constructor-arg index="1" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:PortName_RBV"/>
     				</bean>
      			</entry>
 			</util:map>		
 		</property>
 	</bean>
 	
+	<bean id="xip1_output" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xip1_output"/>
+		<property name="name2PairMap">
+			<util:map>
+    			<entry key="background_value">
+  					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/BACKGROUND_VALUE"/>
+   					</bean>
+    			</entry>
+    			<entry key="count_possible_event">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_POSSIBLE_EVENT"/>
+    				</bean>
+     			</entry>
+    			<entry key="count_below_threshold">
+  					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_BELOW_THRESHOLD"/>
+   					</bean>
+    			</entry>
+    			<entry key="count_above_threshold">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ABOVE_THRESHOLD"/>
+    				</bean>
+     			</entry>
+    			<entry key="count_neighbouring">
+  					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_NEIGHBOURING"/>
+   					</bean>
+    			</entry>
+    			<entry key="count_actual_3x3">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ACTUAL_3X3"/>
+    				</bean>
+     			</entry>
+			</util:map>		
+		</property>
+	</bean>
 	<bean id="xip1_settings" class="gda.device.detector.EpicsProcessVariableCollection">
 		<property name="name" value="xip1_settings"/>
-		<property name="nestedMap" value="true"/>
 		<property name="name2PVNestedMap">
 			<util:map>
 				<entry key="centroid_algorithm">
@@ -402,9 +455,63 @@
 		</property>
 	</bean>
 
+	<bean id="xip2_output" class="gda.device.detector.EpicsProcessVariableCollection">
+		<property name="name" value="xip2_output"/>
+		<property name="name2PairMap">
+			<util:map>
+    			<entry key="background_value">
+  					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/BACKGROUND_VALUE"/>
+   					</bean>
+    			</entry>
+    			<entry key="count_possible_event">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_POSSIBLE_EVENT"/>
+    				</bean>
+     			</entry>
+    			<entry key="count_below_threshold">
+  					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_BELOW_THRESHOLD"/>
+   					</bean>
+    			</entry>
+    			<entry key="count_above_threshold">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ABOVE_THRESHOLD"/>
+    				</bean>
+     			</entry>
+    			<entry key="count_neighbouring">
+  					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_NEIGHBOURING"/>
+   					</bean>
+    			</entry>
+    			<entry key="count_actual_3x3">
+   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+    						<constructor-arg index="0">
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
+    						</constructor-arg>
+    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ACTUAL_3X3"/>
+    				</bean>
+     			</entry>
+			</util:map>		
+		</property>
+	</bean>
 	<bean id="xip2_settings" class="gda.device.detector.EpicsProcessVariableCollection">
 		<property name="name" value="xip2_settings"/>
-		<property name="nestedMap" value="true"/>
 		<property name="name2PVNestedMap">
 			<util:map>
 				<entry key="centroid_algorithm">
@@ -459,7 +566,12 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="pvsToCollectMap" ref="xip1_settings"/>
+		<property name="pvsToCollectMaps">
+			<list>
+				<ref bean="xip1_settings"/>
+				<ref bean="xip1_output"/>
+			</list>
+		</property>
 	</bean>
 	<bean id="xcamXip2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleHDF5PluginsPerDetectorFileWriter">
 		<property name="name" value="xip2"/>
@@ -479,6 +591,11 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="pvsToCollectMap" ref="xip2_settings"/>
+		<property name="pvsToCollectMaps">
+			<list>
+				<ref bean="xip2_settings"/>
+				<ref bean="xip2_output"/>
+			</list>
+		</property>
 	</bean>	
 </beans>

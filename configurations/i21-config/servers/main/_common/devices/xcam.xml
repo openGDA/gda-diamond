@@ -4,7 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="xcamCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+   	<bean id="xip1_set_beam_energy" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+   		<property name="pvName" value="BL21I-EA-DET-03:XIP1:BEAMLINE_ENERGY"/>
+   		<property name="expression" value="@pgmEnergy.getPosition()"/>
+   		<property name="enabled" value="true"/>
+   		<property name="restorePvValue" value="true"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+				<property name="adBase" ref="xcam_adbase" />
+				<property name="restoreAcquireState" value="true"/>
+				<property name="readAcquisitionTime" value="true"/>
+			</bean>
+		</property>
+   	</bean>
+   	<bean id="xip2_set_beam_energy" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+		<property name="pvName" value="BL21I-EA-DET-03:XIP2:BEAMLINE_ENERGY" />
+   		<property name="expression" value="@pgmEnergy.getPosition()"/>
+		<property name="enabled" value="true" />
+		<property name="restorePvValue" value="true" />
+		<property name="decoratee" ref="xip1_set_beam_energy"/>
+	</bean>
+   	<bean id="xcamCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
@@ -14,13 +34,7 @@
 					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 						<property name="restoreTriggerMode" value="true" />
 						<property name="triggerMode" value="3"/>
-						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="xcam_adbase" />
-								<property name="restoreAcquireState" value="true"/>
-								<property name="readAcquisitionTime" value="true"/>
-							</bean>
-						</property>
+						<property name="decoratee" ref="xip2_set_beam_energy"/>
 					</bean>
 				</property>
 			</bean>
@@ -36,13 +50,7 @@
 					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 						<property name="restoreTriggerMode" value="true" />
 						<property name="triggerMode" value="3"/>
-						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="xcam_adbase" />
-								<property name="restoreAcquireState" value="true"/>
-								<property name="readAcquisitionTime" value="true"/>
-							</bean>
-						</property>
+						<property name="decoratee" ref="xip2_set_beam_energy"/>
 					</bean>
 				</property>
 			</bean>
@@ -58,13 +66,7 @@
 					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 						<property name="restoreTriggerMode" value="true" />
 						<property name="triggerMode" value="2"/>
-						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="xcam_adbase" />
-								<property name="restoreAcquireState" value="true"/>
-								<property name="readAcquisitionTime" value="true"/>
-							</bean>
-						</property>
+						<property name="decoratee" ref="xip2_set_beam_energy"/>
 					</bean>
 				</property>
 			</bean>
@@ -88,7 +90,11 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="pvsToCollectMap" ref="xcam_settings"/>
+		<property name="pvsToCollectMaps">
+			<list>
+		 		<ref bean="xcam_settings"/>	
+			</list>
+		</property>		
 	</bean>
 
 	<!-- used with live stream view -->

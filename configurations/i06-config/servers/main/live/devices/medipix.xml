@@ -232,9 +232,8 @@
 		<property name="stopAquiringInPreparation" value="true" />
 	</bean>
 	<bean id="kbRasteringPeriod" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
-   		<!-- Keysight33500B Channel2 -->
 		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
-   		<property name="expression" value="#acquireTime gt 0.1 ? #acquireTime : 0.1"/>
+   		<property name="expression" value="@medipix_adbase.getAcquireTime() gt 0.1 ? @medipix_adbase.getAcquireTime() : 0.1"/>
 		<property name="enabled" value="true" />
 		<property name="restorePvValue" value="true" />
 		<property name="decoratee" ref="softstatrstop"/>

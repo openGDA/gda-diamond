@@ -232,17 +232,13 @@
 		<property name="restoreAcquireState" value="true" />
 		<property name="stopAquiringInPreparation" value="true" />
 	</bean>
-<!-- 	<bean id="kbRasteringPeriod" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator"> -->
-		<!-- Hytec  -->
-<!-- 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH:FREQ" />  -->
-<!--    		<property name="expression" value="1/#acquireTime lt 10.0 ? 1/#acquireTime : 10.0"/> -->
-   		<!-- Keysight33500B Channel2 -->
-<!-- 		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" /> -->
-<!--    		<property name="expression" value="#acquireTime gt 0.1 ? #acquireTime : 0.1"/> -->
-<!-- 		<property name="enabled" value="true" /> -->
-<!-- 		<property name="restorePvValue" value="true" /> -->
-<!-- 		<property name="decoratee" ref="softstatrstop"/> -->
-<!-- 	</bean> -->
+	<bean id="kbRasteringPeriod" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
+   		<property name="expression" value="@medipix_adbase.getAcquireTime() gt 0.1 ? @medipix_adbase.getAcquireTime() : 0.1"/>
+		<property name="enabled" value="true" />
+		<property name="restorePvValue" value="true" />
+		<property name="decoratee" ref="softstatrstop"/>
+	</bean>
 	<!-- Acquisition or data collection -->
 	<bean id="medipixCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
 		<property name="restoreAcquireState" value="true" />
@@ -259,7 +255,7 @@
 							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
 								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
-								<property name="decoratee" ref="softstatrstop" />
+								<property name="decoratee" ref="kbRasteringPeriod" />
 							</bean>				
 						</property>
 					</bean>
@@ -282,7 +278,7 @@
 							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
 								<property name="triggerMode" value="0" /> <!-- Auto trigger mode -->
-								<property name="decoratee" ref="softstatrstop" />
+								<property name="decoratee" ref="kbRasteringPeriod" />
 							</bean>				
 						</property>
 					</bean>
@@ -306,7 +302,7 @@
 							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
 								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
-										<property name="decoratee" ref="softstatrstop" />
+										<property name="decoratee" ref="kbRasteringPeriod" />
 							</bean>				
 						</property>
 					</bean>
@@ -345,7 +341,7 @@
 										<property name="restoreAcquireTime" value="true"/>
 										<property name="restoreAcquirePeriod" value="true"/>
 										<property name="acquirePeriodExpression" value="#acquireTime + 0.005"/>
-										<property name="decoratee" ref="softstatrstop"/>
+										<property name="decoratee" ref="kbRasteringPeriod"/>
 									</bean>
 								</property>
 							</bean>
@@ -372,7 +368,7 @@
 								<property name="restoreAcquireTime" value="true" />
 								<property name="restoreAcquirePeriod" value="true" />
 								<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
-								<property name="decoratee" ref="softstatrstop" />
+								<property name="decoratee" ref="kbRasteringPeriod" />
 							</bean>
 						</property>
 					</bean>				
