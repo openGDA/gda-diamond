@@ -14,10 +14,6 @@ from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interru
 from gda.jython.commands.ScannableCommands import scan
 
 import logging
-try:
-    logger.getLogger().handlers[-1].level = 40
-except:
-    pass
 
 from userlogging import UserLog
 print "-----------------------------------------------------------------------------------------------------------------"
