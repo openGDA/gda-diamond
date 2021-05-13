@@ -18,6 +18,7 @@
 		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->
 		<!-- detectorEnergyWidth can be found by (analyser.endEnergy - analyser.startEnergy)/analyser.passEnergy -->
 		<property name="detectorEnergyWidth" value="0.06531314413818123" />
+		<property name="alignmentTimeout" value="475.0" />
 		<property name="configurablePhotonEnergyScannable">
 			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
 					<constructor-arg name="scannable" ref="pgm_energy" />
