@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- These wrapper objects expose scannable defined in Jython scripts to the GUI components in Client -->
+	<bean id="polarisation_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="polarisation"/>
+	</bean>
+	<bean id="energy_s_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="energy_s"/>
+	</bean>
+	
+
+</beans>

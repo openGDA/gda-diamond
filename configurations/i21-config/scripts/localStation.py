@@ -7,6 +7,7 @@ from gda.jython.commands.GeneralCommands import alias
 from time import sleep  # @UnusedImport
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
+from uk.ac.gda.remoting.server import GdaRmiServiceExporter
 with overwriting:  # @UndefinedVariable
     from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnresolvedImport
 import gdascripts
@@ -159,6 +160,17 @@ else:
 
 energypolarisation.setInputNames(["energy"])
 energypolarisation.setExtraNames(["polarisation"])
+
+# def export_scannable(scannable):
+#     exporter = GdaRmiServiceExporter()
+#     exporter.setService( scannable)
+#     exporter.setServiceName('gda/'+scannable.getName())
+#     import gda.device.Scannable
+#     exporter.setServiceInterface(gda.device.Scannable)
+#     exporter.afterPropertiesSet()
+#
+# export_scannable(polarisation)
+# export_scannable(energy_s)
 
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
