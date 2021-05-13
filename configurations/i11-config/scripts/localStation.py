@@ -13,7 +13,10 @@ from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
 
+from gdaserver import GDAMetadata as meta
+
 import logging
+logger = logging.getLogger('i11.localStation')
 
 from userlogging import UserLog
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -78,15 +81,24 @@ alias("nfn")
 # the subdirectory parts
 def setSubdirectory(dirname):
     '''create a new sub-directory for data collection that follows'''
-    Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+    meta["subdirectory"] = dirname
     try:
         os.mkdir(pwd())
     except :
         pass
 
 def getSubdirectory():
-    return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
+    return meta["subdirectory"]
 
+def getVisit():
+    return meta['visit']
+
+def setVisit(new_visit):
+    previous = meta['visit']
+    meta['visit'] = new_visit
+    logger.info("Visit changed from %s to %s", previous, new_visit)
+
+alias('setVisit')
 print
 
 from gda.factory import Finder
