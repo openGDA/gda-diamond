@@ -34,7 +34,6 @@ import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.diamond.daq.client.gui.energy.summary.EnergySummaryComposite;
 import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
-import uk.ac.diamond.daq.mapping.ui.position.summary.PositionSummaryComposite;
 import uk.ac.diamond.daq.mapping.ui.stage.StagesComposite;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -69,25 +68,18 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		createStage(parent, style);
 		createCameraControl(parent, style);
 		createExperimentDriver(parent, style);
-		createOutOfBeam(parent, style);
 	}
 
 	private void createExperimentManager(Composite parent, int style) {
 		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
 		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
-
 		new ExperimentManager().createComposite(container, SWT.NONE);
 	}
 
 	private void createStage(Composite parent, int style) {
 		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
 		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
-
 		StagesComposite.buildModeComposite(container);
-	}
-
-	private void createOutOfBeam(Composite parent, int style) {
-		new PositionSummaryComposite().createComposite(parent, style);
 	}
 
 	private void createCameraControl(Composite parent, int style) {
