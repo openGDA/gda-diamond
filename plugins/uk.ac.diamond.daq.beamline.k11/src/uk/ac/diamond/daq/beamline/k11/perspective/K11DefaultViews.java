@@ -22,7 +22,7 @@ import org.eclipse.scanning.api.event.EventConstants;
 import org.eclipse.scanning.event.ui.view.StatusQueueView;
 
 import gda.configuration.properties.LocalProperties;
-import uk.ac.diamond.daq.beamline.k11.view.DiffractionConfigurationView;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionConfigurationView;
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard;
 import uk.ac.diamond.daq.experiment.ui.plan.DetectorFramePeekView;
 import uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView;
