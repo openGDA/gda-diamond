@@ -103,7 +103,8 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 	 */
 	@Override
 	protected Supplier<ScanningAcquisition> newScanningAcquisition() {
-		return SpringApplicationContextFacade.getBean(DocumentFactory.class).newScanningAcquisition(AcquisitionTemplateType.TWO_DIMENSION_POINT, "diffraction");
+		return SpringApplicationContextFacade.getBean(DocumentFactory.class)
+				.newScanningAcquisition(AcquisitionPropertyType.DIFFRACTION, AcquisitionTemplateType.TWO_DIMENSION_POINT);
 	}
 
 	@Override
