@@ -69,6 +69,7 @@
 	<import resource="epics/pneumatic/shutterabsorber.xml" />
 
 
+	<import resource="epics/detector/balor.xml" />
 	<import resource="epics/detector/scaler_vortex.xml" />
 	<import resource="epics/detector/mca_vortex.xml" />
 	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->

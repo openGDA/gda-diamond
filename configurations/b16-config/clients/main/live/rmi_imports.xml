@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
+	<bean id="balor_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="pcoedge_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="pco4000_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="pilatus_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />

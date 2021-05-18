@@ -881,6 +881,39 @@ if installation.isLive():
 	pslv1max2d = DetectorDataProcessorWithRoi('pslv1max2d', pslv1, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
 	pslv1intensity2d = DetectorDataProcessorWithRoi('pslv1intensity2d', pslv1, [PixelIntensity()],prefix_name_to_extranames=False)
 
+
+if installation.isLive():
+
+	balor = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'balor',
+		_balor,  # @UndefinedVariable
+		None,
+		_balor_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name_rcp='balor',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	#balor.poke_inactive_detector = False # TODO: set to True for temp hack - remove ASAP
+
+	balorpeak2d = DetectorDataProcessorWithRoi('peak2d', balor, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	balormax2d = DetectorDataProcessorWithRoi('max2d', balor, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	balorintensity2d = DetectorDataProcessorWithRoi('intensity2d', balor, [PixelIntensity()],prefix_name_to_extranames=False)
+
+	"""balor_multi = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'balor_multi',
+		_balor_multi,  # @UndefinedVariable
+		None,
+		_balor_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name_rcp='balor',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)"""
+
+	#balor_multi_peak2d = DetectorDataProcessorWithRoi('peak2d', balor_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	#balor_multi_max2d = DetectorDataProcessorWithRoi('max2d', balor_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	#balor_multi_intensity2d = DetectorDataProcessorWithRoi('intensity2d', balor_multi, [PixelIntensity()],prefix_name_to_extranames=False)
+
 ###############################################################################
 ###                                   TEMPORARY                              ###
 ###############################################################################

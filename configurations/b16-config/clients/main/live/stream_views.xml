@@ -214,4 +214,35 @@
 		<property name="bottomUi" ref="pslv1_histogramBottomUI" />
 	</bean>
 
+
+	<bean id="balor_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="balor_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="balor_histogramTopUI" />
+	</bean>
+	<bean id="balor_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="balor_camera_control" />
+	</bean>
+	<bean id="balor_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="balor_controlsUI" />
+				<ref bean="balor_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="balor_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Andor Balor-X" />
+		<property name="arrayPv" value="BL16B-EA-ANDOR-01:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="balor_topUI" />
+		<property name="bottomUi" ref="balor_histogramBottomUI" />
+	</bean>
+
 </beans>
