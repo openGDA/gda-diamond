@@ -18,6 +18,7 @@
 
 package uk.ac.gda.client.live.stream.view.customui;
 
+import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -43,7 +44,7 @@ import gda.observable.IObserver;
 import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanEvent;
 import uk.ac.diamond.daq.concurrent.Async;
-import uk.ac.gda.client.live.stream.simulator.connector.ImageDatasetConnector;
+import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.exafs.ui.NumberBoxWithUnits;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
@@ -64,13 +65,14 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 	private volatile boolean collectionRunning = false;
 	private volatile boolean stopCollection;
 
+	private int updateCounter = 0;
+
 	@Override
 	public void createUi(Composite composite) {
-		findDetector();
+		Finder.findOptionalOfType(detectorName, EdeDetector.class).ifPresent(this::setDetector);
+
 		if (edeDetector == null) {
-			String message = "Warning : could not create controls - no detector called '"+detectorName+"' was found!";
-			logger.warn(message);
-			new Text(composite, SWT.NONE).setText(message);
+			addMissingDetectorMessage(composite);
 			return;
 		}
 
@@ -89,20 +91,22 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 		composite.addDisposeListener( l -> InterfaceProvider.getScanDataPointProvider().addScanEventObserver(serverObserver));
 	}
 
+	private void setDetector(EdeDetector detector) {
+		edeDetector = detector;
+	}
 
-	IObserver serverObserver = (source, arg) -> {
+	private void addMissingDetectorMessage(Composite composite) {
+		String message = "Warning : could not create controls - no detector called '"+detectorName+"' was found!";
+		logger.warn(message);
+		new Text(composite, SWT.NONE).setText(message);
+	}
+
+	private IObserver serverObserver = (source, arg) -> {
 		if (!(arg instanceof ScanEvent)) {
 			return;
 		}
 
 		ScanEvent scanEvent = (ScanEvent) arg;
-		String[] detectorNames = scanEvent.getLatestInformation().getDetectorNames();
-
-		// Don't do anything if scan doesn't involve the detector
-//		if (!Arrays.asList(detectorNames).contains(edeDetector.getName())) {
-//			return;
-//		}
-
 		// disable start, stop buttons at scan start/if scan is running
 		ScanStatus status = scanEvent.getLatestStatus();
 		if (status.isRunning()) { // NB isRunning == *false* when cscan is running! (status = 'Not started')
@@ -120,7 +124,7 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 
 	private void stopCollectionAndWait() {
 
-		stopCollection = true;
+		setStopDetector(true);
 		while(collectionRunning) {
 			try {
 				Thread.sleep(100);
@@ -131,10 +135,6 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 		logger.debug("Finished waiting");
 	}
 
-	private void findDetector() {
-		edeDetector = Finder.findOptionalOfType(detectorName, EdeDetector.class)
-							.orElse(edeDetector);
-	}
 
 	private void addButtons(Composite parent) {
 
@@ -158,7 +158,7 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 		numAccumulationsText.setText("Number of accumulations : ");
 		numAccumulationsBox = new NumberBoxWithUnits(mainComposite, SWT.NONE);
 		numAccumulationsBox.setDisplayIntegers(true);
-		numAccumulationsBox.setMinimum(1.0);
+		numAccumulationsBox.setMinimum(0.0);
 		numAccumulationsBox.setMaximum(1000.0);
 		numAccumulationsBox.setValue((double)numAccumulations);
 		gdFactory.applyTo(numAccumulationsBox);
@@ -173,18 +173,8 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 
 		stopButton = new Button(mainComposite2, SWT.PUSH);
 		stopButton.setText("Stop");
-		stopButton.addListener(SWT.Selection, e -> stopDetector());
+		stopButton.addListener(SWT.Selection, e -> setStopDetector(true));
 		gdFactory.applyTo(stopButton);
-
-//		Button quitButton = new Button(mainComposite2, SWT.PUSH);
-//		quitButton.setText("Quit!");
-//		quitButton.addListener(SWT.Selection, e -> {
-//			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
-//				PlatformUI.getWorkbench().saveAllEditors(false);
-//				PlatformUI.getWorkbench().close();
-//			});
-//		});
-
 	}
 
 	/**
@@ -223,6 +213,7 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 			stopButton.setEnabled(enableStop);
 		});
 	}
+
 	private void enableWidgets(boolean enable) {
 		enableWidgets(enable, !enable);
 	}
@@ -241,8 +232,8 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 			configureDetector();
 			double timePerSpectrum = accumulationTimeMs*numAccumulations;
 			collectionRunning = true;
-			stopCollection = false;
-			while(!stopCollection) {
+			setStopDetector(false);
+			while(!isStopDetector()) {
 				logger.debug("Starting collection loop");
 
 				edeDetector.waitWhileBusy();
@@ -270,13 +261,17 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 			logger.error("Problem collecting data", e);
 		} finally {
 			collectionRunning = false;
-			stopCollection = false;
+			setStopDetector(false);
 			enableWidgets(true);
 		}
 	}
 
-	private void stopDetector() {
-		stopCollection = true;
+	private void setStopDetector(boolean stop) {
+		stopCollection = stop;
+	}
+
+	private boolean isStopDetector() {
+		return stopCollection;
 	}
 
 	/**
@@ -301,20 +296,38 @@ public class EdeDetectorCustomUI extends AbstractLiveStreamViewCustomUi {
 	}
 
 	/**
-	 * Read data from detector and pass the Dataset to the Live stream connection.
+	 * Read data from detector and update the image plot.
 	 * @throws DeviceException
 	 */
 	private void updateDataset() throws DeviceException {
-		 // same as 'collectImage' in script
 		logger.info("Reading detector data");
 		int[] data = edeDetector.readoutFrames(0, 0);
 		int xsize = edeDetector.getMaxPixel();
 		int ysize = data.length / xsize;
-		if(getLiveStreamConnection().getStream() instanceof ImageDatasetConnector) {
-			logger.info("Sending data to live stream view (dimensions = {} x {} pixels)", xsize, ysize);
-			Dataset detData = DatasetFactory.createFromObject(data, ysize, xsize);
-			ImageDatasetConnector simDataset = (ImageDatasetConnector) getLiveStreamConnection().getStream();
-			simDataset.setDataset(detData);
+		Dataset detData = DatasetFactory.createFromObject(data, ysize, xsize);
+		detData.setName(detectorName+" data");
+		logger.info("Sending data to live stream view (dimensions = {} x {} pixels)", xsize, ysize);
+		Display.getDefault().asyncExec(() -> updatePlot(detData));
+	}
+
+	/**
+	 * Update the detector data image plot by sending the
+	 * dataset directly to the plotting system.
+	 * @param data detector dataset to be plotted
+	 */
+	private void updatePlot(Dataset data) {
+		IImageTrace imageTrace = getImageTrace();
+		boolean firstPlot = imageTrace.getDataName() == null;
+		boolean rescale = getPlottingSystem().isRescale();
+		// set the data and rescale the plot axes if it's the first data or 'rescale' button is selected.
+		imageTrace.setData(data, null, firstPlot || rescale);
+		imageTrace.setDataName(data.getName());
+
+		CameraConfiguration config = getLiveStreamConnection().getCameraConfig();
+		getPlottingSystem().setTitle(config.getName()+" image "+updateCounter++);
+		if (firstPlot) {
+			getPlottingSystem().autoscaleAxes();
+			imageTrace.rehistogram();
 		}
 	}
 
