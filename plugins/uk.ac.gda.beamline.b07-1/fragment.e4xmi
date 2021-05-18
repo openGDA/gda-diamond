@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_3AxDQLffEeaEys8lHRcPvw">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_0ZimcLfoEeuDkoEAJivtpQ" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.5">
+    <elements xsi:type="basic:Part" xmi:id="_5dQX8LfoEeuDkoEAJivtpQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:d22c_cam1#MJPEG" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="D22C"/>
+  </fragments>
+</fragment:ModelFragments>
