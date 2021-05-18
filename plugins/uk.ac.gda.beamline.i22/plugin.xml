@@ -22,12 +22,6 @@
       </product>
    </extension>
 
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="uk.ac.gda.beamline.i22.I22StartupService">
-      </startup>
-   </extension>
       <extension
          point="org.eclipse.ui.intro">
       <intro
