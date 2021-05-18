@@ -2,10 +2,6 @@
 
 <launcher>
   <group name="I22 Staff">
-    <button text="Mar View" command="vncviewer i22-mar01"/>
-    <button text="Rapid View" command="/dls_sw/i22/bin/RapidView"/>
-    <button text="Hotwaxs View" command="/dls_sw/i22/bin/HotWaxsView"/>
-    <button text="Hotsaxs View" command="/dls_sw/i22/bin/HotSaxsView"/>
     <button text="rdesktop HPLC" command="/dls_sw/i22/software/gda/bin/hplcpc"/>
     <button text="rdesktop biosaxs" command="/dls_sw/i22/software/gda/bin/biosaxspc"/>
     <button text="bimorph script" command="/dls_sw/i22/epics/scripts/fixbimorphs.py"/>
