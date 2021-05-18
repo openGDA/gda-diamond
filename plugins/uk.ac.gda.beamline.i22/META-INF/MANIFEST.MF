@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: i22 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i22;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: uk.ac.gda.beamline.i22.I22BeamlineActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  uk.ac.gda.client,
