@@ -8,17 +8,11 @@
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 
 	
- 	<bean id="medipixAppender" class="uk.ac.gda.epics.nexus.device.NexusMetadataAppender" init-method="register">
+ 	<bean id="medipixAppender" class="uk.ac.gda.epics.nexus.device.EpicsPVCollectionNexusMetadataAppender" init-method="register">
 		<property name="name" value="medipix" />
-		<property name="nexusMetadata">
-			<util:map>
-    			<entry key="data_type" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:DataType" />
-    			<entry key="colour_mode" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ColorMode" />
-			</util:map>
-		</property>
-		<property name="pvsToCollectMap" ref="medipix_settings"/>
-	</bean> 	
-
+		<property name="pvsToCollectMaps" ref="medipix_settings"/>
+	</bean> 
+	
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<!-- configure per-scan monitors -->
 		<property name="sourceName" value="source" />

@@ -4,6 +4,7 @@ from i06shared import installation
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gda.device.scannable import DummyScannable
 from gda.configuration.properties import LocalProperties
+from i06shared.scannables.stockParameters import StockParameters
 print
 print "*"*80
 print "Performing Beamline I06-shared initialisation code (localStation.py).";
@@ -86,8 +87,7 @@ m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __m
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 
 from i06shared.scannables.mode_polarisation_energy_instances import *  # @UnusedWildImport
-idd,idu,dpu,dmu,unknown=SourceMode.SOURCE_MODES
-pc,nc,lh,lv,la,unknown=Polarisation.POLARISATIONS
+stock_parameters = StockParameters('stock_parameters', __main__.pol, __main__.laa)
 
 from i06shared.scan.miscan import miscan  # @UnusedImport
 

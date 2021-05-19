@@ -19,6 +19,9 @@ from gda.device.scannable import DummyScannable
 GAP_LIMIT=99.0
 RAW_PHASE_MOTOR_TOLERANCE=1.0
 ENERGY_VALUE_TOLERANCE=10.0
+idd,idu,dpu,dmu,unknown=SourceMode.SOURCE_MODES
+pc,nc,lh,lv,la,unknown=Polarisation.POLARISATIONS
+
 def initialisation():
     if float(__main__.iddgap.getPosition()) < GAP_LIMIT and float(__main__.idugap.getPosition()) < GAP_LIMIT:
         if math.fabs(float(__main__.iddrpenergy.getPosition()) - float(__main__.idurpenergy.getPosition())) <= ENERGY_VALUE_TOLERANCE:
@@ -100,5 +103,5 @@ else:
     __main__.offhar = DummyScannable('offhar')
     __main__.pol = DummyListScannable('pol', list_values=Polarisation.POLARISATIONS[:-1])
     __main__.energy=__main__.pgmenergy
-    __main__.laa = DummyScannable('laa')
+    __main__.laa=LinearArbitraryAngle('laa', __main__.iddlaangle, __main__.idulaangle, __main__.smode, __main__.pol)
     

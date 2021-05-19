@@ -7,9 +7,7 @@ Created on 13 Apr 2017
 @author: fy65
 '''
 from gda.device.scannable import ScannableBase
-from gda.jython import InterfaceProvider
 from gda.configuration.properties import LocalProperties
-from java.io import File
 from time import sleep
 from gda.jython.commands import GeneralCommands
 from i06shared import installation

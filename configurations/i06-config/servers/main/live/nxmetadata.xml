@@ -46,25 +46,18 @@
 		</property>
 	</bean>
 	
- 	<bean id="medipixAppender" class="uk.ac.gda.epics.nexus.device.NexusMetadataAppender" init-method="register">
+ 	<bean id="medipixAppender" class="uk.ac.gda.epics.nexus.device.EpicsPVCollectionNexusMetadataAppender" init-method="register">
 		<property name="name" value="medipix" />
-		<property name="nexusMetadata">
-			<util:map>
-    			<entry key="data_type" value="BL06I-EA-DET-02:CAM:DataType" />
-    			<entry key="colour_mode" value="BL06I-EA-DET-02:CAM:ColorMode" />
-			</util:map>
-		</property>
-		<property name="pvsToCollectMap" ref="medipix_settings"/>
+		<property name="pvsToCollectMaps" ref="medipix_settings"/>
 	</bean> 	
 
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<!-- configure per-scan monitors -->
-		<property name="sourceName" value="sourceNexusDevice" />
-		<property name="insertionDeviceName" value="idNexusDevice" />
-		<!--  <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
-		<property name="monochromatorName" value="monochromatorNexusDevice" />
-		<property name="beamName" value="beamNexusDevice" />
-		<property name="userDeviceName" value="userNexusDevice" />
+		<property name="sourceName" value="source" />
+		<property name="insertionDeviceName" value="id" />
+		<property name="monochromatorName" value="pgm" />
+		<property name="beamName" value="beam" />
+		<property name="userDeviceName" value="user" />
 		<property name="additionalDeviceNames">
 			<set>
 				<value>s1</value>

@@ -44,6 +44,10 @@
 							<property name="name" value="la_angle"/>
 							<property name="scannableName" value="iddlaangle"/>
 						</bean>
+ 						<bean class="org.eclipse.scanning.device.ScannableField">
+							<property name="name" value="polarisation"/>
+							<property name="scannableName" value="pol"/>
+						</bean>
                     </list>
                 </property>
             </bean>
@@ -174,7 +178,7 @@
 		<property name="name" value="beam" />
 		<property name="incidentEnergyScannableName" value="pgmenergy" />
 		<property name="incidentBeamDivergenceScannableName" value="ds" />
-		<property name="incidentPolarizationScannableName" value="pol" />
+		<property name="incidentPolarizationScannableName" value="stock_parameters" />
 		<property name="beamExtentScannableName" value="ds" />
 		<property name="fluxScannableName" value="ds" />
 	</bean>
