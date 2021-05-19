@@ -73,6 +73,7 @@
 		</property>
 	</bean>
 
+	<!-- Watchdogs -->
 	<bean id="watchdog_control" class="uk.ac.gda.client.livecontrol.WatchdogControl">
 		<property name="group" value="Watchdogs" />
 		<property name="watchdogNames">
@@ -81,6 +82,15 @@
 				<value>topup_watchdog</value>
 			</list>
 		</property>
+	</bean>
+
+	<!-- Open ImageJ for detectors -->
+
+	<bean id="merlin_imagej_control" class="uk.ac.gda.client.livecontrol.BashCommandControl">
+		<property name="group" value="ImageJ for detectors" />
+		<property name="buttonText" value="Merlin" />
+		<property name="buttonTooltip" value="Open ImageJ viewer for the Merlin detector" />
+		<property name="command" value="/dls_sw/prod/tools/RHEL7-x86_64/defaults/bin/dls-imagej" />
 	</bean>
 
 	<!-- Overall control set -->
@@ -94,6 +104,7 @@
 				<ref bean="endstation_configurations" />
 				<ref bean="watchdog_control" />
 				<ref bean="dcm_enrg_control" />
+				<ref bean="merlin_imagej_control" />
 			</list>
 		</property>
 	</bean>
