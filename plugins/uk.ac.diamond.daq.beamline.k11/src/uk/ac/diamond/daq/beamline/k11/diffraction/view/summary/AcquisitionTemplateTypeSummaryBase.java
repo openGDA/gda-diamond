@@ -28,6 +28,7 @@ import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 
 /**
@@ -123,7 +124,13 @@ public class AcquisitionTemplateTypeSummaryBase  {
 
 	@Override
 	public String toString() {
-		switch (getSelectedAcquisitionTemplateType()) {
+		return getSelectedAcquisitionTemplateType()
+			.map(this::toStringTemplateType)
+			.orElse("");
+	}
+
+	private String toStringTemplateType(AcquisitionTemplateType templateType) {
+		switch (templateType) {
 		case TWO_DIMENSION_POINT:
 			return pointToString();
 		case TWO_DIMENSION_LINE:
@@ -136,7 +143,13 @@ public class AcquisitionTemplateTypeSummaryBase  {
 	}
 
 	private IntBinaryOperator totalPoints() {
-		switch (getSelectedAcquisitionTemplateType()) {
+		return getSelectedAcquisitionTemplateType()
+				.map(this::toIntBinaryOperator)
+				.orElse((a, b) -> 0);
+	}
+
+	private IntBinaryOperator toIntBinaryOperator(AcquisitionTemplateType templateType) {
+		switch (templateType) {
 		case TWO_DIMENSION_POINT:
 			// A Single point
 			return (a, b) -> 1;
@@ -174,7 +187,9 @@ public class AcquisitionTemplateTypeSummaryBase  {
 		return getScanningAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 
-	private AcquisitionTemplateType getSelectedAcquisitionTemplateType() {
-		return getScanningParameters().getScanpathDocument().getModelDocument();
+	private Optional<AcquisitionTemplateType> getSelectedAcquisitionTemplateType() {
+		return Optional.ofNullable(getScanningParameters())
+			.map(ScanningParameters::getScanpathDocument)
+			.map(ScanpathDocument::getModelDocument);
 	}
 }

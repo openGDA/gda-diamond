@@ -272,6 +272,9 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	}
 
 	private AcquisitionTemplateType getSelectedAcquisitionTemplateType() {
-		return getScanningParameters().getScanpathDocument().getModelDocument();
+		return Optional.ofNullable(getScanningParameters())
+				.map(ScanningParameters::getScanpathDocument)
+				.map(ScanpathDocument::getModelDocument)
+				.orElse(null);
 	}
 }

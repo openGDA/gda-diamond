@@ -51,7 +51,6 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Widget;
 
@@ -66,11 +65,12 @@ import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
-import uk.ac.gda.client.properties.acquisition.AcquisitionTypeProperties;
+import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.WidgetUtilities;
+import uk.ac.gda.ui.tool.document.DocumentFactory;
 import uk.ac.gda.ui.tool.images.ClientImages;
 
 /**
@@ -127,10 +127,10 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		var container = createClientCompositeWithGridLayout(parent, style, 1);
 		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).grab(true, true).applyTo(container);
 
-		Label label = createClientLabel(container, style, SHAPE);
+		var label = createClientLabel(container, style, SHAPE);
 		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(label);
 
 		acquisitionTypeRadios.add(createAcquisitionTypeRadio(container,
@@ -191,9 +191,9 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 
 	private void dispose() {
 		acquisitionTypeRadios.stream()
-			.forEach(r -> {
-				r.removeListener(SWT.SELECTED, getDataObject(r, Listener.class, ACQUISITION_TEMPLATE_TYPE_LISTENER));
-			});
+			.forEach(r ->
+				r.removeListener(SWT.SELECTED, getDataObject(r, Listener.class, ACQUISITION_TEMPLATE_TYPE_LISTENER))
+			);
 	}
 
 	public SelectObservableValue<AcquisitionTemplateType> getSelectedAcquisitionType() {
@@ -223,11 +223,11 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 
 	private Button createAcquisitionTypeRadio(Composite parent,
 			AcquisitionTemplateType acquisitionTemplateType, ClientMessages tooltip, ClientImages icon) {
-		Button button = createClientButton(parent, SWT.RADIO, EMPTY_MESSAGE, tooltip, icon);
+		var button = createClientButton(parent, SWT.RADIO, EMPTY_MESSAGE, tooltip, icon);
 		ClientSWTElements.createClientGridDataFactory().applyTo(button);
 
 		// sets the button data (the shape it refers to)
-		Listener listener = selectionListener.apply(acquisitionTemplateType);
+		var listener = selectionListener.apply(acquisitionTemplateType);
 		button.setData(ACQUISITION_TEMPLATE_TYPE_LISTENER, listener);
 		button.setData(ACQUISITION_TEMPLATE_TYPE, acquisitionTemplateType);
 
@@ -244,16 +244,15 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 				.orElseGet(() -> false);
 
 		if (selected) {
-			AcquisitionTemplateType actualAcquisitionTemplateType = getSelectedAcquisitionTemplateType();
+			var actualAcquisitionTemplateType = getSelectedAcquisitionTemplateType();
 			// The user clicked an already selected radio
 			if (getDataObject(radio, AcquisitionTemplateType.class, ACQUISITION_TEMPLATE_TYPE)
 					.equals(actualAcquisitionTemplateType)) return;
 
-			String acquisitionType = "diffraction";
-			// When a new acquisitionType is selected, replaces the acquisition scanPathDocument
-			Optional.ofNullable(AcquisitionTypeProperties.getAcquisitionProperties(acquisitionType))
-				.map(a -> a.buildScanpathBuilder(acquisitionTemplateType))
+			getDocumentFactory()
+				.buildScanpathBuilder(AcquisitionPropertyType.DIFFRACTION, actualAcquisitionTemplateType)
 				.ifPresent(scanpathDocumentHelper::updateScanPathDocument);
+
 			SpringApplicationContextFacade.publishEvent(
 					new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
 		}
@@ -327,5 +326,9 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 
 	private AcquisitionTemplateType getSelectedAcquisitionTemplateType() {
 		return getScanningParameters().getScanpathDocument().getModelDocument();
+	}
+
+	private DocumentFactory getDocumentFactory() {
+		return SpringApplicationContextFacade.getBean(DocumentFactory.class);
 	}
 }
