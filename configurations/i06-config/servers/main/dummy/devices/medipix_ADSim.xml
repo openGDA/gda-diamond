@@ -178,7 +178,6 @@
 	<!-- simulated detector setting collections -->
 	<bean id="medipix_settings" class="gda.device.detector.EpicsProcessVariableCollection">
 		<property name="name" value="medipix_settings"/>
-		<property name="nestedMap" value="false"/>
 		<property name="name2PVSimpleMap">
 			<util:map>
     			<entry key="manufacturer" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV" />
@@ -196,7 +195,7 @@
     				<list>
     					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
     						<constructor-arg index="0">
-    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">SCALAR</value>
+    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">CONSTANT</value>
     						</constructor-arg>
     						<constructor-arg index="1" value="MediPix - a water cold X-ray camera."/>
     					</bean>
@@ -219,7 +218,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-0:CAM:PortName_RBV"/>
+    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:PortName_RBV"/>
     				</bean>
      			</entry>
 			</util:map>		

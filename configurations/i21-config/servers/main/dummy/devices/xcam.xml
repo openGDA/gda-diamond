@@ -372,7 +372,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/BACKGROUND_VALUE"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/BACKGROUND_VALUE"/>
    					</bean>
     			</entry>
     			<entry key="count_possible_event">
@@ -380,7 +380,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_POSSIBLE_EVENT"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_POSSIBLE_EVENT"/>
     				</bean>
      			</entry>
     			<entry key="count_below_threshold">
@@ -388,7 +388,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_BELOW_THRESHOLD"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_BELOW_THRESHOLD"/>
    					</bean>
     			</entry>
     			<entry key="count_above_threshold">
@@ -396,7 +396,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ABOVE_THRESHOLD"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_ABOVE_THRESHOLD"/>
     				</bean>
      			</entry>
     			<entry key="count_neighbouring">
@@ -404,7 +404,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_NEIGHBOURING"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_NEIGHBOURING"/>
    					</bean>
     			</entry>
     			<entry key="count_actual_3x3">
@@ -412,7 +412,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ACTUAL_3X3"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_ACTUAL_3X3"/>
     				</bean>
      			</entry>
 			</util:map>		
@@ -464,7 +464,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/BACKGROUND_VALUE"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/BACKGROUND_VALUE"/>
    					</bean>
     			</entry>
     			<entry key="count_possible_event">
@@ -472,7 +472,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_POSSIBLE_EVENT"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_POSSIBLE_EVENT"/>
     				</bean>
      			</entry>
     			<entry key="count_below_threshold">
@@ -480,7 +480,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_BELOW_THRESHOLD"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_BELOW_THRESHOLD"/>
    					</bean>
     			</entry>
     			<entry key="count_above_threshold">
@@ -488,7 +488,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ABOVE_THRESHOLD"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_ABOVE_THRESHOLD"/>
     				</bean>
      			</entry>
     			<entry key="count_neighbouring">
@@ -496,7 +496,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_NEIGHBOURING"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_NEIGHBOURING"/>
    					</bean>
     			</entry>
     			<entry key="count_actual_3x3">
@@ -504,7 +504,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">LINK</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="entry/instrument/NDAttributes/COUNT_ACTUAL_3X3"/>
+    						<constructor-arg index="1" value="/entry/instrument/NDAttributes/COUNT_ACTUAL_3X3"/>
     				</bean>
      			</entry>
 			</util:map>		
