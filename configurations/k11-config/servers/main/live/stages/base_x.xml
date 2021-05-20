@@ -5,29 +5,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<bean id="BASEX_PV_NAME" class="java.lang.String">
-		<constructor-arg value="BL11K-MO-TABLE-01" />
-	</bean>
-	
+	<!-- 	At the moment the scientists do not want base_x connected with the GUI which, 
+			on the other hand exposes this enumerator through the dropdown in the 
+ 			dashboard -> Stages. This may be reactivated once the GUI is improved 
+ 			with a dialog box "Do you really want to more BaseX?" -->
 	<bean id="base_x" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>TR6</value>
 				<value>Tomography</value>
+				<value>TR6</value>
 				<value>Platform</value>
 			</list>
 		</property>
 	</bean>
-
-<!-- 	<bean id="base_x" class="gda.device.enumpositioner.EpicsEnumPositioner"> -->
-<!-- 		<property name="pvBase" value="#{BASEX_PV_NAME}:X:SELECT" /> -->
-<!-- 	</bean> -->
-
-	<gda:motor id="base_x_cont"
-		live-pvName="#{BASEX_PV_NAME}:X" 
-		dummy-minPosition="-1.4996"
-		dummy-maxPosition="15.0004" 
-		dummy-position="4.0014"
-		dummy-unitString="mm" />
 
 </beans>

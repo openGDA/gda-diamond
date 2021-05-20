@@ -22,12 +22,13 @@ import static uk.ac.gda.ui.tool.ClientMessages.MUTATORS_MODE;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+import static uk.ac.gda.ui.tool.WidgetUtilities.addWidgetDisposableListener;
+import static uk.ac.gda.ui.tool.WidgetUtilities.getDataObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
@@ -39,8 +40,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Widget;
 import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
@@ -58,7 +57,6 @@ import uk.ac.gda.api.acquisition.configuration.AcquisitionConfiguration;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
-import uk.ac.gda.ui.tool.WidgetUtilities;
 
 
 /**
@@ -91,10 +89,10 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		Composite container = createClientCompositeWithGridLayout(parent, style, 1);
+		var container = createClientCompositeWithGridLayout(parent, style, 1);
 		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(container);
 
-		Label label = createClientLabel(container, style, MUTATORS_MODE);
+		var label = createClientLabel(container, style, MUTATORS_MODE);
 		createClientGridDataFactory().align(SWT.FILL, SWT.TOP).applyTo(label);
 
 		mutators.add(createMutatorTypeCheckBox(container, MutatorType.ALTERNATING, ClientMessages.ALTERNATING_MUTATOR,
@@ -173,7 +171,7 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		Optional.ofNullable(event.getSource())
 			.map(Button.class::cast)
 			.ifPresent(mutator -> {
-				MutatorType mutatorType = getDataObject(mutator, MutatorType.class, MUTATOR_TYPE);
+				var mutatorType = getDataObject(mutator, MutatorType.class, MUTATOR_TYPE);
 				if (mutator.getSelection()) {
 					scanpathDocumentHelper.addMutators(mutatorType.getMscanMutator(), new ArrayList<>());
 				} else {
@@ -204,18 +202,8 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 			= new ApplicationListener<ScanningAcquisitionChangeEvent>() {
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-			UUID eventUUID = Optional.ofNullable(event.getScanningAcquisition())
-					.map(ScanningAcquisition::getUuid)
-					.orElseGet(UUID::randomUUID);
-
-			UUID scanningAcquisitionUUID = Optional.ofNullable(acquisitionSupplier.get())
-					.map(ScanningAcquisition::getUuid)
-					.orElseGet(UUID::randomUUID);
-
-			if (eventUUID.equals(scanningAcquisitionUUID)) {
-				initialiseElements();
-				scanPointListenToMutatorSelection();
-			}
+			initialiseElements();
+			scanPointListenToMutatorSelection();
 		}
 	};
 
@@ -241,10 +229,10 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 
 	private Button createMutatorTypeCheckBox(Composite parent, MutatorType mutatorType, ClientMessages title,
 			ClientMessages tooltip) {
-		Button button = ClientSWTElements.createClientButton(parent, SWT.CHECK, title, tooltip);
+		var button = ClientSWTElements.createClientButton(parent, SWT.CHECK, title, tooltip);
 		// Sets the mutator type. In this way is easier to have the type should the element be selected
 		button.setData(MUTATOR_TYPE, mutatorType);
-		WidgetUtilities.addWidgetDisposableListener(button, SelectionListener.widgetSelectedAdapter(this::mutatorListener));
+		addWidgetDisposableListener(button, SelectionListener.widgetSelectedAdapter(this::mutatorListener));
 
 		ISWTObservableValue<Boolean> checkedObservable = WidgetProperties.buttonSelection().observe(button);
 		button.setData(MUTATOR_CHECKED_OBSERVABLE, checkedObservable);
@@ -254,12 +242,5 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 		}
 
 		return button;
-	}
-
-	// To replace with WidgetUtilities.getDataObject when available (K11-837)
-	private static <T> T getDataObject(Widget widget, Class<T> clazz, String dataKey) {
-		return Optional.ofNullable(widget.getData(dataKey))
-				.map(clazz::cast)
-				.orElseGet(() -> null);
 	}
 }

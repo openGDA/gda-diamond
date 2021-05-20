@@ -18,7 +18,7 @@
 		<constructor-arg value="#{ localhostname_simdet.hostName.split('\.')[0] }" />
 	</bean>
  	<bean id="sim_pvbase" class="java.lang.String">
-		<constructor-arg value="#{workstation_simdet}-AD-SIM-01" />
+		<constructor-arg value="#{workstation_simdet}-AD-SIM-11" />
 	</bean>
 
 	<!-- Simulator beans -->

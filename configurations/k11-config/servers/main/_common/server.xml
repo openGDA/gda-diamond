@@ -58,9 +58,6 @@
 	<!-- beam -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
 
-	<!-- stages -->
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
-
 	<!-- detectors -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_nxdetector.xml" />
@@ -115,6 +112,7 @@
 	<import	resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/stages/stage3.xml" />
 	<import	resource="file:${gda.config}/servers/main/_common/stages/stage_manager.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/stages/base_x.xml" />
 
 	<!-- detectors -->
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/imaging/pco_addetector.xml" />

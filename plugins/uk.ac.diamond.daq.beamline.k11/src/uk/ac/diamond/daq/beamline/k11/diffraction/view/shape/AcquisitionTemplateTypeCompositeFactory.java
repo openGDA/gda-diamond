@@ -47,7 +47,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.ValueDiff;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -244,13 +244,8 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 				.orElseGet(() -> false);
 
 		if (selected) {
-			var actualAcquisitionTemplateType = getSelectedAcquisitionTemplateType();
-			// The user clicked an already selected radio
-			if (getDataObject(radio, AcquisitionTemplateType.class, ACQUISITION_TEMPLATE_TYPE)
-					.equals(actualAcquisitionTemplateType)) return;
-
 			getDocumentFactory()
-				.buildScanpathBuilder(AcquisitionPropertyType.DIFFRACTION, actualAcquisitionTemplateType)
+				.buildScanpathBuilder(AcquisitionPropertyType.DIFFRACTION, acquisitionTemplateType)
 				.ifPresent(scanpathDocumentHelper::updateScanPathDocument);
 
 			SpringApplicationContextFacade.publishEvent(
@@ -312,7 +307,7 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 	 */
 	@SuppressWarnings("unchecked")
 	private IObservableValue<Boolean> getRadioButtonSelectionObservableValue(Button button) {
-		return WidgetProperties.selection().observe(button);
+		return WidgetProperties.buttonSelection().observe(button);
 	}
 
 	// ------------ UTILS ----

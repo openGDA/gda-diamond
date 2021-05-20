@@ -6,8 +6,8 @@
 	<bean id="base_x" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>TR6</value>
 				<value>Tomography</value>
+				<value>TR6</value>
 				<value>Platform</value>
 			</list>
 		</property>
