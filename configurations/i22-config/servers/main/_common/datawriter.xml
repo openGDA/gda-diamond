@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
         xsi:schemaLocation="http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans.xsd">
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
     <bean class="gda.data.scan.TwoDPlotListener" id="twodscan">
         <property name="plotPanel" value="Plot 2D"/>
@@ -18,16 +21,9 @@
 
     <bean class="gda.data.scan.datawriter.DefaultDataWriterFactory" id="DefaultDataWriterFactory">
         <property name="name" value="DataWriterFactory"/>
-        <property name="dataWriterExtenders">
-            <list>
-                <ref bean="file_registrar"/>
-                <ref bean="scan2elog"/>
-                <ref bean="scan2terminal"/>
-                <ref bean="twodscan"/>
-                <ref bean="autoPostProcessing"/>
-                <ref bean="bslConversion" />
-            </list>
-        </property>
+        <property name="dataWriterExtenders" >
+            <gda:allOfType type="gda.data.scan.datawriter.IDataWriterExtender" />
+         </property>
     </bean>
 
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
