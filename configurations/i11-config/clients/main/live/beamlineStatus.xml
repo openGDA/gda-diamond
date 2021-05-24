@@ -11,10 +11,6 @@
 		<property name="pvName" value="BL11I-EA-COUNT-02.S18"/>
 		<property name="useNameAsExtraName" value="true"/>
 	</bean>
-	<bean id="Ie-analogue" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL11I-DI-IMON-02:E1"/>
-		<property name="useNameAsExtraName" value="true"/>
-	</bean>
 	<bean id="Ic4-ionchamber" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL11I-DI-IONC-04:PHD1:I"/>
 		<property name="useNameAsExtraName" value="true"/>
