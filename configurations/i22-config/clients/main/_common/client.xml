@@ -11,10 +11,6 @@
     <bean class="gda.spring.FindableNameSetterPostProcessor" />
     <bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
-    <bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
-        <property name="clientFileAnnouncerName" value="client_file_announcer"/>
-    </bean>
-
     <import resource="command_queue_processor.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="mapping_view.xml" />
