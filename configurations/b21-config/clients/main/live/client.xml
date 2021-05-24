@@ -32,6 +32,7 @@
 		<property name="service" ref="camera_config" />
 	</bean>
 
+	<import resource="eiger.xml"/>
 	<import resource='../_common/client.xml'/>
 
 </beans>
