@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- calibration adds a calibration request to scans in which it's involved -->
+	<bean id="calibration" class="gda.device.scannable.SingleFileProcessingRequest"
+			c:name="calibration"
+			c:key="calibration">
+		<property name="processingFile" value="calib.json"/>
+		<property name="relativePathBase" value="${gda.paths.visitdirectory}"/>
+	</bean>
+
+	<!-- process adds a process request to scans in which it's involved -->
+	<bean id="process" class="gda.device.scannable.SingleFileProcessingRequest"
+			c:name="process"
+			c:key="dawn">
+		<property name="processingFile" value="process.json"/>
+		<property name="relativePathBase" value="${gda.paths.visitdirectory}"/>
+	</bean>
+
+	<!-- processing listener listens for AMQ messages and deserializes them for handler -->
+	<bean id="processingListener" class="gda.util.JsonMessageListener"
+		c:type="org.opengda.lde.ReductionResponse"
+		init-method="configure">
+		<property name="topic" value="gda.messages.calibration.xrd2" />
+		<property name="handler" ref="processingHandler" />
+	</bean>
+
+	<!-- processing handler takes deserialized processing messages and sends file events -->
+	<bean id="processingHandler" class="org.opengda.lde.ProcessingResultHandler" />
+</beans>
+
