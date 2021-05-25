@@ -239,7 +239,7 @@
 	<bean id="balor_cam"
 		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Andor Balor-X" />
-		<property name="arrayPv" value="BL16B-EA-ANDOR-01:ARR" />
+		<property name="pvAccessPv" value="BL16B-EA-ANDOR-01:PVA:ARRAY" />
 		<property name="sleepTime" value="5" />
 		<property name="topUi" ref="balor_topUI" />
 		<property name="bottomUi" ref="balor_histogramBottomUI" />
