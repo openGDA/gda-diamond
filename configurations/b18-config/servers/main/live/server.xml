@@ -40,6 +40,8 @@
 	<import resource="file:${gda.config}/servers/main/datawriter.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
+	<import resource="file:${gda.config}/servers/main/core.xml" />
+
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/hiden.xml" /> -->
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/robot.xml" />

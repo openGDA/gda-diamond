@@ -18,11 +18,9 @@
 
 package gda.scan;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -31,6 +29,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math3.util.Pair;
@@ -57,6 +56,7 @@ import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.TimeResolvedExperimentParameters;
+import gda.scan.ede.position.EnergyPositionCalculator;
 
 
 /**
@@ -68,6 +68,8 @@ import gda.scan.ede.TimeResolvedExperimentParameters;
 public class TurboXasParameters {
 
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasParameters.class);
+
+	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
 	private String sampleName;
 
@@ -564,42 +566,32 @@ public static String doubleToString( double doubleVal ) {
 	 * @param xmlString
 	 * @return TurboXasScanParameters object
 	 */
-	static public TurboXasParameters fromXML( String xmlString ) {
+	public static TurboXasParameters fromXML(String xmlString) {
 		XStream xstream = TurboXasParameters.getXStream();
-		return (TurboXasParameters) xstream.fromXML( xmlString );
+		return (TurboXasParameters) xstream.fromXML(xmlString);
 	}
 
-	static public TurboXasParameters loadFromFile( String filePath ) {
+	public static TurboXasParameters loadFromFile(String filePath) throws IOException {
 		try {
-			BufferedReader bufferedReader = new BufferedReader( new FileReader(filePath) );
-			String line;
-			StringBuilder xmlString = new StringBuilder();
-			while( (line = bufferedReader.readLine()) != null ) {
-				xmlString.append(line);
-			}
-			bufferedReader.close();
-			return TurboXasParameters.fromXML( xmlString.toString() );
-
-		} catch ( IOException e ) {
-			logger.error("Problem loading xml data from file {}", filePath, e);
+			String xmlString = FileUtils.readFileToString(Paths.get(filePath).toFile(), Charset.defaultCharset());
+			return TurboXasParameters.fromXML(xmlString);
+		} catch (IOException e) {
 			InterfaceProvider.getTerminalPrinter().print("Problem loading data from file "+filePath+" : "+e.getMessage());
+			throw new IOException("Problem loading xml data from file "+filePath, e);
 		}
-
-		return null;
 	}
 
 	/**
 	 * Serialize current object to xml file
 	 * @param filePath
 	 */
-	public void saveToFile(String filePath) {
+	public void saveToFile(String filePath) throws IOException {
 		try {
 			String xmlString = this.toXML();
-			BufferedWriter bufWriter = new BufferedWriter( new FileWriter(filePath) );
-			bufWriter.write( xmlString );
-			bufWriter.close();
+			FileUtils.writeStringToFile(Paths.get(filePath).toFile(), XML_HEADER + xmlString, Charset.defaultCharset());
 		} catch (IOException e) {
-			logger.error("Problem saving serialized object to file {}", e);
+			InterfaceProvider.getTerminalPrinter().print("Problem saving data to file "+filePath+" : "+e.getMessage());
+			throw new IOException("Problem saving serialized object to file "+filePath, e);
 		}
 	}
 
@@ -751,5 +743,12 @@ public static String doubleToString( double doubleVal ) {
 
 	public void setSpectrumEvents(List<SpectrumEvent> spectrumEvents) {
 		this.spectrumEvents = new ArrayList<>(spectrumEvents);
+	}
+
+	public EnergyPositionCalculator getEnergyPositionCalculator() {
+		EnergyPositionCalculator calculator = new EnergyPositionCalculator();
+		calculator.setPositionRange(getEnergyCalibrationMinPosition(), getEnergyCalibrationMaxPosition());
+		calculator.setPolynomial(getEnergyCalibrationPolynomial());
+		return calculator;
 	}
 }

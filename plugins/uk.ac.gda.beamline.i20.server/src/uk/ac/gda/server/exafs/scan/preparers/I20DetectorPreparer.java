@@ -672,8 +672,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			if (monoEnergyRange!=null && monoOptimiser.getAllowOptimisation()) {
 				if (!is2dScan) {
 
-					monoOptimiser.getBraggScannable().moveTo(monoEnergyRange.getLowEnergy());
-
 					if (Math.abs(monoEnergyRange.getLowEnergy() - monoEnergyRange.getHighEnergy()) < 1e-3) {
 						logger.info("Running monochromator optimisation for single mono energy : low energy = high energy = {}",
 								monoEnergyRange.getLowEnergy());

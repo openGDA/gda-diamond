@@ -1,6 +1,7 @@
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
+from gda.scan import ContinuousScan
 
 print "Running 'continuous_scans.py"
 

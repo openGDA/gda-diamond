@@ -248,5 +248,17 @@
 			</list>
 		</property>
 	</bean>
+	
+<!-- 	Converter between energy and position  -->
+	<bean id="energy_converter" class="gda.device.scannable.EnergyPositionConverter">
+		<property name="turboXasScannable" ref="turbo_xas_slit" />
+	</bean>
+
+<!-- Turbo slit x that uses energy instead of mm  -->
+	<bean id="turbo_slit_x_energy" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="turbo_slit_x" />
+		<property name="convertor" ref="energy_converter" />
+	</bean>
+
 
 </beans>

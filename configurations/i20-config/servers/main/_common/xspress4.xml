@@ -16,6 +16,11 @@
 		<property name="xspress" ref="xspress4" />
 		<property name="i0_channel" value="0" />
 		<property name="counterTimer" ref="ionchambers" />
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+			</list>
+		</property>
 	</bean>
 
 </beans>

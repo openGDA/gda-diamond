@@ -30,4 +30,8 @@
 		<property name="name" value="detectorMonitorDataProvider" />
 	</bean>
 
+	<bean id="daServerChecker" class="gda.device.detector.DAServerStatusChecker" >
+		<property name="daServer" ref="DAServer" />
+	</bean>
+
 </beans>

@@ -347,7 +347,11 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	@Override
 	public double calculateEnergy(int frameIndex) throws DeviceException {
-		return motorParameters.getEnergyForPosition(calculatePosition(frameIndex));
+		double position = calculateEnergy(frameIndex);
+		if (motorParameters.getScanParameters().isUsePositionsForScan()) {
+			return position;
+		}
+		return motorParameters.getEnergyForPosition(position);
 	}
 
 	public double calculatePosition(int frameIndex) {

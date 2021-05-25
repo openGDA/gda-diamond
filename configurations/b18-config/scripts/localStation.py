@@ -120,6 +120,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     add_default(topupMonitor)
     add_default(beamMonitor)
     add_default(detectorMonitorDataProvider)
+    add_default(daServerChecker)
 else :
     print "Moving dummy DCM's to useful positions..."
     energy(7000) # start the simulation with an energy in a useful range

@@ -205,6 +205,9 @@ public class AlignmentStageCalibrationView extends ViewPart {
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
+			if (!beanIsCorrectType(filename, AlignmentStageModel.class)) {
+				return;
+			}
 			Path filePath = Paths.get(filename);
 			logger.info("Reading XML parameters from {}", filePath);
 			String xmlParameters = FileUtils.readFileToString(filePath.toFile(), Charset.defaultCharset());

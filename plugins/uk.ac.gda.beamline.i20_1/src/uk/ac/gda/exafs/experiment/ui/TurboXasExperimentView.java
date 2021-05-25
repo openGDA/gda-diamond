@@ -62,7 +62,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.factory.Finder;
@@ -666,14 +665,18 @@ public class TurboXasExperimentView extends ViewPart {
 		}
 
 		@Override
-		protected void saveParametersToFile(String filename) throws DeviceException {
+		protected void saveParametersToFile(String filename) throws Exception {
 			updateParametersFromGui();
 			turboXasParameters.saveToFile(filename);
 		}
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
+			if (!beanIsCorrectType(filename, TurboXasParameters.class)) {
+				return;
+			}
 			turboXasParameters = TurboXasParameters.loadFromFile(filename);
+			logger.info("Settings loaded OK");
 			addDefaultExtraScannablesToParameters();
 			timingGroupTable.setTimingGroups(turboXasParameters);
 			timingGroupTable.refresh();

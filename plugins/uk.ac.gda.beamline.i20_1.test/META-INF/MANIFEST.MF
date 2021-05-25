@@ -24,6 +24,7 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  uk.ac.diamond.jython,
  uk.ac.diamond.daq.persistence
 Import-Package: gda.scan.ede.position,
+ javax.measure.quantity;version="1.0.0",
  org.eclipse.core.runtime;version="3.4.0",
  org.eclipse.january.dataset,
  org.springframework.beans;version="4.0.6.RELEASE"

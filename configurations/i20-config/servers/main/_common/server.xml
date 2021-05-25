@@ -27,6 +27,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/tables-common.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/dummy/xes.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/_common/xes-common.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />

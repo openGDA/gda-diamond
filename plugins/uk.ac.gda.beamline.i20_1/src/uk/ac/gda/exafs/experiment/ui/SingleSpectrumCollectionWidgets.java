@@ -43,7 +43,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.DeviceException;
 import gda.jython.IJythonServerStatusObserver;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
@@ -321,13 +320,16 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 		}
 
 		@Override
-		protected void saveParametersToFile(String filename) throws DeviceException {
+		protected void saveParametersToFile(String filename) throws Exception {
 			TimeResolvedExperimentParameters params = getModel().getParametersBeanFromCurrentSettings();
 			params.saveToFile(filename);
 		}
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
+			if (!beanIsCorrectType(filename, TimeResolvedExperimentParameters.class)) {
+				return;
+			}
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
 			updateCalibrationDetails(params);
 			getModel().setupFromParametersBean(params);
