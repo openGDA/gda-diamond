@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<bean id="ncdsim_daserver" class="gda.device.detector.DummyDAServer"/>
+
+    <bean id="ncdsimMemory" class="gda.device.memory.Gdscaler">
+		<property name="daServerName" value="ncdsim_daserver" />
+        <property name="width" value="64" />
+        <property name="height" value="64" />
+        <property name="supportedDimensions">
+            <list>
+                <value>16</value>
+                <value>32</value>
+                <value>48</value>
+                <value>64</value>
+                <value>128</value>
+            </list>
+        </property>
+        <property name="openCommand" value="gdscaler open 'saxs' 1" />
+        <property name="sizeCommand" value="gdscaler get-mem-size 'saxs'" />
+    </bean>
+
+    <bean id="ncdsim_det" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+        <property name="detectorType" value="SAXS" />
+        <property name="memory" ref="ncdsimMemory" />
+        <property name="pixelSize" value="0.000383" />
+    </bean>
+
+	<bean id="ncdsim_tfg" class="gda.device.timer.Etfg">
+		<property name="daServerName" value="ncdsim_daserver" />
+		<property name="showArmed" value="true" />
+	</bean>
+
+	<bean id="ncdsim" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
+		<property name="timer" ref="ncdsim_tfg" />
+		<property name="detectors">
+			<list>
+				<ref bean="ncdsim_det" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

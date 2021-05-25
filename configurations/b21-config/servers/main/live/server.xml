@@ -11,6 +11,7 @@
 	<import resource="ncddetectors.xml" />
 	<import resource="devices/devices.xml" />
 	<import resource="../_common/*.xml" />
+	<import resource="devices/simulated_detector/*.xml"/>
 	<beans profile="pilatus" >
 		<import resource="pilatus2m_saxs.xml" />
 	</beans>
