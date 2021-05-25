@@ -118,14 +118,6 @@
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="Ie-analogue" />
-								<property name="label" value="Ie " />
-								<property name="units" value="" />
-								<property name="decimalPlaces" value="0" />
-								<property name="forceLayoutOnLengthChange" value="false"/>
-							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="wavelength" />
 								<property name="label" value="Wavelength (Ang)" />
 								<property name="units" value="" />

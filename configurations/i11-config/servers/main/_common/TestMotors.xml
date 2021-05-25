@@ -6,12 +6,12 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="x" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
-	<gda:motor id="y" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
-	<gda:motor id="z" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
-	<gda:motor id="a" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
-	<gda:motor id="b" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
-	<gda:motor id="c" fastSpeed="400" mediumSpeed="200" slowSpeed="100" live-class="#dummy"/>
+	<gda:motor id="x" fastSpeed="400" mediumSpeed="200" slowSpeed="100" liveClass="#dummy"/>
+	<gda:motor id="y" fastSpeed="400" mediumSpeed="200" slowSpeed="100" liveClass="#dummy"/>
+	<gda:motor id="z" fastSpeed="400" mediumSpeed="200" slowSpeed="100" liveClass="#dummy"/>
+	<gda:motor id="a" fastSpeed="400" mediumSpeed="200" slowSpeed="100" liveClass="#dummy"/>
+	<gda:motor id="b" fastSpeed="400" mediumSpeed="200" slowSpeed="100" liveClass="#dummy"/>
+	<gda:motor id="c" fastSpeed="400" mediumSpeed="200" slowSpeed="100" liveClass="#dummy"/>
 	<bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

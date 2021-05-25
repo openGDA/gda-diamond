@@ -9,7 +9,8 @@
 	<gda:motor id="tth" live-pvName="BL11I-MO-DIFF-01:2THETA"/>
 	<gda:motor id="theta" live-pvName="BL11I-MO-DIFF-01:THETA"/>
 	<gda:motor id="delta" live-pvName="BL11I-MO-DIFF-01:DELTA"/>
-	<gda:motor id="trans" live-pvName="BL11I-MO-DIFF-01:BASE:X"/>
+	<gda:motor id="xtr1" live-pvName="BL11I-MO-DIFF-01:BASE:X1"/>
+	<gda:motor id="xtr2" live-pvName="BL11I-MO-DIFF-01:BASE:X2"/>
 	<gda:motor id="y1" live-pvName="BL11I-MO-DIFF-01:BASE:Y1"/>
 	<gda:motor id="y2" live-pvName="BL11I-MO-DIFF-01:BASE:Y2"/>
 	<gda:motor id="y3" live-pvName="BL11I-MO-DIFF-01:BASE:Y3"/>
@@ -24,7 +25,8 @@
 				<ref bean="y2"/>
 				<ref bean="y3"/>
 				<ref bean="spos"/>
-				<ref bean="trans"/>
+				<ref bean="xtr1"/>
+				<ref bean="xtr2"/>
 			</list>
 		</property>
 	</bean>
