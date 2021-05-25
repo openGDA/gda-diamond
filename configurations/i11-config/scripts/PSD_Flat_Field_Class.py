@@ -68,7 +68,7 @@ BAD_CHANNEL_LIST=PSD_CALIBRATION_DIR+os.sep+"badchannel_detector_standard.lst"
 scanNumTracker = NumTracker("i11");
 
 class FlatFieldCalibration(ScannableMotionBase):
-    def __init__(self, name, motor=delta, detector=mythen, beamenergy=energy): #@UndefinedVariable
+    def __init__(self, name, motor=delta, detector=mythen, beamenergy=dcm_energy): #@UndefinedVariable
         self.setName(name)
         self.setInputNames([name])
         self.motor=motor
@@ -284,7 +284,7 @@ def averageScanRawCount(numberofscan, detector=mythen): #@UndefinedVariable
     return average
 
 
-def sumScanRawData(numberofscan, beamenergy=energy, detector=mythen): #@UndefinedVariable
+def sumScanRawData(numberofscan, beamenergy=dcm_energy, detector=mythen): #@UndefinedVariable
     filenames = []
     for i in range(numberofscan):
         filenames.append(str(detector.getDataDirectory()) + str(os.sep) + str(detector.buildRawFilename(i+1)))

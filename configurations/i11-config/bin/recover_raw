@@ -1,0 +1,106 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+
+import sys
+import os
+import argparse
+import logging
+from collections import OrderedDict
+try:
+    import epics
+except ImportError:
+    print('epics module is required. At Diamond, "module load python" or '
+        '"module load python/3" should help')
+    sys.exit(1)
+
+logger = logging.getLogger('recover_raw')
+
+CVSCAN = 'BL11I-EA-MAC-01'
+SCALERS = 'BL11I-EA-COUNT-0{scaler}:MCA-01:mca{channel}'
+
+scaler_map = OrderedDict((
+    ('S1', (1, 1)),
+    ('mac11', (1, 2)), ('mac12', (1, 3)), ('mac13', (1, 4)), ('mac14', (1, 5)), ('mac15', (1, 6)), ('mac16', (1, 7)), ('mac17', (1, 8)), ('mac18', (1, 9)), ('mac19', (1, 10)),
+    ('mac21', (1, 11)), ('mac22', (1, 12)), ('mac23', (1, 13)), ('mac24', (1, 14)), ('mac25', (1, 15)), ('mac26', (1, 16)), ('mac27', (1, 18)), ('mac28', (1, 19)), ('mac29', (1, 20)),
+    ('mac31', (1, 21)), ('mac32', (1, 22)), ('mac33', (1, 23)), ('mac34', (1, 24)), ('mac35', (1, 25)), ('mac36', (1, 26)), ('mac37', (1, 27)), ('mac38', (1, 28)), ('mac39', (1, 29)),
+    ('mac41', (1, 30)), ('mac42', (1, 31)), ('mac43', (1, 32)),
+    ('S2', (2, 1)),
+    ('mac44', (2, 2)), ('mac45', (2, 3)), ('mac46', (2, 4)), ('mac47', (2, 5)), ('mac48', (2, 6)), ('mac49', (2, 7)),
+    ('mac51', (2, 8)), ('mac52', (2, 9)), ('mac53', (2, 10)), ('mac54', (2, 11)), ('mac55', (2, 12)), ('mac56', (2, 13)), ('mac57', (2, 14)), ('mac58', (2, 15)), ('mac59', (2, 16)),
+    ('Io', (2, 17)),
+    ('Ie', (2, 18))
+))
+
+def recover_raw(output_file, cvscan_pv=CVSCAN, scaler_format=SCALERS, force=False):
+    if os.path.exists(output_file):
+        if force:
+            logger.info('Overwriting existing file')
+        else:
+            raise ValueError('File {} already exists'.format(output_file))
+    raw_data = get_raw_data(cvscan_pv, scaler_format)
+    header = get_header(cvscan_pv)
+    write_out(output_file, raw_data, header, force=force)
+
+def get_rebinned_date(pv_root):
+    allx = epics.caget(pv_root + ':ALLX')
+    ally = epics.caget(pv_root + ':ALLY')
+    allye = epics.caget(pv_root + ':ALLYE')
+
+def get_raw_data(pv_root, scaler_pv, scaler_map=scaler_map):
+    '''
+    Read the raw data from the scalers and epics cvscan
+
+    Params:
+    pv_root: The base PV of the cvscan, eg BL11I-EA-MAC-01
+    scaler_pv: The format used to generate scaler PV, scaler and
+            channel are available when formatting, eg
+            BL11I-EA-COUNT-0{scaler}:MCA-01:mca{channel}
+    scaler_map: Map of scaler name to (scaler, channel) pair
+
+    Returns
+    map containing tth positions and scaler data
+    '''
+    rawx = epics.caget(pv_root + ':RAWX')
+    logger.debug('Read cvscan arrays')
+    raw_data = {'tth': [float(v) for v in rawx]}
+    scaler_data = {}
+    for name, (scaler, channel) in scaler_map.items():
+        pv = scaler_pv.format(scaler=scaler, channel=channel)
+        logger.debug('reading %s', pv)
+        scaler_data[name] = epics.caget(pv)
+        logger.debug('Read %s', pv)
+    raw_data['scalers'] = scaler_data
+    return raw_data
+
+def get_header(pv_root):
+    header = {}
+    header['ScanTime'] = epics.caget(pv_root + ':TIME')
+    header['MonitorAverageCount'] = epics.caget(pv_root + ':MAV')
+    return header
+
+def write_header(fh, header):
+    print('&DLS', file=fh)
+    for k,v in header.items():
+        print('{}={}'.format(k, v), file=fh)
+    print('&END', file=fh)
+
+def write_out(outfile, data, header, force=False):
+    if not force and os.path.exists(outfile):
+        raise ValueError('File exists')
+    with open(outfile, 'w') as out:
+        write_header(out, header)
+        print('tth\t' + '\t'.join(data['scalers'].keys()), file=out)
+        for row in zip(data['tth'], *data['scalers'].values()):
+            print('\t'.join(map(str, row)), file=out)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Extract raw cvscan data from EPICS')
+    parser.add_argument('-v', action='count', dest='verbose', default=0, help='Show logging')
+    parser.add_argument('-f', '--force', action='store_true', help='Overwrite a file if it already exists')
+    parser.add_argument('output_file')
+    args = parser.parse_args()
+
+    logging.basicConfig(level=40-10*args.verbose)
+
+    recover_raw(args.output_file, force=args.force)

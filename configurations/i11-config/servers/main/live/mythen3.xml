@@ -152,7 +152,7 @@
 			<list>
 				<bean class="gda.device.detector.mythen.tasks.RCPPlotSummingDataTask">
 					<property name="panelName" value="Mythen"/>
-					<property name="xAxisName" value="tth"/>
+					<property name="xAxisName" value="delta"/>
 					<property name="yAxisName" value="counts"/>
 					<property name="step" value="0.004"/>
 					<property name="usePlotServer" value="false"/>
