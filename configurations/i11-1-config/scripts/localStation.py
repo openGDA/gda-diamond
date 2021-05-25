@@ -346,7 +346,7 @@ fs = FastShutter(fastshutter1)
 from perkin import perkin_dark_frame
 
 import butlerWarning
-butler_position_warning = butlerWarning.PositionerWarning('butlerWarning', butlerArm, 'Retract')
+butler_position_warning = butlerWarning.PositionerWarning('butler_position_warning', butlerArm, 'Retract')
 add_default butler_position_warning
 
 from lde.stageManagement import *
