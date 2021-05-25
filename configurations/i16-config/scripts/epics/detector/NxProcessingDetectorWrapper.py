@@ -68,7 +68,7 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
             detectorFileName = detectorFileName.split('/', 1)[1]
         print "Creating HDF Links"
         # Comment this out with gda.data.scan.datawriter.dataFormat = NexusScanDataWriter 
-        #self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
+        self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
 
     def getExtraNames(self):
         return ['count_time'] + SwitchableHardwareTriggerableProcessingDetectorWrapper.getExtraNames(self)[1:]
