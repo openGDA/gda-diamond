@@ -3,14 +3,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="sample_microscope_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL14I-OP-DCAM-12:CAM:" />
+		<property name="basePVName" value="BL14I-OP-DCAM-14:CAM:" />
 	</bean>
 
 	<bean id="sample_microscope_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="basePVName" value="BL14I-OP-DCAM-12:ROI:" />
+		<property name="basePVName" value="BL14I-OP-DCAM-14:ROI:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL14I-OP-DCAM-12:ROI:" />
+				<property name="basePVName" value="BL14I-OP-DCAM-14:ROI:" />
 				<property name="initialArrayPort" value="HOTEL.tfm" />
 			</bean>
 		</property>
@@ -25,20 +25,20 @@
 	</bean>
 
 	<bean id="sample_microscope_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL14I-OP-DCAM-12:ARR:" />
+		<property name="basePVName" value="BL14I-OP-DCAM-14:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL14I-OP-DCAM-12:ARR:" />
+				<property name="basePVName" value="BL14I-OP-DCAM-14:ARR:" />
 				<property name="initialArrayPort" value="HOTEL.tfm" />
 			</bean>
 		</property>
 	</bean>
 
 	<bean id="sample_microscope_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="BL14I-OP-DCAM-12:STAT:" />
+		<property name="basePVName" value="BL14I-OP-DCAM-14:STAT:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL14I-OP-DCAM-12:STAT:" />
+				<property name="basePVName" value="BL14I-OP-DCAM-14:STAT:" />
 				<property name="initialArrayPort" value="HOTEL.tfm" />
 			</bean>
 		</property>
@@ -46,10 +46,10 @@
 
 	<bean id="sample_microscope_overlay" class="gda.device.detector.areadetector.v17.impl.NDOverlaySimpleImpl">
 		<property name="overlayNumber" value="1" />
-		<property name="basePVName" value="BL14I-OP-DCAM-12:OVER:" />
+		<property name="basePVName" value="BL14I-OP-DCAM-14:OVER:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL14I-OP-DCAM-12:OVER:" />
+				<property name="basePVName" value="BL14I-OP-DCAM-14:OVER:" />
 				<property name="initialArrayPort" value="HOTEL.tfm" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="0" />
@@ -59,8 +59,8 @@
 	</bean>
 
 	<!-- Python plugin for autofocus -->
-	<bean id="sample_microscope_python_autofocus" class="gda.device.detector.areadetector.v17.impl.NDPythonImpl">
-		<property name="basePVName" value="BL14I-OP-DCAM-12:PY:" />
+	<!-- <bean id="sample_microscope_python_autofocus" class="gda.device.detector.areadetector.v17.impl.NDPythonImpl">
+		<property name="basePVName" value="BL14I-OP-DCAM-14:PY:" />
  		<property name="pythonParameters">
 			<map>
 				<entry key="strips" value="Int1" />
@@ -69,10 +69,10 @@
 		</property>
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL14I-OP-DCAM-12:PY:" />
+				<property name="basePVName" value="BL14I-OP-DCAM-14:PY:" />
 				<property name="initialArrayPort" value="HOTEL.tfm" />
 			</bean>
 		</property>
-	</bean>
+	</bean> -->
 
 </beans>
