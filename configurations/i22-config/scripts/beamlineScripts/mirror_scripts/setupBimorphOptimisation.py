@@ -34,7 +34,7 @@ if USE_DUMMY_DETECTOR:
     cam1det = CreateImageReadingDummyDetector.create(x)
 else:
     print "Creating cam1det"
-    cam1det = EpicsGigECamera('cam1det', 'BL22I-DI-PHDGN-08:', None, False)
+    cam1det = EpicsGigECamera('cam1det', 'BL22I-DI-PHDGN-12:', None, False)
     
 print "Creating cam1, peak2d and max2d"
 cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name='None')
@@ -50,8 +50,8 @@ d12fields = {'background': 'CentroidThreshold_RBV',
         'fwhmx': 'SigmaX_RBV',
         'fwhmy':'SigmaY_RBV'}
 
-d12_base_pv = 'BL22I-DI-PHDGN-12:STAT:'
-peak2d = ScannableGroup('peak2d', [DisplayEpicsPVClass('peak2d_'+field, d12_base_pv + pv, '', '%.f') for field, pv in d12fields.items()])
+camera_base_pv = 'BL22I-DI-PHDGN-12:STAT:'
+peak2d = ScannableGroup('peak2d', [DisplayEpicsPVClass('peak2d_'+field, camera_base_pv + pv, '', '%.f') for field, pv in d12fields.items()])
 peak2d.configure()
 
 max2d = DetectorDataProcessorWithRoi('max2d', cam1, [SumMaxPositionAndValue()])

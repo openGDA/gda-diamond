@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<bean id="hfm_bimorph_controller" class="uk.ac.gda.bimorph.epics.CaenelsBimorph">
+		<property name="basePV" value="BL22I-OP-KBM-01"/>
+		<property name="groupSuffix" value="GROUP0"/>
+		<property name="maxDelta" value="500"/>
+		<property name="minVoltage" value="-600"/>
+		<property name="maxVoltage" value="600"/>
+		<property name="offset" value="1"/>
+	</bean>
+	<bean id="hfm_v" class="uk.ac.gda.bimorph.BimorphMirrorScannable">
+		<property name="controller" ref="hfm_bimorph_controller"/>
+		<property name="offset" value="1"/>
+	</bean>
+
+	<bean id="vfm_bimorph_controller" class="uk.ac.gda.bimorph.epics.CaenelsBimorph">
+		<property name="basePV" value="BL22I-OP-KBM-01"/>
+		<property name="groupSuffix" value="GROUP1"/>
+		<property name="maxDelta" value="500"/>
+		<property name="minVoltage" value="-500"/>
+		<property name="maxVoltage" value="500"/>
+		<property name="offset" value="1"/>
+	</bean>
+	<bean id="vfm_v" class="uk.ac.gda.bimorph.BimorphMirrorScannable">
+		<property name="controller" ref="vfm_bimorph_controller"/>
+		<property name="offset" value="1"/>
+	</bean>
+
+</beans>

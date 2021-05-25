@@ -4,13 +4,13 @@
     <mirrorType>hfm</mirrorType>
     <numberOfElectrodes>8</numberOfElectrodes>
     <mirrorLength>1.2</mirrorLength>
-    <voltageIncrement>0.0</voltageIncrement>
+    <voltageIncrement>350.0</voltageIncrement>
     <slitSizeScannable>s2_xgap</slitSizeScannable>
     <slitPosScannable>s2_xcentre</slitPosScannable>
     <slitSize>0.02</slitSize>
     <slitStart>-1.1</slitStart>
     <slitEnd>1.1</slitEnd>
-    <slitStep>0.01</slitStep>
+    <slitStep>0.02</slitStep>
     <otherSlitSizeScannable>s2_ygap</otherSlitSizeScannable>
     <otherSlitPosScannable>s2_ycentre</otherSlitPosScannable>
     <otherSlitPosValue>0.0</otherSlitPosValue>
@@ -19,31 +19,31 @@
     <exposureTime>0.3</exposureTime>
     <settleTime>0.0</settleTime>
     <scanDirectory>/dls/ixx/users/</scanDirectory>
-    <scanNumberInputs>548805,548806,548807,548808,548809,548810,548811,548812,548813</scanNumberInputs>
-    <errorFile>548805</errorFile>
+    <scanNumberInputs>550926:550938</scanNumberInputs>
+    <errorFile>551123</errorFile>
     <beamOffset>0.0</beamOffset>
     <bimorphScannableName>hfm_v</bimorphScannableName>
-    <bimorphVoltages>-111.1,-171.6,-219.6,-140.9,-162.1,-107.7,-211.4,95.4</bimorphVoltages>
+    <bimorphVoltages>-47,-133,-173,-168,-240,-89,-143,-78,-145,-251,-80,22</bimorphVoltages>
     <pixelSize>1.93</pixelSize>
     <detectorDistance>20.57</detectorDistance>
     <iSign>downstream</iSign>
     <inv>-1</inv>
     <method>2</method>
     <presentSourceMirrorDistance>26.78</presentSourceMirrorDistance>
-    <presentMirrorFocusDistance>20.57</presentMirrorFocusDistance>
+    <presentMirrorFocusDistance>15.72</presentMirrorFocusDistance>
     <presentAngleOfIncidence>2.6</presentAngleOfIncidence>
     <newSourceMirrorDistance>26.78</newSourceMirrorDistance>
-    <newMirrorFocusDistance>29.87</newMirrorFocusDistance>
+    <newMirrorFocusDistance>20.57</newMirrorFocusDistance>
     <newAngleOfIncidence>2.6</newAngleOfIncidence>
     <focusSize>0.0</focusSize>
     <calculateErrorFile>false</calculateErrorFile>
     <returnVoltagesToOriginalValues>true</returnVoltagesToOriginalValues>
     <autoOffset>true</autoOffset>
     <autoDist>true</autoDist>
-    <slitScanDetDist>20.57</slitScanDetDist>
-    <presentDetDist>29.57</presentDetDist>
+    <slitScanDetDist>15.72</slitScanDetDist>
+    <presentDetDist>28.27</presentDetDist>
     <bimorphGroups></bimorphGroups>
     <btnGroupElectrodesTogether>false</btnGroupElectrodesTogether>
-    <minSlitPos>-0.95</minSlitPos>
-    <maxSlitPos>0.95</maxSlitPos>
+    <minSlitPos>-0.98</minSlitPos>
+    <maxSlitPos>0.98</maxSlitPos>
 </BimorphParameters>

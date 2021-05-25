@@ -107,8 +107,8 @@ class MirrorsVoltages():
 		self.directory = "/dls_sw/i22/software/var/voltages/"
 		self.HFM = "hfm_v"
 		self.VFM = "vfm_v"
-		self.vfmZeroVoltages = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-		self.hfmZeroVoltages = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+		self.vfmZeroVoltages = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+		self.hfmZeroVoltages = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 	def save(self , name):
 		filename = self.directory+name+".dat"
@@ -172,5 +172,5 @@ class MirrorsVoltages():
 			return 1
 		
 valves = Valves()
-mirrorsVoltages = MirrorsVoltages()
+#mirrorsVoltages = MirrorsVoltages()
 i22 = I22()
