@@ -12,5 +12,4 @@ execfile(beamlinescriptsloc + "CalibratedDiode.py")
 execfile(beamlinescriptsloc + "DiodeSleep.py")
 
 # those need "run" as it includes gda syntax
-# run("commissioning/Marc/shutdown/hotwaxs.py")
 #run("/BeamlineScripts/i22.py")

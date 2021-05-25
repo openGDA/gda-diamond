@@ -41,9 +41,6 @@ class I22(gda.device.scannable.ScannableMotionBase):
 		#pos hw "on"
 
 	def isAwake(self):
-		#Use this line if HOTWAXS is connected
-		#status = valves.isAwake() and mirrorsVoltages.isOn(self.VFM) and mirrorsVoltages.isOn(self.HFM) and hw.isOn()
-		#Use this line if HOTWAXS is disconnected
 		status = valves.isAwake() and mirrorsVoltages.isOn(self.VFM) and mirrorsVoltages.isOn(self.HFM)
 		if int(status) == 0:
 			status = "SHUTDOWN"
