@@ -10,9 +10,6 @@
                 http://www.diamond.ac.uk/schema/gda/gda
                 http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
     <context:property-placeholder/>
-    
-    <context:component-scan	base-package="uk.ac.diamond.daq.experiment.structure" />
-	<context:component-scan	base-package="uk.ac.gda.core.tool.spring" />
 
     <bean class="gda.spring.FindableNameSetterPostProcessor"/>
     <bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
