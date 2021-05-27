@@ -31,7 +31,6 @@ Import-Package: com.fasterxml.jackson.databind;version="2.6.2",
  uk.ac.gda.api.acquisition.parameters,
  uk.ac.gda.api.acquisition.resource,
  uk.ac.gda.api.acquisition.resource.event,
- uk.ac.gda.api.exception,
  uk.ac.gda.client.live.stream,
  uk.ac.gda.client.live.stream.view,
  uk.ac.gda.core.tool.spring
