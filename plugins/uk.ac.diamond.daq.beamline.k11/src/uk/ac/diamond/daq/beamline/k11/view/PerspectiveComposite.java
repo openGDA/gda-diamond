@@ -31,7 +31,6 @@ import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
@@ -43,9 +42,9 @@ import org.eclipse.ui.WorkbenchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.daq.beamline.k11.perspective.Diffraction;
+import uk.ac.diamond.daq.beamline.k11.diffraction.perspective.Diffraction;
+import uk.ac.diamond.daq.beamline.k11.imaging.perspective.Imaging;
 import uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated;
-import uk.ac.diamond.daq.beamline.k11.perspective.Imaging;
 import uk.ac.gda.ui.tool.WidgetUtilities;
 
 /**
@@ -91,7 +90,7 @@ public class PerspectiveComposite {
 	}
 
 	public static final void buildModeComposite(Composite parent, PerspectiveType type) {
-		PerspectiveComposite pc = new PerspectiveComposite(parent, type);
+		var pc = new PerspectiveComposite(parent, type);
 		pc.buildModeComposite();
 	}
 
@@ -106,7 +105,7 @@ public class PerspectiveComposite {
 	 *            The Experiment {@link Composite}
 	 */
 	private void buildModeComposite() {
-		Label label = createClientLabel(getParent(), SWT.NONE, MODE);
+		var label = createClientLabel(getParent(), SWT.NONE, MODE);
 		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(label);
 
 		modeCombo = createCombo(parent, SWT.READ_ONLY, getTypes(), MODE_TP);

@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2018 Diamond Light Source Ltd.
+ * Copyright © 2019 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,31 +16,35 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.daq.beamline.k11.perspective;
+package uk.ac.diamond.daq.beamline.k11.imaging.perspective;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import uk.ac.diamond.daq.beamline.k11.imaging.views.ImagingCameraView;
+import uk.ac.diamond.daq.beamline.k11.perspective.K11DefaultViews;
+import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView;
 import uk.ac.gda.perspectives.ThreeColumnPerspectiveLayoutBuilder;
 
-public class Diffraction implements IPerspectiveFactory {
-	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.Diffraction";
+/**
+ * @author Maurizio Nagni
+ */
+public class Imaging  implements IPerspectiveFactory {
+	public static final String ID = "uk.ac.diamond.daq.beamline.k11.perspective.Imaging";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
-		ThreeColumnPerspectiveLayoutBuilder helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout, 0.20f, 0.74f, 0.16f);
+		var helper = new ThreeColumnPerspectiveLayoutBuilder(ID, layout, 0.20f, 0.67f, 0.23f);
 
 		// Left area
 		helper.addViewToLeftFolder(K11DefaultViews.PERSPECTIVE_DASHBOARD_VIEW, false);
-		helper.addViewToLeftFolder(K11DefaultViews.MAPPED_DATA, false);
 
 		// Central area
-		helper.addViewToCentralFolder(K11DefaultViews.MAP_VIEW, false);
-		helper.addFolderThenViewToCentralFolder(K11DefaultViews.SPECTRUM_VIEW, false, 0.5f);
+		helper.addPlaceholderToCentralFolder(CameraConfigurationView.CAMERA_CONTROLLER_VIEW);
+		helper.addViewToCentralFolder(ImagingCameraView.ID, false);
 
 		// Right area
-		helper.addViewToRightFolder(K11DefaultViews.DIFFRACTION_ACQUISITION_CONFIGURATION, false);
-		helper.addViewToRightFolder(K11DefaultViews.MAPPING_EXPERIMENT_VIEW, false);
+		helper.addViewToRightFolder(K11DefaultViews.TOMOGRAPHY_ACQUISITION_CONFIGURATION, false);
 		helper.addFolderThenViewToRightFolder(K11DefaultViews.JYTON_CONSOLE_VIEW, false, 0.7f);
 		helper.addViewToRightFolder(K11DefaultViews.getQueueId(), false);
 	}
