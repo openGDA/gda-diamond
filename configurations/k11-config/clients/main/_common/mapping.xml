@@ -17,8 +17,7 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="kb_x"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="kb_y"/></bean>
+	<import	resource="file:${gda.config}/clients/main/${gda.mode}/mapping.xml" />
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
