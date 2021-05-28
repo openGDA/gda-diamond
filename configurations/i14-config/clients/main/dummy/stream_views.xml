@@ -31,7 +31,7 @@
 	</bean>
 
 	<bean id="sim_cam_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
-		<constructor-arg name="secondaryId" value="sim_cam_with_controls_calibration_autofocus#MJPEG" />
+		<constructor-arg name="secondaryId" value="sim_cam_with_controls_calibration_autofocus" />
 		<constructor-arg name="focusPoints" ref="sim_cam_autofocus_points" />
 		<!-- Use the following line instead if viewing the live sample camera -->
 		<!-- <constructor-arg name="focusPoints" ref="sample_cam_autofocus_points" /> -->

@@ -95,7 +95,7 @@
 	</bean>
 
 	<bean id="sample_microscope_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
-		<constructor-arg name="secondaryId" value="sample_microscope_cam#MJPEG" />
+		<constructor-arg name="secondaryId" value="sample_microscope_cam" />
 		<constructor-arg name="focusPoints" ref="sample_cam_autofocus_points" />
  		<property name="activeFocusPoints">
 			<list>
