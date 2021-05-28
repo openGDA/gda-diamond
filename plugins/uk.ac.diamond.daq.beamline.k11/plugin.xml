@@ -29,7 +29,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="uk.ac.diamond.daq.beamline.k11.perspective.Diffraction"
+            class="uk.ac.diamond.daq.beamline.k11.diffraction.perspective.Diffraction"
             icon="platform:/plugin/uk.ac.gda.client/icons/target-16.png"
             id="uk.ac.diamond.daq.beamline.k11.perspective.Diffraction"
             name="Diffraction">
@@ -41,7 +41,7 @@
             name="DIAD Fully Automated">
       </perspective>
       <perspective
-            class="uk.ac.diamond.daq.beamline.k11.perspective.Imaging"
+            class="uk.ac.diamond.daq.beamline.k11.imaging.perspective.Imaging"
             icon="platform:/plugin/uk.ac.gda.client/icons/tomography/tomography-16.png"
             id="uk.ac.diamond.daq.beamline.k11.perspective.Imaging"
             name="Imaging">
@@ -93,7 +93,15 @@
             id="uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView"
             name="Plan Manager"
             restorable="true">
-      </view>    
+      </view>
+      <view
+      		allowMultiple="false"
+      		class="uk.ac.diamond.daq.beamline.k11.imaging.views.ImagingCameraView"
+      		icon="platform:/plugin/uk.ac.gda.client/icons/camera-lens.png"
+      		id="uk.ac.diamond.daq.beamline.k11.view.ImagingCameraView"
+      		name="Imaging Camera"
+      		restorable="true">
+      </view>
    </extension>
    
    <extension
