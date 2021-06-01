@@ -7,10 +7,14 @@
 	<bean id="m5pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMPitch_M5" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="m5x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMx_M5" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
 	</bean>
 <!-- 	<bean id="m5fpitch" class="gda.device.scannable.ScannableMotor"> -->
 <!-- 		<property name="motor" ref="MotorHFMFinePitch_M5" /> -->
@@ -33,10 +37,14 @@
 	<bean id="m5x1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMx1_M5" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="m5x2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMx2_M5" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="M5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

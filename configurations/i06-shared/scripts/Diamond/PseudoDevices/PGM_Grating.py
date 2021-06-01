@@ -1,14 +1,13 @@
-from time import sleep
-from gda.device.scannable import ScannableMotionBase
+from gda.device.scannable import ScannableMotionUnitsBase
 from gda.epics import CAClient
 
 #The Class for changing the grating on I06 PGM
-class PGM_GratingClass(ScannableMotionBase):
-	def __init__(self, name, strGetPV, strSetPV, strGratingMoveStatusPV):
+class PGM_GratingClass(ScannableMotionUnitsBase):
+	def __init__(self, name, strGetPV, strSetPV, strGratingMoveStatusPV, units="lines/mm"):
 		self.setName(name);
 		self.setInputNames([]);
 		self.setExtraNames([name]);
-#		self.Units=[strUnit];
+		self.units = units;
 		self.setLevel(7);
 #		self.setOutputFormat(["%20.12f"]);
 		self.chSetGrating=CAClient(strSetPV);
@@ -35,6 +34,9 @@ class PGM_GratingClass(ScannableMotionBase):
 	def isBusy(self):
 		#sleep(60);
 		return self.getStatus()==1
+	
+	def getUserUnits(self):
+		return self.units
 	
 	def atScanEnd(self):
 		if self.chGetGrating.isConfigured():

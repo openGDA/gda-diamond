@@ -38,14 +38,20 @@
 	<bean id="m1roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorRoll_M1" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="m1yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorYaw_M1" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorPitch_M1" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="m1qg" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorFinePitch_M1" />
