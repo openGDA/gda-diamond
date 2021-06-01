@@ -8,8 +8,8 @@
 		<property name="sourceName" value="sourceNexusDevice" />
 		<property name="insertionDeviceName" value="idNexusDevice" />
 		<!-- <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
-		<property name="monochromatorName"
-			value="monochromatorNexusDevice" />
+		<!-- property name="monochromatorName"
+			value="monochromatorNexusDevice" /-->
 		<!-- property name="beamName" value="beamNexusDevice" /-->
 		<property name="userDeviceName" value="userNexusDevice" />
 	</bean>
