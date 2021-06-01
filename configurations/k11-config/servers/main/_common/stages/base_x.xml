@@ -8,7 +8,7 @@
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
 	
 	<gda:motor id="base_x_cont"
-		live-pvName="#{configProperties.BL11K-MO-TABLE}01:X" 
+		live-pvName="#{configProperties.MO_TABLE_PREFIX}01:X" 
 		dummy-minPosition="-1.4996"
 		dummy-maxPosition="15.0004" 
 		dummy-position="4.0014"
