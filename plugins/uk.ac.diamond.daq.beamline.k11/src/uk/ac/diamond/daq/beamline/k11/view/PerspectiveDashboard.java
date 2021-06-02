@@ -22,15 +22,20 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridL
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
+import java.util.Optional;
+
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
+import uk.ac.gda.client.properties.mode.Modes;
+import uk.ac.gda.client.properties.mode.TestMode;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientResourceManager;
+import uk.ac.gda.ui.tool.spring.ClientSpringProperties;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -42,11 +47,17 @@ public class PerspectiveDashboard extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		final Composite composite = createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
+		final var composite = createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
 
-		Label labelName = createClientLabel(composite, SWT.NONE, ClientMessages.DIAD,
+		var labelName = createClientLabel(composite, SWT.NONE, ClientMessages.DIAD,
 				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
 		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, 5).applyTo(labelName);
+
+		Optional.ofNullable(getClientProperties())
+			.map(ClientSpringProperties::getModes)
+			.map(Modes::getTest)
+			.filter(TestMode::isActive)
+			.ifPresent(t -> labelName.setText(labelName.getText() + " [Test Mode]"));
 
 		PerspectiveComposite.buildModeComposite(composite, PerspectiveType.IMAGING);
 		new PerspectiveDashboardCompositeFactory().createComposite(composite, SWT.NONE);
@@ -55,5 +66,9 @@ public class PerspectiveDashboard extends ViewPart {
 	@Override
 	public void setFocus() {
 		// experimentCompose.setFocus();
+	}
+
+	private ClientSpringProperties getClientProperties() {
+		return SpringApplicationContextFacade.getBean(ClientSpringProperties.class);
 	}
 }
