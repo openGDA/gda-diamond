@@ -4,6 +4,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+	<!-- XRF fast scanning -->
+	<bean id="xrfFastScanningInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRF fast scanning" />
+		<property name="description" value="XRF fast scanning" />
+	</bean>
+
+	<bean id="xrfFastScanningModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-01" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="xrfFastScanningDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-01" />
+		<property name="model" ref="xrfFastScanningModel" />
+		<property name="deviceInformation" ref="xrfFastScanningInfo" />
+		<property name="activated" value="false" />
+	</bean>
+
 	<!-- XRF-only scan -->
 	<bean id="malcolmInfoXrfOnly" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XRF only" />
