@@ -13,7 +13,7 @@ from gda.device.monitor import EpicsMonitor
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient #@UnusedImport
 from gda.jython.commands import GeneralCommands
-from gda.jython.commands.GeneralCommands import alias, cmd, ls, pause, reset_namespace, run, vararg_regex #@UnusedImport
+from gda.jython.commands.GeneralCommands import alias, cmd, ls, pause, reset_namespace, run #@UnusedImport
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge #@UnusedImport
 from gdascripts.analysis.datasetprocessor.oned.MinPositionAndValue import MinPositionAndValue #@UnusedImport
 from gdascripts.analysis.datasetprocessor.oned.TwoGaussianEdges import TwoGaussianEdges #@UnusedImport
