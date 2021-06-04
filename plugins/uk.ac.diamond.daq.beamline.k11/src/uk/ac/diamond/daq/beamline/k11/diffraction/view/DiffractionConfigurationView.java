@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.daq.beamline.k11.view;
+package uk.ac.diamond.daq.beamline.k11.diffraction.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.experiment.controller.ExperimentScanningAcquisitionController;
-import uk.ac.diamond.daq.mapping.ui.services.MappingServices;
+import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
@@ -59,7 +59,7 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 	private LiveStreamBackgroundAction liveStreamAction;
 
 	public DiffractionConfigurationView() {
-		smController = MappingServices.getScanManagementController();
+		smController = getMappingRemoteServices().getScanManagementController();
 		smController.initialise();
 	}
 
@@ -121,5 +121,9 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 				configurations.add(new BeamSelectorButtonControlledCompositeFactory(c, controlButtonsContainerSupplier));
 			});
 		return configurations;
+	}
+
+	private static MappingRemoteServices getMappingRemoteServices() {
+		return SpringApplicationContextFacade.getBean(MappingRemoteServices.class);
 	}
 }
