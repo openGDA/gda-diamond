@@ -47,6 +47,7 @@
 			<list>
 				<ref bean="excalibur_roistats" />
 				<ref bean="excalibur_plotter" />
+				<ref bean="excalibur_norm" />
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4">
@@ -82,6 +83,15 @@
 		id="excalibur_roistats">
 		<property name="plotName" value="Excalibur" />
 		<property name="statsProcessor" ref="excalibur_stats" />
+	</bean>
+
+	<bean
+		class="gda.device.detector.nexusprocessor.roistats.NormalisingRegionProcessor"
+		id="excalibur_norm">
+		<property name="attenuatorScannableName" value="filterset" />
+		<property name="transmissionFieldName" value="transmission" />
+		<property name="roiStats" ref="excalibur_roistats" />
+		<property name="enable" value="false" />
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"

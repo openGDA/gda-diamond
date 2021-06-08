@@ -36,3 +36,8 @@ try:
 except Exception as e:
     print("Error setting up excalibur_h5_data", e)
 #####
+
+# Inject normaliser processor for use in namespace
+excalibur_norm = Finder.find("excalibur_norm")
+#####
+
