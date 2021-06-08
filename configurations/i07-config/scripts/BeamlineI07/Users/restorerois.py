@@ -10,14 +10,17 @@ def restorerois(scan):
     bean = dnp.plot.getbean(name="Area Detector")
     oldrois = dnp.plot.getrois(bean)
     newrois = dnp.plot.roi_list()
+    prefix = 'roi'
+    if 'Region_1_X' in f.keys():
+        prefix = 'Region_'
     while True:
         r = dnp.plot.roi.rectangle()
-        if 'roi' + str(roi+1) + '_X' in f.keys():
+        if prefix + str(roi+1) + '_X' in f.keys():
             roi += 1
             r.setName('Region ' + str(roi))
-            r.setPoint((f[f.keys().index('roi' + str(roi) + '_X')][0], f[f.keys().index('roi' + str(roi) + '_Y')][0]))
-            r.setLengths((f[f.keys().index('roi' + str(roi) + '_Width')][0], f[f.keys().index('roi' + str(roi) + '_Height')][0]))
-            r.setAngle(f[f.keys().index('roi' + str(roi) + '_Angle')][0])
+            r.setPoint((float(f[f.keys().index(prefix + str(roi) + '_X')][0]), float(f[f.keys().index(prefix + str(roi) + '_Y')][0])))
+            r.setLengths((float(f[f.keys().index(prefix + str(roi) + '_Width')][0]), float(f[f.keys().index(prefix + str(roi) + '_Height')][0])))
+            r.setAngle(float(f[f.keys().index(prefix + str(roi) + '_Angle')][0]))
             newrois.append(r)
         else:
             break
