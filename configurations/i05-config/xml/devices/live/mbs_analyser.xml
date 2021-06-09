@@ -57,6 +57,15 @@
 				<property name="slices" value="963" />
 			</bean>
 		</property>
+		<property name="ditherModeConfiguration">
+			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
+				<property name="startX" value="178" />
+				<property name="sizeX" value="929" />
+				<property name="startY" value="1" />
+				<property name="sizeY" value="963" />
+				<property name="slices" value="963" />
+			</bean>
+		</property>
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 	</bean>
 
