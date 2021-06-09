@@ -53,7 +53,7 @@ class LinearArbitraryAngle(ScannableMotionBase):
         mode = self.smode.getPosition()
         if mode == X_RAY_SOURCE_MODES[0] :
             self.jawphase = self.idd_jawphase
-        elif mode == X_RAY_POLARISATIONS[1]:
+        elif mode == X_RAY_SOURCE_MODES[1]:
             self.jawphase = self.idu_jawphase
         else:
             message="Source mode '%s' is not supported." % (mode)
