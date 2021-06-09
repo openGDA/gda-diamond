@@ -81,13 +81,13 @@
 				<value>sm_yp</value>
 				<value>sm_zp</value>
 				<value>sm_rotation</value>
-				<!-- TCUP -->
+				<!-- TCUP 
 				<value>sm2_xp</value>
 				<value>sm2_yp</value>
 				<value>sm2_zp</value>
 				<value>sm2_xpc</value>
 				<value>sm2_ypc</value>
-				<value>sm2_zpc</value>
+				<value>sm2_zpc</value>-->
 				<!--  analyser -->
 				<value>analyser_sledge</value>
 				<!-- sample temperature -->
