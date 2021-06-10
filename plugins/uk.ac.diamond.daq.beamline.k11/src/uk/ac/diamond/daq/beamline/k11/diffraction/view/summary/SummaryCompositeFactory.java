@@ -22,7 +22,6 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridL
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -31,14 +30,15 @@ import org.eclipse.swt.widgets.Display;
 import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.editor.AcquisitionSummary;
 import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.client.gui.camera.event.CameraControlSpringEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.helper.reader.AcquisitionReader;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.gda.client.properties.camera.CameraConfigurationProperties;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientResourceManager;
+import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 
 /**
  * Components representing the GUI acquisition configuration summary.
@@ -47,19 +47,17 @@ import uk.ac.gda.ui.tool.ClientResourceManager;
  */
 public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 
-	private final Supplier<ScanningAcquisition> acquisitionSupplier;
-
 	private StyledText summaryText;
 	private Composite container;
-	private final AcquisitionTemplateTypeSummaryBase summaryBase;
-	private final AcquisitionReader reader;
+	private AcquisitionSummary summaryBase;
+	private AcquisitionReader reader;
 
 
-	public SummaryCompositeFactory(Supplier<ScanningAcquisition> acquisitionSupplier) {
+	public SummaryCompositeFactory() {
 		super();
-		this.acquisitionSupplier = acquisitionSupplier;
-		this.summaryBase = new AcquisitionTemplateTypeSummaryBase(acquisitionSupplier);
-		this.reader = new AcquisitionReader(acquisitionSupplier::get);
+		getScanningAcquisitionTemporaryHelper()
+			.getAcquisitionController()
+				.ifPresent(c -> reader = new AcquisitionReader(c::getAcquisition));
 	}
 
 	@Override
@@ -88,8 +86,10 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 		summaryText = new StyledText(parent, SWT.NONE);
 		summaryText.setWordWrap(true);
 		summaryText.setFont(ClientResourceManager.getInstance().getTextDefaultItalicFont());
-		summaryText.setCaret(null);
+		summaryText.getCaret().setVisible(true);
+		summaryText.getCaret().setSize(5, 20);
 		summaryText.setEditable(false);
+		this.summaryBase = new AcquisitionSummary(summaryText);
 		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(summaryText);
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, listenToScanningAcquisitionChanges);
 		SpringApplicationContextFacade.addDisposableApplicationListener(this, cameraControlSpringEventListener);
@@ -114,20 +114,28 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 	private ApplicationListener<CameraControlSpringEvent> cameraControlSpringEventListener = new ApplicationListener<CameraControlSpringEvent>() {
 		@Override
 		public void onApplicationEvent(CameraControlSpringEvent event) {
+			Display.getDefault().asyncExec(() -> prepareSummaryUpdate(event));
+		}
+
+		private void prepareSummaryUpdate(CameraControlSpringEvent event) {
 			Optional.ofNullable(reader.getAcquisitionConfiguration().getAcquisitionParameters().getDetector().getName())
-				.map(CameraHelper::getCameraConfigurationPropertiesByCameraControlName)
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.map(CameraConfigurationProperties::getId)
-				.filter(c -> c.equals(event.getCameraId()))
-				.ifPresent(c -> Display.getDefault().asyncExec(() -> updateSummary()));
+			.map(CameraHelper::getCameraConfigurationPropertiesByCameraControlName)
+			.filter(Optional::isPresent)
+			.map(Optional::get)
+			.map(CameraConfigurationProperties::getId)
+			.filter(c -> c.equals(event.getCameraId()))
+			.ifPresent(c -> updateSummary());
 		}
 	};
 
 	private void updateSummary() {
 		if (!summaryText.isDisposed()) {
-			summaryText.setText(summaryBase.toString());
+			summaryBase.updateSummary();
 			container.getShell().layout(true, true);
 		}
+	}
+
+	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
+		return SpringApplicationContextFacade.getBean(ScanningAcquisitionTemporaryHelper.class);
 	}
 }
