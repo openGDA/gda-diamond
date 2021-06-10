@@ -63,6 +63,7 @@
 	<import resource="Lakeshore.xml" />
 	<import resource="ring.xml"/>
 	<import resource="frontEnd.xml"/>
+	<import resource="keithley.xml"/>
 
 	<import resource="../main_common.xml" />
 	<import resource="../_common/server.xml"/>
