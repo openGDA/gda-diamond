@@ -19,4 +19,8 @@
 		<property name="pvName" value="BL16B-MO-GTLIN-01:Y2" />
 	</bean>
 
+	<bean id="GTLINX3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-GTLIN-02:HORZ" />
+	</bean>
+
 </beans>
