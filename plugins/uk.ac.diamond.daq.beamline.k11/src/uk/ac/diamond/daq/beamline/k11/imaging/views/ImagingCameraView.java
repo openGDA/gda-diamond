@@ -26,7 +26,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
 import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.client.gui.camera.CameraStreamsManager;
 import uk.ac.diamond.daq.client.gui.camera.ICameraConfiguration;
@@ -34,13 +33,16 @@ import uk.ac.diamond.daq.client.gui.camera.liveview.CameraImageComposite;
 import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.LiveStreamException;
-import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
+import uk.ac.gda.client.properties.acquisition.AcquisitionConfigurationProperties;
+import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
+import uk.ac.gda.ui.tool.spring.properties.AcquisitionConfigurationPropertiesUtils;
 
 /**
- * Creates a predefined view for the imaging camera stream. This view defines the {@link #IMAGING_CAMERA_ID} property which has to be equal to one
- * {@code client.cameraConfigurations} available IDs.
+ * Creates a predefined view for the imaging camera stream. It uses the
+ * {@link AcquisitionConfigurationProperties#getType()} equal {@link AcquisitionPropertyType#TOMOGRAPHY}
+ * and from there extracts the first available, if any, cameraID.
  *
  * @see CameraHelper
  *
@@ -50,7 +52,6 @@ public class ImagingCameraView extends ViewPart {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.ImagingCameraView";
 
-	public static final String IMAGING_CAMERA_ID = "imagingCameraView.id";
 	private static final Logger logger = LoggerFactory.getLogger(ImagingCameraView.class);
 
 	private CameraImageComposite cic;
@@ -60,11 +61,9 @@ public class ImagingCameraView extends ViewPart {
 		try {
 			cic = new CameraImageComposite(parent, SWT.NONE, getLiveStreamConnection());
 		} catch (GDAClientException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
+			logger.error("Problem creating the CameraImageComposite", e);
 		} catch (LiveStreamException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
+			logger.error("Problem creating the live stream", e);
 		}
 	}
 
@@ -74,11 +73,21 @@ public class ImagingCameraView extends ViewPart {
 	}
 
 	private LiveStreamConnection getLiveStreamConnection() throws LiveStreamException {
-		CameraConfiguration cc = CameraHelper.getCameraConfigurationPropertiesByID(LocalProperties.get(IMAGING_CAMERA_ID, null))
+		var cc = CameraHelper.getCameraConfigurationPropertiesByID(getCameraID(AcquisitionPropertyType.TOMOGRAPHY))
 				.map(CameraHelper::createICameraConfiguration)
 				.map(ICameraConfiguration::getCameraConfiguration)
 				.map(Optional::get)
 				.orElseThrow(() -> new LiveStreamException("No Camera Confguration found"));
 		return SpringApplicationContextFacade.getBean(CameraStreamsManager.class).getStreamConnection(cc, StreamType.EPICS_ARRAY);
+	}
+
+	private String getCameraID(AcquisitionPropertyType acquisitionType) throws LiveStreamException {
+		return getAcquisitionConfigurationPropertiesUtils().getCameras(acquisitionType).stream()
+				.findFirst()
+				.orElseThrow(() -> new LiveStreamException("No Camera Confguration found"));
+	}
+
+	private AcquisitionConfigurationPropertiesUtils getAcquisitionConfigurationPropertiesUtils() {
+		return SpringApplicationContextFacade.getBean(AcquisitionConfigurationPropertiesUtils.class);
 	}
 }
