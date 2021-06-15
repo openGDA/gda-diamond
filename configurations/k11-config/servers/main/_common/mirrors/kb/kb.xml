@@ -18,7 +18,7 @@
 		dummy-maxPosition="2.8"
 		dummy-position="1"
 		dummy-unitString="mm"/>
-		
+
 	<bean id="kb_mirrors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -27,5 +27,24 @@
 			</list>
 		</property>
 	</bean>
-	
+
+
+	<!-- kb_cs_x is a virtual motor. It transforms the camera pixels space 
+             in the the kb_x space through geobrick. See https://jira.diamond.ac.uk/browse/K11-1254 -->
+        <gda:motor id="kb_cs_x"
+                live-pvName="#{configProperties.KBM_PV_PREFIX}01:CS:X"
+                dummy-minPosition="-4.1"
+                dummy-maxPosition="6.35"
+                dummy-position="1.0"
+                dummy-unitString="mm"/>
+
+    <!-- kb_cs_y is a virtual motor. It transforms the camera pixels space 
+             in the the kb_y space through geobrick. See https://jira.diamond.ac.uk/browse/K11-1254 -->
+        <gda:motor id="kb_cs_y"
+                live-pvName="#{configProperties.KBM_PV_PREFIX}01:CS:Y"
+                dummy-minPosition="-7.5"
+                dummy-maxPosition="2.8"
+                dummy-position="1"
+                dummy-unitString="mm"/>
+
 </beans>
