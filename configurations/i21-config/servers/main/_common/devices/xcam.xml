@@ -90,11 +90,7 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="pvsToCollectMaps">
-			<list>
-		 		<ref bean="xcam_settings"/>	
-			</list>
-		</property>		
+		<property name="pvsToCollectMap" ref="xcam_settings"/>
 	</bean>
 
 	<!-- used with live stream view -->
