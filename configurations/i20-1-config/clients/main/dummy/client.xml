@@ -6,6 +6,11 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+
+	<bean id="detector_for_live_stream" class="java.lang.String">
+		<constructor-arg value="xstrip" />
+	</bean>
+
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 
 </beans>

@@ -6,8 +6,6 @@
 	<bean id="alignment_stage" class="gda.device.scannable.AlignmentStageScannable">
 		<constructor-arg ref="alignment_x" />
 		<constructor-arg ref="alignment_y" />
-		<constructor-arg ref="fast_shutter_x" />
-		<constructor-arg ref="fast_shutter_y" />
 	</bean>
 
 	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">

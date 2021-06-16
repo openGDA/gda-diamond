@@ -12,7 +12,7 @@
 				<property name="customUIs" >
 					<list>
 						<bean class="uk.ac.gda.client.live.stream.view.customui.EdeDetectorCustomUI">
-							<property name="detectorName" value="frelon" />
+							<property name="detectorName" ref="detector_for_live_stream" />
 						</bean>
 					</list>
 				</property>
