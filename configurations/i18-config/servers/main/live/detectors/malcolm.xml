@@ -3,254 +3,56 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- XSPRESS3 SCANS -->
+	<!-- Xspress 3 -->
 
-	<bean id="t1xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-01" />
-		<property name="model" ref="t1xyModel" />
-		<property name="deviceInformation" ref="t1xyInfo" />
-		<property name="activated" value="false" />
+	<bean id="xspress3DeviceInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Xspress3" />
+		<property name="description" value="Scan of Xspress3 and ion chambers" />
 	</bean>
-	<bean id="t1xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<bean id="xspress3MalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL18I-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
-	<bean id="t1xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t1xyDevice" />
-		<property name="label" value="T1 X vs Y" />
-		<property name="description"
-			value="Scan of Xspress3 and ion chambers over T1 X (fast) and Y (slow)" />
+	<bean id="xspress3MalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-01" />
+		<property name="model" ref="xspress3MalcolmModel" />
+		<property name="deviceInformation" ref="xspress3DeviceInfo" />
+		<property name="activated" value="false" />
 	</bean>
 
-	<bean id="t1xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
+
+	<!-- Excalibur -->
+
+	<bean id="excaliburDeviceInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur" />
+		<property name="description" value="Scan of Excalibur and ion chambers" />
+	</bean>
+	<bean id="excaliburMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL18I-ML-SCAN-02" />
-		<property name="model" ref="t1xtModel" />
-		<property name="deviceInformation" ref="t1xtInfo" />
-		<property name="activated" value="false" />
+		<property name="exposureTime" value="0.01" />
 	</bean>
-	<bean id="t1xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<bean id="excaliburMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL18I-ML-SCAN-02" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-	<bean id="t1xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t1xtDevice" />
-		<property name="label" value="T1 X vs theta" />
-		<property name="description"
-			value="Scan of Xspress3 and ion chambers over T1 X (fast) and fine theta (slow)" />
-		<property name="shownByDefault" value="false" />
-	</bean>
-
-	<bean id="t3xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-03" />
-		<property name="model" ref="t3xyModel" />
-		<property name="deviceInformation" ref="t3xyInfo" />
+		<property name="model" ref="excaliburMalcolmModel" />
+		<property name="deviceInformation" ref="excaliburDeviceInfo" />
 		<property name="activated" value="false" />
 	</bean>
-	<bean id="t3xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL18I-ML-SCAN-03" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-	<bean id="t3xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t3xyDevice" />
-		<property name="label" value="T3 X vs Y" />
-		<property name="description"
-			value="Scan of Xspress3 and ion chambers over T3 X (fast) and Y (slow)" />
-		<property name="shownByDefault" value="false" />
-	</bean>
 
-	<bean id="t3xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-04" />
-		<property name="model" ref="t3xtModel" />
-		<property name="deviceInformation" ref="t3xtInfo" />
-		<property name="activated" value="false" />
-	</bean>
-	<bean id="t3xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL18I-ML-SCAN-04" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-	<bean id="t3xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t3xtDevice" />
-		<property name="label" value="T3 X vs theta" />
-		<property name="description"
-			value="Scan of Xspress3 and ion chambers over T3 X (fast) and fine theta (slow)" />
-		<property name="shownByDefault" value="false" />
-	</bean>
-	
-		<!-- Excalibur SCANS -->
+	<!-- Xspress 3 + Excalibur -->
 
-	<bean id="excaliburT1xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-05" />
-		<property name="model" ref="excaliburT1xyModel" />
-		<property name="deviceInformation" ref="excaliburT1xyInfo" />
-		<property name="activated" value="false" />
-	</bean>
-	<bean id="excaliburT1xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL18I-ML-SCAN-05" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-	<bean id="excaliburT1xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t1xyDevice" />
-		<property name="label" value="Excalibur T1 X vs Y" />
-		<property name="description"
-			value="Scan of Excalibur and ion chambers over T1 X (fast) and Y (slow)" />
-		<property name="shownByDefault" value="false" />
-	</bean>
-
-	<bean id="excaliburT1xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-06" />
-		<property name="model" ref="excaliburT1xtModel" />
-		<property name="deviceInformation" ref="excaliburT1xtInfo" />
-		<property name="activated" value="false" />
-	</bean>
-	<bean id="excaliburT1xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL18I-ML-SCAN-06" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-	<bean id="excaliburT1xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t1xtDevice" />
-		<property name="label" value="Excalibur T1 X vs theta" />
-		<property name="description"
-			value="Scan of Excalibur and ion chambers over T1 X (fast) and fine theta (slow)" />
-		<property name="shownByDefault" value="false" />
-	</bean>
-
-	<bean id="excaliburT3xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-07" />
-		<property name="model" ref="excaliburT3xyModel" />
-		<property name="deviceInformation" ref="excaliburT3xyInfo" />
-		<property name="activated" value="false" />
-	</bean>
-	<bean id="excaliburT3xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL18I-ML-SCAN-07" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-	<bean id="excaliburT3xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t3xyDevice" />
-		<property name="label" value="Excalibur T3 X vs Y" />
-		<property name="description"
-			value="Scan of Excalibur and ion chambers over T3 X (fast) and Y (slow)" />
-		<property name="shownByDefault" value="false" />
-	</bean>
-
-	<bean id="excaliburT3xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
-		init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-08" />
-		<property name="model" ref="excaliburT3xtModel" />
-		<property name="deviceInformation" ref="excaliburT3xtInfo" />
-		<property name="activated" value="false" />
-	</bean>
-	<bean id="excaliburT3xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL18I-ML-SCAN-08" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-	<bean id="excaliburT3xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.t3xtDevice" />
-		<property name="label" value="Excalibur T3 X vs theta" />
-		<property name="description"
-			value="Scan of Excalibur and ion chambers over T3 X (fast) and fine theta (slow)" />
-		<property name="shownByDefault" value="false" />
-	</bean>
-	
-	<bean id="combinedScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
+	<bean id="combinedDeviceInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Xspress3 + Excalibur" />
-		<property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
-		<property name="shownByDefault" value="false" />
+		<property name="description" value="Scan of Xspress3 + Excalibur and ion chambers" />
 	</bean>
-	
-	<bean id="combinedScanModel" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
-		<property name="name" value="BL18I-ML-SCAN-09" />
-		<property name="exposureTime" value="0.1" />
+	<bean id="combinedMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-03" />
+		<property name="exposureTime" value="0.01" />
 	</bean>
-	 
-	<bean id="combinedScanDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
-		<property name="name" value="BL18I-ML-SCAN-09" />
-		<property name="model" ref="combinedScanModel" />
-		<property name="deviceInformation" ref="combinedScanInfo" />
+	<bean id="combinedMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-03" />
+		<property name="model" ref="combinedMalcolmModel" />
+		<property name="deviceInformation" ref="combinedDeviceInfo" />
 		<property name="activated" value="false" />
 	</bean>
-
-    <bean id="combinedScanInfot1xtheta" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-        <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
-        <property name="label" value="Xspress3 + Excalibur (T1 X v theta)" />
-        <property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
-        <property name="shownByDefault" value="false" />
-    </bean>
-    
-    <bean id="combinedScanModelt1xtheta" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
-        <property name="name" value="BL18I-ML-SCAN-10" />
-        <property name="exposureTime" value="0.1" />
-    </bean>
-    
-    <bean id="combinedScanDevicet1xtheta" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
-        <property name="name" value="BL18I-ML-SCAN-10" />
-        <property name="model" ref="combinedScanModelt1xtheta" />
-        <property name="deviceInformation" ref="combinedScanInfot1xtheta" />
-        <property name="activated" value="false" />
-    </bean>
-
-    <bean id="combinedScanInfot3xy" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-        <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
-        <property name="label" value="Xspress3 + Excalibur (T3 X v Y)" />
-        <property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
-        <property name="shownByDefault" value="false" />
-    </bean>
-    
-    <bean id="combinedScanModelt3xy" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
-        <property name="name" value="BL18I-ML-SCAN-11" />
-        <property name="exposureTime" value="0.1" />
-    </bean>
-    
-    <bean id="combinedScanDevicet3xy" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
-        <property name="name" value="BL18I-ML-SCAN-11" />
-        <property name="model" ref="combinedScanModelt3xy" />
-        <property name="deviceInformation" ref="combinedScanInfot3xy" />
-        <property name="activated" value="false" />
-    </bean>
-
-    <bean id="combinedScanInfot3xtheta" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-        <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
-        <property name="label" value="Xspress3 + Excalibur (T3 X v theta)" />
-        <property name="description" value="Combined scan using Xspress3 and Excalibur detectors" />
-        <property name="shownByDefault" value="false" />
-    </bean>
-    
-    <bean id="combinedScanModelt3xtheta" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
-        <property name="name" value="BL18I-ML-SCAN-12" />
-        <property name="exposureTime" value="0.1" />
-    </bean>
-    
-    <bean id="combinedScanDevicet3xtheta" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
-        <property name="name" value="BL18I-ML-SCAN-12" />
-        <property name="model" ref="combinedScanModelt3xtheta" />
-        <property name="deviceInformation" ref="combinedScanInfot3xtheta" />
-        <property name="activated" value="false" />
-    </bean>
-
-    <bean id="merlinInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-        <property name="id" value="org.eclipse.scanning.malcolm.combinedScanDevice" />
-        <property name="label" value="Merlin ptychography" />
-        <property name="description" value="Merlin / Ptychography stages" />
-        <property name="shownByDefault" value="false" />
-    </bean>
-    
-    <bean id="merlinModel" class="org.eclipse.scanning.api.device.models.MalcolmModel" >
-        <property name="name" value="BL18I-ML-PTYCHO-01" />
-        <property name="exposureTime" value="0.1" />
-    </bean>
-    
-    <bean id="merlinDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register" >
-        <property name="name" value="BL18I-ML-PTYCHO-01" />
-        <property name="model" ref="merlinModel" />
-        <property name="deviceInformation" ref="merlinInfo" />
-        <property name="activated" value="false" />
-    </bean>
 
 </beans>
