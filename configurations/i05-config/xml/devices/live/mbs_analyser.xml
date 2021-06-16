@@ -72,17 +72,31 @@
 	<bean id="AnalyserLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
-		<property name="arrayPV" value="BL05I-EA-DET-02:ARR:ArrayData" />
-		<property name="frameNumberPV" value="BL05I-EA-DET-02:CAM:ArrayCounter_RBV" />
+		<property name="arrayPV" value="BL05I-EA-DET-02:LatestData:ArrayData" />
+		<property name="frameNumberPV" value="BL05I-EA-DET-02:LatestData:ArrayCounter_RBV" />
+		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
+		<property name="acquisitionModePV" value="BL05I-EA-DET-02:CAM:AcqMode" />
+		<property name="supportedAcquisitionModes">
+	      <list>
+	         <value>Fixed</value>
+	         <value>Dither</value>
+	      </list>
+	   </property>
 	</bean>
 
 	<bean id="AnalyserSumLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Sum Plot" />
 		<property name="arrayPV" value="BL05I-EA-DET-02:ARR:ArrayData" />
-		<property name="frameNumberPV" value="BL05I-EA-DET-02:CAM:ArrayCounter_RBV" />
-		<property name="sumFrames" value="true" />
+		<property name="frameNumberPV" value="BL05I-EA-DET-02:ARR:ArrayCounter_RBV" />
 		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
+		<property name="acquisitionModePV" value="BL05I-EA-DET-02:CAM:AcqMode" />
+		<property name="supportedAcquisitionModes">
+	      <list>
+	         <value>Fixed</value>
+	         <value>Dither</value>
+	      </list>
+	   </property>
 	</bean>
 
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
@@ -98,9 +112,16 @@
 	<bean id="AnalyserSweptLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Swept Plot" />
-		<property name="arrayPV" value="BL05I-EA-DET-02:ARR:ArrayData" />
+		<property name="arrayPV" value="BL05I-EA-DET-02:LatestData:ArrayData" />
 		<!--For the swept plot want to trigger an update after each step so use current channel PV -->
-		<property name="frameNumberPV" value="BL05I-EA-DET-02:CAM:CurrentStepNumber_RBV" />
+		<property name="frameNumberPV" value="BL05I-EA-DET-02:LatestData:ArrayCounter_RBV" />
+		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
+		<property name="acquisitionModePV" value="BL05I-EA-DET-02:CAM:AcqMode" />
+		<property name="supportedAcquisitionModes">
+	      <list>
+	         <value>Swept</value>
+	      </list>
+	   </property>
 	</bean>
 
 	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">
