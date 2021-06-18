@@ -18,12 +18,12 @@ class Shutter(ScannableMotionBase):
 			self.positioner.moveTo('Reset')
 			self.positioner.moveTo('Open')
 		else:
-			raise ValueError("Could no move %s to %s, Position must be '1' for open or '0' for closed" % self.name, state)
+			raise ValueError("Could not move {} to {}, Position must be '1' for open or '0' for closed".format(self.name, state))
 		
 	def getPosition(self):
 		pos_string = str(self.positioner.getPosition())
 		if pos_string == 'Fault':
-			raise Exception("\n** Problem with " + self.name + ": the shutter is returning a status of 'Fault' **")
+			raise Exception("\n** Problem with {}: the shutter is returning a status of 'Fault' **".format(self.name))
 		return {'Open': 1, 'Closed': 0, 'Reset': 0}[pos_string]
 
 	def isBusy(self):
@@ -46,4 +46,4 @@ class DummyEpicsShutterPositioner:
 		else:
 			self.state = state
 		time.sleep(.2)
-		
+
