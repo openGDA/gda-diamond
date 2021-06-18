@@ -28,6 +28,7 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.standardMarginWidth;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -57,16 +58,24 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.DensityCompositeF
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator.MutatorsTemplateFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.AcquisitionTemplateTypeCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
+import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
+import uk.ac.diamond.daq.client.gui.camera.ICameraConfiguration;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.ui.controller.AcquisitionConfigurationException;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.gda.api.acquisition.AcquisitionController;
+import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
+import uk.ac.gda.client.exception.GDAClientException;
+import uk.ac.gda.client.properties.acquisition.AcquisitionConfigurationProperties;
+import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
+import uk.ac.gda.client.properties.acquisition.ProcessingRequestProperties;
 import uk.ac.gda.core.tool.spring.AcquisitionFileContext;
 import uk.ac.gda.core.tool.spring.DiffractionContextFile;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
@@ -76,7 +85,9 @@ import uk.ac.gda.ui.tool.processing.ProcessingRequestComposite;
 import uk.ac.gda.ui.tool.processing.context.ProcessingRequestContext;
 import uk.ac.gda.ui.tool.processing.keys.ProcessingRequestKeyFactory;
 import uk.ac.gda.ui.tool.processing.keys.ProcessingRequestKeyFactory.ProcessKey;
+import uk.ac.gda.ui.tool.rest.CameraControlClient;
 import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
+import uk.ac.gda.ui.tool.spring.ClientSpringProperties;
 
 /**
  * This Composite allows to edit a {@link ScanningParameters} object.
@@ -277,8 +288,52 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 				 getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false));
 		processingRequestContexts.add(new ProcessingRequestContext(getProcessingRequestKeyFactory().getProcessingKey(ProcessKey.DAWN),
 				 getDiffractionCalibrationMergeDirectory(), new ArrayList<>(), false));
-
+		processingRequestContexts.add(new ProcessingRequestContext(getProcessingRequestKeyFactory().getProcessingKey(ProcessKey.FRAME_CAPTURE),
+				 null, getCaptureFrameCamera(), false));
 		return processingRequestContexts;
+	}
+
+	private List<DetectorDocument> getCaptureFrameCamera() {
+		List<String> cameraIds = Collections.emptyList();
+		try {
+			cameraIds = SpringApplicationContextFacade.getBean(ClientSpringProperties.class).getAcquisitions().stream()
+					.filter(a -> a.getType().equals(AcquisitionPropertyType.DIFFRACTION))
+					.findFirst()
+					.map(AcquisitionConfigurationProperties::getProcessingRequest)
+					.map(ProcessingRequestProperties::getFrameCapture)
+					.orElseThrow(() -> new AcquisitionConfigurationException("There are no properties associated with the acqual acquisition"));
+		} catch (AcquisitionConfigurationException e1) {
+			// TODO Auto-generated catch block
+			logger.error("TODO put description of error here", e1);
+		}
+
+		List<DetectorDocument> cameras = new ArrayList<>();
+		for(String id : cameraIds) {
+			try {
+				cameras.add(createDetectorDocument(id));
+			} catch (GDAClientException e) {
+				logger.error("Cannot create DetectorDocument: {}", e.getMessage());
+			}
+		}
+		return cameras;
+	}
+
+	private DetectorDocument createDetectorDocument(String cameraId) throws GDAClientException {
+		ICameraConfiguration iCameraConfiguraton = CameraHelper.getCameraConfigurationPropertiesByID(cameraId)
+			.map(CameraHelper::createICameraConfiguration)
+			.orElseThrow(() -> new GDAClientException("Cannot retrieve the Camera configuration for " + cameraId));
+
+		CameraControlClient cameraClient = iCameraConfiguraton.getCameraControlClient()
+				.orElseThrow(() -> new GDAClientException("Cannot retrieve the CameraControlClient for " + cameraId));
+
+
+		if (cameraClient != null) {
+			return new DetectorDocument.Builder()
+				.withName(iCameraConfiguraton.getCameraConfigurationProperties().getName())
+				.withExposure(cameraClient.getAcquireTime())
+				.build();
+		}
+		throw new GDAClientException();
 	}
 
 	private URL getDiffractionCalibrationMergeDirectory() {
