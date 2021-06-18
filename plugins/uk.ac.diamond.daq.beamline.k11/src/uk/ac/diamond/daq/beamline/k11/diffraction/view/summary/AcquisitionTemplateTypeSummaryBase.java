@@ -43,7 +43,7 @@ import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
  */
 public class AcquisitionTemplateTypeSummaryBase  {
 
-	private static final  DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+	private static final  DecimalFormat decimalFormat = new DecimalFormat("#0.000");
 	private static final DecimalFormat integerFormat = new DecimalFormat("#");
 	private static final String PROPERTY_FORMAT = "%s: [%s]";
 	private final Supplier<ScanningAcquisition> acquisitionSupplier;
@@ -95,12 +95,11 @@ public class AcquisitionTemplateTypeSummaryBase  {
 	}
 
 	protected String durationToString() {
-		return String.format("%s: [%s]s", "Duration", decimalFormat.format(totPoints() * getExposure()));
+		return formatDouble(totPoints() * getExposure(), "Duration");
 	}
 
 	protected String lineDurationToString() {
-		// divide by two because the totPoints are counted on all the axes (for now, no more than 2)
-		return String.format("%s: [%s]s", "Duration", totPoints() * getExposure());
+		return formatDouble(totPoints() * getExposure(), "Duration");
 	}
 
 	private int totPoints() {
@@ -119,7 +118,14 @@ public class AcquisitionTemplateTypeSummaryBase  {
 	}
 
 	protected String exposureToString() {
-		return String.format("%s: [%s]s", "Exposure", getExposure());
+		return formatDouble(getExposure(), "Exposure");
+	}
+
+	private String formatDouble(Double value, String name) {
+		return Optional.ofNullable(value)
+				.map(decimalFormat::format)
+				.map(c -> String.format(PROPERTY_FORMAT + "s", name, c))
+				.orElse("");
 	}
 
 	@Override
