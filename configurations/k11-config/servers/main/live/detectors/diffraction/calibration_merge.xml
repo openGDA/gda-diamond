@@ -4,7 +4,8 @@
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
 	<bean id="diffraction_calibration_appender" class="org.eclipse.dawnsci.nexus.appender.NexusNodeCopyAppender" init-method="register">
-		<property name="name" value="pilatus" />
+		<!-- This value cames from MALCOLM detector table. The value actually comes from the properties --> 
+		<property name="name" value="${server.processingRequests.diffractionCalibrationMerge.datasetName}" />
 		<property name="nodePaths">
 			<set>
 				<value>/entry1</value>
