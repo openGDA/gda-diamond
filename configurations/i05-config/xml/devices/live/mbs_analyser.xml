@@ -99,16 +99,6 @@
 	   </property>
 	</bean>
 
-	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:CentreKE_RBV" />
-		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:CentreKE" />
-	</bean>
-
-	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:AcquireTime_RBV" />
-		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:AcquireTime" />
-	</bean>
-
 	<bean id="AnalyserSweptLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Swept Plot" />
@@ -129,6 +119,21 @@
 		<property name="maxSweepPV" value="BL05I-EA-DET-02:CAM:NumSteps_RBV" />
 		<property name="percentagePV" value="BL05I-EA-DET-02:CAM:ProgressPct_RBV" />
 		<property name="currentIterationPV" value="BL05I-EA-DET-02:CAM:CurrentScanNumber_RBV"/>
+	</bean>
+
+	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:CentreKE" />
+	</bean>
+
+	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:AcquireTime" />
+	</bean>
+
+	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:DeflX_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:DeflX" />
 	</bean>
 
 </beans>
