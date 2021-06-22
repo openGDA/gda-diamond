@@ -27,3 +27,12 @@ class DCHklAdapter(HklAdapter):
 hkl_prov = DCHklAdapter()
 exc.setHklProvider(hkl_prov)
 p2c.setHklProvider(hkl_prov)
+
+# Exc filename recorder
+try:
+    from exc_h5_meta import ExcaliburExtFileMeta
+    excalibur_h5_data = ExcaliburExtFileMeta("excalibur_h5_data", "excalibur", ["excalibur", "excroi", "excstats", "exc_p"])
+    meta_add(excalibur_h5_data)
+except Exception as e:
+    print("Error setting up excalibur_h5_data", e)
+#####
