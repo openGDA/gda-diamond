@@ -1,6 +1,0 @@
-#syntax: call setString
-#mode echo
-
-((@1):string=@2)
-
-return

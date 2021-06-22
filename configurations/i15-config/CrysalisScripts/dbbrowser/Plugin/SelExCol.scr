@@ -1,9 +1,0 @@
-if (@3=="") jmp NotCol
-	($(~/Objects/DataBaseTreeView/Properties/Collapse)=@3)
-label NotCol
-if (@2=="") jmp NotEx
-	($(~/Objects/DataBaseTreeView/Properties/Expand)=@2)
-label NotEx
-if (@1=="") jmp NotSel
-	($(~/Objects/DataBaseTreeView/Properties/Selecteditem)=@1)
-label NotSel
