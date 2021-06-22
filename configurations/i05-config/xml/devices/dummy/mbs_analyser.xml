@@ -122,6 +122,11 @@
 		<property name="currentIterationPV" value="BL05I-EA-SIM-02:CAM:CurrentScanNumber_RBV"/>
 	</bean>
 
+	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05I-EA-SIM-02:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="BL05I-EA-SIM-02:CAM:CentreKE" />
+	</bean>
+
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-SIM-02:CAM:CentreKE_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-SIM-02:CAM:CentreKE" />
