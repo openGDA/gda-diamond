@@ -15,4 +15,120 @@
 		</property>
 	</bean>
 
+	<!-- Detector coordinate -->
+	<bean id="robot_alpha"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:ALPHA" />
+		<property name="unit" value="deg" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>
+			
+	<bean id="robot_beta"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:BETA" />
+		<property name="unit" value="deg" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>
+	
+	<bean id="robot_gamma"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:GAMMA" />
+		<property name="unit" value="deg" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>
+			
+	<bean id="robot_radius"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:RADIUS" />
+		<property name="unit" value="mm" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>
+		
+	<bean id="robot_detector_coordinate" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="robot_alpha" />
+				<ref bean="robot_beta" />
+				<ref bean="robot_gamma" />
+				<ref bean="robot_radius" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Detector user3 coordinate -->
+	<bean id="robot_x"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:X" />
+		<property name="unit" value="mm" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>
+
+	<bean id="robot_y"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:Y" />
+		<property name="unit" value="mm" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>
+
+	<bean id="robot_z"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:Z" />
+		<property name="unit" value="mm" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>
+
+	<bean id="robot_rx"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:RX" />
+		<property name="unit" value="mm" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>			
+		
+	<bean id="robot_ry"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:RY" />
+		<property name="unit" value="mm" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>					
+		
+	<bean id="robot_rz"
+		class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName"
+			value="#{configProperties.MO_ROBOT_PREFIX}01:RZ" />
+		<property name="unit" value="mm" />
+		<property name="poll" value="true" />
+		<!-- <property name="sensitivity" value="0.1" /> -->
+	</bean>		
+
+	<bean id="robot_user_coordinate" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="robot_x" />
+				<ref bean="robot_y" />
+				<ref bean="robot_z" />
+				<ref bean="robot_rx" />
+				<ref bean="robot_ry" />
+				<ref bean="robot_rz" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

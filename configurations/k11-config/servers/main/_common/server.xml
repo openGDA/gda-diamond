@@ -36,6 +36,8 @@
 		<prop key="MO_TABLE_PREFIX">BL11K-MO-TABLE-</prop>		
 		<!--  Filters -->
 		<prop key="AL_ATTN_PREFIX">BL11K-AL-ATTN-</prop>
+		<!--  Robot -->
+		<prop key="MO_ROBOT_PREFIX">BL11K-MO-ROBOT-</prop>
 	</util:properties>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
