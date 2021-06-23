@@ -60,6 +60,18 @@
 		</property>
 	</bean>	
 	
+		<bean id="flyScanDetectorBalor" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetectorBalor"/>
+		<property name="readOutTime" value=".0101"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategyBalor" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="balor_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="flyScanDetectorTIF"/>
 		<property name="readOutTime" value=".0101"/>
@@ -89,6 +101,17 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+	
+	
+		<bean id="flyScanFlatDarkDetectorBalor" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetectorBalor"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategyBalor" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="balor_hdf5_filewriter" />
 			</list>
 		</property>
 	</bean>	
