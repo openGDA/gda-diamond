@@ -1,14 +1,15 @@
 import scisoftpy as dnp
 from gda.jython import InterfaceProvider
 
+VIEW_NAME = "Area Detector"
+
 def restorerois(scan):
     if type(scan) == int:
         f = dnp.io.load(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"/"+ str(scan) + ".dat")
     else:
         f = dnp.io.load(scan)
     roi = 0
-    bean = dnp.plot.getbean(name="Area Detector")
-    oldrois = dnp.plot.getrois(bean)
+    oldrois = dnp.plot.getrois(name=VIEW_NAME)
     newrois = dnp.plot.roi_list()
     prefix = 'roi'
     if 'Region_1_X' in f.keys():
@@ -21,15 +22,10 @@ def restorerois(scan):
             r.setPoint((float(f[f.keys().index(prefix + str(roi) + '_X')][0]), float(f[f.keys().index(prefix + str(roi) + '_Y')][0])))
             r.setLengths((float(f[f.keys().index(prefix + str(roi) + '_Width')][0]), float(f[f.keys().index(prefix + str(roi) + '_Height')][0])))
             r.setAngle(float(f[f.keys().index(prefix + str(roi) + '_Angle')][0]))
+            r.setPlot(True)
             newrois.append(r)
         else:
             break
     if roi > 0:
-        # doesn't work unless we set a single ROI first; coords unimportant as this is overwritten anyway
-        roi1 = dnp.jython.jyroi.rectangle()
-        roi1.setName("Region 1")
-        dnp.plot.setroi(bean, roi1)
-
-        dnp.plot.setrois(bean, newrois)
-        dnp.plot.setbean(bean, name="Area Detector")
-    print str(roi) + " ROIs added"
+        dnp.plot.setrois(newrois, name=VIEW_NAME)
+    print("{} ROIs added".format(roi))
