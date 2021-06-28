@@ -5,28 +5,28 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.diamond.ac.uk/schema/gda/gda
-            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+            http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-    <gda:motor id="dcm_energy" live-pvName="BL22I-OP-DCM-01:ENERGY" protectionLevel="3" />
-    <gda:motor id="dcm_pitch" live-pvName="BL22I-OP-DCM-01:XTAL2:PITCH" protectionLevel="2" />
-    <gda:motor id="dcm_offset" live-pvName="BL22I-OP-DCM-01:OFFSET" protectionLevel="2" />
-    <gda:motor id="dcm_finepitch" live-pvName="BL22I-OP-DCM-01:XTAL2:FPITCH" protectionLevel="2" />
-    <gda:motor id="dcm_roll" live-pvName="BL22I-OP-DCM-01:XTAL2:ROLL" protectionLevel="3" />
-    <gda:motor id="dcm_fineroll" live-pvName="BL22I-OP-DCM-01:XTAL2:FROLL" protectionLevel="3" />
-    <gda:motor id="dcm_perp" live-pvName="BL22I-OP-DCM-01:XTAL2:YPRIME" protectionLevel="3" />
-    <gda:motor id="dcm_bragg" live-pvName="BL22I-OP-DCM-01:BRAGG" protectionLevel="3" />
+    <gda:motor id="dcm_bragg" live-pvName="BL22I-MO-DCM-01:BRAGG" protectionLevel="3" />
+    <gda:motor id="dcm_roll1" live-pvName="BL22I-MO-DCM-01:XTAL1:ROLL" protectionLevel="3" />
+    <gda:motor id="dcm_roll2" live-pvName="BL22I-MO-DCM-01:XTAL2:ROLL" protectionLevel="3" />
+    <gda:motor id="dcm_pitch" live-pvName="BL22I-MO-DCM-01:XTAL2:PITCH" protectionLevel="2" />
+    <gda:motor id="dcm_perp" live-pvName="BL22I-MO-DCM-01:PERP" protectionLevel="3" />
+    <gda:motor id="dcm_xtrans" live-pvName="BL22I-MO-DCM-01:X" protectionLevel="3" />
+    <gda:motor id="dcm_energy" live-pvName="BL22I-MO-DCM-01:ENERGY" protectionLevel="3" />
+    <gda:motor id="dcm_offset" live-pvName="BL22I-MO-DCM-01:OFFSET" protectionLevel="2" />
 
     <bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
-                <ref bean="dcm_energy"/>
-                <ref bean="dcm_pitch"/>
-                <ref bean="dcm_offset"/>
-                <ref bean="dcm_finepitch"/>
-                <ref bean="dcm_roll"/>
-                <ref bean="dcm_fineroll"/>
-                <ref bean="dcm_perp"/>
                 <ref bean="dcm_bragg"/>
+                <ref bean="dcm_roll1"/>
+                <ref bean="dcm_roll2"/>
+                <ref bean="dcm_pitch"/>
+                <ref bean="dcm_perp"/>
+                <ref bean="dcm_xtrans"/>
+                <ref bean="dcm_energy"/>
+                <ref bean="dcm_offset"/>
             </list>
         </property>
         <property name="protectionLevel" value="3"/>
