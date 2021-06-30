@@ -148,7 +148,7 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 		DummyMonitor dummy = new DummyMonitor();
 		dummy.setName("dummy");
 		dummy.configure();
-		final ReadonlyScannableComposite comp = new ReadonlyScannableComposite(shell, SWT.NONE, dummy, "", "units", new Integer(2));
+		final ReadonlyScannableComposite comp = new ReadonlyScannableComposite(shell, SWT.NONE, dummy, "", "units", 2);
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();

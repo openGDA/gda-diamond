@@ -116,7 +116,7 @@ public class MonitorCompositeFactory implements CompositeFactory, InitializingBe
 		DummyMonitor dummy = new DummyMonitor();
 		dummy.setName("dummy");
 		dummy.configure();
-		final MonitorComposite comp = new MonitorComposite(shell, SWT.NONE, dummy, "", "units", new Integer(2), new Integer(100), new Integer(200));
+		final MonitorComposite comp = new MonitorComposite(shell, SWT.NONE, dummy, "", "units", 2, 100, 200);
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();

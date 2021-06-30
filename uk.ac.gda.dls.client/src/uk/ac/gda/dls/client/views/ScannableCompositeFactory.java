@@ -131,7 +131,7 @@ public class ScannableCompositeFactory implements CompositeFactory, Initializing
 		} catch (FactoryException e) {
 			// TODO Auto-generated catch block
 		}
-		ScannableComposite comp = new ScannableComposite(shell, SWT.NONE, dummy, "", "units", new Integer(2), new Integer(100), new Integer(200));
+		ScannableComposite comp = new ScannableComposite(shell, SWT.NONE, dummy, "", "units", 2, 100, 200);
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();

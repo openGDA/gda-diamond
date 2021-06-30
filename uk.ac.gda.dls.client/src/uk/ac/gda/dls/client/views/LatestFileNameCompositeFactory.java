@@ -680,7 +680,7 @@ class LatestFileNameComposite extends Composite {
 	private void processTextIndex() {
 		if (latestFoundIndex != null) {
 			try {
-				Integer input = new Integer(textIndex.getText());
+				Integer input = Integer.valueOf(textIndex.getText());
 				if (!(input >= latestSettings.startNumber && input <= latestFoundIndex))
 					throw new Exception("Out of range");
 				setSelectedIndex(input);

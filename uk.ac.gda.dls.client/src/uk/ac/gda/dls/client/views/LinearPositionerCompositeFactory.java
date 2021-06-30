@@ -130,7 +130,7 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 			System.out.println("Can not move dummy to position 1");
 		}
 
-		final LinearPositionerComposite comp = new LinearPositionerComposite(shell, SWT.NONE, dummy, "", new Integer(100), new Integer(200), new Integer(0), new Integer(60));
+		final LinearPositionerComposite comp = new LinearPositionerComposite(shell, SWT.NONE, dummy, "", 100, 200, 0, 60);
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();

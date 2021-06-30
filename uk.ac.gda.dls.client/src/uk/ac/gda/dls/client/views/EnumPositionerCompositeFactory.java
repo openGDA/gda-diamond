@@ -110,7 +110,7 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 			System.out.println("Can not move dummy to position 1");
 		}
 
-		final EnumPositionerComposite comp = new EnumPositionerComposite(shell, SWT.NONE, dummy, "", new Integer(100), new Integer(200));
+		final EnumPositionerComposite comp = new EnumPositionerComposite(shell, SWT.NONE, dummy, "", 100, 200);
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();

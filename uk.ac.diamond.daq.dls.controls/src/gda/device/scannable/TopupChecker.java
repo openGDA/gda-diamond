@@ -99,7 +99,7 @@ public class TopupChecker extends BeamlineConditionMonitorBase {
 			if (waittime > 0) {
 				message = getName() + ": pausing for " + waittime + "s to allow beam to stabilise...";
 				sendAndPrintMessage(message);
-				Thread.sleep(new Double(waittime).longValue() * 1000);
+				Thread.sleep(Double.valueOf(waittime).longValue() * 1000);
 			}
 			message = getName() + " now resuming scan.";
 			sendAndPrintMessage(message);
