@@ -254,8 +254,8 @@ public class XHDetectorTest {
 	public void testBiasControl() throws DeviceException {
 		daserver.clearRecievedCommands();
 
-		assertEquals(new Double(0.0),xh.getBias());
+		assertEquals(Double.valueOf(0.0),xh.getBias());
 		xh.setBias(4.5);
-		assertEquals(new Double(4.5),xh.getBias());
+		assertEquals(Double.valueOf(4.5),xh.getBias());
 	}
 }

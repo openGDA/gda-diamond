@@ -228,7 +228,7 @@ public class B18SamplePreparerTest {
 			stageParams.setTime(0.1);
 
 			// used inside the iterator to get current temperature from the furnace
-			Mockito.when(mocked_furnace_scannable.getPosition()).thenReturn(new Double(200.0));
+			Mockito.when(mocked_furnace_scannable.getPosition()).thenReturn(200.0);
 
 			B18SampleParameters parameters = new B18SampleParameters();
 			parameters.setName(sampleName);

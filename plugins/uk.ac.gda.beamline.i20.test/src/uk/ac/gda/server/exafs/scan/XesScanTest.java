@@ -469,11 +469,11 @@ public class XesScanTest {
 		assertTrue(scanArgs.length == 9);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
-		assertTrue(scanArgs[1].equals(new Double(6000.0)));
-		assertTrue(scanArgs[2].equals(new Double(7000.0)));
-		assertTrue(scanArgs[3].equals(new Double(200.0)));
+		assertTrue(scanArgs[1].equals(6000.0));
+		assertTrue(scanArgs[2].equals(7000.0));
+		assertTrue(scanArgs[3].equals(200.0));
 		assertTrue(getScannableName(scanArgs[4]).equals(mono_energy.getName()));
-		assertTrue(scanArgs[5].equals(new Double(10000.0)));
+		assertTrue(scanArgs[5].equals(10000.0));
 		assertTrue(getScannableName(scanArgs[6]).equals(analyserAngle.getName()));
 		assertTrue(scanArgs[7] instanceof Xmap);
 		assertTrue(scanArgs[8] instanceof TfgScalerWithFrames);
@@ -509,13 +509,13 @@ public class XesScanTest {
 		assertTrue(scanArgs.length == 12);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
-		assertTrue(scanArgs[1].equals(new Double(6000.0)));
-		assertTrue(scanArgs[2].equals(new Double(7000.0)));
-		assertTrue(scanArgs[3].equals(new Double(200.0)));
+		assertTrue(scanArgs[1].equals(6000.0));
+		assertTrue(scanArgs[2].equals(7000.0));
+		assertTrue(scanArgs[3].equals(200.0));
 		assertTrue(getScannableName(scanArgs[4]).equals(mono_energy.getName()));
-		assertTrue(scanArgs[5].equals(new Double(11000.0)));
-		assertTrue(scanArgs[6].equals(new Double(12000.0)));
-		assertTrue(scanArgs[7].equals(new Double(100.0)));
+		assertTrue(scanArgs[5].equals(11000.0));
+		assertTrue(scanArgs[6].equals(12000.0));
+		assertTrue(scanArgs[7].equals(100.0));
 		assertTrue(getScannableName(scanArgs[8]).equals(analyserAngle.getName()));
 
 		assertTrue(scanArgs[9] instanceof TwoDScanPlotter);
@@ -552,13 +552,13 @@ public class XesScanTest {
 		assertTrue(scanArgs.length == 12);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(mono_energy.getName()));
-		assertTrue(scanArgs[1].equals(new Double(11000.0)));
-		assertTrue(scanArgs[2].equals(new Double(12000.0)));
-		assertTrue(scanArgs[3].equals(new Double(100.0)));
+		assertTrue(scanArgs[1].equals(11000.0));
+		assertTrue(scanArgs[2].equals(12000.0));
+		assertTrue(scanArgs[3].equals(100.0));
 		assertTrue(getScannableName(scanArgs[4]).equals(xes_energy.getName()));
-		assertTrue(scanArgs[5].equals(new Double(6000.0)));
-		assertTrue(scanArgs[6].equals(new Double(7000.0)));
-		assertTrue(scanArgs[7].equals(new Double(200.0)));
+		assertTrue(scanArgs[5].equals(6000.0));
+		assertTrue(scanArgs[6].equals(7000.0));
+		assertTrue(scanArgs[7].equals(200.0));
 		assertTrue(getScannableName(scanArgs[8]).equals(analyserAngle.getName()));
 
 		assertTrue(scanArgs[9] instanceof TwoDScanPlotter);

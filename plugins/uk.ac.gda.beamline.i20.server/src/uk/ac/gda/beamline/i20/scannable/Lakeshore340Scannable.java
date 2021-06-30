@@ -145,7 +145,7 @@ public class Lakeshore340Scannable extends ScannableBase{
 			throw new DeviceException("Heater range string not acceptable!");
 		}
 		try {
-			controller.setRange(new Double(index));
+			controller.setRange(Double.valueOf(index));
 		} catch (IOException e) {
 			throw new DeviceException("IOException when setting heater range!");
 		}
@@ -156,7 +156,7 @@ public class Lakeshore340Scannable extends ScannableBase{
 		if (index < 0)
 			throw new DeviceException("Control mode string not acceptable!");
 		try {
-			controller.setControlmode(new Double(index));
+			controller.setControlmode(Double.valueOf(index));
 		} catch (IOException e) {
 			throw new DeviceException("IOException when setting control mode!");
 		}

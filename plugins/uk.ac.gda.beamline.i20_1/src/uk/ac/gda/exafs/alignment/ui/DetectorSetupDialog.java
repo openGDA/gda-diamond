@@ -301,7 +301,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 						String[] valuesStringArray = excludedStrips.split(",");
 						Integer[] excludedStripsArray = new Integer[valuesStringArray.length];
 						for (int i = 0; i < valuesStringArray.length; i++) {
-							excludedStripsArray[i] = new Integer(valuesStringArray[i]);
+							excludedStripsArray[i] = Integer.valueOf(valuesStringArray[i]);
 						}
 						return excludedStripsArray;
 					}
@@ -338,7 +338,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 			String[] array = txtExcludedStrips.getText().split("\\s*,\\s*");
 			Integer[] intArray = new Integer[array.length];
 			for (int i = 0; i < array.length; i++) {
-				intArray[i] = new Integer(array[i]);
+				intArray[i] = Integer.valueOf(array[i]);
 			}
 			dialog.setInitialElementSelections(Arrays.asList(intArray));
 		}

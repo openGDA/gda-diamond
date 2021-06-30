@@ -101,7 +101,7 @@ public class I20IntroDialog extends Dialog {
 	}
 
 	protected Color getI20Color(Composite parent) {
-		RGB rgbColor = new RGB(new Float(248), new Float(0.27), new Float(0.94));
+		RGB rgbColor = new RGB(248f, 0.27f, 0.94f);
 		Color color = new Color(parent.getDisplay(), rgbColor);
 		return color;
 	}
