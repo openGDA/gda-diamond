@@ -4,12 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="dcam_02_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="dcam_03_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="dcam_06_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="dcam_07_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="dcam_08_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-
 	<bean id="d2_valve_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D2 valve camera" />
 		<property name="arrayPv" value="#{d6_cam_basePv}" />

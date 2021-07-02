@@ -31,9 +31,9 @@
 	<import resource="file:${gda.config}/servers/main/datawriter.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
+	<import resource="file:${gda.config}/servers/main/core.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/epics-cameras.xml" />
-	<import resource="file:${gda.config}/servers/main/epics-cameras.xml" />
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/robot.xml" />
 	<import resource="file:${gda.config}/servers/main/robot.xml" />

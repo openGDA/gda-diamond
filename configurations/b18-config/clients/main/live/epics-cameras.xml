@@ -24,4 +24,10 @@
 		<constructor-arg value="BL18B-DI-DCAM-08:STD" />
 	</bean>
 
+	<bean id="dcam_02_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_03_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_06_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_07_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_08_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
 </beans>

@@ -3,12 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
            
-<!-- ADBase objects for Epics cameras - reuse adbase from medipix, since there is only -->
-<!-- 1 simulated Area detector in dummy mode -->
-	<alias name="medipix_adbase" alias="dcam_02_adbase"/>
-	<alias name="medipix_adbase" alias="dcam_03_adbase"/>
-	<alias name="medipix_adbase" alias="dcam_06_adbase"/>
-	<alias name="medipix_adbase" alias="dcam_07_adbase"/>
-	<alias name="medipix_adbase" alias="dcam_08_adbase"/>
+
+<!-- There is only 1 simulated area detector, so camera controllers for dcam_02,  -->
+<!-- dcam_03, dcam_06, dcam_07, dcam_08  are generated in client side spring by  -->
+<!-- aliasing medipix_camera_control -->
+
 
 </beans>

@@ -18,4 +18,30 @@
 	<bean id="dcam_08_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL18B-DI-DCAM-08:CAM:" />
 	</bean>
+
+	<bean id="monitorAcquireTime" class="java.lang.Boolean">
+		<constructor-arg value="true" />
+	</bean>
+
+	<bean id="dcam_02_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="dcam_02_adbase" />
+		<property name="useAcquireTimeMonitor" value="#{monitorAcquireTime}" />
+	</bean>
+	<bean id="dcam_03_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="dcam_03_adbase" />
+		<property name="useAcquireTimeMonitor" value="#{monitorAcquireTime}" />
+	</bean>
+	<bean id="dcam_06_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="dcam_06_adbase" />
+		<property name="useAcquireTimeMonitor" value="#{monitorAcquireTime}" />
+	</bean>
+	<bean id="dcam_07_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="dcam_07_adbase" />
+		<property name="useAcquireTimeMonitor" value="#{monitorAcquireTime}" />
+	</bean>
+	<bean id="dcam_08_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="dcam_08_adbase" />
+		<property name="useAcquireTimeMonitor" value="#{monitorAcquireTime}" />
+	</bean>
+
 </beans>

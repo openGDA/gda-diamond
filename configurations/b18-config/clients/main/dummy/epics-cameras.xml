@@ -23,4 +23,12 @@
 	<bean id="d8_cam_basePv" class="java.lang.String">
 		<constructor-arg value="#{hostName}-AD-SIM-01:ARR" />
 	</bean>
+
+<!-- Use medipix_camera_control for all the epics cameras - there is only 1 underlying IOC -->
+	<alias name="medipix_camera_control" alias="dcam_02_camera_control"/>
+	<alias name="medipix_camera_control" alias="dcam_03_camera_control"/>
+	<alias name="medipix_camera_control" alias="dcam_06_camera_control"/>
+	<alias name="medipix_camera_control" alias="dcam_07_camera_control"/>
+	<alias name="medipix_camera_control" alias="dcam_08_camera_control"/>
+
 </beans>
