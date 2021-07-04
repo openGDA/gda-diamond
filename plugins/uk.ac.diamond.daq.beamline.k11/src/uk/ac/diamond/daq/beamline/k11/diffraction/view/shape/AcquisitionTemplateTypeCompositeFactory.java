@@ -248,8 +248,7 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 				.buildScanpathBuilder(AcquisitionPropertyType.DIFFRACTION, acquisitionTemplateType)
 				.ifPresent(scanpathDocumentHelper::updateScanPathDocument);
 
-			SpringApplicationContextFacade.publishEvent(
-					new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
 		}
 	};
 

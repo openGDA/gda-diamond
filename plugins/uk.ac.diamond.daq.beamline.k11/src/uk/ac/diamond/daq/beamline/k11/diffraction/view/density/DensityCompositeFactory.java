@@ -187,8 +187,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 		int[] trackDocumentsPoints = new int[size];
 		Arrays.fill(trackDocumentsPoints, numPoints);
 		scannableTrackDocumentHelper.updateScannableTrackDocumentsPoints(trackDocumentsPoints);
-		SpringApplicationContextFacade.publishEvent(
-				new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+		SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
 	}
 
 	private UpdateValueStrategy<String, Integer> validatedReadoutToPointsStrategy() {

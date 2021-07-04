@@ -178,8 +178,7 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 				} else {
 					scanpathDocumentHelper.removeMutators(mutatorType.getMscanMutator());
 				}
-				SpringApplicationContextFacade.publishEvent(
-						new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+				SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
 			});
 	}
 

@@ -22,7 +22,6 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridL
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.eclipse.swt.SWT;
@@ -103,18 +102,7 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 	private ApplicationListener<ScanningAcquisitionChangeEvent> listenToScanningAcquisitionChanges = new ApplicationListener<ScanningAcquisitionChangeEvent>() {
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-			UUID eventUUID = Optional.ofNullable(event.getScanningAcquisition())
-					.map(ScanningAcquisition.class::cast)
-					.map(ScanningAcquisition::getUuid)
-					.orElseGet(UUID::randomUUID);
-
-			UUID scanningAcquisitionUUID = Optional.ofNullable(acquisitionSupplier.get())
-					.map(ScanningAcquisition::getUuid)
-					.orElseGet(UUID::randomUUID);
-
-			if (eventUUID.equals(scanningAcquisitionUUID)) {
-				Display.getDefault().asyncExec(() -> updateSummary());
-			}
+			Display.getDefault().asyncExec(() -> updateSummary());
 		}
 	};
 
