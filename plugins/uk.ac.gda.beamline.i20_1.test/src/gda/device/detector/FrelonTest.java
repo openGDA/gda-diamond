@@ -39,10 +39,17 @@ import uk.ac.diamond.daq.persistence.jythonshelf.LocalParameters;
 public class FrelonTest {
 
 	private EdeFrelonForTest frelon;
+	private static final String ROI_BINNING = "roiVerticalBinning";
+	private static final String ROI_START = "roiVerticalStart";
+	private static final String READOUT_TIME = "accumulationReadoutTime";
 
 	private static class EdeFrelonForTest extends EdeFrelon {
-		public void loadRoiSettings() {
-			loadRoiSettingsFromStore();
+		public EdeFrelonForTest() {
+			super();
+			super.setAccumulationReadoutTime(0.987e-3);
+		}
+		public void loadSettings() {
+			loadSettingsFromStore();
 		}
 	}
 
@@ -56,52 +63,61 @@ public class FrelonTest {
 	}
 
 	@Test
-	public void readRoiSettings() throws Exception {
+	public void readSettings() throws Exception {
 		TestHelpers.setUpTest(FrelonTest.class, "readRoiSettings", true);
 
 		// Make new configuration file for Frelon to read from :
 		FileConfiguration fileConfig = getSettings();
 
 		assertTrue(fileConfig.isEmpty());
-		fileConfig.addProperty("roiVerticalBinning", "11");
-		fileConfig.addProperty("roiVerticalStart", "1024");
+		fileConfig.addProperty(ROI_BINNING, "11");
+		fileConfig.addProperty(ROI_START, "1024");
+		fileConfig.addProperty(READOUT_TIME, "0.534e-3");
 		fileConfig.save();
 
-		frelon.loadRoiSettings();
+		frelon.loadSettings();
 		assertEquals(11, frelon.getRoiVerticalBinning());
 		assertEquals(1024, frelon.getRoiVerticalStart());
+		assertEquals(0.534e-3, frelon.getAccumulationReadoutTime(), 1e-6);
+
 	}
 
 	@Test
-	public void saveRoiSettings() throws Exception {
+	public void saveSettings() throws Exception {
 		TestHelpers.setUpTest(FrelonTest.class, "saveRoiSettings", true);
 		// change roi settings (these are persisted immediately)
 		frelon.setRoiVerticalBinning(64);
 		frelon.setRoiVerticalStart(1234);
+		frelon.setAccumulationReadoutTime(0.9e-3);
 
 		// Check the settings in configuration file written by frelon :
 		FileConfiguration fileConfig = getSettings();
 
-		assertEquals(frelon.getRoiVerticalBinning(), fileConfig.getProperty("roiVerticalBinning"));
-		assertEquals(frelon.getRoiVerticalStart(), fileConfig.getProperty("roiVerticalStart"));
+		assertEquals(frelon.getRoiVerticalBinning(), fileConfig.getProperty(ROI_BINNING));
+		assertEquals(frelon.getRoiVerticalStart(), fileConfig.getProperty(ROI_START));
+		assertEquals(frelon.getAccumulationReadoutTime(), Double.parseDouble(fileConfig.getProperty(READOUT_TIME).toString()), 1e-6);
+
 	}
 
 	@Test
-	public void createRoiDefaultSettings() throws Exception {
-		TestHelpers.setUpTest(FrelonTest.class, "createRoiDefaultSettings", true);
+	public void createNewSettings() throws Exception {
+		TestHelpers.setUpTest(FrelonTest.class, "createNewSettings", true);
 		int binning = frelon.getRoiVerticalBinning();
 		int start = frelon.getRoiVerticalStart();
+		double readoutTime = frelon.getAccumulationReadoutTime();
 
 		// Check file doesn't exist
 		File f = Paths.get(LocalProperties.getVarDir(), "FrelonRoiSettings").toFile();
 		assertFalse(f.exists());
 
 		// loadSettings create new file with current binning and start values if one doesn't exist already
-		frelon.loadRoiSettings();
+		frelon.loadSettings();
 
 		FileConfiguration fileConfig = getSettings();
-		assertEquals(binning, fileConfig.getProperty("roiVerticalBinning"));
-		assertEquals(start, fileConfig.getProperty("roiVerticalStart"));
+		assertEquals(binning, fileConfig.getProperty(ROI_BINNING));
+		assertEquals(start, fileConfig.getProperty(ROI_START));
+		assertEquals(readoutTime, Double.parseDouble(fileConfig.getProperty(READOUT_TIME).toString()), 1e-6);
+
 	}
 
 }

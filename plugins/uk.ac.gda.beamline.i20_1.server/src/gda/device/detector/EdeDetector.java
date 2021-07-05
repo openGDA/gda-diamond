@@ -138,6 +138,17 @@ public interface EdeDetector extends NexusDetector {
 
 	public abstract String getOrbitWaitMethod();
 
+	/**
+	 * Set the accumulation readout time
+	 * @param accumulationReadoutTime (in seconds)
+	 */
+	public abstract void setAccumulationReadoutTime(double timeSecs);
+
+	/**
+	 * @return Accumulation readout time (in seconds)
+	 */
+	public abstract double getAccumulationReadoutTime();
+
 	public DetectorSetupType getDetectorSetupType();
 
 	public void setDetectorSetupType(DetectorSetupType detectorSetupType);

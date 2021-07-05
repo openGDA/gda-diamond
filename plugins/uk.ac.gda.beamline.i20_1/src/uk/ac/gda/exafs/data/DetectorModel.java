@@ -31,7 +31,6 @@ import gda.device.detector.EdeDetector;
 import gda.device.detector.Roi;
 import gda.factory.Finder;
 import gda.observable.IObserver;
-import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
@@ -74,8 +73,6 @@ public class DetectorModel extends ObservableModel {
 
 	private static final String DETECTOR_NAME_DATA_STORE_KEY = "currentSelectedDetectorName";
 
-	private static final double INTIAL_ACCUMULATION_READOUT_TIME_MS = 0.536;
-	private static final String ACCUMULATION_READOUT_TIME_PROPERTY = "uk.ac.gda.exafs.accumulation.readout.time";
 	private double accumulationReadoutTime;
 
 
@@ -92,7 +89,6 @@ public class DetectorModel extends ObservableModel {
 		} catch (Exception e) {
 			logger.error("Unable to setup available detectors", e);
 		}
-		initialiseAccumulationReadoutTime();
 	}
 
 	private void setupDetectors() {
@@ -295,39 +291,24 @@ public class DetectorModel extends ObservableModel {
 
 		}
 	}
-	/**
-	 * Set initial value for accumulation readout time using in order of preference :
-	 * <li> Value from preference store (i.e. value last set in client from GUI)
-	 * <li> Value specified in plugin_customization.ini
-	 * <li> A default value ({@link #INTIAL_ACCUMULATION_READOUT_TIME}).
-	 */
-	private void initialiseAccumulationReadoutTime() {
-		// Value saved in preference store from last time the client was run.
-		Double valueFromStore = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(ACCUMULATION_READOUT_TIME_PROPERTY, double.class);
-		if (valueFromStore != null) {
-			accumulationReadoutTime = valueFromStore;
-		} else {
-			// try to use value from plugin_customization.ini
-			double timeMs = 0;
-			if (Activator.getDefault() != null) {
-				timeMs = Activator.getDefault().getPreferenceStore().getDouble(ACCUMULATION_READOUT_TIME_PROPERTY);
-			}
-			if (timeMs == 0) {
-				// default value if no value specified
-				timeMs = INTIAL_ACCUMULATION_READOUT_TIME_MS;
-			}
-			accumulationReadoutTime = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(timeMs);
-		}
-	}
 
+	/**
+	 * Set the accumulation readout time
+	 * @param newReadoutTime - in default experiment units (ns)
+	 */
 	public void setAccumulationReadoutTime(double newReadoutTime) {
 		this.firePropertyChange(TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME, accumulationReadoutTime, accumulationReadoutTime = newReadoutTime);
-		// Update the preference store
-		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(ACCUMULATION_READOUT_TIME_PROPERTY, accumulationReadoutTime);
+		// Convert units to seconds and update the detector
+		double timeSecs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(newReadoutTime, ExperimentUnit.SEC);
+		currentDetector.setAccumulationReadoutTime(timeSecs);
 	}
 
+	/**
+	 *
+	 * @return Accumulation readout time (default experiment units, ns)
+	 */
 	public double getAccumulationReadoutTime() {
-		return accumulationReadoutTime;
+		return ExperimentUnit.SEC.convertToDefaultUnit(currentDetector.getAccumulationReadoutTime());
 	}
 
 	/**

@@ -20,6 +20,7 @@ package gda.device.detector.frelon;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
@@ -81,6 +82,7 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 
 	private static final String ROI_BINNING_PARAM = "roiVerticalBinning";
 	private static final String ROI_START_PARAM = "roiVerticalStart";
+	private static final String ACCUMULATION_READOUT_TIME = "accumulationReadoutTime";
 
 	public EdeFrelon() {
 		inputNames = new String[] {};
@@ -102,7 +104,7 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 				logger.error("Failed to get Image properties from the detector "+getName(), e);
 				throw new FactoryException(e.getMessage(), e);
 			}
-			loadRoiSettingsFromStore();
+			loadSettingsFromStore();
 			setConfigured(true);
 		}
 	}
@@ -726,7 +728,7 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 
 	public void setRoiVerticalBinning(int verticalBinning) {
 		this.roiVerticalBinning = verticalBinning;
-		saveRoiSettingsToStore();
+		saveSettingsToStore();
 	}
 
 	public int getRoiVerticalStart() {
@@ -735,35 +737,48 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 
 	public void setRoiVerticalStart(int roiVerticalStart) {
 		this.roiVerticalStart = roiVerticalStart;
-		saveRoiSettingsToStore();
+		saveSettingsToStore();
 	}
 
-	protected void loadRoiSettingsFromStore() {
+	@Override
+	public void setAccumulationReadoutTime(double timeSec) {
+		super.setAccumulationReadoutTime(timeSec);
+		saveSettingsToStore();
+	}
+
+	protected void loadSettingsFromStore() {
 		try {
-			logger.info("Setting ROI parameters from stored values");
+			logger.info("Setting parameters from stored values");
 			FileConfiguration store = getPersistenceStore();
-			if (store.getProperty(ROI_BINNING_PARAM) == null || store.getProperty(ROI_START_PARAM) == null ) {
-				logger.info("No stored ROI values - saving current ROI parameters to new settings file.");
-				saveRoiSettingsToStore();
-			}
+
+			// Save current settings if persistence store is missing any values :
+			Stream.of(ROI_BINNING_PARAM, ROI_START_PARAM, ACCUMULATION_READOUT_TIME)
+				.filter(prop -> store.getProperty(prop) == null)
+				.findFirst().ifPresent(str -> {
+					logger.info("Value for {} was not found - saving current parameters to settings file.", str);
+					saveSettingsToStore();
+			});
+
 			roiVerticalBinning = Integer.parseInt(store.getProperty(ROI_BINNING_PARAM).toString());
 			roiVerticalStart = Integer.parseInt(store.getProperty(ROI_START_PARAM).toString());
+			super.setAccumulationReadoutTime(Double.parseDouble(store.getProperty(ACCUMULATION_READOUT_TIME).toString()));
 		} catch (IOException | ConfigurationException e) {
-			logger.error("Problem updating ROI settings from stored values", e);
+			logger.error("Problem updating settings from stored values", e);
 		}
-		logger.info("ROI parameters : vertical binning = {}, vertical start = {}", roiVerticalBinning, roiVerticalStart);
+		logger.info("Parameters : vertical binning = {}, vertical start = {}, accumulation readout time = {} sec", roiVerticalBinning, roiVerticalStart, getAccumulationReadoutTime());
 	}
 
-	protected void saveRoiSettingsToStore() {
+	protected void saveSettingsToStore() {
 		try {
-			logger.info("Saving ROI parameters : vertical binning = {}, vertical start = {}", roiVerticalBinning, roiVerticalStart);
+			logger.info("Saving parameters : vertical binning = {}, vertical start = {}, accumulation readout time = {} sec", roiVerticalBinning, roiVerticalStart, getAccumulationReadoutTime());
 			FileConfiguration roiStoredParameters = getPersistenceStore();
 			roiStoredParameters.setProperty(ROI_BINNING_PARAM, roiVerticalBinning);
 			roiStoredParameters.setProperty(ROI_START_PARAM, roiVerticalStart);
+			roiStoredParameters.setProperty(ACCUMULATION_READOUT_TIME, getAccumulationReadoutTime());
 			roiStoredParameters.save();
-			} catch (IOException | ConfigurationException e) {
-				logger.error("Problem storing ROI settings", e);
-			}
+		} catch (IOException | ConfigurationException e) {
+			logger.error("Problem storing settings", e);
+		}
 	}
 
 	private FileConfiguration getPersistenceStore() throws ConfigurationException, IOException {

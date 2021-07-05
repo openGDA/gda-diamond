@@ -68,6 +68,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	private boolean checkForExcludedStrips;
 
+	private double accumulationReadoutTimeSec = 0;
+
 	public EdeDetectorBase() {
 		createPixelData();
 	}
@@ -564,5 +566,15 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			}
 			logger.info("Finished waiting for detector.");
 		}
+	}
+
+	@Override
+	public void setAccumulationReadoutTime(double timeSec) {
+		accumulationReadoutTimeSec = timeSec;
+	}
+
+	@Override
+	public double getAccumulationReadoutTime() {
+		return accumulationReadoutTimeSec;
 	}
 }

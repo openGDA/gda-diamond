@@ -820,4 +820,12 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 			logger.warn("Cannot set beam orbit mux to {}. Value should be between 0 and 3", orbitMuxValue);
 		}
 	}
+
+	/**
+	 * Accumulation readout time is zero for XH/XStrip detectors.
+	 */
+	@Override
+	public double getAccumulationReadoutTime() {
+		return 0;
+	}
 }
