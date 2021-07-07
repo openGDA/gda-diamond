@@ -73,8 +73,9 @@ import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.processing.ProcessingRequestComposite;
-import uk.ac.gda.ui.tool.processing.ProcessingRequestContext;
-import uk.ac.gda.ui.tool.processing.ProcessingRequestKey;
+import uk.ac.gda.ui.tool.processing.context.ProcessingRequestContext;
+import uk.ac.gda.ui.tool.processing.keys.ProcessingRequestKeyFactory;
+import uk.ac.gda.ui.tool.processing.keys.ProcessingRequestKeyFactory.ProcessKey;
 import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
 
 /**
@@ -267,14 +268,14 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		standardMarginWidth(summaryContent.getLayout());
 	}
 
-	private List<ProcessingRequestContext> getProcessingRequestContext() {
+	private List<ProcessingRequestContext<?>> getProcessingRequestContext() {
 		// The selectable process elements
-		List<ProcessingRequestContext> processingRequestContexts = new ArrayList<>();
+		List<ProcessingRequestContext<?>> processingRequestContexts = new ArrayList<>();
 
 		// makes available for selection a SavuProcessingRequest element
-		processingRequestContexts.add(new ProcessingRequestContext(ProcessingRequestKey.DIFFRACTION_CALIBRATION_MERGE,
+		processingRequestContexts.add(new ProcessingRequestContext(getProcessingRequestKeyFactory().getProcessingKey(ProcessKey.DIFFRACTION_CALIBRATION),
 				 getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false));
-		processingRequestContexts.add(new ProcessingRequestContext(ProcessingRequestKey.DAWN,
+		processingRequestContexts.add(new ProcessingRequestContext(getProcessingRequestKeyFactory().getProcessingKey(ProcessKey.DAWN),
 				 getDiffractionCalibrationMergeDirectory(), new ArrayList<>(), false));
 
 		return processingRequestContexts;
@@ -368,5 +369,9 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	private AcquisitionFileContext getClientContext() {
 		return SpringApplicationContextFacade.getBean(AcquisitionFileContext.class);
+	}
+
+	private ProcessingRequestKeyFactory getProcessingRequestKeyFactory() {
+		return SpringApplicationContextFacade.getBean(ProcessingRequestKeyFactory.class);
 	}
 }
