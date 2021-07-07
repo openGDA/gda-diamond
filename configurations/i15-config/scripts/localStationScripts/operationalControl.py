@@ -18,7 +18,6 @@ def configure(jythonNameMap, beamlineParameters):
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
-	isccd = jythonNameMap.atlas
 	beamline = jythonNameMap.beamline
 	dkappa = jythonNameMap.dkappa
 	dktheta = jythonNameMap.dktheta
@@ -35,7 +34,7 @@ def checkConfigured():
 
 def shopen():
 	"""
-	sh('o')  - Reset and Open EH & Atlas shutter.
+	sh('o')  - Reset and Open EH & Fast shutter.
 	"""
 	sh('o')
 
@@ -51,7 +50,7 @@ def oehs():
 
 def shclose():
 	"""
-	sh('c')  - Close EH & Atlas Shutter
+	sh('c')  - Close EH & Fast Shutter
 	"""
 	sh('c')
 
@@ -67,19 +66,19 @@ def cehs():
 
 def shopenall():
 	"""
-	sh('oa') - Reset and Open FE, OH, EH & Atlas Shutters
+	sh('oa') - Reset and Open FE, OH, EH & Fast Shutters
 	"""
 	sh('oa')
 
 def shcloseall():
 	"""
-	sh('ca') - Close FE, OH, EH & Atlas Shutters"
+	sh('ca') - Close FE, OH, EH & Fast Shutters"
 	"""
 	sh('ca')
 
 def cfs():
 	"""
-	Close Atlas fast shutter
+	Close Fast shutter
 	
 	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
@@ -90,7 +89,7 @@ def cfs():
 
 def ofs():
 	"""
-	Open Atlas fast shutter
+	Open Fast shutter
 	
 	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
 	
@@ -179,7 +178,7 @@ def setState(name, pv, newState):
 
 def align():           # open EH and fast shutter
 	"""
-	close mar, move d2 and d3 in and reset and open EH & Atlas shutter.
+	close mar, move d2 and d3 in and reset and open EH & Fast shutter.
 	"""
 	#marAuxiliary.closeMarShield()
 	d2in()
@@ -188,7 +187,7 @@ def align():           # open EH and fast shutter
 
 def ready():
 	"""
-	close EH & Atlas shutter, move d2 and d3 out and open the mar
+	close EH & Fast shutter, move d2 and d3 out and open the mar
 	"""
 	sh('c')
 	d1out()

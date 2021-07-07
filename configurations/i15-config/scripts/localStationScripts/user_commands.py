@@ -3,7 +3,6 @@ from gda.scan import ConcurrentScan, ConstantVelocityScanLine, MultiRegionScan
 from localStationScripts.detector_scan_commands import DiodeController, _configureDetector, _configureConstantVelocityMove, _darkExpose
 from scisoftpy import arange
 from org.slf4j import LoggerFactory
-from gda.device.detector.odccd.collectionstrategy import ODCCDOverflow, ODCCDSingleExposure
 from gda.device.scannable import ScannableBase
 from gda.util import VisitPath
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
@@ -398,7 +397,6 @@ aliasList.append("exposeNRockNGridStep")
 def _sanitise(fileName, detector):
 	if fileName == None or not "_" in fileName:
 		return fileName
-	# TODO: Extend this mechanism to prevent commas in atlas filenames
 	if ('mar' in detector.name):
 		sanitised = fileName.replace("_", "-")
 		msg = "Underscores not supported in fileName for %s detector. Using %s rather than %s" % (detector.name, sanitised, fileName)
@@ -565,7 +563,6 @@ def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark
 	zebraFastShutter = jythonNameMap.zebraFastShutter
 	i0Monitor = jythonNameMap.etlZebraScannableMonitor
 	#continuousMonitorController = jythonNameMap.zebra2ZebraMonitorController
-	#fastShutterFeedback = jythonNameMap.atlasShutterScannableMonitor
 
 	_configureDetector(detector=detector, exposureTime=exposeTime, noOfExposures=totalExposures, sampleSuffix=fileName, dark=False)
 	# Disable i0Monitor and fastShutterFeedback for the moment as the stream is seems to be empty, due to the fact that
@@ -658,122 +655,6 @@ def _horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep
 	# TODO: Do we need to check that horizMotor.level < numExposuresPD.level?
 	return [horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep]
 
-def _setupOverflow(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle, totalExposures):
-	logger = LoggerFactory.getLogger("_setupOverflow")
-
-	experimentName = fileName
-	if '/' in experimentName:
-		raise Exception("slash not supported in fileNames : %s" % experimentName)
-	#if experimentName.matches("[0-9].*"):
-	#	experimentName="_"+experimentName
-	#	logger.warn("filenames starting with a digit cause problems for Oxford Diffraction IS software, using `%s` instead" % experimentName)
-
-	# Prepare the experiment directory for crysalis if necessary.
-	visitPath = VisitPath.getVisitPath()
-	runPath = visitPath + "/spool/" + experimentName
-	# We cannot create the run file directly, since if Crysalis already has the file open, then it will
-	# lock it and IS will be unable to update it. Instead write to a temprary file and copy it later. If
-	# that fails, the scan will already have completed.
-	runfileName = "%s/%s.run.tmp" % (runPath, experimentName)
-	framesPath = runPath+"/frames"
-	targetDir = File(framesPath)
-	if not targetDir.exists():
-		targetDir.mkdirs()
-	if not targetDir.exists():
-		raise Exception("Unable to create directory %r, check permissions" % targetDir)
-
-	templatePath = visitPath + "/xml/atlas"
-	if File(templatePath).exists():
-		for fil in os.listdir(templatePath):
-			if fil == "atlas.par":
-				dest = "%s/%s.par" % (runPath, experimentName)
-			else:
-				dest = "%s/%s" % (runPath, fil)
-			if not os.path.exists(dest):
-				command = "cp %s/%s %s" % (templatePath, fil, dest)
-				if os.system(command) <> 0:
-					raise Exception("Error running command %s" % command)
-	else:
-		logger.warn("Template does not exist in %s" % templatePath)
-
-	# Determine the unique sequence number for scans with this experiment
-	config = LocalParameters.getXMLConfiguration(runPath, experimentName, True)
-	try:
-		finalFileSequenceNumber=config.getInt("finalFileSequenceNumber")
-	except NoSuchElementException:
-		finalFileSequenceNumber=1
-	config.setProperty("finalFileSequenceNumber", finalFileSequenceNumber+1)
-	config.save()
-	detector.getCollectionStrategy().setFinalFileSequenceNumber(finalFileSequenceNumber) # ODCCDOverflow
-	detector.getCollectionStrategy().setRunfileName(runfileName)
-	detector.getCollectionStrategy().setExperimentName(experimentName)
-	odccdRunfileName = detector.getCollectionStrategy().getOdccdFilePath(runfileName)
-
-	# Set up the parameters of this scan for the runfile
-
-	if (sweepMotor.name in ('dkphi', 'dkphiZebraScannableMotor')):
-		scanType = 4
-		dphiindeg = 0
-		domegaindeg = detector.getCollectionStrategy().getStaticThetaAxis().getPosition()+90
-	elif (sweepMotor.name in ('dktheta', 'dkthetaZebraScannableMotor')):
-		scanType = 0
-		domegaindeg = 0
-		dphiindeg = detector.getCollectionStrategy().getStaticPhiAxis().getPosition()
-	else:
-		raise Exception("Sweep scans with detector {} only supported with dkphi & dktheta" % detector.name)
-
-	ddetectorindeg = detector.getCollectionStrategy().getStaticDdistAxis().getPosition()
-	dkappaindeg = detector.getCollectionStrategy().getStaticKappaAxis().getPosition()
-	dscanstartindeg=sweepStart
-	dscanendindeg=sweepEnd
-	dscanwidthindeg=sweepAngle
-	multifactor = detector.getCollectionStrategy().getMultifactor() # ODCCDOverflow
-	dwnumofframes = totalExposures
-	dwnumofframesdone = 0
-
-	# Populate the run file with the contents of this scan
-	# call runlistAdd <1. Run scan type: 0=Ome, ?=Det, ?=Kap, or 4=phi > 
-	#		<2. domegaindeg> <3. ddetectorindeg> <4. dkappaindeg> <5. dphiindeg>
-	#		<6. dscanstartindeg> <7. dscanendindeg> <8. dscanwidthindeg> <9. dscanspeedratio>
-	#		<10. dwnumofframes> <11. dwnumofframesdone> <12. dexposuretimeinsec>
-	#		<13. experiment name> <14. run file>
-	detector.getCollectionStrategy().getOdccd().connect('i15-atlas01')
-	detector.getCollectionStrategy().getOdccd().runScript('call runListAdd %d %f %f %f %f %f %f %f %d %d %d %f "%s" "%s"' %
-		(scanType, domegaindeg, ddetectorindeg, dkappaindeg, dphiindeg, dscanstartindeg, dscanendindeg, dscanwidthindeg,
-		 multifactor, dwnumofframes, dwnumofframesdone, exposeTime, experimentName, odccdRunfileName))
-	#logger.trace("Waiting for api:RUNLIST OK");
-	#detector.getCollectionStrategy().getOdccd().readInputUntil("api:RUNLIST OK"); This times out
-	sleep(3)
-	detector.getCollectionStrategy().getOdccd().logout()
-	_copyTmpRunFileToReal(runfileName, retry=False)
-	return multifactor
-
-def _copyTmpRunFileToReal(runfilename, retry):
-	logger = LoggerFactory.getLogger("_copyTmpRunFileToReal")
-	attempts=10
-	finalrunfilename = os.path.splitext(runfilename)[0]
-	while attempts>0:
-		logger.debug("Attempting to copy %s to %s (%d)" % (runfilename, finalrunfilename, attempts))
-		attempts-=1
-		try:
-			copyfile(runfilename, finalrunfilename)
-			logger.debug("Copied %s to %s (%d)" % (runfilename, finalrunfilename, attempts))
-			attempts=-1
-		except IOError, e:
-			msg_start="Unable to copy run file to %s" % finalrunfilename
-			if retry:
-				msg_end = ", will try again in 30 seconds. If you have this run open in Crysalis, please close it before exposeSweep completes."
-			else:
-				msg_end = ", will try to copy again after exposeSweep completes."
-				attempts=-1
-			logger.info(msg_start+msg_end, e)
-			print msg_start+msg_end
-			if attempts>0: sleep(3)
-	if attempts==0:
-		msg_end = " after many attempts, a user with appropriate permissions will need to copy it manually using 'cp %s %s'" % (runfilename, finalrunfilename)
-		logger.info(msg_start+msg_end, e)
-		print msg_start+msg_end
-
 def _sweepScanParams(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle, totalExposures):
 	logger = LoggerFactory.getLogger("_sweepScanParams")
 	logger.info("Continuous sweep scan on {} using {}: start={}, stop={}, angle={}",
@@ -826,32 +707,16 @@ def _sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd,
 
 	logger.info("rockStartPositions=%r" % rockStartPositions)
 
-	if isinstance(detector.getCollectionStrategy(), ODCCDOverflow): # Collecting Overflow images
-		if totalExposures != len(rockStartPositions):
-			raise Exception("Overflow sweep scans currently only support a single exposure at each rock to ensure the scan and runfile match up!")
-		multifactor=_setupOverflow(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle, totalExposures)
-		# _setupOverflow (above) needs to be called before totalExposures is doubled as it needs the number of final images,
-		# sent to the run file, whereas _rockScanParams (below) needs it to be the total number of images collected.
-		totalExposures = 2
-
 	mrs=MultiRegionScan()
 	for rockStart in rockStartPositions:
 		rockAngle = sweepAngle/2.
 		rockCentre = rockStart + rockAngle
-		if isinstance(detector.getCollectionStrategy(), ODCCDOverflow) and multifactor > 1: # Collecting Overflow images
-			rockScanParams=_rockScanParams(detector, float(exposeTime)/multifactor, fileName, sweepMotor, rockCentre, rockAngle, 1, totalExposures)
-			inner_scan = ConcurrentScan(scan_params + rockScanParams)
-			logger.debug("Scan parameters for rockStart %r: %r (fast)" % (rockStart, scan_params + rockScanParams))
-			mrs.addScan(inner_scan)
 		rockScanParams=_rockScanParams(detector, exposeTime, fileName, sweepMotor, rockCentre, rockAngle, 1, totalExposures)
 		inner_scan = ConcurrentScan(scan_params + rockScanParams)
 		logger.debug("Scan parameters for rockStart %r: %r" % (rockStart, scan_params + rockScanParams))
 		mrs.addScan(inner_scan)
 	logger.info("MultiRegionScan: {}", mrs)
 	mrs.runScan()
-
-	if isinstance(detector.getCollectionStrategy(), ODCCDOverflow): # Collecting Overflow images
-		_copyTmpRunFileToReal(detector.getCollectionStrategy().getRunfileName(), retry=True)
 
 def _exposeN(exposeTime, exposeNumber, fileName,
 			 rockMotor=None, rockAngle=None, rockNumber=None,

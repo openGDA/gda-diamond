@@ -3,15 +3,14 @@
 ##
 from gdascripts.messages.handle_messages import simpleLog
 
-global configured, beamline, atlas
+global configured, beamline
 configured = False
 def configure(jythonNameMap, beamlineParameters):
-	global configured, beamline, atlas
+	global configured, beamline
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
 	beamline = jythonNameMap.beamline
-	atlas = jythonNameMap.atlas
 	configured = True
 	
 def checkConfigured():
@@ -19,17 +18,6 @@ def checkConfigured():
 		raise Exception, "ccdMechanics not configured"
 		
 ######################################################################################
-def scanGeometry(axis, velocity, A, B):
-	"""
-	Gets geometry string for Crysalis header, sets motor velocity and activates position compare
-	"""
-	geometry = getGeometry(axis, velocity, A, B)
-	setVelocity(axis, velocity)
-
-	debounce, A, B, suffix = scanGeometryCheck(axis, velocity, A, B)
-	
-	return scanGeometryApply(axis, geometry, debounce, A, B, suffix)
-
 def scanGeometryCheck(axis, velocity, A, B):
 	correctedA = A
 	correctedB = B
@@ -84,61 +72,6 @@ def scanGeometryApply(axis, geometry, debounce, correctedA, correctedB, suffix):
 	activatePositionCompare(correctedA, correctedB, axis)
 	
 	return geometry
-######################################################################################
-def getGeometry(axis, velocity, A, B):
-	
-	"""
-	Returns string of motor positions and velocities and detector distance to be written to the Crysalis data header
-	"""
-	checkConfigured()
-	# Set start, stop and velocity values for all axes
-	phiStart = phiStop = beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:KPHI.RBV")
-	kappaStart = kappaStop = beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:KAPPA.RBV")
-	omegaStart = omegaStop = float(beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:KTHETA.RBV") + 90.0)
-	twothetaStart = twothetaStop = beamline.getValue(None,"Top","-MO-DIFF-01:ARM:DELTA.RBV")
-	gammaStart = gammaStop = beamline.getValue(None,"Top","-MO-DIFF-01:ARM:GAMMA.RBV")
-	muStart = muStop = beamline.getValue(None,"Top","-MO-DIFF-01:SAMPLE:MU.RBV")
-	
-	phiVel = kappaVel = omegaVel = twothetaVel = gammaVel = 0
-
-	# Set start, stop and velocity for axis to be moved
-	if (axis.name =='dkphi' or axis.name == 'testLinearDOF1'):
-		phiStart = A
-		phiStop = B
-		phiVel = velocity
-	elif (axis.name =='dktheta'):
-		omegaStart = A + 90.0
-		omegaStop = B + 90.0
-		omegaVel = velocity
-	elif (axis.name =='dkappa'):
-		kappaStart = A
-		kappaStop = B
-		kappaVel = velocity
-	elif (axis.name =='ddelta'):
-		twothetaStart = A
-		twothetaStop = B
-		twothetaVel = velocity
-	elif (axis.name =='dmu'):
-		muStart = A
-		muStop = B
-		muVel = velocity
-	elif (axis.name =='dgamma'):
-		gammaStart = A
-		gammaStop = B
-		gammaVel = velocity
-		
-	
-	else:
-		raise Exception, "Error: axis (%s) is not supported by geometry" % axis.name
-	
-	# Return formatted geometry string 
-	geometry = '%.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f %.3f %.3f %.4f ' % (phiStart, phiStop, phiVel, 
-																								kappaStart, kappaStop, kappaVel, 
-																								omegaStart, omegaStop, omegaVel, 
-																								twothetaStart, twothetaStop, twothetaVel, 
-																								gammaStart, gammaStop, gammaVel)
-	return geometry + str(atlas.detectorDistance)
-
 ######################################################################################
 def activatePositionCompare(start, stop, axis):
 	"""
