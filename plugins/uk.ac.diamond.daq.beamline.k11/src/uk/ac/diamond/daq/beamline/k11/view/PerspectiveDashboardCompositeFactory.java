@@ -87,7 +87,6 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	private void createCameraControl(Composite parent, int style) {
 		var container = createClientGroup(parent, style, 1, CAMERAS);
 		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
-
 		openCameraConfigurationViewButton(container);
 	}
 

@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionConfigurationLayoutFactory;
 import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
@@ -42,6 +41,7 @@ import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.ButtonGroupFactoryBuilder;
+import uk.ac.gda.client.exception.GDAClientRestException;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.WidgetUtilities;
@@ -128,7 +128,7 @@ public class PointAndShootButtonControlledCompositeFactory
 	}
 
 	private ButtonGroupFactoryBuilder getAcquistionButtonGroupFacoryBuilder() {
-		ButtonGroupFactoryBuilder builder = new ButtonGroupFactoryBuilder();
+		var builder = new ButtonGroupFactoryBuilder();
 		builder.addButton(ClientMessages.NEW, ClientMessages.NEW_CONFIGURATION_TP,
 				widgetSelectedAdapter(this::newAcquisition),
 				ClientImages.ADD);
@@ -161,8 +161,8 @@ public class PointAndShootButtonControlledCompositeFactory
 
 	private void manageSession(SelectionEvent event) {
 		RUN_BUTTON_STATE runButtonState = WidgetUtilities.getDataObject(event.widget, RUN_BUTTON_STATE.class, RUN_STATE);
-		Button startStopButton = (Button)event.widget;
-		Lockable lockableClass = WidgetUtilities.getDataObject(this.parent, Lockable.class, Lockable.LOCKABLE_SELECTABLE);
+		var startStopButton = (Button)event.widget;
+		var lockableClass = WidgetUtilities.getDataObject(this.parent, Lockable.class, Lockable.LOCKABLE_SELECTABLE);
 
 		if ((runButtonState == null || RUN_BUTTON_STATE.READY.equals(runButtonState)) && startPointAndShootSession()) {
 			ClientSWTElements.updateButton((Button)event.widget, ClientMessages.STOP, ClientMessages.STOP_POINT_AND_SHOOT_TP,
@@ -183,7 +183,7 @@ public class PointAndShootButtonControlledCompositeFactory
 		try {
 			pointAndShootController.endSession();
 			return true;
-		} catch (ExperimentControllerException e) {
+		} catch (GDAClientRestException e) {
 			UIHelper.showError("Cannot stop Point and Shoot session", e);
 		}
 		return false;
@@ -194,7 +194,7 @@ public class PointAndShootButtonControlledCompositeFactory
 			pointAndShootController = new PointAndShootController(getAcquisitionName(), getAcquisitionController());
 			pointAndShootController.startSession();
 			return true;
-		} catch (ExperimentControllerException e) {
+		} catch (GDAClientRestException e) {
 			UIHelper.showError(getMessage(CANNOT_START_POINT_AND_SHOOT_SESSION), e);
 		}
 		return false;
