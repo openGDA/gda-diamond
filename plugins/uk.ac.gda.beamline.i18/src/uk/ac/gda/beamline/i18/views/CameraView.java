@@ -92,7 +92,6 @@ public class CameraView extends ViewPart {
 	public void dispose() {
 		super.dispose();
 		if (viewer != null) {
-			videoReceiver.stop();
 			viewer.dispose();
 			videoReceiver.removeImageListener(listener);
 		}
