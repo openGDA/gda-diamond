@@ -1,105 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="t1z" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="sample_z_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="outputFormat">
+	<bean id="T1_PV_BASE" class="java.lang.String">
+		<constructor-arg value="BL18I-MO-TABLE-01" />
+	</bean>
+	
+	<gda:motor id="t1x"
+		live-pvName="#{T1_PV_BASE}:X"
+		dummy-minPosition="-14"
+		dummy-maxPosition="35"
+		dummy-position="23.4"
+		dummy-unitString="mm"/>
+		
+	<gda:motor id="t1y"
+		live-pvName="#{T1_PV_BASE}:Y"
+		dummy-minPosition="-18.5"
+		dummy-maxPosition="29.5"
+		dummy-position="-5.5"
+		dummy-unitString="mm"/>
+		
+	<gda:motor id="t1z"
+		live-pvName="#{T1_PV_BASE}:Z"
+		dummy-minPosition="-91"
+		dummy-maxPosition="134"
+		dummy-position="-60"
+		dummy-unitString="mm"/>
+		
+	<gda:motor id="t1theta"
+		live-pvName="#{T1_PV_BASE}:THETA"
+		dummy-minPosition="-360"
+		dummy-maxPosition="360"
+		dummy-position="30"
+		dummy-unitString="mm"/>
+
+	<gda:motor id="t1thetaFine"
+		live-pvName="#{T1_PV_BASE}:FROT"
+		dummy-minPosition="-91"
+		dummy-maxPosition="134"
+		dummy-position="-60"
+		dummy-unitString="mm"/>
+		
+	<gda:motor id="t1xr"
+		live-pvName="#{T1_PV_BASE}:REAL:X"
+		dummy-minPosition="-14"
+		dummy-maxPosition="35"
+		dummy-position="23.4"
+		dummy-unitString="mm"/>
+		
+	<gda:motor id="t1yr"
+		live-pvName="#{T1_PV_BASE}:REAL:Y"
+		dummy-minPosition="-18.5"
+		dummy-maxPosition="29.5"
+		dummy-position="-5.5"
+		dummy-unitString="mm"/>
+		
+	<gda:motor id="t1zr"
+		live-pvName="#{T1_PV_BASE}:REAL:Z"
+		dummy-minPosition="-91"
+		dummy-maxPosition="134"
+		dummy-position="-60"
+		dummy-unitString="mm"/>
+		
+	<bean id="t1raw" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
 			<list>
-				<value>%.4f</value>
+				<ref bean="t1xr" />
+				<ref bean="t1yr" />
+				<ref bean="t1zr" />
 			</list>
 		</property>
 	</bean>
-
-	<bean id="t1thetaCoarse" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="motor" ref="sample_theta_coarse_motor" />
-		<property name="hardwareUnitString" value="Deg" />
-	</bean>
-
-	<bean id="t1x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="sample_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="outputFormat">
-			<list>
-				<value>%.4f</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="t1y1" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="sample_y1_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
-	<bean id="t1y2" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="sample_y2_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
-	<bean id="t1y3" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="sample_y3_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
-	<bean id="t1thetaFine" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="motor" ref="sample_theta_fine_motor" />
-		<property name="hardwareUnitString" value="Deg" />
-	</bean>
-
-	<bean id="t1y" class="gda.device.scannable.CoupledScannable">
-		<property name="scannables">
-			<list>
-				<ref bean="t1y1" />
-				<ref bean="t1y2" />
-				<ref bean="t1y3" />
-			</list>
-		</property>
-		<property name="functions">
-			<list>
-				<bean class="gda.function.IdentityFunction" />
-				<bean class="gda.function.IdentityFunction" />
-				<bean class="gda.function.IdentityFunction" />
-			</list>
-		</property>
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="outputFormat">
-			<list>
-				<value>%.4f</value>
-			</list>
-		</property>
-	</bean>
-
+	
 	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="t1z" />
-				<ref bean="t1thetaCoarse" />
 				<ref bean="t1x" />
-				<ref bean="t1y1" />
-				<ref bean="t1y2" />
-				<ref bean="t1y3" />
-				<ref bean="t1thetaFine" />
 				<ref bean="t1y" />
+				<ref bean="t1z" />
+				<ref bean="t1theta" />
+				<ref bean="t1thetaFine" />
+				<ref bean="alpha" />
+				<ref bean="t1skew" />
+				<ref bean="t1raw" />
 			</list>
 		</property>
-		<property name="protectionLevel" value="0" />
 	</bean>
 
 </beans>

@@ -29,41 +29,9 @@
 	</bean>
 
 	<bean id="t1tc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="t1thetaCoarse" />
-		<property name="scannableName" value="t1thetaCoarse" />
+		<property name="displayName" value="alpha" />
+		<property name="scannableName" value="alpha" />
 		<property name="group" value="Table 1" />
-		<property name="increment" value="10" />
-		<property name="incrementTextWidth" value="60" />
-	</bean>
-	
-		<bean id="t3x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="t3x" />
-		<property name="scannableName" value="t3x" />
-		<property name="group" value="Table 3" />
-		<property name="increment" value="1.0" />
-		<property name="incrementTextWidth" value="60" />
-	</bean>
-
-	<bean id="t3y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="t3y" />
-		<property name="scannableName" value="t3y" />
-		<property name="group" value="Table 3" />
-		<property name="increment" value="1.0" />
-		<property name="incrementTextWidth" value="60" />
-	</bean>
-
-	<bean id="t3z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="t3z" />
-		<property name="scannableName" value="t3z" />
-		<property name="group" value="Table 3" />
-		<property name="increment" value="1.0" />
-		<property name="incrementTextWidth" value="60" />
-	</bean>
-
-	<bean id="t3pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="t3pitch" />
-		<property name="scannableName" value="t3pitch" />
-		<property name="group" value="Table 3" />
 		<property name="increment" value="10" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -91,10 +59,6 @@
 				<ref bean="t1y_control" />
 				<ref bean="t1z_control" />
 				<ref bean="t1tc_control" />
-				<ref bean="t3x_control" />
-				<ref bean="t3y_control" />
-				<ref bean="t3z_control" />
-				<ref bean="t3pitch_control" />
 				<ref bean="zoom_control" />
 			</list>
 		</property>

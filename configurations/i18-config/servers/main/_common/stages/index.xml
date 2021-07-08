@@ -3,9 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/table1.xml" />
 	<import resource="table1.xml" />
-	<import resource="table1_deprecated.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/table1.xml" />
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/table3.xml" />
 	<import resource="table3.xml" />
