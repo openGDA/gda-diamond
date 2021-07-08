@@ -3,6 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	
+	<bean id="kinematics_processing" class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
+		<property name="appName" value="Kinematics" />
+		<property name="active" value="true" />
+	</bean>
+	
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
 		<property name="detectorParameters">
@@ -44,6 +50,14 @@
 					</list>
 				</property>
 			</bean>
+		</property>
+		<property name="processingConfigs">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
+					<property name="appName" value="Kinematics" />
+					<property name="active" value="true" />
+				</bean>
+			</list>
 		</property>
 	</bean>
 
