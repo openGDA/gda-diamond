@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		
+	<bean id="beam_readiness_monitor" class="gda.beamline.health.BeamlineHealthMonitor">
+		<property name="conditions">
+			<list>
+				<ref bean="ion_chamber_1_condition" />
+				<ref bean="ion_chamber_2_condition" />
+				<ref bean="sample_shutter_condition" />
+				<ref bean="experimental_shutter_condition" />
+			</list>	
+		</property>
+	</bean>
+
+	<bean id="ion_chamber_1_condition" class="gda.beamline.health.ScannableThresholdCondition">
+		<property name="description" value="Ion chamber 1" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
+				<property name="scannable" ref="ion_chamber1" />
+				<property name="lowerLimit" value="0.5" />
+				<property name="upperLimit" value="3.5" />
+			</bean>
+		</property>
+		<property name="critical" value="true" />
+		<property name="errorMessage" value="Outside valid range (0.5-3.5)" />
+	</bean>
+	
+	<bean id="ion_chamber_2_condition" class="gda.beamline.health.ScannableThresholdCondition">
+		<property name="description" value="Ion chamber 2" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck">
+				<property name="scannable" ref="ion_chamber2" />
+				<property name="lowerLimit" value="0.5" />
+				<property name="upperLimit" value="3.5" />
+			</bean>
+		</property>
+		<property name="critical" value="true" />
+		<property name="errorMessage" value="Outside valid range (0.5-3.5)" />
+	</bean>
+	
+	<bean id="sample_shutter_condition" class="gda.beamline.health.EnumPositionCondition">
+		<property name="description" value="Sample shutter" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
+				<property name="positioner" ref="sample_shutter" />
+				<property name="allowedPositions" value="Open" />
+			</bean>
+		</property>
+		<property name="critical" value="true" />
+	</bean>
+	
+	<bean id="experimental_shutter_condition" class="gda.beamline.health.EnumPositionCondition">
+		<property name="description" value="Experimental shutter" />
+		<property name="condition">
+			<bean class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
+				<property name="positioner" ref="portshutter" />
+				<property name="allowedPositions" value="Open" />
+			</bean>
+		</property>
+		<property name="critical" value="true" />
+	</bean>
+
+</beans>
