@@ -29,5 +29,8 @@
 	<!-- CCD -->
 	<bean id="ccd_x_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="ccd_y_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="ion_chamber1" class="gda.device.monitor.DummyMonitor" />
+	<bean id="ion_chamber2" class="gda.device.monitor.DummyMonitor" />	
 
 </beans>
