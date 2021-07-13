@@ -1,6 +1,0 @@
-#syntax: call setReal
-#mode echo
-
-((@1):real=@2)
-
-return

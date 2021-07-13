@@ -111,8 +111,6 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 						, 'pil3':    jythonNameMap.pil3HWT
 						, 'pil3HWT': detector
 						, 'pil3cbf': detector
-						, 'atlas':   detector
-						, 'atlasOverflow': detector
 						}
 	
 	# Since the interface changed, check that noOfExposures is numeric
@@ -175,17 +173,6 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		detector.cbfwriter.setFileTemplate(fileTemplate+".cbf")
 		detector.cbfwriter.setFilePathTemplate(filePathTemplate)
 		detector.cbfwriter.setFileNameTemplate(fileNameTemplate)
-	
-	from gda.device.detector.odccd.collectionstrategy import ODCCDSingleExposure
-	if isinstance(collectionStrategy, ODCCDSingleExposure):
-		if "," in sampleSuffix:
-			raise Exception('Detector %r does not support commas in sampleSuffix: %s' % (detector.name, sampleSuffix))
-		filePathTemplate="$datadir$/_$scan$-%s-files-%s/" % (detector.name, sampleSuffix) # Atlas directories cannot start with a number.
-		collectionStrategy.setFileTemplate(fileTemplate+".img")
-		collectionStrategy.setFilePathTemplate(filePathTemplate)
-		collectionStrategy.setFileNameTemplate("_" + fileNameTemplate) # Atlas filenames cannot start with a number.
-	elif detector.name == 'atlas':
-		print "'ODCCD' not in Plugin List!"
 	
 	darkSubtractionPVs=_darkSubtractionPVs(hardwareTriggeredNXDetector)
 	if darkSubtractionPVs:

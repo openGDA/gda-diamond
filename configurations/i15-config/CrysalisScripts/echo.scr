@@ -1,6 +1,0 @@
-root echo = vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-cmd="root echo = ATLAS Start call echo \""+@1+"\""
-cmd="root echo = "+@1
-cmd="root echo = ATLAS End   call echo \""+@1+"\""
-root echo = ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-return
