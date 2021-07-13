@@ -123,6 +123,7 @@ scan_processor.processors.append(CenFromSPEC())
 
 
 #from gdascripts.scannable.installStandardScannableMetadataCollection import *
+meta.readFromNexus = True
 meta.rootNamespaceDict=globals()
 note.rootNamespaceDict=globals()
 
