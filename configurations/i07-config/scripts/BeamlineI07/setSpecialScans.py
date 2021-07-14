@@ -1,6 +1,8 @@
 
 from gda.jython.commands.GeneralCommands import alias
 
+from gda.scan.RepeatScan import repscan
+
 from Diamond.Scans.BasicScan import BasicScanClass
 from Diamond.Scans.RegionalScan import RegionalScanClass
 from Diamond.Scans.PowerSeriesScan import PowerSeriesScanClass
@@ -35,6 +37,8 @@ alias('cscan');
 
 scan=BasicScanClass()
 alias('scan');
+
+alias('repscan')
 
 def scanvalid(scannable, start, stop, step, *args):
     scanPosProv = ValidPositionsProvider(scannable, start, stop, step)
