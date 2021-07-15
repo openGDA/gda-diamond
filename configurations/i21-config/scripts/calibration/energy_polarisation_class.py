@@ -110,7 +110,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def get_ID_gap_phase_at_current_polarisation(self, energy):
         gap, polarisation, phase = self.getIDPositions()  # @UnusedVariable
         gap, phase = self.idgapphase(Ep=energy, mode=polarisation)
-        return gap, phase
+        return gap, polarisation, phase
 
     def idgapphase(self, Ep=None, polar=None, mode='LH'):
         '''coverts energy and polarisation to  gap and phase. It supports polarisation modes: LH, LV, CR, CL, LH3, LH5, LV3, LV5, LAP, LAN.
@@ -251,6 +251,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 except:
                     print("cannot set %s to %f." % (s.getName(), energy))
                     raise
+        self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
 
     def rawAsynchronousMoveTo(self, new_position):
         '''move beam energy, polarisation, or both to specified values.
@@ -317,9 +318,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             caput(self.feedbackPV, 4)
         else:
             self.moveDevices(gap, new_polarisation, phase, energy)
-        
-        self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
-    
+        self.notifyIObservers(self, self.getPosition())
+            
     def updateValue(self):
         while self.isBusy():
             sleep(0.5)

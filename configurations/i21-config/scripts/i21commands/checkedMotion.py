@@ -179,7 +179,8 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
             if specl_val:
                 enable_arm_motion()
                 specl.moveTo(specl_val)
-            print("%s moves completed at "+ str(motor.getOutputFormat()) % (motor.getName(), motor.getPosition()))
+            print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
+
             if motor is armtth or motor is sgmr1 or motor is alltth:  # @UndefinedVariable
                 armtth.off()
                 sgmr1.off()

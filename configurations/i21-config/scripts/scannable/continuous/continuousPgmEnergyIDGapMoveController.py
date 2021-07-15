@@ -117,11 +117,11 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         if self.verbose:
             self.logger.info('prepareID: energy_midpoint = %r ' % (energy_midpoint))
         # Calculate phase position for current polarisation at energy midpoint
-        gap_midpoint, phase_midpoint = self._energy.get_ID_gap_phase_at_current_polarisation(energy_midpoint)  # @UnusedVariable
+        gap_midpoint, polarisation, phase_midpoint = self._energy.get_ID_gap_phase_at_current_polarisation(energy_midpoint)  # @UnusedVariable
        
         # Calculate grating angles for given grating density, energy, mirror angle and offsets
-        self._id_gap_start, phase_start = self._energy.get_ID_gap_phase_at_current_polarisation(self._move_start)  # @UnusedVariable
-        self._id_gap_end, phase_end = self._energy.get_ID_gap_phase_at_current_polarisation(self._move_end)  # @UnusedVariable
+        self._id_gap_start, polarisation, phase_start = self._energy.get_ID_gap_phase_at_current_polarisation(self._move_start)  # @UnusedVariable
+        self._id_gap_end, polarisation, phase_end = self._energy.get_ID_gap_phase_at_current_polarisation(self._move_end)  # @UnusedVariable
         
             ### Calculate main cruise moves & speeds from start/end/step
         self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()*self.idspeedfactor
@@ -151,12 +151,12 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), self._energy.polarisation, phase_midpoint, self._id_gap_speed_orig))
-            self._id_scannable.asynchronousMoveTo([self._id_gap_start - self._id_gap_runupdown, self._energy.polarisation, phase_midpoint])
+                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), polarisation, phase_midpoint, self._id_gap_speed_orig))
+            self._id_scannable.asynchronousMoveTo([self._id_gap_start - self._id_gap_runupdown, polarisation, phase_midpoint])
         else:
             if self.verbose:
-                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (-ve)' % ((self._id_gap_start + self._id_gap_runupdown), self._energy.polarisation, phase_midpoint, self._id_gap_speed_orig))
-            self._id_scannable.asynchronousMoveTo([self._id_gap_start + self._id_gap_runupdown, self._energy.polarisation, phase_midpoint])
+                self.logger.info('prepareIDForMove:_id_scannable.asynchronousMoveTo([%f, %s, %f]) @ %f mm/sec (-ve)' % ((self._id_gap_start + self._id_gap_runupdown), polarisation, phase_midpoint, self._id_gap_speed_orig))
+            self._id_scannable.asynchronousMoveTo([self._id_gap_start + self._id_gap_runupdown, polarisation, phase_midpoint])
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
