@@ -101,7 +101,7 @@
 	
 	<bean id="pcsscamCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
 		<property name="cameraConfig" ref="pcss_cam"/>
-		<property name="stateVariableName" value="i06.pcsscam.live.stream.active"/>
+		<property name="stateVariableName" value="lab44.pcss.live.stream.active"/>
 	</bean>
 	<bean id="pcssControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
 		<property name="customWidget">

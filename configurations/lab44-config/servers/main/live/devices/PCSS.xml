@@ -4,34 +4,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- PEEM line User Motors U1 Motors -->
-	<bean id="pcssx" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10" />
-		<property name="maxPosition" value="10" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
-	</bean>
 
-	<bean id="pcssy" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10" />
-		<property name="maxPosition" value="10" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
+	<bean id="pcssx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-EA-PCSS-01:X"/>
 	</bean>
-
-	<bean id="pcssz" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10" />
-		<property name="maxPosition" value="10" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
+	<bean id="pcssy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-EA-PCSS-01:Y"/>
 	</bean>
-<!-- 	<bean id="pcssx" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="pvName" value="BL06I-EA-PCSS-01:X"/> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="pcssy" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="pvName" value="BL06I-EA-PCSS-01:Y"/> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="pcssz" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="pvName" value="BL06I-EA-PCSS-01:Z"/> -->
-<!-- 	</bean> -->
+	<bean id="pcssz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-EA-PCSS-01:Z"/>
+	</bean>
 
 </beans>

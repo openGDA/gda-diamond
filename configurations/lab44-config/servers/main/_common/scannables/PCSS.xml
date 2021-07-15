@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Exit Slit S4 -->
+	<bean id="pcssx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pcssx_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="pcssy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pcssy_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="pcssz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pcssz_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="PCSS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pcssx" />
+				<ref bean="pcssy" />
+				<ref bean="pcssz" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

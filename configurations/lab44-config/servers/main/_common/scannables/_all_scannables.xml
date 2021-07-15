@@ -22,4 +22,5 @@
 	<import resource="peemExitSlit.xml"/>
 <!-- 	<import resource="medipix.xml"/> -->
 	<import resource="pcss_cam.xml"/>
+	<import resource="PCSS.xml"/>
 </beans>
