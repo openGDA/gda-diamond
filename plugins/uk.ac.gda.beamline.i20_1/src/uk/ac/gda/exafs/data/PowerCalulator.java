@@ -27,7 +27,10 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,14 +45,14 @@ import org.slf4j.LoggerFactory;
 
 import gda.analysis.numerical.integration.Simpson;
 import gda.analysis.numerical.utilities.Utility;
-import gda.device.DeviceException;
-import gda.device.Scannable;
 
 public class PowerCalulator {
 
 	private static final Logger logger = LoggerFactory.getLogger(PowerCalulator.class);
 
-	private PowerCalulator() {}
+	private double me2PitchAngle = 3.0;
+	private double ringCurrent = 300.0;
+	private String dataPath = DataPaths.getPowerCalculationDataPath();
 
 	/** Lookup table of wiggler gap [mm] vs magnetic field strength [T]
 	   { {gap0, field0}, {gap1, field1} ... }
@@ -92,7 +95,7 @@ public class PowerCalulator {
 	 * @return magnetic field strength [T]
 	 * @throws Exception
 	 */
-	public static double getFieldValue(double gapValue) throws Exception {
+	public double getFieldValue(double gapValue) throws Exception {
 
 		if (gapValue < GAP_FIELD[0][0]) {
 			logger.warn("Wiggler gap {} mm is below limit of lookup table - using minimum value instead ({} mm)", gapValue, GAP_FIELD[0][0]);
@@ -120,16 +123,16 @@ public class PowerCalulator {
 		throw new Exception("Unable to find field for gap value "+gapValue);
 	}
 
-	public static String getFieldName(double wigglerGap) throws Exception {
+	public String getFieldName(double wigglerGap) throws Exception {
 		return replaceDotWithP(Double.toString(getFieldValue(wigglerGap)), ClientConfig.UnitSetup.TESLA.getText());
 	}
 
-	public static double getRoundedWigglerHGap(double gap) {
+	public double getRoundedWigglerHGap(double gap) {
 		double roundedGap = Math.max(gap, MIN_S1_HGAP);
 		return Math.min(roundedGap, MAX_S1_HGAP);
 	}
 
-	public static String getSlitHGapName(double s1HGap) {
+	public String getSlitHGapName(double s1HGap) {
 		return replaceDotWithP(Double.toString(Math.round( s1HGap * 10.0 ) / 10.0), ClientConfig.UnitSetup.MILLI_RADIAN.getText());
 	}
 
@@ -137,7 +140,7 @@ public class PowerCalulator {
 		return value.replace('.', 'p') + suffix;
 	}
 
-	private static class PowerFileNameFilter implements FilenameFilter {
+	private class PowerFileNameFilter implements FilenameFilter {
 		private final String pattern;
 
 		PowerFileNameFilter(double wigglerGap, double s1HGap) throws Exception {
@@ -157,18 +160,39 @@ public class PowerCalulator {
 		}
 	}
 
-	public static double getPower(double wigglerGap, double s1HGap, double ringCurrent) throws Exception {
-		return getPower(DataPaths.getPowerCalculationDataPath(), wigglerGap, s1HGap, ringCurrent);
+	/**
+	 * Calculate the power for the given wiggler and slit gap
+	 * using default set of filter (i.e. scannables returned {@link #getMirrorFilters()})
+	 * @param wigglerGap (mm)
+	 * @param s1HGap (mm)
+	 * @return power (Watts)
+	 * @throws Exception
+	 */
+	public double getPower(double wigglerGap, double s1HGap) throws Exception {
+		return getPower(dataPath, wigglerGap, s1HGap, getMirrorFilterMap());
 	}
 
-	public static double getPower(String parentFolder, double wigglerGap, double s1HGap, double ringCurrent) throws Exception {
-		Dataset flux = calculateFluxVsEnergyForAllFilters(parentFolder, wigglerGap, s1HGap);
+	/**
+	 *  Calculate the power for the given wiggler and slit gap and set of
+	 *  filter values
+	 * @param wigglerGap (mm)
+	 * @param s1HGap (mm)
+	 * @param filters key = scannable name, value = position
+	 * @return power (Watts)
+	 * @throws Exception
+	 */
+	public double getPower(double wigglerGap, double s1HGap,  Map<String, String> filters) throws Exception {
+		return getPower(dataPath, wigglerGap, s1HGap, filters);
+	}
+
+	private double getPower(String parentFolder, double wigglerGap, double s1HGap, Map<String, String> filterMap) throws Exception {
+		Dataset flux = calculateFluxVsEnergyForAllFilters(parentFolder, wigglerGap, s1HGap, filterMap);
 		double result = doIntegration(flux);
 		result = scalePower(result, ringCurrent);
 		return result*FLUX_TO_POWER;
 	}
 
-	private static void adjustTransmission(Dataset transmission, double oldThickness, double newThickness) {
+	private void adjustTransmission(Dataset transmission, double oldThickness, double newThickness) {
 		logger.info("Calculating transmission for filter thickness {} mm (original thickness = {} mm)", newThickness, oldThickness);
 		int size = transmission.getShape()[0];
 		for (int i = 0; i < size; i++) {
@@ -177,11 +201,21 @@ public class PowerCalulator {
 		}
 	}
 
-	public static Dataset calculateFluxVsEnergyForAllFilters(String parentFolder, double wigglerGap, double s1HGap)
-			throws Exception {
+	/**
+	 * Calculate the energy resolved attenuated flux for the given combination of wiggler and slit gap
+	 *
+	 * @param parentFolder folder where the filter files are stored
+	 * @param wigglerGap
+	 * @param s1HGap
+	 * @param filters map of filter values (key = filter/scannable name, value = position).
+	 * @return Dataset of filtered flux (1 st column = energy, 2nd column = flux)
+	 * @throws IllegalArgumentException
+	 * @throws IOException
+	 */
+	public Dataset calculateFluxVsEnergyForAllFilters(String parentFolder, double wigglerGap, double s1HGap, Map<String, String> filters) throws IllegalArgumentException, IOException  {
 
 		// Load wiggler power
-		File wigglerFile = getEnergyFieldFile(wigglerGap, s1HGap, parentFolder);
+		File wigglerFile = getEnergyFieldFile(parentFolder, wigglerGap, s1HGap);
 		Dataset power = loadDatasetFromFile(wigglerFile);
 
 		// Store the X-axis (energy) values
@@ -200,22 +234,21 @@ public class PowerCalulator {
 		transmission = Maths.multiply(power, transmission);
 		// Apply attenuators and mirrors to the transmission
 
-		for (ScannableSetup mirrorFilterScannable : getMirrorFilters()) {
-			Scannable scannable = mirrorFilterScannable.getScannable();
-			logger.info("scannable = {}, position = {}", scannable.getName(), scannable.getPosition());
-			if (Mirrors.INSTANCE.isPyroFilter(mirrorFilterScannable.getScannable())) {
+		for (Entry<String, String> filter : filters.entrySet()) {
+			logger.info("scannable = {}, position = {}", filter.getKey(), filter.getValue());
+			if (Mirrors.INSTANCE.isPyroFilter(filter.getValue())) {
 				Dataset cPyroTransmission = loadDatasetFromFile(new File(parentFolder, C_PYRO_FILTER_FILE_NAME));
-				double filterThickness = Mirrors.INSTANCE.getThickness(scannable);
+				double filterThickness = Mirrors.INSTANCE.getThickness(filter.getValue());
 				adjustTransmission(cPyroTransmission, C_PYRO_FILTER_THICKNESS_MM, filterThickness);
 				transmission = Maths.multiply(transmission, cPyroTransmission);
 			} else {
-				String dataFileName = Mirrors.INSTANCE.getDataFileName(scannable);
-				if (dataFileName != null) {
+				String dataFileName = Mirrors.INSTANCE.getDataFileName(filter.getKey(), filter.getValue(), me2PitchAngle);
+				if (!dataFileName.isEmpty()) {
 					File file = new File(parentFolder, dataFileName);
 					Dataset filterTransmission = loadDatasetFromFile(file);
 					transmission = Maths.multiply(transmission, filterTransmission);
 
-					if (ScannableSetup.ME2_STRIPE.getScannableName().equals(scannable.getName())) {
+					if (ScannableSetup.ME2_STRIPE.getScannableName().equals(filter.getKey())) {
 						transmission = Maths.multiply(transmission, filterTransmission);
 					}
 				}
@@ -227,7 +260,12 @@ public class PowerCalulator {
 		return transmission;
 	}
 
-	public static List<ScannableSetup> getMirrorFilters() {
+	/**
+	 * Generate a list of ScannableSetup objects corresponding to the filters and mirrors
+	 * that attenuate the beam
+	 * @return list of filter and mirrors
+	 */
+	public List<ScannableSetup> getMirrorFilters() {
 		List<ScannableSetup> mirrorFilters = new ArrayList<>();
 		if (AlignmentParametersModel.INSTANCE.isUseAtn45()) {
 			mirrorFilters.add(ScannableSetup.ATN4);
@@ -242,18 +280,32 @@ public class PowerCalulator {
 		return mirrorFilters;
 	}
 
-	private static double doIntegration(Dataset values) {
+	/**
+	 * Generate a map of filter values from current positions of 'mirror filter' scannables
+	 * (i.e. scannables returned by {@link #getMirrorFilters()});
+	 * @return map of filter values : key = scannable name, value = position (as a string)
+	 * @throws Exception
+	 */
+	public Map<String, String> getMirrorFilterMap() throws Exception {
+		Map<String, String> filterMap = new LinkedHashMap<>();
+		for(ScannableSetup mirrorFilters : getMirrorFilters()) {
+			filterMap.put(mirrorFilters.getScannable().getName(), mirrorFilters.getScannable().getPosition().toString());
+		}
+		return filterMap;
+	}
+
+	private double doIntegration(Dataset values) {
 		int size = values.getShape()[0];
 		double[] xvals = (double[]) values.getSlice(new int[] {0, 0}, new int[] {size, 1}, null).getBuffer();
 		double[] yvals = (double[]) values.getSlice(new int[] {0, 1}, new int[] {size, 2}, null).getBuffer();
 		return Simpson.simpsonNE(xvals, yvals);
 	}
 
-	private static double scalePower(double result, double ringCurrent) {
+	private double scalePower(double result, double ringCurrent) {
 		return (result * ringCurrent) / CALCULATION_CURRENT;
 	}
 
-	public static Dataset loadDatasetFromFile(File dataFile) throws FileNotFoundException, IOException {
+	public Dataset loadDatasetFromFile(File dataFile) throws FileNotFoundException, IOException {
 		checkFile(dataFile);
 		try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))) {
 			logger.info("Loading flux from {}", dataFile.getName());
@@ -275,13 +327,13 @@ public class PowerCalulator {
 		}
 	}
 
-	private static void checkFile(File datafile) throws FileNotFoundException {
+	private void checkFile(File datafile) throws FileNotFoundException {
 		if (!datafile.exists() || !datafile.canRead()) {
 			throw new FileNotFoundException("Cannot read data from "+datafile.getAbsolutePath());
 		}
 	}
 
-	public static File getEnergyFieldFile(double wigglerGap, double s1HGap, String parentFolder) throws FileNotFoundException, IllegalArgumentException {
+	public File getEnergyFieldFile(String parentFolder, double wigglerGap, double s1HGap) throws FileNotFoundException, IllegalArgumentException {
 		File folder = new File(parentFolder);
 		if (!folder.exists() || !folder.canRead()) {
 			throw new FileNotFoundException("Cannot read filter file from directory "+parentFolder);
@@ -331,64 +383,52 @@ public class PowerCalulator {
 		private Mirrors() {
 		}
 
-		public String getDataFileName(Scannable scannable) {
-			String value = null;
-			try {
-				value = (String) scannable.getPosition();
-			} catch (DeviceException e) {
-				return null;
-			}
 
-			if (isAttenuator(scannable)) {
-				String[] nameParts = getNameParts(value);
-				if (nameParts.length > 0) {
-					FilterMirrorElementType elementName = FilterMirrorElementType.valueOf(nameParts[0]);
-					if (elementName != null && nameParts.length == 3) {
-						return elementName.getSymbol() + "-" + replaceDotWithP(nameParts[1], nameParts[2]) + ".dat";
-					}
-				}
+		public String getDataFileName(String scnName, String scnPos, double me2Pitch) {
+			if (isAttenuator(scnName)) {
+				return getAttenuatorFileName(scnPos);
 			} else {
-				FilterMirrorElementType elementName = FilterMirrorElementType.findByName(value);
+				FilterMirrorElementType elementName = FilterMirrorElementType.findByName(scnPos);
 				if (elementName != null) {
-					if (scannable.getName().equals(ScannableSetup.ME1_STRIPE.getScannableName())) {
+					if (scnName.equals(ScannableSetup.ME1_STRIPE.getScannableName())) {
 						return elementName.getSymbol() + "-" + replaceDotWithP(ME1_ANGLE, ClientConfig.UnitSetup.MILLI_RADIAN.getText()) + ".dat";
-					} else if (scannable.getName().equals(ScannableSetup.ME2_STRIPE.getScannableName())) {
+					} else if (scnName.equals(ScannableSetup.ME2_STRIPE.getScannableName())) {
 						try {
-							double me2PatchAngle = findNearest((double) ScannableSetup.ME2_PITCH_ANGLE.getScannable().getPosition());
-							return elementName.getSymbol() + "-" + replaceDotWithP(Double.toString(me2PatchAngle), ClientConfig.UnitSetup.MILLI_RADIAN.getText()) + ".dat";
+							double roundedAngle = findNearest(me2Pitch);
+							return elementName.getSymbol() + "-" + replaceDotWithP(Double.toString(roundedAngle), ClientConfig.UnitSetup.MILLI_RADIAN.getText()) + ".dat";
 						} catch (Exception e) {
-							return null;
+							return "";
 						}
 					}
 				}
 			}
-			return null;
+			return "";
 		}
 
-		public boolean isAttenuator(Scannable scn) {
-			return scn.getName().startsWith("atn");
-		}
-
-		public boolean isPyroFilter(Scannable scannable) {
-			try {
-				String value = (String) scannable.getPosition();
-				String[] nameParts = getNameParts(value);
-				return nameParts.length > 0 && nameParts[0].contentEquals(FilterMirrorElementType.pC.name());
-			} catch(DeviceException e) {
-				logger.warn("Problem getting attenuator type from position of {}.", scannable.getName(),e );
-			}
-			return false;
-		}
-
-		public double getThickness(Scannable scannable) {
-			try {
-				String value = (String) scannable.getPosition();
-				String[] nameParts = getNameParts(value);
-				if (nameParts != null && nameParts.length > 1) {
-					return Double.parseDouble(nameParts[1]);
+		private String getAttenuatorFileName(String scannablePosition) {
+			String[] nameParts = getNameParts(scannablePosition);
+			if (nameParts.length > 0) {
+				FilterMirrorElementType elementName = FilterMirrorElementType.valueOf(nameParts[0]);
+				if (elementName != null && nameParts.length == 3) {
+					return elementName.getSymbol() + "-" + replaceDotWithP(nameParts[1], nameParts[2]) + ".dat";
 				}
-			}catch(DeviceException e) {
-				logger.warn("Problem getting attenuator thickness from position of {}.", scannable.getName(),e );
+			}
+			return "";
+		}
+
+		public boolean isAttenuator(String scannableName) {
+			return scannableName.startsWith("atn");
+		}
+
+		public boolean isPyroFilter(String scannablePosition) {
+			String[] nameParts = getNameParts(scannablePosition);
+			return nameParts.length > 0 && nameParts[0].contentEquals(FilterMirrorElementType.pC.name());
+		}
+
+		public double getThickness(String scannablePosition) {
+			String[] nameParts = getNameParts(scannablePosition);
+			if (nameParts.length > 1) {
+				return Double.parseDouble(nameParts[1]);
 			}
 			return 0;
 		}
@@ -433,5 +473,29 @@ public class PowerCalulator {
 			}
 			return emptyString;
 		}
+	}
+
+	public double getMe2PitchAngle() {
+		return me2PitchAngle;
+	}
+
+	public void setMe2PitchAngle(double me2PitchAngle) {
+		this.me2PitchAngle = me2PitchAngle;
+	}
+
+	public double getRingCurrent() {
+		return ringCurrent;
+	}
+
+	public void setRingCurrent(double ringCurrent) {
+		this.ringCurrent = ringCurrent;
+	}
+
+	public String getDataPath() {
+		return dataPath;
+	}
+
+	public void setDataPath(String dataPath) {
+		this.dataPath = dataPath;
 	}
 }

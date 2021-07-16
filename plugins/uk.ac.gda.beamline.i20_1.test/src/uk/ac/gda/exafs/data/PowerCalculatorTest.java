@@ -64,9 +64,10 @@ public class PowerCalculatorTest {
 
 	private Scannable me1Stripe;
 	private Scannable me2Stripe;
+	private PowerCalulator powerCalculator;
 
 	@Before
-	public void prepare() throws FactoryException, DeviceException {
+	public void prepare() throws Exception {
 		// Set the Realm so that Writeable lists and listeners for databinding can initialise without errors.
 		// (Realm is set automatically when running the GUI)
 		CurrentRealm realm = new CurrentRealm(true);
@@ -113,6 +114,9 @@ public class PowerCalculatorTest {
 
 		// Unit tests are based on attenuators 1, 2, 3.
 		AlignmentParametersModel.INSTANCE.setUseAtn45(false);
+
+		powerCalculator = new PowerCalulator();
+		powerCalculator.setDataPath(FOLDER_PATH);
 	}
 
 	@AfterClass
@@ -132,12 +136,12 @@ public class PowerCalculatorTest {
 	@Test
 	public void fieldSlitGapNameTest() {
 		try {
-			assertEquals("1p3T", PowerCalulator.getFieldName(19.0));
-			assertEquals("0p33T", PowerCalulator.getFieldName(50.0));
-			assertEquals("1p0mrad", PowerCalulator.getSlitHGapName(0.96));
+			assertEquals("1p3T", powerCalculator.getFieldName(19.0));
+			assertEquals("0p33T", powerCalculator.getFieldName(50.0));
+			assertEquals("1p0mrad", powerCalculator.getSlitHGapName(0.96));
 
-			assertEquals(0.8, PowerCalulator.getRoundedWigglerHGap(0.7), 1e-3);
-			assertEquals(1.6, PowerCalulator.getRoundedWigglerHGap(1.7), 1e-3);
+			assertEquals(0.8, powerCalculator.getRoundedWigglerHGap(0.7), 1e-3);
+			assertEquals(1.6, powerCalculator.getRoundedWigglerHGap(1.7), 1e-3);
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -145,31 +149,31 @@ public class PowerCalculatorTest {
 
 	@Test
 	public void fieldValuesTest() throws Exception {
-		assertEquals(1.3, PowerCalulator.getFieldValue(18.4), 1e-6);
-		assertEquals(1.3, PowerCalulator.getFieldValue(18.5), 1e-6);
-		assertEquals(1.3, PowerCalulator.getFieldValue(19.24), 1e-6);
-		assertEquals(1.2, PowerCalulator.getFieldValue(19.25), 1e-6);
-		assertEquals(1.2, PowerCalulator.getFieldValue(20), 1e-6);
-		assertEquals(1.0, PowerCalulator.getFieldValue(23.9), 1e-6);
-		assertEquals(0.74, PowerCalulator.getFieldValue(30), 1e-6);
-		assertEquals(0.74, PowerCalulator.getFieldValue(34.9), 1e-6);
-		assertEquals(0.48, PowerCalulator.getFieldValue(35), 1e-6);
-		assertEquals(0.48, PowerCalulator.getFieldValue(40), 1e-6);
-		assertEquals(0.33, PowerCalulator.getFieldValue(50), 1e-6);
-		assertEquals(0.33, PowerCalulator.getFieldValue(250), 1e-6);
+		assertEquals(1.3, powerCalculator.getFieldValue(18.4), 1e-6);
+		assertEquals(1.3, powerCalculator.getFieldValue(18.5), 1e-6);
+		assertEquals(1.3, powerCalculator.getFieldValue(19.24), 1e-6);
+		assertEquals(1.2, powerCalculator.getFieldValue(19.25), 1e-6);
+		assertEquals(1.2, powerCalculator.getFieldValue(20), 1e-6);
+		assertEquals(1.0, powerCalculator.getFieldValue(23.9), 1e-6);
+		assertEquals(0.74, powerCalculator.getFieldValue(30), 1e-6);
+		assertEquals(0.74, powerCalculator.getFieldValue(34.9), 1e-6);
+		assertEquals(0.48, powerCalculator.getFieldValue(35), 1e-6);
+		assertEquals(0.48, powerCalculator.getFieldValue(40), 1e-6);
+		assertEquals(0.33, powerCalculator.getFieldValue(50), 1e-6);
+		assertEquals(0.33, powerCalculator.getFieldValue(250), 1e-6);
 	}
 
 	@Test
 	public void fileNameTest() throws Exception {
-		File file = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
+		File file = getEnergyFieldFile(19.0, 0.96);
 		assertEquals("1p3T-300mA-0p12x1p0mrad.dat", file.getName());
-		file = PowerCalulator.getEnergyFieldFile(45.0, 1.09, FOLDER_PATH);
+		file = getEnergyFieldFile(45.0, 1.09);
 		assertEquals("0p33T-300mA-0p12x1p1mrad.dat", file.getName());
 	}
 
 	@Test(expected = FileNotFoundException.class)
 	public void fileNotFoundExceptionTest() throws FileNotFoundException {
-		PowerCalulator.getEnergyFieldFile(251.0, 1.09, FOLDER_PATH);
+		getEnergyFieldFile(251.0, 1.09);
 	}
 
 	@Test
@@ -199,26 +203,26 @@ public class PowerCalculatorTest {
 	@Test
 	public void testFilterFileNames() throws DeviceException {
 		atn1.setPosition(atn1.getPositions()[1]);
-		String name = Mirrors.INSTANCE.getDataFileName(atn1);
+		String name = Mirrors.INSTANCE.getDataFileName(atn1.getName(), atn1.getPosition(), 0);
 		assertEquals("C-pyro-0p8mm.dat", name);
 
 		atn1.setPosition(atn1.getPositions()[2]);
-		name = Mirrors.INSTANCE.getDataFileName(atn1);
+		name = Mirrors.INSTANCE.getDataFileName(atn1.getName(), atn1.getPosition(), 0);
 		assertEquals("C-pyro-1p2mm.dat", name);
 
 		atn1.setPosition(atn1.getPositions()[3]);
-		name = Mirrors.INSTANCE.getDataFileName(atn1);
+		name = Mirrors.INSTANCE.getDataFileName(atn1.getName(), atn1.getPosition(), 0);
 		assertEquals("SiC-1p0mm.dat", name);
 
 		atn1.setPosition(atn1.getPositions()[4]);
-		name = Mirrors.INSTANCE.getDataFileName(atn1);
+		name = Mirrors.INSTANCE.getDataFileName(atn1.getName(), atn1.getPosition(), 0);
 		assertEquals("SiC-0p2mm.dat", name);
 	}
 
 	@Test
 	public void testFluxLoadsOk() throws Exception {
-		File file = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
-		Dataset values = PowerCalulator.loadDatasetFromFile(file);
+		File file = getEnergyFieldFile(19.0, 0.96);
+		Dataset values = powerCalculator.loadDatasetFromFile(file);
 		List<String[]> dataFromFile = EdeTestBase.getDataFromAsciiFile(file.getAbsolutePath());
 		assertEquals("Number of rows of data from "+file.getName()+" is not correct", dataFromFile.size(), values.getShape()[0]);
 		assertEquals("Number of columns of data loaded from "+file.getName()+" is not correct", dataFromFile.get(0).length, values.getShape()[1]);
@@ -235,8 +239,8 @@ public class PowerCalculatorTest {
 		ScannableSetup.ATN1.getScannable().moveTo(atn1.getPositions()[1]);
 
 		// Load energy flux and filter data from files
-		File energyFieldFile = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
-		File atnFilterFile = new File(FOLDER_PATH, Mirrors.INSTANCE.getDataFileName(atn1));
+		File energyFieldFile = getEnergyFieldFile(19.0, 0.96);
+		File atnFilterFile = new File(FOLDER_PATH, Mirrors.INSTANCE.getDataFileName(atn1.getName(), atn1.getPosition(), 0));
 
 		Dataset energyField = getDatasetFromFile(energyFieldFile);
 		Dataset beFilter = getBeFilterTransmission();
@@ -247,7 +251,7 @@ public class PowerCalculatorTest {
 		trans = Maths.multiply(trans, atnFilter);
 		int numValues = trans.getShape()[0];
 
-		Dataset values = PowerCalulator.calculateFluxVsEnergyForAllFilters(FOLDER_PATH, 19.0, 0.96);
+		Dataset values = powerCalculator.calculateFluxVsEnergyForAllFilters(FOLDER_PATH, 19.0, 0.96, powerCalculator.getMirrorFilterMap());
 
 		// Compare PowerCalculator filtered flux with manually calculated result
 		for(int i=0; i<numValues; i++) {
@@ -259,7 +263,7 @@ public class PowerCalculatorTest {
 	public void testFluxFilterWithBeCalculation() throws Exception {
 
 		// Load energy flux and Be filter data from file
-		File energyFieldFile = PowerCalulator.getEnergyFieldFile(19.0, 0.96, FOLDER_PATH);
+		File energyFieldFile = getEnergyFieldFile(19.0, 0.96);
 
 		Dataset energyField = getDatasetFromFile(energyFieldFile);
 		Dataset beFilter = getBeFilterTransmission();
@@ -269,7 +273,7 @@ public class PowerCalculatorTest {
 		// Make sure ATN1 scannable is set to empty
 		ScannableSetup.ATN1.getScannable().moveTo("Empty");
 		System.out.println("testFluxFilterWithBeCalculation, atn1 = "+ atn1.getPosition());
-		Dataset totalFlux = PowerCalulator.calculateFluxVsEnergyForAllFilters(FOLDER_PATH, 19.0, 0.96);
+		Dataset totalFlux = powerCalculator.calculateFluxVsEnergyForAllFilters(FOLDER_PATH, 19.0, 0.96, powerCalculator.getMirrorFilterMap());
 
 		// Compare PowerCalculator filtered flux with manually calculated result
 		for(int i=0; i<numValues; i++) {
@@ -286,15 +290,18 @@ public class PowerCalculatorTest {
 	@Test
 	public void testPower() throws Exception {
 		ScannableSetup.ATN1.getScannable().moveTo(atn1.getPositions()[0]);
-		double power = PowerCalulator.getPower(FOLDER_PATH, 19.0, 0.96, 300.0);
+		powerCalculator.setRingCurrent(300);
+		double power = powerCalculator.getPower(19.0, 0.96);
 		double expected = 238.87603840327034;
 		assertEquals(expected, power, 1e-4);
 
-		power = PowerCalulator.getPower(FOLDER_PATH, 19.0, 0.96, 150.0);
+		powerCalculator.setRingCurrent(150);
+		power = powerCalculator.getPower(19.0, 0.96);
 		assertEquals(expected*0.5, power, 1e-4);
 
 		ScannableSetup.ATN1.getScannable().moveTo(atn1.getPositions()[1]);
-		power = PowerCalulator.getPower(FOLDER_PATH, 19.0, 0.96, 300.0);
+		powerCalculator.setRingCurrent(300);
+		power = powerCalculator.getPower(19.0, 0.96);
 		expected = 158.43633630769472;
 		assertEquals(expected, power, 1e-4);
 	}
@@ -345,5 +352,9 @@ public class PowerCalculatorTest {
 		double diff = Math.abs(expected-actual);
 		double fracDiff = actual > 1e-10 ? diff/actual : diff;
 		assertTrue("Flux value "+index+" was not correct. Expected = "+expected+", actual = "+actual, fracDiff < 1e-4);
+	}
+
+	private File getEnergyFieldFile(double wigglerGap, double s1HGap) throws FileNotFoundException, IllegalArgumentException {
+		return powerCalculator.getEnergyFieldFile(FOLDER_PATH, wigglerGap, s1HGap);
 	}
 }

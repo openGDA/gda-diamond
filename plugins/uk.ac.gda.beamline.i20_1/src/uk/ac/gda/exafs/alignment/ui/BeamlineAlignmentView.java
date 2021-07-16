@@ -21,10 +21,12 @@ package uk.ac.gda.exafs.alignment.ui;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.dawnsci.ede.DataHelper;
-import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -33,14 +35,15 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
-import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -53,7 +56,6 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
@@ -93,13 +95,14 @@ import uk.ac.gda.ui.viewer.EnumPositionViewer;
  */
 public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySheetPageContributor {
 
-	public static String ID = "uk.ac.gda.exafs.ui.views.beamlinealignmentview";
+	public static final String ID = "uk.ac.gda.exafs.ui.views.beamlinealignmentview";
 	public static final String ENABLE_CONTROLS_PROPERTY = "uk.ac.gda.exafs.alignment.ui.enablecontrols";
 
 	private static final int LABEL_WIDTH = 125;
 	private static final int SUGGESTION_LABEL_WIDTH = 100;
 
 	private static final String SUGGESTION_UNAVAILABLE_TEXT = "-";
+	private static final String UNABLE_TO_CALCULATE_POWER_TEXT = "Unable to calculate with current parameters";
 
 	private static Logger logger = LoggerFactory.getLogger(BeamlineAlignmentView.class);
 
@@ -114,7 +117,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private Button butDetectorConnect;
 
 	private FormToolkit toolkit;
-	private ScrolledForm scrolledPolyForm;
 	private Label lblWigglerSuggestion;
 	private Label lblSlitGapSuggestion;
 	private Label lblAtn1Suggestion;
@@ -129,24 +131,26 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private Label lblArm2ThetaAngleSuggestion;
 	private Label lblDetectorHeightSuggestion;
 	private Label lblDetectorDistanceSuggestion;
-	private FormText labelPowerEstimateValue;
-	private FormText labelDeltaEValueSuggestion;
+	private Label labelPowerEstimateValue;
+	private Label labelPowerFromSuggestedValue;
+	private Label labelDeltaEValue;
+	private Label labelDeltaEValueSuggestion;
+	private Map<ScannableSetup, Label> filterValuesFromCalculation;
 
 	private final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 	private final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 	private Label energyLabel;
 	private Button butDetectorSetup;
 
-	private final Binding detectorValueBinding = null;
-	private FormText labelDeltaEValue;
-
 	/** Set to false to disable gui controls; widgets will still update to show current scannable values */
 	private boolean controlsEnabled;
+
+	private final Font boldFont = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
 
 	@Override
 	public void createPartControl(final Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
-		scrolledPolyForm = toolkit.createScrolledForm(parent);
+		ScrolledForm scrolledPolyForm = toolkit.createScrolledForm(parent);
 		TableWrapLayout layout = new TableWrapLayout();
 		scrolledPolyForm.getBody().setLayout(layout);
 		toolkit.decorateFormHeading(scrolledPolyForm.getForm());
@@ -338,31 +342,77 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		mainSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
-	private void updatePower() {
-		Display.getDefault().asyncExec(() -> {
-			try {
-				double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
-				double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
-				logger.debug("Update power : wiggler gap = {}, slit gap = {}", wigglerGap, slitHGap);
-				final double powerValue = PowerCalulator.getPower(wigglerGap, slitHGap, 300);
-				String powerWatt = UnitSetup.WATT.addUnitSuffix(String.format("%4f", powerValue));
-				if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
-					String value ="Estimated power is " + powerWatt;
-					scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
-				} else {
-					scrolledPolyForm.getForm().setMessage("");
-				}
-				labelPowerEstimateValue.setText(getHighlightedFormatedString(powerWatt), true, false);
-			} catch (FileNotFoundException e1) {
-				labelPowerEstimateValue.setText(
-						getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
-				logger.warn("Power calculation file not found", e1);
-			} catch (Exception e2) {
-				labelPowerEstimateValue.setText(
-						getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
-				logger.error("Unable to calculate with current parameters", e2);
+	private void setupFilterMapForCalculatedPower() {
+		filterValuesFromCalculation = new LinkedHashMap<>();
+		filterValuesFromCalculation.put(ScannableSetup.WIGGLER_GAP, lblWigglerSuggestion);
+		filterValuesFromCalculation.put(ScannableSetup.SLIT_1_HORIZONAL_GAP, lblSlitGapSuggestion);
+		if (AlignmentParametersModel.INSTANCE.isUseAtn45()) {
+			filterValuesFromCalculation.put(ScannableSetup.ATN4, lblAtn1Suggestion);
+			filterValuesFromCalculation.put(ScannableSetup.ATN5, lblAtn2Suggestion);
+		} else {
+			filterValuesFromCalculation.put(ScannableSetup.ATN1, lblAtn1Suggestion);
+			filterValuesFromCalculation.put(ScannableSetup.ATN2, lblAtn2Suggestion);
+			filterValuesFromCalculation.put(ScannableSetup.ATN3, lblAtn3Suggestion);
+		}
+		filterValuesFromCalculation.put(ScannableSetup.ME1_STRIPE, lblMe1StripSuggestion);
+		filterValuesFromCalculation.put(ScannableSetup.ME2_STRIPE, lblMe2StripSuggestion);
+	}
+
+	private double getPowerFromSuggestedValues() throws Exception {
+		if (filterValuesFromCalculation==null) {
+			setupFilterMapForCalculatedPower();
+		}
+		Map<String, String> filterValues = filterValuesFromCalculation.entrySet()
+			.stream()
+			.collect(Collectors.toMap(
+					k -> k.getKey().getScannableName(),
+					v -> v.getValue().getText())
+			);
+
+		AlignmentParametersBean params = AlignmentParametersModel.INSTANCE.getAlignmentSuggestedParameters();
+
+		double wigglerGap = params.getWigglerGap();
+		double slitHGap = params.getPrimarySlitGap();
+		double me2Pitch = params.getMe2Pitch();
+
+		logger.debug("Calculate power from suggested positions: wiggler gap = {}, slit gap = {}, me2 pitch = {}", wigglerGap, slitHGap, me2Pitch);
+		PowerCalulator calculator = new PowerCalulator();
+		calculator.setMe2PitchAngle(me2Pitch);
+		return calculator.getPower(wigglerGap, slitHGap, filterValues);
+	}
+
+	private double getPowerFromPositions() throws Exception {
+		double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
+		double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
+		double me2Pitch = (double) ScannableSetup.ME2_PITCH_ANGLE.getScannable().getPosition();
+
+		logger.debug("Calculate power from motor positions: wiggler gap = {}, slit gap = {}, me2 pitch = {}", wigglerGap, slitHGap, me2Pitch);
+		PowerCalulator calculator = new PowerCalulator();
+		calculator.setMe2PitchAngle(me2Pitch);
+		return calculator.getPower(wigglerGap, slitHGap);
+	}
+
+	private String getPowerLabel(boolean powerFromSuggestedValues) {
+		try {
+			double powerValue = 0;
+			if (powerFromSuggestedValues) {
+				powerValue = getPowerFromSuggestedValues();
+			} else {
+				powerValue = getPowerFromPositions();
 			}
-		});
+			logger.debug("Power = {} W", powerValue);
+			return UnitSetup.WATT.addUnitSuffix(String.format("%4f", powerValue));
+		} catch (FileNotFoundException e) {
+			logger.warn("Power calculation file not found for wiggler gap", e);
+			return UNABLE_TO_CALCULATE_POWER_TEXT;
+		} catch (Exception e) {
+			logger.error(UNABLE_TO_CALCULATE_POWER_TEXT, e);
+			return UNABLE_TO_CALCULATE_POWER_TEXT;
+		}
+	}
+
+	private void updatePower() {
+		Display.getDefault().asyncExec(() -> labelPowerEstimateValue.setText(getPowerLabel(false)));
 	}
 
 	private class BeamLightFilterPowerUpdate implements IObserver{
@@ -388,7 +438,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private void bindFiltersForPowerCalculation() throws Exception {
 
-		List<ScannableSetup> mirrorFilters = PowerCalulator.getMirrorFilters();
+		List<ScannableSetup> mirrorFilters = new PowerCalulator().getMirrorFilters();
 		List<ScannableSetup> motors = Arrays.asList(ScannableSetup.ME1_STRIPE, ScannableSetup.ME2_STRIPE,
 				ScannableSetup.ME2_PITCH_ANGLE, ScannableSetup.WIGGLER_GAP, ScannableSetup.SLIT_1_HORIZONAL_GAP);
 
@@ -528,12 +578,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		}
 	}
 
-	private void revertToModel() {
-		if (detectorValueBinding != null) {
-			detectorValueBinding.updateModelToTarget();
-		}
-	}
-
 	private void createMotorControls(Form form) throws Exception {
 
 		final Section motorSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR
@@ -546,9 +590,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		motorSection.setClient(motorSectionComposite);
 
 		toolkit.createLabel(motorSectionComposite, ""); // Place holder
-		toolkit.createLabel(motorSectionComposite, "Calculated");
+		toolkit.createLabel(motorSectionComposite, "Calculated").setFont(boldFont);
 		toolkit.createLabel(motorSectionComposite, ""); // Place holder
-		toolkit.createLabel(motorSectionComposite, "Motor Readback");
+		toolkit.createLabel(motorSectionComposite, "Motor Readback").setFont(boldFont);
 		lblWigglerSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.WIGGLER_GAP);
 
 		Button applyButton = createApplyButtonControl(motorSectionComposite);
@@ -610,12 +654,19 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		Label lblPowerEstimate = toolkit.createLabel(motorSectionComposite, "Estimated power is: ");
 		lblPowerEstimate.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-		labelPowerEstimateValue = toolkit.createFormText(motorSectionComposite, false);
-		labelPowerEstimateValue.setText(getHighlightedFormatedString(""), true, false);
-		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		gridData.horizontalSpan = 3;
-		labelPowerEstimateValue.setLayoutData(gridData);
+
+		labelPowerFromSuggestedValue = toolkit.createLabel(motorSectionComposite, "", SWT.NONE);
+		labelPowerFromSuggestedValue.setFont(boldFont);
+		GridData gridData = createLabelGridData();
+		gridData.horizontalSpan = 2;
+		labelPowerFromSuggestedValue.setLayoutData(gridData);
+		labelPowerFromSuggestedValue.setToolTipText("Estimated power for calculated configuration");
+
+		labelPowerEstimateValue = toolkit.createLabel(motorSectionComposite, "", SWT.NONE);
+		labelPowerEstimateValue.setFont(boldFont);
+		labelPowerEstimateValue.setLayoutData(createLabelGridData());
 		labelPowerEstimateValue.setToolTipText("Estimated power for current configuration (suggested maximum = "+ScannableSetup.MAX_POWER_IN_WATT+" W)");
+
 		lblDetectorHeightSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_HEIGHT);
 		applyButton = createApplyButtonControl(motorSectionComposite);
 		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.DETECTOR_HEIGHT, lblDetectorHeightSuggestion, applyButton);
@@ -629,8 +680,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		gridData.horizontalSpan = 3;
 		lblDeltaE.setLayoutData(gridData);
 
-		labelDeltaEValueSuggestion = toolkit.createFormText(motorSectionComposite, false);
-		labelDeltaEValueSuggestion.setText(getHighlightedFormatedString(""), true, false);
+		labelDeltaEValueSuggestion = toolkit.createLabel(motorSectionComposite, "", SWT.NONE);
+		labelDeltaEValueSuggestion.setFont(boldFont);
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		labelDeltaEValueSuggestion.setLayoutData(gridData);
 
@@ -639,8 +690,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		gridData.horizontalSpan = 3;
 		lblDeltaE.setLayoutData(gridData);
 
-		labelDeltaEValue = toolkit.createFormText(motorSectionComposite, false);
-		labelDeltaEValue.setText(getHighlightedFormatedString(""), true, false);
+		labelDeltaEValue = toolkit.createLabel(motorSectionComposite, "", SWT.NONE);
+		labelDeltaEValue.setFont(boldFont);
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		labelDeltaEValue.setLayoutData(gridData);
 
@@ -649,10 +700,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(motorSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		motorSection.setSeparatorControl(defaultSectionSeparator);
-	}
-
-	private static String getHighlightedFormatedString(String value) {
-		return String.format("<form><p><b>%s</b></p></form>", value);
 	}
 
 	private Label createScannableAndSuggestionLabel(Composite parent, ScannableSetup scannableSetup) {
@@ -776,13 +823,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 
 			if (results.getEnergyBandwidth() != null) {
-				String value1 = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getEnergyBandwidth().intValue())));
-				labelDeltaEValueSuggestion.setText(value1, true, false);
+				String value1 = UnitSetup.EV.addUnitSuffix(Integer.toString(results.getEnergyBandwidth().intValue()));
+				labelDeltaEValueSuggestion.setText(value1);
 			}
 			if (results.getReadBackEnergyBandwidth() != null) {
-				String value2 = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getReadBackEnergyBandwidth().intValue())));
-				labelDeltaEValue.setText(value2, true, false);
+				String value2 = UnitSetup.EV.addUnitSuffix(Integer.toString(results.getReadBackEnergyBandwidth().intValue()));
+				labelDeltaEValue.setText(value2);
 			}
+			labelPowerFromSuggestedValue.setText(getPowerLabel(true));
 		});
 	}
 
