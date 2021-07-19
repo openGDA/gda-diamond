@@ -49,6 +49,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.springframework.context.ApplicationListener;
@@ -240,7 +241,7 @@ public class DensityCompositeFactory implements DiffractionCompositeInterface {
 	private ApplicationListener<ScanningAcquisitionChangeEvent> listenToScanningAcquisitionChanges = new ApplicationListener<ScanningAcquisitionChangeEvent>() {
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-				updatePoints(0);
+			Display.getDefault().asyncExec(() -> updatePoints(0));
 		}
 	};
 

@@ -40,6 +40,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
@@ -202,8 +203,10 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 			= new ApplicationListener<ScanningAcquisitionChangeEvent>() {
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-			initialiseElements();
-			scanPointListenToMutatorSelection();
+			Display.getDefault().asyncExec(() -> {
+				initialiseElements();
+				scanPointListenToMutatorSelection();
+			});
 		}
 	};
 
