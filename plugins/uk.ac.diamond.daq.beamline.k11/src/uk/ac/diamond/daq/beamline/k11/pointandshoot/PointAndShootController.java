@@ -206,7 +206,7 @@ public class PointAndShootController {
 		 */
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-			if (armed && matches(event.getScanningAcquisition())) {
+			if (armed) {
 				latch.countDown();
 				armed = false;
 			}

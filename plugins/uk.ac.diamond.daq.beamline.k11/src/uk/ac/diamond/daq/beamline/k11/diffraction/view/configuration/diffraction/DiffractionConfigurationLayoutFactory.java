@@ -159,8 +159,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		createElements(mainComposite, SWT.NONE);
 		loadElements();
 
-		SpringApplicationContextFacade.publishEvent(
-				new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+		SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
 		standardMarginHeight(mainComposite.getLayout());
 		standardMarginWidth(mainComposite.getLayout());
 
@@ -380,8 +379,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		public void traceAdded(TraceEvent evt) {
 			super.traceAdded(evt);
 			if (templateHelper.updateScannableTracksDocument()) {
-				SpringApplicationContextFacade.publishEvent(
-						new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+				SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
 			}
 		}
 	};
@@ -411,8 +409,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	private ApplicationListener<AcquisitionConfigurationResourceLoadEvent> listenToScanningAcquisitionChanges = new ApplicationListener<AcquisitionConfigurationResourceLoadEvent>() {
 		@Override
 		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
-			SpringApplicationContextFacade.publishEvent(
-					new ScanningAcquisitionChangeEvent(this, getScanningAcquisition()));
+			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
 		}
 	};
 
