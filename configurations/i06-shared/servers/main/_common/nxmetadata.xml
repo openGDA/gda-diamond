@@ -187,7 +187,7 @@
 		<property name="fluxScannableName" value="ds" />
 	</bean>
 	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
-	 	<property name="name" value="user"/>
+	 	<property name="name" value="user01"/>
 		<!-- Note: The user name is retrieved from the baton holder -->
 	</bean>
 

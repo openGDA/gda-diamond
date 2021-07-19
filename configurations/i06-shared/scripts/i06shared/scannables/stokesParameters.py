@@ -19,7 +19,7 @@ class StokesParameters(ScannableMotionBase):
         '''
         Constructor
         @param pol: the polarisation scannable
-        @param laa:  the angle in Linear Arbitrary 'la' mode 
+        @param laa:  the angle in Linear Arbitrary 'la' mode
         '''
         self.setName(name)
         self.setInputNames([])
@@ -30,10 +30,16 @@ class StokesParameters(ScannableMotionBase):
     def getPosition(self):
         pol = str(self.pol.getPosition())
         if pol == 'la' :
-            angle = float(self.laa.getPosition())
-            S1 = round((math.cos(angle*math.pi/180.0))**2-(math.sin(angle*math.pi/180.0))**2,3)
-            S2 = round(2*math.cos(angle*math.pi/180.0)*math.sin(angle*math.pi/180.0),3)
-            return [1.000, S1, S2, 0.000]
+            try:
+                angle = float(self.laa.getPosition())
+                S1 = round((math.cos(angle*math.pi/180.0))**2-(math.sin(angle*math.pi/180.0))**2,3)
+                S2 = round(2*math.cos(angle*math.pi/180.0)*math.sin(angle*math.pi/180.0),3)
+                return [1.000, S1, S2, 0.000]
+            except RuntimeError as e:
+                if hasattr(e, 'message'):
+                    return e.message
+                else:
+                    return "Problem encountered while get the linear Arbitrary Angle in current source mode."
         else:
             return POLPARISATION_DICT[pol]
         
@@ -42,5 +48,9 @@ class StokesParameters(ScannableMotionBase):
             
     def isBusy(self):
         return False
+     
+    def toFormattedString(self):
+        return "%s : %s" % (self.getName(), self.getPosition())
     
+           
         
