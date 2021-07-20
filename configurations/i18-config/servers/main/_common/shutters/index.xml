@@ -6,5 +6,6 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/shutters/port_shutter.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/shutters/sample_shutter.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/shutters/experiment_shutter.xml" />
 	
 </beans>

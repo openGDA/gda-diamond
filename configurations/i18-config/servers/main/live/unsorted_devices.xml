@@ -22,6 +22,16 @@
 	<bean id="fe_absorber" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE18I-RS-ABSB-01:STA" />
 	</bean>
+	
+	<!-- Ion chamber readings -->
+	
+	<bean id="ion_chamber1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-EA-IAMP-07:I1F" />
+	</bean>
+	
+	<bean id="ion_chamber2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL18I-EA-IAMP-07:I2F" />
+	</bean>
 
 	<!-- *************************** -->
 	<!-- *** EPICS MOTOR SECTION *** -->

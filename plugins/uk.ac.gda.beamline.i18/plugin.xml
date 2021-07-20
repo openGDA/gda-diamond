@@ -115,6 +115,13 @@
             name="Processing Queue View"
             restorable="true">
       </view>
+       <view
+            allowMultiple="true"
+            class="uk.ac.gda.views.status.ServerStatusView"
+            id="uk.ac.gda.views.status.serverStatusView"
+            name="Beam readiness"
+            restorable="true">
+      </view>
    </extension>
 
    <extension
@@ -209,6 +216,13 @@
                ratio="0.5f"
                relationship="right"
                relative="uk.ac.gda.beamline.i18.cameraView"
+               moveable="false"
+               closeable="false" />
+         <view
+               id="uk.ac.gda.views.status.serverStatusView"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="uk.ac.gda.client.livecontrol.LiveControlsView"
                moveable="false"
                closeable="false" />
       </perspectiveExtension>

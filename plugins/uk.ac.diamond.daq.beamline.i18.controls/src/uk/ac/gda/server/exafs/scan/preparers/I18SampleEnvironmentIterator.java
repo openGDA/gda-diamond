@@ -27,25 +27,20 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import uk.ac.diamond.daq.server.rcpcontroller.RCPController;
-import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.exafs.i18.SampleStageParameters;
-import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 
 public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 	private static final Logger logger = LoggerFactory.getLogger(I18SampleEnvironmentIterator.class);
 
-	private final RCPController rcpController;
-	private final I18SampleParameters parameters;
-	private final IScanParameters scanParameters;
+	private static final String SWITCH_TO_PLOTTING_PERSPECTIVE_ON_SCAN_START = "switch.to.plotting.on.scan.start";
 
-	public I18SampleEnvironmentIterator(IScanParameters scanParameters, I18SampleParameters parameters, RCPController rcpController) {
-		this.scanParameters = scanParameters;
+	private final I18SampleParameters parameters;
+
+	public I18SampleEnvironmentIterator(I18SampleParameters parameters) {
 		this.parameters = parameters;
-		this.rcpController = rcpController;
 	}
 
 	@Override
@@ -56,29 +51,23 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	@Override
 	public void next() throws DeviceException, InterruptedException {
 
-		if (scanParameters instanceof MicroFocusScanParameters) {
-			rcpController.openPerspective("uk.ac.gda.microfocus.ui.MicroFocusPerspective");
-		} else {
-			rcpController.openPerspective("uk.ac.gda.beamline.i18.perspective.plotting");
+		SampleStageParameters stage = parameters.getSampleStageParameters();
 
-			SampleStageParameters stage = parameters.getSampleStageParameters();
+		Scannable x = Finder.find(stage.getXName());
+		Scannable y = Finder.find(stage.getYName());
+		Scannable z = Finder.find(stage.getZName());
 
-			Scannable x = Finder.find(stage.getXName());
-			Scannable y = Finder.find(stage.getYName());
-			Scannable z = Finder.find(stage.getZName());
+		try {
+			logMove(stage.getXName(), stage.getX());
+			x.moveTo(stage.getX());
 
-			try {
-				logMove(stage.getXName(), stage.getX());
-				x.moveTo(stage.getX());
+			logMove(stage.getYName(), stage.getY());
+			y.moveTo(stage.getY());
 
-				logMove(stage.getYName(), stage.getY());
-				y.moveTo(stage.getY());
-
-				logMove(stage.getZName(), stage.getZ());
-				z.moveTo(stage.getZ());
-			} catch (DeviceException e) {
-				logger.error("Error moving stage", e);
-			}
+			logMove(stage.getZName(), stage.getZ());
+			z.moveTo(stage.getZ());
+		} catch (DeviceException e) {
+			logger.error("Error moving stage", e);
 		}
 
 		parameters.getAttenuators().forEach(bean -> {

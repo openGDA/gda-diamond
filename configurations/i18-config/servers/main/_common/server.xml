@@ -30,6 +30,8 @@
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/unsorted_devices.xml" />
 	<import resource="unsorted_scannables.xml" />
+	
+	<import resource="beam_readiness.xml" />
 
 	<!-- Need to import core.xml last so all other objects are configured before the Jython server -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />

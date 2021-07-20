@@ -21,7 +21,7 @@ package uk.ac.gda.server.exafs.scan.preparers;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.After;
@@ -29,13 +29,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gda.device.EnumPositioner;
+import gda.device.Scannable;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
-import uk.ac.diamond.daq.server.rcpcontroller.RCPController;
 import uk.ac.gda.beans.exafs.i18.AttenuatorParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.exafs.i18.SampleStageParameters;
@@ -43,11 +43,16 @@ import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 
 public class I18SamplePreparerTest {
 
-	private RCPController rcpController;
-	private ScannableMotor mocked_sc_MicroFocusSampleX;
-	private ScannableMotor mocked_sc_MicroFocusSampleY;
-	private ScannableMotor mocked_sc_sample_z;
-	private ScannableMotor mocked_kb_vfm_x;
+	private static final String TABLE_X_NAME = "tableX";
+	private static final String TABLE_Y_NAME = "tableY";
+	private static final String TABLE_Z_NAME = "tableZ";
+	private static final String VHM_NAME = "kbVhmX";
+	private static final String D7A_NAME = "d7a";
+	private static final String D7B_NAME = "d7b";
+	private ScannableMotor tableX;
+	private ScannableMotor tableY;
+	private ScannableMotor tableZ;
+	private ScannableMotor kbVfmX;
 	private EnumPositioner d7a;
 	private EnumPositioner d7b;
 	private I18SamplePreparer preparer;
@@ -58,32 +63,20 @@ public class I18SamplePreparerTest {
 		JythonServerFacade jythonserverfacade = mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
 
-		rcpController = mock(RCPController.class);
-		when(rcpController.getName()).thenReturn("rcpController");
+		Factory factory = mock(Factory.class);
 
-		mocked_sc_MicroFocusSampleX = createMockScannableMotor("mocked_sc_MicroFocusSampleX");
-		mocked_sc_MicroFocusSampleY = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
-		mocked_sc_sample_z = createMockScannableMotor("mocked_sc_sample_z");
+		tableX = mockAndPutInFinder(ScannableMotor.class, TABLE_X_NAME, factory);
+		tableY = mockAndPutInFinder(ScannableMotor.class, TABLE_Y_NAME, factory);
+		tableZ = mockAndPutInFinder(ScannableMotor.class, TABLE_Z_NAME, factory);
 
-		d7a = mock(EnumPositioner.class);
-		when(d7a.getName()).thenReturn("d7a");
-		d7b = mock(EnumPositioner.class);
-		when(d7b.getName()).thenReturn("d7b");
+		d7a = mockAndPutInFinder(EnumPositioner.class, D7A_NAME, factory);
+		d7b = mockAndPutInFinder(EnumPositioner.class, D7B_NAME, factory);
 
-		mocked_kb_vfm_x = createMockScannableMotor("mocked_kb_vfm_x");
+		kbVfmX = mockAndPutInFinder(ScannableMotor.class, VHM_NAME, factory);
 
-		// put mocks in finder
-		Factory mocksFactory = mock(Factory.class);
-		when(mocksFactory.getFindable("mocked_sc_MicroFocusSampleX")).thenReturn(mocked_sc_MicroFocusSampleX);
-		when(mocksFactory.getFindable("mocked_sc_MicroFocusSampleY")).thenReturn(mocked_sc_MicroFocusSampleY);
-		when(mocksFactory.getFindable("mocked_sc_sample_z")).thenReturn(mocked_sc_sample_z);
-		when(mocksFactory.getFindable("d7a")).thenReturn(d7a);
-		when(mocksFactory.getFindable("d7b")).thenReturn(d7b);
-		when(mocksFactory.getFindable("mocked_kb_vfm_x")).thenReturn(mocked_kb_vfm_x);
+		Finder.addFactory(factory);
 
-		Finder.addFactory(mocksFactory);
-
-		preparer = new I18SamplePreparer(rcpController);
+		preparer = new I18SamplePreparer();
 	}
 
 	@After
@@ -91,10 +84,11 @@ public class I18SamplePreparerTest {
 		Finder.removeAllFactories();
 	}
 
-	private ScannableMotor createMockScannableMotor(String string) {
-		ScannableMotor newMock = mock(ScannableMotor.class);
-		when(newMock.getName()).thenReturn(string);
-		return newMock;
+	private <T extends Scannable> T mockAndPutInFinder(Class<T> scannableClass, String scannableName, Factory finderFactory) throws FactoryException {
+		T mock = mock(scannableClass);
+		when(mock.getName()).thenReturn(scannableName);
+		when(finderFactory.getFindable(scannableName)).thenReturn(mock);
+		return mock;
 	}
 
 	@Test
@@ -106,16 +100,16 @@ public class I18SamplePreparerTest {
 		sampleStageParameters.setX(1.);
 		sampleStageParameters.setY(2.);
 		sampleStageParameters.setZ(3.);
-		sampleStageParameters.setXName("mocked_sc_MicroFocusSampleX");
-		sampleStageParameters.setYName("mocked_sc_MicroFocusSampleY");
-		sampleStageParameters.setZName("mocked_sc_sample_z");
+		sampleStageParameters.setXName(TABLE_X_NAME);
+		sampleStageParameters.setYName(TABLE_Y_NAME);
+		sampleStageParameters.setZName(TABLE_Z_NAME);
 
 		AttenuatorParameters atn1Parameters = new AttenuatorParameters();
-		atn1Parameters.setName("d7a");
+		atn1Parameters.setName(D7A_NAME);
 		atn1Parameters.setSelectedPosition("first");
 
 		AttenuatorParameters atn2Parameters = new AttenuatorParameters();
-		atn2Parameters.setName("d7b");
+		atn2Parameters.setName(D7B_NAME);
 		atn2Parameters.setSelectedPosition("second");
 
 		I18SampleParameters parameters = new I18SampleParameters();
@@ -135,13 +129,12 @@ public class I18SamplePreparerTest {
 		assertEquals(description1, iterator.getNextSampleDescriptions().get(0));
 
 		iterator.next();
-		verify(mocked_sc_MicroFocusSampleX).moveTo(1.);
-		verify(mocked_sc_MicroFocusSampleY).moveTo(2.);
-		verify(mocked_sc_sample_z).moveTo(3.);
+		verify(tableX).moveTo(1.);
+		verify(tableY).moveTo(2.);
+		verify(tableZ).moveTo(3.);
 		verify(d7a).moveTo("first");
 		verify(d7b).moveTo("second");
-		verifyZeroInteractions(mocked_kb_vfm_x);
-
+		verifyNoInteractions(kbVfmX);
 	}
 
 }

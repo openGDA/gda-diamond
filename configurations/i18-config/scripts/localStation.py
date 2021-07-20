@@ -79,7 +79,7 @@ sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedV
 sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
 detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3,raster_FFI0_xspress3) # @UndefinedVariable
 
-samplePreparer   = I18SamplePreparer(rcpController) # @UndefinedVariable
+samplePreparer   = I18SamplePreparer() # @UndefinedVariable
 outputPreparer   = I18OutputPreparer(datawriterconfig, Finder.find("metashop"))
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter) # @UndefinedVariable
 
