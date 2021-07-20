@@ -28,14 +28,6 @@
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
-	<bean id="t1tc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="alpha" />
-		<property name="scannableName" value="alpha" />
-		<property name="group" value="Table 1" />
-		<property name="increment" value="10" />
-		<property name="incrementTextWidth" value="60" />
-	</bean>
-
 	<bean id="energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="energy" />
 		<property name="scannableName" value="energy" />
@@ -58,7 +50,6 @@
 				<ref bean="t1x_control" />
 				<ref bean="t1y_control" />
 				<ref bean="t1z_control" />
-				<ref bean="t1tc_control" />
 				<ref bean="zoom_control" />
 			</list>
 		</property>
