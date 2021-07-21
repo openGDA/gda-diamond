@@ -29,12 +29,9 @@ http://www.opengda.org
 -Dgda.config=${project_loc:i09-config}
 -Dgda.propertiesFile=${project_loc:i09-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-config}/properties/dummy/JCALibrary.properties
--Dgda.logs.dir=/scratch/logs
--Dgda.data=/scratch/2018
--Dgda.gui.beans.xml=${project_loc:i09-config}/clients/main/dummy/client.xml
--Dgda.var=/scratch/gda_versions/var
 -Dgda.mode=dummy
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.gui.beans.xml=${project_loc:i09-config}/clients/main/dummy/client.xml
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
@@ -60,7 +57,6 @@ http://www.opengda.org
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
@@ -212,12 +208,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="org.eclipse.dawnsci.json.test" fragment="true"/>
       <plugin id="org.eclipse.dawnsci.nexus"/>
       <plugin id="org.eclipse.dawnsci.nexus.template"/>
-      <plugin id="org.eclipse.dawnsci.nexus.test"/>
+      <plugin id="org.eclipse.dawnsci.nexus.test" fragment="true"/>
       <plugin id="org.eclipse.dawnsci.plotting.api"/>
       <plugin id="org.eclipse.dawnsci.remotedataset.client"/>
       <plugin id="org.eclipse.dawnsci.remotedataset.core"/>
       <plugin id="org.eclipse.dawnsci.remotedataset.server"/>
-      <plugin id="org.eclipse.dawnsci.remotedataset.test"/>
+      <plugin id="org.eclipse.dawnsci.remotedataset.test" fragment="true"/>
       <plugin id="org.eclipse.dawnsci.slicing.api"/>
       <plugin id="org.eclipse.dawnsci.xdi"/>
       <plugin id="org.eclipse.debug.core"/>
@@ -319,7 +315,7 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="org.eclipse.scanning.points"/>
       <plugin id="org.eclipse.scanning.sequencer"/>
       <plugin id="org.eclipse.scanning.server"/>
-      <plugin id="org.eclipse.scanning.test"/>
+      <plugin id="org.eclipse.scanning.test" fragment="true"/>
       <plugin id="org.eclipse.search"/>
       <plugin id="org.eclipse.swt"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
@@ -389,7 +385,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="uk.ac.diamond.com.jidesoft.docking"/>
       <plugin id="uk.ac.diamond.com.mindprod.ledatastream"/>
       <plugin id="uk.ac.diamond.connect"/>
-      <plugin id="uk.ac.diamond.daq.server.rcpcontroller"/>
       <plugin id="uk.ac.diamond.daq.guigenerator"/>
       <plugin id="uk.ac.diamond.daq.guigenerator.test" fragment="true"/>
       <plugin id="uk.ac.diamond.daq.jython.api"/>
@@ -397,6 +392,7 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="uk.ac.diamond.daq.msgbus.test" fragment="true"/>
       <plugin id="uk.ac.diamond.daq.persistence"/>
       <plugin id="uk.ac.diamond.daq.persistence.test" fragment="true"/>
+      <plugin id="uk.ac.diamond.daq.server.rcpcontroller"/>
       <plugin id="uk.ac.diamond.datamodel"/>
       <plugin id="uk.ac.diamond.dna"/>
       <plugin id="uk.ac.diamond.gnu.regexp"/>
@@ -448,8 +444,8 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="uk.ac.gda.dls.test" fragment="true"/>
       <plugin id="uk.ac.gda.epics"/>
       <plugin id="uk.ac.gda.epics.test" fragment="true"/>
-      <plugin id="uk.ac.gda.message.api"/>
       <plugin id="uk.ac.gda.logging.dependencies.fragment" fragment="true"/>
+      <plugin id="uk.ac.gda.message.api"/>
       <plugin id="uk.ac.gda.mx"/>
       <plugin id="uk.ac.gda.mx.api"/>
       <plugin id="uk.ac.gda.mx.ispyb"/>
