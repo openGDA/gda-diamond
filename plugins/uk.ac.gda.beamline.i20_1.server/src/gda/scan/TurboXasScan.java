@@ -202,7 +202,11 @@ public class TurboXasScan extends ContinuousScan {
 
 
 	private void collectMultipleSpectra() throws Exception {
-		setupTurboXasScannable();
+		TurboXasScannable turboXasScannable = setupTurboXasScannable();
+
+		// Configure the zebra
+		logger.info("Configuring zebra");
+		turboXasScannable.configureZebra();
 
 		// Prepare and arm the detectors (BufferedScalers, Xspress3) for readout of all spectra - all spectra for all positions.
 		prepareDetectors();
@@ -269,9 +273,6 @@ public class TurboXasScan extends ContinuousScan {
 		// Move turbo slit motor to initial position
 		moveToInitialPosition(turboXasScannable);
 
-		// Configure the zebra
-		turboXasScannable.configureZebra();
-
 		// Arm zebra
 		turboXasScannable.armZebra();
 
@@ -300,6 +301,7 @@ public class TurboXasScan extends ContinuousScan {
 		TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
 
 		// Create the trajectory scan profile
+		logger.info("Building trajectory scan");
 		turboXasScannable.prepareTrajectoryScan();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
@@ -312,6 +314,7 @@ public class TurboXasScan extends ContinuousScan {
 		long delay = (long)(1000*(timeToInitialPosition + timeToScanStart));
 		nexusTree.setStartTime(System.currentTimeMillis() + delay);
 
+		logger.info("Running trajectory scan");
 		turboXasScannable.executeTrajectoryScan();
 
 		if (controller.getExecuteStatus() == ExecuteStatus.FAILURE){
@@ -645,6 +648,30 @@ public class TurboXasScan extends ContinuousScan {
 
 	private class DetectorReadoutRunnable extends DetectorReadout {
 
+		@Override
+		public void run() {
+			// wait for the zebra(s) to capture something before starting main detector readout loop.
+			waitForZebra(numReadoutsPerSpectrum/2);
+			logger.info("Starting readout loop");
+			super.run();
+		}
+
+		/**
+		 * Wait for zebra to capture specified number of pulses
+		 * @param numPulses
+		 */
+		private void waitForZebra(int numPulses) {
+			try {
+				logger.info("Waiting for zebra to capture {} pulses before starting main readout loop", numPulses);
+				detectorFunctions.waitForCapturedZebraPulses(1, numPulses, spectrumEventTimeoutSecs);
+				logger.info("{} pulses captured on Zebra", detectorFunctions.getNumCapturedZebraPulses());
+			} catch (TimeoutException | DeviceException | IOException e) {
+				logger.error("Problem waiting for zebra to capture pulses.", e);
+			} catch(InterruptedException e) {
+				Thread.currentThread().interrupt();
+				logger.error("Thread interrupted waiting for zebra to capture pulses.");
+			}
+		}
 		@Override
 		public int getNumAvailableFrames() throws Exception {
 			return detectorFunctions.getNumAvailableFrames();
@@ -981,7 +1008,7 @@ public class TurboXasScan extends ContinuousScan {
 	private void moveShutter(String position) throws DeviceException, InterruptedException {
 		if (shutter.isPresent()) {
 			Scannable shutterScn = shutter.get();
-			logger.debug("Moving {} to {}", shutterScn.getName(), position);
+			logger.info("Moving {} to {}", shutterScn.getName(), position);
 			if (shutterScn.getPosition().equals(position)) {
 				logger.debug("{} is already in position", shutterScn.getName(), position);
 				return;
@@ -993,7 +1020,7 @@ public class TurboXasScan extends ContinuousScan {
 				logger.debug("Waiting for shutter to move to {} (currently {})", position, shutterScn.getPosition());
 				Thread.sleep(pollIntervalMillis);
 			}
-			logger.debug("Shutter move finished");
+			logger.info("Shutter move finished");
 		}
 	}
 

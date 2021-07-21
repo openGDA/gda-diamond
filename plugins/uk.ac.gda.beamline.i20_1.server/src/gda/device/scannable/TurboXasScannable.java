@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.configuration.properties.LocalProperties;
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
 import gda.device.trajectoryscancontroller.TrajectoryScanController;
@@ -69,6 +70,8 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	private Double rampDistance; /** Motor ramp distance when doing scan based on ContinuousParameters */
 	private Double maxMotorSpeed; /** Maximum motor speed when doing scan based on ContinuousParameters */
+
+	private int pollTime = LocalProperties.getAsInt(LocalProperties.GDA_SCANNABLEBASE_POLLTIME, 100);
 
 	public TurboXasScannable() {
 	}
@@ -473,7 +476,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 		// Wait while trajectory scan runs...
 		while (controller.getExecuteState() == ExecuteState.EXECUTING) {
-			Thread.sleep(500);
+			Thread.sleep(pollTime);
 		}
 
 		// Output some info on trajectory scan final execution state
