@@ -96,6 +96,68 @@
 		<property name="userUnits" value="deg" />
 		<property name="increment" value=" 0.0001" />
 	</bean>
+	
+	<!-- Shutters -->
+	<bean id="expt_shutter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Experiment Shutter" />
+		<property name="scannableName" value="expt_shutter_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="expt_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Experiment Shutter" />
+		<property name="scannableName" value="expt_shutter_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+		<bean id="fast_shutter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Fast Shutter" />
+		<property name="scannableName" value="fast_shutter_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="fast_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Fast Shutter" />
+		<property name="scannableName" value="fast_shutter_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+	
+	<!-- Valves -->
+	<bean id="valve_25_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 25" />
+		<property name="scannableName" value="valve_25_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="valve_25_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 25" />
+		<property name="scannableName" value="valve_25_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+		<bean id="valve_22_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 22" />
+		<property name="scannableName" value="valve_22_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="valve_22_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 22" />
+		<property name="scannableName" value="valve_22_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+	
+	
 
 	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -110,6 +172,14 @@
 				<ref bean="sm_y_axis"/>
 				<ref bean="sm_z_axis"/>
 				<ref bean="sm_rotate"/>
+				<ref bean="expt_shutter_control"/>
+				<ref bean="expt_shutter_status"/>
+				<ref bean="fast_shutter_control"/>
+				<ref bean="fast_shutter_status"/>
+				<ref bean="valve_25_control"/>
+				<ref bean="valve_25_status"/>
+				<ref bean="valve_22_control"/>
+				<ref bean="valve_22_status"/>
 			</list>
 		</property>
 	</bean>

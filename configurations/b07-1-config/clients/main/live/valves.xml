@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="valve_25_con" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-VA-VALVE-25:CON" />
+		<property name="readOnly" value="false"/>
+	</bean>
+	
+	<bean id="valve_25_sta" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-VA-VALVE-25:STA" />
+	</bean>
+	
+	<bean id="valve_22_con" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-VA-VALVE-22:CON" />
+		<property name="readOnly" value="false"/>
+	</bean>
+	
+	<bean id="valve_22_sta" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-VA-VALVE-22:STA" />
+	</bean>
+	
+</beans>
