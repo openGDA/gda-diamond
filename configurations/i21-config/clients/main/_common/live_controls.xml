@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
 	<!-- Ring Current & Insertion Device -->
 	<bean id="idgap_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Gap" />
@@ -250,6 +254,20 @@
 		<property name="horizontalLayout" value="true"/>
 	</bean>	
 
+	<bean id="uvw_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl">
+		<property name="displayName" value="" />
+		<property name="group" value="uvw" />
+		<property name="scannableName" value="uvw_wrapper" />
+		<property name="showStop" value="false"/>
+		<property name="userUnits">
+			<util:map>
+    			<entry key="u" value="mm" />
+    			<entry key="v" value="mm" />
+    			<entry key="w" value="mm" />
+			</util:map>
+		</property>
+	</bean>
+	
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -278,6 +296,7 @@
 				<ref bean="specl_control" />
 				<ref bean="specgamma_control" />
 				<ref bean="polarisergamma_control" />
+				<ref bean="uvw_control" />
 			</list>
 		</property>
 	</bean>
