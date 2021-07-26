@@ -18,7 +18,7 @@
         <detector>counterTimer01</detector>
     </detectorGroup>
 
-    <experimentType>Transmission</experimentType>    
+    <experimentType>Fluorescence</experimentType>    
     
     <transmission>
         <detectorType>transmission</detectorType>
