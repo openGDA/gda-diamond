@@ -42,8 +42,6 @@ import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
@@ -54,7 +52,7 @@ import org.springframework.context.ApplicationListener;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.DiffractionCompositeInterface;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.TemplateDataHelper;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.DensityCompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.RegionAndPathControllerUpdater;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator.MutatorsTemplateFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.AcquisitionTemplateTypeCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
@@ -80,7 +78,9 @@ import uk.ac.gda.core.tool.spring.AcquisitionFileContext;
 import uk.ac.gda.core.tool.spring.DiffractionContextFile;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.Reloadable;
+import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 import uk.ac.gda.ui.tool.processing.ProcessingRequestComposite;
 import uk.ac.gda.ui.tool.processing.context.ProcessingRequestContext;
 import uk.ac.gda.ui.tool.processing.keys.ProcessingRequestKeyFactory;
@@ -107,6 +107,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	private final AcquisitionController<ScanningAcquisition> controller;
 	private TemplateDataHelper templateHelper;
 	private RegionAndPathController rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
+	private RegionAndPathControllerUpdater rapUpdater;
 	private Consumer<RegionPathState> viewUpdater;
 
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable = new SelectObservableValue<>();
@@ -115,7 +116,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	private DiffractionCompositeInterface summaryCompositeFactory;
 
-	private final List<DiffractionCompositeInterface> components = new ArrayList<>();
+	private final List<CompositeFactory> components = new ArrayList<>();
 
 	private Composite mainComposite;
 
@@ -134,12 +135,15 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		smController.initialise();
 
 		stf = new AcquisitionTemplateTypeCompositeFactory(controller::getAcquisition, rapController);
-		DiffractionCompositeInterface dcf = new DensityCompositeFactory(controller::getAcquisition, rapController);
-		MutatorsTemplateFactory mcf = new MutatorsTemplateFactory(controller::getAcquisition, rapController, smController);
-		summaryCompositeFactory = new SummaryCompositeFactory(controller::getAcquisition);
+
+		rapUpdater = new RegionAndPathControllerUpdater(controller::getAcquisition, rapController);
+		//var gpc = new GridPointsCompositeFactory(controller::getAcquisition);
+
+		var mcf = new MutatorsTemplateFactory(controller::getAcquisition, rapController, smController);
+		summaryCompositeFactory = new SummaryCompositeFactory();
 
 		components.add(stf);
-		components.add(dcf);
+		//components.add(gpc);
 		components.add(mcf);
 	}
 
@@ -248,31 +252,31 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	private void createConfiguration(Composite parent, int labelStyle) {
 		int columns = components.size();
-		Composite externalContainer = createClientCompositeWithGridLayout(parent, labelStyle, columns);
+		var externalContainer = createClientCompositeWithGridLayout(parent, labelStyle, columns);
 		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).applyTo(externalContainer);
 
-		Label label = createClientLabel(externalContainer, labelStyle, ClientMessages.NAME);
+		var label = createClientLabel(externalContainer, labelStyle, ClientMessages.NAME);
 		createClientGridDataFactory().applyTo(label);
 
 		name = createClientText(externalContainer, labelStyle, ClientMessages.NAME_TOOLTIP);
 		createClientGridDataFactory().span(columns - 1,1).applyTo(name);
 		name.addModifyListener(modifyNameListener);
 
-		components.forEach(c -> {
-				Composite composite = c.createComposite(externalContainer, labelStyle);
-				standardMarginWidth(composite.getLayout());
-		});
+		components.stream()
+			.map(c -> c.createComposite(externalContainer, labelStyle))
+			.map(Composite::getLayout)
+			.forEach(ClientSWTElements::standardMarginWidth);
 
-		Composite summary = summaryCompositeFactory.createComposite(externalContainer, labelStyle);
+		var summary = summaryCompositeFactory.createComposite(externalContainer, labelStyle);
 		createClientGridDataFactory().span(columns,1).applyTo(summary);
 	}
 
 	private void createSummary(Composite parent, int labelStyle) {
 		if (summaryCompositeFactory == null)
 			return;
-		Group summaryContainer = createClientGroup(parent, SWT.NONE, 1, ClientMessages.SUMMARY);
+		var summaryContainer = createClientGroup(parent, SWT.NONE, 1, ClientMessages.SUMMARY);
 		createClientGridDataFactory().applyTo(summaryContainer);
-		Composite summaryContent = summaryCompositeFactory.createComposite(summaryContainer, labelStyle);
+		var summaryContent = summaryCompositeFactory.createComposite(summaryContainer, labelStyle);
 		createClientGridDataFactory().applyTo(summaryContainer);
 		standardMarginHeight(summaryContent.getLayout());
 		standardMarginWidth(summaryContent.getLayout());
@@ -346,19 +350,33 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	}
 
 	private void createCalibration(Composite parent, int labelStyle) {
-		Group calibrationContainer = createClientGroup(parent, SWT.NONE, 1, ClientMessages.PROCESS_REQUESTS);
+		var calibrationContainer = createClientGroup(parent, SWT.NONE, 1, ClientMessages.PROCESS_REQUESTS);
 		createClientGridDataFactory().applyTo(calibrationContainer);
 
-		ProcessingRequestComposite processingRequest = new ProcessingRequestComposite(getProcessingRequestContext());
+		var processingRequest = new ProcessingRequestComposite(getProcessingRequestContext());
 		processingRequest.createComposite(calibrationContainer, labelStyle);
 	}
 
 	private void loadElements() {
-		components.forEach(DiffractionCompositeInterface::initialiseElements);
-		summaryCompositeFactory.initialiseElements();
-		components.forEach(DiffractionCompositeInterface::initializeBinding);
-		summaryCompositeFactory.initializeBinding();
-		name.setText(getScanningAcquisition().getName());
+		initializeElements();
+		initializeBinding();
+		getScanningAcquisitionTemporaryHelper().getScanningAcquisition()
+			.map(ScanningAcquisition::getName)
+			.ifPresent(name::setText);
+	}
+
+	private void initializeElements() {
+		components.stream()
+			.filter(DiffractionCompositeInterface.class::isInstance)
+			.map(DiffractionCompositeInterface.class::cast)
+			.forEach(DiffractionCompositeInterface::initialiseElements);
+	}
+
+	private void initializeBinding() {
+		components.stream()
+			.filter(DiffractionCompositeInterface.class::isInstance)
+			.map(DiffractionCompositeInterface.class::cast)
+			.forEach(DiffractionCompositeInterface::initializeBinding);
 	}
 
 	/**
@@ -395,8 +413,15 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	private void updateScanPathBindings() {
 		IScanPointGeneratorModel scanPointGeneratorModel = rapController.getScanPathListAndLinkPath().get(0);
 		rapController.changePath(scanPointGeneratorModel);
-		components.forEach(DiffractionCompositeInterface::updateScanPointBindings);
+		updateScanPointBindings();
 		summaryCompositeFactory.updateScanPointBindings();
+	}
+
+	private void updateScanPointBindings() {
+		components.stream()
+			.filter(DiffractionCompositeInterface.class::isInstance)
+			.map(DiffractionCompositeInterface.class::cast)
+			.forEach(DiffractionCompositeInterface::updateScanPointBindings);
 	}
 
 	private Optional<IPlottingSystem<Composite>> getMap() {
@@ -414,16 +439,15 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	};
 
 	// ------------ UTILS ----
-
-	private ScanningAcquisition getScanningAcquisition() {
-		return controller.getAcquisition();
-	}
-
 	private AcquisitionFileContext getClientContext() {
 		return SpringApplicationContextFacade.getBean(AcquisitionFileContext.class);
 	}
 
 	private ProcessingRequestKeyFactory getProcessingRequestKeyFactory() {
 		return SpringApplicationContextFacade.getBean(ProcessingRequestKeyFactory.class);
+	}
+
+	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
+		return SpringApplicationContextFacade.getBean(ScanningAcquisitionTemporaryHelper.class);
 	}
 }
