@@ -29,6 +29,12 @@
 							<property name="scannableName" value="sample_temperature_monitor" />
 							<property name="textWidth" value="50" />
 						</bean>
+						<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+							<property name="displayName" value="Peak Intensity" />
+							<property name="group" value="Temperature Controls" />
+							<property name="scannableName" value="analyser_max" />
+							<property name="textWidth" value="50" />
+						</bean>
 					</list>
 				</property>
 			</bean>

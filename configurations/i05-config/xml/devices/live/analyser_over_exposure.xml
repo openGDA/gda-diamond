@@ -4,7 +4,7 @@
 
 	<bean class="uk.ac.gda.devices.vgscienta.VGScientaOverExposureProtector">
 		<!-- PVs -->
-		<property name="basePv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
+		<property name="basePv" value="BL05I-EA-DET-02:LIVE:STAT:MaxValue_RBV" />
 		<!-- Delay time (ms) -->
 		<property name="delayTime" value="5000" />
 		<!-- Close the shutter and stop the scan, if over exposure is detected -->
@@ -14,7 +14,7 @@
 	</bean>
 
 	<bean id="analyser_max" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
+		<property name="pvName" value="BL05I-EA-DET-02:LIVE:STAT:MaxValue_RBV" />
 		<property name="unit" value="Peak Intensity" />
 	</bean>
 
