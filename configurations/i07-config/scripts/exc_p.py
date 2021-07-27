@@ -26,7 +26,7 @@ class ExcPvaSnapper(DetectorSnapper, DetectorBase):
         while self.pvaPlugin.getPluginBase().getArrayCounter_RBV() != 1:
             sleep(0.1)
         imageData = self.pvaPlugin.getImageDataset()
-        SDAPlotter.imagePlot("Area Detector", imageData)
+        SDAPlotter.imagePlot("Excalibur", imageData)
         # Acquire
         # Get image
         self.currentStats = self.statsProc.process(self.getName(), "", imageData)
