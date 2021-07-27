@@ -108,7 +108,7 @@
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
 		id="pilatus2_roistats">
-		<property name="plotName" value="Area Detector" />
+		<property name="plotName" value="Pilatus 2" />
 		<property name="statsProcessor" ref="pilatus2_stats" />
 	</bean>
 
@@ -127,7 +127,7 @@
 
 	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
 		id="pilatus2_plotter">
-		<property name="plotName" value="Area Detector" />
+		<property name="plotName" value="Pilatus 2" />
 	</bean>
 
 

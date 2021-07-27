@@ -14,7 +14,7 @@ print "Create exc as the base detector for Excalibur 1M"
 print "WARNING This script is deprecated"
 print "Old scanning Excalibur scans now use objects implemented in Java and configured in Spring"
 
-exc = ExcaliburOdinI07("exc", "Area Detector", "excalibur");
+exc = ExcaliburOdinI07("exc", "Excalibur", "excalibur");
 exc.setAlive(False);
 exc.addShutter('fs')
 exc.setFile("exc/");
@@ -23,7 +23,7 @@ exc.setFile("exc/");
 #print "             Current image prefix: ",    pil1.getFilePrefix();
 
 print "Usage: use excstats to find the key statistics values such as minimum, maximum  with locations, sum, mean and standard deviation"
-excstats = AnalyserDetectorClass("excstats", exc, [MinMaxSumMeanDeviationProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
+excstats = AnalyserDetectorClass("excstats", exc, [MinMaxSumMeanDeviationProcessor()], panelName="Excalibur", iFileLoader=PilatusTiffLoader);
 excstats.setAlive(True);
 excstats.readoutNexus = True
 
@@ -34,7 +34,7 @@ print "             excroi.getRoi(starX, starY, width, height) to get current RO
 print "             excroi.createMask(low, high) to mask out pixels out of low/high region"
 print "             excroi.setAlive(True) to enable the data display on GUI panel"
 print "             excroi.setAlive(False) to stop data update on GUI panel"
-excroi = AnalyserWithRectangularROIClass("excroi", exc, [MinMaxSumMeanDeviationProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
+excroi = AnalyserWithRectangularROIClass("excroi", exc, [MinMaxSumMeanDeviationProcessor()], panelName="Excalibur", iFileLoader=PilatusTiffLoader);
 excroi.setAlive(True);
 excroi.readoutNexus = True
 

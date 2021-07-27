@@ -5,8 +5,18 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 
-	<bean id="MalcRoiProc" class="uk.ac.gda.analysis.mscan.RoiProc" />
-	<bean id="MalcPlotProc" class="uk.ac.gda.analysis.mscan.PlotProc" />
+	<bean id="MalcRoiProcExc" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="plotName" value="Excalibur" />
+	</bean>
+		<bean id="MalcRoiProcPil" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="plotName" value="Pilatus 2" />
+	</bean>
+		<bean id="MalcPlotProcExc" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="plotName" value="Excalibur" />
+	</bean>
+		<bean id="MalcPlotProcPil" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="plotName" value="Pilatus 2" />
+	</bean>
 
 
 	<!-- scan 1 -->
@@ -28,8 +38,8 @@
 		<property name="detUidEntry" value="/uid" />
 		<property name="processors">
 			<list>
-				<ref bean="MalcRoiProc" />
-				<ref bean="MalcPlotProc" />
+				<ref bean="MalcRoiProcExc" />
+				<ref bean="MalcPlotProcExc" />
 			</list>
 		</property>
 		
@@ -54,8 +64,8 @@
 		<property name="detUidEntry" value="/entry/NDAttributes/NDArrayUniqueId" />
 		<property name="processors">
 			<list>
-				<ref bean="MalcRoiProc" />
-				<ref bean="MalcPlotProc" />
+				<ref bean="MalcRoiProcPil" />
+				<ref bean="MalcPlotProcPil" />
 			</list>
 		</property>
 	</bean>

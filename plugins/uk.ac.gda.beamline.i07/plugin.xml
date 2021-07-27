@@ -73,6 +73,38 @@
                showTitle="true"
                visible="true">
          </view>
+         <view
+               closeable="true"
+               id="uk.ac.gda.sixd.views.Pilatus1"
+               minimized="false"
+               moveable="true"
+               relationship="stack"
+               relative="uk.ac.gda.sixd.views.AreaDetectorView">
+         </view>
+         <view
+               closeable="true"
+               id="uk.ac.gda.sixd.views.Pilatus2"
+               minimized="false"
+               moveable="true"
+               relationship="stack"
+               relative="uk.ac.gda.sixd.views.AreaDetectorView">
+         </view>
+         <view
+               closeable="true"
+               id="uk.ac.gda.sixd.views.Pilatus3"
+               minimized="false"
+               moveable="true"
+               relationship="stack"
+               relative="uk.ac.gda.sixd.views.AreaDetectorView">
+         </view>
+         <view
+               closeable="true"
+               id="uk.ac.gda.sixd.views.Excalibur"
+               minimized="false"
+               moveable="true"
+               relationship="stack"
+               relative="uk.ac.gda.sixd.views.AreaDetectorView">
+         </view>
 <!--
          <view
                id="uk.ac.gda.sixd.views.ImageView"

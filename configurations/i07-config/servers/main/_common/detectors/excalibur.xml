@@ -80,7 +80,7 @@
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
 		id="excalibur_roistats">
-		<property name="plotName" value="Area Detector" />
+		<property name="plotName" value="Excalibur" />
 		<property name="statsProcessor" ref="excalibur_stats" />
 	</bean>
 
@@ -99,7 +99,7 @@
 
 	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
 		id="excalibur_plotter">
-		<property name="plotName" value="Area Detector" />
+		<property name="plotName" value="Excalibur" />
 	</bean>
 	
 
