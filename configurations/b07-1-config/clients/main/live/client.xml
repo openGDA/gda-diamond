@@ -6,4 +6,6 @@
 	<import resource="../_common/client.xml"/>
 	<import resource="camera_controls.xml"/>
 	<import resource="stream_views.xml"/>
+	<import resource="shutters.xml"/>
+	<import resource="valves.xml"/>
 </beans>
