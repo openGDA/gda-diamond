@@ -16,8 +16,8 @@
 		<property name="prelensValve" ref="analyser_prelens_valve" />
 		<property name="experimentalShutter" ref="expt_shutter" />
 		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->
-		<!-- detectorEnergyWidth can be found by (analyser.endEnergy - analyser.startEnergy)/analyser.passEnergy -->
-		<property name="detectorEnergyWidth" value="0.06531314413818123" />
+		<!-- Real value for detectorEnergyWidth will be read from EPICS. This will be used if EPICS can't be accessed. -->
+		<property name="detectorEnergyWidth" value="0.13" />
 		<property name="alignmentTimeout" value="475.0" />
 		<property name="configurablePhotonEnergyScannable">
 			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
