@@ -1,8 +1,9 @@
 from math import sin, cos
 
 from gda.device.scannable.scannablegroup import ScannableGroup, ScannableMotionWithScannableFieldsBase
-from gdaserver import  x, y,z, chi, phi
-from diffcalc.util import TORAD 
+from gdaserver import  x, y,z, chi, phi  # @UnresolvedImport
+from diffcalc.util import TORAD  # @UnresolvedImport
+from gda.observable import IObserver
 
 # Manipulator position where all rotation axes
 # intersect in a single point in the middle of the beam
@@ -11,12 +12,11 @@ from diffcalc.util import TORAD
 AXES_ZERO = (6.12, -0.3141, 0.9214)
 
 
-class ToolpointMotion(ScannableMotionWithScannableFieldsBase):
+class ToolpointMotion(ScannableMotionWithScannableFieldsBase, IObserver):
     '''Define virtual manipulator translations as of the sample stage is mounted on top of diffractometer circles chi and phi'''
 
     def __init__(self, name, sax, say, saz, chi_rot, phi_rot, zero_pos):
         self.x0, self.y0, self.z0 = zero_pos
-        #self.xyz_group = ScannableGroup('xyz_stage', (sax, say, saz, chi_rot, phi_rot))
         self.xyz_group = ScannableGroup()
         self.xyz_group.addGroupMember(sax)
         self.xyz_group.addGroupMember(say)
@@ -31,6 +31,8 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase):
 
         self.completeInstantiation()
         self.setAutoCompletePartialMoveToTargets(True)
+        # make tool point tracks real axes changes in hardware
+        self.xyz_group.addIObserver(self)
 
     def checkPositionValid(self, pos):
         if len(pos) != 5: raise ValueError('Toolpoint device expects five inputs')
@@ -51,13 +53,13 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase):
 
         str_x = x.checkPositionValid(sx)
         if str_x:
-           return str_x
+            return str_x
         str_y = y.checkPositionValid(sy)
         if str_y:
-           return str_y
+            return str_y
         str_z = z.checkPositionValid(sz)
         if str_z:
-           return str_z
+            return str_z
         return None
 
     def rawAsynchronousMoveTo(self, pos):
@@ -71,6 +73,11 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase):
         sz = self.z0 - nu*sin(chi_pos) + nv*cos(chi_pos)*sin(phi_pos) + nw*cos(chi_pos)*cos(phi_pos)
         
         self.xyz_group.asynchronousMoveTo([sx, sy, sz, ps_chi, ps_phi])
+        
+    def update(self, theobserved, changecode):  # @UnusedVariable
+        if theobserved == self.xyz_group:
+            # send tool point values to observer, not the change code which default to scannable group status.
+            self.notifyIObservers(self, self.rawGetPosition())
 
     def rawGetPosition(self):
         tx, ty, tz, ps_chi, ps_phi  = [float(t) for t in self.xyz_group.getPosition()]
@@ -83,6 +90,9 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase):
         nv = dx*sin(chi_pos)*sin(phi_pos) + dy*cos(phi_pos) + dz*cos(chi_pos)*sin(phi_pos)
         nw = dx*cos(phi_pos)*sin(chi_pos) - dy*sin(phi_pos) + dz*cos(chi_pos)*cos(phi_pos)
         return nu, nv, nw, ps_chi, ps_phi
+    
+    def stop(self):
+        self.xyz_group.stop()
 
     def getFieldPosition(self, i):
         return self.getPosition()[i]
@@ -120,4 +130,13 @@ ps_chi.limitsComponent.setInternalUpper([chi.getUpperInnerLimit(),])
 ps_phi.limitsComponent.setInternalLower([phi.getLowerInnerLimit(),])
 ps_phi.limitsComponent.setInternalUpper([phi.getUpperInnerLimit(),])
 
-uvw = ScannableGroup('uvw', (u, v, w))
+# a scannable group that sends its members' positions to the observer, not the change code from its observable
+class ScannableGroupWithUpdateMethodOverride(ScannableGroup):
+    def update(self, theobserved, changecode):  # @UnusedVariable
+        if theobserved == tp.xyz_group:
+            self.notifyIObservers(self, self.getPosition())
+            
+uvw = ScannableGroupWithUpdateMethodOverride('uvw', (u, v, w))
+# make uvw group watching real hardware axes changes
+tp.xyz_group.addIObserver(uvw)
+

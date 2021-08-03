@@ -10,6 +10,9 @@
 	<bean id="energy_s_wrapper" class="gda.device.scannable.JythonScannableWrapper">
 		<property name="scannableName" value="energy_s"/>
 	</bean>
-	
+
+	<bean id="uvw_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="uvw"/>
+	</bean>	
 
 </beans>

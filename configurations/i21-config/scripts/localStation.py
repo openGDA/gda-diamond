@@ -376,6 +376,9 @@ except:
 from calibration.extraPVCoupledScannable import ScannableWithPVControl
 pgm_energy = ScannableWithPVControl('pgm_energy', pgmEnergy, pvname=EPICS_FEEDBACK_PV,pvvaluebefore=0, pvvalueafter=4)  # @UndefinedVariable
 
+#initialize Jython Scannable Wrappers must be done after the wrapped scannable become available
+uvw_wrapper.connectScannable()  # @UndefinedVariable
+
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
