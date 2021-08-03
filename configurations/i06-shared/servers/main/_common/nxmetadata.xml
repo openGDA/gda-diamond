@@ -178,7 +178,7 @@
 		<property name="name" value="beam" />
 		<property name="incidentEnergyScannableName" value="pgmenergy" />
 		<property name="incidentBeamDivergenceScannableName" value="ds" />
-		<property name="incidentPolarizationScannableName" value="stock_parameters" />
+		<property name="incidentPolarizationScannableName" value="stokes_parameters" />
 		<property name="beamExtentScannableName" value="ds" />
 		<property name="fluxScannableName" value="ds" />
 	</bean>

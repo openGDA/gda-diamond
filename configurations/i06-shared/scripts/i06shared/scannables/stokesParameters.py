@@ -10,7 +10,7 @@ from mode_polarisation_energy_instances import pc,nc,lh,lv
 import math
 
 POLPARISATION_DICT = {pc:[1.000, 0.000, 0.000, 1.000], nc:[1.000, 0.000, 0.000, -1.000], lh:[1.000, 1.000, 0.000, 0.000] , lv:[1.000, -1.000, 0.000, 0.000]}
-class StockParameters(ScannableMotionBase):
+class StokesParameters(ScannableMotionBase):
     '''
     class takes polarisation scannable and linear arbitrary angle and return its corresponding Stock parameters for the polarised beam.
     '''

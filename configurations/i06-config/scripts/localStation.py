@@ -24,8 +24,8 @@ from BeamlineI06.beamline import peemline, getTitle,gettitle,getvisit,getVisit,l
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
 
 #To eLog the scan
-# from i06shared.metadata.setSrsDataFileHeader import fileHeader
-fileHeader.setScanLogger(peemline)
+# from i06shared.setSrsDataFileHeader import fileHeader
+# fileHeader.setScanLogger(peemline)
 
 if installation.isLive():
     from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
@@ -52,7 +52,7 @@ else:
 # print "-"*100
 # print "Add metadata required by PEEM to file header"
 # fileHeader.add([m3x, m3pitch, m3qg]);  # @UndefinedVariable
-# fileHeader.add([d5x, d6y, d7x, d7ax]);  # @UndefinedVariable
+# fileHeader.add([d5x, d6y, d7x]);  # @UndefinedVariable
 # fileHeader.add([s4x, s4xgap, s4y, s4ygap]);  # @UndefinedVariable
 # fileHeader.add([psx, psy]);  # @UndefinedVariable
 #Group the hexapod legs into list
@@ -118,8 +118,11 @@ if installation.isLive():
     temp3_EC3=DisplayEpicsPVClass('temp3_EC3','BL06I-EA-EC3-01:TEMP3','C','%f')
     temp4_EC3=DisplayEpicsPVClass('temp4_EC3','BL06I-EA-EC3-01:TEMP4','C','%f')
     
-    mpxmode=EnumPVScannable("mpxmode", "BL06I-EA-DET-02:CAM:QuadMerlinMode")
-    mpxmode.configure()
+    try:
+        mpxmode=EnumPVScannable("mpxmode", "BL06I-EA-DET-02:CAM:QuadMerlinMode")
+        mpxmode.configure()
+    except:
+        print("Cannot connect to BL06I-EA-DET-02:CAM:QuadMerlinMode, so 'mpxmode' is not available.")
     
     from kbRastering.rasteringUseKeysight import *  # @UnusedWildImport
     

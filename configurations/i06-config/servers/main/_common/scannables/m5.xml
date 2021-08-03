@@ -25,14 +25,14 @@
 	<bean id="m5bend1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMBender1_M5" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="N" />
-		<property name="hardwareUnitString" value="N" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="m5bend2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMBender2_M5" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="N" />
-		<property name="hardwareUnitString" value="N" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="m5x1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMx1_M5" />
@@ -112,7 +112,7 @@
 				<ref bean="m5_RoiStats5" />
 				<ref bean="m5_RoiStats6" />
 				<ref bean="m5cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
-<!-- 				<ref bean="m5cam1_tiff_SingleImagePerFileWriter" /> -->
+				<ref bean="m5cam1_tiff_SingleImagePerFileWriter" />
 			</list>
 		</property>
 	</bean>

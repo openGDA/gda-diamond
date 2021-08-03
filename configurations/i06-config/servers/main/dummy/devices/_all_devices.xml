@@ -14,13 +14,13 @@
 	<import resource="m4.xml"/>
 	<import resource="m5.xml"/>
 	<import resource="gv11.xml"/>
-	<import resource="d7a.xml"/>
+<!-- 	<import resource="d7a.xml"/> -->
 	<import resource="u1.xml"/>
 	<import resource="userMotors.xml"/>
 	<import resource="fastScan.xml"/>
 	<import resource="laser_ec3.xml"/>
 	
-	<import resource="peemStage.xml"/>
+<!-- 	<import resource="peemStage.xml"/> -->
 	<import resource="peemExitSlit.xml"/>
 	<import resource="medipix_ADSim.xml"/>
 	<import resource="camc1.xml" />
