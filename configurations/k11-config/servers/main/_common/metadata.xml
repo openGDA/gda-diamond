@@ -90,10 +90,10 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 						<list>
-							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_x</value>
 							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_y</value>
-							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_z</value>
 							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_theta</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_x</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_z</value>
 							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_pitch</value>
 							<value>instrument:NXInstrument/beamline:NXcollection/gts:NXpositioner/gts_roll</value>
 						</list>
@@ -101,9 +101,9 @@
 						<property name="units">
 							<list>
 								<value>mm</value>
-								<value>mm</value>
-								<value>mm</value>
 								<value>deg</value>
+								<value>mm</value>
+								<value>mm</value>
 								<value>mrad</value>
 								<value>mrad</value>
 							</list>
