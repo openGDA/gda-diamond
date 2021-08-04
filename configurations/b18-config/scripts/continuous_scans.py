@@ -67,15 +67,19 @@ set_tfg_internal_trigger.setScanLineStartCommand("qexafs_counterTimer01.setUseIn
 """
 No zebra used for synchronization. Motor move and tfg start at same time 
 """
-def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time ) :
+def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None ) :
     qexafs_counterTimer01.setUseInternalTriggeredFrames(True) # use software start for Tfg triggers
-    cs=ContinuousScan(continuous_axis, start, stop, readouts, time, [qexafs_counterTimer01])
+    detectors=[qexafs_counterTimer01]
+    if extraDetectors != None :
+        detectors.extend(extraDetectors)
+    
+    cs=ContinuousScan(continuous_axis, start, stop, readouts, time, detectors)
     # cs.getAllScannables().add(axis) # add hoffset scannable to get the real position at each scan data point (from Epics)
     cs.getAllScannables().add(set_tfg_internal_trigger)
     return cs 
 
-def runCscanUnsyncronized(continuous_axis, start, stop, readouts, time ) :
-    cs = getCscanUnsyncronized(continuous_axis, start, stop, readouts, time)
+def runCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None ) :
+    cs = getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors)
     cs.runScan()
 
 

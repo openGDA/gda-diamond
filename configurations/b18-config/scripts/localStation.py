@@ -149,6 +149,7 @@ def reconnect_daserver() :
 
 # Set nexusTreeWriter flag for buffered xspress2
 qexafs_xspress.setUseNexusTreeWriter(True)
+# qexafs_xspress.setUseNexusTreeWriter(False) # needs to be False when used for 2d scan with continuous scan for inner axis.
 
 samplewheel_names.setPositions( samplewheel.getFilterNames() )
 
@@ -167,7 +168,10 @@ run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMythen)
 
-run("default_scannable_class.py")
+if globals().has_key("xspress4") == False :
+    print "Not running default_scannable.py - xspress4 detector not present"
+else :
+    run("default_scannable_class.py")
 
 run("continuous_scans.py")
 

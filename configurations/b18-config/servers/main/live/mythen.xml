@@ -31,6 +31,7 @@
 <!-- 		<property name="ndFile" ref="det_ndfile" /> -->
 <!-- 		<property name="ndStats" ref="det_stats" /> -->
 <!-- 		<property name="fileWriter" ref="det_hdf5_writer" /> -->
+		<property name="configureAtStartup" value="false" />
 	</bean>
 
 	<bean id="mythenDataConverter" class="gda.device.detector.mythen.data.DataConverter">
@@ -71,5 +72,6 @@
 		</property>
 		<property name="subDirectory" value="mythen" />
 		<property name="dataConverter" ref="mythenDataConverter" />
+		<property name="configureAtStartup" value="false" />
 	</bean>
 </beans>
