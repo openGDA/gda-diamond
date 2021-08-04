@@ -23,58 +23,62 @@
 <!-- 		<property name="gapScannableName" value="iddgap" /> -->
 		<property name="customNodes">
 			<list>
-            <bean class="org.eclipse.scanning.device.GroupMetadataNode">
-                <property name="name" value="idd"/>
-                <property name="nexusClass" value="NXcollection"/>
-                <property name="childNodes"> <!-- add child groups as appropriate -->
-                    <list>
-                        <bean class="org.eclipse.scanning.device.ScannableField">
-                            <property name="name" value="gap"/>
-                            <property name="scannableName" value="iddgap"/>
-                        </bean>
-						<bean class="org.eclipse.scanning.device.ScannableField">
-								<property name="name" value="trp"/>
-								<property name="scannableName" value="iddtrp"/>
-						</bean>
-						<bean class="org.eclipse.scanning.device.ScannableField">
-							<property name="name" value="brp"/>
-							<property name="scannableName" value="iddbrp"/>
-						</bean>
-						<bean class="org.eclipse.scanning.device.ScannableField">
-							<property name="name" value="la_angle"/>
-							<property name="scannableName" value="iddlaangle"/>
-						</bean>
- 						<bean class="org.eclipse.scanning.device.ScannableField">
-							<property name="name" value="polarisation"/>
-							<property name="scannableName" value="pol"/>
-						</bean>
-                    </list>
-                </property>
-            </bean>
-            <bean class="org.eclipse.scanning.device.GroupMetadataNode">
-                <property name="name" value="idu"/>
-                <property name="nexusClass" value="NXcollection"/>
-                <property name="childNodes"> <!-- add child groups as appropriate -->
-                    <list>
-                        <bean class="org.eclipse.scanning.device.ScannableField">
-                            <property name="name" value="gap"/>
-                            <property name="scannableName" value="idugap"/>
-                        </bean>
-						<bean class="org.eclipse.scanning.device.ScannableField">
-								<property name="name" value="trp"/>
-								<property name="scannableName" value="idutrp"/>
-						</bean>
-						<bean class="org.eclipse.scanning.device.ScannableField">
-							<property name="name" value="brp"/>
-							<property name="scannableName" value="idubrp"/>
-						</bean>
-						<bean class="org.eclipse.scanning.device.ScannableField">
-							<property name="name" value="la_angle"/>
-							<property name="scannableName" value="idulaangle"/>
-						</bean>
-                    </list>
-                </property>
-            </bean>
+			 	<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="source_mode"/>
+					<property name="scannableName" value="smode"/>
+				</bean>
+			 	<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="polarisation"/>
+					<property name="scannableName" value="pol"/>
+				</bean>
+	            <bean class="org.eclipse.scanning.device.GroupMetadataNode">
+	                <property name="name" value="idd"/>
+	                <property name="nexusClass" value="NXcollection"/>
+	                <property name="childNodes"> <!-- add child groups as appropriate -->
+	                    <list>
+	                        <bean class="org.eclipse.scanning.device.ScannableField">
+	                            <property name="name" value="gap"/>
+	                            <property name="scannableName" value="iddgap"/>
+	                        </bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+									<property name="name" value="trp"/>
+									<property name="scannableName" value="iddtrp"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="brp"/>
+								<property name="scannableName" value="iddbrp"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="la_angle"/>
+								<property name="scannableName" value="iddlaangle"/>
+							</bean>
+	                    </list>
+	                </property>
+	            </bean>
+	            <bean class="org.eclipse.scanning.device.GroupMetadataNode">
+	                <property name="name" value="idu"/>
+	                <property name="nexusClass" value="NXcollection"/>
+	                <property name="childNodes"> <!-- add child groups as appropriate -->
+	                    <list>
+	                        <bean class="org.eclipse.scanning.device.ScannableField">
+	                            <property name="name" value="gap"/>
+	                            <property name="scannableName" value="idugap"/>
+	                        </bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+									<property name="name" value="trp"/>
+									<property name="scannableName" value="idutrp"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="brp"/>
+								<property name="scannableName" value="idubrp"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="la_angle"/>
+								<property name="scannableName" value="idulaangle"/>
+							</bean>
+	                    </list>
+	                </property>
+	            </bean>
 			</list>
 		</property>
 	</bean>
