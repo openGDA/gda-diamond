@@ -11,7 +11,7 @@
 	<bean id="beam" class="uk.ac.diamond.daq.scanning.BeamScannable"
 		init-method="register">
 		<property name="name" value="beam" />
-		<property name="beamSize" value="0.1" />
+		<property name="beamSize" value="50" />
 	</bean>
 
 </beans>
