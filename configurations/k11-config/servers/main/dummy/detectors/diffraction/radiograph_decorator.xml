@@ -7,7 +7,7 @@
 		<property name="name" value="radiograph_decorator" />
 		<property name="beamlineConfiguration">
 			<map>
-				<entry key="beam_selector" value="Mono imaging beam" />
+<!-- 				<entry key="beam_selector" value="Mono imaging beam" /> -->
 			</map>
 		</property>
 		<property name="nexusFieldName" value="data" />
