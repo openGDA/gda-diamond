@@ -15,8 +15,7 @@
 	<import resource="m5.xml"/>
 	<import resource="u1.xml"/>
 	<import resource="d7a.xml"/>
-<!-- 	<import resource="userMotors.xml"/> -->
-
+	<import resource="userMotors.xml"/>
 	<import resource="laser_ec3.xml"/>
 	<import resource="peemStage.xml"/>
 	<import resource="peemExitSlit.xml"/>

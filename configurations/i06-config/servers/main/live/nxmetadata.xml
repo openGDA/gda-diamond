@@ -62,10 +62,6 @@
 					<property name="name" value="model"/>
 					<property name="pvName" value="BL06I-EA-DET-02:CAM:Model_RBV"/>
 				</bean>
-				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-					<property name="name" value="serial_number"/>
-					<property name="pvName" value="BL06I-EA-DET-02:CAM:PortName_RBV"/>
-				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="medipix_settings"/>
 					<property name="nexusClass" value="NXcollection"/>
@@ -161,7 +157,7 @@
 		<property name="insertionDeviceName" value="id" />
 		<property name="monochromatorName" value="pgm" />
 		<property name="beamName" value="beam" />
-		<property name="userDeviceName" value="user" />
+		<property name="userDeviceName" value="user01" />
 		<property name="additionalDeviceNames">
 			<set>
 				<value>s1</value>
