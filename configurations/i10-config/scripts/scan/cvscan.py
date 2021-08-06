@@ -2,6 +2,7 @@
 A simplified version of cvscan - which does not support old 'egy_g' and 'egy' scannable any more.
 
 Created on 28 July 2020
+added ID access control observer on 06/08/2021
 
 @author: fy65
 '''
@@ -16,7 +17,11 @@ from org.slf4j import LoggerFactory
 from scannable.checkbeanscannables import ZiePassthroughScannableDecorator
 from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
 from utils.ExceptionLogs import localStation_exception
-
+from gda.factory import Finder
+from gda.observable import IObserver
+from calibrations.mode_polarisation_energy_instances import smode
+from calibrations.xraysource import X_RAY_SOURCE_MODES
+from time import sleep
 
 class TrajectoryControllerHelper(ScanListener):
     def __init__(self): # motors, maybe also detector to set the delay time
@@ -33,8 +38,8 @@ class TrajectoryControllerHelper(ScanListener):
             self.original_default_scannables.append(scn)
             remove_default(scn)
             
-    def update(self, scanObject):
-        self.logger.info("update(%r)" % scanObject)
+    def update(self, scan_object):
+        self.logger.info("update(%r)" % scan_object)
         # restore default scannables after cvscan completed.
         if self.original_default_scannables is not None:
             from gda.jython.commands.ScannableCommands import add_default
@@ -46,6 +51,26 @@ class TrajectoryControllerHelper(ScanListener):
                                
 trajectory_controller_helper = TrajectoryControllerHelper()
 cvscan_traj=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
+
+idd_access_control = Finder.find("idblena_id1")
+idu_access_control = Finder.find("idblena_id2")
+
+from gda.epics.IAccessControl import Status 
+class IDAccessObserver(IObserver):
+    def __init__(self, id_access_control):
+        self.id_control = id_access_control
+        self.status = Status.ENABLED  # @UndefinedVariable
+        id_access_control.addIObserver(self)
+
+    def update(self, source, arg):
+        if source == self.idd_control:
+            self.status = arg
+
+    def getStatus(self):
+        return self.status
+
+idd_access_observer = IDAccessObserver(idd_access_control)
+idu_access_observer = IDAccessObserver(idu_access_control)
 
 print("-"*100)
 print("Creating I10 GDA 'cvscan' commands: - dwell time must apply to all waveform scannables individually!")
@@ -81,10 +106,17 @@ def cvscan(c_energy, start, stop, step, *args):
             topup_checker=beam_checker.getDelegate().getGroupMember("checktopup_time_cv")
             topup_checker.minimumThreshold=scan_time + 5
             newargs.append(beam_checker)
+        # wait for ID access control is enabled before continue
+        if smode.getPosition() == X_RAY_SOURCE_MODES[0]:
+            while idd_access_observer.getStatus() == Status.DISABLED:  # @UndefinedVariable
+                sleep(1)
+        elif smode.getPosition() == X_RAY_SOURCE_MODES[1]:
+            while idu_access_observer.getStatus() == Status.DISABLED:  # @UndefinedVariable
+                sleep(1)
 
-        cvscan_traj([e for e in newargs])
-    except:
-        localStation_exception(sys.exc_info(), "cvscan exits with Error.")
+        cvscan_traj([arg for arg in newargs])
+    except Exception as e:
+        localStation_exception(sys.exc_info(), "cvscan exits with Error: %s" % (e))
 
 alias('cvscan')
    
