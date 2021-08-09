@@ -79,6 +79,10 @@
 	                    </list>
 	                </property>
 	            </bean>
+			 	<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pugap"/>
+					<property name="scannableName" value="pugap"/>
+				</bean>
 			</list>
 		</property>
 	</bean>

@@ -8,5 +8,6 @@
 
 <!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
+	<import resource="nxmetadata.xml"/>
 
 </beans>

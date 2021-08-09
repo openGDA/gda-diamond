@@ -21,7 +21,7 @@ from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
 
 #To eLog the scan
 from Beamline.beamline import branchline
-fileHeader.setScanLogger(branchline);
+# fileHeader.setScanLogger(branchline);
 
 #End Station Section
 import sys
@@ -47,9 +47,9 @@ from slits.useS6 import news6xgap, news6ygap  # @UnusedImport
 #Group the hexapod legs into list
 m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];  # @UndefinedVariable
 #To add branchline device position to the SRS file header
-fileHeader.add([m7x, m7pitch, m7qg]);  # @UndefinedVariable
-fileHeader.add([d9y, d10y, d11y]);  # @UndefinedVariable
-fileHeader.add([s6x, s6xgap, s6y, s6ygap]);  # @UndefinedVariable
+# fileHeader.add([m7x, m7pitch, m7qg]);  # @UndefinedVariable
+# fileHeader.add([d9y, d10y, d11y]);  # @UndefinedVariable
+# fileHeader.add([s6x, s6xgap, s6y, s6ygap]);  # @UndefinedVariable
 
 print "-"*100
 print "Set up d12 position objects"
@@ -80,9 +80,9 @@ alias("d12Fe")
 alias("d12Ni")
 alias("d12Gd")
 
-fileHeader.add([iamp12_gain])  # @UndefinedVariable
-from gda.jython.commands.ScannableCommands import add_default
-add_default([fileHeader]);
+# fileHeader.add([iamp12_gain])  # @UndefinedVariable
+# from gda.jython.commands.ScannableCommands import add_default
+# add_default([fileHeader]);
 
 
 print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    

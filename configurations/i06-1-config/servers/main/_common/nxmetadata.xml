@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m7NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="m7" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXmirror"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="x"/>
+                    <property name="scannableName" value="m7x"/>
+          	    </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="pitch"/>
+                    <property name="scannableName" value="m7pitch"/>
+          	    </bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="qg"/>
+                    <property name="scannableName" value="m7qg"/>
+          	    </bean>		
+			</list>
+		</property>
+	</bean>
+	<bean id="d9NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="d9" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="y"/>
+                    <property name="scannableName" value="d9y"/>
+          	    </bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="d10NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="d10" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="y"/>
+                    <property name="scannableName" value="d10y"/>
+          	    </bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="d11NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="d11" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="y"/>
+                    <property name="scannableName" value="d11y"/>
+          	    </bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="s6NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s6" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="x_pos"/>
+                    <property name="scannableName" value="s6x"/>
+          	    </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="x_gap"/>
+                    <property name="scannableName" value="s6xgap"/>
+          	    </bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="y_pos"/>
+                    <property name="scannableName" value="s6y"/>
+          	    </bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="y_gap"/>
+                    <property name="scannableName" value="s6ygap"/>
+          	    </bean>		
+			</list>
+		</property>
+	</bean>
+	<bean id="iamp12NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="iamp12" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+                	<property name="name" value="gain"/>
+                    <property name="scannableName" value="iamp12_gain"/>
+          	    </bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>
