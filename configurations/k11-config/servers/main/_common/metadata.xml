@@ -153,8 +153,8 @@
 						<property name="paths">
 						<list>
 							<value>instrument:NXInstrument/beamline:NXcollection/VFM:NXmirror/vfm_pitch</value>
-							<value>instrument:NXInstrument/beamline:NXcollection/VFM:NXmirror/vfm_bendds</value>
 							<value>instrument:NXInstrument/beamline:NXcollection/VFM:NXmirror/vfm_bendus</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/VFM:NXmirror/vfm_bendds</value>
 						</list>
 						</property>
 						<property name="units">
@@ -171,8 +171,8 @@
 						<property name="paths">
 						<list>
 							<value>instrument:NXInstrument/beamline:NXcollection/HFM:NXmirror/hfm_pitch</value>
-							<value>instrument:NXInstrument/beamline:NXcollection/HFM:NXmirror/hfm_bendds</value>
 							<value>instrument:NXInstrument/beamline:NXcollection/HFM:NXmirror/hfm_bendus</value>
+							<value>instrument:NXInstrument/beamline:NXcollection/HFM:NXmirror/hfm_bendds</value>
 						</list>
 						</property>
 						<property name="units">
@@ -326,13 +326,13 @@
 							<list>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_y
 								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_bragg
+								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_z
 								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_roll
 								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_pitch
-								</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_bragg
 								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm1:NXmirror/dcm1_y_positioner
 								</value>
@@ -341,12 +341,12 @@
 						<property name="units">
 							<list>
 								<value>mm</value>
-								<value>mm</value>
 								<value>μm</value>
+								<value>mm</value>
 								<value>μm</value>
 								<value>deg</value>
 								<value></value>
-								<value />
+								<value/>
 							</list>
 						</property>
 					</bean>
@@ -358,13 +358,13 @@
 							<list>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_y
 								</value>
+								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_bragg
+								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_z
 								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_roll
 								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_pitch
-								</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_bragg
 								</value>
 								<value>instrument:NXInstrument/beamline:NXcollection/dcm2:NXmirror/dcm2_y_positioner
 								</value>
@@ -373,8 +373,8 @@
 						<property name="units">
 							<list>
 								<value>mm</value>
-								<value>mm</value>
 								<value>μm</value>
+								<value>mm</value>
 								<value>μm</value>
 								<value>deg</value>
 								<value></value>
