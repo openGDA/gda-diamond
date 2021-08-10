@@ -29,6 +29,7 @@ import org.eclipse.ui.IWorkbenchPage;
 
 import gda.rcp.views.Browser;
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.browser.MapBrowser;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorButtonControlledCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionButtonControlledCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.pointandshoot.PointAndShootButtonControlledCompositeFactory;
@@ -36,7 +37,6 @@ import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.ui.BackgroundStateHelper;
 import uk.ac.diamond.daq.mapping.ui.LiveStreamBackgroundAction;
-import uk.ac.diamond.daq.mapping.ui.browser.MapBrowser;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.experiment.controller.ExperimentScanningAcquisitionController;
