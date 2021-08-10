@@ -507,7 +507,9 @@
     <bean id="MotorBraggAngle_DCM1" class="gda.device.motor.DummyMotor"/>
 
     <!--Bragg Energy -->
-    <bean id="MotorBraggEnergy_DCM1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorBraggEnergy_DCM1" class="gda.device.motor.DummyMotor">
+        <property name="speed" value="200" />
+    </bean>
 
     <!--Lambda (Wavelength)  -->
     <bean id="MotorLambda_DCM1" class="gda.device.motor.DummyMotor"/>
