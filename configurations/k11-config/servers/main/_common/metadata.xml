@@ -129,7 +129,7 @@
 				<entry key="pco_focus">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/pco:NXcollection/pco_focus" />
-						<property name="units" value="mm" />
+						<property name="units" value="counts" />
 					</bean>
 				</entry>
 				<entry key="kb_mirrors">
@@ -213,8 +213,8 @@
 								<value>mm</value>
 								<value>mm</value>
 								<value>mrad</value>
-								<value>kcts</value>
-								<value>kcts</value>
+								<value>mrad</value>
+								<value>mrad</value>
 								<value />
 							</list>
 						</property>
@@ -246,10 +246,10 @@
 								<value>mm</value>
 								<value>mm</value>
 								<value>mrad</value>
-								<value>kcts</value>
-								<value>kcts</value>
-								<value>mm</value>
-								<value>mm</value>
+								<value>mrad</value>
+								<value>mrad</value>
+								<value>counts</value>
+								<value>counts</value>
 								<value />
 							</list>
 						</property>
@@ -277,8 +277,8 @@
 								<value>mm</value>
 								<value>mm</value>
 								<value>mrad</value>
-								<value>kcts</value>
-								<value>kcts</value>
+								<value>mrad</value>
+								<value>mrad</value>
 								<value />
 							</list>
 						</property>
@@ -310,10 +310,10 @@
 								<value>mm</value>
 								<value>mm</value>
 								<value>mrad</value>
-								<value>kcts</value>
-								<value>kcts</value>
-								<value>mm</value>
-								<value>mm</value>
+								<value>mrad</value>
+								<value>mrad</value>
+								<value>counts</value>
+								<value>counts</value>
 								<value />
 							</list>
 						</property>
