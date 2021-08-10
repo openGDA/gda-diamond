@@ -210,8 +210,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 			}
 			Path filePath = Paths.get(filename);
 			logger.info("Reading XML parameters from {}", filePath);
-			String xmlParameters = FileUtils.readFileToString(filePath.toFile(), Charset.defaultCharset());
-			AlignmentStageModel model = AlignmentStageModel.fromXml(xmlParameters);
+			AlignmentStageModel model = AlignmentStageModel.fromXml(getBeanFromFile(filename));
 			positions = model.getDeviceLocations();
 			saveAlignmentStageSettings();
 			reOpenView(true);

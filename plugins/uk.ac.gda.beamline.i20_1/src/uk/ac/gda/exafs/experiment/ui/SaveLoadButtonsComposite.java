@@ -22,10 +22,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -118,8 +121,8 @@ public abstract class SaveLoadButtonsComposite {
 
 	private void setupFileDialog(FileDialog fileDialog, String filename) {
 		// Set filename filters
-		fileDialog.setFilterNames(new String[] { "xml files", "All Files (*.*)" });
-		fileDialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
+		fileDialog.setFilterNames(new String[] { "xml, Nexus files", "All Files (*.*)" });
+		fileDialog.setFilterExtensions(new String[] { "*.xml;*.nxs", "*.*" });
 
 		// Set path to file, use visit directory is filename is empty
 		if (filename!=null && !filename.isEmpty()) {
@@ -148,7 +151,7 @@ public abstract class SaveLoadButtonsComposite {
 		if (filename != null && !filename.isEmpty()) {
 			File file = new File(filename);
 			if (!file.isFile() || !file.canRead()) {
-				MessageDialog.openWarning(display.getActiveShell(), "Problem loading settings from XML file",
+				MessageDialog.openWarning(display.getActiveShell(), "Problem loading XML settings from file",
 						"Could not load settings from "+filename+" - file could not be accessed");
 				return;
 			}
@@ -159,8 +162,9 @@ public abstract class SaveLoadButtonsComposite {
 			} catch (Exception e) {
 				// This would normally be caused by deserialization problem
 				logger.error("Problem loading scan settings from {}", filename, e);
-				MessageDialog.openWarning(display.getActiveShell(), "Problem loading settings from XML file",
-						"Problem loading settings from XML file "+filename+". See log panel for more details.");
+				MessageDialog.open(MessageDialog.WARNING, display.getActiveShell(),  "Problem loading settings from file",
+						"Problem loading XML settings from file "+filename+" : \n\n"+e.getMessage()+
+						"\n\nSee log panel for more details.", SWT.SHEET);
 			}
 		}
 	}
@@ -187,24 +191,24 @@ public abstract class SaveLoadButtonsComposite {
 	}
 
 	/**
-	 * Check to see if xml bean contained in a file is a given class type.
+	 * Check to see if XML bean contained in a file Ascii or Nexus file is a given class type.
 	 * A warning dialog is displayed if bean does not match the expected type.
-	 * @param filename path to xml file
+	 *
+	 * @param filename path to XML or Nexus file
 	 * @param expectedClassType class type
 	 * @return true if bean matches class type, false otherwise.
 	 * @throws IOException
 	 */
-	protected boolean beanIsCorrectType(String filename, Class<?> expectedClassType) throws IOException {
-		// Read file content
-		List<String> lines = FileUtils.readLines(Paths.get(filename).toFile(), Charset.defaultCharset());
+	protected boolean beanIsCorrectType(String filename, Class<?> expectedClassType) throws NexusException, IOException {
+		String[] file = getBeanFromFile(filename).split("\n");
+
 		// Get the line containing the bean class type from the start of the file, ignoring the (optional) header line.
 		String beanTypeString = "";
-		if (lines.get(0).contains("<?xml version=")) {
-			beanTypeString = lines.get(1);
+		if (file[0].contains("<?xml version=")) {
+			beanTypeString = file[1];
 		} else {
-			beanTypeString = lines.get(0);
+			beanTypeString = file[0];
 		}
-
 		// Display warning dialog box if class does not match expected type
 		String className = beanTypeString.replaceAll("[<>]", "").trim();
 		if (!className.equals(expectedClassType.getSimpleName())) {
@@ -213,6 +217,31 @@ public abstract class SaveLoadButtonsComposite {
 			return false;
 		}
 		return true;
+	}
+
+	public String getBeanFromFile(String filename) throws NexusException, IOException {
+		logger.debug("Trying to load bean from {}...", filename);
+		final String beforeScan = "/entry1/before_scan";
+
+		// Read file content
+		if (filename.endsWith(".nxs")) {
+			// Try to read bean from Nexus file
+			logger.debug("Reading from Nexus file");
+			try (NexusFile nexusFile = NexusFileHDF5.openNexusFileReadOnly(filename)) {
+				GroupNode node = nexusFile.getGroup(beforeScan, false);
+				if (node != null) {
+					for (var n : node.getDataNodeMap().entrySet()) {
+						if (n.getKey().endsWith("Parameters")) {
+							logger.debug("{} found in {}", n.getKey(), beforeScan);
+							return n.getValue().getString();
+						}
+					}
+				}
+				throw new IOException("Could not read parameters from Nexus file - no parameters found in "+beforeScan);
+			}
+		} else {
+			return FileUtils.readFileToString(Paths.get(filename).toFile(), Charset.defaultCharset());
+		}
 	}
 
 	/**

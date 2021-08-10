@@ -227,7 +227,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			if (!beanIsCorrectType(filename, TimeResolvedExperimentParameters.class)) {
 				return;
 			}
-			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
+			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(getBeanFromFile(filename));
 			SingleSpectrumCollectionWidgets.updateCalibrationDetails(params);
 			getModel().setupFromParametersBean(params);
 		}

@@ -675,7 +675,7 @@ public class TurboXasExperimentView extends ViewPart {
 			if (!beanIsCorrectType(filename, TurboXasParameters.class)) {
 				return;
 			}
-			turboXasParameters = TurboXasParameters.loadFromFile(filename);
+			turboXasParameters = TurboXasParameters.fromXML(getBeanFromFile(filename));
 			logger.info("Settings loaded OK");
 			addDefaultExtraScannablesToParameters();
 			timingGroupTable.setTimingGroups(turboXasParameters);
