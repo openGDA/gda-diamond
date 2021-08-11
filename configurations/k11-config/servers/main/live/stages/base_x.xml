@@ -12,11 +12,15 @@
 	<bean id="base_x" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Tomography</value>
+				<value>GTS</value>
 				<value>TR6</value>
 				<value>Platform</value>
 			</list>
 		</property>
 	</bean>
+
+<!-- 	<bean id="base_x" class="gda.device.enumpositioner.EpicsEnumPositioner"> -->
+<!-- 		<property name="pvBase" value="#{configProperties.MO_TABLE_PREFIX}01:MP:SELECT" /> -->
+<!-- 	</bean> -->
 
 </beans>
