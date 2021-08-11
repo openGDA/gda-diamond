@@ -8,9 +8,7 @@ import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 
 public class I18SamplePreparer implements SampleEnvironmentPreparer {
 
-
 	private I18SampleParameters parameters;
-	private IScanParameters scanParameters;
 
 	@Override
 	public void configure(IScanParameters scanParameters, ISampleParameters parameters) throws Exception {

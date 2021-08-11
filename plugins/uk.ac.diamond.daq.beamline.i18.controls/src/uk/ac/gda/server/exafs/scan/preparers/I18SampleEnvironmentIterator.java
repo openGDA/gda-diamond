@@ -19,24 +19,24 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.eclipse.scanning.api.points.MapPosition;
+import org.eclipse.scanning.api.scan.ScanningException;
+import org.eclipse.scanning.api.scan.event.IPositioner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.ServiceHolder;
 import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
+import uk.ac.gda.beans.exafs.ScannableConfiguration;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
-import uk.ac.gda.beans.exafs.i18.SampleStageParameters;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 
 public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 	private static final Logger logger = LoggerFactory.getLogger(I18SampleEnvironmentIterator.class);
-
-	private static final String SWITCH_TO_PLOTTING_PERSPECTIVE_ON_SCAN_START = "switch.to.plotting.on.scan.start";
-
 	private final I18SampleParameters parameters;
 
 	public I18SampleEnvironmentIterator(I18SampleParameters parameters) {
@@ -50,41 +50,19 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 	@Override
 	public void next() throws DeviceException, InterruptedException {
-
-		SampleStageParameters stage = parameters.getSampleStageParameters();
-
-		Scannable x = Finder.find(stage.getXName());
-		Scannable y = Finder.find(stage.getYName());
-		Scannable z = Finder.find(stage.getZName());
-
 		try {
-			logMove(stage.getXName(), stage.getX());
-			x.moveTo(stage.getX());
-
-			logMove(stage.getYName(), stage.getY());
-			y.moveTo(stage.getY());
-
-			logMove(stage.getZName(), stage.getZ());
-			z.moveTo(stage.getZ());
-		} catch (DeviceException e) {
-			logger.error("Error moving stage", e);
+			IPositioner positioner = ServiceHolder.getRunnableDeviceService().createPositioner(I18SampleEnvironmentIterator.class.getName());
+			Map<String, Object> position = getPositionMap(parameters.getScannableConfigurations());
+			positioner.setPosition(new MapPosition(position));
+		} catch (ScanningException e) {
+			logger.error("Error moving to scan start position", e);
 		}
 
-		parameters.getAttenuators().forEach(bean -> {
-			logMove(bean.getName(), bean.getSelectedPosition());
-			Scannable attenuator = Finder.find(bean.getName());
-			try {
-				if (attenuator != null) attenuator.moveTo(bean.getSelectedPosition());
-			} catch (DeviceException e) {
-				logger.error("Error moving attenuator {}", bean.getName(), e);
-			}
-		});
+	}
 
-		if (parameters.isVfmxActive()) {
-			log("Moving kb_vfm_x to:" + parameters.getVfmx());
-			Scannable kbX = Finder.find("kb_vfm_x");
-			kbX.moveTo(parameters.getVfmx());
-		}
+	private Map<String, Object> getPositionMap(List<ScannableConfiguration> scannableConfigurations) {
+		return scannableConfigurations.stream()
+			.collect(Collectors.toMap(ScannableConfiguration::getScannableName, ScannableConfiguration::getPosition));
 	}
 
 	@Override
@@ -100,15 +78,6 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	@Override
 	public List<String> getNextSampleDescriptions() {
 		return parameters.getDescriptions();
-	}
-
-	private void logMove(String scannableName, Object position) {
-		log("Moving " + scannableName + " to " + position);
-	}
-
-	private void log(String msg) {
-		logger.info(msg);
-		InterfaceProvider.getTerminalPrinter().print(msg);
 	}
 
 }

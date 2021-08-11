@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <I18SampleParameters>
 	<name>name</name>
-    <SampleStage>
-   		<x>2.5</x>
-    	<y>3.8</y>
-    	<z>4.5</z>
-    	<xName>t1x</xName>
-    	<yName>t1y</yName>
-    	<zName>t1z</zName>
-    </SampleStage>
-    
-	<attenuator>
-        <name>D7A</name>
-		<position>2 mm Al</position>
-        <position>0.1 mm Al</position>
-        <position>0.05 mm Al</position>
-        <position>0.8 mm Al</position>
-        <position>0.75 mm Al</position>
-        <position>0.55 mm Al</position>
-        <position>0.5 mm Al</position>
-        <position>0.3 mm Al</position>
-        <position>0.25 mm Al</position>
-        <position>Gap</position>
-        <position>0.025 mm Al</position>
-        <position>1.5 mm Al</position>
-        <position>1.25 mm Al</position>
-        <selectedPosition>Gap</selectedPosition>
-	</attenuator>  
-	 
-	<attenuator>
-		<name>D7B</name>
-        <position>diamond thin</position>
-        <position>diamond thick</position>
-        <position>ni drain</position>
-        <position>au drain</position>
-        <position>al drain</position>
-        <position>gap</position>
-        <position>in line diode</position>
-        <selectedPosition>gap</selectedPosition>
-	</attenuator>  
-	 
-	<vfmx>7.0</vfmx>
-    <vfmxActive>false</vfmxActive>
+
+	<scannableConfiguration>
+		<scannableName>t1x</scannableName>
+		<position>0.0</position>
+	</scannableConfiguration>
+	
+	<scannableConfiguration>
+		<scannableName>t1y</scannableName>
+		<position>2.2</position>
+	</scannableConfiguration>
+	
+	<scannableConfiguration>
+		<scannableName>t1z</scannableName>
+		<position>-10</position>
+	</scannableConfiguration>
+	
+	<scannableConfiguration>
+		<scannableName>t1thetaFine</scannableName>
+		<position>0</position>
+	</scannableConfiguration>
+	
+	<scannableConfiguration>
+		<scannableName>D7A</scannableName>
+		<position>Gap</position>
+	</scannableConfiguration>
+
+	<scannableConfiguration>
+		<scannableName>D7B</scannableName>
+		<position>gap</position>
+	</scannableConfiguration>
+
+	<scannableConfiguration>
+		<scannableName>kb_vfm_x</scannableName>
+		<position>3.0</position>
+	</scannableConfiguration>
+
 </I18SampleParameters>
