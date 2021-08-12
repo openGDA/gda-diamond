@@ -7,5 +7,6 @@
 	<bean id="GTLINX2Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="GTLINY1Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="GTLINY2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="GTLINX3Motor" class="gda.device.motor.DummyMotor" />
 
 </beans>
