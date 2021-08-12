@@ -8,7 +8,7 @@
 		<property name="beamlineConfiguration">
 			<map>
 				<!-- select imaging beam before snapping, then move back -->
-				<entry key="beam_selector" value="Mono imaging beam" />
+<!-- 				<entry key="beam_selector" value="Mono imaging beam" /> -->
 			</map>
 		</property>
 		<!-- will result in /entry/instrument/radiograph_decorator/data -->

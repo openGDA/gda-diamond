@@ -57,7 +57,6 @@
 				<value>kb_mirrors</value>
 				<value>vfm</value>
 				<value>hfm</value>
-				<value>base_x</value>
 				<value>robot_detector_coordinate</value>
 				<value>robot_user_coordinate</value>
 			</set>
@@ -182,13 +181,6 @@
 								<value>mm</value>
 							</list>
 						</property>
-					</bean>
-				</entry>
-				<entry key="base_x">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/beamline:NXcollection/base_x" />
 					</bean>
 				</entry>
 				<entry key="m1">
