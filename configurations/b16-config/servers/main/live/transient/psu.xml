@@ -6,7 +6,7 @@
 	profile="psu">
 
 	<bean id="psu_controller" class="uk.ac.gda.devices.tenma.Psu722931EpicsController">
-		<constructor-arg name="basePvName" value="BL16B-EA-PSU-01:" />
+		<constructor-arg name="basePvName" value="BL16B-EA-TENMA-01:" />
 	</bean>
 
 </beans>
