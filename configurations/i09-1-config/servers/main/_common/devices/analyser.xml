@@ -14,8 +14,8 @@
 		</property>
 		<property name="photonEnergyProvider" ref="dcmenergyEv" />
 		<property name="workFunction" value="4.5" />
-		<!-- detectorEnergyWidth can be found by (analyser.highEnergy - analyser.lowEnergy)/analyser.passEnergy -->
-		<property name="detectorEnergyWidth" value="0.07386836678880104" />
+		<!-- GDA will attempt to read actual value from EPICS during configure stage. -->
+		<property name="detectorEnergyWidth" value="0.134" />
 	</bean>
 	
     <!-- Export analyser so that it will be available on client -->
