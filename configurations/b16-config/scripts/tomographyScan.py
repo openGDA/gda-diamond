@@ -480,7 +480,7 @@ def _tomoScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1., s
 			addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
 		scanObject.runScan()
 		if autoAnalyse:
-			lsdp=jns.lastScanDataPoint()
+			lsdp=lastScanDataPoint()
 			OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
 		return scanObject;
 	except InterruptedException:
@@ -497,7 +497,7 @@ def _tomoScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1., s
 		endTm = datetime.datetime.now()
 		elapsedTm = endTm - startTm
 		jns=beamline_parameters.JythonNameSpaceMapping()
-		print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
+		print("This scan's data can be found in Nexus scan file %s." %(lastScanDataPoint().currentFilename))
 		print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 tomoScan.__doc__ = _tomoScan.__doc__
@@ -741,7 +741,7 @@ def _tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., st
 		endTm = datetime.datetime.now()
 		elapsedTm = endTm - startTm
 		jns=beamline_parameters.JythonNameSpaceMapping()
-		print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
+		print("This scan's data can be found in Nexus scan file %s." %(lastScanDataPoint().currentFilename))
 		print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0, flatFieldInterval=0,
@@ -779,7 +779,7 @@ def __test1_tomoScan():
 	sc = tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=5,
 			 inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
 	print `jns`
-	lsdp = jns.lastScanDataPoint()
+	lsdp = lastScanDataPoint()
 	positions = lsdp.getPositionsAsDoubles()
 	if positions[0] != 180. or positions[4] != 54.:
 		print "Error - points are not correct :" + `positions`
@@ -789,7 +789,7 @@ def __test2_tomoScan():
 	jns = beamline_parameters.JythonNameSpaceMapping()	
 	sc = tomoScan(step=5, darkFieldInterval=5, flatFieldInterval=0,
 			 inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
-	lsdp = jns.lastScanDataPoint()
+	lsdp = lastScanDataPoint()
 	positions = lsdp.getPositionsAsDoubles()
 	if positions[0] != 180. or positions[4] != 47.:
 		print "Error - points are not correct :" + `positions`
@@ -799,7 +799,7 @@ def __test3_tomoScan():
 	jns = beamline_parameters.JythonNameSpaceMapping()	
 	sc = tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=5,
 			 inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
-	lsdp = jns.lastScanDataPoint()
+	lsdp = lastScanDataPoint()
 	positions = lsdp.getPositionsAsDoubles()
 	if positions[0] != 180. or positions[4] != 47.:
 		print "Error - points are not correct :" + `positions`
@@ -809,7 +809,7 @@ def __test4_tomoScan():
 	jns = beamline_parameters.JythonNameSpaceMapping()	
 	sc = tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=0,
 			 inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
-	lsdp = jns.lastScanDataPoint()
+	lsdp = lastScanDataPoint()
 	positions = lsdp.getPositionsAsDoubles()
 	if positions[0] != 180. or positions[4] != 40.:
 		print "Error - points are not correct :" + `positions`
@@ -822,7 +822,7 @@ def __test5_tomoScan():
 	jns = beamline_parameters.JythonNameSpaceMapping()	
 	sc = tomoScan(step=5, darkFieldInterval=0, flatFieldInterval=0,
 			 inBeamPosition=0., outOfBeamPosition=10., exposureTime=1., optimizeBeamInterval=10)
-	lsdp = jns.lastScanDataPoint()
+	lsdp = lastScanDataPoint()
 	positions = lsdp.getPositionsAsDoubles()
 	if positions[0] != 180. or positions[4] != 43.:
 		print "Error - points are not correct :" + `positions`
@@ -838,7 +838,7 @@ def standardtomoScan():
 	jns = beamline_parameters.JythonNameSpaceMapping()	
 	sc = tomoScan(step=1, darkFieldInterval=0, flatFieldInterval=20,
 			 inBeamPosition=0., outOfBeamPosition=10., exposureTime=1.)
-	lsdp = jns.lastScanDataPoint()
+	lsdp = lastScanDataPoint()
 	positions = lsdp.getPositionsAsDoubles()
 	if positions[0] != 180. or positions[4] != 40.:
 		print "Error - points are not correct :" + `positions`
