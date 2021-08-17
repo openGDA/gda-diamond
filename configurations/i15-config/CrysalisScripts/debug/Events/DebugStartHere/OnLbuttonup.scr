@@ -1,4 +1,0 @@
-
-((LineNo):=$(~/Objects/SourceText/Selitemindex))
-($(LineNo)++)
-debug start $(LineNo)

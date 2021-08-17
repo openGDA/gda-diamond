@@ -21,10 +21,10 @@ def checkConfigured():
 	
 def sh(cmd):
 	"""
-	sh('o')  - Reset and Open EH & Atlas shutter.
-	sh('oa') - Reset and Open FE, OH, EH & Atlas Shutters
-	sh('c')  - Close EH & Atlas Shutter
-	sh('ca') - Close FE, OH, EH & Atlas Shutters
+	sh('o')  - Reset and Open EH & Fast shutter.
+	sh('oa') - Reset and Open FE, OH, EH & Fast Shutters
+	sh('c')  - Close EH & Fast Shutter
+	sh('ca') - Close FE, OH, EH & Fast Shutters
 	sh('f')  - Force Open Fast Shutter
 	sh('r')  - Release Fast Shutter from being forced open
 	sh('status') - get Status
@@ -38,12 +38,12 @@ def sh(cmd):
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		zebraFastShutter = jythonNameMap.zebraFastShutter
 		if (cmd=="o"):
-			#Reset and Open EH & Atlas shutter (Open takes 4-5 seconds).
+			#Reset and Open EH & Fast shutter (Open takes 4-5 seconds).
 			openEHShutter()
 			zebraFastShutter.forceOpen()
 			return
 		elif (cmd=="c"):
-			#Close EH & Atlas Shutter
+			#Close EH & Fast Shutter
 			closeEHShutter()
 			zebraFastShutter.forceOpenRelease()
 			return
@@ -54,7 +54,7 @@ def sh(cmd):
 			zebraFastShutter.forceOpen()
 			return
 		elif (cmd=="ca"):
-			#Close EH & Atlas Shutter
+			#Close EH & Fast Shutter
 			closeOH2Shutter()
 			closeEHShutter()
 			zebraFastShutter.forceOpenRelease()
