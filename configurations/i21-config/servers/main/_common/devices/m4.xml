@@ -39,7 +39,7 @@
 		<property name="userUnits" value="mm"/>
 	</bean>
 
-	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="M4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="m4x" />

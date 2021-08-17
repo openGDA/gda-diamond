@@ -37,7 +37,8 @@ def interruptable():
 alias("interruptable")
 print("-"*100)
 print("load EPICS Pseudo Device utilities for creating scannable object from a PV name.")
-from gdascripts.pd.epics_pds import EpicsReadWritePVClass, DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerNoStatusClassDeadband  # @UnusedImport
+from gdascripts.pd.epics_pds import EpicsReadWritePVClass, DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerNoStatusClassDeadband,\
+    DummyDisplayEpicsPVClass  # @UnusedImport
 print("-"*100)
 print("load time utilities for creating timer objects.")
 from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc,showtimeClass,showincrementaltimeClass,waittimeClass2  # @UnusedImport
@@ -53,6 +54,9 @@ print("Adding timer devices t, dt, and w, clock")
 from gdascripts.scannable.timerelated import timerelated, t,dt,clock,epoch #@UnusedImport
 print("-"*100)
 print("Adding timer devices t, dt, and w, clock")
+print("-"*100)
+print "load nexus metadata commands"
+from gdascripts.metadata.nexus_metadata_commands import add_meta, add_meta_link, add_meta_pv, add_meta_scalar, add_meta_scannable, clear_meta, disable_meta, enable_meta, ll_meta, ls_meta, rm_meta   # @UnusedImport
 
 ds=DummyScannable("ds")
 ds1=DummyScannable("ds1")
@@ -118,6 +122,8 @@ if installation.isLive():
 
 else:
     print("Running in dummy mode")
+    m1fpsetpoint=DummyDisplayEpicsPVClass('m1fpsetpoint', 10, '', '%.10f')
+    m2fpsetpoint=DummyDisplayEpicsPVClass('m2fpsetpoint', 20, 'px', '%.10f')
 
 print("create clever amplifier scannables: cleverd7femto1, cleverd7femto2")
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
@@ -194,41 +200,41 @@ alias("input_tcryostat")
 from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
 
-print("-"*100)
-print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
-from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
-import metashop  # @UnusedImport
+# print("-"*100)
+# print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
+# from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
+# import metashop  # @UnusedImport
 
-print("-"*100)
-print("Add meta data items to be captured in data files.")
-metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x]  # @UndefinedVariable
-if installation.isLive():
-    metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
-m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
-m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback,m2roll,m2yaw]# @UndefinedVariable
-m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
-m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
-pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch,cff, pgmB2Shadow]  # @UndefinedVariable
-s1list=[s1hsize,s1vsize,s1hcentre,s1vcentre] #@UndefinedVariable
-s2list=[s2hsize,s2vsize,s2hcentre,s2vcentre] #@UndefinedVariable
-s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
-s4list=[s4hcentre,s4hsize,s4vcentre,s4vsize,s4offside,s4nearside,s4upper,s4lower] #@UndefinedVariable
-s5list=[s5v1gap,s5v2gap,s5hgap,s5sut,s5vdso1,s5vdso2,s5hdso] #@UndefinedVariable
-s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
-samplelist=[th,x,y,z,phi,chi,difftth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
-sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
-spectrometerlist=[specgamma,spech,specl,armtth] # @UndefinedVariable
-polariserlist=[polariserstick, polarisergamma]
-#andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
-
-meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+polariserlist#+andorlist
-with overwriting:  # @UndefinedVariable
-    for each in meta_data_list:
-        meta_add(each)
-alias("meta_add")
-alias("meta_ll")
-alias("meta_ls")
-alias("meta_rm")
+# print("-"*100)
+# print("Add meta data items to be captured in data files.")
+# metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x]  # @UndefinedVariable
+# if installation.isLive():
+#     metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
+# m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
+# m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback,m2roll,m2yaw]# @UndefinedVariable
+# m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
+# m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
+# pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch,cff, pgmB2Shadow]  # @UndefinedVariable
+# s1list=[s1hsize,s1vsize,s1hcentre,s1vcentre] #@UndefinedVariable
+# s2list=[s2hsize,s2vsize,s2hcentre,s2vcentre] #@UndefinedVariable
+# s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
+# s4list=[s4hcentre,s4hsize,s4vcentre,s4vsize,s4offside,s4nearside,s4upper,s4lower] #@UndefinedVariable
+# s5list=[s5v1gap,s5v2gap,s5hgap,s5sut,s5vdso1,s5vdso2,s5hdso] #@UndefinedVariable
+# s6list=[s6hgap,s6hcentre,s6vgap,s6vgap]  # @UndefinedVariable
+# samplelist=[th,x,y,z,phi,chi,difftth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
+# sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
+# spectrometerlist=[specgamma,spech,specl,armtth] # @UndefinedVariable
+# polariserlist=[polariserstick, polarisergamma]
+# ndorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
+#
+# meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+polariserlist#+andorlist
+# with overwriting:  # @UndefinedVariable
+#     for each in meta_data_list:
+#         meta_add(each)
+# alias("meta_add")
+# alias("meta_ll")
+# alias("meta_ls")
+# alias("meta_rm")
 
 b2.setOutputFormat(["%7.4f"])
 x.setOutputFormat(["%10.6f"])
@@ -378,6 +384,9 @@ pgm_energy = ScannableWithPVControl('pgm_energy', pgmEnergy, pvname=EPICS_FEEDBA
 
 #initialize Jython Scannable Wrappers must be done after the wrapped scannable become available
 uvw_wrapper.connectScannable()  # @UndefinedVariable
+
+from scannabledevices.stokesParameters import StokesParameters
+stokes_parameters = StokesParameters("stokes_parameters", polarisation)
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

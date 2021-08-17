@@ -81,7 +81,7 @@
 		<property name="userUnits" value="deg"/>
 	</bean>
 
-	<bean id="m5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="M5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="m5hqx" />

@@ -14,7 +14,7 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="polariser" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="Polariser" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="polariserstick" />

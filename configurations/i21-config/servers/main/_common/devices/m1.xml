@@ -63,7 +63,7 @@
 	</bean>
 
 
-	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="M1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="m1yaw" />

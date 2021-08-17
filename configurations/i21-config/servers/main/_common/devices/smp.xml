@@ -77,7 +77,7 @@
 	</bean>
 
 	<!-- Group d4-related objects -->	
- 	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+ 	<bean id="SMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="x" />

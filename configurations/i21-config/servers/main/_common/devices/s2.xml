@@ -44,7 +44,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="S2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="s2hcentre" />

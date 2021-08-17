@@ -22,6 +22,7 @@
 	<import resource="dataWriter.xml"/>
 
 	<import resource="devices/_all.xml"/>
+	<import resource="nxmetadata.xml"/>
 
 	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
 	<import resource="../../../../../dls-config/servers/_common/det.xml"/>
