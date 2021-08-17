@@ -23,14 +23,13 @@ import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import org.dawnsci.mapping.ui.IMapClickEvent;
 import org.dawnsci.mapping.ui.MapPlotManager;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
-import org.eclipse.dawnsci.plotting.api.axis.ClickEvent;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
@@ -44,13 +43,14 @@ import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
-import uk.ac.gda.api.acquisition.AcquisitionController;
+import uk.ac.gda.api.acquisition.Acquisition;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.exception.GDAClientRestException;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
+import uk.ac.gda.ui.tool.ClientMessages;
+import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
 
 /**
@@ -64,11 +64,7 @@ import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
  */
 public class PointAndShootController {
 
-	private final AcquisitionController<ScanningAcquisition> acquisitionController;
 	private static final Logger logger = LoggerFactory.getLogger(PointAndShootController.class);
-
-	/** Common name root for all sub-scans */
-	private final String sessionName;
 
 	/**
 	 * Handler for CtrlClick events from MappedDataView.
@@ -88,13 +84,19 @@ public class PointAndShootController {
 	 * You <b>must</b> call {@link #endSession()} to ensure consistent experiment structure
 	 * and dispose internal listeners.
 	 */
-	public PointAndShootController(String sessionName,  AcquisitionController<ScanningAcquisition> acquisitionController) {
-		this.sessionName = sessionName;
-		this.acquisitionController = acquisitionController;
+	public PointAndShootController() {
 		synchroniser = new RegionMovedLatch();
 	}
 
 	public void startSession() throws GDAClientRestException {
+		try {
+			startSession(getSessionName());
+		} catch (NoSuchElementException e) {
+			UIHelper.showWarning(ClientMessages.NO_CONTROLLER, e);
+		}
+	}
+
+	private void startSession(String sessionName) throws GDAClientRestException {
 		if (!getExperimentController().isExperimentInProgress()) {
 			throw new GDAClientRestException("An experiment must be started first");
 		}
@@ -106,12 +108,22 @@ public class PointAndShootController {
 	}
 
 	public void endSession() throws GDAClientRestException {
+		try {
+			endSession(getSessionName());
+		} catch (NoSuchElementException e) {
+			UIHelper.showWarning(ClientMessages.NO_CONTROLLER, e);
+		}
+	}
+
+	private void endSession(String sessionName) throws GDAClientRestException {
 		unregisterClickEventHandler();
 		getExperimentController().stopMultipartAcquisition();
 		getMapPlottingSystem().setTitle(" ");
 		SpringApplicationContextFacade.removeApplicationListener(synchroniser);
 		logger.info("Point and Shoot session '{}' ended", sessionName);
 	}
+
+
 
 	/**
 	 * Since the controller is instantiated on demand,
@@ -121,7 +133,7 @@ public class PointAndShootController {
 	private void registerClickEventHandler() {
 		Dictionary<String, String> prop = new Hashtable<>();
 		prop.put(EventConstants.EVENT_TOPIC, MapPlotManager.EVENT_TOPIC_MAPVIEW_CLICK);
-		BundleContext ctx = Activator.getDefault().getBundle().getBundleContext();
+		var ctx = Activator.getDefault().getBundle().getBundleContext();
 		serviceRegistration = ctx.registerService(EventHandler.class.getName(), ctrlClickToScan, prop);
 	}
 
@@ -139,7 +151,7 @@ public class PointAndShootController {
 	 * this is done via a series of events. We therefore use a latch mechanism to prevent a race condition.
 	 */
 	private void handleMapClickEvent(Event event) {
-		ClickEvent mapClickEvent = ((IMapClickEvent) event.getProperty("event")).getClickEvent();
+		var mapClickEvent = ((IMapClickEvent) event.getProperty("event")).getClickEvent();
 		if (!mapClickEvent.isControlDown()) return;
 
 		Async.execute(() -> { // we do not want to hold up the messaging thread
@@ -153,7 +165,9 @@ public class PointAndShootController {
 
 			try {
 				if (synchroniser.await()) {
-					acquisitionController.runAcquisition();
+					getScanningAcquisitionTemporaryHelper()
+						.getAcquisitionControllerElseThrow()
+						.runAcquisition();
 				} else {
 					logger.error("Region change not registered within timeout");
 				}
@@ -164,6 +178,8 @@ public class PointAndShootController {
 				logger.error("Scan submission failed", e);
 				String detail = e.getMessage() == null ? "See log for details" : e.getMessage();
 				UIHelper.showError("Error submitting scan", detail);
+			} catch (NoSuchElementException e) {
+				UIHelper.showWarning(ClientMessages.NO_CONTROLLER, e);
 			}
 
 		});
@@ -213,7 +229,7 @@ public class PointAndShootController {
 		}
 
 		private boolean matches(ScanningAcquisition acquisition) {
-			ScanpathDocument scanpathDocument = acquisition.getAcquisitionConfiguration().getAcquisitionParameters().getScanpathDocument();
+			var scanpathDocument = acquisition.getAcquisitionConfiguration().getAcquisitionParameters().getScanpathDocument();
 			List<ScannableTrackDocument> paths = scanpathDocument.getScannableTrackDocuments();
 
 			boolean xMatches = paths.stream()
@@ -233,5 +249,17 @@ public class PointAndShootController {
 			double centre = (start + stop) / 2;
 			return Math.abs(centre - target) < 1e-6;
 		}
+	}
+
+	// ------------ UTILS ----
+	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
+		return SpringApplicationContextFacade.getBean(ScanningAcquisitionTemporaryHelper.class);
+	}
+
+	private String getSessionName() {
+		return getScanningAcquisitionTemporaryHelper()
+			.getScanningAcquisition()
+			.map(Acquisition::getName)
+			.orElseThrow();
 	}
 }

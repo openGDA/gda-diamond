@@ -18,6 +18,7 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
+import static uk.ac.gda.ui.tool.ClientMessages.CONFIGURATION_LAYOUT_ERROR;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
@@ -30,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -70,6 +72,7 @@ import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.client.properties.acquisition.AcquisitionConfigurationProperties;
 import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
@@ -104,7 +107,6 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	// ----- Helper ------//
 	private AcquisitionTemplateTypeCompositeFactory stf;
-	private final AcquisitionController<ScanningAcquisition> controller;
 	private TemplateDataHelper templateHelper;
 	private RegionAndPathController rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
 	private RegionAndPathControllerUpdater rapUpdater;
@@ -120,12 +122,12 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	private Composite mainComposite;
 
-	public DiffractionConfigurationLayoutFactory(AcquisitionController<ScanningAcquisition> controller) {
-		this.controller = controller;
-	}
-
 	private void prepareSupport() {
 		components.clear();
+		prepareSupport(getController());
+	}
+
+	private void prepareSupport(AcquisitionController<ScanningAcquisition> controller) {
 		this.templateHelper = new TemplateDataHelper(controller::getAcquisition);
 		// create and initialise the controller to manage updates to the selected region and path
 		viewUpdater = this::updateView;
@@ -137,13 +139,11 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		stf = new AcquisitionTemplateTypeCompositeFactory(controller::getAcquisition, rapController);
 
 		rapUpdater = new RegionAndPathControllerUpdater(controller::getAcquisition, rapController);
-		//var gpc = new GridPointsCompositeFactory(controller::getAcquisition);
 
 		var mcf = new MutatorsTemplateFactory(controller::getAcquisition, rapController, smController);
 		summaryCompositeFactory = new SummaryCompositeFactory();
 
 		components.add(stf);
-		//components.add(gpc);
 		components.add(mcf);
 	}
 
@@ -156,19 +156,25 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		logger.trace("Creating {}", this);
-		prepareSupport();
 		mainComposite = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).applyTo(mainComposite);
 
-		createElements(mainComposite, SWT.NONE);
-		loadElements();
+		try {
+			prepareSupport();
+			createClientGridDataFactory().align(SWT.FILL, SWT.FILL).applyTo(mainComposite);
 
-		SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
-		standardMarginHeight(mainComposite.getLayout());
-		standardMarginWidth(mainComposite.getLayout());
+			createElements(mainComposite, SWT.NONE);
+			loadElements();
 
-		// Releases resources before dispose
-		mainComposite.addDisposeListener(event -> dispose()	);
+			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
+			standardMarginHeight(mainComposite.getLayout());
+			standardMarginWidth(mainComposite.getLayout());
+
+			// Releases resources before dispose
+			mainComposite.addDisposeListener(event -> dispose()	);
+			logger.debug("Created {}", this);
+		} catch (NoSuchElementException e) {
+			UIHelper.showWarning(CONFIGURATION_LAYOUT_ERROR, e);
+		}
 		return mainComposite;
 	}
 
@@ -183,7 +189,9 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	private final ModifyListener modifyNameListener = event -> updateAcquisitionName();
 
 	private void updateAcquisitionName() {
-		getController().getAcquisition().setName(name.getText());
+		getScanningAcquisitionTemporaryHelper()
+			.getScanningAcquisition()
+			.ifPresent(a -> a.setName(name.getText()));
 	}
 
 	/**
@@ -239,7 +247,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	}
 
 	private AcquisitionController<ScanningAcquisition> getController() {
-		return controller;
+		return getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow();
 	}
 
 	private void createElements(Composite parent, int labelStyle) {
@@ -306,8 +314,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 					.map(ProcessingRequestProperties::getFrameCapture)
 					.orElseThrow(() -> new AcquisitionConfigurationException("There are no properties associated with the acqual acquisition"));
 		} catch (AcquisitionConfigurationException e1) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e1);
+			logger.error("Frame Capture cannot set camera", e1);
 		}
 
 		List<DetectorDocument> cameras = new ArrayList<>();

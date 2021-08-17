@@ -28,23 +28,20 @@ import java.util.function.Supplier;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionConfigurationLayoutFactory;
 import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.gda.api.acquisition.AcquisitionController;
-import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.ButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.GDAClientRestException;
+import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.WidgetUtilities;
+import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 import uk.ac.gda.ui.tool.images.ClientImages;
 import uk.ac.gda.ui.tool.selectable.ButtonControlledCompositeTemplate;
 import uk.ac.gda.ui.tool.selectable.Lockable;
@@ -58,14 +55,11 @@ import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
 public class PointAndShootButtonControlledCompositeFactory
 		implements NamedCompositeFactory, ButtonControlledCompositeTemplate {
 
-	private static final Logger logger = LoggerFactory.getLogger(PointAndShootButtonControlledCompositeFactory.class);
-
 	private static final String RUN_STATE = "runState";
 	private enum RUN_BUTTON_STATE {
 		READY, RUNNING
 	}
 
-	private final AcquisitionController<ScanningAcquisition> acquisitionController;
 	private final Supplier<Composite> controlButtonsContainerSupplier;
 	private Composite parent;
 
@@ -73,9 +67,7 @@ public class PointAndShootButtonControlledCompositeFactory
 
 	private PointAndShootController pointAndShootController;
 
-	public PointAndShootButtonControlledCompositeFactory(AcquisitionController<ScanningAcquisition> acquisitionController,
-			Supplier<Composite> controlButtonsContainerSupplier) {
-		this.acquisitionController = acquisitionController;
+	public PointAndShootButtonControlledCompositeFactory(Supplier<Composite> controlButtonsContainerSupplier) {
 		this.controlButtonsContainerSupplier = controlButtonsContainerSupplier;
 	}
 
@@ -98,8 +90,7 @@ public class PointAndShootButtonControlledCompositeFactory
 	@Override
 	public DiffractionConfigurationLayoutFactory getControlledCompositeFactory() {
 		if (acquistionConfigurationFactory == null) {
-			this.acquistionConfigurationFactory = new DiffractionConfigurationLayoutFactory(
-					getAcquisitionController());
+			this.acquistionConfigurationFactory = new DiffractionConfigurationLayoutFactory();
 		}
 		return acquistionConfigurationFactory;
 	}
@@ -114,13 +105,9 @@ public class PointAndShootButtonControlledCompositeFactory
 		return controlButtonsContainerSupplier;
 	}
 
-	private AcquisitionController<ScanningAcquisition> getAcquisitionController() {
-		return acquisitionController;
-	}
-
 	/**
 	 * Loads the content of the file identified by the fully qualified filename parameter into the mapping bean and
-	 * refreshes the UI to dispay the changes. An update of any linked UIs will also be triggered by the controllers
+	 * refreshes the UI to display the changes. An update of any linked UIs will also be triggered by the controllers
 	 *
 	 */
 	public void load(Optional<IMappingExperimentBean> bean) {
@@ -130,33 +117,15 @@ public class PointAndShootButtonControlledCompositeFactory
 	private ButtonGroupFactoryBuilder getAcquistionButtonGroupFacoryBuilder() {
 		var builder = new ButtonGroupFactoryBuilder();
 		builder.addButton(ClientMessages.NEW, ClientMessages.NEW_CONFIGURATION_TP,
-				widgetSelectedAdapter(this::newAcquisition),
+				widgetSelectedAdapter(event -> getScanningAcquisitionTemporaryHelper().newAcquisition()),
 				ClientImages.ADD);
 		builder.addButton(ClientMessages.SAVE, ClientMessages.SAVE_CONFIGURATION_TP,
-				widgetSelectedAdapter(this::saveAcquisition),
+				widgetSelectedAdapter(event -> getScanningAcquisitionTemporaryHelper().saveAcquisition()),
 				ClientImages.SAVE);
 		builder.addButton(ClientMessages.START, ClientMessages.START_POINT_AND_SHOOT_TP,
 				widgetSelectedAdapter(this::manageSession),
 				ClientImages.RUN);
 		return builder;
-	}
-
-	private void newAcquisition(SelectionEvent event) {
-		boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
-		if (confirmed) {
-			getAcquisitionController().createNewAcquisition();
-		}
-	}
-
-	private void saveAcquisition(SelectionEvent event) {
-		if (getAcquisitionController().getAcquisition().getUuid() != null && !UIHelper.showConfirm("Override the existing configuration?")) {
-			return;
-		}
-		try {
-			getAcquisitionController().saveAcquisitionConfiguration();
-		} catch (AcquisitionControllerException e) {
-			UIHelper.showError("Cannot save acquisition", e, logger);
-		}
 	}
 
 	private void manageSession(SelectionEvent event) {
@@ -191,7 +160,7 @@ public class PointAndShootButtonControlledCompositeFactory
 
 	private boolean startPointAndShootSession() {
 		try {
-			pointAndShootController = new PointAndShootController(getAcquisitionName(), getAcquisitionController());
+			pointAndShootController = new PointAndShootController();
 			pointAndShootController.startSession();
 			return true;
 		} catch (GDAClientRestException e) {
@@ -200,11 +169,8 @@ public class PointAndShootButtonControlledCompositeFactory
 		return false;
 	}
 
-	private String getAcquisitionName() {
-		return getAcquisition().getName();
-	}
-
-	private ScanningAcquisition getAcquisition() {
-		return getAcquisitionController().getAcquisition();
+	// ------------ UTILS ----
+	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
+		return SpringApplicationContextFacade.getBean(ScanningAcquisitionTemporaryHelper.class);
 	}
 }

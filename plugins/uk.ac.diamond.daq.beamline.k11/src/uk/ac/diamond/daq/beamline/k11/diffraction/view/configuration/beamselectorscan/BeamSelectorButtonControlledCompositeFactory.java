@@ -22,15 +22,11 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.eclipse.swt.widgets.Composite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionConfigurationLayoutFactory;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.selectable.ButtonControlledCompositeTemplate;
 import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
@@ -42,16 +38,11 @@ import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
  */
 public class BeamSelectorButtonControlledCompositeFactory implements NamedCompositeFactory, ButtonControlledCompositeTemplate {
 
-	private static final Logger logger = LoggerFactory.getLogger(BeamSelectorButtonControlledCompositeFactory.class);
-
-	private final AcquisitionController<ScanningAcquisition> acquisitionController;
 	private final Supplier<Composite> controlButtonsContainerSupplier;
 
 	private DiffractionConfigurationLayoutFactory acquistionConfigurationFactory;
 
-	public BeamSelectorButtonControlledCompositeFactory(AcquisitionController<ScanningAcquisition> acquisitionController,
-			Supplier<Composite> controlButtonsContainerSupplier) {
-		this.acquisitionController = acquisitionController;
+	public BeamSelectorButtonControlledCompositeFactory(Supplier<Composite> controlButtonsContainerSupplier) {
 		this.controlButtonsContainerSupplier = controlButtonsContainerSupplier;
 	}
 
@@ -73,7 +64,7 @@ public class BeamSelectorButtonControlledCompositeFactory implements NamedCompos
 	@Override
 	public DiffractionConfigurationLayoutFactory getControlledCompositeFactory() {
 		if (acquistionConfigurationFactory == null) {
-			this.acquistionConfigurationFactory = new DiffractionConfigurationLayoutFactory(getAcquisitionController());
+			this.acquistionConfigurationFactory = new DiffractionConfigurationLayoutFactory();
 		}
 		return acquistionConfigurationFactory;
 	}
@@ -86,10 +77,6 @@ public class BeamSelectorButtonControlledCompositeFactory implements NamedCompos
 	@Override
 	public Supplier<Composite> getButtonControlsContainerSupplier() {
 		return controlButtonsContainerSupplier;
-	}
-
-	private AcquisitionController<ScanningAcquisition> getAcquisitionController() {
-		return acquisitionController;
 	}
 
 	/**

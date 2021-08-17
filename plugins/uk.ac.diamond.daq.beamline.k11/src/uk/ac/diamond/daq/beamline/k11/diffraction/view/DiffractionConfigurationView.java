@@ -47,6 +47,7 @@ import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.AcquisitionConfigurationView;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.document.DocumentFactory;
+import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
 import uk.ac.gda.ui.tool.selectable.SelectableContainedCompositeFactory;
 
@@ -90,7 +91,7 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 
 	@Override
 	protected Browser<?> getBrowser() {
-		return getAcquisitionController()
+		return getScanningAcquisitionTemporaryHelper().getAcquisitionController()
 			.map(MapBrowser::new)
 			.orElseGet(() -> new MapBrowser(null));
 	}
@@ -114,16 +115,17 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 
 	private List<NamedCompositeFactory> initializeConfiguration(Supplier<Composite> controlButtonsContainerSupplier) {
 		List<NamedCompositeFactory> configurations = new ArrayList<>();
-		getAcquisitionController()
-			.ifPresent(c -> {
-				configurations.add(new DiffractionButtonControlledCompositeFactory(c, controlButtonsContainerSupplier));
-				configurations.add(new PointAndShootButtonControlledCompositeFactory(c, controlButtonsContainerSupplier));
-				configurations.add(new BeamSelectorButtonControlledCompositeFactory(c, controlButtonsContainerSupplier));
-			});
+		configurations.add(new DiffractionButtonControlledCompositeFactory(controlButtonsContainerSupplier));
+		configurations.add(new PointAndShootButtonControlledCompositeFactory(controlButtonsContainerSupplier));
+		configurations.add(new BeamSelectorButtonControlledCompositeFactory(controlButtonsContainerSupplier));
 		return configurations;
 	}
 
 	private static MappingRemoteServices getMappingRemoteServices() {
 		return SpringApplicationContextFacade.getBean(MappingRemoteServices.class);
+	}
+
+	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
+		return SpringApplicationContextFacade.getBean(ScanningAcquisitionTemporaryHelper.class);
 	}
 }

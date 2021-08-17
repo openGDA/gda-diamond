@@ -96,7 +96,7 @@ class BeamSelectorScanConfigurationLayoutFactory implements CompositeFactory, Re
 
 	private void createConfiguration(Composite parent, int labelStyle) {
 		int columns = components.size();
-		Composite externalContainer = createClientCompositeWithGridLayout(parent, labelStyle, columns);
+		var externalContainer = createClientCompositeWithGridLayout(parent, labelStyle, columns);
 		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).applyTo(externalContainer);
 
 		createClientLabel(externalContainer, labelStyle, "TO BE DONE");
