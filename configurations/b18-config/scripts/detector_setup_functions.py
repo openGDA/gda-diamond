@@ -16,6 +16,10 @@ def setupMythen() :
 
 # Reset XSPress3 settings : enable ROI and deadtime corrections, set to 'TTL Veto only' trigger mode
 def setupXspress3() :
+    if globals().has_key("xspress3") == False :
+        print "Not running setupXspress3 - xspress3 detector is not present"
+        return
+    
     #Set the path to empty so default visit directory (and subdirectory) is used for hdf files
     xspress3.setFilePath("")
     
@@ -40,7 +44,10 @@ def caputXspress4Elements(format, value):
 def setupXspress4() :
     if LocalProperties.isDummyModeEnabled() :
         return
-
+    if globals().has_key("xspress4") == False :
+        print "Not running setupXspress4 - xspress4 detector not present"
+        return
+    
     basePv = xspress4.getController().getBasePv()
     CAClient.putStringAsWaveform(basePv+":HDF5:FileTemplate", "%s%s%d.h5")
     caputXspress4(":HDF5:FileWriteMode", 2) #'stream' capture mode
@@ -95,6 +102,10 @@ def setEnableDtc(enable) :
         
      
 def setupMedipix() :
+    if medipix.isConfigured() == False :
+        print "Not running setupMedipix - medipix detector has not been configured present"
+        return
+
     CAClient.put(medipix_basePvName+":ARR:EnableCallbacks", 1)
     CAClient.put(medipix_basePvName+":ARR:MinCallbackTime", 0)
     cam_port = CAClient.get(medipix_basePvName+":CAM:PortName_RBV")

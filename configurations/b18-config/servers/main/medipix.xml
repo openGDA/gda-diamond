@@ -112,6 +112,7 @@
 		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy" />
 <!-- 		<property name="additionalPluginList" ref="plugins_plotserver_roi" /> -->
 		<property name="additionalPluginList" ref="plugins_mutable_roi" />
+		<property name="configureAtStartup" value="false" />
 	</bean>
 
 	<bean id="qexafs_medipix" class="gda.device.detector.nxdetector.BufferedNXDetector">

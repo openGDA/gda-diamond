@@ -59,7 +59,7 @@ public abstract class DetectorReadout implements Runnable {
 
 		numSpectraCollected=0;
 
-		logger.debug("Readout loop started : total number of spectra to collect= {}", totalNumSpectraToCollect);
+		logger.info("Readout loop started : total number of spectra to collect= {}", totalNumSpectraToCollect);
 		try {
 			while (numSpectraCollected < totalNumSpectraToCollect && !forceQuit) {
 

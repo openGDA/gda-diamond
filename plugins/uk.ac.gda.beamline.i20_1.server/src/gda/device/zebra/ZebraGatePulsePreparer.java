@@ -124,6 +124,7 @@ public class ZebraGatePulsePreparer extends FindableBase {
 		zebraDevice.setPCPulseWidth(pulseWidth);
 		zebraDevice.setPCPulseStep(pulseStep);
 		zebraDevice.setPCPulseMax(numReadoutsForScan);
+		zebraDevice.setPCNumberOfPointsCaptured(0);
 
 		zebraDevice.setOutTTL(1, ttlOutputPort);
 	}

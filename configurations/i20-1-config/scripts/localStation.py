@@ -175,9 +175,12 @@ if LocalProperties.get("gda.mode") == "live":
 
 print "\nReconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
+    mem = scaler_for_zebra.getScaler()
+    mem.close()
+    sleep(1)
+    daserverForTfg.close()
+    sleep(1)
     print "Trying to reconnect to DAServer..."
-    daserverForTfg.reconnect()
-    scalerForZebra.configure()
-    print "Ignore this error (it's 'normal'...)"
-    scalerForZebra.getScaler().clear()
+    daserverForTfg.reconfigure();sleep(1);mem.clear()
+
 # industrialGasRigValve.configure()

@@ -200,6 +200,20 @@ def reconnect_daserver() :
     ionchambers.getScaler().clear()
 
 
+print "\nNew reconnect daserver command : reconnect_daserver_new() "
+def reconnect_daserver_new() :
+    print "Closing connection to DAServer..."
+    mem = ionchambers.getScaler()
+    mem.close()
+    sleep(1)
+    DAServer.close()
+    sleep(1)
+    
+    print "Trying to reconnect to DAServer..."
+    DAServer.reconfigure()
+    sleep(1)
+    mem.clear()
+
 # Set initial values of allowedToMove scannables for XES spectrometer crystals
 for scn in [ minusCrystalAllowedToMove, centreCrystalAllowedToMove, plusCrystalAllowedToMove ] :
     if scn.getPosition() == None :

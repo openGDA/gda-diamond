@@ -15,7 +15,6 @@ echo "Starting da.server using procServ"
 
 echo "Starting da.server using procServ. Use tfg2View.sh to view log output"
 cd /home/b18detector/xspress2_36element
-procServ -n daserver -l 8921 --noautorestart -L log.txt 8920 /usr/local/bin/da.server -port=1972 -log
-tail -F log.txt
+procServ -n daserver -l 8921 --noautorestart 8920 /usr/local/bin/da.server -port=1972 -log
 
 
