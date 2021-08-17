@@ -45,7 +45,10 @@ def xplot(*args):
 def findCols(args):
     # load the data file
     data = ScanFileHolder()
-    data.loadSRS(i07.getLastSrsScanFile())
+    try:
+        data.loadSRS(i07.getLastSrsScanFile())
+    except:
+        pass
     headings = data.getHeadings()
     retstring = ""
 
@@ -57,6 +60,8 @@ def findCols(args):
                 retstring += str(headings.index(args[i])) + " "
             except(ValueError):
                 print "'" + args[i] + "' not found in last scan"
+            except(IndexError, NameError):
+                print "Could not read data headings from last scan"
 
     return retstring.strip(" ")
 
