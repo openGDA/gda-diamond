@@ -39,7 +39,6 @@
 			<bean id="mbs_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserCollectionStrategy" />
 		</property>
 		<property name="energyRange" ref="mbs_analyser_energy_range" />
-		<property name="defaultPsuModeName" value="N/A" />
 		<property name="fixedModeConfiguration">
 			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
 				<property name="startX" value="1" />
@@ -140,5 +139,10 @@
 	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-SIM-02:CAM:DeflX_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-SIM-02:CAM:DeflX" />
+	</bean>
+
+	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05I-EA-SIM-02:CAM:PsuMode_RBV" />
+		<property name="outputFormat" value="%s" />
 	</bean>
 </beans>

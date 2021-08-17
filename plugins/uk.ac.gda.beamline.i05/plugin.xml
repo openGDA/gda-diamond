@@ -37,6 +37,7 @@
          <Scannable name="pgm_cff" tooltip="monochromator cff" />
          <Scannable name="cryostat" tooltip="Temperature control" />
          <Scannable name="sa" tooltip="cryo manipulator positions" />
+         <Scannable name="psu_mode" tooltip="PSU Mode" />
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
