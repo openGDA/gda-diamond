@@ -27,7 +27,6 @@ fi
 ##################################################################################################################
 
 export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/mt-config
-export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/clients/main/_common/plugin_customization.ini"
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
