@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA K11 Beamline" uid="uk.ac.diamond.daq.beamline.k11.product" id="uk.ac.diamond.daq.beamline.k11.product" application="uk.ac.gda.client.application" version="9.22.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA K11 Beamline" uid="uk.ac.diamond.daq.beamline.k11.product" id="uk.ac.diamond.daq.beamline.k11.product" application="uk.ac.gda.client.application" version="9.23.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
