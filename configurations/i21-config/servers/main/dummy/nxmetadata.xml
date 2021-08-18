@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd"> 
+
+	<bean id="m1Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="m1" />
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="fpsetpoint"/>
+					<property name="scannableName" value="m1fpsetpoint"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="m2Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="m2" />
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="fpsetpoint"/>
+					<property name="scannableName" value="m2fpsetpoint"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="andorAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="andor" />
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="description"/>
+					<property name="value" value="Andor - an in vacuum X-ray camera."/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="manufacturer"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="model"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="andor_settings"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="accumulation_period"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod_RBV"/>
+								<property name="units" value="s"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="shutter_mode"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ShutterMode"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="shutter_ext_TTL"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ShutterControl"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="preamp_gain"/> <!-- there is no bit_depth PV in ADSIM -->
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain_RBV"/>
+							</bean>
+							<!-- Andor specific PVs -they are not in ADSIM thus use ScalarField -->
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="adc_speed"/>
+								<property name="value" value="1.00 MHz"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="vertical_shift_speed"/>
+								<property name="value" value="38.55 µS"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="vertical_shift_amplitude"/>
+								<property name="value" value="BL21I-EA-DET-01:CAM:AndorVSAmplitude_RBV"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="em_ccd_gain"/>
+								<property name="value" value="BL21I-EA-DET-01:CAM:AndorEMGain_RBV"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="cooler_temperature"/>
+								<property name="value" value="BL21I-EA-DET-01:CAM:Temperature_RBV"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="cooler_control"/>
+								<property name="value" value="BL21I-EA-DET-01:CAM:AndorCooler"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="temperature_actual"/>
+								<property name="value" value="BL21I-EA-DET-01:CAM:TemperatureActual"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="cooler_status"/>
+								<property name="value" value="BL21I-EA-DET-01:CAM:AndorTempStatus_RBV"/>
+							</bean>
+							<!-- generic detector PVs -->
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ArraySizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:BinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeY_RBV"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="andor2Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="andor2" />
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="description"/>
+					<property name="value" value="Andor 2 - an in vacuum X-ray camera."/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="manufacturer"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="model"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="andor_settings"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="accumulation_period"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod_RBV"/>
+								<property name="units" value="s"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="shutter_mode"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ShutterMode"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="shutter_ext_TTL"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ShutterControl"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="preamp_gain"/> <!-- there is no bit_depth PV in ADSIM -->
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain_RBV"/>
+							</bean>
+							<!-- Andor specific PVs -they are not in ADSIM thus use ScalarField -->
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="adc_speed"/>
+								<property name="value" value="1.00 MHz"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="vertical_shift_speed"/>
+								<property name="value" value="38.55 µS"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="vertical_shift_amplitude"/>
+								<property name="value" value="BL21I-EA-DET-02:CAM:AndorVSAmplitude_RBV"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="em_ccd_gain"/>
+								<property name="value" value="BL21I-EA-DET-02:CAM:AndorEMGain_RBV"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="cooler_temperature"/>
+								<property name="value" value="BL21I-EA-DET-02:CAM:Temperature_RBV"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="cooler_control"/>
+								<property name="value" value="BL21I-EA-DET-02:CAM:AndorCooler"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="temperature_actual"/>
+								<property name="value" value="BL21I-EA-DET-02:CAM:TemperatureActual"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="cooler_status"/>
+								<property name="value" value="BL21I-EA-DET-02:CAM:AndorTempStatus_RBV"/>
+							</bean>
+							<!-- generic detector PVs -->
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ArraySizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:BinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeY_RBV"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="xcamAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="xcam" />
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="description"/>
+					<property name="value" value="XCAM - a cooled in-vacuum X-ray camera with 2 CCD sensors."/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="manufacturer"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="model"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="serial_number"/>
+					<property name="value" value="SN-123456789"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="xcam_settings"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<!-- XCAM specific PVs -they are not in ADSIM thus use ScalarField -->
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="adc_gain"/>
+								<property name="value" value="0.35"/>
+								<property name="units" value="dB"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="adc_offset"/>
+								<property name="value" value="160"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="temperature_set"/>
+								<property name="value" value="20.0"/>
+								<property name="units" value="℃"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="temperature_actual"/>
+								<property name="value" value="-53.3"/>
+								<property name="units" value="℃"/>
+							</bean>
+							<!-- generic detector PVs -->
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ArraySizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:BinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeY_RBV"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="xcamxipAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="xcamxip" />
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="description"/>
+					<property name="value" value="XCAM - a cooled in-vacuum X-ray camera with 2 CCD sensors."/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="manufacturer"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="model"/>
+					<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="serial_number"/>
+					<property name="value" value="SN-123456789"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="xcam_settings"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<!-- XCAM specific PVs -they are not in ADSIM thus use ScalarField -->
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="adc_gain"/>
+								<property name="value" value="0.35"/>
+								<property name="units" value="dB"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="adc_offset"/>
+								<property name="value" value="160"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="temperature_set"/>
+								<property name="value" value="20.0"/>
+								<property name="units" value="℃"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="temperature_actual"/>
+								<property name="value" value="-53.3"/>
+								<property name="units" value="℃"/>
+							</bean>
+							<!-- generic detector PVs -->
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ArraySizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:BinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="binning_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeY_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_y"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeY_RBV"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="xip1_settings"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+								<property name="name" value="centroid_algorithm"/>
+								<property name="nexusClass" value="NXcollection"/>
+								<property name="childNodes"> <!-- add child groups as appropriate -->
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="algorithm"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:ALGORITHM_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="output_mode"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:OUTPUT_MODE_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="background_update_mode"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:BACKGROUND_UPDATE_MODE_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="background_value"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:BACKGROUND_VALUE_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="sum_3x3_minimum_threshold"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:SUM3X3_THRESHOLD_MINIMUM_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="sum_3x3_maximum_threshold"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:SUM3X3_THRESHOLD_MAXIMUM_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="histogram_bin_width"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:HISTOGRAM_BINWIDTH_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="histogram_bin_count"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:HISTOGRAM_BINCOUNT_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="source_region"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:ENABLE_SOURCE_REGION_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_start_x"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM0_MIN_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_start_y"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM1_MIN_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_size_x"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM0_SIZE_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_size_y"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM1_SIZE_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="eta_correction_file"/>
+											<property name="value" value="1BL21I-EA-DET-03:XIP1:CENTROID_FILENAME_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="xip1_event_count"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:EVENT_LIST_SIZE_RBV"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+								<property name="name" value="isolinear_correction"/>
+								<property name="nexusClass" value="NXcollection"/>
+								<property name="childNodes"> <!-- add child groups as appropriate -->
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="beamline_energy"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:BEAMLINE_ENERGY_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="isolinear_correction"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:ENABLE_ISOLINEAR_CORRECTION_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="coefficient_x^2"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X2_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="coefficient_x"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X1_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="constant"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X0_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="calibration_threshold"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP1:HR_ISOLINEAR_CALIBRATION_THRESHOLD_RBV"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="xip2_settings"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+								<property name="name" value="centroid_algorithm"/>
+								<property name="nexusClass" value="NXcollection"/>
+								<property name="childNodes"> <!-- add child groups as appropriate -->
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="algorithm"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:ALGORITHM_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="output_mode"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:OUTPUT_MODE_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="background_update_mode"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:BACKGROUND_UPDATE_MODE_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="background_value"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:BACKGROUND_VALUE_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="sum_3x3_minimum_threshold"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:SUM3X3_THRESHOLD_MINIMUM_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="sum_3x3_maximum_threshold"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:SUM3X3_THRESHOLD_MAXIMUM_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="histogram_bin_width"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:HISTOGRAM_BINWIDTH_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="histogram_bin_count"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:HISTOGRAM_BINCOUNT_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="source_region"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:ENABLE_SOURCE_REGION_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_start_x"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM0_MIN_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_start_y"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM1_MIN_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_size_x"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM0_SIZE_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="region_size_y"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM1_SIZE_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="eta_correction_file"/>
+											<property name="value" value="1BL21I-EA-DET-03:XIP2:CENTROID_FILENAME_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="xip1_event_count"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:EVENT_LIST_SIZE_RBV"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+								<property name="name" value="isolinear_correction"/>
+								<property name="nexusClass" value="NXcollection"/>
+								<property name="childNodes"> <!-- add child groups as appropriate -->
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="beamline_energy"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:BEAMLINE_ENERGY_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="isolinear_correction"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:ENABLE_ISOLINEAR_CORRECTION_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="coefficient_x^2"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X2_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="coefficient_x"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X1_RBV"/>
+										</bean>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="constant"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X0_RBV"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="calibration_threshold"/>
+											<property name="value" value="BL21I-EA-DET-03:XIP2:HR_ISOLINEAR_CALIBRATION_THRESHOLD_RBV"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+		<property name="sourceName" value="source" />
+		<property name="beamName" value="beam" />
+		<property name="userDeviceName" value="user01" />
+		<property name="insertionDeviceName" value="id" />
+		<property name="monochromatorName" value="pgm" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>s1</value>
+				<value>s2</value>
+				<value>s3</value>
+				<value>s4</value>
+				<value>s5</value>
+				<value>s6</value>
+				<value>m1</value>
+				<value>m2</value>
+				<value>m4</value>
+				<value>m5</value>
+				<value>manipulator</value>
+				<value>lakeshore336</value>
+				<value>sgm</value>
+				<value>spectrometer</value>
+				<value>polariser</value>
+				<value>fast_shutter</value>
+			</set>
+		</property>
+	</bean>
+
+</beans>

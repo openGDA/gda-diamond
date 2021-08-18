@@ -15,7 +15,7 @@
 		<property name="controller" ref="idcontrol" />
 	</bean>
 	
-	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="ID" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="idgap" />

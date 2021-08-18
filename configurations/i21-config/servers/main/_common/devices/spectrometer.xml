@@ -57,7 +57,7 @@
 		<property name="onPositionValue" value="Air On"/>
 		<property name="offPositionValue" value="Air Off"/>
 	</bean>
-	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="Spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="specgamma" />

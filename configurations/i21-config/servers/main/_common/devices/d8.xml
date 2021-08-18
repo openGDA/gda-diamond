@@ -11,7 +11,7 @@
 	</bean>
 
 	<!-- Group d2-related objects -->
-	<bean id="d8" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="D8" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d8stick" />

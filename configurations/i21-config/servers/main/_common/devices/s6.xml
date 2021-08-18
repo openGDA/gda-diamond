@@ -44,7 +44,7 @@
 	</bean>
 
 
-	<bean id="s6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="S6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="s6vgap" />

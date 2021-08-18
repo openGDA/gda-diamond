@@ -11,7 +11,7 @@
 	</bean>
 
 	<!-- Group d4-related objects -->
-	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="D4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d4pos" />

@@ -11,7 +11,7 @@
 	</bean>
 
 	<!-- Group d3b-related objects -->
-	<bean id="d3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="D3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d3bpos" />

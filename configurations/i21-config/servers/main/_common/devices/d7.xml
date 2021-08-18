@@ -9,7 +9,7 @@
 	</bean>
 
 	<!-- Group d4-related objects -->
-	<bean id="d7" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="D7" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d7gascell" />
