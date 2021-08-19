@@ -41,7 +41,6 @@ import org.springframework.context.ApplicationListener;
 
 import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.concurrent.Async;
-import uk.ac.diamond.daq.experiment.api.structure.ExperimentControllerException;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
@@ -50,6 +49,7 @@ import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionControllerException;
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.client.exception.GDAClientRestException;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
 
@@ -94,9 +94,9 @@ public class PointAndShootController {
 		synchroniser = new RegionMovedLatch();
 	}
 
-	public void startSession() throws ExperimentControllerException {
+	public void startSession() throws GDAClientRestException {
 		if (!getExperimentController().isExperimentInProgress()) {
-			throw new ExperimentControllerException("An experiment must be started first");
+			throw new GDAClientRestException("An experiment must be started first");
 		}
 		SpringApplicationContextFacade.addApplicationListener(synchroniser);
 		getMapPlottingSystem().setTitle("Point and Shoot: Ctrl+Click to scan");
@@ -105,7 +105,7 @@ public class PointAndShootController {
 		logger.info("Point and Shoot session '{}' started", sessionName);
 	}
 
-	public void endSession() throws ExperimentControllerException {
+	public void endSession() throws GDAClientRestException {
 		unregisterClickEventHandler();
 		getExperimentController().stopMultipartAcquisition();
 		getMapPlottingSystem().setTitle(" ");
