@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
     profile="ncddetectors,saxs,waxs"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.diamond.ac.uk/schema/gda/gda
+        http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
     <bean class="gda.device.timer.Etfg" id="Tfg">
         <property name="daServerName" value="DAServer"/>
@@ -64,7 +67,9 @@
                 <ref bean="scanStartFastShutterAction"/>
             </list>
         </property>
-        <property name="detectors" value="#{getBeanFactory().getBeansOfType(Class.forName('uk.ac.gda.server.ncd.subdetector.INcdSubDetector')).values()}"/>
+        <property name="detectors">
+            <gda:allOfType type="uk.ac.gda.server.ncd.subdetector.INcdSubDetector" />
+        </property>
     </bean>
 
     <bean id="defaultTFGCoreConfiguration" class="uk.ac.gda.server.ncd.timing.data.TFGCoreConfiguration">
