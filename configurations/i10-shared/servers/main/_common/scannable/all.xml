@@ -1,21 +1,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="FrontEnd.xml"/>
 	<import resource="ID.xml"/>
 	<import resource="D1.xml"/>
 	<import resource="S1.xml"/>
-<!-- replace M1 haxpod control by position compare script -->
-<!-- 	<import resource="M1.xml"/> -->
 	<import resource="S2.xml"/>
 	<import resource="D2.xml"/>
 	<import resource="PGM.xml"/>
 	<import resource="S3.xml"/>
 	<import resource="D3.xml"/>
-<!-- replace M1 haxpod control by position compare script -->
-<!-- 	<import resource="M3M5.xml"/> -->
 	<import resource="CA1.xml"/>
 	<import resource="beam.xml"/>
+	
 </beans>

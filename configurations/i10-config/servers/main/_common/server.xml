@@ -48,4 +48,21 @@
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 --> 
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml"/>
+	<import resource="nxmetadata-shared.xml"/>
+	
+	<!-- Spring profile must be the last lines in this file. -->
+	<beans profile="dummy">
+		<!--haxpod control: use beans in dummy, positiona compare motor in live mode  -->
+		<import resource="../../../../i10-shared/servers/main/_common/scannable/M1.xml"/>
+		<import resource="../../../../i10-shared/servers/main/_common/scannable/M3M5.xml"/>	
+		<import resource="scannable/M4.xml"/>
+		<import resource="scannable/M6.xml"/>
+	</beans>
+	
+	<beans profile="scattering">
+		<import resource="nxmetadata-scattering.xml"/>
+	</beans>
+	<beans profile="absorption">
+		<import resource="nxmetadata-absorption.xml"/>
+	</beans>
 </beans>

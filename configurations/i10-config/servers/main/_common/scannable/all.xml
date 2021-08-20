@@ -10,8 +10,6 @@
 	<import resource="D4.xml"/>
 	<import resource="S4.xml"/>
 	<import resource="D5.xml"/>
-<!-- replace M4 haxpod control by position compare script -->
-<!-- 	<import resource="M4.xml"/> -->
 	<import resource="S5.xml"/>
 	<import resource="S6.xml"/>
 	<import resource="D6.xml"/>
@@ -32,8 +30,6 @@
 	<import resource="S7.xml"/>
 	<import resource="DJ2A.xml"/>
 	<import resource="DJ2.xml"/>
-<!-- replace M6 haxpod control by position compare script -->
-<!-- 	<import resource="M6.xml"/> -->
 	<import resource="S8.xml"/>
 	<import resource="DJ3.xml"/>
 	<import resource="S9.xml"/>
@@ -45,5 +41,5 @@
 	<import resource="LakeShore340.xml"/>
 <!-- 	<import resource="xmap_detector.xml"/> --><!-- xmapMca and _xmap for MCA mapping mode- requires trigger -->
 	<import resource="MES2.xml"/>
-
+	
 </beans>
