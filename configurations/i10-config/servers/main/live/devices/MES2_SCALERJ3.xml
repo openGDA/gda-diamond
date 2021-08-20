@@ -195,7 +195,7 @@
 		<property name="scalerChannelIndex" value="31"/>
 	</bean>
 
-	<bean id="Scaler_J3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="MES2_SCALERJ3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="scalerj3" />
