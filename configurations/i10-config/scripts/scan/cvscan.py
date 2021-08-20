@@ -108,11 +108,19 @@ def cvscan(c_energy, start, stop, step, *args):
             newargs.append(beam_checker)
         # wait for ID access control is enabled before continue
         if smode.getPosition() == X_RAY_SOURCE_MODES[0]:
+            first_time = True
             while idd_access_observer.getStatus() == Status.DISABLED:  # @UndefinedVariable
-                sleep(1)
+                if first_time:
+                    print("Waiting for idd access from beamline to be enabled by Main Control Room, Tel: 8899")
+                    first_time = False
+                sleep(5)
         elif smode.getPosition() == X_RAY_SOURCE_MODES[1]:
+            first_time = True
             while idu_access_observer.getStatus() == Status.DISABLED:  # @UndefinedVariable
-                sleep(1)
+                if first_time:
+                    print("Waiting for idu access from beamline to be enabled by Main Control Room, Tel: 8899")
+                    first_time = False
+                sleep(5)
 
         cvscan_traj([arg for arg in newargs])
     except Exception as e:
