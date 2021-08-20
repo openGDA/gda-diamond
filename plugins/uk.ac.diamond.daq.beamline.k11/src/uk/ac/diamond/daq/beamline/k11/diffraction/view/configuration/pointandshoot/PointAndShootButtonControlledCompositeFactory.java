@@ -33,10 +33,14 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionConfigurationLayoutFactory;
 import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
+import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.ButtonGroupFactoryBuilder;
+import uk.ac.gda.client.exception.AcquisitionControllerException;
 import uk.ac.gda.client.exception.GDAClientRestException;
+import uk.ac.gda.client.properties.acquisition.AcquisitionKeys;
+import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -105,6 +109,17 @@ public class PointAndShootButtonControlledCompositeFactory
 		return controlButtonsContainerSupplier;
 	}
 
+	@Override
+	public AcquisitionKeys getAcquisitionKeys() {
+		return new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionTemplateType.TWO_DIMENSION_POINT);
+	}
+
+	@Override
+	public void createNewAcquisitionInController() throws AcquisitionControllerException {
+		getScanningAcquisitionTemporaryHelper()
+			.setNewScanningAcquisition(getAcquisitionKeys());
+	}
+
 	/**
 	 * Loads the content of the file identified by the fully qualified filename parameter into the mapping bean and
 	 * refreshes the UI to display the changes. An update of any linked UIs will also be triggered by the controllers
@@ -117,7 +132,7 @@ public class PointAndShootButtonControlledCompositeFactory
 	private ButtonGroupFactoryBuilder getAcquistionButtonGroupFacoryBuilder() {
 		var builder = new ButtonGroupFactoryBuilder();
 		builder.addButton(ClientMessages.NEW, ClientMessages.NEW_CONFIGURATION_TP,
-				widgetSelectedAdapter(event -> getScanningAcquisitionTemporaryHelper().newAcquisition()),
+				widgetSelectedAdapter(event -> newAcquisitionButtonAction()),
 				ClientImages.ADD);
 		builder.addButton(ClientMessages.SAVE, ClientMessages.SAVE_CONFIGURATION_TP,
 				widgetSelectedAdapter(event -> getScanningAcquisitionTemporaryHelper().saveAcquisition()),

@@ -39,8 +39,8 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
-import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.ui.tool.Reloadable;
+import uk.ac.gda.ui.tool.controller.AcquisitionController;
 
 /**
  * This Composite allows to edit a {@link ScanningParameters} object.
