@@ -85,7 +85,7 @@
 		 -->
 	</bean>
 	
-	<bean id="s6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="S6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="s6xring" />
@@ -95,7 +95,8 @@
 				<ref bean="s6xsize" />
 				<ref bean="s6xcentre" />
 				<ref bean="s6ysize" />
-				<ref bean="s6ycentre" />			</list>
+				<ref bean="s6ycentre" />
+			</list>
 		</property>
 	</bean>
 </beans>

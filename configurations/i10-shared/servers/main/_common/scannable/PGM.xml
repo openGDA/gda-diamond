@@ -35,7 +35,7 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	
-	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="PGM" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="pgm_energy" />

@@ -7,53 +7,29 @@
 
 	<bean id="m4_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4x_motor" />
-		<!-- <property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" /> -->
-	</bean>  
+	</bean>
 	
 	<bean id="m4_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4y_motor" />
-		<!-- <property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" /> -->
-	</bean>  
+	</bean>
 	
 	<bean id="m4_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4z_motor" />
-		<!-- <property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" /> -->
-	</bean>  
+	</bean>
 	
 	<bean id="m4_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4yaw_motor" />
-		<!-- <property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" /> -->
-	</bean>  
+	</bean>
 	
 	<bean id="m4_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4pitch_motor" />
-		<!-- <property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" /> -->
-	</bean>  
+	</bean>
 	
 	<bean id="m4_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4roll_motor" />
-		<!-- <property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" /> -->
-	</bean>  
+	</bean>
 	
-	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="M4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="m4_x" />

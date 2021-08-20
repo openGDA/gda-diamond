@@ -11,10 +11,6 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="aptr2_trans_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-25" />
-		<property name="upperGdaLimits" value="25" />
-		 -->
 	</bean>
 
 	<bean id="slitD" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -31,10 +27,6 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="aptr1_trans_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-25" />
-		<property name="upperGdaLimits" value="25" />
-		 -->
 	</bean>
 	
 	<bean id="slitU" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -51,10 +43,6 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_x_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-9" />
-		<property name="upperGdaLimits" value="9" />
-		 -->
 	</bean>
 	
 	<bean id="sy" class="gda.device.scannable.ScannableMotor">
@@ -62,10 +50,6 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_y_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-9" />
-		<property name="upperGdaLimits" value="9" />
-		 -->
 	</bean>
 	
 	<bean id="sz" class="gda.device.scannable.ScannableMotor">
@@ -73,13 +57,9 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_z_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-9" />
-		<property name="upperGdaLimits" value="9" />
-		 -->
 	</bean>
 	
-	<bean id="cryo" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="CRYO" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="cryo" />
 		<property name="groupMembers">
 			<list>
@@ -95,22 +75,13 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg1_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-9" />
-		<property name="upperGdaLimits" value="9" />
-		 -->
 	</bean>
 	
 	<bean id="lgm" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="lgm" />
-
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg2_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-9" />
-		<property name="upperGdaLimits" value="9" />
-		 -->
 	</bean>
 	
 	<bean id="lgb" class="gda.device.scannable.ScannableMotor">
@@ -118,13 +89,9 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg3_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-9" />
-		<property name="upperGdaLimits" value="9" />
-		 -->
 	</bean>
 	
-	<bean id="table" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="TABLE" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="table" />
 		<property name="groupMembers">
 			<list>
@@ -145,10 +112,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_twotheta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-80" />
-		<property name="upperGdaLimits" value="260" />
-		 -->
 	</bean>
 
 	<bean id="th" class="gda.device.scannable.ScannableMotor">
@@ -161,10 +124,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_theta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="190" />
-		 -->
 	</bean>
 	
 
@@ -178,10 +137,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_chi_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="86" />
-		<property name="upperGdaLimits" value="94" />
-		 -->
 	</bean>
 	
 	<bean id="difx" class="gda.device.scannable.ScannableMotor">
@@ -189,10 +144,6 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="diff_x_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-5" />
-		<property name="upperGdaLimits" value="5" />
-		 -->
 	</bean>
 	<!-- rename RASOR alpha to alpha_rasor to avoid name collision with DIFFCALC -->
 	<bean id="alpha_rasor" class="gda.device.scannable.ScannableMotor">
@@ -200,10 +151,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_alpha_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-1" />
-		<property name="upperGdaLimits" value="1" />
-		 -->
 	</bean>
 	<bean id="pinhx" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
@@ -214,7 +161,7 @@
 		<property name="motor" ref="pinh_y_motor" />
 	</bean>
 	
-	<bean id="rasor" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="RASOR" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="rasor" />
 		<property name="groupMembers">
 			<list>
@@ -250,7 +197,7 @@
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	
-	<bean id="emec" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="EMEC" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="emec" />
 		<property name="groupMembers">
 			<list>
@@ -266,10 +213,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_eta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-190" />
-		<property name="upperGdaLimits" value="190" />
-		 -->
 	</bean>
 	
 	<bean id="thp" class="gda.device.scannable.ScannableMotor">
@@ -277,10 +220,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_theta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="280" />
-		 -->
 	</bean>
 	
 	<bean id="ttp" class="gda.device.scannable.ScannableMotor">
@@ -288,10 +227,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_twotheta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-45" />
-		<property name="upperGdaLimits" value="135" />
-		 -->
 	</bean>
 	
 	<bean id="py" class="gda.device.scannable.ScannableMotor">
@@ -301,10 +236,6 @@
 		<property name="hardwareUnitString" value="mm" />
 		<!-- Note that tolerance is required for correct isAt behaviour -->
 		<property name="tolerance" value="0.001" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-5" />
-		<property name="upperGdaLimits" value="5" />
-		 -->
 	</bean>
 	
 	<bean id="pz" class="gda.device.scannable.ScannableMotor">
@@ -314,13 +245,9 @@
 		<property name="hardwareUnitString" value="mm" />
 		<!-- Note that tolerance is required for correct isAt behaviour -->
 		<property name="tolerance" value="0.001" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-15" />
-		<property name="upperGdaLimits" value="15" />
-		 -->
 	</bean>
 	
-	<bean id="polan" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="POLAN" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="polan" />
 		<property name="groupMembers">
 			<list>

@@ -5,23 +5,14 @@
 
 	<!-- MAGJ1 -->
 
-	<!-- 
-	<bean id="magj1yins_motor" class="gda.device.motor.DummyMotor" />
-	 -->
 	<bean id="magj1yins_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-EA-MAG-01:INSERT:Y" />
 	</bean>
 
-	<!-- 
-	<bean id="magj1yrot_motor" class="gda.device.motor.DummyMotor" />
-	 -->
 	<bean id="magj1yrot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-EA-MAG-01:INSERT:ROTY" />
 	</bean>
 
-	<!-- 
-	<bean id="magj1x_motor" class="gda.device.motor.DummyMotor" />
-	 -->
 	<bean id="magj1x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-EA-MAG-01:X" />
 	</bean>

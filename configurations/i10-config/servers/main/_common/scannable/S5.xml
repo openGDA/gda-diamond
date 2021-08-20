@@ -9,82 +9,50 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5xring_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
 	
 	<bean id="s5xhall" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5xhall_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
 	
 	<bean id="s5yplus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5yplus_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
 	
     <bean id="s5yminus" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5yminus_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
 
 	<bean id="s5xsize" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5xsize_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean> 
-	 
+	</bean>
+
 	<bean id="s5xcentre" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5xcentre_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean>  
-	
+	</bean>
+
 	<bean id="s5ysize" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5ysize_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
 	
 	<bean id="s5ycentre" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s5ycentre_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
-	  
+
 	<bean id="S5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

@@ -4,7 +4,9 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
            
    	<!-- Insertion Device -->
-	
+	<bean id="idblena_id1" class="gda.epics.DummyAccessControl"/>
+	<bean id="idblena_id2" class="gda.epics.DummyAccessControl"/>
+
 	<bean id="idd_gap_motor" class="gda.device.motor.DummyMotor" >
 		<property name="minPosition" value="15.9" />
 		<property name="maxPosition" value="270.2" />

@@ -9,10 +9,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_sim_twotheta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-80" />
-		<property name="upperGdaLimits" value="260" />
-		 -->
 	</bean>
 
 	<bean id="simth" class="gda.device.scannable.ScannableMotor">
@@ -20,22 +16,13 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_sim_theta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="190" />
-		 -->
 	</bean>
 	
-
 	<bean id="simchi" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="simchi" />
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_sim_chi_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="86" />
-		<property name="upperGdaLimits" value="94" />
-		 -->
 	</bean>
 	
 	<bean id="simalpha" class="gda.device.scannable.ScannableMotor">
@@ -43,9 +30,5 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_sim_alpha_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-1" />
-		<property name="upperGdaLimits" value="1" />
-		 -->
 	</bean>
 </beans>

@@ -5,16 +5,10 @@
 
 	<!-- MAGJ1 -->
 
-	<!-- 
-	<bean id="magj1yins_motor" class="gda.device.motor.DummyMotor" />
-	 -->
 	<bean id="emy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-CRYO-01:Y" />
 	</bean>
 
-	<!-- 
-	<bean id="magj1yrot_motor" class="gda.device.motor.DummyMotor" />
-	 -->
 	<bean id="empitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-CRYO-01:PITCH" />
 	</bean>

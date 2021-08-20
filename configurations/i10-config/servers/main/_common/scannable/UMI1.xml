@@ -9,62 +9,38 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="user1_axis1_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
-	
+
 	<bean id="user1_axis2" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="user1_axis2_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
-	
+
 	<bean id="user1_axis3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="user1_axis3_motor" />
-		<!-- 
 		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="user1_axis3_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
 	</bean>
 	
-    <bean id="user1_axis4" class="gda.device.scannable.ScannableMotor">
+	<bean id="user1_axis4" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="user1_axis4_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean>  
-	
+	</bean>
+
 	<bean id="user1_axis5" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="user1_axis5_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean>  
-	
+	</bean>
+
 	<bean id="user1_axis6" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="user1_axis6_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean>  
-	
+	</bean>
+
 	<bean id="UMI1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
