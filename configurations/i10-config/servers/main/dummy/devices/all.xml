@@ -30,8 +30,9 @@
 	<import resource="RASOR-Cam2.xml"/>
 	<import resource="RASOR-Cam3.xml"/>
 	<import resource="RASOR.xml"/>
+	<import resource="RASOR-SCALER1.xml"/>
 	<import resource="RASOR_diff_sim_motors.xml"/>
-<!-- 	<import resource="RASOR-SCALER1.xml"/> --><!-- need develop a DummyScaler -->
+	<import resource="UI1_SCALER1.xml"/>
 
 	<!-- J Absorption -->
 
@@ -51,9 +52,12 @@
 	<import resource="CAJ2.xml"/>
 	<import resource="GVJ6.xml"/>
 	<import resource="MAGJ1.xml"/>
+	<import resource="MES_SCALERJ2.xml"/>
+	<import resource="UJ1_SCALERJ1.xml"/>
 
 	<import resource="LakeShore340.xml"/>
 	<import resource="MES2.xml"/>
+	<import resource="MES2_SCALERJ3.xml"/>
 	<import resource="lakeshore336.xml"/>
 	
 	<!-- Temporary devices -->

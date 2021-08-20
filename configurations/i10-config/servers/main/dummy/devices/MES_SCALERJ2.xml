@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="scalerj2" class="gda.device.detector.countertimer.DummyCounterTimer">
+		<property name="noiseLevel" value="0.1"/>
+		<property name="totalChans" value="32" />
+		<property name="timeChannelRequired" value="false"/>
+		<property name="useGaussian" value="true"/>
+		<property name="dataDecimalPlaces" value="3"/>
+	</bean>
+	
+	<bean id="macj21" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj21</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="1"/>
+	</bean>
+
+	<bean id="macj22" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj22</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="2"/>
+	</bean>
+
+	<bean id="macj23" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj23</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="3"/>
+	</bean>
+
+	<bean id="macj24" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj24</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="4"/>
+	</bean>
+
+	<bean id="macj25" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj25</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="5"/>
+	</bean>
+
+	<bean id="macj26" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj26</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="6"/>
+	</bean>
+
+	<bean id="macj27" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj27</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="7"/>
+	</bean>
+
+	<bean id="macj28" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj28</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="8"/>
+	</bean>
+
+	<bean id="macj29" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj29</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="9"/>
+	</bean>
+
+	<bean id="macj210" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj210</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="10"/>
+	</bean>
+
+	<bean id="macj211" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj211</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="11"/>
+	</bean>
+
+	<bean id="macj212" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj212</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="12"/>
+	</bean>
+
+	<bean id="macj213" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj213</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="13"/>
+	</bean>
+
+	<bean id="macj214" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj214</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="14"/>
+	</bean>
+
+	<bean id="macj215" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj215</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="15"/>
+	</bean>
+
+	<bean id="macj216" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj216</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="16"/>
+	</bean>
+
+	<bean id="macj217" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj217</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="17"/>
+	</bean>
+
+	<bean id="macj218" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj218</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="18"/>
+	</bean>
+
+	<bean id="macj219" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj219</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="19"/>
+	</bean>
+
+	<bean id="macj220" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj220</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="20"/>
+	</bean>
+
+	<bean id="macj221" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj221</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="21"/>
+	</bean>
+
+	<bean id="macj222" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj222</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="22"/>
+	</bean>
+
+	<bean id="macj223" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj223</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="23"/>
+	</bean>
+
+	<bean id="macj224" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj224</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="24"/>
+	</bean>
+
+	<bean id="macj225" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj225</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="25"/>
+	</bean>
+
+	<bean id="macj226" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj226</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="26"/>
+	</bean>
+
+	<bean id="macj227" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj227</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="27"/>
+	</bean>
+
+	<bean id="macj228" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj228</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="28"/>
+	</bean>
+
+	<bean id="macj229" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj229</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="29"/>
+	</bean>
+
+	<bean id="macj230" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj230</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="30"/>
+	</bean>
+
+	<bean id="macj231" class="gda.device.detector.DummyScalarChannelDetector">
+		<property name="inputNames"><list><value>macj231</value></list></property>
+		<property name="scaler" ref="scalerj2"/>
+		<property name="scalerChannelIndex" value="31"/>
+	</bean>
+
+	<bean id="MES_SCALERJ2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="scalerj2" />
+				<ref bean="macj21" />
+				<ref bean="macj22" />
+				<ref bean="macj23" />
+				<ref bean="macj24" />
+				<ref bean="macj25" />
+				<ref bean="macj26" />
+				<ref bean="macj27" />
+				<ref bean="macj28" />
+				<ref bean="macj29" />
+				<ref bean="macj210" />
+				<ref bean="macj211" />
+				<ref bean="macj212" />
+				<ref bean="macj213" />
+				<ref bean="macj214" />
+				<ref bean="macj215" />
+				<ref bean="macj216" />
+				<ref bean="macj217" />
+				<ref bean="macj218" />
+				<ref bean="macj219" />
+				<ref bean="macj220" />
+				<ref bean="macj221" />
+				<ref bean="macj222" />
+				<ref bean="macj223" />
+				<ref bean="macj224" />
+				<ref bean="macj225" />
+				<ref bean="macj226" />
+				<ref bean="macj227" />
+				<ref bean="macj228" />
+				<ref bean="macj229" />
+				<ref bean="macj230" />
+				<ref bean="macj231" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
