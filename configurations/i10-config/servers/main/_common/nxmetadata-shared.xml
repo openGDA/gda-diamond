@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- Shared Devices -->
+	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="source" />
+		<property name="sourceName" value="Diamond Light Source" /> <!-- This is the default, so you can skip this line -->
+		<property name="currentScannableName" value="rc" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="energy"/>
+					<property name="scannableName" value="beamenergy"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="beamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam" />
+		<property name="incidentEnergyScannableName" value="pgm_energy" />
+		<property name="incidentBeamDivergenceScannableName" value="ds" />
+		<property name="incidentPolarizationScannableName" value="stokes_parameters" />
+		<property name="beamExtentScannableName" value="ds" />
+		<property name="fluxScannableName" value="ds" />
+	</bean>
+	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+		<property name="name" value="user01"/>
+	</bean>	
+	<bean id="idNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
+		<property name="name" value="id" />
+		<property name="type" value="UNDULATOR" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="source_mode"/>
+					<property name="scannableName" value="smode"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="polarisation"/>
+					<property name="scannableName" value="pol"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="idd"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="gap"/>
+								<property name="scannableName" value="idd_gap"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+									<property name="name" value="rowphase1"/>
+									<property name="scannableName" value="idd_rowphase1"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="rowphase2"/>
+								<property name="scannableName" value="idd_rowphase2"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+									<property name="name" value="rowphase3"/>
+									<property name="scannableName" value="idd_rowphase3"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="rowphase4"/>
+								<property name="scannableName" value="idd_rowphase4"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="jawphase"/>
+								<property name="scannableName" value="idd_jawphase"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="sepphase"/>
+								<property name="scannableName" value="idd_sepphase"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="idu"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="gap"/>
+								<property name="scannableName" value="idu_gap"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="rowphase1"/>
+								<property name="scannableName" value="idu_rowphase1"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="rowphase2"/>
+								<property name="scannableName" value="idu_rowphase2"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="rowphase3"/>
+								<property name="scannableName" value="idu_rowphase3"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="rowphase4"/>
+								<property name="scannableName" value="idu_rowphase4"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="jawphase"/>
+								<property name="scannableName" value="idu_jawphase"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="sepphase"/>
+								<property name="scannableName" value="idu_sepphase"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="monochromatorNexusDevice" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
+		<property name="name" value="pgm" />
+		<property name="energyScannableName" value="pgm_energy" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="mirror_pitch"/>
+					<property name="scannableName" value="pgm_m2_pitch"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="grating_pitch"/>
+					<property name="scannableName" value="pgm_grat_pitch"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="mirror_x"/>
+					<property name="scannableName" value="pgm_m2_plane"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="grating_x"/>
+					<property name="scannableName" value="pgm_grat_x"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="cff"/>
+					<property name="scannableName" value="cff"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="grating"/>
+					<property name="scannableName" value="grating"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s1NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s1" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s1xsize"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s1ysize"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_pos"/>
+					<property name="scannableName" value="s1xcentre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_pos"/>
+					<property name="scannableName" value="s1ycentre"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	<bean id="s2NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s2" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s2xsize"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s2ysize"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_pos"/>
+					<property name="scannableName" value="s2xcentre"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_pos"/>
+					<property name="scannableName" value="s2ycentre"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="s3NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s3" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s3xsize"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s3ysize"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_pos"/>
+					<property name="scannableName" value="s3xcentre"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_pos"/>
+					<property name="scannableName" value="s3ycentre"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="m1NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="m1" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXmirror"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x"/>
+					<property name="scannableName" value="m1_x"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="m1_y"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="z"/>
+					<property name="scannableName" value="m1_z"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="yaw"/>
+					<property name="scannableName" value="m1_yaw"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="m1_pitch"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="roll"/>
+					<property name="scannableName" value="m1_roll"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="m1_fine_pitch"/>
+					<property name="scannableName" value="m1fpitch"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	<bean id="m3m5NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="m3m5" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXmirror"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x"/>
+					<property name="scannableName" value="m3m5_x"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="m3m5_y"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="z"/>
+					<property name="scannableName" value="m3m5_z"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="yaw"/>
+					<property name="scannableName" value="m3m5_yaw"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="m3m5_pitch"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="roll"/>
+					<property name="scannableName" value="m3m5_roll"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="m3m5_fine_pitch"/>
+					<property name="scannableName" value="m3m5fpitch"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	
+</beans>

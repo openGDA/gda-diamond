@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Absorption Branch -->
+	<bean id="s7NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s7" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s7xgap"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s7ygap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_size"/>
+					<property name="scannableName" value="s7xsize"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_size"/>
+					<property name="scannableName" value="s7ysize"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="z"/>
+					<property name="scannableName" value="s7z"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="s8NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s8" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s8xsize"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s8ysize"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_pos"/>
+					<property name="scannableName" value="s8xcentre"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_pos"/>
+					<property name="scannableName" value="s8ycentre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_ring"/>
+					<property name="scannableName" value="s8xring"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_hall"/>
+					<property name="scannableName" value="s8xhall"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_plus"/>
+					<property name="scannableName" value="s8yplus"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_minus"/>
+					<property name="scannableName" value="s8yminus"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="s9NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s9" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_ring"/>
+					<property name="scannableName" value="s6xring"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_hall"/>
+					<property name="scannableName" value="s9xhall"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_plus"/>
+					<property name="scannableName" value="s9yplus"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_minus"/>
+					<property name="scannableName" value="s9yminus"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="m6NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="m6" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXmirror"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x"/>
+					<property name="scannableName" value="m6_x"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="m6_y"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="z"/>
+					<property name="scannableName" value="m6_z"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="yaw"/>
+					<property name="scannableName" value="m6_yaw"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="m6_pitch"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="roll"/>
+					<property name="scannableName" value="m6_roll"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="m6_fine_pitch"/>
+					<property name="scannableName" value="m6fpitch"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	
+</beans>
