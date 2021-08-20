@@ -7,13 +7,11 @@ from gda.jython.commands.GeneralCommands import alias
 from time import sleep  # @UnusedImport
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-from uk.ac.gda.remoting.server import GdaRmiServiceExporter
 with overwriting:  # @UndefinedVariable
-    from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnresolvedImport
+    from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnusedImport @UnresolvedImport
 import gdascripts
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
 from gda.device.scannable import DummyScannable
-from calibration.Energy2Gap4ID import idgap_calc
 
 simpleLog("================ INITIALISING I21 GDA ================")
 print("-"*100)
@@ -37,8 +35,8 @@ def interruptable():
 alias("interruptable")
 print("-"*100)
 print("load EPICS Pseudo Device utilities for creating scannable object from a PV name.")
-from gdascripts.pd.epics_pds import EpicsReadWritePVClass, DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerNoStatusClassDeadband,\
-    DummyDisplayEpicsPVClass  # @UnusedImport
+from gdascripts.pd.epics_pds import EpicsReadWritePVClass, DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerNoStatusClassDeadband  # @UnusedImport
+from gdascripts.pd.dummy_pds import DummyDisplayEpicsPVClass, DummyEpicsReadWritePVClass  # @UnusedImport
 print("-"*100)
 print("load time utilities for creating timer objects.")
 from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc,showtimeClass,showincrementaltimeClass,waittimeClass2  # @UnusedImport
