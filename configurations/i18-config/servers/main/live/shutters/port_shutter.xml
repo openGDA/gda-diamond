@@ -4,8 +4,8 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="FE18I-PS-SHTR-02:STA" />
+	<bean id="portshutter" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="FE18I-PS-SHTR-02" />
 	</bean>
 
 </beans>
