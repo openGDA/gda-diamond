@@ -18,6 +18,8 @@
 
 package gda.images.camera;
 
+import java.util.Arrays;
+
 import org.apache.commons.math.linear.RealMatrix;
 
 import gda.configuration.properties.LocalProperties;
@@ -56,7 +58,11 @@ public class Utilities {
 		CLOCKWISE,
 
 		/** +ve rotation of omega is anticlockwise */
-		ANTICLOCKWISE
+		ANTICLOCKWISE;
+
+		public boolean correspondsTo(String directionProperty) {
+			return this.name().equalsIgnoreCase(directionProperty);
+		}
 	}
 
 	public static RealMatrix createMatrixFromProperty(String propName) {
@@ -83,10 +89,12 @@ public class Utilities {
 	}
 
 	public static OmegaDirection getOmegaDirection() {
-		final String omegaDirectionProperty = LocalProperties.get(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION);
-		final boolean omegaPositiveIsAnticlockwise = omegaDirectionProperty.equalsIgnoreCase("anticlockwise");
-		final OmegaDirection omegaDirection = omegaPositiveIsAnticlockwise ? OmegaDirection.ANTICLOCKWISE : OmegaDirection.CLOCKWISE;
-		return omegaDirection;
+		OmegaDirection defaultSense = OmegaDirection.CLOCKWISE;
+		String omegaDirectionProperty = LocalProperties.get(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION);
+		return Arrays.stream(OmegaDirection.values())
+						.filter( sense -> sense.correspondsTo(omegaDirectionProperty) )
+						.findFirst()
+						.orElse(defaultSense);
 	}
 
 	public static boolean isAllowBeamAxisMovement() {
