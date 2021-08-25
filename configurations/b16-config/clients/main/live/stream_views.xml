@@ -178,7 +178,7 @@
 	<bean id="medipix4_cam"
 		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Medipix Quad" />
-		<property name="arrayPv" value="BL16B-EA-DET-20:ARR" />
+		<property name="pvAccessPv" value="BL16B-EA-DET-20:PVA:ARRAY" />
 		<property name="sleepTime" value="5" />
 		<property name="topUi" ref="medipix4_topUI" />
 		<property name="bottomUi" ref="medipix4_histogramBottomUI" />
