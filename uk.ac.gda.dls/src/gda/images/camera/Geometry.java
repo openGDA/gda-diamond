@@ -91,27 +91,29 @@ public class Geometry {
 		// movement will rotate clockwise when looking at the viewed down z-axis. This is standard in
 		// crystallography.
 
+		double z = gonioOnLeftOfImage ? h : -h;
+
 		double angle = Math.toRadians(omega);
-
-		if (omegaDirection == OmegaDirection.ANTICLOCKWISE) {
-			angle = -angle;
-		}
-
-		if (!allowBeamAxisMovement) {
-			b = 0;
-		}
+		double cosine = cos(angle);
 
 		// These calculations are done as though we are looking at the back of
 		// the gonio, with the beam coming from the left. They follow the
 		// mathematical convention that X +ve goes right, Y +ve goes vertically
 		// up. Z +ve is away from the gonio (away from you). This is NOT the
 		// standard phase I convention.
-		final double x = b * cos(angle) - v * sin(angle);
-		final double y = b * sin(angle) + v * cos(angle);
-		double z = h;
 
-		if (!gonioOnLeftOfImage) {
-			z *= -1;
+		// x = b * cos - v * sin, y = b * sin + v * cos : when b is zero, only calculate v terms
+
+		boolean anticlockwiseOmega = omegaDirection == OmegaDirection.ANTICLOCKWISE;
+		// flipping the expected sign of sine(angle) here simplifies the net x,y expressions,
+		// the anti-clockwise is a negative angle
+		double minus_sine = anticlockwiseOmega ? sin(angle) : -sin(angle);
+
+		double x = v * minus_sine;
+		double y = v * cosine;
+		if (allowBeamAxisMovement) {
+			x += b * cosine;
+			y -= b * minus_sine;
 		}
 
 		RealVector movement = MatrixUtils.createRealVector(new double[] {x, y, z});
