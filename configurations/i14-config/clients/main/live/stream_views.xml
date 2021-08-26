@@ -60,14 +60,13 @@
 		<property name="arrayPv" value="BL14I-OP-DCAM-14:ARR" />
 		<property name="sleepTime" value="5" />
 		<property name="rgb" value="true" />
-		<property name="calibratedAxesProvider" ref="sample_microscope_beam_position_calibration" />
+		<property name="calibratedAxesProvider" ref="sample_microscope_offset_calibration" />
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg name="cameraControl" ref="sample_microscope_camera_control" />
 				<property name="cameraResetScannable" ref="sample_microscope_reset" />
 				<property name="extensions">
 					<list>
-						<ref bean="sample_microscope_extension_calibrate" />
 						<ref bean="sample_microscope_extension_toggle_overlay" />
 						<ref bean="sample_microscope_extension_autofocus" />
 					</list>
@@ -106,10 +105,6 @@
 		</property>
 	</bean>
 
-	<bean id="sample_microscope_extension_calibrate" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
-		<property name="calibration" ref="sample_microscope_beam_position_calibration" />
-	</bean>
-
 	<bean id="sample_microscope_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
 		<constructor-arg name="xAxisScannable" ref="SampleX"/>
 	    <constructor-arg name="yAxisScannable" ref="SampleY"/>
@@ -124,6 +119,16 @@
 	<bean id="excalibur_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Excalibur Detector" />
 		<property name="url" value="http://i14-excalibur04.diamond.ac.uk:8080/EXCBR.mjpg.mjpg" />
+	</bean>
+
+	<bean id="sample_microscope_offset_calibration" class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+		<constructor-arg name="xAxisScannable" ref="SampleX"/>
+	    <constructor-arg name="xAxisPixelScaling" value="0.0006"/>
+	    <constructor-arg name="xAxisOffset" value="-0.0112" />
+	    <constructor-arg name="yAxisScannable" ref="SampleY"/>
+	    <constructor-arg name="yAxisPixelScaling" value="0.0006"/>
+	    <constructor-arg name="yAxisOffset" value="-0.145" />
+	
 	</bean>
 
 	<!-- Sample DTAB camera -->
