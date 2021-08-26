@@ -34,7 +34,7 @@ class LinearArbitraryAngle(ScannableMotionBase):
         
         #cached data
         self.jawphase = None
-        self.angle_deg = None
+        self.angle_deg = 0.0
 
     def __str__(self):
         output_format=", ".join([ a + "=" + b for (a,b) in zip(
@@ -42,7 +42,7 @@ class LinearArbitraryAngle(ScannableMotionBase):
         return output_format % self.getPosition()
 
     def __repr__(self):
-        output_format = "PolarisationAngleScannable(%r, %r, %r, %r, %r, %r)"
+        output_format = "LinearArbitraryAngle(%r, %r, %r, %r, %r, %r)"
         return output_format % (self.getName(), self.idu_jawphase.name, self.idd_jawphase.name, self.smode.name, self.pol.name, "jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True), angle_threshold_deg = 30.0)")
 
     def isBusy(self):

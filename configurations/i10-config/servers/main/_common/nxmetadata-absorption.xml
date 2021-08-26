@@ -132,7 +132,85 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="m6_fine_pitch"/>
 					<property name="scannableName" value="m6fpitch"/>
+					<property name="units" value="V"/>
 				</bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mesNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="mes" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="magj1yins"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x"/>
+					<property name="scannableName" value="magj1x"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_rot"/>
+					<property name="scannableName" value="magj1yrot"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="ls336NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="lakeshore336" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXsensor"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="demand"/>
+					<property name="expression" value="@ls336.getPosition()[0]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="sample"/>
+					<property name="expression" value="@ls336.getPosition()[1]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="shield"/>
+					<property name="expression" value="@ls336.getPosition()[2]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="cryostat"/>
+					<property name="expression" value="@ls336.getPosition()[3]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="heater"/>
+					<property name="expression" value="@ls336.getPosition()[4]"/>
+					<property name="units" value="%"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="heater_range"/>
+					<property name="expression" value="@ls336.getPosition()[5]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="mes2NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="em" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="emy"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="empitch"/>
+				</bean>
 			</list>
 		</property>
 	</bean>

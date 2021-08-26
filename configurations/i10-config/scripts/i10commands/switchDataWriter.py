@@ -13,7 +13,7 @@ print "    2. 'asciiformat' - switch to write ASCII data file. This format is be
 print "    3. 'whichformat' - query which data file format is set in GDA currently."
 
 def nexusformat():
-    LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter")
+    LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusScanDataWriter")
     
 def asciiformat():
     LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "SrsDataFile")

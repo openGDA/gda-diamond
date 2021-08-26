@@ -1,139 +1,109 @@
-from utils.ExceptionLogs import localStation_exceptions
-import sys
+from utils.ExceptionLogs import localStation_exceptions, localStation_exception
 from Diamond.Poly import Poly
+from gda.device.scannable import DummyScannable
+from gdascripts.messages.handle_messages import simpleLog
+import sys
 try:
-    from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta,\
-        lgb, lgf, lgm, th, tth, sx, sy, sz
-except:
-    print "gdaserver.py not yet generated!"
+    from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta, lgb, lgf, lgm, th, tth, sx, sy, sz  # @UnresolvedImport
+except Exception as e:
+    print("gdaserver.py not yet generated!")
     
 import installation
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias
 
-print "**************************************************"
-print "Running the I10 startup script localStation.py..."
-print ""
+print("*"*80)
+print("Running the I10 startup script localStation.py...")
+print()
 
 global RASOR_SCALER, UI1, UJ1
-from gdascripts.messages.handle_messages import simpleLog
 
-print "-"*100
-print "Set scan returns to the original positions on completion to false (0); default is 0."
-print "   To set scan returns to its start positions on completion please do:"
-print "      >>>scansReturnToOriginalPositions=1"
+print("-"*100)
+print("Set scan returns to the original positions on completion to false (0); default is 0.")
+print("   To set scan returns to its start positions on completion please do:")
+print("      >>>scansReturnToOriginalPositions=1")
 scansReturnToOriginalPositions=0;
-print
+print()
 ###Import common commands, utilities, etc#####
 from i10commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
 
-print
+print()
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
-print
+print()
 
 def interruptable():
     GeneralCommands.pause()
 alias("interruptable")
 
-print
-print "-"*100
-print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
+print()
+print("-"*100)
+print("load EPICS Pseudo Device utilities for creating scannable object from a PV name.")
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass,EpicsReadWritePVClass,SingleEpicsPositionerClass,SingleEpicsPositionerNoStatusClass,SingleEpicsPositionerNoStatusClassDeadband,SingleChannelBimorphClass  # @UnusedImport
-print "-"*100
-print "load time utilities objects."
+print("-"*100)
+print("load time utilities objects.")
 from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc, showtimeClass, showincrementaltimeClass, waittimeClass2  # @UnusedImport
 wait = waittime
 showtime.setLevel(4) # so it is operated before anything else in a scan
-print "-"*100
-print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
-print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
-from gdascripts.utils import * #@UnusedWildImport
-print "-"*100
-print "load common physical constants"
-from gdascripts.constants import * #@UnusedWildImport
-print "-"*100
-print "Adding timer devices t, dt, and w, clock"
+print("-"*100)
+print("Load utilities: caget(pv), caput(pv,value), caput_string2waveform(pvstring, value), caput_wait(pvstring, value, timeout=10), cagetArray(pvstring)")
+print("    iterableprint(iterable), listprint(list), frange(start,end,step), attributes(object), default_scannables(*scn), jobs()")
+from gdascripts.utils import attributes, frange, listprint, iterableprint,caget, caput, cagetArray, caput_wait, caput_string2waveform, default_scannables, jobs  # @UnusedImport
+print("-"*100)
+print("load common physical constants")
+from gdascripts.constants import pi, eV, hPlanck, hbar,hPlanckeV,hbareV,clight,m_e,r_e,amu # @UnusedImport
+print("-"*100)
+print("Adding timer devices t, dt, and w, clock")
 from gdascripts.scannable.timerelated import timerelated,t,dt,w,clock,epoch #@UnusedImport
+print("-"*100)
+print("load nexus metadata commands")
+from gdascripts.metadata.nexus_metadata_commands import add_meta, add_meta_link, add_meta_pv, add_meta_scalar, add_meta_scannable, clear_meta, disable_meta, enable_meta, ll_meta, ls_meta, rm_meta   # @UnusedImport
+print()
 
+ds = DummyScannable("ds")
 ###Save and reload positions of a given scannable group and/or a list of scannables
 from rasor.saveAndReload import SaveAndReload  # @UnusedImport
-print SaveAndReload.__doc__
+print(SaveAndReload.__doc__)
 
 #Create snap command for capturing a snapshot of camera
-from i10commands.snapshot import *  # @UnusedWildImport
+from i10commands.snapshot import dummy, snap  # @UnusedImport
 #commands for data file format control
 from i10commands.switchDataWriter import asciiformat, nexusformat, whichformat  # @UnusedImport
+from scannable.pgm.grating import grating  # @UnusedImport
 
 #RASOR Multilayer support
-from rasor.scannable.polarisation_analyser_example import *  # @UnusedWildImport
+from rasor.scannable.polarisation_analyser_example import ml, mss, pa  # @UnusedImport
+
+from scannable.haxpod.m1_haxpod_motors import m1fpitch  # @UnusedImport
+from scannable.haxpod.m3m5_haxpod_motors import m3m5fpitch  # @UnusedImport
+from scannable.haxpod.m4_haxpod_motors import m4fpitch  # @UnusedImport
+from scannable.haxpod.m6_haxpod_motors import m6fpitch  # @UnusedImport
+from scannable.rasor.theta2theta_offsets import tth_off,th_off  # @UnusedImport
+from amplifiers.femto_instances import rca1, rca2, rca3, ca1je, ca2je, ca3je  # @UnusedImport
 
 if installation.isLive():
     #High Field Magnet support
-    from high_field_magnet.scannable.intelligent_power_supply_instances import *  # @UnusedWildImport
-#     from scannable.temporaryIDControls import *  # @UnusedWildImport
-    from scannable.frontEndBeamMonitors import *  # @UnusedWildImport
-    from scannable.m1_haxpod_motors import *  # @UnusedWildImport
-    from scannable.m3m5_haxpod_motors import *  # @UnusedWildImport
-    from scannable.m4_haxpod_motors import *  # @UnusedWildImport
-    from scannable.m6_haxpod_motors import *  # @UnusedWildImport
+    from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, magj1yrot_off  # @UnusedImport
+    from scannable.frontEndBeamMonitors import xbpm, xbpm1_x, xbpm1_y, xbpm2_x, xbpm2_y, xbpm_anglex, xbpm_anglex_urad, xbpm_angley, xbpm_angley_urad  # @UnusedImport
+    from scannable.haxpod.m1_haxpod_motors import m1_x, m1_y, m1_z, m1_yaw, m1_pitch, m1_roll, M1  # @UnusedImport
+    from scannable.haxpod.m3m5_haxpod_motors import m3m5_x, m3m5_y, m3m5_z, m3m5_yaw, m3m5_pitch, m3m5_roll, M3M5  # @UnusedImport
+    from scannable.haxpod.m4_haxpod_motors import m4_x, m4_y, m4_z, m4_yaw, m4_pitch, m4_roll, M4  # @UnusedImport
+    from scannable.haxpod.m6_haxpod_motors import m6_x, m6_y, m6_z, m6_yaw, m6_pitch, m6_roll, M6  # @UnusedImport
     
-    try:
-        th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
-        tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
-    except:
-        localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
-    try:
-        print "Fixing extra names on RASOR mac scannables"
-        for scn in RASOR_SCALER.getGroupMembers():
-            scn.setInputNames([scn.name])
-    
-        print "Fixing extra names on UI1 mac scannables"
-        for scn in UI1.getGroupMembers():
-            scn.setInputNames([scn.name])
-    
-        print "Fixing extra names on UJ1 mac scannables"
-        for scn in UJ1.getGroupMembers():
-            scn.setInputNames([scn.name])
-        
-        print "Fixed extra names on all mac scannables"
-    except:
-        localStation_exception(sys.exc_info(), "fixing extra names on mac scannables")
-
     try:
         from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
         gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
     except:
         localStation_exception(sys.exc_info(), "creating gflow2 scannable")
-    
-    try:
-        from scannable.autoGainAmplifer import AutoGainAmplifier
-        rca1=AutoGainAmplifier("rca1", "ME01D-EA-IAMP-01", 0.5, 9.0, "%.4e")  # @UndefinedVariable
-        rca2=AutoGainAmplifier("rca2", "ME01D-EA-IAMP-02", 0.5, 9.0, "%.4e")  # @UndefinedVariable
-        rca3=AutoGainAmplifier("rca3", "ME01D-EA-IAMP-03", 0.5, 9.0, "%.4e")  # @UndefinedVariable
-    except:
-        localStation_exception(sys.exc_info(), "creating AutoGainAmplifer scannables")
-
 else:
-    pass
-        
-######## Setting up the Andor Rasor camera ###############
-andor_installed = False
-if andor_installed:
-    pass #there is no andor bean in I10 in GDA 8.50
+    print("I10 GDA running in dummy mode!")
 
-######## Setting up the I10 Pimte camera ###############
-pimte_installed = True
-if pimte_installed:
-    #PIMTE detectors customised to display image in 'Plot 1' view and return results of image process
-    from detectors.pimteWithDataProcessor import pimteSMPV, pimte2d  # @UnusedImport
+#PIMTE detectors customised to display image in 'Plot 1' view and return results of image process
+from detectors.pimteWithDataProcessor import pimteSMPV, pimte2d  # @UnusedImport
 
-######## Setting up the I10 Pixis camera ###############
-pixis_installed = True
-if pixis_installed:
-    #PIXIS detectors customised to display image in 'Plot 1' view and return results of image process
-    from detectors.pixisWithDataProcessor import pixisSMPV, pixis2d  # @UnusedImport
+#PIXIS detectors customised to display image in 'Plot 1' view and return results of image process
+from detectors.pixisWithDataProcessor import pixisSMPV, pixis2d  # @UnusedImport
     
 ######## Setting up the semi-automatic Zebra triggered cameras ###############
 zebra_triggered_pimte_detector_installed = False
@@ -153,30 +123,22 @@ if zebra_fastdicr_installed:
 from detectors.diagnostic_cameras import peak2d1,max2d1,peak2d2,max2d2,peak2d3,max2d3,peak2d4,max2d4,peak2d6,max2d6,peak2dj1,max2dj1,peak2dj3,max2dj3  # @UnusedImport
 
 #short hand commands for shutter and valves
-#from i10commands.shutterValveCommands import *  # @UnusedWildImport
+# from i10commands.shutterValveCommands import *  # @UnusedWildImport
 
 ##setup metadata for the file
 from rasor.pd_metadata import MetaDataPD
 try:
-    rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha_rasor, lgm, lgf, lgb])
+    rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha_rasor, lgm, lgf, lgb])  # @UndefinedVariable
 except:
     localStation_exception(sys.exc_info(), "creating rmotors metadata objects")
 
 # meta data
-try:
-    from gdaserver import idd_gap, idd_rowphase1, idd_jawphase,\
-        idd_rowphase3, idd_rowphase4, idd_rowphase2, idd_sepphase, idu_gap,\
-        idu_rowphase1, idu_rowphase2, idu_jawphase, idu_rowphase3, idu_rowphase4,\
-        idu_sepphase, pgm_grat_pitch, pgm_m2_pitch,pgm_energy
-except:
-    pass #the oject should already in jython namespace - only occur 1st time running server    
-
-print '-'*80
-print "Define metadata list for data collection:"
+print('-'*80)
+print("Define metadata list for data collection:")
 metadatalist=[]
-iddlist = [idd_gap,idd_rowphase1,idd_rowphase2,idd_rowphase3,idd_rowphase4,idd_jawphase,idd_sepphase]
-idulist = [idu_gap,idu_rowphase1,idu_rowphase2,idu_rowphase3,idu_rowphase4,idu_jawphase,idu_sepphase]
-pgmlist = [pgm_energy, pgm_grat_pitch, pgm_m2_pitch]
+iddlist = [idd_gap,idd_rowphase1,idd_rowphase2,idd_rowphase3,idd_rowphase4,idd_jawphase,idd_sepphase]  # @UndefinedVariable
+idulist = [idu_gap,idu_rowphase1,idu_rowphase2,idu_rowphase3,idu_rowphase4,idu_jawphase,idu_sepphase]  # @UndefinedVariable
+pgmlist = [pgm_energy, pgm_grat_pitch, pgm_m2_pitch]  # @UndefinedVariable
 
 metadatalist=metadatalist+iddlist+idulist+pgmlist
 try:
@@ -198,25 +160,25 @@ except:
     localStation_exception(sys.exc_info(), "creating SRS file metadata objects")
 
 #Nexus file
-print "-"*50
-print "Nexus file metadata commands:"
-print "    'meta_add' - add a scannable or scannables to the scan metadata"
-print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
-print "    'meta_ls'  - list only the items to be put into the scan metadata"
-print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
-
-from metadata.metashop import *  # @UnusedWildImport
-meta_add(*metadatalist)
+# print "-"*50
+# print "Nexus file metadata commands:"
+# print "    'meta_add' - add a scannable or scannables to the scan metadata"
+# print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
+# print "    'meta_ls'  - list only the items to be put into the scan metadata"
+# print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
+#
+# from metadata.metashop import *  # @UnusedWildImport
+# meta_add(*metadatalist)
 
 # check beam scannables
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan # @UnusedImport
-print "-"*100
+print("-"*100)
 # multi-image per scan data point scan
-from scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
-print "-"*100
+from scan.miscan import miscan; print(miscan.__doc__)  # @UndefinedVariable
+print("-"*100)
 from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
-from  scan import flyscan_command; print flyscan_command.__doc__  # @UndefinedVariable
-print "-"*100
+from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
+print("-"*100)
 
 #import post scan data process The following 5 lines must be in localStation.py 
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
@@ -250,9 +212,12 @@ pc,nc,lh,lv,la,lh3,unknown = X_RAY_POLARISATIONS
 initialisation()
 
 from calibrations.linearArbitraryAngle import LinearArbitraryAngle
-laa = LinearArbitraryAngle("laa", idu_jawphase, idd_jawphase, smode, pol, jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True), angle_threshold_deg = 30.0)
+laa = LinearArbitraryAngle("laa", idu_jawphase, idd_jawphase, smode, pol, jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True), angle_threshold_deg = 30.0)  # @UndefinedVariable
 
-from scannable.continuous.continuous_energy_scannables_new import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23  # @UnusedImport
+from scannable.stokesParameters import StokesParameters
+stokes_parameters = StokesParameters("stokes_parameters", pol, laa)
+
+from scannable.continuous.continuous_energy_scannables_new import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23, energye, mcse16,mcse17,mcse18,mcse19,mcse20,mcse21,mcse22,mcse23 # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
 alias('cvscan')
 
@@ -270,7 +235,7 @@ except:
 ##Position Wrapper
 print "-"*100
 print "Creating 'wa' command for returning RASOR motor positions"
-wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha_rasor, difx, lgf, lgb, lgm, sx, sy, sz]
+wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha_rasor, difx, lgf, lgb, lgm, sx, sy, sz]  # @UndefinedVariable
 from rasor.positionWrapper import PositionWrapper
 try:
     wa=PositionWrapper(wascannables)
@@ -295,6 +260,8 @@ thpimte=NXDetectorWithRockingMotion("thpimte", th, pimte)
 thpixis=NXDetectorWithRockingMotion("thpixis", th, pixis)
 
 from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
+
+from i10commands import metadataSelection  # @UnusedImport
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

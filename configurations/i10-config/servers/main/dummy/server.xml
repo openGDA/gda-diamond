@@ -12,6 +12,7 @@
 	<import resource="../../../properties/_common/gdaProperties.xml"/>
 	<import resource="../../../../i10-shared/servers/main/dummy/devices/all.xml"/>
 	<import resource="devices/all.xml"/>
+	<import resource="nxmetadata.xml"/>
 	<!-- add dummy motors from dls-config  for solstice scanning testing-->
 	<!-- Dummy motor -->
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/> 

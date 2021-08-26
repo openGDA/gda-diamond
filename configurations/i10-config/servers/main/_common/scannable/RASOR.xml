@@ -8,6 +8,11 @@
  	
  	<bean id="dsd" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="dsd" />
+		<property name="inputNames">
+			<list>
+				<value>dsd</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="aptr2_trans_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -24,6 +29,11 @@
 	
 	<bean id="dsu" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="dsu" />
+		<property name="inputNames">
+			<list>
+				<value>dsu</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="aptr1_trans_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -40,6 +50,11 @@
 	
 	<bean id="sx" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="sx" />
+		<property name="inputNames">
+			<list>
+				<value>sx</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_x_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -47,6 +62,11 @@
 	
 	<bean id="sy" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="sy" />
+		<property name="inputNames">
+			<list>
+				<value>sy</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_y_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -54,6 +74,11 @@
 	
 	<bean id="sz" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="sz" />
+		<property name="inputNames">
+			<list>
+				<value>sz</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_z_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -72,6 +97,11 @@
 	
 	<bean id="lgf" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="lgf" />
+		<property name="inputNames">
+			<list>
+				<value>lgf</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg1_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -79,6 +109,11 @@
 	
 	<bean id="lgm" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="lgm" />
+		<property name="inputNames">
+			<list>
+				<value>lgm</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg2_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -86,6 +121,11 @@
 	
 	<bean id="lgb" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="lgb" />
+		<property name="inputNames">
+			<list>
+				<value>lgb</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg3_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -141,6 +181,11 @@
 	
 	<bean id="difx" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="difx" />
+		<property name="inputNames">
+			<list>
+				<value>difx</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="diff_x_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -148,15 +193,30 @@
 	<!-- rename RASOR alpha to alpha_rasor to avoid name collision with DIFFCALC -->
 	<bean id="alpha_rasor" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="alpha_rasor" />
+		<property name="inputNames">
+			<list>
+				<value>alpha_rasor</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_alpha_motor" />
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="pinhx" class="gda.device.scannable.ScannableMotor">
+		<property name="inputNames">
+			<list>
+				<value>pinhx</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="pinh_x_motor" />
 	</bean>
 	<bean id="pinhy" class="gda.device.scannable.ScannableMotor">
+		<property name="inputNames">
+			<list>
+				<value>pinhy</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="pinh_y_motor" />
 	</bean>
@@ -178,6 +238,11 @@
 
 	<bean id="emecy1" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="emecy1" />
+		<property name="inputNames">
+			<list>
+				<value>emecy1</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="emec_y1_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -185,6 +250,11 @@
 	
 	<bean id="emecy2" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="emecy2" />
+		<property name="inputNames">
+			<list>
+				<value>emecy2</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="emec_y2_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -192,6 +262,11 @@
 	
 	<bean id="emecpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="emecpitch" />
+		<property name="inputNames">
+			<list>
+				<value>emecpitch</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="emec_pitch_motor" />
 		<property name="hardwareUnitString" value="deg" />
@@ -210,6 +285,11 @@
 
 	<bean id="eta" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="eta" />
+		<property name="inputNames">
+			<list>
+				<value>eta</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_eta_motor" />
 		<property name="hardwareUnitString" value="deg" />
@@ -217,6 +297,11 @@
 	
 	<bean id="thp" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="thp" />
+		<property name="inputNames">
+			<list>
+				<value>thp</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_theta_motor" />
 		<property name="hardwareUnitString" value="deg" />
@@ -224,6 +309,11 @@
 	
 	<bean id="ttp" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="ttp" />
+		<property name="inputNames">
+			<list>
+				<value>ttp</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_twotheta_motor" />
 		<property name="hardwareUnitString" value="deg" />
@@ -231,6 +321,11 @@
 	
 	<bean id="py" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="py" />
+		<property name="inputNames">
+			<list>
+				<value>py</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="polan_y_motor" />
 		<property name="hardwareUnitString" value="mm" />
@@ -240,6 +335,11 @@
 	
 	<bean id="pz" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="pz" />
+		<property name="inputNames">
+			<list>
+				<value>pz</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="polan_z_motor" />
 		<property name="hardwareUnitString" value="mm" />

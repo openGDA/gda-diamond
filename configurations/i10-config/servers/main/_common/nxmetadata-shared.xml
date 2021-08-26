@@ -257,6 +257,7 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="m1_fine_pitch"/>
 					<property name="scannableName" value="m1fpitch"/>
+					<property name="units" value="V"/>
 				</bean>		
 			</list>
 		</property>
@@ -294,9 +295,28 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="m3m5_fine_pitch"/>
 					<property name="scannableName" value="m3m5fpitch"/>
+					<property name="units" value="V"/>
 				</bean>		
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+		<property name="sourceName" value="source" />
+		<property name="beamName" value="beam" />
+		<property name="userDeviceName" value="user01" />
+		<property name="insertionDeviceName" value="id" />
+		<property name="monochromatorName" value="pgm" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>s1</value>
+				<value>s2</value>
+				<value>s3</value>
+				<value>m1</value>
+				<value>m3m5</value>
+			</set>
+		</property>
+	</bean>
+
 </beans>
