@@ -383,6 +383,8 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             # real ID hardware does not support stop method!
             self.idcontrols['gap'].stop()
         self._restore_orig_speed()
+        if self.continuousMovingStarted:
+            print("cvscan stopped.")
 
     # Implement: public interface HardwareTriggerProvider extends Device
 
@@ -495,7 +497,10 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
                 self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
                 self._pgm_grat_pitch_speed_orig = None
         if self.isIDMoveEnabled() and self._id_gap_speed_orig:
-                if installation.isLive():
+                if installation.isLive() and self.continuousMovingStarted:
+                    print("Abort ID motion in cvscan is not allowed, please wait for ID gap motion to stop ......")
+                    while self.idcontrols['gap'].isBusy():
+                        sleep(0.5)
                     if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
                     self.idpvs['vel'].caput(self._id_gap_speed_orig)
                 else:
@@ -506,5 +511,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()...')
         self._restore_orig_speed()
+        if self.continuousMovingStarted:
+            print("cvscan completed.")
 #         self._pgm_grat_pitch.getController().setCollectingData(False)
         # Should we also move the pgm_energy to a known value too, such as the midpoint?
