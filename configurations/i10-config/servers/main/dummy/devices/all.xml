@@ -33,6 +33,7 @@
 	<import resource="RASOR-SCALER1.xml"/>
 	<import resource="RASOR_diff_sim_motors.xml"/>
 	<import resource="UI1_SCALER1.xml"/>
+	<import resource="stanfords_gain_maps.xml"/>
 
 	<!-- J Absorption -->
 
@@ -59,6 +60,7 @@
 	<import resource="MES2.xml"/>
 	<import resource="MES2_SCALERJ3.xml"/>
 	<import resource="lakeshore336.xml"/>
+
 	
 	<!-- Temporary devices -->
 	<import resource="Zebra.xml"/>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:map id="gainMap">
+		<entry key="1" value="1" />
+		<entry key="2" value="2" />
+		<entry key="5" value="5" />
+		<entry key="10" value="10" />
+		<entry key="20" value="20" />
+		<entry key="50" value="50" />
+		<entry key="100" value="100" />
+		<entry key="200" value="200" />
+		<entry key="500" value="500" />
+	</util:map>
+	<util:map id="sensitivity_units">
+		<entry key="pA/V" value="pA/V" />
+		<entry key="nA/V" value="nA/V" />
+		<entry key="uA/V" value="uA/V" />
+		<entry key="mA/V" value="mA/V" />
+	</util:map>
+	<util:map id="offset_units">
+		<entry key="pA" value="pA" />
+		<entry key="nA" value="nA" />
+		<entry key="uA" value="uA" />
+	</util:map>
+	<util:map id="on_off">
+		<entry key="Off" value="Off" />
+		<entry key="On" value="On" />
+	</util:map>
+	<util:map id="filter_type">
+		<entry key="6dB High Pass" value="6dB High Pass" />
+		<entry key="12dB High Pass" value="12dB High Pass" />
+		<entry key="6dB Band Pass" value="6dB Band Pass" />
+		<entry key="6dB Low Pass" value="6dB Low Pass" />
+		<entry key="12dB Low Pass" value="12dB Low Pass" />
+		<entry key="None" value="None" />
+	</util:map>
+	<util:map id="filter_highpass">
+		<entry key="0.03 Hz" value="0.03 Hz" />
+		<entry key="0.1 Hz" value="0.1 Hz" />
+		<entry key="0.3 Hz" value="0.3 Hz" />
+		<entry key="1 Hz" value="1 Hz" />
+		<entry key="3 Hz" value="3 Hz" />
+		<entry key="10 Hz" value="10 Hz" />
+		<entry key="30 Hz" value="30 Hz" />
+		<entry key="100 Hz" value="100 Hz" />
+		<entry key="300 Hz" value="300 Hz" />
+		<entry key="1 kHz" value="1 kHz" />
+		<entry key="3 kHz" value="3 kHz" />
+		<entry key="10 KHz" value="10 KHz" />
+	</util:map>
+	<util:map id="filter_lowpass">
+		<entry key="0.03 Hz" value="0.03 Hz" />
+		<entry key="0.1 Hz" value="0.1 Hz" />
+		<entry key="0.3 Hz" value="0.3 Hz" />
+		<entry key="1 Hz" value="1 Hz" />
+		<entry key="3 Hz" value="3 Hz" />
+		<entry key="10 Hz" value="10 Hz" />
+		<entry key="30 Hz" value="30 Hz" />
+		<entry key="100 Hz" value="100 Hz" />
+		<entry key="300 Hz" value="300 Hz" />
+		<entry key="1 kHz" value="1 kHz" />
+		<entry key="3 kHz" value="3 kHz" />
+		<entry key="10 KHz" value="10 KHz" />
+		<entry key="30 kHz" value="30 kHz" />
+		<entry key="100 kHz" value="100 kHz" />
+		<entry key="300 kHz" value="300 kHz" />
+		<entry key="1 MHz" value="1 MHz" />
+	</util:map>
+	<util:map id="gain_mode">
+		<entry key="Low Noise" value="Low Noise" />
+		<entry key="High Bandwidth" value="High Bandwidth" />
+		<entry key="Low Drift" value="Low Drift" />
+	</util:map>
+
+</beans>

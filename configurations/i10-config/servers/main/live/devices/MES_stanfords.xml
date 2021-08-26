@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+<!-- MES Sample Drain -->
+	<bean id="ca4je_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca4je_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="ca4je_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca4je_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="ca4je_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca4je_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL10J-EA-IAMP-04:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="ca4je_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca4je_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="ca4je_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="ca4je_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="ca4je_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-04:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+	
+<!-- MES Diode 1 -->
+	<bean id="ca5je_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca5je_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="ca5je_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca5je_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="ca5je_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca5je_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL10J-EA-IAMP-05:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="ca5je_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca5je_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="ca5je_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="ca5je_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="ca5je_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-05:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+
+<!-- MES Diode 2 -->
+	<bean id="ca6je_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca6je_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="ca6je_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca6je_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="ca6je_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca6je_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL10J-EA-IAMP-06:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="ca6je_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca6je_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="ca6je_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="ca6je_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="ca6je_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-EA-IAMP-06:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+
+<!-- M6 Mirror I0 -->
+	<bean id="ca7j_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca7j_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="ca7j_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="ca7j_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="ca7j_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca7j_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL10J-DI-IAMP-07:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="ca7j_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="ca7j_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="ca7j_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="ca7j_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="ca7j_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10J-DI-IAMP-07:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+	
+	<bean id="MES_stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ca4je_sensitivity" />
+				<ref bean="ca4je_sensitivity_units" />
+				<ref bean="ca4je_offset" />
+				<ref bean="ca4je_offset_units" />
+				<ref bean="ca4je_offset_current" />
+				<ref bean="ca4je_bias_voltage" />				
+				<ref bean="ca4je_bias_voltage_status" />
+				<ref bean="ca4je_filter_type" />
+				<ref bean="ca4je_filter_highpass" />
+				<ref bean="ca4je_filter_lowpass" />
+				<ref bean="ca4je_gain_mode" />
+				<ref bean="ca5je_sensitivity" />
+				<ref bean="ca5je_sensitivity_units" />
+				<ref bean="ca5je_offset" />
+				<ref bean="ca5je_offset_units" />
+				<ref bean="ca5je_offset_current" />
+				<ref bean="ca5je_bias_voltage" />				
+				<ref bean="ca5je_bias_voltage_status" />
+				<ref bean="ca5je_filter_type" />
+				<ref bean="ca5je_filter_highpass" />
+				<ref bean="ca5je_filter_lowpass" />
+				<ref bean="ca5je_gain_mode" />
+				<ref bean="ca6je_sensitivity" />
+				<ref bean="ca6je_sensitivity_units" />
+				<ref bean="ca6je_offset" />
+				<ref bean="ca6je_offset_units" />
+				<ref bean="ca6je_offset_current" />
+				<ref bean="ca6je_bias_voltage" />				
+				<ref bean="ca6je_bias_voltage_status" />
+				<ref bean="ca6je_filter_type" />
+				<ref bean="ca6je_filter_highpass" />
+				<ref bean="ca6je_filter_lowpass" />
+				<ref bean="ca6je_gain_mode" />
+				<ref bean="ca7j_sensitivity" />
+				<ref bean="ca7j_sensitivity_units" />
+				<ref bean="ca7j_offset" />
+				<ref bean="ca7j_offset_units" />
+				<ref bean="ca7j_offset_current" />
+				<ref bean="ca7j_bias_voltage" />				
+				<ref bean="ca7j_bias_voltage_status" />
+				<ref bean="ca7j_filter_type" />
+				<ref bean="ca7j_filter_highpass" />
+				<ref bean="ca7j_filter_lowpass" />
+				<ref bean="ca7j_gain_mode" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

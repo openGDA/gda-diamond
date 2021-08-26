@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+<!-- RASOR Diode -->
+	<bean id="rca4_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca4_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="rca4_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca4_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="rca4_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca4_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME01D-EA-IAMP-04:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="rca4_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca4_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="rca4_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="rca4_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="rca4_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-04:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+<!-- RASOR Fluorescence -->
+	<bean id="rca5_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca5_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="rca5_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca5_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="rca5_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca5_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME01D-EA-IAMP-05:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="rca5_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca5_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="rca5_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="rca5_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="rca5_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-05:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+
+<!-- RASOR Drain -->
+	<bean id="rca6_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca6_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="rca6_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca6_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="rca6_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca6_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME01D-EA-IAMP-06:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="rca6_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca6_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="rca6_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="rca6_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="rca6_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="ME01D-EA-IAMP-06:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+
+<!-- M4 Mirror I0 -->
+	<bean id="rca7_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:SENS:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca7_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:SENS:SEL2" />
+		<property name="values" ref="sensitivity_units"/>
+	</bean>
+	<bean id="rca7_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:IOLV:SEL1" />
+		<property name="values" ref="gainMap"/>
+	</bean>
+	<bean id="rca7_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:IOLV:SEL2" />
+		<property name="values" ref="offset_units"/>
+	</bean>
+	<bean id="rca7_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:IOON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca7_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL10I-DI-IAMP-07:BSLV"/>
+		<property name="unit" value="V"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	<bean id="rca7_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:BSON" />
+		<property name="values" ref="on_off"/>
+	</bean>
+	<bean id="rca7_filter_type" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:FLTT" />
+		<property name="values" ref="filter_type"/>
+	</bean>
+	<bean id="rca7_filter_highpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:HFRQ" />
+		<property name="values" ref="filter_highpass"/>
+	</bean>
+	<bean id="rca7_filter_lowpass" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:LFRQ" />
+		<property name="values" ref="filter_lowpass"/>
+	</bean>
+	<bean id="rca7_gain_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL10I-DI-IAMP-07:GNMD" />
+		<property name="values" ref="gain_mode"/>
+	</bean>
+	
+	<bean id="RASOR_stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="rca4_sensitivity" />
+				<ref bean="rca4_sensitivity_units" />
+				<ref bean="rca4_offset" />
+				<ref bean="rca4_offset_units" />
+				<ref bean="rca4_offset_current" />
+				<ref bean="rca4_bias_voltage" />				
+				<ref bean="rca4_bias_voltage_status" />
+				<ref bean="rca4_filter_type" />
+				<ref bean="rca4_filter_highpass" />
+				<ref bean="rca4_filter_lowpass" />
+				<ref bean="rca4_gain_mode" />
+				<ref bean="rca5_sensitivity" />
+				<ref bean="rca5_sensitivity_units" />
+				<ref bean="rca5_offset" />
+				<ref bean="rca5_offset_units" />
+				<ref bean="rca5_offset_current" />
+				<ref bean="rca5_bias_voltage" />				
+				<ref bean="rca5_bias_voltage_status" />
+				<ref bean="rca5_filter_type" />
+				<ref bean="rca5_filter_highpass" />
+				<ref bean="rca5_filter_lowpass" />
+				<ref bean="rca5_gain_mode" />
+				<ref bean="rca6_sensitivity" />
+				<ref bean="rca6_sensitivity_units" />
+				<ref bean="rca6_offset" />
+				<ref bean="rca6_offset_units" />
+				<ref bean="rca6_offset_current" />
+				<ref bean="rca6_bias_voltage" />				
+				<ref bean="rca6_bias_voltage_status" />
+				<ref bean="rca6_filter_type" />
+				<ref bean="rca6_filter_highpass" />
+				<ref bean="rca6_filter_lowpass" />
+				<ref bean="rca6_gain_mode" />
+				<ref bean="rca7_sensitivity" />
+				<ref bean="rca7_sensitivity_units" />
+				<ref bean="rca7_offset" />
+				<ref bean="rca7_offset_units" />
+				<ref bean="rca7_offset_current" />
+				<ref bean="rca7_bias_voltage" />				
+				<ref bean="rca7_bias_voltage_status" />
+				<ref bean="rca7_filter_type" />
+				<ref bean="rca7_filter_highpass" />
+				<ref bean="rca7_filter_lowpass" />
+				<ref bean="rca7_gain_mode" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
