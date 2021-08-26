@@ -16,6 +16,6 @@ if installation.isLive():
     except:
         localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
 else:
-    th_off = DummyEpicsReadWritePVClass('th_off', 90.0, 'deg', '%.6f')
-    tth_off = DummyEpicsReadWritePVClass('tth_off', 90.0, 'deg', '%.6f')
+    th_off = DummyEpicsReadWritePVClass('th_off', 0.0, 90.0, 'deg', '%.6f')
+    tth_off = DummyEpicsReadWritePVClass('tth_off', 0.0, 90.0, 'deg', '%.6f')
         
