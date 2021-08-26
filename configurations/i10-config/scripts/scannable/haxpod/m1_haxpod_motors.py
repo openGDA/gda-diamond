@@ -28,5 +28,5 @@ if installation.isLive():
         localStation_exception(sys.exc_info(), "initialising m1 hexapod and fpitch scannables")
 else:
     # other objects are defined by Spring beans
-    m1fpitch = DummyEpicsReadWritePVClass('m1fpitch', 5.0, 'V', '%.3f')
+    m1fpitch = DummyEpicsReadWritePVClass('m1fpitch', 0.0, 5.0, 'V', '%.3f')
     

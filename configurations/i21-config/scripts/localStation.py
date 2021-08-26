@@ -120,8 +120,8 @@ if installation.isLive():
 
 else:
     print("Running in dummy mode")
-    m1fpsetpoint=DummyDisplayEpicsPVClass('m1fpsetpoint', 10, '', '%.10f')
-    m2fpsetpoint=DummyDisplayEpicsPVClass('m2fpsetpoint', 20, 'px', '%.10f')
+    m1fpsetpoint=DummyDisplayEpicsPVClass('m1fpsetpoint', 0.0, 50.0, '', '%.10f')
+    m2fpsetpoint=DummyDisplayEpicsPVClass('m2fpsetpoint', 0.0, 50.0, 'px', '%.10f')
 
 print("create clever amplifier scannables: cleverd7femto1, cleverd7femto2")
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
