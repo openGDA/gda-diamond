@@ -72,32 +72,22 @@
 		<property name="file" ref="pimte_summed_ndfile" />
 	</bean>
 
-	<bean id="pimteSummedCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.InitialiseDetectorAfterExposureTimeChangeDecorator">
-		<property name="detector">
-			<bean class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy">
-				<property name="basePVName" value="BL10I-EA-PIMTE-01:CAM:"/>
-				<property name="name" value="pimte"/>
-			</bean>
-		</property>	
-		<property name="decoratee">	
-			<bean class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
-				<property name="ndArray" ref="pimte_summed_ndarray"/>
-				<property name="arrayPortName" value="PIMTE1RX.proc"/>
+	<bean id="pimteSummedCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+		<property name="ndArray" ref="pimte_summed_ndarray"/>
+		<property name="arrayPortName" value="PIMTE1RX.proc"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
+				<property name="ndProcess" ref="pimte_adproc"/>
+				<property name="processDataTypeOut" value="5"/>
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
-						<property name="ndProcess" ref="pimte_adproc"/>
-						<property name="processDataTypeOut" value="5"/>
+					<bean class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true"/>
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
-								<property name="restoreNumImagesAndImageMode" value="true"/>
+							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 								<property name="decoratee">
-									<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-										<property name="decoratee">
-											<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-												<property name="adBase" ref="pimte_adbase" />
-												<property name="restoreAcquireState" value="true"/>
-											</bean>
-										</property>
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="pimte_adbase" />
+										<property name="restoreAcquireState" value="true"/>
 									</bean>
 								</property>
 							</bean>

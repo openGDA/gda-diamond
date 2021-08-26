@@ -72,15 +72,15 @@
 		<property name="file" ref="pimte_summed_ndfile" />
 	</bean>
 
-<!-- 	<bean id="pimteSummedCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.InitialiseDetectorAfterExposureTimeChangeDecorator"> -->
-<!-- 		<property name="detector"> -->
-<!-- 			<bean class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy"> -->
-<!-- 				<property name="basePVName" value="BL10I-EA-PIMTE-01:CAM:"/> -->
-<!-- 				<property name="name" value="pimte"/> -->
-<!-- 			</bean> -->
-<!-- 		</property>	 -->
-<!-- 		<property name="decoratee">	 -->
-			<bean id="pimteSummedCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+	<bean id="pimteSummedCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.InitialiseDetectorAfterExposureTimeChangeDecorator">
+		<property name="detector">
+			<bean class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy">
+				<property name="basePVName" value="BL10I-EA-PIMTE-01:CAM:"/>
+				<property name="name" value="pimte"/>
+			</bean>
+		</property>	
+		<property name="decoratee">	
+			<bean class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
 				<property name="ndArray" ref="pimte_summed_ndarray"/>
 				<property name="arrayPortName" value="PIMTE1RX.proc"/>
 				<property name="decoratee">
@@ -105,8 +105,8 @@
 					</bean>
 				</property>
 			</bean>
-<!-- 		</property> -->
-<!-- 	</bean> -->
+		</property>
+	</bean>
 	
 	<!--  HDF5 plugin configuration -->
 	<bean id="pimteSummedHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">

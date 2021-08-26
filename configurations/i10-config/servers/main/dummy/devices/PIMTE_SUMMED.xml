@@ -13,7 +13,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
-				<property name="initialArrayPort" value="CAM.CAM"/>
+				<property name="initialArrayPort" value="ADSIM.CAM"/>
 			</bean>
 		</property>
 	</bean>
@@ -22,7 +22,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
-				<property name="initialArrayPort" value="CAM.proc" />
+				<property name="initialArrayPort" value="ADSIM.proc" />
 			</bean>
 		</property>
 	</bean>
@@ -31,7 +31,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
-				<property name="initialArrayPort" value="CAM.proc" />
+				<property name="initialArrayPort" value="ADSIM.proc" />
 			</bean>
 		</property>
 	</bean>
@@ -40,7 +40,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF:" />
-				<property name="initialArrayPort" value="CAM.proc" />
+				<property name="initialArrayPort" value="ADSIM.proc" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -56,7 +56,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
-				<property name="initialArrayPort" value="CAM.proc" />
+				<property name="initialArrayPort" value="ADSIM.proc" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -74,7 +74,7 @@
 
 	<bean id="pimteSummedCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
 		<property name="ndArray" ref="pimte_summed_ndarray"/>
-		<property name="arrayPortName" value="CAM.proc"/>
+		<property name="arrayPortName" value="ADSIM.proc"/>
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
 				<property name="ndProcess" ref="pimte_adproc"/>
@@ -118,7 +118,7 @@
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="ndArrayPortVal" value="CAM.proc"/>
+		<property name="ndArrayPortVal" value="ADSIM.proc"/>
 	</bean>
 	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
 	<bean id="pimteSummedTiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
@@ -131,7 +131,7 @@
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="keyNameForMetadataPathTemplate" value="pimte_path_template" />
-		<property name="ndArrayPortVal" value="CAM.proc"/>
+		<property name="ndArrayPortVal" value="ADSIM.proc"/>
 	</bean>
 
 	<!-- ROI-STAT pairs -->
@@ -139,7 +139,7 @@
 		<property name="pluginName" value="pimte_summed_RoiStats1" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
-		<property name="roiInputNdArrayPort" value="CAM.proc" />
+		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -148,12 +148,13 @@
 	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte_summed_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="pimte_summed_RoiStats2" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
-		<property name="roiInputNdArrayPort" value="CAM.proc" />
+		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -162,12 +163,13 @@
 	            <property name="index" value="1" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte_summed_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="pimte_summed_RoiStats3" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
-		<property name="roiInputNdArrayPort" value="CAM.proc" />
+		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -176,12 +178,13 @@
 	            <property name="index" value="2" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte_summed_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="pimte_summed_RoiStats4" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
-		<property name="roiInputNdArrayPort" value="CAM.proc" />
+		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -190,12 +193,13 @@
 	            <property name="index" value="3" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte_summed_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="pimte_summed_RoiStats5" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
-		<property name="roiInputNdArrayPort" value="CAM.proc" />
+		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -204,12 +208,13 @@
 	            <property name="index" value="4" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="pimte_summed_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="pimte_summed_RoiStats6" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
-		<property name="roiInputNdArrayPort" value="CAM.proc" />
+		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -218,6 +223,7 @@
 	            <property name="index" value="5" /> 
 	        </bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 </beans>

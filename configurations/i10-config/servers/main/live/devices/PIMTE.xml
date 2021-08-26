@@ -66,31 +66,21 @@
 		<property name="file" ref="pimte_ndfile" />
 	</bean>
 
-	<bean id="pimteCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.InitialiseDetectorAfterExposureTimeChangeDecorator">
-		<property name="detector">
-			<bean class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy">
-				<property name="basePVName" value="BL10I-EA-PIMTE-01:CAM:"/>
-				<property name="name" value="pimte"/>
-			</bean>
-		</property>	
-		<property name="decoratee">	
-			<bean class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
-				<property name="ndArray" ref="pimte_ndarray"/>
-				<property name="arrayPortName" value="PIMTE1RX.RX"/>
-				<property name="decoratee">		
-					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
-						<property name="restoreAcquireTime" value="true" />
+	<bean  id="pimteCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+		<property name="ndArray" ref="pimte_ndarray"/>
+		<property name="arrayPortName" value="PIMTE1RX.RX"/>
+		<property name="decoratee">		
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+				<property name="restoreAcquireTime" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true"/>
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-								<property name="restoreNumImagesAndImageMode" value="true"/>
+							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 								<property name="decoratee">
-									<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-										<property name="decoratee">
-											<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-												<property name="adBase" ref="pimte_adbase" />
-												<property name="restoreAcquireState" value="true"/>
-											</bean>
-										</property>
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="pimte_adbase" />
+										<property name="restoreAcquireState" value="true"/>
 									</bean>
 								</property>
 							</bean>
