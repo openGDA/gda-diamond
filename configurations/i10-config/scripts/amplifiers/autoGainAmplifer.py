@@ -5,7 +5,7 @@ Instance of this class requires a root PV name for the amplifier with at least 2
 You need to provide a Gain dictionary which maps enum position to actual gain value (see example below).
 
 Example usages:      
-    rca1=AutoGainAmplifier("rca1", "ME01D-EA-IAMP-01", 0.5, 9.0, "%.4e")
+    rca1=AutoGainAmplifier("rca1", "ME01D-EA-IAMP-01", 0.5, 9.5, "%.4e")
 
 Created on 13 September 2018
 
@@ -33,7 +33,7 @@ class AutoGainAmplifier(ScannableMotionBase):
     '''
     classdocs
     '''
-    def __init__(self, name, rootPvName, lowerthreshold, upperthreshold,formatstring, gainMap=gainmap):
+    def __init__(self, name, root_pv_name, lowerthreshold, upperthreshold,formatstring, gain_map=gainmap):
         '''
         Constructor
         '''
@@ -42,12 +42,12 @@ class AutoGainAmplifier(ScannableMotionBase):
         self.setExtraNames(["Actual_Value"])
         self.setOutputFormat([formatstring,  formatstring])
         self.setLevel(5)
-        self.current=CAClient(rootPvName+":I")
-        self.gain=CAClient(rootPvName+":GAIN")
-        self.lowerthreshold=lowerthreshold
-        self.upperthreshold=upperthreshold
-        self.gainMap=gainMap
-        self.gainAtScanStart=1
+        self.current = CAClient(root_pv_name+":I")
+        self.gain = CAClient(root_pv_name+":GAIN")
+        self.lowerthreshold = lowerthreshold
+        self.upperthreshold = upperthreshold
+        self.gainMap = gain_map
+        self.gainAtScanStart = 1
         
     def atScanStart(self):
         if not self.current.isConfigured():
@@ -57,31 +57,32 @@ class AutoGainAmplifier(ScannableMotionBase):
         self.gainAtScanStart=int(self.gain.caget())
     
     def atPointStart(self):
-        currentGain=int(self.gain.caget())
-        currentValue=float(self.current.caget())
-        while currentValue < self.lowerthreshold and currentGain < len(self.gainMap)-1:
+        current_gain = int(self.gain.caget())
+        current_value = float(self.current.caget())
+        while current_value < self.lowerthreshold and current_gain < len(self.gainMap) - 1:
             #up gain
-            self.gain.caputWait(currentValue+1)
-            currentGain=int(self.gain.caget())
+            self.gain.caputWait(current_gain + 1)
+            current_gain = int(self.gain.caget())
             sleep(0.1)
-            currentValue=float(self.current.caget())
-        while currentValue>self.upperthreshold and currentGain!=0:
+            current_value = float(self.current.caget())
+        while current_value > self.upperthreshold and current_gain != 0:
             #down gain
-            self.gain.caputWait(currentValue-1)
-            currentGain=int(self.gain.caget())
+            self.gain.caputWait(current_gain - 1)
+            current_gain = int(self.gain.caget())
             sleep(0.1)
-            currentValue=float(self.current.caget())
+            current_value = float(self.current.caget())
     
     def rawGetPosition(self):
         if not self.gain.isConfigured():
             self.gain.configure()
         if not self.current.isConfigured():
             self.current.configure()
-        currentGain=int(self.gain.caget())
-        currentValue=float(self.current.caget())
-        return [currentValue, currentValue/float(gainmap[currentGain])] 
+        current_gain = int(self.gain.caget())
+        current_value = float(self.current.caget())
+        return [current_value, current_value / float(gainmap[current_gain])] 
     
     def rawAsynchronousMoveTo(self,new_position):
+        #read-only
         pass
     
     def isBusy(self):
