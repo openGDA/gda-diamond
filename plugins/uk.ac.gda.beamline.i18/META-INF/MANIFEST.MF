@@ -51,5 +51,6 @@ Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition,  uk.ac.gda.client.
 Import-Package: org.dawnsci.plotting.jreality.impl,
  org.python.core,
  org.slf4j;version="[1.7.2,2.0.0)",
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
  org.springframework.util;version="3.2.2.RELEASE"
 Automatic-Module-Name: uk.ac.gda.beamline.i18
