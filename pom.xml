@@ -52,7 +52,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </modules>
     </profile>
     <profile>
-      <id>i20_1</id>
+      <id>i20-1</id>
       <modules>
         <module>uk.ac.gda.beamline.i20_1.feature</module>
         <module>products/uk.ac.gda.beamline.i20_1.product</module>
