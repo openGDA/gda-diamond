@@ -8,4 +8,6 @@
     id="i20-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i20.feature.feature.group"/>
 </targlets:ComponentDefinition>
