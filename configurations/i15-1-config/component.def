@@ -8,4 +8,6 @@
     id="i15-1-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i15_1.feature.feature.group"/>
 </targlets:ComponentDefinition>

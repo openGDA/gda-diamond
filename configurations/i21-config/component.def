@@ -12,4 +12,6 @@
       name="i21-python"/>
   <requirement
       name="optics-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i21.feature.feature.group"/>
 </targlets:ComponentDefinition>

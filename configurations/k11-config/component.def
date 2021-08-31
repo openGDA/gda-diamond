@@ -8,4 +8,6 @@
     id="k11-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.diamond.daq.beamline.k11.feature.feature.group"/>
 </targlets:ComponentDefinition>

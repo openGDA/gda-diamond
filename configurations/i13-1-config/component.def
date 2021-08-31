@@ -8,4 +8,6 @@
     id="i13-1-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i13_1.feature.feature.group"/>
 </targlets:ComponentDefinition>

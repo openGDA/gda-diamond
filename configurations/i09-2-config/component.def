@@ -8,4 +8,6 @@
     id="i09-2-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i09_2.feature.feature.group"/>
 </targlets:ComponentDefinition>

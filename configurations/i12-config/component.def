@@ -8,4 +8,6 @@
     id="i12-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i12.feature.feature.group"/>
 </targlets:ComponentDefinition>

@@ -8,4 +8,6 @@
     id="p99-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.diamond.daq.beamline.p99.feature.feature.group"/>
 </targlets:ComponentDefinition>

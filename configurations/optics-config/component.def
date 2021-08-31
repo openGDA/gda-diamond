@@ -8,4 +8,6 @@
     id="optics-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.laboratory.optics.feature.feature.group"/>
 </targlets:ComponentDefinition>

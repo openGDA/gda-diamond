@@ -10,4 +10,6 @@
       name="i10-shared"/>
   <requirement
       name="optics-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i10.feature.feature.group"/>
 </targlets:ComponentDefinition>

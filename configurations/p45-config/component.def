@@ -8,4 +8,6 @@
     id="p45-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.diamond.daq.beamline.p45.feature.feature.group"/>
 </targlets:ComponentDefinition>

@@ -8,4 +8,6 @@
     id="b07-1-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.b07_1.feature.feature.group"/>
 </targlets:ComponentDefinition>

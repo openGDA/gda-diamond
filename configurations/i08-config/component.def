@@ -10,4 +10,6 @@
       name="dls-config"/>
   <requirement
       name="i08-shared"/>
+  <requirement
+      name="uk.ac.gda.beamline.i08.feature.feature.group"/>
 </targlets:ComponentDefinition>

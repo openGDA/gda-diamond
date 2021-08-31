@@ -8,4 +8,6 @@
     id="i11-1-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i11_1.feature.feature.group"/>
 </targlets:ComponentDefinition>

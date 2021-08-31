@@ -8,4 +8,6 @@
     id="i22-config">
   <requirement
       name="dls-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i22.feature.feature.group"/>
 </targlets:ComponentDefinition>
