@@ -8,4 +8,6 @@
     id="i07-config">
   <requirement
       name="mt-config"/>
+  <requirement
+      name="uk.ac.gda.beamline.i07.feature.feature.group"/>
 </targlets:ComponentDefinition>
