@@ -194,13 +194,6 @@ from data_process.scanDataProcess import *  # @UnusedWildImport
 # from scannable.id_energys.idd_lin_energy import * # @UnusedWildImport
 # from scannable.id_energys.idu_switchable import *  # @UnusedWildImport
 # from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
-#####create 'smode', 'pol', and 'energy' - using source polarisation specific energy scannables
-# from scannable.idcontrols.mode_polarisation_energy_instances import *  # @UnusedWildImport
-# idd,idu,unknown = SourceMode.SOURCE_MODES
-# pc,nc,lh,lv,la,lh3,unknown = Polarisation.POLARISATIONS
-#####Continuous Scan scannables and commands - support egy, egy_g, and 'energy'
-#from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
-#from scan.cvscan_0 import cvscan, cvscan2  # @UnusedImport
 
 #####
 from calibrations.mode_polarisation_energy_instances import smode, pol, energy_s, energy_pol, setBeamHarmonicsOrder, initialisation  # @UnusedImport
