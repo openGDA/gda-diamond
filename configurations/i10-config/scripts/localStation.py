@@ -217,6 +217,14 @@ laa = LinearArbitraryAngle("laa", idu_jawphase, idd_jawphase, smode, pol, jawpha
 from scannable.stokesParameters import StokesParameters
 stokes_parameters = StokesParameters("stokes_parameters", pol, laa)
 
+#ID metadata scannables
+from scannable.idcontrols.gapScannable import GapScannable
+gap = GapScannable("gap", smode, idd_gap, idu_gap, "mm", "%.3f")  # @UndefinedVariable
+from scannable.idcontrols.taperScannable import TaperScannable
+taper = TaperScannable("taper", smode, "urad", "%.3f", iddtaper=None, idutaper=None)
+from scannable.idcontrols.harmonicScannable import HarmonicScannable
+harmonic = HarmonicScannable("harmonic", pol)
+
 from scannable.continuous.continuous_energy_scannables_new import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23, energye, mcse16,mcse17,mcse18,mcse19,mcse20,mcse21,mcse22,mcse23 # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
 alias('cvscan')

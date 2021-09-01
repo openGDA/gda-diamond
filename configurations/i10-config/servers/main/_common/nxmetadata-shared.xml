@@ -30,6 +30,9 @@
 	<bean id="idNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
 		<property name="name" value="id" />
 		<property name="type" value="UNDULATOR" />
+		<property name="gapScannableName" value="gap"/>
+		<property name="harmonicScannableName" value="harmonic"/>
+		<property name="taperScannableName" value="taper"/>
 		<property name="customNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
