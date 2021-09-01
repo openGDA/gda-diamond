@@ -1,7 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
 from i06shared import installation
-from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gda.device.scannable import DummyScannable
 from gda.configuration.properties import LocalProperties
 print
@@ -97,6 +96,13 @@ from i06shared.scan.miscan import miscan  # @UnusedImport
 from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
 from i06shared.scannables.stokesParameters import StokesParameters
 stokes_parameters = StokesParameters('stokes_parameters', __main__.pol, __main__.laa)
+
+from i06shared.metadata.gapScannable import GapScannable
+gap = GapScannable("gap", __main__.smode, __main__.iddgap, __main__.idugap, "mm", "%.3f")  # @UndefinedVariable
+from i06shared.metadata.taperScannable import TaperScannable
+taper = TaperScannable("taper", __main__.smode, "urad", "%.3f", iddtaper=None, idutaper=None)
+from i06shared.metadata.harmonicScannable import HarmonicScannable
+harmonic = HarmonicScannable("harmonic", __main__.pol)
 
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
