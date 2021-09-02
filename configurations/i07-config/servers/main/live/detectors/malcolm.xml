@@ -36,6 +36,7 @@
 		<property name="detFileNameSuffix" value="-EXCALIBUR.h5" />
 		<property name="detFrameEntry" value="/data" />
 		<property name="detUidEntry" value="/uid" />
+		<property name="primaryDataName" value="EXCALIBUR" />
 		<property name="processors">
 			<list>
 				<ref bean="MalcRoiProcExc" />
@@ -62,6 +63,7 @@
 		<property name="detFileNameSuffix" value="-PILATUS.h5" />
 		<property name="detFrameEntry" value="/entry/detector/detector" />
 		<property name="detUidEntry" value="/entry/NDAttributes/NDArrayUniqueId" />
+		<property name="primaryDataName" value="PILATUS" />
 		<property name="processors">
 			<list>
 				<ref bean="MalcRoiProcPil" />
