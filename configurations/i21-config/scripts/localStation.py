@@ -386,6 +386,11 @@ uvw_wrapper.connectScannable()  # @UndefinedVariable
 from scannabledevices.stokesParameters import StokesParameters
 stokes_parameters = StokesParameters("stokes_parameters", polarisation)
 
+from metadata.taperScannable import TaperScannable
+taper = TaperScannable("taper", "urad", "%.3f", idtaper=None)
+from metadata.harmonicScannable import HarmonicScannable
+harmonic = HarmonicScannable("harmonic",polarisation)
+
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable

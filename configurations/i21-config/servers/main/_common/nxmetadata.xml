@@ -32,6 +32,8 @@
 		<property name="name" value="id" />
 		<property name="type" value="UNDULATOR" />
 		<property name="gapScannableName" value="idgap" />
+		<property name="harmonicScannableName" value="harmonic"/>
+		<property name="taperScannableName" value="taper"/>
 		<property name="customNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
