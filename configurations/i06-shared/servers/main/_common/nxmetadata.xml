@@ -10,17 +10,19 @@
 		<property name="customNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="energy"/>
-                    <property name="scannableName" value="beamenergy"/>
-          	    </bean>
-  			</list>
+					<property name="name" value="energy"/>
+					<property name="scannableName" value="beamenergy"/>
+				</bean>
+			</list>
 		</property>
 	</bean>
 	
 	<bean id="idNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
 		<property name="name" value="id" />
 		<property name="type" value="UNDULATOR" />
-<!-- 		<property name="gapScannableName" value="iddgap" /> -->
+		<property name="gapScannableName" value="gap"/>
+		<property name="harmonicScannableName" value="harmonic"/>
+		<property name="taperScannableName" value="taper"/>
 		<property name="customNodes">
 			<list>
 			 	<bean class="org.eclipse.scanning.device.ScannableField">
@@ -31,15 +33,15 @@
 					<property name="name" value="polarisation"/>
 					<property name="scannableName" value="pol"/>
 				</bean>
-	            <bean class="org.eclipse.scanning.device.GroupMetadataNode">
-	                <property name="name" value="idd"/>
-	                <property name="nexusClass" value="NXcollection"/>
-	                <property name="childNodes"> <!-- add child groups as appropriate -->
-	                    <list>
-	                        <bean class="org.eclipse.scanning.device.ScannableField">
-	                            <property name="name" value="gap"/>
-	                            <property name="scannableName" value="iddgap"/>
-	                        </bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="idd"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="gap"/>
+								<property name="scannableName" value="iddgap"/>
+							</bean>
 							<bean class="org.eclipse.scanning.device.ScannableField">
 									<property name="name" value="trp"/>
 									<property name="scannableName" value="iddtrp"/>
@@ -52,18 +54,18 @@
 								<property name="name" value="la_angle"/>
 								<property name="scannableName" value="iddlaangle"/>
 							</bean>
-	                    </list>
-	                </property>
-	            </bean>
-	            <bean class="org.eclipse.scanning.device.GroupMetadataNode">
-	                <property name="name" value="idu"/>
-	                <property name="nexusClass" value="NXcollection"/>
-	                <property name="childNodes"> <!-- add child groups as appropriate -->
-	                    <list>
-	                        <bean class="org.eclipse.scanning.device.ScannableField">
-	                            <property name="name" value="gap"/>
-	                            <property name="scannableName" value="idugap"/>
-	                        </bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="idu"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="gap"/>
+								<property name="scannableName" value="idugap"/>
+							</bean>
 							<bean class="org.eclipse.scanning.device.ScannableField">
 									<property name="name" value="trp"/>
 									<property name="scannableName" value="idutrp"/>
@@ -76,9 +78,9 @@
 								<property name="name" value="la_angle"/>
 								<property name="scannableName" value="idulaangle"/>
 							</bean>
-	                    </list>
-	                </property>
-	            </bean>
+						</list>
+					</property>
+				</bean>
 			 	<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="pugap"/>
 					<property name="scannableName" value="pugap"/>
@@ -93,21 +95,21 @@
 		<property name="customNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="pitch"/>
-                    <property name="scannableName" value="pgmpitch"/>
-          	    </bean>
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="pgmpitch"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="gratpitch"/>
-                    <property name="scannableName" value="pgmgratpitch"/>
-          	    </bean>
+					<property name="name" value="gratpitch"/>
+					<property name="scannableName" value="pgmgratpitch"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="cff"/>
-                    <property name="scannableName" value="cff"/>
-          	    </bean>
+					<property name="name" value="cff"/>
+					<property name="scannableName" value="cff"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="grating"/>
-                    <property name="scannableName" value="grating"/>
-          	    </bean>			
+					<property name="name" value="grating"/>
+					<property name="scannableName" value="grating"/>
+				</bean>			
 			</list>
 		</property>
 	</bean>
@@ -118,13 +120,13 @@
 		<property name="childNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="x_gap"/>
-                    <property name="scannableName" value="s1xgap"/>
-          	    </bean>
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s1xgap"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="y_gap"/>
-                    <property name="scannableName" value="s1ygap"/>
-          	    </bean>		
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s1ygap"/>
+				</bean>		
 			</list>
 		</property>
 	</bean>
@@ -135,21 +137,21 @@
 		<property name="childNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="x"/>
-                    <property name="scannableName" value="m1x"/>
-          	    </bean>
+					<property name="name" value="x"/>
+					<property name="scannableName" value="m1x"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="yaw"/>
-                    <property name="scannableName" value="m1yaw"/>
-          	    </bean>		
+					<property name="name" value="yaw"/>
+					<property name="scannableName" value="m1yaw"/>
+				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="pitch"/>
-                    <property name="scannableName" value="m1pitch"/>
-          	    </bean>		
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="m1pitch"/>
+				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="qg"/>
-                    <property name="scannableName" value="m1qg"/>
-          	    </bean>		
+					<property name="name" value="qg"/>
+					<property name="scannableName" value="m1qg"/>
+				</bean>		
 			</list>
 		</property>
 	</bean>
@@ -160,25 +162,25 @@
 		<property name="childNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScalarField">
-                	<property name="name" value="type"/>
-                    <property name="value" value="Switch Mirror"/>
-          	    </bean>
+					<property name="name" value="type"/>
+					<property name="value" value="Switch Mirror"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="x"/>
-                    <property name="scannableName" value="m6x"/>
-          	    </bean>
+					<property name="name" value="x"/>
+					<property name="scannableName" value="m6x"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="yaw"/>
-                    <property name="scannableName" value="m6yaw"/>
-          	    </bean>		
+					<property name="name" value="yaw"/>
+					<property name="scannableName" value="m6yaw"/>
+				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="pitch"/>
-                    <property name="scannableName" value="m6pitch"/>
-          	    </bean>		
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="m6pitch"/>
+				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="qg"/>
-                    <property name="scannableName" value="m6qg"/>
-          	    </bean>		
+					<property name="name" value="qg"/>
+					<property name="scannableName" value="m6qg"/>
+				</bean>		
 			</list>
 		</property>
 	</bean>
@@ -191,7 +193,7 @@
 		<property name="fluxScannableName" value="ds" />
 	</bean>
 	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
-	 	<property name="name" value="user01"/>
+		<property name="name" value="user01"/>
 		<!-- Note: The user name is retrieved from the baton holder -->
 	</bean>
 
