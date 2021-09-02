@@ -50,3 +50,10 @@ except Exception as e:
     print("Error setting up exc snapper", e)
 #####
 
+# Exc Threshold
+try:
+    from exc_p import ExcThreshold
+    excthresh = ExcThreshold("excthresh", excalibur.getController().getBasePv())
+except Exception as e:
+    print("Error setting up exc threshold", e)
+#####
