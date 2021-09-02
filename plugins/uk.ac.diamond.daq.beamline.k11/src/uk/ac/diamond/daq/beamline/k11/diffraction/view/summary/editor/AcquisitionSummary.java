@@ -34,11 +34,11 @@ import com.swtdesigner.SWTResourceManager;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.editor.handler.SummaryHandler;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
-import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientResourceManager;
 import uk.ac.gda.ui.tool.WidgetUtilities;
+import uk.ac.gda.ui.tool.controller.AcquisitionController;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 
 /**

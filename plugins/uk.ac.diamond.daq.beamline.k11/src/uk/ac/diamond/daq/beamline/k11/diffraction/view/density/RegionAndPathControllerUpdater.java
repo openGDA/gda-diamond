@@ -106,7 +106,10 @@ public class RegionAndPathControllerUpdater {
 		}
 
 		private void updateRap() {
-			String[] properties = acquisitionTemplateTypeProperties.get(getSelectedAcquisitionTemplateType());
+			String[] properties = Optional.ofNullable(getSelectedAcquisitionTemplateType())
+				.map(acquisitionTemplateTypeProperties::get)
+				.orElseGet(() -> new String[0]);
+//			String[] properties = acquisitionTemplateTypeProperties.get(getSelectedAcquisitionTemplateType());
 			IntStream.range(0, properties.length)
 			.forEach(index -> {
 				if (WidgetUtilities.isWritableProperty(rapController.getScanPathModel(), properties[index])) {
@@ -155,7 +158,9 @@ public class RegionAndPathControllerUpdater {
 		}
 
 		private void updateRap() {
-			String[] properties = acquisitionTemplateTypeProperties.get(getSelectedAcquisitionTemplateType());
+			String[] properties = Optional.ofNullable(getSelectedAcquisitionTemplateType())
+					.map(acquisitionTemplateTypeProperties::get)
+					.orElseGet(() -> new String[0]);
 			IntStream.range(0, properties.length)
 			.forEach(index -> {
 				if (WidgetUtilities.isWritableProperty(rapController.getScanPathModel(), properties[index])) {

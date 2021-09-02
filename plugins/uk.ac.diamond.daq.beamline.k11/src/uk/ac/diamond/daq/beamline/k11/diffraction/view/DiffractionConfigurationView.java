@@ -33,20 +33,13 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.browser.MapBrowser;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorButtonControlledCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionButtonControlledCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.pointandshoot.PointAndShootButtonControlledCompositeFactory;
-import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.ui.BackgroundStateHelper;
 import uk.ac.diamond.daq.mapping.ui.LiveStreamBackgroundAction;
-import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
-import uk.ac.diamond.daq.mapping.ui.experiment.controller.ExperimentScanningAcquisitionController;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
-import uk.ac.gda.api.acquisition.AcquisitionController;
-import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.AcquisitionConfigurationView;
 import uk.ac.gda.ui.tool.ClientMessages;
-import uk.ac.gda.ui.tool.document.DocumentFactory;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
 import uk.ac.gda.ui.tool.selectable.SelectableContainedCompositeFactory;
@@ -94,23 +87,6 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 		return getScanningAcquisitionTemporaryHelper().getAcquisitionController()
 			.map(MapBrowser::new)
 			.orElseGet(() -> new MapBrowser(null));
-	}
-
-	/**
-	 * Creates a new {@link ScanningAcquisition} for a diffraction acquisition. Note that the Detectors set by the
-	 * {@link ScanningAcquisitionController#createNewAcquisition()}
-	 *
-	 * @return the new scanning acquisition
-	 */
-	@Override
-	protected Supplier<ScanningAcquisition> newScanningAcquisition() {
-		return SpringApplicationContextFacade.getBean(DocumentFactory.class)
-				.newScanningAcquisition(AcquisitionPropertyType.DIFFRACTION, AcquisitionTemplateType.TWO_DIMENSION_POINT);
-	}
-
-	@Override
-	protected AcquisitionController<ScanningAcquisition> createAcquisitionController() {
-		return new ExperimentScanningAcquisitionController(AcquisitionPropertyType.DIFFRACTION);
 	}
 
 	private List<NamedCompositeFactory> initializeConfiguration(Supplier<Composite> controlButtonsContainerSupplier) {

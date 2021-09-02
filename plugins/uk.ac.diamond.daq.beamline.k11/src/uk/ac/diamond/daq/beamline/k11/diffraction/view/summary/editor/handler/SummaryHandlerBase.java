@@ -37,11 +37,11 @@ import uk.ac.diamond.daq.mapping.api.document.helper.ScannableTrackDocumentHelpe
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
-import uk.ac.gda.api.acquisition.AcquisitionController;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientTextFormats;
+import uk.ac.gda.ui.tool.controller.AcquisitionController;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 
 /**
