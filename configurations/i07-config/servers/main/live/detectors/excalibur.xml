@@ -3,7 +3,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="excalibur_controller" class="uk.ac.gda.devices.odin.OdinDetectorControllerEpics" >
+	<bean id="excalibur_controller_base" class="uk.ac.gda.devices.odin.OdinDetectorControllerEpics" >
+		<property name="basePv" value="BL07I-EA-EXCBR-01:"/>
+	</bean>
+	
+	<bean id="excalibur_controller" class="uk.ac.gda.devices.odin.OdinDetectorExcalibur" >
+		<constructor-arg ref="excalibur_controller_base" />
 		<property name="basePv" value="BL07I-EA-EXCBR-01:"/>
 	</bean>
 
