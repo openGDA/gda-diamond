@@ -2,6 +2,7 @@ package uk.ac.gda.server.exafs.b18.scan.preparers;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,10 +27,13 @@ import gda.device.detector.BufferedDetector;
 import gda.device.detector.DetectorHdfFunctions;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.mythen.MythenDetectorImpl;
+import gda.device.detector.nxdetector.NXPluginBase;
+import gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
 import gda.scan.StaticScan;
+import uk.ac.gda.beans.exafs.DetectorConfig;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
@@ -97,6 +101,11 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		this.experimentFullPath = experimentFullPath;
 		this.outputBean = outputBean;
 
+		if (useNewDetectorConfiguration()) {
+			prepareDetectors(detectorBean.getDetectorConfigurations());
+			return;
+		}
+
 		if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.FLUORESCENCE_TYPE)) {
 			FluorescenceParameters fluorescenceParameters = detectorBean.getFluorescenceParameters();
 			String xmlFileName = Paths.get(experimentXmlFullPath, fluorescenceParameters.getConfigFileName()).toString();
@@ -110,6 +119,18 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			TransmissionParameters transmissionParameters = detectorBean.getTransmissionParameters();
 			control_all_ionc(transmissionParameters.getIonChamberParameters());
 		}
+	}
+
+	private boolean useNewDetectorConfiguration() {
+		return detectorBean != null &&
+				detectorBean.getDetectorConfigurations() != null &&
+				!detectorBean.getDetectorConfigurations().isEmpty();
+	}
+
+	private void prepareDetectors(List<DetectorConfig> detectorConfigs) {
+		detectorPreparerFunctions.setConfigFileDirectory(experimentFullPath);
+		detectorPreparerFunctions.setDataDirectory(experimentFullPath.replace("/xml/", "/"));
+		detectorPreparerFunctions.configure(detectorConfigs);
 	}
 
 	private String getDataFolderFullPath() {
@@ -178,6 +199,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		try {
 			// Set filepath for hdf file writer back to the original value
 			DetectorHdfFunctions.setHdfFilePath(selectedDetector, hdfFilePath);
+			detectorPreparerFunctions.restoreDetectorState();
 		} catch (DeviceException e) {
 			logger.error("Problem setting xspress3 path to {} at end of scan", hdfFilePath);
 		}
@@ -271,6 +293,32 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
+		List<String> bufferedDetectorNames;
+		if (useNewDetectorConfiguration()) {
+			logger.debug("Getting QEXafs detectors from new detector settings");
+			bufferedDetectorNames = getQxafsDetectorNames();
+		} else {
+			logger.debug("Getting QExafs detectors from old detector settings");
+			bufferedDetectorNames = getQexafsDetectorNamesForExperimentType();
+		}
+
+		logger.debug("Detectors to use in scan : {}", bufferedDetectorNames);
+		return createBufferedDetArray(bufferedDetectorNames);
+	}
+
+	private List<String> getQxafsDetectorNames() throws Exception {
+		//create list of all detector names in use :
+		List<String> detectorNames = detectorBean.getDetectorConfigurations()
+				.stream()
+				.filter(DetectorConfig::isUseDetectorInScan)
+				.map(DetectorConfig::getAllDetectorNames)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList());
+
+		return getBufferedDetectorNames(detectorNames);
+	}
+
+	private List<String> getQexafsDetectorNamesForExperimentType() {
 		String experimentType = detectorBean.getExperimentType();
 		logger.debug("Getting QEXafs detectors for experiment type '{}'", experimentType);
 
@@ -294,8 +342,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		if (bufferedDetectorNames.isEmpty()) {
 			logger.warn("Couldn't determine buffered detector names to use for detector group {}", experimentType);
 		}
-		logger.debug("Detectors to use in scan : {}", bufferedDetectorNames);
-		return createBufferedDetArray(bufferedDetectorNames);
+		return bufferedDetectorNames;
 	}
 
 	/**
@@ -317,14 +364,26 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			List<String> detectorList = Arrays.asList(detectors.get());
 			// Create list of buffered detector name in same order as stored in the map
 			// (i.e. ionchambers first, FFI0s last)
-			return bufferedDetectorNameMap.entrySet().stream().
-					filter(bufDet -> detectorList.contains(bufDet.getKey())).
-					map(Entry::getValue).
-					collect(Collectors.toList());
+			return getBufferedDetectorNames(detectorList);
 
 		} else {
 			return Collections.emptyList();
 		}
+	}
+
+	/**
+	 *  Create list of buffered detector names from detectorList in same order as stored in the map
+	 * (i.e. ionchambers first, FFI0s last)
+	 * @param detectorList
+	 * @return buffered detector names
+	 */
+	private List<String> getBufferedDetectorNames(List<String> detectorList) {
+		// Create list of buffered detector name in same order as stored in the map
+		// (i.e. ionchambers first, FFI0s last)
+		return bufferedDetectorNameMap.entrySet().stream().
+				filter(bufDet -> detectorList.contains(bufDet.getKey())).
+				map(Entry::getValue).
+				collect(Collectors.toList());
 	}
 
 	protected BufferedDetector[] createBufferedDetArray(List<String> names) throws Exception {
@@ -413,5 +472,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	public Detector getSelectedDetector() {
 		return selectedDetector;
+	}
+
+	public void setMedipixPlugins(List<NXPluginBase> mutableRoiPluginList) {
+		detectorPreparerFunctions.setMutableRoiPluginList(mutableRoiPluginList);
+	}
+
+	public void setMedipixMutableRoi(MutableRectangularIntegerROI mutableRoiForMedipix) {
+		detectorPreparerFunctions.setMutableRoiForMedipix(mutableRoiForMedipix);
 	}
 }
