@@ -34,6 +34,7 @@
 	<bean id="ca21c" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca22c" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca23c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca24c" class="gda.device.scannable.DummyScannable" />
 
 	<util:map id="gainMap">
 		<entry key="Low Noise">

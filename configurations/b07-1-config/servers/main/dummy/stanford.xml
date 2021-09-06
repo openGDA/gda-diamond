@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="SR570_21_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_31_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
@@ -19,7 +19,7 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_21_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_31_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>pA/V</value>
@@ -30,9 +30,9 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_21_bias_voltage" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_31_bias_voltage" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_21_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_31_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>On</value>
@@ -41,15 +41,15 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_21_filter_type" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_31_filter_type" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_21_filter_highpass" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_31_filter_highpass" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_21_filter_lowpass" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_31_filter_lowpass" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_21_gain_mode" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_31_gain_mode" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_22_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_32_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
@@ -65,7 +65,7 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_22_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_32_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>pA/V</value>
@@ -76,9 +76,9 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_22_bias_voltage" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_32_bias_voltage" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_22_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_32_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>On</value>
@@ -87,15 +87,15 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_22_filter_type" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_32_filter_type" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_22_filter_highpass" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_32_filter_highpass" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_22_filter_lowpass" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_32_filter_lowpass" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_22_gain_mode" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_32_gain_mode" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_23_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_33_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
@@ -111,7 +111,7 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_23_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_33_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>pA/V</value>
@@ -122,9 +122,9 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_23_bias_voltage" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_33_bias_voltage" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_23_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="SR570_33_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>On</value>
@@ -133,13 +133,13 @@
 		</property>
 	</bean>
 
-	<bean id="SR570_23_filter_type" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_33_filter_type" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_23_filter_highpass" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_33_filter_highpass" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_23_filter_lowpass" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_33_filter_lowpass" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="SR570_23_gain_mode" class="gda.device.scannable.DummyScannable" />
+	<bean id="SR570_33_gain_mode" class="gda.device.scannable.DummyScannable" />
 
 	<bean id="SR830_sensitivity" class="gda.device.scannable.DummyScannable" />
 
@@ -148,5 +148,14 @@
 	<bean id="SR830_channel_one" class="gda.device.scannable.DummyScannable" />
 
 	<bean id="SR830_channel_two" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="ca31c_stanford" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca31c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca32c_stanford" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca32c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca33c_stanford" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca33c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca34c_stanford" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca34c" class="gda.device.scannable.DummyScannable" />
 
 </beans>

@@ -3,145 +3,145 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="SR570_21_sensitivity" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_31_sensitivity" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-99:SENS:SEL1"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_21_sensitivity_units" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_31_sensitivity_units" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-99:SENS:SEL2"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_21_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_31_bias_voltage" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-99:BSLV"/>
 		<property name="unit" value="V"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_21_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_31_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-99:BSON"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_21_filter_type" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_31_filter_type" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-99:FLTT"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_21_filter_highpass" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_31_filter_highpass" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-99:HFRQ"/>
 		<property name="unit" value="Hz"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_21_filter_lowpass" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_31_filter_lowpass" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-99:LFRQ"/>
 		<property name="unit" value="MHz"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_21_gain_mode" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_31_gain_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-99:GNMD"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_22_sensitivity" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_32_sensitivity" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-98:SENS:SEL1"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_22_sensitivity_units" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_32_sensitivity_units" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-98:SENS:SEL2"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_22_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_32_bias_voltage" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-98:BSLV"/>
 		<property name="unit" value="V"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_22_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_32_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-98:BSON"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_22_filter_type" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_32_filter_type" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-98:FLTT"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_22_filter_highpass" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_32_filter_highpass" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-98:HFRQ"/>
 		<property name="unit" value="Hz"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_22_filter_lowpass" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_32_filter_lowpass" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-98:LFRQ"/>
 		<property name="unit" value="MHz"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_22_gain_mode" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_32_gain_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-98:GNMD"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_23_sensitivity" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_33_sensitivity" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-97:SENS:SEL1"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_23_sensitivity_units" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_33_sensitivity_units" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-97:SENS:SEL2"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_23_bias_voltage" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_33_bias_voltage" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-97:BSLV"/>
 		<property name="unit" value="V"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_23_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="SR570_33_bias_voltage_status" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-EA-IAMP-97:BSON"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<bean id="SR570_23_filter_type" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_33_filter_type" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-97:FLTT"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_23_filter_highpass" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_33_filter_highpass" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-97:HFRQ"/>
 		<property name="unit" value="Hz"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_23_filter_lowpass" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_33_filter_lowpass" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-97:LFRQ"/>
 		<property name="unit" value="MHz"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="SR570_23_gain_mode" class="gda.device.monitor.EpicsMonitor">
+	<bean id="SR570_33_gain_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-EA-IAMP-97:GNMD"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
@@ -171,6 +171,58 @@
 		<property name="pvName" value="BL07C-EA-LKAMP-99:SR830:A:Disp2"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+	<bean id="ca31c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
+		<property name="basePVName" value="BL07C-DI-IAMP-31:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="4.5"/>
+		<property name="instantaneousPV" value="BL07C-DI-IAMP-31:I1:I"/>
+	</bean>
+	
+	<bean id="ca31c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-31:I1:"/>
+		<property name="amplifier" ref="ca31c_stanford"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca32c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
+		<property name="basePVName" value="BL07C-DI-IAMP-32:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="4.5"/>
+		<property name="instantaneousPV" value="BL07C-DI-IAMP-32:I1:I"/>
+	</bean>
+	
+	<bean id="ca32c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-32:I1:"/>
+		<property name="amplifier" ref="ca32c_stanford"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca33c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
+		<property name="basePVName" value="BL07C-DI-IAMP-33:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="4.5"/>
+		<property name="instantaneousPV" value="BL07C-DI-IAMP-33:I1:I"/>
+	</bean>
+	
+	<bean id="ca33c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-33:I1:"/>
+		<property name="amplifier" ref="ca33c_stanford"/>
+		<property name="adcChannel" value="3"/>
+	</bean>
+
+	<bean id="ca34c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
+		<property name="basePVName" value="BL07C-DI-IAMP-34:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="4.5"/>
+		<property name="instantaneousPV" value="BL07C-DI-IAMP-34:I1:I"/>
+	</bean>
+	
+	<bean id="ca34c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-34:I1:"/>
+		<property name="amplifier" ref="ca34c_stanford"/>
+		<property name="adcChannel" value="4"/>
 	</bean>
 
 </beans>
