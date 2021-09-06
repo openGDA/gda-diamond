@@ -102,7 +102,7 @@
     <fluorescence>
         <configFileName>Xspress_Parameters.xml</configFileName>
         <workingEnergy>7111.14</workingEnergy>
-        <detectorType>Germanium</detectorType>
+        <detectorType>Xspress2</detectorType>
         <ionChamber>
             <name>I0</name>
             <deviceName>counterTimer01</deviceName>

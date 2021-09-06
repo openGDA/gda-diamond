@@ -37,6 +37,38 @@
 					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
 				</bean>
 
+				<!--  Experiment type (transmission or fluorescence) -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Experiment type (i.e. fluorescence/transmission)" />
+					<property name="fullPathToGetter" value="getExperimentType" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.DetectorParameters" />
+					<property name="allowedValues">
+						<list>
+							<value>Transmission</value>
+							<value>Fluorescence</value>
+						</list>
+					</property>
+				</bean>
+
+				<!--  Detector group to be used (Xspress2, Xspress4, Medipix etc) 
+				Selection should match name of one of the detectorGroups in DetectorParameters XML file.
+				-->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Detector selection (Xspress2, XMap etc)" />
+					<property name="fullPathToGetter" value="getFluorescenceParameters.getDetectorType" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.DetectorParameters" />
+					<property name="allowedValues">
+						<list>
+							<value>transmission</value>
+							<value>XMap</value>
+							<value>Xspress2</value>
+							<value>Xspress3</value>
+							<value>Xspress4</value>
+							<value>Medipix</value>
+						</list>
+					</property>
+				</bean>
+
 				<!-- Name of detector configuration file -->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
 					<property name="description" value="Detector configuration file" />
