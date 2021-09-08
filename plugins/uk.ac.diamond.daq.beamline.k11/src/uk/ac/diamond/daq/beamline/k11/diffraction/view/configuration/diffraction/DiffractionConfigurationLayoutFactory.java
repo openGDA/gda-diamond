@@ -58,8 +58,6 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.density.RegionAndPathCont
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.mutator.MutatorsTemplateFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.shape.AcquisitionTemplateTypeCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.SummaryCompositeFactory;
-import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
-import uk.ac.diamond.daq.client.gui.camera.ICameraConfiguration;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
@@ -83,12 +81,12 @@ import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.controller.AcquisitionController;
+import uk.ac.gda.ui.tool.document.DocumentFactory;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 import uk.ac.gda.ui.tool.processing.ProcessingRequestComposite;
 import uk.ac.gda.ui.tool.processing.context.ProcessingRequestContext;
 import uk.ac.gda.ui.tool.processing.keys.ProcessingRequestKeyFactory;
 import uk.ac.gda.ui.tool.processing.keys.ProcessingRequestKeyFactory.ProcessKey;
-import uk.ac.gda.ui.tool.rest.CameraControlClient;
 import uk.ac.gda.ui.tool.spring.ClientRemoteServices;
 import uk.ac.gda.ui.tool.spring.ClientSpringProperties;
 
@@ -320,30 +318,14 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		List<DetectorDocument> cameras = new ArrayList<>();
 		for(String id : cameraIds) {
 			try {
-				cameras.add(createDetectorDocument(id));
+				var detectorDocument = getDocumentFactory().createDetectorDocument(id)
+						.orElseThrow(GDAClientException::new);
+				cameras.add(detectorDocument);
 			} catch (GDAClientException e) {
 				logger.error("Cannot create DetectorDocument: {}", e.getMessage());
 			}
 		}
 		return cameras;
-	}
-
-	private DetectorDocument createDetectorDocument(String cameraId) throws GDAClientException {
-		ICameraConfiguration iCameraConfiguraton = CameraHelper.getCameraConfigurationPropertiesByID(cameraId)
-			.map(CameraHelper::createICameraConfiguration)
-			.orElseThrow(() -> new GDAClientException("Cannot retrieve the Camera configuration for " + cameraId));
-
-		CameraControlClient cameraClient = iCameraConfiguraton.getCameraControlClient()
-				.orElseThrow(() -> new GDAClientException("Cannot retrieve the CameraControlClient for " + cameraId));
-
-
-		if (cameraClient != null) {
-			return new DetectorDocument.Builder()
-				.withName(iCameraConfiguraton.getCameraConfigurationProperties().getName())
-				.withExposure(cameraClient.getAcquireTime())
-				.build();
-		}
-		throw new GDAClientException();
 	}
 
 	private URL getDiffractionCalibrationMergeDirectory() {
@@ -456,5 +438,9 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
 		return SpringApplicationContextFacade.getBean(ScanningAcquisitionTemporaryHelper.class);
+	}
+
+	private DocumentFactory getDocumentFactory() {
+		return SpringApplicationContextFacade.getBean(DocumentFactory.class);
 	}
 }
