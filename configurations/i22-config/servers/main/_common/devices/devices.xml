@@ -10,7 +10,6 @@
     <import resource="bs.xml" />
     <import resource="d1.xml" />
     <import resource="d2.xml" />
-    <import resource="d3.xml" />
     <import resource="d4.xml" />
     <import resource="d5.xml" />
     <import resource="d6.xml" />
