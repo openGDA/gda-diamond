@@ -1,0 +1,200 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="eV_Deg_converter_Si311" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="eV_Deg_converter_Si311" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/Si311/eV_Deg_converter.xml" />
+	</bean>
+	<bean id="Deg_dcm_perp_mm_converter_Si311" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="Deg_dcm_perp_mm_converter_Si311" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/Si311/Deg_dcm_perp_mm_converter.xml" />
+	</bean>
+	<bean id="harmonic1_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic1_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic1.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic3_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic3_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic3.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic5_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic5_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic5.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic7_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic7_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic7.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic9_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic9_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic9.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic11_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic11_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic11.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic13_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic13_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic13.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic15_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic15_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic15.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic17_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic17_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic17.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic19_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic19_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic19.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic21_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic21_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic21.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	<bean id="harmonic23_converter_Si311" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic23_converter_Si311" />
+		<constructor-arg value="Si311/lookuptable_harmonic23.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	
+	
+	<bean id="harmonic1_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic1_Si311" />
+		<constructor-arg value="harmonic1_converter_Si311" />
+		<constructor-arg value="56.187" />
+		<constructor-arg value="72.000" />
+	</bean>
+	<bean id="harmonic3_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic3_Si311" />
+		<constructor-arg value="harmonic3_converter_Si311" />
+		<constructor-arg value="24.801" />
+		<constructor-arg value="58.186" />
+	</bean>
+	<bean id="harmonic5_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic5_Si311" />
+		<constructor-arg value="harmonic5_converter_Si311" />
+		<constructor-arg value="17.201" />
+		<constructor-arg value="24.800" />
+	</bean>
+	<bean id="harmonic7_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic7_Si311" />
+		<constructor-arg value="harmonic7_converter_Si311" />
+		<constructor-arg value="13.201" />
+		<constructor-arg value="17.200" />
+	</bean>
+	<bean id="harmonic9_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic9_Si311" />
+		<constructor-arg value="harmonic9_converter_Si311" />
+		<constructor-arg value="11.001" />
+		<constructor-arg value="13.200" />
+	</bean>
+	<bean id="harmonic11_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic11_Si311" />
+		<constructor-arg value="harmonic11_converter_Si311" />
+		<constructor-arg value="9.251" />
+		<constructor-arg value="11.000" />
+	</bean>
+	<bean id="harmonic13_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic13_Si311" />
+		<constructor-arg value="harmonic13_converter_Si311" />
+		<constructor-arg value="8.001" />
+		<constructor-arg value="9.250" />
+	</bean>
+	<bean id="harmonic15_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic15_Si311" />
+		<constructor-arg value="harmonic15_converter_Si311" />
+		<constructor-arg value="7.101" />
+		<constructor-arg value="8.000" />
+	</bean>
+	<bean id="harmonic17_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic17_Si311" />
+		<constructor-arg value="harmonic17_converter_Si311" />
+		<constructor-arg value="6.701" />
+		<constructor-arg value="7.100" />
+	</bean>
+	<bean id="harmonic19_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic19_Si311" />
+		<constructor-arg value="harmonic19_converter_Si311" />
+		<constructor-arg value="5.733" />
+		<constructor-arg value="6.700" />
+	</bean>
+	<bean id="harmonic21_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic21_Si311" />
+		<constructor-arg value="harmonic21_converter_Si311" />
+		<constructor-arg value="5.431" />
+		<constructor-arg value="5.732" />
+	</bean>
+	<bean id="harmonic23_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic23_Si311" />
+		<constructor-arg value="harmonic23_converter_Si311" />
+		<constructor-arg value="5.300" />
+		<constructor-arg value="5.430" />
+	</bean>
+
+	<bean id="lookup_name_provider_Si311" class="gda.util.converters.util.RangeConverterNameProvider">
+		<constructor-arg value="lookup_name_provider_Si311" />
+		<constructor-arg value="harmonic1_converter_Si311" />
+		<property name="converters">
+			<list>
+				<ref bean="harmonic1_Si311" />
+				<ref bean="harmonic3_Si311" />
+				<ref bean="harmonic5_Si311" />
+				<ref bean="harmonic7_Si311" />
+				<ref bean="harmonic9_Si311" />
+				<ref bean="harmonic11_Si311" />
+				<ref bean="harmonic13_Si311" />
+				<ref bean="harmonic15_Si311" />
+				<ref bean="harmonic17_Si311" />
+				<ref bean="harmonic19_Si311" />
+				<ref bean="harmonic21_Si311" />
+				<ref bean="harmonic23_Si311" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="auto_mDeg_idGap_mm_converter_Si311" class="gda.util.converters.AutoRenameableConverter">
+		<constructor-arg value="auto_mDeg_idGap_mm_converter_Si311" />
+		<constructor-arg ref="lookup_name_provider_Si311" /> 
+		<constructor-arg value="true" />	
+	</bean>
+	
+</beans>

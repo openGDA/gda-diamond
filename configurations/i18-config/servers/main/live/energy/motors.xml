@@ -10,31 +10,29 @@
 
 	<!-- Monochromator / DCM Motors -->
 	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG" />
-	</bean>
-	<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-OP-DCM-01:ENERGY" />
+		<property name="pvName" value="BL18I-MO-DCM-01:BRAGG" />
 	</bean>
 	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-OP-DCM-01:XTAL1:ROLL" />
+		<property name="pvName" value="BL18I-MO-DCM-01:XTAL1:ROLL" />
 	</bean>
 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:ROLL" />
-	</bean>
-	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:PITCH" />
+		<property name="pvName" value="BL18I-MO-DCM-01:XTAL2:ROLL" />
 	</bean>
 	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:YPRIME" />
+		<property name="pvName" value="BL18I-MO-DCM-01:PERP" />
 	</bean>
 	
 	<!-- Monitors -->
 	<bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.VMAX" />
+		<property name="pvName" value="BL18I-MO-DCM-01:BRAGG.VMAX" />
 	</bean>
 	
 	<bean id="bragg_offset" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.OFF" />
+		<property name="pvName" value="BL18I-MO-DCM-01:BRAGG.OFF" />
+	</bean>
+
+	<bean id="dcm_crystal" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL18I-MO-DCM-01:MP:SELECT" />
 	</bean>
 
 </beans>

@@ -68,16 +68,16 @@ beam_available_watchdog.setEnabled(True)
 rcpController =                Finder.find("RCPController")
 XASLoggingScriptController =   Finder.find("XASLoggingScriptController")
 ExafsScriptObserver =          Finder.find("ExafsScriptObserver")
-auto_mDeg_idGap_mm_converter = Finder.find("auto_mDeg_idGap_mm_converter")
+auto_mDeg_idGap_mm_converter = Finder.find("auto_mDeg_idGap_mm_converter_Si111")
 loggingcontroller =            Finder.find("XASLoggingScriptController")
 datawriterconfig =             Finder.find("datawriterconfig")
 if Finder.find("datawriterconfig").getHeader() != None:
-    original_header =              Finder.find("datawriterconfig").getHeader()[:]
-elementListScriptController =  Finder.find("elementListScriptController")
+    original_header = Finder.find("datawriterconfig").getHeader()[:]
+elementListScriptController = Finder.find("elementListScriptController")
 
 sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedVariable
 sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
-detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3,raster_FFI0_xspress3) # @UndefinedVariable
+detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, None, raster_xspress3,None) # @UndefinedVariable
 
 samplePreparer   = I18SamplePreparer() # @UndefinedVariable
 outputPreparer   = I18OutputPreparer(datawriterconfig, Finder.find("metashop"))
@@ -107,9 +107,9 @@ xas = theFactory.createEnergyScan();
 xanes = xas
 
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
-theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
-theFactory.setQexafsNXDetectorList([qexafsXspress3FFI0]) # @UndefinedVariable
-qexafs = theFactory.createQexafsConstantVelocityScan()
+theFactory.setQexafsEnergyScannableForConstantVelocityScan(None); # @UndefinedVariable
+theFactory.setQexafsNXDetectorList([None]) # @UndefinedVariable
+# qexafs = theFactory.createQexafsConstantVelocityScan()
 
 mapFactory = MapFactory();
 mapFactory.setBeamlinePreparer(beamlinePreparer);
