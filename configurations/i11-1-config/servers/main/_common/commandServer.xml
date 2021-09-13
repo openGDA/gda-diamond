@@ -22,8 +22,8 @@
 	<bean id="script_paths" class="gda.jython.ScriptPaths">
 		<property name="projects">
 			<list>
-				<ref local="user_script_project" />
-				<ref local="configuration_script_project" />
+				<ref bean="user_script_project" />
+				<ref bean="configuration_script_project" />
 			</list>
 		</property>
 		<property name="startupScript" value="${gda.jython.startupScript}" />
