@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.client.live.stream.view.customui;
+package uk.ac.gda.exafs.ui.views;
 
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
 import org.eclipse.january.dataset.Dataset;
@@ -45,6 +45,7 @@ import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanEvent;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
+import uk.ac.gda.client.live.stream.view.customui.AbstractLiveStreamViewCustomUi;
 import uk.ac.gda.exafs.ui.NumberBoxWithUnits;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 

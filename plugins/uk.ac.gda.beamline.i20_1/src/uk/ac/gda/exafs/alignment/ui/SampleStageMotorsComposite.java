@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.ede.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.ui.components.NumberEditorControl;

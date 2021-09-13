@@ -28,7 +28,7 @@ import gda.jython.InterfaceProvider;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.position.ExplicitScanPositions;
-import uk.ac.gda.exafs.data.DetectorSetupType;
+import uk.ac.gda.ede.data.DetectorSetupType;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;

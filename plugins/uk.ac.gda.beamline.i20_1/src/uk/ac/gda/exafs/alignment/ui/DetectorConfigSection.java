@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
+import uk.ac.gda.ede.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 
 public class DetectorConfigSection extends ResourceComposite {

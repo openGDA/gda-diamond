@@ -16,7 +16,7 @@ Export-Package: gda.device.detector,
  gda.scan.ede.drivers,
  gda.scan.ede.position,
  gda.scan.ede.timeestimators,
- uk.ac.gda.exafs.data,
+ uk.ac.gda.ede.data,
  uk.ac.gda.exafs.detectortemperature,
  uk.ac.gda.exafs.experiment.trigger,
  uk.ac.gda.exafs.experiment.ui.data,
@@ -54,6 +54,6 @@ Import-Package: gda.device.frelon,
  org.python.core,
  org.slf4j;version="[1.7.2,2.0.0)",
  org.springframework.beans.factory;version="4.0.6.RELEASE",
- uk.ac.gda.exafs.data
+ uk.ac.gda.ede.data
 Bundle-Vendor: Diamond Light Source
 Automatic-Module-Name: uk.ac.gda.beamline.i20_1.server

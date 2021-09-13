@@ -7,7 +7,7 @@
 import math
 
 from gda.util import CrystalParameters
-from uk.ac.gda.exafs.data import AlignmentParametersBean
+from uk.ac.gda.ede.data import AlignmentParametersBean
 from gda.factory import Finder
 
 def calc_parameters(parametersBean):

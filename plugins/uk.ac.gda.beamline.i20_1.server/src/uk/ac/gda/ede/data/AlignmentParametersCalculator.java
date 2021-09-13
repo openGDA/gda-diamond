@@ -16,13 +16,13 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.data;
+package uk.ac.gda.ede.data;
 
-import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN1;
-import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN2;
-import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN3;
-import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN4;
-import static uk.ac.gda.exafs.data.AlignmentParametersBean.ATN5;
+import static uk.ac.gda.ede.data.AlignmentParametersBean.ATN1;
+import static uk.ac.gda.ede.data.AlignmentParametersBean.ATN2;
+import static uk.ac.gda.ede.data.AlignmentParametersBean.ATN3;
+import static uk.ac.gda.ede.data.AlignmentParametersBean.ATN4;
+import static uk.ac.gda.ede.data.AlignmentParametersBean.ATN5;
 
 import java.util.ArrayList;
 import java.util.Arrays;

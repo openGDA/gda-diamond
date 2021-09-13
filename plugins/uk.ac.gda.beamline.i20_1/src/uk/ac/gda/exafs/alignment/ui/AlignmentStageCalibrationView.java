@@ -58,7 +58,7 @@ import gda.scan.ede.position.Location;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.livecontrol.ScannablePositionerControl;
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.ede.data.ClientConfig;
 import uk.ac.gda.exafs.data.ScannableSetup;
 import uk.ac.gda.exafs.experiment.ui.SaveLoadButtonsComposite;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;

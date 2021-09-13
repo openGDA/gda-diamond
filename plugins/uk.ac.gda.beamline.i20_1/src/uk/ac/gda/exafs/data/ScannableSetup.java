@@ -21,7 +21,7 @@ package uk.ac.gda.exafs.data;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
+import uk.ac.gda.ede.data.ClientConfig.UnitSetup;
 
 public enum ScannableSetup {
 

@@ -40,6 +40,8 @@ import gda.factory.Finder;
 import gda.scan.EdeTestBase;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
+import uk.ac.gda.ede.data.AlignmentParametersBean;
+import uk.ac.gda.ede.data.AlignmentParametersCalculator;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalCut;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalType;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.QValue;
@@ -67,7 +69,7 @@ public class AlignmentParametersCalculatorTest {
 		PythonInterpreter.initialize(System.getProperties(), postProperties, new String[0]);
 
 		interp = new PythonInterpreter();
-		interp.exec("from uk.ac.gda.exafs.data import AlignmentParametersBean;");
+		interp.exec("from uk.ac.gda.ede.data import AlignmentParametersBean;");
 		interp.exec("import sys\nsys.path.append('"+getScriptDir()+"')"); // add i20-1's script directory to the path
 		interp.exec("from alignment import alignment_parameters;"); // import alignment_parameters script
 	}

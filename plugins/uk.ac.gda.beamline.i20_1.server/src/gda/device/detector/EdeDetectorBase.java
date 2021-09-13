@@ -43,7 +43,7 @@ import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.ScanDataHelper;
-import uk.ac.gda.exafs.data.DetectorSetupType;
+import uk.ac.gda.ede.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {

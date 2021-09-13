@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.analysis.numerical.integration.Simpson;
 import gda.analysis.numerical.utilities.Utility;
+import uk.ac.gda.ede.data.ClientConfig;
 
 public class PowerCalulator {
 

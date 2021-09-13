@@ -25,7 +25,7 @@ import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
-import uk.ac.gda.exafs.data.DetectorSetupType;
+import uk.ac.gda.ede.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

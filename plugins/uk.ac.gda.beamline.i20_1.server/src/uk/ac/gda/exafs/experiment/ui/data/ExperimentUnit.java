@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.ede.data.ClientConfig;
 
 public enum ExperimentUnit {
 	HOUR(ClientConfig.UnitSetup.HOUR, 60L * 60L * 1000L * 1000L * 1000L),

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.data;
+package uk.ac.gda.ede.data;
 
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;

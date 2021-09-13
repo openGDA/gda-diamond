@@ -39,6 +39,9 @@ import gda.jython.InterfaceProvider;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.ede.data.AlignmentParametersBean;
+import uk.ac.gda.ede.data.AlignmentParametersCalculator;
+import uk.ac.gda.ede.data.ClientConfig;
 
 public class AlignmentParametersModel extends ObservableModel implements Serializable {
 

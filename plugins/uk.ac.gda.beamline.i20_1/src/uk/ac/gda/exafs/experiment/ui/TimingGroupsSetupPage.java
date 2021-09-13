@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.ede.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.ui.components.NumberEditorControl;
 

@@ -74,7 +74,7 @@ import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.detector.xstrip.XhDetectorData;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
+import uk.ac.gda.ede.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 

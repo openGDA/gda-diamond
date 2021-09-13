@@ -23,7 +23,7 @@ import org.dawnsci.ede.DataHelper;
 import com.google.gson.annotations.Expose;
 
 import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
+import uk.ac.gda.ede.data.ClientConfig.UnitSetup;
 
 public abstract class TimeIntervalDataModel extends ObservableModel { // extends IntervalImpl {
 

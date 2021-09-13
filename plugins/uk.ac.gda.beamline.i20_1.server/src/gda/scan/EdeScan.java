@@ -68,7 +68,7 @@ import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import gda.util.NexusTreeWriter;
-import uk.ac.gda.exafs.data.DetectorSetupType;
+import uk.ac.gda.ede.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker;

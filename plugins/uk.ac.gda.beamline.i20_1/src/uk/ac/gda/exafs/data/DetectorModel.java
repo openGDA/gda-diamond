@@ -32,6 +32,7 @@ import gda.device.detector.Roi;
 import gda.factory.Finder;
 import gda.observable.IObserver;
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.ede.data.DetectorSetupType;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 

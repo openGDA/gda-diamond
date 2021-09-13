@@ -44,8 +44,8 @@ import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import uk.ac.gda.exafs.data.AlignmentParametersBean;
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.ede.data.AlignmentParametersBean;
+import uk.ac.gda.ede.data.ClientConfig;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

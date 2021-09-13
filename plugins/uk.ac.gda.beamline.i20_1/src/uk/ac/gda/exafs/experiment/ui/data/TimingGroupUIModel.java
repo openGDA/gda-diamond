@@ -33,8 +33,8 @@ import com.google.gson.annotations.Expose;
 
 import gda.device.DeviceException;
 import gda.device.detector.EdeDetector;
+import uk.ac.gda.ede.data.DetectorSetupType;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
 public class TimingGroupUIModel extends TimeIntervalDataModel {

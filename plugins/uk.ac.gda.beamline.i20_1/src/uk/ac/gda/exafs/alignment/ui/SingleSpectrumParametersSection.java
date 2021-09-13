@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.ede.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
