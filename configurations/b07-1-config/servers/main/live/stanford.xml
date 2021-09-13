@@ -184,6 +184,7 @@
 		<property name="basePVName" value="BL07C-DI-IAMP-31:I1:"/>
 		<property name="amplifier" ref="ca31c_stanford"/>
 		<property name="adcChannel" value="1"/>
+		<property name="autoGain" value="false"/>
 	</bean>
 
 	<bean id="ca32c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
@@ -197,6 +198,7 @@
 		<property name="basePVName" value="BL07C-DI-IAMP-32:I1:"/>
 		<property name="amplifier" ref="ca32c_stanford"/>
 		<property name="adcChannel" value="2"/>
+		<property name="autoGain" value="false"/>
 	</bean>
 
 	<bean id="ca33c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
@@ -210,6 +212,7 @@
 		<property name="basePVName" value="BL07C-DI-IAMP-33:I1:"/>
 		<property name="amplifier" ref="ca33c_stanford"/>
 		<property name="adcChannel" value="3"/>
+		<property name="autoGain" value="false"/>
 	</bean>
 
 	<bean id="ca34c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
@@ -223,6 +226,7 @@
 		<property name="basePVName" value="BL07C-DI-IAMP-34:I1:"/>
 		<property name="amplifier" ref="ca34c_stanford"/>
 		<property name="adcChannel" value="4"/>
+		<property name="autoGain" value="false"/>
 	</bean>
 
 </beans>
