@@ -195,38 +195,6 @@
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
-				<entry key="table_x">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_x" />
-						<property name="units" value="mm" />
-					</bean>
-				</entry>
-				<entry key="table_y">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_y" />
-						<property name="units" value="mm" />
-					</bean>
-				</entry>
-				<entry key="table_z">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_z" />
-						<property name="units" value="mm" />
-					</bean>
-				</entry>
-				<entry key="table_pitch">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_pitch" />
-						<property name="units" value="deg" />
-					</bean>
-				</entry>
 				<entry key="s1ygap">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
@@ -311,20 +279,20 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
-				<entry key="energy">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/DCM:NXmonochromator/energy" />
-						<property name="units" value="eV" />
-					</bean>
-				</entry>
-				<entry key="bragg_offset">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/BraggOffset:NXpositioner/bragg_offset" />
-						<property name="units" value="deg" />
-					</bean>
-				</entry>
+<!-- 				<entry key="energy"> -->
+<!-- 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter"> -->
+<!-- 						<property name="paths" -->
+<!-- 							value="instrument:NXinstrument/DCM:NXmonochromator/energy" /> -->
+<!-- 						<property name="units" value="eV" /> -->
+<!-- 					</bean> -->
+<!-- 				</entry> -->
+<!-- 				<entry key="bragg_offset"> -->
+<!-- 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter"> -->
+<!-- 						<property name="paths" -->
+<!-- 							value="instrument:NXinstrument/BraggOffset:NXpositioner/bragg_offset" /> -->
+<!-- 						<property name="units" value="deg" /> -->
+<!-- 					</bean> -->
+<!-- 				</entry> -->
 			</map>
 		</property>
 	</bean>
@@ -348,10 +316,6 @@
 				<value>t1z</value>
 				<value>t1theta</value>
 				<value>t1thetaFine</value>
-				<value>t3x</value>
-				<value>t3y</value>
-				<value>t3z</value>
-				<value>t3pitch</value>
 				<value>s1ygap</value>
 				<value>s1xgap</value>
 				<value>s1ypos</value>
@@ -364,7 +328,7 @@
 				<value>s3xgap</value>
 				<value>s3ypos</value>
 				<value>s3xpos</value>
-				<value>energy</value>
+<!-- 				<value>energy</value> -->
 				<value>ccd_x</value>
 				<value>ccd_y</value>
 				<value>It_stanford_sensitivity</value>
@@ -372,7 +336,7 @@
 				<value>I0_stanford_sensitivity</value>
 				<value>I0_stanford_sensitivity_units</value>
 				<value>vma_zoom</value>
-				<value>bragg_offset</value>
+<!-- 				<value>bragg_offset</value> -->
 			</set>
 		</property>
 	</bean>
