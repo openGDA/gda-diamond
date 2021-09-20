@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<bean id="qbpm0_current1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-00:Cur1:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm0_current2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-00:Cur2:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm0_current3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-00:Cur3:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm0_current4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-00:Cur4:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm0_xpos" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-00:PosX:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm0_ypos" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-00:PosY:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm0_total" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-00:SumAll:MeanValue_RBV"/>
+	</bean>
+
+	<bean id="qbpm1_current1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-01:Cur1:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm1_current2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-01:Cur2:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm1_current3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-01:Cur3:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm1_current4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-01:Cur4:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm1_xpos" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-01:PosX:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm1_ypos" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-01:PosY:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm1_total" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-01:SumAll:MeanValue_RBV"/>
+	</bean>
+
+	<bean id="qbpm2_current1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-02:Cur1:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm2_current2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-02:Cur2:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm2_current3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-02:Cur3:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm2_current4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-02:Cur4:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm2_xpos" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-02:PosX:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm2_ypos" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-02:PosY:MeanValue_RBV"/>
+	</bean>
+	<bean id="qbpm2_total" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-XBPM-02:SumAll:MeanValue_RBV"/>
+	</bean>
+</beans>

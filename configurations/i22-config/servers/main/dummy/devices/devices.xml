@@ -13,6 +13,7 @@
 
     <import resource="gisaxs/gisaxs.xml"/>
     <import resource="slits/slits.xml"/>
+    <import resource="qbpm.xml" />
 
     <beans profile="ioc_sim" >
         <!-- InetAddress.getLocalHost() returns full machine name (eg wsXYZ.diamond.ac.uk) -->

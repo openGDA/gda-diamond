@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<gda:motor id="qbpm0_x" live-pvName="BL22I-DI-PHDGN-03:X" protectionLevel="3" />
+	<gda:motor id="qbpm0_y" live-pvName="BL22I-DI-PHDGN-03:Y" protectionLevel="3" />
+
+    <bean id="qbpm0" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="qbpm0_x"/>
+                <ref bean="qbpm0_y"/>
+                <ref bean="qbpm0_current1"/>
+                <ref bean="qbpm0_current2"/>
+                <ref bean="qbpm0_current3"/>
+                <ref bean="qbpm0_current4"/>
+                <ref bean="qbpm0_total"/>
+                <ref bean="qbpm0_xpos"/>
+                <ref bean="qbpm0_ypos"/>
+            </list>
+        </property>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <gda:motor id="qbpm1_x" live-pvName="BL22I-DI-PHDGN-07:X" protectionLevel="3" />
+    <gda:motor id="qbpm1_y" live-pvName="BL22I-DI-PHDGN-07:Y" protectionLevel="3" />
+
+    <bean id="qbpm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="qbpm1_x"/>
+                <ref bean="qbpm1_y"/>
+                <ref bean="qbpm1_current1"/>
+                <ref bean="qbpm1_current2"/>
+                <ref bean="qbpm1_current3"/>
+                <ref bean="qbpm1_current4"/>
+                <ref bean="qbpm1_total"/>
+                <ref bean="qbpm1_xpos"/>
+                <ref bean="qbpm1_ypos"/>
+            </list>
+        </property>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="qbpm2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="qbpm2_current1"/>
+                <ref bean="qbpm2_current2"/>
+                <ref bean="qbpm2_current3"/>
+                <ref bean="qbpm2_current4"/>
+                <ref bean="qbpm2_total"/>
+                <ref bean="qbpm2_xpos"/>
+                <ref bean="qbpm2_ypos"/>
+            </list>
+        </property>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+</beans>
