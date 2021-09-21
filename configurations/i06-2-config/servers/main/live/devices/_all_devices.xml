@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="peemShutter.xml" />
+	<import resource="laser_ec3.xml" />
+
+	<import resource="peemStage.xml" />
+	<import resource="peemExitSlit.xml" />
+	<import resource="uview.xml" />
+	<import resource="medipix.xml" />
+	<import resource="camc1.xml" />
+	<import resource="camc2.xml" />
+	<import resource="camc3.xml"/>
+
+</beans>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RegionalisedScanParameters>
+
+    <Motors>
+        <Motor name="testMotor1"/>
+        <Motor name="testMotor2"/>
+    </Motors>
+    
+    <Motors>
+        <Motor name="pgmenergy"/>
+        <Motor name="denergy"/>
+        <Motor name="uenergy"/>
+        <Motor name="iddrpenergy"/>
+        <Motor name="idurpenergy"/>
+    </Motors>
+    
+    
+    <Detectors>
+        <Detector name="dummyCounter" defaultCollectionTime="1" />
+        <Detector name="waitTimer" defaultCollectionTime="1" />
+        <Detector name="ca61sr" defaultCollectionTime="1" />
+        <Detector name="ca31sr" defaultCollectionTime="1" />
+    </Detectors>
+    
+    <Detectors>
+        <Detector name="uv" defaultCollectionTime="1" />
+        <Detector name="uvstats" defaultCollectionTime="1" />
+        <Detector name="uvroi" defaultCollectionTime="1" />
+    </Detectors>
+    
+    <Monitors>
+        <Monitor name="ca62sr"/>
+        <Monitor name="ca63sr"/>
+        <Monitor name="ca64sr"/>
+    </Monitors>
+
+    <Monitors>
+        <Monitor name="ca32sr"/>
+        <Monitor name="ca33sr"/>
+        <Monitor name="ca34sr"/>
+    </Monitors>
+    
+    <Monitors>
+        <Monitor name="pgmmenc1"/>
+        <Monitor name="pgmmenc2"/>
+        <Monitor name="pgmmenc3"/>
+        <Monitor name="pgmmenc4"/>
+        <Monitor name="pgmmenc1"/>
+        <Monitor name="pgmmenc2"/>
+        <Monitor name="pgmmenc3"/>
+    </Monitors>
+    
+</RegionalisedScanParameters>
+

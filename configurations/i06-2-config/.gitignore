@@ -1,0 +1,10 @@
+# ignore a jythonCache directory anywhere in the project
+jythonCache/
+
+/var
+/users
+*.class
+*.pyc
+gdaserver.py
+
+*.launch

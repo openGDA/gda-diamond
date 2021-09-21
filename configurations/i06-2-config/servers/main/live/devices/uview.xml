@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="leem2000_com" class="gda.io.socket.SocketBidiAsciiCommunicator">
+		<property name="address" value="i06-ws013" />
+		<property name="port" value="5566" />
+		<property name="cmdTerm" value="#{null}" />
+		<property name="replyTerm" value="#{null}" />
+	</bean>
+	<bean id="leem2000_objects" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="leem2000_com" value-ref="leem2000_com" />
+			</util:map>
+		</property>
+	</bean>
+
+	<!-- PEEM UViewImage Detector -->
+	<!-- NOTE: Only one of uview or uviewnew should be commented out at any one time vvvvvv -->
+	<!-- <bean id="uviewnew" class="gda.device.detector.uviewnew.UViewImageDetector"> -->
+	<!-- <property name="tracker" value="peem" /> -->
+	<!-- <property name="imageDir" value="peem" /> -->
+	<!-- <property name="address" value="i06-ws013" /> -->
+	<!-- <property name="port" value="5570" /> -->
+	<!-- </bean> -->
+</beans>

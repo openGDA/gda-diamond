@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="BPM23" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bpm23x" />
+				<ref bean="bpm23y" />
+				<ref bean="bpm23pow" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<!-- Scannable motors that control the Laser Stabilisation System -->
+	<bean id="fsm23x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorX_LFSM23" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="fsm23y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorY_LFSM23" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+
+
+	<bean id="FSM23" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fsm23x" />
+				<ref bean="fsm23y" />
+				<ref bean="fsm23xfsp" />
+				<ref bean="fsm23yfsp" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<bean id="wp23" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="wp33_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+
+</beans>

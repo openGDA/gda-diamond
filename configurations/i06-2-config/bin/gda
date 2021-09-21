@@ -1,0 +1,94 @@
+#!/bin/bash
+# Expects a parameter line that can be passed on to the gda launch script
+# Also expects the BEAMLINE variable to be set
+
+export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
+
+# Set the value that the BEAMLINE environment variable should be to correctly start from this configuration
+# so it can be checked automatically to prevent accidental startup of the wrong beamline.
+
+EXPECTED_BEAMLINE_VALUE=i06
+
+# Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the
+# config tree contains the dls-config/bin folder. This will define the following environment variables which
+# must all be set for the server and client to start successfully:
+#
+#         GDA_WORKSPACE_PARENT        four folders above dls-config/bin - all subsequent definitions are relative to this
+#         GDA_WORKSPACE_GIT_NAME      name of the folder containing all the git repos under GDA_WORKSPACE_PARENT (usually workspace_git)
+#         GDA_INSTANCE_CONFIG_rel     the /config link below GDA_WORKSPACE_PARENT
+#         GDA_GROUP_CONFIG_rel        /gda-core.git/no-group below GDA_WORKSPACE_PARENT
+#         GDA_FACILITY_CONFIG_rel     /gda-diamond.git/dls-config below GDA_WORKSPACE_PARENT
+#         GDA_CORE_CONFIG_rel         /gda-core.git/core-config below GDA_WORKSPACE_PARENT
+#
+#         next it will check that the $BEAMLINE variable is set correctly for this GDA installation and if so set:
+#
+#         GDA_INSTANCE_NAME           same as $BEAMLINE as this is the default for single end station installations
+#
+#         finally set the default client launcher location based on the preceding settings and the default telnet port used to confirm startup:
+#
+#         GDA_CLIENT                  /client/gda-${GDA_INSTANCE_NAME} below GDA_WORKSPACE_PARENT
+
+
+here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
+
+if [[ -d ${DLS_CONFIG_BIN_RELATIVE_PATH} ]]; then
+	source ${DLS_CONFIG_BIN_RELATIVE_PATH}/gda_set_dls_environment_defaults.sh ${EXPECTED_BEAMLINE_VALUE}
+fi
+
+##################################################################################################################
+# If your installation does not use dls-config or you wish to override the default values set above, please
+# set the required variables below this line, also adding any environment variables specific to your installation:
+##################################################################################################################
+
+# For instance if you use an actual group config (like mx) you might put
+# export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
+
+export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/configurations/i06-shared
+
+#GDA environment need to be source here to support rollback to 8.38. - To be removed when 8.38 not used any more
+. ${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/etc/live/i06_profile.sh
+
+#the following port must match the one set in CommandServer.xml - default 9999
+#export GDA_JYTHON_SOCKET=7777
+
+#export GDA_NO_PROMPT=true
+
+######################################################################
+# before the gda-core script is invoked using the environment settings
+######################################################################
+
+source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
+
+# N.B. no need to check that we are not on the control machine here as GDA_SERVERS_UP is never
+# set by the path eexcuted from the control machine
+#if [[ ${GDA_SERVERS_UP:-} == true ]] && [[ $@ == *"servers"* ]] && [[ $@ != *"--stop"* ]] ;then
+#    
+#    echo Moving GDA Log Panel...
+#    wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+#    
+#    zenity --title "Start the GDA client?" --question --text "The GDA servers have started.\nClick OK to start the GDA client." --window-icon=question
+#    STARTCLIENT=$?
+#    if [ $STARTCLIENT == 0 ]; then
+#        readonly MY_NAME=$(basename "$(readlink -e "$0")")         # The name of this script
+#        readarray -t my_clients_arr < <(pgrep -f -U `whoami` "gda-i06")
+#
+#        if [[ -n ${my_clients_arr:-} ]]; then 
+#            for proc in "${my_clients_arr[@]}"; do 
+#                bashlog info "$MY_NAME" "killing client process $proc"
+#                kill $proc
+#                sleep 3
+#                if [[ "$(ps -p $proc)" == *"$proc "* ]]; then
+#                    bashlog info "$MY_NAME" "SIGKILL required for $proc"
+#                    kill -9 $proc
+#                fi
+#            done;
+#        fi
+#        echo Starting GDA RCP Client...
+#        echo
+#        source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core --start client &
+#        echo
+#        for i in {25..1}; do echo -n . ; sleep 1 ; done ; echo . 
+#        # otherwise this script ends before GDA client can properly launch, so it is killed
+#    fi
+#fi

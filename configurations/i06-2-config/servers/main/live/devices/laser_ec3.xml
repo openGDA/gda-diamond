@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Laser 1 (Rega) devices -->
+	<!-- Beam Positioning Monitors -->
+	<bean id="bpm23x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-BPM-23:X:POS" />
+	</bean>
+	<bean id="bpm23y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-BPM-23:Y:POS" />
+	</bean>
+	<bean id="bpm23pow" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-BPM-23:POWER" />
+	</bean>
+	<!-- Fast Steering Mirror 23 -->
+	<bean id="MotorX_LFSM23" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-FSM-23:X" />
+	</bean>
+	<bean id="MotorY_LFSM23" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-FSM-23:Y" />
+	</bean>
+
+	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
+	<bean id="fsm23xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-23:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-23:X:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="fsm23yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-23:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-23:Y:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="lstr1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL06I-EA-LSHTR-01:CON" />
+		<property name="statusPv" value="BL06I-EA-LSHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true" />
+	</bean>
+
+	<!-- Waveplate 33 -->
+	<bean id="wp33_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-WAVE-33:MTR" />
+	</bean>
+
+</beans>

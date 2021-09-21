@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="medipixExposureTime" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquireTime"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="medipixAcquirePeriod" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquirePeriod"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="medipixAcquireTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquireTime"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>
+		<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateAcquirePeriodWhenAcquireTimeChanges"/>
+		<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo">
+			<list>
+				<value>gda.device.Scannable</value>
+				<value>gda.device.Scannable</value>
+				<value>java.lang.Double</value>
+			</list>
+		</property>
+		<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, #input)"/>
+	</bean>
+	<bean id="medipixIdleTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:SIM:AcquirePeriod"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+		<property name="moveToExpression" value="#input > 0.002 ? @medipixExposureTime.getPosition() + #input : @medipixExposureTime.getPosition() + 0.002"/>
+		<property name="getPositionExpression" value="(#output - @medipixExposureTime.getPosition())>0.002 ? #output - @medipixExposureTime.getPosition() : 0.002"/>
+	</bean>
+	<!-- there is no EPICS simulation for the following beans -->
+	<bean id="medipixRotationAngle" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat">
+			<list>
+				<value>%4.1f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="medipixProcNumFilter" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter"/>
+		<property name="outputFormat">
+			<list>
+				<value>%2d</value>
+			</list>
+		</property>	
+	</bean>
+
+	<bean id="medipixProcResetFilter" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:ResetFilter"/>
+		<property name="outputFormat">
+			<list>
+				<value>%1d</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="medipixProcEnableFilter" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:EnableFilter"/>
+		<property name="outputFormat">
+			<list>
+				<value>%1d</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="medipixProcNumFilterWithResetEnableAfter" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter"/>
+		<property name="outputFormat">
+			<list>
+				<value>%2.0f</value>
+			</list>
+		</property>	
+		<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateNumFilterInProc"/>
+		<property name="functionParameterTypesTobeCalledInAsynchronousMoveTo">
+			<list>
+				<value>gda.device.Scannable</value>
+				<value>gda.device.Scannable</value>
+				<value>gda.device.Scannable</value>
+				<value>java.lang.Integer</value>
+			</list>
+		</property>
+		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
+	</bean>
+</beans>

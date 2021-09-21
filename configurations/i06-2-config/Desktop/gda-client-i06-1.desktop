@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Start I06-1 GDA Client
+Type=Application
+Exec=gdaclient4i06-1
+Icon=/dls_sw/i06/software/gda/workspace_git/gda-diamond.git/configurations/i06-config/Desktop/icons/gdalogo.png
+Terminal=false
+Name[en_GB]=Start I06-1 GDA Client
+GenericName[en_GB]=Start I06-1 GDA Client
+Comment[en_GB]=Start I06-1 GDA RCP Client
+Categories=X-ogda;

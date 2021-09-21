@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd"> 
+
+
+	<bean id="leemNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="leem" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="FOV"/>
+					<property name="scannableName" value="FOV"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="obj"/>
+					<property name="scannableName" value="leem_obj"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="stv"/>
+					<property name="scannableName" value="leem_stv"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objStigmA"/>
+					<property name="scannableName" value="leem_objStigmA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objStigmB"/>
+					<property name="scannableName" value="leem_objStigmB"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="mcpPlate"/>
+					<property name="scannableName" value="mcpPlate"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="rot"/>
+					<property name="scannableName" value="leem_rot"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="medipixAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="medipix" />
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="description"/>
+					<property name="value" value="MediPix - a water cold X-ray camera."/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="manufacturer"/>
+					<property name="pvName" value="BL06I-EA-DET-02:CAM:Manufacturer_RBV"/>
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="model"/>
+					<property name="pvName" value="BL06I-EA-DET-02:CAM:Model_RBV"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="medipix_settings"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="exposure"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquireTime_RBV"/>
+								<property name="units" value="s"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="period"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquirePeriod_RBV"/>
+								<property name="units" value="s"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="number_of_image"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:NumImages_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_mode"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:ImageMode"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="bit_depth"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_x"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:MaxSizeX_RBV"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_y"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:MaxSizeY_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_x"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:MinX_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_start_y"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:MinY_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_x"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:SizeX_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_y"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:SizeY_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_x"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:ArraySizeX_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="image_size_y"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:ArraySizeY_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="gain_mode"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:GainMode_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="configuration_file_path"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:FilePath_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="configuration_file_name"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:FileName_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="configuration_file"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:FullFileName_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="equalization_files"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:EqFilePath_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="threshold_energy_0"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+		<property name="sourceName" value="source" />
+		<property name="insertionDeviceName" value="id" />
+		<property name="monochromatorName" value="pgm" />
+		<property name="beamName" value="beam" />
+		<property name="userDeviceName" value="user01" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>ps</value>
+				<value>leem</value>
+			</set>
+		</property>
+	</bean>
+</beans>
