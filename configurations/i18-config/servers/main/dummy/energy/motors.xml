@@ -16,6 +16,8 @@
 	
 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.DummyMotor" />
 	
+	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.DummyMotor" />
+	
 	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="1000.0" />
 	</bean>
@@ -26,8 +28,8 @@
 	<bean id="dcm_crystal" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>1st crystal</value>
-				<value>2nd crystal</value>
+				<value>Si111</value>
+				<value>Si311</value>
 				<value>White beam</value>
 				<value>Maintenance</value>
 			</list>

@@ -169,15 +169,18 @@ else:
 from mapping_scan_commands import mscan, grid, detector, mstep, rect
 from org.eclipse.scanning.api.points.models import AxialStepModel
 
+def set_energy_scannable(scannable):
+    global xas
+    xas.setEnergyScannable(scannable)
+
 print "Initialization Complete"
 
 print "****************************************"
 print ""
 print "Useful commands:"
 print ""
-print "To disable/enable use of the ID Gap:"
-print " map.disableUseIDGap()"
-print " map.enableUseIDGap()"
+print "Select energy scannable for scans:"
+print " set_energy_scannable(energy_nogap_lut) # one of energy, energy_nogap, energy_lut, energy_nogap_lut"
 print ""
 print "To disable/enable all watchdogs:"
 print " disableWatchdogs()/enableWatchdogs()"

@@ -35,10 +35,10 @@
 		<property name="motor" ref="dcm_crystal2_roll_motor" />
 	</bean>
 
-<!-- 	<bean id="sc_dcm_crystal2_pitch" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="protectionLevel" value="0" /> -->
-<!-- 		<property name="motor" ref="dcm_crystal2_pitch_motor" /> -->
-<!-- 	</bean> -->
+	<bean id="sc_dcm_crystal2_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="motor" ref="dcm_crystal2_pitch_motor" />
+	</bean>
 
 	<bean id="sc_dcm_perp" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />
@@ -52,7 +52,7 @@
 			<list>
 				<ref bean="sc_dcm_bragg" />
 				<ref bean="sc_dcm_crystal1_roll" />
-<!-- 				<ref bean="sc_dcm_crystal2_pitch" /> -->
+				<ref bean="sc_dcm_crystal2_pitch" />
 				<ref bean="sc_dcm_perp" />
 			</list>
 		</property>

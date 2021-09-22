@@ -18,6 +18,9 @@
 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-DCM-01:XTAL2:ROLL" />
 	</bean>
+	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18I-MO-DCM-01:XTAL2:PITCH" />
+	</bean>
 	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-DCM-01:PERP" />
 	</bean>

@@ -21,6 +21,20 @@
 		<property name="convertorUnitString" value="Deg" />
 	</bean>
 	
+	<bean id="xtal2_roll_convertor" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannableName" value="sc_dcm_crystal2_roll" />
+		<property name="convertorName" value="crystal2_roll_converter_Si111" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="convertorUnitString" value="Deg" />
+	</bean>
+	
+	<bean id="xtal2_pitch_convertor" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannableName" value="sc_dcm_crystal2_pitch" />
+		<property name="convertorName" value="crystal2_pitch_converter_Si111" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="convertorUnitString" value="Deg" />
+	</bean>
+	
 	<bean id="sc_comboDCM_nogap_Si111" class="gda.device.scannable.CoupledScannable">
 		<property name="scannables">
 			<list>
@@ -30,6 +44,26 @@
 		</property>
 		<property name="functions">
 			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="Deg" />
+	</bean>
+	
+	<bean id="sc_comboDCM_nogap_lut_Si111" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="sc_dcm_bragg" />
+				<ref bean="sc_dcm_perp_mDeg_Si111" />
+				<ref bean="xtal2_roll_convertor" />
+				<ref bean="xtal2_pitch_convertor" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
 				<bean class="gda.function.IdentityFunction" />
 				<bean class="gda.function.IdentityFunction" />
 			</list>
@@ -47,6 +81,48 @@
 		</property>
 		<property name="functions">
 			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="Deg" />
+	</bean>
+	
+	<bean id="sc_comboDCM_d_xtal2_Si111" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="sc_dcm_bragg" />
+				<ref bean="sc_idgap_mDeg_Si111" />
+				<ref bean="sc_dcm_perp_mDeg_Si111" />
+				<ref bean="xtal2_roll_convertor" />
+				<ref bean="xtal2_pitch_convertor" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="Deg" />
+	</bean>
+	
+	<bean id="sc_comboDCM_nogap_xtal2_Si111" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="sc_dcm_bragg" />
+				<ref bean="sc_dcm_perp_mDeg_Si111" />
+				<ref bean="xtal2_roll_convertor" />
+				<ref bean="xtal2_pitch_convertor" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
 				<bean class="gda.function.IdentityFunction" />
 				<bean class="gda.function.IdentityFunction" />
 				<bean class="gda.function.IdentityFunction" />
@@ -75,17 +151,24 @@
 		<property name="convertorUnitString" value="eV" />
 	</bean>
 	
-<!-- 	<bean id="sc_ComboDCMController_Si111" class="gda.device.scannable.scannablegroup.ScannableGroup"> -->
-<!-- 		<property name="groupMembers"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="energy" /> -->
-<!-- 				<ref bean="sc_comboDCM_d" /> -->
-<!-- 				<ref bean="sc_comboDCM_nogap" /> -->
-<!-- 				<ref bean="sc_idgap_mDeg" /> -->
-<!-- 				<ref bean="sc_dcm_perp_mDeg" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="protectionLevel" value="0" /> -->
-<!-- 	</bean> -->
+	<bean id="energy_lut" class="gda.device.scannable.ConvertorScannable">
+		<property name="protectionLevel" value="0" />
+		<property name="scannableName" value="sc_comboDCM_d_xtal2_Si111" />
+		<property name="convertorName" value="eV_Deg_converter_Si111" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="25000" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="convertorUnitString" value="eV" />
+	</bean>
+
+	<bean id="energy_nogap_lut" class="gda.device.scannable.ConvertorScannable">
+		<property name="protectionLevel" value="0" />
+		<property name="scannableName" value="sc_comboDCM_nogap_xtal2_Si111" />
+		<property name="convertorName" value="eV_Deg_converter_Si111" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="25000" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="convertorUnitString" value="eV" />
+	</bean>	
 	
 </beans>
