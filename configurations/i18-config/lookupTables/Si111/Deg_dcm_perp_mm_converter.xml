@@ -1,5 +1,5 @@
 <JEPQuantityConverter>
-<ExpressionStoT>12.64883360/ cos(X/(180/(4.0*atan(1.0))))-0.49586894</ExpressionStoT>
+<ExpressionStoT>12.68247503/ cos(X/(180/(4.0*atan(1.0))))-0.30205481</ExpressionStoT>
 <ExpressionTtoS>12.489/X</ExpressionTtoS>
 <AcceptableSourceUnits>Deg</AcceptableSourceUnits>
 <AcceptableTargetUnits>mm</AcceptableTargetUnits>

@@ -16,84 +16,84 @@
 		<constructor-arg value="Si111/lookuptable_harmonic1.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic3_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic3_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic3.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic5_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic5_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic5.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic7_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic7_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic7.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic9_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic9_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic9.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic11_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic11_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic11.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic13_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic13_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic13.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic15_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic15_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic15.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic17_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic17_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic17.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic19_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic19_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic19.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic21_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic21_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic21.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	<bean id="harmonic23_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic23_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic23.txt" />
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
+		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
 	
 	
@@ -107,7 +107,7 @@
 		<constructor-arg value="harmonic3_Si111" />
 		<constructor-arg value="harmonic3_converter_Si111" />
 		<constructor-arg value="24.801" />
-		<constructor-arg value="58.186" />
+		<constructor-arg value="56.186" />
 	</bean>
 	<bean id="harmonic5_Si111" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic5_Si111" />
@@ -195,6 +195,23 @@
 		<constructor-arg value="auto_mDeg_idGap_mm_converter_Si111" />
 		<constructor-arg ref="lookup_name_provider_Si111" /> 
 		<constructor-arg value="true" />	
+	</bean>
+	
+	<bean id="crystal2_roll_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="crystal2_roll_converter_Si111" />
+		<constructor-arg value="Si111/crystal2_converter_Si111.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="StoT" />
+	</bean>
+	
+	<bean id="crystal2_pitch_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="crystal2_pitch_converter_Si111" />
+		<constructor-arg value="Si111/crystal2_converter_Si111.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="2" />
+		<constructor-arg type="java.lang.String" value="StoT" />
+		<property name="interpolateNotExtrapolate" value="true" />
 	</bean>
 	
 </beans>
