@@ -60,13 +60,14 @@ m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
 #PEEM End Station
 if installation.isLive():
-    from peem.leem_instances import leem2000, FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
     # fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
+    from peem.leem_instances import leem2000
     from peem.stv_obj_instance import stvobj  # @UnusedImport
-    from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
     # fileHeader.add([leem_rot])
 else:
     print "No simulation for LEEM control yet!"
+from peem.leem_instances import FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
+from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
 
 def picture(acqTime):
     scan(t,1,1,1,pcotif,acqTime)  # @UndefinedVariable

@@ -5,11 +5,12 @@ from gda.device.scannable import ScannableMotionBase
 from peem.LEEM2000_tcp import leem2000
 
 class LEEM_FOV_Rotation_Class(ScannableMotionBase):
-    def __init__(self,name, leem2000):
+    def __init__(self,name, units, leem2000):
         self.setName(name);
         self.setInputNames([name])
-        self.setOutputFormat(['%3f'])
+        self.setOutputFormat(['%.3f'])
         self.setLevel(6)
+        self.units = units
         self.iambusy = False
         self.leem2000=leem2000
        

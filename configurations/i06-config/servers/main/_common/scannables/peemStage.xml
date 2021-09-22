@@ -19,5 +19,17 @@
 	<bean id="psphi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorPEEMStage_phi" />
 		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="PS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="psx" />
+				<ref bean="psy" />
+				<ref bean="psphi" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
 	</bean>
 </beans>
