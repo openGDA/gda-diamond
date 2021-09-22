@@ -7,45 +7,6 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 
-
-	<bean id="leemNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="leem" />
-		<property name="category" value="NX_INSTRUMENT"/>
-		<property name="nexusClass" value="NXcollection"/>
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="FOV"/>
-                    <property name="scannableName" value="FOV"/>
-          	    </bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="obj"/>
-                    <property name="scannableName" value="leem_obj"/>
-          	    </bean>		
-				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="stv"/>
-                    <property name="scannableName" value="leem_stv"/>
-          	    </bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="objStigmA"/>
-                    <property name="scannableName" value="leem_objStigmA"/>
-          	    </bean>		
-				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="objStigmB"/>
-                    <property name="scannableName" value="leem_objStigmB"/>
-          	    </bean>		
-				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="mcpPlate"/>
-                    <property name="scannableName" value="mcpPlate"/>
-          	    </bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-                	<property name="name" value="rot"/>
-                    <property name="scannableName" value="leem_rot"/>
-          	    </bean>		
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="medipixAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
 		<property name="name" value="medipix" />
 		<property name="childNodes">
@@ -65,13 +26,13 @@
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="medipix_settings"/>
 					<property name="nexusClass" value="NXcollection"/>
-	                <property name="childNodes"> <!-- add child groups as appropriate -->
-	                    <list>
-	                        <bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-	                            <property name="name" value="exposure"/>
-	                            <property name="pvName" value="BL06I-EA-DET-02:CAM:AcquireTime_RBV"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="exposure"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquireTime_RBV"/>
 								<property name="units" value="s"/>
-	                        </bean>
+							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="period"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquirePeriod_RBV"/>
@@ -145,32 +106,11 @@
 								<property name="name" value="threshold_energy_0"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
 							</bean>
-	                    </list>
-	                </property>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
-		<!-- configure per-scan monitors -->
-		<property name="sourceName" value="source" />
-		<property name="insertionDeviceName" value="id" />
-		<property name="monochromatorName" value="pgm" />
-		<property name="beamName" value="beam" />
-		<property name="userDeviceName" value="user01" />
-		<property name="additionalDeviceNames">
-			<set>
-				<value>s1</value>
-				<value>m1</value>
-				<value>m6</value>
-				<value>m3</value>
-				<value>d5</value>
-				<value>d6</value>
-				<value>d7</value>
-				<value>s4</value>
-				<value>ps</value>
-				<value>leem</value>
-			</set>
-		</property>
-	</bean>
+
 </beans>

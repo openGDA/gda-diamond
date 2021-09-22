@@ -67,6 +67,7 @@
 		<config>servers/main/live/devices/P2.xml</config>
 		<config>servers/main/_common/scannables/P2.xml</config>
 		<config>servers/main/_common/nxmetadata.xml</config>
+		<config>servers/main/live/nxmetadata.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

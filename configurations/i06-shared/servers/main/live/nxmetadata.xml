@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="m1NexusDevice" />
+		<property name="targetMethod" value="setChildNodes" />
+		<property name="arguments">
+			<list>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="T1"/>
+					<property name="pvName" value="BL06I-OP-COLM-01:TEMP1"/>
+					<property name="units" value="°C"/>
+				</bean>		
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="T2"/>
+					<property name="pvName" value="BL06I-OP-COLM-01:TEMP2"/>
+					<property name="units" value="°C"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="monochromatorNexusDevice" />
+		<property name="targetMethod" value="setChildNodes" />
+		<property name="arguments">
+			<list>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="T1"/>
+					<property name="pvName" value="BL06I-OP-PGM-01:TEMP1"/>
+					<property name="units" value="°C"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="m6NexusDevice" />
+		<property name="targetMethod" value="setChildNodes" />
+		<property name="arguments">
+			<list>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="T1"/>
+					<property name="pvName" value="BL06I-OP-SWMIR-01:TEMP1"/>
+					<property name="units" value="°C"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+	<bean id="oh1NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="OH1" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="temperature"/>
+					<property name="pvName" value="SV06I-BM-OH-01:TEMP"/>
+					<property name="units" value="°C"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="ec1NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="EC1" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="temperature"/>
+					<property name="pvName" value="SV06I-BM-EC-01:TEMP"/>
+					<property name="units" value="°C"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

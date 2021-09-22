@@ -7,7 +7,6 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 
-	
  	<bean id="medipixAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
 		<property name="name" value="medipix" />
 		<property name="childNodes">
@@ -27,13 +26,13 @@
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="medipix_settings"/>
 					<property name="nexusClass" value="NXcollection"/>
-	                <property name="childNodes"> <!-- add child groups as appropriate -->
-	                    <list>
-	                        <bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-	                            <property name="name" value="exposure"/>
-	                            <property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="exposure"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
 								<property name="units" value="s"/>
-	                        </bean>
+							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="period"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod_RBV"/>
@@ -51,10 +50,10 @@
 								<property name="name" value="bit_depth"/> <!-- there is no bit_depth PV in ADSIM -->
 								<property name="value" value="24bit"/>
 							</bean>
-	                        <bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-	                            <property name="name" value="sensor_size_x"/>
-	                            <property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeX_RBV"/>
-	                        </bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="sensor_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeX_RBV"/>
+							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_y"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MaxSizeY_RBV"/>
@@ -67,10 +66,10 @@
 								<property name="name" value="region_start_y"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:MinY_RBV"/>
 							</bean>
-	                        <bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-	                            <property name="name" value="region_size_x"/>
-	                            <property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeX_RBV"/>
-	                        </bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="region_size_x"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeX_RBV"/>
+							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_size_y"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeY_RBV"/>
@@ -108,33 +107,10 @@
 								<property name="name" value="threshold_energy_0"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
 							</bean>
-	                    </list>
-	                </property>
+						</list>
+					</property>
 				</bean>
 			</list>
-		</property>
-	</bean>
-	
-	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
-		<!-- configure per-scan monitors -->
-		<property name="sourceName" value="source" />
-		<property name="insertionDeviceName" value="id" />
-		<!--  <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
-		<property name="monochromatorName" value="pgm" />
-		<property name="beamName" value="beam" />
-		<property name="userDeviceName" value="user01" />
-		<property name="additionalDeviceNames">
-			<set>
-				<value>s1</value>
-				<value>m1</value>
-				<value>m6</value>
-				<value>m3</value>
-				<value>d5</value>
-				<value>d6</value>
-				<value>d7</value>
-				<value>s4</value>
-				<value>ps</value>
-			</set>
 		</property>
 	</bean>
 
