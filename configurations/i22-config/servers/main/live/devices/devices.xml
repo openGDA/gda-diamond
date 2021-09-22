@@ -33,4 +33,6 @@
 
 	<import resource="beamline.xml" />
 
+	<import resource="qbpm.xml" />
+
 </beans>
