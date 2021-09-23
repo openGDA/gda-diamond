@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="m3NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="m3" />
@@ -242,19 +244,22 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="endStationNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="end_station" />
-		<property name="category" value="NX_ENTRY"/>
-		<property name="nexusClass" value="NXcollection"/>
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScalarField">
-					<property name="name" value="name"/>
-					<property name="value" value="PEEM"/>
-				</bean>
-			</list>
+<!-- creating a new system property -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetClass" value="java.lang.System" />
+				<property name="targetMethod" value="getProperties" />
+			</bean>
+		</property>
+		<property name="targetMethod" value="putAll" />
+		<property name="arguments">
+			<util:properties>
+				<prop key="END_STATION">PEEM</prop>
+			</util:properties>
 		</property>
 	</bean>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="source" />
 		<property name="insertionDeviceName" value="id" />
@@ -283,7 +288,6 @@
 				<value>leem</value>
 				<value>OH1</value>
 				<value>EC1</value>
-				<value>end_station</value>
 			</set>
 		</property>
 	</bean>
