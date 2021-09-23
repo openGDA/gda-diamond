@@ -89,9 +89,7 @@ public class AcquisitionSummary {
 	public <T, J> void genericDoubleGroupToString(StyledText summaryText, String title, List<T> documents,
 			ToDoubleFunction<T> getter, SegmentGroup<J> segmentGroup) {
 		appendTitle(title, summaryText);
-		var oneDimentional = isALine();
-		// if is a line should show only one
-		int size = oneDimentional ? 1 : documents.size();
+		int size = documents.size();
 		IntStream.range(0, size)
 			.forEach(index -> {
 				if (index > 0)
@@ -110,11 +108,6 @@ public class AcquisitionSummary {
 			});
 		getStringBuilder().append("\s]");
 
-		if (oneDimentional && !segmentGroup.getSegments().isEmpty()) {
-			Segment<J> firstElement = segmentGroup.getSegments().get(0);
-			IntStream.range(1, documents.size())
-			.forEach(index -> segmentGroup.getSegments().add(firstElement));
-		}
 	}
 
 	/**
