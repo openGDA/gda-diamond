@@ -1,102 +1,38 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="xtal_minus1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_minus1_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
+	<gda:motor id="xtal_minus1_x" live-pvName="BL20I-EA-ANAL-01:XTAL:M1:X" />
+	<gda:motor id="xtal_minus1_y" live-pvName="BL20I-EA-ANAL-01:XTAL:M1:Y" />
+	<gda:motor id="xtal_minus1_rot" live-pvName="BL20I-EA-ANAL-01:XTAL:M1:TILT" />
+	<gda:motor id="xtal_minus1_pitch" live-pvName="BL20I-EA-ANAL-01:XTAL:M1:PITCH" />
 
-	<bean id="xtal_minus1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_minus1_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="xtal_minus1_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_minus1_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-	<bean id="xtal_minus1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_minus1_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
+	<gda:motor id="xtal_central_y" live-pvName="BL20I-EA-ANAL-01:C:Y" />
+	<gda:motor id="xtal_central_rot" live-pvName="BL20I-EA-ANAL-01:C:TILT" />
+	<gda:motor id="xtal_central_pitch" live-pvName="BL20I-EA-ANAL-01:C:PITCH" />
 
-	<bean id="xtal_central_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_central_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="xtal_central_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_central_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-	<bean id="xtal_central_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_central_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
+	<gda:motor id="xtal_plus1_x" live-pvName="BL20I-EA-ANAL-01:XTAL:P1:X" />
+	<gda:motor id="xtal_plus1_y" live-pvName="BL20I-EA-ANAL-01:XTAL:P1:Y" />
+	<gda:motor id="xtal_plus1_rot" live-pvName="BL20I-EA-ANAL-01:XTAL:P1:TILT" />
+	<gda:motor id="xtal_plus1_pitch" live-pvName="BL20I-EA-ANAL-01:XTAL:P1:PITCH" />
 
-	<bean id="xtal_plus1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_plus1_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="xtal_plus1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_plus1_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="xtal_plus1_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_plus1_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-	<bean id="xtal_plus1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_plus1_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
+	<gda:motor id="det_x" live-pvName="BL20I-EA-DET-03:X" />
+	<gda:motor id="det_y" live-pvName="BL20I-EA-DET-03:Y" />
+	<gda:motor id="det_rot" live-pvName="BL20I-EA-DET-03:PITCH" />
 
-	<bean id="det_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="det_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="det_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="det_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="det_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="det_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
+	<gda:motor id="xtal_x" live-pvName="BL20I-EA-ANAL-01:X" />
 
-	<bean id="xtal_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xtal_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
+	<gda:motor id="spec_rot" live-pvName="BL20I-EA-ANAL-01:ROT" />
+	<gda:motor id="det_slit" live-pvName="BL20I-EA-DET-03:SLIT" />
 
-	<bean id="spec_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="spec_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-
-	<bean id="det_slit" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="det_slit_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
+	<gda:motor id="xes_slits" live-pvName="BL20I-EA-DET-03:SLIT" />
 
 <!-- Dummy enumpositioners to control whether each of the analyser crystals is allowed to move or not  -->
 	<bean id="minusCrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
@@ -149,31 +85,62 @@
 		</property>
 	</bean>
 
+	<bean id="minusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="xtal_minus1_x" />
+		<property name="yMotor" ref="xtal_minus1_x" />
+		<property name="pitchMotor" ref="xtal_minus1_pitch" />
+		<property name="rotMotor" ref="xtal_minus1_rot" />
+	</bean>
+
+	<bean id="centreCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
+		<property name="yMotor" ref="xtal_central_y" />
+		<property name="pitchMotor" ref="xtal_central_pitch" />
+		<property name="rotMotor" ref="xtal_central_rot" />
+	</bean>
+
+	<bean id="plusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="xtal_plus1_x" />
+		<property name="yMotor" ref="xtal_plus1_x" />
+		<property name="pitchMotor" ref="xtal_plus1_pitch" />
+		<property name="rotMotor" ref="xtal_plus1_rot" />
+	</bean>
+
+	<bean id="spectrometerCrystals" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="minusCrystal" />
+				<ref bean="centreCrystal" />
+				<ref bean="plusCrystal" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="crystalsAllowedToMove" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="minusCrystalAllowedToMove" />
+				<ref bean="centreCrystalAllowedToMove" />
+				<ref bean="plusCrystalAllowedToMove" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="detectorMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="det_x" />
+				<ref bean="det_y" />
+				<ref bean="det_rot" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="XESBragg" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerScannable">
-		<property name="xtal_x" ref="xtal_x" />
-		<property name="det_rot" ref="det_rot" />
-		<property name="det_x" ref="det_x" />
-		<property name="det_y" ref="det_y" />
+		<property name="spectrometerX" ref="xtal_x" />
 		<property name="radiusScannable" ref="radius" />
-
-		<property name="xtal_minus1_x" ref="xtal_minus1_x" />
-		<property name="xtal_minus1_y" ref="xtal_minus1_y" />
-		<property name="xtal_minus1_pitch" ref="xtal_minus1_pitch" />
-		<property name="xtal_minus1_rot" ref="xtal_minus1_rot" />
-
-		<property name="xtal_central_y" ref="xtal_central_y" />
-		<property name="xtal_central_pitch" ref="xtal_central_pitch" />
-		<property name="xtal_central_rot" ref="xtal_central_rot" />
-
-		<property name="xtal_plus1_x" ref="xtal_plus1_x" />
-		<property name="xtal_plus1_y" ref="xtal_plus1_y" />
-		<property name="xtal_plus1_pitch" ref="xtal_plus1_pitch" />
-		<property name="xtal_plus1_rot" ref="xtal_plus1_rot" />
-
-		<property name="minusCrystalAllowedToMove" ref="minusCrystalAllowedToMove" />
-		<property name="centreCrystalAllowedToMove" ref="centreCrystalAllowedToMove" />
-		<property name="plusCrystalAllowedToMove" ref="plusCrystalAllowedToMove" />
-
+		<property name="detectorGroup" ref="detectorMotors" />
+		<property name="crystalsGroup" ref="spectrometerCrystals" />
+		<property name="crystalsAllowedToMove" ref="crystalsAllowedToMove" />
 		<property name="trajectoryStepSize" value="0.1" />
 	</bean>
 
@@ -197,139 +164,66 @@
 
 <!-- 	the following is for a simulation of values for use before moving -->
 
-	<bean id="dummy_xtal_minus1_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_minus1_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_minus1_rot_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_minus1_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_central_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_central_rot_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_central_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_plus1_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_plus1_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_plus1_rot_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_plus1_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_det_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_det_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_det_rot_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_xtal_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="dummy_spec_rot_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
+	<gda:motor id="dummy_xtal_minus1_x" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_minus1_y" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_minus1_pitch" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_minus1_rot" liveClass="#dummy" />
+
+	<gda:motor id="dummy_xtal_central_y" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_central_pitch" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_central_rot" liveClass="#dummy" />
+
+	<gda:motor id="dummy_xtal_plus1_x" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_plus1_y" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_plus1_pitch" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_plus1_rot" liveClass="#dummy" />
+
+	<gda:motor id="dummy_det_x" liveClass="#dummy" />
+	<gda:motor id="dummy_det_y" liveClass="#dummy" />
+	<gda:motor id="dummy_det_rot" liveClass="#dummy" />
+
+	<gda:motor id="dummy_xtal_x" liveClass="#dummy" />
+	<gda:motor id="dummy_spec_rot" liveClass="#dummy" />
+
+
+	<bean id="dummyMinusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="dummy_xtal_minus1_x" />
+		<property name="yMotor" ref="dummy_xtal_minus1_x" />
+		<property name="pitchMotor" ref="dummy_xtal_minus1_pitch" />
+		<property name="rotMotor" ref="dummy_xtal_minus1_rot" />
 	</bean>
 
-	<bean id="dummy_xtal_minus1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_minus1_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="dummy_xtal_minus1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_minus1_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="dummy_xtal_minus1_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_minus1_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-	<bean id="dummy_xtal_minus1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_minus1_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
+	<bean id="dummyCentreCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
+		<property name="yMotor" ref="dummy_xtal_central_y" />
+		<property name="pitchMotor" ref="dummy_xtal_central_pitch" />
+		<property name="rotMotor" ref="dummy_xtal_central_rot" />
 	</bean>
 
-	<bean id="dummy_xtal_central_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_central_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="dummy_xtal_central_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_central_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-	<bean id="dummy_xtal_central_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_central_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
+	<bean id="dummyPlusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="dummy_xtal_plus1_x" />
+		<property name="yMotor" ref="dummy_xtal_plus1_x" />
+		<property name="pitchMotor" ref="dummy_xtal_plus1_pitch" />
+		<property name="rotMotor" ref="dummy_xtal_plus1_rot" />
 	</bean>
 
-	<bean id="dummy_xtal_plus1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_plus1_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="dummy_xtal_plus1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_plus1_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="dummy_xtal_plus1_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_plus1_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-	<bean id="dummy_xtal_plus1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_plus1_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
+	<bean id="dummySpectrometerCrystals" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="minusCrystal" />
+				<ref bean="centreCrystal" />
+				<ref bean="plusCrystal" />
+			</list>
+		</property>
 	</bean>
 
-	<bean id="dummy_det_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_det_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="dummy_det_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_det_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-	<bean id="dummy_det_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_det_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
-	</bean>
-
-	<bean id="dummy_xtal_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_xtal_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-
-	<bean id="dummy_spec_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_spec_rot_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="initialUserUnits" value="deg" />
+	<bean id="dummyDetectorMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dummy_det_x" />
+				<ref bean="dummy_det_y" />
+				<ref bean="dummy_det_rot" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="dummy_spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroupNamed">
@@ -356,28 +250,13 @@
 	</bean>
 
 	<bean id="dummy_XESBragg" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerScannable">
-		<property name="xtal_x" ref="dummy_xtal_x" />
-		<property name="det_rot" ref="dummy_det_rot" />
-		<property name="det_x" ref="dummy_det_x" />
-		<property name="det_y" ref="dummy_det_y" />
+		<property name="spectrometerX" ref="dummy_xtal_x" />
 		<property name="radiusScannable" ref="radius" />
-
-		<property name="xtal_minus1_x" ref="dummy_xtal_minus1_x" />
-		<property name="xtal_minus1_y" ref="dummy_xtal_minus1_y" />
-		<property name="xtal_minus1_pitch" ref="dummy_xtal_minus1_pitch" />
-		<property name="xtal_minus1_rot" ref="dummy_xtal_minus1_rot" />
-
-		<property name="xtal_central_y" ref="dummy_xtal_central_y" />
-		<property name="xtal_central_pitch" ref="dummy_xtal_central_pitch" />
-		<property name="xtal_central_rot" ref="dummy_xtal_central_rot" />
-
-		<property name="xtal_plus1_x" ref="dummy_xtal_plus1_x" />
-		<property name="xtal_plus1_y" ref="dummy_xtal_plus1_y" />
-		<property name="xtal_plus1_pitch" ref="dummy_xtal_plus1_pitch" />
-		<property name="xtal_plus1_rot" ref="dummy_xtal_plus1_rot" />
+		<property name="detectorGroup" ref="dummyDetectorMotors" />
+		<property name="crystalsGroup" ref="dummySpectrometerCrystals" />
 
 <!-- 		i.e. switch this functionality off -->
-		<property name="trajectoryStepSize" value="100" /> 
+		<property name="trajectoryStepSize" value="100" />
 	</bean>
 
 	<bean id="dummy_XESEnergy" class="uk.ac.gda.beamline.i20.scannable.XESEnergyScannable">
@@ -392,13 +271,6 @@
 			</list>
 		</property>
 	</bean>	
-
-	<bean id="xes_slits" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xes_slit_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="initialUserUnits" value="mm" />
-	</bean>
-
 
 <!-- Scannables for persisted radius, material, crystal cut values -->
 	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable" />
