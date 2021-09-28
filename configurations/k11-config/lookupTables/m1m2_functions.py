@@ -15,12 +15,24 @@ def m1_y_in(energy):
     Cr_y_pos_nominal = -11
     
     # Douglas put this here to make the function work. Fix it!!!
-    m1_y_pos_nominal = 11
+    # m1_y_pos_nominal = 11 # not needed anymore
     
     # get current mosition
     m1_y_pos_current = m1_y.getPosition()
     # check which strip we need
-    if energy >= 7 and energy <= 38: # for now we only use Pt strip
+    if energy >= 7 and energy <= 14: # Si strip
+        # check y position of mirror, move if  needed
+        if m1_y_pos_current < Si_y_pos_allowed[0] or m1_y_pos_current > Si_y_pos_allowed[1]:
+            return Si_y_pos_nominal
+        else:
+            return m1_y_pos_current
+    elif energy > 14 and energy <= 22:
+        # check y position of mirror, move if  needed
+        if m1_y_pos_current < Cr_y_pos_allowed[0] or m1_y_pos_current > Cr_y_pos_allowed[1]:
+            return Cr_y_pos_nominal
+        else:
+            return m1_y_pos_current
+    elif energy > 22 and energy <= 38:
         # check y position of mirror, move if  needed
         if m1_y_pos_current < Pt_y_pos_allowed[0] or m1_y_pos_current > Pt_y_pos_allowed[1]:
             return Pt_y_pos_nominal
@@ -40,12 +52,24 @@ def m2_y_in(energy):
     Cr_y_pos_nominal = -11
     
     # Douglas put this here to make the function work. Fix it!!!
-    m2_y_pos_nominal = 11
+    # m2_y_pos_nominal = 11 # not needed anymore
     
     # get current mosition
     m2_y_pos_current = m2_y.getPosition()
     # check which strip we need
-    if energy >= 7 and energy <= 38: # for now we only use Pt strip
+    if energy >= 7 and energy <= 14: # Si strip
+        # check y position of mirror, move if  needed
+        if m2_y_pos_current < Si_y_pos_allowed[0] or m2_y_pos_current > Si_y_pos_allowed[1]:
+            return Si_y_pos_nominal
+        else:
+            return m2_y_pos_current
+    elif energy > 14 and energy <= 22:
+        # check y position of mirror, move if  needed
+        if m2_y_pos_current < Cr_y_pos_allowed[0] or m2_y_pos_current > Cr_y_pos_allowed[1]:
+            return Cr_y_pos_nominal
+        else:
+            return m2_y_pos_current
+    elif energy > 22 and energy <= 38:
         # check y position of mirror, move if  needed
         if m2_y_pos_current < Pt_y_pos_allowed[0] or m2_y_pos_current > Pt_y_pos_allowed[1]:
             return Pt_y_pos_nominal
@@ -53,7 +77,6 @@ def m2_y_in(energy):
             return m2_y_pos_current
     else:
         raise DeviceException("Energy of %f outside permitted range of [7,38] keV" % energy)
-
 
 
 def m2_bender_current_position_check(energy):

@@ -2,6 +2,7 @@
 import math
 from gda.epics.CAClient import get as caget
 from gda.epics.CAClient import put as caput
+import scisoftpy as dnp
 
 def dcm2_y_in(energy):
     # IF dcm2 is not in operational range in y, move dcm2 to nominal "in", else leave where it is
@@ -22,7 +23,13 @@ def dcm2_bragg_out(energy):
 
 def dcm2_bragg_position(energy): # dcm1 and dcm2 might have slightly different offset in Bragg
     d = 3.1356 # Si 111 spacing
-    theta1 = math.asin(12.398/energy/2/d)
+     # calibration of bragg angle versus energy is done by a 3rd degrtee polinomial.
+    # To get the proper angle, we first calculate a "modified energ" from the real request 
+    # energy. This Emod is then input into the bragg equation to get the request theta
+    # to send to the DCM
+    p = dnp.array([ 0.0021902 ,  1.01098374, -0.15377086])
+    Emod = p[0]*energy**2 + p[1]*energy + p[2]
+    theta1 = math.asin(12.398/Emod/2/d)
     theta1 = math.degrees(theta1) # can add possible offset here
     return -theta1 # Attention, Bragg angle is negative on our setup
 
@@ -33,22 +40,17 @@ def dcm2_z_position(energy):
     theta1 = math.radians(theta1)
     z1 = s/math.tan(theta1) - w/math.tan(theta1)
     # z1*0.9 # leave this commented, should be fine without the 10% reduction
-    z1 = min([z1,103])
+    z1 = min([z1,100.2])
     return z1 
 
 def dcm2_roll_position(energy):
     # might leave this hardcoded for now, will need to come up with a good way later
     # roll is some sort of function of E, likely can be arrpoximated with first or even better second order polynomial
-    dcm2_roll_coeff01 = 0.0
-    dcm2_roll_coeff02 = -45.0
-    dcm2_roll_request = dcm2_roll_coeff01*energy + dcm2_roll_coeff02
+    dcm2_roll_coeff01 = -0.008571428571428773 # -1.07143e-3
+    dcm2_roll_coeff02 = 0.7285714285714419 # 5.13929e-1
+    dcm2_roll_coeff03 = 224.97142857142848 # 3.27807e2
+    dcm2_roll_request = dcm2_roll_coeff01*energy**2 + dcm2_roll_coeff02*energy + dcm2_roll_coeff03
     return dcm2_roll_request
-
-#!!!!!!!
-# Will need a LUT or some other way of inputing one value for a starting position of dcm pitch to scan around
-#!!!!!!!
-
-
 
 def dcm2_pitch_position(energy):
     # we need to scan dcm2_pitch in a reasonable range to get the position with maximum intensity
@@ -57,7 +59,6 @@ def dcm2_pitch_position(energy):
     fe_shutter_status = fe_shutter.getPosition()
     if fe_shutter_status != 'Close':
         print "fe_shutter is not closed, closing"
-#         return
         fe_shutter('Close')
     else:
         print "fe_shutter is closed"
@@ -88,7 +89,7 @@ def dcm2_pitch_position(energy):
     # open fe shutter
     fe_shutter('Open')
     # then we can run a scan, we know the approximate pitch positions
-    scan(dcm2_pitch, -28.0, -23, 0.1, d2_det, 0.2) # 0.5 seconds should be an appropriate time? depends on energy...
+    scan(dcm2_pitch, 38.0, 46, 0.1, d2_det, 0.2) # 0.5 seconds should be an appropriate time? depends on energy...
     # now we have the problem of finding the max?
     dcm2_pitch_max_I_pos = maxval.result.maxpos
     # we can turn statistics off on d2 again
