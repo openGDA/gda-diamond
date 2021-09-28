@@ -11,7 +11,7 @@
 			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
 				<property name="customUIs" >
 					<list>
-						<bean class="uk.ac.gda.client.live.stream.view.customui.EdeDetectorCustomUI">
+						<bean class="uk.ac.gda.exafs.ui.views.EdeDetectorCustomUI">
 							<property name="detectorName" ref="detector_for_live_stream" />
 						</bean>
 					</list>

@@ -58,6 +58,7 @@ import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.EdeDataStore;
+import uk.ac.gda.exafs.data.ModelHelpers;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
@@ -480,15 +481,15 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	protected String buildScanCommand() {
-		StringBuilder scanCommand = buildScanCommand(LINEAR_EXPERIMENT_OBJ, TimeResolvedExperiment.class.getSimpleName());
+		StringBuilder scanCommand = buildScanCommand(LINEAR_EXPERIMENT_OBJ, TimeResolvedExperiment.class);
 		scanCommand.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return scanCommand.toString();
 	}
 
-	protected StringBuilder buildScanCommand(String objectName, String experimentType) {
-		StringBuilder builder = new StringBuilder("from gda.scan.ede import "+experimentType + "\n");
+	protected <T> StringBuilder buildScanCommand(String objectName, Class<T> classObj) {
+		StringBuilder builder = new StringBuilder(ModelHelpers.getJythonImportCommand(classObj));
 		// use %g format rather than %f for I0 and It integration times to avoid rounding to 0 for small values <1msec (i.e. requiring >6 decimal places). imh 7/12/2015
-		builder.append(String.format("%s = %s(%g", objectName, experimentType,
+		builder.append(String.format("%s = %s(%g", objectName, classObj.getSimpleName(),
 				ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)) );
 
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");%n",

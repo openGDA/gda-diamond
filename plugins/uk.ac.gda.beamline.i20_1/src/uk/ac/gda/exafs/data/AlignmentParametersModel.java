@@ -289,8 +289,9 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 			// Update the bean on the server
 			String jsonString = AlignmentParametersBean.toJson(result);
-			InterfaceProvider.getCommandRunner().runCommand("from uk.ac.gda.exafs.data import AlignmentParametersBean; "
-					+ ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = AlignmentParametersBean.fromJson(\'"+jsonString+"\'); ");
+			String className = AlignmentParametersBean.class.getSimpleName();
+			String importString = ModelHelpers.getJythonImportCommand(AlignmentParametersBean.class);
+			InterfaceProvider.getCommandRunner().runCommand(importString + ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = "+className+".fromJson(\'"+jsonString+"\'); ");
 
 			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, alignmentSuggestedParameters = result);
 		} catch (Exception e) {

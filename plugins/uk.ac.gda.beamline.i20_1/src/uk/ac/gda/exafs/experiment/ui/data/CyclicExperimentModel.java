@@ -77,7 +77,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	@Override
 	protected String buildScanCommand() {
-		StringBuilder scanCommand = buildScanCommand(CYCLIC_EXPERIMENT_OBJ, CyclicExperiment.class.getSimpleName());
+		StringBuilder scanCommand = buildScanCommand(CYCLIC_EXPERIMENT_OBJ, CyclicExperiment.class);
 		scanCommand.append(String.format("%s.setRepetitions(%d);%n",CYCLIC_EXPERIMENT_OBJ, this.getNoOfRepeatedGroups()));
 		scanCommand.append(CYCLIC_EXPERIMENT_OBJ + ".runExperiment();");
 		return scanCommand.toString();

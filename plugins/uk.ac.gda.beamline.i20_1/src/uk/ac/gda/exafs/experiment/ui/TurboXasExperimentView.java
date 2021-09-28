@@ -77,6 +77,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.devices.detector.xspress3.Xspress3;
 import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationComposite;
 import uk.ac.gda.exafs.data.EdeDataStore;
+import uk.ac.gda.exafs.data.ModelHelpers;
 import uk.ac.gda.exafs.experiment.ui.TurboXasTimingGroupTableView.TimingGroupParamType;
 import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
 import uk.ac.gda.exafs.ui.composites.ScannablePositionsComposite;
@@ -765,8 +766,8 @@ public class TurboXasExperimentView extends ViewPart {
 		String setPlotString = "txasScan.setDataNameToSelectInPlot(\""+defaultSelectedDataName+"\")\n";
 		String paramString = turboXasParameters.toXML().replace("\n", " ");
 
-		String imports = "from gda.scan import TurboXasParameters\n";
-		String command = "turboXasParams = TurboXasParameters.fromXML(\'"+paramString+"\') \n"+
+		String imports = ModelHelpers.getJythonImportCommand(TurboXasParameters.class);
+		String command = "turboXasParams = "+TurboXasParameters.class.getSimpleName()+".fromXML(\'"+paramString+"\') \n"+
 				"txasScan = turboXasParams.createScan() \n" +
 				setPlotString +
 				"txasScan.runScan()";

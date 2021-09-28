@@ -43,7 +43,9 @@ import gda.jython.JythonStatus;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.SingleSpectrumScan;
 import gda.scan.ede.TimeResolvedExperimentParameters;
+import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.util.exafs.Element;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
@@ -276,12 +278,12 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	private String buildScanCommand() {
-		StringBuilder command = new StringBuilder("from gda.scan.ede import SingleSpectrumScan; \n");
+		StringBuilder command = new StringBuilder(ModelHelpers.getJythonImportCommand(SingleSpectrumScan.class));
 		try {
 			TimeResolvedExperimentParameters parameterBean = getParametersBeanFromCurrentSettings();
 			String paramBeanString = parameterBean.toXML().replace("\n", " ");
-			command.append("from gda.scan.ede import TimeResolvedExperimentParameters; \n");
-			command.append("from gda.scan.ede.position import EdeScanMotorPositions; \n");
+			command.append(ModelHelpers.getJythonImportCommand(TimeResolvedExperimentParameters.class));
+			command.append(ModelHelpers.getJythonImportCommand(EdeScanMotorPositions.class));
 			command.append("experimentParams = TimeResolvedExperimentParameters.fromXML('"+paramBeanString+"'); \n");
 			command.append(SINGLE_JYTHON_DRIVER_OBJ + " = experimentParams.createSingleSpectrumScan(); \n");
 			addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, command);
