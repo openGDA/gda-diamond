@@ -5,15 +5,18 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +46,8 @@ import uk.ac.gda.beans.exafs.IExperimentDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
+import uk.ac.gda.beans.exafs.OutputParameters;
+import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
@@ -78,6 +83,17 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private Map<String, String> bufferedDetectorNameMap = new LinkedHashMap<>();
 	private DetectorPreparerFunctions detectorPreparerFunctions = new DetectorPreparerFunctions();
 
+	/** Map controlling how string substitutions are made in Jython text strings.
+	 * key = string to be replaced
+	 * value = function in QExafsParameters object that provides the new value
+	 */
+	private static Map<String, Function<QEXAFSParameters, Double>> stringSubstitutionMapQexafs;
+	static {
+		stringSubstitutionMapQexafs = new HashMap<>();
+		stringSubstitutionMapQexafs.put("initialEnergy", QEXAFSParameters::getInitialEnergy);
+		stringSubstitutionMapQexafs.put("finalEnergy", QEXAFSParameters::getFinalEnergy);
+	}
+
 	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
 			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers) {
@@ -108,6 +124,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			return;
 		}
 
+		applyStringStringSubstitutions((OutputParameters) outputBean);
+
 		if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.FLUORESCENCE_TYPE)) {
 			FluorescenceParameters fluorescenceParameters = detectorBean.getFluorescenceParameters();
 			String xmlFileName = Paths.get(experimentXmlFullPath, fluorescenceParameters.getConfigFileName()).toString();
@@ -132,7 +150,67 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private void prepareDetectors(List<DetectorConfig> detectorConfigs) {
 		detectorPreparerFunctions.setConfigFileDirectory(experimentFullPath);
 		detectorPreparerFunctions.setDataDirectory(experimentFullPath.replace("/xml/", "/"));
+
+		Map<String,Double> map = getStringSubstitutions(scanBean);
+		detectorConfigs.stream().forEach(config -> replaceStrings(config, map));
+
 		detectorPreparerFunctions.configure(detectorConfigs);
+	}
+
+	private void applyStringStringSubstitutions(OutputParameters outputBean) {
+		if (outputBean == null) {
+			return;
+		}
+		logger.info("Applying scan parameter substitutions to 'before scan' and 'after scan' script commands");
+		Map<String,Double> map = getStringSubstitutions(scanBean);
+		outputBean.setBeforeFirstRepetition(replaceStrings(outputBean.getBeforeFirstRepetition(), map));
+		outputBean.setBeforeScriptName(replaceStrings(outputBean.getBeforeScriptName(), map));
+		outputBean.setAfterScriptName(replaceStrings(outputBean.getAfterScriptName(), map));
+		logger.info("New 'before first repetition' command : {}", outputBean.getBeforeFirstRepetition());
+		logger.info("New 'before scan' command : {}", outputBean.getBeforeScriptName());
+		logger.info("New 'after scan' command : {}", outputBean.getAfterScriptName());
+	}
+
+	/**
+	 * Replace key words in a Jython script command with substitution values
+	 *
+	 * @param config
+	 * @param stringSubs key=string to replace, value=replacement value
+	 */
+	private void replaceStrings(DetectorConfig config, Map<String,Double> stringSubs) {
+		String scriptCommand = config.getScriptCommand();
+		if (StringUtils.isEmpty(scriptCommand)) {
+			return;
+		}
+		config.setScriptCommand(replaceStrings(scriptCommand, stringSubs));
+		logger.info("New script command : {}", config.getScriptCommand());
+	}
+
+	private String replaceStrings(String jythonString, Map<String, Double> stringSubs) {
+		logger.info("Replacing strings in Jython string : {}", jythonString);
+		for(Entry<String, Double> entry:stringSubs.entrySet()) {
+			if (jythonString.contains(entry.getKey())) {
+				jythonString = jythonString.replace(entry.getKey(), entry.getValue().toString());
+			}
+		}
+		return jythonString;
+	}
+
+	/**
+	 * Generate string substitution values using the supplied scan bean
+	 * and substitution map ({@link #stringSubstitutionMapQexafs}).
+	 *
+	 * @param scanBean
+	 * @return map of new values (key = string value to be replaced, value = new value, from scanBean)
+	 */
+	private Map<String, Double> getStringSubstitutions(IScanParameters scanBean) {
+		if (scanBean instanceof QEXAFSParameters) {
+			QEXAFSParameters params = (QEXAFSParameters)scanBean;
+			return stringSubstitutionMapQexafs.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().apply(params)));
+		}
+		return Collections.emptyMap();
 	}
 
 	private String getDataFolderFullPath() {

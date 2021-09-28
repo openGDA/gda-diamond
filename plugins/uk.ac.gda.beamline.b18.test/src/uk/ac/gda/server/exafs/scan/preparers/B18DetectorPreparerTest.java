@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -48,10 +49,12 @@ import gda.factory.Factory;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import uk.ac.gda.beans.exafs.DetectorConfig;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.OutputParameters;
+import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
@@ -365,6 +368,54 @@ public class B18DetectorPreparerTest {
 		Mockito.verify(ionc_gas_injector_scannables.get(0)).moveTo(new Object[]{"25.0","120.0",99630.0,200.0,1100.0,200.0,"-1","false"});
 		Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(1));
 		Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(2));
+	}
+
+	@Test
+	public void testStringSubstitutes() throws Exception {
+		DetectorConfig detConfig = new DetectorConfig("script command");
+		detConfig.setUseScriptCommand(true);
+		detConfig.setScriptCommand("test_function(initialEnergy, finalEnergy)");
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setDetectorConfigurations(Arrays.asList(detConfig));
+
+		QEXAFSParameters scanParams = new QEXAFSParameters();
+		scanParams.setInitialEnergy(1000);
+		scanParams.setFinalEnergy(2000);
+		thePreparer.configure(scanParams, detParams, null, "/scratch/test/xml/path/");
+
+		// ScriptCommand should have initialEnergy and finalEnergy replaces by actual initial and final energy from scan bean
+		String expectedString = String.format("test_function(%.1f, %.1f)", scanParams.getInitialEnergy(), scanParams.getFinalEnergy());
+		assertEquals(expectedString, detConfig.getScriptCommand());
+	}
+
+	@Test
+	public void testStringSubstitutesBeforeAfterScriptCommands() throws Exception {
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setExperimentType(""); // so that detector(s) are not configured
+
+		QEXAFSParameters scanParams = new QEXAFSParameters();
+		scanParams.setInitialEnergy(1000);
+		scanParams.setFinalEnergy(2000);
+
+		OutputParameters outputParams = new OutputParameters();
+		outputParams.setBeforeFirstRepetition("test_before_first(initialEnergy)");
+		outputParams.setBeforeScriptName("test_before(initialEnergy, finalEnergy)");
+		outputParams.setAfterScriptName("test_after(finalEnergy)");
+
+		thePreparer.configure(scanParams, detParams, outputParams, "/scratch/test/xml/path/");
+
+		// ScriptCommand should have initialEnergy and finalEnergy replaces by actual initial and final energy from scan bean
+		String expectedString = String.format("test_before_first(%.1f)", scanParams.getInitialEnergy());
+		assertEquals(expectedString, outputParams.getBeforeFirstRepetition());
+
+		expectedString = String.format("test_before(%.1f, %.1f)", scanParams.getInitialEnergy(), scanParams.getFinalEnergy());
+		assertEquals(expectedString, outputParams.getBeforeScriptName());
+
+		expectedString = String.format("test_after(%.1f)", scanParams.getFinalEnergy());
+		assertEquals(expectedString, outputParams.getAfterScriptName());
+
 	}
 
 	private DetectorParameters createDetectorParameters() {
