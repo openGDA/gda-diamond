@@ -6,7 +6,7 @@ from datacollection.CollectionMode import COLLECT_MODE
 class DatasetMetadata():
 
 	SUMMARY_SUBFOLDER = "summary"
-	SCRATCH_PATH = "/scratch/"
+	SCRATCH_PATH = "/tmp/"
 
 	def __init__(self):
 		self._directory = self.SCRATCH_PATH

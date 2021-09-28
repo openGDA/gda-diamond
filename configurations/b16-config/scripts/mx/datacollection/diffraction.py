@@ -33,7 +33,7 @@ DEF_ECR_PATH = VAR_DIFFRACTION + DEF_ECR
 DEF_SAMPLE = "sample.xml"
 DEF_SAMPLE_PATH = VAR_DIFFRACTION + DEF_SAMPLE
 
-DEF_VISIT = "nt27909-2"
+DEF_VISIT = "cm28137-4"
 DEF_VISIT_FOLDER = "/dls/b16/data/2021/" + DEF_VISIT + "/"
 
 
@@ -184,7 +184,7 @@ class Request():
 
 	
 from gda.factory import Finder
-g_omega = Finder.find("GONIOO<EGA")
+g_omega = Finder.find("GONIOOMEGA")
 g_omega.motor.setMaxPosition(12000.)
 g_omega.motor.setMinPosition(-12000.)
 

@@ -30,6 +30,6 @@
 	<import resource="motor/test3.xml"/>
 	<import resource="motor/micro_tomo.xml" />
 	<import resource="motor/granite_table.xml" />
-	<import resource="motor/amc100.xml" />
+	<!-- <import resource="motor/amc100.xml" /> -->
 
 </beans>
