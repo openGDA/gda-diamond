@@ -22,7 +22,6 @@ import static uk.ac.gda.ui.tool.rest.ClientRestServices.getExperimentController;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -41,8 +40,6 @@ import org.springframework.context.ApplicationListener;
 import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.api.acquisition.Acquisition;
 import uk.ac.gda.client.UIHelper;
@@ -158,7 +155,7 @@ public class PointAndShootController {
 			double x = mapClickEvent.getxValue();
 			double y = mapClickEvent.getyValue();
 
-			synchroniser.listenFor(x, y);
+			synchroniser.arm();
 
 			SpringApplicationContextFacade.getBean(MappingRemoteServices.class)
 				.getRegionAndPathController().createRegionWithCurrentRegionValuesAt(x, y);
@@ -194,17 +191,8 @@ public class PointAndShootController {
 		private CountDownLatch latch;
 		private boolean armed;
 
-		private double x;
-		private double y;
-
-		/**
-		 * Arms the counter which will count down when it receives an acquisition message
-		 * with a region centred around the given (x, y) coordinates
-		 */
-		public void listenFor(double x, double y) {
+		public void arm() {
 			latch = new CountDownLatch(1);
-			this.x = x;
-			this.y = y;
 			armed = true;
 		}
 
@@ -226,28 +214,6 @@ public class PointAndShootController {
 				latch.countDown();
 				armed = false;
 			}
-		}
-
-		private boolean matches(ScanningAcquisition acquisition) {
-			var scanpathDocument = acquisition.getAcquisitionConfiguration().getAcquisitionParameters().getScanpathDocument();
-			List<ScannableTrackDocument> paths = scanpathDocument.getScannableTrackDocuments();
-
-			boolean xMatches = paths.stream()
-					.filter(document -> document.getAxis().equals("x"))
-					.allMatch(document -> matches(document, x));
-
-			boolean yMatches = paths.stream()
-					.filter(document -> document.getAxis().equals("y"))
-					.allMatch(document -> matches(document, y));
-
-			return xMatches && yMatches;
-		}
-
-		private boolean matches(ScannableTrackDocument d, double target) {
-			double start = d.getStart();
-			double stop = d.getStop();
-			double centre = (start + stop) / 2;
-			return Math.abs(centre - target) < 1e-6;
 		}
 	}
 
