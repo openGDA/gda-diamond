@@ -162,6 +162,10 @@ run("medipix_functions.py")
 setUseMedipixRoiFromGui(False)
 setMedipixRoi(0, 0, 512, 512)
 
+# Set the plugin list and ROI object to use for setting the medipix ROI
+detectorPreparer.setMedipixPlugins(plugins_mutable_roi)
+detectorPreparer.setMedipixMutableRoi(medipix_roi)
+
 run("detector_setup_functions.py")
 run_in_try_catch(setupMedipix)
 run_in_try_catch(setupXspress3)
