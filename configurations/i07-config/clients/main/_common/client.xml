@@ -33,5 +33,8 @@
 
 <!--    <import resource="mjpegViewer.xml"/> -->
 
+
+<bean id="dataserverclient" class="gda.data.DataServerClientConfig" />
+
 </beans>
 
