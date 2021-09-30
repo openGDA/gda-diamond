@@ -42,6 +42,9 @@
 				<property name="initialArrayPort" value="XSP3.stat" />
 			</bean>
 		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="xsp3" />
@@ -53,5 +56,19 @@
 		<property name="basePVName" value="BL18I-EA-XSP3-01:HDF5:" />
 		<property name="file" ref="xsp3_ndfile" />
 	</bean>
+	
+	<!-- Referenced by the collection strategy defined in common configuration -->
+	<bean id="xsp3_base_pv" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL18I-EA-XSP3-01"/>
+	</bean>
+	
+	<!-- Referenced by the collection strategy defined in common configuration -->
+	<bean id="xsp3_plugin_chain" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="DTC" value="XSP3" />
+			</map>
+		</constructor-arg>
+	</bean>	
 
 </beans>
