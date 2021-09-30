@@ -3,33 +3,35 @@
 from Diamond.PseudoDevices.SuperconductingMagnet import SuperconductingMagnetClass, ModeMagnetClass;
 from Diamond.PseudoDevices.SuperconductingMagnet import CartesianMagnetClass, SphericalMagnetClass, SingleAxisMagnetClass;
 from Diamond.PseudoDevices.Flipper import FlipperClass, DichroicFlipperClass
+from i06shared import installation
 
-#The root EPICS PV for the superconducting magnet
-magRootPV = 'BL06J-EA-MAG-01';
-print "-"*100
-print "Note: Use object name 'scm' for the Superconducting Magenet control";
-scm = SuperconductingMagnetClass('scm', magRootPV);
-
-print "Note: Use Pseudo device name 'magmode' for the Superconducting Magenet mode control";
-magmode = ModeMagnetClass('magmode', 'scm');
-
-print "Note: Use Pseudo device name 'magcartesian' for the Superconducting Magenet control in Cartesian coordinate";
-magcartesian = CartesianMagnetClass('magcartesian', 'scm');
-
-print "Note: Use Pseudo device name 'magspherical' for the Superconducting Magenet control in Spherical coordinate";
-magspherical = SphericalMagnetClass('magspherical', 'scm');
-
-print "Note: Use Pseudo device name 'magx, magy, magz, magrho, magth, magphi' for the Superconducting Magenet uniaxial control";
-magx = SingleAxisMagnetClass('magx', 'scm', SingleAxisMagnetClass.X);
-magy = SingleAxisMagnetClass('magy', 'scm', SingleAxisMagnetClass.Y);
-magz = SingleAxisMagnetClass('magz', 'scm', SingleAxisMagnetClass.Z);
-magrho = SingleAxisMagnetClass('magrho', 'scm', SingleAxisMagnetClass.RHO);
-magth  = SingleAxisMagnetClass('magth',  'scm', SingleAxisMagnetClass.THETA);
-magphi = SingleAxisMagnetClass('magphi', 'scm', SingleAxisMagnetClass.PHI);
-magdelay=scm.delay
-magtolerance=scm.tolerance
-magdelay(0.1)    # Tests suggest that with magtolerance set up, only a very short delay is needed.
-magtolerance(6.) # Given that the magnet goes +-6T mag moves will always return the demand position after magdelay.
+if installation.isLive():
+	#The root EPICS PV for the superconducting magnet
+	magRootPV = 'BL06J-EA-MAG-01';
+	print "-"*100
+	print "Note: Use object name 'scm' for the Superconducting Magenet control";
+	scm = SuperconductingMagnetClass('scm', magRootPV);
+	
+	print "Note: Use Pseudo device name 'magmode' for the Superconducting Magenet mode control";
+	magmode = ModeMagnetClass('magmode', 'scm');
+	
+	print "Note: Use Pseudo device name 'magcartesian' for the Superconducting Magenet control in Cartesian coordinate";
+	magcartesian = CartesianMagnetClass('magcartesian', 'scm');
+	
+	print "Note: Use Pseudo device name 'magspherical' for the Superconducting Magenet control in Spherical coordinate";
+	magspherical = SphericalMagnetClass('magspherical', 'scm');
+	
+	print "Note: Use Pseudo device name 'magx, magy, magz, magrho, magth, magphi' for the Superconducting Magenet uniaxial control";
+	magx = SingleAxisMagnetClass('magx', 'scm', SingleAxisMagnetClass.X);
+	magy = SingleAxisMagnetClass('magy', 'scm', SingleAxisMagnetClass.Y);
+	magz = SingleAxisMagnetClass('magz', 'scm', SingleAxisMagnetClass.Z);
+	magrho = SingleAxisMagnetClass('magrho', 'scm', SingleAxisMagnetClass.RHO);
+	magth  = SingleAxisMagnetClass('magth',  'scm', SingleAxisMagnetClass.THETA);
+	magphi = SingleAxisMagnetClass('magphi', 'scm', SingleAxisMagnetClass.PHI);
+	magdelay=scm.delay
+	magtolerance=scm.tolerance
+	magdelay(0.1)    # Tests suggest that with magtolerance set up, only a very short delay is needed.
+	magtolerance(6.) # Given that the magnet goes +-6T mag moves will always return the demand position after magdelay.
 
 print "Note: Use object name 'hyst2' for the hysteresis measurement with flipping magnet";
 print "Usage: scan hyst2 -1 1 0.1";

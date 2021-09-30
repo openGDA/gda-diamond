@@ -9,12 +9,12 @@
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
 	</bean>
-	<bean id="ChopRotMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-42942.57503" />
-		<property name="maxPosition" value="999957056.425" />
-		<property name="speed" value="1.0" />
-		<property name="unitString" value="mm"/>
-	</bean>
+<!-- 	<bean id="ChopRotMotor" class="gda.device.motor.DummyMotor"> -->
+<!-- 		<property name="minPosition" value="-42942.57503" /> -->
+<!-- 		<property name="maxPosition" value="999957056.425" /> -->
+<!-- 		<property name="speed" value="1.0" /> -->
+<!-- 		<property name="unitString" value="mm"/> -->
+<!-- 	</bean> -->
 	<bean id="ChopPosn" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>

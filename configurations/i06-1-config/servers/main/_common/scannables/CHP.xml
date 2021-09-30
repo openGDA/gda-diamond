@@ -8,17 +8,17 @@
 		<property name="protectionLevel" value="0" />
 	</bean>
 
-	<bean id="choprot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ChopRotMotor" />
-		<property name="protectionLevel" value="0" />
-	</bean>
+<!-- 	<bean id="choprot" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="ChopRotMotor" /> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 	</bean> -->
 
 
 	<bean id="CHP" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="chopx" /> 
-				<ref bean="choprot" />
+<!-- 				<ref bean="choprot" /> -->
 				<ref bean="ChopPosn" />
 			</list>
 		</property>

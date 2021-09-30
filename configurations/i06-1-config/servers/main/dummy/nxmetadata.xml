@@ -30,12 +30,12 @@
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="pixis_settings"/>
 					<property name="nexusClass" value="NXcollection"/>
-	                <property name="childNodes"> <!-- add child groups as appropriate -->
-	                    <list>
-	                        <bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-	                            <property name="name" value="gain"/>
-	                            <property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainX_RBV"/>
-	                        </bean>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="gain"/>
+								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainX_RBV"/>
+							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_set"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature"/>
@@ -54,8 +54,8 @@
 								<property name="name" value="binning_y"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV"/>
 							</bean>
-	                    </list>
-	                </property>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>
@@ -86,5 +86,219 @@
 			</set>
 		</property>
 	</bean>
+	<beans profile="magnet">
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+			<property name="targetObject" ref="scmNexusDevice" />
+			<property name="targetMethod" value="setChildNodes" />
+			<property name="arguments">
+				<list>
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="mode"/>
+						<property name="value" value="UNIAXIAL_Z"/>
+					</bean>
+<!-- TODO To be continued -->
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="field_x"/>
+						<property name="pvName" value="BL06J-EA-MAG-01:X:RBV"/>
+						<property name="units" value="T"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="field_y"/>
+						<property name="pvName" value="BL06J-EA-MAG-01:Y:RBV"/>
+						<property name="units" value="T"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="field_z"/>
+						<property name="pvName" value="BL06J-EA-MAG-01:Z:RBV"/>
+						<property name="units" value="T"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="field_sum"/>
+						<property name="pvName" value="BL06J-EA-MAG-01:VECTORSUM:RBV"/>
+						<property name="units" value="T"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="sensor_A"/>
+						<property name="pvName" value="BL06J-EA-TMON-01:T1"/>
+						<property name="units" value="K"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="sensor_B"/>
+						<property name="pvName" value="BL06J-EA-TMON-01:T2"/>
+						<property name="units" value="K"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="sensor_C"/>
+						<property name="pvName" value="BL06J-EA-TMON-01:T3"/>
+						<property name="units" value="T"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="sensor_D"/>
+						<property name="pvName" value="BL06J-EA-TMON-01:NL"/>
+						<property name="units" value="%"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="helium_depth_A"/>
+						<property name="pvName" value="BL06J-EA-HDI-01:LEVELA"/>
+						<property name="units" value="mm"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="helium_depth_B"/>
+						<property name="pvName" value="BL06J-EA-HDI-01:LEVELB"/>
+						<property name="units" value="mm"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="T_sample"/>
+						<property name="pvName" value="BL06J-EA-TCTRL-01:STS:T1"/>
+						<property name="units" value="K"/>
+					</bean>		
+					<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+						<property name="name" value="loop1"/>
+						<property name="nexusClass" value="NXcollection"/>
+						<property name="childNodes"> <!-- add child groups as appropriate -->
+							<list>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_type"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:LOOPTYPE"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_target_temp"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:SETPOINT"/>
+									<property name="units" value="K"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_output_range"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:RANGE"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_manual_output"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:MANUAL"/>
+									<property name="units" value="%"/>
+								</bean>
+		 						<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_actual_output"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:HTRREAD"/>
+									<property name="units" value="%"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_PID_P"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:PGAIN"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_PID_I"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:IGAIN"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_PID_D"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:DGAIN"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_ramping"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:LOOPRAMP"/>
+								</bean>
+		 						<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_ramping_rate"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP1:RAMPRATE"/>
+								</bean>
+							</list>
+						</property>
+					</bean>
+					<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+						<property name="name" value="loop2"/>
+						<property name="nexusClass" value="NXcollection"/>
+						<property name="childNodes"> <!-- add child groups as appropriate -->
+							<list>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_type"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:LOOPTYPE"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_target_temp"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:SETPOINT"/>
+									<property name="units" value="K"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_output_range"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:RANGE"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_manual_output"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:MANUAL"/>
+									<property name="units" value="%"/>
+								</bean>
+		 						<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_actual_output"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:HTRREAD"/>
+									<property name="units" value="%"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_PID_P"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:PGAIN"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_PID_I"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:IGAIN"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_PID_D"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:DGAIN"/>
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_ramping"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:LOOPRAMP"/>
+								</bean>
+		 						<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="heater_ramping_rate"/>
+									<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:RAMPRATE"/>
+								</bean>
+							</list>
+						</property>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_1_gain"/>
+						<property name="expression" value="@scm_amp_1.getPosition()[0]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_1_mode"/>
+						<property name="expression" value="@scm_amp_1.getPosition()[1]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_2_gain"/>
+						<property name="expression" value="@scm_amp_2.getPosition()[0]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_2_mode"/>
+						<property name="expression" value="@scm_amp_2.getPosition()[1]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_3_gain"/>
+						<property name="expression" value="@scm_amp_3.getPosition()[0]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_3_mode"/>
+						<property name="expression" value="@scm_amp_3.getPosition()[1]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_4_gain"/>
+						<property name="expression" value="@scm_amp_4.getPosition()[0]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.SpringExpressionField">
+						<property name="name" value="amp_4_mode"/>
+						<property name="expression" value="@scm_amp_4.getPosition()[1]"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="pressure_sample"/>
+						<property name="pvName" value="BL06J-VA-SPACE-09:P"/>
+						<property name="units" value="mbar"/>
+					</bean>
+					<bean class="org.eclipse.scanning.device.ScalarField">
+						<property name="name" value="pressure_prechamber"/>
+						<property name="pvName" value="BL06J-VA-SPACE-11:P"/>
+						<property name="units" value="mbar"/>
+					</bean>
+				</list>
+			</property>
+		</bean>
+	</beans>
 
 </beans>
