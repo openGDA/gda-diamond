@@ -28,6 +28,7 @@
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/view_factories.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/scannable_ui_preferences.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/detector_cover.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 

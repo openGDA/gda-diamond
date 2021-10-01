@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.DetectorCoverParameters">
+		<property name="scannableName" value="detector_cover" />
+		<property name="inValue" value="19.00" />
+		<property name="outValue" value="-16.00" />
+	</bean>
+
+</beans>
