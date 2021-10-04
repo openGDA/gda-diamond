@@ -44,6 +44,8 @@ import gda.factory.Finder;
 import gda.jython.ICommandRunner;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beamline.i14.views.beamlinereadiness.BeamlineReadinessDisplay;
+import uk.ac.gda.beamline.i14.views.beamlinereadiness.DetectorCoverDisplay;
+import uk.ac.gda.beamline.i14.views.beamlinereadiness.DetectorCoverParameters;
 import uk.ac.gda.dls.client.views.ReadonlyScannableComposite;
 import uk.ac.gda.dls.client.views.RunCommandComposite;
 
@@ -73,6 +75,9 @@ public abstract class StatusView extends ViewPart {
 	private Double timeToRefillAlarmThreshold;
 	private boolean showBeamlineReadiness = true;
 
+	//private
+
+
 	@SuppressWarnings("unused")
 	@Override
 	public void createPartControl(Composite parent) {
@@ -96,6 +101,12 @@ public abstract class StatusView extends ViewPart {
 		final Group grpMachine = createGroup(content, "Machine", 1);
 		createNumericCompositeWithAlarm(grpMachine, "ring_current", "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
 		createNumericCompositeWithAlarm(grpMachine, "topup_start_countdown_complete", "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
+
+		// Detector cover status
+		final Group grpDetectorCover = createGroup(content, "Detector Cover", 1);
+		DetectorCoverParameters displayParams = getDetectorCoverParameters();
+		createNumericComposite(grpDetectorCover, displayParams.getScannableName(), "Position", "mm", 1, 1000);
+		new DetectorCoverDisplay(grpDetectorCover, displayParams);
 
 		// Beamline status
 		final Group grpBeamline = createGroup(content, "Beamline", 2);
@@ -196,6 +207,17 @@ public abstract class StatusView extends ViewPart {
 		colourMap.put("Reset", 8);
 	}
 
+	public DetectorCoverParameters getDetectorCoverParameters() {
+		final Map<String, DetectorCoverParameters> params = Finder.getLocalFindablesOfType(DetectorCoverParameters.class);
+		if (params.size() == 0) {
+			logger.error("No parameters found for detector cover display");
+			return null;
+		} else {
+			return params.values().iterator().next();
+		}
+
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -279,4 +301,5 @@ public abstract class StatusView extends ViewPart {
 			text.setForeground(value.equals(RUNNING) ? RUNNING_TEXT_COLOUR : STOPPED_TEXT_COLOUR);
 		}
 	}
+
 }
