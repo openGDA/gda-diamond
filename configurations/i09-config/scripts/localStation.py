@@ -281,6 +281,8 @@ meta_data_list = imetadata + jmetadata + esmetadata
 for each in meta_data_list:
     meta_add(each)
 
+print("keithley2600 control objects: keithley_a, keithley_b, keithley_a_average_mode")
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete." 
