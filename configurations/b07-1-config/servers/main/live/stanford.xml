@@ -186,6 +186,12 @@
 		<property name="adcChannel" value="1"/>
 		<property name="autoGain" value="false"/>
 	</bean>
+	
+	<bean id="ca31c_value" class="gda.device.scannable.PVScannable"> 
+		<property name="pvName" value="BL07C-DI-IAMP-31:I1:IAV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
 
 	<bean id="ca32c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
 		<property name="basePVName" value="BL07C-DI-IAMP-32:"/>
@@ -193,12 +199,18 @@
 		<property name="upperVoltageBound" value="4.5"/>
 		<property name="instantaneousPV" value="BL07C-DI-IAMP-32:I1:I"/>
 	</bean>
-	
+
 	<bean id="ca32c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
 		<property name="basePVName" value="BL07C-DI-IAMP-32:I1:"/>
 		<property name="amplifier" ref="ca32c_stanford"/>
 		<property name="adcChannel" value="2"/>
 		<property name="autoGain" value="false"/>
+	</bean>
+	
+	<bean id="ca32c_value" class="gda.device.scannable.PVScannable"> 
+		<property name="pvName" value="BL07C-DI-IAMP-32:I1:IAV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
 	<bean id="ca33c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
@@ -214,7 +226,13 @@
 		<property name="adcChannel" value="3"/>
 		<property name="autoGain" value="false"/>
 	</bean>
-
+	
+	<bean id="ca33c_value" class="gda.device.scannable.PVScannable"> 
+		<property name="pvName" value="BL07C-DI-IAMP-33:I1:IAV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+	
 	<bean id="ca34c_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
 		<property name="basePVName" value="BL07C-DI-IAMP-34:"/>
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -227,6 +245,12 @@
 		<property name="amplifier" ref="ca34c_stanford"/>
 		<property name="adcChannel" value="4"/>
 		<property name="autoGain" value="false"/>
+	</bean>
+	
+	<bean id="ca34c_value" class="gda.device.scannable.PVScannable"> 
+		<property name="pvName" value="BL07C-DI-IAMP-34:I1:IAV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
 	</bean>
 
 </beans>
