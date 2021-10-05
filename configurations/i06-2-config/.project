@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>i06-3-config</name>
+	<name>i06-2-config</name>
 	<comment></comment>
 	<projects>
-		<project>i06-shared</project>
 		<project>org.eclipse.dawnsci.nexus</project>
 		<project>org.eclipse.dawnsci.nexus.scan</project>
 		<project>org.eclipse.dawnsci.nexus.template</project>
