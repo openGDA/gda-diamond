@@ -18,16 +18,16 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan;
 
-import java.util.Optional;
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
+
 import java.util.function.Supplier;
 
 import org.eclipse.swt.widgets.Composite;
 
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionConfigurationLayoutFactory;
-import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.AcquisitionControllerException;
 import uk.ac.gda.client.properties.acquisition.AcquisitionKeys;
 import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
@@ -46,7 +46,7 @@ public class BeamSelectorButtonControlledCompositeFactory implements NamedCompos
 
 	private final Supplier<Composite> controlButtonsContainerSupplier;
 
-	private DiffractionConfigurationLayoutFactory acquistionConfigurationFactory;
+	private CompositeFactory acquistionConfigurationFactory;
 
 	public BeamSelectorButtonControlledCompositeFactory(Supplier<Composite> controlButtonsContainerSupplier) {
 		this.controlButtonsContainerSupplier = controlButtonsContainerSupplier;
@@ -68,16 +68,22 @@ public class BeamSelectorButtonControlledCompositeFactory implements NamedCompos
 	}
 
 	@Override
-	public DiffractionConfigurationLayoutFactory getControlledCompositeFactory() {
+	public CompositeFactory getControlledCompositeFactory() {
 		if (acquistionConfigurationFactory == null) {
-			this.acquistionConfigurationFactory = new DiffractionConfigurationLayoutFactory();
+			this.acquistionConfigurationFactory = new BeamSelectorScanControls();
 		}
 		return acquistionConfigurationFactory;
 	}
 
 	@Override
 	public CompositeFactory getButtonControlsFactory() {
-		return null;
+		return getAcquistionButtonGroupFactoryBuilder().build();
+	}
+
+	private AcquisitionCompositeButtonGroupFactoryBuilder getAcquistionButtonGroupFactoryBuilder() {
+		var acquisitionButtonGroup = new AcquisitionCompositeButtonGroupFactoryBuilder();
+		acquisitionButtonGroup.addRunSelectionListener(widgetSelectedAdapter(event -> getScanningAcquisitionTemporaryHelper().runAcquisition()));
+		return acquisitionButtonGroup;
 	}
 
 	@Override
@@ -87,22 +93,13 @@ public class BeamSelectorButtonControlledCompositeFactory implements NamedCompos
 
 	@Override
 	public AcquisitionKeys getAcquisitionKeys() {
-		return new AcquisitionKeys(AcquisitionPropertyType.BEAM_SELECTOR, AcquisitionTemplateType.TWO_DIMENSION_POINT);
+		return new AcquisitionKeys(AcquisitionPropertyType.BEAM_SELECTOR, AcquisitionTemplateType.STATIC_POINT);
 	}
 
 	@Override
 	public void createNewAcquisitionInController() throws AcquisitionControllerException {
 		getScanningAcquisitionTemporaryHelper()
 			.setNewScanningAcquisition(getAcquisitionKeys());
-	}
-
-	/**
-	 * Loads the content of the file identified by the fully qualified filename parameter into the mapping bean and
-	 * refreshes the UI to dispay the changes. An update of any linked UIs will also be triggered by the controllers
-	 *
-	 */
-	public void load(Optional<IMappingExperimentBean> bean) {
-		getControlledCompositeFactory().load(bean);
 	}
 
 	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {

@@ -44,6 +44,7 @@ import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
+import uk.ac.gda.api.acquisition.parameters.DevicePositionDocument;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.document.DocumentFactory;
 
@@ -262,5 +263,12 @@ public class TemplateDataHelper {
 	 */
 	protected void updateTemplate(ScanpathDocument.Builder builder) {
 		getScanningParameters().setScanpathDocument(builder.build());
+	}
+
+	public void updateStartPosition(DevicePositionDocument position) {
+		getScanningParameters().getStartPosition().stream()
+			.filter(existingPosition -> existingPosition.getDevice().equals(position.getDevice()))
+			.findFirst().ifPresent(getScanningParameters().getStartPosition()::remove);
+		getScanningParameters().getStartPosition().add(position);
 	}
 }

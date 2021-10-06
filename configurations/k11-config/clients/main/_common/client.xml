@@ -26,6 +26,8 @@
 	<!-- =========================================================== -->
 	<import
 		resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
+		
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/beam_selector_scan.xml" />
 
 	<!-- =========================================================== -->
 	<!-- ===================== SHARED FILES ======================== -->
