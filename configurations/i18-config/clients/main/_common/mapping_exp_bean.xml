@@ -55,7 +55,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
 					<property name="appName" value="Kinematics" />
-					<property name="active" value="true" />
+					<property name="active" value="false" />
 				</bean>
 			</list>
 		</property>

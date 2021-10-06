@@ -55,7 +55,7 @@
 		<property name="description" value="Experimental shutter" />
 		<property name="condition">
 			<bean class="uk.ac.diamond.daq.beamcondition.EnumPositionCheck">
-				<property name="positioner" ref="portshutter" />
+				<property name="positioner" ref="experiment_shutter" />
 				<property name="allowedPositions" value="Open" />
 			</bean>
 		</property>
