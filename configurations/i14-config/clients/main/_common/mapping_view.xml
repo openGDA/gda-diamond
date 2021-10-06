@@ -57,6 +57,7 @@
 							<bean class="uk.ac.diamond.daq.mapping.ui.ptychography.PtychographySubmitScanSection">
 								<property name="buttonText" value="Submit ptychography scan" />
 								<property name="description" value="Ptychography scan" />
+								<property name="detectorName" ref="ptychography_scan_detector" />
 							</bean>
 						</list>
 					</property>
