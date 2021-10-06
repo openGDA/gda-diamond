@@ -3,8 +3,7 @@ import os
 import time
 
 from java.lang import IllegalArgumentException
-
-from com.google.common.base import Optional
+from java.util import Optional
 
 from gda.configuration.properties import LocalProperties
 from gda.device import DeviceException
