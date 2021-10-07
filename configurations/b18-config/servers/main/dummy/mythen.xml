@@ -37,7 +37,7 @@
 <!-- 		<property name="fileWriter" ref="det_hdf5_writer" /> -->
 	</bean>
 
-	<bean id="mythendataConverter " class="gda.device.detector.mythen.data.DataConverter">
+	<bean id="mythendataConverter" class="gda.device.detector.mythen.data.DataConverter">
 		<property name="angularCalibrationParameters">
 			<bean
 				class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters">
