@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd"> 
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="xabsNexusDevice" />
+		<property name="targetMethod" value="setChildNodes" />
+		<property name="arguments">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="pressure_sample"/>
+					<property name="value" value="3.16652e-10"/>
+					<property name="units" value="mbar"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>
