@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	
+	<!-- creating a new system property -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetClass" value="java.lang.System" />
+				<property name="targetMethod" value="getProperties" />
+			</bean>
+		</property>
+		<property name="targetMethod" value="putAll" />
+		<property name="arguments">
+			<util:properties>
+				<prop key="gda.endstation.name">DD</prop>
+			</util:properties>
+		</property>
+	</bean>
+	<bean id="ddiffNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="ddiff" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x"/>
+					<property name="scannableName" value="ddsx"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="ddsy"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="z"/>
+					<property name="scannableName" value="scddszmth"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="theta"/>
+					<property name="scannableName" value="ddthddsx"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="2theta"/>
+					<property name="scannableName" value="dd2th"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="phi"/>
+					<property name="scannableName" value="ddphi"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="chi"/>
+					<property name="scannableName" value="ddchi"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="dddy"/>
+					<property name="scannableName" value="dddy"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_1_gain"/>
+					<property name="expression" value="@ddiff_amp_1.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_1_mode"/>
+					<property name="expression" value="@ddiff_amp_1.getPosition()[1]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_2_gain"/>
+					<property name="expression" value="@ddiff_amp_2.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_2_mode"/>
+					<property name="expression" value="@ddiff_amp_2.getPosition()[1]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_3_gain"/>
+					<property name="expression" value="@ddiff_amp_3.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_3_mode"/>
+					<property name="expression" value="@ddiff_amp_3.getPosition()[1]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_4_gain"/>
+					<property name="expression" value="@ddiff_amp_4.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_4_mode"/>
+					<property name="expression" value="@ddiff_amp_4.getPosition()[1]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="ls336NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="lakeshore336" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXsensor"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="demand"/>
+					<property name="expression" value="@ls336.getPosition()[0]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="sample"/>
+					<property name="expression" value="@ls336.getPosition()[1]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="shield"/>
+					<property name="expression" value="@ls336.getPosition()[2]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="cryostat"/>
+					<property name="expression" value="@ls336.getPosition()[3]"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="heater"/>
+					<property name="expression" value="@ls336.getPosition()[4]"/>
+					<property name="units" value="%"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="heater_range"/>
+					<property name="expression" value="@ls336.getPosition()[5]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+		<property name="targetMethod" value="addAdditionalDeviceNames" />
+		<property name="arguments">
+			<list>
+				<value>ddiff</value>
+				<value>lakeshore336</value>
+			</list>
+		</property>
+	</bean>
+		
+</beans>
