@@ -26,8 +26,8 @@ from Beamline.beamline import branchline
 #End Station Section
 import sys
 
+from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
 if installation.isLive():
-    from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
     from laserCabin.TOPASScaler8512 import ca81sr,ca82sr,ca83sr,ca84sr,ca85sr,ca86sr,ca87sr,ca88sr,topas_scaler  # @UnusedImport
     ##Magnet
     #from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
@@ -40,6 +40,7 @@ if installation.isLive():
     #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
     from functionDevices.idivio import idio,ifio,ifioft,ifiofb,testFun  # @UnusedImport
     from Beamline.waveplate3 import wp32  # @UnusedImport
+    from metadata.amplifierGainPaser import scm_amp_1, scm_amp_2, scm_amp_3, scm_amp_4 # @UnusedImport
 ##Pixis - there is a java object replement
 #from cameras.usePixis import pixis
 ##Exit Slit

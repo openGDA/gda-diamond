@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd"> 
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="scmNexusDevice" />
+		<property name="targetMethod" value="setChildNodes" />
+		<property name="arguments">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="mode"/>
+					<property name="value" value="UNIAXIAL_Z"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="field_x"/>
+					<property name="pvName" value="0.0000"/>
+					<property name="units" value="T"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="field_y"/>
+					<property name="pvName" value="0.0000"/>
+					<property name="units" value="T"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="field_z"/>
+					<property name="pvName" value="0.0000"/>
+					<property name="units" value="T"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="field_sum"/>
+					<property name="pvName" value="0.0000"/>
+					<property name="units" value="T"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="sensor_A"/>
+					<property name="pvName" value="4.270"/>
+					<property name="units" value="K"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="sensor_B"/>
+					<property name="pvName" value="4.244"/>
+					<property name="units" value="K"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="sensor_C"/>
+					<property name="pvName" value="303.398"/>
+					<property name="units" value="K"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="sensor_D"/>
+					<property name="pvName" value="18.934"/>
+					<property name="units" value="%"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="helium_depth_A"/>
+					<property name="pvName" value="360"/>
+					<property name="units" value="mm"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="helium_depth_B"/>
+					<property name="pvName" value="0"/>
+					<property name="units" value="mm"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="T_sample"/>
+					<property name="pvName" value="250.001"/>
+					<property name="units" value="K"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="loop1"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_type"/>
+								<property name="pvName" value="PID"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_target_temp"/>
+								<property name="pvName" value="250.000"/>
+								<property name="units" value="K"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_output_range"/>
+								<property name="pvName" value="High"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_manual_output"/>
+								<property name="pvName" value="0.000"/>
+								<property name="units" value="%"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_actual_output"/>
+								<property name="pvName" value="4.000"/>
+								<property name="units" value="%"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_PID_P"/>
+								<property name="pvName" value="2.500"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_PID_I"/>
+								<property name="pvName" value="9.000"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_PID_D"/>
+								<property name="pvName" value="0.000"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_ramping"/>
+								<property name="pvName" value="NO"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_ramping_rate"/>
+								<property name="pvName" value="1.000"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="loop2"/>
+					<property name="nexusClass" value="NXcollection"/>
+					<property name="childNodes"> <!-- add child groups as appropriate -->
+						<list>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_type"/>
+								<property name="pvName" value="OFF"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_target_temp"/>
+								<property name="pvName" value="4.000"/>
+								<property name="units" value="K"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_output_range"/>
+								<property name="pvName" value="Low"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_manual_output"/>
+								<property name="pvName" value="0.500"/>
+								<property name="units" value="%"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_actual_output"/>
+								<property name="pvName" value="0.000"/>
+								<property name="units" value="%"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_PID_P"/>
+								<property name="pvName" value="0.200"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_PID_I"/>
+								<property name="pvName" value="20.000"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_PID_D"/>
+								<property name="pvName" value="0.000"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_ramping"/>
+								<property name="pvName" value="NO"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="heater_ramping_rate"/>
+								<property name="pvName" value="1.000"/>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="pressure_sample"/>
+					<property name="pvName" value="3.16652e-10"/>
+					<property name="units" value="mbar"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="pressure_prechamber"/>
+					<property name="pvName" value="5.42065e-09"/>
+					<property name="units" value="mbar"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- creating a new system property -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetClass" value="java.lang.System" />
+				<property name="targetMethod" value="getProperties" />
+			</bean>
+		</property>
+		<property name="targetMethod" value="putAll" />
+		<property name="arguments">
+			<util:properties>
+				<prop key="gda.endstation.name">Magnet</prop>
+			</util:properties>
+		</property>
+	</bean>
+	<bean id="scmNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="scm" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x"/>
+					<property name="scannableName" value="scmx"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="scmy"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="theta"/>
+					<property name="scannableName" value="scmth"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_1_gain"/>
+					<property name="expression" value="@scm_amp_1.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_1_mode"/>
+					<property name="expression" value="@scm_amp_1.getPosition()[1]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_2_gain"/>
+					<property name="expression" value="@scm_amp_2.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_2_mode"/>
+					<property name="expression" value="@scm_amp_2.getPosition()[1]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_3_gain"/>
+					<property name="expression" value="@scm_amp_3.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_3_mode"/>
+					<property name="expression" value="@scm_amp_3.getPosition()[1]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_4_gain"/>
+					<property name="expression" value="@scm_amp_4.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="amp_4_mode"/>
+					<property name="expression" value="@scm_amp_4.getPosition()[1]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+		<property name="targetMethod" value="addAdditionalDeviceNames" />
+		<property name="arguments">
+			<list>
+				<value>scm</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

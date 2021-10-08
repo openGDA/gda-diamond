@@ -199,7 +199,7 @@
 		<property name="userDeviceName" value="user01" />
 		<property name="additionalDeviceNames">
 			<set>
-				<!-- i06-shared -->
+				<!-- i06-shared devices-->
 				<value>xbpm1</value>
 				<value>xbpm2</value>
 				<value>s1</value>
@@ -210,7 +210,7 @@
 				<value>m6</value>
 				<value>OH1</value>
 				<value>EC1</value>
-				<!-- i06-1-config -->
+				<!-- i06-1-config shared devices -->
 				<value>d8</value>
 				<value>s6</value>
 				<value>chp</value>
@@ -223,89 +223,5 @@
 			</set>
 		</property>
 	</bean>
-	
-	<beans profile="magnet">
-		<!-- creating a new system property -->
-		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-			<property name="targetObject">
-				<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-					<property name="targetClass" value="java.lang.System" />
-					<property name="targetMethod" value="getProperties" />
-				</bean>
-			</property>
-			<property name="targetMethod" value="putAll" />
-			<property name="arguments">
-				<util:properties>
-					<prop key="gda.endstation.name">Magnet</prop>
-				</util:properties>
-			</property>
-		</bean>
-		<bean id="scmNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-			<property name="name" value="scm" />
-			<property name="category" value="NX_INSTRUMENT"/>
-			<property name="nexusClass" value="NXcollection"/>
-			<property name="childNodes">
-				<list>
-					<bean class="org.eclipse.scanning.device.ScannableField">
-						<property name="name" value="x"/>
-						<property name="scannableName" value="scmx"/>
-					</bean>
-					<bean class="org.eclipse.scanning.device.ScannableField">
-						<property name="name" value="y"/>
-						<property name="scannableName" value="scmy"/>
-					</bean>
-					<bean class="org.eclipse.scanning.device.ScannableField">
-						<property name="name" value="theta"/>
-						<property name="scannableName" value="scmth"/>
-					</bean>
-				</list>
-			</property>
-		</bean>
-		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
-			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
-			<property name="targetMethod" value="addAdditionalDeviceNames" />
-			<property name="arguments">
-				<list>
-					<value>scm</value>
-				</list>
-			</property>
-		</bean>
-	
-	</beans>
-	<beans profile="DD">
-		<bean id="propertyConfiguration" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-			<property name="properties">
-				<props>
-					<prop key="gda.endstation.name">DD</prop>
-				</props>
-			</property>
-		</bean>
-		<bean id="s6NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-			<property name="name" value="s6" />
-			<property name="category" value="NX_INSTRUMENT"/>
-			<property name="nexusClass" value="NXslit"/>
-			<property name="childNodes">
-				<list>
-					<bean class="org.eclipse.scanning.device.ScannableField">
-						<property name="name" value="x_pos"/>
-						<property name="scannableName" value="s6x"/>
-					</bean>
-					<bean class="org.eclipse.scanning.device.ScannableField">
-						<property name="name" value="x_gap"/>
-						<property name="scannableName" value="s6xgap"/>
-					</bean>		
-					<bean class="org.eclipse.scanning.device.ScannableField">
-						<property name="name" value="y_pos"/>
-						<property name="scannableName" value="s6y"/>
-					</bean>		
-					<bean class="org.eclipse.scanning.device.ScannableField">
-						<property name="name" value="y_gap"/>
-						<property name="scannableName" value="s6ygap"/>
-					</bean>		
-				</list>
-			</property>
-		</bean>
-	
-	</beans>
 
 </beans>

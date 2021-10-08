@@ -5,9 +5,9 @@
 		<property name="pvName" value="BL06J-MO-CHOP-01:X" />
 	</bean>
 
-	<bean id="ChopRotMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06J-MO-CHOP-01:ROT" />
-	</bean>
+<!-- 	<bean id="ChopRotMotor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL06J-MO-CHOP-01:ROT" /> -->
+<!-- 	</bean> -->
 
 	<bean id="ChopPosn" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL06J-MO-CHOP-01:MP" />
