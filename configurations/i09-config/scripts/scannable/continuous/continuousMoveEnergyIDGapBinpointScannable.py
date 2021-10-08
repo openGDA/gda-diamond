@@ -88,7 +88,10 @@ class ContinuousMoveEnergyIDGapBinpointScannable(ContinuouslyScannableViaControl
         if self._operating_continuously:
             if installation.isDummy():
                 #in dummy mode, it needs to keep or cache all the positions so it can be returned during continuous move
-                id_gap_requested=self._move_controller._energy.idgap(position)
+                if self.getName() == 'jenergy':
+                    id_gap_requested=self._move_controller._energy.idgap(position)
+                else: #hard X-ray need to support harmonic order
+                    id_gap_requested=self._move_controller._energy.idgap(position, self._move_controller._energy.getOrder())
                 self._move_controller.mono_energy_positions.append(position)
                 self._move_controller.id_gap_positions.append(id_gap_requested)
         else:
@@ -187,8 +190,10 @@ class GapCalculatingCallable(Callable):
             energy = self._energy_callable.call()
         idgap     = self._idgap_callable.call()
         
-        idgap_demand = self._parent._move_controller._energy.idgap(self._demand_position)
-        
+        if self._parent.getName()== 'jenergy':
+            idgap_demand = self._parent._move_controller._energy.idgap(self._demand_position)
+        else:
+            idgap_demand = self._parent._move_controller._energy.idgap(self._demand_position, self._parent._move_controller._energy.getOrder())
         self._parent.logger.info('energy=%r, energy_demand=%r, idgap=%r, idgad_demand=%r' % (energy, self._demand_position, idgap, idgap_demand))
         return energy, self._demand_position, self._demand_position-energy, idgap, idgap_demand, idgap_demand-idgap
 
