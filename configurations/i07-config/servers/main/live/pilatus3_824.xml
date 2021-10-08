@@ -13,8 +13,6 @@
     
     <bean id="pilatus3_ndFile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
         <property name="basePVName" value="BL07I-EA-PILAT-03:CAM:" />
-        <property name="initialAutoSave" value="Not hooked up to anything!" /> <!-- currently yes -->
-        <property name="initialAutoIncrement" value="Not hooked up to anything!" /> <!-- currently true -->
         <property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
         <property name="initialNumCapture" value="1" /> <!-- current = 1 -->
         <property name="initialFileName" value="p" />
@@ -139,8 +137,6 @@
                         <property name="basePVName" value="BL07I-EA-PILAT-03:HDF5:" />
                     </bean>
                 </property>
-                <property name="initialAutoSave" value="Not hooked up to anything!" /> <!-- currently yes -->
-                <property name="initialAutoIncrement" value="Not hooked up to anything!" /> <!-- currently true -->
                 <property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
                 <property name="initialNumCapture" value="1" /> <!-- current = 1 -->
                 <property name="initialFileName" value="p" />
