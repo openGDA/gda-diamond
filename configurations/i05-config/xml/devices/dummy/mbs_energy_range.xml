@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- This file was auto generated using VGScientaEnergyRangeParser.py
-
-    You should create this file from the data obtained from SES software via:
-    Calibration  -> Voltages -> View -> Energy Range -> Copy To Clipboard
-    then save this into a text file which VGScientaEnergyRangeParser.py can convert
-    into this spring configuration file. -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
