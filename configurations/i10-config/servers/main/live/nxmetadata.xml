@@ -63,7 +63,7 @@
 				</bean>
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 					<property name="name" value="serial_number"/>
-					<property name="pvName" value="BL10I-EA-PIMTE-01:CAM:CamSerialNum"/>
+					<property name="pvName" value="#{ systemProperties['gda.spring.profiles.active'].contains('windows7') ? 'BL10I-EA-PIMTE-01:CAM:SerialNum_RBV' : 'BL10I-EA-PIMTE-01:CAM:CamSerialNum'"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="pimte_settings"/>
@@ -90,11 +90,11 @@
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="speed"/>
-								<property name="pvName" value="BL10I-EA-PIMTE-01:CAM:AdcSpeed_RBV"/>
+								<property name="pvName" value="#{ systemProperties['gda.spring.profiles.active'].contains('windows7') ? 'BL10I-EA-PIMTE-01:CAM:SpeedSelection_RBV' : 'BL10I-EA-PIMTE-01:CAM:AdcSpeed_RBV'"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="bit_depth"/>
-								<property name="pvName" value="BL10I-EA-PIMTE-01:CAM:AdcBitDepth_RBV"/>
+								<property name="pvName" value="#{ systemProperties['gda.spring.profiles.active'].contains('windows7') ? 'BL10I-EA-PIMTE-01:CAM:BitDepth_RBV' : 'BL10I-EA-PIMTE-01:CAM:AdcBitDepth_RBV'"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
@@ -169,7 +169,7 @@
 				</bean>
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 					<property name="name" value="serial_number"/>
-					<property name="pvName" value="BL10I-EA-PIXIS-01:CAM:CamSerialNum"/>
+					<property name="pvName" value="#{ systemProperties['gda.spring.profiles.active'].contains('windows7') ? 'BL10I-EA-PIXIS-01:CAM:SerialNum_RBV' : 'BL10I-EA-PIXIS-01:CAM:CamSerialNum'"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="pixis_settings"/>
@@ -196,11 +196,11 @@
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="speed"/>
-								<property name="pvName" value="BL10I-EA-PIXIS-01:CAM:AdcSpeed_RBV"/>
+								<property name="pvName" value="#{ systemProperties['gda.spring.profiles.active'].contains('windows7') ? 'BL10I-EA-PIXIS-01:CAM:SpeedSelection_RBV' : 'BL10I-EA-PIXIS-01:CAM:AdcSpeed_RBV'"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="bit_depth"/>
-								<property name="pvName" value="BL10I-EA-PIXIS-01:CAM:AdcBitDepth_RBV"/>
+								<property name="pvName" value="#{ systemProperties['gda.spring.profiles.active'].contains('windows7') ? 'BL10I-EA-PIXIS-01:CAM:BitDepth_RBV' : 'BL10I-EA-PIXIS-01:CAM:AdcBitDepth_RBV'"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
