@@ -52,4 +52,8 @@ binpointIidGap    = WaveformChannelScannable('binpointIidGap',    binpointc, 'B5
 jenergy = ContinuousMoveEnergyIDGapBinpointScannable('jenergy', jenergy_move_controller, binpointPgmEnergy, binpointJidGap); jenergy.verbose=True
 ienergy = ContinuousMoveEnergyIDGapBinpointScannable('ienergy', ienergy_move_controller, binpointDcmEnergy, binpointIidGap); ienergy.verbose=True
 
-# cvscan jenergy 695 705 1 jI0 2 sdc 2
+#Test example commands
+#Hard X-ray 
+#cvscan ienergy 2.60 2.85 0.001 iI0 0.5 sdc 0.5
+#Soft X-ray
+#cvscan jenergy 0.2 0.45 0.001 jI0 0.5 sdc 0.5
