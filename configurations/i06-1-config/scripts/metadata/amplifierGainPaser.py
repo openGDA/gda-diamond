@@ -57,16 +57,3 @@ class AmplifierGainParser(ScannableMotionBase):
     def isBusy(self):
         return False
     
-from java.lang import System
-if System.getProperty("gda.spring.profiles.active", "") == "magnet":
-    scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
-    scm_amp_2 = AmplifierGainParser("scm_amp_2", "BL06I-DI-IAMP-21:SCM:GAIN")
-    scm_amp_3 = AmplifierGainParser("scm_amp_3", "BL06I-DI-IAMP-22:SCM:GAIN")
-    scm_amp_4 = AmplifierGainParser("scm_amp_4", "BL06I-DI-IAMP-23:SCM:GAIN")
-
-if System.getProperty("gda.spring.profiles.active", "") == "DD":
-    ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
-    ddiff_amp_2 = AmplifierGainParser("ddiff_amp_2", "BL06I-DI-IAMP-31:DDIFF:GAIN")
-    ddiff_amp_3 = AmplifierGainParser("ddiff_amp_3", "BL06I-DI-IAMP-32:DDIFF:GAIN")
-    ddiff_amp_4 = AmplifierGainParser("ddiff_amp_4", "BL06I-DI-IAMP-33:DDIFF:GAIN")
-
