@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- <import resource="EnergyLUT.xml"/> -->
+	<!-- Beamline objects -->
+	<import resource="BeamlineInfo.xml" />
+	<import resource="BeamInfo.xml" />
+
+	<!-- Front End Devices -->
+	<import resource="ID.xml" />
+	<!-- Optics Hutch -->
+	<import resource="DCM.xml" />
+	<import resource="DummyMotors.xml" />
+	<import resource="BFM.xml" />
+	<import resource="DummyScannables.xml" />
+	<!-- <import resource="Shutters.xml"/> -->
+	<import resource="GBC1.xml" />
+	<import resource="GBC2.xml" />
+	<import resource="GBC3.xml" />
+	<!-- <import resource="HD1.xml"/> -->
+	<import resource="HD2.xml" />
+	<import resource="HD3.xml" />
+	<import resource="HD4.xml" />
+<!-- 	<import resource="HD7.xml" /> -->
+	<import resource="HM1.xml" />
+	<import resource="HM2.xml" />
+	<import resource="HM3.xml"/>
+	<import resource="HS1.xml" />
+	<import resource="HS2.xml" />
+	<import resource="HS4.xml" />
+	<import resource="PGM.xml" />
+	<import resource="SD1.xml" />
+	<import resource="SD3.xml" />
+<!-- 	<import resource="SD4.xml"/> -->
+	<import resource="SD5.xml" />
+	<import resource="SD6.xml" />
+	<import resource="SD7.xml"/>
+	<import resource="SD8.xml"/>
+	<import resource="SD9.xml"/>
+	<import resource="SD10.xml"/>
+	<import resource="SD11.xml"/>
+	<import resource="SM1.xml" />
+	<import resource="SM3.xml" />
+	<import resource="SM4.xml"/>
+	<import resource="SM5.xml"/>
+	<import resource="SM6.xml"/>
+	<import resource="SS1.xml" />
+	<import resource="SS2.xml" />
+	<import resource="SS3.xml" />
+	<import resource="SS4.xml" />
+	<import resource="SS7.xml" />
+	<import resource="ChannelCutCrystal.xml" />
+	<import resource="BeamMonitor.xml"/>
+	<import resource="SMPM.xml" />
+	<import resource="analyser_energy_range.xml"/>
+	<import resource="analyser.xml"/>
+	<import resource="RegionScannable.xml"/>
+	<import resource="ES2.xml"/>
+<!-- 	<import resource="ES3.xml"/> -->
+	<import resource="RFD.xml"/>
+
+
+</beans>
