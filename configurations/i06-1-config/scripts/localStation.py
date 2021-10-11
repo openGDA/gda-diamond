@@ -40,7 +40,7 @@ if installation.isLive():
     #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
     from functionDevices.idivio import idio,ifio,ifioft,ifiofb,testFun  # @UnusedImport
     from Beamline.waveplate3 import wp32  # @UnusedImport
-    from metadata.amplifierGainPaser import scm_amp_1, scm_amp_2, scm_amp_3, scm_amp_4 # @UnusedImport
+
 ##Pixis - there is a java object replement
 #from cameras.usePixis import pixis
 ##Exit Slit
@@ -106,19 +106,20 @@ def scan_processing_off():
 # amplifer gain splitter objects used by metadata
 from metadata.amplifierGainPaser import AmplifierGainParser
 from java.lang import System
-if System.getProperty("gda.spring.profiles.active").contains("magnet"):
+profiles = System.getProperty("gda.spring.profiles.active")
+if "magnet" in profiles:
     scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
     scm_amp_2 = AmplifierGainParser("scm_amp_2", "BL06I-DI-IAMP-21:SCM:GAIN")
     scm_amp_3 = AmplifierGainParser("scm_amp_3", "BL06I-DI-IAMP-22:SCM:GAIN")
     scm_amp_4 = AmplifierGainParser("scm_amp_4", "BL06I-DI-IAMP-23:SCM:GAIN")
 
-if System.getProperty("gda.spring.profiles.active").contains("DD"):
+if "DD" in profiles:
     ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
     ddiff_amp_2 = AmplifierGainParser("ddiff_amp_2", "BL06I-DI-IAMP-31:DDIFF:GAIN")
     ddiff_amp_3 = AmplifierGainParser("ddiff_amp_3", "BL06I-DI-IAMP-32:DDIFF:GAIN")
     ddiff_amp_4 = AmplifierGainParser("ddiff_amp_4", "BL06I-DI-IAMP-33:DDIFF:GAIN")
 
-if System.getProperty("gda.spring.profiles.active").contains("DD"):
+if "xabs" in profiles:
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
     xabs_amp_2 = AmplifierGainParser("xabs_amp_2", "BL06I-DI-IAMP-41:XABS:GAIN")
     

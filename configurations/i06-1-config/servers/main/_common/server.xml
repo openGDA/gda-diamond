@@ -9,7 +9,18 @@
 	<import resource="commandServer.xml"/>
 	<import resource="terminal_logger.xml"/>
 	<import resource="beanAdder.xml"/>
-	<import resource="nxmetadata.xml"/>
+	<import resource="nxmetadata-share.xml"/>
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+	
+	<beans profile="magnet">
+		<import resource="nxmetadata-magnet.xml"/>	
+	</beans>
+	<beans profile="DD">
+		<import resource="nxmetadata-DD.xml"/>	
+	</beans>
+	<beans profile="xabs">
+		<import resource="nxmetadata-xabs.xml"/>	
+	</beans>
+	
 </beans>

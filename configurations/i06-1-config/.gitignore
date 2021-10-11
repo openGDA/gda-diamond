@@ -6,5 +6,4 @@ jythonCache/
 *.class
 gdaserver.py
 
-/i06-1.dummy.client.product.launch
-/i06-1.dummy.server.product.launch
+*.launch
