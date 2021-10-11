@@ -38,5 +38,6 @@
 	<import resource="DiffractionDichroism.xml"/>
 	<import resource="magnet.xml"/>
 	<import resource="keithley428Amp.xml"/>
+	<import resource="lakeshore336.xml"/>
 	
 </beans>
