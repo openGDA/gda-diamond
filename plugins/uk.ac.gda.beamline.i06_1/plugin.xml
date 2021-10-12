@@ -95,74 +95,10 @@
       <perspectiveExtension
             targetID="uk.ac.gda.beamline.i06_1.perspectives.Experiment">
          <view
-               closeable="false"
-               id="org.eclipse.ui.navigator.ProjectExplorer"
+               id="org.dawb.workbench.plotting.views.toolPageView.fixed"
                minimized="false"
-               moveable="true"
-               ratio="0.45"
-               relationship="left"
-               relative="org.eclipse.ui.editorss"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="gda.rcp.views.baton.BatonView"
-               minimized="false"
-               moveable="true"
                relationship="stack"
-               relative="org.eclipse.ui.navigator.ProjectExplorer"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="uk.ac.gda.client.liveplotview"
-               minimized="false"
-               moveable="true"
-               ratio="0.6"
-               relationship="top"
-               relative="org.eclipse.ui.editorss"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="gda.rcp.jythonterminalview"
-               minimized="false"
-               moveable="true"
-               ratio="0.6"
-               relationship="top"
-               relative="org.eclipse.ui.navigator.ProjectExplorer"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.RegionalisedScanView"
-               moveable="true"
-               relationship="stack"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.SuperConductingMagnet"
-               moveable="true"
-               relationship="stack"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.DiffractionAndDichroismView"
-               moveable="true"
-               relationship="stack"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
+               relative="org.eclipse.ui.editorss">
          </view>
       </perspectiveExtension>
    </extension>
@@ -205,6 +141,10 @@
                </with>
             </visibleWhen>
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.beamline.i06-1.pixis.live.stream.view.LiveStreamViewWithHistogram?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"

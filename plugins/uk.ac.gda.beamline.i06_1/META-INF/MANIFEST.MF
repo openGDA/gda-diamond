@@ -20,7 +20,10 @@ Require-Bundle: uk.ac.gda.core;bundle-version="9.2.0",
  uk.ac.gda.dls;bundle-version="1.0.0",
  uk.ac.gda.dls.client;bundle-version="1.0.0",
  uk.ac.gda.client.live.stream;bundle-version="1.0.0",
- uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0"
+ uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0",
+ org.dawnsci.plotting,
+ uk.ac.gda.client.nano,
+ org.python.pydev
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
