@@ -129,8 +129,17 @@
 					<property name="name" value="x"/>
 					<property name="scannableName" value="d7x"/>
 				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="d7aNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="d7a" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="ax"/>
+					<property name="name" value="x"/>
 					<property name="scannableName" value="d7ax"/>
 				</bean>
 			</list>
@@ -234,10 +243,6 @@
 					<property name="scannableName" value="leem_objStigmB"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="mcpPlate"/>
-					<property name="scannableName" value="mcpPlate"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="rot"/>
 					<property name="scannableName" value="leem_rot"/>
 				</bean>		
@@ -255,11 +260,11 @@
 		<property name="targetMethod" value="putAll" />
 		<property name="arguments">
 			<util:properties>
-				<prop key="END_STATION">PEEM</prop>
+				<prop key="gda.endstation.name">PEEM</prop>
 			</util:properties>
 		</property>
 	</bean>
-
+	
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="source" />
 		<property name="insertionDeviceName" value="id" />
@@ -284,6 +289,7 @@
 				<value>d5</value>
 				<value>d6</value>
 				<value>d7</value>
+				<value>d7a</value>
 				<value>ps</value>
 				<value>leem</value>
 				<value>OH1</value>

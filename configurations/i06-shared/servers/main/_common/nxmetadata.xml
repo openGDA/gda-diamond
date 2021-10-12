@@ -95,11 +95,11 @@
 		<property name="customNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="pitch"/>
+					<property name="name" value="mirrorPitch"/>
 					<property name="scannableName" value="pgmpitch"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="gratpitch"/>
+					<property name="name" value="gratPitch"/>
 					<property name="scannableName" value="pgmgratpitch"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
@@ -161,6 +161,14 @@
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s1ygap"/>
 				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_pos"/>
+					<property name="scannableName" value="s1xcentre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_pos"/>
+					<property name="scannableName" value="s1ycentre"/>
+				</bean>		
 			</list>
 		</property>
 	</bean>
@@ -177,6 +185,14 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s2ygap"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_pos"/>
+					<property name="scannableName" value="s2xcentre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_pos"/>
+					<property name="scannableName" value="s2ycentre"/>
 				</bean>		
 			</list>
 		</property>

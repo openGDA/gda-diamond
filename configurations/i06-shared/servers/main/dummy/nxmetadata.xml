@@ -31,6 +31,22 @@
 					<property name="value" value="16.0"/>
 					<property name="units" value="°C"/>
 				</bean>	
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="400llmmEnergyGradient"/>
+					<property name="value" value="0.98642902"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="400llmmEnergyReference"/>
+					<property name="value" value="248.0000"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="400llmmMirrorOffset"/>
+					<property name="value" value="-0.02633000"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="400llmmGratingOffset"/>
+					<property name="value" value="-0.05608200"/>
+				</bean>		
 			</list>
 		</property>
 	</bean>
