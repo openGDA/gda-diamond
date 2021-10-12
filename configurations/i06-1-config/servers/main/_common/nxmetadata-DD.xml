@@ -37,11 +37,11 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="z"/>
-					<property name="scannableName" value="scddszmth"/>
+					<property name="scannableName" value="ddsz"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="theta"/>
-					<property name="scannableName" value="ddthddsx"/>
+					<property name="scannableName" value="ddth"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="2theta"/>
