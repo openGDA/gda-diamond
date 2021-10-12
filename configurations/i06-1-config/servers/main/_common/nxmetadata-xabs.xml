@@ -58,51 +58,12 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="ls336NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="lakeshore336" />
-		<property name="category" value="NX_INSTRUMENT"/>
-		<property name="nexusClass" value="NXsensor"/>
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="demand"/>
-					<property name="expression" value="@ls336.getPosition()[0]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="sample"/>
-					<property name="expression" value="@ls336.getPosition()[1]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="shield"/>
-					<property name="expression" value="@ls336.getPosition()[2]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="cryostat"/>
-					<property name="expression" value="@ls336.getPosition()[3]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="heater"/>
-					<property name="expression" value="@ls336.getPosition()[4]"/>
-					<property name="units" value="%"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="heater_range"/>
-					<property name="expression" value="@ls336.getPosition()[5]"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
 		<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
 		<property name="targetMethod" value="addAdditionalDeviceNames" />
 		<property name="arguments">
 			<list>
 				<value>xabs</value>
-				<value>lakeshore336</value>
 			</list>
 		</property>
 	</bean>
