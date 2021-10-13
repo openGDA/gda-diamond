@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="meca_joint_theta_1" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_joint_theta_2" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_joint_theta_3" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_joint_theta_4" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_joint_theta_5" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_joint_theta_6" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="meca_pose_x" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_pose_y" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_pose_z" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_pose_alpha" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_pose_beta" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_pose_gamma" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="meca_copy_readbacks" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="meca_move_joints" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_move_linear" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_move_pose" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="meca_robot_status" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_gripper_status" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="meca_move_to_scanning_area" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_move_to_cassette_area" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="meca_open_gripper" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_close_gripper" class="gda.device.scannable.DummyScannable" />
+
+</beans>

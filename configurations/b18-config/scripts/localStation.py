@@ -178,6 +178,7 @@ else :
     run("default_scannable_class.py")
 
 run("continuous_scans.py")
+run("meca_status.py")
 
 from gda.data.metadata import GDAMetadataProvider
 def setVisit(visitStr) :

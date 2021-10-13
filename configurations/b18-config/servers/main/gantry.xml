@@ -1,28 +1,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/utils"
+ 	xmlns:util="http://www.springframework.org/schema/utils"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
-           
-    <bean id="gantry_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gantry_x_motor" />
-	</bean>
-  
-    <bean id="gantry_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gantry_y_motor" />
-	</bean>
-	
-    <bean id="gantry_gripper_angle" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="gantry_gripper_angle_motor" />
-	</bean>
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.5.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
+<!--     <gda:motor id="gantry_x" live-pvName="BL18B-MO-USER-01:AXIS5" live-class="#dummy"/> -->
+<!--     <gda:motor id="gantry_y" live-pvName="BL18B-MO-USER-01:AXIS6" live-class="#dummy"/> -->
+<!--     <gda:motor id="gantry_gripper_angle" live-pvName="BL18B-MO-USER-01:AXIS7" live-class="#dummy"/> -->
+    
+    <gda:motor id="gantry_x" live-class="#dummy"/>
+    <gda:motor id="gantry_y" live-class="#dummy"/>
+    <gda:motor id="gantry_gripper_angle" live-class="#dummy"/>
+   
     <bean id="plate_positioner" class="gda.device.robot.GantryPositioner" >
     	<property name="horizScannable" ref="gantry_x" />
     	<property name="vertScannable" ref="gantry_y" />
     	<property name="gripperScannable" ref="gantry_gripper" />
     	<property name="gripperAngleScannable" ref="gantry_gripper_angle" />
-    	
+
     	<property name="gripperBeamAngle" value="0" />
     	<property name="gripperLoadAngle" value="91" />
 
@@ -40,11 +40,10 @@
 				<entry key="D" value="4.0" />
 			</map>
     	</property>
-    </bean>          
+    </bean>
 
     <bean id="plate_enum_positioner" class="gda.device.robot.SamplePlateEnumPositioner" >
 		<property name="samplePlateMover" ref="plate_positioner" />
 	</bean>
 
 </beans>
-           
