@@ -5,40 +5,37 @@
     http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-<!-- Moved from dummy/scannables.xml imh 23/9/2016 -->
-	<bean id="ionc1_gas_injector" class="gda.device.scannable.DummyScannable" />
-	<bean id="ionc2_gas_injector" class="gda.device.scannable.DummyScannable" />
-	<bean id="ionc3_gas_injector" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_purge_pressure" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_purge_period" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_purge_timeout" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_fill1_pressure" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_fill1_period" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_fill1_timeout" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_fill2_pressure" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_fill2_period" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_fill2_timeout" class="gda.device.scannable.DummyScannable" />
+	<bean id="gas_fill_start" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_fill_start" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_select" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_control_select" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_ion_chamber_select" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_gas_injection_status" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc_base_pressure" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc1_power_supply" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc1hvstat" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc2_power_supply" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc2hvstat" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc3_power_supply" class="gda.device.scannable.DummyScannable" />
+	<bean id="ionc3hvstat" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="lastfillPressure_ionc1" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillPressure_ionc1" />
-	</bean>
+	<bean id="lastfillPressure_ionc1" class="gda.device.scannable.DummyScannable" />
+	<bean id="lastfillPressure_ionc2" class="gda.device.scannable.DummyScannable" />
+	<bean id="lastfillPressure_ionc3" class="gda.device.scannable.DummyScannable" />
+	<bean id="lastfillPressure_ionc4" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="lastfillPressure_ionc2" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillPressure_ionc2" />
-	</bean>
+	<bean id="lastfillGas_ionc1" class="gda.device.scannable.DummyScannable" />
+	<bean id="lastfillGas_ionc2" class="gda.device.scannable.DummyScannable" />
+	<bean id="lastfillGas_ionc3" class="gda.device.scannable.DummyScannable" />
+	<bean id="lastfillGas_ionc4" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="lastfillPressure_ionc3" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillPressure_ionc3" />
-	</bean>
-
-	<bean id="lastfillPressure_ionc4" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillPressure_ionc4" />
-	</bean>
-
-	<bean id="lastfillGas_ionc1" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillGas_ionc1" />
-	</bean>
-
-	<bean id="lastfillGas_ionc2" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillGas_ionc2" />
-	</bean>
-
-	<bean id="lastfillGas_ionc3" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillGas_ionc3" />
-	</bean>
-
-	<bean id="lastfillGas_ionc4" class="gda.device.scannable.DummyScannable" >
-		<property name="name" value="lastfillGas_ionc4" />
-	</bean>
 </beans>

@@ -86,69 +86,6 @@
 		<property name="pvName" value="BL18B-EA-ISEG-02:V1_START" />
 	</bean>
 
-	<bean id="ionc1_gas_injector" class="gda.device.scannable.GasInjectionScannable">
-		<property name="purge_pressure" ref="ionc_purge_pressure" />
-		<property name="purge_period" ref="ionc_purge_period" />
-		<property name="purge_timeout" ref="ionc_purge_timeout" />
-		<property name="gas_fill1_pressure" ref="ionc_gas_fill1_pressure" />
-		<property name="gas_fill1_period" ref="ionc_gas_fill1_period" />
-		<property name="gas_fill1_timeout" ref="ionc_gas_fill1_timeout" />
-		<property name="gas_fill2_pressure" ref="ionc_gas_fill2_pressure" />
-		<property name="gas_fill2_period" ref="ionc_gas_fill2_period" />
-		<property name="gas_fill2_timeout" ref="ionc_gas_fill2_timeout" />
-		<property name="gas_fill_start" ref="ionc_gas_fill_start" />
-		<property name="gas_select" ref="ionc_gas_select" />
-		<property name="control_select" ref="ionc_control_select" />
-		<property name="ion_chamber_select" ref="ionc_ion_chamber_select" />
-		<property name="gas_injection_status" ref="ionc_gas_injection_status" />
-		<property name="power_supply" ref="ionc1_power_supply" />
-		<property name="ion_chamber" value="0" />
-		<property name="base_pressure" ref="ionc_base_pressure" />
-		<property name="hvStatusScannable" ref="ionc1hvstat" />
-	</bean>
-
-	<bean id="ionc2_gas_injector" class="gda.device.scannable.GasInjectionScannable">
-		<property name="purge_pressure" ref="ionc_purge_pressure" />
-		<property name="purge_period" ref="ionc_purge_period" />
-		<property name="purge_timeout" ref="ionc_purge_timeout" />
-		<property name="gas_fill1_pressure" ref="ionc_gas_fill1_pressure" />
-		<property name="gas_fill1_period" ref="ionc_gas_fill1_period" />
-		<property name="gas_fill1_timeout" ref="ionc_gas_fill1_timeout" />
-		<property name="gas_fill2_pressure" ref="ionc_gas_fill2_pressure" />
-		<property name="gas_fill2_period" ref="ionc_gas_fill2_period" />
-		<property name="gas_fill2_timeout" ref="ionc_gas_fill2_timeout" />
-		<property name="gas_fill_start" ref="ionc_gas_fill_start" />
-		<property name="gas_select" ref="ionc_gas_select" />
-		<property name="control_select" ref="ionc_control_select" />
-		<property name="ion_chamber_select" ref="ionc_ion_chamber_select" />
-		<property name="gas_injection_status" ref="ionc_gas_injection_status" />
-		<property name="power_supply" ref="ionc2_power_supply" />
-		<property name="ion_chamber" value="1" />
-		<property name="base_pressure" ref="ionc_base_pressure" />
-		<property name="hvStatusScannable" ref="ionc2hvstat" />
-	</bean>
-
-	<bean id="ionc3_gas_injector" class="gda.device.scannable.GasInjectionScannable">
-		<property name="purge_pressure" ref="ionc_purge_pressure" />
-		<property name="purge_period" ref="ionc_purge_period" />
-		<property name="purge_timeout" ref="ionc_purge_timeout" />
-		<property name="gas_fill1_pressure" ref="ionc_gas_fill1_pressure" />
-		<property name="gas_fill1_period" ref="ionc_gas_fill1_period" />
-		<property name="gas_fill1_timeout" ref="ionc_gas_fill1_timeout" />
-		<property name="gas_fill2_pressure" ref="ionc_gas_fill2_pressure" />
-		<property name="gas_fill2_period" ref="ionc_gas_fill2_period" />
-		<property name="gas_fill2_timeout" ref="ionc_gas_fill2_timeout" />
-		<property name="gas_fill_start" ref="ionc_gas_fill_start" />
-		<property name="gas_select" ref="ionc_gas_select" />
-		<property name="control_select" ref="ionc_control_select" />
-		<property name="ion_chamber_select" ref="ionc_ion_chamber_select" />
-		<property name="gas_injection_status" ref="ionc_gas_injection_status" />
-		<property name="power_supply" ref="ionc3_power_supply" />
-		<property name="ion_chamber" value="2" />
-		<property name="base_pressure" ref="ionc_base_pressure" />
-		<property name="hvStatusScannable" ref="ionc3hvstat" />
-	</bean>
-
 <!-- Last fill pressures. Added 21/11/2016  -->
 	<bean id="lastfillPressure_ionc1" class="gda.device.scannable.PVScannable" >
 		<property name="name" value="lastfillPressure_ionc1" />

@@ -32,6 +32,7 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stanfords.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/ion-chambers.xml" />
+	<import resource="file:${gda.config}/servers/main/ion-chambers.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/scannables.xml" />
