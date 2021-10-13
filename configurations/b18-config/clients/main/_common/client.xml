@@ -105,6 +105,7 @@
 				<entry key="xspress2system" value="${gda.config}/templates/Xspress_Parameters36.xml"/>
 				<entry key="xspress3" value="${gda.config}/templates/Xspress3_Parameters.xml" />
 				<entry key="xspress4" value="${gda.config}/templates/Xspress4_Parameters_36Ge.xml" />
+				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
 			</map>
 		</property>
 	</bean>

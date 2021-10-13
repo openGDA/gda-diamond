@@ -1,5 +1,6 @@
 package uk.ac.gda.server.exafs.b18.scan.preparers;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,6 +48,7 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
@@ -163,24 +165,39 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public void beforeEachRepetition() throws Exception {
-
-		boolean collectMythenData = true;
-
-		// Use SampleEnvironmentIterator to determine if doing first repetition of scan, or first of loop over sample environment.
-		if ( samplePreparer != null ) {
-			B18SampleEnvironmentIterator iter = samplePreparer.getCurrentSampleEnvironmentIterator();
-			boolean firstSampleRep = iter.getCurrentSampleRepetitionNumber() == 1;
-			boolean firstScanRep = iter.getCurrentScanRepetitionNumber() == 1;
-			if (firstScanRep) {
-				collectMythenData = true;
-			}
+		if (isFirstRepetition()) {
+			beforeFirstRepetition();
 		}
+		setupIonchamberFrameTimes();
+	}
 
-		// collect Mythen data
-		if ( collectMythenData ) {
+	private void beforeFirstRepetition() throws Exception {
+		if (useNewDetectorConfiguration()) {
+			Optional<DetectorConfig> mythenConfig = detectorBean.getDetectorConfigurations()
+					.stream()
+					.filter(conf -> conf.getDetectorName().equals(mythen_scannable.getName()))
+					.findFirst();
+			if (mythenConfig.isPresent() && mythenConfig.get().isUseDetectorInScan()) {
+				File mythenFile = Paths.get(experimentFullPath, mythenConfig.get().getConfigFileName()).toFile();
+				IExperimentDetectorParameters mythenBean = (IExperimentDetectorParameters) XMLHelpers.getBean(mythenFile);
+				control_mythen(mythenBean, outputBean, experimentFullPath);
+			}
+		} else {
 			collectMythenData();
 		}
+	}
 
+	private boolean isFirstRepetition() {
+		// Use SampleEnvironmentIterator to determine if doing first repetition of scan, or first of loop over sample environment.
+		if (samplePreparer != null) {
+			B18SampleEnvironmentIterator iter = samplePreparer.getCurrentSampleEnvironmentIterator();
+			return iter.getCurrentScanRepetitionNumber() == 1;
+		}
+		return true;
+	}
+
+
+	private void setupIonchamberFrameTimes() throws Exception {
 		Double[] times = new Double[] {};
 		if (scanBean instanceof XasScanParameters) {
 			times = ExafsScanPointCreator.getScanTimeArray((XasScanParameters) scanBean);
@@ -191,7 +208,6 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			ionchambers.setTimes(times);
 			InterfaceProvider.getTerminalPrinter().print("Setting detector frame times, using array of length " + times.length + "...");
 		}
-		return;
 	}
 
 	@Override
