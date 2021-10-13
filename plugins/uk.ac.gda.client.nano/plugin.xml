@@ -75,7 +75,7 @@
             category="uk.ac.gda.client.nano"
             class="uk.ac.gda.nano.views.SuperConductingMagnetView"
             icon="icons/magnet_blue.png"
-            id="uk.ac.gda.nano.views.SuperConductingMagnet"
+            id="uk.ac.gda.nano.views.SuperConductingMagnetView"
             name="Superconducting Magnet">
       </view>
       <view
