@@ -31,6 +31,7 @@ class TrajectoryControllerHelper(ScanListener):
     def prepareForScan(self):
         self.logger.info("prepareForCVScan()")
         #remove default scannables as they cannot work with cvscan
+        self.original_default_scannables =[]
         from gda.jython.commands.ScannableCommands import get_defaults, remove_default
         default_scannables = get_defaults()
         self.logger.debug("remove original default scannables: %r from default" % default_scannables)
@@ -46,6 +47,7 @@ class TrajectoryControllerHelper(ScanListener):
             self.logger.debug("add original default scannables %r to default" % self.original_default_scannables)
             for scn in self.original_default_scannables:
                 add_default(scn)
+            self.original_default_scannables =[]
         else:
             self.logger.debug("original default scannables is empty!")
                                
@@ -106,7 +108,7 @@ def cvscan(c_energy, start, stop, step, *args):
             topup_checker=beam_checker.getDelegate().getGroupMember("checktopup_time_cv")
             topup_checker.minimumThreshold=scan_time + 5
             newargs.append(beam_checker)
-        # wait for ID access control is enabled before continue
+        # wait for ID access control is enabled before continue - see I10-513
         if smode.getPosition() == X_RAY_SOURCE_MODES[0]:
             first_time = True
             while idd_access_observer.getStatus() == Status.DISABLED:  # @UndefinedVariable
