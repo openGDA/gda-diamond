@@ -281,10 +281,11 @@ meta_data_list = imetadata + jmetadata + esmetadata
 for each in meta_data_list:
     meta_add(each)
 
-print("keithley2600 control objects: keithley_a, keithley_b, keithley_a_average_mode")
+print("-"*100)
+print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\nAverage mode: keithley_a_average_mode\nSweep mode: keithley_a_sweep_mode, keithley_b_sweep_mode")
 
 print
-print "=================================================================================================================";
+print "="*100;
 print "Initialisation script complete." 
 print
 ###Must leave what after this line last.
