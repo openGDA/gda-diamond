@@ -119,6 +119,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 	private final List<CompositeFactory> components = new ArrayList<>();
 
 	private Composite mainComposite;
+	private ProcessingRequestComposite processingRequestComposite;
 
 	private void prepareSupport() {
 		components.clear();
@@ -181,6 +182,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		loadElements();
 		templateHelper.updateIMappingScanRegionShape();
 		rapController.updatePlotRegion();
+		processingRequestComposite.reload();
 		mainComposite.getShell().layout(true, true);
 	}
 
@@ -288,6 +290,7 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		standardMarginWidth(summaryContent.getLayout());
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private List<ProcessingRequestContext<?>> getProcessingRequestContext() {
 		// The selectable process elements
 		List<ProcessingRequestContext<?>> processingRequestContexts = new ArrayList<>();
@@ -342,8 +345,8 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		var calibrationContainer = createClientGroup(parent, SWT.NONE, 1, ClientMessages.PROCESS_REQUESTS);
 		createClientGridDataFactory().applyTo(calibrationContainer);
 
-		var processingRequest = new ProcessingRequestComposite(getProcessingRequestContext());
-		processingRequest.createComposite(calibrationContainer, labelStyle);
+		processingRequestComposite = new ProcessingRequestComposite(getProcessingRequestContext());
+		processingRequestComposite.createComposite(calibrationContainer, labelStyle);
 	}
 
 	private void loadElements() {
