@@ -131,5 +131,8 @@
 	<bean id="gr_butterfly_valve_mode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-GA-VALVE-92:CON"/>
 		<property name="readOnly" value="false"/>
-	</bean>	
+	</bean>
+
+	<!-- To be replaced with real controller when it exists -->
+	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.DummyGasRigController" />
 </beans>

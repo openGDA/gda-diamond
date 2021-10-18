@@ -62,8 +62,10 @@
 	<import resource="gv50.xml"/>
 
 	<import resource="tcup.xml"/>
+
+	<!-- Gas Rig -->
+	<import resource="gas_rig.xml" />
 	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
-
 </beans>
