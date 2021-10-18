@@ -146,6 +146,10 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="ca35b_adc_output" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-ENDST-02:I1:I" />
+	</bean>
 
 	<bean id="ca36b_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL07B-DI-IAMP-36:SENS:SEL1" />
@@ -290,6 +294,10 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="ca36b_adc_output" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-ENDST-02:I2:I" />
+	</bean>
 
 	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -305,6 +313,7 @@
 				<ref bean="ca35b_filter_highpass" />
 				<ref bean="ca35b_filter_lowpass" />
 				<ref bean="ca35b_gain_mode" />
+				<ref bean="ca35b_adc_output" />
 				<ref bean="ca36b_sensitivity" />
 				<ref bean="ca36b_sensitivity_units" />
 				<ref bean="ca36b_offset" />
@@ -316,6 +325,7 @@
 				<ref bean="ca36b_filter_highpass" />
 				<ref bean="ca36b_filter_lowpass" />
 				<ref bean="ca36b_gain_mode" />
+				<ref bean="ca36b_adc_output" />
 			</list>
 		</property>
 	</bean>

@@ -12,4 +12,32 @@
 		</property>
 	</bean>
 	
+	<bean id="pss_shutter1_con" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+				<list>
+					<value>Open</value>
+					<value>Close</value>
+				</list>
+			</property>
+	</bean>
+	
+	
+	<bean id="pss_shutter2_con" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="fast_shutter_con" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+	
 </beans>

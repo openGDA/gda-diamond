@@ -22,4 +22,12 @@
          </property>
       </product>
    </extension>
+   <extension
+         id="uk.ac.gda.beamline.b07.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            apply="always"
+            uri="fragment.e4xmi">
+      </fragment>
+   </extension>
 </plugin>

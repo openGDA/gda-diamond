@@ -5,7 +5,7 @@
 
 	<bean id="pgm_energy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_energy_motor" />
-		<property name="outputFormat" value="%8.8g" />
+		<property name="outputFormat" value="%.2f" />
 	</bean>
 
 	<bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">

@@ -40,6 +40,9 @@
 	<!-- End station -->
 	<import resource="endstation.xml"/>
 	<import resource="sm21b.xml"/>
+	
+	<!-- Pressures -->
+	<import resource="pressures.xml" />
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />

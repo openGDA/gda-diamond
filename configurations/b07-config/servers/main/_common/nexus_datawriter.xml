@@ -119,6 +119,14 @@
 				<value>pgm_override</value>
 				<!-- shutter -->
 				<value>expt_shutter</value>
+				<value>pss_shutter1_con</value>
+				<value>pss_shutter2_con</value>
+				<value>fast_shutter_con</value>
+				<!-- others -->
+				<value>img22b</value>
+				<value>img23b</value>
+				<value>cap21b</value>
+				<value>cap22b</value>
 			</set>
 		</property>
 	</bean>
