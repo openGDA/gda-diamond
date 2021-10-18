@@ -43,7 +43,7 @@ public class I15ScanPerspective implements IPerspectiveFactory {
 				IPageLayout.BOTTOM, 0.8f, editorArea);
 		bottomfolder.addView(uk.ac.gda.views.baton.BatonView.ID);
 		bottomfolder.addView("org.dawb.workbench.plotting.views.toolPageView.1D");
-		bottomfolder.addPlaceholder("org.dawb.passerelle.views.ValueView");
+		bottomfolder.addPlaceholder("org.dawb.common.ui.views.ValueView");
 		bottomfolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
 		bottomfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 
@@ -60,7 +60,7 @@ public class I15ScanPerspective implements IPerspectiveFactory {
 		rightfolder.addView(gda.rcp.views.dashboard.DashboardView.ID);
 		rightfolder.addView("uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView:Plot 1");
 		rightfolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.views.HistogramView:Plot 1");
-		
+
 		layout.setEditorAreaVisible(false);
 	}
 }
