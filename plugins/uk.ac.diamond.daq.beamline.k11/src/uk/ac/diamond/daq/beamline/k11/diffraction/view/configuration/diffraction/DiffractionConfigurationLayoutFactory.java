@@ -179,6 +179,10 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 
 	@Override
 	public void reload() {
+		if (mainComposite.isDisposed()) {
+			logger.warn("Asked to reload when I am disposed! Ignoring...");
+			return;
+		}
 		loadElements();
 		templateHelper.updateIMappingScanRegionShape();
 		rapController.updatePlotRegion();

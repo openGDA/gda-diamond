@@ -112,6 +112,7 @@ public class MutatorsTemplateFactory implements DiffractionCompositeInterface {
 	@Override
 	public void initialiseElements() {
 		mutators.stream()
+			.filter(mutator -> !mutator.isDisposed())
 			.forEach(mutator -> {
 				mutator.setSelection(false);
 				mutator.setEnabled(true);
