@@ -3,7 +3,85 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="file://${gda.facility.dir}/clients/dummy/sim_camera.xml" />
+	<!-- Extract workstation name from localhost and use to construct base PV name -->
+	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />
+	<bean id="workstation" class="java.lang.String">
+		<constructor-arg value="#{ localhostname.hostName.split('\.')[0] }" />
+	</bean>
+	<bean id="sim_pvbase" class="java.lang.String">
+		<constructor-arg value="#{workstation}-AD-SIM-01" />
+	</bean>
+	<bean id="sim_mjpg_url" class="java.lang.String">
+		<constructor-arg value="http://#{workstation}.diamond.ac.uk:8080/ADSIM.mjpg.mjpg" />
+	</bean>
+
+	<bean id="simx" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="simy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<!-- Camera configurations for stream views -->
+	<bean id="sim_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="sim_camera_reset" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
+
+	<!-- View including camera offset calibration -->
+	<bean id="sim_cam_offset_calibration" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Area Detector (with offset calibration)" />
+		<property name="url" ref="sim_mjpg_url" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="pvAccessPv" value="#{sim_pvbase}:PVA:ARRAY" />
+		<property name="calibratedAxesProvider">
+			<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+				<constructor-arg name="xAxisScannable" ref="simx"/>
+				<constructor-arg name="yAxisScannable" ref="simy"/>
+				<constructor-arg name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis-->
+				<constructor-arg name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis -->
+				<constructor-arg name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+				<constructor-arg name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis -->
+			</bean>
+		</property>
+	</bean>
+	
+	<!--  View without calibration -->
+	<bean id="sim_cam_no_calibration" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Area Detector (no calibration)" />
+		<property name="url" ref="sim_mjpg_url" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="pvAccessPv" value="#{sim_pvbase}:PVA:ARRAY" />
+	</bean>
+
+	<!--
+		Camera configuration including GUI to control the camera
+		Uses the "no calibration" version so cross hairs stay in the camera plane
+	-->
+	<bean id="sim_cam_with_controls" parent="sim_cam_no_calibration">
+		<property name="displayName" value="Simulated Area Detector (with controls)" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="sim_camera_control" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--
+		Camera configuration with control GUI and beam position calibration
+	-->
+	<bean id="sim_cam_with_controls_and_beam_calibration" parent="sim_cam_offset_calibration">
+		<property name="displayName" value="Simulated Area Detector (with controls and beam calibration)" />
+		<property name="calibratedAxesProvider" ref="sim_cam_beam_position_calibration" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg name="cameraControl" ref="sim_camera_control" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
+				<property name="extensions">
+					<list>
+						<ref bean="sim_cam_extension_calibrate" />
+						<ref bean="sim_cam_extension_toggle_overlay" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
 	<!--
 		Camera configuration with control GUI, calibration and autofocus
@@ -30,18 +108,82 @@
 		</property>
 	</bean>
 	
+
 	<!-- Excalibur detector -->
 	<bean id="excalibur_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Excalibur Detector" />
 		<property name="url" value="http://i14-excalibur04.diamond.ac.uk:8080/EXCBR.mjpg.mjpg" />
 	</bean>
 
+	<!--
+		Camera configuration with control GUI, offset calibration and autofocus
+	-->
+	<bean id="sim_cam_with_controls_offset_calibration" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Area Detector (with controls, offset calibration and autofocus)" />
+		<property name="url" ref="sim_mjpg_url" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="rgb" value="true" />
+		<property name="calibratedAxesProvider">
+			<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+			<constructor-arg name="xAxisScannable" ref="simx"/>
+		    <constructor-arg name="xAxisPixelScaling" value="0.0006"/>
+		    <constructor-arg name="xAxisOffset" value="-0.0112" />
+		    <constructor-arg name="yAxisScannable" ref="simy"/>
+		    <constructor-arg name="yAxisPixelScaling" value="0.0006"/>
+		    <constructor-arg name="yAxisOffset" value="-0.145" />
+			</bean>
+		</property>
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg name="cameraControl" ref="sim_camera_control" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
+				<property name="extensions">
+					<list>
+						<ref bean="sim_cam_extension_toggle_overlay" />
+						<ref bean="sim_cam_offset_extension_autofocus" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+	
+	<!-- Calibration parameters -->
+	
+	<bean id="sim_cam_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
+		<constructor-arg name="xAxisScannable" ref="simx"/>
+	    <constructor-arg name="yAxisScannable" ref="simy"/>
+	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>
+	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
+	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
+	</bean>
+
+	<!-- Extensions properties for LiveStreamViewCameraControls -->
+	
+	<bean id="sim_cam_extension_calibrate" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsCalibrate">
+		<property name="calibration" ref="sim_cam_beam_position_calibration" />
+	</bean>
+	
+	<bean id="sim_cam_extension_toggle_overlay" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
+		<constructor-arg name="controlScannable">
+			<bean class="gda.device.scannable.SimplePVScannable">
+				<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
+				<property name="textInput" value="true" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="monitorScannable">
+			<bean class="gda.device.monitor.EpicsMonitor">
+				<property name="pvName" value="#{sim_pvbase + ':OVER:1:Use'}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+	
 	<bean id="sim_cam_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
 		<constructor-arg name="secondaryId" value="sim_cam_with_controls_calibration_autofocus" />
 		<constructor-arg name="focusPoints" ref="sim_cam_autofocus_points" />
-		<!-- Use the following line instead if viewing the live sample camera -->
-		<!-- <constructor-arg name="focusPoints" ref="sample_cam_autofocus_points" /> -->
- 		<property name="activeFocusPoints">
+		<property name="activeFocusPoints">
 			<list>
 				<value>af05</value>
 				<value>af08</value>
@@ -49,5 +191,21 @@
 			</list>
 		</property>
 	</bean>
+	
+	
+	<bean id="sim_cam_offset_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
+		<constructor-arg name="secondaryId" value="sim_cam_with_controls_offset_calibration" />
+		<constructor-arg name="focusPoints" ref="sim_cam_autofocus_points" />
+		<property name="activeFocusPoints">
+			<list>
+				<value>af05</value>
+				<value>af08</value>
+				<value>af09</value>
+			</list>
+		</property>
+	</bean>
+		
+	
+
 
 </beans>
