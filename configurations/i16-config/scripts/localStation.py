@@ -1042,6 +1042,9 @@ if USE_PIL3:
 else:
 	localStation_print("Not configuring pilatus 3 (100k)")
 
+from autoRangeDetector import AutoRangeDetector
+from pv_scannable_utils import createPVScannable
+
 ### cam2 ###
 localStation_print("Configuring cor (cam2)")
 try:
@@ -1063,7 +1066,6 @@ try:
 	#create a version of cor, corpeak2d, cormax2d that performs auto exposure
 	# Example: scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 	#To record actual exposure time also add corExpTime
-	from autoRangeDetector import AutoRangeDetector
 	corAuto = AutoRangeDetector('corAuto',
 		cam2,
 		None,
@@ -1081,7 +1083,6 @@ try:
 
 	#create pseudo-device
 	#there is a copy of this in epics git epics_script folder.
-	from pv_scannable_utils import createPVScannable
 	createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
 	corExpTime.level=10
 except:
@@ -1192,10 +1193,13 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 	except:
 		localStation_exception("configuring %s" % name)
 
-bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps)
-camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
-camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
-camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
+try:
+	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps)
+	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
+	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
+	camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
+except:
+	localStation_exception("configuring wrapped detectors")
 
 def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
 	try:
@@ -1209,7 +1213,8 @@ def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, 
 			panel_name_rcp=panel_name_rcp,
 			fileLoadTimout=60,
 			printNfsTimes=False,
-			returnPathAsImageNumberOnly=True)
+			returnPathAsImageNumberOnly=True,
+			useOldExposureAutoPVs=False)
 		camAuto.display_image = True
 		camAutopeak2d = DetectorDataProcessorWithRoi(name+'Autopeak2d', camAuto, [TwodGaussianPeak()])
 		camAutomax2d = DetectorDataProcessorWithRoi(name+'Automax2d', camAuto, [SumMaxPositionAndValue()])
@@ -1221,9 +1226,12 @@ def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, 
 
 global camlab84_for_scans, camlab84_for_snaps, camlab84ExpTime
 
-camlab84, camlab84_peak2d, camlab84_max2d, camlab84Auto, camlab84Autopeak2d, camlab84Automax2d = wrappedAutoDetector(
-	"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:")
-camlab84ExpTime.level=10
+try:
+	camlab84, camlab84_peak2d, camlab84_max2d, camlab84Auto, camlab84Autopeak2d, camlab84Automax2d = wrappedAutoDetector(
+		"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:")
+	camlab84ExpTime.level=10
+except:
+	localStation_exception("configuring wrapped auto detectors")
 
 ###############################################################################
 ###                              Configure andor                            ###
