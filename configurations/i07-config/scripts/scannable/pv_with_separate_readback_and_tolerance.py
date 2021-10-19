@@ -42,7 +42,7 @@ class PVWithSeparateReadbackAndToleranceScannable(ScannableBase):
             return False
         
         if (time.time() - self._time_triggered) > self.timeout:
-            raise Exception('Timed out after %fs setting current to %f. The current has hung at %f, and the voltage is %f\n*Is the voltage set too low?*' % ((self.timeout, self._last_target) + self.getPosition()))
+            raise Exception('Timed out after {}s setting current to {}. The current/voltage is {}\n*Is the voltage set too low?*'.format(self.timeout, self._last_target, self.getPosition()))
         
         return True
 
