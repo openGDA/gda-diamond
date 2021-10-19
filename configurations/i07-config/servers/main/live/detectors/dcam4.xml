@@ -73,6 +73,23 @@
 		<property name="initialFileTemplate" value="%s%s.png" />
 	</bean>
 
+	<bean id="dcam4_ndfile_tiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL07I-DI-DCAM-04:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL07I-DI-DCAM-04:TIFF:" />
+				<property name="initialArrayPort" value="DCAM4.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="dcam4" />
+		<property name="initialFileTemplate" value="%s%s.tiff" />
+	</bean>
+
 	<bean id="dcam4_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL07I-DI-DCAM-04:HDF5:" />
 		<property name="file" ref="dcam4_ndfile" />

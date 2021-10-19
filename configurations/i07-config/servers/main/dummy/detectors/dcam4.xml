@@ -9,6 +9,7 @@
 	<alias name="sim_ndarray" alias="dcam4_ndarray" />
 	<alias name="sim_hdf5" alias="dcam4_hdf5" />
 	<alias name="sim_ndfile_fimg" alias="dcam4_ndfile_fimg" />
+	<alias name="sim_ndfile_tiff" alias="dcam4_ndfile_tiff" />
 
 	<bean id="dcam4_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_hdf5">
 		<property name="initialFileName" value="dcam4" />
