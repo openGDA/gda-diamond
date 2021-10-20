@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<import resource="GDAMetadata.xml"/>
 	<import resource="adSimulator.xml"/>
 	<import resource="ring.xml"/>
 	<import resource="electron_beam_monitors.xml" />

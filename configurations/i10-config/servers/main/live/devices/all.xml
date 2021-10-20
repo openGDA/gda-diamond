@@ -3,69 +3,73 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="GDAMetadata.xml"/>
-
-	<!-- I Scattering -->
-	
-	<import resource="Shutter1.xml"/>
-<!-- 	<import resource="accessControl4I.xml"/> -->
-	<import resource="D4.xml"/>
-	<import resource="S4.xml"/>
-	<import resource="D5.xml"/>
-<!-- replace M4 haxpod control by position compare script -->
-<!-- 	<import resource="M4.xml"/> -->
-	<import resource="S5.xml"/>
-	<import resource="S6.xml"/>
-	<import resource="D6.xml"/>
-	<import resource="UMI1.xml"/>
-	<import resource="UI1.xml"/>
-	<import resource="CA2.xml"/>
-	<import resource="CA3.xml"/>
-	<import resource="CA4.xml"/>
-	<import resource="GV12.xml"/>
-	<import resource="RASOR.xml"/>
-	<import resource="RASOR-Cam1.xml"/>
-	<import resource="RASOR-Cam2.xml"/>
-	<import resource="RASOR-Cam3.xml"/>
-	<import resource="RASOR-SCALER1.xml"/>
-	<import resource="RASOR_diff_sim_motors.xml"/>
-	<import resource="UI1_SCALER1.xml"/>
-	<import resource="stanfords_gain_maps.xml"/>
-	<import resource="RASOR_stanfords.xml"/>
-	
-	<!-- J Absorption -->
-
-	<import resource="ShutterJ.xml"/>
-<!-- 	<import resource="accessControl4J.xml"/> -->
-	<import resource="DJ1.xml"/>
-	<import resource="S7.xml"/>
-	<import resource="DJ2A.xml"/>
-	<import resource="DJ2.xml"/>
-<!-- replace M6 haxpod control by position compare script -->
-<!-- 	<import resource="M6.xml"/> -->
-	<import resource="S8.xml"/>
-	<import resource="DJ3.xml"/>
-	<import resource="S9.xml"/>
-	<import resource="UMJ1.xml"/>
-	<import resource="UJ1.xml"/>
-	<import resource="CAJ1.xml"/>
-	<import resource="CAJ2.xml"/>
-	<import resource="GVJ6.xml"/>
-	<import resource="MAGJ1.xml"/>
-	<import resource="MES_SCALERJ2.xml"/>
-	<import resource="UJ1_SCALERJ1.xml"/>
-
-	<import resource="LakeShore340.xml"/>
-	<import resource="MES2.xml"/>
-	<import resource="MES2_SCALERJ3.xml"/>
-	<import resource="lakeshore336.xml"/>
-	<import resource="MES_stanfords.xml"/>
-	
 	<!-- Temporary devices -->
 	<import resource="Zebra.xml"/>
-	<import resource="vortex.xml"/><!-- xmapMca for MCA spectra mode -->
+	<import resource="stanfords_gain_maps.xml"/>
+	
+	<beans profile="scattering">
+		<import resource="Shutter1.xml"/>
+	<!-- 	<import resource="accessControl4I.xml"/> -->
+		<import resource="D4.xml"/>
+		<import resource="S4.xml"/>
+		<import resource="D5.xml"/>
+	<!-- replace M4 haxpod control by position compare script -->
+	<!-- 	<import resource="M4.xml"/> -->
+		<import resource="S5.xml"/>
+		<import resource="S6.xml"/>
+		<import resource="D6.xml"/>
+		<import resource="UMI1.xml"/>
+		<import resource="UI1.xml"/>
+		<import resource="CA2.xml"/>
+		<import resource="CA3.xml"/>
+		<import resource="CA4.xml"/>
+		<import resource="GV12.xml"/>
+		<import resource="RASOR.xml"/>
+		<import resource="RASOR-Cam1.xml"/>
+		<import resource="RASOR-Cam2.xml"/>
+		<import resource="RASOR-Cam3.xml"/>
+		<import resource="RASOR-SCALER1.xml"/>
+		<import resource="RASOR_diff_sim_motors.xml"/>
+		<import resource="UI1_SCALER1.xml"/>
+		<import resource="LakeShore340.xml"/>
+		<import resource="RASOR_stanfords.xml"/>
+	</beans>
+	<!-- J Absorption -->
+	<beans profile="absorption">
+		<import resource="ShutterJ.xml"/>
+	<!-- 	<import resource="accessControl4J.xml"/> -->
+		<import resource="DJ1.xml"/>
+		<import resource="S7.xml"/>
+		<import resource="DJ2A.xml"/>
+		<import resource="DJ2.xml"/>
+	<!-- replace M6 haxpod control by position compare script -->
+	<!-- 	<import resource="M6.xml"/> -->
+		<import resource="S8.xml"/>
+		<import resource="DJ3.xml"/>
+		<import resource="S9.xml"/>
+		<import resource="UMJ1.xml"/>
+		<import resource="UJ1.xml"/>
+		<import resource="CAJ1.xml"/>
+		<import resource="CAJ2.xml"/>
+		<import resource="GVJ6.xml"/>
+		<import resource="UJ1_SCALERJ1.xml"/>
+	</beans>
 
+	<beans profile="hfm">
+		<import resource="HFM.xml"/>
+		<import resource="MES_SCALERJ2.xml"/>
+		<import resource="MES_stanfords.xml"/>
+		<import resource="vortex.xml"/><!-- xmapMca for MCA spectra mode -->
 <!-- 	<import resource="xmap_detector.xml"/> --> <!-- xmapMca and _xmap for MCA mapping mode requires Hardware trigger -->
+	</beans>	
+	
+	<beans profile="em">
+		<import resource="MES2.xml"/>
+		<import resource="MES2_SCALERJ3.xml"/>
+		<import resource="lakeshore336.xml"/>
+	</beans>
+
+
 	<beans profile="windows7">
 		<import resource="PIMTE_windows7.xml"/>
 		<import resource="PIMTE_SUMMED_windows7.xml"/>

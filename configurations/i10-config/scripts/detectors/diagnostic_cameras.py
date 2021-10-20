@@ -5,8 +5,6 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
       SwitchableHardwareTriggerableProcessingDetectorWrapper
 from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
-from gdaserver import d1camtiff, d2camtiff,d3camtiff,d4camtiff,d6camtiff,\
-    dj1camtiff, dj3camtiff
 
 viewerName="Plot 1";
 
@@ -37,23 +35,3 @@ def cameraFactory(cam_name, peak2d_name, max2d_name, camdet, camdet_for_snaps):
         handle_messages.log(None, "%s error -  " % cam_name, typ, exception, traceback, False)
 
 
-cam1, peak2d1, max2d1 = cameraFactory(
-    'cam1', 'peak2d1', 'max2d1', d1camtiff, None)
-
-cam2, peak2d2, max2d2 = cameraFactory(
-    'cam2', 'peak2d2', 'max2d2', d2camtiff, None)
-
-cam3, peak2d3, max2d3 = cameraFactory(
-    'cam3', 'peak2d3', 'max2d3', d3camtiff, None)
-
-cam4, peak2d4, max2d4 = cameraFactory(
-    'cam4', 'peak2d4', 'max2d4', d4camtiff, None)
-
-cam6, peak2d6, max2d6 = cameraFactory(
-    'cam6', 'peak2d6', 'max2d6', d6camtiff, None)
-
-camj1, peak2dj1, max2dj1 = cameraFactory(
-    'camj1', 'peak2dj1', 'max2dj1',dj1camtiff, None)
-
-camj3, peak2dj3, max2dj3 = cameraFactory(
-    'camj3', 'peak2dj3', 'max2dj3', dj3camtiff, None)

@@ -12,7 +12,7 @@ print "-"*100
 
 try:
     from Diamond.energyScannableLookup import EnergyScannableLookup
-    from scannable.continuous.FollowerScannable import SilentFollowerScannable
+    from scannable.continuous.deprecated.FollowerScannable import SilentFollowerScannable
 
     print "Creating idd energy and energy follower scannables for different polarisation modes:"
     print "    'idd_circ_pos_energy', 'idd_circ_pos_energy_follower' - IDD positive circular polarisation gap energy and follower"

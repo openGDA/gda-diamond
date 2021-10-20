@@ -7,114 +7,116 @@
 		define all cameras and detectors Live Stream views
 	</description>
 	
-	<!-- Scattering -->
-	<bean id="pixis_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}pixisRoi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="pixis_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="PIXIS" />
-		<property name="url" value="http://i10-detector02:8081/PIXIS1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL10I-EA-PIXIS-01:ARR" />
-		<property name="roiProvider" ref="pixis_roi" />
-	</bean>
-
-	<bean id="pimte_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}pimteRoi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="pimte_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="PIMTE" />
-		<property name="url" value="http://i10-control.diamond.ac.uk:8081/PIMTE1SWMR.mjpg.mjpg" />
-		<property name="arrayPv" value="BL10I-EA-PIMTE-01:ARR" />
-		<property name="roiProvider" ref="pimte_roi" />
-	</bean>
-
-	<bean id="d4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}d4Roi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="d4_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Diagnostic 4 Camera" />
-		<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/D4.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="BL10I-DI-PHDGN-04:DCAM:ARR" />
-		<property name="roiProvider" ref="d4_roi" />
-	</bean>
-
-	<bean id="d6_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}d6Roi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="d6_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Diagnostic 6 Camera" />
-		<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/D6.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="BL10I-DI-PHDGN-05:DCAM:ARR" />
-		<property name="roiProvider" ref="d6_roi" />
-	</bean>
+	<beans profile="scattering">
+		<bean id="pixis_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}pixisRoi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="pixis_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="PIXIS" />
+			<property name="url" value="http://i10-detector02:8081/PIXIS1.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10I-EA-PIXIS-01:ARR" />
+			<property name="roiProvider" ref="pixis_roi" />
+		</bean>
 	
-	<bean id="rasorCam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}rasorCam1Roi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="rasor_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="RASOR Diagnostic Camera 1" />
-		<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8081/DCAM1.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="ME01D-DI-DCAM-01:DCAM:ARR" />
-		<property name="roiProvider" ref="rasorCam1_roi" />
-	</bean>
+		<bean id="pimte_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}pimteRoi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="pimte_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="PIMTE" />
+			<property name="url" value="http://i10-control.diamond.ac.uk:8081/PIMTE1SWMR.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10I-EA-PIMTE-01:ARR" />
+			<property name="roiProvider" ref="pimte_roi" />
+		</bean>
 	
-	<bean id="rasorCam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}rasorCam2Roi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="rasor_cam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="RASOR Diagnostic Camera 2" />
-		<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8081/DCAM2.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="ME01D-DI-DCAM-02:DCAM:ARR" />
-		<property name="roiProvider" ref="rasorCam2_roi" />
-	</bean>
-
-	<bean id="rasorCam3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}rasorCam3Roi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="rasor_cam3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="RASOR Diagnostic Camera 3" />
-		<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8081/DCAM3.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="ME01D-DI-DCAM-03:DCAM:ARR" />
-		<property name="roiProvider" ref="rasorCam3_roi" />
-	</bean>
+		<bean id="d4_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}d4Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="d4_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="Diagnostic 4 Camera" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/D4.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10I-DI-PHDGN-04:DCAM:ARR" />
+			<property name="roiProvider" ref="d4_roi" />
+		</bean>
 	
-	<!-- Absorption -->	
-	<bean id="dj1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}dj1Roi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="dj1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Diagnostic DJ1 Camera" />
-		<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/DJ1.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="BL10J-DI-PHDGN-01:DCAM:ARR" />
-		<property name="roiProvider" ref="dj1_roi" />
-	</bean>
+		<bean id="d6_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}d6Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="d6_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="Diagnostic 6 Camera" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/D6.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10I-DI-PHDGN-05:DCAM:ARR" />
+			<property name="roiProvider" ref="d6_roi" />
+		</bean>
+		
+		<bean id="rasorCam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}rasorCam1Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="rasor_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="RASOR Diagnostic Camera 1" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8081/DCAM1.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="ME01D-DI-DCAM-01:DCAM:ARR" />
+			<property name="roiProvider" ref="rasorCam1_roi" />
+		</bean>
+		
+		<bean id="rasorCam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}rasorCam2Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="rasor_cam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="RASOR Diagnostic Camera 2" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8081/DCAM2.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="ME01D-DI-DCAM-02:DCAM:ARR" />
+			<property name="roiProvider" ref="rasorCam2_roi" />
+		</bean>
 	
-	<bean id="dj3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}dj3Roi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="dj3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Diagnostic DJ3 Camera" />
-		<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/DJ3.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="BL10J-DI-PHDGN-02:DCAM:ARR" />
-		<property name="roiProvider" ref="dj3_roi" />
-	</bean>
+		<bean id="rasorCam3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}rasorCam3Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="rasor_cam3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="RASOR Diagnostic Camera 3" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8081/DCAM3.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="ME01D-DI-DCAM-03:DCAM:ARR" />
+			<property name="roiProvider" ref="rasorCam3_roi" />
+		</bean>
+	</beans>	
+	
+	<beans profile="absorption">
+		<bean id="dj1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}dj1Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="dj1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="Diagnostic DJ1 Camera" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/DJ1.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10J-DI-PHDGN-01:DCAM:ARR" />
+			<property name="roiProvider" ref="dj1_roi" />
+		</bean>
+		
+		<bean id="dj3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}dj3Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="dj3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="Diagnostic DJ3 Camera" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/DJ3.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10J-DI-PHDGN-02:DCAM:ARR" />
+			<property name="roiProvider" ref="dj3_roi" />
+		</bean>
+	</beans>	
 	
 </beans>

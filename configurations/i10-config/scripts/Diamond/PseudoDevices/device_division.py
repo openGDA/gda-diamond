@@ -10,7 +10,7 @@ Created on 24 May 2018
 @author: fy65
 '''
 #from gda.factory import Finder
-#from scannable.continuous.try_continuous_energy import mcsr16_g, mcsr17_g
+#from scannable.continuous.deprecated.try_continuous_energy import mcsr16_g, mcsr17_g
 from gda.device.detector.hardwaretriggerable import HardwareTriggerableDetectorBase
 from gda.device.scannable import PositionCallableProvider
 from org.slf4j import LoggerFactory
