@@ -69,6 +69,8 @@
 				<value>BSSC</value>
 				<value>HPLC</value>
 				<value>Manual</value>
+				<value>MPS</value>
+				<value>none</value>
 			</list>
 		</property>
 	</bean>
