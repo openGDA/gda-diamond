@@ -148,11 +148,10 @@ idu_circ_pos_energy = EnergyScannableLookup('idu_circ_pos_energy', idu_gap,
                             1675.042:11.118,
                         } )
 
-from scannable.continuous.FollowerScannable import SilentFollowerScannable
+from scannable.continuous.deprecated.FollowerScannable import SilentFollowerScannable
 id_energy_follower = SilentFollowerScannable('id_energy_follower', followed_scannable=pgm_energy, follower_scannable=idu_circ_pos_energy, follower_tolerance=0.1)
 
-from scannable.continuous.ContinuousMovePgmEnergyIdJawPhaseBinpointScannable import \
-                          ContinuousMovePgmEnergyIdJawPhaseBinpointScannable
+from scannable.continuous.deprecated import ContinuousMovePgmEnergyIdJawPhaseBinpointScannable.ContinuousMovePgmEnergyIdJawPhaseBinpointScannable
 
 test_energy = ContinuousMovePgmEnergyIdJawPhaseBinpointScannable('test_energy', cemc_g,
     binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g, idu_circ_pos_energy, binpointId2JawPhase_g);

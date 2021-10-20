@@ -11,7 +11,7 @@ from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating  # @UnresolvedImport
 from time import sleep
 import installation
-from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import ContinuousPgmGratingIDGapEnergyMoveController
+from scannable.continuous.deprecated import ContinuousPgmGratingIDGapEnergyMoveController.ContinuousPgmGratingIDGapEnergyMoveController
 import java
 
 """ This scannable uses the given motor controller to control the motor motion and calculates the

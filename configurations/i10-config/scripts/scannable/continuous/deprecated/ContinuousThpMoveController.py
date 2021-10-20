@@ -10,7 +10,7 @@ from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 import threading, time
 
-from ContinuousPgmEnergyMoveController import ContinuousPgmEnergyMoveController
+from scannable.continuous.deprecated import ContinuousPgmEnergyMoveController
 
 class ContinuousThpMoveController(ContinuousPgmEnergyMoveController):
     def __init__(self, name, thp): # motors, maybe also detector to set the delay time

@@ -11,7 +11,7 @@ from gdascripts.scan.installStandardScansWithProcessing import scan_processor
 from gda.jython.commands.GeneralCommands import alias 
 from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
 from numbers import Number
-from scannable.continuous.continuous_energy_scannables import binpointGrtPitch_g,\
+from scannable.continuous.deprecated.continuous_energy_scannables import binpointGrtPitch_g,\
     binpointMirPitch_g, binpointPgmEnergy_g, cemc_g, cemc
 from scannable.checkbeanscannables import ZiePassthroughScannableDecorator
 from scannable.idcontrols.sourceModes import SourceMode

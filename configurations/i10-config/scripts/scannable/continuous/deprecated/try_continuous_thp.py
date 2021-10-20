@@ -6,10 +6,8 @@
 
 from mtscripts.scannable.waveform_channel.WaveformChannelScannable import \
                                           WaveformChannelScannable
-from scannable.continuous.ContinuousThpMoveController import \
-                          ContinuousThpMoveController
-from scannable.continuous.ContinuousMoveThpBinpointScannable import \
-                          ContinuousMoveThpBinpointScannable
+from scannable.continuous.deprecated import ContinuousThpMoveController.ContinuousThpMoveController
+from scannable.continuous.deprecated import ContinuousMoveThpBinpointScannable.ContinuousMoveThpBinpointScannable
 
 from gdascripts.utils import caput_wait
 

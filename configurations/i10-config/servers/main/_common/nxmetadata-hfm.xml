@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Absorption Branch -->
+	<bean id="mesNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="hfm" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x"/>
+					<property name="scannableName" value="hfmx"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y"/>
+					<property name="scannableName" value="hfmy"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pitch"/>
+					<property name="scannableName" value="hfmpitch"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pitch_offset"/>
+					<property name="scannableName" value="hfmpitch_off"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="itc2NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="itc2" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="set_point"/>
+					<property name="scannableName" value="@itc2.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="sensor_temp"/>
+					<property name="scannableName" value="@itc2.getPosition()[1]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="ipsNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="ips" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="field_set_point"/>
+					<property name="scannableName" value="@ips_field.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="demand_field"/>
+					<property name="scannableName" value="@ips_field.getPosition()[1]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="sweep_rate"/>
+					<property name="scannableName" value="@ips_sweeprate.getPosition()[0]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

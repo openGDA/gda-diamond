@@ -11,6 +11,7 @@ Created on 4 Jan 2021
 
 from gda.epics import CAClient 
 from gda.device.scannable import ScannableMotionBase
+import installation
 
 class PositionCompareClass(ScannableMotionBase):
     '''Create a position compare scannable with separate PV names for demand, target and readback positions.'''
@@ -31,6 +32,7 @@ class PositionCompareClass(ScannableMotionBase):
         self.demand=CAClient(pvdemand)
         self.readback=CAClient(pvreadback)
         self._tolerance=tolerance
+        self.currentPos=0.0
         
     def setTolerance(self, tolerance):
         self._tolerance=tolerance
@@ -39,6 +41,8 @@ class PositionCompareClass(ScannableMotionBase):
         return self._tolerance
         
     def atScanStart(self):
+        if installation.isDummy(): 
+            return
         if not self.demand.isConfigured():
             self.demand.configure()
         if not self.readback.isConfigured():
@@ -47,6 +51,8 @@ class PositionCompareClass(ScannableMotionBase):
     def rawGetPosition(self):
         '''read the magnet value
         '''
+        if installation.isDummy():
+            return self.currentPos 
         try:
             if not self.readback.isConfigured():
                 self.readback.configure()
@@ -63,6 +69,7 @@ class PositionCompareClass(ScannableMotionBase):
     def getTargetPosition(self):
         '''read the demand position of the magnet 
         '''
+        if installation.isDummy(): return self.currentPos
         try:
             if not self.demand.isConfigured():
                 self.demand.configure()
@@ -76,6 +83,9 @@ class PositionCompareClass(ScannableMotionBase):
             raise e
        
     def rawAsynchronousMoveTo(self,new_position):
+        if installation.isDummy():
+            self.currentPos =  float(new_position)
+            return
         try:
             if not self.demand.isConfigured():
                 self.demand.configure()
@@ -91,6 +101,8 @@ class PositionCompareClass(ScannableMotionBase):
         return ( not abs(self.rawGetPosition() - self.getTargetPosition()) < self._tolerance)
 
     def atScanEnd(self):
+        if installation.isDummy(): 
+            return
         if self.demand.isConfigured():
             self.demand.clearup()
         if self.readback.isConfigured():

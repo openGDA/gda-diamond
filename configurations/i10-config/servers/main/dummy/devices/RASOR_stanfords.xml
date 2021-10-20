@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+<!-- RASOR Diode -->
+	<bean id="rca4_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca4_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{sensitivity_units.values()}"/>
+	</bean>
+	<bean id="rca4_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca4_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{offset_units.values()}"/>
+	</bean>
+	<bean id="rca4_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca4_bias_voltage" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">3.30</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>	
+	<bean id="rca4_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca4_filter_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_type.values()}"/>
+	</bean>
+	<bean id="rca4_filter_highpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_highpass.values()}"/>
+	</bean>
+	<bean id="rca4_filter_lowpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_lowpass.values()}"/>
+	</bean>
+	<bean id="rca4_gain_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gain_mode.values()}"/>
+	</bean>
+
+<!-- RASOR Fluorescence -->
+	<bean id="rca5_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca5_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{sensitivity_units.values()}"/>
+	</bean>
+	<bean id="rca5_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca5_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{offset_units.values()}"/>
+	</bean>
+	<bean id="rca5_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca5_bias_voltage" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">3.30</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>	
+	<bean id="rca5_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca5_filter_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_type.values()}"/>
+	</bean>
+	<bean id="rca5_filter_highpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_highpass.values()}"/>
+	</bean>
+	<bean id="rca5_filter_lowpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_lowpass.values()}"/>
+	</bean>
+	<bean id="rca5_gain_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gain_mode.values()}"/>
+	</bean>
+
+<!-- RASOR Drain -->
+	<bean id="rca6_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca6_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{sensitivity_units.values()}"/>
+	</bean>
+	<bean id="rca6_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca6_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{offset_units.values()}"/>
+	</bean>
+	<bean id="rca6_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca6_bias_voltage" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">3.30</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>	
+	<bean id="rca6_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca6_filter_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_type.values()}"/>
+	</bean>
+	<bean id="rca6_filter_highpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_highpass.values()}"/>
+	</bean>
+	<bean id="rca6_filter_lowpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_lowpass.values()}"/>
+	</bean>
+	<bean id="rca6_gain_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gain_mode.values()}"/>
+	</bean>
+
+<!-- M4 Mirror I0 -->
+	<bean id="rca7_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca7_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{sensitivity_units.values()}"/>
+	</bean>
+	<bean id="rca7_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gainMap.values()}"/>
+	</bean>
+	<bean id="rca7_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{offset_units.values()}"/>
+	</bean>
+	<bean id="rca7_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca7_bias_voltage" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">3.30</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>	
+	<bean id="rca7_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{on_off.values()}"/>
+	</bean>
+	<bean id="rca7_filter_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_type.values()}"/>
+	</bean>
+	<bean id="rca7_filter_highpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_highpass.values()}"/>
+	</bean>
+	<bean id="rca7_filter_lowpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{filter_lowpass.values()}"/>
+	</bean>
+	<bean id="rca7_gain_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="#{gain_mode.values()}"/>
+	</bean>
+	
+	<bean id="RASOR_stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="rca4_sensitivity" />
+				<ref bean="rca4_sensitivity_units" />
+				<ref bean="rca4_offset" />
+				<ref bean="rca4_offset_units" />
+				<ref bean="rca4_offset_current" />
+				<ref bean="rca4_bias_voltage" />				
+				<ref bean="rca4_bias_voltage_status" />
+				<ref bean="rca4_filter_type" />
+				<ref bean="rca4_filter_highpass" />
+				<ref bean="rca4_filter_lowpass" />
+				<ref bean="rca4_gain_mode" />
+				<ref bean="rca5_sensitivity" />
+				<ref bean="rca5_sensitivity_units" />
+				<ref bean="rca5_offset" />
+				<ref bean="rca5_offset_units" />
+				<ref bean="rca5_offset_current" />
+				<ref bean="rca5_bias_voltage" />				
+				<ref bean="rca5_bias_voltage_status" />
+				<ref bean="rca5_filter_type" />
+				<ref bean="rca5_filter_highpass" />
+				<ref bean="rca5_filter_lowpass" />
+				<ref bean="rca5_gain_mode" />
+				<ref bean="rca6_sensitivity" />
+				<ref bean="rca6_sensitivity_units" />
+				<ref bean="rca6_offset" />
+				<ref bean="rca6_offset_units" />
+				<ref bean="rca6_offset_current" />
+				<ref bean="rca6_bias_voltage" />				
+				<ref bean="rca6_bias_voltage_status" />
+				<ref bean="rca6_filter_type" />
+				<ref bean="rca6_filter_highpass" />
+				<ref bean="rca6_filter_lowpass" />
+				<ref bean="rca6_gain_mode" />
+				<ref bean="rca7_sensitivity" />
+				<ref bean="rca7_sensitivity_units" />
+				<ref bean="rca7_offset" />
+				<ref bean="rca7_offset_units" />
+				<ref bean="rca7_offset_current" />
+				<ref bean="rca7_bias_voltage" />				
+				<ref bean="rca7_bias_voltage_status" />
+				<ref bean="rca7_filter_type" />
+				<ref bean="rca7_filter_highpass" />
+				<ref bean="rca7_filter_lowpass" />
+				<ref bean="rca7_gain_mode" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

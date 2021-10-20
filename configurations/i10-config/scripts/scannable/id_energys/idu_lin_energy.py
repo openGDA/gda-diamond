@@ -9,7 +9,7 @@ from utils.ExceptionLogs import localStation_exception
 import sys
 from lookups.cvs2dictionary import loadCVSTable
 from scannable.id_energys.lookupTableDirectory import lookup_tables_dir
-from scannable.continuous.FollowerScannable import SilentFollowerScannable
+from scannable.continuous.deprecated.FollowerScannable import SilentFollowerScannable
 
 print "-"*100
 

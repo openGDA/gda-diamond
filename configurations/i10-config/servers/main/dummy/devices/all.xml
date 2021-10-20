@@ -1,67 +1,71 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="GDAMetadata.xml"/>
-	
-	<!-- I Scattering -->
-
-	<import resource="Shutter1.xml"/>
-<!-- 	<import resource="accessControl4I.xml"/> -->
-	<import resource="D4.xml"/>
-	<import resource="S4.xml"/>
-	<import resource="D5.xml"/>
-	<import resource="M4.xml"/>
-	<import resource="S5.xml"/>
-	<import resource="S6.xml"/>
-	<import resource="D6.xml"/>
-	<import resource="UMI1.xml"/>
-	<import resource="UI1.xml"/>
-	<import resource="CA2.xml"/>
-	<import resource="CA3.xml"/>
-	<import resource="CA4.xml"/>
-	<import resource="GV12.xml"/>
-	<import resource="PIMTE.xml"/>
-	<import resource="PIMTE_SUMMED.xml"/>
-	<import resource="PIXIS.xml"/>
-	<import resource="PIXIS_SUMMED.xml"/>
-	<import resource="RASOR-Cam1.xml"/>
-	<import resource="RASOR-Cam2.xml"/>
-	<import resource="RASOR-Cam3.xml"/>
-	<import resource="RASOR.xml"/>
-	<import resource="RASOR-SCALER1.xml"/>
-	<import resource="RASOR_diff_sim_motors.xml"/>
-	<import resource="UI1_SCALER1.xml"/>
+	<import resource="Zebra.xml"/>
 	<import resource="stanfords_gain_maps.xml"/>
 
-	<!-- J Absorption -->
+	<beans profile="scattering">
+		<import resource="Shutter1.xml"/>
+<!-- 		<import resource="accessControl4I.xml"/> -->
+		<import resource="D4.xml"/>
+		<import resource="S4.xml"/>
+		<import resource="D5.xml"/>
+<!-- 		<import resource="M4.xml"/> -->
+		<import resource="S5.xml"/>
+		<import resource="S6.xml"/>
+		<import resource="D6.xml"/>
+		<import resource="UMI1.xml"/>
+		<import resource="UI1.xml"/>
+		<import resource="CA2.xml"/>
+		<import resource="CA3.xml"/>
+		<import resource="CA4.xml"/>
+		<import resource="GV12.xml"/>
+		<import resource="PIMTE.xml"/>
+		<import resource="PIMTE_SUMMED.xml"/>
+		<import resource="PIXIS.xml"/>
+		<import resource="PIXIS_SUMMED.xml"/>
+		<import resource="RASOR-Cam1.xml"/>
+		<import resource="RASOR-Cam2.xml"/>
+		<import resource="RASOR-Cam3.xml"/>
+		<import resource="RASOR.xml"/>
+		<import resource="RASOR-SCALER1.xml"/>
+		<import resource="RASOR_diff_sim_motors.xml"/>
+		<import resource="UI1_SCALER1.xml"/>
+		<import resource="LakeShore340.xml"/>
+		<import resource="RASOR_stanfords.xml"/>
+	</beans>
 
-	<import resource="ShutterJ.xml"/>
-<!-- 	<import resource="accessControl4J.xml"/> -->
-	<import resource="DJ1.xml"/>
-	<import resource="S7.xml"/>
-	<import resource="DJ2.xml"/>
-	<import resource="DJ2A.xml"/>
-	<import resource="M6.xml"/>
-	<import resource="S8.xml"/>
-	<import resource="DJ3.xml"/>
-	<import resource="S9.xml"/>
-	<import resource="UMJ1.xml"/>
-	<import resource="UJ1.xml"/>
-	<import resource="CAJ1.xml"/>
-	<import resource="CAJ2.xml"/>
-	<import resource="GVJ6.xml"/>
-	<import resource="MAGJ1.xml"/>
-	<import resource="MES_SCALERJ2.xml"/>
-	<import resource="UJ1_SCALERJ1.xml"/>
-
-	<import resource="LakeShore340.xml"/>
-	<import resource="MES2.xml"/>
-	<import resource="MES2_SCALERJ3.xml"/>
-	<import resource="lakeshore336.xml"/>
-
+	<beans profile="absorption">
+		<import resource="ShutterJ.xml"/>
+<!-- 		<import resource="accessControl4J.xml"/> -->
+		<import resource="DJ1.xml"/>
+		<import resource="S7.xml"/>
+		<import resource="DJ2.xml"/>
+		<import resource="DJ2A.xml"/>
+<!-- 		<import resource="M6.xml"/> -->
+		<import resource="S8.xml"/>
+		<import resource="DJ3.xml"/>
+		<import resource="S9.xml"/>
+		<import resource="UMJ1.xml"/>
+		<import resource="UJ1.xml"/>
+		<import resource="CAJ1.xml"/>
+		<import resource="CAJ2.xml"/>
+		<import resource="GVJ6.xml"/>
+		<import resource="UJ1_SCALERJ1.xml"/>
+	</beans>
 	
-	<!-- Temporary devices -->
-	<import resource="Zebra.xml"/>
+	<beans profile="hfm">
+		<import resource="HFM.xml"/>
+		<import resource="MES_SCALERJ2.xml"/>
+		<import resource="MES_stanfords.xml"/>
+	</beans>
+	
+	<beans profile="em">
+		<import resource="MES2.xml"/>
+		<import resource="MES2_SCALERJ3.xml"/>
+		<import resource="lakeshore336.xml"/>
+	</beans>
+
 </beans>

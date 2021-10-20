@@ -7,7 +7,7 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util.xsd
            http://www.diamond.ac.uk/schema/gda/gda
-           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 	<!-- 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> -->
 	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
@@ -54,12 +54,15 @@
 	<beans profile="dummy">
 		<!--haxpod control: use beans in dummy, positiona compare motor in live mode  -->
 		<import resource="../../../../i10-shared/servers/main/_common/scannable/M1.xml"/>
-		<import resource="../../../../i10-shared/servers/main/_common/scannable/M3M5.xml"/>	
+		<import resource="../../../../i10-shared/servers/main/_common/scannable/M3M5.xml"/>
+		<import resource="../dummy/devices/M4.xml"/>	
 		<import resource="scannable/M4.xml"/>
+		<import resource="../dummy/devices/M6.xml"/>	
 		<import resource="scannable/M6.xml"/>
 	</beans>
 	
 	<beans profile="scattering">
+		<import resource="../${gda.mode}/nxmetadata-scattering.xml"/>
 		<import resource="nxmetadata-scattering.xml"/>
 		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
 			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
@@ -77,7 +80,7 @@
 		</bean>
 	</beans>
 	<beans profile="absorption">
-		<import resource="nxmetadata-absorption.xml"/>
+		<import resource="nxmetadata-absorption-share.xml"/>
 		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
 			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
 			<property name="targetMethod" value="addAdditionalDeviceNames" />
@@ -87,9 +90,34 @@
 					<value>s8</value>
 					<value>s9</value>
 					<value>m6</value>
-					<value>mes</value>
+				</list>
+			</property>
+		</bean>
+	</beans>
+	<beans profile="em">
+		<import resource="nxmetadata-em.xml"/>
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+			<property name="targetMethod" value="addAdditionalDeviceNames" />
+			<property name="arguments">
+				<list>
 					<value>lakeshore336</value>
 					<value>em</value>
+					<value>magnet</value>
+				</list>
+			</property>
+		</bean>
+	</beans>
+	<beans profile="hfm">
+		<import resource="nxmetadata-hfm.xml"/>
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+			<property name="targetMethod" value="addAdditionalDeviceNames" />
+			<property name="arguments">
+				<list>
+					<value>hfm</value>
+					<value>itc2</value>
+					<value>ips</value>
 				</list>
 			</property>
 		</bean>

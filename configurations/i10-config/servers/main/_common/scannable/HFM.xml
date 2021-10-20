@@ -1,28 +1,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+           http://www.springframework.org/schema/beans/spring-beans.xsd">     
 
 	<!-- MAGJ1 -->
 
-	<bean id="magj1yins" class="gda.device.scannable.ScannableMotor">
+	<bean id="hfmy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="magj1yins_motor" />
 	</bean>  
 
-	<bean id="magj1yrot" class="gda.device.scannable.ScannableMotor">
+	<bean id="hfmpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="magj1yrot_motor" />
 	</bean>  
 
-	<bean id="magj1x" class="gda.device.scannable.ScannableMotor">
+	<bean id="hfmx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="magj1x_motor" />
 	</bean>  
 
 	<bean id="MAGJ1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="magj1yins" />
-				<ref bean="magj1yrot" />
-				<ref bean="magj1x" />
+				<ref bean="hfmy" />
+				<ref bean="hfmpitch" />
+				<ref bean="hfmx" />
 			</list>
 		</property>
 	</bean>

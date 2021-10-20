@@ -12,7 +12,7 @@ print "-"*100
 
 try:
     from Diamond.energyScannableLookup import EnergyScannableLookup
-    from scannable.continuous.FollowerScannable import SilentFollowerScannable
+    from scannable.continuous.deprecated.FollowerScannable import SilentFollowerScannable
     
     print "Creating idu jaw energy and jaw energy follower scannables for different polarisation modes:"
     print "    'idu_lin_hor_jaw_energy','idu_lin_hor_jaw_energy_follower' - IDU Linear Horizontal polarisation jawphase energy and follower"

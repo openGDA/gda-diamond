@@ -4,7 +4,8 @@ for use with GDA at Diamond Light Source
 """
 
 from org.slf4j import LoggerFactory
-from ContinuousMovePgmEnergyBinpointScannable import ContinuousMovePgmEnergyBinpointScannable, EnergyCalculatingCallable
+from ContinuousMovePgmEnergyBinpointScannable import EnergyCalculatingCallable
+from scannable.continuous.deprecated import ContinuousMovePgmEnergyBinpointScannable
 from Diamond.idPosition import IdPosition
 
 """ This scannable uses the motor controller to just control the motor and calculates the
