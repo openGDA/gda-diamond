@@ -128,7 +128,7 @@
                relative="gda.rcp.jythonterminalview"
                visible="false"/>
          <view
-               id="org.dawb.passerelle.views.ValueView"
+               id="org.dawb.common.ui.views.ValueView"
                relationship="stack"
                relative="gda.rcp.jythonterminalview"
                visible="false"/>
