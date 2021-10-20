@@ -44,7 +44,7 @@
       <perspective
             class="uk.ac.gda.beamline.i10.perspectives.AreaDetectorPerspective"
             id="uk.ac.gda.beamline.i10.perspectives.areadetector"
-            name="Area Detector">
+            name="Experiment">
       </perspective>
    </extension>
    <extension

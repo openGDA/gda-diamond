@@ -1,5 +1,8 @@
 package uk.ac.gda.beamline.i10.perspectives;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.dawnsci.plotting.views.ToolPageView;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
@@ -11,6 +14,7 @@ import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
+import gda.configuration.properties.LocalProperties;
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
@@ -44,6 +48,7 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 	private void defineLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
+		List<String> profiles = Arrays.asList(LocalProperties.getStringArray("gda.spring.profiles.active"));
 
 		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.65, editorArea); //$NON-NLS-1$
 		topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
@@ -68,11 +73,14 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 
         IFolderLayout middlefolder = layout.createFolder(TERMINAL_FOLDER,IPageLayout.BOTTOM, 0.58f, PLOT_1D_FOLDER);
         middlefolder.addView(gda.rcp.views.JythonTerminalView.ID);
+
         middlefolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
 
         IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea); //$NON-NLS-1$
-		topRightFolder.addView("uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram:pimte_cam#EPICS_ARRAY");
-		topRightFolder.addView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram:pixis_cam#EPICS_ARRAY");
+		if (profiles.contains("scattering")) {
+			topRightFolder.addView("uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram:pimte_cam#EPICS_ARRAY");
+			topRightFolder.addView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram:pixis_cam#EPICS_ARRAY");
+		}
 		topRightFolder.addPlaceholder(LiveStreamView.ID+":*");
 		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
 		topRightFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");

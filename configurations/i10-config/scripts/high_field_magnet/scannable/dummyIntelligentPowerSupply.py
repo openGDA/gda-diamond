@@ -18,9 +18,9 @@ class DummyIntelligentPowerSupplyFieldScannable(ScannableMotionBase):
         self.extraNames = ['demand_field']
         self.outputFormat = ['%f', '%f']
 
-    def __repr__(self):
-        return "DummyIntelligentPowerSupplyFieldScannable(%r, %r)" % (
-            self.name, 'BL10J-EA-SMC-01:')
+    # def __repr__(self):
+    #     return "DummyIntelligentPowerSupplyFieldScannable(%r, %r)" % (
+    #         self.name, 'BL10J-EA-SMC-01:')
 
     def __str__(self):
         return self.name + ": setpoint=%f, demand_field=%f" % self.getPosition()
@@ -53,9 +53,9 @@ class DummyIntelligentPowerSupplySweepRateScannable(ScannableMotionBase):
         self.extraNames = ['demand_field']
         self.outputFormat = ['%f', '%f']
 
-    def __repr__(self):
-        return "DummyIntelligentPowerSupplySweepRateScannable(%r, %r)" % (
-            self.name, 'BL10J-EA-SMC-01:')
+    # def __repr__(self):
+    #     return "DummyIntelligentPowerSupplySweepRateScannable(%r, %r)" % (
+    #         self.name, 'BL10J-EA-SMC-01:')
 
     def __str__(self):
         return self.name + ": setpoint=%f, demand_field=%f" % self.getPosition()

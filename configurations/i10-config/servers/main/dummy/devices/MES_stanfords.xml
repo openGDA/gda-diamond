@@ -207,17 +207,17 @@
 				<ref bean="ca6je_filter_highpass" />
 				<ref bean="ca6je_filter_lowpass" />
 				<ref bean="ca6je_gain_mode" />
-				<ref bean="ca7j_sensitivity" />
-				<ref bean="ca7j_sensitivity_units" />
-				<ref bean="ca7j_offset" />
-				<ref bean="ca7j_offset_units" />
-				<ref bean="ca7j_offset_current" />
-				<ref bean="ca7j_bias_voltage" />				
-				<ref bean="ca7j_bias_voltage_status" />
-				<ref bean="ca7j_filter_type" />
-				<ref bean="ca7j_filter_highpass" />
-				<ref bean="ca7j_filter_lowpass" />
-				<ref bean="ca7j_gain_mode" />
+				<ref bean="ca7je_sensitivity" />
+				<ref bean="ca7je_sensitivity_units" />
+				<ref bean="ca7je_offset" />
+				<ref bean="ca7je_offset_units" />
+				<ref bean="ca7je_offset_current" />
+				<ref bean="ca7je_bias_voltage" />				
+				<ref bean="ca7je_bias_voltage_status" />
+				<ref bean="ca7je_filter_type" />
+				<ref bean="ca7je_filter_highpass" />
+				<ref bean="ca7je_filter_lowpass" />
+				<ref bean="ca7je_gain_mode" />
 			</list>
 		</property>
 	</bean>

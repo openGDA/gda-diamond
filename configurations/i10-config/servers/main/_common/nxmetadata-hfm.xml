@@ -38,11 +38,11 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="set_point"/>
-					<property name="scannableName" value="@itc2.getPosition()[0]"/>
+					<property name="expression" value="@itc2.getPosition()[0]"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="sensor_temp"/>
-					<property name="scannableName" value="@itc2.getPosition()[1]"/>
+					<property name="expression" value="@itc2.getPosition()[1]"/>
 				</bean>
 			</list>
 		</property>
@@ -55,15 +55,15 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="field_set_point"/>
-					<property name="scannableName" value="@ips_field.getPosition()[0]"/>
+					<property name="expression" value="@ips_field.getPosition()[0]"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="demand_field"/>
-					<property name="scannableName" value="@ips_field.getPosition()[1]"/>
+					<property name="expression" value="@ips_field.getPosition()[1]"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="sweep_rate"/>
-					<property name="scannableName" value="@ips_sweeprate.getPosition()[0]"/>
+					<property name="expression" value="@ips_sweeprate.getPosition()[0]"/>
 				</bean>
 			</list>
 		</property>
