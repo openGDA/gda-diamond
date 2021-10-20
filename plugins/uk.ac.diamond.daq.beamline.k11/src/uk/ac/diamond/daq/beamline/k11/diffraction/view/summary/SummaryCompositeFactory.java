@@ -118,7 +118,7 @@ public class SummaryCompositeFactory implements DiffractionCompositeInterface {
 		}
 
 		private void prepareSummaryUpdate(CameraControlSpringEvent event) {
-			Optional.ofNullable(reader.getAcquisitionConfiguration().getAcquisitionParameters().getDetector().getName())
+			Optional.ofNullable(reader.getAcquisitionConfiguration().getAcquisitionParameters().getDetectors().iterator().next().getName())
 			.map(CameraHelper::getCameraConfigurationPropertiesByCameraControlName)
 			.filter(Optional::isPresent)
 			.map(Optional::get)
