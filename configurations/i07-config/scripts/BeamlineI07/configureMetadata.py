@@ -74,7 +74,8 @@ tabList = [tab1x, tab1y]
 qbpmList = [d4range, ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
         qbpm1range, qbpm2range, qbpm3range]
 
-miscList = [note, centralPixel]
+miscList = [note, dpsx_zero, dpsy1_zero, dpsy2_zero, dpsz_zero, dps_cpx, dps_cpy,
+            diff1_cpx, diff1_cpy, diff2_cpx, diff2_cpy]
 
 metadata = []
 metadata += blList
