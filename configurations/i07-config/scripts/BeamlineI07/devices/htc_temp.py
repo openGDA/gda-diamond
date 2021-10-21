@@ -1,5 +1,6 @@
 from jarray import zeros
 from org.python.core.util import StringUtil
+from gda.device.scannable import ScannableBase
 import threading
 
 class TemperatureSocketDevice(ScannableBase):
