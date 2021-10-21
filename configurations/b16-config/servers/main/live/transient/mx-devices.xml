@@ -5,8 +5,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
-	>
-	<!--  profile="mx-devices"> -->
+	profile="mx-devices">
 
 	<description>These devices for an I04 experiment on B16 using
 	the Pilatus detector in Zebra controlled scans.</description>
