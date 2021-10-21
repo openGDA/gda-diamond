@@ -96,7 +96,7 @@ try_execfile("BeamlineI07/useHex2.py", "Creating Hexapod2 Pivot Points")
 
 try_execfile("BeamlineI07/setFastScan.py", "Fast scan setup")
 
-try_execfile("BeamlineI07/setSrsDataFileHeader.py", "Metadata Header setup")
+try_execfile("BeamlineI07/createAdditionalMetadataDevices.py", "Metadata Header setup")
 
 try_execfile("BeamlineI07/createAlias.py")
 
