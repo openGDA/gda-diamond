@@ -23,6 +23,10 @@
         <property name="service" ref="bragg_calibration_service" />
     </bean>
 
+    <gda:proxy id="sampleRackService">
+        <gda:service interface="uk.ac.gda.server.ncd.samplerack.SampleRackService" />
+    </gda:proxy>
+
     <bean id="clientReferences" class="gda.device.FindableObjectHolder">
         <property name="map">
             <map>

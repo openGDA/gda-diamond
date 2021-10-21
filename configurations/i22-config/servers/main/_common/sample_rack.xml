@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<bean id="sampleRackService" class="uk.ac.gda.server.ncd.samplerack.BasicSampleRackService" >
+		<property name="racks">
+			<list>
+				<ref bean="ladderRack" />
+				<ref bean="gridRack" />
+			</list>
+		</property>
+	</bean>
+
+    <bean id="gridRack" class="uk.ac.gda.server.ncd.samplerack.GridSampleRack" >
+        <property name="name" value="Grid" />
+        <property name="description" value="8x9 grid" />
+		<property name="runner" ref="rackRunner" />
+		<property name="rackConfiguration" ref="gridConfiguration" />
+		<property name="rows" value="8" />
+        <property name="columns" value="9" />
+    </bean>
+	<bean id="ladderRack" class="uk.ac.gda.server.ncd.samplerack.LadderSampleRack">
+		<property name="name" value="Ladder" />
+		<property name="description" value="22 sample rack" />
+		<property name="runner" ref="rackRunner" />
+		<property name="rackConfiguration" ref="ladderConfiguration" />
+		<property name="cells" value="22" />
+	</bean>
+	<bean id="rackRunner" class="uk.ac.gda.server.ncd.samplerack.TfgRackScanRunner" >
+		<property name="ncddetectors" ref="ncddetectors" />
+		<property name="meta" ref="GDAMetadata" />
+		<property name="otherScannables" >
+			<list>
+				<ref bean="base_x" />
+				<ref bean="base_y" />
+			</list>
+		</property>
+		<property name="deadPort" value="${gda.ncd.defaultWaitPulse:00000000}" />
+		<property name="livePort" value="${gda.ncd.defaultRunPulse:11111111}" />
+		<property name="deadPause" value="${gda.ncd.defaultWaitPause:0}" />
+		<property name="livePause" value="${gda.ncd.defaultRunPause:0}" />
+	</bean>
+	<bean id="ladderConfiguration" class="uk.ac.gda.server.ncd.samplerack.RackConfiguration"
+		c:xCalPosition = "0.10"
+		c:yCalPosition="-3.3"
+		c:xOffset="0.00"
+		c:yOffset="8.50"
+		c:xColumnSpacing="0.00"
+		c:yRowSpacing="4.00"
+		c:xColumnPositioner-ref="base_x"
+		c:yRowPositioner-ref="base_y" />
+	<bean id="gridConfiguration" class="uk.ac.gda.server.ncd.samplerack.RackConfiguration"
+	    c:xCalPosition="5.00"
+	    c:yCalPosition="5.00"
+	    c:xOffset="0.00"
+	    c:yOffset="0.00"
+	    c:xColumnSpacing="12.00"
+	    c:yRowSpacing="12.00"
+	    c:xColumnPositioner-ref="base_x"
+	    c:yRowPositioner-ref="base_y" />
+</beans>
