@@ -345,7 +345,7 @@ else:
 	print "* Not installing piezo4 device (as not live installation) *"
 
 
-if False: # installation.isLive():
+if installation.isLive():
 	print "Installing micospiezo1/2 devices from epics BL16B-EA-PIEZO-03:MMC"
 	micospiezo1=SetPvAndWaitForCallbackWithSeparateReadback2(
 		"micospiezo1", "BL16B-EA-PIEZO-03:MMC:01:DEMAND",
@@ -359,7 +359,7 @@ else:
 	print "* Not installing micospiezo1/2 devices (as not live installation) *"
 
 
-if False: # installation.isLive():
+if installation.isLive():
 	print "Installing atto devices from epics BL16B-EA-ECC..."
 	try:
 		from scannable.epics.ecc100axis import createEcc100Axis
