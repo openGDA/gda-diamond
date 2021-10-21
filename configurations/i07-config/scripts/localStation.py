@@ -139,17 +139,6 @@ except:
 	print('Could not find d5i to add as a default scannable')
 
 
-#pieX = pie.pieX
-#pieY = pie.pieY
-#pieZ = pie.pieZ
-
-# TODO: Restore scan wrappers!
-	##to setup the scan processing wrappers
-	#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-	#scan_processor.rootNamespaceDict=globals()
-	#import gdascripts.utils #@UnusedImport
-	#gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
-
 from scannable.pv_with_separate_readback_and_tolerance import PVWithSeparateReadbackAndToleranceScannable
 chiller1=PVWithSeparateReadbackAndToleranceScannable('chiller1', pv_set='BL07I-EA-CHIL-01:SET_TEMP', pv_read='BL07I-EA-CHIL-01:TEMP', timeout=30*60, tolerance=0.2)
 chiller2=PVWithSeparateReadbackAndToleranceScannable('chiller2', pv_set='BL07I-EA-CHIL-02:SET_SETPOINT', pv_read='BL07I-EA-CHIL-02:TEMPERATURE', timeout=30*60, tolerance=0.2)
@@ -192,10 +181,3 @@ def checkHkl(position):
 		return(str(err))
 
 hkl.checkPositionValid = checkHkl
-
-
-#print
-#print "running 'i07-config/scripts/si9328.py'"
-#run('si9328_setup')
-#print "try e.g.:"
-#print "scan vspeed profile(10, 20, 40, 1) t 0 .1 point 0 1 clock epoch dt"
