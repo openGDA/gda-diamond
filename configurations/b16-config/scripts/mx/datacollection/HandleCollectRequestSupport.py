@@ -45,7 +45,7 @@ def create_standard_ecr(visit_path, directory, prefix, run_number):
 		.setDataCollectionId(0)
 		.setRunStatus("")
 		.setRunNumber(run_number) #@UndefinedVariable
-		.setSampleDetectorDistanceInMM(300) #@UndefinedVariable
+		.setSampleDetectorDistanceInMM(105.) #@UndefinedVariable
 		.setTotalNumberOfImages(100L)
 		.setVisitPath(visit_path) #@UndefinedVariable
 		.setComment("comment") #@UndefinedVariable

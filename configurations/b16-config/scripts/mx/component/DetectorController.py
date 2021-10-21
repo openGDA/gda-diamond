@@ -296,7 +296,7 @@ class DetectorController():
 		
 		fileFormat = "%s%s_" + MxProperties.RUN_NUMBER_FORMAT + "_00001." + self.detector.getSuffix() # "%s%s_%02d_00001.cbf"
 		
-		self.detector.setFilepath("/ramdisk/2021/nt27909-2/" + metadata.detectorWritePath())
+		self.detector.setFilepath("/ramdisk/2021/nt29738-1/" + metadata.detectorWritePath())
 		self.detector.setFileprefix(metadata.prefix())
 		self.detector.setFilenumber(metadata.startRunNumber())
 		self.detector.setFileformat(fileFormat)
