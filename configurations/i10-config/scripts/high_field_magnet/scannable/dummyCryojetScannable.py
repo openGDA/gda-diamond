@@ -27,7 +27,7 @@ Extensions:
     `scn.stable_time_sec=X` is the time it needs to be in tolerance for, 0 by default
     `scn.verbose=True` prints out extra debugging info (at 10Hz) defaults to False"""
 
-    def __init__(self, name, pvroot, temp_tolerance, stable_time_sec=0, stop_sets_setpoint_to_readback=False):
+    def __init__(self, name, temp_tolerance, stable_time_sec=0, stop_sets_setpoint_to_readback=False):
         self.name = name
         
         self.temp_tolerance = temp_tolerance
@@ -44,9 +44,9 @@ Extensions:
         self.extraNames = ['sensor_temp']
         self.outputFormat = ['%f', '%f']
 
-    def __repr__(self):
-        return "CryojetScannable(name=%r, pvroot=%r, temp_tolerance=%r, stable_time_sec=%r)" % (
-            self.name, 'BL10J-EA-TCTRL-02:', self.temp_tolerance, self.stable_time_sec)
+    # def __repr__(self):
+    #     return "DummyCryojetScannable(name=%r, pvroot=%r, temp_tolerance=%r, stable_time_sec=%r)" % (
+    #         self.name, 'BL10J-EA-TCTRL-02:', self.temp_tolerance, self.stable_time_sec)
 
     def __str__(self):
         return "setpoint=%f, sensor=%f" % self.getPosition()

@@ -3,356 +3,323 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- RASOR TABLE -->
-	<bean id="leg1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="lgf" />
-		<property name="group" value="RASOR Table" />
-		<property name="scannableName" value="lgf" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="leg2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="lgm" />
-		<property name="group" value="RASOR Table" />
-		<property name="scannableName" value="lgm" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="leg3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="lgb" />
-		<property name="group" value="RASOR Table" />
-		<property name="scannableName" value="lgb" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<!-- RASOR CRYOSTAT -->
-	<bean id="sx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sx" />
-		<property name="group" value="RASOR CryoStat" />
-		<property name="scannableName" value="sx" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="sy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sy" />
-		<property name="group" value="RASOR CryoStat" />
-		<property name="scannableName" value="sy" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="sz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sz" />
-		<property name="group" value="RASOR CryoStat" />
-		<property name="scannableName" value="sz" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<!-- RASOR Diffractometer -->
-	<bean id="tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="tth" />
-		<property name="group" value="RASOR DIFF" />
-		<property name="scannableName" value="tth" />
-		<property name="increment" value="1" />
-	</bean>
+	<beans profile="scattering">
+		<!-- RASOR TABLE -->
+		<bean id="leg1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="lgf" />
+			<property name="group" value="RASOR Table" />
+			<property name="scannableName" value="lgf" />
+			<property name="increment" value="1" />
+		</bean>
 	
-	<bean id="th_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="th" />
-		<property name="group" value="RASOR DIFF" />
-		<property name="scannableName" value="th" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="chi_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="chi" />
-		<property name="group" value="RASOR DIFF" />
-		<property name="scannableName" value="chi" />
-		<property name="increment" value="1" />
-	</bean>
+		<bean id="leg2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="lgm" />
+			<property name="group" value="RASOR Table" />
+			<property name="scannableName" value="lgm" />
+			<property name="increment" value="1" />
+		</bean>
 	
-	<bean id="alpha_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="alpha" />
-		<property name="group" value="RASOR DIFF" />
-		<property name="scannableName" value="alpha" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="difx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="difx" />
-		<property name="group" value="RASOR DIFF" />
-		<property name="scannableName" value="difx" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<!-- RASOR Pin hole -->
-	<bean id="pinhx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="pinhx" />
-		<property name="group" value="RASOR Pin Hole" />
-		<property name="scannableName" value="pinhx" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="pinhy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="pinhy" />
-		<property name="group" value="RASOR Pin Hole" />
-		<property name="scannableName" value="pinhy" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<!-- RASOR REMEC -->
-	<bean id="emecy1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="emecy1" />
-		<property name="group" value="RASOR REMEC" />
-		<property name="scannableName" value="emecy1" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="emecy2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="emecy2" />
-		<property name="group" value="RASOR REMEC" />
-		<property name="scannableName" value="emecy2" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="emecpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="emecpitch" />
-		<property name="group" value="RASOR REMEC" />
-		<property name="scannableName" value="emecpitch" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<!-- RASOR POLAN -->
-	<bean id="eta_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="eta" />
-		<property name="group" value="RASOR POLAN" />
-		<property name="scannableName" value="eta" />
-		<property name="increment" value="1" />
-	</bean>
+		<bean id="leg3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="lgb" />
+			<property name="group" value="RASOR Table" />
+			<property name="scannableName" value="lgb" />
+			<property name="increment" value="1" />
+		</bean>
 	
-	<bean id="thp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="thp" />
-		<property name="group" value="RASOR POLAN" />
-		<property name="scannableName" value="thp" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="ttp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="ttp" />
-		<property name="group" value="RASOR POLAN" />
-		<property name="scannableName" value="ttp" />
-		<property name="increment" value="1" />
-	</bean>
+		<!-- RASOR CRYOSTAT -->
+		<bean id="sx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="sx" />
+			<property name="group" value="RASOR CryoStat" />
+			<property name="scannableName" value="sx" />
+			<property name="increment" value="1" />
+		</bean>
 	
-	<bean id="py_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="py" />
-		<property name="group" value="RASOR POLAN" />
-		<property name="scannableName" value="py" />
-		<property name="increment" value="1" />
-	</bean>
+		<bean id="sy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="sy" />
+			<property name="group" value="RASOR CryoStat" />
+			<property name="scannableName" value="sy" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="sz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="sz" />
+			<property name="group" value="RASOR CryoStat" />
+			<property name="scannableName" value="sz" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<!-- RASOR Diffractometer -->
+		<bean id="tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="tth" />
+			<property name="group" value="RASOR DIFF" />
+			<property name="scannableName" value="tth" />
+			<property name="increment" value="1" />
+		</bean>
+		
+		<bean id="th_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="th" />
+			<property name="group" value="RASOR DIFF" />
+			<property name="scannableName" value="th" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="chi_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="chi" />
+			<property name="group" value="RASOR DIFF" />
+			<property name="scannableName" value="chi" />
+			<property name="increment" value="1" />
+		</bean>
+		
+		<bean id="alpha_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="alpha" />
+			<property name="group" value="RASOR DIFF" />
+			<property name="scannableName" value="alpha" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="difx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="difx" />
+			<property name="group" value="RASOR DIFF" />
+			<property name="scannableName" value="difx" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<!-- RASOR Pin hole -->
+		<bean id="pinhx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="pinhx" />
+			<property name="group" value="RASOR Pin Hole" />
+			<property name="scannableName" value="pinhx" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="pinhy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="pinhy" />
+			<property name="group" value="RASOR Pin Hole" />
+			<property name="scannableName" value="pinhy" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<!-- RASOR REMEC -->
+		<bean id="emecy1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="emecy1" />
+			<property name="group" value="RASOR REMEC" />
+			<property name="scannableName" value="emecy1" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="emecy2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="emecy2" />
+			<property name="group" value="RASOR REMEC" />
+			<property name="scannableName" value="emecy2" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="emecpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="emecpitch" />
+			<property name="group" value="RASOR REMEC" />
+			<property name="scannableName" value="emecpitch" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<!-- RASOR POLAN -->
+		<bean id="eta_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="eta" />
+			<property name="group" value="RASOR POLAN" />
+			<property name="scannableName" value="eta" />
+			<property name="increment" value="1" />
+		</bean>
+		
+		<bean id="thp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="thp" />
+			<property name="group" value="RASOR POLAN" />
+			<property name="scannableName" value="thp" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="ttp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="ttp" />
+			<property name="group" value="RASOR POLAN" />
+			<property name="scannableName" value="ttp" />
+			<property name="increment" value="1" />
+		</bean>
+		
+		<bean id="py_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="py" />
+			<property name="group" value="RASOR POLAN" />
+			<property name="scannableName" value="py" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="pz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="pz" />
+			<property name="group" value="RASOR POLAN" />
+			<property name="scannableName" value="pz" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<!-- RASOR Pin hole -->
+		<bean id="dsd_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="dsd" />
+			<property name="group" value="Detector Aperture" />
+			<property name="scannableName" value="dsd" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="dsu_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="dsu" />
+			<property name="group" value="Detector Aperture" />
+			<property name="scannableName" value="dsu" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+			<property name="controls">
+				<list>
+					<ref bean="leg1_control" />
+					<ref bean="leg2_control" />
+					<ref bean="leg3_control" />
+					<ref bean="sx_control" />
+					<ref bean="sy_control" />
+					<ref bean="sz_control" />
+					<ref bean="tth_control" />
+					<ref bean="th_control" />
+					<ref bean="chi_control" />
+					<ref bean="alpha_control" />
+					<ref bean="difx_control" />
+					<ref bean="pinhx_control" />
+					<ref bean="pinhy_control" />
+					<ref bean="emecy1_control" />
+					<ref bean="emecy2_control" />
+					<ref bean="emecpitch_control" />
+					<ref bean="eta_control" />
+					<ref bean="thp_control" />
+					<ref bean="ttp_control" />
+					<ref bean="py_control" />
+					<ref bean="pz_control" />
+					<ref bean="dsd_control" />
+					<ref bean="dsu_control" />
+				</list>
+			</property>
+		</bean>
 
-	<bean id="pz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="pz" />
-		<property name="group" value="RASOR POLAN" />
-		<property name="scannableName" value="pz" />
-		<property name="increment" value="1" />
-	</bean>
+		<!-- PIMTE Controls -->
+		<bean id="pimte_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Exposure" />
+			<property name="group" value="PIMTE Controls" />
+			<property name="scannableName" value="pimteExposureTime" />
+			<property name="textWidth" value="35"/>
+			<property name="userUnits" value="s" />
+		</bean>
+		<bean id="pimte_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Period" />
+			<property name="group" value="PIMTE Controls" />
+			<property name="scannableName" value="pimteAcquirePeriod" />
+			<property name="textWidth" value="35" />
+		</bean>
+		<bean id="pimte_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="PROC NumFilter" />
+			<property name="group" value="PIMTE PROC" />
+			<property name="scannableName" value="pimteProcNumFilter" />
+			<property name="textWidth" value="30" />
+			<property name="userUnits" value=""/>
+		</bean>
+		<bean id="pimte_cover_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="" />
+			<property name="scannableName" value="pimtecover" />
+			<property name="showStop" value="False" />
+			<property name="group" value="PIMTE Controls" />
+		</bean>
+		<bean id="pimteCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+			<property name="cameraConfig" ref="pimte_cam"/>
+			<property name="stateVariableName" value="i10.pimte.live.stream.active"/>
+		</bean>
+		<bean id="pimteControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+			<property name="customWidget">
+				<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+					<property name="liveControls">
+						<list>
+							<ref bean="pimte_expsure_time_control" />
+							<ref bean="pimte_acquire_period_control"/>
+							<ref bean="pimte_cover_control"/>
+							<ref bean="pimte_proc_num_filter_control" />
+						</list>
+					</property>
+					<property name="cameraState" ref="pimteCameraState"/>
+				</bean>
+			</property>
+		</bean>
+		<!-- PIXIS Controls -->
+		<bean id="pixis_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Exposure" />
+			<property name="group" value="PIXIS Acquire Time" />
+			<property name="scannableName" value="pixisExposureTime" />
+			<property name="textWidth" value="35"/>
+			<property name="userUnits" value="s" />
+		</bean>
+		<bean id="pixis_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Period" />
+			<property name="group" value="PIXIS Acquire Time" />
+			<property name="scannableName" value="pixisAcquirePeriod" />
+			<property name="textWidth" value="35"/>
+			<property name="userUnits" value="s" />
+		</bean>
+		<bean id="pixis_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="PROC NumFilter" />
+			<property name="group" value="PIXIS PROC" />
+			<property name="scannableName" value="pixisProcNumFilter" />
+			<property name="textWidth" value="30" />
+			<property name="userUnits" value=""/>
+		</bean>
+		<bean id="pixisCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+			<property name="cameraConfig" ref="pixis_cam"/>
+			<property name="stateVariableName" value="i10.pixis.live.stream.active"/>
+		</bean>
+		<bean id="pixisControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+			<property name="customWidget">
+				<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+					<property name="liveControls">
+						<list>
+							<ref bean="pixis_expsure_time_control" />
+							<ref bean="pixis_acquire_period_control"/>
+							<ref bean="pixis_proc_num_filter_control" />
+						</list>
+					</property>
+					<property name="cameraState" ref="pixisCameraState"/>
+				</bean>
+			</property>
+		</bean>
+	</beans>
 
-	<!-- RASOR Pin hole -->
-	<bean id="dsd_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="dsd" />
-		<property name="group" value="Detector Aperture" />
-		<property name="scannableName" value="dsd" />
-		<property name="increment" value="1" />
-	</bean>
+	<beans profile="hfm">
+		<bean id="hfmx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="X" />
+			<property name="group" value="HFM" />
+			<property name="scannableName" value="hfmx" />
+			<property name="increment" value="1" />
+		</bean>
+		<bean id="hfmy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="Y" />
+			<property name="group" value="HFM" />
+			<property name="scannableName" value="hfmy" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean id="hfmpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="Pitch" />
+			<property name="group" value="HFM" />
+			<property name="scannableName" value="hfmpitch" />
+			<property name="increment" value="1" />
+		</bean>
+	
+		<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+			<property name="controls">
+				<list>
+					<ref bean="hfmx_control" />
+					<ref bean="hfmy_control" />
+					<ref bean="hfmpitch_control" />
+				</list>
+			</property>
+		</bean>
+	</beans>
 
-	<bean id="dsu_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="dsu" />
-		<property name="group" value="Detector Aperture" />
-		<property name="scannableName" value="dsu" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<!-- PIMTE detector control -->
-	<bean id="pimteStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pimte_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pimte_addetector.collectData()" />
-		<property name="buttonText" value="Start camera" />
-		<property name="group" value="PIMTE" />
-	</bean>
-	<bean id="pimteStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pimte_addetector.adBase.stopAcquiring()" />
-		<property name="buttonText" value="Stop camera" />
-		<property name="group" value="PIMTE" />
-	</bean>
-	<bean id="pimteEnable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pimte_addetector.ndArray.getPluginBase().enableCallbacks()" />
-		<property name="buttonText" value="Enable stream" />
-		<property name="group" value="PIMTE" />
-	</bean>
-	<bean id="pimteDisable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pimte_addetector.ndArray.getPluginBase().disableCallbacks()" />
-		<property name="buttonText" value="Disable stream" />
-		<property name="group" value="PIMTE" />
-	</bean>
-
-	<!-- PIXIS detector control -->
-	<bean id="pixisStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pixis_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pixis_addetector.collectData()" />
-		<property name="buttonText" value="Start camera" />
-		<property name="group" value="PIXIS" />
-	</bean>
-
-	<bean id="pixisStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pixis_addetector.adBase.stopAcquiring()" />
-		<property name="buttonText" value="Stop camera" />
-		<property name="group" value="PIXIS" />
-	</bean>
-	<bean id="pixisEnable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pixis_addetector.ndArray.getPluginBase().enableCallbacks()" />
-		<property name="buttonText" value="Enable stream" />
-		<property name="group" value="PIXIS" />
-	</bean>
-	<bean id="pixisDisable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pixis_addetector.ndArray.getPluginBase().disableCallbacks()" />
-		<property name="buttonText" value="Disable stream" />
-		<property name="group" value="PIXIS" />
-	</bean>	
-	<!-- RASOR TABLE -->
-	<bean id="magj1yins_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Insert Y" />
-		<property name="group" value="Magnet" />
-		<property name="scannableName" value="magj1yins" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="magj1yrot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Insert Y Rot" />
-		<property name="group" value="Magnet" />
-		<property name="scannableName" value="magj1yrot" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean id="magj1x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Stand X" />
-		<property name="group" value="Magnet" />
-		<property name="scannableName" value="magj1x" />
-		<property name="increment" value="1" />
-	</bean>
-
-	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
-		<property name="controls">
-			<list>
-				<ref bean="leg1_control" />
-				<ref bean="leg2_control" />
-				<ref bean="leg3_control" />
-				<ref bean="sx_control" />
-				<ref bean="sy_control" />
-				<ref bean="sz_control" />
-				<ref bean="tth_control" />
-				<ref bean="th_control" />
-				<ref bean="chi_control" />
-				<ref bean="alpha_control" />
-				<ref bean="difx_control" />
-				<ref bean="pinhx_control" />
-				<ref bean="pinhy_control" />
-				<ref bean="emecy1_control" />
-				<ref bean="emecy2_control" />
-				<ref bean="emecpitch_control" />
-				<ref bean="eta_control" />
-				<ref bean="thp_control" />
-				<ref bean="ttp_control" />
-				<ref bean="py_control" />
-				<ref bean="pz_control" />
-				<ref bean="dsd_control" />
-				<ref bean="dsu_control" />
-				<ref bean="magj1yrot_control" />
-				<ref bean="magj1yrot_control" />
-				<ref bean="magj1x_control" />
-			</list>
-		</property>
-	</bean>
-	<!-- PIMTE Controls -->
-	<bean id="pimte_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Exposure" />
-		<property name="group" value="PIMTE Controls" />
-		<property name="scannableName" value="pimteExposureTime" />
-		<property name="textWidth" value="35"/>
-		<property name="userUnits" value="s" />
-	</bean>
-	<bean id="pimte_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Period" />
-		<property name="group" value="PIMTE Controls" />
-		<property name="scannableName" value="pimteAcquirePeriod" />
-		<property name="textWidth" value="35" />
-	</bean>
-	<bean id="pimte_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="PROC NumFilter" />
-		<property name="group" value="PIMTE PROC" />
-		<property name="scannableName" value="pimteProcNumFilter" />
-		<property name="textWidth" value="30" />
-		<property name="userUnits" value=""/>
-	</bean>
-	<bean id="pimte_cover_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="" />
-		<property name="scannableName" value="pimtecover" />
-		<property name="showStop" value="False" />
-		<property name="group" value="PIMTE Controls" />
-	</bean>
-	<bean id="pimteCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="pimte_cam"/>
-		<property name="stateVariableName" value="i10.pimte.live.stream.active"/>
-	</bean>
-	<bean id="pimteControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
-		<property name="customWidget">
-			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
-				<property name="liveControls">
-					<list>
-						<ref bean="pimte_expsure_time_control" />
-						<ref bean="pimte_acquire_period_control"/>
-						<ref bean="pimte_cover_control"/>
-						<ref bean="pimte_proc_num_filter_control" />
-					</list>
-				</property>
-				<property name="cameraState" ref="pimteCameraState"/>
-			</bean>
-		</property>
-	</bean>
-	<!-- PIXIS Controls -->
-	<bean id="pixis_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Exposure" />
-		<property name="group" value="PIXIS Acquire Time" />
-		<property name="scannableName" value="pixisExposureTime" />
-		<property name="textWidth" value="35"/>
-		<property name="userUnits" value="s" />
-	</bean>
-	<bean id="pixis_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Period" />
-		<property name="group" value="PIXIS Acquire Time" />
-		<property name="scannableName" value="pixisAcquirePeriod" />
-		<property name="textWidth" value="35"/>
-		<property name="userUnits" value="s" />
-	</bean>
-	<bean id="pixis_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="PROC NumFilter" />
-		<property name="group" value="PIXIS PROC" />
-		<property name="scannableName" value="pixisProcNumFilter" />
-		<property name="textWidth" value="30" />
-		<property name="userUnits" value=""/>
-	</bean>
-	<bean id="pixisCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="pixis_cam"/>
-		<property name="stateVariableName" value="i10.pixis.live.stream.active"/>
-	</bean>
-	<bean id="pixisControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
-		<property name="customWidget">
-			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
-				<property name="liveControls">
-					<list>
-						<ref bean="pixis_expsure_time_control" />
-						<ref bean="pixis_acquire_period_control"/>
-						<ref bean="pixis_proc_num_filter_control" />
-					</list>
-				</property>
-				<property name="cameraState" ref="pixisCameraState"/>
-			</bean>
-		</property>
-	</bean>
 </beans>

@@ -82,7 +82,7 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="x_ring"/>
-					<property name="scannableName" value="s6xring"/>
+					<property name="scannableName" value="s9xring"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="x_hall"/>

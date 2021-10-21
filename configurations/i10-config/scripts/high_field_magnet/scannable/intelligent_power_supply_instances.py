@@ -34,7 +34,7 @@ else:
     from gdascripts.pd.dummy_pds import DummyEpicsReadWritePVClass
     ips_field = DummyIntelligentPowerSupplyFieldScannable('ips_field', field_tolerance=0.01)
     ips_sweeprate = DummyIntelligentPowerSupplySweepRateScannable('ips_sweeprate', sweeprate_tolerance=0.01)
-    itc2 = DummyCryojetScannable('itc2',pvroot='BL10J-EA-TCTRL-02:', temp_tolerance=1, stable_time_sec=60)
+    itc2 = DummyCryojetScannable('itc2', temp_tolerance=1, stable_time_sec=60)
     ips_field.setLevel(6)
     ips_sweeprate.setLevel(6)
     itc2.setLevel(6)
