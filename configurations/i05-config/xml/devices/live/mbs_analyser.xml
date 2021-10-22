@@ -31,6 +31,15 @@
 		<property name="maximumActiveRois" value="1" />
 	</bean>
 
+	<!-- Currently this config is the same for all modes so we're just going to re-use one DetectorConfiguration object -->
+	<bean id="detector_config" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
+		<property name="startX" value="178" />
+		<property name="sizeX" value="929" />
+		<property name="startY" value="1" />
+		<property name="sizeY" value="963" />
+		<property name="slices" value="963" />
+	</bean>
+
 	<bean id="analyser" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
 		<constructor-arg name="controller" ref="mbs_controller" />
 		<property name="name" value="analyser" />
@@ -38,33 +47,22 @@
 			<bean id="mbs_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserCollectionStrategy" />
 		</property>
 		<property name="energyRange" ref="mbs_analyser_energy_range" />
-		<property name="fixedModeConfiguration">
-			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
-				<property name="startX" value="178" />
-				<property name="sizeX" value="929" />
-				<property name="startY" value="1" />
-				<property name="sizeY" value="963" />
-				<property name="slices" value="963" />
-			</bean>
+		<property name="fixedModeConfiguration" ref="detector_config" />
+		<property name="sweptModeConfiguration" ref="detector_config" />
+		<property name="ditherModeConfiguration" ref="detector_config" />
+		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
+	</bean>
+	
+	<bean id="analyser_total" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
+		<constructor-arg name="controller" ref="mbs_controller" />
+		<property name="name" value="analyser" />
+		<property name="collectionStrategy">
+			<bean id="mbs_total_only_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserTotalOnlyCollectionStrategy" />
 		</property>
-		<property name="sweptModeConfiguration">
-			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
-				<property name="startX" value="178" />
-				<property name="sizeX" value="929" />
-				<property name="startY" value="1" />
-				<property name="sizeY" value="963" />
-				<property name="slices" value="963" />
-			</bean>
-		</property>
-		<property name="ditherModeConfiguration">
-			<bean class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
-				<property name="startX" value="178" />
-				<property name="sizeX" value="929" />
-				<property name="startY" value="1" />
-				<property name="sizeY" value="963" />
-				<property name="slices" value="963" />
-			</bean>
-		</property>
+		<property name="energyRange" ref="mbs_analyser_energy_range" />
+		<property name="fixedModeConfiguration" ref="detector_config" />
+		<property name="sweptModeConfiguration" ref="detector_config" />
+		<property name="ditherModeConfiguration" ref="detector_config" />
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 	</bean>
 
