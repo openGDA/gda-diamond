@@ -68,7 +68,6 @@ public class ContinuousModeControllerComposite extends Composite {
 		this.analyser = analyser;
 
 		// Overall layout of groups
-		//RowLayoutFactory.swtDefaults().type(SWT.VERTICAL).spacing(5).wrap(false).applyTo(this);
 		GridLayoutFactory.fillDefaults().numColumns(5).equalWidth(false).applyTo(this);
 		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 
@@ -76,7 +75,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		Group analyserGroup = new Group(this, SWT.NONE);
 		analyserGroup.setText("Analyser");
 		analyserGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(analyserGroup);
+		GridLayoutFactory.swtDefaults().numColumns(6).spacing(10, 0).applyTo(analyserGroup);
 		GridDataFactory.fillDefaults().span(5, 1).applyTo(analyserGroup);
 
 		// Lens mode
@@ -115,6 +114,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		centreEnergyNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		centreEnergyNPC.hideStopButton();
 		GridDataFactory.swtDefaults().span(1, 2).applyTo(centreEnergyNPC);
+
 		// Acquire time
 		NudgePositionerComposite acquireTimeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
 		acquireTimeNPC.setScannable((Scannable) Finder.find("acquire_time"));
@@ -122,6 +122,16 @@ public class ContinuousModeControllerComposite extends Composite {
 		acquireTimeNPC.setIncrement(0.5);
 		acquireTimeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquireTimeNPC);
+
+		// Deflector X
+		Finder.findOptionalOfType("deflector_x", Scannable.class).ifPresent(deflectorX -> {
+			NudgePositionerComposite deflectorXControl = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+			deflectorXControl.setScannable(deflectorX);
+			deflectorXControl.setDisplayName("deflector_x");
+			deflectorXControl.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+			deflectorXControl.hideStopButton();
+			GridDataFactory.swtDefaults().span(1, 2).applyTo(deflectorXControl);
+		});
 
 		// Analyser Start Button
 		startButton = new Button(analyserGroup, SWT.DEFAULT);
