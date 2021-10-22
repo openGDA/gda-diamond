@@ -5,7 +5,7 @@ today = time.strftime("%Y%m%d")
 
 runN = request.metadata._start_run_number
 
-def setup(total_exposure,total_oscillation,prefix=False,folder=False,wavelength=False,osc_per_frame=0.25,run_number=False):
+def setup(total_exposure,total_oscillation,prefix=False,folder=False,wavelength=False,osc_per_frame=0.25,detector_distance=False,run_number=False):
 	if folder:
 		request.metadata.setDirectory("%s/%s" %(today,folder))
 		request.metadata.setDetectorWritePath("%s/%s" %(today,folder))
@@ -15,6 +15,10 @@ def setup(total_exposure,total_oscillation,prefix=False,folder=False,wavelength=
 
 	if prefix:
 		request.metadata.setPrefix(prefix)
+	
+	if detector_distance:
+		request.run_data.setDetectorDistance(detector_distance)
+
 	if run_number:
 		request.metadata.setStartRunNumber(run_number)
 		runN = run_number
@@ -24,6 +28,7 @@ def setup(total_exposure,total_oscillation,prefix=False,folder=False,wavelength=
 
 	if wavelength:
 		request.run_data.setWavelength(wavelength)
+
 
 	n_images = int(total_oscillation / osc_per_frame)
 	print "Going to try set number of images to %s" %(n_images)
@@ -45,7 +50,7 @@ def setup(total_exposure,total_oscillation,prefix=False,folder=False,wavelength=
 	print ""
 	request.run_data()
 
- 
+
 def collect():
 	print request.run_data()
 	print request.metadata.directory()

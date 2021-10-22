@@ -12,8 +12,9 @@ from time import sleep
 
 from java.lang import String
 from java.util import Date
+from java.util import Optional
 
-from com.google.common.base import Optional  # @UnresolvedImport: PyDev has trouble seeing some values
+# from com.google.common.base import Optional  # @UnresolvedImport: PyDev has trouble seeing some values
 from com.google.common.base import Preconditions  # @UnresolvedImport: PyDev has trouble seeing some values
 
 from gda.device import DeviceException
@@ -67,7 +68,7 @@ class CollectRequestHandler:
 		self.currentRequestIndex = 0
 		self.currentOscIndex = 0
 		self.currentImage = 0
-		self.flux = Optional.absent()
+		self.flux = Optional.empty()
 
 
 	def atEndOfDataCollection(self):

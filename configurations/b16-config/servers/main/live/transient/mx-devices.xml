@@ -14,8 +14,7 @@
 	<bean id="PXDetector" class="gda.px.detector.EpicsAreaDetectorPilatus">
 		<property name="basePv" value="BL16B-EA-DET-04:CAM" />
 		<property name="pilatusType" value="P6M" /> <!-- This is not correct but must match a supported case in AreaDetectorPilatusBase#setPilatusType  -->
-		<property name="id" value="B16_P300K" />
-		<property name="suffix" value="cbf" />
+		<property name="id" value="0" />
 	</bean>
 
 	<!-- From mx-config/servers/main/PXDetector_Pilatus.xml -->

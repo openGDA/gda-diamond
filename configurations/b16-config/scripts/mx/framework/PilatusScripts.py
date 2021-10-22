@@ -2,7 +2,9 @@ import time
 import re
 import sys
 
-from com.google.common.base import Optional # @UnresolvedImport
+from java.util import Optional
+
+# from com.google.common.base import Optional # @UnresolvedImport
 from org.slf4j import LoggerFactory
 
 from gda.commandqueue import JythonScriptProgressProvider
@@ -200,7 +202,7 @@ def PilatusCheckThresholdOnly(update, detector, currentEnergy, do_sleep=True):
 def setDetectorCollectionParameters(detector, detCollPar, exposeTime, wavelength, distance, start, angleRange, xBeam, yBeam, actualTransmission, flux, filepath, update):
 	''' flux should be Optional<Double> as returned by flux_utils.get_current_flux() '''
 	if not isinstance(flux, Optional):
-		flux = Optional.fromNullable(flux) # if value, wrap as Optional
+		flux = Optional.ofNullable(flux) # if value, wrap as Optional
 	
 	detCollPar.setExposureTime(exposeTime)
 	detCollPar.setWavelength(wavelength)
