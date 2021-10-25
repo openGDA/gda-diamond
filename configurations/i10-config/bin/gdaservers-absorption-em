@@ -9,6 +9,7 @@
 #
 # This script should not be added to as it is being phased out
 
-export SPRING_PROFILES = absorption
+export SPRING_PROFILES = absorption,em
 
-gda servers $*
+gda logpanel
+gda servers --springprofiles=$SPRING_PROFILES $*
