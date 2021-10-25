@@ -29,7 +29,6 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.standardMarginWidth;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -66,14 +65,13 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
-import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.exception.AcquisitionConfigurationException;
-import uk.ac.gda.client.exception.GDAClientException;
 import uk.ac.gda.client.properties.acquisition.AcquisitionConfigurationProperties;
 import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
-import uk.ac.gda.client.properties.acquisition.ProcessingRequestProperties;
+import uk.ac.gda.client.properties.acquisition.processing.FrameCaptureProperties;
+import uk.ac.gda.client.properties.acquisition.processing.ProcessingRequestProperties;
 import uk.ac.gda.core.tool.spring.AcquisitionFileContext;
 import uk.ac.gda.core.tool.spring.DiffractionContextFile;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
@@ -309,30 +307,21 @@ public class DiffractionConfigurationLayoutFactory implements CompositeFactory, 
 		return processingRequestContexts;
 	}
 
-	private List<DetectorDocument> getCaptureFrameCamera() {
-		List<String> cameraIds = Collections.emptyList();
+	private List<FrameCaptureProperties> getCaptureFrameCamera() {
+		List<FrameCaptureProperties> frameRequestDocuments = new ArrayList<>();
+		FrameCaptureProperties frameCapture = null;
 		try {
-			cameraIds = SpringApplicationContextFacade.getBean(ClientSpringProperties.class).getAcquisitions().stream()
+			frameCapture = SpringApplicationContextFacade.getBean(ClientSpringProperties.class).getAcquisitions().stream()
 					.filter(a -> a.getType().equals(AcquisitionPropertyType.DIFFRACTION))
 					.findFirst()
 					.map(AcquisitionConfigurationProperties::getProcessingRequest)
 					.map(ProcessingRequestProperties::getFrameCapture)
 					.orElseThrow(() -> new AcquisitionConfigurationException("There are no properties associated with the acqual acquisition"));
+			frameRequestDocuments.add(frameCapture);
 		} catch (AcquisitionConfigurationException e1) {
 			logger.error("Frame Capture cannot set camera", e1);
 		}
-
-		List<DetectorDocument> cameras = new ArrayList<>();
-		for(String id : cameraIds) {
-			try {
-				var detectorDocument = getDocumentFactory().createDetectorDocument(id)
-						.orElseThrow(GDAClientException::new);
-				cameras.add(detectorDocument);
-			} catch (GDAClientException e) {
-				logger.error("Cannot create DetectorDocument: {}", e.getMessage());
-			}
-		}
-		return cameras;
+		return frameRequestDocuments;
 	}
 
 	private URL getDiffractionCalibrationMergeDirectory() {
