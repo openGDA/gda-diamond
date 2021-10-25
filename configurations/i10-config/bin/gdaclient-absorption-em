@@ -1,0 +1,8 @@
+#!/bin/bash
+export GTK_OVERLAY_SCROLLING=0
+
+export SPRING_PROFILES=absorption,em
+
+gda --start logpanel
+export GDA_CLIENT_VMARGS=" -Xms256m -Xmx2048m"
+gda --start client -Dgda.spring.profiles.active=SPRING_PROFILES "$@"
