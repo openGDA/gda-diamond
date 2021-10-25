@@ -12,7 +12,7 @@ print "Creating scannables for High Field Magnet control using EPICS PV directly
 print "    1. 'ips_field'     - the demand field"
 print "    2. 'ips_sweeprate' - the sweep rate"
 print "    3. 'itc2'          - the temperature controller"
-print "    4. 'magj1yrot_off' - the rotation offset"
+print "    4. 'hfmpitch_off' - the rotation offset"
 
 if installation.isLive():
     try:

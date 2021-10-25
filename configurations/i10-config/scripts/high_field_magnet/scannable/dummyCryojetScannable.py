@@ -4,19 +4,7 @@ for use with GDA at Diamond Light Source
 """
 
 from gda.device.scannable import ScannableMotionBase
-from dls_scripts.device.CryojetController import CryojetController
 from threading import Timer
-
-"""
-    <OxInstCryojet desc="Magnet Intelligent Temperature Controller J1" name="MAGJ1.ITCJ1">
-        <PGAIN_SET desc="set pid p" pv="BL10J-EA-TCTRL-01:P:SET" ro="false" type="pv"/>
-        <IGAIN_SET desc="set pid i" pv="BL10J-EA-TCTRL-01:I:SET" ro="false" type="pv"/>
-        <DGAIN_SET desc="set pid d" pv="BL10J-EA-TCTRL-01:D:SET" ro="false" type="pv"/>
-        <TEMP_SET desc="set target temp" pv="BL10J-EA-TCTRL-01:TTEMP:SET" ro="false" type="pv"/>
-        <SENSOR_TEMP desc="get sensor temp" pv="BL10J-EA-TCTRL-01:STEMP" ro="true" type="pv"/>
-        <DISABLE desc="disable comms" pv="BL10J-EA-TCTRL-01:DISABLE" ro="false" type="binary"/>
-    </OxInstCryojet>
-"""
 
 class DummyCryojetScannable(ScannableMotionBase): 
     """CryojetScannable:
@@ -44,27 +32,20 @@ Extensions:
         self.extraNames = ['sensor_temp']
         self.outputFormat = ['%f', '%f']
 
-    # def __repr__(self):
-    #     return "DummyCryojetScannable(name=%r, pvroot=%r, temp_tolerance=%r, stable_time_sec=%r)" % (
-    #         self.name, 'BL10J-EA-TCTRL-02:', self.temp_tolerance, self.stable_time_sec)
-
-    def __str__(self):
-        return "setpoint=%f, sensor=%f" % self.getPosition()
-
     def _timer_factory(self):
         return Timer(self.stable_time_sec, self._timer_completed)
 
     def _timer_completed(self):
         self.stable = True
         if self.verbose:
-            print "CryojetScannable: Hold timer finished..."
+            print "DummyCryojetScannable: Hold timer finished..."
 
     def getPosition(self):
         return (self.setpoint, self.sensor_reading)
 
     def rawAsynchronousMoveTo(self,setpoint):
         if self.verbose:
-            print "CryojetScannable: Moving to %r" % setpoint
+            print "DummyCryojetScannable: Moving to %r" % setpoint
         self.setpoint = setpoint
         self.increment = (setpoint - self.sensor_reading)/10.0
         
@@ -76,7 +57,7 @@ Extensions:
             self.rawAsynchronousMoveTo(self.sensor_reading)
         self.stable = True
         if self.verbose:
-            print "CryojetScannable: Stopped"
+            print "DummyCryojetScannable: Stopped"
 
     def isBusy(self):
         # Note that we rely on isBusy being called often enough that the
@@ -89,17 +70,17 @@ Extensions:
             if abs(dtemp) > self.temp_tolerance:
                 self.hold_timer.cancel()
                 if self.verbose:
-                    print "CryojetScannable: temperature differential %f greater than %f from %f" % (dtemp, self.temp_tolerance, self.setpoint)
+                    print "DummyCryojetScannable: temperature differential %f greater than %f from %f" % (dtemp, self.temp_tolerance, self.setpoint)
             elif not self.hold_timer.isAlive():
                 self.hold_timer = self._timer_factory()
                 self.hold_timer.start()
                 if self.verbose:
-                    print "CryojetScannable: Hold timer started..."
+                    print "DummyCryojetScannable: Hold timer started..."
             else:
                 if self.verbose:
-                    print "CryojetScannable: Holding..."
+                    print "DummyCryojetScannable: Holding..."
             return True
         
         if self.verbose:
-            print "CryojetScannable: No longer busy"
+            print "DummyCryojetScannable: No longer busy"
         return False

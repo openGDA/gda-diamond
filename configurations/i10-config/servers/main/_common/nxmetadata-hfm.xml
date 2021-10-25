@@ -31,7 +31,7 @@
 	</bean>
 	
 	<bean id="itc2NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="itc2" />
+		<property name="name" value="itc" /> <!-- nexus metadata dvice name cannot be the same as a scannable name -->
 		<property name="category" value="NX_INSTRUMENT"/>
 		<property name="nexusClass" value="NXcollection"/>
 		<property name="childNodes">
