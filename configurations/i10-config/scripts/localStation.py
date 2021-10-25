@@ -135,8 +135,8 @@ if "scattering" in spring_profiles:
     
     from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion  # @UnusedImport
     from gdaserver import pimte, pixis  # @UnresolvedImport
-    thpimte=NXDetectorWithRockingMotion("thpimte", th, pimte)
-    thpixis=NXDetectorWithRockingMotion("thpixis", th, pixis)
+    thpimte=NXDetectorWithRockingMotion("thpimte", th, pimte)  # @UndefinedVariable
+    thpixis=NXDetectorWithRockingMotion("thpixis", th, pixis)  # @UndefinedVariable
     
 if "absorption" in spring_profiles:
     from scannable.haxpod.m6_haxpod_motors import m6fpitch  # @UnusedImport
@@ -144,9 +144,9 @@ if "absorption" in spring_profiles:
     if installation.isLive():
         from scannable.haxpod.m6_haxpod_motors import m6_x, m6_y, m6_z, m6_yaw, m6_pitch, m6_roll, M6  # @UnusedImport
 
-    camj1, peak2dj1, max2dj1 = cameraFactory('camj1', 'peak2dj1', 'max2dj1',dj1camtiff, None)
-    camj3, peak2dj3, max2dj3 = cameraFactory('camj3', 'peak2dj3', 'max2dj3', dj3camtiff, None)
-    from scannable.continuous.continuous_energy_scannables_absorption import energy_controller, energy, mcs16, mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
+    camj1, peak2dj1, max2dj1 = cameraFactory('camj1', 'peak2dj1', 'max2dj1', dj1camtiff, None)  # @UndefinedVariable
+    camj3, peak2dj3, max2dj3 = cameraFactory('camj3', 'peak2dj3', 'max2dj3', dj3camtiff, None)  # @UndefinedVariable
+    from scannable.continuous.continuous_energy_scannables_absorption import energy_controller, energye, mcse16, mcse17,mcse18,mcse19,mcse20,mcse21,mcse22,mcse23 # @UnusedImport
 
 if "hfm" in spring_profiles:
     #High Field Magnet support
