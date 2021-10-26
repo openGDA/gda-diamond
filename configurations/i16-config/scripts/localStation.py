@@ -81,6 +81,9 @@ global delta
 global energy, simple_energy, gam
 global x1
 global _cam1, _cam1_for_snaps
+global _camd3, _camd3_for_snaps
+global _camd4, _camd4_for_snaps
+global _camd5, _camd5_for_snaps
 global corExpTime, cor2ExpTime
 global _xeye, _xeye_for_snaps
 global _zylar, _zylar_for_snaps
@@ -1157,6 +1160,9 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 		localStation_exception("configuring %s" % name)
 
 bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps)
+camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
+camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
+camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
 
 def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
 	try:
