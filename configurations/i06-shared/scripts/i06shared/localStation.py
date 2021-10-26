@@ -68,21 +68,8 @@ if installation.isLive() and beamline != "lab44":
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
 from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 
-#### Metadata definitions
-## SRS or ASCII format
 from i06shared.devices.usePGM import grating  # @UnusedImport
-# from i06shared.metadata.setSrsDataFileHeader import fileHeader  # @UnusedImport
-# ## Nexus format
-# print "-"*50
-# print "Nexus file metadata commands:"
-# print "    'meta_add' - add a scannable or scannables to the scan metadata"
-# print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
-# print "    'meta_ls'  - list only the items to be put into the scan metadata"
-# print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
-
-# from i06shared.metadata.metashop import *  # @UnusedWildImport
-# for each in fileHeader.getDeviceList():
-    # meta_add(each)
+from i06shared.metadata.setSrsDataFileHeader import fileHeader  # @UnusedImport
 
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
@@ -94,9 +81,10 @@ from i06shared.scan.miscan import miscan  # @UnusedImport
 
 #add checkbeam scannable
 from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
+
+#Metadata objects
 from i06shared.scannables.stokesParameters import StokesParameters
 stokes_parameters = StokesParameters('stokes_parameters', __main__.pol, __main__.laa)
-
 from i06shared.metadata.gapScannable import GapScannable
 gap = GapScannable("gap", __main__.smode, __main__.iddgap, __main__.idugap, "mm", "%.3f")  # @UndefinedVariable
 from i06shared.metadata.taperScannable import TaperScannable

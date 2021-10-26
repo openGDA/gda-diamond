@@ -12,32 +12,36 @@
 	<import resource="m7.xml"/>
 	<import resource="s7.xml"/>
 	<import resource="d10.xml"/>
-	<import resource="gv17.xml"/>
+	<import resource="gvj4.xml"/>
 	<import resource="d11.xml"/>
 	<import resource="HM.xml"/>
 	<import resource="d12.xml"/>
 	<import resource="u2.xml"/>
-	<import resource="scm.xml"/>
-	<import resource="xabs.xml"/>
 	<import resource="userMotors.xml"/>
 	<import resource="fastScan.xml"/>
 	<import resource="laser_ec2.xml"/>
-
-	<!-- mobile end station devices below -->
-	<import resource="DD_Motors.xml"/>
-	<import resource="DD_Cam1.xml"/>
-	<import resource="DD_Cam2.xml"/>
-	<import resource="DD_Cam3.xml"/>
-	<import resource="DD_Cam4.xml"/>
-	<import resource="DD_Cam5.xml"/>
-	<import resource="DD_Cam_lights.xml"/>
-
-	<import resource="peem_cam3.xml"/>
-<!-- 	<import resource="mobilerack_cam1.xml"/> -->
-	<import resource="PIXIS.xml"/>
-	<import resource="DiffractionDichroism.xml"/>
-	<import resource="magnet.xml"/>
 	<import resource="keithley428Amp.xml"/>
-	<import resource="lakeshore336.xml"/>
+	<import resource="peem_cam3.xml"/>
+
+	<beans profile="DD">
+		<import resource="DD_Motors.xml"/>
+		<import resource="DD_Cam1.xml"/>
+		<import resource="DD_Cam2.xml"/>
+		<import resource="DD_Cam3.xml"/>
+		<import resource="DD_Cam4.xml"/>
+		<import resource="DD_Cam5.xml"/>
+		<import resource="DD_Cam_lights.xml"/>
+		<import resource="lakeshore336.xml"/>
+		<import resource="PIXIS.xml"/>
+	</beans>
+
+	<beans profile="magnet">
+		<import resource="scm.xml"/>
+		<import resource="magnet.xml"/>
+	</beans>
 	
+	<beans profile="xabs">
+		<import resource="xabs.xml"/>
+	</beans>
+		
 </beans>

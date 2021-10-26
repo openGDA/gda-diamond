@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.9.4.201804120850-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.9.15.202012132325-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -15,7 +15,6 @@
 		<config>servers/main/live/devices/d12.xml</config>
 		<config>servers/main/live/devices/d8.xml</config>
 		<config>servers/main/live/devices/d9.xml</config>
-		<config>servers/main/live/devices/gv17.xml</config>
 		<config>servers/main/live/devices/m7.xml</config>
 		<config>servers/main/live/devices/mobilerack_cam1.xml</config>
 		<config>servers/main/live/devices/mobilerack.xml</config>
@@ -50,6 +49,7 @@
 		<config>servers/main/_common/scannables/DD_Motors.xml</config>
 		<config>servers/main/live/devices/DD_Motors.xml</config>
 		<config>servers/main/live/devices/DD_Cam_lights.xml</config>
+		<config>servers/main/live/devices/gvj4.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
