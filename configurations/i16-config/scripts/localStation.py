@@ -1,3 +1,9 @@
+###############################################################################
+# This script is the main i16 localStation script, it will be used whenever   #
+# the `reset_namespace` command is run on the Jython terminal console in GDA, #
+# or the gda servers are restarted.                                           #
+###############################################################################
+
 import gda, time
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
@@ -1711,27 +1717,27 @@ except:
 do.pil = 8.8
 
 def diodein():
-    pos(tthp, 0)
-    pos(dettrans, 0)
+	pos(tthp, 0)
+	pos(dettrans, 0)
 
 def apdin():
-    pos(tthp, -0.35)
-    pos(dettrans -27.71)
+	pos(tthp, -0.35)
+	pos(dettrans -27.71)
 
 def vortexin():
-    pos(tthp, 85.4-96.5)
-    pos(dettrans, 25)
+	pos(tthp, 85.4-96.5)
+	pos(dettrans, 25)
 
 def pilin():
-    pos(do, do.pil)
-    pos(s6ygap, 2)
-    pos(s6ytrans, 10.433)
-    pos(s6ygap, 9)
+	pos(do, do.pil)
+	pos(s6ygap, 2)
+	pos(s6ytrans, 10.433)
+	pos(s6ygap, 9)
 
 def pilout():
-    pos(do, 0)
-    pos(s6ygap, 2.8)
-    pos(s6ytrans, 0)
+	pos(do, 0)
+	pos(s6ygap, 2.8)
+	pos(s6ytrans, 0)
 
 if installation.isLive():
 	print "*"*80
@@ -1740,7 +1746,7 @@ if installation.isLive():
 		run("localStationStaff")
 		localStation_print("localStationStaff.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_print("No localStationStaff.py found in user scripts directory")
+		localStation_exception("running localStationStaff user script!", e)
 	except:
 		localStation_exception("running localStationStaff user script!")
 
@@ -1750,9 +1756,9 @@ if installation.isLive():
 		run("localStationUser")
 		localStation_print("localStationUser.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_print("No localStationUser.py found in user scripts directory")
+		localStation_exception("running localStationUser user script!", e)
 	except:
-		localStation_exception("running localStationUser user script")
+		localStation_exception("running localStationUser user script!")
 else:
 	try:
 		run("dummy/localStationStaff")
