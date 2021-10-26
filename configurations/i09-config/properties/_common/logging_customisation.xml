@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+
+	<!-- This prevents many DEBUG level messages from rs_message scannable -->
+	<logger name="gda.device.scannable.PVStringScannable" level="INFO"/>
+
+</included>
