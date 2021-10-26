@@ -1597,6 +1597,36 @@ if USE_SMARGON:
 else:
 	localStation_print("Not configuring smargon")
 
+localStation_print("Setting diffcalc ubmeta scannable")
+try:
+	from gda.device.scannable import ScannableBase 
+	from __builtin__ import False 
+	try:
+		import json 
+	except ImportError: 
+		import simplejson as json
+
+	from diffcalc.ub.calcstate import UBCalcStateEncoder
+
+	class UBCalcMetadata (ScannableBase):
+		def __init__(self, name): 
+			self.name = name 
+
+		def getPosition(self): 
+			if ubcalc is not None or ubcalc._state is not None: 
+				return json.dumps(ubcalc._state, cls=UBCalcStateEncoder) 
+			return None 
+
+		def rawAsynchronousMoveTo(self, position): 
+			pass 
+
+		def isBusy(self): 
+			return False 
+
+	ubMeta = UBCalcMetadata("ubMeta")
+except:
+	localStation_exception("setting diffcalc ubmeta scannable")
+
 ######### temp 24/04/2018 #############
 
 do.pil = 8.8
