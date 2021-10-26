@@ -232,7 +232,7 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
 	# detector independent items
 	nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/source:NXsource/current:SDS")
 	
-	nxLinkCreator.setInstrument_detector_distance_target(default_placeholder_target)
+	#nxLinkCreator.setInstrument_detector_distance_target(default_placeholder_target)
 	nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/image_key:SDS")
 	nxLinkCreator.setInstrument_detector_x_pixel_size_target(default_placeholder_target)
 	nxLinkCreator.setInstrument_detector_y_pixel_size_target(default_placeholder_target)
@@ -250,13 +250,13 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
 	nxLinkCreator.setTitle_target("entry1:NXentry/title:SDS")
 	
 	# detector dependent items
-	if tomography_detector_name == "pco1_sw_hdf":
+	if tomography_detector_name in ["pco1_sw_hdf","balor_sw_hdf_NOT_exist"]:
 		# external file
 		instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
 		instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
 		instrument_detector_data_target += "data:SDS"
 		nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
-	elif tomography_detector_name == "pco1_sw_tif":
+	elif tomography_detector_name in ["pco1_sw_tif","_balor"]:
 		# image filenames
 		instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
 		instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
@@ -349,13 +349,13 @@ image_key_project = 0 # also known as sample
 def tomoScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1., start=0., stop=180., step=0.1, darkFieldInterval=0, flatFieldInterval=0,
 			  imagesPerDark=10, imagesPerFlat=10, optimizeBeamInterval=0, pattern="default", addNXEntry=True, autoAnalyse=True, additionalScannables=[]):
 	# set Pixel Rate for Edge only
-	if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+	"""if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
 		#pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")
 		pixel_rate_bup = caget("BL16B-EA-DET-08:CAM:PIX_RATE")
 		#caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 		caput("BL16B-EA-DET-08:CAM:PIX_RATE", "286000000 Hz")
 		caput("BL16B-EA-DET-08:CAM:ArrayCounter", 0)
-		caput("BL16B-EA-DET-08:HDF5:TempSuffix", '')
+		caput("BL16B-EA-DET-08:HDF5:TempSuffix", '')"""
 	createSRS = LocalProperties.get("gda.nexus.createSRS")
 	try:
 		LocalProperties.set("gda.nexus.createSRS", "false")
@@ -363,9 +363,9 @@ def tomoScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1., st
 				imagesPerDark, imagesPerFlat, optimizeBeamInterval, pattern, addNXEntry, autoAnalyse, additionalScannables)
 	finally:
 		LocalProperties.set("gda.nexus.createSRS", createSRS)
-		if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+		"""if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
 			#caput("ME07M-EA-DET-01:CAM:PIX_RATE", pixel_rate_bup)
-			caput("BL16B-EA-DET-08:CAM:PIX_RATE", pixel_rate_bup)
+			caput("BL16B-EA-DET-08:CAM:PIX_RATE", pixel_rate_bup)"""
 
 """
 perform a simple tomography scan
@@ -752,8 +752,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
 	else:
 		setTitle("undefined")
 	# set Pixel Rate for Edge only
-	if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
-		pass
+	#if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+		#pass
 		#pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")	#BL16B-EA-DET-08:
 		#caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 		#pcoEdge_readout=0.011
