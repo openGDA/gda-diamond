@@ -21,36 +21,12 @@
 
 	<!-- Smaract Motion -->
 
-	<bean id="laserxus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="laserxus_motor" />
-	</bean>
-
-	<bean id="laserxds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="laserxds_motor" />
-	</bean>
-
-	<bean id="laseryus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="laseryus_motor" />
-	</bean>
-
-	<bean id="laseryds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="laseryds_motor" />
-	</bean>
-
 	<bean id="armus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="armus_motor" />
 	</bean>
 
 	<bean id="armds" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="armds_motor" />
-	</bean>
-
-	<bean id="focus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="focus_motor" />
-	</bean>
-
-	<bean id="focds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="focds_motor" />
 	</bean>
 
 	<!-- Horiba Spectrum Analyser -->
@@ -96,33 +72,14 @@
 	<bean id="laser" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="laserxus" />
-				<ref bean="laserxds" />
-				<ref bean="laseryus" />
-				<ref bean="laseryds" />
 				<ref bean="armus" />
 				<ref bean="armds" />
-				<ref bean="focus" />
-				<ref bean="focds" />
 				<ref bean="opticxus" />
 				<ref bean="opticyus" />
 				<ref bean="objus" />
 				<ref bean="opticxds" />
 				<ref bean="opticyds" />
 				<ref bean="objds" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="laserposition" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="laserxus" />
-				<ref bean="laserxds" />
-				<ref bean="laseryus" />
-				<ref bean="laseryds" />
-				<ref bean="focus" />
-				<ref bean="focds" />
 			</list>
 		</property>
 	</bean>

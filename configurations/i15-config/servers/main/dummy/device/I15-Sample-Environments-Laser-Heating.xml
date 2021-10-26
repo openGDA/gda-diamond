@@ -28,12 +28,6 @@
 
 	<!-- Smaract Motion -->
 
-	<bean id="laserxus_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="laserxds_motor"
-			class="gda.device.motor.DummyMotor"/>
-
 	<!-- Note, this is also on the Newport motors EDM -->
 	<bean id="laseryus_motor"
 			class="gda.device.motor.DummyMotor"/>
@@ -46,12 +40,6 @@
 			class="gda.device.motor.DummyMotor"/>
 
 	<bean id="armds_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="focus_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="focds_motor"
 			class="gda.device.motor.DummyMotor"/>
 
 	<!-- Horiba Spectrum Analyser -->
@@ -82,7 +70,5 @@
 
 	<bean id="objds_motor"
 			class="gda.device.motor.DummyMotor"/>
-
-
 
 </beans>
