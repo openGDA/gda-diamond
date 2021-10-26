@@ -76,7 +76,9 @@
 	<import resource="detector/cam1.xml" />
 	<import resource="detector/cam2.xml" />
 	<import resource="detector/cam5.xml" />
+	<import resource=         "detector/camlab84.xml" />
 	<!-- 
+	<import resource="../dummy/detector/camlab84.xml" />
 	<import resource="detector/medipix.xml" />
 	 -->
 	<import resource="detector/merlin.xml" />

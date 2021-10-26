@@ -1014,6 +1014,7 @@ try:
 	cormax2d = DetectorDataProcessorWithRoi('cormax2d', cor, [SumMaxPositionAndValue()])
 
 	#create a version of cor, corpeak2d, cormax2d that performs auto exposure
+	# Example: scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 	#To record actual exposure time also add corExpTime
 	from autoRangeDetector import AutoRangeDetector
 	corAuto = AutoRangeDetector('corAuto',
@@ -1066,8 +1067,8 @@ try:
 		printNfsTimes=False,
 		returnPathAsImageNumberOnly=True)
 	cor2Auto.display_image = True
-	cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', corAuto, [TwodGaussianPeak()])
-	cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPositionAndValue()])
+	cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', cor2Auto, [TwodGaussianPeak()])
+	cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', cor2Auto, [SumMaxPositionAndValue()])
 	createPVScannable( "cor2ExpTime", "BL16I-DI-DCAM-10:CAM:AcquireTime_RBV", hasUnits=False)
 	cor2ExpTime.level=10
 except:
@@ -1094,8 +1095,6 @@ try:
 except:
 	localStation_exception("configuring xeye")
 
-#scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
-
 localStation_print("Configuring zylar")
 try:
 	zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper('zylar',
@@ -1118,27 +1117,63 @@ try:
 except:
 	localStation_exception("configuring zylar")
 
-localStation_print("Configuring bpm (cam1)")
-try:
-	bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
-		_cam1,
-		None,
-		_cam1_for_snaps,
-		[],
-		panel_name_rcp='Plot 1',
-		fileLoadTimout=60,
-		printNfsTimes=False,
-		returnPathAsImageNumberOnly=True)
+def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_last=True, panel_name_rcp='Plot 1'):
+	localStation_print("Configuring %s" % name)
+	try:
+		cam = SwitchableHardwareTriggerableProcessingDetectorWrapper(name,
+			cam_for_scans,
+			None,
+			cam_for_snaps,
+			[],
+			panel_name_rcp=panel_name_rcp,
+			fileLoadTimout=60,
+			printNfsTimes=False,
+			returnPathAsImageNumberOnly=True)
 
-	bpm.display_image = True
-	bpm.processors=[DetectorDataProcessorWithRoi('peak', bpm, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-	bpm.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
-	bpmpeak2d = DetectorDataProcessorWithRoi('bpmpeak2d', bpm, [TwodGaussianPeak()])
-	bpmmax2d = DetectorDataProcessorWithRoi('bpmmax2d', bpm, [SumMaxPositionAndValue()])
-	#bpm.processors[0].processors[1].calibrate()
-except:
-	localStation_exception("configuring bpm (cam1)")
+		cam.display_image = display_image
+		if sum_last:
+			cam.processors=[DetectorDataProcessorWithRoi('peak', cam, [TwodGaussianPeakWithCalibration(), SumMaxPositionAndValue()], False)]
+			cam.processors[0].processors[0].setScalingFactors(0.0027, 0.00375)
+		else:
+			cam.processors=[DetectorDataProcessorWithRoi('peak', cam, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+			cam.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
+		peak2d = DetectorDataProcessorWithRoi(name+'_peak2d', cam, [TwodGaussianPeak()])
+		max2d = DetectorDataProcessorWithRoi(name+'_max2d', cam, [SumMaxPositionAndValue()])
+		#cam.processors[0].processors[1].calibrate()
 
+		return cam, peak2d, max2d
+	except:
+		localStation_exception("configuring %s" % name)
+
+bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps)
+
+def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
+	try:
+		cam, cam_peak2d, cam_max2d = wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image, sum_last, panel_name_rcp)
+		camAuto = AutoRangeDetector(name+'Auto',
+			cam_for_scans,
+			None,
+			cam_for_snaps,
+			auto_range_base_PV,
+			[],
+			panel_name_rcp=panel_name_rcp,
+			fileLoadTimout=60,
+			printNfsTimes=False,
+			returnPathAsImageNumberOnly=True)
+		camAuto.display_image = True
+		camAutopeak2d = DetectorDataProcessorWithRoi(name+'Autopeak2d', camAuto, [TwodGaussianPeak()])
+		camAutomax2d = DetectorDataProcessorWithRoi(name+'Automax2d', camAuto, [SumMaxPositionAndValue()])
+		createPVScannable(name+"ExpTime", auto_range_base_PV+"CAM:AcquireTime_RBV", hasUnits=False)
+
+		return cam, cam_peak2d, cam_max2d, camAuto, camAutopeak2d, camAutomax2d
+	except:
+		localStation_exception("configuring %s" % name+"Auto")
+
+global camlab84_for_scans, camlab84_for_snaps, camlab84ExpTime
+
+camlab84, camlab84_peak2d, camlab84_max2d, camlab84Auto, camlab84Autopeak2d, camlab84Automax2d = wrappedAutoDetector(
+	"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:")
+camlab84ExpTime.level=10
 
 ###############################################################################
 ###                              Configure andor                            ###
