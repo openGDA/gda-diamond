@@ -61,6 +61,7 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 	// dataCollectionPlanId should be sufficient if the API is improved.
 	@Override
 	public void runTask(String proposalCode, long proposalNumber, long sampleId, long dataCollectionPlanId) {
+		logger.trace("runTask({},{},{},{})", proposalCode, proposalNumber, sampleId, dataCollectionPlanId);
 		if (databaseService == null) {
 			throw new IllegalStateException("No databaseService is avaliable");
 		}
