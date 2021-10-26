@@ -889,6 +889,8 @@ except:
 from scannable.detector.DetectorWithShutter import DetectorWithShutter
 from scannable.pilatus import PilatusThreshold, PilatusGain
 
+X1_DELAY = 0.1 # See https://jira.diamond.ac.uk/browse/I16-538
+
 ### 2m ###
 if USE_PIL2:
 	localStation_print("Configuring pilatus 2 (2m)")
@@ -914,7 +916,7 @@ if USE_PIL2:
 		pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
 		pil2m.printNfsTimes = True
 		pil2m.display_image = True
-		pil2ms = DetectorWithShutter(pil2m, x1)
+		pil2ms = DetectorWithShutter(pil2m, x1, X1_DELAY)
 	except:
 		localStation_exception("configuring pilatus 2 (2m)")
 else:
@@ -943,9 +945,9 @@ if USE_PIL1:
 			array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
 		pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		pil100k.printNfsTimes = False
-		pil100ks = DetectorWithShutter(pil100k, x1)
-		pil = pil100k
-		pils = pil100ks
+		pil100ks = DetectorWithShutter(pil100k, x1, X1_DELAY)
+		pil_tmp = pil100k
+		pils_tmp = pil100ks
 		#pil100kvrf=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VRF','BL16I-EA-PILAT-01:VRF','BL16I-EA-PILAT-01:VRF','V','%.3f',help='set VRF (gain) for pilatus\nReturns set value rather than true readback\n-0.05=very high\n-0.15=high\n-0.2=med\n-0.3=low')
 		#pil100kvcmp=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VCMP','BL16I-EA-PILAT-01:VCMP','BL16I-EA-PILAT-01:VCMP','V','%.3f',help='set VCMP (threshold) for pilatus\nReturns set value rather than true readback\n0-1 V')
 		#pil100kgain=SingleEpicsPositionerSetAndGetOnlyClass('P100k_gain','BL16I-EA-PILAT-01:Gain','BL16I-EA-PILAT-01:Gain','','%.3f',help='set gain for pilatus\nReturns set value rather than true readback\n3=very high\n2=high\n1=med\n0=low')
@@ -980,7 +982,7 @@ if USE_PIL3:
 			array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
 		pil3_100k.processors=[DetectorDataProcessorWithRoi('max', pil3_100k, [SumMaxPositionAndValue()], False)]
 		pil3_100k.printNfsTimes = False
-		pil3_100ks = DetectorWithShutter(pil3_100k, x1)
+		pil3_100ks = DetectorWithShutter(pil3_100k, x1, X1_DELAY, nameSuffix="")
 		pil3 = pil3_100k
 		pil3s = pil3_100ks
 
@@ -1252,7 +1254,7 @@ try:
 																	returnPathAsImageNumberOnly=True)
 	merlin.disable_operation_outside_scans = False
 	merlin.processors=[DetectorDataProcessorWithRoi('max', merlin, [SumMaxPositionAndValue()], False)]
-	merlins = DetectorWithShutter(merlin, x1)
+	merlins = DetectorWithShutter(merlin, x1, X1_DELAY)
 except gda.factory.FactoryException as e:
 	localStation_exception("connecting to merlin (FactoryException)", e)
 except java.lang.IllegalStateException as e:

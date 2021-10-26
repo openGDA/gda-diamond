@@ -3,6 +3,7 @@ from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDe
 from scisoftpy.external import create_function
 from gda.configuration.properties import LocalProperties
 from gda.device import DeviceException
+from org.slf4j import LoggerFactory
 
 class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 
@@ -42,6 +43,8 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
                 return_performance_metrics,
                 array_monitor_for_hardware_triggering )
 
+        self.logger = LoggerFactory.getLogger("NxProcessingDetectorWrapper:%s" % name)
+        self.logger.debug("__init__({}, {}, {}, {}, {})", [name, detector, hardware_triggered_detector, detector_for_snaps, processors])
         self.linkFunction = create_function("detectorLinkInserter", "nexusHDFLink", dls_module='python/ana')
         self.lastReadout = None
 
@@ -66,6 +69,8 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
         detectorFileName = detectorFileName.replace(datadirectory, "")
         if detectorFileName[0] == '/':
             detectorFileName = detectorFileName.split('/', 1)[1]
+        self.logger.debug("Calling nexusHDFLink.detectorLinkInserter({}, {}, {}, {}) on %s" % self.getName(),
+            nexusFileName, detectorFileName, nexusPaths, detectorPath)
         print "Creating HDF Links"
         # Comment this out with gda.data.scan.datawriter.dataFormat = NexusScanDataWriter 
         self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
