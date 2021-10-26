@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import gda.rcp.views.Browser;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.browser.MapBrowser;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorButtonControlledCompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionButtonControlledCompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.pointandshoot.PointAndShootButtonControlledCompositeFactory;
 import uk.ac.diamond.daq.mapping.ui.BackgroundStateHelper;
@@ -93,7 +93,7 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 		List<NamedCompositeFactory> configurations = new ArrayList<>();
 		configurations.add(new DiffractionButtonControlledCompositeFactory(controlButtonsContainerSupplier));
 		configurations.add(new PointAndShootButtonControlledCompositeFactory(controlButtonsContainerSupplier));
-		configurations.add(new BeamSelectorButtonControlledCompositeFactory(controlButtonsContainerSupplier));
+		configurations.add(new BeamSelectorCompositeFactory(controlButtonsContainerSupplier));
 		return configurations;
 	}
 

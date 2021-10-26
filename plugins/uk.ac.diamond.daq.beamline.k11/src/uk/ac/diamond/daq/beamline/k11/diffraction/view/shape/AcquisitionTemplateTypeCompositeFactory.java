@@ -67,6 +67,7 @@ import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.gda.client.properties.acquisition.AcquisitionKeys;
 import uk.ac.gda.client.properties.acquisition.AcquisitionPropertyType;
+import uk.ac.gda.client.properties.acquisition.AcquisitionSubType;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -246,7 +247,7 @@ public class AcquisitionTemplateTypeCompositeFactory implements DiffractionCompo
 
 		if (selected) {
 			getDocumentFactory()
-				.buildScanpathBuilder(new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, acquisitionTemplateType))
+				.buildScanpathBuilder(new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.STANDARD, acquisitionTemplateType))
 				.ifPresent(scanpathDocumentHelper::updateScanPathDocument);
 
 			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));

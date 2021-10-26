@@ -53,6 +53,7 @@ class ShapeLabelProvider extends LabelProvider implements IComparableStyledLabel
 		ICONS.put(AcquisitionTemplateType.TWO_DIMENSION_POINT, ClientImages.POINT);
 		ICONS.put(AcquisitionTemplateType.TWO_DIMENSION_LINE, ClientImages.LINE);
 		ICONS.put(AcquisitionTemplateType.TWO_DIMENSION_GRID, ClientImages.CENTERED_RECTAGLE);
+		ICONS.put(AcquisitionTemplateType.STATIC_POINT, ClientImages.BEAM_SELECTOR);
 	}
 
 	/**

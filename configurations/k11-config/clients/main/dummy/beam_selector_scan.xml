@@ -6,8 +6,8 @@
 	<bean id="beam_selector_scan_ui_config" class="uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorScanUIConfiguration">
 		<property name="xAxisName" value="simx" />
 		<property name="yAxisName" value="simy" />
-		<property name="monoImagingScan" value="#{workstation}-ML-SCAN-01" />
-		<property name="pinkImagingScan" value="#{workstation}-ML-SCAN-02" />
+		<property name="monoImagingScan" value="#{workstation}-ML-SCAN-11" />
+		<property name="pinkImagingScan" value="#{workstation}-ML-SCAN-12" />
 	</bean>
 
 </beans>
