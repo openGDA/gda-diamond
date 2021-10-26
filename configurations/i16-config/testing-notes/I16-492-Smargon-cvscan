@@ -1,0 +1,17 @@
+sgphiZebraPos=sgphiZebra() ; sgomegaZebraPos=sgomegaZebra() ; print "sgphiZebraPos=%f ; sgomegaZebraPos=%f" % (sgphiZebraPos, sgomegaZebraPos)
+scan dummy 0 1 1 pil 1						# Make sure a scan has been run
+pos pil3_100k 1								# Check Pilatus is capturing images
+
+cvscan       sgphiZebra   sgphiZebraPos-1   sgphiZebraPos+1 .01 smargonZebraPil3 0.1    # Failed due to inability to control speed
+cvscan     sgomegaZebra sgomegaZebraPos-1 sgomegaZebraPos+1 .01 smargonZebraPil3 0.1    # Would fail for the same reason
+
+cvscan   sgphiRealZebra   sgphiZebraPos-1   sgphiZebraPos+1 .01 smargonZebraPil3 0.1    # Pilatus doesn't seem to be getting trigger pulses.
+cvscan sgomegaRealZebra sgomegaZebraPos-1 sgomegaZebraPos+1 .01 smargonZebraPil3 0.1    # Asked not to run
+
+cvscan   sgphiRealZebra   sgphiZebraPos-1   sgphiZebraPos+1 .01        pil3_100k 0.1    # Failure expected
+cvscan sgomegaRealZebra sgomegaZebraPos-1 sgomegaZebraPos+1 .01        pil3_100k 0.1    # Failure expected
+pos pil3_100k 1
+# Switch pil3_100k NxProcessingDetectorWrapper to 
+kthZebraPil3
+cvscan   sgphiRealZebra   sgphiZebraPos-1   sgphiZebraPos+1 .01 smargonZebraPil3 0.1    # Success expected
+cvscan sgomegaRealZebra sgomegaZebraPos-1 sgomegaZebraPos+1 .01 smargonZebraPil3 0.1    # Success expected
