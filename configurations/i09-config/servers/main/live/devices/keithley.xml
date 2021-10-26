@@ -23,4 +23,19 @@
 		<property name="settleTime" value="3000" />
 		<property name="additionalFirstPointSettleTimeMs" value="3000" />
 	</bean>
+	
+	<bean id="keithley_a_sweep_mode" class="uk.ac.diamond.daq.devices.keithley.Keithley2600SeriesSweepMode">
+		<property name="basePVName" value="BL09L-EA-SRCM-01:CHA:" />
+		<property name="switchOnDelayTimeMs" value="5000" />
+		<property name="settleTime" value="3000" />
+		<property name="additionalFirstPointSettleTimeMs" value="3000" />
+	</bean>
+	
+	<bean id="keithley_b_sweep_mode" class="uk.ac.diamond.daq.devices.keithley.Keithley2600SeriesSweepMode">
+		<property name="basePVName" value="BL09L-EA-SRCM-01:CHB:" />
+		<property name="switchOnDelayTimeMs" value="5000" />
+		<property name="settleTime" value="3000" />
+		<property name="additionalFirstPointSettleTimeMs" value="3000" />
+	</bean>
+	
 </beans>
