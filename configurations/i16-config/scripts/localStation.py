@@ -32,12 +32,13 @@ def localStation_print(msg):
 
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
-	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
+	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DIFFCALC_WITHOUT_LASTUB, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
 	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
 	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
 except:
 	USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
+	USE_DIFFCALC_WITHOUT_LASTUB = False
 	USE_DUMMY_IDGAP_MOTOR = False
 	USE_NEXUS = True
 	USE_NEXUS_METADATA_COMMANDS = True
@@ -48,8 +49,8 @@ except:
 	USE_PIL3 = True
 	USE_ROCKING_SCANNABLES = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
-				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
@@ -118,13 +119,14 @@ if installation.isDummy():
 	print "*"*80
 	#USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
+	USE_DIFFCALC_WITHOUT_LASTUB = False
 	USE_DUMMY_IDGAP_MOTOR = True
 	USE_SMARGON = False
 	USE_PIL1 = False
 	USE_PIL2 = False
 	localStation_print("Override some localStationConfiguration options in order to run in dummy mode:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
-				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
@@ -500,6 +502,13 @@ else:
 		run(diffcalc_startup_script)
 	except:
 		localStation_exception("trying to set up diffcalc via "+diffcalc_startup_script)
+	if USE_DIFFCALC_WITHOUT_LASTUB:
+		localStation_print("Not running lastub() as it has been suppressed by Starting Diffcalc by USE_DIFFCALC_WITHOUT_LASTUB %r" % USE_DIFFCALC_WITHOUT_LASTUB)
+	else:
+		try:
+			lastub()  # Load the last ub calculation used
+		except:
+			localStation_exception("trying to run lastub()")
 	exec("phi=euler.phi")
 	exec("chi=euler.chi")
 	exec("eta=euler.eta")
