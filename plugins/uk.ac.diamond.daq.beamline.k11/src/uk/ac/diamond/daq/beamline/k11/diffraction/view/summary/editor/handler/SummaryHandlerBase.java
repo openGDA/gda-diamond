@@ -34,7 +34,6 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.editor.SegmentDou
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.editor.SegmentGroup;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.summary.editor.SegmentIntGroup;
 import uk.ac.diamond.daq.mapping.api.document.helper.ScannableTrackDocumentHelper;
-import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
@@ -172,10 +171,6 @@ public abstract class SummaryHandlerBase {
 					.reduce(1, totalPoints());
 	}
 
-//	private IntBinaryOperator totalPoints() {
-//		return totalPoints_();
-//	}
-
 	private String formatDouble(Double value, String name) {
 		return Optional.ofNullable(value)
 				.map(ClientTextFormats::formatDecimal)
@@ -184,11 +179,15 @@ public abstract class SummaryHandlerBase {
 	}
 
 	private double getExposure() {
-		return getScanningAcquisitionTemporaryHelper()
-				.getScanningParameters()
-				.map(ScanningParameters::getDetector)
+		var params = getScanningAcquisitionTemporaryHelper().getScanningParameters();
+		if (params.isPresent()) {
+			return params.get().getDetectors().stream()
 				.map(DetectorDocument::getExposure)
-				.orElseGet(() -> 0d);
+				.max(Double::compare).orElse(0.0);
+		}
+
+		return 0.0;
+
 	}
 
 	private ScannableTrackDocumentHelper getScannableTrackDocumentHelper() {
