@@ -87,7 +87,7 @@
 
 	<bean id="minusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
 		<property name="xMotor" ref="xtal_minus1_x" />
-		<property name="yMotor" ref="xtal_minus1_x" />
+		<property name="yMotor" ref="xtal_minus1_y" />
 		<property name="pitchMotor" ref="xtal_minus1_pitch" />
 		<property name="rotMotor" ref="xtal_minus1_rot" />
 	</bean>
@@ -100,7 +100,7 @@
 
 	<bean id="plusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
 		<property name="xMotor" ref="xtal_plus1_x" />
-		<property name="yMotor" ref="xtal_plus1_x" />
+		<property name="yMotor" ref="xtal_plus1_y" />
 		<property name="pitchMotor" ref="xtal_plus1_pitch" />
 		<property name="rotMotor" ref="xtal_plus1_rot" />
 	</bean>
@@ -188,7 +188,7 @@
 
 	<bean id="dummyMinusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
 		<property name="xMotor" ref="dummy_xtal_minus1_x" />
-		<property name="yMotor" ref="dummy_xtal_minus1_x" />
+		<property name="yMotor" ref="dummy_xtal_minus1_y" />
 		<property name="pitchMotor" ref="dummy_xtal_minus1_pitch" />
 		<property name="rotMotor" ref="dummy_xtal_minus1_rot" />
 	</bean>
@@ -201,7 +201,7 @@
 
 	<bean id="dummyPlusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
 		<property name="xMotor" ref="dummy_xtal_plus1_x" />
-		<property name="yMotor" ref="dummy_xtal_plus1_x" />
+		<property name="yMotor" ref="dummy_xtal_plus1_y" />
 		<property name="pitchMotor" ref="dummy_xtal_plus1_pitch" />
 		<property name="rotMotor" ref="dummy_xtal_plus1_rot" />
 	</bean>
