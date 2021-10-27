@@ -164,26 +164,26 @@
 
 <!-- 	the following is for a simulation of values for use before moving -->
 
-	<gda:motor id="dummy_xtal_minus1_x" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_minus1_y" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_minus1_pitch" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_minus1_rot" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_minus1_x" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_minus1_y" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_minus1_pitch" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_minus1_rot" live-class="#dummy" />
 
-	<gda:motor id="dummy_xtal_central_y" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_central_pitch" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_central_rot" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_central_y" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_central_pitch" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_central_rot" live-class="#dummy" />
 
-	<gda:motor id="dummy_xtal_plus1_x" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_plus1_y" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_plus1_pitch" liveClass="#dummy" />
-	<gda:motor id="dummy_xtal_plus1_rot" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_plus1_x" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_plus1_y" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_plus1_pitch" live-class="#dummy" />
+	<gda:motor id="dummy_xtal_plus1_rot" live-class="#dummy" />
 
-	<gda:motor id="dummy_det_x" liveClass="#dummy" />
-	<gda:motor id="dummy_det_y" liveClass="#dummy" />
-	<gda:motor id="dummy_det_rot" liveClass="#dummy" />
+	<gda:motor id="dummy_det_x" live-class="#dummy" />
+	<gda:motor id="dummy_det_y" live-class="#dummy" />
+	<gda:motor id="dummy_det_rot" live-class="#dummy" />
 
-	<gda:motor id="dummy_xtal_x" liveClass="#dummy" />
-	<gda:motor id="dummy_spec_rot" liveClass="#dummy" />
+	<gda:motor id="dummy_xtal_x" live-class="#dummy" />
+	<gda:motor id="dummy_spec_rot" live-class="#dummy" />
 
 
 	<bean id="dummyMinusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
