@@ -7,28 +7,19 @@
 
 	<!-- Dummy motors until the motors are commissioned in EPICS -->
 	<gda:motor id="tr6_y"
-		liveClass="#dummy"
-		live-minPosition="0"
-		live-maxPosition="50.0"
-		live-position="9.1"
-		live-unitString="mm"
-		dummy-minPosition="0"
-		dummy-maxPosition="50.0"
-		dummy-position="9.1"
-		dummy-unitString="mm" />
+		live-class="#dummy"
+		minPosition="0"
+		maxPosition="50.0"
+		position="9.1"
+		unitString="mm" />
 
 	<gda:motor id="tr6_rot"
-		liveClass="#dummy"
-		live-minPosition="0"
-		live-maxPosition="360"
-		live-position="65"
-		live-unitString="deg"
-		live-speed="10000"
-		dummy-minPosition="0"
-		dummy-maxPosition="360"
-		dummy-position="65"
-		dummy-unitString="deg"
-		dummy-speed="10000"/>
+		live-class="#dummy"
+		minPosition="0"
+		maxPosition="360"
+		position="65"
+		unitString="deg"
+		speed="10000" />
 
 	<bean id="tr6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
