@@ -53,7 +53,7 @@ print("Adding timer devices t, dt, and w, clock")
 from gdascripts.scannable.timerelated import timerelated,t,dt,w,clock,epoch #@UnusedImport
 print("-"*100)
 print("load nexus metadata commands")
-from gdascripts.metadata.nexus_metadata_commands import add_meta, add_meta_link, add_meta_pv, add_meta_scalar, add_meta_scannable, clear_meta, disable_meta, enable_meta, ll_meta, ls_meta, rm_meta   # @UnusedImport
+from gdascripts.metadata.nexus_metadata_class import meta   # @UnusedImport
 print()
 
 ds = DummyScannable("ds")
