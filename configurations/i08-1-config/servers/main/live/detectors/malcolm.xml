@@ -24,13 +24,13 @@
 	</bean>
 
 	<!-- Andor fine scan -->
-	<!--
+
 	<bean id="malcolm_info_andor_fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="2D transmission detector (fine)" />
 		<property name="description" value="Andor 2D transmission detector fine scan" />
 		<property name="shownByDefault" value="false" />
 	</bean>
-
+	
 	<bean id="malcolm_model_andor_fine" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL08J-ML-SCAN-02" />
 		<property name="exposureTime" value="0.01" />
@@ -42,7 +42,7 @@
 		<property name="deviceInformation" ref="malcolm_info_andor_fine" />
 		<property name="activated" value="false" />
 	</bean>
-	-->
+
 
 	<!-- XMAP -->
 	<bean id="malcolm_info_xmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -82,7 +82,7 @@
 	</bean>
 
 	<!-- Andor: Malcolm does not control the fast shutter - to be used for dark field collection only -->
-	<!--
+
 	<bean id="malcolm_info_andor_fine_no_shutter" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Andor fine: dark field collection only" />
 		<property name="description" value="Andor fine: dark field collection only" />
@@ -100,7 +100,7 @@
 		<property name="deviceInformation" ref="malcolm_info_andor_fine_no_shutter" />
 		<property name="activated" value="false" />
 	</bean>
-	-->
+
 
 	<!-- Axis detector fine: Malcolm does not control the fast shutter - to be used for dark field collection only -->
 	<bean id="malcolm_info_axis_fine_no_shutter" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -141,7 +141,7 @@
 	</bean>
 
 	<!-- Andor combined scan -->
-	<!--
+
 	<bean id="malcolm_info_andor_combined" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="2D transmission detector" />
 		<property name="description" value="Andor 2D transmission detector (combined)" />
@@ -159,7 +159,7 @@
 		<property name="deviceInformation" ref="malcolm_info_andor_combined" />
 		<property name="activated" value="false" />
 	</bean>
-	-->
+
 
 	<!-- Axis detector combined -->
 	<bean id="malcolm_info_axis_combined" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -201,7 +201,7 @@
 
 	<!-- Andor combined scan -->
 	<!-- Malcolm does not control the fast shutter - to be used for dark field collection only -->
-	<!--
+
 	<bean id="malcolm_info_andor_combined_no_shutter" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="2D transmission detector: dark field collection only" />
 		<property name="description" value="Andor 2D transmission detector (combined): dark field collection only" />
@@ -219,5 +219,5 @@
 		<property name="deviceInformation" ref="malcolm_info_andor_combined_no_shutter" />
 		<property name="activated" value="false" />
 	</bean>
-	-->
+
 </beans>
