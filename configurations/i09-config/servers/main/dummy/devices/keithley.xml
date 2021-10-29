@@ -12,6 +12,12 @@
 		<property name="additionalFirstPointSettleTimeMs" value="3000" />
 	</bean>
 	
+	<bean id="keithley_b_average_mode" class="uk.ac.diamond.daq.devices.keithley.DummyKeithley2600AverageMode">
+		<property name="switchOnDelayTimeMs" value="5000" />
+		<property name="settleTime" value="3000" />
+		<property name="additionalFirstPointSettleTimeMs" value="3000" />
+	</bean>
+	
 	<bean id="keithley_a_sweep_mode" class="uk.ac.diamond.daq.devices.keithley.DummyKeithley2600SweepMode"/>
 	<bean id="keithley_b_sweep_mode" class="uk.ac.diamond.daq.devices.keithley.DummyKeithley2600SweepMode"/>
 	
