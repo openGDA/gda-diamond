@@ -7,29 +7,6 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 
-	<bean id="m1Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
-		<property name="name" value="m1" />
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="fpsetpoint"/>
-					<property name="scannableName" value="m1fpsetpoint"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	<bean id="m2Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
-		<property name="name" value="m2" />
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="fpsetpoint"/>
-					<property name="scannableName" value="m2fpsetpoint"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="andorAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
 		<property name="name" value="andor" />
 		<property name="childNodes">
@@ -79,27 +56,37 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="vertical_shift_amplitude"/>
-								<property name="value" value="BL21I-EA-DET-01:CAM:AndorVSAmplitude_RBV"/>
+								<property name="value">
+									<value type="java.lang.Double">0.0</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="em_ccd_gain"/>
-								<property name="value" value="BL21I-EA-DET-01:CAM:AndorEMGain_RBV"/>
+								<property name="value">
+									<value type="java.lang.Double">0.0</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="cooler_temperature"/>
-								<property name="value" value="BL21I-EA-DET-01:CAM:Temperature_RBV"/>
+								<property name="value">
+									<value type="java.lang.Double">-70.0</value>
+								</property>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="cooler_control"/>
-								<property name="value" value="BL21I-EA-DET-01:CAM:AndorCooler"/>
+								<property name="value" value="On"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="temperature_actual"/>
-								<property name="value" value="BL21I-EA-DET-01:CAM:TemperatureActual"/>
+								<property name="value">
+									<value type="java.lang.Double">-72.10800170898438</value>
+								</property>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="cooler_status"/>
-								<property name="value" value="BL21I-EA-DET-01:CAM:AndorTempStatus_RBV"/>
+								<property name="value" value="Stabilized at set point"/>
 							</bean>
 							<!-- generic detector PVs -->
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
@@ -197,29 +184,38 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="vertical_shift_amplitude"/>
-								<property name="value" value="BL21I-EA-DET-02:CAM:AndorVSAmplitude_RBV"/>
+								<property name="value">
+									<value type="java.lang.Double">0.0</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="em_ccd_gain"/>
-								<property name="value" value="BL21I-EA-DET-02:CAM:AndorEMGain_RBV"/>
+								<property name="value">
+									<value type="java.lang.Double">0.0</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="cooler_temperature"/>
-								<property name="value" value="BL21I-EA-DET-02:CAM:Temperature_RBV"/>
+								<property name="value">
+									<value type="java.lang.Double">-70.0</value>
+								</property>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="cooler_control"/>
-								<property name="value" value="BL21I-EA-DET-02:CAM:AndorCooler"/>
+								<property name="value" value="On"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="temperature_actual"/>
-								<property name="value" value="BL21I-EA-DET-02:CAM:TemperatureActual"/>
+								<property name="value">
+									<value type="java.lang.Double">-72.10800170898438</value>
+								</property>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="cooler_status"/>
-								<property name="value" value="BL21I-EA-DET-02:CAM:AndorTempStatus_RBV"/>
-							</bean>
-							<!-- generic detector PVs -->
+								<property name="value" value="Stabilized at set point"/>
+							</bean>							<!-- generic detector PVs -->
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_size_x"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ArraySizeX_RBV"/>
@@ -294,21 +290,29 @@
 							<!-- XCAM specific PVs -they are not in ADSIM thus use ScalarField -->
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="adc_gain"/>
-								<property name="value" value="0.35"/>
+								<property name="value">
+									<value type="java.lang.Double">0.35</value>
+								</property>
 								<property name="units" value="dB"/>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="adc_offset"/>
-								<property name="value" value="160"/>
+								<property name="value">
+									<value type="java.lang.Integer">160</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="temperature_set"/>
-								<property name="value" value="20.0"/>
+								<property name="value">
+									<value type="java.lang.Double">20.0</value>
+								</property>
 								<property name="units" value="℃"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="temperature_actual"/>
-								<property name="value" value="-53.3"/>
+								<property name="value">
+									<value type="java.lang.Double">-53.3</value>
+								</property>
 								<property name="units" value="℃"/>
 							</bean>
 							<!-- generic detector PVs -->
@@ -386,21 +390,29 @@
 							<!-- XCAM specific PVs -they are not in ADSIM thus use ScalarField -->
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="adc_gain"/>
-								<property name="value" value="0.35"/>
+								<property name="value">
+									<value type="java.lang.Double">0.35</value>
+								</property>
 								<property name="units" value="dB"/>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="adc_offset"/>
-								<property name="value" value="160"/>
+								<property name="value">
+									<value type="java.lang.Integer">160</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="temperature_set"/>
-								<property name="value" value="20.0"/>
+								<property name="value">
+									<value type="java.lang.Double">20.0</value>
+								</property>
 								<property name="units" value="℃"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="temperature_actual"/>
-								<property name="value" value="-53.3"/>
+								<property name="value">
+									<value type="java.lang.Double">-53.3</value>
+								</property>
 								<property name="units" value="℃"/>
 							</bean>
 							<!-- generic detector PVs -->
@@ -459,63 +471,79 @@
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="algorithm"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:ALGORITHM_RBV"/>
+											<property name="value" value="3x3"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="output_mode"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:OUTPUT_MODE_RBV"/>
+											<property name="value" value="LS Events"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="background_update_mode"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:BACKGROUND_UPDATE_MODE_RBV"/>
+											<property name="value" value="None"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="background_value"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:BACKGROUND_VALUE_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="sum_3x3_minimum_threshold"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:SUM3X3_THRESHOLD_MINIMUM_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">320</value>
+											</property>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="sum_3x3_maximum_threshold"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:SUM3X3_THRESHOLD_MAXIMUM_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">1300</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="histogram_bin_width"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:HISTOGRAM_BINWIDTH_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">256</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="histogram_bin_count"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:HISTOGRAM_BINCOUNT_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">2500</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="source_region"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:ENABLE_SOURCE_REGION_RBV"/>
+											<property name="value" value="No"/>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_start_x"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM0_MIN_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_start_y"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM1_MIN_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_size_x"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM0_SIZE_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">100</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_size_y"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:DIM1_SIZE_RBV"/>
-										</bean>
-				 						<bean class="org.eclipse.scanning.device.ScalarField">
-											<property name="name" value="eta_correction_file"/>
-											<property name="value" value="1BL21I-EA-DET-03:XIP1:CENTROID_FILENAME_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">100</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="xip1_event_count"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:EVENT_LIST_SIZE_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">2000</value>
+											</property>
 										</bean>
 									</list>
 								</property>
@@ -525,29 +553,44 @@
 								<property name="nexusClass" value="NXcollection"/>
 								<property name="childNodes"> <!-- add child groups as appropriate -->
 									<list>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="eta_correction_file"/>
+											<property name="value" value="C:\\CCD\\Correction\\RIX3-XCAM-MX-00062.csv"/>
+										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="beamline_energy"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:BEAMLINE_ENERGY_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">930.0</value>
+											</property>
+											<property name="units" value="eV"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="isolinear_correction"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:ENABLE_ISOLINEAR_CORRECTION_RBV"/>
+											<property name="value" value="Yes"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="coefficient_x^2"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X2_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">0.0</value>
+											</property>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="coefficient_x"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X1_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">0.0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="constant"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:ISOLINEAR_COEFFICIENT_X0_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">0.0</value>
+											</property>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="calibration_threshold"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP1:HR_ISOLINEAR_CALIBRATION_THRESHOLD_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">32768</value>
+											</property>
 										</bean>
 									</list>
 								</property>
@@ -567,63 +610,79 @@
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="algorithm"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:ALGORITHM_RBV"/>
+											<property name="value" value="3x3"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="output_mode"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:OUTPUT_MODE_RBV"/>
+											<property name="value" value="LS Events"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="background_update_mode"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:BACKGROUND_UPDATE_MODE_RBV"/>
+											<property name="value" value="None"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="background_value"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:BACKGROUND_VALUE_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="sum_3x3_minimum_threshold"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:SUM3X3_THRESHOLD_MINIMUM_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">320</value>
+											</property>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="sum_3x3_maximum_threshold"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:SUM3X3_THRESHOLD_MAXIMUM_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">1300</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="histogram_bin_width"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:HISTOGRAM_BINWIDTH_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">256</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="histogram_bin_count"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:HISTOGRAM_BINCOUNT_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">2500</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="source_region"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:ENABLE_SOURCE_REGION_RBV"/>
+											<property name="value" value="No"/>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_start_x"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM0_MIN_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_start_y"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM1_MIN_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_size_x"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM0_SIZE_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">100</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="region_size_y"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:DIM1_SIZE_RBV"/>
-										</bean>
-				 						<bean class="org.eclipse.scanning.device.ScalarField">
-											<property name="name" value="eta_correction_file"/>
-											<property name="value" value="1BL21I-EA-DET-03:XIP2:CENTROID_FILENAME_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">100</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="xip1_event_count"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:EVENT_LIST_SIZE_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">2000</value>
+											</property>
 										</bean>
 									</list>
 								</property>
@@ -633,29 +692,44 @@
 								<property name="nexusClass" value="NXcollection"/>
 								<property name="childNodes"> <!-- add child groups as appropriate -->
 									<list>
+				 						<bean class="org.eclipse.scanning.device.ScalarField">
+											<property name="name" value="eta_correction_file"/>
+											<property name="value" value="C:\\CCD\\Correction\\RIX3-XCAM-MX-00062.csv"/>
+										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="beamline_energy"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:BEAMLINE_ENERGY_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">930.0</value>
+											</property>
+											<property name="units" value="eV"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="isolinear_correction"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:ENABLE_ISOLINEAR_CORRECTION_RBV"/>
+											<property name="value" value="Yes"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="coefficient_x^2"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X2_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">0.0</value>
+											</property>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="coefficient_x"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X1_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">0.0</value>
+											</property>
 										</bean>
 				 						<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="constant"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:ISOLINEAR_COEFFICIENT_X0_RBV"/>
+											<property name="value">
+												<value type="java.lang.Double">0.0</value>
+											</property>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarField">
 											<property name="name" value="calibration_threshold"/>
-											<property name="value" value="BL21I-EA-DET-03:XIP2:HR_ISOLINEAR_CALIBRATION_THRESHOLD_RBV"/>
+											<property name="value">
+												<value type="java.lang.Integer">32768</value>
+											</property>
 										</bean>
 									</list>
 								</property>

@@ -7,29 +7,6 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 
-	<bean id="m1Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
-		<property name="name" value="m1" />
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="fpsetpoint"/>
-					<property name="scannableName" value="m1fpsetpoint"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	<bean id="m2Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
-		<property name="name" value="m2" />
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="fpsetpoint"/>
-					<property name="scannableName" value="m2fpsetpoint"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="andorAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
 		<property name="name" value="andor" />
 		<property name="childNodes">
@@ -87,6 +64,7 @@
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="cooler_temperature"/>
 								<property name="pvName" value="BL21I-EA-DET-01:CAM:Temperature_RBV"/>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="cooler_control"/>
@@ -95,6 +73,7 @@
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_actual"/>
 								<property name="pvName" value="BL21I-EA-DET-01:CAM:TemperatureActual"/>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="cooler_status"/>
@@ -203,6 +182,7 @@
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="cooler_temperature"/>
 								<property name="pvName" value="BL21I-EA-DET-02:CAM:Temperature_RBV"/>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="cooler_control"/>
@@ -211,6 +191,7 @@
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_actual"/>
 								<property name="pvName" value="BL21I-EA-DET-02:CAM:TemperatureActual"/>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="cooler_status"/>
@@ -388,10 +369,12 @@
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_set"/>
 								<property name="pvName" value="BL21I-EA-DET-03:CAM:Temperature_RBV"/>
+								<property name="units" value="°C"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_actual"/>
 								<property name="pvName" value="BL21I-EA-DET-03:CAM:TemperatureActual"/>
+								<property name="units" value="°C"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="binning_x"/>
@@ -499,10 +482,6 @@
 											<property name="pvName" value="BL21I-EA-DET-03:XIP1:DIM1_SIZE_RBV"/>
 										</bean>
 				 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-											<property name="name" value="eta_correction_file"/>
-											<property name="pvName" value="1BL21I-EA-DET-03:XIP1:CENTROID_FILENAME_RBV"/>
-										</bean>
-				 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 											<property name="name" value="xip1_event_count"/>
 											<property name="pvName" value="BL21I-EA-DET-03:XIP1:EVENT_LIST_SIZE_RBV"/>
 										</bean>
@@ -514,9 +493,14 @@
 								<property name="nexusClass" value="NXcollection"/>
 								<property name="childNodes"> <!-- add child groups as appropriate -->
 									<list>
+				 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+											<property name="name" value="eta_correction_file"/>
+											<property name="pvName" value="BL21I-EA-DET-03:XIP1:CENTROID_FILENAME_RBV"/>
+										</bean>
 										<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 											<property name="name" value="beamline_energy"/>
 											<property name="pvName" value="BL21I-EA-DET-03:XIP1:BEAMLINE_ENERGY_RBV"/>
+											<property name="units" value="eV"/>
 										</bean>
 										<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 											<property name="name" value="isolinear_correction"/>
@@ -607,10 +591,6 @@
 											<property name="pvName" value="BL21I-EA-DET-03:XIP2:DIM1_SIZE_RBV"/>
 										</bean>
 				 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-											<property name="name" value="eta_correction_file"/>
-											<property name="pvName" value="1BL21I-EA-DET-03:XIP2:CENTROID_FILENAME_RBV"/>
-										</bean>
-				 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 											<property name="name" value="xip1_event_count"/>
 											<property name="pvName" value="BL21I-EA-DET-03:XIP2:EVENT_LIST_SIZE_RBV"/>
 										</bean>
@@ -622,9 +602,14 @@
 								<property name="nexusClass" value="NXcollection"/>
 								<property name="childNodes"> <!-- add child groups as appropriate -->
 									<list>
+				 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+											<property name="name" value="eta_correction_file"/>
+											<property name="pvName" value="1BL21I-EA-DET-03:XIP2:CENTROID_FILENAME_RBV"/>
+										</bean>
 										<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 											<property name="name" value="beamline_energy"/>
 											<property name="pvName" value="BL21I-EA-DET-03:XIP2:BEAMLINE_ENERGY_RBV"/>
+											<property name="units" value="eV"/>
 										</bean>
 										<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 											<property name="name" value="isolinear_correction"/>

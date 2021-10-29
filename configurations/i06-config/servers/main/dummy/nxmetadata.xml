@@ -48,7 +48,9 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="bit_depth"/> <!-- there is no bit_depth PV in ADSIM -->
-								<property name="value" value="24bit"/>
+								<property name="value">
+									<value type="java.lang.Integer">24</value>
+								</property>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>

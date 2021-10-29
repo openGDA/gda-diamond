@@ -322,6 +322,10 @@
 					<property name="name" value="feedback"/>
 					<property name="scannableName" value="m1feedback"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="fpsetpoint"/>
+					<property name="scannableName" value="m1fpsetpoint"/>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -358,6 +362,10 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="feedback"/>
 					<property name="scannableName" value="m2feedback"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="fpsetpoint"/>
+					<property name="scannableName" value="m2fpsetpoint"/>
 				</bean>
 			</list>
 		</property>
@@ -509,6 +517,7 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="draincurrent"/>
 					<property name="scannableName" value="draincurrent"/>
+					<property name="units" value="V"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="sapara"/>

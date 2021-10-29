@@ -18,57 +18,79 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="field_x"/>
-					<property name="value" value="0.0000"/>
+					<property name="value">
+						<value type="java.lang.Double">0.0000</value>
+					</property>
 					<property name="units" value="T"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="field_y"/>
-					<property name="value" value="0.0000"/>
+					<property name="value">
+						<value type="java.lang.Double">0.0000</value>
+					</property>
 					<property name="units" value="T"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="field_z"/>
-					<property name="value" value="0.0000"/>
+					<property name="value">
+						<value type="java.lang.Double">0.0000</value>
+					</property>
 					<property name="units" value="T"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="field_sum"/>
-					<property name="value" value="0.0000"/>
+					<property name="value">
+						<value type="java.lang.Double">0.000</value>
+					</property>
 					<property name="units" value="T"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="sensor_A"/>
-					<property name="value" value="4.270"/>
+					<property name="value">
+						<value type="java.lang.Double">4.270</value>
+					</property>
 					<property name="units" value="K"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="sensor_B"/>
-					<property name="value" value="4.244"/>
+					<property name="value">
+						<value type="java.lang.Double">4.244</value>
+					</property>
 					<property name="units" value="K"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="sensor_C"/>
-					<property name="value" value="303.398"/>
+					<property name="value">
+						<value type="java.lang.Double">303.398</value>
+					</property>
 					<property name="units" value="K"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="sensor_D"/>
-					<property name="value" value="18.934"/>
+					<property name="value">
+						<value type="java.lang.Double">18.934</value>
+					</property>
 					<property name="units" value="%"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="helium_depth_A"/>
-					<property name="value" value="360"/>
+					<property name="value">
+						<value type="java.lang.Double">360</value>
+					</property>
 					<property name="units" value="mm"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="helium_depth_B"/>
-					<property name="value" value="0"/>
+					<property name="value">
+						<value type="java.lang.Double">0.0000</value>
+					</property>
 					<property name="units" value="mm"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="T_sample"/>
-					<property name="value" value="250.001"/>
+					<property name="value">
+						<value type="java.lang.Double">250.001</value>
+					</property>
 					<property name="units" value="K"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
@@ -82,7 +104,9 @@
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_target_temp"/>
-								<property name="value" value="250.000"/>
+								<property name="value">
+									<value type="java.lang.Double">250.000</value>
+								</property>
 								<property name="units" value="K"/>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
@@ -91,25 +115,35 @@
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_manual_output"/>
-								<property name="value" value="0.000"/>
+								<property name="value">
+									<value type="java.lang.Double">0.000</value>
+								</property>
 								<property name="units" value="%"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_actual_output"/>
-								<property name="value" value="4.000"/>
+								<property name="value">
+									<value type="java.lang.Double">4.000</value>
+								</property>
 								<property name="units" value="%"/>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_PID_P"/>
-								<property name="value" value="2.500"/>
+								<property name="value">
+									<value type="java.lang.Double">2.50</value>
+								</property>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_PID_I"/>
-								<property name="value" value="9.000"/>
+								<property name="value">
+									<value type="java.lang.Double">9.000</value>
+								</property>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_PID_D"/>
-								<property name="value" value="0.000"/>
+								<property name="value">
+									<value type="java.lang.Double">0.000</value>
+								</property>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_ramping"/>
@@ -117,7 +151,9 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_ramping_rate"/>
-								<property name="value" value="1.000"/>
+								<property name="value">
+									<value type="java.lang.Double">1.000</value>
+								</property>
 							</bean>
 						</list>
 					</property>
@@ -133,7 +169,9 @@
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_target_temp"/>
-								<property name="value" value="4.000"/>
+								<property name="value">
+									<value type="java.lang.Double">4.000</value>
+								</property>
 								<property name="units" value="K"/>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
@@ -142,25 +180,35 @@
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_manual_output"/>
-								<property name="value" value="0.500"/>
+								<property name="value">
+									<value type="java.lang.Double">0.500</value>
+								</property>
 								<property name="units" value="%"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_actual_output"/>
-								<property name="value" value="0.000"/>
+								<property name="value">
+									<value type="java.lang.Double">0.000</value>
+								</property>
 								<property name="units" value="%"/>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_PID_P"/>
-								<property name="value" value="0.200"/>
+								<property name="value">
+									<value type="java.lang.Double">0.200</value>
+								</property>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_PID_I"/>
-								<property name="value" value="20.000"/>
+								<property name="value">
+									<value type="java.lang.Double">20.000</value>
+								</property>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_PID_D"/>
-								<property name="value" value="0.000"/>
+								<property name="value">
+									<value type="java.lang.Double">0.000</value>
+								</property>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_ramping"/>
@@ -168,19 +216,25 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_ramping_rate"/>
-								<property name="value" value="1.000"/>
+								<property name="value">
+									<value type="java.lang.Double">1.000</value>
+								</property>
 							</bean>
 						</list>
 					</property>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="pressure_sample"/>
-					<property name="value" value="3.16652e-10"/>
+					<property name="value">
+						<value type="java.lang.Double">3.16652e-10</value>
+					</property>
 					<property name="units" value="mbar"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="pressure_prechamber"/>
-					<property name="value" value="5.42065e-09"/>
+					<property name="value">
+						<value type="java.lang.Double">5.42065e-09</value>
+					</property>
 					<property name="units" value="mbar"/>
 				</bean>
 			</list>

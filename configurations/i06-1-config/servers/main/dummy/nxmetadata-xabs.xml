@@ -14,7 +14,9 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="pressure_sample"/>
-					<property name="value" value="3.16652e-10"/>
+					<property name="value">
+						<value type="java.lang.Double">3.16652e-10</value>
+					</property>
 					<property name="units" value="mbar"/>
 				</bean>
 			</list>
