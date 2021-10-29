@@ -49,40 +49,30 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 					<constructor-arg ref="LH_upstream_camera_control" />
-				<!-- 
-				<property name="cameraResetScannable" ref="sim_camera_reset" />
-				 -->
+				<property name="includeExposureTimeControl" value="false" />
 				<property name="extensions">
 					<list>
 						<ref bean="LH_upstream_extension_tweak_m1" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="bottomUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="LH_upstream_camera_control" />
+				<property name="extensions">
+					<list>
 						<ref bean="LH_upstream_extension_tweak_m2" />
-						<ref bean="LH_upstream_extension_toggle_overlay" />
 					</list>
 				</property>
 			</bean>
 		</property>
 	</bean>
 
-	<bean name="LH_upstream_extension_toggle_overlay"
-			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="#{ADSIM_HOST}-AD-SIM-01:OVER:1:Use" />
-				<property name="textInput" value="true" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="#{ADSIM_HOST}-AD-SIM-01:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
-	</bean>
-
 	<bean name="LH_upstream_extension_tweak_m1"
 			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsScannableTweaker">
 		<property name="displayName" value="M1" />
 		<property name="tweakScannablePV" value="#{ADSIM_HOST}-MO-SIM-01:M1"/>
-		<property name="scannableName" value="m1"/>
 	</bean>
 
 	<bean name="LH_upstream_extension_tweak_m2"
@@ -99,30 +89,24 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="LH_downstream_camera_control" />
+				<property name="includeExposureTimeControl" value="false" />
 				<property name="extensions">
 					<list>
 						<ref bean="LH_downstream_extension_tweak_m1" />
-						<ref bean="LH_downstream_extension_tweak_m2" />
-						<ref bean="LH_downstream_extension_toggle_overlay" />
 					</list>
 				</property>
 			</bean>
 		</property>
-	</bean>
-
-	<bean name="LH_downstream_extension_toggle_overlay"
-			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsToggleOverlay">
-		<constructor-arg name="controlScannable">
-			<bean class="gda.device.scannable.SimplePVScannable">
-				<property name="pvName" value="#{ADSIM_HOST}-AD-SIM-01:OVER:1:Use" />
-				<property name="textInput" value="true" />
+		<property name="bottomUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="LH_downstream_camera_control" />
+				<property name="extensions">
+					<list>
+						<ref bean="LH_downstream_extension_tweak_m2" />
+					</list>
+				</property>
 			</bean>
-		</constructor-arg>
-		<constructor-arg name="monitorScannable">
-			<bean class="gda.device.monitor.EpicsMonitor">
-				<property name="pvName" value="#{ADSIM_HOST}-AD-SIM-01:OVER:1:Use" />
-			</bean>
-		</constructor-arg>
+		</property>
 	</bean>
 
 	<bean name="LH_downstream_extension_tweak_m1"
