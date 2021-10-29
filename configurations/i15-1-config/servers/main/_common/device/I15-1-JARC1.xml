@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- ADDetectors -->
+
+	<bean id="arc1AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="arc1AD_cam"/>
+		<property name="readArray" value="false"/>
+	</bean>
+
+	<!-- Scanning API -->
+
+	<bean id="arc1AreaDetectorRunnableDeviceProxyModel"
+			class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"              value="arc1AD"/>
+		<property name="exposureTime"      value="0.1"/>
+	</bean>
+	<bean id="arc1AreaDetectorRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="arc1AD"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.arc1AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Arc Proxy (arc1AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Arc Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="arc1AreaDetectorRunnableDeviceProxy"
+			class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"              value="arc1AD"/>
+		<property name="model"             ref="arc1AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="arc1AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="arc1AreaDetectorRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="arc1AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="arc1AreaDetectorRunnableDeviceProxy"/>
+	</bean>
+</beans>
