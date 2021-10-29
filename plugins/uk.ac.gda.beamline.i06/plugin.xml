@@ -100,7 +100,7 @@
          </view>         
          <view
                closeable="true"
-               id="uk.ac.gda.nano.views.SuperConductingMagnet"
+               id="uk.ac.gda.nano.views.SuperConductingMagnetView"
                moveable="true"
                relationship="stack"
                relative="gda.rcp.jythonterminalview"
