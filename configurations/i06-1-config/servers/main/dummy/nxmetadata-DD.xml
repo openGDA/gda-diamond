@@ -14,7 +14,9 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="pressure_sample"/>
-					<property name="value" value="3.16652e-10"/>
+					<property name="value">
+						<value type="java.lang.Double">3.16652e-10</value>
+					</property>
 					<property name="units" value="mbar"/>
 				</bean>
 			</list>
@@ -65,11 +67,15 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="speed"/> <!-- there is no speed PV in ADSIM -->
-								<property name="value" value="2.0"/>
+								<property name="value">
+									<value type="java.lang.Double">2.0</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="bit_depth"/> <!-- there is no bit_depth PV in ADSIM -->
-								<property name="value" value="16"/>
+								<property name="value">
+									<value type="java.lang.Integer">16</value>
+								</property>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>

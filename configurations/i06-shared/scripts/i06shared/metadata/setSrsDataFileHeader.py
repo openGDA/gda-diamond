@@ -4,8 +4,8 @@ from i06shared import installation
 from gda.configuration.properties import LocalProperties
 # from i06shared.devices.useID import denergy, uenergy
 # from i06shared.devices.usePGM import grating
-print "-"*100
-print "SRS scan data file header setup"
+print("-"*100)
+print("create 'fileHeader' object required by elog")
 
 fileHeader = MetadataHeaderDeviceClass("fileHeader");
 
