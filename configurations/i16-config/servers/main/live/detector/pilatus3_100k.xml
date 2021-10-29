@@ -13,6 +13,7 @@
 	<bean id="pilatus3_driver"
 			class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-03:CAM:" />
+		<property name="longCaputTimeout" value="20" />
 	</bean>
 
 	<bean id="pilatus3_camserver_ndfile"

@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Virtual Motors -->
+
 	<bean id="SGxMotor"
 			class="gda.device.motor.DummyMotor">
 	</bean>
@@ -26,4 +28,15 @@
 	<bean id="SGchiMotor"
 			class="gda.device.motor.DummyMotor">
 	</bean>
+
+	<!-- Real Motors -->
+
+	<bean id="SGomegaRealMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="SGphiRealMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
 </beans>

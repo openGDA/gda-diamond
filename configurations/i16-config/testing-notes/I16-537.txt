@@ -1,0 +1,11 @@
+/dls/i16/data/2021/mm28107-1/889830.nxs
+
+[eta, beamOK, ppp_energy, ppp_offset, ppp_energy, ppp_offset, kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset, TimeSec, TimeFromEpoch, ic1monitor, rc] & 
+[count_time, path, maxx, maxy, maxval, sum, roi2_maxx, roi2_maxy, roi2_maxval, roi2_sum, roi1_maxx, roi1_maxy, roi1_maxval, roi1_sum]
+
+scan eta 44.83966004479037 45.799660044790365 0.008 BeamOK ppB220 ppD220 pil3_100k 2 roi2 roi1 # 889830 Failed
+scan eta 40.05874227497872 41.25874227497872  0.01  BeamOK               pil3_100k 1 roi2	   # 889912 Ok
+
+from PhasePlateClass import PPPClass
+ppB220 =PPPClass('ppB220',-3.559/sqrt(8),ppth1, ppB_220_offset,help='Phase plate device for 111 reflection from crystal A (0.4 mm diamond)')
+ppD220 =PPPClass('ppD220', 3.559/sqrt(8),ppth2, ppD_220_offset,help='Phase plate device for 220 reflection from crystal D (0.2 mm diamond)')

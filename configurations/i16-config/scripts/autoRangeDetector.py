@@ -22,8 +22,9 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 				returnPathAsImageNumberOnly=False,
 				panel_name_rcp=None,
 				return_performance_metrics=False,
-				array_monitor_for_hardware_triggering=None):
-		
+				array_monitor_for_hardware_triggering=None,
+				useOldExposureAutoPVs=True):
+		self.useOldExposureAutoPVs = useOldExposureAutoPVs
 		self.rootPv = rootPv
 		SwitchableHardwareTriggerableProcessingDetectorWrapper.__init__(
 																	self,
@@ -64,9 +65,14 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:Acquire","1")
 		# let the camera do an auto gain for entire range (should just saturate)
-		caput(self.rootPv + "CAM:ExposureAutoMin","21")
-		caput(self.rootPv + "CAM:ExposureAutoMax","500000")
-		caput(self.rootPv + "CAM:ExposureAutoAlg", "FitRange")
+		if self.useOldExposureAutoPVs:
+			caput(self.rootPv + "CAM:ExposureAutoMin","21")
+			caput(self.rootPv + "CAM:ExposureAutoMax","500000")
+			caput(self.rootPv + "CAM:ExposureAutoAlg", "FitRange")
+		else:
+			caput(self.rootPv + "CAM:GC_ExposureAutoMin","21")
+			caput(self.rootPv + "CAM:GC_ExposureAutoMax","500000")
+			caput(self.rootPv + "CAM:GC_ExposureAutoAlg", "FitRange")
 		caput(self.rootPv + "CAM:ExposureAuto", "Once")
 		sleep(0.1)
 		startWait = time()

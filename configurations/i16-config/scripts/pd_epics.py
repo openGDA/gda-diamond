@@ -280,47 +280,6 @@ class SingleEpicsPositionerSetAndGetOnlyClass(ScannableMotionBase):
 	def isBusy(self):
 		return 0
 
-
-######seems to be defined twice!! remove commented section if no problems. spc 14/9/08
-#class Epics_Shutter(ScannableMotionBase):
-#	'''Create PD for single EPICS shutter'''
-#	def __init__(self, name, pvstring):
-#		self.setName(name);
-#		self.setInputNames([name])
-#		self.setOutputFormat(['%.0f'])
-#		self.setLevel(3)
-#		self.pvstring=pvstring
-#
-#	def getPosition(self):
-#		self.cli=CAClient(self.pvstring)
-#		self.cli.configure()
-#		self.state=self.cli.caget()
-#		self.cli.clearup()
-#		if self.state=='0':
-#			print "Shutter open"
-#			return 1
-#		elif self.state=='1':
-#			print "Shutter closed"
-#			return 0
-#		elif self.state=='2':
-#			print "Shutter closed waiting for Reset"
-#			return 0
-#		else:
-#			print "Unknown state:",self.state
-#			raise
-#
-#	def asynchronousMoveTo(self,new_position):
-#		if new_position>0.5:
-#			caput('BL16I-PS-SHTR-01:CON','Reset')
-#			sleep(.5)
-#			caput('BL16I-PS-SHTR-01:CON','Open')
-#		else:
-#			caput('BL16I-PS-SHTR-01:CON','Close')
-#
-#	def isBusy(self):
-#		return 0
-
-
 class SingleEpicsPositionerNoStatusClass2(SingleEpicsPositionerNoStatusClass):
 	'''
 	EPICS device that obtains a status from the actual position vs command position
@@ -407,40 +366,3 @@ class epics_binary_pos_neg(SingleEpicsPositionerSetAndGetOnlyClass):
 			#sleep(self.sleeptime)
 		except:
 			print "error moving to position"
-
-
-
-
-###############################################################################
-###                          PROBABLY JUNK                                  ###
-###############################################################################
-#class DisplayEpicsPVClass(ScannableMotionBase):
-#	'''Create PD to display single EPICS PV'''
-#	def __init__(self, name, pvstring, unitstring, formatstring):
-#		self.setName(name);
-#		self.setInputNames([])
-#		self.setExtraNames([name]);
-#		self.Units=[unitstring]
-#		self.setOutputFormat([formatstring])
-#		self.setLevel(3)
-#		self.cli=CAClient(pvstring)
-#
-#	def atScanStart(self):
-#		if not self.cli.isConfigured():
-#			self.cli.configure()
-#
-#	def getPosition(self):
-#		if self.cli.isConfigured():
-#			return float(self.cli.caget())
-#		else:
-#			self.cli.configure()
-#			return float(self.cli.caget())
-#			self.cli.clearup()
-#
-#	def isBusy(self):
-#		return 0
-#
-#	def atScanEnd(self):
-#		if self.cli.isConfigured():
-#			self.cli.clearup()
-#
