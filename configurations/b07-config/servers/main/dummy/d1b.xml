@@ -34,7 +34,7 @@
 	</bean>
 
 	<bean id="d1b_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 		<property name="value">
 			<value type="double">21.3</value>
 		</property>

@@ -75,7 +75,7 @@
 
 
 	<bean id="m2temp1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C" />
+		<property name="unit" value="°C" />
 		<property name="value">
 			<value type="double">24.6</value>
 		</property>
@@ -85,7 +85,7 @@
 	</bean>
 
 	<bean id="m2temp2" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C" />
+		<property name="unit" value="°C" />
 		<property name="value">
 			<value type="double">20.2</value>
 		</property>
@@ -95,7 +95,7 @@
 	</bean>
 
 	<bean id="m2temp3" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C" />
+		<property name="unit" value="°C" />
 		<property name="value">
 			<value type="double">22.7</value>
 		</property>

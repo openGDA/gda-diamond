@@ -75,7 +75,7 @@
 
 
 	<bean id="m1temp1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C" />
+		<property name="unit" value="°C" />
 		<property name="value">
 			<value type="double">24.6</value>
 		</property>

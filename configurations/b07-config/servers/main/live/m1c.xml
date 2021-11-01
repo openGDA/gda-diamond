@@ -6,14 +6,14 @@
 
 	<bean id="m1c_mask_temp" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-OP-MIR-01:MASK:TEMP1"/>
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
 	<bean id="m1c_mirror_temp" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-OP-MIR-01:MIR:TEMP1"/>
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
