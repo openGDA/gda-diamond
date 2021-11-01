@@ -12,11 +12,10 @@ scansReturnToOriginalPositions=0;
 
 from i06shared.localStation import *  # @UnusedWildImport
 
-from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
+from Beamline.beamline import branchline, getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
 
 #To eLog the scan
-from Beamline.beamline import branchline
 fileHeader.setScanLogger(branchline);
 
 #End Station Section

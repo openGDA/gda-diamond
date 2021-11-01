@@ -24,7 +24,6 @@ from BeamlineI06.beamline import peemline, getTitle,gettitle,getvisit,getVisit,l
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
 
 #To eLog the scan
-from i06shared.setSrsDataFileHeader import fileHeader
 fileHeader.setScanLogger(peemline)
 
 if installation.isLive():
