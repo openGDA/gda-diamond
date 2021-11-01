@@ -8,7 +8,7 @@ Created on 10 Apr 2018
 ###############################################################################
 from utils.ExceptionLogs import localStation_exception
 import sys
-from gdaserver import rc, topup_time, feBeamPermit
+from gdaserver import ringcurrent, topup_time, feBeamPermit
 print "-"*100
 try:
     print "Creating checkbeam device composed of 3 conditions:"
@@ -22,7 +22,7 @@ try:
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
     from gda.device.scannable.scannablegroup import ScannableGroup
     
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
     checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
     checkfe = WaitForScannableState('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) 
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])

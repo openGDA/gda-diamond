@@ -6,7 +6,7 @@
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
 		<property name="name" value="source" />
 		<property name="sourceName" value="Diamond Light Source" /> <!-- This is the default, so you can skip this line -->
-		<property name="currentScannableName" value="rc" />
+		<property name="currentScannableName" value="ringcurrent" />
 		<property name="customNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
