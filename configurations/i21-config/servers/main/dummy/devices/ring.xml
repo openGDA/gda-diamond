@@ -5,16 +5,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="ringCurrent" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="mA" />
-		<property name="value">
-			<value type="double">250</value>
-		</property>
-		<property name="lowerLimit" value="0" />
-		<property name="upperLimit" value="300" />
-		<property name="increment" value="0" />
-	</bean>
-
 	<bean id="ringEnergy" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="GeV" />
 		<property name="value">
@@ -35,7 +25,7 @@
 		<property name="increment" value="-10" />
 	</bean>
 
-	<bean id="rc" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="ringcurrent" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mA" />
 		<property name="value">
 			<value type="double">250</value>

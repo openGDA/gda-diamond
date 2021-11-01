@@ -7,7 +7,7 @@
 	<bean id="ring" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="ringCurrent" />
+				<ref bean="ringcurrent" />
 				<ref bean="ringEnergy" />
 				<ref bean="timeToRefill" />
 			</list>
