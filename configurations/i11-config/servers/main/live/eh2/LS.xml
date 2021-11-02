@@ -8,10 +8,10 @@
 	<!-- Large stage 2 -->
 	<bean id="linkam1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL11J-EA-TEMPC-01:TEMP"/>
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 	</bean>
 	<bean id="linkam2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL11J-EA-TEMPC-02:TEMP"/>
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 	</bean>
 </beans>

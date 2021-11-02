@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="m1b_mask_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 		<property name="value">
 			<value type="double">25.3</value>
 		</property>
@@ -14,7 +14,7 @@
 	</bean>
 
 	<bean id="m1b_mirror_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 		<property name="value">
 			<value type="double">25.3</value>
 		</property>

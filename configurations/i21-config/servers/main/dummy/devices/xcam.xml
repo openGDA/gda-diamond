@@ -23,7 +23,7 @@
 		<property name="increment" value="1" />
 	</bean>
 	<bean id="xcamTemperatureSet" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 		<property name="value">
 			<value type="double">-60.0</value>
 		</property>
@@ -32,7 +32,7 @@
 		<property name="increment" value="1" />
 	</bean>
 	<bean id="xcamTemperatureActual" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C"/>
+		<property name="unit" value="°C"/>
 		<property name="value">
 			<value type="double">-60.0</value>
 		</property>
