@@ -172,6 +172,8 @@ from org.eclipse.scanning.api.points.models import AxialStepModel
 def set_energy_scannable(scannable):
     global xas
     xas.setEnergyScannable(scannable)
+    
+set_energy_scannable(energy)
 
 print "Initialization Complete"
 

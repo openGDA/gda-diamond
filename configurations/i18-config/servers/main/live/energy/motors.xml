@@ -35,7 +35,7 @@
 	</bean>
 
 	<bean id="dcm_crystal" class="gda.device.enumpositioner.EpicsEnumPositioner">
-		<property name="pvBase" value="BL18I-MO-DCM-01:MP:SELECT" />
+		<property name="pvBase" value="BL18I-MO-DCM-01:MP:X:SELECT" />
 	</bean>
 
 </beans>

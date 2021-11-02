@@ -18,23 +18,8 @@
 	</scannableConfiguration>
 	
 	<scannableConfiguration>
-		<scannableName>t1thetaFine</scannableName>
-		<position>0</position>
-	</scannableConfiguration>
-	
-	<scannableConfiguration>
 		<scannableName>D7A</scannableName>
 		<position>Gap</position>
-	</scannableConfiguration>
-
-	<scannableConfiguration>
-		<scannableName>D7B</scannableName>
-		<position>gap</position>
-	</scannableConfiguration>
-
-	<scannableConfiguration>
-		<scannableName>kb_vfm_x</scannableName>
-		<position>3.0</position>
 	</scannableConfiguration>
 
 </I18SampleParameters>
