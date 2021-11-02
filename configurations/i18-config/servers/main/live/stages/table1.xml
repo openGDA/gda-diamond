@@ -8,7 +8,7 @@
 	</bean>
 	
 	<bean id="t1skew" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="#{T1_PV_BASE}:WRITEGAMMA" />
+		<property name="pvName" value="#{T1_PV_BASE}:SKEW" />
 	</bean>
 
 </beans>
