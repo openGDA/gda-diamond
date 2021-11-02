@@ -153,7 +153,7 @@
 	<bean id="sim_cam_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
 		<constructor-arg name="xAxisScannable" ref="simx"/>
 	    <constructor-arg name="yAxisScannable" ref="simy"/>
-	    <constructor-arg name="xAxisPixelScaling" value="0.002"/>
+	    <constructor-arg name="xAxisPixelScaling" value="0.002"/> 
 	    <constructor-arg name="yAxisPixelScaling" value="0.002"/>
 	    <constructor-arg name="xAxisBeamPositionInPixels" value="640"/>
 	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
@@ -180,6 +180,8 @@
 		</constructor-arg>
 	</bean>
 	
+	<!-- Extension autofocus configuration with different secondaryId-->
+	
 	<bean id="sim_cam_extension_autofocus" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsAutofocus">
 		<constructor-arg name="secondaryId" value="sim_cam_with_controls_calibration_autofocus" />
 		<constructor-arg name="focusPoints" ref="sim_cam_autofocus_points" />
@@ -204,7 +206,42 @@
 			</list>
 		</property>
 	</bean>
-		
+	
+	<!--
+		Camera configuration with control GUI and camera offset calibration
+	-->
+	
+	<bean id="sim_cam_with_controls_and_camera_offset" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Area Detector (with controls and configurable camera offset)" />
+		<property name="url" ref="sim_mjpg_url" />
+		<property name="rgb" value="true" />
+		<property name="calibratedAxesProvider" ref="sim_camera_offset_calibration" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg name="cameraControl" ref="sim_camera_control" />
+				<property name="extensions">
+					<list>
+						<ref bean="sim_cam_extension_offset_calibration" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean id="sim_cam_extension_offset_calibration" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsOffsetCalibrate">
+		<property name="CsvCameraOffsetCalibration" ref="sim_camera_offset_calibration" />
+	</bean>
+	
+	
+	<bean id="sim_camera_offset_calibration" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibration">
+		<constructor-arg name="xAxisScannable" ref="simx" />
+		<constructor-arg name="yAxisScannable" ref="simy" />
+		<constructor-arg name="xOffsetDefault" value="-0.0112" /> <!-- Offset of camera in x axis -->
+		<constructor-arg name="yOffsetDefault" value="-0.145" /> <!-- Offset of camera in y axis -->
+		<constructor-arg name="xPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in x axis -->
+		<constructor-arg name="yPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in y axis -->
+		<constructor-arg name="csvFilePath" value="${gda.config}/clients/main/_common/camera_offset_calibration.csv" />
+	</bean>
 	
 
 

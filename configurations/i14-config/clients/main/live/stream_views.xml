@@ -69,6 +69,7 @@
 					<list>
 						<ref bean="sample_microscope_extension_toggle_overlay" />
 						<ref bean="sample_microscope_extension_autofocus" />
+						<ref bean="sample_microscope_extension_offset_calibration" />
 					</list>
 				</property>
 			</bean>
@@ -104,7 +105,21 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="sample_microscope_extension_offset_calibration" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsOffsetCalibrate">
+		<property name="CsvCameraOffsetCalibration" ref="sample_microscope_offset_calibration" />
+	</bean>
 
+	<bean id="sample_microscope_offset_calibration" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibration">
+		<constructor-arg name="xAxis" ref="SampleX" />
+		<constructor-arg name="yAxis" ref="SampleY" />
+		<constructor-arg name="xOffsetDefault" value="-0.0112" /> <!-- Offset of camera in x axis -->
+		<constructor-arg name="yOffsetDefault" value="-0.145" /> <!-- Offset of camera in y axis -->
+		<constructor-arg name="xPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in x axis -->
+		<constructor-arg name="yPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in y axis -->
+		<constructor-arg name="csvFilePath" value="${gda.config}/clients/main/_common/camera_offset_calibration.csv" />
+	</bean>
+	
 	<bean id="sample_microscope_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
 		<constructor-arg name="xAxisScannable" ref="SampleX"/>
 	    <constructor-arg name="yAxisScannable" ref="SampleY"/>
@@ -115,20 +130,11 @@
 	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
 	</bean>
 	
+	
 	<!-- Excalibur detector -->
 	<bean id="excalibur_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Excalibur Detector" />
 		<property name="url" value="http://i14-excalibur04.diamond.ac.uk:8080/EXCBR.mjpg.mjpg" />
-	</bean>
-
-	<bean id="sample_microscope_offset_calibration" class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
-		<constructor-arg name="xAxisScannable" ref="SampleX"/>
-	    <constructor-arg name="xAxisPixelScaling" value="0.0006"/>
-	    <constructor-arg name="xAxisOffset" value="-0.0112" />
-	    <constructor-arg name="yAxisScannable" ref="SampleY"/>
-	    <constructor-arg name="yAxisPixelScaling" value="0.0006"/>
-	    <constructor-arg name="yAxisOffset" value="-0.145" />
-	
 	</bean>
 
 	<!-- Sample DTAB camera -->
