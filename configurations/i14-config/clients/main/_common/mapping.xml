@@ -174,11 +174,11 @@
 		<property name="numberOfLinePoints" value="40" />
 		<property name="focusScanDevices">
 			<list>
-				<value>X-ray Eye software</value>
-				<value>XSP3/Merlin coarse/fine</value>
+				<ref bean="focus_scan_detector" />
 			</list>
 		</property>
 	</bean>
+
 
 	<!-- Define the initial units for the various region fields -->
 	<bean id="initialLengthUnits" class="uk.ac.diamond.daq.mapping.api.MappingRegionUnits">
