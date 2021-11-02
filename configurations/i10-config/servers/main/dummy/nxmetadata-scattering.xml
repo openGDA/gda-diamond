@@ -35,11 +35,15 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="heater_range"/>
-					<property name="value" value="5"/>
+					<property name="value">
+						<value type="java.lang.Integer">5</value>
+					</property>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="heater"/>
-					<property name="value" value="0.400"/>
+					<property name="value">
+						<value type="java.lang.Double">0.400</value>
+					</property>
 					<property name="units" value="%"/>
 				</bean>
 			</list>
@@ -90,11 +94,15 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="speed"/> <!-- there is no speed PV in ADSIM -->
-								<property name="value" value="2.0"/>
+								<property name="value">
+									<value type="java.lang.Double">2.0</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="bit_depth"/> <!-- there is no bit_depth PV in ADSIM -->
-								<property name="value" value="16"/>
+								<property name="value">
+									<value type="java.lang.Integer">16</value>
+								</property>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
@@ -195,11 +203,15 @@
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="speed"/> <!-- there is no speed PV in ADSIM -->
-								<property name="value" value="2.0"/>
+								<property name="value">
+									<value type="java.lang.Double">2.0</value>
+								</property>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="bit_depth"/> <!-- there is no bit_depth PV in ADSIM -->
-								<property name="value" value="16"/>
+								<property name="value">
+									<value type="java.lang.Integer">16</value>
+								</property>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
