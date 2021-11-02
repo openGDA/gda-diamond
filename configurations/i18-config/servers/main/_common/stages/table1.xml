@@ -9,36 +9,41 @@
 		<constructor-arg value="BL18I-MO-TABLE-01" />
 	</bean>
 	
-	<gda:motor id="t1x"
-		outputFormat="%.4f"
-		live-pvName="#{T1_PV_BASE}:X"
-		dummy-minPosition="-14"
-		dummy-maxPosition="35"
-		dummy-position="23.4"
-		dummy-unitString="mm"/>
-		
-	<gda:motor id="t1y"
-		outputFormat="%.4f"
-		live-pvName="#{T1_PV_BASE}:Y"
-		dummy-minPosition="-18.5"
-		dummy-maxPosition="29.5"
-		dummy-position="-5.5"
-		dummy-unitString="mm"/>
-		
-	<gda:motor id="t1z"
-		outputFormat="%.4f"
-		live-pvName="#{T1_PV_BASE}:Z"
-		dummy-minPosition="-91"
-		dummy-maxPosition="134"
-		dummy-position="-60"
-		dummy-unitString="mm"/>
-		
-	<gda:motor id="t1theta"
-		live-pvName="#{T1_PV_BASE}:THETA"
-		dummy-minPosition="-360"
-		dummy-maxPosition="360"
-		dummy-position="30"
-		dummy-unitString="mm"/>
+	
+	<!-- Careful! 
+	
+		 The scannables t1x, t1y, t1z, t1theta are virtual axes within a single coordinate system
+		 
+		 At the time of writing there is a bug resulting in moves terminated early when multiple
+	     virtual axes within the same coordinate system are requested simultaneously.
+	     
+		 To get around this, these four scannables are given different levels,
+		 ensuring* they do not move simultaneously
+		 
+		 *This assumes the move is performed by a mechanism that honours scannable levels -->
+		 
+	<bean id="t1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1x_motor" />
+		<property name="outputFormat" value="%.4f" />
+		<property name="level" value="5" />
+	</bean>
+	
+	<bean id="t1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1y_motor" />
+		<property name="outputFormat" value="%.4f" />
+		<property name="level" value="6" />
+	</bean>
+	
+	<bean id="t1z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1z_motor" />
+		<property name="outputFormat" value="%.4f" />
+		<property name="level" value="7" />
+	</bean>
+	
+	<bean id="t1theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1theta_motor" />
+		<property name="level" value="8" />
+	</bean>
 
 	<gda:motor id="t1thetaFine"
 		live-pvName="#{T1_PV_BASE}:FROT"
