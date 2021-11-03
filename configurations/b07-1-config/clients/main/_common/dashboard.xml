@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- add scannables name that will populate dashboard table-->
+	<bean id="dashboard_motors" class="uk.ac.gda.rcp.dashboard.configuration.DashboardScannables">
+		<property name="dashboardScannableNames">
+			<list>
+				<value>ring_current</value>
+				<value>sample_temperature</value>
+				<value>pgm_energy</value>
+  				<value>pgm_cff</value>
+  				<value>s4c_xgap</value>
+  				<value>s4c_ygap</value>
+  				<value>ca31c_value</value>
+  				<value>ca32c_value</value>
+  				<value>ca33c_value</value>
+  				<value>ca34c_value</value>
+			</list>
+		</property>
+	</bean>
+</beans>

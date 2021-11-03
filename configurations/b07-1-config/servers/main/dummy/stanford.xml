@@ -151,11 +151,15 @@
 
 	<bean id="ca31c_stanford" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca31c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca31c_value" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca32c_stanford" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca32c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca32c_value" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca33c_stanford" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca33c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca33c_value" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca34c_stanford" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca34c" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca34c_value" class="gda.device.scannable.DummyScannable" />
 
 </beans>
