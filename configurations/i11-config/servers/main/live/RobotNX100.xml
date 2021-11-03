@@ -32,6 +32,32 @@
 		<property name="nextSampleNumberController" ref="nextsampleposition_controller" />
 		<property name="currentSampleNumberController" ref="currentsampleposition_controller" />
 		<property name="doorLatch" ref="doorLatch_controller" />
+		<property name="externalChecks" >
+			<list>
+				<ref bean="robot_plc_check" />
+				<ref bean="robot_feedrate_check" />
+				<ref bean="robot_feedrate_rbv_check" />
+				<ref bean="robot_feedrate_limit_check" />
+			</list>
+		</property>
 	</bean>
 
+	<bean id="robot_plc_check" class="gda.device.robot.PVCheck" >
+		<property name="pvName" value="BL11I-MO-STEP-19:PLCSTATUS_OK" />
+		<property name="value" value="1" />
+	</bean>
+	<bean id="robot_feedrate_check" class="gda.device.robot.PVCheck" >
+		<property name="pvName" value="BL11I-MO-STEP-19:FEEDRATE" />
+		<property name="correctIfInvalid" value="true" />
+		<property name="value" value="100" />
+	</bean>
+	<bean id="robot_feedrate_rbv_check" class="gda.device.robot.PVCheck" >
+		<property name="pvName" value="BL11I-MO-STEP-19:FEEDRATE_RBV" />
+		<property name="value" value="100" />
+	</bean>
+	<bean id="robot_feedrate_limit_check" class="gda.device.robot.PVCheck" >
+		<property name="pvName" value="BL11I-MO-STEP-19:FEEDRATE_LIMIT" />
+		<property name="correctIfInvalid" value="true" />
+		<property name="value" value="100" />
+	</bean>
 </beans>
