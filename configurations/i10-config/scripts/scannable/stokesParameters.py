@@ -40,7 +40,7 @@ class StokesParameters(ScannableMotionBase):
                 S1 = round((math.cos(angle*math.pi/180.0))**2-(math.sin(angle*math.pi/180.0))**2,3)
                 S2 = round(2*math.cos(angle*math.pi/180.0)*math.sin(angle*math.pi/180.0),3)
                 return [1.000, S1, S2, 0.000]
-            except RuntimeError as e:
+            except RuntimeError, e:
                 if hasattr(e, 'message'):
                     return e.message
                 else:
