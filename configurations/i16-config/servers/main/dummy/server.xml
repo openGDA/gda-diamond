@@ -87,7 +87,9 @@
 	<import resource="detector/cam2.xml" />
 	<import resource="detector/cam5.xml" />
 	 -->
+	<import resource="../live/detector/camlab84.xml" />
 	<!-- 
+	<import resource=        "detector/camlab84.xml" />
 	<import resource="detector/medipix.xml" />
 	 -->
 	<!-- 

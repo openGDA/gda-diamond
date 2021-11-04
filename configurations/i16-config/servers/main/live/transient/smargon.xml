@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Virtual Motors -->
+
 	<bean id="SGxMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:X" />
@@ -32,4 +34,17 @@
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:CHI" />
 	</bean>
+
+	<!-- Real Motors -->
+
+	<bean id="SGomegaRealMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-MO-SGON-01:MOTOR_6" />
+	</bean>
+
+	<bean id="SGphiRealMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-MO-SGON-01:MOTOR_5" />
+	</bean>
+
 </beans>

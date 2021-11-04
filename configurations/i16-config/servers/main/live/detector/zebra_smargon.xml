@@ -17,6 +17,8 @@
 		<property name="minimumAccelerationDistance" value="0.008"/>
 	</bean>
 
+	<!-- Virtual Motors -->
+
 	<bean id="sgphiZebra"
 			class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="SGphiMotor" />
@@ -32,4 +34,23 @@
 		<property name="pcEnc" value="1"/>
 		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
 	</bean>
+
+	<!-- Real Motors -->
+
+	<bean id="sgphiRealZebra"
+			class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="SGphiRealMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
+		<property name="pcEnc" value="3"/>
+		<property name="scurveTimeToVelocity" value=".1"/> <!-- From ACCL -->
+	</bean>
+
+	<bean id="sgomegaRealZebra"
+			class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="SGomegaRealMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
+		<property name="pcEnc" value="1"/>
+		<property name="scurveTimeToVelocity" value=".1"/> <!-- From ACCL -->
+	</bean>
+
 </beans>

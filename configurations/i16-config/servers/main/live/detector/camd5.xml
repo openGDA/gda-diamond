@@ -1,0 +1,69 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<bean id="camd5_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL16I-DI-PHDGN-05:CAM:" />
+	</bean>
+
+	<bean id="camd5_ndfile_base" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="basePVName" value="BL16I-DI-PHDGN-05:TIFF:" />
+	</bean>
+
+	<bean id="camd5_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL16I-DI-PHDGN-05:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="pluginBase" ref="camd5_ndfile_base" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="camd5_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="camd5_adbase" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="camd5_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="camd5" />
+		<property name="ndFile" ref="camd5_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="camd5_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="camd5_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="camd5" />
+		<property name="ndFile" ref="camd5_ndfile" />
+		<property name="numTrackerExtension" value="camd5snaps" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="_camd5" class="gda.device.detector.NXDetector">
+		<property name="name" value="camd5" />
+		<property name="collectionStrategy" ref="camd5_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camd5_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="_camd5_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="camd5_for_snaps" />
+		<property name="collectionStrategy" ref="camd5_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camd5_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+</beans>

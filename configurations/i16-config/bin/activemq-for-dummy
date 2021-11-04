@@ -1,0 +1,43 @@
+#!/bin/bash
+
+module load activemq/beamline-control
+
+# Make sure 
+if [ ! -e /scratch ] ; then
+	echo "ERROR: This should only be run on a workstation with a /scratch directory
+
+On a beamline-control machine you should run activemq using
+
+	sudo service dls_activemq start
+
+See https://confluence.diamond.ac.uk/x/oQpBAg 
+" >&2
+	exit 1
+fi
+# Create /scratch/activemq if necessary
+if [ ! -e /scratch/activemq ] ; then
+	mkdir /scratch/activemq
+	# Configure it with appropriate permissions so that it can be used by
+	# anyone in dls_dasc, not just the person who first ran activemq on
+	# this machine
+	chgrp dls_dasc /scratch/activemq
+	chmod 2777 /scratch/activemq
+	setfacl -m group:dls_dasc:rwx -m default:user::rwx \
+		-m default:group::rwx -m default:group:dls_dasc:rwx \
+		-m default:other::rwx /scratch/activemq
+fi
+if [ $# == 0 ] ; then
+	ACTION="start"
+elif [ $# == 1 ] ; then
+	ACTION=$1
+fi
+echo "
+	Running 'activemq $ACTION'
+"
+ACTIVEMQ_PIDFILE=/scratch/activemq/activemq.pid \
+ACTIVEMQ_CONF=/dls_sw/apps/activemq/beamline-control/configuration-dummy \
+ACTIVEMQ_DATA=/scratch/activemq/data \
+ACTIVEMQ_TMP=/scratch/activemq/tmp \
+activemq ${ACTION} \
+	--extdir /dls_sw/apps/activemq/beamline-control/plugins-dummy
+

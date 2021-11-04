@@ -1,3 +1,9 @@
+###############################################################################
+# This script is the main i16 localStation script, it will be used whenever   #
+# the `reset_namespace` command is run on the Jython terminal console in GDA, #
+# or the gda servers are restarted.                                           #
+###############################################################################
+
 import gda, time
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
@@ -32,12 +38,13 @@ def localStation_print(msg):
 
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
-	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
+	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DIFFCALC_WITHOUT_LASTUB, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
 	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
 	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
 except:
 	USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
+	USE_DIFFCALC_WITHOUT_LASTUB = False
 	USE_DUMMY_IDGAP_MOTOR = False
 	USE_NEXUS = True
 	USE_NEXUS_METADATA_COMMANDS = True
@@ -48,8 +55,8 @@ except:
 	USE_PIL3 = True
 	USE_ROCKING_SCANNABLES = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
-				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
@@ -80,6 +87,9 @@ global delta
 global energy, simple_energy, gam
 global x1
 global _cam1, _cam1_for_snaps
+global _camd3, _camd3_for_snaps
+global _camd4, _camd4_for_snaps
+global _camd5, _camd5_for_snaps
 global corExpTime, cor2ExpTime
 global _xeye, _xeye_for_snaps
 global _zylar, _zylar_for_snaps
@@ -118,13 +128,14 @@ if installation.isDummy():
 	print "*"*80
 	#USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
+	USE_DIFFCALC_WITHOUT_LASTUB = False
 	USE_DUMMY_IDGAP_MOTOR = True
 	USE_SMARGON = False
 	USE_PIL1 = False
 	USE_PIL2 = False
 	localStation_print("Override some localStationConfiguration options in order to run in dummy mode:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
-				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
@@ -500,6 +511,13 @@ else:
 		run(diffcalc_startup_script)
 	except:
 		localStation_exception("trying to set up diffcalc via "+diffcalc_startup_script)
+	if USE_DIFFCALC_WITHOUT_LASTUB:
+		localStation_print("Not running lastub() as it has been suppressed by Starting Diffcalc by USE_DIFFCALC_WITHOUT_LASTUB %r" % USE_DIFFCALC_WITHOUT_LASTUB)
+	else:
+		try:
+			lastub()  # Load the last ub calculation used
+		except:
+			localStation_exception("trying to run lastub()")
 	exec("phi=euler.phi")
 	exec("chi=euler.chi")
 	exec("eta=euler.eta")
@@ -889,6 +907,8 @@ except:
 from scannable.detector.DetectorWithShutter import DetectorWithShutter
 from scannable.pilatus import PilatusThreshold, PilatusGain
 
+X1_DELAY = 0.1 # See https://jira.diamond.ac.uk/browse/I16-538
+
 ### 2m ###
 if USE_PIL2:
 	localStation_print("Configuring pilatus 2 (2m)")
@@ -914,7 +934,7 @@ if USE_PIL2:
 		pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
 		pil2m.printNfsTimes = True
 		pil2m.display_image = True
-		pil2ms = DetectorWithShutter(pil2m, x1)
+		pil2ms = DetectorWithShutter(pil2m, x1, X1_DELAY)
 	except:
 		localStation_exception("configuring pilatus 2 (2m)")
 else:
@@ -943,9 +963,9 @@ if USE_PIL1:
 			array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
 		pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		pil100k.printNfsTimes = False
-		pil100ks = DetectorWithShutter(pil100k, x1)
-		pil = pil100k
-		pils = pil100ks
+		pil100ks = DetectorWithShutter(pil100k, x1, X1_DELAY)
+		pil_tmp = pil100k
+		pils_tmp = pil100ks
 		#pil100kvrf=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VRF','BL16I-EA-PILAT-01:VRF','BL16I-EA-PILAT-01:VRF','V','%.3f',help='set VRF (gain) for pilatus\nReturns set value rather than true readback\n-0.05=very high\n-0.15=high\n-0.2=med\n-0.3=low')
 		#pil100kvcmp=SingleEpicsPositionerSetAndGetOnlyClass('P100k_VCMP','BL16I-EA-PILAT-01:VCMP','BL16I-EA-PILAT-01:VCMP','V','%.3f',help='set VCMP (threshold) for pilatus\nReturns set value rather than true readback\n0-1 V')
 		#pil100kgain=SingleEpicsPositionerSetAndGetOnlyClass('P100k_gain','BL16I-EA-PILAT-01:Gain','BL16I-EA-PILAT-01:Gain','','%.3f',help='set gain for pilatus\nReturns set value rather than true readback\n3=very high\n2=high\n1=med\n0=low')
@@ -978,11 +998,38 @@ if USE_PIL3:
 			fileLoadTimout=60,
 			returnPathAsImageNumberOnly=True,
 			array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
-		pil3_100k.processors=[DetectorDataProcessorWithRoi('max', pil3_100k, [SumMaxPositionAndValue()], False)]
-		pil3_100k.printNfsTimes = False
-		pil3_100ks = DetectorWithShutter(pil3_100k, x1)
+
+		#pil3_100ks = DetectorWithShutter(pil3_100k, x1, X1_DELAY, nameSuffix="")
+		# With ^ the Nexus file ends up with a pil3_100ks node but the link writer inside NxProcessingDetectorWrapper fails with
+		#   KeyError: "Unable to open object (object 'pil3_100k' doesn't exist)"
+		# as pil3_100k has no way to know that it's name is being overridden. Instead clone the NxProcessingDetectorWrapper with
+		# it's new name baked in.
+		pil3_100ksNPDW = NxProcessingDetectorWrapper('pil3_100ks',
+				pil3_100k.detector,
+				pil3_100k.hardware_triggered_detector,
+				pil3_100k.detector_for_snaps,
+				pil3_100k.processors,
+				pil3_100k.panel_name,
+				pil3_100k.toreplace,
+				pil3_100k.replacement,
+				pil3_100k.iFileLoader,
+				pil3_100k.root_datadir,
+				pil3_100k.fileLoadTimout,
+				pil3_100k.printNfsTimes,
+				pil3_100k.returnPathAsImageNumberOnly,
+				pil3_100k.panel_name_rcp,
+				pil3_100k.return_performance_metrics,
+				pil3_100k.array_monitor_for_hardware_triggering)
+		pil3_100ks = DetectorWithShutter(pil3_100ksNPDW, x1, X1_DELAY, nameSuffix="")
+
+		pil3_100k.processors      = [DetectorDataProcessorWithRoi('max', pil3_100k,  [SumMaxPositionAndValue()], False)]
+		pil3_100ksNPDW.processors = [DetectorDataProcessorWithRoi('max', pil3_100ks, [SumMaxPositionAndValue()], False)]
+		pil3_100k.printNfsTimes      = False
+		pil3_100ksNPDW.printNfsTimes = False
 		pil3 = pil3_100k
+		pil  = pil3_100k
 		pil3s = pil3_100ks
+		pils  = pil3_100ks
 
 		pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pil3_100k.hardware_triggered_detector.driver.getAdDriverPilatus())
 		pil3_100kgain =        PilatusGain('pil3_100kgain',   pil3_100k.hardware_triggered_detector.driver.getAdDriverPilatus())
@@ -994,6 +1041,9 @@ if USE_PIL3:
 		localStation_exception("configuring pilatus 3 (100k)")
 else:
 	localStation_print("Not configuring pilatus 3 (100k)")
+
+from autoRangeDetector import AutoRangeDetector
+from pv_scannable_utils import createPVScannable
 
 ### cam2 ###
 localStation_print("Configuring cor (cam2)")
@@ -1014,8 +1064,8 @@ try:
 	cormax2d = DetectorDataProcessorWithRoi('cormax2d', cor, [SumMaxPositionAndValue()])
 
 	#create a version of cor, corpeak2d, cormax2d that performs auto exposure
+	# Example: scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 	#To record actual exposure time also add corExpTime
-	from autoRangeDetector import AutoRangeDetector
 	corAuto = AutoRangeDetector('corAuto',
 		cam2,
 		None,
@@ -1033,7 +1083,6 @@ try:
 
 	#create pseudo-device
 	#there is a copy of this in epics git epics_script folder.
-	from pv_scannable_utils import createPVScannable
 	createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
 	corExpTime.level=10
 except:
@@ -1066,8 +1115,8 @@ try:
 		printNfsTimes=False,
 		returnPathAsImageNumberOnly=True)
 	cor2Auto.display_image = True
-	cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', corAuto, [TwodGaussianPeak()])
-	cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPositionAndValue()])
+	cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', cor2Auto, [TwodGaussianPeak()])
+	cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', cor2Auto, [SumMaxPositionAndValue()])
 	createPVScannable( "cor2ExpTime", "BL16I-DI-DCAM-10:CAM:AcquireTime_RBV", hasUnits=False)
 	cor2ExpTime.level=10
 except:
@@ -1094,8 +1143,6 @@ try:
 except:
 	localStation_exception("configuring xeye")
 
-#scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
-
 localStation_print("Configuring zylar")
 try:
 	zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper('zylar',
@@ -1118,27 +1165,73 @@ try:
 except:
 	localStation_exception("configuring zylar")
 
-localStation_print("Configuring bpm (cam1)")
+def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_last=True, panel_name_rcp='Plot 1'):
+	localStation_print("Configuring %s" % name)
+	try:
+		cam = SwitchableHardwareTriggerableProcessingDetectorWrapper(name,
+			cam_for_scans,
+			None,
+			cam_for_snaps,
+			[],
+			panel_name_rcp=panel_name_rcp,
+			fileLoadTimout=60,
+			printNfsTimes=False,
+			returnPathAsImageNumberOnly=True)
+
+		cam.display_image = display_image
+		if sum_last:
+			cam.processors=[DetectorDataProcessorWithRoi('peak', cam, [TwodGaussianPeakWithCalibration(), SumMaxPositionAndValue()], False)]
+			cam.processors[0].processors[0].setScalingFactors(0.0027, 0.00375)
+		else:
+			cam.processors=[DetectorDataProcessorWithRoi('peak', cam, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+			cam.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
+		peak2d = DetectorDataProcessorWithRoi(name+'_peak2d', cam, [TwodGaussianPeak()])
+		max2d = DetectorDataProcessorWithRoi(name+'_max2d', cam, [SumMaxPositionAndValue()])
+		#cam.processors[0].processors[1].calibrate()
+
+		return cam, peak2d, max2d
+	except:
+		localStation_exception("configuring %s" % name)
+
 try:
-	bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
-		_cam1,
-		None,
-		_cam1_for_snaps,
-		[],
-		panel_name_rcp='Plot 1',
-		fileLoadTimout=60,
-		printNfsTimes=False,
-		returnPathAsImageNumberOnly=True)
-
-	bpm.display_image = True
-	bpm.processors=[DetectorDataProcessorWithRoi('peak', bpm, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-	bpm.processors[0].processors[1].setScalingFactors(0.0027, 0.00375)
-	bpmpeak2d = DetectorDataProcessorWithRoi('bpmpeak2d', bpm, [TwodGaussianPeak()])
-	bpmmax2d = DetectorDataProcessorWithRoi('bpmmax2d', bpm, [SumMaxPositionAndValue()])
-	#bpm.processors[0].processors[1].calibrate()
+	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps)
+	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
+	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
+	camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
 except:
-	localStation_exception("configuring bpm (cam1)")
+	localStation_exception("configuring wrapped detectors")
 
+def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
+	try:
+		cam, cam_peak2d, cam_max2d = wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image, sum_last, panel_name_rcp)
+		camAuto = AutoRangeDetector(name+'Auto',
+			cam_for_scans,
+			None,
+			cam_for_snaps,
+			auto_range_base_PV,
+			[],
+			panel_name_rcp=panel_name_rcp,
+			fileLoadTimout=60,
+			printNfsTimes=False,
+			returnPathAsImageNumberOnly=True,
+			useOldExposureAutoPVs=False)
+		camAuto.display_image = True
+		camAutopeak2d = DetectorDataProcessorWithRoi(name+'Autopeak2d', camAuto, [TwodGaussianPeak()])
+		camAutomax2d = DetectorDataProcessorWithRoi(name+'Automax2d', camAuto, [SumMaxPositionAndValue()])
+		createPVScannable(name+"ExpTime", auto_range_base_PV+"CAM:AcquireTime_RBV", hasUnits=False)
+
+		return cam, cam_peak2d, cam_max2d, camAuto, camAutopeak2d, camAutomax2d
+	except:
+		localStation_exception("configuring %s" % name+"Auto")
+
+global camlab84_for_scans, camlab84_for_snaps, camlab84ExpTime
+
+try:
+	camlab84, camlab84_peak2d, camlab84_max2d, camlab84Auto, camlab84Autopeak2d, camlab84Automax2d = wrappedAutoDetector(
+		"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:")
+	camlab84ExpTime.level=10
+except:
+	localStation_exception("configuring wrapped auto detectors")
 
 ###############################################################################
 ###                              Configure andor                            ###
@@ -1217,7 +1310,7 @@ try:
 																	returnPathAsImageNumberOnly=True)
 	merlin.disable_operation_outside_scans = False
 	merlin.processors=[DetectorDataProcessorWithRoi('max', merlin, [SumMaxPositionAndValue()], False)]
-	merlins = DetectorWithShutter(merlin, x1)
+	merlins = DetectorWithShutter(merlin, x1, X1_DELAY)
 except gda.factory.FactoryException as e:
 	localStation_exception("connecting to merlin (FactoryException)", e)
 except java.lang.IllegalStateException as e:
@@ -1597,32 +1690,62 @@ if USE_SMARGON:
 else:
 	localStation_print("Not configuring smargon")
 
+localStation_print("Setting diffcalc ubmeta scannable")
+try:
+	from gda.device.scannable import ScannableBase 
+	from __builtin__ import False 
+	try:
+		import json 
+	except ImportError: 
+		import simplejson as json
+
+	from diffcalc.ub.calcstate import UBCalcStateEncoder
+
+	class UBCalcMetadata (ScannableBase):
+		def __init__(self, name): 
+			self.name = name 
+
+		def getPosition(self): 
+			if ubcalc is not None or ubcalc._state is not None: 
+				return json.dumps(ubcalc._state, cls=UBCalcStateEncoder) 
+			return None 
+
+		def rawAsynchronousMoveTo(self, position): 
+			pass 
+
+		def isBusy(self): 
+			return False 
+
+	ubMeta = UBCalcMetadata("ubMeta")
+except:
+	localStation_exception("setting diffcalc ubmeta scannable")
+
 ######### temp 24/04/2018 #############
 
 do.pil = 8.8
 
 def diodein():
-    pos(tthp, 0)
-    pos(dettrans, 0)
+	pos(tthp, 0)
+	pos(dettrans, 0)
 
 def apdin():
-    pos(tthp, -0.35)
-    pos(dettrans -27.71)
+	pos(tthp, -0.35)
+	pos(dettrans -27.71)
 
 def vortexin():
-    pos(tthp, 85.4-96.5)
-    pos(dettrans, 25)
+	pos(tthp, 85.4-96.5)
+	pos(dettrans, 25)
 
 def pilin():
-    pos(do, do.pil)
-    pos(s6ygap, 2)
-    pos(s6ytrans, 10.433)
-    pos(s6ygap, 9)
+	pos(do, do.pil)
+	pos(s6ygap, 2)
+	pos(s6ytrans, 10.433)
+	pos(s6ygap, 9)
 
 def pilout():
-    pos(do, 0)
-    pos(s6ygap, 2.8)
-    pos(s6ytrans, 0)
+	pos(do, 0)
+	pos(s6ygap, 2.8)
+	pos(s6ytrans, 0)
 
 if installation.isLive():
 	print "*"*80
@@ -1631,7 +1754,7 @@ if installation.isLive():
 		run("localStationStaff")
 		localStation_print("localStationStaff.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_print("No localStationStaff.py found in user scripts directory")
+		localStation_exception("running localStationStaff user script!", e)
 	except:
 		localStation_exception("running localStationStaff user script!")
 
@@ -1641,9 +1764,9 @@ if installation.isLive():
 		run("localStationUser")
 		localStation_print("localStationUser.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_print("No localStationUser.py found in user scripts directory")
+		localStation_exception("running localStationUser user script!", e)
 	except:
-		localStation_exception("running localStationUser user script")
+		localStation_exception("running localStationUser user script!")
 else:
 	try:
 		run("dummy/localStationStaff")

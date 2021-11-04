@@ -8,7 +8,7 @@ class PPPClass(ScannableMotionBase):
 	'''
 	def __init__(self, name, dspace, thpv, offsetpd, help=None):
 		self.setName(name)
-		self.setInputNames(['ppp_energy','ppp_offset'])
+		self.setInputNames([name+'_energy',name+'_offset'])
 		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
 		#self.setExtraNames([name])
 		self.Units=['keV','deg']
