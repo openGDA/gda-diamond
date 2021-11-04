@@ -5,7 +5,7 @@ bashlog debug "gda_servers_post_instance" "Entered"
 if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "stop" ]]; then
 
   echo Moving GDA Log Panel...
-  wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+  wmctrl -R "GDA Log Panel" -e 0,1921,0,1000,1000
 
   # If SERVERS_SSH_PID isn't defined then we will have already waited for the servers to start
   if [ -n "${SERVERS_SSH_PID-}" ] ; then
@@ -20,7 +20,7 @@ if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "s
     echo
     if [ -z ${SPRING_PROFILES+x} ]; then echo "SPRING_PROFILES is unset"; else echo "SPRING_PROFILES is set to '$SPRING_PROFILES'"; fi
     
-    bash ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/gdaclient --springprofiles $SPRING_PROFILES &
+    bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client --springprofiles=$SPRING_PROFILES
     # Note that we don't want to source here, since this is already being run from gda_core
     # and using source will switch COMPONENT from servers to client!
     echo

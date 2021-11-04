@@ -1,2 +1,13 @@
-#export CONTROL_MACHINE_PUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAwS8OSeSsUC2ORXjmxr47nHwhnDjgjmE2Bb0cC8VUpvkrxP5YbnsPhtYpS1drdU/PfbRVQS2Ll63m699KsqPAtnSlNY2QlwT74l0V72rFmxRzNzLzYKjK/zTj5IOLEpOM3H2ZKcBlXxggN608+TGOFiY0mqrKYK6awP3PEo1eBo9l1mTDKxx6QspWq42O6ZR81ni72NAyN9L0nM8J9gyDfrVY74jymgtG9aFC6VC/+QuadUxYuFCGS8iqMziRNmOStZv5tshROglhyDASTA+iDciQ9gxJ2seilRnQhJdioUgCG0oR/m7yRWOmfiDOCucg7I+WuYAsB4eGDwqghx7kiw=="
-#bashlog debug "gda_servers_pre_instance(_common)" "exported CONTROL_MACHINE_PUBKEY=${CONTROL_MACHINE_PUBKEY:0:12}..."
+# Setup specific to this beamline, that is done before the servers are started
+bashlog debug "gda_servers_pre_instance" "Entered"
+
+# Since the gda_servers_* scripts are run on both the client machine and on the
+# server machine in live mode, don't start the log client on the server machine.
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
+	bashlog debug "gda_servers_pre_instance" "Ensure the log panel is running..."
+	bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core logpanel
+  	# Note that we don't want to source here, since this is already being run from gda_core
+  	# and using source will switch COMPONENT from servers to logpanel!
+fi
+
+bashlog debug "gda_servers_pre_instance" "Exited"

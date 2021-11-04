@@ -1,0 +1,10 @@
+# Setup specific to this beamline, that is done before the client is started
+bashlog debug "gda_client_pre_instance [dummy]" "Entered"
+
+# Set WORKSTATION environment variable - used in dummy mode for Spring config of dummy area detector
+if [ -z ${WORKSTATION-} ]; then
+	bashlog debug "gda_client_pre_instance (dummy)" "Setting WORKSTATION environment variable"
+	export WORKSTATION=${HOSTNAME%%.*}
+fi
+
+bashlog debug "gda_client_pre_instance [dummy]" "Exited"

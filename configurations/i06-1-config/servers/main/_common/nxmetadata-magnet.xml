@@ -46,30 +46,30 @@
 					<property name="name" value="amp_1_mode"/>
 					<property name="expression" value="@scm_amp_1.getPosition()[1]"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="amp_2_gain"/>
-					<property name="expression" value="@scm_amp_2.getPosition()[0]"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="amp_2_mode"/>
-					<property name="expression" value="@scm_amp_2.getPosition()[1]"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="amp_3_gain"/>
-					<property name="expression" value="@scm_amp_3.getPosition()[0]"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="amp_3_mode"/>
-					<property name="expression" value="@scm_amp_3.getPosition()[1]"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="amp_4_gain"/>
-					<property name="expression" value="@scm_amp_4.getPosition()[0]"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="amp_4_mode"/>
-					<property name="expression" value="@scm_amp_4.getPosition()[1]"/>
-				</bean>
+<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
+<!-- 					<property name="name" value="amp_2_gain"/> -->
+<!-- 					<property name="expression" value="@scm_amp_2.getPosition()[0]"/> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
+<!-- 					<property name="name" value="amp_2_mode"/> -->
+<!-- 					<property name="expression" value="@scm_amp_2.getPosition()[1]"/> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
+<!-- 					<property name="name" value="amp_3_gain"/> -->
+<!-- 					<property name="expression" value="@scm_amp_3.getPosition()[0]"/> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
+<!-- 					<property name="name" value="amp_3_mode"/> -->
+<!-- 					<property name="expression" value="@scm_amp_3.getPosition()[1]"/> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
+<!-- 					<property name="name" value="amp_4_gain"/> -->
+<!-- 					<property name="expression" value="@scm_amp_4.getPosition()[0]"/> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
+<!-- 					<property name="name" value="amp_4_mode"/> -->
+<!-- 					<property name="expression" value="@scm_amp_4.getPosition()[1]"/> -->
+<!-- 				</bean> -->
 			</list>
 		</property>
 	</bean>

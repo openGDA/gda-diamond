@@ -3,14 +3,6 @@
 # /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
 # this cannot be done until all beamlines use the standard startup commands.
 
-#############
-# @DEPRECATED
-#############
-#
-# This script should not be added to as it is being phased out
-
 #export SPRING_PROFILES evn variable so it can be passed to client launch script as well
 export SPRING_PROFILES=magnet
-
-gda logpanel
 gda servers --springprofiles=$SPRING_PROFILES $*

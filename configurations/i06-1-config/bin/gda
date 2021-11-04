@@ -3,6 +3,7 @@
 # Also expects the BEAMLINE variable to be set
 
 export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
+export GDA_CLIENT_VMARGS=" -Xms256m -Xmx2048m"
 
 # Set the value that the BEAMLINE environment variable should be to correctly start from this configuration
 # so it can be checked automatically to prevent accidental startup of the wrong beamline.

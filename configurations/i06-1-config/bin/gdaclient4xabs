@@ -1,7 +1,4 @@
 #!/bin/bash
 
 export SPRING_PROFILES=xabs
-
-gda --start logpanel
-export GDA_CLIENT_VMARGS=" -Xms256m -Xmx2048m"
-gda --start client -Dgda.spring.profiles.active=SPRING_PROFILES "$@"
+gda --start client --springprofiles=$SPRING_PROFILES "$@"

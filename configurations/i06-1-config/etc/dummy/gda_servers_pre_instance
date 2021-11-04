@@ -1,2 +1,10 @@
-export CONTROL_MACHINE_PUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAwS8OSeSsUC2ORXjmxr47nHwhnDjgjmE2Bb0cC8VUpvkrxP5YbnsPhtYpS1drdU/PfbRVQS2Ll63m699KsqPAtnSlNY2QlwT74l0V72rFmxRzNzLzYKjK/zTj5IOLEpOM3H2ZKcBlXxggN608+TGOFiY0mqrKYK6awP3PEo1eBo9l1mTDKxx6QspWq42O6ZR81ni72NAyN9L0nM8J9gyDfrVY74jymgtG9aFC6VC/+QuadUxYuFCGS8iqMziRNmOStZv5tshROglhyDASTA+iDciQ9gxJ2seilRnQhJdioUgCG0oR/m7yRWOmfiDOCucg7I+WuYAsB4eGDwqghx7kiw=="
-bashlog debug "gda_servers_pre_instance(dummy)" "exported CONTROL_MACHINE_PUBKEY=${CONTROL_MACHINE_PUBKEY:0:12}..."
+# Setup specific to this beamline, that is done before the servers are started
+bashlog debug "gda_servers_pre_instance [dummy]" "Entered"
+
+# Set WORKSTATION environment variable - used in dummy mode for Spring config of dummy area detector
+if [ -z ${WORKSTATION-} ]; then
+	bashlog debug "gda_servers_pre_instance [dummy]" "Setting WORKSTATION environment variable"
+	export WORKSTATION=${HOSTNAME%%.*}
+fi
+
+bashlog debug "gda_servers_pre_instance [dummy]" "Exited"
