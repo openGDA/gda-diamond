@@ -7,7 +7,7 @@
 	<!-- We assume that beam is available if the ring current is above background level -->
 	<!-- and the port shutter is open -->
 	<bean id="beam_available_model" class="org.eclipse.scanning.api.device.models.ExpressionWatchdogModel">
-		<property name="expression" value="ring_current >= 1.0 &amp;&amp; !portshutter.equalsIgnoreCase(&quot;Closed&quot;)"/>
+		<property name="expression" value="ring_current >= 1.0 &amp;&amp; portshutter.equalsIgnoreCase(&quot;Open&quot;)"/>
 		<property name="message" value="Beam has been lost"/>
 	</bean>
 
