@@ -3,14 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!--
+
 	<bean id="andor_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Andor Detector" />
 		<property name="url" value="http://bl08j-ea-serv-01.diamond.ac.uk:8081/DET2.mjpg.jpg" />
 		<property name="arrayPv" value="BL08J-EA-DET-02:ARR" />
 		<property name="sleepTime" value="5" />
 	</bean>
-	-->
+
 
 	<bean id="axis_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Axis Detector" />

@@ -6,6 +6,8 @@
 	<bean id="focus_scan_bean" parent="focus_scan_bean_base">
 		<property name="focusScanDevices">
 			<list>
+			    <value>Andor software</value>
+			    <value>Andor</value>
 				<value>Axis detector fine</value>
 				<value>Axis detector combined</value>
 			</list>
