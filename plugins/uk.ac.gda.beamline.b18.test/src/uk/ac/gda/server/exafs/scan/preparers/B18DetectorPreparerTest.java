@@ -390,6 +390,23 @@ public class B18DetectorPreparerTest {
 	}
 
 	@Test
+	public void testStringSubstitutesWorksWithNull() throws Exception {
+		DetectorConfig detConfig = new DetectorConfig("script command");
+		detConfig.setUseScriptCommand(true);
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setDetectorConfigurations(Arrays.asList(detConfig));
+
+		QEXAFSParameters scanParams = new QEXAFSParameters();
+		scanParams.setInitialEnergy(1000);
+		scanParams.setFinalEnergy(2000);
+		thePreparer.configure(scanParams, detParams, null, "/scratch/test/xml/path/");
+
+		// Script command should be unmodified
+		assertEquals(null, detConfig.getScriptCommand());
+	}
+
+	@Test
 	public void testStringSubstitutesBeforeAfterScriptCommands() throws Exception {
 
 		DetectorParameters detParams = new DetectorParameters();
@@ -415,7 +432,26 @@ public class B18DetectorPreparerTest {
 
 		expectedString = String.format("test_after(%.1f)", scanParams.getFinalEnergy());
 		assertEquals(expectedString, outputParams.getAfterScriptName());
+	}
 
+	@Test
+	public void testStringSubstitutesBeforeAfterScriptWorkWithNull() throws Exception {
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setExperimentType(""); // so that detector(s) are not configured
+
+		QEXAFSParameters scanParams = new QEXAFSParameters();
+		scanParams.setInitialEnergy(1000);
+		scanParams.setFinalEnergy(2000);
+
+		OutputParameters outputParams = new OutputParameters();
+
+		thePreparer.configure(scanParams, detParams, outputParams, "/scratch/test/xml/path/");
+
+		// Script names should be unmodified
+		assertEquals(null, outputParams.getBeforeFirstRepetition());
+		assertEquals(null, outputParams.getBeforeScriptName());
+		assertEquals(null, outputParams.getAfterScriptName());
 	}
 
 	private DetectorParameters createDetectorParameters() {

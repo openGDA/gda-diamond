@@ -187,6 +187,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	private String replaceStrings(String jythonString, Map<String, Double> stringSubs) {
+		if (jythonString == null) {
+			return null;
+		}
 		logger.info("Replacing strings in Jython string : {}", jythonString);
 		for(Entry<String, Double> entry:stringSubs.entrySet()) {
 			if (jythonString.contains(entry.getKey())) {
