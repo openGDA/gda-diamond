@@ -4,16 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="portshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Opening</value>
-				<value>Closed</value>
-				<value>Closing</value>
-				<value>Fault</value>
-			</list>
-		</property>
-	</bean>
+	<bean id="portshutter" class="gda.device.enumpositioner.DummyValve" />
 
 </beans>
