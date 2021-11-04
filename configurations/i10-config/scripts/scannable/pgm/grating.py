@@ -9,7 +9,7 @@ gratingGetPV = 'BL10I-OP-PGM-01:NLINES.VAL';
 gratingSetPV = 'BL10I-OP-PGM-01:NLINES2.VAL';
 gratingMoveStatusPV="BL10I-OP-PGM-01:STATUS:MOVING";
 if installation.isLive():
-    grating = PGM_GratingClass('grating', gratingGetPV, gratingSetPV,gratingMoveStatusPV);
+    grating = PGM_GratingClass('grating', gratingGetPV, gratingSetPV,gratingMoveStatusPV, unit = "lines/mm");
 else:
     grating = DummyListScannable('grating',list_values=["400 lines/mm Au", "400 lines/mm Si", "1200 lines/mm Au"], format_string="%s")
 

@@ -9,6 +9,5 @@
 #
 # This script should not be added to as it is being phased out
 
-export SPRING_PROFILES = scattering
-gda logpanel
+export SPRING_PROFILES=scattering,windows7
 gda servers --springprofiles=$SPRING_PROFILES $*

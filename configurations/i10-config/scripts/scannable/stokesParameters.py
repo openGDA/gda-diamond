@@ -30,7 +30,10 @@ class StokesParameters(ScannableMotionBase):
         self.laa = laa
         
     def getPosition(self):
-        pol = str(self.pol.getPosition())
+        try:
+            pol = str(self.pol.getPosition())
+        except Exception, e:
+            return str(e)
         if pol == 'la' :
             try:
                 angle = float(self.laa.getPosition())
@@ -42,8 +45,10 @@ class StokesParameters(ScannableMotionBase):
                     return e.message
                 else:
                     return "Problem encountered while get the linear Arbitrary Angle in current source mode."
-        else:
+        elif pol in POLPARISATION_DICT.keys():
             return POLPARISATION_DICT[pol]
+        else:
+            return pol
         
     def asynchronuousMovtTo(self, npos):
         print("%s is read-only scannable!" % (self.getName()))

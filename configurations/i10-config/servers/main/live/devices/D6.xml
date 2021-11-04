@@ -73,7 +73,7 @@
 	</bean>
 	<bean id="d6cam_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL10I-DI-PHDGN-05:DCAM:HDF5:" />
-		<property name="file" ref="pimte_ndfile" />
+		<property name="file" ref="d6cam_ndfile" />
 	</bean>
 
 	<bean id="d6CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">

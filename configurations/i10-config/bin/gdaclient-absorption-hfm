@@ -2,7 +2,4 @@
 export GTK_OVERLAY_SCROLLING=0
 
 export SPRING_PROFILES=absorption,hfm
-
-gda --start logpanel
-export GDA_CLIENT_VMARGS=" -Xms256m -Xmx2048m"
-gda --start client -Dgda.spring.profiles.active=SPRING_PROFILES "$@"
+gda --start client --springprofiles=$SPRING_PROFILES "$@"

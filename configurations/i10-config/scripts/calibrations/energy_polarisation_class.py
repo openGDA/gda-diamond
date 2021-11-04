@@ -190,19 +190,22 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         elif self.getName() == "dummypolarisation":
             return self.polarisation
         else:
-            polarisation = self.getIDPositions()[1]
-            energy = self.pgmenergy.getPosition()
-
-            if self.polarisationConstant:
-                return energy
-            elif self.energyConstant:
-                self.setOutputFormat(["%s"])
-                self.polarisation = polarisation
-                return polarisation
-            else:
-                self.setOutputFormat(["%10.6f", "%s"])
-                self.polarisation = polarisation
-                return energy, polarisation
+            try:
+                polarisation = self.getIDPositions()[1]
+                energy = self.pgmenergy.getPosition()
+    
+                if self.polarisationConstant:
+                    return energy
+                elif self.energyConstant:
+                    self.setOutputFormat(["%s"])
+                    self.polarisation = polarisation
+                    return polarisation
+                else:
+                    self.setOutputFormat(["%10.6f", "%s"])
+                    self.polarisation = polarisation
+                    return energy, polarisation
+            except Exception, e:
+                return str(e)
 
     def move_id_to_positions(self, idcontrol, gap, phase, polarisation):
         try:

@@ -3,11 +3,12 @@ from gda.epics import CAClient
 
 #The Class for changing the grating on I10 PGM
 class PGM_GratingClass(ScannableMotionUnitsBase):
-	def __init__(self, name, get_pv, set_pv, grating_move_status_pv):
+	def __init__(self, name, get_pv, set_pv, grating_move_status_pv, unit = None):
 		self.setName(name)
 		self.setInputNames([])
 		self.setExtraNames([name])
 		self.setLevel(7)
+		self.units = unit
 		self.chSetGrating=CAClient(set_pv)
 		self.chGetGrating=CAClient(get_pv)
 		self.chStatusGrating=CAClient(grating_move_status_pv)

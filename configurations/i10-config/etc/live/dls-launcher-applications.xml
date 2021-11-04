@@ -2,13 +2,13 @@
 
 <launcher>
   <group name="Data Acquisition">
-    <button text="Start GDA Servers - Scattering (RASOR)"  command="/dls_sw/i10/software/gda/config/bin/gdaservers-scattering"                  icon="sgda.png"/>
+    <button text="Start GDA Servers - Scattering (RASOR)"  command="/usr/bin/env gnome-terminal --window -e /dls_sw/i10/software/gda/config/bin/gdaservers-scattering"                  icon="sgda.png"/>
     <button text="Start GDA Client - Scattering (RASOR)"   command="/dls_sw/i10/software/gda/config/bin/gdaclient-scattering"                   icon="cgda.png"/>
-    <button text="Start GDA Servers - Absorption (EM)"     command="/dls_sw/i10/software/gda/config/bin/gdaservers-absorption-em"               icon="sgda.png"/>
+    <button text="Start GDA Servers - Absorption (EM)"     command="/usr/bin/env gnome-terminal --window -e /dls_sw/i10/software/gda/config/bin/gdaservers-absorption-em"               icon="sgda.png"/>
     <button text="Start GDA Client - Absorption (EM)"      command="/dls_sw/i10/software/gda/config/bin/gdaclient-absorption-em"                icon="cgda.png"/>
-    <button text="Start GDA Servers - Absorption (HFM)"    command="/dls_sw/i10/software/gda/config/bin/gdaservers-absorption-hfm"              icon="sgda.png"/>
+    <button text="Start GDA Servers - Absorption (HFM)"    command="/usr/bin/env gnome-terminal --window -e /dls_sw/i10/software/gda/config/bin/gdaservers-absorption-hfm"              icon="sgda.png"/>
     <button text="Start GDA Client - Absorption (HFM)"     command="/dls_sw/i10/software/gda/config/bin/gdaclient-absorption-hfm"               icon="cgda.png"/>
-    <button text="Start GDA Log"                           command="startgdalog.sh"                                                             icon="lgda.png"/>
+    <button text="Start GDA Log"                           command="/dls_sw/i10/software/gda/config/bin/gdalog"                                                             icon="lgda.png"/>
     <button text="Start GDA Client - Scattering (RASOR) (Reset Workspace)" command="/dls_sw/i10/software/gda/config/bin/gdaclient-scattering"     args="--reset" icon="cgda.png"/>
     <button text="Start GDA Client - Absorption (EM) (Reset Workspace)"    command="/dls_sw/i10/software/gda/config/bin/gdaclient-absorption-em"  args="--reset" icon="cgda.png"/>
     <button text="Start GDA Client - Absorption (HFM) (Reset Workspace)"   command="/dls_sw/i10/software/gda/config/bin/gdaclient-absorption-hfm" args="--reset" icon="cgda.png"/>
