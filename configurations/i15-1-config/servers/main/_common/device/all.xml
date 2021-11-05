@@ -5,6 +5,7 @@
 
 	<import resource="dummy.xml"/>
 	<import resource="I15-1-JADC1.xml"/>
+	<import resource="I15-1-JARC1.xml"/>
 	<import resource="I15-1-JBPM1.xml"/>
 	<import resource="I15-1-JBPM2.xml"/>
 	<import resource="I15-1-JCAM1.xml"/>

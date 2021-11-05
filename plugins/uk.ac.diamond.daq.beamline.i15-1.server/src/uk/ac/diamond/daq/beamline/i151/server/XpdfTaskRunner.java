@@ -26,7 +26,7 @@ import org.python.core.PyObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
 import uk.ac.diamond.daq.beamline.i15.database.IXpdfDatabaseService;
 import uk.ac.diamond.ispyb.api.DataCollectionPlan;
 import uk.ac.diamond.ispyb.api.Sample;
@@ -45,12 +45,12 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 
 	private IXpdfDatabaseService databaseService;
 
-	private Jython jythonServer;
+	private JythonServerFacade jythonServerFacade;
 
 	public void initalize() {
 		databaseService = Activator.getService(IXpdfDatabaseService.class);
 		Objects.requireNonNull(databaseService, "Could not get ISPyB database. Are properties set correctly?");
-		Objects.requireNonNull(jythonServer, "No Jython server set. Check Spring config");
+		Objects.requireNonNull(jythonServerFacade, "No Jython server facade set. Check Spring config");
 		logger.info("Initalized task runner");
 	}
 
@@ -61,18 +61,27 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 	// dataCollectionPlanId should be sufficient if the API is improved.
 	@Override
 	public void runTask(String proposalCode, long proposalNumber, long sampleId, long dataCollectionPlanId) {
+		logger.trace("runTask(proposalCode={},proposalNumber={}, sampleId={}, dataCollectionPlanId={})",
+								proposalCode, proposalNumber, sampleId, dataCollectionPlanId);
+
 		if (databaseService == null) {
 			throw new IllegalStateException("No databaseService is avaliable");
 		}
 
+		if (jythonServerFacade.getFromJythonNamespace(JYTHON_FUNCTION_NAME) == null) {
+			throw new IllegalStateException("No '"+JYTHON_FUNCTION_NAME+"' function in the Jython namespace");
+		}
+
 		// Lookup the sample from the DB
 		final Sample sample = databaseService.getSampleInformation(proposalCode, proposalNumber, sampleId);
+
 		if (sample == null) {
 			throw new IllegalArgumentException("No sample found for proposal: " + proposalCode + "-" + proposalNumber + " with ID: " + sampleId);
 		}
 
 		// Get DataCollectionPlans for the sample
 		final List<DataCollectionPlan> dataCollectionPlans = databaseService.retrieveDataCollectionPlansForSample(sampleId);
+
 		if (dataCollectionPlans.isEmpty()) {
 			throw new IllegalArgumentException("No data collection plans found for sample ID: " + sampleId);
 		}
@@ -85,20 +94,25 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 		}
 
 		// Build the arguments to call the Jython function with
-		final PyObject[] jythonArgs = new PyObject[]{PyJavaType.wrapJavaObject(sample), PyJavaType.wrapJavaObject(dataCollectionPlans)};
+		final PyObject wrappedSample = PyJavaType.wrapJavaObject(sample);
+		final PyObject wrappedDataCollectionPlans = PyJavaType.wrapJavaObject(dataCollectionPlans);
+		final PyObject[] jythonArgs = new PyObject[]{wrappedSample, wrappedDataCollectionPlans};
 
-		// Get the function to call
-		final PyObject taskRunner = jythonServer.eval(JYTHON_FUNCTION_NAME);
+		logger.trace("Calling {}({}, {})", JYTHON_FUNCTION_NAME, wrappedSample, wrappedDataCollectionPlans);
+		logger.info("Calling {} for runTask(proposalCode={},proposalNumber={}, sampleId={}, dataCollectionPlanId={})",
+				JYTHON_FUNCTION_NAME, proposalCode, proposalNumber, sampleId, dataCollectionPlanId);
 
-		logger.info("Calling '{}'", JYTHON_FUNCTION_NAME);
-		logger.info("Args: {}", (Object[]) jythonArgs);
+		final PyObject taskRunner = jythonServerFacade.eval(JYTHON_FUNCTION_NAME);
+
 		// Call the function arguments blocking
 		taskRunner.__call__(jythonArgs);
-		logger.info("Finished running: {}", (Object[]) jythonArgs);
+
+		logger.trace("Finished running {}({}, {})", JYTHON_FUNCTION_NAME, wrappedSample, wrappedDataCollectionPlans);
+		logger.info("Finished running  {} for runTask(proposalCode={},proposalNumber={}, sampleId={}, dataCollectionPlanId={})",
+				JYTHON_FUNCTION_NAME, proposalCode, proposalNumber, sampleId, dataCollectionPlanId);
 	}
 
-	public void setJythonServer(Jython jythonServer) {
-		this.jythonServer = jythonServer;
+	public void setJythonServerFacade(JythonServerFacade jythonServer) {
+		this.jythonServerFacade = jythonServer;
 	}
-
 }

@@ -33,26 +33,16 @@
 
 	<!-- Smaract Motion -->
 
-	<bean id="laserxus_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LASX:US" />
-	</bean>
-
-	<bean id="laserxds_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LASX:DS" />
-	</bean>
-
 	<!-- Note, this is also on the Newport motors EDM -->
 	<bean id="laseryus_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LASY:US" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LAS:US:Y" />
 	</bean>
 
 	<!-- Note, this is also on the Newport motors EDM -->
 	<bean id="laseryds_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LASY:DS" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LAS:DS:Y" />
 	</bean>
 
 	<bean id="armus_motor"
@@ -65,15 +55,6 @@
 		<property name="pvName" value="BL15I-MO-LHEAT-01:ARM:DS" />
 	</bean>
 
-	<bean id="focus_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LASFOC:US" />
-	</bean>
-
-	<bean id="focds_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LASFOC:DS" />
-	</bean>
 
 	<!-- Horiba Spectrum Analyser -->
 
@@ -88,12 +69,12 @@
 
 	<bean id="opticxus_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTICX:US" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:US:X" />
 	</bean>
 
 	<bean id="opticyus_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTICY:US" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:US:Y" />
 	</bean>
 
 	<bean id="objus_motor"
@@ -103,12 +84,12 @@
 
 	<bean id="opticxds_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTICX:DS" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:DS:X" />
 	</bean>
 
 	<bean id="opticyds_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTICY:DS" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:DS:Y" />
 	</bean>
 
 	<bean id="objds_motor"

@@ -12,7 +12,8 @@
 
 	<!-- Scanning API -->
 
-	<bean id="pe2AreaDetectorRunnableDeviceProxyModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceExtendedModel">
+	<bean id="pe2AreaDetectorRunnableDeviceProxyModel"
+			class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceExtendedModel">
 		<property name="name"                   value="pe2AD"/>
 		<property name="exposureTime"           value="0.1"/>
 		<property name="timeout"         		value="100"/>
@@ -24,21 +25,24 @@
 		<property name="darkElapseTimeS"        value="1.0"/>
 		<property name="darkMinRelaxTimeS"      value="1.0"/>
 	</bean>
-	<bean id="pe2AreaDetectorRunnableDeviceProxyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="pe2AreaDetectorRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="name"        value="pe2AD"/>
 		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.pe2AreaDetectorRunnableDeviceProxyInfo"/>
 		<property name="label"       value="Perkin Elmer 2 Proxy (pe2AreaDetectorRunnableDeviceProxyInfo)"/>
 		<property name="description" value="Perkin Elmer 2 collection running from a Jython class"/>
 		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
 	</bean>
-	<bean id="pe2AreaDetectorRunnableDeviceProxy" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+	<bean id="pe2AreaDetectorRunnableDeviceProxy"
+			class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
 		<property name="name"        value="pe2AD"/>
 		<property name="level"             value="2"/>
 		<property name="model"             ref="pe2AreaDetectorRunnableDeviceProxyModel"/>
 		<property name="deviceInformation" ref="pe2AreaDetectorRunnableDeviceProxyInfo"/>
 		<property name="activated"         value="false"/>
 	</bean>
-	<bean id="pe2AreaDetectorRunnableDeviceProxyFinder" class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+	<bean id="pe2AreaDetectorRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
 		<property name="name"        	value="pe2AreaDetectorRunnableDeviceProxyFinder"/>
 		<property name="runnableDevice"	ref="pe2AreaDetectorRunnableDeviceProxy"/>
 	</bean>

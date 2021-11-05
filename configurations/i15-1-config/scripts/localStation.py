@@ -53,6 +53,15 @@ try:
 
     print "Configured adc1 detector"
 
+    arc1AreaDetectorRunnableDeviceProxyFinder = Finder.find("arc1AreaDetectorRunnableDeviceProxyFinder")
+    arc1AreaDetectorRunnableDeviceProxy = arc1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    arc1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(arc1AreaDetectorRunnableDeviceProxy)
+    arc1AreaDetectorRunnableDeviceProxy.setDelegate(arc1JythonAreaDetectorRunnableDeviceDelegate)
+    arc1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured arc1 detector"
+
     bpm1AreaDetectorRunnableDeviceProxyFinder = Finder.find("bpm1AreaDetectorRunnableDeviceProxyFinder")
     bpm1AreaDetectorRunnableDeviceProxy = bpm1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
