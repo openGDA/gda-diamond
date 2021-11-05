@@ -141,6 +141,8 @@
 		class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
 	<import	resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
+	
+	<import resource="experiment.xml" />
 
 	<!-- Mapping scans IMPORTANT: this will start processing the scanning queue. 
 		Detectors must be created before doing this. ADVISED: do it last or towards 
