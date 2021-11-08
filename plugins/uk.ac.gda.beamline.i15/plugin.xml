@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
@@ -48,13 +47,59 @@
             name="I15 Laser Heating Perspective">
       </perspective>
    </extension>
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="uk.ac.gda.beamline.I15LaserHeatingPerspective">
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.eclipse.ui.editorss"/>
+         <view
+               id="gda.rcp.views.scriptchooserview"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"/>
+         <view
+               id="org.eclipse.ui.navigator.ProjectExplorer"
+               ratio="0.12f"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"/>
+         <view
+               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"
+               ratio="0.24f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss"/>
+         <view
+               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#MJPEG"
+               ratio="0.5f"
+               relationship="right"
+               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"/>
+
+         <view
+               id="uk.ac.gda.client.liveplotview"
+               ratio="0.33f"
+               relationship="right"
+               relative="gda.rcp.jythonterminalview"/>
+         <view
+               id="org.dawb.workbench.views.dataSetView"
+               relationship="right"
+               ratio="0.5f"
+               relative="uk.ac.gda.client.liveplotview"/>
+         <view
+               id="uk.ac.gda.epics.adviewer.twodArrayView:pv//pil3//BL15I-EA-PILAT-03@"
+               relationship="stack"
+               relative="org.dawb.workbench.views.dataSetView"/>
+      </perspectiveExtension>
+   </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:mar"
-            name="Two 2 Array View"
+            name="Mar Array View"
             restorable="true">
       </view>
 
@@ -62,7 +107,7 @@
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//mpx//BL15I-EA-DET-18@"
-            name="Two 2 Array View"
+            name="MPX Array View"
             restorable="true">
       </view>
 
@@ -70,14 +115,14 @@
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pe"
-            name="Two 2 Array View"
+            name="PE Array View"
             restorable="true">
       </view>
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             id="uk.ac.gda.epics.adviewer.mpegview:pe"
-            name="MJPeg View"
+            name="PE MJPeg View"
             restorable="true">
       </view>
 
@@ -85,14 +130,14 @@
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//psl//BL15I-EA-PSL-01@"
-            name="Two 2 Array View"
+            name="PSL Array View"
             restorable="true">
       </view>
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//psl//BL15I-EA-PSL-01@"
-            name="MJPeg View"
+            name="PSL MJPeg View"
             restorable="true">
       </view>
 
@@ -100,16 +145,46 @@
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//pil3//BL15I-EA-PILAT-03@"
-            name="Two 2 Array View"
+            name="Pilatus Array View"
             restorable="true">
       </view>
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//pil3//BL15I-EA-PILAT-03@"
-            name="MJPeg View"
+            name="Pilatus MJPeg View"
             restorable="true">
       </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#EPICS_ARRAY"
+            name="Upstream Cam Array View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#MJPEG"
+            name="Upstream Cam MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#EPICS_ARRAY"
+            name="Downstream Cam Array View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"
+            name="Downstream Cam MJPeg View"
+            restorable="true">
+      </view>
+
       <view
             class="org.eclipse.scanning.event.ui.view.StatusQueueView"
             id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Queue"

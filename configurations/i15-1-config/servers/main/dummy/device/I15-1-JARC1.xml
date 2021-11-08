@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="arc1AD_cam" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:CAM:" />
+	</bean>
+
+	<bean id="arc1AD_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ARR:" />
+	</bean>
+
+	<bean id="arc1AD_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT:" />
+	</bean>
+
+	<bean id="arc1AD_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI:" />
+	</bean>
+
+	<bean id="arc1AD_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:MJPG:" />
+	</bean>
+
+	<bean id="arc1AD_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
+
+	<bean id="arc1AD_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI1:" />
+	</bean>
+
+	<bean id="arc1AD__roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI2:" />
+	</bean>
+
+	<bean id="arc1AD__roi3" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI3:" />
+	</bean>
+
+	<bean id="arc1AD__roi4" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI4:" />
+	</bean>
+
+	<bean id="arc1AD_roi5" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI5:" />
+	</bean>
+
+	<bean id="arc1AD_roi6" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI6:" />
+	</bean>
+
+	<bean id="arc1AD_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT1:" />
+	</bean>
+
+	<bean id="arc1AD_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT2:" />
+	</bean>
+
+	<bean id="arc1AD_stat3" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT3:" />
+	</bean>
+
+	<bean id="arc1AD_stat4" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT4:" />
+	</bean>
+
+	<bean id="arc1AD_stat5" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT5:" />
+	</bean>
+
+	<bean id="arc1AD_stat6" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT6:" />
+	</bean>
+
+	<bean id="arc1_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="arc1_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="arc1_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="arc1_NDFileHDF5file" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+</beans>

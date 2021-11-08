@@ -751,9 +751,14 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 					suppressOpenEHShutterAtScanStart=_exposeSuppressOpenEHShutterAtScanStart(),
 					suppressCloseEHShutterAtScanEnd=_exposeSuppressCloseEHShutterAtScanEnd() )])
 
+	if (jythonNameMap['enableExposeProcessingRequests'] and 
+							jythonNameMap['processing']):
+		scan_params.extend([jythonNameMap['processing']])
+		logger.info("Added processing to scan...")
+
 	totalExposures = (exposeNumber * (1 if horizStepNumber == None else horizStepNumber + 1) * 
 									 (1 if vertStepNumber == None else vertStepNumber + 1) )
-	
+
 	if rockMotor:
 		rockMotorPosition = rockMotor.getMotor().getTargetPosition()
 		rockCentre=_rockCentre()
@@ -777,7 +782,7 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 
 		scan = ConcurrentScan(scan_params)
 		scan.runScan()
-	
+
 	if rockMotor:
 		print "Moving %s back to %r after rock scan" % (rockMotor.name, rockMotorPosition)
 		rockMotor.moveTo(rockMotorPosition)

@@ -125,7 +125,7 @@
       <e4view
             class="uk.ac.gda.beamline.i151.xpdf.ui.XpdfExperimentView"
             id="uk.ac.gda.beamline.i15-1.xpdf.ui.submitview"
-            name="Experiement Submission"
+            name="Experiment Submission"
             restorable="true">
       </e4view>
    </extension>
