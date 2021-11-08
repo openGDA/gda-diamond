@@ -871,6 +871,8 @@ try:
 		cli.caput(String(path).getBytes())
 
 	alias("setCbfTemplateFile")
+
+	from localStationConfiguration import enableExposeProcessingRequests # @UnusedImport
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 

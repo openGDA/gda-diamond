@@ -1,7 +1,18 @@
+--------------------------------------------------------------------------------
 #### To run in dummy mode from the IDE, you need to use ####
 
 activemq-for-dummy
 
+--------------------------------------------------------------------------------
+#### To run up the Simulated Area Detector ####
+
+Diamond Launcher > Utilities > GDA AreaDetector Simulation
+
+Then click on "Start IOC".
+
+Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
+
+--------------------------------------------------------------------------------
 #### Run an example scan using mandelbrot detector ####
 
 Scanning Perspective
@@ -203,5 +214,47 @@ Note that this isn't very different to the "special case":
         if i > timeOut:
             self.logger.error("Special waitFor timed out while waiting for stuff to happen")
             raise NameError("Special waitFor timed out while waiting for stuff to happen") 
+
+================================================================================
+2021-05-24 17:13:34,106	local class incompatible: stream classdesc serialVersionUID = -5924671702533462515, local class serialVersionUID = 5252643274881267423
+
+from uk.ac.diamond.daq.beamline.i151.server import XpdfTaskRunner	# immediately got three deserialisation errors messageId = 			timestamp = 
+																	ID:i15-1-control.diamond.ac.uk-46071-1621844199680-1:1:11:2:1525	1621872814107
+																	ID:i15-1-control.diamond.ac.uk-46071-1621844199680-1:1:11:2:1526	1621872814108,
+																	ID:i15-1-control.diamond.ac.uk-46071-1621844199680-1:1:11:2:1527,	1621872815879,
+
+tr = XpdfTaskRunner()												ID:i15-1-control.diamond.ac.uk-46071-1621844199680-1:1:11:2:1528,	1621872820709,
+																	ID:i15-1-control.diamond.ac.uk-46071-1621844199680-1:1:11:2:1529,	1621872820710,
+																	ID:i15-1-control.diamond.ac.uk-46071-1621844199680-1:1:11:2:1530,	1621872820711,
+
+tr.setJythonServer(command_server)									ID:i15-1-control.diamond.ac.uk-46071-1621844199680-1:1:11:2:1532,	1621872859995
+
+Trying to run those commands again today, I get:
+
+2021-07-06 15:07:00,994 WARN  org.springframework.remoting.support.RemoteInvocationTraceInterceptor - Processing of RmiServiceExporter remote call resulted in fatal exception: gda.jython.Jython.getClientInformation
+java.lang.NullPointerException: null
+	at gda.jython.batoncontrol.ClientDetails.<init>(ClientDetails.java:39)
+	at gda.jython.batoncontrol.BatonManager.getClientInformation(BatonManager.java:255)
+	at gda.jython.JythonServer.getClientInformation(JythonServer.java:847)
+	at jdk.internal.reflect.GeneratedMethodAccessor96.invoke(Unknown Source)
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2021-07-06 15:08:36,509 WARN  org.springframework.remoting.support.RemoteInvocationTraceInterceptor - Processing of RmiServiceExporter remote call resulted in fatal exception: gda.jython.Jython.getClientInformation
+java.lang.NullPointerException: null
+	at gda.jython.batoncontrol.ClientDetails.<init>(ClientDetails.java:39)
+	at gda.jython.batoncontrol.BatonManager.getClientInformation(BatonManager.java:255)
+	at gda.jython.JythonServer.getClientInformation(JythonServer.java:847)
+	at jdk.internal.reflect.GeneratedMethodAccessor96.invoke(Unknown Source)
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2021-07-06 15:09:01,824 WARN  org.springframework.remoting.support.RemoteInvocationTraceInterceptor - Processing of RmiServiceExporter remote call resulted in fatal exception: gda.jython.Jython.getClientInformation
+java.lang.NullPointerException: null
+	at gda.jython.batoncontrol.ClientDetails.<init>(ClientDetails.java:39)
+	at gda.jython.batoncontrol.BatonManager.getClientInformation(BatonManager.java:255)
+	at gda.jython.JythonServer.getClientInformation(JythonServer.java:847)
+	at jdk.internal.reflect.GeneratedMethodAccessor96.invoke(Unknown Source)
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+
+Enabled
+
+
 
 

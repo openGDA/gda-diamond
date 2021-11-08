@@ -5,7 +5,7 @@
 
 	<bean id="task_runner" class="uk.ac.diamond.daq.beamline.i151.server.XpdfTaskRunner"
 		init-method="initalize">
-		<property name="jythonServer" ref="command_server"/>
+		<property name="jythonServerFacade" ref="jython_server_facade"/>
 	</bean>
 
 	<bean id="task_consumer" class="uk.ac.diamond.daq.beamline.i151.server.XpdfTaskConsumer"
