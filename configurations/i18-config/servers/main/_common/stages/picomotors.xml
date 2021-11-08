@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<bean id="PICO_PV_BASE" class="java.lang.String">
+		<constructor-arg value="BL18I-MO-PICO-02" />
+	</bean>
+	
+	<gda:motor id="mirx"
+		live-pvName="#{PICO_PV_BASE}:X"
+		dummy-minPosition="-14"
+		dummy-maxPosition="35"
+		dummy-position="23.4"
+		dummy-unitString="mm"/>
+		
+	<gda:motor id="miry"
+		live-pvName="#{PICO_PV_BASE}:Y"
+		dummy-minPosition="-18.5"
+		dummy-maxPosition="29.5"
+		dummy-position="-5.5"
+		dummy-unitString="mm"/>
+
+</beans>

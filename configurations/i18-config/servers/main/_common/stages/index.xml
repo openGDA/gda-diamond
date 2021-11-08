@@ -9,5 +9,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/table3.xml" />
 	<import resource="table3.xml" />
 	<import resource="table3_deprecated.xml" />
+	
+	<import resource="picomotors.xml" />
 
 </beans>
