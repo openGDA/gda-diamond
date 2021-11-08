@@ -10,7 +10,7 @@
         </bean>
     
         <bean id="malcolm_monobs_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-                <property name="label" value="BeamSelector scan (Malcolm)" />
+                <property name="label" value="Beam selector scan (mono)" />
                 <property name="description" value="Malcolm: KB x vs y w/ imaging detector+pilatus" /> 
         </bean>
     
@@ -22,12 +22,12 @@
         
        <!-- BEAM SELECTOR SCAN WITH POLYCHROMATIC ('PINK') BEAM -->
        <bean id="malcolm_pinkbs_model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-                <property name="name" value="BL11K-ML-SCAN-03" />
+                <property name="name" value="BL11K-ML-SCAN-06" />
                 <property name="exposureTime" value="0.1" />
         </bean>
     
         <bean id="malcolm_pinkbs_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-                <property name="label" value="BeamSelector scan (Malcolm)" />
+                <property name="label" value="Beam selector scan (pink)" />
                 <property name="description" value="Malcolm: KB x vs y w/ imaging detector+pilatus" /> 
         </bean>
     
