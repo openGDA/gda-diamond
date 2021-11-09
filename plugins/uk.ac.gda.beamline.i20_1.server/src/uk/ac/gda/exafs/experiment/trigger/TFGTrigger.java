@@ -122,7 +122,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	private String getTfgSetupGroupsCommandParameters(int numberOfCycles, boolean shouldStartOnTopupSignal) {
 
 		StringBuilder tfgCommand = new StringBuilder();
-		List<TriggerParams> triggerPoints = processTimes( true ); // also includes trigger to start camera
+		List<TriggerParams> triggerPoints = processTimes(true); // also includes trigger to start camera
 		Collections.sort(triggerPoints);
 
 		tfgCommand.append("tfg setup-groups");
@@ -141,30 +141,28 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		int totalnumberFramesSoFar=0;
 		int numberOfCollectionFramesToNotCount = 0;
 
-		boolean adjustToExactStartTime = true;
-
-		TriggerParams firstPoint = triggerPoints.get(0);
-		double accumulationReadoutTime = firstPoint.getAccumulationFrameLength() - firstPoint.getAccumulationLength();
-
-		// NB: Counting for Frelon occurs on rising edge of accumulation readout signal, in middle of frame
+		// NB: Counting for Frelon occurs on rising edge of accumulation readout signal, in middle of frame.
 		// Counting for Xh/Xstrip uses frame trigger (i.e. pulse at *start* of each spectrum).
-		// For Xh/Xstrip trigger signal is not produced for first spectrum.
+		// For Xh/Xstrip, first detector pulse after trigger signal can't be counted since the
+		// trigger and rising edge of first frame coincide in time.
 
 		for (int i = 0; i < triggerPoints.size()-1; i++) {
 			TriggerParams thisPoint = triggerPoints.get(i);
 			TriggerParams nextPoint = triggerPoints.get(i + 1);
 
-			if ( !thisPoint.getTriggerIsDuringAccumulation() ) {
-				// ... TriggerPoints *outside* of detector accumulation
+			if ( !thisPoint.isTriggerIsDuringDetectorCollection() ) {
+				// ... TriggerPoints *outside* of detector collection
 
-				if ( totalnumberFramesSoFar > 0 && !itCollectionAdded) {
+				if (totalnumberFramesSoFar > 0 && !itCollectionAdded) {
 					// For trigger points taking place *after* collection first add any remaining uncounted frames.
 					int framesLeft = totalNumberOfFrames - totalnumberFramesSoFar - numberOfCollectionFramesToNotCount;
 
-					if ( framesLeft > 0 ) {
+					if (framesLeft > 0) {
 						tfgCommand.append( getCountFrameString(framesLeft, 0 ) );
 
-						double timeToNextPulse = thisPoint.getTimeFromAccumulationEnd();
+						// How long to wait after counting the last rising edge of the detector pulse
+						// to put next Tfg trigger at correct time
+						double timeToNextPulse = thisPoint.getTimeFromDetectorTriggerToFrameEnd();
 						tfgCommand.append( getWaitForTimeString(timeToNextPulse, 0) );
 					}
 
@@ -172,34 +170,36 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 				}
 				tfgCommand.append( getWaitForTimeString(thisPoint.getLength(), thisPoint.getPort() ) );
 			} else {
-				// ... TriggerPoints during detector accumulation
+				// ... TriggerPoints during detector collection
 
-				// Determine number of count signals covered by this frame
-				int numberCountSignalsBetweenAdjacentPoints = nextPoint.getAccumulationFrameNumber()-thisPoint.getAccumulationFrameNumber();
-				if ( thisPoint.getAccumulationFramePart() > 0 ) { // triggerpoint start time is *after* count signal
-					numberCountSignalsBetweenAdjacentPoints--;
+				// Determine number of detector signal 'rising edges' between triggers :
+				int numRisingEdgesBetweenTriggers = nextPoint.getDetectorFrameNumber()-thisPoint.getDetectorFrameNumber();
+
+				// Current trigger start time is *after* rising edge signal
+				if (thisPoint.isTriggerAfterRisingEdge()) {
+					numRisingEdgesBetweenTriggers--;
 				}
-				if ( nextPoint.getAccumulationFramePart() > 0 ) { // end triggerpoint *after* count
-					numberCountSignalsBetweenAdjacentPoints++;
+				// Next trigger is after a rising edge and during data collection
+				if (nextPoint.isTriggerAfterRisingEdge() && nextPoint.isTriggerIsDuringDetectorCollection()) {
+					numRisingEdgesBetweenTriggers++;
 				}
 
-				if ( thisPoint.getPort() == 0 && numberCountSignalsBetweenAdjacentPoints > 0 ) {
-					// Wait (i.e. count some data accumulation frames)
-					tfgCommand.append( getCountFrameString(numberCountSignalsBetweenAdjacentPoints, 0 ) );
+				if (thisPoint.getPort() == 0 && numRisingEdgesBetweenTriggers > 0) {
+					// Wait (i.e. count some detector frames)
+					tfgCommand.append( getCountFrameString(numRisingEdgesBetweenTriggers, 0 ) );
 
-					// Insert a small wait after the 'count' signal, so that next trigger point starts at correct time
-					if ( adjustToExactStartTime ) {
-						double timeToNextPulse = nextPoint.getTimeFromAccumulationEnd();
-						tfgCommand.append( getWaitForTimeString(timeToNextPulse, 0) );
-					}
-					totalnumberFramesSoFar += numberCountSignalsBetweenAdjacentPoints;
+					// Insert a small wait after counting, so that next trigger point starts at correct time
+					double timeToNextPulse = nextPoint.getTimeFromDetectorTriggerToFrameEnd();
+					tfgCommand.append( getWaitForTimeString(timeToNextPulse, 0) );
+
+					totalnumberFramesSoFar += numRisingEdgesBetweenTriggers;
 				}
 				else {
 					// Normal trigger signal
 					tfgCommand.append( getWaitForTimeString(thisPoint.getLength(), thisPoint.getPort()) );
 
 					// determine number of count signals the frame overlaps with (and therefore can't be counted)
-					numberOfCollectionFramesToNotCount += numberCountSignalsBetweenAdjacentPoints;
+					numberOfCollectionFramesToNotCount += numRisingEdgesBetweenTriggers;
 				}
 			}
 		}
@@ -207,23 +207,21 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		// Add data collection, after adding all trigger points if not already added
 		int framesLeft = totalNumberOfFrames - totalnumberFramesSoFar - numberOfCollectionFramesToNotCount;
 
-		// For Xh, frame trigger for first frame/spectrum is not produced
-		if (!detectorIsFrelon()) {
-			framesLeft--;
-		}
-
-		if ( framesLeft > 0 ) {
+		if (framesLeft > 0) {
 			tfgCommand.append( getCountFrameString(framesLeft, 0 ) );
 
-			// at end of data collection external TFG2 must wait for a single accumulation readout to allow detector collection to complete.
-			tfgCommand.append( getWaitForTimeString(accumulationReadoutTime, 0) );
+			TriggerParams firstPoint = triggerPoints.get(0);
+			double frameReadoutTime = firstPoint.getDetectorFrameLength() - firstPoint.getAccumulationTime();
+
+			// at end of data collection external TFG2 must wait for a single detector frame to allow detector collection to complete.
+			tfgCommand.append( getWaitForTimeString(frameReadoutTime, 0) );
 		}
 
 		tfgCommand.append("-1 0 0 0 0 0 0");
 
-		if ( useCountFrameScalers )
+		if (useCountFrameScalers) {
 			tfgCommand.append( getPrepareScalerString() );
-
+		}
 		return tfgCommand.toString();
 	}
 
@@ -257,7 +255,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	}
 
 	private String getTimeFrameString( int numFrames, double deadTime, double liveTime, int deadPort, int livePort, int deadPause, int livePause ) {
-		return String.format("%d %f %f %d %d %d %d\n", numFrames, deadTime, liveTime, deadPort, livePort, deadPause, livePause);
+		return String.format("%d %.9f %.9f %d %d %d %d\n", numFrames, deadTime, liveTime, deadPort, livePort, deadPause, livePause);
 	}
 
 	private String getPrepareScalerString() {
@@ -346,21 +344,28 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 			double timeInCollection = triggerTime - iTcollectionStartTime;
 			int frameNumber = (int) Math.floor(timeInCollection / singleFrameTime);
 			double frameStartTime =  iTcollectionStartTime+frameNumber*singleFrameTime;
-			boolean insideDetectorAccumulation = true;
+			boolean insideDetectorCollection = true;
 
-			if (timeInCollection < TFG_TIME_RESOLUTION || timeInCollection > collectionDuration + TFG_TIME_RESOLUTION) {
-				insideDetectorAccumulation = false;
+			if (timeInCollection < TFG_TIME_RESOLUTION || timeInCollection >= collectionDuration) {
+				insideDetectorCollection = false;
 			}
-			if (frameNumber > totalNumberOfFrames) {
+
+			if (frameNumber >= totalNumberOfFrames) {
 				frameNumber = totalNumberOfFrames;
 				frameStartTime = iTcollectionEndTime - singleFrameTime;
 			}
 
-			triggerParam.setAccumulationFrameNumber(frameNumber);
-			triggerParam.setAccumulationFrameStartTime(frameStartTime);
+			// For XH detector, trigger signal and detector frame both coincide - so for
+			// frame counting purposes, mark the trigger as being *inside* the detector collection
+			if (!detectorIsFrelon() &&
+				triggerParam.getPort() == detectorDataCollection.getTriggerOutputPort().getUsrPort()) {
+				insideDetectorCollection = true;
+			}
+			triggerParam.setDetectorFrameNumber(frameNumber);
+			triggerParam.setDetectorFrameLength(singleFrameTime);
+			triggerParam.setDetectorFrameStartTime(frameStartTime);
 			triggerParam.setAccumulationTime(accumulationTime);
-			triggerParam.setAccumulationFrameLength(singleFrameTime);
-			triggerParam.setTriggerIsDuringAccumulation(insideDetectorAccumulation);
+			triggerParam.setTriggerDuringDetectorCollection(insideDetectorCollection);
 		}
 	}
 
@@ -577,11 +582,11 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		private int port;
 		private double length;
 
-		private int accumulationFrameNumber;
-		private double accumulationTime;
-		private double accumulationFrameStartTime;
-		private double accumulationFrameTotalLength;
-		private boolean triggerIsDuringAccumulation;
+		private int detectorFrameNumber;
+		private double detectorSignalRisingEdgeStartTime;
+		private double detectorFrameStartTime;
+		private double detectorFrameLength;
+		private boolean triggerIsDuringDetectorCollection;
 
 		public TriggerParams(double aKey, int aValue, double pulseLength) {
 			time = aKey;
@@ -625,67 +630,79 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 			this.length = length;
 		}
 
-		public int getAccumulationFrameNumber() {
-			return accumulationFrameNumber;
+		/**
+		 *
+		 * @return Frame number on the detector for this trigger point
+		 */
+		public int getDetectorFrameNumber() {
+			return detectorFrameNumber;
 		}
 
-		public void setAccumulationFrameNumber(int accumulationFrameNumber) {
-			this.accumulationFrameNumber = accumulationFrameNumber;
+		public void setDetectorFrameNumber(int detectorFrameNumber) {
+			this.detectorFrameNumber = detectorFrameNumber;
 		}
 
-		public void setAccumulationTime(double accumulationLength ) {
-			accumulationTime = accumulationLength;
+		public void setAccumulationTime(double accumulationTime ) {
+			this.detectorSignalRisingEdgeStartTime = accumulationTime;
 		}
-		public double getAccumulationLength() {
-			return accumulationTime;
-		}
-
-		public double getAccumulationFrameStartTime() {
-			return accumulationFrameStartTime;
+		public double getAccumulationTime() {
+			return detectorSignalRisingEdgeStartTime;
 		}
 
-		public void setAccumulationFrameStartTime(double accumulationFrameStartTime) {
-			this.accumulationFrameStartTime = accumulationFrameStartTime;
+		/**
+		 *
+		 * @param detectorFrameStartTime Start time of detector frame
+		 */
+		public void setDetectorFrameStartTime(double detectorFrameStartTime) {
+			this.detectorFrameStartTime = detectorFrameStartTime;
 		}
 
-		public void setAccumulationFrameLength(double accumulationFrameTotalLength) {
-			this.accumulationFrameTotalLength = accumulationFrameTotalLength;
+		public void setDetectorFrameLength(double detectorFrameTotalLength) {
+			this.detectorFrameLength = detectorFrameTotalLength;
 		}
 
-		public double getAccumulationFrameLength() {
-			return accumulationFrameTotalLength;
+		public double getDetectorFrameLength() {
+			return detectorFrameLength;
 		}
 
-		public double getTimeRelativeToAccumulationFrameStart() {
-			return time - accumulationFrameStartTime;
-		}
-
-		public int getAccumulationFramePart() {
-			double relTime = getTimeRelativeToAccumulationFrameStart();
-			if (relTime > accumulationFrameTotalLength) {
+		public boolean isTriggerAfterRisingEdge() {
+			double relTime = time - detectorFrameStartTime;
+			if (relTime > detectorFrameLength) {
 				relTime = 0;
 			}
-			return relTime > accumulationTime + TFG_TIME_RESOLUTION ? 1 : 0;
+			return relTime > detectorSignalRisingEdgeStartTime + TFG_TIME_RESOLUTION;
 		}
 
-		public double getTimeRelativeToAccumulationEnd() {
-			return time - (accumulationFrameStartTime+accumulationTime);
+		/**
+		 * Time between rising edge in detector signal and trigger time
+		 * @return
+		 */
+		public double getTimeFromDetectorTriggerToFrameEnd() {
+				double detectorRisingEdgeTime = detectorFrameStartTime+detectorSignalRisingEdgeStartTime;
+				if (time > detectorRisingEdgeTime + TFG_TIME_RESOLUTION) {
+					return time-detectorRisingEdgeTime;
+				}
+				// Return time relative to rising edge in previous frame
+
+				// Time between detector rising and end of frame
+				double timeAfterRisingEdge = detectorFrameLength - detectorSignalRisingEdgeStartTime;
+				// Position of the trigger relative to start of detector frame
+				double triggerTimeInFrame = time - detectorFrameStartTime;
+
+				return timeAfterRisingEdge + triggerTimeInFrame;
 		}
 
-		public double getTimeFromAccumulationEnd() {
-			double timeToNext = getTimeRelativeToAccumulationEnd();
-			if (timeToNext < 0) {
-				timeToNext = getTimeRelativeToAccumulationFrameStart() + (accumulationFrameTotalLength - accumulationTime);
-			}
-			return timeToNext;
+		/**
+		 *
+		 * @return True if trigger occurs during detector collection.
+		 */
+		public boolean isTriggerIsDuringDetectorCollection() {
+			return triggerIsDuringDetectorCollection;
 		}
 
-		public boolean getTriggerIsDuringAccumulation() {
-			return triggerIsDuringAccumulation;
-		}
 
-		public void setTriggerIsDuringAccumulation(boolean triggerIsDuringAccumulation) {
-			this.triggerIsDuringAccumulation = triggerIsDuringAccumulation;
+		public void setTriggerDuringDetectorCollection(boolean triggerIsDuringDetectorCollection) {
+			this.triggerIsDuringDetectorCollection = triggerIsDuringDetectorCollection;
 		}
 
 		/**
