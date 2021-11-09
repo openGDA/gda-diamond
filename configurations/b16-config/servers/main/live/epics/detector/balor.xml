@@ -140,7 +140,7 @@
 		<constructor-arg ref="balor_adbase" />
 		<property name="triggerMode" value="EXTERNAL"/>
 		<property name="imageMode" value="FIXED"/>
-		<property name="triggerModeSleep" value="1.1" />
+		<property name="triggerModeSleep" value="1100" />
 	</bean>
 
 
