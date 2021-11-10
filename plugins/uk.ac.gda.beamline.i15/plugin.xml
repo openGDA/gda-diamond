@@ -47,8 +47,10 @@
             name="I15 Laser Heating Perspective">
       </perspective>
    </extension>
-   <extension point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension targetID="uk.ac.gda.beamline.I15LaserHeatingPerspective">
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.I15LaserHeatingPerspective">
          <view
                id="gda.rcp.jythonterminalview"
                ratio="0.5f"
@@ -76,7 +78,6 @@
                ratio="0.5f"
                relationship="right"
                relative="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"/>
-
          <view
                id="uk.ac.gda.client.liveplotview"
                ratio="0.33f"
@@ -95,27 +96,35 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
+      <category
+            id="uk.ac.gda.beamline.i15.category"
+            name="Data Acquisition - I15">
+      </category>
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:mar"
             name="Mar Array View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
-
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//mpx//BL15I-EA-DET-18@"
             name="MPX Array View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
-
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pe"
             name="PE Array View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
       <view
@@ -123,14 +132,17 @@
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             id="uk.ac.gda.epics.adviewer.mpegview:pe"
             name="PE MJPeg View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
-
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//psl//BL15I-EA-PSL-01@"
             name="PSL Array View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
       <view
@@ -138,14 +150,17 @@
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//psl//BL15I-EA-PSL-01@"
             name="PSL MJPeg View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
-
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//pil3//BL15I-EA-PILAT-03@"
             name="Pilatus Array View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
       <view
@@ -153,14 +168,17 @@
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//pil3//BL15I-EA-PILAT-03@"
             name="Pilatus MJPeg View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
-
       <view
             allowMultiple="true"
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
             id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#EPICS_ARRAY"
             name="Upstream Cam Array View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
       <view
@@ -168,6 +186,8 @@
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
             id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#MJPEG"
             name="Upstream Cam MJPeg View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
       <view
@@ -175,6 +195,8 @@
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
             id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#EPICS_ARRAY"
             name="Downstream Cam Array View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
       <view
@@ -182,13 +204,16 @@
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
             id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"
             name="Downstream Cam MJPeg View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
             restorable="true">
       </view>
-
       <view
             class="org.eclipse.scanning.event.ui.view.StatusQueueView"
             id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Queue"
             name="Scan Queue View"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.client/icons/plan/system-monitor.png"
             restorable="true">
       </view>
    </extension>
@@ -199,7 +224,6 @@
             locationURI="menu:window?after=showView">
          <menu
                label="Area Detector views (Deprecated/Obsolete, avoid using)">
-
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Mar345 (mar) Array View"
@@ -209,7 +233,6 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:mar">
                </parameter>
             </command>
-
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Merlin (mpx) Array View"
@@ -219,7 +242,6 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//mpx//BL15I-EA-DET-18@">
                </parameter>
             </command>
-
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Perkin Elmer (pe) Array View"
@@ -238,7 +260,6 @@
                      value="uk.ac.gda.epics.adviewer.mpegview:pe">
                </parameter>
             </command>
-
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Photonic Science (psl) Array View"
@@ -257,7 +278,6 @@
                      value="uk.ac.gda.epics.adviewer.mpegview:pv//psl//BL15I-EA-PSL-01@">
                </parameter>
             </command>
-
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Pilatus 3 300k (pil3) Array View"
@@ -276,7 +296,6 @@
                      value="uk.ac.gda.epics.adviewer.mpegview:pv//pil3//BL15I-EA-PILAT-03@">
                </parameter>
             </command>
-
          </menu>
       </menuContribution>
       <menuContribution
@@ -296,5 +315,4 @@
          </menu>
       </menuContribution>
    </extension>
-
 </plugin>
