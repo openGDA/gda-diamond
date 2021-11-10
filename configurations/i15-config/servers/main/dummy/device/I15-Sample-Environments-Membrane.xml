@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Epics scannables for import into CommissioningView -->
+
+	<bean id="membrane_pressure"
+			class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value" value="0.9564" />
+		<!-- 
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="10" />
+		<property name="increment" value="0" />
+		 -->
+	</bean>
+	<bean id="membrane_set_point"
+			class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.9564" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="membrane_slew_rate"
+			class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.9564" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="membrane_output_state"
+			class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- To dummy out whole sections add: ../../dummy/device/
 	<import resource="I15-.xml"/>
@@ -51,6 +51,8 @@
 	<import resource="I15-S7.xml"/>
 	<import resource="I15-Sample-Environments-Cyberstar-Blower.xml"/>
 	<import resource="I15-Sample-Environments-Laser-Heating.xml"/>
+	<import resource="I15-Sample-Environments-Linkam.xml"/>
+	<import resource="I15-Sample-Environments-Membrane.xml"/>
 	<import resource="I15-SFAB.xml"/>
 	<import resource="I15-SHD.xml"/>
 	<import resource="I15-SHD2.xml"/>

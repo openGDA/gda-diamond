@@ -30,7 +30,14 @@
 	 -->
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+
+	<!-- Start of local imports -->
+
+	<import resource="controls/_common.xml"/>
+	<import resource="controls/linkam.xml"/>
+	<import resource="controls/membrane.xml" />
 	<import resource="stage_controls.xml"/>
+
 	<import resource="mapping.xml"/>
 
 	<!-- If we leave these in the common client config, then GDA fails to start if the Test Zebra box is turned off
@@ -49,7 +56,9 @@
 	<import resource="pil3AreaDetector.xml" />
 
 	<import resource="pslAreaDetector.xml" />
-	
+
+	<!-- End of local imports -->
+
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 

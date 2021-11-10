@@ -216,6 +216,38 @@
             icon="platform:/plugin/uk.ac.gda.client/icons/plan/system-monitor.png"
             restorable="true">
       </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:linkamControlView"
+            id="gda.rcp.views.CommissioningView.linkamControlView"
+            name="Script Chooser and Linkam Control"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.common.rcp/icons/table_multiple.png"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:membraneControlView"
+            id="gda.rcp.views.CommissioningView.membraneControlView"
+            name="Script Chooser and Membrane Control"
+            category="uk.ac.gda.beamline.i15.category"
+            icon="platform:/plugin/uk.ac.gda.common.rcp/icons/table_multiple.png"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i15.category"
+            class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:membraneControlSet"
+            id="uk.ac.gda.client.livecontrol.liveControlSet.membraneControlSet"
+            name="Shutter and Membrane Live controls"
+            icon="platform:/plugin/uk.ac.gda.common.rcp/icons/application_form.png"
+            restorable="true">
+        </view>
+      <view
+            category="uk.ac.gda.beamline.i15.category"
+            class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:linkamControlSet"
+            id="uk.ac.gda.client.livecontrol.liveControlSet.linkamControlSet"
+            name="Shutter and Linkam Live controls"
+            icon="platform:/plugin/uk.ac.gda.common.rcp/icons/application_form.png"
+            restorable="true">
+        </view>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
