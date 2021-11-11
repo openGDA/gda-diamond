@@ -1720,32 +1720,8 @@ try:
 except:
 	localStation_exception("setting diffcalc ubmeta scannable")
 
-######### temp 24/04/2018 #############
-
+# Define offset between pilatus detector and analyser crystal
 do.pil = 8.8
-
-def diodein():
-	pos(tthp, 0)
-	pos(dettrans, 0)
-
-def apdin():
-	pos(tthp, -0.35)
-	pos(dettrans -27.71)
-
-def vortexin():
-	pos(tthp, 85.4-96.5)
-	pos(dettrans, 25)
-
-def pilin():
-	pos(do, do.pil)
-	pos(s6ygap, 2)
-	pos(s6ytrans, 10.433)
-	pos(s6ygap, 9)
-
-def pilout():
-	pos(do, 0)
-	pos(s6ygap, 2.8)
-	pos(s6ytrans, 0)
 
 if installation.isLive():
 	print "*"*80
