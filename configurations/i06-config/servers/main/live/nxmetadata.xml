@@ -106,6 +106,10 @@
 								<property name="name" value="threshold_energy_0"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
 							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="x_inversion"/>
+								<property name="pvName" value="BL06I-EA-DET-02:ROI:ReverseX"/>
+							</bean>
 						</list>
 					</property>
 				</bean>
