@@ -3,6 +3,56 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="sourceNexusDevice" />
+		<property name="sourceName" value="Diamond Light Source" />
+		<property name="currentScannableName" value="rc" />
+	</bean>
+
+	<bean id="idNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
+		<property name="name" value="idNexusDevice" />
+		<property name="type" value="WIGGLER" />
+		<property name="gapScannableName" value="idgap" />
+		<!-- 
+		<property name="taperScannableName" value="dummy1" />
+		 -->
+		<property name="harmonicScannableName" value="uharmonic" />
+	</bean>
+
+	<bean id="monochromatorNexusDevice" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
+		<property name="name" value="monochromatorNexusDevice" />
+		<property name="energyScannableName" value="en" />
+		<!-- Commenting any out causes the whole NXmonochromator node to be disappeared
+		<property name="energyErrorScannableName" value="dummy1" />
+		 -->
+	</bean>
+
+	<bean id="beamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beamNexusDevice" />
+		<property name="incidentEnergyScannableName" value="en" />
+		<!-- Commenting any out causes the whole NXmonochromator node to be disappeared
+		<property name="incidentBeamDivergenceScannableName" value="dummy1" />
+		<property name="incidentPolarizationScannableName" value="dummy1" />
+		<property name="beamExtentScannableName" value="dummy1" />
+		<property name="fluxScannableName" value="dummy1" />
+		 -->
+	</bean>
+
+	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+		<property name="name" value="userNexusDevice" />
+	</bean>
+
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<property name="sourceName" value="sourceNexusDevice" />
+		<property name="insertionDeviceName" value="idNexusDevice" />
+		<!-- 
+		<property name="bendingMagnetName" value="" />
+		 -->
+		<property name="monochromatorName" value="monochromatorNexusDevice" />
+		<property name="beamName" value="beamNexusDevice" />
+		<property name="userDeviceName" value="userNexusDevice" />
+	</bean>
+
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"
 			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />

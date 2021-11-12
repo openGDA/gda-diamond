@@ -9,10 +9,6 @@ alias title
 alias sample
 
 Energy = en
-if USE_NEXUS_METADATA_COMMANDS:
-	meta_add(Energy)
-else:
-	meta.add(Energy)
 
 writerMap = Finder.getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 ddwf = writerMap.get("DefaultDataWriterFactory")
@@ -21,4 +17,4 @@ for dwe in ddwf.getDataWriterExtenders():
 
 nexusExtender = I16NexusExtender("/dls_sw/i16/scripts/pilatus_calibration/geometry.xml")
 # Comment this out if using gda.data.scan.datawriter.dataFormat = NexusScanDataWriter 
-ddwf.addDataWriterExtender(nexusExtender)
+#ddwf.addDataWriterExtender(nexusExtender)

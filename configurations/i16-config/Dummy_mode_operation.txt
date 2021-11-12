@@ -28,18 +28,10 @@ Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
 --------------------------------------------------------------------------------
 Once in GDA run the commands
 
-pos delta_axis_offset 0
-pos cry_offset 5
-pos dcmharmonic 1
-pos ref_offset 2
-pos bragg_offset 0.271790060076
-pos idgap_offset 0.533034663313
-pos uharmonic 3
-pos delta_offset 0
-pos eta_offset -0.7
+run('lab84/essential_positions.py')
+reset_namespace
 
-After these are all set, you need to either run reset_namespace or just restart
-the GDA server so that everything which relies on these values can be created.
+so that everything which relies on these essential positions can be created.
 
 To check they have all been set, you can run
 
