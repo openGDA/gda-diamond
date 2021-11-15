@@ -1,0 +1,20 @@
+bashlog debug "live/gda_servers_pre_instance" "Entered"
+
+# gda_servers_* scripts are run on both the client machine and on the server machine, during
+# testing was found that having on control machine recovered ActiveMQ too slowly: may also 
+# need to delete /exports/activemq which will need to be on control machine
+# May be moved to dls-config and parameterised per beamline with dls-beamline-pv-prefix.sh 
+# if/when procServ management of ActiveMQ becomes the standard
+
+# Restarts the ActiveMQ instance being managed by procServ when starting the server
+
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
+  bashlog debug "Requesting restart of ActiveMQ"
+  caput BL45P-CS-DAQ-01:RESTART 1
+  bashlog debug "Requested restart of ActiveMQ"
+fi
+
+
+#GDA_CORE_SCRIPT_OPTIONS="--trace"
+
+bashlog debug "live/gda_servers_pre_instance" "Exited"
