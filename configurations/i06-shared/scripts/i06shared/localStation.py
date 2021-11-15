@@ -66,7 +66,8 @@ if installation.isLive() and beamline != "lab44":
     M2temp1=DisplayEpicsPVClass('M2temp1','BL06I-OP-COLM-01:TEMP2','C','%f')
     
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
-from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
+#from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
+from i06shared.scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES
 
 from i06shared.devices.usePGM import grating  # @UnusedImport
 from i06shared.metadata.setSrsDataFileHeader import fileHeader  # @UnusedImport
