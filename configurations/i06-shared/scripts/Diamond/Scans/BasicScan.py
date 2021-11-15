@@ -17,6 +17,7 @@ from gda.configuration.properties import LocalProperties
 import java.lang.InterruptedException #@UnresolvedImport
 
 import __main__ as gdamain;
+from gdascripts.metadata.nexus_metadata_class import meta
 
 class BasicScanClass(object):
 	def __init__(self):
@@ -45,6 +46,7 @@ class BasicScanClass(object):
 #		if self.yaxis is not None:
 #			self.settings.setYAxesShown([self.yaxis])
 
+		meta.addScalar("user_input", "command", self.getCommand())
 		#To run the scan
 		try:
 			self.scan.runScan()
@@ -58,7 +60,7 @@ class BasicScanClass(object):
 				print ("Scan stopped by user.")
 
 		finally:
-			pass;
+			meta.rm("user_input", "command")
 		
 
 	# To return to start positions, etc
