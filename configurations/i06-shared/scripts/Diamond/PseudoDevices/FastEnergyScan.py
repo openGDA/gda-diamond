@@ -32,6 +32,7 @@ import scisoftpy as dnp
 from gda.configuration.properties import LocalProperties
 from gda.jython import InterfaceProvider
 from java.io import File
+from gdascripts.metadata.nexus_metadata_class import meta
 
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
 logger=ScriptLoggerClass();
@@ -720,7 +721,7 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 #		sff.saveNewFile();
 
 	def cvscan(self, startEnergy, endEnergy, scanTime, pointTime):
-		
+		command = "zacscan " + str(startEnergy) + " " + str(endEnergy) + " " + str(scanTime) + " " + str(pointTime)
 		if not self.fesController.checkPGM():
 			print "PGM is not in a movable status. Please check it manually!"
 			return;
@@ -759,13 +760,15 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 				
 		#pscan fastEnergy 0 1 numPoint fesData 0 1;
 		fesData = self.fesDetector;
-		
+		meta.addScalar("user_input", "command", command)
 		try:
 			theScan = PointsScan([self,0,1,numPoint,fesData,0,1]);
 			theScan.runScan();
 		except:
 			exceptionType, exception, traceback=sys.exc_info();
 			logger.fullLog(None, "Error occurs at FastEnergyDeviceClass.cvscan", exceptionType, exception, traceback, True);
+		finally:
+			meta.rm("user_input", "command")
 			
 		while(not self.fesController.isScanComplete() ):
 			logger.singlePrint( "Wait for the fast energy scan to finish" );

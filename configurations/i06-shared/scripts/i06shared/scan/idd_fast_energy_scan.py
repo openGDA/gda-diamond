@@ -51,13 +51,11 @@ if beamline_name=="i06":
     fesController.setKBRasteringControlPV(HYTEC_KB_Rastering_Control_PV)
     #fesController.setKBRasteringControlPV(KEYSIGHT_KB_Rastering_Control_PV) 
 
-    from __main__ import zacmedipixtif  # @UnresolvedImport
+    from __main__ import zacmedipix  # @UnresolvedImport
     ### configure which area detector to use in zacscan           
-    ### use 'zacpcotif' for zacscan with pco to produce TIFF image files
-    ### use 'zacpco' for zacscan with pco to produce Nexus and HDF files
     ### use 'zacmedipixtif' for zacscan with Medipix to produce TIFF image files
     ### use 'zacmedipix' for zacscan with Medipix to produce Nexus and HDF files
-    fesController.setAreaDetector(zacmedipixtif)
+    fesController.setAreaDetector(zacmedipix)
 
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
     try:
@@ -66,11 +64,9 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
             #TODO ask Sarnjeet for an update
             uuu.removeDefaults(['ca61sr', 'ca62sr','ca63sr','ca64sr','ca65sr','ca66sr']);
         
-        if beamline_name=="i06":
-            if not ROI_DEFINED_IN_GUI:
-                if not roi1 or not roi2 or not roi3 or not roi4:  # @UndefinedVariable
-                    raise Exception("4 ROIs are required.")
+        if beamline_name=="i06" and not ROI_DEFINED_IN_GUI:
                 #setup ROIs
+                assert not roi1 or not roi2 or not roi3 or not roi4, "4 Region of Interests: 'roi1', 'roi2', 'roi3', and 'roi4' are required."  # @UndefinedVariable
                 fesController.setupAreaDetectorROIs([roi1, roi2, roi3, roi4])  # @UndefinedVariable
         beamlineutil.stopArchiving();
         fastEnergy.cvscan(startEnergy, endEnergy, scanTime, pointTime);
