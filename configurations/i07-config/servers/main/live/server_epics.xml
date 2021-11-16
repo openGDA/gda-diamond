@@ -974,14 +974,8 @@
 	<bean id="MotorZ_DPS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-EA-DET-01:Z" />
 	</bean>
-
-	<!-- Flight Tube X -->
-	<bean id="MotorFTX_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-EA-DET-01:FLIGHT:X" />
-	</bean>
-	<!-- Flight Tube Y -->
-	<bean id="MotorFTY_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-EA-DET-01:FLIGHT:Y" />
+	<bean id="MotorZUpper_DPS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-EA-DET-01:ZUPPER" />
 	</bean>
 
 	<!-- Detector Slits DETS1 Motors -->

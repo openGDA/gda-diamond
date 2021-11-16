@@ -679,11 +679,7 @@
 
     <bean id="MotorZ_DPS" class="gda.device.motor.DummyMotor"/>
 
-    <!-- Flight Tube X -->
-    <bean id="MotorFTX_DPS" class="gda.device.motor.DummyMotor"/>
-
-    <!-- Flight Tube Y -->
-    <bean id="MotorFTY_DPS" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorZUpper_DPS" class="gda.device.motor.DummyMotor"/>
 
     <!-- Detector Slits DETS1 Motors -->
     <bean id="MotorXPos_DETS1" class="gda.device.motor.DummyMotor"/>
