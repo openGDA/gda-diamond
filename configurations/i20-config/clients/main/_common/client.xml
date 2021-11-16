@@ -49,6 +49,7 @@
 						<value>Silicon</value>
 <!-- 						<value>Germanium</value> -->
 						<value>Xspress3</value>
+						<value>Xspress3X</value>
 						<value>Xspress4</value>
 					</list>
 				</entry>
@@ -69,6 +70,7 @@
 <!-- 				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/> -->
 				<entry key="medipix" value="${gda.config}/var/templates/Medipix_Parameters.xml"/>
 				<entry key="xspress3" value="${gda.config}/var/templates/Xspress3_Parameters.xml" />
+				<entry key="xspress3X" value="${gda.config}/var/templates/Xspress3X_Parameters.xml" />
 				<entry key="xspress4" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
 			</map>
 		</property>

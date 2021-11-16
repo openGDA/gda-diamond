@@ -5,16 +5,14 @@
 
 <!-- Xspress3 configuration added 7June 2019 -->
 
-	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
-		<property name="controller" ref="xspress3Controller" />
-		<property name="numberOfChannelsToRead" value="4" />
-		<property name="writeHDF5Files" value="true" />
+<!-- Xspress3 detector using Xspress4Detector (new Xspress3 IOC has same PVs as Xspress4). Added 1Mar 2022 -->
+
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
+		<property name="controller" ref="xspress3ControllerXSP4" />
+		<property name="xspress3Controller" ref="xspress3Controller" />
 		<property name="defaultSubdirectory" value="nexus" />
-		<property name="outputFormat">
-			<list>
-				<value>%.6f</value>
-			</list>
-		</property>
+		<property name="tfgFFI0" ref="xspress3XFFI0" />
+		<property name="configFileName" value="${gda.config}/var/templates/Xspress3_Parameters.xml" />
 	</bean>
 
 	<bean id="xspress3FFI0" class="gda.device.detector.TfgFFoverI0">
@@ -33,6 +31,28 @@
 		<property name="counterTimer" ref="I1" />
 		<property name="i0_channel" value="-1" />
 		<property name="outputName" value="FFI1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+			</list>
+		</property>
+	</bean>
+
+
+<!-- Xspress3X detector using Xspress4Detector (new Xspress3 IOC has same PVs as Xspress4). Added 16Nov 2021 -->
+
+	<bean id="xspress3X" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
+		<property name="controller" ref="xspress3XControllerXSP4" />
+		<property name="xspress3Controller" ref="xspress3XController" />
+		<property name="defaultSubdirectory" value="nexus" />
+		<property name="tfgFFI0" ref="xspress3XFFI0" />
+		<property name="configFileName" value="${gda.config}/var/templates/Xspress3X_Parameters.xml" />
+	</bean>
+
+	<bean id="xspress3XFFI0" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress3X" />
+		<property name="i0_channel" value="-1" />
+		<property name="counterTimer" ref="ionchambers" />
 		<property name="outputFormat">
 			<list>
 				<value>%.6f</value>

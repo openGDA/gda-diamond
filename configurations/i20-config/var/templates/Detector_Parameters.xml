@@ -30,6 +30,12 @@
         <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
+        <name>Xspress3X</name>
+        <detector>xspress3X</detector>
+        <detector>xspress3XFFI0</detector>
+        <detector>ionchambers</detector>
+    </detectorGroup>
+    <detectorGroup>
         <name>XES_xmap</name>
         <detector>FFI1</detector>
         <detector>xmapMca</detector>
