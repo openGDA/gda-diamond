@@ -173,6 +173,8 @@ print("-"*100)
 from scan.cvscan import cvscan  # @UnusedImport
 alias('cvscan')
 
+from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
+
 #import post scan data process The following 5 lines must be in localStation.py 
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 import gdascripts
