@@ -181,3 +181,6 @@ def checkHkl(position):
 		return(str(err))
 
 hkl.checkPositionValid = checkHkl
+run "iviumI16/compactStat.py"
+run "BeamlineI07/devices/ivium.py"
+del ivium2
