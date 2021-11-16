@@ -234,15 +234,14 @@
 	
 	
 	<bean id="sim_camera_offset_calibration" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibration">
-		<constructor-arg name="xAxisScannable" ref="simx" />
-		<constructor-arg name="yAxisScannable" ref="simy" />
+		<constructor-arg name="xAxis" ref="simx" />
+		<constructor-arg name="yAxis" ref="simy" />
 		<constructor-arg name="xOffsetDefault" value="-0.0112" /> <!-- Offset of camera in x axis -->
 		<constructor-arg name="yOffsetDefault" value="-0.145" /> <!-- Offset of camera in y axis -->
 		<constructor-arg name="xPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in x axis -->
 		<constructor-arg name="yPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in y axis -->
 		<constructor-arg name="csvFilePath" value="${gda.config}/clients/main/_common/camera_offset_calibration.csv" />
 	</bean>
-	
 
 
 </beans>
