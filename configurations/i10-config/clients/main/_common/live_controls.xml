@@ -224,7 +224,7 @@
 			<property name="userUnits" value=""/>
 		</bean>
 		<bean id="pimte_cover_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="" />
+			<property name="displayName" value="Cover" />
 			<property name="scannableName" value="pimtecover" />
 			<property name="showStop" value="False" />
 			<property name="group" value="PIMTE Controls" />

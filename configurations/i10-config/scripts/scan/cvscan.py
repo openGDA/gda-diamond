@@ -65,7 +65,7 @@ class IDAccessObserver(IObserver):
         id_access_control.addIObserver(self)
 
     def update(self, source, arg):
-        if source == self.idd_control:
+        if source == self.id_control:
             self.status = arg
 
     def getStatus(self):

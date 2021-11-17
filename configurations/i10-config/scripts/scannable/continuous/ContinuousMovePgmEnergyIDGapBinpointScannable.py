@@ -169,7 +169,20 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
     def getPosition(self):
         if self.verbose: self.logger.info('getPosition()...')
         if self._operating_continuously:
-            raise RuntimeError("getPosition not supported during continuous operation")
+            from gdaserver import pgm_grat_pitch, pgm_m2_pitch, pgm_energy
+            grtPitch = pgm_grat_pitch.getPosition()
+            mirPitch = pgm_m2_pitch.getPosition()
+            pgmEnergy = pgm_energy.getPosition()            
+            energy = angles2energy(gd       = self.grating_density,
+                                   grang    = grtPitch, #/1000.,
+                                   pmang    = mirPitch, #/1000.,
+                                   groff    = self.grating_offset,
+                                   pmoff    = self.plane_mirror_offset,
+                                   ecg      = self.energy_calibration_gradient,
+                                   ecr      = self.energy_calibration_reference)
+            if not self._last_requested_position:
+                self._last_requested_position = 0.0
+            return energy, self._last_requested_position, self._last_requested_position-energy, pgmEnergy, pgmEnergy-energy
         else:
             if isinstance(self._move_controller, ContinuousPgmGratingIDGapMoveController):
                 return self._move_controller.energy.pgmenergy.getPosition()

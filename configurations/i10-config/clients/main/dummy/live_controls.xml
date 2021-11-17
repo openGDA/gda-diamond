@@ -31,7 +31,7 @@
 			<property name="hasUnits" value="false"/>	
 			<property name="outputFormat">
 				<list>
-					<value>%2d</value>
+					<value>%d</value>
 				</list>
 			</property>	
 		</bean>
@@ -62,7 +62,7 @@
 			<property name="hasUnits" value="false"/>	
 			<property name="outputFormat">
 				<list>
-					<value>%2d</value>
+					<value>%d</value>
 				</list>
 			</property>	
 		</bean>
