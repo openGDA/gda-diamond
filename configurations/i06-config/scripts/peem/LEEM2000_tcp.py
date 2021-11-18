@@ -1,3 +1,7 @@
+'''
+@deprecated: replace by EPICS PVs for LEEM
+@since: 2021-11-17
+'''
 import sys
 import re
 from gdascripts.messages import handle_messages

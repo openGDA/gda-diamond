@@ -3,6 +3,7 @@ create objects for LEEM control
 Created on 21 Feb 2017
 
 @author: fy65
+@deprecated: replaced by leem_scannables.py on 2021-11-17
 '''
 from i06shared import installation
 from gda.device.scannable import DummyScannable

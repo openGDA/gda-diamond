@@ -1,5 +1,6 @@
 '''
 script provided by Francesco Maccherozzi
+@deprecated: replaced by EPICS PVs on 2021-11-17
 '''
 from gda.device.scannable import ScannableMotionBase
 from peem.LEEM2000_tcp import leem2000

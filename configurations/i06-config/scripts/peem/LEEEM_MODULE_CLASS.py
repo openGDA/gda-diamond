@@ -1,5 +1,6 @@
 '''
 script provided by Francesco Maccherozzi
+@deprecated: replace by EPICS pVs for LEEM on 2021-11-17
 '''
 from gda.device.scannable import ScannableMotionBase
 from time import sleep

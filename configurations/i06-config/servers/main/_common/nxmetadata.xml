@@ -223,29 +223,70 @@
 		<property name="childNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="fov"/>
-					<property name="scannableName" value="FOV"/>
+					<property name="name" value="stv"/>
+					<property name="scannableName" value="leem_stv"/>
+					<property name="units" value="V"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="obj"/>
 					<property name="scannableName" value="leem_obj"/>
+					<property name="units" value="mA"/>
 				</bean>		
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="stv"/>
-					<property name="scannableName" value="leem_stv"/>
-				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="objStigmA"/>
 					<property name="scannableName" value="leem_objStigmA"/>
+					<property name="units" value="mA"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="objStigmB"/>
 					<property name="scannableName" value="leem_objStigmB"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="p3alignx"/>
+					<property name="scannableName" value="leem_p3alignx"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="p3aligny"/>
+					<property name="scannableName" value="leem_p3aligny"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="transferlens"/>
+					<property name="scannableName" value="leem_transferlens"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="temp"/>
+					<property name="scannableName" value="leem_temp"/>
+					<property name="units" value="°C"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objAlignX"/>
+					<property name="scannableName" value="leem_objAlignX"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objAlignY"/>
+					<property name="scannableName" value="leem_objAlignY"/>
+					<property name="units" value="mA"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="rot"/>
 					<property name="scannableName" value="leem_rot"/>
+					<property name="units" value="deg"/>
 				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="intermlens"/>
+					<property name="scannableName" value="leem_intermlens"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="fov_a"/>
+					<property name="scannableName" value="leem_FOV_A"/>
+					<property name="units" value="um"/>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -290,7 +331,7 @@
 				<value>d6</value>
 				<value>d7</value>
 				<value>d7a</value>
-				<value>ps</value>
+<!-- 				<value>ps</value> -->
 				<value>leem</value>
 				<value>OH1</value>
 				<value>EC1</value>
