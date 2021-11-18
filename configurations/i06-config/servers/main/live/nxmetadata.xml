@@ -48,7 +48,11 @@
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="bit_depth"/>
-								<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:CounterDepth_RBV"/>
+							</bean>
+	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="CRW_mode"/>
+								<property name="pvName" value="BL06I-EA-DET-02:CAM:ContinuousRW_RBV"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
