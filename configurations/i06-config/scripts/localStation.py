@@ -1,8 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
 from scannables.EnumPVScannable import EnumPVScannable
-from gdaserver import medipix
-from java.lang import RuntimeException
 
 print "===================================================================";
 print "Performing Beamline I06 specific initialisation code (localStation.py).";
@@ -58,15 +56,16 @@ else:
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
 #PEEM End Station
-if installation.isLive():
-    # fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
-    from peem.leem_instances import leem2000
-    from peem.stv_obj_instance import stvobj  # @UnusedImport
-    # fileHeader.add([leem_rot])
-else:
-    print "No simulation for LEEM control yet!"
-from peem.leem_instances import FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
-from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
+# if installation.isLive():
+#     # fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
+#     from peem.leem_instances import leem2000
+#     from peem.stv_obj_instance import stvobj  # @UnusedImport
+#     # fileHeader.add([leem_rot])
+# else:
+#     print "No simulation for LEEM control yet!"
+# from peem.leem_instances import FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
+# from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
+from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens  # @UnusedImport
 
 def picture(acqTime):
     scan(t,1,1,1,pcotif,acqTime)  # @UndefinedVariable
@@ -74,10 +73,12 @@ from gda.jython.commands.GeneralCommands import alias
 alias("picture")
 #
 def enableRastering():
+    from gdaserver import medipix  # @UnresolvedImport
     medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(True)
 alias("enableRastering")
 
 def disableRatsering():
+    from gdaserver import medipix  # @UnresolvedImport
     medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(False)
 alias("disableRatsering")
   
@@ -136,19 +137,19 @@ if installation.isLive():
     alias("average")
 else:
     def medipix_unrotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("medipix_unrotate")
     
     def medipix_rotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("medipix_rotate")
     
     def unrotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("unrotate")
     
     def rotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("rotate")
 
 # from gda.jython.commands.ScannableCommands import add_default
