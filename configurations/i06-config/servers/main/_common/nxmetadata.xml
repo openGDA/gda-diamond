@@ -139,8 +139,8 @@
 		<property name="childNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="x"/>
-					<property name="scannableName" value="d7ax"/>
+					<property name="name" value="y"/>
+					<property name="scannableName" value="d7ay"/>
 				</bean>
 			</list>
 		</property>

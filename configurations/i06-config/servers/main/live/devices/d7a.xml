@@ -4,7 +4,7 @@
 
 	<!-- Fluorescent Screen and Diode D7a Motors -->
 	<bean id="MotorD_D7a" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-DI-PHDGN-05:X" />
+		<property name="pvName" value="BL06I-DI-PHDGN-05:Y" />
 	</bean>
 
 </beans>

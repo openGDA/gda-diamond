@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Fluorescent Screen and Diode D7a -->
-	<bean id="d7ax" class="gda.device.scannable.ScannableMotor">
+	<bean id="d7ay" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorD_D7a" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
@@ -13,7 +13,7 @@
 	<bean id="D7a" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d7ax" />
+				<ref bean="d7ay" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
