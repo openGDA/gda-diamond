@@ -21,25 +21,9 @@ from gda.device import Scannable, Detector
 from types import IntType, FloatType
 import sys
 from time import sleep
+from gdascripts.metadata.nexus_metadata_class import meta
 
 SHOW_DEMAND_VALUE=False
-class PositionReader(ScannableBase):
-    '''returns the actual position of the given scannable irrespective of its moving state.
-    '''
-    def __init__(self, scannable):
-        self.name = scannable.getName()+"_actual"
-        self.inputNames = [scannable.getInputNames() [0]+"_actual"]
-        self.scannable=scannable
-    
-    def getPosition(self):
-        return self.scannable.getPosition()
-    
-    def isBusy(self):
-        return False
-    
-    def asynchronousMoveTo(self):
-        pass
-    
         
 class FlyScanPosition:
     ''' define a position required by :class:FlyScannable
@@ -50,30 +34,30 @@ class FlyScanPosition:
         self.step = step
         
     def __repr__(self):
-        return '[' +`self.stop`+', '+ `self.position`+', '+ `self.step`+']'
+        return '[' +str(self.stop)+', '+ str(self.position)+', '+ str(self.step) +']'
     
 
 class   FlyScanPositionsProvider(ScanPositionProvider):
     ''' A scan position provider that provides a list of :class:FlyScanPosition
     '''
-    def __init__(self, firstScannable, start, stop, step):
-        self.firstScannable = firstScannable
+    def __init__(self, scannable, start, stop, step):
+        self.scannable = scannable
         self.start = start
         self.stop = stop
         self.step = ScanBase.sortArguments(start, stop, step);
-        numberSteps = ScannableUtils.getNumberSteps(firstScannable, self.start, self.stop, self.step)
+        number_steps = ScannableUtils.getNumberSteps(scannable, self.start, self.stop, self.step)
         self.points = []
         self.points.append(start)
-        previousPoint = start
-        for i in range(numberSteps):
-            nextPoint = ScannableUtils.calculateNextPoint(previousPoint, self.step);
-            self.points.append(nextPoint)
-            previousPoint = nextPoint
+        previous_point = start
+        for i in range(number_steps):
+            next_point = ScannableUtils.calculateNextPoint(previous_point, self.step);
+            self.points.append(next_point)
+            previous_point = next_point
 
     def get(self, index):
         max_index = self.size()-1
         if index > max_index:
-            raise Exception("Position %d is outside possible range : %d" % (index, max_index))
+            raise ValueError("Position %d is outside possible range : %d" % (index, max_index))
         val = self.points[index]
         stoppos = self.stop
         return FlyScanPosition(stoppos, val, self.step);
@@ -82,11 +66,13 @@ class   FlyScanPositionsProvider(ScanPositionProvider):
         return len(self.points)
     
     def __str__(self):
-        return "Scan %s from %s to %s in steps of %s. No of points = %d" % (self.firstScannable.getName(), `self.start`,`self.stop`,`self.step`, self.size() )
+        return "("+",".join(map(str,self.points))+")"
      
     def toString(self):
         return self.__str__()
-    
+
+class ScannableError(Exception):
+    pass
 
 class FlyScannable(ScannableBase):
     """
@@ -112,7 +98,7 @@ class FlyScannable(ScannableBase):
     def __init__(self, scannable, timeout_secs=1.0):
         self.scannable = scannable
         if len( self.scannable.getInputNames()) != 1:
-            raise Exception("No support for scannables with inputNames != 1")
+            raise ScannableError("scannable '%s mus have single inputName" % (self.scannable.getName()))
         self.name = scannable.getName()+"_fly"
         self.inputNames = [scannable.getInputNames() [0]+"_actual"]
         self.extraNames= []
@@ -146,8 +132,8 @@ class FlyScannable(ScannableBase):
         return res
 
     def waitWhileBusy(self):
-        clockAtStart=time.clock()
-        while self.isBusy() and (time.clock()-clockAtStart < self.timeout_secs or math.fabs((self.lastreadPosition-self.requiredPosVal)/self.stepVal)> 4):
+        clock_at_start=time.clock()
+        while self.isBusy() and (time.clock()-clock_at_start < self.timeout_secs or math.fabs((self.lastreadPosition-self.requiredPosVal)/self.stepVal)> 4):
             time.sleep(.01)
 
     def getScannableMaxSpeed(self):
@@ -157,12 +143,7 @@ class FlyScannable(ScannableBase):
         self.speed=speed        
 
     def atScanStart(self):
-#         self.moveToStart()
         self.alreadyStarted=False
-#         if self.speed is not None:
-#             self.origionalSpeed= self.scannable.getSpeed()
-#             print "change motor speed from %r to %r" % (self.origionalSpeed, self.speed)
-#             self.scannable.setSpeed(self.speed)
                     
     def moveToStart(self):
         if self.startVal is not None:
@@ -175,8 +156,8 @@ class FlyScannable(ScannableBase):
                 count=count+1
                 if count % 80 == 0 :
                     sys.stdout.write("\n")
-            print
-            print "Start position is reached after %f seconds" % (count)
+            print("\n")
+            print("Start position is reached after %f seconds" % (count))
             self.moveToStartCompleted=True
     
     def atScanEnd(self):
@@ -184,7 +165,7 @@ class FlyScannable(ScannableBase):
         
     def restoreMotorSpeed(self):
         if self.origionalSpeed is not None:
-            print "Restore motor speed from %r to %r" % (self.speed, self.origionalSpeed)
+            print("Restore motor speed from %r to %r" % (self.speed, self.origionalSpeed))
             self.scannable.setSpeed(self.origionalSpeed)
             self.origionalSpeed=None
         self.speed=None
@@ -213,17 +194,16 @@ class FlyScannable(ScannableBase):
             self.moveToStart()
             if self.speed is not None:
                 self.origionalSpeed= self.scannable.getSpeed()
-                print "change motor speed from %r to %r" % (self.origionalSpeed, self.speed)
+                print("change motor speed from %r to %r" % (self.origionalSpeed, self.speed))
                 self.scannable.setSpeed(self.speed)
             return
-        stopPosition = new_position.stop
-        print "Move to stop position " + `stopPosition`
-        self.scannable.asynchronousMoveTo(stopPosition)
+        stop_position = new_position.stop
+        print("Move to stop position %f" % stop_position)
+        self.scannable.asynchronousMoveTo(stop_position)
         self.alreadyStarted=True
             
-        self.stopVal = ScannableUtils.positionToArray(stopPosition, self.scannable)[0]
+        self.stopVal = ScannableUtils.positionToArray(stop_position, self.scannable)[0]
         self.positive = self.stopVal > self.requiredPosVal
-        return
 
     def rawGetPosition(self):
         if self.showDemandValue:
@@ -240,23 +220,27 @@ def flyscan(*args):
         flyscan scannable start stop step det [exposure_time] [other_scannables]
     '''
     if len(args) < 4:
-        raise Exception("Not enough parameters provided: You must provide '<scannable> <start> <stop> <step>' and may be followed by other optional scannables!")
+        raise SyntaxError("Not enough parameters provided: You must provide '<scannable> <start> <stop> <step>' and may be followed by other optional scannables!")
+    
+    command = "flyscan "
     newargs=[]
     i=0;
     while i< len(args):
         arg = args[i]
         if i==0 :
             if not isinstance(arg, Scannable):
-                raise Exception("The first argument is not a Scannable!")
+                raise SyntaxError("The first argument is not a Scannable!")
             else:
                 startpos=args[i + 1]
                 stoppos=args[i+2]
                 stepsize=args[i+3]
-                numberSteps = ScannableUtils.getNumberSteps(arg, startpos, stoppos, stepsize)
+                number_steps = ScannableUtils.getNumberSteps(arg, startpos, stoppos, stepsize)
                 flyscannablewraper = FlyScannable(arg)
                 flyscannablewraper.startVal=startpos
                 newargs.append( flyscannablewraper )
+                command += arg.getName() + " "
                 newargs.append( FlyScanPositionsProvider(flyscannablewraper.scannable, startpos, stoppos, stepsize) )
+                command += " ".join(map(str, [startpos, stoppos, stepsize])) + " "
                 flyscannablewraper.showDemandValue=SHOW_DEMAND_VALUE
                 if SHOW_DEMAND_VALUE:
                     flyscannablewraper.setExtraNames([arg.getInputNames() [0]+"_demand"])
@@ -264,26 +248,31 @@ def flyscan(*args):
                 else:
                     flyscannablewraper.setExtraNames([])
                     flyscannablewraper.setOutputFormat([ "%.5g"])
-                    
-#                 newargs.append( PositionReader(arg) ) # to read the actual position
                 i=i+4
         else:
-            newargs.append(arg) 
+            newargs.append(arg)
+            if isinstance(arg, Scannable):
+                command += arg.getName() + " "
+            if type(arg)==IntType or type(arg)== FloatType:
+                command += str(arg) + " "  
             i=i+1
-            if isinstance(arg, Detector):
-                if i<len(args) and (type(args[i])==IntType or type(args[i])==FloatType):
-                    #detector has exposure time set so need to adjust motor speed to match number of of points
-                    totalTime=float(args[i])*numberSteps
-                    motorSpeed=math.fabs((float(stoppos-startpos))/float(totalTime))
-                    maxSpeed=flyscannablewraper.getScannableMaxSpeed()
-                    if motorSpeed>0 and motorSpeed<=maxSpeed:
-                        #when exposure time is too large, change motor speed to roughly match
-                        flyscannablewraper.setSpeed(motorSpeed)
-                    elif motorSpeed>maxSpeed:
-                        #when exposure time is small enough use maximum speed of the motor
-                        flyscannablewraper.setSpeed(maxSpeed)
+            if isinstance(arg, Detector) and i<len(args) and (type(args[i])==IntType or type(args[i])==FloatType):
+                #detector has exposure time set so need to adjust motor speed to match number of of points
+                total_time=float(args[i])*number_steps
+                motor_speed=math.fabs((float(stoppos-startpos))/float(total_time))
+                max_speed=flyscannablewraper.getScannableMaxSpeed()
+                if motor_speed>0 and motor_speed<=max_speed:
+                    #when exposure time is too large, change motor speed to roughly match
+                    flyscannablewraper.setSpeed(motor_speed)
+                elif motor_speed>max_speed:
+                    #when exposure time is small enough use maximum speed of the motor
+                    flyscannablewraper.setSpeed(max_speed)
         
-    gda.jython.commands.ScannableCommands.scan([e for e in newargs])
+    meta.addScalar("user_input", "command", command)
+    try:
+        gda.jython.commands.ScannableCommands.scan([e for e in newargs])
+    finally:
+        meta.rm("user_input", "command")
 
 def flyscannable(scannable, timeout_secs=1.):
     return FlyScannable(scannable, timeout_secs)
