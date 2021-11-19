@@ -50,9 +50,9 @@
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO4" />
 	</bean>
 	
-	<bean id="extradrain" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO8" />
-	</bean>
+<!-- 	<bean id="extradrain" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO8" /> -->
+<!-- 	</bean> -->
 	<import resource="smpcam1.xml"/>
 	<import resource="smpcam2.xml"/>
 	<import resource="smpcam3.xml"/>

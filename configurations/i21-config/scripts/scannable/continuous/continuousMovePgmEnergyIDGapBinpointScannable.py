@@ -19,7 +19,7 @@ import installation
 import java
 from scannable.continuous.continuousPgmEnergyIDGapMoveController import ContinuousPgmEnergyIDGapMoveController
 from gda.device import DeviceException
-from gdaserver import pgmEnergy  # @UnresolvedImport
+from gdaserver import pgmEnergy, idgap  # @UnresolvedImport
 
 
 class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
@@ -95,9 +95,12 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
 
     def stop(self):
         if self._operating_continuously:
-            self._binpointIdGap.stop()
-            self._binpointPgmEnergy.stop()
-            self._move_controller.stopAndReset()
+            if installation.isLive():
+                print("cvscan cannot be stopped, please wait it to finish!")
+            else:    
+                self._binpointIdGap.stop()
+                self._binpointPgmEnergy.stop()
+                self._move_controller.stopAndReset()
         else:
             self._move_controller._energy.stop()
         self.mybusy=False
@@ -130,7 +133,10 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
     def getPosition(self):
         if self.verbose: self.logger.info('getPosition()...')
         if self._operating_continuously:
-            raise DeviceException("%s: getPosition() is not supported during continuous operation" % self.name)
+            pgm_energy = pgmEnergy.getPosition()
+            id_gap = idgap.getPosition()
+            id_gap_demand = self._move_controller._energy.get_ID_gap_phase_at_current_polarisation(self._last_requested_position)[0]
+            return pgm_energy, self._last_requested_position, self._last_requested_position-pgm_energy, id_gap, id_gap_demand, id_gap_demand-id_gap
         else:
             if isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
                 return self._move_controller._energy.getPosition()

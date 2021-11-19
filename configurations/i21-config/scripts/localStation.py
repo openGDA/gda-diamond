@@ -195,7 +195,7 @@ alias("input_tsample")
 alias("input_tshield")
 alias("input_tcryostat")
 
-from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c  # @UnusedImport
+from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c,fy2_c  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
 
 # print("-"*100)
@@ -347,15 +347,38 @@ GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checked
 
 def goLH(en_val_std):
     caput (EPICS_FEEDBACK_PV,0)
-    energypolarisation.moveTo([en_val_std, LH])
+    energy.moveTo(en_val_std)
+    polarisation.moveTo(LH)
     caput (EPICS_FEEDBACK_PV,4)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, LH))
 
 def goLV(en_val_std):
     caput (EPICS_FEEDBACK_PV,0)
-    energypolarisation.moveTo([en_val_std, LV])
+    # energypolarisation.moveTo([en_val_std, LV])
+    energy.moveTo(en_val_std)
+    polarisation.moveTo(LV)
     caput (EPICS_FEEDBACK_PV,4)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, LV))
+    
+def goCR(en_val_std):
+    caput (EPICS_FEEDBACK_PV,0)
+    energy.moveTo(en_val_std)
+    polarisation.moveTo(CR)
+    caput (EPICS_FEEDBACK_PV,4)
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, CR))
+
+def goCL(en_val_std):
+    caput (EPICS_FEEDBACK_PV,0)
+    energy.moveTo(en_val_std)
+    polarisation.moveTo(CL)
+    caput (EPICS_FEEDBACK_PV,4)
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, CL))
+
+def go(en_val_std, pol):
+    caput (EPICS_FEEDBACK_PV,0)
+    energypolarisation.moveTo([en_val_std, pol])
+    caput (EPICS_FEEDBACK_PV,4)
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, pol))
     
 from scan.miscan import miscan  # @UnusedImport
 alias('miscan')
