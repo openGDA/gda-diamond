@@ -46,4 +46,4 @@ binpointPgmEnergy = WaveformChannelScannable('binpointPgmEnergy', binpointc, 'PG
 
 energy = ContinuousMovePgmEnergyIDGapBinpointScannable('energy', energy_move_controller, binpointPgmEnergy, binpointIdGap); energy.verbose=True
 
-# cvscan energy 695 705 1 draincurrent_c 2 diff1_c 2 m4c1_c 2 
+# cvscan energy 695 705 1 draincurrent_c 0.1 diff1_c 0.1 m4c1_c 0.1 fy2_c 0.1

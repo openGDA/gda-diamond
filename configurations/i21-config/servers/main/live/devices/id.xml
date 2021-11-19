@@ -5,8 +5,14 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+	<bean id="idblena" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="SR21I-MO-SERVC-01:IDBLENA" />
+		<property name="enableValue" value="0" />
+		<property name="disableValue" value="1" />
+	</bean>
 	<bean id="idgapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR21I-MO-SERVC-01:BLGAPMTR" />
+		<property name="accessControl" ref="idblena"/>
 	</bean>
 
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDEpics">

@@ -197,42 +197,11 @@ alias("input_tcryostat")
 
 from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c,fy2_c  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
-
-# print("-"*100)
-# print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
-# from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
-# import metashop  # @UnusedImport
-
-# print("-"*100)
-# print("Add meta data items to be captured in data files.")
-# metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x]  # @UndefinedVariable
-# if installation.isLive():
-#     metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
-# m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
-# m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback,m2roll,m2yaw]# @UndefinedVariable
-# m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
-# m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
-# pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch,cff, pgmB2Shadow]  # @UndefinedVariable
-# s1list=[s1hsize,s1vsize,s1hcentre,s1vcentre] #@UndefinedVariable
-# s2list=[s2hsize,s2vsize,s2hcentre,s2vcentre] #@UndefinedVariable
-# s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
-# s4list=[s4hcentre,s4hsize,s4vcentre,s4vsize,s4offside,s4nearside,s4upper,s4lower] #@UndefinedVariable
-# s5list=[s5v1gap,s5v2gap,s5hgap,s5sut,s5vdso1,s5vdso2,s5hdso] #@UndefinedVariable
-# s6list=[s6hgap,s6hcentre,s6vgap,s6vgap]  # @UndefinedVariable
-# samplelist=[th,x,y,z,phi,chi,difftth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
-# sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
-# spectrometerlist=[specgamma,spech,specl,armtth] # @UndefinedVariable
-# polariserlist=[polariserstick, polarisergamma]
-# ndorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
-#
-# meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+polariserlist#+andorlist
-# with overwriting:  # @UndefinedVariable
-#     for each in meta_data_list:
-#         meta_add(each)
-# alias("meta_add")
-# alias("meta_ll")
-# alias("meta_ls")
-# alias("meta_rm")
+from scan.miscan import miscan; print(miscan.__doc__)  # @UndefinedVariable
+print("-"*100)
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
+from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
+from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
 
 b2.setOutputFormat(["%7.4f"])
 x.setOutputFormat(["%10.6f"])
@@ -247,9 +216,7 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
 ENABLE_ENCODER_LIGHT_CONTROL=False
-# ENCODER_POSITION_AFTER_LIGHT_OFF=None
 # repeat acquire at a fixed point
-
 def acquireImages(n, det, exposure_time, *args):
     try:
         newargs=[ds,1,n,1,det,exposure_time] # @UndefinedVariable
@@ -293,29 +260,9 @@ def acquiredark(n, det, exposure_time, *args):
 alias("acquiredark")
 
 def clearEncoderLoss():
-    # sleep(0.1)
-    # clear encoder loss on sgmpitch
     caput("BL21I-OP-SGM-01:PITCH:ELOSSRC.A", 0)
     sleep(2.0)
-    # clear encoder loss on sgmr1
-    # caput("BL21I-OP-SGM-01:TVLR:ELOSSRC.A", 0)
-    # sleep(0.1)
-    # clear encoder loss on sgmx
-    # caput("BL21I-OP-SGM-01:X:ELOSSRC.A", 0)
-    # sleep(0.1)
-    # clear encoder loss on one of the wedge levellers
-    # caput("BL21I-OP-SGM-01:WDGO:ELOSSRC.A", 0)
-    # sleep(0.1)
-    # clear encoder loss on the other wedge leveller
-    # caput("BL21I-OP-SGM-01:WDGN:ELOSSRC.A", 0)
-    # sleep(0.1)
-    # Find last recorded position of sgmpitch when the light was switched off
-#     ENCODER_POSITION_AFTER_LIGHT_OFF=float(sgmpitch.getPosition())
-#     sleep(0.1)
-# Move to last recorded position of sgmpitch when the light was switched off
-#     if ENABLE_ENCODER_LIGHT_CONTROL and ENCODER_POSITION_AFTER_LIGHT_OFF is not None:
-#         sgmpitch.moveTo(ENCODER_POSITION_AFTER_LIGHT_OFF)
-        
+         
 alias("clearEncoderLoss")
     
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
@@ -338,7 +285,7 @@ scan_processing_off()
 #check beam scannables
 from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
 
-# from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport
+# from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport #this is reverted to before not monitor the scanner light
 
 GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
 # from i21commands.checkedMotion import lookuptable, move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE, moveWithinLimits, findRange, UnsafeOperationException, IllegalMoveException, checkIfMoveLegal
@@ -380,9 +327,6 @@ def go(en_val_std, pol):
     caput (EPICS_FEEDBACK_PV,4)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, pol))
     
-from scan.miscan import miscan  # @UnusedImport
-alias('miscan')
-
 print("create 'alltth' scannable")
 from scannabledevices.M5GroupScannable import M5GroupScannable
 alltth = M5GroupScannable("alltth", armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737)  # @UndefinedVariable
