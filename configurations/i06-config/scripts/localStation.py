@@ -152,6 +152,16 @@ else:
         raise RuntimeError("EPICS PV and IOC required!")
     alias("rotate")
 
+def acquire_flat_field(num_images, detector, acquire_time):
+    scan(ds, 1, num_images, 1, detector, acquire_time)  # @UndefinedVariable
+    meta.addLink("flat_field", "data", "/entry", str(lastscan()))
+    
+alias("acquire_flat_field")
+    
+def remove_flat_field():
+    meta.rm("flat_field", "data")
+
+alias("remove_flat_field") 
 # from gda.jython.commands.ScannableCommands import add_default
 # add_default([fileHeader]);
 
