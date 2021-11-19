@@ -9,7 +9,7 @@ from gda.jython.commands.GeneralCommands import alias
 
 print("*"*80)
 print("Running the I10 startup script localStation.py...")
-print()
+print("\n")
 
 global RASOR_SCALER, UI1, UJ1
 
@@ -18,21 +18,21 @@ print("Set scan returns to the original positions on completion to false (0); de
 print("   To set scan returns to its start positions on completion please do:")
 print("      >>>scansReturnToOriginalPositions=1")
 scansReturnToOriginalPositions=0;
-print()
+print("\n")
 ###Import common commands, utilities, etc#####
 from i10commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
 
-print()
+print("\n")
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
-print()
+print("\n")
 
 def interruptable():
     GeneralCommands.pause()
 alias("interruptable")
 
-print()
+print("\n")
 print("-"*100)
 print("load EPICS Pseudo Device utilities for creating scannable object from a PV name.")
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass,EpicsReadWritePVClass,SingleEpicsPositionerClass,SingleEpicsPositionerNoStatusClass,SingleEpicsPositionerNoStatusClassDeadband,SingleChannelBimorphClass  # @UnusedImport
@@ -54,7 +54,7 @@ from gdascripts.scannable.timerelated import timerelated,t,dt,w,clock,epoch #@Un
 print("-"*100)
 print("load nexus metadata commands")
 from gdascripts.metadata.nexus_metadata_class import meta   # @UnusedImport
-print()
+print("\n")
 
 ds = DummyScannable("ds")
 #Create snap command for capturing a snapshot of camera
@@ -103,7 +103,7 @@ if "scattering" in spring_profiles:
     from scannable.continuous.continuous_energy_scannables_scattering import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
     from rasor.scannable.ThArea import thArea  # @UnusedImport
     from rasor.scannable.TthArea import tthArea  # @UnusedImport
-    print()
+    print("\n")
     print("*"*80)
     #DiffCalc
     print("import DIFFCALC support for I10")
