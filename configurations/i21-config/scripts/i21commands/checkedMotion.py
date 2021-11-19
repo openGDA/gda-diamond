@@ -138,7 +138,9 @@ def checkIfMoveLegal(motor, new_position):
                 sleep(8.0)
             if not armtth.isOn():
                 armtth.on()  # switch on air
-                sleep(8.0)
+                sleep(14.0)
+                armtth.stop() #called to clear following error of the motor
+                sleep(1.0)
             return False
         else:
             print("Motor '%s' is already in position." % (motor.getName()))

@@ -318,12 +318,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             caput(self.feedbackPV, 4)
         else:
             self.moveDevices(gap, new_polarisation, phase, energy)
-        self.notifyIObservers(self, self.getPosition())
+        sleep(1)
+        self.notifyIObservers(self, self.rawGetPosition())
             
     def updateValue(self):
         while self.isBusy():
-            sleep(0.5)
-            self.notifyIObservers(self, self.getPosition())
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition())
             
     def isBusy(self):
         '''checks the busy status of all child scannables.        

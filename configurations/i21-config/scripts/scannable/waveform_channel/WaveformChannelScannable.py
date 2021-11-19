@@ -6,6 +6,7 @@ from gda.device import Detector, DeviceException
 from org.slf4j import LoggerFactory
 from threading import Timer
 from scannable.waveform_channel.ADCWaveformChannelController import ADCWaveformChannelController
+import installation
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
@@ -30,12 +31,14 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         return True
     
     def stop(self):
-        self.waveform_channel_controller.stop()
-        if self.det:
-            self.det.atScanEnd() # restore ADC settings
-        if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
-            self.waveform_channel_controller.erase_start_called = False
-            self.waveform_channel_controller.stop_called = False
+        if installation.isDummy():
+            #cvscan cannot be stopped as ID stop is not allowed in continuous energy scanning in Live mode
+            self.waveform_channel_controller.stop()
+            if self.det:
+                self.det.atScanEnd() # restore ADC settings
+            if isinstance(self.waveform_channel_controller, ADCWaveformChannelController):
+                self.waveform_channel_controller.erase_start_called = False
+                self.waveform_channel_controller.stop_called = False
                     
     def collectData(self):
         if self.verbose: self.logger.info('collectData()...')

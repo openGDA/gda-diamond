@@ -14,11 +14,16 @@ from numbers import Number
 
 from utils.ExceptionLogs import localStation_exception
 import sys
+from gdascripts.utils import caput
+import installation
+
+EPICS_FEEDBACK_PV = "BL21I-OP-MIRR-01:FBCTRL:MODE"
 
 class TrajectoryControllerHelper(ScanListener):
-    def __init__(self): # motors, maybe also detector to set the delay time
+    def __init__(self, pvName=None): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("TrajectoryControllerHelper")
         self.original_default_scannables=[]
+        self.pvName = pvName
 
     def prepareForScan(self):
         self.logger.info("prepareForCVScan()")
@@ -29,6 +34,8 @@ class TrajectoryControllerHelper(ScanListener):
         for scn in default_scannables:
             self.original_default_scannables.append(scn)
             remove_default(scn)
+        if self.pvName:
+            caput(self.pvName, 0) 
             
     def update(self, scan_object):
         self.logger.info("update(%r)" % scan_object)
@@ -40,8 +47,14 @@ class TrajectoryControllerHelper(ScanListener):
                 add_default(scn)
         else:
             self.logger.debug("original default scannables is empty!")
-                              
-trajectory_controller_helper = TrajectoryControllerHelper()
+        if self.pvName:
+            caput(self.pvName, 4) 
+            
+if installation.isLive():
+    trajectory_controller_helper = TrajectoryControllerHelper(pvName=EPICS_FEEDBACK_PV)
+else:
+    trajectory_controller_helper = TrajectoryControllerHelper()
+    
 cvscan_traj=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
 
 print("-"*100)
