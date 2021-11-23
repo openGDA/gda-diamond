@@ -75,6 +75,16 @@ public class ConnectDeviceDialog extends Dialog {
 		super(parentShell);
 	}
 
+	public static ConnectDeviceDialog create(Shell parentShell, EdeDetector detector) {
+		ConnectDeviceDialog connectionDialog = new ConnectDeviceDialog(parentShell);
+		connectionDialog.setDetector(detector);
+		connectionDialog.setBlockOnOpen(true);
+		// need to try with hardware to find realistic timeout value (xh is slow to configure...)
+		// Might need to use different value for different detectors.
+		connectionDialog.setMaxExpectedConfigureTimeSecs(20);
+		return connectionDialog;
+	}
+
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);

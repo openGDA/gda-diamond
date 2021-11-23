@@ -19,13 +19,14 @@
 package uk.ac.gda.exafs.experiment.ui.data;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,7 @@ import com.google.gson.annotations.Expose;
 import gda.device.DeviceException;
 import gda.device.detector.EdeDetector;
 import uk.ac.gda.ede.data.DetectorSetupType;
+import uk.ac.gda.exafs.alignment.ui.ConnectDeviceDialog;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
@@ -190,18 +192,34 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		this.parent = parent;
 		this.resetInitialTime(TimeIntervalDataModel.INITIAL_START_TIME, TimeIntervalDataModel.MIN_DURATION_TIME, 0.0, TimeIntervalDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
-		this.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				String sourcePropName = evt.getPropertyName();
-				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME) | sourcePropName.equals(ACCUMULATION_READOUT_TIME_PROP_NAME)) {
-					TimingGroupUIModel.this.updateMaxAccumulationForDetector();
-				} else if (sourcePropName.equals(REAL_TIME_PER_SPECTRUM_PROP_NAME)) {
-
-				}
-			}
-		});
+		this.addPropertyChangeListener(this::updateAccumulationTime);
 		this.unit = unit;
+	}
+
+	private void updateAccumulationTime(PropertyChangeEvent evt) {
+		String sourcePropName = evt.getPropertyName();
+		if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) || sourcePropName.equals(INTEGRATION_TIME_PROP_NAME) || sourcePropName.equals(ACCUMULATION_READOUT_TIME_PROP_NAME)) {
+			checkDetectorIsConfigured();
+			TimingGroupUIModel.this.updateMaxAccumulationForDetector();
+		} else if (sourcePropName.equals(REAL_TIME_PER_SPECTRUM_PROP_NAME)) {
+		}
+	}
+
+	/**
+	 * If detector has not been configured, display a Dialog to check with user if they want to configure it,
+	 * and then display a {@link ConnectDeviceDialog} to configure it.
+	 */
+	private void checkDetectorIsConfigured() {
+		EdeDetector detector = getCurrentDetector();
+		if (!detector.isConfigured()) {
+			var shell = Display.getDefault().getActiveShell();
+			if (MessageDialog.openQuestion(shell, "Detector has not been configured",
+					detector.getName()+" has not been connected yet. Do you want to connect to it now?")) {
+
+				ConnectDeviceDialog connectionDialog = ConnectDeviceDialog.create(shell, detector);
+				connectionDialog.open();
+			}
+		}
 	}
 
 	private void setSpectrumAndAdjustEndTime(double timePerSpectrum) {
@@ -407,7 +425,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		spectrumList.clear();
 	}
 
-	public EdeDetector getCurrentDetector() {
+	private EdeDetector getCurrentDetector() {
+		if (currentDetector == null) {
+			currentDetector = DetectorModel.INSTANCE.getCurrentDetector();
+		}
 		return currentDetector;
 	}
 
@@ -422,10 +443,13 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			double frameTime = usertimePerSpectrum;
 			double accumlationReadoutTime = 0.0;
 
-			EdeDetector detector = currentDetector;
-			if (detector == null) {
-				detector = DetectorModel.INSTANCE.getCurrentDetector();
+			EdeDetector detector = getCurrentDetector();
+
+			// Return if detector is (still) not configured - can't get the number of scans in a frame
+			if (!detector.isConfigured()) {
+				return;
 			}
+
 			boolean isFrelonDetector = detector.getDetectorSetupType() == DetectorSetupType.FRELON;
 
 			// Set Frelon specific frame time, accounting for accumulation readout time imh 15/10/2015
