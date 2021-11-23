@@ -58,7 +58,7 @@
 		<property name="pvName" value="BL06I-EA-DET-02:PROCB:NumFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%2d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
@@ -66,7 +66,7 @@
 		<property name="pvName" value="BL06I-EA-DET-02:PROCB:ResetFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%1d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
@@ -74,7 +74,7 @@
 		<property name="pvName" value="BL06I-EA-DET-02:PROCB:EnableFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%1d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
@@ -82,7 +82,7 @@
 		<property name="pvName" value="BL06I-EA-DET-02:PROCB:NumFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%2.0f</value>
+				<value>%.0f</value>
 			</list>
 		</property>	
 		<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateNumFilterInProc"/>
@@ -93,6 +93,7 @@
 				<value>gda.device.Scannable</value>
 				<value>java.lang.Integer</value>
 			</list>
-		</property>		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
+		</property>
+		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
 	</bean>	
 </beans>
