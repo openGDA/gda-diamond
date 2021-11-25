@@ -95,15 +95,15 @@ from java.lang import System
 profiles = System.getProperty("gda.spring.profiles.active")
 if "magnet" in profiles:
     scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
-    scm_amp_2 = AmplifierGainParser("scm_amp_2", "BL06I-DI-IAMP-21:SCM:GAIN")
-    scm_amp_3 = AmplifierGainParser("scm_amp_3", "BL06I-DI-IAMP-22:SCM:GAIN")
-    scm_amp_4 = AmplifierGainParser("scm_amp_4", "BL06I-DI-IAMP-23:SCM:GAIN")
+    # scm_amp_2 = AmplifierGainParser("scm_amp_2", "BL06I-DI-IAMP-21:SCM:GAIN")
+    # scm_amp_3 = AmplifierGainParser("scm_amp_3", "BL06I-DI-IAMP-22:SCM:GAIN")
+    # scm_amp_4 = AmplifierGainParser("scm_amp_4", "BL06I-DI-IAMP-23:SCM:GAIN")
 
 if "DD" in profiles:
     ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
-    ddiff_amp_2 = AmplifierGainParser("ddiff_amp_2", "BL06I-DI-IAMP-31:DDIFF:GAIN")
-    ddiff_amp_3 = AmplifierGainParser("ddiff_amp_3", "BL06I-DI-IAMP-32:DDIFF:GAIN")
-    ddiff_amp_4 = AmplifierGainParser("ddiff_amp_4", "BL06I-DI-IAMP-33:DDIFF:GAIN")
+    # ddiff_amp_2 = AmplifierGainParser("ddiff_amp_2", "BL06I-DI-IAMP-31:DDIFF:GAIN")
+    # ddiff_amp_3 = AmplifierGainParser("ddiff_amp_3", "BL06I-DI-IAMP-32:DDIFF:GAIN")
+    # ddiff_amp_4 = AmplifierGainParser("ddiff_amp_4", "BL06I-DI-IAMP-33:DDIFF:GAIN")
     print("*"*80)
     print("import DIFFCALC support for I06-1")
     try:
@@ -113,7 +113,7 @@ if "DD" in profiles:
 
 if "xabs" in profiles:
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
-    xabs_amp_2 = AmplifierGainParser("xabs_amp_2", "BL06I-DI-IAMP-41:XABS:GAIN")
+    # xabs_amp_2 = AmplifierGainParser("xabs_amp_2", "BL06I-DI-IAMP-41:XABS:GAIN")
     
         
 print("===================================================================")
