@@ -9,6 +9,7 @@
 	<import resource="peemShutter.xml"/>
 	<import resource="s4.xml"/>
 	<import resource="d6.xml"/>
+	<import resource="gv9.xml" />
 	<import resource="s5.xml"/>
 	<import resource="d7.xml"/>
 	<import resource="m4.xml"/>
