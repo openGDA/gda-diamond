@@ -332,17 +332,19 @@
 		<property name="basePVName" value="BL07B-EA-ENDST-02:I1:"/>
 		<property name="amplifier" ref="ca35b_stanford"/>
 		<property name="adcChannel" value="1"/>
+		<property name="autoGain" value="false" />
 	</bean>
-	
+
 	<bean id="ca36b_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
 		<property name="basePVName" value="BL07B-DI-IAMP-36:"/>
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="4.5"/>
 		<property name="instantaneousPV" value="BL07B-EA-ENDST-02:I2:I"/>
-	</bean>	
+	</bean>
 	<bean id="ca36b" class="gda.device.currentamplifier.EpicsBekhoffAdc">
 		<property name="basePVName" value="BL07B-EA-ENDST-02:I2:"/>
 		<property name="amplifier" ref="ca36b_stanford"/>
 		<property name="adcChannel" value="2"/>
+		<property name="autoGain" value="false" />
 	</bean>
 </beans>
