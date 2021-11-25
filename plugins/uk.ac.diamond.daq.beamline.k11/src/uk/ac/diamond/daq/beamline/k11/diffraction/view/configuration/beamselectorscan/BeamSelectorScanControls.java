@@ -35,6 +35,7 @@ import org.eclipse.core.databinding.observable.value.SelectObservableValue;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -49,6 +50,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
@@ -89,6 +91,11 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	/** triggered when the existing point moves */
 	private PropertyChangeListener regionMoveListener = change -> handleRegionMove();
+
+	/**
+	 * Used for synchronisation
+	 */
+	private boolean handlingRegionMove = false;
 
 	/** triggered when the existing point is replaced */
 	private Consumer<RegionPathState> regionUpdateListener = this::handleRegionUpdate;
@@ -151,7 +158,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	private void setNumberOfCycles(int points) {
 		getScanningAcquisitionTemporaryHelper().createScannableTrackDocumentHelper()
-		.ifPresent(helper -> helper.updateScannableTrackDocumentsPoints(points));
+			.ifPresent(helper -> helper.updateScannableTrackDocumentsPoints(points));
 	}
 
 	private void createImagingBeamControl(Composite composite) {
@@ -191,7 +198,10 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		stretch.applyTo(yPosition);
 
 		initialiseMappingController();
-		selectFromMap.addListener(SWT.Selection, event -> mappingController.getRegionSelectorListener().handleRegionChange(new PointMappingRegion()));
+		selectFromMap.addListener(SWT.Selection, event -> {
+			mappingController.getRegionSelectorListener().handleRegionChange(new PointMappingRegion());
+			mappingController.changePath(new TwoAxisPointSingleModel());
+		});
 
 		xPosition.addListener(SWT.Modify, event -> setStartPosition(config.getxAxisName(), "x", Double.parseDouble(xPosition.getText())));
 		yPosition.addListener(SWT.Modify, event -> setStartPosition(config.getyAxisName(), "y", Double.parseDouble(yPosition.getText())));
@@ -200,6 +210,26 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	private void initialiseMappingController() {
 		mappingController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
 		mappingController.initialise(Optional.of(regionUpdateListener), Optional.empty());
+	}
+
+	private void updateMappingController() {
+		if (handlingRegionMove) {
+			// controller already up to date
+			return;
+		}
+		var x = Double.parseDouble(xPosition.getText());
+		var y = Double.parseDouble(yPosition.getText());
+
+		IMappingScanRegionShape shape = new PointMappingRegion();
+		shape.centre(x, y);
+		mappingController.getRegionSelectorListener().handleRegionChange(shape);
+
+		var path = new TwoAxisPointSingleModel();
+		path.setX(x);
+		path.setY(y);
+		mappingController.changePath(path);
+
+		mappingController.updatePlotRegion();
 	}
 
 	private void handleRegionUpdate(RegionPathState state) {
@@ -218,8 +248,13 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void handleRegionMove() {
-		xPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format(point.getxPosition())));
-		yPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format(point.getyPosition())));
+		try {
+			handlingRegionMove = true;
+			xPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format(point.getxPosition())));
+			yPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format(point.getyPosition())));
+		} finally {
+			handlingRegionMove = false;
+		}
 	}
 
 	private void setStartPosition(String device, String axis, double position) {
@@ -239,6 +274,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		start.add(document);
 
 		parameters.setStartPosition(start);
+
+		updateMappingController();
 	}
 
 	private void rightAlignedLabel(Composite composite, String text) {
@@ -310,16 +347,20 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		if (beamPosition.size() == 2) {
 			double x = beamPosition.stream().filter(doc -> doc.getDevice().equals(xAxis)).findFirst().orElseThrow().getPosition();
 			double y = beamPosition.stream().filter(doc -> doc.getDevice().equals(yAxis)).findFirst().orElseThrow().getPosition();
+			handlingRegionMove = true;
 			xPosition.setText(String.valueOf(x));
 			yPosition.setText(String.valueOf(y));
+			handlingRegionMove = false;
 
 		} else {
 
 			try {
 				Scannable xScannable = Finder.find(xAxis);
 				Scannable yScannable = Finder.find(yAxis);
+				handlingRegionMove = true;
 				xPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format((double) xScannable.getPosition())));
 				yPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format((double) yScannable.getPosition())));
+				handlingRegionMove = false;
 			} catch (DeviceException e) {
 				logger.error("Couldn't read beam positions");
 			}

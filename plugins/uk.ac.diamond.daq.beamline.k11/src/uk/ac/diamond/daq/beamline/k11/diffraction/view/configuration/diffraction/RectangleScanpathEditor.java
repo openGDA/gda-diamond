@@ -20,7 +20,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffractio
 
 import java.beans.PropertyChangeListener;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,11 +140,7 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 			int xPoints = Integer.parseInt(xPointsSpinner.getText());
 			int yPoints = Integer.parseInt(yPointsSpinner.getText());
 
-			if (xStart < xStop) {
-				updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, xPoints, yPoints));
-			} else {
-				modelToControls();
-			}
+			updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, xPoints, yPoints));
 
 		} finally {
 			handlingDocumentUpdate = false;
@@ -246,11 +242,11 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 	}
 
 	private ScanpathDocument addMutator(Mutator mutator) {
-		Map<Mutator, List<Number>> mutatorMap = new HashMap<>();
+		Map<Mutator, List<Number>> mutatorMap = new EnumMap<>(Mutator.class);
 		mutatorMap.put(mutator, Collections.emptyList());
 
 		// Checks whether current map of mutators had another mutator selected and adds it
-		if(getModel().getMutators().size() > 0) {
+		if (getModel().getMutators().size() > 0) {
 			mutatorMap.put(getCurrentMutator(mutator), Collections.emptyList());
 		}
 
@@ -258,10 +254,10 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 	}
 
 	private ScanpathDocument removeMutator(Mutator mutator) {
-		Map<Mutator, List<Number>> mutatorMap = new HashMap<>();
+		Map<Mutator, List<Number>> mutatorMap = new EnumMap<>(Mutator.class);
 
 		// Checks whether current map of mutators had another mutator selected and adds it
-		if(getModel().getMutators().size() > 1) {
+		if (getModel().getMutators().size() > 1) {
 			mutatorMap.put(getCurrentMutator(mutator), Collections.emptyList());
 		}
 

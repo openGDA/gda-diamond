@@ -13,7 +13,7 @@
 			value="#{ localhostname.hostName.split('\.')[0] }" />
 	</bean>
 	<bean id="sim_pvbase" class="java.lang.String">
-		<constructor-arg value="#{workstation}-AD-SIM-11" />
+		<constructor-arg value="#{workstation}-AD-SIM-01" />
 	</bean>
 
 	<bean id="d1_cam_config"

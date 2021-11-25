@@ -51,15 +51,17 @@ import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
 
 
-public class BeamSelectorCompositeFactory implements NamedCompositeFactory {
+public class BeamSelectorComposite implements NamedCompositeFactory {
 
-	private static final Logger logger = LoggerFactory.getLogger(BeamSelectorCompositeFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(BeamSelectorComposite.class);
 
 	private final Supplier<Composite> buttonsCompositeSupplier;
 
 	private BeamSelectorScanControls scanControls;
 
 	private final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.BEAM_SELECTOR, AcquisitionTemplateType.STATIC_POINT);
+
+	private final LoadListener loadListener;
 
 	/*
 	 * TODO
@@ -70,9 +72,9 @@ public class BeamSelectorCompositeFactory implements NamedCompositeFactory {
 	private ScanningAcquisitionController acquisitionController;
 
 
-	public BeamSelectorCompositeFactory(Supplier<Composite> buttonsCompositeSupplier) {
+	public BeamSelectorComposite(Supplier<Composite> buttonsCompositeSupplier) {
 		this.buttonsCompositeSupplier = buttonsCompositeSupplier;
-		SpringApplicationContextFacade.addDisposableApplicationListener(this, new LoadListener());
+		this.loadListener = new LoadListener();
 	}
 
 	@Override
@@ -92,6 +94,8 @@ public class BeamSelectorCompositeFactory implements NamedCompositeFactory {
 		Arrays.asList(buttonsComposite.getChildren()).forEach(Control::dispose);
 		getButtonControlsFactory().createComposite(buttonsComposite, SWT.NONE);
 		buttonsComposite.layout(true, true);
+		SpringApplicationContextFacade.addApplicationListener(loadListener);
+		controls.addDisposeListener(dispose -> SpringApplicationContextFacade.removeApplicationListener(loadListener));
 		return controls;
 	}
 
@@ -179,9 +183,7 @@ public class BeamSelectorCompositeFactory implements NamedCompositeFactory {
 				return;
 			}
 			var controller = (ScanningAcquisitionController) event.getSource();
-			// TODO just compare keys for equality once the 'template' property is deleted and controller.getAcquisitionKeys() returns the correct object
 			if (controller.getAcquisitionKeys().getPropertyType() == key.getPropertyType()) {
-				if (scanControls == null) return; // TODO ...and also delete this check!
 				Display.getDefault().asyncExec(scanControls::reload);
 			}
 		}
