@@ -7,6 +7,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="gv2" />
+				<ref bean="gv9i" />
 				<ref bean="gv11i" />
 				<ref bean="d3valve" />
 				<ref bean="d4valve" />
