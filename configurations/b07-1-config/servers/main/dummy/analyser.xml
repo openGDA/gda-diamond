@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="analyser_controller" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosController" >
-		<property name="basePVName" value="TEST-SPECS-01:" />
+		<property name="basePVName" value="TEST-SPECS-02:" />
 	</bean>
 	
 	<bean id="analyser_status" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserStatus">
 		<property name="name" value="analyser_status"/>
 		<property name="collectionStrategy" ref="collection_strategy"/>
-		<property name="pvName" value="TEST-SPECS-01:DetectorState_RBV" />
+		<property name="pvName" value="TEST-SPECS-02:DetectorState_RBV" />
 	</bean>
 
 	<bean id="analyser_prelens_valve" class="gda.device.enumpositioner.DummyEnumPositioner">

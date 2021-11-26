@@ -133,6 +133,7 @@
 		<property name="readOnly" value="false"/>
 	</bean>
 
-	<!-- To be replaced with real controller when it exists -->
-	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.DummyGasRigController" />
+	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.GasRigController">
+		<constructor-arg value="BL07C-GA-" />
+	</bean>
 </beans>
