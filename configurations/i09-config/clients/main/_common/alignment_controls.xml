@@ -75,8 +75,9 @@
 							<property name="boldLabel" value="true" />
 						</bean>
 						<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-							<property name="jythonCommand" value="analyser.setIterations(1) ; analyser.setFrames(1) ; analyser.adBase.startAcquiring()" />
+							<property name="jythonCommand" value="analyser.setIterations(1) ; analyser.setFrames(1) ; analyser.setAcquisitionMode('Fixed') ; analyser.startAcquiring()" />
 							<property name="buttonText" value="Upload scan" />
+							<property name="buttonTooltip" value="Set iterations/frames to 1 and mode to 'Fixed'" />
 						</bean>
 					</list>
 				</property>
