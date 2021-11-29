@@ -137,10 +137,6 @@
 								<property name="units" value="K"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-								<property name="name" value="heater_output_range"/>
-								<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:RANGE"/>
-							</bean>
-							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="heater_manual_output"/>
 								<property name="pvName" value="BL06J-EA-TCTRL-01:STS:LOOP2:MANUAL"/>
 								<property name="units" value="%"/>
