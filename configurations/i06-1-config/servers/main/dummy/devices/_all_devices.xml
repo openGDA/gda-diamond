@@ -17,7 +17,7 @@
 	<import resource="HM.xml"/>
 	<import resource="d12.xml"/>
 	<import resource="u2.xml"/>
-	<import resource="userMotors.xml"/>
+<!-- 	<import resource="userMotors.xml"/> -->
 	<import resource="fastScan.xml"/>
 	<import resource="laser_ec2.xml"/>
 	<import resource="keithley428Amp.xml"/>

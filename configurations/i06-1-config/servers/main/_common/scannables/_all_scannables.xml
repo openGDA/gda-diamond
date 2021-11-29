@@ -16,7 +16,7 @@
 	<import resource="HM.xml"/>
 	<import resource="d12.xml"/>
 	<import resource="u2.xml"/>
-	<import resource="userMotors.xml"/>
+<!-- 	<import resource="userMotors.xml"/> -->
 	<import resource="laser_ec2.xml"/>
 <!-- 	<import resource="mobilerack.xml"/> -->
 <!-- 	<import resource="polarimeter.xml"/> -->
