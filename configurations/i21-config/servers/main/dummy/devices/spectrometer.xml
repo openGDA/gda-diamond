@@ -13,6 +13,12 @@
 		<property name="speed" value="10" />
 	</bean>
 	
+	<bean id="xcamgammaMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-180" />
+		<property name="maxPosition" value="180" />
+		<property name="speed" value="10" />
+	</bean>
+
 	<bean id="speczMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />

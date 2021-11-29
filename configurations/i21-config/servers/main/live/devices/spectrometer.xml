@@ -7,6 +7,10 @@
 		<property name="pvName" value="BL21I-MO-ANDOR-01:GAMMA"/>
 	</bean>
 	
+	<bean id="xcamgammaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-MO-ARM-01:XCAM:GAMMA"/>
+	</bean>
+
 	<bean id="speczMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:VERT"/>
 	</bean>

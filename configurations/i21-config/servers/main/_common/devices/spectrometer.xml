@@ -14,6 +14,16 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 	
+	<bean id="xcamgamma" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xcamgammaMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%7.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+
 	<bean id="spech" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="speczMotor" />
 		<property name="outputFormat">
@@ -61,6 +71,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="specgamma" />
+				<ref bean="xcamgamma" />
 				<ref bean="spech" />
 				<ref bean="specl" />
 				<ref bean="armtth" />
