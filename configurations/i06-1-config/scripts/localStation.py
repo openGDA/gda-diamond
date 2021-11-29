@@ -24,15 +24,6 @@ import sys
 from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
 if installation.isLive():
     from laserCabin.TOPASScaler8512 import ca81sr,ca82sr,ca83sr,ca84sr,ca85sr,ca86sr,ca87sr,ca88sr,topas_scaler  # @UnusedImport
-    ##Magnet
-    #from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
-    try:
-        execfile('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py');
-    except:
-        exceptionType, exception, traceback = sys.exc_info();
-        print("Error:  execfile /magnet/useMagnet.py")
-        logger.dump("---> ", exceptionType, exception, traceback)
-    #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
     from functionDevices.idivio import idio,ifio,ifioft,ifiofb,testFun  # @UnusedImport
     from Beamline.waveplate3 import wp32  # @UnusedImport
 
@@ -91,13 +82,22 @@ def scan_processing_off():
 
 # amplifer gain splitter objects used by metadata
 from metadata.amplifierGainPaser import AmplifierGainParser
-from java.lang import System
+from java.lang import System  # @UnresolvedImport
 profiles = System.getProperty("gda.spring.profiles.active")
 if "magnet" in profiles:
     scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
     # scm_amp_2 = AmplifierGainParser("scm_amp_2", "BL06I-DI-IAMP-21:SCM:GAIN")
     # scm_amp_3 = AmplifierGainParser("scm_amp_3", "BL06I-DI-IAMP-22:SCM:GAIN")
     # scm_amp_4 = AmplifierGainParser("scm_amp_4", "BL06I-DI-IAMP-23:SCM:GAIN")
+    if installation.isLive():
+        # from magnet.useMagnet import scmc,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
+        try:
+            execfile('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py');
+        except:
+            exceptionType, exception, traceback = sys.exc_info();
+            print("Error:  execfile /magnet/useMagnet.py")
+            logger.dump("---> ", exceptionType, exception, traceback)
+        #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
 
 if "DD" in profiles:
     ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
