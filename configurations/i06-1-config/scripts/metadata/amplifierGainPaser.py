@@ -7,6 +7,7 @@ from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from i06shared import installation
 import random
+from gda.epics.connection import EpicsController
 
 GAIN_MODES = ["low noise", "high speed"]
 gain_map = {
@@ -36,16 +37,18 @@ class AmplifierGainParser(ScannableMotionBase):
         Constructor
         '''
         self.setName(name)
-        self.setInputNames([name])
-        self.caclient = CAClient(pv_name)
+        self.setInputNames([])
+        self.setExtraNames(["scale", "mode"])
+        self.setOutputFormat(["%e", "%s"])
+        self.EPICS_CONTROLLER = EpicsController.getInstance()
+        if installation.isLive():
+            self.ch = self.EPICS_CONTROLLER.createChannel(pv_name)
         
     def getPosition(self):
         if installation.isDummy():
             return random.choice(list(gain_map.values()))
         try:
-            if not self.caclient.isConfigured():
-                self.caclient.configure()  
-            gainstring = self.caclient.caget()
+            gainstring = self.EPICS_CONTROLLER.getValue(self.ch)
             return gain_map[gainstring]
         except Exception :
             import sys
