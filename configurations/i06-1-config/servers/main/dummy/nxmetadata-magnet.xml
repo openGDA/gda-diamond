@@ -175,10 +175,6 @@
 								<property name="units" value="K"/>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
-								<property name="name" value="heater_output_range"/>
-								<property name="value" value="Low"/>
-							</bean>
-							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="heater_manual_output"/>
 								<property name="value">
 									<value type="java.lang.Double">0.500</value>
