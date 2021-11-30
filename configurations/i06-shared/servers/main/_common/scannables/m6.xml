@@ -38,20 +38,20 @@
 	<bean id="m6roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorRoll_M6" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="uRad" />
+		<property name="hardwareUnitString" value="uRad" />
 	</bean>
 	<bean id="m6yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorYaw_M6" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="uRad" />
+		<property name="hardwareUnitString" value="uRad" />
 	</bean>
 	<bean id="m6pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorPitch_M6" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="hardwareUnitString" value="deg" />
+		<property name="initialUserUnits" value="uRad" />
+		<property name="hardwareUnitString" value="uRad" />
 	</bean>
 	<bean id="m6qg" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorFinePitch_M6" />
