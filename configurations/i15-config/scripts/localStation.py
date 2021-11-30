@@ -72,7 +72,6 @@ global run, etl, prop, add_default, vararg_alias, \
 	pin3x, pin3y,\
 	sx, sy, sz, spitch, syaw, sroll,\
 	spivotx, spivoty, spivotz, sphi, ssx, ssz,\
-	d7x, d7y,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9, \
@@ -719,7 +718,6 @@ try:
 				'pin3x', 'pin3y',
 				'sx', 'sy', 'sz', 'spitch', 'syaw', 'sroll',
 				'spivotx', 'spivoty', 'spivotz', 'sphi', 'ssx', 'ssz',
-				'd7x', 'd7y',
 				'bs2x', 'bs2y', 'bs3x', 'bs3y', 'bs3z',
 				'det2z',
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
