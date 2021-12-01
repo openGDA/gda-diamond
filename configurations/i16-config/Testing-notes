@@ -1,4 +1,15 @@
 ================================================================================
+I16-389 Run standard test scripts after any change to GDA
+================================================================================
+
+scan x 1 2 1
+pos pil3 1 # Can't be run before first scan
+help ub
+ub
+scan x 1 10 1 pil3 1 roi1 roi2
+scancn phi .01 21 pil3 .5 lcroi
+
+================================================================================
 I16-477 Investigate problems with I16 cv scanning
 I16-350 Switch I16 data files to use nexus image data rather than tif
 I16-299 Implement GDA side of cvscan for remaining diffractometer axes

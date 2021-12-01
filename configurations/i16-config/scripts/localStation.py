@@ -1423,43 +1423,52 @@ if installation.isLive():
 	#add_default(adctab)
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 
-try:
-	meta_scannable_names = ['dummypd', 'mrwolf', 'diffractometer_sample', 'sixckappa']
-	if not USE_DIFFCALC:
-		meta_scannable_names += ['xtalinfo']
-	meta_scannable_names += ['source', 'jjslits', 'pa', 'PPR',
-			  'positions', 'gains_atten', 'mirrors', 'beamline_slits', 'mono', 'lakeshore', 'offsets',
-			  's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans',
-			  'ppy', 'ppx', 'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
-			  'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans']
+def meta_std(full=True):
+	try:
+		meta_scannable_names = ['dummypd', 'mrwolf', 'diffractometer_sample', 'sixckappa',
+							'source', 'pa', 'mirrors', 'beamline_slits', 'mono']
+		if not USE_DIFFCALC:
+			meta_scannable_names += ['xtalinfo']
+		if full:
+			meta_scannable_names += ['jjslits', 'PPR', 'positions', 'gains_atten', 'lakeshore', 'offsets',
+									's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans', 'ppy', 'ppx', 
+									'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
+									'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans',
+									'Energy', 'ubMeta']
 
-	addedInSpring = ['sixckappa', 'delta_axis_offset'] # See /i16-config/servers/main/_common/nxmetadata.xml
+		addedInSpring = ['sixckappa', 'delta_axis_offset'] # See /i16-config/servers/main/_common/nxmetadata.xml
 
-	meta_scannable_names = [ _x for _x in meta_scannable_names if _x != None and not _x in addedInSpring ]
+		meta_scannable_names = [ _x for _x in meta_scannable_names if _x != None and not _x in addedInSpring ]
 
-	from gdascripts.scannable.metadata import _is_scannable
+		from gdascripts.scannable.metadata import _is_scannable
 
-	if USE_NEXUS_METADATA_COMMANDS:
-		try:
-			meta_clear_alldynamical()
-		except:
-			pass
-		localStation_print("Adding metadata:")
-		for item in meta_scannable_names:
-			if _is_scannable(jythonNameMap[item]):
-				meta_add(jythonNameMap[item])
-				localStation_print("  %s added" % item)
-			else:
-				localStation_print("  %s was not scannable and could not be entered as metadata" % item)
-	else:
-		meta.add(*[jythonNameMap[item] for item in meta_scannable_names])
+		if USE_NEXUS_METADATA_COMMANDS:
+			try:
+				meta_clear_alldynamical()
+			except:
+				pass
+			localStation_print("Adding metadata:")
+			for item in meta_scannable_names:
+				if _is_scannable(jythonNameMap[item]):
+					meta_add(jythonNameMap[item])
+					localStation_print("  %s added" % item)
+				else:
+					localStation_print("  %s was not scannable and could not be entered as metadata" % item)
+		else:
+			meta.add(*[jythonNameMap[item] for item in meta_scannable_names])
 
-	meta.prepend_keys_with_scannable_names = False
-	mds=meta
-except NameError, e:
-	# diffractometer_sample,xtalinfo are not yet available with diffcalc
-	print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
-	localStation_exception("trying to set up metadata, metadata will not be properly written to files.", e)
+		meta.prepend_keys_with_scannable_names = False
+		mds=meta
+	except NameError, e:
+		# diffractometer_sample,xtalinfo are not yet available with diffcalc
+		print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
+		localStation_exception("trying to set up metadata, metadata will not be properly written to files.", e)
+
+def meta_minimal():
+	meta_std(False)
+
+alias("meta_std")
+alias("meta_minimal")
 
 if USE_CRYO_GEOMETRY:
 	try:
@@ -1720,32 +1729,11 @@ try:
 except:
 	localStation_exception("setting diffcalc ubmeta scannable")
 
-######### temp 24/04/2018 #############
-
+# Define offset between pilatus detector and analyser crystal
 do.pil = 8.8
 
-def diodein():
-	pos(tthp, 0)
-	pos(dettrans, 0)
-
-def apdin():
-	pos(tthp, -0.35)
-	pos(dettrans -27.71)
-
-def vortexin():
-	pos(tthp, 85.4-96.5)
-	pos(dettrans, 25)
-
-def pilin():
-	pos(do, do.pil)
-	pos(s6ygap, 2)
-	pos(s6ytrans, 10.433)
-	pos(s6ygap, 9)
-
-def pilout():
-	pos(do, 0)
-	pos(s6ygap, 2.8)
-	pos(s6ytrans, 0)
+# Setting the standard metadata scannables should be last 
+meta_std()
 
 if installation.isLive():
 	print "*"*80
