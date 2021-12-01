@@ -770,7 +770,7 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 			scan_params.extend(_sweepScanParams(detector, exposeTime, fileName,
 				sweepMotor, sweepStart, sweepEnd, sweepAngle, totalExposures))
 		else:
-			logger.info("Detector %s does not support continuous sweep scans, doing each rock individually..." % (detector.namee))
+			logger.info("Detector %s does not support continuous sweep scans, doing each rock individually..." % (detector.name))
 			_sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle,
 				totalExposures, scan_params)
 			scan_params=[] # Delete original scan_params so the ConcurrentScan isn't performed too.

@@ -67,7 +67,7 @@
 
 	<bean id="pil3cbf"
 			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
-		<property name="name" value="pil3"/>
+		<property name="name" value="pil3cbf"/>
 		<!-- 
 		<property name="readOutTime" value="240"/>
 		 -->
