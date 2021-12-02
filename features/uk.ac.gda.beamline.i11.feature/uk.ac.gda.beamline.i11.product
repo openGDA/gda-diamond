@@ -27,12 +27,9 @@ PyDev http://pydev.org/
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.config=${workspace_loc:i11-config}
+      <vmArgs>-Dgda.config=${workspace_loc:i11-config}
 -Dgda.mode=dummy
 -Dgda.propertiesFile=${workspace_loc:i11-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${workspace_loc:i11-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i11-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
@@ -42,8 +39,6 @@ PyDev http://pydev.org/
 -Dgda.core.dir=${workspace_loc:core-config}
 -Xms1g
 -Xmx4g
--XX:PermSize=128m
--XX:MaxPermSize=2048m
 -XX:-UseCompressedOops
 -Dorg.dawb.editor.h5.use.default=false
 -Dosgi.framework.extensions=org.eclipse.fx.osgi

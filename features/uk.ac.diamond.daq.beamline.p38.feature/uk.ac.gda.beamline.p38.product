@@ -24,8 +24,6 @@
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms1g
 -Xmx4g
--XX:PermSize=128m
--XX:MaxPermSize=512m
 -XX:-UseCompressedOops
 -Dorg.dawb.editor.h5.use.default=false
       </vmArgs>
