@@ -10,12 +10,19 @@
 		<property name="sourceSelectable" value="true"/>
 		<property name="XRaySourceEnergyLimit" value="2100"/>
 	</bean>
+	
+	<bean id="regionDefinitionResourceUtilForCreator" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
+		<property name="sourceSelectable" value="false"/>
+		<property name="XRaySourceEnergyLimit" value="2100"/>
+	</bean>
+	
 	<bean id="analysercamera" class="org.opengda.detector.electronanalyser.client.Camera">
 		<property name="frameRate"	value="17" />
 		<property name="energyResolution" value="0.0877"/>
 		<property name="cameraXSize" value="1000"/>
 		<property name="cameraYSize" value="900"/>
 	</bean>
+	
 	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
 	<property name="name" value="regionvalidator"/>
 		<property name="lookupTablePathMap">
@@ -27,6 +34,18 @@
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="pgmEnergy" ref="pgmenergy" />
 		<property name="dcmEnergy" ref="dcmenergy" />
+	</bean>
+	
+	<bean id="regionvalidatorForCreator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
+	<property name="name" value="regionvalidatorForCreator"/>
+		<property name="lookupTablePathMap">
+			<map>
+				<entry key="Low" value="${gda.config}/lookupTables/low_elementset_table.txt"/>
+				<entry key="High" value="${gda.config}/lookupTables/high_elementset_table.txt"/>
+			</map>
+		</property>
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
+		<property name="offlineValidation" value="true"/>
 	</bean>
 	
 	<bean id="sequenceviewfactory"
@@ -43,6 +62,14 @@
 		<property name="hardShutterPV" value="BL09I-EA-FSHTR-01:CTRL"/>
 		<property name="softShutterPV" value="BL09J-EA-FSHTR-01:CTRL"/>
 		<property name="regionValidator" ref="regionvalidator"/>
+	</bean>
+	
+	<bean id="sequencecreatorfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceCreatorFactory">
+		<property name="viewPartName" value="Sequence Creator" />
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
+		<property name="camera" ref="analysercamera"/>
+		<property name="regionValidator" ref="regionvalidatorForCreator"/>
 	</bean>
 	
 	<bean id="regionviewfactory"
@@ -68,6 +95,14 @@
 		<property name="zeroSuppliesPV" value="BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"/>
 		<property name="pgmEnergy" ref="pgmenergy" />
 		<property name="dcmEnergy" ref="dcmenergy" />
+	</bean>
+	
+	<bean id="regioncreatorfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionCreatorFactory">
+		<property name="viewPartName" value="Region Creator" />
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
+		<property name="camera" ref="analysercamera"/>
+		<property name="analyser" ref="analyser"/>
 	</bean>
 
 	<bean id="spectrumviewfactory"
