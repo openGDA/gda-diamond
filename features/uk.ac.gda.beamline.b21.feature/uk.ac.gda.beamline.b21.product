@@ -15,7 +15,6 @@
 -Dgda.config=${workspace_loc:b21-config}
 -Dgda.mode=dummy
 -Dgda.propertiesFile=${workspace_loc:b21-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${workspace_loc:b21-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${workspace_loc:b21-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
@@ -26,8 +25,6 @@
 -Dgda.core.dir=${workspace_loc:core-config}
 -Xms1g
 -Xmx4g
--XX:PermSize=128m
--XX:MaxPermSize=512m
 -XX:-UseCompressedOops
 -Dorg.dawb.editor.h5.use.default=false
 -Dgda.install.workspace.loc=${workspace_loc}
