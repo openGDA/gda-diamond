@@ -90,12 +90,14 @@
 		<property name="yMotor" ref="xtal_minus1_y" />
 		<property name="pitchMotor" ref="xtal_minus1_pitch" />
 		<property name="rotMotor" ref="xtal_minus1_rot" />
+		<property name="horizontalIndex" value="-1" />	
 	</bean>
 
 	<bean id="centreCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
 		<property name="yMotor" ref="xtal_central_y" />
 		<property name="pitchMotor" ref="xtal_central_pitch" />
 		<property name="rotMotor" ref="xtal_central_rot" />
+		<property name="horizontalIndex" value="0" />	
 	</bean>
 
 	<bean id="plusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
@@ -103,6 +105,7 @@
 		<property name="yMotor" ref="xtal_plus1_y" />
 		<property name="pitchMotor" ref="xtal_plus1_pitch" />
 		<property name="rotMotor" ref="xtal_plus1_rot" />
+		<property name="horizontalIndex" value="1" />	
 	</bean>
 
 	<bean id="spectrometerCrystals" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -191,12 +194,14 @@
 		<property name="yMotor" ref="dummy_xtal_minus1_y" />
 		<property name="pitchMotor" ref="dummy_xtal_minus1_pitch" />
 		<property name="rotMotor" ref="dummy_xtal_minus1_rot" />
+		<property name="horizontalIndex" value="-1" />
 	</bean>
 
 	<bean id="dummyCentreCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
 		<property name="yMotor" ref="dummy_xtal_central_y" />
 		<property name="pitchMotor" ref="dummy_xtal_central_pitch" />
 		<property name="rotMotor" ref="dummy_xtal_central_rot" />
+		<property name="horizontalIndex" value="0" />
 	</bean>
 
 	<bean id="dummyPlusCrystal" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerCrystal" >
@@ -204,14 +209,15 @@
 		<property name="yMotor" ref="dummy_xtal_plus1_y" />
 		<property name="pitchMotor" ref="dummy_xtal_plus1_pitch" />
 		<property name="rotMotor" ref="dummy_xtal_plus1_rot" />
+		<property name="horizontalIndex" value="1" />
 	</bean>
 
 	<bean id="dummySpectrometerCrystals" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="minusCrystal" />
-				<ref bean="centreCrystal" />
-				<ref bean="plusCrystal" />
+				<ref bean="dummyMinusCrystal" />
+				<ref bean="dummyCentreCrystal" />
+				<ref bean="dummyPlusCrystal" />
 			</list>
 		</property>
 	</bean>

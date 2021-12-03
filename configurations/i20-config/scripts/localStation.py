@@ -161,13 +161,26 @@ else :
     if material() == None:
         material('Si')
     # Set positions of some scannables to reasonable positions so that XESBragg calculation has a chance of working
+    
+    for scn in spectrometer.getGroupMembers() :
+        scn.getMotor().setSpeed(10000)
+
+    for crys in crystalsAllowedToMove.getGroupMembers() :
+        crys.moveTo("true")
+    
+    for cut in [cut1, cut2, cut2] :
+        cut.moveTo(1)
+
     pos det_y 475.0
     pos xtal_x 1000.0
     pos radius 1000.0
-
+        
     # Set ROI plugin base pv name : real detector uses 'ROI1', simulated area detector uses 'ROI:'
     detectorPreparer.setRoiPvName("ROI:")
 
+# Set the speed of the XES simulated position scannables 
+for scn in dummy_spectrometer.getGroupMembers() :
+    scn.getMotor().setSpeed(10000)
 
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
 
