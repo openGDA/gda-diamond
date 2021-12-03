@@ -146,6 +146,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private Button useTopupCheckerCheckbox;
 
+	private ExperimentUnit accumulationTimeUnits;
+
 	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.toolkit = toolkit;
@@ -161,6 +163,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			showRealTimePerSpectrum = false;
 			showAccumulationReadoutControls = false;
 		}
+		accumulationTimeUnits = DetectorModel.INSTANCE.getUnitForAccumulationTime();
 
 		try {
 			setupUI();
@@ -627,7 +630,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		i0IntegrationTimeValueText = new NumberEditorControl(i0AcquisitionSectionComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
 		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		i0IntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
+		i0IntegrationTimeValueText.setUnit(accumulationTimeUnits.getUnitText());
 		i0IntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 		i0NoOfaccumulationsComposite = toolkit.createComposite(i0AcquisitionSectionComposite);
@@ -658,7 +661,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.IREF_INTEGRATION_TIME_PROP_NAME, false);
 		iRefIntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		iRefIntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
+		iRefIntegrationTimeValueText.setUnit(accumulationTimeUnits.getUnitText());
 
 		label = toolkit.createLabel(iRefDetailsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -831,7 +834,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					return Double.toString(unitForTextbox.convertToDefaultUnit(Double.parseDouble((String) fromObject)));
 				}
 			});
-			integrationTimeValueText.setUnit(DetectorModel.INSTANCE.getUnitForAccumulationTime().getUnitText());
+			integrationTimeValueText.setUnit(accumulationTimeUnits.getUnitText());
 			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 			if ( showAccumulationReadoutControls ) {

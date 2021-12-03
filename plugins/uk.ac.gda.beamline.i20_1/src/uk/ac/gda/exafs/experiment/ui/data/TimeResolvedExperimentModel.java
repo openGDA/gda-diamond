@@ -180,8 +180,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	 * @throws DeviceException
 	 */
 	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
+
 		TimeResolvedExperimentParameters params = new TimeResolvedExperimentParameters();
-		params.setI0AccumulationTime(unit.getWorkingUnit().convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC));
+
+		ExperimentUnit accumulationTimeUnit = DetectorModel.INSTANCE.getUnitForAccumulationTime();
+		params.setI0AccumulationTime(accumulationTimeUnit.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC));
 		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
 			params.setI0NumAccumulations(experimentDataModel.getI0NumberOfAccumulations());
 		}
@@ -202,7 +205,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			} else {
 				params.setI0ForIRefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
 			}
-			params.setIrefIntegrationTime(unit.getWorkingUnit().convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC));
+			params.setIrefIntegrationTime(accumulationTimeUnit.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC));
 			params.setIrefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
 		}
 
@@ -233,7 +236,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		setupExternalTriggerSettings(params.getItTriggerOptions());
 
-		double i0Time = ExperimentUnit.SEC.convertTo(params.getI0AccumulationTime(), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF);
+		ExperimentUnit accumulationTimeUnit = DetectorModel.INSTANCE.getUnitForAccumulationTime();
+		double i0Time = ExperimentUnit.SEC.convertTo(params.getI0AccumulationTime(), accumulationTimeUnit);
 		experimentDataModel.setI0IntegrationTime(i0Time);
 		if (params.getI0NumAccumulations()>0) {
 			experimentDataModel.setI0NumberOfAccumulations(params.getI0NumAccumulations());
@@ -244,7 +248,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		// IRef num accumulations, integration time
 		if (params.getDoIref()) {
-			double irefTime = ExperimentUnit.SEC.convertTo(params.getIrefIntegrationTime(), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF);
+			double irefTime = ExperimentUnit.SEC.convertTo(params.getIrefIntegrationTime(), accumulationTimeUnit);
 			experimentDataModel.setIrefIntegrationTime(irefTime);
 			experimentDataModel.setIrefNoOfAccumulations(params.getIrefNoOfAccumulations());
 		}
@@ -488,9 +492,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	protected <T> StringBuilder buildScanCommand(String objectName, Class<T> classObj) {
 		StringBuilder builder = new StringBuilder(ModelHelpers.getJythonImportCommand(classObj));
+
 		// use %g format rather than %f for I0 and It integration times to avoid rounding to 0 for small values <1msec (i.e. requiring >6 decimal places). imh 7/12/2015
-		builder.append(String.format("%s = %s(%g", objectName, classObj.getSimpleName(),
-				ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)) );
+		double i0IntegrationTime = DetectorModel.INSTANCE.getUnitForAccumulationTime().convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC);
+		builder.append(String.format("%s = %s(%g", objectName, classObj.getSimpleName(), i0IntegrationTime) );
 
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");%n",
 				"None",

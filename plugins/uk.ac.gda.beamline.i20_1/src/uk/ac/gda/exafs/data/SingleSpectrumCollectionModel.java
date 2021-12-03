@@ -135,8 +135,8 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
 		TimeResolvedExperimentParameters params = new TimeResolvedExperimentParameters();
 
-		// Conversion factor from seconds to default experiment time unit (ns)
-		double conversion = ExperimentUnit.MILLI_SEC.convertTo(1.0, ExperimentUnit.SEC);
+		// Conversion factor from GUI time units (micro or milli-seconds) to seconds
+		double conversion = DetectorModel.INSTANCE.getUnitForAccumulationTime().convertTo(1.0, ExperimentUnit.SEC);
 
 		int numI0Accumulations;
 		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
@@ -195,13 +195,14 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		List<TimingGroup> timingGroups = params.getItTimingGroups();
 		TimingGroup group0 = timingGroups.get(0);
 
-		double conversion = ExperimentUnit.SEC.convertTo(1.0, ExperimentUnit.MILLI_SEC);
+		double conversion = ExperimentUnit.SEC.convertTo(1.0, DetectorModel.INSTANCE.getUnitForAccumulationTime());
 
 		int numItAccum = group0.getNumberOfScansPerFrame();
 		int numI0Accum = params.getI0NumAccumulations();
 		boolean setI0Accum = numI0Accum!=numItAccum;
 		experimentDataModel.setUseNoOfAccumulationsForI0(setI0Accum);
 		experimentDataModel.setI0IntegrationTime(conversion*params.getI0AccumulationTime());
+		experimentDataModel.setI0NumberOfAccumulations(numI0Accum);
 
 		setItIntegrationTime(conversion*group0.getTimePerScan());
 		setItNumberOfAccumulations(numItAccum);

@@ -56,6 +56,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.experiment.trigger.DetectorDataCollection;
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
@@ -349,8 +350,12 @@ public class ExternalTriggerPlot {
 	}
 
 	private double getMinPulseTime() {
-		TriggerableObject detCollectionPulse = externalTriggerSetting.getTfgTrigger().getDetectorDataCollection();
-		TriggerableObject sampleEnvPulse = Collections.min(externalTriggerSetting.getTfgTrigger().getSampleEnvironment());
+		TFGTrigger tfgTrigger = externalTriggerSetting.getTfgTrigger();
+		if (tfgTrigger.getSampleEnvironment().isEmpty()) {
+			return 0;
+		}
+		TriggerableObject detCollectionPulse = tfgTrigger.getDetectorDataCollection();
+		TriggerableObject sampleEnvPulse = Collections.min(tfgTrigger.getSampleEnvironment());
 		double minPulse = Math.min(detCollectionPulse.getTriggerDelay(),  sampleEnvPulse.getTriggerDelay());
 		return Math.min(minPulse,  0.0);
 	}

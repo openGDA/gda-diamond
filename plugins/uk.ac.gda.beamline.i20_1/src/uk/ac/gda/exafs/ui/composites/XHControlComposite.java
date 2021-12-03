@@ -70,6 +70,7 @@ import uk.ac.gda.ede.data.ClientConfig;
 import uk.ac.gda.ede.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.ui.components.NumberEditorControl;
@@ -98,6 +99,8 @@ public class XHControlComposite extends Composite implements IObserver {
 	private NumberEditorControl txtLiveTime;
 	private NumberEditorControl txtLiveNumScansPerFrame;
 	private NumberEditorControl txtRefreshPeriod;
+	private ExperimentUnit accumulationTimeUnits;
+
 	private ILineTrace lineTrace;
 	private EdeDetector detector;
 
@@ -168,6 +171,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	public XHControlComposite(Composite parent, IPlottingSystem<Composite> plottingSystem) {
 		super(parent, SWT.None);
 		detector = DetectorModel.INSTANCE.getCurrentDetector();
+		accumulationTimeUnits = DetectorModel.INSTANCE.getUnitForAccumulationTime();
 		this.plottingSystem = plottingSystem;
 		setupEnergySpectrumTraceLine();
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -178,6 +182,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		DetectorModel.INSTANCE.addPropertyChangeListener(event -> {
 			if (event.getPropertyName().equals(DetectorModel.DETECTOR_CONNECTED_PROP_NAME)) {
 				detector = DetectorModel.INSTANCE.getCurrentDetector();
+				accumulationTimeUnits = DetectorModel.INSTANCE.getUnitForAccumulationTime();
 				logger.debug("Updating live view to use {} detector", detector.getName());
 			}
 		});
@@ -242,7 +247,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		detectorControlModel.setSnapshotIntegrationTime(storedSnapShotTime);
 		txtSnapTime = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.SNAPSHOT_INTEGRATION_TIME_PROP_NAME, true);
-		txtSnapTime.setUnit(UnitSetup.MILLI_SEC.getText());
+		txtSnapTime.setUnit(accumulationTimeUnits.getUnitText());
 		txtSnapTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		txtSnapTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -349,7 +354,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		Label lbl = toolkit.createLabel(bendSelectionComposite, "Accumulation time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		txtLiveTime = new NumberEditorControl(bendSelectionComposite, SWT.None, detectorControlModel, DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, true);
-		txtLiveTime.setUnit(UnitSetup.MILLI_SEC.getText());
+		txtLiveTime.setUnit(accumulationTimeUnits.getUnitText());
 		txtLiveTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		txtLiveTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -428,8 +433,11 @@ public class XHControlComposite extends Composite implements IObserver {
 	 * @throws DeviceException
 	 */
 	private void prepareDetector(Double accumulationTime, int numberOfFrames, Integer numAccumulations) throws DeviceException {
-		logger.debug("Preparing {} detector with scan parameters : {} frames, {} ms accumulation time, {} accumulations",
-				detector.getName(), numberOfFrames, accumulationTime, numAccumulations);
+		double accumulationTimeSec = accumulationTimeUnits.convertTo(accumulationTime, ExperimentUnit.SEC);
+
+		logger.debug("Preparing {} detector with scan parameters : {} frames, {} sec accumulation time, {} accumulations",
+				detector.getName(), numberOfFrames, accumulationTimeSec, numAccumulations);
+
 		EdeScanParameters simpleParams = new EdeScanParameters();
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		simpleParams.setIncludeCountsOutsideROIs(true);
@@ -438,8 +446,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(numberOfFrames);
 		group1.setNumberOfScansPerFrame(numAccumulations);
-		group1.setTimePerScan(accumulationTime/1000);
-		group1.setTimePerFrame(accumulationTime/1000*numAccumulations);
+		group1.setTimePerScan(accumulationTimeSec);
+		group1.setTimePerFrame(accumulationTimeSec*numAccumulations);
 		simpleParams.addGroup(group1);
 		detector.prepareDetectorwithScanParameters(simpleParams);
 		if (detector.getName().equals("frelon")) {
