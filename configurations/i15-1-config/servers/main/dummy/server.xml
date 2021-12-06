@@ -27,9 +27,7 @@
 	</bean>
 
 	<import resource="device/all.xml"/>
-<!-- transient devices not needed in dummy
 	<import resource="transient/all.xml"/>
- -->
 
 	<import resource="metadata.xml"/>
 	<import resource="terminal_logger.xml"/>
