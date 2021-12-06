@@ -171,4 +171,6 @@ public interface EdeDetector extends NexusDetector {
 	 * @throws DeviceException
 	 */
 	int getLastImageAvailable() throws DeviceException;
+
+	int getMaxNumFramesToRead();
 }

@@ -220,17 +220,17 @@ public class EdeScanTest extends EdeTestBase {
 	@Test
 	public void testRunScan() throws Exception {
 		setup(EdeScanTest.class, "testRunScan");
-		runEdeScan(-1, 1);
+		runEdeScan(-1);
 	}
 
 	@Test
 	public void testRunScanOutputProgressData() throws Exception {
 		setup(EdeScanTest.class, "testRunScanOutputProgressData");
 		// create the extra columns by having number of repetitions >= 0
-		runEdeScan(10, 1);
+		runEdeScan(10);
 	}
 
-	private void runEdeScan(int repetitionNumber, int numberExpectedAsciiColumns) throws Exception {
+	private void runEdeScan(int repetitionNumber) throws Exception {
 		EdeScanParameters scanParams = new EdeScanParameters();
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
@@ -246,26 +246,14 @@ public class EdeScanTest extends EdeTestBase {
 		EdeScan theScan = new EdeScan(scanParams, inBeam, EdeScanType.LIGHT, xh, repetitionNumber, createShutter2(),null);
 		theScan.runScan();
 
-		List<ScanDataPoint> data = theScan.getData();
+		// 10 output columns if including repetition information (from FrameIndexer)
+		int numColumns = repetitionNumber < 0 ? 5 : 10;
 
-		assertEquals(20, data.size());
-
-		// test the SRS file to see if the number of columns is correct
-		FileReader asciiFile = new FileReader(testDir + File.separator + "1.dat");
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
-			reader.readLine(); // &SRS
-			reader.readLine(); // &END
-			reader.readLine(); // header line
-			String dataString = reader.readLine(); // first data point
-			String[] dataParts = dataString.split("\t");
-			assertEquals(numberExpectedAsciiColumns, dataParts.length);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
+		assertEquals(group1.getNumberOfFrames(), theScan.getTotalNumberOfPoints());
+		theScan.getDataWriter().getCurrentFileName();
+		// test the Ascii file file to see if the number of columns is correct
+		String asciiFilePath = Paths.get(testDir, "1.dat").toString();
+		checkAsciiFile(asciiFilePath, numColumns, group1.getNumberOfFrames(), "Total");
 	}
 
 	@Test
@@ -274,28 +262,32 @@ public class EdeScanTest extends EdeTestBase {
 		LocalProperties.set("gda.nexus.createSRS", "true");
 		ScannableMotor xScannable = createMotor("xScannable");
 		StepScanEdeDetector ssxh = new StepScanEdeDetector();
+		ssxh.setName("ssxh");
 		ssxh.setDetector(xh);
 
 		int numExpectedColumns = 6;
-		int numExpectedDataRows = 11;
+		int numExpectedRows = 11;
 
 		Scan scan = new ConcurrentScan(new Object[] { xScannable, 0., 10., 1., ssxh, 0.2 });
 		scan.runScan();
 		String nxsFilename = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation().getFilename();
 		String asciiFilename = nxsFilename.replace(".nxs", ".dat");
+		asciiFilename = asciiFilename.replace("nexus", "ascii");
 
 		// Test dimensions of scan data in Nexus file
-		checkDetectorData(nxsFilename, xh.getName(), numExpectedDataRows);
-		assertDimensions(nxsFilename, xh.getName(), xScannable.getName(), new int[] {numExpectedDataRows});
+		checkDetectorData(nxsFilename, xh.getName(), numExpectedRows);
+		assertDimensions(nxsFilename, xh.getName(), xScannable.getName(), new int[] {numExpectedRows});
 
-		// test the SRS file to see if the number of columns and rows are correct
-		FileReader asciiFile = new FileReader(asciiFilename);
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(asciiFile);
+		checkAsciiFile(asciiFilename, numExpectedColumns, numExpectedRows, xScannable.getName());
+	}
+
+	private void checkAsciiFile(String asciiFilename, int numExpectedColumns, int numExpectedRows, String scnName) throws IOException {
+		// test the Ascii file to see if the number of columns and rows are correct
+		try(BufferedReader reader = new BufferedReader(new FileReader(asciiFilename))) {
 			// Skip header parts
-			String dataString = "";
-			while( !dataString.startsWith(xScannable.getName()) ) {
+			String dataString = dataString=reader.readLine(); // skip the first line
+			dataString=reader.readLine();
+			while( !dataString.replace("#","").trim().contains(scnName) ) {
 				dataString=reader.readLine();
 			}
 			// Read first row of data
@@ -311,12 +303,7 @@ public class EdeScanTest extends EdeTestBase {
 			}
 
 			// Check number of rows of data is
-			assertEquals(numExpectedDataRows, numDataRows);
-
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
+			assertEquals(numExpectedRows, numDataRows);
 		}
 	}
 
@@ -925,6 +912,7 @@ public class EdeScanTest extends EdeTestBase {
 	protected void setup(Class<?> classType, String testName) throws Exception {
 		super.setup(classType, testName);
 		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "");
+		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "XasAsciiNexusDataWriter");
 	}
 
 	@Test
@@ -987,7 +975,6 @@ public class EdeScanTest extends EdeTestBase {
 		assertTrue("Scan was not stopped early", numFrames < motorPositions.getMotorPositionsDuringScan().size());
 
 		// Check data in Nexus file have correct dimensions
-		String filePath = Paths.get(testDir, "1.nxs").toAbsolutePath().toString();
-		checkDetectorData(filePath, xh.getName(), numFrames);
+		checkDetectorData(theScan.getDataWriter().getCurrentFileName(), xh.getName(), numFrames);
 	}
 }

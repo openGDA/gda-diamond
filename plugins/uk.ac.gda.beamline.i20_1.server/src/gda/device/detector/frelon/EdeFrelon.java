@@ -85,11 +85,11 @@ public class EdeFrelon extends EdeDetectorBase implements FrelonDetector {
 	private static final String ACCUMULATION_READOUT_TIME = "accumulationReadoutTime";
 
 	public EdeFrelon() {
-		inputNames = new String[] {};
+		super();
 	}
 
 	public EdeFrelon(Frelon frelon, LimaCCD limaCcd) {
-		inputNames = new String[] {};
+		super();
 		this.setFrelon(frelon);
 		this.setLimaCcd(limaCcd);
 	}

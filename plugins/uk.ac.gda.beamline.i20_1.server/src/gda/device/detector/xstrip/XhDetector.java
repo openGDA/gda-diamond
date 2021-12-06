@@ -116,14 +116,12 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	public XhDetector() {
 		super();
 		// defaults which will be updated when number of sectors changed
-		inputNames = new String[] { "time" };
 		detectorTemp=new XhDetectorTemperature(daServer, "xh_temperatures");
 	}
 
 	// Added so that correct daServer and detector name (not null!) are passed to XHDetectorTemperature when bean is created. imh 16/10/2015
 	public XhDetector(DAServer daServer, String detectorName) {
 		super();
-		inputNames = new String[] { "time" };
 		this.daServer = daServer;
 		this.detectorName = detectorName;
 		detectorTemp = new XhDetectorTemperature(daServer, detectorName);

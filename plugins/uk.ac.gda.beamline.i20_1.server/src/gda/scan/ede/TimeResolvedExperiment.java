@@ -21,6 +21,7 @@ package gda.scan.ede;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.dawnsci.ede.EdeScanType;
 
@@ -241,10 +242,9 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		}
 		// Add the cycle number to plot label if num cycles is > 1
 		if (repetitions > 1) {
-			for(EdeScan sc : itScans) {
-				sc.setIncludeCyclePlotLabel(true);
-			}
+			Stream.of(itScans).forEach(sc -> sc.setIncludeCyclePlotLabel(true));
 		}
+		Stream.of(itScans).forEach(sc-> sc.setNoOfSecPerSpectrumToPublish(noOfSecPerSpectrumToPublish));
 
 		// Make Topup checker for final I0 scan (I0 collection time + time for motor move from It to I0)
 		topupChecker= null;

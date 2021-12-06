@@ -37,6 +37,8 @@ import com.google.gson.Gson;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
+import gda.data.scan.datawriter.DataWriter;
+import gda.data.scan.datawriter.DefaultDataWriterFactory;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
 import gda.data.scan.datawriter.NexusFileMetadata;
@@ -349,7 +351,6 @@ public abstract class EdeExperiment implements IObserver {
 				&& scanParams.getTotalNumberOfFrames() > frameThresholdForFastDataWriting) {
 			edeScan.setUseNexusTreeWriter(true);
 		}
-
 		return edeScan;
 	}
 	/**
@@ -412,6 +413,8 @@ public abstract class EdeExperiment implements IObserver {
 		addScansForExperiment();
 		addMetaData();
 
+		long startTime = System.currentTimeMillis();
+		logger.info("Scan started");
 		try {
 			addToMultiScanAndRun();
 		} catch (ScanInterruptedException e) {
@@ -426,6 +429,7 @@ public abstract class EdeExperiment implements IObserver {
 			InterfaceProvider.getTerminalPrinter().print("Close shutter at end of scan, before writing ascii files.");
 			mainShutterMoveTo(ValvePosition.CLOSE);
 		}
+		logger.info("Scan finished : {} ms", System.currentTimeMillis()-startTime);
 		return writeToFiles();
 	}
 
@@ -467,18 +471,25 @@ public abstract class EdeExperiment implements IObserver {
 			plotNothing.setYAxesShown(new String[]{});
 			plotNothing.setYAxesNotShown(new String[]{});
 
-			XasAsciiNexusDataWriter dataWriter = new XasAsciiNexusDataWriter();
+			DataWriter dataWriter = DefaultDataWriterFactory.createDataWriterFromFactory();
 			addMetaData(dataWriter);
 
 			String filenameTemplate = "%d";
 			if (!fileNameSuffix.isEmpty()) {
 				filenameTemplate += "_"+fileNameSuffix;
 			}
-			String template = "ascii/" + filenameTemplate+".dat";
-			dataWriter.setAsciiFileNameTemplate(template);
+			if (dataWriter instanceof XasAsciiNexusDataWriter) {
+				String template = "ascii/" + filenameTemplate+".dat";
+				((XasAsciiNexusDataWriter)dataWriter).setAsciiFileNameTemplate(template);
+			}
 
-			template = "nexus/" + filenameTemplate+".nxs";
-			dataWriter.setNexusFileNameTemplate(template);
+			String template = "nexus/" + filenameTemplate+".nxs";
+			if (dataWriter instanceof NexusDataWriter) {
+				((NexusDataWriter)dataWriter).setNexusFileNameTemplate(template);
+			}
+			if (dataWriter instanceof XasAsciiNexusDataWriter) {
+				((XasAsciiNexusDataWriter)dataWriter).setNexusFileNameTemplate(template);
+			}
 
 			List<ScanBase> allScans = addAllScans();
 			setMultiScan(new MultiScan(allScans));
@@ -561,7 +572,7 @@ public abstract class EdeExperiment implements IObserver {
 		return getTimeRequiredBeforeItCollection() + getTimeRequiredForItCollection() + getTimeRequiredAfterItCollection();
 	}
 
-	private void addMetaData(XasAsciiNexusDataWriter dataWriter) {
+	private void addMetaData(DataWriter dataWriter) {
 		StringBuilder metadataText = new StringBuilder();
 		// Alignment parameters
 		Object result = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
@@ -574,7 +585,9 @@ public abstract class EdeExperiment implements IObserver {
 
 			ArrayList<String> arrayList = new ArrayList<String>();
 			arrayList.add(sampleDetails);
-			dataWriter.setDescriptions(arrayList);
+			if (dataWriter instanceof XasAsciiNexusDataWriter) {
+				((XasAsciiNexusDataWriter)dataWriter).setDescriptions(arrayList);
+			}
 		}
 		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", metadataText.toString(),
 				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
@@ -752,16 +765,14 @@ public abstract class EdeExperiment implements IObserver {
 			else if (source.equals(i0LightScan)) {
 				lastI0Data = i0LightScan.extractLastDetectorDataSet();
 				// Get the first spectrum for each group is current group number because I0 has only one spectrum for each group
-				int i0DarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
-				DoubleDataset i0DarkForI0LightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
+				DoubleDataset i0DarkForI0LightData = getDataForCurrentGroup(i0DarkScan, progress);
 				lastI0Data = lastI0Data.isubtract(i0DarkForI0LightData);
 				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeDataConstants.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
 			} else if (source.equals(i0FinalScan)) {
 				lastI0FinalData = i0FinalScan.extractLastDetectorDataSet();
 				// Get the first spectrum for each group is current group number because I0 has only one spectrum for each group
-				int i0DarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
-				DoubleDataset i0DarkForI0LightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
+				DoubleDataset i0DarkForI0LightData = getDataForCurrentGroup(i0DarkScan, progress);
 				lastI0FinalData = lastI0FinalData.isubtract(i0DarkForI0LightData);
 				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeDataConstants.I0_FINAL_CORR_COLUMN_NAME, lastI0FinalData, lastEnergyData));
@@ -790,13 +801,11 @@ public abstract class EdeExperiment implements IObserver {
 					// TODO this will be affected by changes to EdeScan
 					lastItData = ((EdeScan)source).extractLastDetectorDataSet();
 					if (this.shouldRunItDark() & lastItDarkData != null) {
-						int itDarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
-						DoubleDataset itDarkForItLightData = itDarkScan.extractDetectorDataSet(itDarkSpectrumForCurrentGroup);
+						DoubleDataset itDarkForItLightData = getDataForCurrentGroup(itDarkScan, progress);
 						lastItData = lastItData.isubtract(itDarkForItLightData);
 					} else {
 						// If ItDark is not collected (which means each group parameters for It is the same as I0 parameters)
-						int i0DarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
-						DoubleDataset i0DarkForItLightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
+						DoubleDataset i0DarkForItLightData = getDataForCurrentGroup(i0DarkScan, progress);
 						lastItData = lastItData.isubtract(i0DarkForItLightData);
 					}
 					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.IT_CORR_COLUMN_NAME,
@@ -807,6 +816,10 @@ public abstract class EdeExperiment implements IObserver {
 				}
 			}
 		}
+	}
+
+	private DoubleDataset getDataForCurrentGroup(EdeScan edeScan, EdeScanProgressBean progress) {
+		return edeScan.extractDetectorDataSet(progress.getGroupNumOfThisSDP());
 	}
 
 	public MultiScan getMultiScan() {

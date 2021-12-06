@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.CalibrationDetails;
 import org.dawnsci.ede.DataFileHelper;
 import org.dawnsci.ede.EdeDataConstants;
@@ -61,6 +62,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	private int upperChannel; //Upper bound for ROI in energy
 
 	private Integer[] pixels;
+	private int[] pixelIndices;;
 	private boolean energyCalibrationSet;
 	private Roi[] rois=new Roi[EdeDetector.INITIAL_NO_OF_ROIS];
 
@@ -70,7 +72,12 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	private double accumulationReadoutTimeSec = 0;
 
-	public EdeDetectorBase() {
+	private int compressionLevel = NexusFile.COMPRESSION_NONE;
+
+	private int maxNumberOfFramesToRead = 10000;
+
+	protected EdeDetectorBase() {
+		setInputNames(new String[] {});
 		createPixelData();
 	}
 
@@ -89,6 +96,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = i;
 		}
+		pixelIndices = ArrayUtils.toPrimitive(pixels);
 	}
 
 	@Override
@@ -154,12 +162,12 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	private NexusGroupData setNexusCompression(NexusGroupData groupData) {
-		groupData.compressionType = NexusFile.COMPRESSION_NONE;
+		groupData.compressionType = compressionLevel;
 		return groupData;
 	}
 
 	private NXDetectorData createNXDetectorData(int[] elements) {
-		double[] correctedData = performCorrections(elements)[0];
+		double[] correctedData = performCorrections(elements);
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
@@ -167,16 +175,9 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 		NexusGroupData detectorGroupData = new NexusGroupData(correctedData);
 		detectorGroupData.isDetectorEntryData = true;
-		detectorGroupData.compressionType = NexusFile.COMPRESSION_NONE;
+		setNexusCompression(detectorGroupData);
 		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, detectorGroupData, "eV", 1);
-
-		// Add pixel axis. imh 8/12/2015
-		int count = 0;
-		int[] pixels = new int[getMaxPixel()];
-		for( Integer val : this.getPixels() ) {
-			pixels[count++] = val;
-		}
-		thisFrame.addAxis(getName(), EdeDataConstants.PIXEL_COLUMN_NAME, setNexusCompression(new NexusGroupData(pixels)), 1, 2, "pixel number", false);
+		thisFrame.addAxis(getName(), EdeDataConstants.PIXEL_COLUMN_NAME, setNexusCompression(new NexusGroupData(pixelIndices)), 1, 2, "pixel number", false);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -215,17 +216,14 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 	}
 
-	private double[][] performCorrections(int[] rawData) {
-		final int maxPixel = getMaxPixel();
-		int frameCount = rawData.length / maxPixel;
-		double[][] out = new double[frameCount][maxPixel];
-		for (int frame = 0; frame < frameCount; frame++) {
-			for (int stripIndex = 0; stripIndex < maxPixel; stripIndex++) {
-				out[frame][stripIndex] = rawData[(frame * maxPixel) + stripIndex];
-			}
-			if (checkForExcludedStrips) {
-				removeExcludedStrips(out[frame]);
-			}
+	private double[] performCorrections(int[] rawData) {
+		final int maxPixel = rawData.length;
+		double[] out = new double[maxPixel];
+		for (int stripIndex = 0; stripIndex < maxPixel; stripIndex++) {
+			out[stripIndex] = rawData[stripIndex];
+		}
+		if (checkForExcludedStrips) {
+			removeExcludedStrips(out);
 		}
 		return out;
 	}
@@ -250,8 +248,14 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	@Override
 	public double[] getEnergyForChannels() {
 		double[] energy = new double[getMaxPixel()];
-		for (int i = 0; i < energy.length; i++) {
-			energy[i] = getEnergyForChannel(i);
+		if (calibration == null) {
+			for (int i = 0; i < energy.length; i++) {
+				energy[i] = i;
+			}
+		} else {
+			for (int i = 0; i < energy.length; i++) {
+				energy[i] = getEnergyForChannel(i);
+			}
 		}
 		return energy;
 	}
@@ -317,12 +321,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	@Override
 	public DoubleDataset createDatasetForPixel() {
-		Integer[] pixelData = getPixels();
-		double[] pixelDataArray = new double[pixelData.length];
-		for (int i = 0; i < pixelData.length; i++) {
-			pixelDataArray[i] = pixelData[i];
-		}
-		return DatasetFactory.createFromObject(DoubleDataset.class, pixelDataArray);
+		return DatasetFactory.createFromObject(DoubleDataset.class, getPixels());
 	}
 
 	@Override
@@ -349,13 +348,22 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 */
 	@Override
 	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
+		long time1 = System.currentTimeMillis();
 		int[] elements = readoutFrames(startFrame, finalFrame);
+		long time2 = System.currentTimeMillis();
+		logger.info("ReadoutFrames : {} ms", time2 - time1);
+		time1 = time2;
 		int numberOfFrames = finalFrame - startFrame + 1;
 		int[][] rawDataInFrames = unpackRawDataToFrames(elements, numberOfFrames);
+		time2 = System.currentTimeMillis();
+		logger.info("Unpack frames : {} ms", time2 - time1);
+		time1 = time2;
 		NexusTreeProvider[] results = new NexusTreeProvider[rawDataInFrames.length];
 		for (int i = 0; i < rawDataInFrames.length; i++) {
 			results[i] = createNXDetectorData(rawDataInFrames[i]);
 		}
+		time2 = System.currentTimeMillis();
+		logger.info("Create NXDetectorData : {} ms", time2-time1);
 		return results;
 	}
 
@@ -576,5 +584,29 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	@Override
 	public double getAccumulationReadoutTime() {
 		return accumulationReadoutTimeSec;
+	}
+
+	@Override
+	public int getMaxNumFramesToRead() {
+		return maxNumberOfFramesToRead;
+	}
+
+	public void setMaxNumFramesToRead(int maxNumberOfFramesToRead) {
+		this.maxNumberOfFramesToRead = maxNumberOfFramesToRead;
+	}
+
+	public int getCompressionLevel() {
+		return compressionLevel;
+	}
+
+	/**
+	 * Compression level to use for datasets in the Nexus file :
+	 * <li> 0 -> no compression
+	 * <li> 1 -> LZW compression
+	 *
+	 * @param compressionLevel
+	 */
+	public void setCompressionLevel(int compressionLevel) {
+		this.compressionLevel = compressionLevel;
 	}
 }
