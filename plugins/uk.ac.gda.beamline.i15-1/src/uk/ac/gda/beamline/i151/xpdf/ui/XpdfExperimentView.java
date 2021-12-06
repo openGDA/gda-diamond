@@ -50,6 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.GDAMetadataProvider;
 import uk.ac.diamond.daq.beamline.i15.api.QueueConstants;
 import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
 import uk.ac.diamond.daq.beamline.i15.database.IXpdfDatabaseService;
@@ -140,6 +141,8 @@ public class XpdfExperimentView {
 	}
 
 	private void refresh() {
+		visitInfo = new VisitInfomation();
+
 		final List<ExperimentEntry> experiments = new ArrayList<>();
 
 		final List<Sample> samples = getSamplesForCurrentVisit();
@@ -237,8 +240,8 @@ public class XpdfExperimentView {
 		final long sessionNumber;
 
 		private VisitInfomation() {
-			// Get the visit for this client; set at client startup
-			final String visit = LocalProperties.get(LocalProperties.RCP_APP_VISIT);
+			// Get the visit on the server
+			final String visit = GDAMetadataProvider.getInstance().getMetadataValue(GDAMetadataProvider.EXPERIMENT_IDENTIFIER);
 
 			// Get the matcher using the visit regex
 			final Matcher matcher = visitRegex.matcher(visit);
