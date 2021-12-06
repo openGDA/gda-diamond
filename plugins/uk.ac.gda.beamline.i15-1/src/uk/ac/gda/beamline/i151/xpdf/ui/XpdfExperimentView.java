@@ -144,18 +144,22 @@ public class XpdfExperimentView {
 
 		final List<Sample> samples = getSamplesForCurrentVisit();
 		for (Sample sample : samples) {
-			final Collection<DataCollectionPlan> dcps = getUniqueDataCollectionPlansForSample(sample);
-			for (DataCollectionPlan dcp : dcps) {
-				experiments.add(new ExperimentEntry(sample, dcp));
+			final var dcps = database.retrieveDataCollectionPlansForSample(sample.getSampleId());
+			final var udcps = getUniqueDataCollectionPlansForSample(dcps);
+			
+			final var sample_type_id = sample.getSampleTypeId();
+			final var components = database.retrieveComponentsForSampleType(sample_type_id);
+			final var composition = components.get(0).getComponentContent();
+			for (DataCollectionPlan dcp : udcps) {
+				experiments.add(new ExperimentEntry(sample, dcp, dcps, composition));
 			}
 		}
 
 		conf.setFromList(experiments);
 	}
 
-	private Collection<DataCollectionPlan> getUniqueDataCollectionPlansForSample(Sample sample) {
+	private Collection<DataCollectionPlan> getUniqueDataCollectionPlansForSample(final List<DataCollectionPlan> dcps) {
 		// From the DB you might have multiple DCPs with the same ID (to represent multiple scan axis)
-		final List<DataCollectionPlan> dcps = database.retrieveDataCollectionPlansForSample(sample.getSampleId());
 		// This is a trick to get unique elements by the DCP ID. Put into a map keyed by the ID and where there are
 		// duplicated keys throw away the second object. Then return all the values.
 		return dcps.stream()
@@ -188,18 +192,31 @@ public class XpdfExperimentView {
 	private class ExperimentEntry {
 
 		final Sample sample;
-		final DataCollectionPlan dcp;
+		final DataCollectionPlan udcp;
+		final List<DataCollectionPlan> dcps;
+		final String composition;
 
-		public ExperimentEntry(Sample sample, DataCollectionPlan dcp) {
+		public ExperimentEntry(Sample sample, DataCollectionPlan udcp, List<DataCollectionPlan> dcps,
+				String composition) {
 			this.sample = sample;
-			this.dcp = dcp;
+			this.udcp = udcp;
+			this.dcps = dcps;
+			this.composition = composition;
 		}
 
 		@Override
 		public String toString() {
 			// Note this toString is the thing used for what gets displayed in the UI. Not just for debugging!
-			return sample.getSampleName() + " (" + sample.getSampleId() + ") : " + dcp.getName() + " ("
-					+ dcp.getDcPlanId() + ")";
+			
+			// sample_name, composition, exposure_times, axes_names, axes_values, k
+			final var exposure_times = dcps.stream().map(dcp -> dcp.getExposureTime().toString()).collect(Collectors.joining(","));
+			final var axis_names     = dcps.stream().map(dcp -> dcp.getScanParamServiceName())   .collect(Collectors.joining(","));
+			//final var axis_values    = dcps.stream().map(dcp -> dcp.getScanParamModelArray())    .collect(Collectors.joining(","));
+			final var axis_values    = dcps.stream().map(dcp -> new String(
+					"["+dcp.getScanParamModelStart()+", "+ dcp.getScanParamModelStop()+", " +
+						dcp.getScanParamModelStep()+"]")).collect(Collectors.toList());
+			return sample.getSampleName() + " | " + composition + "\n\t" +
+				exposure_times + " | " + axis_names + " | " + axis_values + " | " + udcp.getDcPlanId();
 		}
 
 		public long getSampleId() {
@@ -207,7 +224,7 @@ public class XpdfExperimentView {
 		}
 
 		public long getDataCollectionPlanId() {
-			return dcp.getDcPlanId();
+			return udcp.getDcPlanId();
 		}
 	}
 
