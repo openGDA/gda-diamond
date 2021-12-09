@@ -4,11 +4,7 @@ from threading import Timer
 from time import sleep
 from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableBase
-#from gda.device.scannable import ScannableMotor
-#from gda.device.scannable.component import MotorLimitsComponent
-
 from gda.epics import CAClient
-from gov.aps.jca.event import MonitorListener
 from org.slf4j import LoggerFactory
 
 #The Class for changing the underline EPICS motor at different ID polarisation conditions so that the same energy device name is used
@@ -136,86 +132,6 @@ class EnergyConsolidationClass(ScannableMotionBase):
 			self.energymovelog_time = datetime.now()
 		return busy
 
-"""
-class NewEnergyConsolidationClass(ScannableMotor):
-	def __init__(self, name, pol, energy0, energy1):
-		self.logger = LoggerFactory.getLogger("NewEnergyConsolidationClass:%s" % name)
-		self.verbose = True
-
-		self.setName(name);
-		self.setInputNames([name]);
-		self.setExtraNames([]);
-		self.Units=['eV'];
-		self.setLevel(5);
-		self.setOutputFormat(["%11.7f"]);
-
-		self.idpol = pol;
-		self.energy0 = energy0;
-		self.energy1 = energy1;
-		
-		self.setMotor(self.energy0.getMotor());
-		self.configure();
-	
-	def getMode(self):
-		return self.idpol.getPos();
-
-	def updateMode(self):
-		idpolmode = self.idpol.getPosition();	
-		if self.verbose: self.logger.info("updateMode() idpolmode=%r" % idpolmode)
-
-		if  idpolmode != ID_PolarisationClass.READBACK_POSITIONS[5]: # None LA mode
-			newMotor = self.energy0.getMotor();
-#			newLimitComponent = self.axis0.getMotorLimitsComponent();
-		else: # LA mode
-			newMotor = self.energy1.getMotor();
-#			newLimitComponent = self.axis1.getMotorLimitsComponent();
-			
-		if self.getMotor() != newMotor: # motor is not correct
-			if self.verbose: self.logger.info("updateMode() motor was %r now %r" % (self.getMotor(), newMotor))
-			self.setMotor( newMotor );
-			self.getAdditionalPositionValidators().clear();#A hack to clear the old limit component
-			self.setMotorLimitsComponent(MotorLimitsComponent(newMotor));
-#			self.setMotorLimitsComponent(newLimitComponent);
-
-			self.configure();
-
-		if self.verbose: self.logger.info("...updateMode()")
-
-	def setMode(self, newMode):
-		self.logger.info("setMode(%r)=%r" % (newMode, ID_PolarisationClass.READBACK_POSITIONS[newMode]))
-		print "Changing " + self.getName() + " to " + ID_PolarisationClass.READBACK_POSITIONS[newMode] + " mode";
-		
-		self.idpol.setPol(newMode);
-		self.updateMode();
-		
-		if self.verbose: self.logger.info("...setMode()")
-
-
-	#Scannable Implementations
-	def setAttribute(self, attributeName, value):
-		if self.verbose: self.logger.info("setAttribute(self, attributeName=%r, value=%r)" % (attributeName, value))
-		if attributeName == 'mode':
-			self.setMode(value);
-		else:
-			super.setAttribute(attributeName, value);
-	
-	def atScanStart(self):
-		if self.verbose: self.logger.info("atScanStart()...")
-		self.updateMode();
-		if self.verbose: self.logger.info("...atScanStart()")
-
-	def getPosition(self):
-		self.updateMode();
-		return ScannableMotor.getPosition(self);
-	
-	def asynchronousMoveTo(self,newPos):
-		if self.verbose: self.logger.info("asynchronousMoveTo(%r)..."%newPos)
-		self.updateMode();
-		ScannableMotor.asynchronousMoveTo(self, newPos);
-		if self.verbose: self.logger.info("...asynchronousMoveTo()")
-"""
-
-
 #The Class for changing the ID polarisation
 class ID_PolarisationClass(ScannableMotionBase):
 	READBACK_POSITIONS = ['None', 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb', 'ERROR']
@@ -234,7 +150,6 @@ class ID_PolarisationClass(ScannableMotionBase):
 		self.setName(name);
 		self.setInputNames([name]);
 		self.setExtraNames([]);
-#		self.Units=[strUnit];
 		self.setLevel(7);
 #		self.setOutputFormat(["%20.12f"]);
 		self.enable = ['Beamline', 'Machine Control Room'];
@@ -408,35 +323,3 @@ class ID_PolarisationClass(ScannableMotionBase):
 		ss=self.getName() + ": Current Polarisation is " + self.getPol() + ". (Total five polarisation settings are: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LA')";
 		return ss;
 
-"""
-#The Class for changing the ID poslarisation
-class ID_PolarisationWithMonitorClass(ID_PolarisationClass, MonitorListener):
-	
-	def __init__(self, name, strSetPV, strGetPV, strStatusPV, strEnablePV):
-		self.logger = LoggerFactory.getLogger("ID_PolarisationWithMonitorClass:%s" % name)
-		self.verbose = True
-
-		try:
-			ID_PolarisationClass.__init__(self, name, strSetPV, strGetPV, strStatusPV, strEnablePV);
-#			super(EpicsMotorClass, self).__init__(name, pvRootMotor, strUnit, strFormat);
-		except AttributeError, err:
-			self.logger.error("Trying to call superclass constructor: ", err)
-
-		# The call to the parent class constructor will overwrite the logger.
-		self.logger = LoggerFactory.getLogger("ID_PolarisationWithMonitorClass:%s" % name)
-
-		self.idenabled=False;
-		self.monitor=self.chEnable.camonitor(self)
-
-	def monitorChanged(self, mevent):
-		idenabled=self.idenabled
-		if int(mevent.getDBR().getIntValue()[0]) is 0:
-			self.idenabled = True;
-		else:
-			self.idenabled = False;
-		if self.verbose and idenabled <> self.idenabled:
-			self.logger.info("monitorChanged(%r) idenabled was %r now %r" % (mevent, idenabled, self.idenabled))
-
-	def checkEnable(self):
-		return self.idenabled;
-"""
