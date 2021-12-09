@@ -13,12 +13,12 @@
 		<property name="nexusFieldName" value="data" />
 		<property name="malcolmDetectorNames">
 			<map>
-				<entry key="#{workstation_malcolmsims}-ML-SCAN-12" value="IMAGING" />
+				<entry key="#{workstation_malcolmsims}-ML-SCAN-02" value="IMAGING" />
 			</map>
 		</property>
 		<property name="snapshotDetectors">
 			<map>
-				<entry key="#{workstation_malcolmsims}-ML-SCAN-11" value-ref="TomoMalcolmDevice" />
+				<entry key="#{workstation_malcolmsims}-ML-SCAN-01" value-ref="TomoMalcolmDevice" />
 			</map>
 		</property>
 	</bean>
