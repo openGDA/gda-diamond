@@ -1073,6 +1073,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		self.low = 0;
 		self.high = 1000;
 		self.keyChannel=None;
+		self.firstTime = True
 
 #		self.fastScanElementCounter = None;
 		self.fastScanElementCounter = Finder.find(elementCounter);
@@ -1142,9 +1143,15 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 
 	def resetHead(self):
 		self.chHead.caput(0);
+		
+	def atScanStart(self):
+		self.firstTime = True
 	
 	def getNewEpicsData(self, offset, size):
 		#To check the head
+		if self.firstTime:
+			sleep(2.0)
+			self.firstTime = False
 		head=self.getHead();
 		if offset > head:
 #			print " No new data available. Offset exceeds Head(" + str(head) + ").";
@@ -1260,6 +1267,9 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		return False;
 
 	def readout(self):
+		if self.firstTime:
+			sleep(2.0)
+			self.firstTime = False
 		if self.isDataAvailable():
 			result = self.dataset[:, self.readPointer]
 		else:#No new data to read
