@@ -202,9 +202,7 @@ class FastEnergyScanControlClass(object):
 	def prepareAreaDetectorForCollection(self, areadet, expotime, numImages):
 		#get camera control object
 		cs=areadet.getCollectionStrategy()
-		adcmode=cs.getDecoratee()
-		self.pcocontroller=adcmode.getPcoController()
-		self.adbase=self.pcocontroller.getAreaDetector()
+		self.adbase=cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
 		if self.adbase is not None:
 			#capture existing settings that will be changed for fast scan
 			self.aquire_state=self.adbase.getAcquireState()
@@ -213,9 +211,6 @@ class FastEnergyScanControlClass(object):
 			self.image_mode=self.adbase.getImageMode()
 			self.num_images=self.adbase.getNumImages()
 			self.trigger_mode=self.adbase.getTriggerMode()
-			self.adc_mode=self.pcocontroller.getADCMode()
-			self.pixel_rate=self.pcocontroller.getPixRate()
-# 			self.arm_mode=self.pcocontroller.getArmMode()
 			self.existingCameraParametersCaptured=True
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
@@ -225,10 +220,7 @@ class FastEnergyScanControlClass(object):
 			self.adbase.setImageMode(1) # Multiple
 			self.adbase.setNumImages(numImages)
 			self.adbase.setTriggerMode(0) # Auto
-			self.pcocontroller.setADCMode(0) # OneADC
-			self.pcocontroller.setPixRate(0) # 10MHz
-# 			self.pcocontroller.setArmMode(1) # arm detector
-			self.prepareKBMirrorRastering(expotime)
+   # self.prepareKBMirrorRastering(expotime)
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 	
@@ -263,16 +255,13 @@ class FastEnergyScanControlClass(object):
 			self.adbase.setImageMode(self.image_mode) # Multiple
 			self.adbase.setNumImages(self.num_images)
 			self.adbase.setTriggerMode(self.trigger_mode) # Auto
-			self.pcocontroller.setADCMode(self.adc_mode) # OneADC
-			self.pcocontroller.setPixRate(self.pixel_rate) # 10MHz
-# 			self.pcocontroller.setArmMode(self.arm_mode) # arm detector
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
-			self.restoreKBMirrorRastering()
+   # self.restoreKBMirrorRastering()
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 		
-	def configureFileWriterPlugin(self, areadet,numImages):
+	def configureFileWriterPlugin(self, areadet, numImages):
 		if not isinstance(areadet, NXDetector):
 			raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
 		additional_plugin_list = areadet.getAdditionalPluginList()
@@ -280,7 +269,7 @@ class FastEnergyScanControlClass(object):
 		scanNumber=nfn()
 		for each in additional_plugin_list:
 			if isinstance(each, MultipleImagesPerHDF5FileWriter):
-				datawriter=each
+				datawriter = each
 				datawriter.getNdFile().getPluginBase().disableCallbacks()
 				datawriter.getNdFile().getPluginBase().setBlockingCallbacks(0)
 				filePathUsed = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/"
@@ -291,7 +280,7 @@ class FastEnergyScanControlClass(object):
 				datawriter.getNdFile().setFilePath(filePathUsed)
 				if not datawriter.getNdFile().filePathExists():
 					raise Exception("Path does not exist on IOC '" + filePathUsed + "'")
-				datawriter.getNdFile().setFileName("pco")
+				datawriter.getNdFile().setFileName("medipix")
 				datawriter.getNdFile().setFileNumber(scanNumber)
 				datawriter.getNdFile().setAutoIncrement(0)
 				datawriter.getNdFile().setAutoSave(0)
@@ -309,9 +298,9 @@ class FastEnergyScanControlClass(object):
 				datawriter.getNdFile().getPluginBase().enableCallbacks()
 
 			elif isinstance(each, SingleImagePerFileWriter):
-				datawriter=each
+				datawriter = each
 				datawriter.getNdFile().getPluginBase().disableCallbacks()
-				filePathUsed = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/" + str(scanNumber) + "_PCOImage/"
+				filePathUsed = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/" + str(scanNumber) + "_MedipixImage/"
 				f=File(filePathUsed)
 				if not f.exists():
 					if not f.mkdirs():
@@ -319,7 +308,7 @@ class FastEnergyScanControlClass(object):
 				datawriter.getNdFile().setFilePath(filePathUsed)
 				if not datawriter.getNdFile().filePathExists():
 					raise Exception("Path does not exist on IOC '" + filePathUsed + "'")
-				datawriter.getNdFile().setFileName("pco")
+				datawriter.getNdFile().setFileName("medipix")
 				datawriter.getNdFile().setFileNumber(1)
 				datawriter.getNdFile().setAutoIncrement(1)
 				datawriter.getNdFile().setAutoSave(1)
@@ -345,7 +334,7 @@ class FastEnergyScanControlClass(object):
 		if datawriter is None:
 			raise Exception("Cannot find EPICS File Writer Plugin for detector %s" % (areadet.getName()))	
 		
-	def setupAreaDetectorROIs(self, rois, roi_provider_name='pco_roi'):
+	def setupAreaDetectorROIs(self, rois, roi_provider_name='medipix_roi'):
 		'''update ROIs list in GDA but not yet set to EPICS
 		This must be called when ROI is changed, and before self.prepareAreaDetectorForCollection(areadet)
 		@param rois: list of rois i.e. [[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size]]
@@ -361,7 +350,7 @@ class FastEnergyScanControlClass(object):
 		roi_provider=Finder.find(roi_provider_name)
 		roi_provider.updateRois(newRois)
 		
-	def clearAreaDetectorROIs(self, roi_provider_name='pco_roi'):
+	def clearAreaDetectorROIs(self, roi_provider_name='medipix_roi'):
 		roi_provider=Finder.find(roi_provider_name)
 		roi_provider.updateRois([])
 	
@@ -700,13 +689,10 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		return str(p);
 
 	def stop(self):
-		print self.getName() + ": Panic Stop Called"
+		print("%s: Panic Stop Called" % self.getName())
 		self.fesController.abortScan();
 		if beamline_name == "i06":
-			if self.fesController.getAreaDetector() == None:
-				pcotif.stop()  # @UndefinedVariable
-			else:
-				self.fesController.getAreaDetector().stop()
+			self.fesController.getAreaDetector().stop()
 			self.fesController.stopROIStatsPair(self.fesController.getAreaDetector())
 			self.fesController.disableFileWritingPlugin(self.fesController.getAreaDetector())
 			self.fesController.restoreAreaDetectorParametersAfterCollection()
@@ -1148,10 +1134,10 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		self.firstTime = True
 	
 	def getNewEpicsData(self, offset, size):
-		#To check the head
 		if self.firstTime:
 			sleep(2.0)
 			self.firstTime = False
+		#To check the head
 		head=self.getHead();
 		if offset > head:
 #			print " No new data available. Offset exceeds Head(" + str(head) + ").";
