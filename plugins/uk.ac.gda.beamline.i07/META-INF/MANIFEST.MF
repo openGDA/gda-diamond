@@ -15,14 +15,21 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="1.0.0",
- uk.ac.gda.client.sixd;bundle-version="1.0.0",
  uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
  uk.ac.gda.epics;bundle-version="1.0.0",
- uk.ac.gda.client.exafs
+ uk.ac.gda.client.exafs,
+ org.dawnsci.datavis.model;bundle-version="1.0.0",
+ uk.ac.gda.api;bundle-version="9.20.0",
+ org.eclipse.scanning.api;bundle-version="1.0.0",
+ org.python.pydev;bundle-version="9.2.0",
+ org.dawnsci.datavis.view;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
-Export-Package: uk.ac.gda.beamline.i07
+Export-Package: uk.ac.gda.beamline.i07,
+ uk.ac.gda.sixd.perspectives,
+ uk.ac.gda.sixd.views
 Automatic-Module-Name: uk.ac.gda.beamline.i07
+Import-Package: org.slf4j;version="1.7.25"
