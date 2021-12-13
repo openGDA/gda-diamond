@@ -50,6 +50,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </modules>
     </profile>
     <profile>
+      <id>optics</id>
+      <modules>
+        <module>features/uk.ac.gda.laboratory.optics.feature</module>
+        <module>products/uk.ac.gda.laboratory.optics.product</module>
+      </modules>
+    </profile>
+    <profile>
       <id>p38</id>
       <modules>
         <module>features/uk.ac.diamond.daq.beamline.p38.feature</module>
