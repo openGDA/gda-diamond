@@ -24,7 +24,6 @@ Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i21,
  uk.ac.gda.beamline.i21.views
 Import-Package: gda.configuration.properties,
- org.apache.log4j.spi;version="1.2.17",
  org.dawb.workbench.ui.perspective,
  org.dawnsci.mapping.ui,
  org.dawnsci.plotting.views,
