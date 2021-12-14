@@ -41,7 +41,7 @@ public class TwoDimensionGridSummaryHandler extends SummaryHandlerBase {
 	public String typeToString(StyledText summaryText) {
 		title("Rectangle", summaryText);
 		startToStringNew(summaryText);
-		getSegmentUtils().append("\s");
+		getSegmentUtils().append("\\s");
 		stopToStringNew(summaryText);
 		getSegmentUtils().append("\n");
 		pointsToStringNew(summaryText);

@@ -93,7 +93,7 @@ public class AcquisitionSummary {
 		IntStream.range(0, size)
 			.forEach(index -> {
 				if (index > 0)
-					getStringBuilder().append("\s,\s");
+					getStringBuilder().append("\\s,\\s");
 				var document = documents.get(index);
 				var numericValue = getter.applyAsDouble(document);
 				var originalString =  segmentGroup.getDecimalFormat().format(numericValue);
@@ -106,7 +106,7 @@ public class AcquisitionSummary {
 					});
 				getStringBuilder().append(originalString);
 			});
-		getStringBuilder().append("\s]");
+		getStringBuilder().append("\\s]");
 
 	}
 
@@ -131,7 +131,7 @@ public class AcquisitionSummary {
 		IntStream.range(0, size)
 			.forEach(index -> {
 				if (index > 0)
-					getStringBuilder().append("\s,\s");
+					getStringBuilder().append("\\s,\\s");
 				var document = documents.get(index);
 				var numericValue = getter.applyAsInt(document);
 				var originalString = segmentGroup.getDecimalFormat().format(numericValue);
@@ -144,7 +144,7 @@ public class AcquisitionSummary {
 					});
 				getStringBuilder().append(originalString);
 			});
-		getStringBuilder().append("\s]");
+		getStringBuilder().append("\\s]");
 
 		//
 		if (oneDimentional && !segmentGroup.getSegments().isEmpty()) {
@@ -252,7 +252,7 @@ public class AcquisitionSummary {
 		Optional.ofNullable(summaryText)
 			.ifPresent(s -> titleStyleRange(title));
 		getStringBuilder().append(title);
-		getStringBuilder().append(":\s[\s");
+		getStringBuilder().append(":\\s[\\s");
 	}
 
 	private void updateSummaryTextAndApplyStyleRanges(String report, StyledText summaryText) {

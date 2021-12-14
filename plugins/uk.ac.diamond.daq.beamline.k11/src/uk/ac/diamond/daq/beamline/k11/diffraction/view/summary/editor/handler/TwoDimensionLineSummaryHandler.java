@@ -41,7 +41,7 @@ public class TwoDimensionLineSummaryHandler extends SummaryHandlerBase {
 	public String typeToString(StyledText summaryText) {
 		title("Line", summaryText);
 		startToStringNew(summaryText);
-		getSegmentUtils().append("\s");
+		getSegmentUtils().append("\\s");
 		stopToStringNew(summaryText);
 		getSegmentUtils().append("\n");
 		pointsToStringNew(summaryText);
