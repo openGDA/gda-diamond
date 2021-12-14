@@ -6,9 +6,7 @@
 	<bean id="radiograph_decorator" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector" init-method="register">
 		<property name="name" value="radiograph_decorator" />
 		<property name="beamlineConfiguration">
-			<map>
-<!-- 				<entry key="beam_selector" value="Mono imaging beam" /> -->
-			</map>
+			<map />
 		</property>
 		<property name="nexusFieldName" value="data" />
 		<property name="malcolmDetectorNames">
@@ -21,6 +19,7 @@
 				<entry key="#{workstation_malcolmsims}-ML-SCAN-01" value-ref="TomoMalcolmDevice" />
 			</map>
 		</property>
+		<property name="useDetectorTable" value="true" />
 	</bean>
 
 </beans>
