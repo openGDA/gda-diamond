@@ -56,6 +56,11 @@
 		<property name="readOnly" value="false"/>
 	</bean>
 	
+	<bean id="line_profile" class="uk.ac.gda.client.live.stream.view.customui.LineProfileRegionsButton">
+		<property name="streamID" value="analyser_stream" />
+		<property name="streamType" value="MJPEG" />
+	</bean>
+	
 	<bean id="analyser_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
 		<constructor-arg name="centreXControl">
 			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -112,6 +117,7 @@
 		<property name="extensions">
 			<list>
 				<ref bean="analyser_cross" />
+				<ref bean="line_profile" />
 			</list>
 		</property>
 	</bean>
