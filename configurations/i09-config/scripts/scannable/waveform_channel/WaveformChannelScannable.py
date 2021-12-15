@@ -5,6 +5,7 @@ from gda.device.scannable import PositionCallableProvider, PositionStreamIndexer
 from gda.device import Detector, DeviceException
 from org.slf4j import LoggerFactory
 from threading import Timer
+import installation
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
@@ -28,7 +29,8 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         return True
     
     def stop(self):
-        self.waveform_channel_controller.stop()
+        if installation.isDummy():
+            self.waveform_channel_controller.stop()
         
     def collectData(self):
         if self.verbose: self.logger.info('collectData()...')

@@ -102,9 +102,15 @@ class ContinuousMoveEnergyIDGapBinpointScannable(ContinuouslyScannableViaControl
         self.mybusy=False
 
     def stop(self):
-        self._binpointIdGap.stop()
-        self._binpointEnergy.stop()
-        self._move_controller.stopAndReset()
+        if self._operating_continuously:
+            if installation.isLive():
+                print("cvscan cannot be stopped, please wait it to finish!")
+            else:
+                self._binpointIdGap.stop()
+                self._binpointEnergy.stop()
+                self._move_controller.stopAndReset()
+        else:
+            self._move_controller._energy.stop()
         self.mybusy=False
         
     def atCommandFailure(self):
