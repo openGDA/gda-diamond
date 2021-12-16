@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="id1"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="uk.ac.gda.nano.Application">
+         </run>
+      </application>
+   </extension>
+
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="testToc.xml"
+            primary="true">
+      </toc>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="uk.ac.gda.nano.views.NanoCategory"
+            name="Nano Science">
+      </category>
+      <view
+            category="uk.ac.gda.nano.views.NanoCategory"
+            class="gda.rcp.views.JythonTerminalView"
+            icon="icons/application_xp_terminal.png"
+            id="uk.ac.gda.nano.views.terminalView"
+            name="GDA Jython Terminal"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.nano.views.NanoCategory"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/UViewImage-16.png"
+            id="uk.ac.gda.nano.views.PeemImageView"
+            name="PEEM Image"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.nano.views.NanoCategory"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.ImageExplorerView"
+            icon="icons/map_magnify.png"
+            id="uk.ac.gda.nano.views.ImageExplorerView"
+            name="Image Explorer"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.nano.views.NanoCategory"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/map_magnify.png"
+            id="uk.ac.gda.nano.views.ImageView"
+            name="Image Viewer"
+            restorable="true">
+      </view>
+      <category
+            id="uk.ac.gda.client.nano"
+            name="Nano Science">
+      </category>
+      <view
+            category="uk.ac.gda.client.nano"
+            class="uk.ac.gda.nano.views.RegionalisedScanView"
+            icon="icons/region2.png"
+            id="uk.ac.gda.nano.views.RegionalisedScanView"
+            name="Regionalised Scan">
+      </view>
+      <view
+            category="uk.ac.gda.client.nano"
+            class="uk.ac.gda.nano.views.SuperConductingMagnetView"
+            icon="icons/magnet_blue.png"
+            id="uk.ac.gda.nano.views.SuperConductingMagnetView"
+            name="Superconducting Magnet">
+      </view>
+      <view
+            category="uk.ac.gda.client.nano"
+            class="uk.ac.gda.nano.views.NanoDemoView"
+            icon="icons/NanoBlue-24x24.png"
+            id="uk.ac.gda.nano.views.NanoDemoView"
+            name="Nano Demo Magnet">
+      </view>
+      <view
+            category="uk.ac.gda.client.nano"
+            class="gda.rcp.views.ViewFactory:testView"
+            icon="icons/Nano-24x24.png"
+            id="uk.ac.gda.nano.views.TestView"
+            name="Test View">
+      </view>
+      <view
+            category="uk.ac.gda.client.nano"
+            class="uk.ac.gda.nano.views.DiffractionAndDichroismView"
+            icon="icons/Diffraction-24x24.png"
+            id="uk.ac.gda.nano.views.DiffractionAndDichroismView"
+            name="Diffraction and Dichroism">
+      </view>
+   </extension>
+   <extension
+         point="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView">
+      <plot_config></plot_config>
+   </extension>
+   <extension
+         id="uk.ac.diamond.scisoft.analysis.rcp.ExplorerViewDefault"
+         name="Default"
+         point="uk.ac.diamond.scisoft.analysis.rcp.ExplorerViewRegister">
+         <ViewRegister
+         	ViewName="PEEM Image">
+         </ViewRegister>
+   </extension>
+<!--
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+      		defaultHandler="uk.ac.diamond.scisoft.analysis.rcp.plotting.actions.DemoGridViewSelectionAction"
+      		id="uk.ac.diamond.scisoft.analysis.rcp.DemoGridViewSelectionAction"
+      		name="Demo Gridview Action">
+      		<commandParameter
+      			id="uk.ac.diamond.scisoft.analysis.command.sourceView"
+      			name="Source View"
+      			optional="false">
+      		</commandParameter>
+      </command>
+       <command
+      		defaultHandler="uk.ac.diamond.scisoft.analysis.rcp.plotting.actions.GridOverviewAction"
+      		id="uk.ac.diamond.scisoft.analysis.rcp.GridOverviewAction"
+      		name="Overview Action">
+      		<commandParameter
+      			id="uk.ac.diamond.scisoft.analysis.command.sourceView"
+      			name="Source View"
+      			optional="false">
+      		</commandParameter>
+      </command> 
+   </extension>
+-->   
+   <extension
+         point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="toolbar:uk.ac.gda.nano.views.ImageExplorerView">
+         <command
+               commandId="uk.ac.diamond.scisoft.analysis.rcp.GridOverviewAction"
+               icon="icons/eye.png"
+               label="Overview Action"
+               style="toggle"
+               tooltip="Switch to Overview mode">
+               <parameter
+               		name="uk.ac.diamond.scisoft.analysis.command.sourceView"
+               		value="uk.ac.gda.nano.views.ImageExplorerView">
+               	</parameter>
+         </command>
+      </menuContribution>      
+      <menuContribution
+            locationURI="toolbar:uk.ac.gda.nano.views.ImageExplorerView">
+         <command
+               commandId="uk.ac.diamond.scisoft.analysis.rcp.DemoGridViewSelectionAction"
+               icon="icons/monitor.png"
+               label="Demo Action"
+               style="push"
+               tooltip="Give selection to server">
+               <parameter
+               		name="uk.ac.diamond.scisoft.analysis.command.sourceView"
+               		value="uk.ac.gda.nano.views.ImageExplorerView">
+               	</parameter>
+         </command>
+      </menuContribution>                                                                  
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="uk.ac.gda.nano.views.RegionalisedScanView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.TaskList">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+</plugin>

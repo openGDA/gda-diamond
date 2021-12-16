@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nanoscience Plug-in
+Bundle-SymbolicName: uk.ac.gda.client.nano; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.gda.nano.NanoActivator
+Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
+ uk.ac.gda.client;bundle-version="1.0.0",
+ uk.ac.gda.common;bundle-version="1.0.0",
+ uk.ac.gda.common.rcp;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ uk.ac.gda.common.client;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Import-Package: org.eclipse.debug.ui,
+ org.eclipse.search.ui,
+ org.eclipse.ui.console,
+ org.slf4j;version="[1.7.2,2.0.0)",
+ org.springframework.beans;version="3.0.4",
+ org.springframework.beans.factory;version="3.0.4",
+ org.springframework.context;version="3.0.4",
+ org.springframework.util;version="3.0.4"
+Bundle-Vendor: Diamond Light Source
+Export-Package: uk.ac.gda.nano;
+  uses:="org.eclipse.jface.resource,
+   org.eclipse.ui.application,
+   org.eclipse.ui,
+   org.eclipse.ui.plugin,
+   org.eclipse.ui.part,
+   org.eclipse.jface.action,
+   org.eclipse.jface.viewers,
+   org.eclipse.swt.graphics,
+   org.eclipse.equinox.app,
+   org.osgi.framework,
+   org.eclipse.swt.widgets",
+ uk.ac.gda.nano.perspectives;uses:="org.eclipse.ui",
+ uk.ac.gda.nano.views
+Bundle-ClassPath: .
+Automatic-Module-Name: uk.ac.gda.client.nano
