@@ -244,6 +244,7 @@
 			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 				<property name="restoreNumImagesAndImageMode" value="true" />
 				<property name="imageMode" value="0" /> <!-- Single image mode -->
+				<property name="numberOfImagesPerCollection" value="1"/>
 				<property name="decoratee">
 					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
