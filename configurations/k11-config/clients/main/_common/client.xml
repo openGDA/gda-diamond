@@ -28,6 +28,7 @@
 		resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
 		
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/beam_selector_scan.xml" />
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/acquisition_templates.xml" />
 
 	<!-- =========================================================== -->
 	<!-- ===================== SHARED FILES ======================== -->
@@ -37,6 +38,8 @@
 	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 	
 	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
+	
+	<import resource="acquisition_templates.xml" />
 	
 	<import resource="mapping.xml"/>
 

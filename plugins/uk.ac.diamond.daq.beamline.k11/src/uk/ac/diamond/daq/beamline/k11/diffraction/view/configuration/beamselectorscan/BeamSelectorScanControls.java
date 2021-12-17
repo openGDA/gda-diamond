@@ -24,8 +24,10 @@ import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyPositiveIntegerTe
 
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.typed.BeanProperties;
@@ -70,17 +72,24 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	private static final DecimalFormat BEAM_POSITION_FORMAT = new DecimalFormat("#0.00");
 
+	private Text name;
+
+	private Text cycles;
+
+	private Button mono;
+	private Button pink;
+
 	private Text xPosition;
 	private Text yPosition;
 
-	private DataBindingContext bindingContext = new DataBindingContext();
-	
+	private DataBindingContext bindingContext;
+
 	/** caching simply to remove listener when it is replaced */
 	private PointMappingRegion point;
-	
+
 	/** triggered when the existing point moves */
 	private PropertyChangeListener regionMoveListener = change -> handleRegionMove();
-	
+
 	/** triggered when the existing point is replaced */
 	private Consumer<RegionPathState> regionUpdateListener = this::handleRegionUpdate;
 
@@ -101,6 +110,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		createImagingBeamControl(composite);
 		separator(composite);
 		createDiffractionBeamControl(composite);
+
+		initialiseControls();
 
 		composite.addDisposeListener(event -> dispose());
 
@@ -123,42 +134,35 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	private void createNameControl(Composite composite) {
 		new Label(composite, SWT.NONE).setText("Acquisition name");
-		Text name = new Text(composite, SWT.BORDER);
+		name = new Text(composite, SWT.BORDER);
 		stretch.applyTo(name);
 
-		var acquisition = getScanningAcquisitionTemporaryHelper().getScanningAcquisition().orElseThrow();
-		bindingContext.bindValue(WidgetProperties.text(SWT.Modify).observe(name),
-				BeanProperties.value("name").observe(acquisition));
+		name.addModifyListener(event -> getScanningAcquisitionTemporaryHelper().getScanningAcquisition().orElseThrow().setName(name.getText()));
 	}
 
 	private void createCyclesControl(Composite composite) {
 		new Label(composite, SWT.NONE).setText("Number of cycles");
-		Text cycles = new Text(composite, SWT.BORDER);
+		cycles = new Text(composite, SWT.BORDER);
 		stretch.applyTo(cycles);
 
 		cycles.addVerifyListener(verifyOnlyPositiveIntegerText);
-		cycles.setText(String.valueOf(getScanningAcquisitionTemporaryHelper().getScannableTrackDocuments().iterator().next().getPoints()));
 		cycles.addModifyListener(event -> setNumberOfCycles(Integer.parseInt(cycles.getText())));
+	}
+
+	private void setNumberOfCycles(int points) {
+		getScanningAcquisitionTemporaryHelper().createScannableTrackDocumentHelper()
+		.ifPresent(helper -> helper.updateScannableTrackDocumentsPoints(points));
 	}
 
 	private void createImagingBeamControl(Composite composite) {
 		new Label(composite, SWT.NONE).setText("Imaging beam");
-		var mono = new Button(composite, SWT.RADIO);
+		mono = new Button(composite, SWT.RADIO);
 		mono.setText("Monochromatic");
 
 		space(composite);
 
-		var pink = new Button(composite, SWT.RADIO);
+		pink = new Button(composite, SWT.RADIO);
 		pink.setText("Polychromatic");
-
-		SelectObservableValue<String> detectorName = new SelectObservableValue<>();
-		detectorName.addOption(config.getMonoImagingScan(), WidgetProperties.buttonSelection().observe(mono));
-		detectorName.addOption(config.getPinkImagingScan(), WidgetProperties.buttonSelection().observe(pink));
-
-		AcquisitionEngineDocument engine = getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
-			.getAcquisition().getAcquisitionEngine();
-
-		bindingContext.bindValue(detectorName, BeanProperties.value("id").observe(engine));
 	}
 
 	private void createDiffractionBeamControl(Composite composite) {
@@ -186,23 +190,11 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		xPosition.addVerifyListener(verifyOnlyDoubleText);
 		stretch.applyTo(yPosition);
 
-		String xAxis = config.getxAxisName();
-		String yAxis = config.getyAxisName();
-
-		try {
-			Scannable xScannable = Finder.find(xAxis);
-			Scannable yScannable = Finder.find(yAxis);
-			xPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format((double) xScannable.getPosition())));
-			yPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format((double) yScannable.getPosition())));
-		} catch (DeviceException e) {
-			logger.error("Couldn't read beam positions");
-		}
-
 		initialiseMappingController();
 		selectFromMap.addListener(SWT.Selection, event -> mappingController.getRegionSelectorListener().handleRegionChange(new PointMappingRegion()));
 
-		xPosition.addListener(SWT.Modify, event -> setStartPosition(xAxis, "x", Double.parseDouble(xPosition.getText())));
-		yPosition.addListener(SWT.Modify, event -> setStartPosition(yAxis, "y", Double.parseDouble(yPosition.getText())));
+		xPosition.addListener(SWT.Modify, event -> setStartPosition(config.getxAxisName(), "x", Double.parseDouble(xPosition.getText())));
+		yPosition.addListener(SWT.Modify, event -> setStartPosition(config.getyAxisName(), "y", Double.parseDouble(yPosition.getText())));
 	}
 
 	private void initialiseMappingController() {
@@ -228,11 +220,6 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	private void handleRegionMove() {
 		xPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format(point.getxPosition())));
 		yPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format(point.getyPosition())));
-	}
-
-	private void setNumberOfCycles(int points) {
-		getScanningAcquisitionTemporaryHelper().createScannableTrackDocumentHelper()
-		.ifPresent(helper -> helper.updateScannableTrackDocumentsPoints(points));
 	}
 
 	private void setStartPosition(String device, String axis, double position) {
@@ -278,9 +265,80 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		new Label(composite, SWT.NONE);
 	}
 
+	/**
+	 * Set their initial state according to the underlying acquisition
+	 */
+	private void initialiseControls() {
+		initialiseName();
+		initialiseCycles();
+		initialiseImagingBeam();
+		initialiseDiffractionBeam();
+	}
+
+	private void initialiseName() {
+		name.setText(getScanningAcquisitionTemporaryHelper().getScanningAcquisition().orElseThrow().getName());
+	}
+
+	private void initialiseCycles() {
+		cycles.setText(String.valueOf(getScanningAcquisitionTemporaryHelper().getScannableTrackDocuments().iterator().next().getPoints()));
+
+	}
+
+	private void initialiseImagingBeam() {
+		if (bindingContext != null) {
+			bindingContext.dispose();
+		}
+
+		bindingContext = new DataBindingContext();
+
+		SelectObservableValue<String> detectorName = new SelectObservableValue<>();
+		detectorName.addOption(config.getMonoImagingScan(), WidgetProperties.buttonSelection().observe(mono));
+		detectorName.addOption(config.getPinkImagingScan(), WidgetProperties.buttonSelection().observe(pink));
+
+		AcquisitionEngineDocument engine = getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
+			.getAcquisition().getAcquisitionEngine();
+
+		bindingContext.bindValue(detectorName, BeanProperties.value("id").observe(engine));
+	}
+
+	private void initialiseDiffractionBeam() {
+
+		String xAxis = config.getxAxisName();
+		String yAxis = config.getyAxisName();
+
+		List<DevicePositionDocument> beamPosition = beamPositionInAcquisition();
+		if (beamPosition.size() == 2) {
+			double x = beamPosition.stream().filter(doc -> doc.getDevice().equals(xAxis)).findFirst().orElseThrow().getPosition();
+			double y = beamPosition.stream().filter(doc -> doc.getDevice().equals(yAxis)).findFirst().orElseThrow().getPosition();
+			xPosition.setText(String.valueOf(x));
+			yPosition.setText(String.valueOf(y));
+
+		} else {
+
+			try {
+				Scannable xScannable = Finder.find(xAxis);
+				Scannable yScannable = Finder.find(yAxis);
+				xPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format((double) xScannable.getPosition())));
+				yPosition.setText(String.valueOf(BEAM_POSITION_FORMAT.format((double) yScannable.getPosition())));
+			} catch (DeviceException e) {
+				logger.error("Couldn't read beam positions");
+			}
+		}
+	}
+
+	private List<DevicePositionDocument> beamPositionInAcquisition() {
+		ScanningParameters parameters = getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
+				.getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
+
+		return parameters.getStartPosition().stream()
+				.filter(doc -> doc.getDevice().equals(config.getxAxisName()) || doc.getDevice().equals(config.getyAxisName()))
+				.collect(Collectors.toList());
+	}
+
 	@Override
 	public void reload() {
-		// Coming soon...
+		if (name.isDisposed()) return;
+		initialiseControls();
 	}
 
 	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {

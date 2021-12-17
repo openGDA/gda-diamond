@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util.xsd">
+
+	
+	<bean id="diffractionMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="#{workstation}-ML-SCAN-11"/>
+	</bean>
+	
+	<bean id="imagingMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="#{workstation}-ML-SCAN-12"/>
+	</bean>
+	
+	<bean id="beamSelectorMonoMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="#{workstation}-ML-SCAN-13"/>
+	</bean>
+	
+	<bean id="beamSelectorPinkMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="#{workstation}-ML-SCAN-13"/>
+	</bean>
+	
+	<util:list id="diffractionScanAxes" value-type="java.lang.String">
+		<value>simx</value>
+		<value>simy</value>
+	</util:list>
+	
+	<util:list id="tomographyScanAxes" value-type="java.lang.String">
+		<value>simtheta</value>
+	</util:list>
+
+</beans>

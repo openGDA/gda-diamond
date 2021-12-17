@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util.xsd">
+
+	
+	<bean id="diffractionMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-ML-SCAN-01"/>
+	</bean>
+	
+	<bean id="imagingMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-ML-SCAN-02"/>
+	</bean>
+	
+	<bean id="beamSelectorMonoMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-ML-SCAN-03"/>
+	</bean>
+	
+	<bean id="beamSelectorPinkMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-ML-SCAN-06"/>
+	</bean>
+	
+	<util:list id="diffractionScanAxes" value-type="java.lang.String">
+		<value>kb_cs_x</value>
+		<value>kb_cs_y</value>
+	</util:list>
+	
+	<util:list id="tomographyScanAxes" value-type="java.lang.String">
+		<value>gts_theta</value>
+	</util:list>
+
+</beans>

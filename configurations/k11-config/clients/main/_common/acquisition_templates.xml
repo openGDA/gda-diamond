@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<bean id="diffractionTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="DIFFRACTION" />
+		<property name="subType" value="STANDARD" />
+		<property name="engine">
+			<bean class="uk.ac.gda.api.acquisition.AcquisitionEngineDocument">
+				<property name="type" value="MALCOLM" />
+				<property name="id" ref="diffractionMalcolmMri" /> <!-- mode-specific -->
+			</bean>
+		</property>
+		<property name="detectors">
+			<list><value>PILATUS</value></list>
+		</property>
+		<property name="scanAxes" ref="diffractionScanAxes" /> <!-- mode-specific -->
+		
+		<property name="processingProperties">
+			<bean class="uk.ac.gda.client.properties.acquisition.processing.ProcessingRequestProperties">
+				<property name="frameCapture">
+					<bean class="uk.ac.gda.client.properties.acquisition.processing.FrameCaptureProperties">
+						<property name="malcolm" ref="imagingMalcolmMri" />
+						<property name="malcolmDetectorName" value="IMAGING" />
+						<property name="cameraId" value="PCO_CAMERA" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_open" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="beamSelectorTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="DIFFRACTION" />
+		<property name="subType" value="BEAM_SELECTOR" />
+		<property name="engine">
+			<bean class="uk.ac.gda.api.acquisition.AcquisitionEngineDocument">
+				<property name="type" value="MALCOLM" />
+				<property name="id" ref="beamSelectorMonoMalcolmMri" />
+			</bean>
+		</property>
+		<property name="detectors">
+			<list>
+				<value>PILATUS</value>
+				<value>PCO_CAMERA</value>
+			</list>
+		</property>
+		<property name="scanAxes">
+			<list></list>
+		</property>
+		
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_open" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="tomographyTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="TOMOGRAPHY" />
+		<property name="subType" value="STANDARD" />
+		<property name="engine">
+			<bean class="uk.ac.gda.api.acquisition.AcquisitionEngineDocument">
+				<property name="type" value="MALCOLM" />
+				<property name="id" ref="imagingMalcolmMri" />
+			</bean>
+		</property>
+		<property name="detectors">
+			<list><value>PCO_CAMERA</value></list>
+		</property>
+		<property name="scanAxes" ref="tomographyScanAxes" />
+		
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_open" />
+				<ref bean="basex_gts" />
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="radiographyTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="TOMOGRAPHY" />
+		<property name="subType" value="STANDARD" />
+		<property name="engine">
+			<bean class="uk.ac.gda.api.acquisition.AcquisitionEngineDocument">
+				<property name="type" value="MALCOLM" />
+				<property name="id" ref="imagingMalcolmMri" />
+			</bean>
+		</property>
+		<property name="detectors">
+			<list><value>PCO_CAMERA</value></list>
+		</property>
+		<property name="scanAxes">
+			<list>
+				<value></value>
+			</list>
+		</property>
+		
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_open" />
+				<ref bean="basex_gts" />
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="acquisitionManager" class="uk.ac.gda.client.AcquisitionManager" >
+		<constructor-arg>
+			<list>
+				<ref bean="diffractionTemplate" />
+				<ref bean="beamSelectorTemplate" />
+				<ref bean="tomographyTemplate" />
+				<ref bean="radiographyTemplate" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	
+	<!-- positions -->
+	<bean id="shutter_open" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
+		<property name="scannableKeys">
+			<bean class="uk.ac.gda.client.properties.stage.position.ScannableKeys">
+				<property name="groupId" value="shutter" />
+				<property name="scannableId" value="shutter" />
+			</bean>
+		</property>
+		<property name="labelledPosition" value="OPEN" />
+	</bean>
+	
+	<bean id="basex_gts" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
+		<property name="scannableKeys">
+			<bean class="uk.ac.gda.client.properties.stage.position.ScannableKeys">
+				<property name="groupId" value="base_x" />
+				<property name="scannableId" value="selector" />
+			</bean>
+		</property>
+		<property name="labelledPosition" value="GTS" />
+	</bean>
+
+</beans>

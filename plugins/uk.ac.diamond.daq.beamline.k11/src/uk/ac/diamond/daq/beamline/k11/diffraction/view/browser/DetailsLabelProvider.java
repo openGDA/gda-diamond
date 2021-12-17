@@ -62,6 +62,8 @@ class DetailsLabelProvider extends LabelProvider implements IComparableStyledLab
 			return getLineDetails(scanpathDocument);
 		case TWO_DIMENSION_POINT:
 			return getPointDetails(scanpathDocument);
+		case STATIC_POINT:
+			return getBeamSelectorScanDetails(scanpathDocument);
 		default:
 			return "Details unavailable";
 		}
@@ -96,6 +98,10 @@ class DetailsLabelProvider extends LabelProvider implements IComparableStyledLab
 		return String.format("%s(%.1f, %.1f)",
 				axes,
 				track1.getStart(), track2.getStart());
+	}
+
+	private String getBeamSelectorScanDetails(ScanpathDocument scanpathDocument) {
+		return String.format("%d points", scanpathDocument.getScannableTrackDocuments().get(0).getPoints());
 	}
 
 	private String getAxesString(ScannableTrackDocument track1, ScannableTrackDocument track2) {
