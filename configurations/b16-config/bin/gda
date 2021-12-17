@@ -26,8 +26,6 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
-export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/mt-config
-
 ######################################################################
 # before the gda-core script is invoked using the environment settings
 ######################################################################

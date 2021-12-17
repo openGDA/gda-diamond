@@ -17,8 +17,7 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import
-		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml" />
+	<import	resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
 
 <!-- Needed for Swing? Not available now for some reason
 	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
@@ -127,9 +126,9 @@
 	</bean>
 
 	<import
-		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+		resource="file:${gda.config}/servers/main/_common//terminal_logger.xml" />
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/abstract_command_server.xml" />
 
 
 	<bean id="script_paths" parent="common_script_paths_with_diffcalc">

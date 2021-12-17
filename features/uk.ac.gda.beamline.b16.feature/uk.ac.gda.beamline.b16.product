@@ -19,7 +19,7 @@
 -Dgda.root=${project_loc:uk.ac.gda.core}/../                        -Dgda.config=${project_loc:b16-config}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git       -Dgda.logs.dir=${workspace_loc}/../logs
 -Dgda.instance.dir=${project_loc:b16-config}                          -Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}                            -Dgda.group.dir=${project_loc:mt-config}
+-Dgda.core.dir=${project_loc:core-config}
 -Dgda.mode=dummy
 -Dgda.propertiesFile=${project_loc:b16-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:b16-config}/properties/dummy/JCALibrary.properties
