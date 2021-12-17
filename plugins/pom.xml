@@ -47,6 +47,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <module>uk.ac.gda.beamline.i15-1</module>
     <module>uk.ac.gda.beamline.i21</module>
     <module>uk.ac.gda.beamline.i22</module>
+    <module>uk.ac.gda.client.nano</module>
     <module>uk.ac.gda.laboratory.optics</module>
   </modules>
 </project>
