@@ -125,6 +125,9 @@ class FastEnergyScanControlClass(object):
 
 		self.cleanChannel(self.chPGMStatus);
 
+		if beamline_name == "i06":
+			self.cleanChannel(self.chMedipixMode);
+			
 	def setupEpics(self, rootPV):
 #		Epics PVs for checking fast scan readiness:
 		self.chScanReady01=CAClient(rootPV + ":PGM:HOME.RVAL");  self.configChannel(self.chScanReady01);
@@ -158,6 +161,10 @@ class FastEnergyScanControlClass(object):
 		
 		#To check the PGM is not stucked
 		self.chPGMStatus=CAClient("BL06I-OP-PGM-01:ENERGY.DMOV"); self.configChannel(self.chPGMStatus);
+		
+		if beamline_name == "i06":
+			#To configure medipix's driver mode
+			self.chMedipixMode=CAClient("BL06I-EA-DET-02:CAM:QuadMerlinMode"); self.configChannel(self.chMedipixMode);
 		
 	def configChannel(self, channel):
 		if not channel.isConfigured():
@@ -206,21 +213,37 @@ class FastEnergyScanControlClass(object):
 		if self.adbase is not None:
 			#capture existing settings that will be changed for fast scan
 			self.aquire_state=self.adbase.getAcquireState()
+			sleep(0.1)
 			self.exposure_period=self.adbase.getAcquirePeriod()
+			sleep(0.1)
 			self.exposure_time=self.adbase.getAcquireTime()
+			sleep(0.1)
 			self.image_mode=self.adbase.getImageMode()
+			sleep(0.1)
 			self.num_images=self.adbase.getNumImages()
+			sleep(0.1)
 			self.trigger_mode=self.adbase.getTriggerMode()
+			sleep(0.1)
+			self.drive_mode=int(self.chMedipixMode.caget())
+			sleep(0.1)
 			self.existingCameraParametersCaptured=True
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
+			sleep(0.5)
 			#set camera parameters for fast scan
 			self.adbase.setAcquireTime(expotime)
+			sleep(0.5)
 			self.adbase.setAcquirePeriod(expotime)
+			sleep(0.5)
 			self.adbase.setImageMode(1) # Multiple
+			sleep(0.5)
 			self.adbase.setNumImages(numImages)
+			sleep(0.5)
 			self.adbase.setTriggerMode(0) # Auto
-   # self.prepareKBMirrorRastering(expotime)
+			sleep(0.5)
+			self.chMedipixMode.caput(3)
+ 			sleep(1.0)
+  # self.prepareKBMirrorRastering(expotime)
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 	
@@ -249,15 +272,24 @@ class FastEnergyScanControlClass(object):
 		if self.adbase is not None:
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
+			sleep(0.5)
 			#set camera parameters for fast scan
 			self.adbase.setAcquireTime(self.exposure_time)
+			sleep(0.5)
 			self.adbase.setAcquirePeriod(self.exposure_period)
+			sleep(0.5)
 			self.adbase.setImageMode(self.image_mode) # Multiple
+			sleep(0.5)
 			self.adbase.setNumImages(self.num_images)
+			sleep(0.5)
 			self.adbase.setTriggerMode(self.trigger_mode) # Auto
+			sleep(0.5)
+			self.chMedipixMode.caput(self.drive_mode)
+			sleep(1.0)
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
-   # self.restoreKBMirrorRastering()
+ 				sleep(0.5)
+  # self.restoreKBMirrorRastering()
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 		
