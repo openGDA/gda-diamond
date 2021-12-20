@@ -35,7 +35,9 @@ import org.junit.Test;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import gda.device.detector.xstrip.XhDetector;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.EdeDummyDetector;
+import gda.factory.FactoryException;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
@@ -43,7 +45,7 @@ import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 public class EdeDataStoreTest {
 
 	@Test
-	public void jsonTest() throws IOException {
+	public void jsonTest() throws IOException, FactoryException {
 		Path tempFile = Files.createTempFile(null, null);
 		tempFile.toFile().deleteOnExit();
 		final GsonBuilder gsonBuilder = new GsonBuilder();
@@ -51,13 +53,17 @@ public class EdeDataStoreTest {
 		configuration.setDelimiterParsingDisabled(true);
 		final File file = tempFile.toFile();
 		configuration.setFile(file);
+		EdeDetector det = new EdeDummyDetector();
+		det.setName("det");
+		det.configure();
+
 		RealmTester.exerciseCurrent(new Runnable() {
 			@Override
 			public void run() {
 				WritableList<TimingGroupUIModel> groupList = new WritableList<>(new ArrayList<>(), TimingGroupUIModel.class);
 				TimeResolvedExperimentModel testLinerExperimentModel = new TimeResolvedExperimentModel();
 				TimingGroupUIModel group = new TimingGroupUIModel(ExperimentUnit.SEC, testLinerExperimentModel);
-				group.setCurrentDetector( new XhDetector() );
+				group.setCurrentDetector(det);
 				group.setTimes(0.0d, 1000.0d);
 				try {
 					group.setNumberOfSpectrum(100);

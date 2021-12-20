@@ -69,6 +69,9 @@ class ScannableBouncer(ScannableBase):
     # Move scannable to start position (block until move is complete), then start motor move thread
     def startMotorMove(self) :
         self.logger.info("Starting motor move for {}. Waiting for {} to finish", self.getName(), self.scannableToMove.getName())
+        # Stop the previously running thread and the scannable
+        self.stopFlag = 1
+        self.scannableToMove.stop()
         self.scannableToMove.waitWhileBusy()
         self.originalMotorSpeed = self.scannableToMove.getSpeed()
         self.stopFlag = 0

@@ -36,10 +36,11 @@
 	<import resource="file:${gda.config}/servers/main/core.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/epics-cameras.xml" />
-	
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/robot.xml" />
-	<import resource="file:${gda.config}/servers/main/robot.xml" />
-	
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/gantry.xml" />
+	<import resource="file:${gda.config}/servers/main/gantry.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/meca-robot.xml" />
+
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

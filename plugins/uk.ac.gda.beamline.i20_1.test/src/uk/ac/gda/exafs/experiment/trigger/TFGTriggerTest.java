@@ -463,7 +463,7 @@ public class TFGTriggerTest {
 					"1 0.000500 0.0 4 0 0 0\n"+
 					"1 0.001000 0.0 6 0 0 0\n"+
 					"1 0.201252 0.0 4 0 0 0\n"+
-					"3 0 0.000001 0 0 0 9\n"+
+					"4 0 0.000001 0 0 0 9\n"+
 					"1 0.101376 0.0 0 0 0 0\n"+
 					"-1 0 0 0 0 0 0", command);
 	}
@@ -562,6 +562,126 @@ public class TFGTriggerTest {
 					"-1 0 0 0 0 0 0", command);
 
 	}
+
+
+	@Test
+	public void testXhPulsesAfterCollection() throws Exception {
+		collectionDuration = 0.5;
+		numberOfFrames = 20;
+		detectorTriggerStartTime = 0;
+		double frameLength = collectionDuration/numberOfFrames;
+
+		setupXh();
+		setupDetectorDataCollection();
+
+		// Create 1ms pulse 0.1 sec after XH collection has finished
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(collectionDuration, 1e-3, TriggerOutputPort.USR_OUT_2 );
+		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
+		triggerList.add( trigger1 );
+
+		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
+		System.out.print(command);
+		compareCommands("tfg setup-groups\n"+
+					"1 0.001 0.000000 2 0 0 0\n"+
+					"19 0.000 0.000001 0 0 0 9\n"+
+					"1 "+String.format("%.4f", frameLength)+" 0.000000 0 0 0 0\n"+
+					"1 0.001 0.000000 4 0 0 0\n"+
+					"-1 0 0 0 0 0 0", command);
+	}
+	@Test
+	public void testXhPulsesAfterCollection2() throws Exception {
+		collectionDuration = 10e-6;
+		numberOfFrames = 5;
+		detectorTriggerStartTime = 0;
+		detectorTriggerPulseLength = 1e-6;
+
+		setupXh();
+		setupDetectorDataCollection();
+
+		double frameLength = collectionDuration/numberOfFrames;
+
+		// Times after last spectrum trigger to send Tfg pulse
+		double[] triggerTimes = {1e-6, 2e-6, 3e-6, 4e-6};
+
+		for(double triggerTimeAfterCollection : triggerTimes) {
+
+			// Create 1ms pulse just after XH collection has finished
+			TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(collectionDuration-frameLength+triggerTimeAfterCollection, 1e-3, TriggerOutputPort.USR_OUT_2 );
+			List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
+			triggerList.clear();
+			triggerList.add(trigger1);
+
+			String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
+			System.out.print(command);
+			compareCommands("tfg setup-groups\n"+
+						"1 "+String.format("%.2e", detectorTriggerPulseLength)+" 0.000000 2 0 0 0\n"+
+						"4 0.000 0.000001 0 0 0 9\n"+
+						"1 "+String.format("%.7f", triggerTimeAfterCollection)+" 0.000000 0 0 0 0\n"+
+						"1 0.001 0.000000 4 0 0 0\n"+
+						"-1 0 0 0 0 0 0", command);
+
+		}
+	}
+
+	@Test
+	public void testXhPulsesOverlapDuringCollection() throws Exception {
+		collectionDuration = 0.5;
+		numberOfFrames = 20;
+		detectorTriggerStartTime = 0;
+		double frameLength = collectionDuration/numberOfFrames;
+
+		setupXh();
+		setupDetectorDataCollection();
+
+		// Create single ms pulse 2*framelengths long starting 1/2 way through detector frame 3
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(frameLength*2+0.5*frameLength, 2*frameLength, TriggerOutputPort.USR_OUT_2 );
+		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
+		triggerList.add( trigger1 );
+
+		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
+		System.out.print(command);
+		compareCommands("tfg setup-groups\n"+
+					"1 0.001 0.000000 2 0 0 0\n"+
+					"2 0.000 0.000001 0 0 0 9\n"+
+					"1 "+String.format("%.4f", 0.5*frameLength)+" 0.000000 0 0 0 0\n"+
+					"1 "+String.format("%.4f", 2*frameLength)+" 0.000000 4 0 0 0\n"+
+					"15 0.000 0.000001 0 0 0 9\n"+
+					"1 "+String.format("%.4f", frameLength)+" 0.000000 0 0 0 0\n"+
+					"-1 0 0 0 0 0 0", command);
+	}
+
+	@Test
+	public void testXhTriggersCoincideWithSpectra() throws Exception {
+		collectionDuration = 0.5;
+		numberOfFrames = 20;
+		detectorTriggerStartTime = 0;
+		double frameLength = collectionDuration/numberOfFrames;
+
+		setupXh();
+		setupDetectorDataCollection();
+
+		// Create two 1ms pulse, starting exactly on spectra 2 and 4.
+		TriggerableObject trigger1 = TriggerableObject.createNewSampleEnvEntry(frameLength, 1e-3, TriggerOutputPort.USR_OUT_2 );
+		TriggerableObject trigger2 = TriggerableObject.createNewSampleEnvEntry(3*frameLength, 1e-3, TriggerOutputPort.USR_OUT_2 );
+
+		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
+		triggerList.add( trigger1 );
+		triggerList.add( trigger2 );
+
+		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
+		System.out.print(command);
+		compareCommands("tfg setup-groups\n"+
+					"1 0.001 0.000000 2 0 0 0\n"+
+					"1 "+String.format("%.4f", frameLength-1e-3)+" 0.000000 0 0 0 0\n"+
+					"1 "+String.format("%.4f", 1e-3)+" 0.000000 4 0 0 0\n"+
+					"1 0.000 0.000001 0 0 0 9\n"+
+					"1 "+String.format("%.4f", frameLength)+" 0.000000 0 0 0 0\n"+
+					"1 "+String.format("%.4f", 1e-3)+" 0.000000 4 0 0 0\n"+
+					"16 0.000 0.000001 0 0 0 9\n"+
+					"1 "+String.format("%.4f", frameLength)+" 0.000000 0 0 0 0\n"+
+					"-1 0 0 0 0 0 0", command);
+	}
+
 
 	@Test
 	public void testScalerFramesNoTfgOutput() {

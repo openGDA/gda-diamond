@@ -205,12 +205,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 			if (runConfigure) {
 				logger.debug("Attempting to reconfigure detector {}", detector.getName());
-				ConnectDeviceDialog connectionDialog = new ConnectDeviceDialog(butDetectorConnect.getShell());
-				connectionDialog.setDetector(detector);
-				connectionDialog.setBlockOnOpen(true);
-				// need to try with hardware to find realistic timeout value (xh is slow to configure...)
-				// Might need to use different value for different detectors.
-				connectionDialog.setMaxExpectedConfigureTimeSecs(20);
+				ConnectDeviceDialog connectionDialog = ConnectDeviceDialog.create(butDetectorConnect.getShell(), detector);
 				connectionDialog.open();
 				if (detector.isConfigured()) {
 					DetectorModel.INSTANCE.setCurrentDetector(detector);
