@@ -1,4 +1,4 @@
-# i06 beamline profile
+# i06-2 beamline profile
 
 # Set up path and mode
 export PATH=/dls_sw/prod/etc/Launcher:/dls_sw/$BEAMLINE/software/gda/config/bin:${PATH}

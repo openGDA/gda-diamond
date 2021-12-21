@@ -2,12 +2,6 @@
 
 export GDA_CLIENT_VMARGS="-Xms256m -Xmx2048m"
 
-if [ "$1" == "i06-1" ] || [ "$1" == "i06" ]; then
-	export BEAMLINE=$1
-	source /dls_sw/$1/etc/$1_profile.sh
-	gda logpanel
-	gda client "${@:2}"	
-else
-	gda logpanel
-	gda client $*
-fi	
+gda logpanel
+gda client $*
+	
