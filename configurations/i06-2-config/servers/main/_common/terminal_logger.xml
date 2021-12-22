@@ -12,7 +12,7 @@
 
  
   	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
- 		<property name="template" value="/dls/i06/data/$year$/$visit$/spool/gdaterminal.log" />
+ 		<property name="template" value="/dls/i06-2/data/$year$/$visit$/spool/gdaterminal.log" />
  		<property name="gdaMetadata" ref="GDAMetadata" />
  	</bean>
 

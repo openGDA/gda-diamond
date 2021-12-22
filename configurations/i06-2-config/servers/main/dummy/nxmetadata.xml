@@ -114,19 +114,4 @@
 		</property>
 	</bean>
 	
-	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
-		<!-- configure per-scan monitors -->
-		<property name="sourceName" value="source" />
-		<property name="insertionDeviceName" value="id" />
-		<!--  <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
-		<property name="monochromatorName" value="pgm" />
-		<property name="beamName" value="beam" />
-		<property name="userDeviceName" value="user01" />
-		<property name="additionalDeviceNames">
-			<set>
-				<value>ps</value>
-			</set>
-		</property>
-	</bean>
-
 </beans>

@@ -7,21 +7,18 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>servers/main/live/devices/peemShutter.xml</config>
-		<config>servers/main/live/devices/peemStage.xml</config>
-		<config>servers/main/live/devices/peemExitSlit.xml</config>
 		<config>servers/main/live/devices/uview.xml</config>
 		<config>servers/main/_common/server.xml</config>
 		<config>servers/main/live/server.xml</config>
 		<config>servers/main/_common/terminal_logger.xml</config>
 		<config>servers/main/live/devices/_all_devices.xml</config>
 		<config>servers/main/_common/scannables/_all_scannables.xml</config>
-		<config>servers/main/_common/scannables/peemExitSlit.xml</config>
-		<config>servers/main/_common/scannables/peemStage.xml</config>
 		<config>clients/main/live/client.xml</config>
 		<config>clients/main/_common/client.xml</config>
 		<config>clients/main/dummy/client.xml</config>
 		<config>servers/main/live/devices/leem.xml</config>
+		<config>servers/main/live/devices/manipulator.xml</config>
+		<config>servers/main/_common/scannables/manipulator.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
@@ -33,9 +30,6 @@
 			<configs>
 				<config>servers/main/_common/server.xml</config>
 				<config>servers/main/_common/terminal_logger.xml</config>
-				<config>servers/main/live/devices/peemExitSlit.xml</config>
-				<config>servers/main/live/devices/peemShutter.xml</config>
-				<config>servers/main/live/devices/peemStage.xml</config>
 				<config>servers/main/live/devices/uview.xml</config>
 				<config>servers/main/live/server.xml</config>
 				<config>servers/main/live/devices/_all_devices.xml</config>
@@ -90,9 +84,9 @@
 				<config>/i06-shared/servers/main/live/devices/xbpm2.xml</config>
 				<config>/i06-shared/servers/main/live/server.xml</config>
 				<config>servers/main/_common/scannables/_all_scannables.xml</config>
-				<config>servers/main/_common/scannables/peemExitSlit.xml</config>
-				<config>servers/main/_common/scannables/peemStage.xml</config>
 				<config>/i06-shared/properties/_common/gdaProperties.xml</config>
+				<config>servers/main/live/devices/manipulator.xml</config>
+				<config>servers/main/_common/scannables/manipulator.xml</config>
 			</configs>
 			<profiles>
 			</profiles>

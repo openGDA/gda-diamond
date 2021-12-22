@@ -4,14 +4,19 @@
 
 	<!-- PEEM line PEEM Manipulating Stage Motors -->
 	<bean id="MotorPEEMStage_X" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-MO-PEEM-01:X" />
+		<property name="pvName" value="BL06K-MO-PEEM-01:X" />
 	</bean>
 
 	<bean id="MotorPEEMStage_Y" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-MO-PEEM-01:Y" />
+		<property name="pvName" value="BL06K-MO-PEEM-01:Y" />
 	</bean>
 	<bean id="MotorPEEMStage_phi" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-MO-PEEM-01:PHI:OS" />
+		<property name="pvName" value="BL06K-MO-PEEM-01:PHI:OS" />
 	</bean>
+	
+	<bean id="pes_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06K-MO-PEEM-01:ES:TRANS" />
+	</bean>
+	
 
 </beans>

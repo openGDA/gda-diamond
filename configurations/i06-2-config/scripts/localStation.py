@@ -1,8 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
 from scannables.EnumPVScannable import EnumPVScannable
-from gdaserver import medipix
-from java.lang import RuntimeException
 
 print "===================================================================";
 print "Performing Beamline I06 specific initialisation code (localStation.py).";
@@ -24,8 +22,7 @@ from BeamlineI06.beamline import peemline, getTitle,gettitle,getvisit,getVisit,l
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
 
 #To eLog the scan
-# from i06shared.setSrsDataFileHeader import fileHeader
-# fileHeader.setScanLogger(peemline)
+fileHeader.setScanLogger(peemline)
 
 if installation.isLive():
     from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
@@ -59,14 +56,16 @@ else:
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
 #PEEM End Station
-if installation.isLive():
-    from peem.leem_instances import leem2000, FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
-    # fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
-    from peem.stv_obj_instance import stvobj  # @UnusedImport
-    from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
-    # fileHeader.add([leem_rot])
-else:
-    print "No simulation for LEEM control yet!"
+# if installation.isLive():
+#     # fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
+#     from peem.leem_instances import leem2000
+#     from peem.stv_obj_instance import stvobj  # @UnusedImport
+#     # fileHeader.add([leem_rot])
+# else:
+#     print "No simulation for LEEM control yet!"
+# from peem.leem_instances import FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
+# from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
+from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens  # @UnusedImport
 
 def picture(acqTime):
     scan(t,1,1,1,pcotif,acqTime)  # @UndefinedVariable
@@ -74,10 +73,12 @@ from gda.jython.commands.GeneralCommands import alias
 alias("picture")
 #
 def enableRastering():
+    from gdaserver import medipix  # @UnresolvedImport
     medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(True)
 alias("enableRastering")
 
 def disableRatsering():
+    from gdaserver import medipix  # @UnresolvedImport
     medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(False)
 alias("disableRatsering")
   
@@ -136,21 +137,31 @@ if installation.isLive():
     alias("average")
 else:
     def medipix_unrotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("medipix_unrotate")
     
     def medipix_rotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("medipix_rotate")
     
     def unrotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("unrotate")
     
     def rotate():
-        raise RuntimeException("EPICS PV and IOC required!")
+        raise RuntimeError("EPICS PV and IOC required!")
     alias("rotate")
 
+def acquire_flat_field(num_images, detector, acquire_time):
+    scan(ds, 1, num_images, 1, detector, acquire_time)  # @UndefinedVariable
+    meta.addLink("flat_field", "data", "/entry", str(lastscan()))
+    
+alias("acquire_flat_field")
+    
+def remove_flat_field():
+    meta.rm("flat_field", "data")
+
+alias("remove_flat_field") 
 # from gda.jython.commands.ScannableCommands import add_default
 # add_default([fileHeader]);
 

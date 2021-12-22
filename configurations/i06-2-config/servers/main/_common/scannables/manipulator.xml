@@ -20,4 +20,11 @@
 		<property name="motor" ref="MotorPEEMStage_phi" />
 		<property name="protectionLevel" value="0" />
 	</bean>
+	<bean id="pes" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pes_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
 </beans>

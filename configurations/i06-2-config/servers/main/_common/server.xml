@@ -6,7 +6,17 @@
 		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
 	<import resource="scannables/_all_scannables.xml"/>
+	
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<import resource="../../../../i06-shared/servers/main/_common/GDAMetadata.xml"/>
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 	<import resource="commandServer.xml"/>
+	<import resource="../../../../i06-shared/servers/main/_common/commandQueueProcessor.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="../../../../i06-shared/servers/main/_common/dataWriter.xml"/>	
+	
 	<import resource="terminal_logger.xml"/>
 	<import resource="nxmetadata.xml"/>
 

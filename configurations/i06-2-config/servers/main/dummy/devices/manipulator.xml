@@ -23,5 +23,11 @@
 		<property name="speed" value="1" />
 		<property name="unitString" value="deg"/>
 	</bean>
+	<bean id="pes_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.50000" />
+		<property name="maxPosition" value="13.19000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
 
 </beans>

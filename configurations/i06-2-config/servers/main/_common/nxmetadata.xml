@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="source" />
+		<property name="sourceName" value="Diamond Light Source" />
+		<property name="type" value="Synchrolock"/>
+		<property name="probe" value="laser beam"/>
+		<property name="currentScannableName" value="ds" />
+	</bean>
+	<bean id="beamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam" />
+		<property name="incidentEnergyScannableName" value="ds" />
+		<property name="incidentBeamDivergenceScannableName" value="ds" />
+		<property name="incidentPolarizationScannableName" value="ds" />
+		<property name="beamExtentScannableName" value="ds" />
+		<property name="fluxScannableName" value="ds" />
+	</bean>
+	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+		<property name="name" value="user01"/>
+		<!-- Note: The user name is retrieved from the baton holder -->
+	</bean>
 
 	<bean id="psNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="ps" />
@@ -17,8 +39,117 @@
 					<property name="name" value="y"/>
 					<property name="scannableName" value="psy"/>
 				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="phi"/>
+					<property name="scannableName" value="psphi"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="slit"/>
+					<property name="scannableName" value="pesy"/>
+				</bean>		
 			</list>
 		</property>
 	</bean>
 
+	<bean id="leemNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="leem" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="stv"/>
+					<property name="scannableName" value="leem_stv"/>
+					<property name="units" value="V"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="obj"/>
+					<property name="scannableName" value="leem_obj"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objStigmA"/>
+					<property name="scannableName" value="leem_objStigmA"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objStigmB"/>
+					<property name="scannableName" value="leem_objStigmB"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="p3alignx"/>
+					<property name="scannableName" value="leem_p3alignx"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="p3aligny"/>
+					<property name="scannableName" value="leem_p3aligny"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="transferlens"/>
+					<property name="scannableName" value="leem_transferlens"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="temp"/>
+					<property name="scannableName" value="leem_temp"/>
+					<property name="units" value="°C"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objAlignX"/>
+					<property name="scannableName" value="leem_objAlignX"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="objAlignY"/>
+					<property name="scannableName" value="leem_objAlignY"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="rot"/>
+					<property name="scannableName" value="leem_rot"/>
+					<property name="units" value="deg"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="intermlens"/>
+					<property name="scannableName" value="leem_intermlens"/>
+					<property name="units" value="mA"/>
+				</bean>		
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="fov_a"/>
+					<property name="scannableName" value="leem_FOV_A"/>
+					<property name="units" value="um"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+<!-- creating a new system property -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetClass" value="java.lang.System" />
+				<property name="targetMethod" value="getProperties" />
+			</bean>
+		</property>
+		<property name="targetMethod" value="putAll" />
+		<property name="arguments">
+			<util:properties>
+				<prop key="gda.endstation.name">PEEM</prop>
+			</util:properties>
+		</property>
+	</bean>
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+		<property name="sourceName" value="source" />
+		<property name="beamName" value="beam" />
+		<property name="userDeviceName" value="user01" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>ps</value>
+				<value>leem</value>
+			</set>
+		</property>
+	</bean>
 </beans>

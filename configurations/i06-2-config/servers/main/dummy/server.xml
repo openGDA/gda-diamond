@@ -4,7 +4,7 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 
-	<import resource="../../../../i06-shared/servers/main/dummy/server.xml"/>
+	<import resource="../../../../i06-shared/properties/_common/gdaProperties.xml" />
 	<import resource="devices/_all_devices.xml"/>
 
 <!-- do not remove anything below here -->
