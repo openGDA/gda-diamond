@@ -1,5 +1,5 @@
 from Diamond.PseudoDevices.PointFindingInFile import PointFindingInFileClass
-#from BeamlineI06.PseudoDevices.EnergyPointFindingInFile import EnergyPointFindingInFileClass
+#from BeamlineI06_2.PseudoDevices.EnergyPointFindingInFile import EnergyPointFindingInFileClass
 
 #pfif= PeakFindingInFileClass("pfif", "testMotor1","y1", []);
 pfif= PointFindingInFileClass("pfif", "pgmenergy","ca31sr",[]);

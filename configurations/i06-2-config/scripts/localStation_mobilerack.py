@@ -19,7 +19,7 @@ userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
 gdaDevScriptDir = LocalProperties.get("gda.jython.gdaDevScriptDir") + "/";
 
 try:
-	execfile(gdaScriptDir + "BeamlineI06/beamline.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/beamline.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  beamline.py script error"
@@ -29,12 +29,12 @@ except:
 try:
 	#Setup the environment variables
 	from Diamond.Utility.Functions import *;
-	execfile(gdaScriptDir + "BeamlineI06/createAlias.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/createAlias.py");
 	
 	#Performing the utility functions"
 	print "-------------------------------------------------------------------"
 	print "Setup the utility functions"
-	execfile(gdaScriptDir + "BeamlineI06/setTimers.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/setTimers.py");
 	
 	print "-------------------------------------------------------------------"
 	print "Enable the CorrespondentDevice";
@@ -63,20 +63,20 @@ try:
 	#Set up the 8512 scaler card
 	print "-------------------------------------------------------------------"
 	print "Set up the 8512 scaler card"
-	execfile(gdaScriptDir + "BeamlineI06/Scaler8512.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/Scaler8512.py");
 	
 	#Set up the Patch Panel scaler card
 	print "-------------------------------------------------------------------"
 	print "Set up the Patch Panel scaler card"
-	execfile(gdaScriptDir + "BeamlineI06/PatchPanelScaler8512.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/PatchPanelScaler8512.py");
 
 	#Set up the Mobilerack scaler card
 	print "-------------------------------------------------------------------"
 	print "Set up the Patch Panel scaler card"
-	execfile(gdaScriptDir + "BeamlineI06/MobilerackScaler8512.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/MobilerackScaler8512.py");
 	
 	#Set the caxxsum for average current amplifier reading 
-	execfile(gdaScriptDir + "BeamlineI06/setCASum.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/setCASum.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  Patch Panel Scaler Error "
@@ -86,7 +86,7 @@ except:
 try:
 	print "-------------------------------------------------------------------"
 	print "Enable the multiple region scan";
-	execfile(gdaScriptDir + "BeamlineI06/setSpecialScans.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/setSpecialScans.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  mrscan Error "
@@ -95,11 +95,11 @@ except:
 try:	
 	print "-------------------------------------------------------------------"
 	print "Enable the Peak finding pseudo device pfif";
-	execfile(gdaScriptDir + "BeamlineI06/findingKeyPoints.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/findingKeyPoints.py");
 	
 	print "-------------------------------------------------------------------"
 	print "Enable the FixThings function";
-	execfile(gdaScriptDir + "BeamlineI06/fixThings.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/fixThings.py");
 	
 	
 	#Enable the laser delay stage functions"
@@ -116,7 +116,7 @@ try:
 	#Dummy Camera Setup
 	print
 	print "===================================================================";
-#	execfile(gdaScriptDir + "BeamlineI06/useDummyCam.py");
+#	execfile(gdaScriptDir + "BeamlineI06_2/useDummyCam.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  Dummy Camera Error"
@@ -128,7 +128,7 @@ try:
 	print
 	print "===================================================================";
 	print "SRS scan data file header setup"
-	execfile(gdaScriptDir + "BeamlineI06/setDummyDataFileHeader.py");
+	execfile(gdaScriptDir + "BeamlineI06_2/setDummyDataFileHeader.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  Errors when running the localstation.py"

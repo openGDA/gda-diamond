@@ -1,6 +1,6 @@
 from gda.device.scannable import SimpleScannable
 from gda.device.scannable.scannablegroup import ScannableGroup
-from BeamlineI06.Mainline.xmcd import XMCDScanPositionProvider
+from BeamlineI06_2.Mainline.xmcd import XMCDScanPositionProvider
 
 imagenum = SimpleScannable()
 imagenum.name = "imagenum"

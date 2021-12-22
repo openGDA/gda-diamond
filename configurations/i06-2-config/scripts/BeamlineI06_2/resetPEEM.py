@@ -11,5 +11,5 @@ print "To shutdown the PEEM Corba Bridge Connection"
 peemBridge = Finder.find("peemBridge");
 peemBridge.disconnect()
 
-run("BeamlineI06/usePEEM")
+run("BeamlineI06_2/usePEEM")
 

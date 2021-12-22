@@ -1,5 +1,5 @@
 
-from BeamlineI06.PseudoDevices.ScannableControlPoint import ScannalbeControlPointClass;
+from BeamlineI06_2.PseudoDevices.ScannableControlPoint import ScannalbeControlPointClass;
 
 #Create the scannable PatchPanel Analogue Output
 
