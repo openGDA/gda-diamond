@@ -44,7 +44,7 @@ import __main__  # @UnresolvedImport
 
 beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
 
-if installation.isLive() and beamline != "lab44":
+if installation.isLive() and beamline != "lab44" and beamline != "i06-2":
     from i06shared.devices.Scaler8512 import ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s,ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr,scalar1raw,scaler1  # @UnusedImport
     from i06shared.devices.ADC1Counters import ca91s,ca92s,ca93s,ca94s,ca101s,ca102s,ca103s,ca104s,adc1voltage,ca91,ca92,ca93,ca94,ca101,ca102,ca103,ca104,adc1current,ca91sr,ca92sr,ca93sr,ca94sr,ca101sr,ca102sr,ca103sr,ca104sr,adc1count  # @UnusedImport
     from i06shared.devices.ADC2Counters import ca111s,ca112s,ca113s,ca114s,ca121s,ca122s,ca123s,ca124s,adc2voltage,ca111,ca112,ca113,ca114,ca121,ca122,ca123,ca124,adc2current,ca111sr,ca112sr,ca113sr,ca114sr,ca121sr,ca122sr,ca123sr,ca124sr,adc2count  # @UnusedImport
@@ -61,34 +61,32 @@ if installation.isLive() and beamline != "lab44":
     OH1temp=DisplayEpicsPVClass('OH1temp','SV06I-BM-OH-01:TEMP','C','%f')
     M1temp1=DisplayEpicsPVClass('M1temp1','BL06I-OP-COLM-01:TEMP1','C','%f')
     M2temp1=DisplayEpicsPVClass('M2temp1','BL06I-OP-COLM-01:TEMP2','C','%f')
+
+if beamline != "lab44" and beamline != "i06-2": 
+    from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
+    from i06shared.devices.usePGM import grating  # @UnusedImport
+    #Group the hexapod legs into list
+    m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
+    m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
     
-from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
-#from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
+# from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 from i06shared.scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
-
-from i06shared.devices.usePGM import grating  # @UnusedImport
 from i06shared.metadata.setSrsDataFileHeader import fileHeader  # @UnusedImport
-
-#Group the hexapod legs into list
-m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
-m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
-
-from i06shared.scannables.mode_polarisation_energy_instances import GAP_LIMIT, RAW_PHASE_MOTOR_TOLERANCE, ENERGY_VALUE_TOLERANCE, idd,idu,dpu,dmu,pc,nc,lh,lv,la,unknown, initialisation  # @UnusedImport
-
 from i06shared.scan.miscan import miscan  # @UnusedImport
 
-#add checkbeam scannable
-from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
-
-#Metadata objects
-from i06shared.scannables.stokesParameters import StokesParameters
-stokes_parameters = StokesParameters('stokes_parameters', __main__.pol, __main__.laa)
-from i06shared.metadata.gapScannable import GapScannable
-gap = GapScannable("gap", __main__.smode, __main__.iddgap, __main__.idugap, "mm", "%.3f")  # @UndefinedVariable
-from i06shared.metadata.taperScannable import TaperScannable
-taper = TaperScannable("taper", __main__.smode, "urad", "%.3f", iddtaper=None, idutaper=None)
-from i06shared.metadata.harmonicScannable import HarmonicScannable
-harmonic = HarmonicScannable("harmonic", __main__.pol)
+if beamline != "i06-2":
+    from i06shared.scannables.mode_polarisation_energy_instances import GAP_LIMIT, RAW_PHASE_MOTOR_TOLERANCE, ENERGY_VALUE_TOLERANCE, idd,idu,dpu,dmu,pc,nc,lh,lv,la,unknown, initialisation  # @UnusedImport
+    #add checkbeam scannable
+    from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
+    #Metadata objects
+    from i06shared.scannables.stokesParameters import StokesParameters
+    stokes_parameters = StokesParameters('stokes_parameters', __main__.pol, __main__.laa)
+    from i06shared.metadata.gapScannable import GapScannable
+    gap = GapScannable("gap", __main__.smode, __main__.iddgap, __main__.idugap, "mm", "%.3f")  # @UndefinedVariable
+    from i06shared.metadata.taperScannable import TaperScannable
+    taper = TaperScannable("taper", __main__.smode, "urad", "%.3f", iddtaper=None, idutaper=None)
+    from i06shared.metadata.harmonicScannable import HarmonicScannable
+    harmonic = HarmonicScannable("harmonic", __main__.pol)
 
 from i06shared.commands.flatFieldAcqusition import acquire_flat_field, remove_flat_field  # @UnusedImport
 

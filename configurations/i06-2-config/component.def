@@ -8,4 +8,6 @@
     id="i06-2-config">
   <requirement
       name="i06-shared"/>
+  <requirement
+      name="uk.ac.gda.beamline.i06.feature.feature.group"/>
 </targlets:ComponentDefinition>
