@@ -128,6 +128,7 @@ if installation.isLive():
     from kbRastering.rasteringUseKeysight import *  # @UnusedWildImport
     
     def average(avg):
+        from time import sleep
         caput('BL06I-EA-DET-02:PROCB:NumFilter',avg)
         sleep(0.1)
         caput('BL06I-EA-DET-02:PROCB:ResetFilter',1)
@@ -151,19 +152,6 @@ else:
     def rotate():
         raise RuntimeError("EPICS PV and IOC required!")
     alias("rotate")
-
-def acquire_flat_field(num_images, detector, acquire_time):
-    scan(ds, 1, num_images, 1, detector, acquire_time)  # @UndefinedVariable
-    meta.addLink("flat_field", "data", "/entry", str(lastscan()))
-    
-alias("acquire_flat_field")
-    
-def remove_flat_field():
-    meta.rm("flat_field", "data")
-
-alias("remove_flat_field") 
-# from gda.jython.commands.ScannableCommands import add_default
-# add_default([fileHeader]);
 
 print "==================================================================="
 print "end of localStation.py for Beamline I06)"

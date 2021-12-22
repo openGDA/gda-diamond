@@ -1,5 +1,5 @@
 '''
-replace LEEM2000_scannable_ibit.py and leem_instances.py
+replace LEEM2000_scannable_init.py and leem_instances.py
 
 added more scannables
 
