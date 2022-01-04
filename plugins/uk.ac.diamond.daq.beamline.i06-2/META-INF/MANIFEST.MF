@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: I06-2
+Bundle-SymbolicName: uk.ac.diamond.daq.beamline.i06-2;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.diamond.daq.beamline.i06_2.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ uk.ac.gda.beamline.i06,
+ uk.ac.gda.client
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: uk.ac.diamond.daq.beamline.i06
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Diamond Light Source
+Import-Package: gda.configuration.properties,
+ org.dawnsci.plotting.views,
+ org.eclipse.search.ui,
+ org.python.pydev.ui.wizards.files,
+ org.python.pydev.ui.wizards.project,
+ org.slf4j;version="1.7.30",
+ uk.ac.gda.client.live.stream.controls,
+ uk.ac.gda.client.live.stream.view,
+ uk.ac.gda.client.liveplot,
+ uk.ac.gda.nano.views
