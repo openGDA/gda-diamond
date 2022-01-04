@@ -136,7 +136,7 @@
 		<property name="targetMethod" value="putAll" />
 		<property name="arguments">
 			<util:properties>
-				<prop key="gda.endstation.name">PEEM</prop>
+				<prop key="gda.endstation.name">SPELEEM</prop>
 			</util:properties>
 		</property>
 	</bean>
