@@ -35,12 +35,15 @@ from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,
 from i06shared.commands.switchDataWriter import asciiformat, nexusformat,whichformat  # @UnusedImport
 from i06shared.commands.snapshot import snap  # @UnusedImport
 from i06shared.functions.aliasFunctions import setAlias, setGdaAlias  # @UnusedImport
-from i06shared.constant import Close,CLOSE,cls,Open,OPEN,opn,Reset,RESET,LH,LV,PC,NC,LA,ver,vertical,hor,horizontal,First,FIRST,Third,THIRD,FIFTH,Fifth,UNIAXIAL_X,UNIAXIAL_Y,UNIAXIAL_Z,SPHERICAL,PLANAR_XZ,QUADRANT_XY,CUBIC,uniaxialx,uniaxialy,uniaxialz,spherical,planar_xz,quadrant_xy,cubic,fixid,cvid,slaveid  # @UnusedImport
 from Diamond.Utility.Functions import logger, getScanNumber,incScanNumber,interruptable,removeDevices,getDevice,isDefaultDevice,removeDefaults,backupDefaults,restoreDefaults  # @UnusedImport
 from Diamond.Utility.setTimers import stopwatch,timekeeper,clock,lineTime,pointTime,waitTimer,timer,scanTimer,Timers,Dummies,dummyCounter  # @UnusedImport
 from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass;  # @UnusedImport
 from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;  # @UnusedImport
 import __main__  # @UnresolvedImport
+# from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
+from i06shared.scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
+from i06shared.metadata.setSrsDataFileHeader import fileHeader  # @UnusedImport
+from i06shared.scan.miscan import miscan  # @UnusedImport
 
 beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
 
@@ -63,18 +66,13 @@ if installation.isLive() and beamline != "lab44" and beamline != "i06-2":
     M2temp1=DisplayEpicsPVClass('M2temp1','BL06I-OP-COLM-01:TEMP2','C','%f')
 
 if beamline != "lab44" and beamline != "i06-2": 
+    from i06shared.constant import Close,CLOSE,cls,Open,OPEN,opn,Reset,RESET,LH,LV,PC,NC,LA,ver,vertical,hor,horizontal,First,FIRST,Third,THIRD,FIFTH,Fifth,UNIAXIAL_X,UNIAXIAL_Y,UNIAXIAL_Z,SPHERICAL,PLANAR_XZ,QUADRANT_XY,CUBIC,uniaxialx,uniaxialy,uniaxialz,spherical,planar_xz,quadrant_xy,cubic,fixid,cvid,slaveid  # @UnusedImport
     from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
     from i06shared.devices.usePGM import grating  # @UnusedImport
     #Group the hexapod legs into list
     m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
     m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
-    
-# from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
-from i06shared.scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
-from i06shared.metadata.setSrsDataFileHeader import fileHeader  # @UnusedImport
-from i06shared.scan.miscan import miscan  # @UnusedImport
 
-if beamline != "i06-2":
     from i06shared.scannables.mode_polarisation_energy_instances import GAP_LIMIT, RAW_PHASE_MOTOR_TOLERANCE, ENERGY_VALUE_TOLERANCE, idd,idu,dpu,dmu,pc,nc,lh,lv,la,unknown, initialisation  # @UnusedImport
     #add checkbeam scannable
     from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
