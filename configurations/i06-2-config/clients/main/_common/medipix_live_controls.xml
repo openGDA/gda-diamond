@@ -35,11 +35,6 @@
 		<property name="buttonText" value="Preview" />
 		<property name="group" value="medipix Mode" />
 	</bean>
-<!-- 	<bean id="medipiximaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl"> -->
-<!-- 		<property name="jythonCommand" value="medipiximaging.stop();sleep(1);medipiximaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); medipiximaging.collectData()" /> -->
-<!-- 		<property name="buttonText" value="Imaging" /> -->
-<!-- 		<property name="group" value="medipix Mode" /> -->
-<!-- 	</bean> -->
 
 	<!-- medipix image rotation control -->
 	<bean id="medipix_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
@@ -62,7 +57,7 @@
 
 	<bean id="medipixCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
 		<property name="cameraConfig" ref="medipix"/>
-		<property name="stateVariableName" value="i06.medipix.live.stream.active"/>
+		<property name="stateVariableName" value="i06-2.medipix.live.stream.active"/>
 	</bean>
 	<bean id="medipixControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
 		<property name="customWidget">

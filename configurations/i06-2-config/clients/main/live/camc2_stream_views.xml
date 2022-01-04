@@ -11,8 +11,8 @@
 
 	<bean id="camc2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="C2 Camera" />
-		<property name="url" value="http://bl06i-di-serv-01.diamond.ac.uk:8081/GIGE1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL06I-DI-GIGE-01:ARR" />
+		<property name="url" value="http://bl06k-di-serv-01.diamond.ac.uk:8080/SPELEEM.CAM2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL06K-EA-PHDGN-02:ARR" />
 		<property name="roiProvider" ref="camc2_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="withHistogram" value="true"/>

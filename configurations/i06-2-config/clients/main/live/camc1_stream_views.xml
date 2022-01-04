@@ -14,8 +14,8 @@
 	<bean id="camc1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 	<!-- this id string must be used in the view id definition in views extension point when withHistogram is set to true! -->
 		<property name="displayName" value="C1 Camera" />
-		<property name="url" value="http://bl06i-di-serv-01.diamond.ac.uk:8081/D98.CAM1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL06I-DI-PHDGN-98:ARR" />
+		<property name="url" value="http://bl06k-di-serv-01.diamond.ac.uk:8080/SPELEEM.CAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL06K-EA-PHDGN-01:ARR" />
 		<property name="roiProvider" ref="camc1_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="withHistogram" value="true"/>

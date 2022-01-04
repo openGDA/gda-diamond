@@ -59,7 +59,7 @@
 		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%2d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
@@ -68,7 +68,7 @@
 		<property name="pvName" value="TS-TS-MPX3-01:PROC:ResetFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%1d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
@@ -84,7 +84,7 @@
 		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%2.0f</value>
+				<value>%.0f</value>
 			</list>
 		</property>	
 		<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateNumFilterInProc"/>
