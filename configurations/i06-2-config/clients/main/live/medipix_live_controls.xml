@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 <!-- MEDIPIX -->
 	<bean id="medipixExposureTime" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquireTime"/>
+		<property name="pvName" value="BL06K-EA-DET-01:CAM:AcquireTime"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -12,7 +12,7 @@
 		</property>	
 	</bean>
 	<bean id="medipixAcquirePeriod" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquirePeriod"/>
+		<property name="pvName" value="BL06K-EA-DET-01:CAM:AcquirePeriod"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -20,7 +20,7 @@
 		</property>	
 	</bean>
 	<bean id="medipixAcquireTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquireTime"/>
+		<property name="pvName" value="BL06K-EA-DET-01:CAM:AcquireTime"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -37,7 +37,7 @@
 		<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, #input)"/>
 	</bean>
 	<bean id="medipixIdleTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquirePeriod"/>
+		<property name="pvName" value="BL06K-EA-DET-01:CAM:AcquirePeriod"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
@@ -47,7 +47,7 @@
 		<property name="getPositionExpression" value="(#output - @medipixExposureTime.getPosition())>0.002 ? #output - @medipixExposureTime.getPosition() : 0.002"/>
 	</bean>
 	<bean id="medipixRotationAngle" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:ROT:Angle"/>
+		<property name="pvName" value="BL06K-EA-DET-01:ROT:Angle"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.1f</value>
@@ -55,34 +55,34 @@
 		</property>	
 	</bean>
 	<bean id="medipixProcNumFilter" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:PROCB:NumFilter"/>
+		<property name="pvName" value="BL06K-EA-DET-01:PROCB:NumFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%2d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
 	<bean id="medipixProcResetFilter" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:PROCB:ResetFilter"/>
+		<property name="pvName" value="BL06K-EA-DET-01:PROCB:ResetFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%1d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
 	<bean id="medipixProcEnableFilter" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:PROCB:EnableFilter"/>
+		<property name="pvName" value="BL06K-EA-DET-01:PROCB:EnableFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%1d</value>
+				<value>%d</value>
 			</list>
 		</property>	
 	</bean>
 	<bean id="medipixProcNumFilterWithResetEnableAfter" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:PROCB:NumFilter"/>
+		<property name="pvName" value="BL06K-EA-DET-01:PROCB:NumFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%2.0f</value>
+				<value>%.0f</value>
 			</list>
 		</property>	
 		<property name="functionNameToBeCalledInAsynchronousMoveTo" value="updateNumFilterInProc"/>
@@ -93,6 +93,7 @@
 				<value>gda.device.Scannable</value>
 				<value>java.lang.Integer</value>
 			</list>
-		</property>		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
+		</property>		
+		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
 	</bean>	
 </beans>

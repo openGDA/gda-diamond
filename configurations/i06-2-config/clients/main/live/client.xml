@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="../../../../i06-shared/clients/main/live/client.xml"/>
+	<import resource="../../../../i06-shared/properties/_common/gdaProperties.xml" />
 	<import resource="medipix_live_controls.xml"/>
 	<import resource="camc1_live_controls.xml"/>
 	<import resource="camc2_live_controls.xml"/>
