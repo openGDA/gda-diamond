@@ -1,0 +1,105 @@
+#####################################################################################
+The Pilatus 100K for I07:
+
+IP: i07-pilatus1.diamond.ac.uk
+NIC:
+eth5      Link encap:Ethernet  HWaddr 00:19:D1:13:BC:6B  
+          inet addr:172.23.107.204  Bcast:172.23.107.255  Mask:255.255.255.0
+          inet6 addr: fe80::219:d1ff:fe13:bc6b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:2481107 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:914811 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:397497412 (379.0 Mb)  TX bytes:1082327491 (1032.1 Mb)
+          Base address:0x2000 Memory:92100000-92120000 
+
+IP on Control's development network: 172.23.243.157 / Mask:255.255.240.0
+IP on B16 network: 172.23.243.157 / Mask: 
+
+Root: !dec040!
+Network Config Tool: YaST2
+
+
+#####################
+user: det
+ps:   Pilatus2
+
+$ ssh -X det@172.23.243.157
+
+$ cd /home/det/p2_det
+
+#Start both camserver and tvx:
+$ runtvx
+
+#Start camserver only:
+$ camonly
+
+#Start tvx only:
+$ tvxonly
+
+
+To run EPICS Soft IOC:
+$ cd /dls_sw/work/R3.14.8.2/ioc/pilatusTest
+$./bin/linux-x86/stpilatusTest.boot
+
+To run the EDM GUI:
+$ ./data/pilatusTestGUI
+
+
+Note:
+
+The TVX configuration file: tvxrc
+The camserver port: 41234
+
+telnet 172.23.243.157 41234
+
+
+#####################################################################################
+The Pilatus 2M for I07:
+
+IP: i07-pilatus2.diamond.ac.uk
+NIC:
+eth2      Link encap:Ethernet  HWaddr 00:1D:09:6A:00:5E  
+          inet addr:172.23.107.205  Bcast:172.23.107.255  Mask:255.255.255.0
+          inet6 addr: fe80::21d:9ff:fe6a:5e/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:5114 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1533 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:2744210 (2.6 Mb)  TX bytes:196224 (191.6 Kb)
+          Interrupt:16 Memory:f8000000-f8012100 
+
+#####################################################################################
+Root: !dec040!
+
+Mount the file system (for the current beamline)
+1. As root create a folder /dls/i07
+
+2. Mount the beamline's data directory onto /dls/i07:
+(For i07, the beamline data directory is i07-storage.diamond.ac.uk:/exports/data /dls/i07)
+
+Editing
+file: /etc/fstab on i07-pilatus01
+
+/dev/sda2       /       reiserfs        acl,user_xattr 1 1
+/dev/sda3       /home   reiserfs        acl,user_xattr 1 2
+/dev/sda1       swap    swap    defaults 0 0
+proc    /proc   proc    defaults 0 0
+sysfs   /sys    sysfs   noauto 0 0
+debugfs /sys/kernel/debug       debugfs noauto 0 0
+usbfs   /proc/bus/usb   usbfs   noauto 0 0
+devpts  /dev/pts        devpts  mode=0620,gid=5 0 0
+/dev/fd0        /media/floppy   auto    noauto,user,sync 0 0
+/dev/sdb1       /disk2  auto    user 0 0
+i07-storage.diamond.ac.uk:/exports/data /dls/i07        nfs     rw,rsize=32768,wsize=32768,intr,soft,acl,_netdev
+172.23.100.32:/exports/dls_sw/prod      /dls_sw/prod    nfs     rw,rsize=8192,wsize=8192,intr,soft,_netdev
+staff-scratch.diamond.ac.uk:/exports/sci_scratch /dls/sci_scratch nfs defaults 0 0
+
+3. Fix group membership by making the user 'det' a member of 'ixxdetector' and ixx_data.
+Using the usermod command to add a existing user to existing group
+
+Add existing user det to i07_data supplementary/secondary group:
+$usermod -a -G i07_data det
+
+Note: When change the existing user tony primary group to www, use:
+$usermod -g www tony
