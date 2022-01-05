@@ -5,7 +5,4 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:targlets="http://www.eclipse.org/oomph/targlets/1.0"
     xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Targlets.ecore"
-    id="i10-shared">
-  <requirement
-      name="mt-config"/>
-</targlets:ComponentDefinition>
+    id="i10-shared"/>
