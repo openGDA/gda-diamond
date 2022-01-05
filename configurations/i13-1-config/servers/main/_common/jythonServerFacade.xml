@@ -23,13 +23,6 @@
 			value="CONFIG" />
 	</bean>
 
-<!-- Used for moveable equipment supported by mt-config
- 	<bean id="mt_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-mt.git/configurations/mt-config/scripts" />
-		<property name="name" value="Scripts: MT" />
-		<property name="type" value="CORE" />
-	</bean>
- -->
 	<bean id="script_paths" class="gda.jython.ScriptPaths">
 		<property name="projects">
 			<list>
