@@ -14,13 +14,9 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="required_at_start.xml"/>
-
-<!-- RMI export the plotserver (can remove this once b24 uses plot_server.xml from core config...) -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/plotserver" />
-		<property name="service" ref="plot_server" />
-		<property name="serviceInterface" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-	</bean>
+	
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<import resource="abstract_command_server.xml"/>
 
