@@ -16,7 +16,6 @@
 -Dgda.facility.dir=/dls_sw/b24/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/b24/software/gda/workspace_git/gda-core.git/core-config
 -Dgda.config=/dls_sw/b24/software/gda/config
--Dgda.group.config=/dls_sw/b24/software/gda/workspace_git/gda-mt.git/configurations/mt-config/
 -Djava.library.path=/dls_sw/b24/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
 -Dgda.propertiesFile=/dls_sw/b24/software/gda/config/properties/live/live_instance_java.properties
 -Djacorb.config.dir=/dls_sw/b24/software/gda/config/properties/live/jacorb

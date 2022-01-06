@@ -15,7 +15,6 @@ from gda.configuration.properties import LocalProperties
 
 
 #New "standard" nexus metadata stuff
-#move to mt-config?
 from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm
 alias("setTitle")
 alias("getTitle")

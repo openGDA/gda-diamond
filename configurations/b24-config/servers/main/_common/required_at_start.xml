@@ -1,0 +1,21 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<!-- TODO: This Plot_Manager is deprecated and its presence in the shared
+				config prevents all MT beamlines from removing the dependency
+				on uk.ac.gda.swingclient so should be moved into the beamline
+				configs for beamlines which still require the swing GUI.
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+	 -->
+
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop" />
+	</bean>
+</beans>

@@ -13,16 +13,16 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
+	<import resource="required_at_start.xml"/>
 
-<!-- RMI export the plotserver (can remove this once mt-config uses plot_server.xml from core config...) -->
+<!-- RMI export the plotserver (can remove this once b24 uses plot_server.xml from core config...) -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/plotserver" />
 		<property name="service" ref="plot_server" />
 		<property name="serviceInterface" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 	</bean>
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+	<import resource="abstract_command_server.xml"/>
 
 	<bean id="script_paths" parent="common_script_paths"/>
 
@@ -32,7 +32,7 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
 	</bean>
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+	<import resource="terminal_logger.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
