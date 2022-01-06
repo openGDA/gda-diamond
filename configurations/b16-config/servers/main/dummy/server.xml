@@ -20,10 +20,6 @@
 	<import
 		resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
 
-<!-- Needed for Swing? Not available now for some reason
-	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
- -->
-
 	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 
 	<import resource="motor/dcm.xml" />
