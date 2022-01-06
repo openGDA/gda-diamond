@@ -7,7 +7,5 @@
     xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Targlets.ecore"
     id="i07-config">
   <requirement
-      name="mt-config"/>
-  <requirement
       name="uk.ac.gda.beamline.i07.feature.feature.group"/>
 </targlets:ComponentDefinition>

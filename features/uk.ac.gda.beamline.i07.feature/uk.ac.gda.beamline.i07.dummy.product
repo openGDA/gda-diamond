@@ -28,7 +28,6 @@ http://www.opengda.org
 -Dgda.install.git.loc=${workspace_loc}_git
 -Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.config=${project_loc:i07-config}
--Dgda.group.dir=${project_loc:mt-config}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.var=${workspace_loc}/../gda_var_non_live

@@ -47,8 +47,6 @@ fi
 # For instance if you use an actual group config (like mx) you might put
 # export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
 
-export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/mt-config
-
 # rewrite the diffractometer mode shorthand if it is present. N.B.
 # can only use shorthand if springprofiles not explicitly defined
 if [[ "${@}" != *"--springprofiles"* ]]; then

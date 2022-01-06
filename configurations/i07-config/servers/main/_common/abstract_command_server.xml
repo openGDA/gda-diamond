@@ -13,12 +13,6 @@
 		<property name="name" value="Scripts: Config" />
 		<property name="type" value="CONFIG" />
 	</bean>
-	
-	<bean id="mt_config_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-mt.git/configurations/mt-config/scripts" />
-		<property name="name" value="Scripts: Config-MT" />
-		<property name="type" value="CONFIG" />
-	</bean>
 
 	<bean id="gda_core_script_project" class="gda.jython.ScriptProject">
 		<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
@@ -49,7 +43,6 @@
 			<list>
 				<ref bean="user_script_project" />
 				<ref bean="beamline_config_script_project" />
-				<ref bean="mt_config_script_project" />
 				<ref bean="gda_core_script_project" />
 				<ref bean="gda_scisoftpy_script_project" />
 			</list>

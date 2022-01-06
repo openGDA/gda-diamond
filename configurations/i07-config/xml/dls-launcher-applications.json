@@ -26,7 +26,7 @@
     {
         "type": "button",
         "text": "Dawn",
-        "command": "/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/mt-config/bin/launcher-dawn"
+        "command": "/usr/bin/env bash /dls_sw/i07/software/gda/config/bin/launcher-dawn.sh"
     },
     {
         "type": "button",
