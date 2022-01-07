@@ -45,12 +45,12 @@
 		<property name="userUnits" value="deg"/>
 	</bean>
 	<bean id="medipixunrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="medipix_unrotate()" />
+		<property name="jythonCommand" value="unrotate()" />
 		<property name="buttonText" value="Unrotate" />
 		<property name="group" value="medipix Rotation" />
 	</bean>
 	<bean id="medipixrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="medipix_rotate()" />
+		<property name="jythonCommand" value="rotate()" />
 		<property name="buttonText" value="Rotate" />
 		<property name="group" value="medipix Rotation" />
 	</bean>

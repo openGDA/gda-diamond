@@ -3,32 +3,26 @@
 from i06shared import installation
 from gda.device.scannable import DummyScannable
 from gda.configuration.properties import LocalProperties
-print("\n")
-print("*"*80)
-print("Performing Beamline I06-shared initialisation code (localStation.py).")
-print("\n")
 
-print("-----------------------------------------------------------------------------------------------------------------")
+print("*"*100)
+print("Performing Beamline I06-shared initialisation code (localStation.py).\n")
+
+print("-"*100)
 print("load EPICS Pseudo Device utilities for creating scannable object from a PV name.")
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass, EpicsReadWritePVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerNoStatusClassDeadband,SingleChannelBimorphClass  # @UnusedImport
-print("\n")
-print("-----------------------------------------------------------------------------------------------------------------")
+print("-"*100)
 print("load time utilities for creating timer objects.")
 from gdascripts.pd.time_pds import tictoc, showtimeClass, showincrementaltimeClass, waittimeClass, waittimeClass2, waittimeClass3, actualTimeClass, LogTimeClass, showtime, inctime, waittime  # @UnusedImport
-print("\n")
-print("-----------------------------------------------------------------------------------------------------------------")
+print("-"*100)
 print("Load utilities: caget(pv), caput(pv,value), attributes(object), ")
 print("    iterableprint(iterable), listprint(list), frange(start,end,step)")
 from gdascripts.utils import frange, listprint, iterableprint, attributes, caget, caput, cagetArray, caput_wait, caput_string2waveform, default_scannables, jobs, _functional_name, _convert_to_java, functional  # @UnusedImport
-print("\n")
-print("-----------------------------------------------------------------------------------------------------------------")
+print("-"*100)
 print("load common physical constants")
 from gdascripts.constants import pi, eV, hPlanck, hbar, hPlanckeV, hbareV, clight, m_e, r_e, amu, re, me, aum  # @UnusedImport
-print("\n")
-print("-----------------------------------------------------------------------------------------------------------------")
-print("load nexus metadata commands")
+print("-"*100)
+print("load nexus metadata object - 'meta'")
 from gdascripts.metadata.nexus_metadata_class import meta   # @UnusedImport
-print("\n")
 
 ds=DummyScannable('ds')
 from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
@@ -45,7 +39,9 @@ from i06shared.scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT,
 from i06shared.metadata.setSrsDataFileHeader import fileHeader  # @UnusedImport
 from i06shared.scan.miscan import miscan  # @UnusedImport
 
-beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
+from commands.beamline import beamline, beamlinefunction, getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
+#To eLog the scan
+fileHeader.setScanLogger(beamline)
 
 if installation.isLive() and beamline != "lab44" and beamline != "i06-2":
     from i06shared.devices.Scaler8512 import ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s,ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr,scalar1raw,scaler1  # @UnusedImport
@@ -86,10 +82,11 @@ if beamline != "lab44" and beamline != "i06-2":
     from i06shared.metadata.harmonicScannable import HarmonicScannable
     harmonic = HarmonicScannable("harmonic", __main__.pol)
 
+print("-"*100)
+print("create command for 'acquire_flat_field' and 'remove_flat_field'\n")
 from i06shared.commands.flatFieldAcqusition import acquire_flat_field, remove_flat_field  # @UnusedImport
 
-print("*"*80) 
+print("*"*100) 
 print("I06 shared localStation.py completed successfully!")
-print("\n")
 print("\n")
 

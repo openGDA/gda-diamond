@@ -32,9 +32,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Bundle-Vendor: Diamond Light Source
-Export-Package: uk.ac.gda.beamline.i06,
- uk.ac.gda.beamline.i06.perspective,
- uk.ac.gda.beamline.i06.scannables,
+Export-Package: uk.ac.gda.beamline.i06.scannables,
  uk.ac.gda.beamline.i06.spring.spel,
  uk.ac.gda.beamline.i06.utils
 Import-Package: gda.epics.connection,

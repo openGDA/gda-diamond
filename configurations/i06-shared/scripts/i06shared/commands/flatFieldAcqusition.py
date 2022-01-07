@@ -8,8 +8,7 @@ Created on Nov 22, 2021
 @author: fy65
 '''
 from gdascripts.metadata.nexus_metadata_class import meta
-from Diamond.Utility.dataDir import lastscan
-
+from i06shared.commands.beamline import lastscan
 
 def acquire_flat_field(num_images, detector, acquire_time):
     '''collect number of images from detector under flat field condition, and then set up flat_field link metadata device to be used in subsequent scans.

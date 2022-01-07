@@ -1,7 +1,7 @@
 #localStation.py - For beamline specific initialisation code.
 from utils.ExceptionLogs import localStation_exception
 
-print("===================================================================")
+print("="*100)
 print("Performing Beamline I06-1 specific initialisation code (localStation.py).")
 
 print("-"*100)
@@ -12,11 +12,7 @@ scansReturnToOriginalPositions=0;
 
 from i06shared.localStation import *  # @UnusedWildImport
 
-from Beamline.beamline import branchline, getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
-
-#To eLog the scan
-fileHeader.setScanLogger(branchline);
 
 #End Station Section
 import sys
@@ -104,7 +100,7 @@ if "DD" in profiles:
     # ddiff_amp_2 = AmplifierGainParser("ddiff_amp_2", "BL06I-DI-IAMP-31:DDIFF:GAIN")
     # ddiff_amp_3 = AmplifierGainParser("ddiff_amp_3", "BL06I-DI-IAMP-32:DDIFF:GAIN")
     # ddiff_amp_4 = AmplifierGainParser("ddiff_amp_4", "BL06I-DI-IAMP-33:DDIFF:GAIN")
-    print("*"*80)
+    print("*"*100)
     print("import DIFFCALC support for I06-1")
     try:
         from startup.i06 import *  # @UnusedWildImport
@@ -116,8 +112,8 @@ if "xabs" in profiles:
     # xabs_amp_2 = AmplifierGainParser("xabs_amp_2", "BL06I-DI-IAMP-41:XABS:GAIN")
     
         
-print("===================================================================")
-print(" End of i06-1 localStation.py")
+print("="*100)
+print("End of i06-1 localStation.py")
 
 
 

@@ -2,27 +2,18 @@
 #For beamline specific initialisation code.
 from scannables.EnumPVScannable import EnumPVScannable
 
-print "===================================================================";
-print "Performing Beamline I06 specific initialisation code (localStation.py).";
-print
+print("=" *100)
+print("Performing Beamline I06 specific initialisation code (localStation.py).\n")
 from Diamond.Utility.Functions import logger
-print "-"*100
-print "Set scan returns to the start positions on completion"
-print "   To set scan returns to its start positions on completion please do:"
-print "      >>>scansReturnToOriginalPositions=1"
+print("-"*100)
+print("Set scan returns to the start positions on completion")
+print("   To set scan returns to its start positions on completion please do:")
+print("      >>>scansReturnToOriginalPositions=1\n")
 scansReturnToOriginalPositions=0;
-print
 
 from i06shared.localStation import *  # @UnusedWildImport
-    
-#from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,beamlineutil  # @UnusedImport
 
-# customised resources for PEEM line
-from BeamlineI06.beamline import peemline, getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
-
-#To eLog the scan
-fileHeader.setScanLogger(peemline)
 
 if installation.isLive():
     from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
@@ -31,40 +22,11 @@ if installation.isLive():
 #     from beam.BeamSize_Class import beamsize  # @UnusedImport
 #     from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
 else:
-    print "Running in dummy mode"
+    print("Running in dummy mode")
 
-# USE_UVIEW=False
-# if USE_UVIEW:
-#     try:
-#         from peem.usePEEM import roi1,roi2,roi3,roi4,uvroi,uvpreview,uvimaging,picture  # @UnusedImport
-#         #the following line is only for TCPIP connection in GDA.
-#         from peem.uv_leem_reconnect import reconnect  # @UnusedImport
-#         from peem.idio_peem_rois import roi1io,roi2io,roi3io,roi4io  # @UnusedImport
-#     except:
-#         exceptionType, exception, traceback=sys.exc_info();
-#         print "Error:  import 'from peem.usePEED'"
-#         logger.dump("---> ", exceptionType, exception, traceback)
-    
-#To add PEEM line device position to the SRS file header
-# print "-"*100
-# print "Add metadata required by PEEM to file header"
-# fileHeader.add([m3x, m3pitch, m3qg]);  # @UndefinedVariable
-# fileHeader.add([d5x, d6y, d7x]);  # @UndefinedVariable
-# fileHeader.add([s4x, s4xgap, s4y, s4ygap]);  # @UndefinedVariable
-# fileHeader.add([psx, psy]);  # @UndefinedVariable
 #Group the hexapod legs into list
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
-#PEEM End Station
-# if installation.isLive():
-#     # fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
-#     from peem.leem_instances import leem2000
-#     from peem.stv_obj_instance import stvobj  # @UnusedImport
-#     # fileHeader.add([leem_rot])
-# else:
-#     print "No simulation for LEEM control yet!"
-# from peem.leem_instances import FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
-# from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
 from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens  # @UnusedImport
 
 def picture(acqTime):
@@ -153,8 +115,8 @@ else:
         raise RuntimeError("EPICS PV and IOC required!")
     alias("rotate")
 
-print "==================================================================="
-print "end of localStation.py for Beamline I06)"
+print("="*100)
+print("end of localStation.py for Beamline I06)")
 
 
 

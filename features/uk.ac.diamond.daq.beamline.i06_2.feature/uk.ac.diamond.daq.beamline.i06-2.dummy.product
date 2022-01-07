@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="uk.ac.gda.beamline.i06.dummy.product" uid="uk.ac.diamond.daq.beamline.i06-2.dummy.product" id="uk.ac.diamond.daq.beamline.i06-2.dummy.product" application="uk.ac.gda.client.application" version="9.25.0" useFeatures="true" includeLaunchers="false">
+<product name="uk.ac.diamond.daq.beamline.i06-2.dummy.product" uid="uk.ac.diamond.daq.beamline.i06-2.dummy.product" id="uk.ac.diamond.daq.beamline.i06-2.dummy_product" application="uk.ac.gda.client.application" version="9.25.0" useFeatures="true" includeLaunchers="false">
 
    <aboutInfo>
       <text>
@@ -50,7 +50,7 @@
       startupProgressRect="2,215,598,15"
       startupMessageRect="4,195,598,20"
       startupForegroundColor="000000" />
-   <launcher name="gda-i06">
+   <launcher name="gda-i06-2">
       <win useIco="false">
          <bmp/>
       </win>
