@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="uk.ac.gda.beamline.i06.dummy.product" uid="uk.ac.diamond.daq.beamline.i06-2.dummy.product" id="uk.ac.diamond.daq.beamline.i06-2.dummy.product" application="uk.ac.gda.client.application" version="9.25.0" useFeatures="true" includeLaunchers="false">
+
+   <aboutInfo>
+      <text>
+         GDA for DLS Beamone i06-2
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-consolelog
+      </programArgs>
+      <vmArgs>-Dgda.instance.dir=${project_loc:i06-2-config}
+-Dgda.group.dir=${project_loc:i06-shared}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Declipse.pluginCustomization=${project_loc:i06-2-config}/pluginCustomization.ini
+-Dgda.config=${project_loc:i06-2-config}
+-Dgda.propertiesFile=${project_loc:i06-2-config}/properties/dummy/dummy_instance_java.properties
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i06-2-config}/properties/dummy/JCALibrary.properties
+-Dgda.gui.beans.xml=${project_loc:i06-2-config}/clients/main/dummy/client.xml
+-Dgda.mode=dummy
+-Dgda.data=/scratch/i06-2/data
+-Dgda.var=/scratch/gda_versions/var
+-Dgda.logs.dir=/scratch/i06-2/logs
+-Dpython.cachedir=/scratch/gda_versions/var/python.cachedir
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Dpydev.funding.hide=true
+-Xms256m
+-Xmx2048m
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.diamond.daq.beamline.i06-2"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
+   <launcher name="gda-i06">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
+
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.diamond.daq.beamline.i06_2.feature" installMode="root"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>
