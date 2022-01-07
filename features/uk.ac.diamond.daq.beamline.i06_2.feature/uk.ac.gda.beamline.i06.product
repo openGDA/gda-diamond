@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA for Diamond Light Source Beamline I06" uid="uk.ac.diamond.daq.beamline.i06-2.product" id="uk.ac.diamond.daq.beamline.i06-2.product" application="uk.ac.gda.client.application" version="9.25.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <text>
+         GDA for DLS Beamone i06-2.
+
+Build id: 
+
+Copyright © 2009-2017 Diamond Light Source Ltd.
+
+http://www.opengda.org
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-consolelog
+      </programArgs>
+      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Dgda.instance.dir=/dls_sw/i06-2/software/gda/config
+-Dgda.facility.dir=/dls_sw/i06-2/software/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/dls_sw/i06/software/gda/workspace_git/gda-core.git/core-config
+-Dgda.group.dir=/dls_sw/i06-2/software/gda/i06-shared
+-Declipse.pluginCustomization=/dls_sw/i06-2/software/gda/workspace_git/gda-diamond.git/configurations/i06-2-config/pluginCustomization.ini
+-Dgda.install.git.loc=/dls_sw/i06-2/software/gda/workspace_git
+-Dgda.install.workspace.loc=/dls_sw/i06-2/software/gda/workspace
+-Dgda.data=/dls/i06-2/data
+-Dgda.var=/dls_sw/i06-2/software/gda_versions/var
+-Dgda.logs.dir=/dls_sw/i06-2/logs
+-Dgda.propertiesFile=/dls_sw/i06-2/software/gda/workspace_git/gda-diamond.git/configurations/i06-2-config/properties/live/live_instance_java.properties
+-Dgda.config=/dls_sw/i06-2/software/gda/workspace_git/gda-diamond.git/configurations/i06-2-config
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06-2/software/gda/workspace_git/gda-diamond.git/configurations/i06-2-config/properties/live/JCALibrary.properties
+-Dpython.cachedir=/dls_sw/i06/software/gda_versions/var/python.cachedir
+-Dgda.gui.beans.xml=/dls_sw/i06-2/software/gda/config/clients/main/live/client.xml
+-Dgda.mode=live
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Dpydev.funding.hide=true
+-client
+-Xms256m
+-Xmx2048m
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.diamond.daq.beamline.i06-2"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
+   <launcher name="gda-i06">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="uk.ac.gda.client.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2009 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.diamond.daq.beamline.i06_2.feature" installMode="root"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>
