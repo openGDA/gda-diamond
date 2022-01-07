@@ -7,7 +7,7 @@
       <product
             application="uk.ac.gda.client.application"
             description="GDA for Diamond Light Source Beamline I06-2 - SPELEEM"
-            name="uk.ac.diamodn.daq.beamline.i06-2.live.product">
+            name="uk.ac.diamodn.daq.beamline.i06-2.product">
          <property
                name="appName"
                value="GDA for Diamond Light Source Beamline I06-2">
@@ -39,7 +39,7 @@
       </product>
    </extension>
    <extension
-         id="dummy_product"
+         id="uk.ac.diamond.daq.beamline.i06-2.dummy.product"
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
