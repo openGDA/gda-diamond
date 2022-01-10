@@ -152,12 +152,12 @@ s5vtrans=SingleEpicsPositionerClass('s5vtrans','BL16I-AL-SLITS-05:Y:TRANSLATION.
 #(robw)sz=SingleEpicsPositionerClass('sample_z','BL16I-MO-DIFF-01:SAMPLE:Z.VAL','BL16I-MO-DIFF-01:SAMPLE:Z.RBV','BL16I-MO-DIFF-01:SAMPLE:Z.DMOV','BL16I-MO-DIFF-01:SAMPLE:Z.STOP','mm','%.4f')
 from gda.factory import FactoryException
 try:
-	pin1x=xps3m1=SingleEpicsPositionerClass('xps3motor1','BL16I-MO-XPS3-01:P1.VAL','BL16I-MO-XPS3-01:P1.RBV','BL16I-MO-XPS3-01:P1.DMOV','BL16I-MO-XPS3-01:P1.STOP','mm','%.3f')
-	pin1y=xps3m2=SingleEpicsPositionerClass('xps3motor2','BL16I-MO-XPS3-01:P2.VAL','BL16I-MO-XPS3-01:P2.RBV','BL16I-MO-XPS3-01:P2.DMOV','BL16I-MO-XPS3-01:P2.STOP','mm','%.3f')
-	pin2x=xps3m3=SingleEpicsPositionerClass('xps3motor3','BL16I-MO-XPS3-01:P3.VAL','BL16I-MO-XPS3-01:P3.RBV','BL16I-MO-XPS3-01:P3.DMOV','BL16I-MO-XPS3-01:P3.STOP','mm','%.3f')
-	pin2y=xps3m4=SingleEpicsPositionerClass('xps3motor4','BL16I-MO-XPS3-01:P4.VAL','BL16I-MO-XPS3-01:P4.RBV','BL16I-MO-XPS3-01:P4.DMOV','BL16I-MO-XPS3-01:P4.STOP','mm','%.3f')
-	pin3x=xps3m5=SingleEpicsPositionerClass('xps3motor5','BL16I-MO-XPS3-01:P5.VAL','BL16I-MO-XPS3-01:P5.RBV','BL16I-MO-XPS3-01:P5.DMOV','BL16I-MO-XPS3-01:P5.STOP','mm','%.3f')
-	pin3y=xps3m6=SingleEpicsPositionerClass('xps3motor6','BL16I-MO-XPS3-01:P6.VAL','BL16I-MO-XPS3-01:P6.RBV','BL16I-MO-XPS3-01:P6.DMOV','BL16I-MO-XPS3-01:P6.STOP','mm','%.3f')
+	pin1x=xps3m1=xps3motor1=SingleEpicsPositionerClass('xps3motor1','BL16I-MO-XPS3-01:P1.VAL','BL16I-MO-XPS3-01:P1.RBV','BL16I-MO-XPS3-01:P1.DMOV','BL16I-MO-XPS3-01:P1.STOP','mm','%.3f')
+	pin1y=xps3m2=xps3motor2=SingleEpicsPositionerClass('xps3motor2','BL16I-MO-XPS3-01:P2.VAL','BL16I-MO-XPS3-01:P2.RBV','BL16I-MO-XPS3-01:P2.DMOV','BL16I-MO-XPS3-01:P2.STOP','mm','%.3f')
+	pin2x=xps3m3=xps3motor3=SingleEpicsPositionerClass('xps3motor3','BL16I-MO-XPS3-01:P3.VAL','BL16I-MO-XPS3-01:P3.RBV','BL16I-MO-XPS3-01:P3.DMOV','BL16I-MO-XPS3-01:P3.STOP','mm','%.3f')
+	pin2y=xps3m4=xps3motor4=SingleEpicsPositionerClass('xps3motor4','BL16I-MO-XPS3-01:P4.VAL','BL16I-MO-XPS3-01:P4.RBV','BL16I-MO-XPS3-01:P4.DMOV','BL16I-MO-XPS3-01:P4.STOP','mm','%.3f')
+	pin3x=xps3m5=xps3motor5=SingleEpicsPositionerClass('xps3motor5','BL16I-MO-XPS3-01:P5.VAL','BL16I-MO-XPS3-01:P5.RBV','BL16I-MO-XPS3-01:P5.DMOV','BL16I-MO-XPS3-01:P5.STOP','mm','%.3f')
+	pin3y=xps3m6=xps3motor6=SingleEpicsPositionerClass('xps3motor6','BL16I-MO-XPS3-01:P6.VAL','BL16I-MO-XPS3-01:P6.RBV','BL16I-MO-XPS3-01:P6.DMOV','BL16I-MO-XPS3-01:P6.STOP','mm','%.3f')
 
 except FactoryException, e:
 	print "ERROR: Problem configuring XPS3 motor: ", str(e)
