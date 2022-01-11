@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i06.spring.spel;
+package uk.ac.diamond.daq.beamline.i06_shared.spring.spel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

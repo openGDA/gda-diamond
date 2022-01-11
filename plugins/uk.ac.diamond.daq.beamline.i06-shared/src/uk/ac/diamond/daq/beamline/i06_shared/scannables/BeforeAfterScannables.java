@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i06.scannables;
+package uk.ac.diamond.daq.beamline.i06_shared.scannables;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

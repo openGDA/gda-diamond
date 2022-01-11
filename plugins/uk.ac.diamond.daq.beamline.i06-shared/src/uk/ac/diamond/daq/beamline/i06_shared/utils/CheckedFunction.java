@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i06.utils;
+package uk.ac.diamond.daq.beamline.i06_shared.utils;
 
 /**
  * A function interface defines the function that gives a T returns R may throw an {@link Exception}

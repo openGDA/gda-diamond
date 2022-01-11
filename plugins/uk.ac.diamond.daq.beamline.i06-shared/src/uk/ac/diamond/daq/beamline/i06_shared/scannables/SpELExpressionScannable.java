@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i06.scannables;
+package uk.ac.diamond.daq.beamline.i06_shared.scannables;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,7 +33,7 @@ import gda.device.Scannable;
 import gda.device.scannable.PVScannable;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
-import uk.ac.gda.beamline.i06.spring.spel.SpELUtils;
+import uk.ac.diamond.daq.beamline.i06_shared.spring.spel.SpELUtils;
 
 /**
  * A {@link Scannable} that applies the given expressions {@link #getMoveToExpression()} in {@link #asynchronousMoveTo(Object)} and
