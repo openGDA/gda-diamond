@@ -127,6 +127,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <module>products/uk.ac.gda.beamline.i06_1.product</module>
       </modules>
     </profile>
+     <profile>
+      <id>i06-2</id>
+      <modules>
+        <module>features/uk.ac.diamond.daq.beamline.i06_2.feature</module>
+        <module>products/uk.ac.diamond.daq.beamline.i06-2.product</module>
+      </modules>
+    </profile>
     <profile>
       <id>i08</id>
       <modules>
