@@ -6,11 +6,13 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.diamond.daq.beamline.i06_2.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- uk.ac.gda.beamline.i06,
  uk.ac.gda.client,
  org.slf4j.api,
  uk.ac.gda.dls.client,
- uk.ac.gda.epics.adviewer
+ uk.ac.gda.epics.adviewer,
+ uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0",
+ uk.ac.gda.client.live.stream;bundle-version="1.0.0",
+ uk.ac.diamond.daq.beamline.i06-shared;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.i06
 Bundle-ActivationPolicy: lazy
@@ -20,7 +22,5 @@ Import-Package: gda.configuration.properties,
  org.eclipse.search.ui,
  org.python.pydev.ui.wizards.files,
  org.python.pydev.ui.wizards.project,
- uk.ac.gda.client.live.stream.controls,
- uk.ac.gda.client.live.stream.view,
  uk.ac.gda.client.liveplot,
  uk.ac.gda.nano.views

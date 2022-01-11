@@ -68,7 +68,6 @@
 						<ref bean="medipix_idle_time_control"/>
 						<ref bean="medipix_proc_num_filter_control" />
 						<ref bean="medipixpreview" />
-<!-- 						<ref bean="medipiximaging" /> -->
 						<ref bean="medipix_image_rotation_angle_control" />
 						<ref bean="medipixunrotate"/>
 						<ref bean="medipixrotate"/>

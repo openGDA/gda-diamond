@@ -7,16 +7,15 @@
 		<project>org.eclipse.dawnsci.nexus</project>
 		<project>org.eclipse.dawnsci.nexus.scan</project>
 		<project>org.eclipse.dawnsci.nexus.template</project>
+		<project>uk.ac.diamond.daq.beamline.i06-shared</project>
 		<project>uk.ac.diamond.daq.detectors.addetector</project>
 		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.scisoft.python</project>
-		<project>uk.ac.gda.beamline.i06</project>
 		<project>uk.ac.gda.client.live.stream</project>
 		<project>uk.ac.gda.client.live.stream.controls</project>
 		<project>uk.ac.gda.common</project>
 		<project>uk.ac.gda.common.rcp</project>
 		<project>uk.ac.gda.core</project>
-		<project>uk.ac.gda.devices.pco</project>
 		<project>uk.ac.gda.dls.client</project>
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.epics.adviewer</project>

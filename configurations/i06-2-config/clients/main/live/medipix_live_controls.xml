@@ -19,7 +19,7 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipixAcquireTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
+	<bean id="medipixAcquireTime" class="uk.ac.diamond.daq.beamline.i06_shared.scannables.SpELExpressionScannable">
 		<property name="pvName" value="BL06K-EA-DET-01:CAM:AcquireTime"/>
 		<property name="outputFormat">
 			<list>
@@ -36,7 +36,7 @@
 		</property>
 		<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, #input)"/>
 	</bean>
-	<bean id="medipixIdleTime" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
+	<bean id="medipixIdleTime" class="uk.ac.diamond.daq.beamline.i06_shared.scannables.SpELExpressionScannable">
 		<property name="pvName" value="BL06K-EA-DET-01:CAM:AcquirePeriod"/>
 		<property name="outputFormat">
 			<list>
@@ -78,7 +78,7 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="medipixProcNumFilterWithResetEnableAfter" class="uk.ac.gda.beamline.i06.scannables.SpELExpressionScannable">
+	<bean id="medipixProcNumFilterWithResetEnableAfter" class="uk.ac.diamond.daq.beamline.i06_shared.scannables.SpELExpressionScannable">
 		<property name="pvName" value="BL06K-EA-DET-01:PROCB:NumFilter"/>
 		<property name="outputFormat">
 			<list>

@@ -36,19 +36,8 @@ and any underlying hardware control system.
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
-   <includes
-         id="uk.ac.diamond.daq.mapping.ui.feature"
-         version="0.0.0"/>
-
    <plugin
          id="uk.ac.diamond.daq.beamline.i06-2"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.beamline.i06"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -105,6 +94,20 @@ and any underlying hardware control system.
 
    <plugin
          id="uk.ac.gda.epics.adviewer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.beamline.i06-shared"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.dls"
          download-size="0"
          install-size="0"
          version="0.0.0"

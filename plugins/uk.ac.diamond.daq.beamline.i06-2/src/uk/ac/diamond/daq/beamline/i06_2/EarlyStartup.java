@@ -1,3 +1,21 @@
+/*-
+ * Copyright © 2018 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package uk.ac.diamond.daq.beamline.i06_2;
 
 import org.dawnsci.plotting.views.ToolPageView;
@@ -25,7 +43,7 @@ public class EarlyStartup implements IStartup {
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID, "org.dawb.workbench.plotting.tools.region.editor",IWorkbenchPage.VIEW_CREATE);
 					// ensure the Medipix Stream View has focus so the 'Region Editor' above is linked to this image
 
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram","medipix#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.diamond.daq.beamline.i06-2.medipix.live.stream.view.LiveStreamViewWithHistogram","medipix#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);
 
 					//make the dynamic toolbar items visible, not just inside drop-down menu.
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().resetPerspective();
