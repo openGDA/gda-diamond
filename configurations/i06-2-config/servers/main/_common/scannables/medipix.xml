@@ -73,7 +73,7 @@
 	</bean>
 
  	<bean id="mpx" class="gda.device.detector.NXDetector">
-		<property name="name" value="medipix" />
+		<property name="name" value="mpx" />
 		<property name="collectionStrategy" ref="medipixMultipleCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
