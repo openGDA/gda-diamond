@@ -1,0 +1,33 @@
+[
+    {
+        "type": "group", 
+        "children": [
+            {
+                "type": "button", 
+                "text": "Start GDA Servers", 
+                "command": "/dls_sw/i06-2/software/gda/config/bin/gdaservers", 
+                "icon": "sgda.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start GDA Client", 
+                "args": "--reset", 
+                "command": "/dls_sw/i06-2/software/gda/config/bin/gdaclient", 
+                "icon": "cgda.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start GDA Log", 
+                "command": "/dls_sw/i06-2/software/gda/config/bin/gdalog", 
+                "icon": "lgda.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start Dawn Stable", 
+                "command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh", 
+                "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+            }
+        ], 
+        "name": "Data Acquisition"
+    }
+]

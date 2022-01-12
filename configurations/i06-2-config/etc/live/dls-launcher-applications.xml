@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launcher>
+  <group name="Data Acquisition">
+    <button text="Start GDA Servers for Magnet" command="/dls_sw/i06-2/software/gda/config/bin/gdaservers"                 icon="/dls_sw/i06-1/software/gda/config/bin/icons/sgda.png"/>
+    <button text="Start GDA Client for Magnet"  command="/dls_sw/i06-2/software/gda/config/bin/gdaclient"   args="--reset" icon="/dls_sw/i06-1/software/gda/config/bin/icons/cgda.png"/>
+    <button text="Start GDA Log"                command="/dls_sw/i06-2/software/gda/config/bin/gdalog"                     icon="/dls_sw/i06-1/software/gda/config/bin/icons/lgda.png"/>
+    <button text="Start Dawn Stable"            command="/dls_sw/apps/DawnDiamond/bin/dawn_release.sh"                     icon="/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"/>
+  </group>
+</launcher>
