@@ -65,7 +65,7 @@
    </plugins>
 
    <features>
-      <feature id="uk.ac.diamond.daq.beamline.i06_2.feature" installMode="root"/>
+      <feature id="uk.ac.diamond.daq.beamline.i06_2.feature"/>
    </features>
 
    <configurations>
