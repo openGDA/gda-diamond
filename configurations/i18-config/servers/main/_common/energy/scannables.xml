@@ -69,6 +69,7 @@
 			<entry key="Maintenance" value-ref="energy_Si111" />
 		</map>
 		</constructor-arg>
+		<property name="outputFormat" value="%.2f" />
 	</bean>
 	
 	<bean id="energy_nogap" class="gda.device.scannable.PositionerDeterminedScannable">
