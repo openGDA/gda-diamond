@@ -6,7 +6,7 @@
 -->
 	<groupId>uk.ac.diamond</groupId>
 	<artifactId>uk.ac.diamond.daq.beamline.i06_2.feature</artifactId>
-	<version>9.25.0-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-feature</packaging>
 	
 	<parent>
