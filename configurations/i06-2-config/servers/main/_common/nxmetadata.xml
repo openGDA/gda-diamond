@@ -45,7 +45,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="slit"/>
-					<property name="scannableName" value="pesy"/>
+					<property name="scannableName" value="pes"/>
 				</bean>		
 			</list>
 		</property>
