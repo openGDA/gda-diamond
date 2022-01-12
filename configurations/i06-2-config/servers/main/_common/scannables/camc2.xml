@@ -93,7 +93,7 @@
 	</bean>
 	 	
  	<bean id="camc2multiple" class="gda.device.detector.NXDetector">
-		<property name="name" value="camc2" />
+		<property name="name" value="camc2multiple" />
 		<property name="collectionStrategy" ref="camc2MultipleCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -120,83 +120,6 @@
 				<ref bean="camc2_RoiStats5" />
 				<ref bean="camc2_RoiStats6" />
 				<ref bean="camc2Hdf5Filewriter" />
-			</list>
-		</property>
-	</bean>
-	
-<!-- ADDetector used in new scanning -->
-	<bean id="camc2_addetector" class="gda.device.detector.addetector.ADDetector">
-		<property name="collectionStrategy" ref="camc2CollectionStrategy"/>
-		<property name="adBase" ref="camc2_adbase" />
-		<property name="ndFile" ref="camc2_ndfile" /><!-- not used in new scanning -->
-		<property name="ndArray" ref="camc2_ndarray" />
-		<property name="ndStats" ref="camc2_stats" /><!-- not used in new scanning -->
-		<property name="fileWriter" ref="camc2Hdf5Filewriter" /> <!-- not used in new scanning -->
-	</bean>
-
-	<!-- support for TIFF format -->
-	<!-- detector 'camc2tif' default to write TIFF file during scan -->
-	<bean id="camc2_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="camc2" />
-		<property name="ndFile" ref="camc2_tiffile" />
-		<property name="keyNameForMetadataPathTemplate" value="camc2_path_template" />
-		<property name="fileTemplate" value="%s%s_%05d.tif"/>
-		<property name="filePathTemplate" value="$datadir$/$scan$_camc2Image"/>
-		<property name="fileNameTemplate" value="camc2"/>
-		<property name="fileNumberAtScanStart" value="1"/>
-		<property name="fullFileNameFromRBV" value="true"/>
-	</bean>
- 	<bean id="camc2tif" class="gda.device.detector.NXDetector">
-		<property name="name" value="camc2tif" />
-		<property name="collectionStrategy" ref="camc2CollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="camc2_RoiStats1" />
-				<ref bean="camc2_RoiStats2" />
-				<ref bean="camc2_RoiStats3" />
-				<ref bean="camc2_RoiStats4" />
-				<ref bean="camc2_RoiStats5" />
-				<ref bean="camc2_RoiStats6" />
-				<ref bean="camc2_nxfilewriter_for_scans" />
-			</list>
-		</property>
-	</bean>
-	<!-- detector 'camc2snap' is used to get a snapshot of the camc2 detector.Data stored in $datadir$/snapped-data/ -->
-	<!-- SingleImagePerFileWriterWithNumTracker(String detectorName)	 -->
-	<bean id="camc2_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
-		<constructor-arg value="camc2" />
-		<property name="ndFile" ref="camc2_tiffile" />
-		<property name="numTrackerExtension" value="camc2snaps" />
-		<property name="keyNameForMetadataPathTemplate" value="camc2_path_template" />
-	</bean>
- 	<bean id="camc2snap" class="gda.device.detector.NXDetector">
-		<property name="name" value="camc2snap" />
-		<property name="collectionStrategy" ref="camc2CollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="camc2_RoiStats1" />
-				<ref bean="camc2_RoiStats2" />
-				<ref bean="camc2_RoiStats3" />
-				<ref bean="camc2_RoiStats4" />
-				<ref bean="camc2_RoiStats5" />
-				<ref bean="camc2_RoiStats6" />
-				<ref bean="camc2_nxfilewriter_for_snaps" />
-			</list>
-		</property>
-	</bean>
-
- 	<bean id="camc2multipletif" class="gda.device.detector.NXDetector">
-		<property name="name" value="camc2tif" />
-		<property name="collectionStrategy" ref="camc2MultipleCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="camc2_RoiStats1" />
-				<ref bean="camc2_RoiStats2" />
-				<ref bean="camc2_RoiStats3" />
-				<ref bean="camc2_RoiStats4" />
-				<ref bean="camc2_RoiStats5" />
-				<ref bean="camc2_RoiStats6" />
-				<ref bean="camc2_nxfilewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
