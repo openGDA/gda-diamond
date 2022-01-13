@@ -44,7 +44,7 @@ fi
 # For instance if you use an actual group config (like mx) you might put
 # export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
 
-#export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/configurations/i06-shared
+export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/configurations/i06-shared
 
 #the following port must match the one set in CommandServer.xml - default 9999
 #export GDA_JYTHON_SOCKET=7777
