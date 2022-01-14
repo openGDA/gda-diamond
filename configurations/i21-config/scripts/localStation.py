@@ -350,13 +350,19 @@ pgm_energy = ScannableWithPVControl('pgm_energy', pgmEnergy, pvname=EPICS_FEEDBA
 #initialize Jython Scannable Wrappers must be done after the wrapped scannable become available
 uvw_wrapper.connectScannable()  # @UndefinedVariable
 
+#nexus metadata items
 from scannabledevices.stokesParameters import StokesParameters
 stokes_parameters = StokesParameters("stokes_parameters", polarisation)
-
 from metadata.taperScannable import TaperScannable
 taper = TaperScannable("taper", "urad", "%.3f", idtaper=None)
 from metadata.harmonicScannable import HarmonicScannable
 harmonic = HarmonicScannable("harmonic",polarisation)
+from metadata.beamDivergence import BeamDivergence
+beam_divergence_at_sample = BeamDivergence("beam_divergence_at_sample", pgmEnergy, pgmGratingSelect, lut="divergence_polynomial_at_sample.csv")  # @UndefinedVariable
+from metadata.beamFlux import BeamFlux
+beam_flux_at_sample = BeamFlux("beam_flux_at_sample", pgmEnergy, pgmGratingSelect, lut="flux_polynomial_at_sample.csv")  # @UndefinedVariable
+from metadata.beamExtent import BeamExtent
+beam_size_at_sample =  BeamExtent("beam_size_at_sample", horizontal_size = 40.0, vertical_size = 2.5)
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
