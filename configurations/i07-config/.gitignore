@@ -29,7 +29,6 @@ gdaserver.py
 
 ### Build output ###
 .springBeans
-/bin/
 /classes/
 
 ### JUnit testing ###
