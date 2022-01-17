@@ -3,6 +3,68 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.DummyGasRigController" />
+	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.DummyGasRigController">
+		<constructor-arg value="BL07C-GA-" />
+		<constructor-arg>
+			<list>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="1" />
+					<constructor-arg name="name" value="NH3" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="2" />
+					<constructor-arg name="name" value="H2S" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="3" />
+					<constructor-arg name="name" value="CO" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="4" />
+					<constructor-arg name="name" value="nC4H10" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="5" />
+					<constructor-arg name="name" value="nC4H10" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="6" />
+					<constructor-arg name="name" value="NO" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="7" />
+					<constructor-arg name="name" value="H2" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="8" />
+					<constructor-arg name="name" value="CH4" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="9" />
+					<constructor-arg name="name" value="Air" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="10" />
+					<constructor-arg name="name" value="N2" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="11" />
+					<constructor-arg name="name" value="Ar" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="12" />
+					<constructor-arg name="name" value="He" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="13" />
+					<constructor-arg name="name" value="O2" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+					<constructor-arg name="id" value="14" />
+					<constructor-arg name="name" value="CO2" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
 
 </beans>
