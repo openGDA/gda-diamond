@@ -19,10 +19,26 @@
 	<bean id="beamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
 		<property name="name" value="beam" />
 		<property name="incidentEnergyScannableName" value="pgmEnergy" />
-		<property name="incidentBeamDivergenceScannableName" value="ds" />
 		<property name="incidentPolarizationScannableName" value="stokes_parameters" />
-		<property name="beamExtentScannableName" value="ds" />
-		<property name="fluxScannableName" value="ds" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="beamExtentScannableName"/>
+					<property name="scannableName" value="beam_size_at_sample"/>
+					<property name="units" value="µm²"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="incidentBeamDivergenceScannableName"/>
+					<property name="scannableName" value="beam_divergence_at_sample"/>
+					<property name="units" value="µrad²"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="fluxScannableName"/>
+					<property name="scannableName" value="beam_flux_at_sample"/>
+					<property name="units" value="photons/sec"/>
+				</bean>
+			</list>
+		</property>
 	</bean>
 	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
 	 	<property name="name" value="user01"/>
