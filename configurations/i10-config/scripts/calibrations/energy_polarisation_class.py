@@ -33,7 +33,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''
     harmonicOrder = 1
        
-    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap="IDEnergy2GapCalibrations.csv", lut4phase="IDEnergy2PhaseCalibrations.csv", energyConstant=False, polarisationConstant=False, maxGap=200, minGap=16, maxPhase=24):
+    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap="IDEnergy2GapCalibrations.csv", lut4phase="IDEnergy2PhaseCalibrations.csv", energyConstant=False, polarisationConstant=False, energy_offset=None, maxGap=200, minGap=16, maxPhase=24):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut4gap, self.header = load_lookup_table(LocalProperties.get("gda.config") + "/lookupTables/" + lut4gap)
         self.lut4phase, self.header = load_lookup_table(LocalProperties.get("gda.config") + "/lookupTables/" + lut4phase)
@@ -41,6 +41,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.pgmenergy = pgmenergy
         self.idd = idd_controls
         self.idu = idu_controls
+        self.detune = energy_offset
         self._busy = 0
         self.setName(name)
         self.setLevel(3)
@@ -271,8 +272,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     new_polarisation_mode = args[1]
                 else:
                     raise ValueError("2nd input for polarisation must be a String")
+            
+            if self.detune: # adjust energy by offset
+                id_energy =  energy + float(self.detune.getPosition())
+            else:
+                id_energy =  energy
 
-            gap, phase = self.idgapphase(self.source, Ep=energy, polar=new_polarisation_mode)
+            gap, phase = self.idgapphase(self.source, Ep = id_energy, polar = new_polarisation_mode)
 
             # move ID to positions
             if self.source.getPosition() == X_RAY_SOURCE_MODES[0]:

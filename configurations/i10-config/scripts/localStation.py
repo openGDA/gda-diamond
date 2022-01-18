@@ -183,7 +183,7 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from data_process.scanDataProcess import *  # @UnusedWildImport
 
 # source, energy, polarisation definitions
-from calibrations.mode_polarisation_energy_instances import smode, pol, energy_s, energy_pol, setBeamHarmonicsOrder, initialisation  # @UnusedImport
+from calibrations.mode_polarisation_energy_instances import smode, pol, energy_s, energy_pol, setBeamHarmonicsOrder, initialisation, energy_offset  # @UnusedImport
 from calibrations.energy_polarisation_class import ROW_PHASE_MOTOR_TOLERANCE  # @UnusedImport
 from calibrations.xraysource import X_RAY_SOURCE_MODES
 from calibrations.energy_polarisation_class import X_RAY_POLARISATIONS
