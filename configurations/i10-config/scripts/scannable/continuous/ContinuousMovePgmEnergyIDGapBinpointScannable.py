@@ -124,10 +124,13 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         
     def stop(self):
         if self._operating_continuously:
-            self._binpointPgmEnergy.stop()
-            self._binpointGrtPitch.stop()
-            self._binpointMirPitch.stop()
-            self._move_controller.stopAndReset()
+            if installation.isLive():
+                print("cvscan cannot be stopped, please wait it to finish!")
+            else:    
+                self._binpointPgmEnergy.stop()
+                self._binpointGrtPitch.stop()
+                self._binpointMirPitch.stop()
+                self._move_controller.stopAndReset()
         else:
             self._move_controller.energy.stop()
         self.mybusy=False
@@ -168,8 +171,9 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
 
     def getPosition(self):
         if self.verbose: self.logger.info('getPosition()...')
+        from gdaserver import pgm_energy  # @UnresolvedImport
         if self._operating_continuously:
-            from gdaserver import pgm_grat_pitch, pgm_m2_pitch, pgm_energy
+            from gdaserver import pgm_grat_pitch, pgm_m2_pitch  # @UnresolvedImport
             grtPitch = pgm_grat_pitch.getPosition()
             mirPitch = pgm_m2_pitch.getPosition()
             pgmEnergy = pgm_energy.getPosition()            
@@ -188,7 +192,6 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
                 return self._move_controller.energy.pgmenergy.getPosition()
             else:
                 # fix I10-366
-                from gdaserver import pgm_energy
                 return pgm_energy.getPosition()
 
 
@@ -196,7 +199,6 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         if self.verbose: self.logger.info('waitWhileBusy()...')
         while self.isBusy():
             sleep(0.1)
-        return # self._move_controller.waitWhileMoving()
 
     def isBusy(self):
         if self._operating_continuously:
@@ -228,7 +230,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
             try: 
                 return self._move_controller.energy.pgmenergy.getExtraNames()
             except:
-                from gdaserver import pgm_energy
+                from gdaserver import pgm_energy  # @UnresolvedImport
                 return pgm_energy.getExtraNames()
     
     def getOutputFormat(self):
@@ -238,7 +240,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
             try:
                 return self._move_controller.energy.pgmenergy.getOutputFormat()
             except: #
-                from gdaserver import pgm_energy
+                from gdaserver import pgm_energy  # @UnresolvedImport
                 return pgm_energy.getOutputFormat()
         
         
