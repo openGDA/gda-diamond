@@ -19,8 +19,12 @@
 package gda.scan.ede.datawriters;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdeDataConstants.TimingGroupMetadata;
@@ -34,7 +38,6 @@ import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.IDataset;
-import org.eclipse.january.dataset.IntegerDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -170,6 +173,45 @@ public abstract class EdeExperimentDataWriter {
 	}
 
 	/**
+	 * Get list of cycles that may be incomplete - i.e. contain fewer than 'expectedNumFramesPerCycle' frames.
+	 *
+	 * @param expectedNumFramesPerCycle
+	 * @return
+	 */
+	protected List<Integer> getIncompleteCycles(int expectedNumFramesPerCycle) {
+		logger.info("Trying to create list of incomplete cycles");
+		try(NexusFile file = NexusFileHDF5.openNexusFile(nexusfileName)) {
+			String detectorName = theDetector.getName();
+			List<Integer> lightItIndices = getLightItIndices(file);
+			if (lightItIndices == null) {
+				return Collections.emptyList();
+			}
+
+			IDataset cycles = getDataset(file, detectorName, EdeDataConstants.CYCLE_COLUMN_NAME);
+
+			// Determine total number of cycles and frames per cycle
+			int numCycles = cycles.max(true).intValue()+1;
+			int[] framesPerCycle = new int[numCycles];
+			lightItIndices.stream()
+				.map(cycles::getInt)
+				.forEach(cycle -> framesPerCycle[cycle]++);
+
+			logger.debug("Frames per cycle : {}", Arrays.toString(framesPerCycle));
+			logger.debug("Expected number of frames per cycle : {}", expectedNumFramesPerCycle);
+
+			// Return list of cycles that do not contain excepected number of frames.
+			return IntStream.range(0, numCycles)
+					.boxed()
+					.filter(i -> framesPerCycle[i] != expectedNumFramesPerCycle)
+					.collect(Collectors.toList());
+
+		} catch (NexusException | DatasetException e) {
+			logger.error("Problem creating list of incomplete cycles", e);
+		}
+		return Collections.emptyList();
+	}
+
+	/**
 	 * Create datasets in detector group for the extra scannables.
 	 * Values corresponding to 'light It' measurements are extracted and placed in the groups.
 	 */
@@ -180,43 +222,30 @@ public abstract class EdeExperimentDataWriter {
 
 		try(NexusFile file = NexusFileHDF5.openNexusFile(nexusfileName)) {
 
-			// Load dataset with 'beam in/out' and 'It' indices from Nexus file :
-			String detectorName = theDetector.getName();
-			IDataset beamInOutDataset = getDataset(file, detectorName, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
-			IDataset itDataset = getDataset(file, detectorName, EdeDataConstants.IT_COLUMN_NAME);
-			if (beamInOutDataset.getShape()[0] != itDataset.getShape()[0]) {
-				logger.warn("'in beam' and 'it' index datasets do not match, not adding processed 'extra scannable' data");
+			List<Integer> lightItIndices = getLightItIndices(file);
+			if (lightItIndices == null) {
+				logger.warn("Could not add 'extra scannable' information to processed data");
 				return;
-			}
-
-			// Make dataset of which spectra correspond to 'light It' measurements (light It=1, otherwise 0)
-			int totalNumSpectra = itDataset.getShape()[0];
-			Dataset lightIt = DatasetFactory.zeros(IntegerDataset.class, totalNumSpectra);
-			for(int i=0; i<totalNumSpectra; i++) {
-				if ( beamInOutDataset.getInt(i)==1 && itDataset.getInt(i) == 1 ) {
-					lightIt.set(1, i);
-				}
 			}
 
 			// Names of all the detector groups
 			final String[] detectorGroupList = { EdeDataConstants.LN_I0_IT_COLUMN_NAME, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,
 					EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME, EdeDataConstants.LN_I0_IT_INTERP_I0S_COLUMN_NAME };
 
+			String detectorName = theDetector.getName();
+
 			for(Scannable scn : extraScannables) {
 
 				logger.debug("Adding data for scannable {}...", scn.getName());
 
-				// Extract values from the 'raw' dataset corresponding to the 'light It' spectra
 				for(String datasetName : scn.getInputNames()) {
 					logger.debug("   Adding dataset {}", datasetName);
 
+					// Extract values from the 'raw' dataset corresponding to the 'light It' spectra
 					IDataset rawData = getDataset(file, detectorName, datasetName);
-					List<Double> values = new ArrayList<>();
-					for(int i=0; i<totalNumSpectra; i++) {
-						if (lightIt.getInt(i) == 1) {
-							values.add( rawData.getDouble(i));
-						}
-					}
+					List<Double> values = lightItIndices.stream()
+							.map(rawData::getDouble)
+							.collect(Collectors.toList());
 
 					// Create new dataset and add it to the first detector group ((lnI0It)
 					Dataset scannableValues = DatasetFactory.createFromList(values);
@@ -236,6 +265,35 @@ public abstract class EdeExperimentDataWriter {
 		} catch (NexusException | DatasetException e) {
 			logger.warn("Problem adding processed data to nexus file {} for 'extra scannables'", nexusfileName, e);
 		}
+	}
+
+	/**
+	 * Make list of which indices in raw data (darkI0, darkIt, lightI0, lightIt ...)
+	 * correspond to 'light It' measurements
+	 * @param file
+	 * @return Dataset
+	 * @throws NexusException
+	 * @throws DatasetException
+	 */
+	private List<Integer> getLightItIndices(NexusFile file) throws NexusException, DatasetException {
+		String detectorName = theDetector.getName();
+		// Load dataset with 'beam in/out' and 'It' indices from Nexus file :
+		IDataset beamInOutDataset = getDataset(file, detectorName, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
+		IDataset itDataset = getDataset(file, detectorName, EdeDataConstants.IT_COLUMN_NAME);
+		if (beamInOutDataset.getShape()[0] != itDataset.getShape()[0]) {
+			logger.warn("'in beam' and 'it' index dataset dimensions do not match.");
+			return null;
+		}
+
+		// Make dataset of which spectra correspond to 'light It' measurements (light It=1, otherwise 0)
+		int totalNumSpectra = itDataset.getShape()[0];
+		List<Integer> lightItIndices = new ArrayList<>();
+		for(int i=0; i<totalNumSpectra; i++) {
+			if ( beamInOutDataset.getInt(i)==1 && itDataset.getInt(i) == 1 ) {
+				lightItIndices.add(i);
+			}
+		}
+		return lightItIndices;
 	}
 
 	/**
