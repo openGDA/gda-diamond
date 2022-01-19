@@ -157,6 +157,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def idgapphase(self, source, Ep=None, polar='lh'):
         '''converts energy and polarisation to  gap and phase. It supports polarisation modes: 'pc','nc', 'lh', 'lv', 'la', 'lh3'.
         '''
+        if self.detune: # adjust energy by offset
+            Ep =  Ep + float(self.detune.getPosition())
         if polar in X_RAY_POLARISATIONS[:-1] :
         # find ID gap from energy
             coef = get_fitting_coefficents(source.getPosition(), polar, Ep, self.lut4gap)
@@ -272,13 +274,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     new_polarisation_mode = args[1]
                 else:
                     raise ValueError("2nd input for polarisation must be a String")
-            
-            if self.detune: # adjust energy by offset
-                id_energy =  energy + float(self.detune.getPosition())
-            else:
-                id_energy =  energy
 
-            gap, phase = self.idgapphase(self.source, Ep = id_energy, polar = new_polarisation_mode)
+            gap, phase = self.idgapphase(self.source, Ep = energy, polar = new_polarisation_mode)
 
             # move ID to positions
             if self.source.getPosition() == X_RAY_SOURCE_MODES[0]:
