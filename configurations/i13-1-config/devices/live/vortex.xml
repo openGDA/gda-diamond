@@ -10,8 +10,6 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 				<!-- <property name="basePVName" value="BL13J-EA-DET-05:HDF:" /> -->
 				<property name="basePVName" value="ME13C-EA-DET-03:HDF:" />
-				<property name="initialAutoIncrement" value="0" />
-				<property name="initialAutoSave" value="0" />
 				<property name="initialWriteMode" value="0" />
 				<property name="initialNumCapture" value="1" />
 				<property name="initialFileName" value="helloworld" />

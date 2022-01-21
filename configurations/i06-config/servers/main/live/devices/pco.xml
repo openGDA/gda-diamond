@@ -54,9 +54,6 @@
 				<property name="initialArrayPort" value="pcorx.rx" />
 			</bean>
 		</property>
-		<!-- These arguments are here to please Spring -->
-		<property name="initialAutoSave" value="Not hooked up to anything!" />
-		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="pco" />
@@ -77,9 +74,6 @@
 				<property name="initialArrayPort" value="pcorx.rx" />
 			</bean>
 		</property>
-		<!-- These arguments are here to please Spring -->
-		<property name="initialAutoSave" value="Not hooked up to anything!" />
-		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="pco" />

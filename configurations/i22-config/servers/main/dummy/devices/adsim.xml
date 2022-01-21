@@ -72,8 +72,6 @@
                 <property name="basePVName" value="#{basePV}HDF5:" />
             </bean>
         </property>
-        <property name="initialAutoSave" value="Not hooked up to anything!" />
-        <property name="initialAutoIncrement" value="Not hooked up to anything!" />
         <property name="initialWriteMode" value="0" />
         <property name="initialNumCapture" value="1" />
         <property name="initialFileName" value="simcam.h5" />

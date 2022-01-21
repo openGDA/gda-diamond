@@ -173,8 +173,6 @@
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
-		<property name="initialAutoIncrement" value="Yes" />
-		<property name="initialAutoSave" value="Yes" />
 		<property name="initialWriteMode" value="2" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="p" />
@@ -197,8 +195,6 @@
 					</bean>
 				</property>
 				<property name="resetToInitialValues" value="true" />
-				<property name="initialAutoSave" value="Yes" />
-				<property name="initialAutoIncrement" value="Yes" />
 				<property name="initialWriteMode" value="2" />
 				<property name="initialNumCapture" value="1" />
 				<property name="initialFileName" value="projections" />

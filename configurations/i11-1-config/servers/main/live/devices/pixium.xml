@@ -101,8 +101,6 @@
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
-		<property name="initialAutoSave" value="Yes" />
-		<property name="initialAutoIncrement" value="Yes" />
 		<property name="initialWriteMode" value="2" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="pixium" />
@@ -121,8 +119,6 @@
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
-		<property name="initialAutoSave" value="Yes" />
-		<property name="initialAutoIncrement" value="Yes" />
 		<property name="initialWriteMode" value="2" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="pixium" />

@@ -90,8 +90,6 @@
 				<property name="initialBlockingCallbacks" value="false" />
 			</bean>
 		</property>
-		<property name="initialAutoSave" value="0" />
-		<property name="initialAutoIncrement" value="0" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="ew4000" />
