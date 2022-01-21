@@ -40,7 +40,6 @@
 	<import resource="pgm.xml"/>
 
 	<!-- Endstation -->
-	<import resource="sample_manipulator.xml"/>
 	<import resource="sample_heater.xml"/>
 	<import resource="analyser.xml"/>
 	<import resource="hiden.xml"/>
@@ -62,7 +61,7 @@
 
 	<!-- Gas Rig -->
 	<import resource="gas_rig.xml"/>
-	<import resource="tcup.xml"/>
+	<import resource="manipulator.xml"/><!-- this gives either TPOT or TCUP -->
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
