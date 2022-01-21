@@ -608,6 +608,10 @@
 					<property name="scannableName" value="sgmpitch"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="roll"/>
+					<property name="scannableName" value="sgmroll"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="wedge_offside"/>
 					<property name="scannableName" value="sgmwedgeoffside"/>
 				</bean>
