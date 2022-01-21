@@ -13,8 +13,7 @@
    <launcherArgs>
       <programArgs>-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}
       </programArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Dgda.install.workspace.loc=${workspace_loc}
+	  <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
 -Dgda.instance.dir=${project_loc:i20-config}
 -Dgda.core.dir=${project_loc:core-config}

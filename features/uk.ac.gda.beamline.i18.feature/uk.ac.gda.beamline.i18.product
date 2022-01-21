@@ -21,7 +21,6 @@
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i18/software/gda/config/jca/live/JCALibrary.properties
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx4g
 -XX:+DisableExplicitGC

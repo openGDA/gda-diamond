@@ -23,7 +23,6 @@
 -Dgda.propertiesFile=/dls_sw/b18/software/gda/config/properties/live/live_instance_java.properties
 -Djacorb.config.dir=/dls_sw/b18/software/gda/config/properties/live/jacorb
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/b18/software/gda/config/properties/live/JCALibrary.properties
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx4g
 -XX:+DisableExplicitGC

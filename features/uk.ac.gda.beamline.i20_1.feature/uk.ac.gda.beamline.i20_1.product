@@ -23,7 +23,6 @@
 -Declipse.pluginCustomization=/dls_sw/i20-1/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.i20_1/plugin_customization.ini
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx4g
 -XX:+DisableExplicitGC

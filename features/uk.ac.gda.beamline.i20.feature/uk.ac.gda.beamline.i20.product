@@ -11,8 +11,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Dgda.install.workspace.loc=/dls_sw/i20/software/gda
+      <vmArgs>-Dgda.install.workspace.loc=/dls_sw/i20/software/gda
 -Dgda.install.git.loc=/dls_sw/i20/software/gda_git
 -Dgda.instance.dir=/dls_sw/i20/software/gda/config
 -Dgda.core.dir=/dls_sw/i20/software/gda_git/gda-core.git/core-config

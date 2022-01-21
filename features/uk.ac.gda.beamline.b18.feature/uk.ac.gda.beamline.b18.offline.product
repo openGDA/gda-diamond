@@ -25,7 +25,6 @@
 -Dgda.client.jython.automatic.interpreter=1
 -Dgda.instance.dir=${project_loc:b18-config}
 -Dgda.logs.dir=${workspace_loc}/../logs
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx4g
 -XX:+DisableExplicitGC
