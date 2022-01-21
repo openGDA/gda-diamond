@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="analyser_controller" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosController" >
+		<property name="basePVName" value="TEST-SPECS-02:" />
+	</bean>
+	
+	<bean id="analyser_status" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserStatus">
+		<property name="name" value="analyser_status"/>
+		<property name="collectionStrategy" ref="collection_strategy"/>
+		<property name="pvName" value="TEST-SPECS-02:DetectorState_RBV" />
+	</bean>
+
+</beans>
