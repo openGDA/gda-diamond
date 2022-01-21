@@ -39,8 +39,7 @@ See &lt;http://www.opengda.org/&gt;
 -XX:+UseParallelGC
 -XX:ParallelGCThreads=8
       </programArgsWin>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Drun.in.eclipse=false 
+      <vmArgs>-Drun.in.eclipse=false
 -Dgda.instance.dir=${project_loc:i10-config}
 -Dgda.group.dir=${project_loc:i10-shared}
 -Dgda.facility.dir=${project_loc:dls-config}

@@ -22,8 +22,7 @@ http://www.opengda.org
    <launcherArgs>
       <programArgs>-consolelog
       </programArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Drun.in.eclipse=true 
+      <vmArgs>-Drun.in.eclipse=true
 -Dgda.instance.dir=/dls_sw/i06-1/software/gda/config
 -Dgda.facility.dir=/dls_sw/i06-1/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/i06-1/software/gda/workspace_git/gda-core.git/core-config

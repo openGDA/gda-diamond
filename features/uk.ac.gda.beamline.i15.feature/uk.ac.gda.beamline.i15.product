@@ -19,7 +19,6 @@
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i15-config}/properties/dummy/JCALibrary.properties
 -Declipse.pluginCustomization=${project_loc:i15-config}/clients/main/_common/pluginCustomization.ini
 -Dgda.client.jython.automatic.interpreter=1
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dorg.dawnsci.mapping.ui.processing.off=true
 -Xmx2048m -XX:+DisableExplicitGC
       </vmArgs>

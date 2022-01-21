@@ -41,7 +41,6 @@ PyDev http://pydev.org/
 -Xmx4g
 -XX:-UseCompressedOops
 -Dorg.dawb.editor.h5.use.default=false
--Dosgi.framework.extensions=org.eclipse.fx.osgi
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

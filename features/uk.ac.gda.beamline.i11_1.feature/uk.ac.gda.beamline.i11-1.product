@@ -21,8 +21,7 @@ Visit http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Declipse.pluginCustomization=${workspace_loc:i11-1-config}/plugin_customization.ini
+      <vmArgs>-Declipse.pluginCustomization=${workspace_loc:i11-1-config}/plugin_customization.ini
 -Dgda.install.workspace.loc=${workspace_loc:i11-1-config}
 -Dgda.install.git.loc=${workspace_loc:i11-1-config}/../../../../workspace_git
 -Dgda.propertiesFile=${workspace_loc:i11-1-config}/properties/dummy/dummy_instance_java.properties

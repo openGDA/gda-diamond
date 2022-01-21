@@ -18,7 +18,6 @@
 -Dgov.aps.jca.JCALibrary.properties=${workspace_loc:b21-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dgda.logs.dir=${workspace_loc}/../logs
 -Dgda.instance.dir=${workspace_loc:b21-config}
 -Dgda.facility.dir=${workspace_loc:dls-config}

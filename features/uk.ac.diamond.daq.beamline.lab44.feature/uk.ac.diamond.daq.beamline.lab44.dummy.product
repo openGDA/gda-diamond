@@ -26,7 +26,6 @@
 -Dgda.var=/scratch/gda_versions/var
 -Dgda.logs.dir=/scratch/lab44/logs
 -Dpython.cachedir=/scratch/gda_versions/var/python.cachedir
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Dpydev.funding.hide=true

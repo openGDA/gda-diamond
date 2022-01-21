@@ -19,8 +19,7 @@ See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Drun.in.eclipse=false 
+      <vmArgs>-Drun.in.eclipse=false
 -Dgda.instance.dir=${project_loc:i21-config}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}

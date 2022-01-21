@@ -20,8 +20,7 @@ See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Dgda.root=${project_loc:uk.ac.gda.core}/../
+      <vmArgs>-Dgda.root=${project_loc:uk.ac.gda.core}/../
 -Dgda.config=${project_loc:p45-config}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.logs.dir=${workspace_loc}/../logs

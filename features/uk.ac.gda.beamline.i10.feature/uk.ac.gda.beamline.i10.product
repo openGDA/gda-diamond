@@ -13,8 +13,7 @@
    <launcherArgs>
       <programArgs>-debug
       </programArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Drun.in.eclipse=false 
+      <vmArgs>-Drun.in.eclipse=false
 -Dgda.instance.dir=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config
 -Dgda.facility.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-core.git/core-config
