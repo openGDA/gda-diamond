@@ -22,7 +22,6 @@
 -Dgda.mode=live
 -Dgda.propertiesFile=${project_loc:b16-config}/properties/live/live_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:b16-config}/properties/live/JCALibrary.properties
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dorg.dawnsci.mapping.ui.processing.off=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Duk.ac.diamond.scisoft.analysis.io.nocaching=true

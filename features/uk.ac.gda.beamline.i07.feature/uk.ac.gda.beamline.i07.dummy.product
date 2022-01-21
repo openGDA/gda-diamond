@@ -24,7 +24,6 @@ http://www.opengda.org
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Duk.ac.diamond.scisoft.create_pydev_jython_interpreter=FALSE
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dgda.install.git.loc=${workspace_loc}_git
 -Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.config=${project_loc:i07-config}
