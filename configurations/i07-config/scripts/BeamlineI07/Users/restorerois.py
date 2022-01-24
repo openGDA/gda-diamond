@@ -1,7 +1,7 @@
 import scisoftpy as dnp
 from gda.jython import InterfaceProvider
 
-VIEW_NAME = "Area Detector"
+VIEW_NAME = "Excalibur"
 
 def restorerois(scan):
     if type(scan) == int:

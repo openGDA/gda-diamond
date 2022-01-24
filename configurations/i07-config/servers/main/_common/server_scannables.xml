@@ -854,27 +854,20 @@
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
     </bean>
-    <bean id="ftx" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorFTX_DPS" />
+    <bean id="dpsz2" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorZUpper_DPS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
     </bean>
-    <bean id="fty" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorFTY_DPS" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    
+
     <bean id="DPS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
                 <ref bean="dpsx" />
                 <ref bean="dpsy" />
                 <ref bean="dpsz" />
-                <ref bean="ftx" />
-                <ref bean="fty" />
+                <ref bean="dpsz2" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -1530,8 +1523,7 @@
                 <ref bean="dpsx" />
                 <ref bean="dpsy" />
                 <ref bean="dpsz" />
-                <ref bean="ftx" />
-                <ref bean="fty" />
+                <ref bean="dpsz2" />
 
                 <!-- DETS1 -->
                 <ref bean="dets1hall" />

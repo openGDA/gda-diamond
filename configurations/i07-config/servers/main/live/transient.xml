@@ -11,6 +11,8 @@
 	<!-- <import resource="transient/clasp.xml" /> -->
 
 	<!-- <import resource="transient/dcdx.xml" /> -->
+	
+	<import resource="transient/gas_rig.xml" />
 
 	<!-- <import resource="transient/gsaxs.xml" /> -->
 
@@ -21,5 +23,7 @@
 	<!-- <import resource="transient/xmap.xml" /> -->
 
 	<!-- <import resource="transient/hex3.xml" /> -->
+	
+	<import resource="transient/eiger.xml" />
 
 </beans>

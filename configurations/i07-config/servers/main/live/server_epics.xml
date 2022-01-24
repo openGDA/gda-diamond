@@ -556,9 +556,9 @@
 		<property name="protectionLevel" value="0" />
 	</bean>
 
-	<!-- Beam intensity from D5 (this PV also appears in the D5 EpicsBpmController) -->
+	<!-- Beam intensity from D5 (PV from PandA DAC) -->
 	<bean id="d5i" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-DI-PHDGN-05:INTEN" />
+		<property name="pvName" value="BL07I-MO-PANDA-02:DRV:POSBUS4:VAL" />
 	</bean>
 
 
@@ -974,14 +974,8 @@
 	<bean id="MotorZ_DPS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-EA-DET-01:Z" />
 	</bean>
-
-	<!-- Flight Tube X -->
-	<bean id="MotorFTX_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-EA-DET-01:FLIGHT:X" />
-	</bean>
-	<!-- Flight Tube Y -->
-	<bean id="MotorFTY_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-EA-DET-01:FLIGHT:Y" />
+	<bean id="MotorZUpper_DPS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-EA-DET-01:ZUPPER" />
 	</bean>
 
 	<!-- Detector Slits DETS1 Motors -->

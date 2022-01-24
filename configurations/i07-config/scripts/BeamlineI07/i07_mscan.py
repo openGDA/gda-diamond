@@ -1,5 +1,6 @@
 from gdascripts.mscanHandler import *
 from uk.ac.gda.analysis.mscan import HklAdapter
+from gda.factory import Finder
 
 # Excalibur
 exc = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
@@ -27,3 +28,32 @@ class DCHklAdapter(HklAdapter):
 hkl_prov = DCHklAdapter()
 exc.setHklProvider(hkl_prov)
 p2c.setHklProvider(hkl_prov)
+
+# Exc filename recorder
+try:
+    from exc_h5_meta import ExcaliburExtFileMeta
+    excalibur_h5_data = ExcaliburExtFileMeta("excalibur_h5_data", "excalibur", ["excalibur", "excroi", "excstats", "exc_p"])
+    meta_add(excalibur_h5_data)
+except Exception as e:
+    print("Error setting up excalibur_h5_data", e)
+#####
+
+# Inject normaliser processor for use in namespace
+excalibur_norm = Finder.find("excalibur_norm")
+#####
+
+# PVA snapper
+try:
+    from exc_p import ExcPvaSnapper
+    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats"))
+except Exception as e:
+    print("Error setting up exc snapper", e)
+#####
+
+# Exc Threshold
+try:
+    from exc_p import ExcThreshold
+    excthresh = ExcThreshold("excthresh", excalibur.getController().getBasePv())
+except Exception as e:
+    print("Error setting up exc threshold", e)
+#####

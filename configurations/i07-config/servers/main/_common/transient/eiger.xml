@@ -3,42 +3,44 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="excalibur" class="uk.ac.gda.devices.odin.OdinDetector">
-		<property name="controller" ref="excalibur_controller" />
-		<property name="collectionStrategy" ref="excalibur_single_strategy" />
+	<bean id="eiger" class="uk.ac.gda.devices.odin.OdinDetector">
+		<property name="controller" ref="eiger_controller" />
+		<property name="collectionStrategy" ref="eiger_single_strategy" />
 	</bean>
 
-	<bean id="excalibur_multi" class="uk.ac.gda.devices.odin.OdinDetector">
-		<property name="controller" ref="excalibur_controller" />
-		<property name="collectionStrategy" ref="excalibur_multiple_strategy" />
+	<bean id="eiger_multi" class="uk.ac.gda.devices.odin.OdinDetector">
+		<property name="controller" ref="eiger_controller" />
+		<property name="collectionStrategy" ref="eiger_multiple_strategy" />
 	</bean>
 
-	<bean id="excalibur_single_strategy" class="uk.ac.gda.devices.odin.OdinSingleFileStrategy">
-		<constructor-arg index="0" ref="excalibur_controller"/>
+	<bean id="eiger_single_strategy" class="uk.ac.gda.devices.odin.OdinSingleFileStrategy">
+		<constructor-arg index="0" ref="eiger_controller"/>
+		<property name="triggerMode" value="Internal Series" />
 	</bean>
 
-	<bean id="excalibur_multiple_strategy" class="uk.ac.gda.devices.odin.OdinMultipleFileStrategy">
-		<constructor-arg index="0" ref="excalibur_controller"/>
+	<bean id="eiger_multiple_strategy" class="uk.ac.gda.devices.odin.OdinMultipleFileStrategy">
+		<constructor-arg index="0" ref="eiger_controller"/>
+		<property name="triggerMode" value="Internal Series" />
 	</bean>
 
 <!-- For PVA plugin -->
 
 
-	<bean id="exc_pva" class="gda.device.detector.NXDetector">
-		<property name="name" value="exc_pva" />
+	<bean id="eig_pva" class="gda.device.detector.NXDetector">
+		<property name="name" value="eiger_pva" />
 		<property name="addCollectTimeMs" value="true" />
 		<property name="collectionStrategy"
-			ref="exc_pva_strategy" />
+			ref="eiger_pva_strategy" />
 		<property name="additionalPluginList">
 			<list>
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.PVAPlugin">
-					<constructor-arg ref="excalibur_pva" />
+					<constructor-arg ref="eiger_pva" />
 				</bean>
 			</list>
 		</property>
 	</bean>
-	<bean id="exc_pva_strategy"
+	<bean id="eiger_pva_strategy"
 		class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
@@ -51,7 +53,7 @@
 						<property name="decoratee">
 							<bean
 								class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="exc_pva_adbase" />
+								<property name="adBase" ref="eiger_pva_adbase" />
 								<property name="restoreAcquireState" value="true" />
 							</bean>
 						</property>
@@ -61,87 +63,87 @@
 			</bean>
 		</property>
 	</bean>
-
-
+	
+	
 	<!-- End PVA -->
-
-
-
-
+	
+	
+	
+	
 		<!-- Objects for Processing -->
 
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="excroi">
-		<property name="detector" ref="excalibur" />
-		<property name="processor" ref="excalibur_roistats_swmr" />
+		id="eigerroi">
+		<property name="detector" ref="eiger" />
+		<property name="processor" ref="eiger_roistats_swmr" />
 	</bean>
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="excstats">
-		<property name="detector" ref="excalibur" />
-		<property name="processor" ref="excalibur_stats_swmr" />
+		id="eigerstats">
+		<property name="detector" ref="eiger" />
+		<property name="processor" ref="eiger_stats_swmr" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="excalibur_roistats_swmr">
+		id="eiger_roistats_swmr">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="excalibur_roistats" />
-				<ref bean="excalibur_plotter" />
-				<ref bean="excalibur_norm" />
+				<ref bean="eiger_roistats" />
+				<ref bean="eiger_plotter" />
+				<ref bean="eiger_norm" />
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4">
 			<null />
 		</constructor-arg>
-		<property name="detectorWidth" value="2069" />
-		<property name="detectorHeight" value="515" />
+		<property name="detectorWidth" value="2068" />
+		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="excalibur_stats_swmr">
+		id="eiger_stats_swmr">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="excalibur_stats" />
-				<ref bean="excalibur_plotter" />
+				<ref bean="eiger_stats" />
+				<ref bean="eiger_plotter" />
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4">
 			<null />
 		</constructor-arg>
-		<property name="detectorWidth" value="2069" />
-		<property name="detectorHeight" value="515" />
+		<property name="detectorWidth" value="2068" />
+		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
-		id="excalibur_roistats">
-		<property name="plotName" value="Excalibur" />
-		<property name="statsProcessor" ref="excalibur_stats" />
+		id="eiger_roistats">
+		<property name="plotName" value="Eiger" />
+		<property name="statsProcessor" ref="eiger_stats" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.NormalisingRegionProcessor"
-		id="excalibur_norm">
+		id="eiger_norm">
 		<property name="attenuatorScannableName" value="filterset" />
 		<property name="transmissionFieldName" value="transmission" />
-		<property name="roiStats" ref="excalibur_roistats" />
+		<property name="roiStats" ref="eiger_roistats" />
 		<property name="enable" value="false" />
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
-		id="excalibur_stats">
+		id="eiger_stats">
 		<property name="enabledStats">
 			<list>
 				<value>MAX_VAL</value>
@@ -154,8 +156,8 @@
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
-		id="excalibur_plotter">
-		<property name="plotName" value="Excalibur" />
+		id="eiger_plotter">
+		<property name="plotName" value="Eiger" />
 	</bean>
 	
 
