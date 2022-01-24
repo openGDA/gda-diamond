@@ -26,9 +26,9 @@ http://www.opengda.org
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Dgda.install.git.loc=../../workspace_git
 -Dgda.install.workspace.loc=../../workspace
--Dgda.config=../../workspace_git/gda-mt.git/configurations/i07-config
--Dgda.propertiesFile=../../workspace_git/gda-mt.git/configurations/i07-config/properties/live/java.properties
--Dgov.aps.jca.JCALibrary.properties=../../workspace_git/gda-mt.git/configurations/i07-config/properties/JCALibrary.properties
+-Dgda.config=../../workspace_git/gda-diamond.git/configurations/i07-config
+-Dgda.propertiesFile=../../workspace_git/gda-diamond.git/configurations/i07-config/properties/live/java.properties
+-Dgov.aps.jca.JCALibrary.properties=../../workspace_git/gda-diamond.git/configurations/i07-config/properties/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
 -Ddatavis.open.mode=DESELECT_OTHERS
 -Ddatavis.open.script=true

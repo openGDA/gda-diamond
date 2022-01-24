@@ -20,7 +20,7 @@
 -Dgda.propertiesFile=${project_loc:b24-config}/properties/dummy/dummy_instance_java.properties
 -Djacorb.config.dir=${project_loc:b24-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:b24-config}/properties/dummyJCALibrary.properties
--Declipse.pluginCustomization=${project_loc:uk.ac.gda.core/}/../../gda-mt.git/uk.ac.gda.beamline.b24/plugin_customization.ini
+-Declipse.pluginCustomization=${project_loc:uk.ac.gda.core/}/../../gda-diamond.git/uk.ac.gda.beamline.b24/plugin_customization.ini
 -Dgda.mode=dummy
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false

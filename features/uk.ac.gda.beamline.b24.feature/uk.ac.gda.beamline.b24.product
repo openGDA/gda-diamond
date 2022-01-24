@@ -20,7 +20,7 @@
 -Dgda.propertiesFile=/dls_sw/b24/software/gda/config/properties/live/live_instance_java.properties
 -Djacorb.config.dir=/dls_sw/b24/software/gda/config/properties/live/jacorb
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/b24/software/gda/config/properties/live/JCALibrary.properties
--Declipse.pluginCustomization=/dls_sw/b24/software/gda/workspace_git/gda-mt.git/uk.ac.gda.beamline.b24/plugin_customization.ini
+-Declipse.pluginCustomization=/dls_sw/b24/software/gda/workspace_git/gda-diamond.git/uk.ac.gda.beamline.b24/plugin_customization.ini
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
