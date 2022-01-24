@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- xyz Stage for the Pilatus 2M -->
+
+	<bean id="stagex_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="stagey_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="stagez_motor" class="gda.device.motor.DummyMotor" />
+
+	<import resource="../../_common/transient/stage.xml" />
+
+</beans>

@@ -1,0 +1,148 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="pilatus3_driver" class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:CAM:" />
+    </bean>
+    
+    <bean id="pilatus3_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:CAM:" />
+    </bean>
+    
+    
+    <bean id="pilatus3_ndFile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:CAM:" />
+        <property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
+        <property name="initialNumCapture" value="1" /> <!-- current = 1 -->
+        <property name="initialFileName" value="p" />
+        <property name="initialFileTemplate" value="%s%s%d.tif" />
+        <property name="filePathConverter">
+            <bean class="uk.ac.gda.util.SimpleFilePathConverter">
+                <property name="userSubString" value="/dls/i07/data" />
+                <property name="internalSubString" value="/ramdisk" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="pilatus3_ndArray"  class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:ARR:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="BL07I-EA-PILAT-03:image1:" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="pilatus3_ndStats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:STAT:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="BL07I-EA-PILAT-03:Stats1:" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="pilatus3_hdTrigger" class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
+        <constructor-arg ref="pilatus3_adbase" />
+        <constructor-arg ref="pilatus3_driver" />
+        <constructor-arg value=".03" />
+        <constructor-arg value="EXTERNAL_TRIGGER" />
+    </bean>
+    
+    <bean id="pilatus3_swTrigger" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+        <constructor-arg ref="pilatus3_adbase" />
+        <constructor-arg value=".02" />
+    </bean>
+        
+
+    <bean id="pilatus3" class="gda.device.detector.addetector.ADPilatus">
+        <property name="readAcquisitionTime" value="true" />
+        <property name="readFilepath" value="true" />
+        <property name="readAcquisitionPeriod" value="false" />
+        <property name="computeStats" value="false" />
+        <property name="computeCentroid" value="false" />
+        <property name="readArray" value="false" />
+        <property name="adBase" ref="pilatus3_adbase"/>
+
+        <property name="nonHardwareTriggeredCollectionStrategy" ref="pilatus3_swTrigger"/>
+<!--        
+        <property name="hardwareTriggerProvider" ref="xpsTrajController" />
+        <property name="hardwareTriggeredCollectionStrategy" ref="pilatus3_hdTrigger"/>
+-->        
+        <property name="hardwareTriggering" value="false" />
+        
+        <property name="adDriverPilatus" ref="pilatus3_driver"/>
+        <property name="ndFile"  ref="pilatus3_ndFile"/>
+        <property name="ndArray" ref="pilatus3_ndArray"/>
+        <property name="ndStats" ref="pilatus3_ndStats"/>
+    </bean>
+    
+    
+    
+    <bean id="pilatus3.ROI1_NDROI" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:ROI1:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="BL07I-EA-PILAT-03:ROI1:" />
+            </bean>
+        </property>
+        <property name="initialBinX" value="0" />
+        <property name="initialBinY" value="0" />
+        <property name="initialMinX" value="0" />
+        <property name="initialMinY" value="0" />
+        <property name="initialSizeX" value="487" />
+        <property name="initialSizeY" value="195" />
+    </bean>
+    
+    <bean id="pilatus3.PROC1_NDProcess" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:Proc1:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="BL07I-EA-PILAT-03:Proc1:" />
+            </bean>
+        </property>
+        
+    </bean>
+    
+    <bean id="pilatus3.MJPG1_ffmpegStream"
+        class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:MJPG1:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="BL07I-EA-PILAT-03:MJPG1:" />
+            </bean>
+        </property>
+        
+    </bean>
+    
+    <bean id="pilatus3.STATS2_NDStats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:Stats2:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="BL07I-EA-PILAT-03:Stats2:" />
+            </bean>
+        </property>
+        
+    </bean>
+    
+    <bean id="pilatus3.HDF5_NDFileHDF5"
+        class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+        <property name="basePVName" value="BL07I-EA-PILAT-03:HDF5:" />
+        <property name="file">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+                <property name="basePVName" value="BL07I-EA-PILAT-03:HDF5:" />
+                <property name="pluginBase">
+                    <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                        <property name="basePVName" value="BL07I-EA-PILAT-03:HDF5:" />
+                    </bean>
+                </property>
+                <property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
+                <property name="initialNumCapture" value="1" /> <!-- current = 1 -->
+                <property name="initialFileName" value="p" />
+                <property name="initialFileTemplate" value="%s%s%d.tif" />
+            </bean>
+        </property>
+    </bean>
+    
+</beans>

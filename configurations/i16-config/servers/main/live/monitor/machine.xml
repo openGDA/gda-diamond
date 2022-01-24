@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="re" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY"/>
+	</bean>
+
+	<bean id="rc" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL"/>
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
+</beans>

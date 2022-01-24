@@ -1,0 +1,265 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- AD hardware -->
+
+<!-- Duplicate!
+	<bean id="pilatus3_driver"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+		<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:CAM:" />
+	</bean>
+
+	<bean id="pilatus3_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:CAM:" />
+	</bean>
+-->
+
+	<!-- Potential duplicate of pilatus3_ndFile in pilatus3_824.xml -->
+	<bean id="fastpil3_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:CAM:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.SimpleFilePathConverter">
+				<property name="userSubString" value="/dls/i07/data" />
+				<property name="internalSubString" value="/ramdisk" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="fastpil3_nxcollectionstrategy"
+		class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus3_adbase" />
+		<constructor-arg value=".02" />
+	</bean>
+
+	<bean id="fastpil3_softtrigger"
+			class="gda.device.detector.addetector.triggering.SoftTriggeredPilatus">
+		<constructor-arg ref="pilatus3_adbase" />
+		<constructor-arg value=".02" />
+		<property name="pilatusDriver" ref="pilatus3_driver" />
+	</bean>
+
+	<bean id="fastpil3_snapping_strategy"
+			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus3_adbase" />
+		<constructor-arg value=".02" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="fastpil3_nxfilewriter_for_scans"
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="fastpil3" />
+		<property name="ndFile" ref="fastpil3_camserver_ndfile" />
+		<property name="pathErrorSuppressed" value="true" />
+
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s%s00000_%05d.tif" />
+		<!--
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplate" value="%s%s.tif" />
+		<property name="fileTemplateForReadout" value="%s%s_%05d.tif" />
+		-->
+	</bean>
+
+	<bean id="fastpil3_nxfilewriter_for_snaps"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="fastpil3" />
+		<property name="ndFile" ref="fastpil3_camserver_ndfile" />
+		<property name="numTrackerExtension" value="fastpil3snaps" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<bean id="fastpil3_ndfile_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:HDF5:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:HDF5:" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="fastpil3_hdf5filewriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="fastpil3_ndfile_hdf5" />
+		<property name="fileNameTemplate" value="" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-fastpil3-files" />
+		<property name="fileTemplate" value="%s%s%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+	</bean>
+
+	<!-- NXDetectors -->
+	<bean id="fastpil3_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="Pilatus 3" />
+		<constructor-arg value="6" />
+	</bean>
+
+	<bean id="fastpil3_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
+		<constructor-arg ref="pilatus3_adbase" />
+	</bean>
+
+	<bean id="fastpil3_ndprocess" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:PROC:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:PROC:" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="fastpil3_proc" class="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin">
+		<constructor-arg value="proc3" />
+		<property name="inputPort" value="pilatus3.CAM" />
+		<property name="blocking" value="false" />
+		<property name="enableLowClip" value="true" />
+		<property name="lowClip" value="0" />
+		<property name="dataType" value="AUTOMATIC" />
+		<property name="ndProcess" ref="fastpil3_ndprocess" />
+	</bean>
+
+
+	<bean id="_fastpil3" class="gda.device.detector.NXDetector">
+		<property name="name" value="_fastpil3" />
+		<!--<property name="collectionStrategy" ref="fastpil3_nxcollectionstrategy" />-->
+		<property name="collectionStrategy" ref="fastpil3_softtrigger" />
+		<property name="additionalPluginList">
+			<list>
+				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+				<ref bean="fastpil3_nxfilewriter_for_scans" />
+				<ref bean="fastpil3_hdf5filewriter" />
+				<ref bean="fastpil3_proc" />
+				<ref bean="fastpil3_roistat1" />
+				<ref bean="fastpil3_roistat2" />
+				<ref bean="fastpil3_roistat3" />
+				<ref bean="fastpil3_roistat4" />
+				<ref bean="fastpil3_roistat5" />
+				<ref bean="fastpil3_roistat6" />
+				<ref bean="fastpil3_freerun_controller" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fastpil3" class="gda.device.detector.NXDetectorSnappingDecorator">
+		<constructor-arg ref="_fastpil3" />
+		<property name="name" value="fastpil3" />
+		<property name="snappingCollectionStrategy" ref="fastpil3_snapping_strategy" />
+		<property name="snapperPluginList">
+			<list>
+				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+				<ref bean="fastpil3_nxfilewriter_for_snaps" />
+				<ref bean="fastpil3_proc" />
+				<ref bean="fastpil3_roistat1" />
+				<ref bean="fastpil3_roistat2" />
+				<ref bean="fastpil3_roistat3" />
+				<ref bean="fastpil3_roistat4" />
+				<ref bean="fastpil3_roistat5" />
+				<ref bean="fastpil3_roistat6" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fastpil3_roistat1"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:ROI1:" />
+		<property name="baseStatsPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:STAT1:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat2"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<property name="baseRoiPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:ROI2:" />
+		<property name="baseStatsPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:STAT2:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat3"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats3" />
+		<property name="baseRoiPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:ROI3:" />
+		<property name="baseStatsPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:STAT3:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="2" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat4"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats4" />
+		<property name="baseRoiPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:ROI4:" />
+		<property name="baseStatsPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:STAT4:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="3" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat5"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats5" />
+		<property name="baseRoiPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:ROI5:" />
+		<property name="baseStatsPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:STAT5:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="4" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat6"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats6" />
+		<property name="baseRoiPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:ROI6:" />
+		<property name="baseStatsPVName" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-03:STAT6:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="5" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

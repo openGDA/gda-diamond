@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="stokes" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PAEtaMotor" />
+	</bean>
+
+	<bean id="thp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PAThetaMotor" />
+		<property name="outputFormat" value="%.7g" />
+	</bean>
+
+	<bean id="tthp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PADet12thetaMotor" />
+	</bean>
+
+	<bean id="dettrans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PADet22thetaMotor" />
+	</bean>
+
+	<bean id="mtthp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PAChiMotor" />
+	</bean>
+
+	<bean id="PA" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="thp" />
+				<ref bean="tthp" />
+				<ref bean="stokes" />
+				<ref bean="dettrans" />
+				<ref bean="mtthp" />
+			</list>
+		</property>
+	</bean>
+</beans>

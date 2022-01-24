@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+
+	<bean id="MalcRoiProcExc" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="plotName" value="Excalibur" />
+	</bean>
+		<bean id="MalcRoiProcPil" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="plotName" value="Pilatus 2" />
+	</bean>
+		<bean id="MalcPlotProcExc" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="plotName" value="Excalibur" />
+	</bean>
+		<bean id="MalcPlotProcPil" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="plotName" value="Pilatus 2" />
+	</bean>
+
+
+	<!-- scan 1 -->
+	<bean id="malcolm_info_scan01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 01" />
+		<property name="description" value="Scan 01" />
+	</bean>
+	<bean id="malcolm_model_scan01" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-01" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan01" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-01" />
+		<property name="model" ref="malcolm_model_scan01" />
+		<property name="deviceInformation" ref="malcolm_info_scan01" />
+		<property name="activated" value="false" />
+		<property name="detFileNameSuffix" value="-EXCALIBUR.h5" />
+		<property name="detFrameEntry" value="/data" />
+		<property name="detUidEntry" value="/uid" />
+		<property name="primaryDataName" value="EXCALIBUR" />
+		<property name="processors">
+			<list>
+				<ref bean="MalcRoiProcExc" />
+				<ref bean="MalcPlotProcExc" />
+			</list>
+		</property>
+		
+	</bean>
+	
+	<!-- scan 2 -->
+	<bean id="malcolm_info_scan02" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 02" />
+		<property name="description" value="Scan 02" />
+	</bean>
+	<bean id="malcolm_model_scan02" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-02" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan02" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-02" />
+		<property name="model" ref="malcolm_model_scan02" />
+		<property name="deviceInformation" ref="malcolm_info_scan02" />
+		<property name="activated" value="false" />
+		<property name="detFileNameSuffix" value="-PILATUS.h5" />
+		<property name="detFrameEntry" value="/entry/detector/detector" />
+		<property name="detUidEntry" value="/entry/NDAttributes/NDArrayUniqueId" />
+		<property name="primaryDataName" value="PILATUS" />
+		<property name="processors">
+			<list>
+				<ref bean="MalcRoiProcPil" />
+				<ref bean="MalcPlotProcPil" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- scan 3 -->
+	<bean id="malcolm_info_scan03" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 03" />
+		<property name="description" value="Scan 03" />
+	</bean>
+	<bean id="malcolm_model_scan03" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-03" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan03" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-03" />
+		<property name="model" ref="malcolm_model_scan03" />
+		<property name="deviceInformation" ref="malcolm_info_scan03" />
+		<property name="activated" value="false" />
+	</bean>
+	
+</beans>

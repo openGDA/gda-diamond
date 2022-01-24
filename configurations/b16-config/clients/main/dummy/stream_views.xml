@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="simcam1_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="simcam1_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="simcam1_histogramTopUI" />
+	</bean>
+	<bean id="simcam1_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="sim_camera_control" />
+	</bean>
+	<bean id="simcam1_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="simcam1_controlsUI" />
+				<ref bean="simcam1_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="simcam1_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Sim Cam 1" />
+		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="simcam1_topUI" />
+		<property name="bottomUi" ref="simcam1_histogramBottomUI" />
+	</bean>
+	
+	<import resource="file://${gda.facility.dir}/clients/dummy/sim_camera.xml" />
+
+</beans>

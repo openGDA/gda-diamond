@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
+	profile="deben">
+
+
+	<bean id="debenSpeed" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL16B-EA-DEBEN-01:SPEED" />
+		<property name="readOnly" value="false" />
+	</bean>
+
+		<bean id="debenRunning" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL16B-EA-DEBEN-01:MOTORRUNNING" />
+	</bean>
+
+	<bean id="debenForce" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL16B-EA-DEBEN-01:LOAD" />
+		<property name="readPV" value="BL16B-EA-DEBEN-01:FORCE:RBV" />
+		<property name="inputNames" value="debenForce"/>
+	</bean>
+
+	<bean id="debenExt" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL16B-EA-DEBEN-01:EXTENSION" />
+		<property name="readPV"
+			value="BL16B-EA-DEBEN-01:EXTENSION:RBV" />
+		<property name="inputNames" value="debenExt"/>
+	</bean>
+
+	<bean id="debenApart" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="debenApart" />
+		<property name="useNameAsInputName" value="True" />
+		<property name="pvName"
+			value="BL16B-EA-DEBEN-01:MOVEAPART" />
+	</bean>
+
+	<bean id="debenTogether" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="True" />
+		<property name="name" value="debenTogether" />
+		<property name="pvName"
+			value="BL16B-EA-DEBEN-01:MOVETOGETHER" />
+	</bean>
+
+	<bean id="debenStop" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="True" />
+		<property name="name" value="debenStop" />
+		<property name="pvName"
+			value="BL16B-EA-DEBEN-01:STOPMOTOR" />
+	</bean>
+
+	<bean id="debenConnect" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="True" />
+		<property name="name" value="debenConnect" />
+		<property name="pvName" value="BL16B-EA-DEBEN-01:CONNECT" />
+	</bean>
+
+	<bean id="debenDisconnect" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="debenDisconnect" />
+		<property name="useNameAsInputName" value="True" />
+		<property name="pvName"
+			value="BL16B-EA-DEBEN-01:DISCONNECT" />
+	</bean>
+
+</beans>

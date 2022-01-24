@@ -1,0 +1,36 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ippws4" class="gda.device.detector.IPPserver">
+		<property name="outputFolderRoot" value="c:/data/" />
+		<property name="fileNameRoot" value="ipp" />
+		<property name="fileFormat" value="tif" />
+		<property name="collectionTime" value="1" />
+		<property name="host" value="172.23.86.67" />
+		<property name="port" value="23" />
+		<property name="snapshotNumTrackerExtension" value="ippws4" />
+	</bean>
+
+	<bean id="ippws10" class="gda.device.detector.IPPserver">
+		<property name="outputFolderRoot" value="c:/data/" /> <!-- this is being chagned by ProcessingDetectorWrapper -->
+		<property name="fileNameRoot" value="ipp" />
+		<property name="fileFormat" value="tif" />
+		<property name="collectionTime" value="1" />
+		<property name="host" value="172.23.86.76" />
+		<property name="port" value="23" />
+		<property name="snapshotNumTrackerExtension" value="ippws10" />
+	</bean>
+
+	<bean id="ippwsme07m" class="gda.device.detector.IPPserver">
+		<property name="outputFolderRoot" value="c:/data/" />
+		<property name="fileNameRoot" value="ipp" />
+		<property name="fileFormat" value="tif" />
+		<property name="collectionTime" value="1" />
+		<property name="host" value="172.23.86.197" />
+		<property name="port" value="23" />
+		<property name="snapshotNumTrackerExtension" value="ippwsme07m" />
+	</bean>
+
+</beans>

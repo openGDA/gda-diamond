@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="S9XCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-09:X:CENTER" />
+	</bean>
+	<bean id="S9XSizeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-09:X:SIZE" />
+	</bean>
+	<bean id="S9YCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-09:Y:CENTER" />
+	</bean>
+	<bean id="S9YSizeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-09:Y:SIZE" />
+	</bean>
+	
+</beans>

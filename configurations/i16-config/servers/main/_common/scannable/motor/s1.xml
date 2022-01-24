@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s1xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1XNegMotor" />
+	</bean>
+	<bean id="s1xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1XPosMotor" />
+	</bean>
+	<bean id="s1xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1XCentreMotor" />
+	</bean>
+	<bean id="s1xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1XSizeMotor" />
+	</bean>
+	<bean id="s1yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1YNegMotor" />
+	</bean>
+	<bean id="s1yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1YPosMotor" />
+	</bean>
+	<bean id="s1ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1YCentreMotor" />
+	</bean>
+	<bean id="s1ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1YSizeMotor" />
+	</bean>
+	<bean id="s1ya" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1YaMotor" />
+	</bean>
+	<bean id="s1yb" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1YbMotor" />
+	</bean>
+	<bean id="s1xa" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1XaMotor" />
+	</bean>
+	<bean id="s1xb" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1XbMotor" />
+	</bean>
+
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1xcentre" />
+				<ref bean="s1xgap" />
+				<ref bean="s1xminus" />
+				<ref bean="s1xplus" />
+				<ref bean="s1ycentre" />
+				<ref bean="s1ygap" />
+				<ref bean="s1yminus" />
+				<ref bean="s1yplus" />
+				<ref bean="s1xa" />
+				<ref bean="s1xb" />
+				<ref bean="s1ya" />
+				<ref bean="s1yb" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

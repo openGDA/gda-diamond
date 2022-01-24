@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"/>
+
+	<import resource="device/all.xml"/>
+	<import resource="../_common/server.xml"/>
+
+	<import resource="metadata.xml"/>
+
+	<!-- Dummy FileRegistrar now imported in _common/server.xml -->
+
+<!-- 
+	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="" />
+				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
+				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
+				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
+				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
+			</map>
+		</property>
+		<property name="dummyMode" value="true"/>
+	</bean>
+ -->
+
+	<!-- SingletonRegistrationPostProcessor not needed in dummy-->
+</beans>

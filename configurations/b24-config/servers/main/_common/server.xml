@@ -1,0 +1,81 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		   http://www.springframework.org/schema/context
+		   http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import resource="required_at_start.xml"/>
+	
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+	<import resource="abstract_command_server.xml"/>
+
+	<bean id="script_paths" parent="common_script_paths"/>
+
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="jythonScriptPaths" ref="script_paths"/>
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
+	</bean>
+
+	<import resource="terminal_logger.xml" />
+
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
+	<import resource="device/all.xml"/>
+	<import resource="scannable/all.xml"/>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="fem">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/FEM:NXcollection/femX</value>
+								<value>instrument:NXinstrument/FEM:NXcollection/femY</value>
+								<value>instrument:NXinstrument/FEM:NXcollection/femYaw</value>
+								<value>instrument:NXinstrument/FEM:NXcollection/femRoll</value>
+								<value>instrument:NXinstrument/FEM:NXcollection/femPitch</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>deg</value>
+								<value>deg</value>
+								<value>deg</value>
+							</list>
+						</property>
+						<property name="prerequisiteScannableNames">
+							<list></list>
+						</property>
+					</bean>
+				</entry>
+		 	</map>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>fem</value>
+			</set>
+		</property>
+	</bean>
+</beans>

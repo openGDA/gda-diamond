@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="excalibur_controller_base" class="uk.ac.gda.devices.odin.OdinDetectorControllerEpics" >
+		<property name="basePv" value="BL07I-EA-EXCBR-01:"/>
+	</bean>
+	
+	<bean id="excalibur_controller" class="uk.ac.gda.devices.odin.OdinDetectorExcalibur" >
+		<constructor-arg ref="excalibur_controller_base" />
+		<property name="basePv" value="BL07I-EA-EXCBR-01:"/>
+	</bean>
+
+	<bean id="excalibur_pva"
+		class="gda.device.detector.areadetector.v17.impl.NDPvaImpl">
+		<property name="basePVName" value="BL07I-EA-EXCBR-01:PVA:" />
+		<property name="pluginBase">
+			<bean
+				class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL07I-EA-EXCBR-01:PVA:" />
+				<property name="initialArrayPort" value="ODN.CAM" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="exc_pva_adbase"
+		class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL07I-EA-EXCBR-01:CAM:" />
+	</bean>
+
+
+</beans>
+

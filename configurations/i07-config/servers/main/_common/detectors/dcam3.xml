@@ -1,0 +1,115 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="dcam3_hdf5_writer" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="dcam3_hdf5" />
+		<property name="fileTemplate" value="%s%s-%d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="dcam3" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="dcam3_fimg_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="dcam3_ndfile_fimg" />
+		<property name="fileNameTemplate" value="" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-dcam3-files" />
+		<property name="fileTemplate" value="%s%s%d.png" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+	
+	<bean id="dcam3_tiff_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="dcam3_ndfile_tiff" />
+		<property name="fileNameTemplate" value="" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-dcam3-files" />
+		<property name="fileTemplate" value="%s%s%d.tiff" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="dcam3_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="dcam3_adbase" />
+								<property name="restoreAcquireState" value="true" />
+							</bean>
+						</property>
+						<property name="restoreTriggerMode" value="true" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Main area detector - does not compute stats -->
+	<bean id="dcam3_det" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dcam3_adbase" />
+		<property name="ndFile" ref="dcam3_ndfile" />
+		<property name="ndArray" ref="dcam3_ndarray" />
+		<property name="fileWriter" ref="dcam3_hdf5_writer" />
+		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
+		<property name="computeStats" value="false" />
+	</bean>
+
+	<!-- Stats-computing version -->
+	<bean id="dcam3_det_stat" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dcam3_adbase" />
+		<property name="ndFile" ref="dcam3_ndfile" />
+		<property name="ndArray" ref="dcam3_ndarray" />
+		<property name="ndStats" ref="dcam3_ndstats" />
+		<property name="fileWriter" ref="dcam3_hdf5_writer" />
+		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
+		<property name="computeStats" value="true" />
+	</bean>
+
+	<bean id="dcam3_png" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dcam3_adbase" />
+		<property name="ndFile" ref="dcam3_ndfile_fimg" />
+		<property name="ndArray" ref="dcam3_ndarray" />
+		<property name="fileWriter" ref="dcam3_fimg_writer" />
+		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
+		<property name="computeStats" value="false" />
+		<property name="readArray" value="false" />
+		<property name="readFilepath" value="true" />
+	</bean>
+
+	<bean id="dcam3_tiff" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dcam3_adbase" />
+		<property name="ndFile" ref="dcam3_ndfile_tiff" />
+		<property name="ndArray" ref="dcam3_ndarray" />
+		<property name="fileWriter" ref="dcam3_fimg_writer" />
+		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
+		<property name="computeStats" value="false" />
+		<property name="readArray" value="false" />
+		<property name="readFilepath" value="true" />
+	</bean>
+
+	<alias name="dcam3_tiff" alias="dcam3" />
+
+	<bean id="dcam3_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name" value="dcam3_det" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	<bean id="dcam3_detInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
+		<property name="label" value="dcam3" />
+		<property name="description" value="dcam3" />
+	</bean>
+	<bean id="dcam3RD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
+		<property name="name" value="dcam3_det" />
+		<property name="model" ref="dcam3_detModel" />
+		<property name="deviceInformation" ref="dcam3_detInfo" />
+		<property name="activated" value="true" />
+	</bean>
+
+</beans>

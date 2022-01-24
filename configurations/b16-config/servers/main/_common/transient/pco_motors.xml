@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
+	profile="pco_motors">
+
+	<!-- NOTE: pcocam 1 2 and 3 are cobbled up bodge motors and not included here-->
+
+	<gda:motor id="pcocam4" live-pvName="BL16B-EA-DET-02:CAM4" />
+	<gda:motor id="pcocam5" live-pvName="BL16B-EA-DET-02:CAM5" />
+	<gda:motor id="pcocam6" live-pvName="BL16B-EA-DET-02:CAM6" />
+
+	<bean id="pcocam" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pcocam4" />
+				<ref bean="pcocam5" />
+				<ref bean="pcocam6" />
+			</list>
+		</property>
+	</bean>
+</beans>

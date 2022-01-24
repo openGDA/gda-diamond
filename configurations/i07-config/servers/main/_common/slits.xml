@@ -1,0 +1,109 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="jj1xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj1xsize" />
+		<property name="motor" ref="JJ1_XSIZE" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj1xpos" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj1xpos" />
+		<property name="motor" ref="JJ1_XPOS" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj1ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj1ysize" />
+		<property name="motor" ref="JJ1_YSIZE" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj1ypos" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj1ypos" />
+		<property name="motor" ref="JJ1_YPOS" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj2xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj2xsize" />
+		<property name="motor" ref="JJ2_XSIZE" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj2xpos" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj2xpos" />
+		<property name="motor" ref="JJ2_XPOS" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj2ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj2ysize" />
+		<property name="motor" ref="JJ2_YSIZE" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj2ypos" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="jj2ypos" />
+		<property name="motor" ref="JJ2_YPOS" />
+		<property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+	</bean>
+
+	<bean id="jj1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="jj1" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="jj1xsize" />
+				<ref bean="jj1xpos" />
+				<ref bean="jj1ysize" />
+				<ref bean="jj1ypos" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jj2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="jj2" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="jj2xsize" />
+				<ref bean="jj2xpos" />
+				<ref bean="jj2ysize" />
+				<ref bean="jj2ypos" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

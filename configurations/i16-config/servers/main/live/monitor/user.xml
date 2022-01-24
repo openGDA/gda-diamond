@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Synoptic > Sample Environment > User I/O -->
+
+	<!-- OB10 -->
+
+	<bean id="diode_"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-EA-USER-01:AI1AV" />
+		<property name="poll" value="false" />
+	</bean>
+
+	<!-- OB13 -->
+
+	<bean id="ic1monitor_"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
+		<property name="poll" value="false" />
+	</bean>
+
+	<bean id="ic1poll_"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
+		<property name="poll" value="true" />
+	</bean>
+
+</beans>
+<!-- BL16I-EA-USER-01:AI1AVBL16I-EA-USER-01:AI1AV -->

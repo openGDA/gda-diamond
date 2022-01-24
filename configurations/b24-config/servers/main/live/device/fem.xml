@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="femX_Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-FEM-01:X" />
+	</bean>
+	
+	<bean id="femY_Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-FEM-01:Y" />
+	</bean>
+	
+	<bean id="femYaw_Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-FEM-01:YAW" />
+	</bean>
+	<bean id="femRoll_Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-FEM-01:ROLL" />
+	</bean>
+	<bean id="femPitch_Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-FEM-01:PITCH" />
+	</bean>
+
+</beans>

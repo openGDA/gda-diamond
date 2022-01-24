@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<alias name="sim_adbase" alias="d4cam_adbase" />
+	<alias name="sim_stats" alias="d4cam_ndstats" />
+	<alias name="sim_ndarray" alias="d4cam_ndarray" />
+	<alias name="sim_hdf5" alias="d4cam_hdf5" />
+	<alias name="sim_ndfile_fimg" alias="d4cam_ndfile_fimg" />
+	<alias name="sim_ndfile_tiff" alias="d4cam_ndfile_tiff" />
+
+	<bean id="d4cam_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_hdf5">
+		<property name="initialFileName" value="d4cam" />
+	</bean>
+
+	<bean id="d4cam_ndfile_fimg" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_fimg">
+		<property name="initialFileName" value="d4cam" />
+	</bean>
+
+</beans>

@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- EPG 22/11 uncomment out in attempt to allow Vortex Gui to connect to hw -->
+	<import resource="../../../servers/main/live/epics/detector/mca_vortex.xml" />
+	
+	<import resource="stream_views.xml" />
+	<import resource="rmi_imports.xml" />
+
+	<import resource="../_common/client.xml" />
+
+</beans>

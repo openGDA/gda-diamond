@@ -1,0 +1,290 @@
+2020-01-28 (live) Testing hdf5 file writing
+
+---------------------------------------------------------------- Before all test:
+
+>>> datadir
+u'/dls/i16/data/2020/mm24498-1'
+
+>>> newexperiment('cm26473-1')
+new record log:  /dls/i16/data/2020/cm26473-1/gdaterminal.log
+/dls_sw/i16/scripts/2020/cm26473-1 already exists
+/dls_sw/i16/scripts/2020/cm26473-1/cm26473-1.txt already exists
+/dls_sw/i16/scripts/2020/cm26473-1/cm26473-1.py already exists
+Logbook already exists: /dls_sw/i16/software/python/userscripts/i16user/logbooks/2020/cm26473-1.ipynb
+To view the logbook, start Jupyter from desktop link
+
+------------------------------------------------------------------- Before test:
+
+>>> kphiZebraPos=kphiZebra() ; print "kphiZebraPos=%r" % (kphiZebraPos)
+kphiZebraPos=57.045
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 5.000000 path: 112552 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+
+----------------------------- Baseline tests with pil3_100k using tiffs only:
+
+				Try a 3 point scan
+
+>>> scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+=== Scan started: Tue Jan 28 15:09:37 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='809133-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809133.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/809133.dat
+  kphi	       kap	     kth	   kmu	kdelta	  kgam	delta_axis_offset	   TimeSec	 TimeFromEpoch	ic1monitor	    rc	count_time	path	maxx	maxy	  maxval	sum
+56.045	-134.75593	57.04516	0.0000	0.0000	0.0000	                0	545989.211	1580224179.520	  0.460978	0.0478	  0.100000	   1	   0	   0	0.000000	-22
+57.045	-134.75593	57.04516	0.0000	0.0000	0.0000	                0	545990.585	1580224180.895	  0.457927	0.0513	  0.100000	   2	   0	   0	0.000000	-22
+58.045	-134.75593	57.04516	0.0000	0.0000	0.0000	                0	545991.960	1580224182.269	  0.503718	0.0492	  0.100000	   3	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 15:09:42 2020. Elapsed time: 5 seconds
+   maxval: At kphi = 56.045 (maxpos), pil3_100k.sum maxval = -22.0. 
+   minval: At kphi = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphi = 57.045 (com), pil3_100k.sum stddev = 0.666666666667. 
+   peak:   Exception: ValueError('There is no peak',)
+   lcen:   At kphi = 54.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 60.045 (rcen), pil3_100k.sum .
+
+				Try a 201 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 28 15:11:41 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+WARNING: kphi is returning a position based on its real motor position (56.032) rather than its last demanded position(58.045),
+as these differ by more than the configured demand position tolerance (0.001).
+Metadata collection complete
+Image location: pilatus3_100k_path_template='809135-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809135.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/809135.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   56.045	  0.100000	   0	   0	   0	0.000000	-22
+...
+   58.045	  0.100000	 200	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 15:12:04 2020. Elapsed time: 23 seconds
+   maxval: At kphiZebra = 56.196 (maxpos), pil3_100k.sum maxval = -2.0. 
+   minval: At kphiZebra = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 57.0474666208 (com), pil3_100k.sum stddev = 0.335801547349. 
+   peak:   At kphiZebra = 56.1961546719 (pos), pil3_100k.sum offset = -21.7849901328, fwhm = 0.00302148550738, residual = 189.755000522, top = 21.2132827298. 
+   lcen:   At kphiZebra = 55.035 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 59.055 (rcen), pil3_100k.sum .
+
+				Try a 2001 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01
+...
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01
+Waiting for file /dls/i16/data/2020/cm26473-1/809135-kphiZebraPil3-files/00000_00201.tif, 5/60s
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.010000 path: 112555 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 28 15:16:41 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='809137-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809137.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/809137.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   56.045	  0.010000	   0	   0	   0	0.000000	-22
+...
+   58.046	  0.010000	2000	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 15:17:26 2020. Elapsed time: 45 seconds
+   maxval: At kphiZebra = 56.922 (maxpos), pil3_100k.sum maxval = 17.0. 
+   minval: At kphiZebra = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 57.0464102582 (com), pil3_100k.sum stddev = 0.333755107766. 
+   peak:   At kphiZebra = 56.9220867962 (pos), pil3_100k.sum offset = -21.9715630247, fwhm = 0.00046606290481, residual = 417.375690527, top = 45.658185476. 
+   lcen:   At kphiZebra = 55.0435 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 59.0475 (rcen), pil3_100k.sum .
+
+				Try a 5001 point cvscan (0.001 exposure time, 0.004 Acq Period)
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0004 pil3_100k 0.004
+...
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.004000 path: 112556 maxx: 131 maxy: 82 maxval: 2.000000 sum: -19
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0004 pil3_100k 0.004
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 28 15:20:28 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='809139-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809139.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/809139.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   56.045	  0.004000	   0	   0	   0	0.000000	-22
+...
+   58.045	  0.004000	5000	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 15:22:04 2020. Elapsed time: 96 seconds
+   maxval: At kphiZebra = 57.675 (maxpos), pil3_100k.sum maxval = -19.0. 
+   minval: At kphiZebra = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 57.0447481503 (com), pil3_100k.sum stddev = 0.333480405586. 
+   peak:   At kphiZebra = 57.6748626846 (pos), pil3_100k.sum offset = -21.9997924068, fwhm = 0.000469992234475, residual = 5.49980055168, top = 2.02245567361. 
+   lcen:   At kphiZebra = 55.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 59.045 (rcen), pil3_100k.sum . 
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.004000 path: 112557 maxx: 166 maxy: 97 maxval: 2.000000 sum: -14
+
+>>> pos kphiZebra kphiZebraPos
+Move completed: kphiZebra : 57.045
+
+------------------------------- Tests with pil3_100k using tiffs and hdf5s:
+
+>>> kphiZebraPos=kphiZebra() ; print "kphiZebraPos=%r" % (kphiZebraPos)
+kphiZebraPos=57.045
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.000000 path: 112563 maxx: 411 maxy: 60 maxval: 2.000000 sum: -16
+
+				Try a 3 point scan
+
+>>> scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+=== Scan started: Tue Jan 28 18:41:09 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='809150-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809150.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/809150.dat
+  kphi	       kap	     kth	       kmu	    kdelta	      kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	    rc	count_time	path	maxx	maxy	  maxval	sum
+56.045	-134.75603	57.04516	2.0585e-06	6.8008e-05	0.00096932	                0	190.999	1580236872.894	  0.497615	0.0204	  0.100000	   1	   0	   0	0.000000	-22
+57.045	-134.75603	57.04516	2.0585e-06	6.8008e-05	0.00096932	                0	192.543	1580236874.438	  0.534246	0.0196	  0.100000	   2	   0	   0	0.000000	-22
+58.045	-134.75602	57.04516	2.0585e-06	6.8008e-05	0.00096932	                0	194.088	1580236875.983	  0.494558	0.0219	  0.100000	   3	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 18:41:16 2020. Elapsed time: 7 seconds
+   maxval: At kphi = 56.045 (maxpos), pil3_100k.sum maxval = -22.0. 
+   minval: At kphi = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphi = 57.045 (com), pil3_100k.sum stddev = 0.666666666667. 
+   peak:   Exception: ValueError('There is no peak',)
+   lcen:   At kphi = 54.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 60.045 (rcen), pil3_100k.sum .
+
+				Try a 201 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1
+kphi removed from list of default Scannables. Add back to the list by using command: add_default kphi
+kap removed from list of default Scannables. Add back to the list by using command: add_default kap
+kth removed from list of default Scannables. Add back to the list by using command: add_default kth
+kmu removed from list of default Scannables. Add back to the list by using command: add_default kmu
+kdelta removed from list of default Scannables. Add back to the list by using command: add_default kdelta
+kgam removed from list of default Scannables. Add back to the list by using command: add_default kgam
+delta_axis_offset removed from list of default Scannables. Add back to the list by using command: add_default delta_axis_offset
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+atime removed from list of default Scannables. Add back to the list by using command: add_default atime
+atimetwo removed from list of default Scannables. Add back to the list by using command: add_default atimetwo
+ic1monitor removed from list of default Scannables. Add back to the list by using command: add_default ic1monitor
+rc removed from list of default Scannables. Add back to the list by using command: add_default rc
+WaitForInjection removed from list of default Scannables. Add back to the list by using command: add_default WaitForInjection
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 28 18:46:17 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='809151-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809151.nxs
+WARNING: kphi is returning a position based on its real motor position (56.11) rather than its last demanded position(58.045),
+as these differ by more than the configured demand position tolerance (0.001).
+Writing data to file: /dls/i16/data/2020/cm26473-1/809151.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   56.045	  0.100000	   0	   0	   0	0.000000	-22
+...
+   58.045	  0.100000	 200	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 18:46:42 2020. Elapsed time: 25 seconds
+   maxval: At kphiZebra = 57.905 (maxpos), pil3_100k.sum maxval = 0.0. 
+   minval: At kphiZebra = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 57.0326361949 (com), pil3_100k.sum stddev = 0.334587303841. 
+   peak:   At kphiZebra = 57.7567263937 (pos), pil3_100k.sum offset = -21.9031196801, fwhm = 0.891852498973, residual = 1224.54199998, top = 1.3290071368. 
+   lcen:   At kphiZebra = 55.036 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 59.054 (rcen), pil3_100k.sum . 
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.100000 path: 112564 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+
+				Try a 2001 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 28 18:48:02 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='809152-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809152.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/809152.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   56.045	  0.010000	   0	   0	   0	0.000000	-22
+...
+   58.046	  0.010000	2000	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 18:48:42 2020. Elapsed time: 40 seconds
+   maxval: At kphiZebra = 57.034 (maxpos), pil3_100k.sum maxval = -11.0. 
+   minval: At kphiZebra = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 57.0460197545 (com), pil3_100k.sum stddev = 0.333825864829. 
+   peak:   At kphiZebra = 57.0337868017 (pos), pil3_100k.sum offset = -21.989475646, fwhm = 0.000293117304293, residual = 72.7795016976, top = 50.7110894021. 
+   lcen:   At kphiZebra = 55.0435 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 59.0475 (rcen), pil3_100k.sum . 
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.010000 path: 112565 maxx: 193 maxy: 68 maxval: 2.000000 sum: -4
+
+				Try a 5001 point cvscan (0.001 exposure time, 0.004 Acq Period)
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0004 pil3_100k 0.004
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 28 18:49:36 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='809153-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/809153.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/809153.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   56.045	  0.004000	   0	   0	   0	0.000000	-22
+...
+   58.045	  0.004000	5000	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 28 18:51:08 2020. Elapsed time: 92 seconds
+   maxval: At kphiZebra = 56.638 (maxpos), pil3_100k.sum maxval = -11.0. 
+   minval: At kphiZebra = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 57.0448460818 (com), pil3_100k.sum stddev = 0.33353413881. 
+   peak:   At kphiZebra = 56.6380777726 (pos), pil3_100k.sum offset = -21.995114218, fwhm = 0.000572092661537, residual = 218.385053636, top = 6.16533440565. 
+   lcen:   At kphiZebra = 55.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 59.045 (rcen), pil3_100k.sum . 
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.004000 path: 112566 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+
+------------------------------------------------------------------- After test:
+
+>>> pos kphiZebra kphiZebraPos
+Move completed: kphiZebra : 57.045
+
+>>> newexperiment('mm24498-1')
+new record log:  /dls/i16/data/2020/mm24498-1/gdaterminal.log
+/dls_sw/i16/scripts/2020/mm24498-1 already exists
+/dls_sw/i16/scripts/2020/mm24498-1/mm24498-1.txt already exists
+/dls_sw/i16/scripts/2020/mm24498-1/mm24498-1.py already exists
+Logbook already exists: /dls_sw/i16/software/python/userscripts/i16user/logbooks/2020/mm24498-1.ipynb
+To view the logbook, start Jupyter from desktop link

@@ -1,0 +1,16 @@
+bashlog debug "gda_servers_post_instance" "Entered"
+
+# Since the gda_servers_* scripts are run on both the client machine and on the
+# server machine in live mode, don't start the client on the server machine.
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "stop" ]]; then
+
+  # If SERVERS_SSH_PID isn't defined then we will have already waited for the servers to start
+  if [ -n "${SERVERS_SSH_PID-}" ] ; then
+    bashlog debug "gda_servers_post_instance" "look for the output file which will tell us when the servers have started or ssh process completing"
+    ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME $SERVERS_SSH_PID
+  fi
+
+  zenity --info --title "Start the Client" --text "The GDA servers have restarted.\n\nYou may now start the GDA Client."
+fi
+
+bashlog debug "gda_servers_post_instance" "Exited"

@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="eslit_a" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-05:CHA:PEAK" />
+	</bean>
+
+	<bean id="eslit_b" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-05:CHB:PEAK" />
+	</bean>
+
+	<bean id="eslit_c" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-05:CHC:PEAK" />
+	</bean>
+
+	<bean id="eslit_d" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-05:CHD:PEAK" />
+	</bean>
+
+	<bean id="eslit_vx" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-AL-SLITS-02:XGAP" />
+	</bean>
+
+	<bean id="eslit_xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="eslit_vx" />
+	</bean>
+
+	<bean id="eslit_vy" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-AL-SLITS-02:YGAP" />
+	</bean>
+
+	<bean id="eslit_ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="eslit_vy" />
+	</bean>
+
+	<bean id="eslit_rz" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-AL-SLITS-02:Z" />
+	</bean>
+
+	<bean id="eslit_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="eslit_rz" />
+	</bean>
+</beans>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- KB Mirror 2 -->
+
+	<bean id="KBRoll1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:ROLL1" />
+	</bean>
+	<bean id="KBT1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:T1" />
+	</bean>
+	<bean id="KBT2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:T2" />
+	</bean>
+	<bean id="KBT3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:T3" />
+	</bean>
+	<bean id="KBT4Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:T4" />
+	</bean>
+	<bean id="KBRoll2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:ROLL2" />
+	</bean>
+	<bean id="KBT5Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:T5" />
+	</bean>
+	<bean id="KBT6Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-KBM-02:T6" />
+	</bean>
+
+
+	<!-- KB Mirror 2 -->
+	<bean id="kbRoll1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBRoll1Motor" />
+
+	</bean>
+	<bean id="kbT1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT1Motor" />
+
+	</bean>
+	<bean id="kbT2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT2Motor" />
+
+	</bean>
+	<bean id="kbT3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT3Motor" />
+
+	</bean>
+	<bean id="kbT4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT4Motor" />
+
+	</bean>
+	<bean id="kbRoll2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBRoll2Motor" />
+
+	</bean>
+	<bean id="kbT5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT5Motor" />
+
+	</bean>
+	<bean id="kbT6" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT6Motor" />
+
+	</bean>
+	<bean id="KB2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kbRoll1" />
+				<ref bean="kbT1" />
+				<ref bean="kbT2" />
+				<ref bean="kbT3" />
+				<ref bean="kbT4" />
+				<ref bean="kbRoll2" />
+				<ref bean="kbT5" />
+				<ref bean="kbT6" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo "Power down crystal rotation..."
+
+if [ -e /tmp/allowed_motors.txt ]
+then
+	rm /tmp/allowed_motors.txt
+fi
+
+echo "bl16i-nt-tserv-01" > /tmp/allowed_motors.txt
+echo "BL16I-EA-POLAN-01:THETAp,7019,29" >> /tmp/allowed_motors.txt
+
+python /dls/i16/software/gda/config/scripts/blenergise.py -f /tmp/allowed_motors.txt BL16I-EA-POLAN-01:THETAp > /dev/null
+
+echo "Done." 
+ 

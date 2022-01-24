@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="DR1ThetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:A:THETA" />
+	</bean>
+	<bean id="DR1TthetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:A:2THETA" />
+	</bean>
+	<bean id="DR1AlphaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:A:ALPHA" />
+	</bean>
+	<bean id="DR1ChiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:A:CHI" />
+	</bean>
+	<bean id="DR1PhiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:A:PHI" />
+	</bean>
+	
+	<bean id="DR1SAMPXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:S:X" />
+	</bean>
+	<bean id="DR1SAMPYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:S:Y" />
+	</bean>
+	<bean id="DR1SAMPZMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-DIFF-01:S:Z" />
+	</bean>
+</beans>

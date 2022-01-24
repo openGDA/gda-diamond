@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#New Launcher from: /dls_sw/prod/etc/Launcher, using applications.xml
+(cd /dls_sw/prod/etc/Launcher && ./from_configure_ioc.sh 5064 BL07I-gui &)

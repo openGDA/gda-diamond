@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	
+	<bean id="att1us" class ="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL16B-AL-ATTN-01:MP1" />
+	</bean>
+	<bean id="att1ds" class ="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL16B-AL-ATTN-01:MP2" />
+	</bean>
+	<bean id="att2" class ="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL16B-AL-ATTN-02:MP" />
+	</bean>
+
+</beans>

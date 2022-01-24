@@ -1,0 +1,89 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="xeye_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL16I-DI-EYE-01:CAM:" />
+	</bean>
+
+	<bean id="xeye_ndfile_base" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="basePVName" value="BL16I-DI-EYE-01:TIFF:" />
+	</bean>
+
+	<bean id="xeye_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL16I-DI-EYE-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="pluginBase" ref="xeye_ndfile_base" />
+	</bean>
+
+	<bean id="xeye_nxcollectionstrategy"
+			class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="xeye_adbase" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<bean id="xeye_nxfilewriter_for_scans"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="_xeye" />
+		<property name="ndFile" ref="xeye_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="xeye_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="writeErrorStatusSupported" value="false" />
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="xeye_nxfilewriter_for_snaps"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="_xeye" />
+		<property name="ndFile" ref="xeye_ndfile" />
+		<property name="numTrackerExtension" value="xeyesnaps" />
+		<property name="keyNameForMetadataPathTemplate" value="xeye_path_template" />
+		<property name="writeErrorStatusSupported" value="false" />
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="_xeye" class="gda.device.detector.NXDetector">
+		<property name="name" value="_xeye" />
+		<property name="collectionStrategy" ref="xeye_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xeye_nxfilewriter_for_scans" />
+				<!-- <ref bean="xeye_roistat_pair1" />-->
+			</list>
+		</property>
+	</bean>
+
+	<bean id="_xeye_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="_xeye_for_snaps" />
+		<property name="collectionStrategy" ref="xeye_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xeye_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+<!-- 
+	<bean id="xeye_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="XEYE" />
+		<constructor-arg value="1" />
+	</bean>
+
+
+	<bean id="xeye_roistat_pair1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="BL16I-DI-EYE-01:ROI1:" />
+		<property name="baseStatsPVName" value="BL16I-DI-EYE-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="CAM5.CAM" />
+		<property name="enabledBasicStats" value="MaxValue,Total" />
+		<property name="enabledCentroidStats" value="CentroidX,CentroidY,SigmaX,SigmaY" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer" >
+				<constructor-arg ref="xeye_plotserver_roi_provider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+-->
+</beans>

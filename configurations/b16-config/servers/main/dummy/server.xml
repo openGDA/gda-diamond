@@ -1,0 +1,132 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+				<value>file:${gda.core.dir}/properties/core_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import
+		resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
+
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+
+	<import resource="motor/dcm.xml" />
+	<!-- <import resource="motor/dif.xml" /> -->
+	<import resource="motor/fc.xml" />
+	<import resource="motor/fcarm.xml" />
+	<!-- fcbase was dr1base, update doc -->
+	<import resource="motor/fcbase.xml" />
+	<import resource="motor/fcsamp.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/mlm.xml" />
+	<import resource="motor/piezo1.xml" />
+	<import resource="motor/positioner_motors.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
+	<import resource="motor/s8.xml" />
+	<import resource="motor/s9.xml" />
+	<import resource="motor/tbbase.xml" />
+	<import resource="motor/tb3.xml" />
+	<import resource="motor/tb2.xml" />
+	<import resource="motor/tb1.xml" />
+	<import resource="motor/test1.xml" />
+	<import resource="motor/test2.xml" />
+	<import resource="motor/test3.xml" />
+	<import resource="motor/granite_table.xml" />
+	<import resource="motor/micro_tomo.xml" />
+	
+	<import resource="controlpoint/analogueout.xml" />
+	<import resource="controlpoint/dcmpiezo.xml" />
+	
+	<import resource="monitor/analoguein.xml" />
+	<import resource="monitor/mstat.xml" />
+
+	<import resource="positioner/attenuator.xml" />
+	<import resource="positioner/diagnostic.xml" />
+	<import resource="pneumatic/shutterabsorber.xml" />
+	
+	<import resource="detector/scaler_vortex.xml" />
+	<import resource="detector/simad.xml" />
+<!-- 	<import resource="detector/xmap_vortex.xml" /> -->
+	<!-- import resource="detector/mca_vortex.xml" EMPTY-->
+	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
+	
+
+	<import resource="metadata.xml" />
+	
+	
+	<import resource="file:${gda.config}/servers/main/_common/abstract_command_server.xml" />
+
+	<bean id="script_paths" parent="common_script_paths"/>
+
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="jythonScriptPaths" ref="script_paths"/>
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+	</bean>
+	
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
+		<property name="path" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+	</bean>
+
+	<bean id="testMover" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="testMover" />
+	</bean>
+
+	<bean id="testMoverWait" class="gda.device.scannable.TimeDelayScannable">
+		<property name="name" value="testMoverWait" />
+	</bean>
+
+	<bean id="testMoveDelay" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="testMover" />
+				<ref bean="testMoverWait" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="testMoverScan" class="gda.device.scannable.TogglerScannable">
+		<constructor-arg ref="testMoveDelay" />
+		<property name="startValue">
+			<list>
+				<value>1</value>
+				<value>0.5</value>
+			</list>
+		</property>
+		<property name="endValue">
+			<list>
+				<value>0</value>
+				<value>0</value>
+			</list>
+		</property>
+		<property name="hook">
+			<value>AT_LEVEL</value>
+		</property>
+		<property name="level" value="100" />
+	</bean>
+
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+	<import resource="transient/*" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+</beans>

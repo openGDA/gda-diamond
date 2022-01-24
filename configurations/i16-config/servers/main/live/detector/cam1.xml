@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<bean id="cam1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL16I-DI-BPM-01:CAM:" />
+	</bean>
+
+	<bean id="cam1_ndfile_base" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="basePVName" value="BL16I-DI-BPM-01:TIFF:" />
+	</bean>
+
+	<bean id="cam1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL16I-DI-BPM-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="pluginBase" ref="cam1_ndfile_base" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="cam1_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="cam1_adbase" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="cam1_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="cam1" />
+		<property name="ndFile" ref="cam1_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="cam1_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="cam1_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="cam1" />
+		<property name="ndFile" ref="cam1_ndfile" />
+		<property name="numTrackerExtension" value="cam1snaps" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<!-- Other Plugins -->
+
+	<bean id="cam1_scintellator_screen" class="gda.device.detector.nxdetector.plugin.PVTogglingNXPlugin">
+		<constructor-arg value="screen" />
+		<constructor-arg value="BL16I-DI-BPM-01:DIAG.VAL" />
+		<property name="valueDuringCollection" value="-18" />
+		<property name="valueOutsideCollection" value="-2" />
+	</bean>
+	
+
+	<!-- NXDetectors -->
+
+	<bean id="_cam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam1" />
+		<property name="collectionStrategy" ref="cam1_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam1_nxfilewriter_for_scans" />
+				<ref bean="cam1_scintellator_screen" />
+			</list>
+		</property>
+	</bean>
+	
+		<bean id="_cam1_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam1_for_snaps" />
+		<property name="collectionStrategy" ref="cam1_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam1_nxfilewriter_for_snaps" />
+				<ref bean="cam1_scintellator_screen" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

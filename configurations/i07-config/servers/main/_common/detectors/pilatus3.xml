@@ -1,0 +1,152 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="pilatus3_hdf5_writer" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pilatus3_hdf5" />
+		<property name="fileTemplate" value="%s%s-%d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="pilatus3" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="pilatus3_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="pilatus3_adbaseT" />
+								<property name="restoreAcquireState" value="true" />
+							</bean>
+						</property>
+						<property name="restoreTriggerMode" value="true" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pilatus3_det"
+		class="gda.device.detector.addetector.ADPilatus">
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="false" />
+		<property name="readCapturedFramesCount" value="true" />
+		<property name="adBase" ref="pilatus3_adbaseT" />
+		<property name="nonHardwareTriggeredCollectionStrategy"
+			ref="pilatus3_collection_strategy" />
+		<property name="hardwareTriggering" value="false" />
+		<property name="ndFile" ref="pilatus3_ndfile" />
+		<property name="ndArray" ref="pilatus3_ndarray" />
+		<property name="ndStats" ref="pilatus3_ndstats" />
+		<property name="fileWriter" ref="pilatus3_hdf5_writer" />
+	</bean>
+
+	<!-- Objects for Processing -->
+
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="pil3roi_hdf">
+		<property name="detector" ref="pilatus3_det" />
+		<property name="processor" ref="pilatus3_roistats_swmr" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="pil3stats_hdf">
+		<property name="detector" ref="pilatus3_det" />
+		<property name="processor" ref="pilatus3_stats_swmr" />
+	</bean>
+
+	<bean
+		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		id="pilatus3_roistats_swmr">
+		<constructor-arg index="0" value="" />
+		<constructor-arg index="1" value="" />
+		<constructor-arg index="2" value="SDS" />
+		<constructor-arg index="3">
+			<list>
+				<ref bean="pilatus3_roistats" />
+				<ref bean="pilatus3_plotter" />
+			</list>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<null />
+		</constructor-arg>
+		<property name="detectorWidth" value="487" />
+		<property name="detectorHeight" value="195" />
+	</bean>
+
+	<bean
+		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		id="pilatus3_stats_swmr">
+		<constructor-arg index="0" value="" />
+		<constructor-arg index="1" value="" />
+		<constructor-arg index="2" value="SDS" />
+		<constructor-arg index="3">
+			<list>
+				<ref bean="pilatus3_stats" />
+				<ref bean="pilatus3_plotter" />
+			</list>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<null />
+		</constructor-arg>
+		<property name="detectorWidth" value="487" />
+		<property name="detectorHeight" value="195" />
+	</bean>
+
+	<bean
+		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
+		id="pilatus3_roistats">
+		<property name="plotName" value="Pilatus 3" />
+		<property name="statsProcessor" ref="pilatus3_stats" />
+	</bean>
+
+	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
+		id="pilatus3_stats">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>MAX_X</value>
+				<value>MAX_Y</value>
+				<value>MEAN</value>
+				<value>SUM</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
+		id="pilatus3_plotter">
+		<property name="plotName" value="Pilatus 3" />
+	</bean>
+
+
+	<!-- Objects for Solstice Scanning -->
+
+	<bean id="pilatus3_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name" value="pilatus3_det" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	<bean id="pilatus3_detInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id"          value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
+		<property name="label"       value="pilatus3" />
+		<property name="description" value="pilatus3" />
+	</bean>
+	<bean id="pilatus3RD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
+		<property name="name" value="pilatus3_det" />
+		<property name="model" ref="pilatus3_detModel" />
+		<property name="deviceInformation" ref="pilatus3_detInfo" />
+		<property name="activated" value="true" />
+	</bean>
+
+</beans>

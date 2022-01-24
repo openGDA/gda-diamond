@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="s20_motor_yplus" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:Y:PLUS" />
+	</bean>
+
+	<bean id="s20_motor_yminus" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:Y:MINUS" />
+	</bean>
+
+	<bean id="s20_motor_xplus" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:X:PLUS" />
+	</bean>
+
+	<bean id="s20_motor_xminus" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:X:MINUS" />
+	</bean>
+
+	<bean id="s20_motor_beamstoph" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:BEAMSTOP:H" />
+	</bean>
+
+	<bean id="s20_motor_beamstopv" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:BEAMSTOP:V" />
+	</bean>
+
+	<bean id="s20_motor_xcentre" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:X:CENTER" />
+	</bean>
+
+	<bean id="s20_motor_xsize" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:X:SIZE" />
+	</bean>
+
+	<bean id="s20_motor_ycentre" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:Y:CENTER" />
+	</bean>
+
+	<bean id="s20_motor_ysize" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-20:Y:SIZE" />
+	</bean>
+	
+	<import resource="../../_common/transient/clasp.xml" />
+
+</beans>

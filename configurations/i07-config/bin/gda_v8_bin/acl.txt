@@ -1,0 +1,35 @@
+
+###############################################
+#For software directory: /dls/i07/software 
+sudo setfacl -R -d -m u::rwx, u:gda:r-x, g::r-x, g:dls_dasc:rwx, g:dls_sysadmin:rwx, o::r-x /exports/data/software
+sudo setfacl -R -m u::rwx, u:gda:r-x, g::r-x, g:dls_dasc:rwx, g:dls_sysadmin:rwx, o::r-x /exports/data/software
+
+###############################################
+#For /dls/i07/bin and /dls/i07/etc
+user::rwx
+group::r-x
+group:dls_dasc:rwx
+group:dls_sysadmin:rwx
+group:i07_staff:rwx
+mask::rwx
+other::r-x
+default:user::rwx
+default:group::r-x
+default:group:dls_dasc:rwx
+default:group:dls_sysadmin:rwx
+default:group:i07_staff:rwx
+default:mask::rwx
+default:other::r-x
+
+
+###############################################
+#For data directory: /dls/i07/data
+sudo setfacl -R -d -m u::rwx,u:gda:rwx,g::r-x,g:dls-detectors:r-x,g:i07user:r-x,g:i07_data:rwx,g:dls_dasc:rwx,g:dls_sysadmin:rwx,g:i07_staff:rwx,o::- /exports/data/data
+sudo setfacl -R -m u::rwx,u:gda:rwx,g::r-x,g:dls-detectors:r-x,g:i07user:r-x,g:i07_data:rwx,g:dls_dasc:rwx,g:dls_sysadmin:rwx,g:i07_staff:rwx,o::- /exports/data/data
+
+
+###############################################
+# For the User script directory: /dls/i07/scripts
+sudo setfacl -R -d -m u::rwx,u:gda:rwx,g::r-x,g:dls-detectors:r-x,g:i07user:rwx,g:i07_data:rwx,g:dls_dasc:rwx,g:dls_sysadmin:rwx,g:i07_staff:rwx,o::- /exports/data/scripts
+sudo setfacl -R -m u::rwx,u:gda:rwx,g::r-x,g:dls-detectors:r-x,g:i07user:rwx,g:i07_data:rwx,g:dls_dasc:rwx,g:dls_sysadmin:rwx,g:i07_staff:rwx,o::- /exports/data/scripts
+

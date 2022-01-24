@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Virtual Motors -->
+
+	<bean id="SGxMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="SGyMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="SGzMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="SGomegaMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="SGphiMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="SGchiMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<!-- Real Motors -->
+
+	<bean id="SGomegaRealMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="SGphiRealMotor"
+			class="gda.device.motor.DummyMotor">
+	</bean>
+
+</beans>

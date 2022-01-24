@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="BaseZ1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="BaseZ2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="BaseZ3Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="BaseZMotor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="KBRoll1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="KBT1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="KBT2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="KBT3Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="KBT4Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="KBRoll2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="KBT5Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="KBT6Motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="M3XMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M3YawMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M4XMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M4YawMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="P2TABY1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="P2TABY2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="P2TABY3Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="P2TABX1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="P2TABX2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="P2TABZ1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="PXXMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TABYMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="TABXMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER11Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER12Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER13Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER14Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER21Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER22Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER23Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER24Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XPS3P1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XPS3P2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XPS3P3Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XPS3P4Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XPS3P5Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XPS3P6Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XPS3P7Motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="XPS3P8Motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="KphiMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="KappaMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="MuMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="GammaMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DeltaMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="KTHMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="C1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="C2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="C3Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="C4Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="C5Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="C6Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="C7Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="C8Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="RCMotor" class="gda.device.motor.DummyMotor" />
+</beans>

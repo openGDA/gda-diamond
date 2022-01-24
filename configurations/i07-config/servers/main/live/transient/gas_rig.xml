@@ -1,0 +1,165 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="stamfc1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC1:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="stamfc2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC2:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="stamfc3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC3:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="stamfc4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC4:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="stamfc5" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC5:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="stamfc6" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC6:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="stamfc7" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC7:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="stamfc8" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC8:MASS:FLOW:RD" />
+	</bean>
+
+	<bean id="setmfc1" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC1:SETPOINT:WR" />
+	</bean>
+
+	<bean id="setmfc2" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC2:SETPOINT:WR" />
+	</bean>
+
+	<bean id="setmfc3" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC3:SETPOINT:WR" />
+	</bean>
+
+	<bean id="setmfc4" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC4:SETPOINT:WR" />
+	</bean>
+
+	<bean id="setmfc5" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC5:SETPOINT:WR" />
+	</bean>
+
+	<bean id="setmfc6" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC6:SETPOINT:WR" />
+	</bean>
+
+	<bean id="setmfc7" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC7:SETPOINT:WR" />
+	</bean>
+
+	<bean id="setmfc8" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC8:SETPOINT:WR" />
+	</bean>
+
+	<bean id="gasmfc1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC1:GAS:STR:RD" />
+	</bean>
+
+	<bean id="gasmfc2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC2:GAS:STR:RD" />
+	</bean>
+
+	<bean id="gasmfc3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC3:GAS:STR:RD" />
+	</bean>
+
+	<bean id="gasmfc4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC4:GAS:STR:RD" />
+	</bean>
+
+	<bean id="gasmfc5" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC5:GAS:STR:RD" />
+	</bean>
+
+	<bean id="gasmfc6" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC6:GAS:STR:RD" />
+	</bean>
+
+	<bean id="gasmfc7" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC7:GAS:STR:RD" />
+	</bean>
+
+	<bean id="gasmfc8" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME08G-EA-GIR-01:MFC8:GAS:STR:RD" />
+	</bean>
+
+	<bean id="grv11" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-01:VALVE-01" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv12" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-01:VALVE-02" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv13" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-01:VALVE-03" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv14" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-01:VALVE-04" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv15" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-01:VALVE-05" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv21" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-02:VALVE-01" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv22" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-02:VALVE-02" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv23" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-02:VALVE-03" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv24" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-02:VALVE-04" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="grv25" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="ME08G-EA-STREAM-02:VALVE-05" />
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="streamsel" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="ME08G-EA-GAS-01:VICI" />
+	</bean>
+
+	<!-- import resource="../../_common/transient/gas_rig.xml" /-->
+
+</beans>

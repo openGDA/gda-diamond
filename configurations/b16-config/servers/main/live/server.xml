@@ -1,0 +1,167 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+				<value>file:${gda.core.dir}/properties/core_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import	resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
+	
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+
+	<import resource="epics/motor/dcm.xml" />
+	<import resource="epics/motor/fc.xml" />
+	<import resource="epics/motor/fcarm.xml" />
+	<import resource="epics/motor/fcbase.xml" />
+	<import resource="epics/motor/m1.xml" />
+	<import resource="epics/motor/mlm.xml" />
+	<import resource="epics/motor/positioner_motors.xml" />
+	<import resource="epics/motor/piezo1.xml" />
+	<import resource="epics/motor/s1.xml" />
+	<import resource="epics/motor/s2.xml" />
+	<import resource="epics/motor/s3.xml" />
+	<import resource="epics/motor/s4.xml" />
+	<import resource="epics/motor/s5.xml" />
+	<import resource="epics/motor/s6.xml" />
+	<import resource="epics/motor/s7.xml" />
+	<import resource="epics/motor/s8.xml" />
+	<import resource="epics/motor/s9.xml" />
+	<import resource="epics/motor/tbbase.xml" />
+	<import resource="epics/motor/tb3.xml" />
+	<import resource="epics/motor/tb2.xml" />
+	<import resource="epics/motor/tb1.xml" />
+	<import resource="epics/motor/test1.xml" />
+	<import resource="epics/motor/test2.xml" />
+	<import resource="epics/motor/test3.xml" />
+	<import resource="epics/motor/aerotech_piezo.xml" />
+	<import resource="epics/motor/granite_table.xml" />
+	<import resource="epics/motor/micro_tomo.xml" />
+
+	<import resource="epics/controlpoint/analogueout.xml" />
+
+	<import resource="epics/monitor/analoguein.xml" />
+	<import resource="epics/monitor/mstat.xml" />
+
+	<import resource="epics/positioner/attenuator.xml" />
+	<import resource="epics/positioner/diagnostic.xml" />
+
+	<import resource="epics/pneumatic/diagnostic.xml" />
+	<import resource="epics/pneumatic/shutterabsorber.xml" />
+
+
+	<import resource="epics/detector/balor.xml" />
+	<import resource="epics/detector/scaler_vortex.xml" />
+	<import resource="epics/detector/mca_vortex.xml" />
+	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
+	<import resource="epics/detector/medipix_base.xml" />
+	<import resource="epics/detector/medipix4_base.xml" />
+	<import resource="epics/detector/medipix.xml" />
+	<import resource="epics/detector/medipix4.xml" />
+	<import resource="epics/detector/pcoedge.xml" />
+	<import resource="epics/detector/pco4000.xml" />
+	<import resource="epics/detector/tomoscan_dummies.xml" />
+	<import resource="epics/detector/dataFileMonitor.xml" />
+	<import resource="epics/detector/pco1_ndplugins.xml" />
+	<import resource="epics/detector/pco1.xml" />
+	<import resource="epics/detector/pslv1.xml" />
+	<import resource="zebra.xml" />
+	<import resource="epics/detector/zebra.xml" />
+	<import resource="epics/detector/zylar.xml" /> <!-- temporary, from I16 -->
+	<import resource="epics/detector/xmap_new.xml" /> <!-- transient -->
+	<import resource="epics/detector/xmap2.xml" />
+
+	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="10000" />
+	</bean>
+	<bean id="dummyyMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="10000" />
+	</bean>
+	<bean id="dummyzMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="10000" />
+	</bean>
+	<bean id="dummyx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyxMotor" />
+	</bean>
+	<bean id="dummyy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyyMotor" />
+	</bean>
+	<bean id="dummyz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyzMotor" />
+	</bean>
+
+	<!-- live only -->
+	<import resource="epics/pie725_raster.xml" />
+
+	<import resource="daserver.xml" />
+	<import resource="metadata.xml" />
+	<import resource="ippserver.xml" />
+	<import resource="epics/detector/pilatus300k.xml" />
+	<import resource="epics/detector/psl.xml" />
+	<import resource="epics/detector/medipix_threshold_sweep.xml" />
+	<import resource="epics/detector/medipix4_threshold_sweep.xml" />
+
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template"
+			value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+	</bean>
+
+	<import
+		resource="file:${gda.config}/servers/main/_common//terminal_logger.xml" />
+
+	<import resource="file:${gda.config}/servers/main/_common/abstract_command_server.xml" />
+
+
+	<bean id="script_paths" parent="common_script_paths_with_diffcalc">
+		<property name="projects">
+			<list merge="true">
+				<bean class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.install.git.loc}/gda-bimorph.git/uk.ac.gda.bimorph/scripts" />
+					<property name="name" value="Scripts: Bimorph" />
+					<property name="type" value="CORE" />
+				</bean>
+				<bean class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.install.git.loc}/gda-epics.git/uk.ac.gda.epics/scripts" />
+					<property name="name" value="Scripts: Epics" />
+					<property name="type" value="CORE" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="jythonScriptPaths" ref="script_paths"/>
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+	</bean>
+
+	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="BL16B" />
+			</map>
+		</property>
+	</bean>
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+	<import resource="transient/*" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+</beans>

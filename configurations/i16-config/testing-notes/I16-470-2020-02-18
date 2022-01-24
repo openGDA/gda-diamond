@@ -1,0 +1,111 @@
+>>> pos kphi
+kphi : 0.0000deg (-91.000:271.00) mot(-90.100:270.10)
+
+>>> rocker.setupScan(kphi_rockable, 5, 5)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-diamond.git/dls-config/scripts/dls_scripts/scannable/RockerScannable.py", line 55, in setupScan
+    simpleLog("Calculated speed of %s for delta %f and rock time %f as %f" % (scannable.name, delta, 
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-diamond.git/dls-config/scripts/dls_scripts/scannable/RockerScannable.py", line 119, in calcSpeed
+    raise Exception("Time %r results in a speed %r greater than max speed of %r on %r" % (
+Exception: Time 5 results in a speed 4.123711340206185 greater than max speed of 4.0 on u'kphi_rockable'
+
+>>> rocker.setupScan(kphi_rockable, 5, 6)
+Calculated speed of kphi_rockable for delta 5.000000 and rock time 6.000000 as 3.418803
+
+>> scan kphi -5 5 5 rocker 6 pil3 6
+=== Scan started: Tue Feb 18 22:04:54 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='814976-pilatus3_100k-files/%05d.tif
+WARNING: kphi is returning a position based on its real motor position (-4.81) rather than its last demanded position(-5),
+as these differ by more than the configured demand position tolerance (0.001).
+Writing data to file (NeXus): /dls/i16/data/2020/mm24078-1/814976.nxs
+Writing data to file: /dls/i16/data/2020/mm24078-1/814976.dat
+   kphi	rockTime	 centre	delta	rocks	running	     kap	    kth	       kmu	kdelta	      kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	      rc	count_time	path	maxx	maxy	  maxval	sum
+-4.8100	       6	-5.0000	    5	    1	      0	-0.00044	0.00000	2.0585e-06	10.000	2.8765e-05	           8.8000	174.898	1582063506.436	  0.464030	273.5631	  6.000000	   1	 466	  29	1.000000	 10
+WARNING: kphi is returning a position based on its real motor position (0.115) rather than its last demanded position(0),
+as these differ by more than the configured demand position tolerance (0.001).
+0.11500	       6	0.0000	    5	    1	      0	-0.00044	0.00000	2.0585e-06	10.000	2.8765e-05	           8.8000	185.094	1582063516.632	  0.366340	273.5021	  6.000000	   2	  60	  26	1.000000	  4
+WARNING: kphi is returning a position based on its real motor position (5.11) rather than its last demanded position(5),
+as these differ by more than the configured demand position tolerance (0.001).
+5.1100	       6	5.0000	    5	    1	      0	-0.00044	0.00000	2.0585e-06	10.000	3.2801e-05	           8.8000	195.296	1582063526.834	  0.473189	273.4481	  6.000000	   3	 196	  43	1.000000	 -6
+Scan complete.
+=== Scan ended: Tue Feb 18 22:05:27 2020. Elapsed time: 33 seconds
+   maxval: At kphi = -4.81 (maxpos), pil3_100k.sum maxval = 10.0. 
+   minval: At kphi = 5.11 (minpos), pil3_100k.sum minval = -6.0. 
+   com:    At kphi = -9.7875 (com), pil3_100k.sum stddev = -86.45249375. 
+   peak:   At kphi = 3.34431020723 (pos), pil3_100k.sum offset = 9.99999998809, fwhm = 4.54601281437, residual = 1.06574642333e-05, top = -25.8758151931. 
+   lcen:   At kphi = -14.695 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 14.995 (rcen), pil3_100k.sum . 
+
+>>> pos kphi
+kphi : 5.1100deg (-91.000:271.00) mot(-90.100:270.10) *demand=5.0000*
+
+>>> pos kphi -1
+Move completed: kphi : -1.0000
+
+>>> rocker.setupScan(kphi_rockable, 5, 11, 2)
+Calculated speed of kphi_rockable for delta 5.000000 and rock time 11.000000 as 3.703704
+
+>>> cscan kphi 5 5 rocker 11 pil3 11
+=== Scan started: Tue Feb 18 22:10:41 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='814978-pilatus3_100k-files/%05d.tif
+WARNING: kphi is returning a position based on its real motor position (-5.74) rather than its last demanded position(-6),
+as these differ by more than the configured demand position tolerance (0.001).
+Writing data to file (NeXus): /dls/i16/data/2020/mm24078-1/814978.nxs
+Writing data to file: /dls/i16/data/2020/mm24078-1/814978.dat
+   kphi	rockTime	 centre	delta	rocks	running	     kap	    kth	       kmu	kdelta	      kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	      rc	count_time	path	maxx	maxy	  maxval	sum
+-5.7400	  11.000	-6.0000	    5	    1	      1	-0.00044	0.00000	2.0585e-06	10.000	3.2801e-05	           8.8000	525.928	1582063857.465	  0.448768	271.6745	 11.000000	   1	  74	   0	1.000000	 46
+WARNING: kphi is returning a position based on its real motor position (-0.709) rather than its last demanded position(-1),
+as these differ by more than the configured demand position tolerance (0.001).
+-0.70900	  11.000	-1.0000	    5	    1	      1	-0.00044	0.00000	2.0585e-06	10.000	2.8765e-05	           8.8000	541.263	1582063872.801	  0.518984	271.5717	 11.000000	   2	 197	   2	1.000000	 56
+WARNING: kphi is returning a position based on its real motor position (4.694) rather than its last demanded position(4),
+as these differ by more than the configured demand position tolerance (0.001).
+4.6940	  11.000	4.0000	    5	    1	      1	-0.00044	0.00000	2.0585e-06	10.000	3.2801e-05	           8.8000	556.580	1582063888.118	  0.427398	271.4823	 11.000000	   3	  80	  60	46.000000	173
+Scan complete.
+=== Scan ended: Tue Feb 18 22:11:28 2020. Elapsed time: 47 seconds
+Move completed: kphi : -1.0000
+   maxval: At kphi = 4.694 (maxpos), pil3_100k.sum maxval = 173.0. 
+   minval: At kphi = -5.74 (minpos), pil3_100k.sum minval = 46.0. 
+   com:    At kphi = 1.84842909091 (com), pil3_100k.sum stddev = 16.0580690377. 
+   peak:   At kphi = 3.93547577382 (pos), pil3_100k.sum offset = 46.0000000015, fwhm = 4.78580085346, residual = 2.66441265459e-06, top = 144.938597523. 
+   lcen:   At kphi = -15.988 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 14.942 (rcen), pil3_100k.sum .
+
+>>> pos kphi
+kphi : -1.0000deg (-91.000:271.00) mot(-90.100:270.10) demand
+
+>>> pos kphi 0
+Move completed: kphi : 0.0000
+
+	Note we don't see thos problem without rocker...
+
+>>> cscan kphi 5 5 pil3 11
+=== Scan started: Tue Feb 18 22:13:49 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='814979-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm24078-1/814979.nxs
+Writing data to file: /dls/i16/data/2020/mm24078-1/814979.dat
+   kphi	     kap	    kth	       kmu	kdelta	      kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	      rc	count_time	path	maxx	maxy	  maxval	sum
+-5.0000	-0.00044	0.00000	2.0585e-06	10.000	3.2801e-05	           8.8000	713.678	1582064045.216	  0.442660	270.5796	 11.000000	   1	 317	  38	1.000000	 49
+0.0000	-0.00044	0.00000	2.0585e-06	10.000	3.2801e-05	           8.8000	729.027	1582064060.565	  0.506769	270.4935	 11.000000	   2	 257	   5	5.000000	 48
+5.0000	-0.00044	0.00000	2.0585e-06	10.000	2.8765e-05	           8.8000	744.393	1582064075.930	  0.464030	270.4011	 11.000000	   3	 410	   0	1.000000	 55
+Scan complete.
+=== Scan ended: Tue Feb 18 22:14:36 2020. Elapsed time: 47 seconds
+Move completed: kphi : 0.0000
+   maxval: At kphi = 5.0 (maxpos), pil3_100k.sum maxval = 55.0. 
+   minval: At kphi = 0.0 (minpos), pil3_100k.sum minval = 48.0. 
+   com:    At kphi = 0.197368421053 (com), pil3_100k.sum stddev = 17.0663088643. 
+   peak:   At kphi = -2.36903918982 (pos), pil3_100k.sum offset = 54.9999999583, fwhm = 4.85353016686, residual = 0.000517685213212, top = -14.422489586. 
+   lcen:   At kphi = -15.0 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 15.0 (rcen), pil3_100k.sum .

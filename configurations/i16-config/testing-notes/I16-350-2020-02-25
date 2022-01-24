@@ -1,0 +1,127 @@
+2020-02-25 (live) Testing hdf5 file writing
+
+---------------------------------------------------------------- Before all test:
+
+>>> datadir
+u'/dls/i16/data/2020/cm26473-1'
+
+>>> #newexperiment('cm26473-1')
+
+------------------------------------------------------------------- Before test:
+
+>>> kphiZebraPos=kphiZebra() ; print "kphiZebraPos=%r" % (kphiZebraPos)
+kphiZebraPos=57.045
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 5.000000 path: 112552 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+
+------------------------------------ Tests with just the HDF5 & tiff filewriter:
+
+				Try a 3 point scan
+
+>>> scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+=== Scan started: Tue Feb 25 17:22:40 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='816902-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/816902.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/816902.dat
+  kphi	       kap	     kth	       kmu	     kdelta	       kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	      rc	count_time	path	maxx	maxy	        maxval	       sum
+56.045	-134.75593	57.04516	2.0585e-06	-6.3559e-07	-7.6190e-05	                0	114.286	1582651363.274	  0.451819	279.9465	  0.100000	   1	  16	  71	3774460.000000	-467983240
+57.045	-134.75593	57.04516	2.0585e-06	-6.3559e-07	-7.2153e-05	                0	115.834	1582651364.822	  0.451819	279.9366	  0.100000	   2	  16	  71	3774460.000000	2133012323
+58.045	-134.75593	57.04516	2.0585e-06	-6.3559e-07	-7.2153e-05	                0	117.371	1582651366.358	  0.467086	279.9261	  0.100000	   3	  16	  71	3774460.000000	-1978504405
+Scan complete.
+=== Scan ended: Tue Feb 25 17:22:46 2020. Elapsed time: 6 seconds
+   maxval: At kphi = 57.045 (maxpos), pil3_100k.sum maxval = 2133012323.0. 
+   minval: At kphi = 58.045 (minpos), pil3_100k.sum minval = -1978504405.0. 
+   com:    At kphi = 61.8636286415 (com), pil3_100k.sum stddev = -15.4147792989. 
+   peak:   At kphi = 56.6533745519 (pos), pil3_100k.sum offset = -1978504404.01, fwhm = 0.774717846058, residual = 1.18888736177e+12, top = 8888517397.38. 
+   lcen:   At kphi = 54.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 60.045 (rcen), pil3_100k.sum .
+
+				Try a 201 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1
+...
+=== Scan started: Tue Feb 25 17:24:07 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='816903-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/816903.nxs
+WARNING: kphi is returning a position based on its real motor position (56.149) rather than its last demanded position(58.045),
+as these differ by more than the configured demand position tolerance (0.001).
+Writing data to file: /dls/i16/data/2020/cm26473-1/816903.dat
+kphiZebra	count_time	path	maxx	maxy	        maxval	        sum
+   56.044	  0.100000	   0	  16	  71	3774460.000000	-1811163623
+   
+   58.045	  0.100000	 200	  16	  71	3774460.000000	-2065882460
+Scan complete.
+=== Scan ended: Tue Feb 25 17:24:31 2020. Elapsed time: 25 seconds
+   maxval: At kphiZebra = 57.955 (maxpos), pil3_100k.sum maxval = 2146029834.0. 
+   minval: At kphiZebra = 56.455 (minpos), pil3_100k.sum minval = -2147386505.0. 
+   com:    At kphiZebra = 56.2621243436 (com), pil3_100k.sum stddev = -0.359579624845. 
+   peak:   At kphiZebra = 57.6486862925 (pos), pil3_100k.sum offset = 904249906.042, fwhm = 0.704461327439, residual = 6.75691398579e+20, top = -1637996672.65. 
+   lcen:   At kphiZebra = 55.0325 (lcen), pil3_100k.sum . 
+
+------------------------------------------- Tests with just the HDF5 filewriter:
+
+>>> kphiZebraPos=57.045
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.000000 path: 116779 maxx: 40 maxy: 100 maxval: 4184802.000000 sum: 466872202
+
+				Try a 3 point scan
+
+>>> scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+=== Scan started: Tue Feb 25 17:33:23 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+====================================================================================================
+Exception: during scan collection: DeviceException: Array index out of range: 1
+Error occurred when closing data file(s): 
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 161, in __call__
+    scan.runScan()
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 161, in __call__
+    scan.runScan()
+
+java.lang.Exception: during scan collection: DeviceException: Array index out of range: 1
+
+				Try a 201 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Feb 25 17:35:12 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+...
+Problem in doCollection() 'null' so calling kphiZebraContinuousMoveController stopAndReset
+Error occurred when closing data file(s): 
+=== Scan stopped early by user: Tue Feb 25 17:36:13 2020. Elapsed time: 61 seconds
+gdascripts.scan.process.ScanDataProcessor.ScanDataProcessor: Error processing at end of scan - kphiZebra not found in data point cache
+Error processing scan file: Traceback (most recent call last):
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/process/ScanDataProcessor.py", line 91, in processScan
+    xDataset = getDatasetFromLoadedFile(lastScanFile, xfieldname, self.scanDataPointCache)
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/process/ScanDataProcessor.py", line 91, in processScan
+    xDataset = getDatasetFromLoadedFile(lastScanFile, xfieldname, self.scanDataPointCache)
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/process/ScanDataProcessorResult.py", line 43, in getDatasetFromLoadedFile
+    positionsDataset = scanDataPointCache.getPositionsFor(strippedFieldName)
+IllegalArgumentException: java.lang.IllegalArgumentException: kphiZebra not found in data point cache
+
+<< No exception raised >>>
+'Error processing scan file: Traceback (most recent call last):\n  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/process/ScanDataProcessor.py", line 91, in processScan\n    xDataset = getDatasetFromLoadedFile(lastScanFile, xfieldname, self.scanDataPointCache)\n  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/process/ScanDataProcessor.py", line 91, in processScan\n    xDataset = getDatasetFromLoadedFile(lastScanFile, xfieldname, self.scanDataPointCache)\n  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/process/ScanDataProcessorResult.py", line 43, in getDatasetFromLoadedFile\n    positionsDataset = scanDataPointCache.getPositionsFor(strippedFieldName)\nIllegalArgumentException: java.lang.IllegalArgumentException: kphiZebra not found in data point cache\n\n<< No exception raised >>>'
+
+------------------------------------------------------------------- After test:
+
+>>> pos kphiZebra kphiZebraPos
+Move completed: kphiZebra : 57.045
+
+>>> # newexperiment('mm24498-1')

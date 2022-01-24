@@ -1,0 +1,135 @@
+================================================================================
+Example scans from the current visit
+
+$cd /dls/i16/data/2020/mm25554-2
+
+================================================================================
+example eta scan
+--------------------------------------------------------------------------------
+# 867888, 867914, 867915, 867943, 867946, 867947, 867990, 867992, 868000,
+# 868006, 868162: scancn eta 0.02 32 pil3_100k 1 roi2
+
+[mm25554-2]$ll 867888*
+-rw-rw----+ 1 gda2 mm25554_2   8238 Oct  2 16:54 867888.dat
+-rw-rw----+ 1 gda2 mm25554_2 399520 Oct  2 16:54 867888.nxs
+
+867888-pilatus3_100k-files:
+total 27648
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:53 00001.tif
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:53 00002.tif
+...
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:54 00030.tif
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:54 00031.tif
+-rw-rw----+ 1 i16detector mm25554_2 11788200 Oct  2 16:54 867888.hdf
+
+--------------------------------------------------------------------------------
+>>>pos eta 12.5345
+>>>scancn eta 0.02 32 pil3_100k 1 roi2
+
+[gda_data_non_live]$ll 41*
+-rw-rw-r--+ 1 voo82358 voo82358   5485 Oct 27 12:05 41.dat
+-rw-rw-r--+ 1 voo82358 voo82358 351134 Oct 27 12:05 41.nxs
+
+41-pilatus3_100k-files:
+total 77072
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:04 00001.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:04 00002.tif
+...
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:05 00031.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:05 00032.tif
+-rw-rw-r--+ 1 voo82358 voo82358 39331228 Oct 27 12:05 41.hdf
+
+[gda_data_non_live]$nexus.tree 41.nxs > ...example-eta-scan/41.nexus.tree
+
+--------------------------------------------------------------------------------
+Differences between 867888 and 41:
+
+  41.dat
+  
+  	Is missing many individual metadata scannables but not all
+  	
+  	Has an extra scan point at 12.8445! 32 points vs 31 points
+
+  41.nexus.tree
+  
+	Is missing NXCollection entries in the before_scan:NXcollection
+
+	Is missing the attenuator:NXattenuator node from instrument:NXinstrument
+
+	The data link in pil3_100k:NXdetector points to a full path on scratch
+	rather than a relative path.
+
+	The image_data node inside pil3_100k:NXdetector still points to the list
+	of tiff filenames (relative to the nxs file)
+
+	The source:NXsource has name/probe/type but not current or energy
+
+	The pil3_100k:NXdata data node points to a full path on scratch as
+	pil3_100k:NXdetector does. 
+	
+	Is missing the ub_matrix (1x3x3) and unit_cell (1x6) nodes.
+
+================================================================================
+example chi scan
+--------------------------------------------------------------------------------
+# 868122: scancn chi 0.5 11 pil3_100k 1 roi2
+
+[mm25554-2]$ll 868122*
+-rw-rw----+ 1 gda2 mm25554_2   4749 Oct  7 11:45 868122.dat
+-rw-rw----+ 1 gda2 mm25554_2 410384 Oct  7 11:45 868122.nxs
+
+868122-pilatus3_100k-files:
+total 9728
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00001.tif
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00002.tif
+...
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00010.tif
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00011.tif
+-rw-rw----+ 1 i16detector mm25554_2 4188120 Oct  7 11:45 868122.hdf
+
+--------------------------------------------------------------------------------
+>>>pos chi 30.13350
+>>>scancn chi 0.5 11 pil3_100k 1 roi2
+
+[gda_data_non_live]$ll 42*
+-rw-rw-r--+ 1 voo82358 voo82358   2626 Oct 27 12:10 42.dat
+-rw-rw-r--+ 1 voo82358 voo82358 344990 Oct 27 12:10 42.nxs
+
+42-pilatus3_100k-files:
+total 26504
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:10 00001.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:10 00002.tif
+...
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:10 00010.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct 27 12:10 00011.tif
+-rw-rw-r--+ 1 voo82358 voo82358 13526460 Oct 27 12:10 42.hdf
+
+[gda_data_non_live]$nexus.tree 42.nxs > ...example-eta-scan/41.nexus.tree
+
+--------------------------------------------------------------------------------
+Differences between 868222 and 42:
+
+  42.dat
+  
+  	Is missing many individual metadata scannables but not all
+
+  42.nexus.tree
+  
+	Is missing NXCollection entries in the before_scan:NXcollection
+
+	Is missing the attenuator:NXattenuator node from instrument:NXinstrument
+
+	The data link in pil3_100k:NXdetector points to a full path on scratch
+	rather than a relative path.
+
+	The image_data node inside pil3_100k:NXdetector still points to the list
+	of tiff filenames (relative to the nxs file)
+
+	The source:NXsource has name/probe/type but not current or energy
+
+	The pil3_100k:NXdata data node points to a full path on scratch as
+	pil3_100k:NXdetector does. 
+	
+	Is missing the ub_matrix (1x3x3) and unit_cell (1x6) nodes.
+
+================================================================================

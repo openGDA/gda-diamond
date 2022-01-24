@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="TEST1Mot1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-USER-01:AXIS1" />
+	</bean>
+	<bean id="TEST1Mot2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-USER-01:AXIS2" />
+	</bean>
+	<bean id="TEST1Mot3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-USER-01:AXIS3" />
+	</bean>
+	<bean id="TEST1Mot4Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-USER-01:AXIS4" />
+	</bean>
+	<bean id="TEST1Mot5Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-USER-01:AXIS5" />
+	</bean>
+	<bean id="TEST1Mot6Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-USER-01:AXIS6" />
+	</bean>
+
+</beans>

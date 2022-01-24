@@ -1,0 +1,149 @@
+#Define a list of useful functions for beamline control
+
+import __main__ as gdamain
+import sys;
+from os import system;
+
+import zipfile;
+import re;
+import os;
+import cPickle as pickle;
+
+
+from gda.jython.commands import GeneralCommands
+from gda.factory import Finder
+
+from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
+#Introduce the script logger
+logger=ScriptLoggerClass();
+
+
+def swap(a, b):
+    return b,a
+
+#To get the current scan number
+def getScanNumber():
+    from gda.data import NumTracker
+    nt = NumTracker("tmp")
+    scanNumber = nt.getCurrentFileNumber();
+    del nt;
+    return scanNumber
+
+#To get the current scan number
+def incScanNumber():
+    from gda.data import NumTracker
+    nt = NumTracker("tmp")
+    nt.incrementNumber();
+    del nt;
+    return;
+
+#To setup an 'interruptable()' function which can be used to make for-loop interruptable in GDA."
+#To use this, place 'interruptable()' call as the 1st or last line inside a for-loop."
+def interruptable():
+    GeneralCommands.pause()
+
+#To remvoe all devices inside a list by name
+def removeDevices(nameList):
+    for dn in nameList:
+        try:
+            del globals()[dn];
+        except:
+            pass;
+        
+        try:
+            del locals()[dn];
+        except:
+            pass;
+        
+        try:
+            del vars(gdamain)[dn]
+        except:
+            pass;
+
+        try:
+            exec("del "+ dn);
+        except:
+            pass;    
+
+    exec("try:\n    del "+ ', '.join(nameList) + "\nexcept:\n    pass;\n")
+    
+
+def getDevice(deviceName):
+    device=None;
+#    nsh=globals();
+    nsh=vars(gdamain);
+    
+    if type(deviceName).__name__ in ['str', 'unicode']:#A name is giving
+        if deviceName in nsh.keys():
+            device=nsh[str(deviceName)]
+        else:
+            print "device %s does not exist" %deviceName;
+    else:#a real device is given
+        if deviceName in nsh.values():
+            device = deviceName;
+        else:
+            print "device %s does not exist" %deviceName;
+    return device;
+
+def isDefaultDeive(deviceName):
+    
+    device=getDevice(deviceName);
+    if device is None:
+        print "device %s does not exist" %deviceName;
+        return False;
+        
+    cs=Finder.find("command_server");
+    defaultList = cs.getDefaultScannables();
+    result = device in defaultList;
+    
+    return result;
+
+def removeDefaults(nameList):
+    cs=Finder.find("command_server");
+#    nsh=globals();
+    nsh=vars(gdamain);
+    
+    for deviceName in nameList:
+        cs.removeDefault(nsh[deviceName])
+    return
+   
+def backupDefaults():
+    cs=Finder.find("command_server");
+    defaultList=[];
+    defaultList.extend( cs.getDefaultScannableNames() );
+    
+    pickleFileName='/dls_sw/i06/var/defaultList.txt';
+
+    try:
+        outStream = file(pickleFileName, 'wb');
+        #Pickle the file number and dump to a file stream
+        pickle.dump(defaultList, outStream);
+        outStream.close();
+    except IOError:
+        print "Can not preserve the default file list.";
+        
+
+def restoreDefaults():
+    '''Restore the pickled device list'''
+
+    pickleFileName='/dls_sw/i06/var/defaultList.txt';
+    fileconetent = None;
+    try:
+        inStream = file(pickleFileName, 'rb');
+        fileconetent = pickle.load(inStream);
+        inStream.close();
+    except IOError:
+        print "No previous pickled file numbers. Create new one";
+
+    if fileconetent is None:
+        print "Nothing to restore";
+        return;
+    
+    cs=Finder.find("command_server");
+#    nsh=globals();
+    nsh=vars(gdamain);
+    
+    for deviceName in fileconetent:
+        cs.addDefault(nsh[deviceName])
+    return
+        

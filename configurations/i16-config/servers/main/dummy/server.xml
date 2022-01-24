@@ -1,0 +1,148 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+				<value>file:${gda.core.dir}/properties/core_java.properties</value> <!-- Not in I15-1! -->
+			</list>
+		</property>
+	</bean>
+
+	<import resource="../_common/server.xml"/>
+
+	<context:property-placeholder/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<!-- Motors -->
+
+	<import resource="motor/atten.xml" />
+	<import resource="motor/dcm.xml" />
+	<import resource="motor/diag.xml" />
+	<import resource="motor/id.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/m2.xml" />
+	<import resource="motor/p2.xml" />
+	<import resource="motor/pa.xml" />
+	<import resource="motor/ppr.xml" />
+	<import resource="motor/qsys.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
+	<import resource="motor/sixc.xml" />
+	<import resource="motor/sixcbase.xml" />
+	<import resource="motor/sixcsample.xml" />
+
+	<import resource="transient/kbmbase.xml" />
+	<import resource="transient/smargon.xml" />
+
+	<!--
+	<import resource="motor/pie725_raster.xml" />
+	<import resource="detector/rasterpil1.xml" />
+	 -->
+	<import resource="../live/motor/pie725_raster.xml" />
+	<import resource="../live/detector/labcam.xml" />
+
+	<!-- Monitors -->
+
+	<import resource="monitor/currentamps.xml" />
+	<import resource="monitor/machine.xml" />
+	<import resource="monitor/sixc.xml" />
+	<import resource="monitor/user.xml" />
+
+	<!-- Detectors -->
+
+	<bean id="ADSIM_HOST" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
+	</bean>
+
+	<import resource="detector/vortex.xml" />
+
+	<!--
+	<import resource="detector/pilatus100k.xml" />
+	<import resource="../live/detector/pilatus100k.xml" />
+	<import resource="detector/fastpil1.xml" />
+	<import resource="detector/pilatus2M.xml" />
+	 -->
+	<import resource="detector/pilatus3_100k.xml" />
+	<!--
+	<import resource="detector/andor1.xml" />
+	 -->
+	<import resource="detector/cam1.xml" />
+	<!--
+	<import resource="detector/cam2.xml" />
+	<import resource="detector/cam5.xml" />
+	 -->
+	<import resource="../live/detector/camlab84.xml" />
+	<!-- 
+	<import resource=        "detector/camlab84.xml" />
+	<import resource="detector/medipix.xml" />
+	 -->
+	<!-- 
+	<import resource="detector/merlin.xml" />
+	<import resource="detector/c10.xml" />
+	<import resource="detector/xeye.xml" />
+	<import resource="detector/zebra_smargon.xml" />
+	 -->
+	<import resource="detector/zebra1.xml" />
+	<!-- 
+	<import resource="detector/zebra2.xml" />
+	<import resource="detector/zylar.xml" />
+	 -->
+
+	<bean id="terminallog_path_provider"
+		class="gda.data.SimpleObservablePathProvider"/>
+
+	<import resource="metadata.xml" />
+
+	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
+
+	<bean id="mandelbrot" class="gda.device.detector.DummyMandelbrotMappingDetector">
+		<property name="realAxisPositioner" ref="stage_x" />
+		<property name="imaginaryAxisPositioner" ref="stage_y" />
+		<property name="outputDimensions" value="ONE_D" />
+		<!-- Works:
+		<property name="outputDimensions" value="TWO_D" />
+		 -->
+	</bean>
+
+	<!--  
+	      IMPORTANT: this will start processing the scanning queue. 
+	      detectors must be created before doing this.
+	      ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
+
+	<!-- No file registrar, icat xml creator or Beamline in dummy -->
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DefaultDataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+</beans>

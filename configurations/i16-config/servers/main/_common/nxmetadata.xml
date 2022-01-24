@@ -1,0 +1,232 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="sourceNexusDevice" />
+		<property name="sourceName" value="Diamond Light Source" />
+		<property name="currentScannableName" value="rc" />
+	</bean>
+
+	<bean id="idNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
+		<property name="name" value="idNexusDevice" />
+		<property name="type" value="WIGGLER" />
+		<property name="gapScannableName" value="idgap" />
+		<!-- 
+		<property name="taperScannableName" value="dummy1" />
+		 -->
+		<property name="harmonicScannableName" value="uharmonic" />
+	</bean>
+
+	<bean id="monochromatorNexusDevice" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
+		<property name="name" value="monochromatorNexusDevice" />
+		<property name="energyScannableName" value="en" />
+		<!-- Commenting any out causes the whole NXmonochromator node to be disappeared
+		<property name="energyErrorScannableName" value="dummy1" />
+		 -->
+	</bean>
+
+	<bean id="beamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beamNexusDevice" />
+		<property name="incidentEnergyScannableName" value="en" />
+		<!-- Commenting any out causes the whole NXmonochromator node to be disappeared
+		<property name="incidentBeamDivergenceScannableName" value="dummy1" />
+		<property name="incidentPolarizationScannableName" value="dummy1" />
+		<property name="beamExtentScannableName" value="dummy1" />
+		<property name="fluxScannableName" value="dummy1" />
+		 -->
+	</bean>
+
+	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+		<property name="name" value="userNexusDevice" />
+	</bean>
+
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<property name="sourceName" value="sourceNexusDevice" />
+		<property name="insertionDeviceName" value="idNexusDevice" />
+		<!-- 
+		<property name="bendingMagnetName" value="" />
+		 -->
+		<property name="monochromatorName" value="monochromatorNexusDevice" />
+		<property name="beamName" value="beamNexusDevice" />
+		<property name="userDeviceName" value="userNexusDevice" />
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="frontend">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/Frontend:NXcollection/frontendx</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="en">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>sample:NXsample/beam:NXbeam/incident_energy</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="delta_axis_offset">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/offsetdelta" />
+						<property name="depends_on"
+							value="entry1/instrument/transformations/delta" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value>
+								<value>-1</value> <!-- rotation is in opposite direction to delta -->
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kdelta">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/delta" />
+						<property name="depends_on"
+							value="entry1/instrument/transformations/gamma" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value>
+								<value>1</value>
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kgam">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/gamma" />
+						<property name="depends_on" value="." />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>1</value>
+								<value>0</value>
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<!-- Comment out kphi when USE_CRYO_GEOMETRY = True  -->
+				<entry key="kphi">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/phi" />
+						<property name="depends_on"
+							value="entry1/sample/transformations/kappa" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value><value>1</value><value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kap">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/kappa" />
+						<property name="depends_on"
+							value="entry1/sample/transformations/theta" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value><value>0.64278761</value><value>-0.76604443</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kth">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/theta" />
+						<property name="depends_on"
+							value="entry1/sample/transformations/mu" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list>
+								<list><value>0</value><value>1</value><value>0</value></list>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kmu">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/mu" />
+						<property name="depends_on"
+							value="." />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list>
+								<list><value>1</value><value>0</value><value>0</value></list>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<!-- Comment out cryophi when USE_CRYO_GEOMETRY = False -->
+				<!-- uncomment when the NXMeta thing is fixed or cryophi is online
+				<entry key="cryophi">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+								value="sample:NXsample/transformations:NXtransformations/cryophi" />
+						<property name="depends_on"
+								value="entry1/sample/transformations/phi" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list>
+								<list><value>0.567744</value><value>-0.0003651</value><value>0.82389</value></list>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				-->
+				<entry key="x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="test:NXcollection/x" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>kgam</value>
+				<value>kdelta</value>
+				<value>delta_offset</value>
+				<value>kap</value>
+				<value>kphi</value>
+				<value>kth</value>
+				<value>kmu</value>
+			</set>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="JJ1_XSIZE" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-05:X:GAP" />
+	</bean>
+
+	<bean id="JJ1_XPOS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-05:X:POS" />
+	</bean>
+
+	<bean id="JJ1_YSIZE" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-05:Y:GAP" />
+	</bean>
+
+	<bean id="JJ1_YPOS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-05:Y:POS" />
+	</bean>
+
+	<bean id="JJ2_XSIZE" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:GAP" />
+	</bean>
+
+	<bean id="JJ2_XPOS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:POS" />
+	</bean>
+
+	<bean id="JJ2_YSIZE" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:GAP" />
+	</bean>
+
+	<bean id="JJ2_YPOS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:POS" />
+	</bean>
+
+</beans>
+

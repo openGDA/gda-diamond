@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+		<!-- 
+	<import resource="B24-.xml"/>
+	 -->
+
+	<import resource="fem.xml" />
+	<import resource="eslit.xml" />
+	<import resource="diagnostics.xml" />
+	<import resource="pgm.xml" />
+
+	<import resource="cam1.xml" />
+	<import resource="cam2.xml" />
+	<import resource="cam3.xml" />
+	<import resource="cam4.xml" />
+	<import resource="cam5.xml" />
+	<import resource="cam6.xml" />
+	<import resource="cam7.xml" />
+	
+	<import resource="s1.xml" />
+
+</beans>

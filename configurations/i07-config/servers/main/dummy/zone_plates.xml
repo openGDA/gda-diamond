@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="FZP_X" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="FZP_X" />
+		<property name="useNameAsInputName" value="True" />
+	</bean>
+
+	<bean id="FZP_Y" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="FZP_Y" />
+		<property name="useNameAsInputName" value="True" />
+	</bean>
+
+	<bean id="OSA_X" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="OSA_X" />
+		<property name="useNameAsInputName" value="True" />
+	</bean>
+
+	<bean id="OSA_Y" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="OSA_Y" />
+		<property name="useNameAsInputName" value="True" />
+	</bean>
+
+	<bean id="OSA_Z" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="OSA_Z" />
+		<property name="useNameAsInputName" value="True" />
+	</bean>
+
+</beans>

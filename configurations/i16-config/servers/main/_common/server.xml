@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import resource="required_at_start.xml"/>
+
+	<import resource="nxmetadata.xml" />
+
+	<import resource="scannable/all.xml"/>
+	<import resource="transient/smargon.xml"/>
+
+	<!-- command_server.xml has to be imported at just the right point.
+
+		 * Too early and scannables aren't configured by the time localStation.py tries to use them.
+		 * Too late and you get "Can't find a Command Server" errors when starting the Object server.
+
+		 After all scannables have been defined but before the motor or devices they reference are
+		 defined seems to cause the dependencies to be processed in the right order.
+	 -->
+	<import resource="command_server.xml"/>
+</beans>

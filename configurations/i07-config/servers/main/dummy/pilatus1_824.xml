@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<alias name="sim_adbase" alias="pilatus1_adbase" />
+	<alias name="sim_stats" alias="epilatus1_stats" />
+	<alias name="sim_ndarray" alias="epilatus1r_ndarray" />
+	<alias name="sim_ndfile_hdf5" alias="pilatus1_ndfile" />
+	<alias name="sim_hdf5" alias="pilatus1_ndfile_hdf5" />
+
+</beans>

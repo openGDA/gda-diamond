@@ -1,0 +1,135 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<bean id="pilatus2_adbase"
+			class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL16I-EA-PILAT-02:CAM:" />
+	</bean>
+
+	<bean id="pilatus2_driver"
+			class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+		<property name="basePVName" value="BL16I-EA-PILAT-02:CAM:" />
+	</bean>
+
+	<bean id="pilatus2_camserver_ndfile"
+			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL16I-EA-PILAT-02:CAM:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.SimpleFilePathConverter">
+				<property name="userSubString" value="/dls/i16/data" />
+				<property name="internalSubString" value="/ramdisk" />
+			</bean>
+		</property>
+
+	</bean>
+
+	<bean id="pilatus2_counter_monitor"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
+		<constructor-arg ref="pilatus2_adbase" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="pilatus2_nxcollectionstrategy"
+			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus2_adbase" />
+		<constructor-arg value=".003" />
+	</bean>
+
+	<bean id="pilatus2_nxcollectionstrategy_for_hardware_triggering"
+			class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
+		<constructor-arg ref="pilatus2_adbase" />
+		<constructor-arg ref="pilatus2_driver" />
+		<constructor-arg value=".003" />
+		<constructor-arg value="EXTERNAL_TRIGGER" />
+	</bean>
+
+
+	<!-- NXDetector file writers -->
+
+	<bean id="pilatus2_nxfilewriter_for_scans"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus2M" />
+		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="pilatus2_hardware_triggered"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="pilatus1_hardware_triggered" />
+		<property name="hardwareTriggerProvider" ref="kphiZebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus2_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus2_nxfilewriter_for_hardware_triggering" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pilatus2_nxfilewriter_for_snaps"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="pilatus2M" />
+		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
+		<property name="numTrackerExtension" value="pilatus2Msnaps" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="pilatus2_nxfilewriter_for_hardware_triggering"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus2M" />
+		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="pilatus2"
+			class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus2" />
+		<property name="collectionStrategy" ref="pilatus2_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus2_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pilatus2_for_snaps"
+			class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus2_for_snaps" />
+		<property name="collectionStrategy" ref="pilatus2_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus2_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Note most plugins are exposed via NXDetector's component system -->
+	<!-- >>>Finder.find("pilatus1_plugins").get('pilatus1_counter_monitor') -->
+	<bean id="pilatus2_plugins"
+			class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<map>
+				<entry key="pilatus2_counter_monitor" value-ref="pilatus2_counter_monitor" />
+			</map>
+		</property>
+	</bean>
+</beans>

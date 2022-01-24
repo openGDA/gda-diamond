@@ -1,0 +1,35 @@
+ <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<import resource="motor/dcm.xml" />
+	<import resource="motor/dif.xml" />
+	<import resource="motor/fc.xml" />
+	<import resource="motor/fourc.xml" />
+	<import resource="motor/fcarm.xml" />
+	<import resource="motor/fcbase.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/mlm.xml" />
+	<import resource="motor/positioner_motors.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
+	<import resource="motor/s8.xml" />
+	<import resource="motor/s9.xml" />
+	<import resource="motor/tbbase.xml" />
+	<import resource="motor/tb3.xml" />
+	<import resource="motor/tb2.xml" />
+	<import resource="motor/tb1.xml" />
+	<import resource="motor/test1.xml" />
+	<import resource="motor/test2.xml" />
+	<import resource="motor/test3.xml"/>
+	<import resource="motor/micro_tomo.xml" />
+	<import resource="motor/granite_table.xml" />
+	<import resource="motor/amc100.xml" />
+
+</beans>

@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="psu">
+
+	<bean id="tenmaPsu" class="uk.ac.gda.devices.tenma.Psu722930">
+		<constructor-arg name="controller" ref="psu_controller" />
+		<property name="name" value="tenmaPsu" />
+	</bean>
+
+</beans>

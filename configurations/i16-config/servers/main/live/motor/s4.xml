@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="S4XCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:X:CENTER" />
+	</bean>
+	<bean id="S4XSizeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:X:SIZE" />
+	</bean>
+	<bean id="S4XNegMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:X:NEG" />
+	</bean>
+	<bean id="S4XPosMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:X:POS" />
+	</bean>
+	<bean id="S4YCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:Y:CENTER" />
+	</bean>
+	<bean id="S4YSizeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:Y:SIZE" />
+	</bean>
+	<bean id="S4YNegMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:Y:NEG" />
+	</bean>
+	<bean id="S4YPosMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-AL-SLITS-04:Y:POS" />
+	</bean>
+
+</beans>

@@ -1,0 +1,600 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <!-- EH2 Scannables -->
+
+    <!-- Mono Beam Slits MBS4 -->
+    <bean id="mbs4hall" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXPos_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="mbs4ring" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXNeg_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="mbs4top" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYPos_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="mbs4bottom" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYNeg_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="mbs4xsize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXSize_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="mbs4xcentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXCentre_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="mbs4ysize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYSize_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="mbs4ycentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYCentre_MBS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="MBS4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="mbs4hall" />
+                <ref bean="mbs4ring" />
+                <ref bean="mbs4top" />
+                <ref bean="mbs4bottom" />
+                <ref bean="mbs4xsize" />
+                <ref bean="mbs4xcentre" />
+                <ref bean="mbs4ysize" />
+                <ref bean="mbs4ycentre" />
+                <!-- current amplifier controller and beam position monitor 
+                <ref bean="mbs4qbpm" />
+                <ref bean="mbs4qca" /> -->
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+
+    </bean>
+
+    <!-- Diffractometer 2 (DIFF2) -->
+    <!-- Omega in Vertical mode -->
+    <bean id="diff2omega" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorOMEGA_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    <!-- Alpha in Vertical mode -->
+    <bean id="diff2alpha" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorALPHA_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    <!-- Delta in Vertical mode / Gamma in Horizental mode -->
+    <bean id="diff2delta" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorDELTA_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Gamma in Vertical mode / Delta in Horizental mode -->
+    <bean id="diff2gamma" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorGAMMA_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Gonio Rotation (DRot)-->
+    <bean id="diff2detselect" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorDROT_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Pilatus Rotation -->
+    <bean id="diff2prot" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorDETROT_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+
+    
+    <!-- Point detector -->
+    <bean id="diff2dets4rot" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorNU2_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    <!-- Post sample slits rotation -->
+    <bean id="diff2dets3rot" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorNU1_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Slits detector -->
+<!--
+    <bean id="diff2dets1" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorSLIT_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+-->
+
+    <!-- Slits vacuum rotation -->
+<!--    
+    <bean id="diff2detsvrot" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorSLITVR_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+-->    
+    
+    <!-- Base X, Y, Y1, Y2, Pitch-->
+    <bean id="diff2basex" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorBASEX_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="diff2basey" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorBASEY_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="diff2basey1" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorBASEY1_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="diff2basey2" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorBASEY2_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="diff2basepitch" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorBASEPITCH_DIFF2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%9.5f</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="DIFF2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="diff2omega" />
+                <ref bean="diff2alpha" />
+                <ref bean="diff2delta" />
+                <ref bean="diff2gamma" />
+                
+                <ref bean="diff2detselect" />
+                <ref bean="diff2prot" />
+                
+                <ref bean="diff2dets4rot" />
+                <ref bean="diff2dets3rot" />
+<!--                <ref bean="diff2dets1" /> -->
+<!--                <ref bean="diff2detsvrot" /> -->
+
+                <ref bean="diff2basex" />
+                <ref bean="diff2basey" />
+                <ref bean="diff2basey1" />
+                <ref bean="diff2basey2" />
+                <ref bean="diff2basepitch" />
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+    </bean>
+
+
+    <bean id="DIFF" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="testMotor1" />
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+    </bean>
+
+
+    <!-- Detector Slits DETS3  -->
+    <bean id="dets3hall" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXPos_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets3ring" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXNeg_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets3top" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYPos_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets3bottom" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYNeg_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets3xsize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXSize_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets3xcentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXCentre_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets3ysize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYSize_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets3ycentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYCentre_DETS3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="DETS3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="dets3hall" />
+                <ref bean="dets3ring" />
+                <ref bean="dets3top" />
+                <ref bean="dets3bottom" />
+                <ref bean="dets3xsize" />
+                <ref bean="dets3xcentre" />
+                <ref bean="dets3ysize" />
+                <ref bean="dets3ycentre" />
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+    </bean>
+    
+    <!-- Detector Slits DETS4 -->
+    <bean id="dets4hall" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXPos_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets4ring" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXNeg_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets4top" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYPos_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets4bottom" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYNeg_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets4xsize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXSize_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets4xcentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXCentre_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets4ysize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYSize_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dets4ycentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYCentre_DETS4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%8.4f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="DETS4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="dets4hall" />
+                <ref bean="dets4ring" />
+                <ref bean="dets4top" />
+                <ref bean="dets4bottom" />
+                <ref bean="dets4xsize" />
+                <ref bean="dets4xcentre" />
+                <ref bean="dets4ysize" />
+                <ref bean="dets4ycentre" />
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+    </bean>
+    
+
+    <!-- Hexapod 2 -->
+    <bean id="hex2x" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorX_HEX2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%7.3f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="hex2y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorY_HEX2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%7.3f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="hex2z" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorZ_HEX2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="outputFormat">
+            <list>
+                <value>%7.3f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="hex2rx" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorRX_HEX2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%7.3f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="hex2ry" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorRY_HEX2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%7.3f</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="hex2rz" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorRZ_HEX2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="outputFormat">
+            <list>
+                <value>%7.3f</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="HEX2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="hex2x" />
+                <ref bean="hex2y" />
+                <ref bean="hex2z" />
+                <ref bean="hex2rx" />
+                <ref bean="hex2ry" />
+                <ref bean="hex2rz" />
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+    </bean>
+
+    
+</beans>

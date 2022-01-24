@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="dcm_col_datafile" class="gda.function.ColumnDataFile">
+		<property name="filename" value="dcmLookupTable.txt" />
+	</bean>
+
+	<bean id="dcm_roll_interp" class="gda.function.InterpolationFunction">
+		<property name="cdfName" value="dcm_col_datafile" />
+		<property name="xColumn" value="0" />
+		<property name="yColumn" value="1" />
+	</bean>
+
+	<bean id="dcm_pitch_interp" class="gda.function.InterpolationFunction">
+		<property name="cdfName" value="dcm_col_datafile" />
+		<property name="xColumn" value="0" />
+		<property name="yColumn" value="2" />
+	</bean>
+
+
+	<bean id="energy" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="dcm1energy"/>
+				<ref bean="dcm1xtalpitch"/>
+				<ref bean="dcm1xtalroll"/>
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<ref bean="dcm_pitch_interp" />
+				<ref bean="dcm_roll_interp" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

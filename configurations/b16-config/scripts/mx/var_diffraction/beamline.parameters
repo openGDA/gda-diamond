@@ -1,0 +1,69 @@
+# -------------------------------------------------------
+# BeamLine BL16B
+
+# -------------------------------------------------------
+# Standard Energy
+# Standard Wavelength
+#standard_energy=6543
+#standard_wavelength=1.8949
+# -------------------------------------------------------
+# Apertures / Scatter Guards
+
+# -------------------------------------------------------
+# Attenuator Wedge ATTENY
+
+# -------------------------------------------------------
+# Beamstop (Y 2.66714)
+
+# -------------------------------------------------------
+# Detector / Goniometer
+#
+
+#Thaumatin DMM
+#detector_beam_x=243.78
+#detector_beam_y=307.34
+
+#iNsulin DMM
+#detector_beam_x=242.6
+#detector_beam_y=309.5
+
+#DCM from Silica
+#detector_beam_x=242.5
+#detector_beam_y=301.0
+
+#DCM from Lyso data
+detector_beam_x=244.4
+detector_beam_y=294.5
+
+
+
+detector_z_safe_check=94.7881
+
+# TODO: Check with staff for I19-2 values
+detector_z_sample_mount=94.7881
+gonio_x_sample_mount=0.490
+gonio_y_sample_mount=0.213
+gonio_z_sample_mount=16.11
+gonio_omega_sample_mount=0.0
+gonio_phi_sample_mount=0.0
+gonio_twotheta_sample_mount=0.0
+table_x_sample_mount=0.6275
+table_y_sample_mount=7.3250
+table_tolerance_sample_mount=0.35
+
+gonio_parked_x=0.0
+gonio_parked_y=0.0
+gonio_parked_z=0.0
+gonio_parked_omega=0.0
+gonio_parked_phi=0.0
+
+# -------------------------------------------------------
+# Diagnostics (Femto) Amplifier Settings
+
+# -------------------------------------------------------
+# Unchecked Parameters 16/12/2015
+
+store_data_collections_in_ispyb=No
+
+# TakePNGsOfSample=No
+

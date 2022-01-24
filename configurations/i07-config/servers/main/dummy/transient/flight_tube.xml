@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ftbsx_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="ftbsy_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="ftrbsx_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="ftrbsy_motor" class="gda.device.motor.DummyMotor"/>
+
+	<import resource="../../_common/transient/flight_tube.xml" />
+
+</beans>

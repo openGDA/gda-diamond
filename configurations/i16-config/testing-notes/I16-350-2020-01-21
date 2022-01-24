@@ -1,0 +1,288 @@
+2020-01-21 (live) Testing hdf5 file writing
+
+------------------------------------------------------------------- Before test:
+
+>>> kphiZebraPos=kphiZebra() ; print "kphiZebraPos=%r" % (kphiZebraPos)
+kphiZebraPos=170.008
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.100000 path: 111839 maxx: 146 maxy: 10 maxval: 2.000000 sum: -7
+
+----------------------------- Baseline tests with pil3_100k using tiffs only:
+
+				Try a 3 point scan
+
+>>> scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+=== Scan started: Tue Jan 21 17:35:25 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='808384-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808384.nxs
+Writing data to file: /dls/i16/data/2020/mm23911-1/808384.dat
+  kphi	       kap	     kth	   kmu	kdelta	  kgam	delta_axis_offset	   TimeSec	 TimeFromEpoch	ic1monitor	     rc	count_time	path	maxx	maxy	  maxval	sum
+169.01	-134.75593	59.24968	0.0000	31.376	33.173	           8.8000	601497.107	1579628127.788	  0.457927	99.9747	  0.100000	   1	   0	   0	0.000000	-22
+170.01	-134.75593	59.24968	0.0000	31.376	33.173	           8.8000	601498.480	1579628129.160	  0.512877	99.9732	  0.100000	   2	   0	   0	0.000000	-22
+171.01	-134.75593	59.24968	0.0000	31.376	33.173	           8.8000	601499.831	1579628130.512	  0.518984	99.9706	  0.100000	   3	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 21 17:35:30 2020. Elapsed time: 5 seconds
+   maxval: At kphi = 169.008 (maxpos), pil3_100k.sum maxval = -22.0. 
+   minval: At kphi = 169.008 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphi = 170.008 (com), pil3_100k.sum stddev = 0.666666666667. 
+   peak:   Exception: ValueError('There is no peak',)
+   lcen:   At kphi = 167.008 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 173.008 (rcen), pil3_100k.sum .
+
+				Try a 201 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1
+...
+=== Scan started: Tue Jan 21 17:38:46 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='808385-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808385.nxs
+WARNING: kphi is returning a position based on its real motor position (169.098) rather than its last demanded position(171.008),
+as these differ by more than the configured demand position tolerance (0.001).
+Writing data to file: /dls/i16/data/2020/mm23911-1/808385.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   169.01	  0.100000	   0	   0	   0	0.000000	-22
+...
+   171.01	  0.100000	 200	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 21 17:39:11 2020. Elapsed time: 26 seconds
+   maxval: At kphiZebra = 169.95 (maxpos), pil3_100k.sum maxval = 65.0. 
+   minval: At kphiZebra = 169.008 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 170.012208442 (com), pil3_100k.sum stddev = 0.349205991885. 
+   peak:   At kphiZebra = 169.947664857 (pos), pil3_100k.sum offset = -21.4093293807, fwhm = 0.00680975237408, residual = 2462.48905213, top = 127.656678967. 
+   lcen:   At kphiZebra = 167.9975 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 172.0195 (rcen), pil3_100k.sum .
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01 # 201 points
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01
+Waiting for file /dls/i16/data/2020/mm23911-1/808385-kphiZebraPil3-files/00000_00201.tif, 5/60s
+
+				Had to stop multiple times to get it to stop
+
+>>> pos pil3_100k 1
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+
+gda.device.DeviceException: gov.aps.jca.TimeoutException: Put on BL16I-EA-PILAT-03:CAM:FileWriteMode timeout 5.000000s
+
+				Couldn't fix with this, so restarted the IOC
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.010000 path: 111840 maxx: 247 maxy: 78 maxval: 2.000000 sum: -19
+
+				Try a 2001 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01
+...
+=== Scan started: Tue Jan 21 17:59:47 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='808387-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808387.nxs
+Writing data to file: /dls/i16/data/2020/mm23911-1/808387.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   169.01	  0.010000	   0	   0	   0	0.000000	-22
+...
+   171.01	  0.010000	2000	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 21 18:00:40 2020. Elapsed time: 53 seconds
+   maxval: At kphiZebra = 170.289 (maxpos), pil3_100k.sum maxval = -11.0. 
+   minval: At kphiZebra = 169.008 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 170.009277562 (com), pil3_100k.sum stddev = 0.333843634212. 
+   peak:   At kphiZebra = 169.249615922 (pos), pil3_100k.sum offset = -21.9846168901, fwhm = 0.000543952060029, residual = 286.519290709, top = 16.898010426. 
+   lcen:   At kphiZebra = 168.0065 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 172.0105 (rcen), pil3_100k.sum .
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.010000 path: 111841 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+
+				Try a 20001 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0001 pil3_100k 0.001
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 21 18:02:59 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='808388-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808388.nxs
+Writing data to file: /dls/i16/data/2020/mm23911-1/808388.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   169.01	  0.001000	   0	 331	  65	2.000000	 -5
+...
+				Tried to set a -0.002 exposure time with a 0.001 Acq Period!
+				Ended up only seeing 20 triggers
+
+>>> pos pil3_100k 1
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+
+gda.device.DeviceException: gov.aps.jca.TimeoutException: Put on BL16I-EA-PILAT-03:CAM:FileWriteMode timeout 5.000000s
+
+				Restart IOC again
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.001000 path: 111842 maxx: 414 maxy: 62 maxval: 2.000000 sum: -17
+
+				Try a 4001 point cvscan (0.002 exposure time, 0.005 Acq Period)
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0005 pil3_100k 0.005
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 21 18:11:46 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='808389-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808389.nxs
+Writing data to file: /dls/i16/data/2020/mm23911-1/808389.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   169.01	  0.005000	   0	   0	   0	0.000000	-22
+...
+   171.01	  0.005000	4000	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 21 18:13:16 2020. Elapsed time: 91 seconds
+   maxval: At kphiZebra = 170.641 (maxpos), pil3_100k.sum maxval = -11.0. 
+   minval: At kphiZebra = 169.008 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 170.008160676 (com), pil3_100k.sum stddev = 0.333587037003. 
+   peak:   At kphiZebra = 170.641093227 (pos), pil3_100k.sum offset = -21.9887780727, fwhm = 0.000362387823078, residual = 393.243400769, top = 3.49928759118. 
+   lcen:   At kphiZebra = 168.008 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 172.008 (rcen), pil3_100k.sum .
+
+				Try a 5001 point cvscan (0.001 exposure time, 0.004 Acq Period)
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0004 pil3_100k 0.004
+Waiting for file /dls/i16/data/2020/mm23911-1/808389-kphiZebraPil3-files/00000_04001.tif, 5/60s
+
+				Had to stop multiple times
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.004000 path: 111843 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+
+				Try a 5001 point cvscan (0.001 exposure time, 0.004 Acq Period)
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0004 pil3_100k 0.004
+meta added to the list of default Scannables. Remove from the list by using command: remove_default meta
+meta removed from list of default Scannables. Add back to the list by using command: add_default meta
+=== Scan started: Tue Jan 21 18:17:16 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='808391-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808391.nxs
+Writing data to file: /dls/i16/data/2020/mm23911-1/808391.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   169.01	  0.004000	   0	   0	   0	0.000000	-22
+...
+   171.01	  0.004000	5000	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 21 18:19:08 2020. Elapsed time: 112 seconds
+   maxval: At kphiZebra = 169.126 (maxpos), pil3_100k.sum maxval = -15.0. 
+   minval: At kphiZebra = 169.008 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphiZebra = 170.008425669 (com), pil3_100k.sum stddev = 0.333486131247. 
+   peak:   At kphiZebra = 169.690881439 (pos), pil3_100k.sum offset = -21.9985975387, fwhm = 0.000432624408845, residual = 48.9902041958, top = 9.17671483462. 
+   lcen:   At kphiZebra = 168.0075 (lcen), pil3_100k.sum . 
+   rcen:   At kphiZebra = 172.0095 (rcen), pil3_100k.sum .
+
+>>> pos kphiZebra kphiZebraPos
+Move completed: kphiZebra : 170.01
+
+------------------------------- Tests with pil3_100k using tiffs and hdf5s only:
+
+>>> kphiZebraPos=kphiZebra() ; print "kphiZebraPos=%r" % (kphiZebraPos)
+kphiZebraPos=170.008
+>>> pos pil3_100k 1
+
+				Try a 3 point scan
+
+>>> scan   kphi      kphiZebraPos-1 kphiZebraPos+1 1   pil3_100k 0.1
+=== Scan started: Tue Jan 21 19:21:31 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='808393-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808393.nxs
+Writing data to file: /dls/i16/data/2020/mm23911-1/808393.dat
+  kphi	       kap	     kth	        kmu	kdelta	  kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	     rc	count_time	path	maxx	maxy	  maxval	sum
+170.01	-134.75609	59.24968	-1.9782e-06	31.376	33.173	           8.8000	135.468	1579634494.774	  0.546457	93.3754	  0.100000	   1	   0	   0	0.000000	-22
+171.01	-134.75609	59.24968	2.0585e-06	31.376	33.173	           8.8000	137.006	1579634496.311	  0.494558	93.3675	  0.100000	   2	   0	   0	0.000000	-22
+172.01	-134.75609	59.24968	2.0585e-06	31.376	33.173	           8.8000	138.555	1579634497.861	  0.497615	93.3608	  0.100000	   3	   0	   0	0.000000	-22
+Creating HDF Links
+Scan complete.
+=== Scan ended: Tue Jan 21 19:21:38 2020. Elapsed time: 6 seconds
+   maxval: At kphi = 170.008 (maxpos), pil3_100k.sum maxval = -22.0. 
+   minval: At kphi = 170.008 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphi = 171.008 (com), pil3_100k.sum stddev = 0.666666666667. 
+   peak:   Exception: ValueError('There is no peak',)
+   lcen:   At kphi = 168.008 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 174.008 (rcen), pil3_100k.sum .
+
+				Try a 201 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .01 pil3_100k 0.1
+...
+=== Scan started: Tue Jan 21 19:22:30 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+Image location: pilatus3_100k_path_template='808394-kphiZebraPil3-files/00000_%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/mm23911-1/808394.nxs
+WARNING: kphi is returning a position based on its real motor position (170.083) rather than its last demanded position(172.008),
+as these differ by more than the configured demand position tolerance (0.001).
+Writing data to file: /dls/i16/data/2020/mm23911-1/808394.dat
+kphiZebra	count_time	path	maxx	maxy	  maxval	sum
+   170.01	  0.100000	   0	   0	   0	0.000000	-22
+...
+   172.01	  0.100000	 200	   0	   0	0.000000	-22
+Creating HDF Links
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-mt.git/configurations/i16-config/scripts/nexusHDFLink.py", line 9, in detectorLinkInserter
+    entry['data'] = h5py.ExternalLink(detectorFileName, detectorPath)
+
+  File "/dls_sw/apps/python/anaconda/1.7.0/64/lib/python2.7/site-packages/h5py/_hl/group.py", line 392, in __setitem__
+    lcpl=lcpl, lapl=self._lapl)
+
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+
+  File "h5py/h5l.pyx", line 157, in h5py.h5l.LinkProxy.create_external
+
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 161, in __call__
+    scan.runScan()
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 161, in __call__
+    scan.runScan()
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/gda-mt.git/configurations/i16-config/scripts/epics/detector/NxProcessingDetectorWrapper.py", line 69, in atScanEnd
+    self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
+  File "/dls_sw/i16/software/gda_versions/gda_9.15a/workspace_git/scisoft-core.git/uk.ac.diamond.scisoft.python/src/scisoftpy/external.py", line 529, in __call__
+    raise err[1]
+RuntimeError: Unable to create link (name already exists)
+
+				Try a 2001 point cvscan
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .001 pil3_100k 0.01
+
+				Try a 4001 point cvscan (0.002 exposure time, 0.005 Acq Period)
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0005 pil3_100k 0.005
+
+				Try a 5001 point cvscan (0.001 exposure time, 0.004 Acq Period)
+
+>>> cvscan kphiZebra kphiZebraPos-1 kphiZebraPos+1 .0004 pil3_100k 0.004
+
+------------------------------------------------------------------- After test:
+
+pos pil3_100k 1
+pos kphiZebra kphiZebraPos
+pos kthZebra kthZebraPos

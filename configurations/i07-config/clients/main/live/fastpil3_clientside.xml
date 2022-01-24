@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+	<context:property-placeholder
+		location="file:${gda.config}/properties/live/java.properties" />
+
+
+	<bean id="pil3_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL07I-EA-PILAT-03:cam1:" />
+	</bean>
+
+	<bean id="pil3_array" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL07I-EA-PILAT-03:ARR:" />
+	</bean>
+
+	<bean id="pil3_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL07I-EA-PILAT-03:STATS:" />
+	</bean>
+
+	<bean id="pil3_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL07I-EA-PILAT-03:ROI:" />
+	</bean>
+
+	<bean id="pil3_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL07I-EA-PILAT-03:MJPG:" />
+	</bean>
+
+	<bean id="pil3_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL07I-EA-PILAT-03:PROC:" />
+	</bean>
+
+	<bean id="fastpil3Controller" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="detectorName" value="fastpil3" />
+		<property name="serviceName" value="fastpil3" />
+		<property name="adBase" ref="pil3_cam_base" />
+		<property name="imageNDROI" ref="pil3_roi" />
+		<property name="imageNDArray" ref="pil3_array" />
+		<property name="imageNDStats" ref="pil3_stat" />
+		<property name="liveViewNDProc" ref="pil3_proc" />
+		<property name="ffmpegStream" ref="pil3_ffmpeg" />
+		<property name="imageHistSize" value="500" />
+		<property name="imageMin" value="0" />
+		<property name="ffmpegImageOutHeightMax" value="195" />
+		<property name="ffmpegImageOutWidthMax" value="487" />
+		<property name="setExposureTimeCmd" value="fastpil3.freerun.start(%f)" />
+	</bean>
+
+	<bean id="dictionary" class="java.util.Hashtable">
+		<constructor-arg>
+			<map>
+				<entry key="SERVICE_NAME" value="fastpil3" />
+			</map>
+		</constructor-arg>
+	</bean>
+	
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="fastpil3Controller" />
+		<property name="properties" ref="dictionary" />
+	</bean>
+
+</beans>

@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="tb3xcoarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB3XcoarseMotor" />
+	</bean>
+	<bean id="tb3zcoarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB3ZcoarseMotor" />
+	</bean>
+	<bean id="tb3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB3XMotor" />
+	</bean>
+	<bean id="tb3y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB3YMotor" />
+	</bean>
+
+	<bean id="tb3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tb3xcoarse" />
+				<ref bean="tb3zcoarse" />
+				<ref bean="tb3x" />
+				<ref bean="tb3y" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

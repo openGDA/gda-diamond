@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="DCMBraggMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL1:BRAGG" />
+	</bean>
+	<bean id="DCMXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:X" />
+	</bean>
+	<bean id="DCMBstopMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:BEAMSTOP" />
+	</bean>
+	<bean id="DCMY1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL1:Y1" />
+	</bean>
+	<bean id="DCMY2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL1:Y2" />
+	</bean>
+	<bean id="DCMY3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL1:Y3" />
+	</bean>
+	<bean id="DCMYawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL2:YAW" />
+	</bean>
+	<bean id="DCMPitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL2:PITCH1" />
+	</bean>
+	<bean id="DCMRollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL2:ROLL" />
+	</bean>
+	<bean id="DCMYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:XTAL2:Y" />
+	</bean>
+	<bean id="DCMBaseHeightMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:HEIGHT" />
+	</bean>
+	<bean id="DCMBasePitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:PITCH" />
+	</bean>
+	<bean id="DCMBaseRollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-DCM-01:ROLL" />
+	</bean>
+
+</beans>

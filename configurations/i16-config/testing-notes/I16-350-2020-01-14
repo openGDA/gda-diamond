@@ -1,0 +1,142 @@
+2020-01-14 (live) Testing hdf5 file writing
+
+--------------------------------- Baseline test with tif only
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.000000 path: 82397 maxx: 212 maxy: 56 maxval: 2.000000 sum: -12
+>>> kphiZebraPos=kphiZebra()
+>>> scan kphi kphiZebraPos-1 kphiZebraPos+1 1 pil3_100k 0.1
+=== Scan started: Tue Jan 14 17:36:59 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='806998-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/806998.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/806998.dat
+  kphi	       kap	     kth	       kmu	    kdelta	      kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	      rc	count_time	path	maxx	maxy	  maxval	sum
+56.045	-134.75703	57.04516	6.0952e-06	0.00084979	5.0770e-07	                0	471.595	1579023421.646	  5.006661	298.7057	  0.100000	   1	   0	   0	0.000000	-22
+57.045	-134.75703	57.04516	2.0585e-06	0.00084979	4.5444e-06	                0	472.771	1579023422.822	  4.731888	298.6965	  0.100000	   2	   0	   0	0.000000	-22
+58.045	-134.75703	57.04516	2.0585e-06	0.00084979	5.0770e-07	                0	473.957	1579023424.008	  4.823479	298.6847	  0.100000	   3	   0	   0	0.000000	-22
+Scan complete.
+=== Scan ended: Tue Jan 14 17:37:04 2020. Elapsed time: 5 seconds
+   maxval: At kphi = 56.045 (maxpos), pil3_100k.sum maxval = -22.0. 
+   minval: At kphi = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphi = 57.045 (com), pil3_100k.sum stddev = 0.666666666667. 
+   peak:   Exception: ValueError('There is no peak',)
+   lcen:   At kphi = 54.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 60.045 (rcen), pil3_100k.sum .
+
+--------------------------------- With tif + hdf5
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.000000 path: 82398 maxx: 0 maxy: 0 maxval: 0.000000 sum: -22
+>>> kphiZebraPos=kphiZebra()
+>>> scan kphi kphiZebraPos-1 kphiZebraPos+1 1 pil3_100k 0.1
+=== Scan started: Tue Jan 14 17:45:13 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='806999-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/806999.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/806999.dat
+  kphi	       kap	     kth	       kmu	    kdelta	      kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	      rc	count_time	path	maxx	maxy	  maxval	sum
+56.045	-134.75703	57.04516	6.0952e-06	0.00084979	5.0770e-07	                0	189.789	1579023916.549	  5.006661	299.5953	  0.100000	   1	   0	   0	0.000000	-22
+57.045	-134.75703	57.04516	6.0952e-06	0.00084979	-3.5290e-06	                0	191.314	1579023918.074	  5.128766	299.5869	  0.100000	   2	   0	   0	0.000000	-22
+58.045	-134.75703	57.04516	2.0585e-06	0.00084979	5.0770e-07	                0	192.838	1579023919.597	  5.159281	299.5755	  0.100000	   3	   0	   0	0.000000	-22
+Warning: gda.scan.endscan.neworder must be True to create hdf links
+Scan complete.
+=== Scan ended: Tue Jan 14 17:45:19 2020. Elapsed time: 6 seconds
+   maxval: At kphi = 56.045 (maxpos), pil3_100k.sum maxval = -22.0. 
+   minval: At kphi = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphi = 57.045 (com), pil3_100k.sum stddev = 0.666666666667. 
+   peak:   Exception: ValueError('There is no peak',)
+   lcen:   At kphi = 54.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 60.045 (rcen), pil3_100k.sum . 
+
+>>> pos kphi kphiZebraPos
+Move completed: kphi : 57.045
+
+--------------------------------- With tif + hdf5 - after defaulting gda.scan.endscan.neworder to True in NxProcessingDetectorWrapper
+
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.000000 path: 82400 maxx: 216 maxy: 14 maxval: 2.000000 sum: -5
+>>> kphiZebraPos=kphiZebra()
+>>> scan kphi kphiZebraPos-1 kphiZebraPos+1 1 pil3_100k 0.1
+=== Scan started: Tue Jan 14 18:08:41 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+Image location: pilatus3_100k_path_template='807001-pilatus3_100k-files/%05d.tif
+Writing data to file (NeXus): /dls/i16/data/2020/cm26473-1/807001.nxs
+Writing data to file: /dls/i16/data/2020/cm26473-1/807001.dat
+  kphi	       kap	     kth	       kmu	    kdelta	      kgam	delta_axis_offset	TimeSec	 TimeFromEpoch	ic1monitor	      rc	count_time	path	maxx	maxy	  maxval	sum
+56.045	-134.75718	57.04516	6.0952e-06	0.00084979	4.5444e-06	                0	104.863	1579025324.080	  5.006661	298.5471	  0.100000	   1	   0	   0	0.000000	-22
+57.045	-134.75717	57.04516	2.0585e-06	0.00084979	4.5444e-06	                0	106.393	1579025325.611	  5.342463	298.5370	  0.100000	   2	   0	   0	0.000000	-22
+58.045	-134.75717	57.04516	2.0585e-06	0.00084979	8.5811e-06	                0	107.752	1579025326.969	  5.220357	298.5288	  0.100000	   3	   0	   0	0.000000	-22
+Creating HDF Links
+Scan complete.
+=== Scan ended: Tue Jan 14 18:08:47 2020. Elapsed time: 6 seconds
+   maxval: At kphi = 56.045 (maxpos), pil3_100k.sum maxval = -22.0. 
+   minval: At kphi = 56.045 (minpos), pil3_100k.sum minval = -22.0. 
+   com:    At kphi = 57.045 (com), pil3_100k.sum stddev = 0.666666666667. 
+   peak:   Exception: ValueError('There is no peak',)
+   lcen:   At kphi = 54.045 (lcen), pil3_100k.sum . 
+   rcen:   At kphi = 60.045 (rcen), pil3_100k.sum . 
+
+>>> pos kphi kphiZebraPos
+Move completed: kphi : 57.045
+
+--------------------------------- With hdf5 only
+
+>>> scan kphi kphiZebraPos-1 kphiZebraPos+1 1 pil3_100k 0.1
+=== Scan started: Tue Jan 14 17:52:31 2020
+Getting meta data before scan
+Collecting metadata from: kgam kdelta delta_offset kap kphi kth kmu dummypd mrwolf diffractometer_sample source jjslits pa PPR positions gains_atten mirrors beamline_slits mono lakeshore offsets s7xgap s7xtrans s7ygap s7ytrans ppy ppx ppchi ppth1 ppz1 ppth2 ppz2 ppyaw pppitch ppchitemp ppth1temp ppz1temp ppth2temp ppz2temp p2 dettrans en psi alpha beta xtlinfo
+Metadata collection complete
+===Injection mode pausing is enabled: TimeToInjection must exceed 5
+====================================================================================================
+Exception: during scan collection: DeviceException: Array index out of range: 1
+Error occurred when closing data file(s): 
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "/dls_sw/i16/software/gda_versions/gda_9.15b/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 161, in __call__
+    scan.runScan()
+  File "/dls_sw/i16/software/gda_versions/gda_9.15b/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 161, in __call__
+    scan.runScan()
+
+java.lang.Exception: during scan collection: DeviceException: Array index out of range: 1
+>>> pos pil3_100k 1
+Move completed: pil3_100k : count_time: 0.100000 path: 82399 maxx: 90 maxy: 169 maxval: 2.000000 sum: -18
+
+--------------------------------- Comparing nexus files
+
+module load dasctools
+module load kdiff3
+
+nexus.tree /dls/i16/data/2020/cm26473-1/806998.nxs > 806998.nxs.tree	# tif
+nexus.tree /dls/i16/data/2020/cm26473-1/806999.nxs > 806999.nxs.tree	# tif+hdf5 gda.scan.endscan.neworder assumed false
+nexus.tree /dls/i16/data/2020/cm26473-1/807001.nxs > 807001.nxs.tree	# tif+hdf5 gda.scan.endscan.neworder assumed true
+kdiff3 *.nxs.tree
+
+ 	root:NXroot
+ 	  entry1:NXentry
+ 	    instrument:NXinstrument
+=	      pil3_100k:NXdetector
+ 	        ...
++	        data -> 807001-pilatus3_100k-files/807001.hdf['/entry/instrument/detector/data']
+=	    pil3_100k:NXdetector
+ 	      ...
++	      data -> 807001-pilatus3_100k-files/807001.hdf['/entry/instrument/detector/data']
+
+--------------------------------- Tests
+
+pos pil3_100k 1 # At start to check pil3 is running Ok
+
+kphiZebraPos=kphiZebra()
+scan kphi kphiZebraPos-1 kphiZebraPos+1 1 pil3_100k 0.1
+pos kphi kphiZebraPos
+
+pos pil3_100k 1 # After any scan failures to make sure it's still running

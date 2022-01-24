@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+
+
+
+	<bean id="DMMBragg1Motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="deg" />
+	</bean>
+	<bean id="DMMBragg2Motor" class="gda.device.motor.DummyMotor" >
+		<property name="unitString" value="deg" />
+	</bean>
+	<bean id="DMMZ2Motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="mm"/>
+		<property name="speed" value="50" />
+	</bean>
+	<bean id="DMMY1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMRoll2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMX1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMX2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMJack1Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMJack2Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMJack3Motor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMXMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="10" />
+	</bean>
+	<bean id="DMMYawMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMPitchMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMRollMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMYMotor" class="gda.device.motor.DummyMotor" />
+
+</beans>

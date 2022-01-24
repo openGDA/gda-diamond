@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="zebra2"
+			class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL16I-MO-DIFF-01:ZEB2:"/>
+		<property name="armPutNoWait" value="True" />
+	</bean>
+
+	<bean id="kthZebraContinuousMoveController"
+			class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra2"/>
+		<property name="mode" value="1"/>
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="minimumAccelerationDistance" value="0.008"/>
+	</bean>
+
+	<bean id="kthZebra"
+			class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="sixcKthEpicsMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="kthZebraContinuousMoveController"/>
+		<property name="pcEnc" value="0"/>
+		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
+	</bean>
+</beans>

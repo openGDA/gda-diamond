@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gsax_horiz_gap" class="gda.device.motor.DummyMotor" />
+
+	<bean id="gsax_horiz_pos" class="gda.device.motor.DummyMotor" />
+
+	<bean id="gsax_vert_gap" class="gda.device.motor.DummyMotor" />
+
+	<bean id="gsax_vert_pos" class="gda.device.motor.DummyMotor" />
+
+	<bean id="gsax_blade_y" class="gda.device.motor.DummyMotor" />
+
+	<bean id="gsax_beamstop_y" class="gda.device.motor.DummyMotor" />
+
+	<bean id="gsax_beamstop_x" class="gda.device.motor.DummyMotor" />
+
+	<import resource="../../_common/transient/gsaxs.xml" />
+
+</beans>

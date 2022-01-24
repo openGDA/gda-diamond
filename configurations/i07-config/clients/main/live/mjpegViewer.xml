@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<context:property-placeholder
+		location="file:${gda.config}/properties/live/java.properties" />
+
+
+<!-- setup CameraView -->
+       <bean id="analyser_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="Analyser Camera Preview" />
+              <property name="exposurePV" value="ELECTRON-ANALYSER-01:TEST:AcquireTime" />
+              <property name="acqPeriodPV" value="ELECTRON-ANALYSER-01:TEST:AcquirePeriod" />
+              <property name="gainPV" value="ELECTRON-ANALYSER-01:TEST:Gain" />
+              <property name="acquirePV" value="ELECTRON-ANALYSER-01:TEST:Acquire" />
+              <property name="urlPV" value="ELECTRON-ANALYSER-01:MPG:MJPG_URL_RBV" />
+       </bean>
+       <bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+              <property name="cameras">
+                     <list>
+                           <ref bean="analyser_cam_config" />
+                     </list>
+              </property>
+              <property name="plotViewID" value="Plot 2" />
+       </bean>
+
+</beans>

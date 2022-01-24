@@ -1,0 +1,279 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="mlmXtal1Bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMBragg1Motor" />
+	</bean>
+	<bean id="mlmXtal2Bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMBragg2Motor" />
+	</bean>
+	<bean id="mlmXtal2Roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMRoll2Motor" />
+	</bean>
+	<bean id="mlmXtal1Y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMY1Motor" />
+	</bean>
+	<bean id="mlmXtal2Z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMZ2Motor" />
+	</bean>
+	<bean id="mlmX1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMX1Motor" />
+	</bean>
+	<bean id="mlmX2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMX2Motor" />
+	</bean>
+	<bean id="mlmJack1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMJack1Motor" />
+	</bean>
+	<bean id="mlmJack2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMJack2Motor" />
+	</bean>
+	<bean id="mlmJack3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMJack3Motor" />
+	</bean>
+	<bean id="mlmX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMXMotor" />
+	</bean>
+	<bean id="mlmYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMYawMotor" />
+	</bean>
+	<bean id="mlmBasePitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMPitchMotor" />
+	</bean>
+	<bean id="mlmBaseRoll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMRollMotor" />
+	</bean>
+	<bean id="mlmBaseHeight" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DMMYMotor" />
+	</bean>
+
+	<bean id="mlm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mlmXtal1Bragg" />
+				<ref bean="mlmXtal2Bragg" />
+				<ref bean="mlmXtal2Roll" />
+				<ref bean="mlmXtal1Y" />
+				<ref bean="mlmXtal2Z" />
+				<ref bean="mlmX1" />
+				<ref bean="mlmX2" />
+				<ref bean="mlmJack1" />
+				<ref bean="mlmJack2" />
+				<ref bean="mlmJack3" />
+				<ref bean="mlmX" />
+				<ref bean="mlmYaw" />
+				<ref bean="mlmBasePitch" />
+				<ref bean="mlmBaseRoll" />
+				<ref bean="mlmBaseHeight" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="_RuB4C_Xtal1Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_RuB4C_Xtal1Bragg_converter" />
+		<constructor-arg value="RuB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_RuB4C_Xtal2Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_RuB4C_Xtal2Bragg_converter" />
+		<constructor-arg value="RuB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="2" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_RuB4C_Xtal2Z_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_RuB4C_Xtal2Z_converter" />
+		<constructor-arg value="RuB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="3" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_RuB4C_Xtal2Roll_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_RuB4C_Xtal2Roll_converter" />
+		<constructor-arg value="RuB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="4" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_RuB4C_XtalXTrans_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_RuB4C_XtalXTrans_converter" />
+		<constructor-arg value="RuB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="5" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+
+	<bean id="_NiB4C_Xtal1Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_NiB4C_Xtal1Bragg_converter" />
+		<constructor-arg value="NiB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_NiB4C_Xtal2Bragg_converter" class="gda.util.converters.LookupTableConverterHolder" >
+		<constructor-arg value="_NiB4C_Xtal2Bragg_converter" />
+		<constructor-arg value="NiB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="2" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_NiB4C_Xtal2Z_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_NiB4C_Xtal2Z_converter" />
+		<constructor-arg value="NiB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="3" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_NiB4C_Xtal2Roll_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_NiB4C_Xtal2Roll_converter" />
+		<constructor-arg value="NiB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="4" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+	<bean id="_NiB4C_XtalXTrans_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="_NiB4C_XtalXTrans_converter" />
+		<constructor-arg value="NiB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="5" />
+		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
+	</bean>
+
+
+	<bean id="_RuB4C_Xtal1Bragg" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal1Bragg" />
+		<property name="convertor" ref="_RuB4C_Xtal1Bragg_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_RuB4C_Xtal2Bragg" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Bragg" />
+		<property name="convertor" ref="_RuB4C_Xtal2Bragg_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_RuB4C_Xtal2Z" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Z" />
+		<property name="convertor" ref="_RuB4C_Xtal2Z_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_RuB4C_Xtal2Roll" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Roll" />
+		<property name="convertor" ref="_RuB4C_Xtal2Roll_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_RuB4C_X" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmX" />
+		<property name="convertor" ref="_RuB4C_XtalXTrans_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+
+	<bean id="_NiB4C_Xtal1Bragg" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal1Bragg" />
+		<property name="convertor" ref="_NiB4C_Xtal1Bragg_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_NiB4C_Xtal2Bragg" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Bragg" />
+		<property name="convertor" ref="_NiB4C_Xtal2Bragg_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_NiB4C_Xtal2Z" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Z" />
+		<property name="convertor" ref="_NiB4C_Xtal2Z_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_NiB4C_Xtal2Roll" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Roll" />
+		<property name="convertor" ref="_NiB4C_Xtal2Roll_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="_NiB4C_X" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmX" />
+		<property name="convertor" ref="_NiB4C_XtalXTrans_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+
+
+	<bean id="_NiB4C" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="_NiB4C_Xtal1Bragg"/>
+				<ref bean="_NiB4C_Xtal2Bragg"/>
+				<ref bean="_NiB4C_Xtal2Z"/>
+				<ref bean="_NiB4C_Xtal2Roll"/>
+				<ref bean="_NiB4C_X" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+	</bean>
+	<bean id="_RuB4C" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="_RuB4C_Xtal1Bragg"/>
+				<ref bean="_RuB4C_Xtal2Bragg"/>
+				<ref bean="_RuB4C_Xtal2Z"/>
+				<ref bean="_RuB4C_Xtal2Roll"/>
+				<ref bean="_RuB4C_X" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction"></bean>
+				<bean class="gda.function.IdentityFunction"></bean>
+				<bean class="gda.function.IdentityFunction"></bean>
+				<bean class="gda.function.IdentityFunction"></bean>
+				<bean class="gda.function.IdentityFunction"></bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="_ab0Toggle" class="gda.device.scannable.TogglerScannable">
+		<constructor-arg ref="ab0" />
+		<property name="startValue" value="Close" />
+		<property name="endValue" value="Open" />
+		<property name="hook">
+			<!-- <value>#{T(gda.device.scannable.TogglerScannable$Hook).AT_LEVEL}</value>-->
+			<value>AT_LEVEL</value>
+		</property>
+	</bean>
+	
+	<bean id="RuB4C" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="_RuB4C" />
+				<ref bean="_ab0Toggle" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="NiB4C" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="_NiB4C" />
+				<ref bean="_ab0Toggle" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

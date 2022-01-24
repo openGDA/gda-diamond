@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ppchiMotor"
+			class="gda.device.motor.EpicsMotor">
+	<!-- 
+			class="gda.device.motor.EpicsReadyMotor">
+	 -->
+		<property name="pvName" value="BL16I-OP-PPR-01:CHI" />
+	</bean>
+
+	<bean id="ppth1Motor"
+			class="gda.device.motor.EpicsReadyMotor">
+	<!-- 
+			class="gda.device.motor.EpicsMotor">
+	 -->
+		<property name="pvName" value="BL16I-OP-PPR-01:S1:THETA" />
+	</bean>
+
+	<bean id="pppiezo1Motor"
+		class="gda.device.motor.DummyMotor">
+	<!-- 
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="?" />
+	 -->
+	</bean>
+
+	<bean id="ppz1Motor"
+			class="gda.device.motor.EpicsMotor">
+	<!-- 
+			class="gda.device.motor.EpicsReadyMotor">
+	 -->
+		<property name="pvName" value="BL16I-OP-PPR-01:S1:Z" />
+	</bean>
+
+	<bean id="ppth2Motor"
+			class="gda.device.motor.EpicsMotor">
+	<!-- 
+			class="gda.device.motor.EpicsReadyMotor">
+	 -->
+		<property name="pvName" value="BL16I-OP-PPR-01:S2:THETA" />
+	</bean>
+
+	<bean id="pppiezo2Motor"
+		class="gda.device.motor.DummyMotor">
+	<!-- 
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="?" />
+	 -->
+	</bean>
+
+	<bean id="ppz2Motor"
+			class="gda.device.motor.EpicsMotor">
+	<!-- 
+			class="gda.device.motor.EpicsReadyMotor">
+	 -->
+		<property name="pvName" value="BL16I-OP-PPR-01:S2:Z" />
+	</bean>
+</beans>

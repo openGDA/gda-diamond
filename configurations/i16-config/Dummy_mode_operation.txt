@@ -1,0 +1,50 @@
+--------------------------------------------------------------------------------
+Running GDA in dummy mode on i16
+--------------------------------------------------------------------------------
+To run in dummy mode from the IDE, you need to use:
+
+activemq-for-dummy
+
+--------------------------------------------------------------------------------
+In order to get localStation.py to run in dummy mode, we have to copy several
+databases of values to the gda_var_non_live directory in the root of the
+deployment:
+
+--------------------------------------------------------------------------------
+cd /dls_sw/i16/software/gda # For example
+cp -R /dls_sw/i16/software/gda_versions/var/oldStyleShelveIO gda_var_non_live
+cp -R /dls_sw/i16/software/gda_versions/var/nff              gda_var_non_live
+cp /dls_sw/i16/software/gda_versions/var/reffilename.log     gda_var_non_live
+
+--------------------------------------------------------------------------------
+#### To run up the Simulated Area Detector ####
+
+Diamond Launcher > Utilities > GDA AreaDetector Simulation
+
+Then click on "Start IOC".
+
+Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
+
+--------------------------------------------------------------------------------
+Once in GDA run the commands
+
+run('lab84/essential_positions.py')
+reset_namespace
+
+so that everything which relies on these essential positions can be created.
+
+To check they have all been set, you can run
+
+pos delta_axis_offset cry_offset dcmharmonic ref_offset bragg_offset idgap_offset uharmonic delta_offset eta_offset
+
+--------------------------------------------------------------------------------
+Run a few scans to check basic operation
+
+scan stokes 1 2 1	# Check out a standard GDA scannable dummy motor
+scan dummy 1 2 1	# Check i16s dummy scannable
+scan eta 1 2 1		# Check out a standard GDA scannable field
+pos pil3_100k 1
+scan eta 1 2 1 pil3_100k 1.5
+
+--------------------------------------------------------------------------------
+

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Light Source Beamline B16">
+         <property
+               name="appName"
+               value="Diamond Light Source Beamline B16">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+         name="preferenceCustomization"
+         value="platform:/plugin/uk.ac.gda.beamline.b16/plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+            <editor
+            class="uk.ac.diamond.scisoft.analysis.rcp.editors.HDF5TreeEditor"
+            default="false"
+            extensions="h5, hdf5, nxs"
+            icon="icons/hdf.gif"
+            id="uk.ac.diamond.scisoft.analysis.rcp.editors.HDF5TreeEditor"
+            name="HDF5 Data Editor">
+      </editor>
+      
+      
+   </extension>
+  
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.b16.B16PcoPerspective"
+            icon="icons/DetectorParametersIcon.png"
+            id="uk.ac.gda.beamline.b16.B16PcoPerspective"
+            name="PCO Perspective">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.beamline.b16.B16ScanPerspective"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.gda.beamline.b16.B16ScanPerspective"
+            name="B16 Scan Perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <perspectiveShortcut
+               id="uk.ac.gda.beamline.b16.B16ScanPerspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Fluorescence detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XMap"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XMap2"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector2">
+               </parameter>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.activities">
+      <defaultEnablement
+            id="uk.ac.gda.epics.adviewer.disableviews">
+      </defaultEnablement>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector"
+            name="Xmap Fluorescence Detector"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector2"
+            name="Xmap Fluorescence Detector 2"
+            restorable="true">
+      </view>
+   </extension>
+</plugin>

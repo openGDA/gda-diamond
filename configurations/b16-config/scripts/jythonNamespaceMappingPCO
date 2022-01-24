@@ -1,0 +1,31 @@
+#This file is used by beamline_parameters.jythonNamespaceMapping based on
+# setting the local property to point to it
+
+tomography_theta=tomoTheta
+#tomography_theta=ss1_rot_dummy
+
+tomography_shutter=ehshutter
+#tomography_shutter=eh_shtr_dummy
+
+tomography_translation=gtbX2
+#tomography_translation=ss1_X_dummy
+
+tomography_detector=pcoedge
+#tomography_detector=pco1_sw_tif
+#tomography_detector=pco1_sw_hdf
+
+tomography_time=actualTime
+
+#tomography_normalisedImage_detector=pco1_hw_tif
+
+# fly scan to HDF5
+tomography_flyscan_theta=zebraSM1
+tomography_flyscan_det=flyScanDetector
+tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
+
+# fly scan to TIFF
+#tomography_flyscan_theta=zebraSM1
+#tomography_flyscan_det=flyScanDetectorTIF
+#tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorTIF
+
+tomography_sample_stage=dummy_x

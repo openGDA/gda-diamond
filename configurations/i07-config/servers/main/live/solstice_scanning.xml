@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		This file contains objects which are required to use GDA Solstice Scanning scanning system.
+		I07 is not using the common config (under dls-config) because it is not suitable to run the DataServer
+		within the GDA Server process due to limitations of the HDF5 library - in particular the single threaded
+		access limitation.
+	</description>
+
+	<!-- Device Servlet -->
+	<bean id="deviceServlet" class="org.eclipse.scanning.server.servlet.DeviceServlet" init-method="connect">
+		<property name="broker" value="${gda.activemq.broker.uri}" />
+	</bean>
+
+	<!-- This starts a scanServlet which handles new style scan requests arriving over ActiveMQ -->
+	<bean id="scanServlet" class="org.eclipse.scanning.server.servlet.ScanServlet" init-method="connect">
+		<property name="broker" value="${gda.activemq.broker.uri}" />
+	</bean>
+
+	<bean id="acquireServlet" class="org.eclipse.scanning.server.servlet.AcquireServlet" init-method="connect">
+		<property name="broker" value="${gda.activemq.broker.uri}" />
+	</bean>
+	
+	<bean id="positionerServlet" class="org.eclipse.scanning.server.servlet.PositionerServlet" init-method="connect">
+		<property name="broker" value="${gda.activemq.broker.uri}" />
+	</bean>
+</beans>

@@ -1,0 +1,7 @@
+#device code bestvalue type(1 for val=0,1, 2 val>best, 3 for val<best, 4 val=x, <0 for epix code, val=6 dev()=[val1,val2]) 
+#Examples
+#shutter2 shutter 1 1 
+#SampleSlits_hgap2 s5hgap 0.001 2
+#IonChamber2 ic1 800 4
+#attenuation2 atten 0 6
+#New devices added from this line

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+export BEAMLINE=i07
+export GDA_MODE=dummy
+
+. gda_setup_env_test gda_client_output
+
+export GDA_CLIENT=$GDA_ROOT/client/gda-${BEAMLINE}
+export GDA_CLIENT_LOG_DIR=$GDA_CONFIG/dummy_dir/logs
+
+VMARGS="-Dgda.mode=$GDA_MODE $VMARGS"
+VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/$GDA_MODE $VMARGS"
+VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/$GDA_MODE/java.properties $VMARGS"
+VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/$GDA_MODE/JCALibrary.properties $VMARGS"
+VMARGS="-Dgda.logs.dir=$GDA_CONFIG/dummy_dir/logs $VMARGS"
+VMARGS="-Dgda.data=$GDA_CONFIG/dummy_dir/data $VMARGS"
+VMARGS="-Dgda.var=$GDA_CONFIG/dummy_dir/var $VMARGS"
+
+export GDA_CLIENT_VMARGS=$VMARGS
+
+echo GDA_ROOT = $GDA_ROOT
+echo GDA_CLIENT_LOG_DIR = $GDA_CLIENT_LOG_DIR
+echo GDA_CONFIG = $GDA_CONFIG, BEAMLINE= $BEAMLINE
+echo GDA_MODE = $GDA_MODE
+echo GDA_CLIENT = $GDA_CLIENT
+
+#unset BEAMLINE
+cd $GDA_ROOT/client
+
+#JAVA_OPTS="-Xms128m -Xmx1024m" $GDA_CORE_SCRIPT client --mode=dummy $@
+$GDA_CLIENT_SCRIPT --keep --nohup $GDA_CONSOLE_LOG $*
