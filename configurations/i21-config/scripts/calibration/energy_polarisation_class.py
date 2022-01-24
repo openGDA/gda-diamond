@@ -194,19 +194,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         else:
             gap, polarisation, phase = self.getIDPositions()
             energy=float(self.pgmenergy.getPosition())
-            if polarisation in X_RAY_POLARISATIONS[:-2]:
-                if self.polarisationConstant:
-                    return energy
-                elif self.energyConstant:
-                    self.setOutputFormat(["%s"])
-                    self.polarisation = polarisation
-                    return polarisation
-                else:
-                    self.setOutputFormat(["%10.6f","%s"])
-                    self.polarisation = polarisation
-                    return energy, polarisation
                     
-            elif polarisation in X_RAY_POLARISATIONS[-2:]:
+            if polarisation in X_RAY_POLARISATIONS[-2:]:
                 polarisation_angle = self.idlamlookup.getEnergyPolarisation(gap, phase)[0]
                 if self.inputSignSwitched:
                     polarisation_angle = -polarisation_angle
@@ -221,6 +210,17 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     self.setOutputFormat(["%10.6f", "%3.2f"])
                     self.polarisation = polarisation_angle
                     return energy, polarisation_angle
+            else:
+                if self.polarisationConstant:
+                    return energy
+                elif self.energyConstant:
+                    self.setOutputFormat(["%s"])
+                    self.polarisation = polarisation
+                    return polarisation
+                else:
+                    self.setOutputFormat(["%10.6f","%s"])
+                    self.polarisation = polarisation
+                    return energy, polarisation
             
 
     def validatePolarisation(self, polarisation_angle):
