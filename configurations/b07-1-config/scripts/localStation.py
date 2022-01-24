@@ -43,6 +43,37 @@ from scannables.rga21 import rga21, rga21AR, rga21CF3, rga21CH2, rga21CH3, rga21
 from scannables.rga24 import rga24, rga24AR, rga24CF3, rga24CH2, rga24CH3, rga24CH4, rga24CO, rga24CO2, rga24H2, rga24H2O, rga24HE, rga24O2, rga24sumofpeaks, rga24tot  # @UnusedImport
 
 from scannables.PLV1000 import plv1, plv2  # @UnusedImport
+
+print("-"*100)
+print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
+from metadata.metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
+import metadata.metashop as metashop  # @UnusedImport
+
+print("-"*100)
+import installation
+meta_data_list = [] #other common metadata can be added here if required!
+if installation.isLive():
+    meta_data_list = meta_data_list +[rga]  # @UndefinedVariable
+    end_station_configuration = caget("BL07C-EA-ENDST-01:CFG:HW_RBV")
+    if end_station_configuration == 1: #TPOT
+        print("add TPOT metadata scannables to be captured in data files.")
+        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_rotation] #@UndefinedVariable
+    if end_station_configuration == 2: #TCUP
+        print("add TCUP metadata scannables to be captured in data files.")
+        meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
+else:
+    from java.lang import System
+    spring_profiles = System.getProperty("gda.spring.profiles.active")
+    if "TPOT" in spring_profiles:
+        print("add TPOT metadata scannables to be captured in data files.")
+        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_rotation] #@UndefinedVariable
+    if "TCUP" in spring_profiles:
+        print("add TCUP metadata scannables to be captured in data files.")
+        meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
+
+for each in meta_data_list:
+    meta_add(each)
+
 # Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""

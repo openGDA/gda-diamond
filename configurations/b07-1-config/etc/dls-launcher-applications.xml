@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launcher>
+<!-- These launchers call scripts located in /dls_sw/prod/etc/Launcher they are a tempory workaround for the new config and should be 
+updated when its possible to directly call gda from here.-->
+    <button text="Start b07-1 GDA Client" command="gda" args="--start client" icon="cgda.png"/>
+	<!-- This launcher uses the absolute path as the startgdaclient.sh script doesn't pass arguments -->
+    <button text="Start b07-1 GDA Client (Reset Workspace)" command="gda" args="--start client --reset" icon="cgda.png"/>
+    <button text="Start b07-1 GDA Servers" command="startgdaservers.sh" icon="sgda.png"/>
+    <button text="Start b07-1 GDA Log Panel" command="gda" args="--start logpanel" icon="lgda.png"/>
+<!-- Beamline Tools -->
+    <button text="Start Dawn" command="/dls_sw/apps/DawnDiamond/bin/dawn_release.sh" icon="/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"/>
+    <button text="Start Dawn (Reset Workspace)"  command="/dls_sw/apps/DawnDiamond/bin/dawn_release.sh" args="--reset" icon="/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"/>
+    <!--<button text="SPECS Analyser PC" command="xfreerdp b07-1-nap150 -u b07-1detector -d DIAMOND -T 'SPECS Analyser PC' -p '!b07-1d3t3ct0r#' -g 1900x1100" icon="/dls_sw/b07-1/etc/preferences-desktop-remote-desktop.png"/>-->
+    <button text="SPECS Analyser PC" command="xfreerdp --ignore-certificate -a 24 -g 1800x1100 -d DIAMOND -u b07-1detector -k en-gb -p '!b07-1d3t3ct0r#' b07-1-nap150" icon="/dls_sw/b07-1/etc/preferences-desktop-remote-desktop.png"/>
+    <button text="GDA Client (Reset Workspace)" command="/dls_sw/b07-1/software/gda/bin/gdaclient" args="--reset" icon="cgda.png"/>
+    <button text="Start b07-1 GDA Servers" command="/dls_sw/b07-1/software/gda/bin/gdaservers" icon="sgda.png"/>
+</launcher>

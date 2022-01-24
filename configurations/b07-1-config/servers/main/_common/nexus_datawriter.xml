@@ -76,18 +76,6 @@
 				<value>m5c_pitch</value>
 				<value>m5c_roll</value>
 				<value>m5c_yaw</value>
-				<!-- sample manipulator -->
-				<value>sm_xp</value>
-				<value>sm_yp</value>
-				<value>sm_zp</value>
-				<value>sm_rotation</value>
-				<!-- TCUP 
-				<value>sm2_xp</value>
-				<value>sm2_yp</value>
-				<value>sm2_zp</value>
-				<value>sm2_xpc</value>
-				<value>sm2_ypc</value>
-				<value>sm2_zpc</value>-->
 				<!--  analyser -->
 				<value>analyser_sledge</value>
 				<!-- sample temperature -->
@@ -140,8 +128,6 @@
 				<value>SR830_time_constant</value>
 				<value>SR830_channel_one</value>
 				<value>SR830_channel_two</value>
-				<!-- Hiden RGA -->
-				<value>rga</value>
 			</set>
 		</property>
 	</bean>

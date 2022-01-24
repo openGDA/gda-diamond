@@ -1,12 +1,14 @@
 #!/bin/bash
-# The local gda script is required to be on the path until the Diamond Launcher scripts in
-# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
-# this cannot be done until all beamlines use the standard startup commands.
+# The local gda script is required to be on the path 
 
-#############
-# @DEPRECATED
-#############
-#
-# This script should not be added to as it is being phased out
 gda --start logpanel
-gda servers $*
+
+HW_RBV=`caget BL07C-EA-ENDST-01:CFG:HW_RBV`
+
+if grep -q 'TPOT' <<< "$HW_RBV"; then
+	gda servers --springprofiles=TPOT $*
+elif grep -q 'TCUP' <<< "$HW_RBV"; then
+	gda servers --springprofiles=TCUP $*
+else
+	gda servers $*
+fi
