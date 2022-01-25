@@ -28,7 +28,7 @@ from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFr
 from gda.data.scan.datawriter import *
 from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 from org.eclipse.january.dataset import DatasetUtils
-from org.eclipse.january.dataset import Dataset
+from org.eclipse.january.dataset import DoubleDataset
 from gda.configuration.properties import LocalProperties
 from gda.commandqueue import JythonScriptProgressProvider
 from gda.commandqueue import JythonCommandCommandProvider
@@ -476,9 +476,9 @@ image_key_project=0 # also known as sample
 #             dataset = nxdata.getDataset();
 # 
 #             # Convert images to floating point for manipulation
-#             dark = DatasetUtils.copy(getSingleImage(dataset, 0), Dataset.FLOAT64)
-#             flat = DatasetUtils.copy(getSingleImage(dataset, imagesPerDark), Dataset.FLOAT64)
-#             image = DatasetUtils.copy(getSingleImage(dataset, imagesPerDark + imagesPerFlat), Dataset.FLOAT64)
+#             dark = DatasetUtils.copy(DoubleDataset, getSingleImage(dataset, 0))
+#             flat = DatasetUtils.copy(DoubleDataset, getSingleImage(dataset, imagesPerDark))
+#             image = DatasetUtils.copy(DoubleDataset, getSingleImage(dataset, imagesPerDark + imagesPerFlat))
 #             found = True
 # 
 #         except:
