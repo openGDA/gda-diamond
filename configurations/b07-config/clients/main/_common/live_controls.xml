@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="s4b_ygapsize_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="S4b_y gapsize " />
+		<property name="scannableName" value="s4b_ygapsize" />
+		<property name="group" value="." />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.01" />
+		<property name="showStop" value="false" />
+	</bean>
+	
+ 	<bean id="pss_shutter1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="PSS Shutter 1 " />
+		<property name="scannableName" value="pss_shutter1_con" />
+		<property name="group" value="." />
+		<property name="showStop" value="false" />
+	</bean>
+	 	
+	<bean id="pss_shutter2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="PSS Shutter 2 " />
+		<property name="scannableName" value="pss_shutter2_con" />
+		<property name="group" value="." />
+		<property name="showStop" value="false" />
+	</bean>
+	
+	<bean id="fast_shutter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Fast Shutter " />
+		<property name="scannableName" value="fast_shutter_con" />
+		<property name="group" value="." />
+		<property name="showStop" value="false" />
+	</bean>
+	
+	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Photon Energy " />
+		<property name="group" value="." />
+		<property name="scannableName" value="pgm_energy" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="eV" />
+		<property name="increment" value="50" />
+	</bean>
+
+	<bean id="cff_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="CFF " />
+		<property name="group" value="." />
+		<property name="scannableName" value="pgm_cff" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.2" />
+	</bean>	
+	
+	<bean id="grating_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Grating " />
+		<property name="group" value="." />
+		<property name="scannableName" value="pgm_grating" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.2" />
+	</bean>	
+	
+	<bean id="ca35b_sensitivity_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca35b sensitivity " />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca35b_sensitivity" />
+		<property name="showStop" value="false" />
+	</bean>		
+	
+	<bean id="ca35b_sensitivity_units_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca35b sensitivity units" />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca35b_sensitivity_units" />
+		<property name="showStop" value="false" />
+	</bean>	
+	
+	<bean id="ca35b_adc_output_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca35b ADC output" />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca35b_adc_output" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean>	
+	
+	<bean id="ca36b_sensitivity_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca36b sensitivity " />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca36b_sensitivity" />
+		<property name="showStop" value="false" />
+	</bean>
+	
+	<bean id="ca36b_sensitivity_units_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca36b sensitivity units " />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca36b_sensitivity_units" />
+		<property name="showStop" value="false" />
+	</bean>	
+	
+	<bean id="ca36b_adc_output_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca36b ADC output" />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca36b_adc_output" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean>	
+	
+	<bean id="sm21b_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM21b_X " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm21b_x" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="sm21b_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM21b_Y " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm21b_y" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="sm21b_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM21b_Z " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm21b_z" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="sm21b_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM21b_Rot " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm21b_roty" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+
+	<bean id="img22_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="IMG 22 " />
+		<property name="group" value="...." />
+		<property name="scannableName" value="img22b" />
+	 	<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="50" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean>
+
+	<bean id="img23_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="IMG 23 " />
+		<property name="group" value="...." />
+		<property name="scannableName" value="img23b" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="50" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean>
+
+	<bean id="cap21_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="CAP 21 " />
+		<property name="group" value="...." />
+		<property name="scannableName" value="cap21b" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="50" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean>
+
+	<bean id="cap22_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="CAP 22 " />
+		<property name="group" value="...." />
+		<property name="scannableName" value="cap22b" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="50" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean>
+	
+	<bean id="endstation_configurations_control" class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
+		<property name="group" value="....."/>
+		<property name="scripts">
+			<map>
+				<entry key="Open beamline" value="/dls_sw/b07/scripts/Beamline/BL_ready_GDA_DG.py"/>
+				<entry key="Close beamline" value="/dls_sw/b07/scripts/Beamline/vent_ES2_GDA_DG.py"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="s4b_ygapsize_control" />
+			 	<ref bean="pss_shutter1_control" />
+				<ref bean="pss_shutter2_control" /> 
+				<ref bean="fast_shutter_control" />
+				<ref bean="photon_energy_control" />
+				<ref bean="cff_control" />
+				<ref bean="grating_control" />
+				<ref bean="sm21b_x_control" />
+				<ref bean="sm21b_y_control" />
+				<ref bean="sm21b_z_control" />
+				<ref bean="sm21b_rot_control" />
+				<ref bean="ca35b_sensitivity_control" />
+				<ref bean="ca35b_sensitivity_units_control" />
+				<ref bean="ca35b_adc_output_control" />
+				<ref bean="ca36b_sensitivity_control" />
+				<ref bean="ca36b_sensitivity_units_control" />
+				<ref bean="ca36b_adc_output_control" />
+				<ref bean="img22_control" />
+				<ref bean="img23_control" />
+				<ref bean="cap21_control" />
+				<ref bean="cap22_control" />
+				<ref bean="endstation_configurations_control" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

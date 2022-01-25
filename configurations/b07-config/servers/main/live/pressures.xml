@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- pressures.xml -->
+	<bean id="img22b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-IMG-22:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+	
+	<bean id="img23b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-IMG-23:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<bean id="cap21b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-CAPG-21:AV" />
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
+	<bean id="cap22b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-CAPG-22:AV" />
+		<property name="outputFormat" value="%.1f" />
+	</bean>
+	
+
+</beans>

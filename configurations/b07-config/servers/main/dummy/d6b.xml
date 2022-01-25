@@ -19,7 +19,7 @@
 		</property>
 	</bean>
 
-	<bean id="d6c_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="d6b_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Out of Beam</value>
@@ -29,7 +29,7 @@
 		</property>
 	</bean>
 
-	<bean id="d6c_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="d6b_y_motor" class="gda.device.motor.DummyMotor"/>
 	
 	<bean class="gda.device.scannable.DummyScannable" id="d6b_cam1_centroid_x"/>
 	<bean class="gda.device.scannable.DummyScannable" id="d6b_cam1_centroid_y"/>

@@ -19,6 +19,7 @@
 
 	<bean id="s4b_ygapsize" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s4b_ysize_motor" />
+		<property name="outputFormat" value="%.3f" />
 	</bean>
 
 	<!-- Slits z along the beam -->
