@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:c="http://www.springframework.org/schema/c"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -6,9 +7,25 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="tth" live-pvName="BL11I-MO-DIFF-01:2THETA"/>
+	<bean id="diffractometer_manager" class="gda.device.scannable.RestrictedScannableManager" >
+		<property name="scannables">
+			<list>
+				<bean class="gda.device.scannable.RestrictedScannableManager.ParkableScannable" c:park="40" >
+					<constructor-arg name="scannable">
+						<gda:imotor id="tth" live-pvName="BL11I-MO-DIFF-01:2THETA" tolerances="0.1" />
+					</constructor-arg>
+				</bean>
+				<bean class="gda.device.scannable.RestrictedScannableManager.ParkableScannable" c:park="70" >
+					<constructor-arg name="scannable">
+						<gda:imotor id="delta" live-pvName="BL11I-MO-DIFF-01:DELTA" tolerances="0.1" />
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="tth" factory-bean="diffractometer_manager" factory-method="getScannable" c:name="tth" />
+	<bean id="delta" factory-bean="diffractometer_manager" factory-method="getScannable" c:name="delta" />
 	<gda:motor id="theta" live-pvName="BL11I-MO-DIFF-01:THETA"/>
-	<gda:motor id="delta" live-pvName="BL11I-MO-DIFF-01:DELTA"/>
 	<gda:motor id="xtr1" live-pvName="BL11I-MO-DIFF-01:BASE:X1"/>
 	<gda:motor id="xtr2" live-pvName="BL11I-MO-DIFF-01:BASE:X2"/>
 	<gda:motor id="y1" live-pvName="BL11I-MO-DIFF-01:BASE:Y1"/>
