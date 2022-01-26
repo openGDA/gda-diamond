@@ -1,0 +1,31 @@
+<geometry>
+	<detector name="pilatus1">
+		<axis name="fast">
+			<vector>
+				<element>0.71913792</element>
+				<element>-0.01268184</element>
+				<element>-0.69475173</element>
+			</vector>
+			<size>0.172</size>
+			<units>mm</units>
+		</axis>
+		<axis name="slow">
+			<vector>
+				<element>0.01197813</element>
+				<element>0.99991113</element>
+				<element>-0.00585358</element>
+			</vector>
+			<size>0.172</size>
+			<units>mm</units>
+		</axis>
+		<position name="origin">
+			<vector>
+				<element>50.399277</element>
+				<element>-17.955830</element>
+				<element>525.948355</element>
+			</vector>
+			<size>1</size>
+			<units>mm</units>
+		</position>
+	</detector>
+</geometry>

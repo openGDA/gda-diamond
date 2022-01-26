@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<included>
+	<!-- Classes for which INFO messages are excessive
+	 -->
+
+	<!-- Classes for which DEBUG messages are excessive
+	<logger name="gda.device.motor.EpicsMotor">											<level value="INFO"/></logger>
+	<logger name="gda.device.motor.MoveEventQueue">										<level value="INFO"/></logger>
+	<logger name="gda.epics.connection.EpicsController">								<level value="INFO"/></logger>
+	<logger name="gda.factory">															<level value="INFO"/></logger>
+	 -->
+
+	<!-- Classes for which TRACE messages are excessive
+	<logger name="gda.device.zebra.ZebraConstantVelocityMoveController">				<level value="DEBUG"/></logger>
+	<logger name="gda.epics.LazyPVFactory">												<level value="DEBUG"/></logger>
+	<logger name="gda.observable.ObservableComponent">									<level value="DEBUG"/></logger>
+	<logger name="org.eclipse.scanning.api.event.scan.ScanRequest">						<level value="DEBUG"/></logger>
+	 -->
+
+	<!-- Classes where we want all messages
+	 -->
+</included>

@@ -1,0 +1,122 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<bean id="cam3_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL24B-DI-CAM-03:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="cam3_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="cam3_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+
+
+	<!-- NXDetector file writers -->
+
+	<bean id="cam3_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL24B-DI-CAM-03:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="cam3_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="cam3_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="cam3_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL24B-DI-CAM-03:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL24B-DI-CAM-03:TIFF:" />
+			</bean>
+		</property>
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="cam3_filewriter_tif"
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="cam3" />
+		<property name="ndFile" ref="cam3_ndfiletif" />
+		<property name="keyNameForMetadataPathTemplate" value="cam3_path_template" />
+		<property name="writeErrorStatusSupported" value="false" />
+		<property name="waitForFileArrival" value="false" />
+	</bean>
+
+	<bean id="cam3_filewriter_hdf5"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="cam3_ndfilehdf5" />
+		<property name="fileNameTemplate" value="cam3" />
+		<property name="filePathTemplate" value="$datadir$/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks 
+			is 64 -->
+	</bean>
+
+
+	<!-- ROI stats -->
+	<bean id="cam3_plotserver_roi_provider"
+		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="cam3_hdf" />
+		<constructor-arg value="1" />
+	</bean>
+
+	<bean id="cam3_roistat"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="BL24B-DI-CAM-03:ROI1:" />
+		<property name="baseStatsPVName" value="BL24B-DI-CAM-03:STAT1:" />
+		<property name="roiInputNdArrayPort" value="cam3.roi.roi1" />
+<!-- 		<property name="enabledBasicStats" value="MaxValue,Total" /> -->
+		<property name="enabledCentroidStats" value="CentroidX,CentroidY" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi">
+					<bean id="simple_roi"
+						class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
+						<constructor-arg value="0" />
+						<constructor-arg value="0" />
+						<constructor-arg value="1292" />
+						<constructor-arg value="964" />
+						<constructor-arg value="simple_roi" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+
+	<!-- NXDetectors -->
+<!-- ROIstat plugin does not seem to work correctly for this detector yet... -->
+	<bean id="cam3_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam3_hdf" />
+		<property name="collectionStrategy" ref="cam3_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam3_filewriter_hdf5" />
+<!-- 				<ref bean="cam3_roistat" /> -->
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cam3_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam3_tif" />
+		<property name="collectionStrategy" ref="cam3_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam3_filewriter_tif" />
+				<!-- <ref bean="cam3_roistat" /> -->
+			</list>
+		</property>
+	</bean>
+</beans>
+	

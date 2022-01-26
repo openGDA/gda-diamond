@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file allows facilities to customise logging. e.g. if they want it all to be logged to a central server -->
+
+<included>
+	<!-- Classes for which INFO messages are excessive
+	 -->
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>
+
+	<!-- Classes for which DEBUG messages are excessive
+	 -->
+
+	<!-- Classes for which TRACE messages are excessive
+	 -->
+	<logger name="gda.events.jms.JmsEventReceiver">										<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">						<level value="DEBUG"/></logger>
+	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq" level="INFO" />
+	<logger name="org.apache.activemq.ActiveMQMessageConsumer">							<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.thread.PooledTaskRunner">							<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.util.ClassLoadingAwareObjectInputStream">			<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.daq.concurrent.Async">									<level value="DEBUG"/></logger>
+
+	<!-- Classes where we want all messages
+	 -->
+	<logger name="gda.device.detector.areadetector">									<level value="ALL"/></logger>
+	<logger name="I16NexusExtender">													<level value="ALL"/></logger>
+
+	<!-- If this file exists it allows you to customise logging levels for each config -->
+	<include file="${gda.config}/properties/${gda.mode}/logging_customisation.xml" />
+</included>

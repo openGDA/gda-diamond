@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="lakeshore_controller" class="gda.device.temperature.EpicsLakeshore340Controller">
+		<property name="pvName" value="BL07I-EA-LS-01:" />
+		<property name="configureAtStartup" value="true"/>
+		<property name="readbackChannel" value="2" />
+	</bean>
+	<bean id="lakeshore_base" class="gda.device.temperature.GdaLakeshore340">
+		<property name="controller" ref="lakeshore_controller"/>
+		<property name="EpicsLakeshore340ControllerName" value="lakeshore_controller" />
+		<property name="configureAtStartup" value="true"/>
+		<property name="probe" value="probe" />
+		<property name="accuracy" value="1.0" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="360" />
+		<property name="lowerTemp" value="-20.0" />
+	</bean>
+
+</beans>

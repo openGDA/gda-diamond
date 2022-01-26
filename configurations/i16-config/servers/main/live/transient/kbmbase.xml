@@ -1,0 +1,109 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="kbmbaseX1Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:X1" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbaseX2Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:X2" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbaseX3Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:X3" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbaseY1Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:Y1" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbaseY2Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:Y2" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbaseY3Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:Y3" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbaseX1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmbaseX1Motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	
+	<bean id="kbmbaseX2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmbaseX2Motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	
+	<bean id="kbmbaseX3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmbaseX3Motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbaseY1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmbaseY1Motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	
+	<bean id="kbmbaseY2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmbaseY2Motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	
+	<bean id="kbmbaseY3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbmbaseY3Motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="kbmbase" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kbmbaseX1" />
+				<ref bean="kbmbaseX2" />
+				<ref bean="kbmbaseX3" />
+				<ref bean="kbmbaseY1" />
+				<ref bean="kbmbaseY2" />
+				<ref bean="kbmbaseY3" />
+			</list>
+		</property>
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+</beans>

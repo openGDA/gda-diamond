@@ -1,0 +1,3 @@
+#!/bin/bash
+
+zenity --warning --width 300 --text="GDA 9 no longer supports the swing GUI"

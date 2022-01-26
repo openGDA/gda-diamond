@@ -1,0 +1,10 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="ebe_controller" class="gda.device.evaporator.epics.EpicsEvaporatorController" >
+		<property name="pvBase" value="BL07I-EA-EBE-01" />
+		<property name="pocketCount" value="4" />
+	</bean>
+</beans>

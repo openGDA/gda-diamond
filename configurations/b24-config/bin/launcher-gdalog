@@ -1,0 +1,7 @@
+#!/bin/bash
+
+gdalog --foreground
+
+
+# Block to help launcher start background process (the --foreground above does not always work) RobW
+sleep 5

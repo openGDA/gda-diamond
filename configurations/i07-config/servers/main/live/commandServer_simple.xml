@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths">
+			<bean class="gda.jython.ScriptPaths">
+				<property name="projects">
+					<list>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="/dls_sw/i07/scripts"></property>
+							<property name="name" value="Scripts: User"></property>
+							<property name="type" value="USER"></property>
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.config}/scripts"></property>
+							<property name="name" value="Scripts: Config"></property>
+							<property name="type" value="CONFIG"></property>
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts"></property>
+							<property name="name" value="Scripts: Core"></property>
+							<property name="type" value="CORE"></property>
+						</bean>
+					    
+					    <bean class="gda.jython.ScriptProject">
+					        <property name="path" value="${gda.install.git.loc}/gda-epics.git/uk.ac.gda.epics/scripts" />
+					        <property name="name" value="Scripts: EPICS" />
+					        <property name="type" value="CORE" />
+					    </bean>
+					    
+					</list>
+				</property>
+				<property name="startupScript" value="${gda.config}/scripts/localStationSimple.py"></property>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

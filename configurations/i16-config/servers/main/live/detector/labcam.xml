@@ -1,0 +1,145 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- AD hardware -->
+
+	<bean id="labcam_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL16I-EA-DET-30:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="labcam_nxcollectionstrategy_for_hardware_triggering"
+		class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
+		<constructor-arg ref="labcam_adbase" />
+		<constructor-arg value=".003" />
+		<property name="readAcquisitionPeriod" value="true" />
+		<property name="readAcquisitionTime" value="true" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<!-- NXDetectors -->
+<!-- 	 <bean id="fastpil1_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider"> -->
+<!-- 	 	<constructor-arg value="fastpil1" /> -->
+<!-- 		<constructor-arg value="6" /> -->
+<!-- 	 </bean> -->
+
+	 <bean id="labcam_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
+	 	<constructor-arg ref="labcam_adbase" />
+	 </bean>
+
+	<bean id="labcam" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="labcam" />
+		<property name="hardwareTriggerProvider" value="#{pie.continuousMoveController}" />
+		<property name="collectionStrategy" ref="labcam_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+<!-- 				<ref bean="labcam_nxfilewriter_for_hardware_triggering" /> -->
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+					<property name="pluginName" value="roistats1" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-30:ROI1:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-30:STAT1:" />
+					<property name="roiInputNdArrayPort" value="I16CAM" />
+					<property name="enabledBasicStats" value="MaxValue,Total" />
+					<property name="oneTimeSeriesCollectionPerLine" value="false" />
+					
+<!-- 					<property name="roiProvider"> -->
+<!-- 						<bean -->
+<!-- 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 							<constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
+<!-- 							<constructor-arg value="0" /> -->
+<!-- 						</bean> -->
+<!-- 					</property> -->
+				</bean>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+					<property name="pluginName" value="roistats2" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-30:ROI2:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-30:STAT2:" />
+					<property name="roiInputNdArrayPort" value="I16CAM" />
+					<property name="enabledBasicStats" value="MaxValue,Total" />
+					<property name="oneTimeSeriesCollectionPerLine" value="false" />
+<!-- 					<property name="roiProvider"> -->
+<!-- 						<bean -->
+<!-- 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 							<constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
+<!-- 							<constructor-arg value="1" /> -->
+<!-- 						</bean> -->
+<!-- 					</property> -->
+				</bean>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+					<property name="pluginName" value="roistats3" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-30:ROI3:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-30:STAT3:" />
+					<property name="roiInputNdArrayPort" value="I16CAM" />
+					<property name="enabledBasicStats" value="MaxValue,Total" />
+					<property name="oneTimeSeriesCollectionPerLine" value="false" />
+<!-- 					<property name="roiProvider"> -->
+<!-- 						<bean -->
+<!-- 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 							<constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
+<!-- 							<constructor-arg value="2" /> -->
+<!-- 						</bean> -->
+<!-- 					</property> -->
+				</bean>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+					<property name="pluginName" value="roistats4" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-30:ROI4:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-30:STAT4:" />
+					<property name="roiInputNdArrayPort" value="I16CAM" />
+					<property name="enabledBasicStats" value="MaxValue,Total" />
+					<property name="oneTimeSeriesCollectionPerLine" value="false" />
+<!-- 					<property name="roiProvider"> -->
+<!-- 						<bean -->
+<!-- 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 							<constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
+<!-- 							<constructor-arg value="3" /> -->
+<!-- 						</bean> -->
+<!-- 					</property> -->
+				</bean>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+					<property name="pluginName" value="roistats5" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-30:ROI5:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-30:STAT5:" />
+					<property name="roiInputNdArrayPort" value="I16CAM" />
+					<property name="enabledBasicStats" value="MaxValue,Total" />
+					<property name="oneTimeSeriesCollectionPerLine" value="false" />
+<!-- 					<property name="roiProvider"> -->
+<!-- 						<bean -->
+<!-- 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 							<constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
+<!-- 							<constructor-arg value="4" /> -->
+<!-- 						</bean> -->
+<!-- 					</property> -->
+				</bean>
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+					<property name="pluginName" value="roistats6" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-30:ROI6:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-30:STAT6:" />
+					<property name="roiInputNdArrayPort" value="I16CAM" />
+					<property name="enabledBasicStats" value="MaxValue,Total" />
+					<property name="oneTimeSeriesCollectionPerLine" value="false" />
+<!-- 					<property name="roiProvider"> -->
+<!-- 						<bean -->
+<!-- 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+<!-- 							<constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
+<!-- 							<constructor-arg value="5" /> -->
+<!-- 						</bean> -->
+<!-- 					</property> -->
+				</bean>
+				<ref bean="labcam_freerun_controller" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

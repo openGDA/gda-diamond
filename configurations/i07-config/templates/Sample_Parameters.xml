@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<I18SampleParameters>
+    <SampleStage>
+   		<x>2.5</x>
+    	<y>3.8</y>
+    	<z>4.5</z>
+    </SampleStage>
+    
+	<Attenuator1>
+        <name>D7B</name>
+		<position>2 mm Al</position>
+        <position>0.1 mm Al</position>
+        <position>0.05 mm Al</position>
+        <position>0.8 mm Al</position>
+        <position>0.75 mm Al</position>
+        <position>0.55 mm Al</position>
+        <position>0.5 mm Al</position>
+        <position>0.3 mm Al</position>
+        <position>0.25 mm Al</position>
+        <position>Gap</position>
+        <position>1.5 mm Al</position>
+        <position>1.25 mm Al</position>
+        <selectedPosition>Gap</selectedPosition>
+	</Attenuator1>  
+	 
+	<Attenuator2>
+		<name>D7B</name>
+		<position>Fluorescence</position>
+        <position>ni drain</position>
+        <position>au drain</position>
+        <position>al drain</position>
+        <position>gap</position>
+        <position>in line diode</position>
+        <selectedPosition>al drain</selectedPosition>
+	</Attenuator2>   
+
+</I18SampleParameters>

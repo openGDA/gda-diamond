@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="psu">
+
+	<bean id="psu_controller" class="uk.ac.gda.devices.tenma.Psu722931EpicsController">
+		<constructor-arg name="basePvName" value="BL16B-EA-TENMA-01:" />
+	</bean>
+
+</beans>

@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="AEROPIEYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-ATCH-01:Y" />
+	</bean>
+
+	<bean id="aeropiezo" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="AEROPIEYMotor" />
+	</bean>
+
+</beans>

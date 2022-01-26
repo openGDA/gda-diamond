@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="zebra_smargon"
+			class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL16I-MO-SGON-01:ZEB10:"/>
+		<property name="armPutNoWait" value="True" />
+	</bean>
+
+	<bean id="smargonZebraContinuousMoveController"
+			class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra_smargon"/>
+		<property name="mode" value="1"/>
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="minimumAccelerationDistance" value="0.008"/>
+	</bean>
+
+	<!-- Virtual Motors -->
+
+	<bean id="sgphiZebra"
+			class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="SGphiMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
+		<property name="pcEnc" value="3"/>
+		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
+	</bean>
+
+	<bean id="sgomegaZebra"
+			class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="SGomegaMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
+		<property name="pcEnc" value="1"/>
+		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
+	</bean>
+
+	<!-- Real Motors -->
+
+	<bean id="sgphiRealZebra"
+			class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="SGphiRealMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
+		<property name="pcEnc" value="3"/>
+		<property name="scurveTimeToVelocity" value=".1"/> <!-- From ACCL -->
+	</bean>
+
+	<bean id="sgomegaRealZebra"
+			class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="SGomegaRealMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="smargonZebraContinuousMoveController"/>
+		<property name="pcEnc" value="1"/>
+		<property name="scurveTimeToVelocity" value=".1"/> <!-- From ACCL -->
+	</bean>
+
+</beans>

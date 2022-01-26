@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- xyz Stage for the Pilatus 2M -->
+
+	<bean id="stagex" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="stagex" />
+		<property name="motor" ref="stagex_motor" />
+	</bean>
+
+	<bean id="stagey" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="stagey" />
+		<property name="motor" ref="stagey_motor" />
+	</bean>
+
+	<bean id="stagez" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="stagez" />
+		<property name="motor" ref="stagez_motor" />
+	</bean>
+
+	<bean id="STAGE" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="STAGE" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="stagex" />
+				<ref bean="stagey" />
+				<ref bean="stagez" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

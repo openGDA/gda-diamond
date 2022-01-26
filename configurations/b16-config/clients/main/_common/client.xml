@@ -1,0 +1,108 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.core.dir}/properties/core_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+
+
+	<!--  ${gda.factory.factoryName} -->
+
+<!-- 
+	<bean id="Message" class="gda.util.LogPanel">
+		<property name="name" value="Message"/>
+	</bean>
+	<bean id="Debug" class="gda.util.LogPanel">
+		<property name="name" value="Debug"/>
+	</bean>
+-->
+
+<!-- 
+	<bean id="JythonEditor" class="gda.jython.gui.JythonEditor">
+		<property name="name" value="JythonEditor"/>
+	</bean>
+	
+	<bean id="JythonTerminal" class="gda.jython.gui.JythonTerminalAcqPanel">
+		<property name="name" value="JythonTerminal"/>
+		<property name="numberInitialGraphs" value="1"/>
+		<property name="extraGraphs" value="true"/>
+	</bean>
+ -->
+
+	<!--  GeneralScanPanale not moved over from castor -->
+
+<!-- 
+	<bean id="Vortex" class="gda.gui.mca.McaGUI">
+		<property name="label" value="Vortex"/>
+		<property name="mcaName" value="vortexMca"/>
+		<property name="adcName" value="vortexAdc"/>
+		<property name="tcaName" value="vortexTca"/>
+	</bean>
+	
+	<bean id="Data_Vector" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="Data Vector" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Secondary_Plot" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="Secondary Plot" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="Detector_Plot" class="gda.gui.dv.DataVectorPlot">
+		<property name="label" value="Detector Plot" />
+		<property name="mainPlotPosition" value="West" />
+		<property name="panelList">
+			<list>
+				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
+				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
+				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
+				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
+			</list>
+		</property>
+	</bean>
+ -->
+
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+</beans>

@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- ============================== EH 2 EPICS Devices ============== -->
+
+	<!-- Mono Beam Slits MBS4 Motors -->
+	<bean id="MotorXPos_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:CENTER" />
+	</bean>
+
+
+	<!-- Tube Slits 2 (TS2) Motors -->
+	<bean id="MotorXPos_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:CENTER" />
+	</bean>
+
+	<!-- Diffractometer 2 (DIFF2) Motors -->
+	<bean id="MotorBASEX_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:X" />
+	</bean>
+	<bean id="MotorBASEY_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y" />
+	</bean>
+
+	<bean id="MotorBASEY1_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y1" />
+	</bean>
+
+	<bean id="MotorBASEY2_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y2" />
+	</bean>
+
+	<bean id="MotorOMEGA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:OMEGA" />
+	</bean>
+	<bean id="MotorALPHA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:ALPHA" />
+	</bean>
+	<bean id="MotorDELTA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:DELTA" />
+	</bean>
+	<bean id="MotorGAMMA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:GAMMA" />
+	</bean>
+
+
+	<bean id="MotorDROT_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:D_ROT" />
+	</bean>
+	<bean id="MotorDETROT_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:NU_PIL" />
+	</bean>
+	<bean id="MotorNU2_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:NU_DET" />
+	</bean>
+	<bean id="MotorNU1_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:VAC_ROT" />
+	</bean>
+	<!-- <bean id="MotorSLIT_DIFF2" class="gda.device.motor.EpicsMotor"> <property
+		name="pvName" value="BL07I-MO-DIFF-02:SL-DET1" /> </bean> <bean
+	id="MotorSLITVR_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:SL-VR" /> </bean> -->
+
+	<bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:PITCH" />
+	</bean>
+
+
+
+	<!-- Detector Slits DETS3 Motors -->
+	<bean id="MotorXPos_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:CENTER" />
+	</bean>
+
+	<!-- Detector Slits DETS4 Motors -->
+	<bean id="MotorXPos_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:CENTER" />
+	</bean>
+
+
+	<!-- Hexapod2 Motors -->
+	<bean id="MotorX_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-HEX-02:X" />
+	</bean>
+	<bean id="MotorY_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-HEX-02:Y" />
+	</bean>
+	<bean id="MotorZ_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-HEX-02:Z" />
+	</bean>
+	<bean id="MotorRX_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-HEX-02:RX" />
+	</bean>
+	<bean id="MotorRY_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-HEX-02:RY" />
+	</bean>
+	<bean id="MotorRZ_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-HEX-02:RZ" />
+	</bean>
+
+	<bean id="llimg" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-IMG-31:P" />
+	</bean>
+	<bean id="llpirg" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-PIRG-31:P" />
+	</bean>
+	<bean id="bcimg" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-IMG-30:P" />
+	</bean>
+	<bean id="bcpirg" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-PIRG-30:P" />
+	</bean>
+	<bean id="bcionp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-IONP-30:P" />
+	</bean>
+	<bean id="xrdimg" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-IMG-32:P" />
+	</bean>
+	<bean id="xrdpirg" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-PIRG-32:P" />
+	</bean>
+	<bean id="xrdionp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-VA-IONP-31:P" />
+	</bean>
+
+
+	<!-- EH2 Eurotherm Devices -->
+
+	<bean id="evap1temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-01:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="evap1temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="evap1temp_controller" />
+	</bean>
+
+	<bean id="evap2temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-02:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="evap2temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="evap2temp_controller" />
+	</bean>
+
+	<bean id="xrdtemp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-03:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="xrdtemp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="xrdtemp_controller" />
+	</bean>
+
+	<bean id="bctemp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-04:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="bctemp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="bctemp_controller" />
+	</bean>
+
+	<bean id="evap3temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-05:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="evap3temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="evap3temp_controller" />
+	</bean>
+
+	<!-- Monitor for Pyrometer temperature -->
+	<bean id="pyrotemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-PYRO-01:TEMP" />
+	</bean>
+
+
+	<!-- EBC - Electron Beam Heater -->
+
+
+	<bean id="ebcec" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-EBC-01:EmissionCurrent_RBV" />
+	</bean>
+
+	<bean id="ebctemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-EBC-01:Temp_RBV" />
+	</bean>
+
+	<bean id="ebcbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL07I-EA-EBC-01:BombardmentVoltage" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
+
+	<bean id="ebcfc" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL07I-EA-EBC-01:FilamentCurrent" />
+		<property name="readPV" value="BL07I-EA-EBC-01:FilamentCurrent_RBV" />
+	</bean>
+
+	<bean id="ebcremote" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-EBC-01:Remote" />
+		<property name="readOnly" value="false" />
+	</bean>
+
+	<bean id="ebcpid" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-EBC-01:PIDCONTROL" />
+		<property name="readOnly" value="false" />
+	</bean>
+
+	<bean id="ebcpidcontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-EBC-01:PID.FBON" />
+		<property name="readOnly" value="false" />
+	</bean>
+
+	<bean id="ebcsetpoint" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL07I-EA-EBC-01:PID.VAL" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
+
+
+</beans>

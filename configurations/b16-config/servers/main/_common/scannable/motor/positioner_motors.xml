@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!-- positioner motors -->
+
+	<bean id="diag3mot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D3Motor" />
+	</bean>
+	<bean id="diag4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="D4Motor" />
+	</bean>
+	<bean id="att1usmot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="A1usMotor" />
+	</bean>
+	<bean id="att1dsmot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="A1dsMotor" />
+	</bean>
+	<bean id="att2mot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="A2Motor" />
+	</bean>
+	
+	<bean id="posn" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="diag3mot" />
+				<ref bean="diag4" />
+				<ref bean="att1usmot" />
+				<ref bean="att1dsmot" />
+				<ref bean="att2mot" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

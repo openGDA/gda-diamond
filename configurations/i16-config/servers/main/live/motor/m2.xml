@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="M2BMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:BEND" />
+	</bean>
+	<bean id="M2PitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:PITCH" />
+	</bean>
+	<bean id="M2XMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:X" />
+	</bean>
+	<bean id="M2YMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:Y" />
+	</bean>
+	<bean id="M2YawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:YAW" />
+	</bean>
+	<bean id="M2RollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:ROLL" />
+	</bean>
+	<bean id="M2UTransMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:X1" />
+	</bean>
+	<bean id="M2DTransMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:X2" />
+	</bean>
+	<bean id="M2UJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:Y1" />
+	</bean>
+	<bean id="M2DIJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:Y2" />
+	</bean>
+	<bean id="M2DOJackMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-OP-HFM-01:Y3" />
+	</bean>
+
+</beans>

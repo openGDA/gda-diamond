@@ -1,0 +1,4 @@
+Units ch ch/ch
+#Values from Platinum and Gold
+0 0
+10000 10000

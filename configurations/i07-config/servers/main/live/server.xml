@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+
+	<import resource="slits.xml" />
+
+	<import resource="server_epics.xml" />
+	<import resource="eh2_epics.xml" />
+
+	<!-- Pilatus using the AreaDetector Interface -->
+
+	<import resource="fastpil1.xml" />
+	<import resource="fastpil2.xml" />
+	<import resource="fastpil3.xml" />
+
+	<import resource="pilatus1_824.xml" />
+	<import resource="pilatus2_824.xml" />
+	<import resource="pilatus3_824.xml" />
+
+	<import resource="mpxAreaDetector.xml" />
+
+	<!-- <import resource="devices_KB2.xml" /> -->
+
+	<import resource="ebe.xml" />
+
+	<!-- GigE cams -->
+	<import resource="detectors/dcam1.xml" />
+	<import resource="detectors/dcam2.xml" />
+	<import resource="detectors/dcam3.xml" />
+	<import resource="detectors/dcam4.xml" />
+	<import resource="detectors/dcam5.xml" />
+	<import resource="detectors/dcam6.xml" />
+	<import resource="detectors/dcam7.xml" />
+	<import resource="detectors/dcam8.xml" />
+	<import resource="detectors/xrayeye.xml" />
+	<import resource="detectors/d1cam.xml" />
+	<import resource="detectors/d1acam.xml" />
+	<import resource="detectors/d4cam.xml" />
+
+	<!-- Main detectors -->
+	<import resource="detectors/pilatus1.xml" />
+	<import resource="detectors/pilatus2.xml" />
+	<import resource="detectors/pilatus3.xml" />
+	<import resource="detectors/excalibur.xml" />
+
+	<import resource="detectors/malcolm.xml" />
+
+	<import resource="devices/*.xml" />
+
+	<import resource="server_core.xml" />
+	
+	<import resource="transient.xml" />
+	
+	
+	<import resource="../_common/server.xml" />
+
+	<import resource="lakeshore.xml" />
+
+	<!--
+	<import resource="pie.xml" />
+	<import resource="zone_plates.xml" />
+	-->
+
+	<import resource="solstice_scanning.xml"/>
+
+	<import resource="commandQueueProcessor.xml" />
+</beans>

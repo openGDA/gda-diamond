@@ -1,0 +1,14 @@
+Updated 8 May 2008
+
+Description of Icons:
+"Restart GDA Server"    ( or command GDA_RemoteStart_Lin ) - restarts the backend processes. 
+	The expected output of this command is:
+	nohup: appending output to `nohup.out'
+	Connection to i06-control.diamond.ac.uk closed.
+"Start GDA Client"      ( or command GDA_StartClient     ) - start the client. This can only be done once the background servers have started fully.
+
+
+If you stop the GUI then you do NOT have to restart the Server.  Stopping the GUI does not stop the GDA server.
+
+
+

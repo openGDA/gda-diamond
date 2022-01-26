@@ -1,0 +1,239 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="xmapFluorescenceDetector2"
+			class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter">
+		<constructor-arg index="0" ref="xmapMca2" />
+		<constructor-arg index="1" value="1" />
+		<property name="name" value="xmapFluorescenceDetector2" />
+	</bean>
+
+	<bean id="xmap2_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
+		<property name="name" value="xmap_dxp" />
+
+		<property name="recordPVs">
+			<map>
+				<entry key="ACQUIRE" value="BL16B-EA-XMAP-02:Acquire" />
+				<entry key="STARTALL" value="BL16B-EA-XMAP-02:StartAll" />
+				<entry key="STOPALL" value="BL16B-EA-XMAP-02:StopAll" />
+				<entry key="ERASESTART" value="BL16B-EA-XMAP-02:EraseStart" />
+				<entry key="ERASEALL" value="BL16B-EA-XMAP-02:EraseAll" />
+				<entry key="SETRESUME" value="BL16B-EA-XMAP-02:Resume" />
+				<entry key="SETPRESETVALUE" value="BL16B-EA-XMAP-02:PresetValue" />
+				<entry key="SETPRESETTYPE" value="BL16B-EA-XMAP-02:PresetMode" />
+				<entry key="COLLECTMODE" value="BL16B-EA-XMAP-02:CollectMode" />
+				<entry key="PIXELADVANCEMODE" value="BL16B-EA-XMAP-02:PixelAdvanceMode" />
+				<entry key="IGNOREGATE" value="BL16B-EA-XMAP-02:IgnoreGate" />
+				<entry key="AUTOPIXELSPERBUFFER" value="BL16B-EA-XMAP-02:AutoPixelsPerBuffer" />
+				<entry key="PIXELSPERBUFFER" value="BL16B-EA-XMAP-02:PixelsPerBuffer" />
+				<entry key="PIXELSPERRUN" value="BL16B-EA-XMAP-02:PixelsPerRun" />
+				<entry key="ACQUIRING" value="BL16B-EA-XMAP-02:Acquiring" />
+				<entry key="SETPEAKTIME1" value="BL16B-EA-XMAP-02:DXP1:PeakingTime" />
+				<entry key="GETPEAKTIME1" value="BL16B-EA-XMAP-02:DXP1:PeakingTime_RBV" />
+				<entry key="GETDYNRANGE1" value="BL16B-EA-XMAP-02:DXP1:DynamicRange_RBV" />
+				<entry key="SETTRIGTHRESH1" value="BL16B-EA-XMAP-02:DXP1:TriggerThreshold" />
+				<entry key="GETTRIGTHRESH1" value="BL16B-EA-XMAP-02:DXP1:TriggerThreshold_RBV" />
+				<entry key="SETBASETHRESH1" value="BL16B-EA-XMAP-02:DXP1:BaselineThreshold" />
+				<entry key="GETBASETHRESH1" value="BL16B-EA-XMAP-02:DXP1:BaselineThreshold_RBV" />
+				<entry key="SETBASELENGTH1" value="BL16B-EA-XMAP-02:DXP1:BaselineFilterLength" />
+				<entry key="GETBASELENGTH1" value="BL16B-EA-XMAP-02:DXP1:BaselineFilterLength_RBV" />
+				<entry key="SETENERGYTHRESH1" value="BL16B-EA-XMAP-02:DXP1:EnergyThreshold" />
+				<entry key="GETENERGYTHRESH1" value="BL16B-EA-XMAP-02:DXP1:EnergyThreshold_RBV" />
+				<entry key="SETADCPERCENT1" value="BL16B-EA-XMAP-02:DXP1:ADCPercentRule" />
+				<entry key="GETADCPERCENT1" value="BL16B-EA-XMAP-02:DXP1:ADCPercentRule_RBV" />
+				<entry key="GETBINWIDTH1" value="BL16B-EA-XMAP-02:DXP1:MCABinWidth_RBV" />
+				<entry key="SETMAXENERGY1" value="BL16B-EA-XMAP-02:DXP1:MaxEnergy" />
+				<entry key="GETMAXENERGY1" value="BL16B-EA-XMAP-02:DXP1:MaxEnergy_RBV" />
+				<entry key="SETPREAMPGAIN1" value="BL16B-EA-XMAP-02:DXP1:PreampGain" />
+				<entry key="GETPREAMPGAIN1" value="BL16B-EA-XMAP-02:DXP1:PreampGain_RBV" />
+				<entry key="SETRESETDELAY1" value="BL16B-EA-XMAP-02:DXP1:ResetDelay" />
+				<entry key="GETRESETDELAY1" value="BL16B-EA-XMAP-02:DXP1:ResetDelay_RBV" />
+				<entry key="SETGAPTIME1" value="BL16B-EA-XMAP-02:DXP1:GapTime" />
+				<entry key="GETGAPTIME1" value="BL16B-EA-XMAP-02:DXP1:GapTime_RBV" />
+				<entry key="SETTRIGPEAKTIME1" value="BL16B-EA-XMAP-02:DXP1:TriggerPeakingTime" />
+				<entry key="GETTRIGPEAKTIME1" value="BL16B-EA-XMAP-02:DXP1:TriggerPeakingTime_RBV" />
+				<entry key="SETTRIGGAPTIME1" value="BL16B-EA-XMAP-02:DXP1:TriggerGapTime" />
+				<entry key="GETTRIGGAPTIME1" value="BL16B-EA-XMAP-02:DXP1:TriggerGapTime_RBV" />
+				<entry key="SETMAXWIDTH1" value="BL16B-EA-XMAP-02:DXP1:MaxWidth" />
+				<entry key="GETMAXWIDTH1" value="BL16B-EA-XMAP-02:DXP1:MaxWidth_RBV" />
+				<entry key="REALTIME1" value="BL16B-EA-XMAP-02:DXP1:ElapsedRealTime" />
+				<entry key="TLIVETIME1" value="BL16B-EA-XMAP-02:DXP1:ElapsedTriggerLiveTime" />
+				<entry key="ELIVETIME1" value="BL16B-EA-XMAP-02:DXP1:ElapsedLiveTime" />
+				<entry key="EVENTS1" value="BL16B-EA-XMAP-02:DXP1:Events" />
+				<entry key="INPUTCOUNTRATE1" value="BL16B-EA-XMAP-02:DXP1:InputCountRate" />
+				<entry key="OUTPUTCOUNTRATE1" value="BL16B-EA-XMAP-02:DXP1:OutputCountRate" />
+				<entry key="SETPEAKTIME2" value="BL16B-EA-XMAP-02:DXP2:PeakingTime" />
+				<entry key="GETPEAKTIME2" value="BL16B-EA-XMAP-02:DXP2:PeakingTime_RBV" />
+				<entry key="GETDYNRANGE2" value="BL16B-EA-XMAP-02:DXP2:DynamicRange_RBV" />
+				<entry key="SETTRIGTHRESH2" value="BL16B-EA-XMAP-02:DXP2:TriggerThreshold" />
+				<entry key="GETTRIGTHRESH2" value="BL16B-EA-XMAP-02:DXP2:TriggerThreshold_RBV" />
+				<entry key="SETBASETHRESH2" value="BL16B-EA-XMAP-02:DXP2:BaselineThreshold" />
+				<entry key="GETBASETHRESH2" value="BL16B-EA-XMAP-02:DXP2:BaselineThreshold_RBV" />
+				<entry key="SETBASELENGTH2" value="BL16B-EA-XMAP-02:DXP2:BaselineFilterLength" />
+				<entry key="GETBASELENGTH2" value="BL16B-EA-XMAP-02:DXP2:BaselineFilterLength_RBV" />
+				<entry key="SETENERGYTHRESH2" value="BL16B-EA-XMAP-02:DXP2:EnergyThreshold" />
+				<entry key="GETENERGYTHRESH2" value="BL16B-EA-XMAP-02:DXP2:EnergyThreshold_RBV" />
+				<entry key="SETADCPERCENT2" value="BL16B-EA-XMAP-02:DXP2:ADCPercentRule" />
+				<entry key="GETADCPERCENT2" value="BL16B-EA-XMAP-02:DXP2:ADCPercentRule_RBV" />
+				<entry key="GETBINWIDTH2" value="BL16B-EA-XMAP-02:DXP2:MCABinWidth_RBV" />
+				<entry key="SETMAXENERGY2" value="BL16B-EA-XMAP-02:DXP2:MaxEnergy" />
+				<entry key="GETMAXENERGY2" value="BL16B-EA-XMAP-02:DXP2:MaxEnergy_RBV" />
+				<entry key="SETPREAMPGAIN2" value="BL16B-EA-XMAP-02:DXP2:PreampGain" />
+				<entry key="GETPREAMPGAIN2" value="BL16B-EA-XMAP-02:DXP2:PreampGain_RBV" />
+				<entry key="SETRESETDELAY2" value="BL16B-EA-XMAP-02:DXP2:ResetDelay" />
+				<entry key="GETRESETDELAY2" value="BL16B-EA-XMAP-02:DXP2:ResetDelay_RBV" />
+				<entry key="SETGAPTIME2" value="BL16B-EA-XMAP-02:DXP2:GapTime" />
+				<entry key="GETGAPTIME2" value="BL16B-EA-XMAP-02:DXP2:GapTime_RBV" />
+				<entry key="SETTRIGPEAKTIME2" value="BL16B-EA-XMAP-02:DXP2:TriggerPeakingTime" />
+				<entry key="GETTRIGPEAKTIME2" value="BL16B-EA-XMAP-02:DXP2:TriggerPeakingTime_RBV" />
+				<entry key="SETTRIGGAPTIME2" value="BL16B-EA-XMAP-02:DXP2:TriggerGapTime" />
+				<entry key="GETTRIGGAPTIME2" value="BL16B-EA-XMAP-02:DXP2:TriggerGapTime_RBV" />
+				<entry key="SETMAXWIDTH2" value="BL16B-EA-XMAP-02:DXP2:MaxWidth" />
+				<entry key="GETMAXWIDTH2" value="BL16B-EA-XMAP-02:DXP2:MaxWidth_RBV" />
+				<entry key="REALTIME2" value="BL16B-EA-XMAP-02:DXP2:ElapsedRealTime" />
+				<entry key="TLIVETIME2" value="BL16B-EA-XMAP-02:DXP2:ElapsedTriggerLiveTime" />
+				<entry key="ELIVETIME2" value="BL16B-EA-XMAP-02:DXP2:ElapsedLiveTime" />
+				<entry key="EVENTS2" value="BL16B-EA-XMAP-02:DXP2:Events" />
+				<entry key="INPUTCOUNTRATE2" value="BL16B-EA-XMAP-02:DXP2:InputCountRate" />
+				<entry key="OUTPUTCOUNTRATE2" value="BL16B-EA-XMAP-02:DXP2:OutputCountRate" />
+				<entry key="SETPEAKTIME3" value="BL16B-EA-XMAP-02:DXP3:PeakingTime" />
+				<entry key="GETPEAKTIME3" value="BL16B-EA-XMAP-02:DXP3:PeakingTime_RBV" />
+				<entry key="GETDYNRANGE3" value="BL16B-EA-XMAP-02:DXP3:DynamicRange_RBV" />
+				<entry key="SETTRIGTHRESH3" value="BL16B-EA-XMAP-02:DXP3:TriggerThreshold" />
+				<entry key="GETTRIGTHRESH3" value="BL16B-EA-XMAP-02:DXP3:TriggerThreshold_RBV" />
+				<entry key="SETBASETHRESH3" value="BL16B-EA-XMAP-02:DXP3:BaselineThreshold" />
+				<entry key="GETBASETHRESH3" value="BL16B-EA-XMAP-02:DXP3:BaselineThreshold_RBV" />
+				<entry key="SETBASELENGTH3" value="BL16B-EA-XMAP-02:DXP3:BaselineFilterLength" />
+				<entry key="GETBASELENGTH3" value="BL16B-EA-XMAP-02:DXP3:BaselineFilterLength_RBV" />
+				<entry key="SETENERGYTHRESH3" value="BL16B-EA-XMAP-02:DXP3:EnergyThreshold" />
+				<entry key="GETENERGYTHRESH3" value="BL16B-EA-XMAP-02:DXP3:EnergyThreshold_RBV" />
+				<entry key="SETADCPERCENT3" value="BL16B-EA-XMAP-02:DXP3:ADCPercentRule" />
+				<entry key="GETADCPERCENT3" value="BL16B-EA-XMAP-02:DXP3:ADCPercentRule_RBV" />
+				<entry key="GETBINWIDTH3" value="BL16B-EA-XMAP-02:DXP3:MCABinWidth_RBV" />
+				<entry key="SETMAXENERGY3" value="BL16B-EA-XMAP-02:DXP3:MaxEnergy" />
+				<entry key="GETMAXENERGY3" value="BL16B-EA-XMAP-02:DXP3:MaxEnergy_RBV" />
+				<entry key="SETPREAMPGAIN3" value="BL16B-EA-XMAP-02:DXP3:PreampGain" />
+				<entry key="GETPREAMPGAIN3" value="BL16B-EA-XMAP-02:DXP3:PreampGain_RBV" />
+				<entry key="SETRESETDELAY3" value="BL16B-EA-XMAP-02:DXP3:ResetDelay" />
+				<entry key="GETRESETDELAY3" value="BL16B-EA-XMAP-02:DXP3:ResetDelay_RBV" />
+				<entry key="SETGAPTIME3" value="BL16B-EA-XMAP-02:DXP3:GapTime" />
+				<entry key="GETGAPTIME3" value="BL16B-EA-XMAP-02:DXP3:GapTime_RBV" />
+				<entry key="SETTRIGPEAKTIME3" value="BL16B-EA-XMAP-02:DXP3:TriggerPeakingTime" />
+				<entry key="GETTRIGPEAKTIME3" value="BL16B-EA-XMAP-02:DXP3:TriggerPeakingTime_RBV" />
+				<entry key="SETTRIGGAPTIME3" value="BL16B-EA-XMAP-02:DXP3:TriggerGapTime" />
+				<entry key="GETTRIGGAPTIME3" value="BL16B-EA-XMAP-02:DXP3:TriggerGapTime_RBV" />
+				<entry key="SETMAXWIDTH3" value="BL16B-EA-XMAP-02:DXP3:MaxWidth" />
+				<entry key="GETMAXWIDTH3" value="BL16B-EA-XMAP-02:DXP3:MaxWidth_RBV" />
+				<entry key="REALTIME3" value="BL16B-EA-XMAP-02:DXP3:ElapsedRealTime" />
+				<entry key="TLIVETIME3" value="BL16B-EA-XMAP-02:DXP3:ElapsedTriggerLiveTime" />
+				<entry key="ELIVETIME3" value="BL16B-EA-XMAP-02:DXP3:ElapsedLiveTime" />
+				<entry key="EVENTS3" value="BL16B-EA-XMAP-02:DXP3:Events" />
+				<entry key="INPUTCOUNTRATE3" value="BL16B-EA-XMAP-02:DXP3:InputCountRate" />
+				<entry key="OUTPUTCOUNTRATE3" value="BL16B-EA-XMAP-02:DXP3:OutputCountRate" />
+				<entry key="SETPEAKTIME4" value="BL16B-EA-XMAP-02:DXP4:PeakingTime" />
+				<entry key="GETPEAKTIME4" value="BL16B-EA-XMAP-02:DXP4:PeakingTime_RBV" />
+				<entry key="GETDYNRANGE4" value="BL16B-EA-XMAP-02:DXP4:DynamicRange_RBV" />
+				<entry key="SETTRIGTHRESH4" value="BL16B-EA-XMAP-02:DXP4:TriggerThreshold" />
+				<entry key="GETTRIGTHRESH4" value="BL16B-EA-XMAP-02:DXP4:TriggerThreshold_RBV" />
+				<entry key="SETBASETHRESH4" value="BL16B-EA-XMAP-02:DXP4:BaselineThreshold" />
+				<entry key="GETBASETHRESH4" value="BL16B-EA-XMAP-02:DXP4:BaselineThreshold_RBV" />
+				<entry key="SETBASELENGTH4" value="BL16B-EA-XMAP-02:DXP4:BaselineFilterLength" />
+				<entry key="GETBASELENGTH4" value="BL16B-EA-XMAP-02:DXP4:BaselineFilterLength_RBV" />
+				<entry key="SETENERGYTHRESH4" value="BL16B-EA-XMAP-02:DXP4:EnergyThreshold" />
+				<entry key="GETENERGYTHRESH4" value="BL16B-EA-XMAP-02:DXP4:EnergyThreshold_RBV" />
+				<entry key="SETADCPERCENT4" value="BL16B-EA-XMAP-02:DXP4:ADCPercentRule" />
+				<entry key="GETADCPERCENT4" value="BL16B-EA-XMAP-02:DXP4:ADCPercentRule_RBV" />
+				<entry key="GETBINWIDTH4" value="BL16B-EA-XMAP-02:DXP4:MCABinWidth_RBV" />
+				<entry key="SETMAXENERGY4" value="BL16B-EA-XMAP-02:DXP4:MaxEnergy" />
+				<entry key="GETMAXENERGY4" value="BL16B-EA-XMAP-02:DXP4:MaxEnergy_RBV" />
+				<entry key="SETPREAMPGAIN4" value="BL16B-EA-XMAP-02:DXP4:PreampGain" />
+				<entry key="GETPREAMPGAIN4" value="BL16B-EA-XMAP-02:DXP4:PreampGain_RBV" />
+				<entry key="SETRESETDELAY4" value="BL16B-EA-XMAP-02:DXP4:ResetDelay" />
+				<entry key="GETRESETDELAY4" value="BL16B-EA-XMAP-02:DXP4:ResetDelay_RBV" />
+				<entry key="SETGAPTIME4" value="BL16B-EA-XMAP-02:DXP4:GapTime" />
+				<entry key="GETGAPTIME4" value="BL16B-EA-XMAP-02:DXP4:GapTime_RBV" />
+				<entry key="SETTRIGPEAKTIME4" value="BL16B-EA-XMAP-02:DXP4:TriggerPeakingTime" />
+				<entry key="GETTRIGPEAKTIME4" value="BL16B-EA-XMAP-02:DXP4:TriggerPeakingTime_RBV" />
+				<entry key="SETTRIGGAPTIME4" value="BL16B-EA-XMAP-02:DXP4:TriggerGapTime" />
+				<entry key="GETTRIGGAPTIME4" value="BL16B-EA-XMAP-02:DXP4:TriggerGapTime_RBV" />
+				<entry key="SETMAXWIDTH4" value="BL16B-EA-XMAP-02:DXP4:MaxWidth" />
+				<entry key="GETMAXWIDTH4" value="BL16B-EA-XMAP-02:DXP4:MaxWidth_RBV" />
+				<entry key="REALTIME4" value="BL16B-EA-XMAP-02:DXP4:ElapsedRealTime" />
+				<entry key="TLIVETIME4" value="BL16B-EA-XMAP-02:DXP4:ElapsedTriggerLiveTime" />
+				<entry key="ELIVETIME4" value="BL16B-EA-XMAP-02:DXP4:ElapsedLiveTime" />
+				<entry key="EVENTS4" value="BL16B-EA-XMAP-02:DXP4:Events" />
+				<entry key="INPUTCOUNTRATE4" value="BL16B-EA-XMAP-02:DXP4:InputCountRate" />
+				<entry key="OUTPUTCOUNTRATE4" value="BL16B-EA-XMAP-02:DXP4:OutputCountRate" />
+				<entry key="ENERGYBINS1" value="BL16B-EA-XMAP-02:MCA1:XAXIS" />
+				<entry key="MCA1" value="BL16B-EA-XMAP-02:MCA1" />
+				<entry key="DATA1" value="BL16B-EA-XMAP-02:MCA1.VAL" />
+				<entry key="RUNSTATE1" value="BL16B-EA-XMAP-02:MCA1.ACQG" />
+				<entry key="ENERGYBINS2" value="BL16B-EA-XMAP-02:MCA2:XAXIS" />
+				<entry key="MCA2" value="BL16B-EA-XMAP-02:MCA2" />
+				<entry key="DATA2" value="BL16B-EA-XMAP-02:MCA2.VAL" />
+				<entry key="RUNSTATE2" value="BL16B-EA-XMAP-02:MCA2.ACQG" />
+				<entry key="ENERGYBINS3" value="BL16B-EA-XMAP-02:MCA3:XAXIS" />
+				<entry key="MCA3" value="BL16B-EA-XMAP-02:MCA3" />
+				<entry key="DATA3" value="BL16B-EA-XMAP-02:MCA3.VAL" />
+				<entry key="RUNSTATE3" value="BL16B-EA-XMAP-02:MCA3.ACQG" />
+				<entry key="ENERGYBINS4" value="BL16B-EA-XMAP-02:MCA4:XAXIS" />
+				<entry key="MCA4" value="BL16B-EA-XMAP-02:MCA4" />
+				<entry key="DATA4" value="BL16B-EA-XMAP-02:MCA4.VAL" />
+				<entry key="RUNSTATE4" value="BL16B-EA-XMAP-02:MCA4.ACQG" />
+				<entry key="SETNBINS" value="BL16B-EA-XMAP-02:MCA1.NUSE" />
+				<entry key="GETNBINS" value="BL16B-EA-XMAP-02:MCA1:NBINS" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="edxd2controllerStepScan" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="xmap" ref="xmap2_dxp" />
+		<property name="elementOffset" value="1" />
+		<property name="numberOfElements" value="1" />
+		<property name="aquisitionTimeOn" value="True" />
+		<property name="waitAfterCaput" value="True" />
+		<property name="caputSleepTime" value="500" />
+	</bean>
+
+	<bean id="xmap2controller" class="gda.device.detector.xmap.EpicsXmapController">
+		<property name="edxdController" ref="edxd2controllerStepScan" />
+	</bean>
+
+	<bean id="xmapMca2" class="gda.device.detector.xmap.NexusXmap">
+		<property name="name" value="xmapMca2" />
+		<property name="controller" ref="xmap2controller" />
+		<property name="eventProcessingTimes">
+			<!-- I do not understand these values, but they are not used if recording raw MCAs -->
+			<list>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+			</list>
+		</property>
+		<property name="extraNames">
+			<list>
+				<value>Element1</value>
+				<value>Element2</value>
+				<value>Element3</value>
+				<value>Element4</value>
+			</list>
+		</property>
+		<property name="slave" value="false" />
+		<property name="saveRawSpectrum" value="true" />
+		<property name="configFileName" value="${gda.config}/templates/xmapMca2_parameters.xml" />
+		<property name="sumAllElementData" value="true" />
+		<property name="calculateUnifiedRois" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,290 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<bean id="pilatus3_adbase"
+			class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL16I-EA-PILAT-03:CAM:" />
+	</bean>
+
+	<bean id="pilatus3_driver"
+			class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+		<property name="basePVName" value="BL16I-EA-PILAT-03:CAM:" />
+		<property name="longCaputTimeout" value="20" />
+	</bean>
+
+	<bean id="pilatus3_camserver_ndfile"
+			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL16I-EA-PILAT-03:CAM:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.SimpleFilePathConverter">
+				<property name="userSubString" value="/dls/i16/data" />
+				<property name="internalSubString" value="/ramdisk" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pilatus3_ndfile_hdf5"
+			class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL16I-EA-PILAT-03:HDF5:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="BL16I-EA-PILAT-03:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="BL16I-EA-PILAT-03:HDF5:" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="pilatus3_nxcollectionstrategy_for_scans_and_snaps"
+			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus3_adbase" />
+		<constructor-arg value=".003" />
+	</bean>
+
+	<bean id="pilatus3_nxcollectionstrategy_for_hardware_triggering"
+			class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
+		<constructor-arg ref="pilatus3_adbase" />
+		<constructor-arg ref="pilatus3_driver" />
+		<constructor-arg value=".003" />
+		<constructor-arg value="MULTIPLE_EXTERNAL_TRIGGER" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="pilatus3_nxfilewriter_for_scans"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus3_100k" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
+		<property name="waitForFileArrival" value="false" /> <!--should be True if not using ProcessingDetectorWrapper -->
+		<property name="blocking" value="false" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+
+		<!-- for soft trigger mode only -->
+		<!--
+		<property name="fileTemplateForReadout" value="%s%s00000_%05d.tif" />
+		<property name="fileNumberAtScanStart" value="0" />
+		-->
+	</bean>
+
+	<bean id="pilatus3_hdf5filewriter_for_scans"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pilatus3_ndfile_hdf5" />
+		<property name="fileNameTemplate" value="" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
+		<property name="fileTemplate" value="%s%s%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+		<!-- 
+		<property name="enabled" value="true" />
+		 -->
+	</bean>
+
+	<bean id="pilatus3_nxfilewriter_for_snaps"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="pilatus3_100k" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
+		<property name="numTrackerExtension" value="pilatus3_100ksnaps" />
+	</bean>
+
+	<!-- AD monitors -->
+
+	<bean id="pilatus3_counter_monitor"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
+		<constructor-arg ref="pilatus3_adbase" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="pilatus3"
+			class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus3" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_scans_and_snaps"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
+				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
+					 files via the CAM plugin, so no AD plugin other than CAM will see data
+
+					 If no other plugins are in this list then pilatus3_force_callbacks should be
+					 enabled so other plugins see data
+				<ref bean="pilatus3_force_callbacks" />
+				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pilatus3_force_callbacks" class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+
+	<!-- Used in localStation for NxProcessingDetectorWrapper -->
+	<bean id="pilatus3_for_snaps"
+			class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus3_for_snaps" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_scans_and_snaps"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus3_nxfilewriter_for_snaps" />
+				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
+					 files via the CAM plugin, so no AD plugin other than CAM will see data
+
+					 If no other plugins are in this list then pilatus3_force_callbacks should be
+					 enabled so other plugins see data
+				<ref bean="pilatus3_force_callbacks" />
+				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Note most plugins are exposed via NXDetector's component system -->
+	<!-- >>>Finder.find("pilatus3_plugins").get('pilatus3_counter_monitor') -->
+	<bean id="pilatus3_plugins"
+			class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<map>
+				<entry key="pilatus3_counter_monitor" value-ref="pilatus3_counter_monitor" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Ideally we would have a single ZebraContinuousMoveController for all zebras, but for the moment
+		 we have to split them out and have one HardwareTriggeredNXDetector and SingleImagePerFileWriter
+		 for each combination of axis and detector.
+	 -->
+
+	<bean id="kphiZebraPil3"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="kphiZebraPil3" />
+		<property name="hardwareTriggerProvider" ref="kphiZebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<!-- 
+				<ref bean="kphiZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
+				 -->
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
+				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
+					 files via the CAM plugin, so no AD plugin other than CAM will see data
+
+					 If no other plugins are in this list then pilatus3_force_callbacks should be
+					 enabled so other plugins see data
+				<ref bean="pilatus3_force_callbacks" />
+				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kthZebraPil3"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="kthZebraPil3" />
+		<property name="hardwareTriggerProvider" ref="kthZebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<!-- 
+				<ref bean="kthZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
+				 -->
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
+				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
+					 files via the CAM plugin, so no AD plugin other than CAM will see data
+
+					 If no other plugins are in this list then pilatus3_force_callbacks should be
+					 enabled so other plugins see data
+				<ref bean="pilatus3_force_callbacks" />
+				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kphiZebraPil3_camserver_nxfilewriter_for_hardware_triggering"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="kphiZebraPil3" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<!-- Override default ...-kphiZebraPil3-files so files end up in the same dir as the hdf5 files. -->
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
+	</bean>
+
+	<bean id="kthZebraPil3_camserver_nxfilewriter_for_hardware_triggering"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="kthZebraPil3" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<!-- Override default ...-kthZebraPil3-files so files end up in the same dir as the hdf5 files. -->
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
+	</bean>
+
+	<bean id="smargonZebraPil3"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="smargonZebraPil3" />
+		<property name="hardwareTriggerProvider" ref="smargonZebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<!-- 
+				<ref bean="smargonZebraPil3_camserver_nxfilewriter_for_hardware_triggering" />
+				 -->
+				<ref bean="pilatus3_nxfilewriter_for_scans" />
+				<!-- The camserver nxfilewriter does not enable array callbacks, as it writes tif
+					 files via the CAM plugin, so no AD plugin other than CAM will see data
+
+					 If no other plugins are in this list then pilatus3_force_callbacks should be
+					 enabled so other plugins see data
+				<ref bean="pilatus3_force_callbacks" />
+				 -->
+				<ref bean="pilatus3_hdf5filewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="smargonZebraPil3_camserver_nxfilewriter_for_hardware_triggering"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="smargonZebraPil3" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<!-- Override default ...-smargonZebraPil3-files so files end up in the same dir as the hdf5 files. -->
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
+	</bean>
+</beans>

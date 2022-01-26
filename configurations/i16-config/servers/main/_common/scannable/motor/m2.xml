@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m2bender" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2BMotor" />
+	</bean>
+	<bean id="m2pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2PitchMotor" />
+	</bean>
+	<bean id="m2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2XMotor" />
+	</bean>
+	<bean id="m2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2YMotor" />
+	</bean>
+	<bean id="m2yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2YawMotor" />
+	</bean>
+	<bean id="m2roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2RollMotor" />
+	</bean>
+	<bean id="m2us_trans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2UTransMotor" />
+	</bean>
+	<bean id="m2ds_trans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2DTransMotor" />
+	</bean>
+	<bean id="m2us_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2UJackMotor" />
+	</bean>
+	<bean id="m2ds_in_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2DIJackMotor" />
+	</bean>
+	<bean id="m2ds_out_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2DOJackMotor" />
+	</bean>
+
+	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m2bender" />
+				<ref bean="m2pitch" />
+				<ref bean="m2x" />
+				<ref bean="m2y" />
+				<ref bean="m2yaw" />
+				<ref bean="m2roll" />
+				<ref bean="m2us_trans" />
+				<ref bean="m2ds_trans" />
+				<ref bean="m2us_jack" />
+				<ref bean="m2ds_in_jack" />
+				<ref bean="m2ds_out_jack" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

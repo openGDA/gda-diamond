@@ -1,0 +1,35 @@
+4/6/14
+sudo easy_install -U xlrd
+sudo easy_install xlwt
+os.chdir("/media/sf_Dropbox/workspace/nonlinear_optimization/spreadsheets") in initial_setup.py and output.py
+
+
+
+2012 data
+genetic
+
+population=500#number of particles
+number_killed=8
+mutation_prob=0.1
+generations=10000
+
+8512
+
+
+
+2/9/14
+run genetic with new input sheet preferences_tmp1.xls
+edit preferences.xls in open office-doesn't work (OK to copy file).
+edit in office to .xls - OK
+add Joe Blogs - no errors
+need to run Output.py as top level
+sudo easy_install xlwt
+
+population=100#number of particles
+number_killed=35
+mutation_prob=0.1
+generations=10000
+12584.0
+
+generations=20000; start 21:00 end...14:40 next day. 13060 and still nudging up...(see plot) 97.9% first choice but two people only got one of their choices
+gail shapely term value = 40

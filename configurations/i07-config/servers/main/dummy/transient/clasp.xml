@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="s20_motor_yplus" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_yminus" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_xplus" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_xminus" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_beamstoph" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_beamstopv" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_xcentre" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_xsize" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_ycentre" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s20_motor_ysize" class="gda.device.motor.DummyMotor" />
+
+	<import resource="../../_common/transient/clasp.xml" />
+
+</beans>

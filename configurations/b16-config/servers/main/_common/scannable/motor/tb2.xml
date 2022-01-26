@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="tb2xcoarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB2XcoarseMotor" />
+	</bean>
+	<bean id="tb2zcoarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB2ZcoarseMotor" />
+	</bean>
+	<bean id="tb2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB2XMotor" />
+	</bean>
+	<bean id="tb2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB2YMotor" />
+	</bean>
+	<bean id="tb2theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB2ThetaMotor" />
+	</bean>
+	<bean id="tb2phi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TB2PhiMotor" />
+	</bean>
+
+	<bean id="tb2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tb2xcoarse" />
+				<ref bean="tb2zcoarse" />
+				<ref bean="tb2x" />
+				<ref bean="tb2y" />
+				<ref bean="tb2theta" />
+				<ref bean="tb2phi" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="tomoY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TOMOHEIGHTMotor" />
+	</bean>
+
+	<bean id="tomoRoll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TOMOROLLMotor" />
+	</bean>
+
+	<bean id="tomoPitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TOMOPITCHMotor" />
+	</bean>
+
+	<bean id="tomoTheta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TOMOTHETAMotor" />
+	</bean>
+
+	<bean id="tomoYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TOMOYAWMotor" />
+	</bean>
+
+	<bean id="tomo" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tomoY" />
+				<ref bean="tomoRoll" />
+				<ref bean="tomoPitch" />
+				<ref bean="tomoTheta" />
+				<ref bean="tomoYaw" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

@@ -1,0 +1,22 @@
+[Desktop Entry]
+Comment=Restart GDA Server
+Comment[en_GB]=Restart GDA Server
+Encoding=UTF-8
+Exec=GDA_RemoteStart_Lin
+GenericName=Restart GDA Server
+GenericName[en_GB]=Restart GDA Server
+Icon=icon-computer-restart
+MimeType=
+Name=Restart GDA Server
+Name[en_GB]=Restart GDA Server
+Path=
+StartupNotify=true
+Terminal=true
+TerminalOptions=
+TryExec=
+Type=Application
+Version=1.0
+X-DCOP-ServiceType=
+X-GNOME-DocPath=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

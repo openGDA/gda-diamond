@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="S7XCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-07:X:CENTRE" />
+	</bean>
+	<bean id="S7XGapMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-07:X:GAP" />
+	</bean>
+	<bean id="S7YCentreMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-07:Y:CENTRE" />
+	</bean>
+	<bean id="S7YGapMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-OP-SLITS-07:Y:GAP" />
+	</bean>
+
+</beans>

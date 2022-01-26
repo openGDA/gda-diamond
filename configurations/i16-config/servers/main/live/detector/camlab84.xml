@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<bean id="camlab84_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="LA84R-DI-DCAM-01:CAM:" />
+	</bean>
+
+	<bean id="camlab84_ndfile_base" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="basePVName" value="LA84R-DI-DCAM-01:TIFF:" />
+	</bean>
+
+	<bean id="camlab84_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="LA84R-DI-DCAM-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="pluginBase" ref="camlab84_ndfile_base" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="camlab84_nxcollectionstrategy"
+		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="camlab84_adbase" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="camlab84_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="camlab84" />
+		<property name="ndFile" ref="camlab84_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="camlab84_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="camlab84_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="camlab84" />
+		<property name="ndFile" ref="camlab84_ndfile" />
+		<property name="numTrackerExtension" value="camlab84snaps" />
+		<property name="keyNameForMetadataPathTemplate" value="camlab84_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="camlab84_for_scans" class="gda.device.detector.NXDetector">
+		<property name="name" value="camlab84" />
+		<property name="collectionStrategy" ref="camlab84_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camlab84_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="camlab84_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="camlab84_for_snaps" />
+		<property name="collectionStrategy" ref="camlab84_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="camlab84_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

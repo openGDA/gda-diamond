@@ -1,0 +1,11 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="sixcstat" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-MO-DIFF-01:DEVSTA.STAT"/>
+	</bean>
+
+</beans>

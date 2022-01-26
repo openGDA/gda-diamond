@@ -1,0 +1,145 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Transient only -->
+
+	<bean id="sixc_additional_position_validators" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="kth_minus_kdelta_max">
+					<bean class="gda.device.scannable.component.RelativeLimitValidator">
+						<property name="aIndex" value="2" />
+						<property name="aName" value="kth" />
+						<property name="bIndex" value="4" />
+						<property name="bName" value="kdelta" />
+						<property name="maximumDifference" value="80" />
+					</bean>
+				</entry>
+
+				<entry key="kgam_minus_kmu_min">
+					<bean class="gda.device.scannable.component.RelativeLimitValidator">
+						<property name="aIndex" value="5" />
+						<property name="aName" value="kgam" />
+						<property name="bIndex" value="3" />
+						<property name="bName" value="kmu" />
+						<property name="minimumDifference" value="-11" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="sixckappa" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<bean id="kphi" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcKphiMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kap" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcKappaMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="outputFormat" value="%.5f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kth" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcKthMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="outputFormat" value="%.5f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kmu" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcMuMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kdelta" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcDeltaMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kgam" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcGammaMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+			</list>
+		</property>
+
+		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
+
+		<property name="deferredControlPoint" ref="deferFlag" />
+
+		<property name="logDefFlagChangesAsInfo" value="true" />
+
+		<property name="deferOnValue" value="1" />
+	</bean>
+
+	<bean id="kphi_rockable" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKphiEpicsMotor" />
+		<property name="logMoveRequestsWithInfo" value="true" />
+	</bean>
+
+	<bean id="kth_rockable" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKthEpicsMotor" />
+		<property name="outputFormat" value="%.5f" />
+		<property name="logMoveRequestsWithInfo" value="true" />
+	</bean>
+
+	<bean id="dummy_chi" class="gda.device.motor.DummyMotor" >
+		<property name="speed" value="360000000" />
+	</bean>
+	
+	<bean id="dummy_eta" class="gda.device.motor.DummyMotor" >
+		<property name="speed" value="360000000" />
+	</bean>
+
+	<bean id="euler_cryo" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<bean id="phi" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcCryoPhiMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="chi" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="dummy_chi" />
+				</bean>
+				<bean id="eta" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="dummy_eta" />
+				</bean>
+				<bean id="mu" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcMuMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="delta" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcDeltaMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="gam" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcGammaMotor" />
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+			</list>
+		</property>
+
+		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
+
+		<property name="deferredControlPoint" ref="deferFlag" />
+
+		<property name="logDefFlagChangesAsInfo" value="true" />
+
+		<property name="deferOnValue" value="1" />
+
+	</bean>
+</beans>

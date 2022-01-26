@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="struck1" class="gda.device.detector.DummyDetector">
+		<property name="extraNames">
+			<list>
+				<value>chn1</value>
+				<value>chn2</value>
+				<value>chn3</value>
+				<value>chn4</value>
+				<value>chn5</value>
+				<value>chn6</value>
+				<value>chn7</value>
+				<value>chn8</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="struck2" class="gda.device.detector.DummyDetector">
+		<property name="extraNames">
+			<list>
+				<value>chn1</value>
+				<value>chn2</value>
+				<value>chn3</value>
+				<value>chn4</value>
+				<value>chn5</value>
+				<value>chn6</value>
+				<value>chn7</value>
+				<value>chn8</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Diamond Light Source Beamline B24" uid="uk.ac.gda.beamline.b24.offline.product" id="uk.ac.gda.beamline.b24.product" application="uk.ac.gda.client.application" version="9.25.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
+-Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
+-Dgda.core.dir=${project_loc:uk.ac.gda.core/}/../core-config
+-Dgda.config=${project_loc:b24-config}
+-Djava.library.path=${project_loc:uk.ac.gda.nexus)/lib/linux-x86_64
+-Dgda.propertiesFile=${project_loc:b24-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:b24-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:b24-config}/properties/dummyJCALibrary.properties
+-Declipse.pluginCustomization=${project_loc:uk.ac.gda.core/}/../../gda-diamond.git/uk.ac.gda.beamline.b24/plugin_customization.ini
+-Dgda.mode=dummy
+-Dgda.client.jython.automatic.interpreter=1
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Xms128m
+-Xmx1024m
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.client" />
+   <launcher name="gda-b24">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="uk.ac.gda.client.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2009 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.b24.feature"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.dawnsci.conversion" autoStart="true" startLevel="5" />
+      <plugin id="org.dawnsci.jexl" autoStart="true" startLevel="2" />
+      <plugin id="org.dawnsci.persistence" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <plugin id="uk.ac.diamond.scisoft.analysis" autoStart="true" startLevel="2" />
+      <plugin id="uk.ac.diamond.scisoft.analysis.osgi" autoStart="true" startLevel="2" />
+   </configurations>
+
+</product>

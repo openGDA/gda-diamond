@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="TBBASEY1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-TAB-01:B:Y1" />
+	</bean>
+	<bean id="TBBASEY2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-TAB-01:B:Y2" />
+	</bean>
+	<bean id="TBBASEPitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-TAB-01:B:PITCH" />
+	</bean>
+	<bean id="TBBASEHeightMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-TAB-01:B:HEIGHT" />
+	</bean>
+
+</beans>

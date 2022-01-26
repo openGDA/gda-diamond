@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebra" />
+		<property name="zebraPrefix" value="BL16B-EA-ZEBRA-01:" />
+		<property name="armPutNoWait" value="true" />
+	</bean>
+
+	<bean id="zebra_pulse1_out" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:PULSE1_OUT" />
+		<property name="poll" value="true" />
+	</bean>
+
+
+	<bean id="zebra_pulse1_input" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16B-EA-ZEBRA-01:PULSE1_INP:STA" />
+		<property name="poll" value="true" />
+	</bean>
+
+</beans>

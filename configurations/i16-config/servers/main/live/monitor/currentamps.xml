@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D1.AMP -->
+
+	<bean id="c1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-01:PHD1:I" />
+	</bean>
+	<bean id="c2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-01:PHD2:I" />
+	</bean>
+	<bean id="c3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-01:PHD3:I" />
+	</bean>
+	<bean id="c4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-01:PHD4:I" />
+	</bean>
+
+	<!-- D7.AMP -->
+
+	<bean id="c5" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-07:PHD1:I" />
+	</bean>
+	<bean id="c6" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-07:PHD2:I" />
+	</bean>
+	<bean id="c7" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-07:PHD3:I" />
+	</bean>
+	<bean id="c8" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16I-DI-IAMP-07:PHD4:I" />
+	</bean>
+
+</beans>

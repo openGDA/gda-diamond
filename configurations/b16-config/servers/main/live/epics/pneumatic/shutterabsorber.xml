@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+
+	<!-- pneumaticCallback, "Experimental port shutter pneumatic", shtr1, BL16B-PS-SHTR-01:CON, BL16B-PS-SHTR-01:STA -->
+	<bean id="shtr1" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL16B-PS-SHTR-01" />
+	</bean>
+
+	<!-- 
+	<pneumaticCallback desc="Front End Permit Beam" name="FE.BEAM">
+		<CONTROL desc="beamline permit beam control" pv="FE16B-CS-BEAM-01:BLCON" ro="false" type="mbbinary"/>
+		<STA desc="Status" pv="FE16B-CS-BEAM-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	 -->
+
+	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="statusPv" value="FE16B-CS-BEAM-01:STA" />
+		<property name="controlPv" value="FE16B-CS-BEAM-01:BLCON" />
+		<property name="readOnly" value="true"/>
+	</bean>
+
+
+	<!-- 
+	<pneumaticCallback desc="Front End Absorber 02" name="FE.ABSB02">
+		<CONTROL desc="beamline absorber control" pv="FE16B-RS-ABSB-02:BLCON" ro="false" type="mbbinary"/>
+		<STA desc="Status" pv="FE16B-RS-ABSB-02:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+	
+	 -->
+	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="statusPv" value="FE16B-RS-ABSB-02:STA" />
+		<property name="controlPv" value="FE16B-RS-ABSB-02:BLCON" />
+	</bean>
+
+</beans>

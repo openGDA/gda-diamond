@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<!---->
+<!--	<bean id="vortexMca" class="gda.device.detector.analyser.DummyEpicsMcaForXmap" />-->
+<!--	<bean id="vortexMca2" class="gda.device.detector.analyser.DummyEpicsMcaForXmap" />-->
+
+	<bean id="xmap" class="gda.device.detector.xmap.XmapDetectorFromEpicsMca">
+		<property name="configFileName"
+			value="/dls_sw/b16/software/gda/config/templates/Vortex_Parameters.xml" />
+
+		<property name="analysers">
+			<list>
+				<ref bean="vortexMca" />
+				<ref bean="vortexMca2" />
+			</list>
+		</property>
+
+	</bean>
+
+</beans>

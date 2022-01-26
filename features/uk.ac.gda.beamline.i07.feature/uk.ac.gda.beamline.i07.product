@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA for Diamond Light Source Beamline I07" uid="uk.ac.gda.beamline.i07.product" id="uk.ac.gda.beamline.i07.product" application="uk.ac.gda.client.application" version="9.25.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <text>
+         GDA for DLS Beamline I07
+
+Build id: 
+
+Copyright © 2009 Diamond Light Source Ltd.
+
+http://www.opengda.org
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
+-Dgda.install.git.loc=../../workspace_git
+-Dgda.install.workspace.loc=../../workspace
+-Dgda.config=../../workspace_git/gda-diamond.git/configurations/i07-config
+-Dgda.propertiesFile=../../workspace_git/gda-diamond.git/configurations/i07-config/properties/live/java.properties
+-Dgov.aps.jca.JCALibrary.properties=../../workspace_git/gda-diamond.git/configurations/i07-config/properties/JCALibrary.properties
+-Dpython.cachedir=~/python.cachedir
+-Ddatavis.open.mode=DESELECT_OTHERS
+-Ddatavis.open.script=true
+-client
+-Xms128m
+-Xmx1024m
+      </vmArgs>
+      <vmArgsLin>-client
+-Xms128m
+-Xmx1024m
+-XX:MaxHeapFreeRatio=70
+-XX:+DisableExplicitGC
+-XX:+UseGCOverheadLimit
+-XX:+UseParallelGC
+-XX:ParallelGCThreads=8
+      </vmArgsLin>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+      <vmArgsWin>-Xms512m
+-Xmx1024m
+      </vmArgsWin>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i07" />
+   <launcher name="gda-i07">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="uk.ac.gda.client.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2009 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i07.feature"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false" path="/uk.ac.gda.beamline.i07/plugin_customization.ini"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

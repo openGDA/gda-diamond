@@ -1,0 +1,8 @@
+pils
+ts
+
+Archive/gda-server-20210622.log.gz
+
+scan eta -0.10005980189377653 0.09994019810622348 0.02 pil3_100ks 1 roi2
+	scancn eta 0.02 11 pils 1 roi2										#888156
+

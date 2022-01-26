@@ -1,0 +1,16 @@
+#!/bin/bash
+##This is an example script file to restart Pilatus cam server from a remote workstation
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+
+if [ ! -n "$BEAMLINE" ];
+then
+  echo "Please set BEAMLINE environment variable."
+  exit 1
+fi
+ 
+ 
+echo Starting Pilatus CamServer remotely...
+echo ssh -n -Y -i /dls/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i07-config/${BEAMLINE}-pilatus2m.key det@${BEAMLINE}-pilatus2.diamond.ac.uk "cd p2_det;./tvxonly"
+ssh -n -Y -i /dls/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i07-config/${BEAMLINE}-pilatus2m.key det@${BEAMLINE}-pilatus2.diamond.ac.uk "cd p2_det;./tvxonly"

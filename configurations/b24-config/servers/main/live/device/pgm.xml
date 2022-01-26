@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="PGMENERGY" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-PGM-01:ENERGY" />
+	</bean>
+
+	<bean id="pgm_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PGMENERGY" />
+	</bean>
+
+	<bean id="PGMCFF" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-PGM-01:CFF" />
+	</bean>
+
+	<bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PGMCFF" />
+	</bean>
+
+	<bean id="PGMGPITCH" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-PGM-01:GRATING:PITCH" />
+	</bean>
+
+	<bean id="pgm_gpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PGMGPITCH" />
+	</bean>
+
+	<bean id="PGMPPITCH" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-PGM-01:MIRROR:PITCH" />
+	</bean>
+
+	<bean id="pgm_mpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PGMPPITCH" />
+	</bean>
+
+	<bean id="PGMMTRANS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-PGM-01:SOFT:MIRROR:TRANS" />
+	</bean>
+
+	<bean id="pgm_mtrans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PGMMTRANS" />
+	</bean>
+
+	<bean id="PGMGTRANS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-PGM-01:SOFT:GRATING:TRANS" />
+	</bean>
+
+	<bean id="pgm_gtrans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PGMGTRANS" />
+	</bean>
+</beans>

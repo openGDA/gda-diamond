@@ -1,0 +1,102 @@
+================================================================================
+Example scans from the current visit
+
+$cd /dls/i16/data/2020/mm25554-2
+
+================================================================================
+example eta scan
+--------------------------------------------------------------------------------
+# 867888, 867914, 867915, 867943, 867946, 867947, 867990, 867992, 868000,
+# 868006, 868162: scancn eta 0.02 32 pil3_100k 1 roi2
+
+[mm25554-2]$ll 867888*
+-rw-rw----+ 1 gda2 mm25554_2   8238 Oct  2 16:54 867888.dat
+-rw-rw----+ 1 gda2 mm25554_2 399520 Oct  2 16:54 867888.nxs
+
+867888-pilatus3_100k-files:
+total 27648
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:53 00001.tif
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:53 00002.tif
+...
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:54 00030.tif
+-rw-r-----+ 1 i16detector mm25554_2   383956 Oct  2 16:54 00031.tif
+-rw-rw----+ 1 i16detector mm25554_2 11788200 Oct  2 16:54 867888.hdf
+
+--------------------------------------------------------------------------------
+>>>pos eta 12.5345
+>>>scancn eta 0.02 32 pil3_100k 1 roi2
+
+[gda_data_non_live]$ll 37*
+-rw-rw-r--+ 1 voo82358 voo82358   3780 Oct  9 15:06 37.dat
+-rw-rw-r--+ 1 voo82358 voo82358 225790 Oct  9 15:06 37.nxs
+
+37-pilatus3_100k-files:
+total 74668
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:05 00001.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:05 00002.tif
+...
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:06 00030.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:06 00031.tif
+-rw-rw-r--+ 1 voo82358 voo82358 38105340 Oct  9 15:06 37.hdf
+
+================================================================================
+example chi scan
+--------------------------------------------------------------------------------
+# 868122: scancn chi 0.5 11 pil3_100k 1 roi2
+
+[mm25554-2]$ll 868122*
+-rw-rw----+ 1 gda2 mm25554_2   4749 Oct  7 11:45 868122.dat
+-rw-rw----+ 1 gda2 mm25554_2 410384 Oct  7 11:45 868122.nxs
+
+868122-pilatus3_100k-files:
+total 9728
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00001.tif
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00002.tif
+...
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00010.tif
+-rw-r-----+ 1 i16detector mm25554_2  383956 Oct  7 11:45 00011.tif
+-rw-rw----+ 1 i16detector mm25554_2 4188120 Oct  7 11:45 868122.hdf
+
+--------------------------------------------------------------------------------
+>>>pos chi 30.13350
+>>>scancn chi 0.5 11 pil3_100k 1 roi2
+
+[gda_data_non_live]$ll 38*
+-rw-rw-r--+ 1 voo82358 voo82358   1660 Oct  9 15:10 38.dat
+-rw-rw-r--+ 1 voo82358 voo82358 219646 Oct  9 15:10 38.nxs
+
+38-pilatus3_100k-files:
+total 26504
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:10 00001.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:10 00002.tif
+...
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:10 00010.tif
+-rw-rw-r--+ 1 voo82358 voo82358  1229810 Oct  9 15:10 00011.tif
+-rw-rw-r--+ 1 voo82358 voo82358 13526460 Oct  9 15:10 38.hdf
+
+================================================================================
+Other potential example scans from the current visit
+
+[mm25554-2]$cat *.dat | grep cmd | sort | uniq
+cmd='scan chi 85 95 0.5 pil3_100k 1'
+...
+cmd='scan x 1 10 1 t 1'
+
+--------------------------------------------------------------------------------
+cmd='scancn chi 0.5 11 pil3_100k 1 roi2'
+cmd='scancn eta 0.01 121 BeamOK pil3_100k 1 roi1 roi2'
+cmd='scancn eta 0.01 91 BeamOK pil3_100k 1 rs_remap roi2'
+cmd='scancn eta 0.02 32 pil3_100k 1 roi2'
+cmd='scan x 1 10 1 bpm 0.01'
+
+# Error returning position on razorbill1 & razorbill2
+cmd='scan razorbill1 0 -5 -0.1 razorbill2 0 0.1 lcr pil3_100k 1 roi2'
+
+# h : UNAVAILABLE
+cmd='scancn h 0.01 31 pil3_100k 1 roi2'
+# <hkl: No UB matrix has been calculated during this ub calculation>
+cmd='scancn hkl [0.0, 0.002, 0.0] 61 pil3_100k 1 roi1 roi2'
+# sr2: Please add one reference reflection into the reflection list.
+cmd='scan sr2 [2, 0, 4, -100] [2, 0, 4, 10] [0.0, 0.0, 0.0, 1.0] pil3_100k 1 roi2'
+
+================================================================================

@@ -1,0 +1,179 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="kbRoll1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBRoll1Motor" />
+	</bean>
+	<bean id="kbT1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT1Motor" />
+	</bean>
+	<bean id="kbT2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT2Motor" />
+	</bean>
+	<bean id="kbT3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT3Motor" />
+	</bean>
+	<bean id="kbT4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT4Motor" />
+	</bean>
+	<bean id="kbRoll2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBRoll2Motor" />
+	</bean>
+	<bean id="kbT5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT5Motor" />
+	</bean>
+	<bean id="kbT6" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KBT6Motor" />
+	</bean>
+	<bean id="m3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M3XMotor" />
+	</bean>
+	<bean id="m3yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M3YawMotor" />
+	</bean>
+	<bean id="m4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M4XMotor" />
+	</bean>
+	<bean id="m4yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M4YawMotor" />
+	</bean>
+	<bean id="p2mj1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="P2TABY1Motor" />
+	</bean>
+	<bean id="p2mj2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="P2TABY2Motor" />
+	</bean>
+	<bean id="p2mj3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="P2TABY3Motor" />
+	</bean>
+	<bean id="p2mx1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="P2TABX1Motor" />
+	</bean>
+	<bean id="p2mx2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="P2TABX2Motor" />
+	</bean>
+	<bean id="p2mz1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="P2TABZ1Motor" />
+	</bean>
+	<bean id="pxX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PXXMotor" />
+	</bean>
+
+	<bean id="ztable" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TABYMotor" />
+	</bean>
+	<bean id="ytable" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TABXMotor" />
+	</bean>
+	<bean id="user11" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER11Motor" />
+	</bean>
+	<bean id="user12" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER12Motor" />
+	</bean>
+	<bean id="user13" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER13Motor" />
+	</bean>
+	<bean id="user14" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER14Motor" />
+	</bean>
+	<bean id="user21" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER21Motor" />
+	</bean>
+	<bean id="user22" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER22Motor" />
+	</bean>
+	<bean id="user23" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER23Motor" />
+	</bean>
+	<bean id="user24" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER24Motor" />
+	</bean>
+	<bean id="pin1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P1Motor" />
+	</bean>
+	<bean id="pin1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P2Motor" />
+	</bean>
+	<bean id="pin2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P3Motor" />
+	</bean>
+	<bean id="pin2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P4Motor" />
+	</bean>
+	<bean id="xps3mot5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P5Motor" />
+	</bean>
+	<bean id="xps3mot6" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P6Motor" />
+	</bean>
+	<bean id="xps3mot7" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P7Motor" />
+	</bean>
+	<bean id="xps3mot8" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="XPS3P8Motor" />
+	</bean>
+
+	<bean id="base_z1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="BaseZ1Motor" />
+	</bean>
+	<bean id="base_z2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="BaseZ2Motor" />
+	</bean>
+	<bean id="base_z3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="BaseZ3Motor" />
+	</bean>
+	<bean id="base_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="BaseZMotor" />
+	</bean>
+	<bean id="basey" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DBtMotor" />
+	</bean>
+	<bean id="kphi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KphiMotor" />
+	</bean>
+	<bean id="kappa" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KappaMotor" />
+	</bean>
+	<bean id="mu" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MuMotor" />
+	</bean>
+	<bean id="gamma" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="GammaMotor" />
+	</bean>
+	<bean id="delta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DeltaMotor" />
+	</bean>
+	<bean id="kth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="KTHMotor" />
+	</bean>
+	<bean id="c1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C1Motor" />
+	</bean>
+	<bean id="c2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C2Motor" />
+	</bean>
+	<bean id="c3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C3Motor" />
+	</bean>
+	<bean id="c4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C4Motor" />
+	</bean>
+	<bean id="c5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C5Motor" />
+	</bean>
+	<bean id="c6" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C6Motor" />
+	</bean>
+	<bean id="c7" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C7Motor" />
+	</bean>
+	<bean id="c8" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="C8Motor" />
+	</bean>
+	<bean id="rc" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="RCMotor" />
+	</bean>
+</beans>

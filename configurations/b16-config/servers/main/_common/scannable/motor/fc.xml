@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="fcTheta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1ThetaMotor" />
+	</bean>
+	<bean id="fc2Theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1TthetaMotor" />
+	</bean>
+	<bean id="fcAlpha" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1AlphaMotor" />
+	</bean>
+	<bean id="fcChi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1ChiMotor" />
+	</bean>
+	<bean id="fcPhi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1PhiMotor" />
+	</bean>
+
+	<bean id="fcX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1SAMPXMotor" />
+	</bean>
+	<bean id="fcY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1SAMPYMotor" />
+	</bean>
+	<bean id="fcZ" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DR1SAMPZMotor" />
+	</bean>
+
+	<bean id="fc" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fcAlpha" />
+				<ref bean="fc2Theta" />
+				<ref bean="fcTheta" />
+				<ref bean="fcChi" />
+				<ref bean="fcPhi" />
+				<ref bean="fcX" />
+				<ref bean="fcY" />
+				<ref bean="fcZ" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

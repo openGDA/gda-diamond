@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="femto2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-PHDGN-02:FEMTO2:I" />
+	</bean>
+
+	<bean id="femto3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-PHDGN-03:FEMTO3:I" />
+	</bean>
+
+	<bean id="d6" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL24B-DI-PHDGN-02:P:SETVALUE2" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
+
+	<bean id="d6filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+	  <property name="pvBase" value="BL24B-DI-PHDGN-02:MP" />
+	</bean>
+
+	<bean id="d7" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL24B-DI-PHDGN-03:P:SETVALUE2" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
+
+	<bean id="d7_a" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-04:CHA:PEAK" />
+	</bean>
+
+	<bean id="d7_b" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-04:CHB:PEAK" />
+	</bean>
+
+	<bean id="d7_c" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-04:CHC:PEAK" />
+	</bean>
+
+	<bean id="d7_d" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL24B-DI-IAMP-04:CHD:PEAK" />
+	</bean>
+
+	<bean id="d7filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+	  <property name="pvBase" value="BL24B-DI-PHDGN-03:MP" />
+	</bean>
+</beans>

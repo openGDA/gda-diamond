@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VortexParameters>
+    <detectorName>xmapMca</detectorName>
+    <tfgName>tfg</tfgName>
+    <countType>Static</countType>
+    <collectionTime>1000.0</collectionTime>
+    <DetectorElement>
+        <name>Element1</name>
+        <number>1</number>
+        <ROI>
+            <name>OsL3</name>
+            <windowStart>1000</windowStart>
+            <windowEnd>1100</windowEnd>
+        </ROI>
+        <ROI>
+            <name>Background</name>
+            <windowStart>1100</windowStart>
+            <windowEnd>1200</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
+</VortexParameters>
+
+
+
+

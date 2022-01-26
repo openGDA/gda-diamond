@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ftbsx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-FLITE-01:BEAMSTOP:X" />
+	</bean>
+	<bean id="ftbsy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-FLITE-01:BEAMSTOP:Y" />
+	</bean>
+	<bean id="ftrbsx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-FLITE-01:RBEAMSTOP:X" />
+	</bean>
+	<bean id="ftrbsy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-FLITE-01:RBEAMSTOP:Y" />
+	</bean>
+
+	<import resource="../../_common/transient/flight_tube.xml" />
+
+</beans>

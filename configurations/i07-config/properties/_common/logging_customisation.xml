@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<included>
+
+
+	<!-- This suppresses lots of warnings about chunking from the user see GDA-6192 -->
+	<logger name="org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5" level="WARN"/>
+	
+	<logger name="org.apache.activemq" level="WARN"/>
+
+	<logger name="gda.device.motor.EpicsMotor">
+    	<level value="INFO"/>
+    </logger>
+	
+	
+	<!-- Below are from historical i07 deployments -->
+	<!-- <logger name="gda.factory">
+        <level value="INFO"/>
+    </logger>
+   
+
+    <logger name="gda.device.detector.areadetector">
+        <level value="ALL"/>
+    </logger>
+
+    <logger name="gda.epics.connection.EpicsController">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gda.device.detector.mar345">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gda.device.zebra.ZebraConstantVelocityMoveController">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="gda.epics.LazyPVFactory">
+        <level value="DEBUG"/>
+    </logger>
+   -->
+
+</included>

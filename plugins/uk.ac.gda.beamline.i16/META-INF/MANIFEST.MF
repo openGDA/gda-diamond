@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Diamond Light Source Beamline I16 Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.i16;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.gda.beamline.i16.I16BeamlineActivator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ uk.ac.gda.client;bundle-version="1.0.0",
+ uk.ac.gda.core;bundle-version="1.0.0",
+ uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
+ org.eclipse.scanning.api;bundle-version="1.0.0",
+ org.eclipse.scanning.event.ui;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: uk.ac.gda.beamline.i16
+Bundle-Vendor: Diamond Light Source
+Automatic-Module-Name: uk.ac.gda.beamline.i16

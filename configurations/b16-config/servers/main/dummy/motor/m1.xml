@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="M1BendMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1UsyMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1UsxMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1DsobyMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1DsxMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1DsibyMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1HeightMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1PitchMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1RollMotor" class="gda.device.motor.DummyMotor" />
+	
+</beans>

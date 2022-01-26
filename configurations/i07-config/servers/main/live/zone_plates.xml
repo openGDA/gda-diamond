@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="FZP_X" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="FZP_X" />
+		<property name="useNameAsInputName" value="True" />
+		<property name="pvName" value="BL07I-MO-EXT-01:M1.VAL" />
+	</bean>
+
+	<bean id="FZP_Y" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="FZP_Y" />
+		<property name="useNameAsInputName" value="True" />
+		<property name="pvName" value="BL07I-MO-EXT-01:M2.VAL" />
+	</bean>
+
+	<bean id="OSA_X" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="OSA_X" />
+		<property name="useNameAsInputName" value="True" />
+		<property name="pvName" value="BL07I-MO-EXT-01:M3.VAL" />
+	</bean>
+
+	<bean id="OSA_Y" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="OSA_Y" />
+		<property name="useNameAsInputName" value="True" />
+		<property name="pvName" value="BL07I-MO-EXT-01:M4.VAL" />
+	</bean>
+
+	<bean id="OSA_Z" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="OSA_Z" />
+		<property name="useNameAsInputName" value="True" />
+		<property name="pvName" value="BL07I-MO-EXT-01:M5.VAL" />
+	</bean>
+
+</beans>
