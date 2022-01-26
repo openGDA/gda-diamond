@@ -187,8 +187,11 @@ class FastEnergyScanControlClass(object):
 	def prepareAreaDetectorForCollection(self, areadet, expotime, numImages):
 		#get camera control object
 		cs=areadet.getCollectionStrategy()
-		# medipix - 4 level of decoratee in collection strategy
-		self.adbase=cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
+		if self.isKBRastering():
+			self.adbase=cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
+		else:
+			# medipix - 4 level of decoratee in collection strategy
+			self.adbase=cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
 		if self.adbase is not None:
 			#capture existing settings that will be changed for fast scan
 			self.aquire_state=self.adbase.getAcquireState()
@@ -259,7 +262,9 @@ class FastEnergyScanControlClass(object):
 		if self.adbase is not None:
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
-			sleep(0.5)
+			sleep(2.0)
+			self.chMedipixMode.caput(self.drive_mode) # this need to be called first after stop!
+			sleep(5.0)
 			#restore camera parameters before fast scan
 			self.adbase.setAcquireTime(self.exposure_time)
 			sleep(0.5)
@@ -271,8 +276,6 @@ class FastEnergyScanControlClass(object):
 			sleep(0.5)
 			self.adbase.setTriggerMode(self.trigger_mode) # Auto
 			sleep(0.5)
-			self.chMedipixMode.caput(self.drive_mode)
-			sleep(1.0)
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
 				sleep(0.5)
