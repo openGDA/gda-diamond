@@ -1,2 +1,0 @@
-setfacl -m o:rX -m g:dls_dasc:rwX  dls-config/bin/*
-chmod go+X configurations/*/bin/*
