@@ -2,7 +2,7 @@
 #For beamline specific initialisation code.
 from i06shared import installation
 from gda.device.scannable import DummyScannable
-from gda.configuration.properties import LocalProperties
+from gda.configuration.properties import LocalProperties  # @UnusedImport
 
 print("*"*100)
 print("Performing Beamline I06-shared initialisation code (localStation.py).\n")
@@ -28,6 +28,7 @@ ds=DummyScannable('ds')
 from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
 from i06shared.commands.switchDataWriter import asciiformat, nexusformat,whichformat  # @UnusedImport
 from i06shared.commands.snapshot import snap  # @UnusedImport
+from i06shared.commands.endstation import which_end_station
 from i06shared.functions.aliasFunctions import setAlias, setGdaAlias  # @UnusedImport
 from Diamond.Utility.Functions import logger, getScanNumber,incScanNumber,interruptable,removeDevices,getDevice,isDefaultDevice,removeDefaults,backupDefaults,restoreDefaults  # @UnusedImport
 from Diamond.Utility.setTimers import stopwatch,timekeeper,clock,lineTime,pointTime,waitTimer,timer,scanTimer,Timers,Dummies,dummyCounter  # @UnusedImport
