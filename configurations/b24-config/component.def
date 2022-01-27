@@ -8,4 +8,6 @@
     id="b24-config">
   <requirement
       name="uk.ac.gda.beamline.b24.feature.feature.group"/>
+  <requirement
+      name="dls-config"/>
 </targlets:ComponentDefinition>
