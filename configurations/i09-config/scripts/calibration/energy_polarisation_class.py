@@ -142,17 +142,16 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         gap, polarisation, phase = self.getIDPositions()  # @UnusedVariable
         energy=float(self.mono_energy.getPosition()/1000.0) #energy unit is in keV
 
-        if polarisation in ["LH","LV","CR","CL","LH3"]:
-            if self.polarisationConstant:
-                return energy
-            elif self.energyConstant:
-                self.setOutputFormat(["%s"])
-                self.polarisation = polarisation
-                return polarisation
-            else:
-                self.setOutputFormat(["%10.6f","%s"])
-                self.polarisation = polarisation
-                return energy, polarisation
+        if self.polarisationConstant:
+            return energy
+        elif self.energyConstant:
+            self.setOutputFormat(["%s"])
+            self.polarisation = polarisation
+            return polarisation
+        else:
+            self.setOutputFormat(["%10.6f","%s"])
+            self.polarisation = polarisation
+            return energy, polarisation
 
 
     def moveDevices(self, gap, new_polarisation, phase, energy):
