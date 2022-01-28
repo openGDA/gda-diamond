@@ -56,6 +56,7 @@
 	<bean id="pilatus1_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL07I-EA-PILAT-01:HDF5:" />
 		<property name="file" ref="pilatus1_ndfile" />
+		<property name="useSWMR" value="true" />
 	</bean>
 
 </beans>
