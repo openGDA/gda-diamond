@@ -180,48 +180,48 @@
 		<property name="name" value="medipix_settings"/>
 		<property name="name2PVSimpleMap">
 			<util:map>
-    			<entry key="manufacturer" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV" />
-    			<entry key="model" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV" />
-    			<entry key="gain" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainX_RBV" />
-    			<entry key="temperature_set" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature" />
-    			<entry key="temperature_actual" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature_RBV" />
-    			<entry key="binning_x" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinX_RBV" />
-    			<entry key="binning_y" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV" />
-			</util:map>		
+				<entry key="manufacturer" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV" />
+				<entry key="model" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Model_RBV" />
+				<entry key="gain" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:GainX_RBV" />
+				<entry key="temperature_set" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature" />
+				<entry key="temperature_actual" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Temperature_RBV" />
+				<entry key="binning_x" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinX_RBV" />
+				<entry key="binning_y" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:BinY_RBV" />
+			</util:map>
 		</property>
 		<property name="fieldsToAppend">
 			<util:map>
-    			<entry key="description">
-    				<list>
-    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0">
-    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">CONSTANT</value>
-    						</constructor-arg>
-    						<constructor-arg index="1" value="MediPix - a water cold X-ray camera."/>
-    					</bean>
-    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0">
-    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
-    						</constructor-arg>
-    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
-    					</bean>
-    					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0">
-    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
-    						</constructor-arg>
-    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-0:CAM:Model_RBV"/>
-    					</bean>
-    				</list>
-    			</entry>
-    			<entry key="serial_number">
-   					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
-    						<constructor-arg index="0">
-    							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
-    						</constructor-arg>
-    						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:PortName_RBV"/>
-    				</bean>
-     			</entry>
-			</util:map>		
+				<entry key="description">
+					<list>
+						<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+							<constructor-arg index="0">
+								<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">CONSTANT</value>
+							</constructor-arg>
+							<constructor-arg index="1" value="MediPix - a water cold X-ray camera."/>
+						</bean>
+						<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+							<constructor-arg index="0">
+								<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+							</constructor-arg>
+							<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Manufacturer_RBV"/>
+						</bean>
+						<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+							<constructor-arg index="0">
+								<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+							</constructor-arg>
+							<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-0:CAM:Model_RBV"/>
+						</bean>
+					</list>
+				</entry>
+				<entry key="serial_number">
+					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
+						<constructor-arg index="0">
+							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
+						</constructor-arg>
+						<constructor-arg index="1" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:PortName_RBV"/>
+					</bean>
+				</entry>
+			</util:map>
 		</property>
 	</bean>
 
@@ -233,7 +233,7 @@
 	</bean>
 	<bean id="kbRasteringPeriod" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
 		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
-   		<property name="expression" value="@medipix_adbase.getAcquireTime() gt 0.1 ? @medipix_adbase.getAcquireTime() : 0.1"/>
+		<property name="expression" value="@medipix_adbase.getAcquireTime() gt 0.1 ? @medipix_adbase.getAcquireTime() : 0.1"/>
 		<property name="enabled" value="true" />
 		<property name="restorePvValue" value="true" />
 		<property name="decoratee" ref="softstatrstop"/>
@@ -246,16 +246,16 @@
 				<property name="restoreNumImagesAndImageMode" value="true" />
 				<property name="imageMode" value="0" /> <!-- Single image mode -->
 				<property name="decoratee">
-					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
 						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
 						<property name="decoratee">
-							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
 								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
 								<property name="decoratee" ref="kbRasteringPeriod" />
-							</bean>				
+							</bean>
 						</property>
 					</bean>
 				</property>
@@ -269,16 +269,16 @@
 				<property name="restoreNumImagesAndImageMode" value="true" />
 				<property name="imageMode" value="1" /> <!-- multiple image mode -->
 				<property name="decoratee">
-					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
 						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
 						<property name="decoratee">
-							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
 								<property name="triggerMode" value="0" /> <!-- Auto trigger mode -->
 								<property name="decoratee" ref="kbRasteringPeriod" />
-							</bean>				
+							</bean>
 						</property>
 					</bean>
 				</property>
@@ -293,16 +293,16 @@
 				<property name="restoreNumImagesAndImageMode" value="true" />
 				<property name="imageMode" value="2" /> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
 				<property name="decoratee">
-					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
 						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
 						<property name="decoratee">
-							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
 								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
-										<property name="decoratee" ref="kbRasteringPeriod" />
-							</bean>				
+								<property name="decoratee" ref="kbRasteringPeriod" />
+							</bean>
 						</property>
 					</bean>
 				</property>
@@ -314,7 +314,7 @@
 		<property name="ndArray" ref="medipix_ndarray"/>
 		<property name="arrayPortName" value="mpxview.PROC"/>
 		<property name="decoratee">
-			<bean id="medipixprocbfilter" class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
 				<property name="restoreState" value="true"/>
 				<property name="ndProcess" ref="medipix_proc"/>
 				<property name="processDataTypeOut">
@@ -328,18 +328,18 @@
 				<property name="enableFilter" value="true"/>
 				<property name="enableNumFilter" value="false"/>
 				<property name="decoratee">
-					<bean id="medipiximagemode_Continuous" class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 						<property name="restoreNumImagesAndImageMode" value="true"/>
 						<property name="imageMode" value="2"/> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
 						<property name="decoratee">
-							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true"/>
 								<property name="triggerMode" value="0"/>
 								<property name="decoratee">
-									<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+									<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 										<property name="restoreAcquireTime" value="true"/>
 										<property name="restoreAcquirePeriod" value="true"/>
-										<property name="acquirePeriodExpression" value="#acquireTime + 0.005"/>
+										<property name="acquirePeriodExpression" value="#acquireTime + 0.002"/>
 										<property name="decoratee" ref="kbRasteringPeriod"/>
 									</bean>
 								</property>
@@ -350,27 +350,45 @@
 			</bean>
 		</property>
 	</bean>
-	<!-- for zacscan - external triggered mode -->
-	<bean id="zacmedipixCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
-		<property name="ndArray" ref="medipix_ndarray"/>
-		<property name="arrayPortName" value="ADSIM.CAM"/>
+
+	<bean id="medipixdrivermode" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+		<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode" />
+		<property name="expression" value="3"/> <!--0:12 bit, 1:24 bit, 2:Tow Threshold, 3:Continuous RW, 4:Color, 5:Charge Summing  -->
+		<property name="enabled" value="true" />
+		<property name="restorePvValue" value="true" />
 		<property name="decoratee">
-			<bean id="medipiximagemode_Multiple" class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+				<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
+				<property name="expression" value="@medipix_adbase.getAcquireTime()"/>
+				<property name="enabled" value="true" />
+				<property name="restorePvValue" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.EpicsStartStop">
+						<property name="adBase" ref="medipix_adbase" />						
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipixCollectionStrategy4zacscan" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="false" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 				<property name="restoreNumImagesAndImageMode" value="true" />
 				<property name="imageMode" value="1" /> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
 				<property name="decoratee">
-					<bean id="medipixtriggermode_PositiveExtTimer" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 						<property name="restoreTriggerMode" value="true" />
 						<property name="triggerMode" value="3" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
 						<property name="decoratee">
-							<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+							<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 								<property name="restoreAcquireTime" value="true" />
 								<property name="restoreAcquirePeriod" value="true" />
-								<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
-								<property name="decoratee" ref="kbRasteringPeriod" />
+								<property name="acquirePeriodExpression" value="#acquireTime" />
+								<property name="decoratee" ref="medipixdrivermode" />
 							</bean>
 						</property>
-					</bean>				
+					</bean>
 				</property>
 			</bean>
 		</property>

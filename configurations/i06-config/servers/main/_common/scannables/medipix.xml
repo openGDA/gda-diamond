@@ -41,8 +41,8 @@
 	</bean>
 	 	
 	<bean id="zacmedipix" class="gda.device.detector.NXDetector">
-		<property name="name" value="zacmedipix" />
-		<property name="collectionStrategy" ref="zacmedipixCollectionStrategy" />
+		<property name="name" value="medipix" />
+		<property name="collectionStrategy" ref="medipixCollectionStrategy4zacscan" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="medipix_RoiStats1" />

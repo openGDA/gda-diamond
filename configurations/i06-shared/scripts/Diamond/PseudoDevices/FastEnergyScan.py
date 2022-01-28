@@ -7,7 +7,6 @@ from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from gda.scan import PointsScan, ScanInformation
 from gda.factory import Finder
-from Diamond.PseudoDevices.FileFilter import SrsFileFilterClass
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass
 from i06shared.commands.dirFileCommands import nfn
 from gda.device.detector.nxdetector.roi import ImutableRectangularIntegerROI
@@ -680,12 +679,6 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 	def stop(self):
 		print("%s: Panic Stop Called" % self.getName())
 		self.fesController.abortScan();
-		if beamline_name == "i06":
-			self.fesController.getAreaDetector().stop()
-			self.fesController.stopROIStatsPair(self.fesController.getAreaDetector())
-			self.fesController.disableFileWritingPlugin(self.fesController.getAreaDetector())
-			self.fesController.restoreAreaDetectorParametersAfterCollection()
-		self.fesController.existingCameraParametersCaptured=False
 
 	def cvscan(self, startEnergy, endEnergy, scanTime, pointTime):
 		command = "zacscan " + str(startEnergy) + " " + str(endEnergy) + " " + str(scanTime) + " " + str(pointTime)
@@ -712,17 +705,15 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 			print("Number of scan points is set to ZERO. Please check your command carefully!")
 			return
 		
-		if beamline_name == "i06":
-			self.fesController.enableAreaDetector() #using area detector
-			self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
-			self.fesController.configureFileWriterPlugin(self.fesController.getAreaDetector(), numPoint)
-			self.fesController.prepareAreaDetectorROIsForCollection(self.fesController.getAreaDetector(), numPoint)
-				
-		#pscan fastEnergy 0 1 numPoint fesData 0 1;
 		fesData = self.fesDetector;
 		meta.addScalar("user_input", "command", command)
 		try:
-			theScan = PointsScan([self,0,1,numPoint,fesData,0,1])
+			if beamline_name == "i06":
+				self.fesController.enableAreaDetector() #using area detector
+				areadetector = self.fesController.getAreaDetector()
+				theScan = PointsScan([self,0,1,numPoint,fesData,0,1,areadetector,pointTime])
+			else:
+				theScan = PointsScan([self,0,1,numPoint,fesData,0,1])
 			theScan.runScan()
 		except:
 			exceptionType, exception, traceback=sys.exc_info()
@@ -737,15 +728,6 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		if self.fesController.isScanAborted():
 			print("The Fast Energy Scan is aborted.")
 		else:
-			if beamline_name == "i06":
-				# restore ADRoiStatsPair state in GDA
-# 				self.fesController.completeCollectionFromROIStatsPair(self.fesController.getAreaDetector())
-				self.fesController.stopROIStatsPair(self.fesController.getAreaDetector())
-				self.fesController.disableFileWritingPlugin(self.fesController.getAreaDetector())
-				#restore area detector settings	
-				self.fesController.restoreAreaDetectorParametersAfterCollection()
-				self.fesController.existingCameraParametersCaptured=False
-				
 			print("The Fast Energy Scan is completed.")
 
 #######################################################

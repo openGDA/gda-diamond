@@ -50,8 +50,8 @@ elif beamline_name =="i06":
     fesController.setKBRastering(ENABLE_KB_RASTERING) 
 
     ### configure which area detector to use in zacscan           
-    from __main__ import medipix  # @UnresolvedImport
-    fesController.setAreaDetector(medipix)
+    from __main__ import zacmedipix  # @UnresolvedImport
+    fesController.setAreaDetector(zacmedipix)
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData)
 
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
