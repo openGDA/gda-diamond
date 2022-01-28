@@ -56,26 +56,27 @@
 
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="pil3roi_hdf">
+		id="p3r">
 		<property name="detector" ref="pilatus3_det" />
-		<property name="processor" ref="pilatus3_roistats_swmr" />
+		<property name="processor" ref="pilatus3_swmr_standard" />
 	</bean>
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="pil3stats_hdf">
+		id="p3v">
 		<property name="detector" ref="pilatus3_det" />
-		<property name="processor" ref="pilatus3_stats_swmr" />
+		<property name="processor" ref="pilatus3_swmr_verbose" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="pilatus3_roistats_swmr">
+		id="pilatus3_swmr_standard">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="pilatus3_roistats" />
+				<ref bean="pilatus3_stats_standard" />
+				<ref bean="pilatus3_roistats_standard" />
 				<ref bean="pilatus3_plotter" />
 			</list>
 		</constructor-arg>
@@ -88,13 +89,14 @@
 
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="pilatus3_stats_swmr">
+		id="pilatus3_swmr_verbose">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="pilatus3_stats" />
+				<ref bean="pilatus3_stats_verbose" />
+				<ref bean="pilatus3_roistats_verbose" />
 				<ref bean="pilatus3_plotter" />
 			</list>
 		</constructor-arg>
@@ -107,18 +109,38 @@
 
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
-		id="pilatus3_roistats">
+		id="pilatus3_roistats_standard">
 		<property name="plotName" value="Pilatus 3" />
-		<property name="statsProcessor" ref="pilatus3_stats" />
+		<property name="statsProcessor" ref="pilatus3_stats_standard" />
+	</bean>
+	
+	<bean
+		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
+		id="pilatus3_roistats_verbose">
+		<property name="plotName" value="Pilatus 3" />
+		<property name="statsProcessor" ref="pilatus3_stats_verbose" />
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
-		id="pilatus3_stats">
+		id="pilatus3_stats_standard">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>SUM</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
+		id="pilatus3_stats_verbose">
 		<property name="enabledStats">
 			<list>
 				<value>MAX_VAL</value>
 				<value>MAX_X</value>
 				<value>MAX_Y</value>
+				<value>MIN_VAL</value>
+				<value>MIN_X</value>
+				<value>MIN_Y</value>
 				<value>MEAN</value>
 				<value>SUM</value>
 			</list>

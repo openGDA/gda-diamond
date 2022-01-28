@@ -72,26 +72,27 @@
 
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="excroi">
+		id="exr">
 		<property name="detector" ref="excalibur" />
-		<property name="processor" ref="excalibur_roistats_swmr" />
+		<property name="processor" ref="excalibur_swmr_standard" />
 	</bean>
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="excstats">
+		id="exv">
 		<property name="detector" ref="excalibur" />
-		<property name="processor" ref="excalibur_stats_swmr" />
+		<property name="processor" ref="excalibur_swmr_verbose" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="excalibur_roistats_swmr">
+		id="excalibur_swmr_standard">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="excalibur_roistats" />
+				<ref bean="excalibur_stats_standard" />
+				<ref bean="excalibur_roistats_standard" />
 				<ref bean="excalibur_plotter" />
 				<ref bean="excalibur_norm" />
 			</list>
@@ -106,14 +107,16 @@
 
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="excalibur_stats_swmr">
+		id="excalibur_swmr_verbose">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="excalibur_stats" />
+				<ref bean="excalibur_stats_verbose" />
+				<ref bean="excalibur_roistats_verbose" />
 				<ref bean="excalibur_plotter" />
+				<ref bean="excalibur_norm" />
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4">
@@ -126,27 +129,38 @@
 
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
-		id="excalibur_roistats">
+		id="excalibur_roistats_standard">
 		<property name="plotName" value="Excalibur" />
-		<property name="statsProcessor" ref="excalibur_stats" />
+		<property name="statsProcessor" ref="excalibur_stats_standard" />
 	</bean>
-
+	
 	<bean
-		class="gda.device.detector.nexusprocessor.roistats.NormalisingRegionProcessor"
-		id="excalibur_norm">
-		<property name="attenuatorScannableName" value="filterset" />
-		<property name="transmissionFieldName" value="transmission" />
-		<property name="roiStats" ref="excalibur_roistats" />
-		<property name="enable" value="false" />
+		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
+		id="excalibur_roistats_verbose">
+		<property name="plotName" value="Excalibur" />
+		<property name="statsProcessor" ref="excalibur_stats_verbose" />
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
-		id="excalibur_stats">
+		id="excalibur_stats_standard">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>SUM</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
+		id="excalibur_stats_verbose">
 		<property name="enabledStats">
 			<list>
 				<value>MAX_VAL</value>
 				<value>MAX_X</value>
 				<value>MAX_Y</value>
+				<value>MIN_VAL</value>
+				<value>MIN_X</value>
+				<value>MIN_Y</value>
 				<value>MEAN</value>
 				<value>SUM</value>
 			</list>
@@ -157,6 +171,14 @@
 		id="excalibur_plotter">
 		<property name="plotName" value="Excalibur" />
 	</bean>
-	
+
+	<bean
+		class="gda.device.detector.nexusprocessor.roistats.NormalisingRegionProcessor"
+		id="excalibur_norm">
+		<property name="attenuatorScannableName" value="filterset" />
+		<property name="transmissionFieldName" value="transmission" />
+		<property name="roiStats" ref="excalibur_roistats_standard" />
+		<property name="enable" value="false" />
+	</bean>
 
 </beans>

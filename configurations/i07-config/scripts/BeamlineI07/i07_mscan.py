@@ -32,7 +32,7 @@ p2c.setHklProvider(hkl_prov)
 # Exc filename recorder
 try:
     from exc_h5_meta import ExcaliburExtFileMeta
-    excalibur_h5_data = ExcaliburExtFileMeta("excalibur_h5_data", "excalibur", ["excalibur", "excroi", "excstats", "exc_p"])
+    excalibur_h5_data = ExcaliburExtFileMeta("excalibur_h5_data", "excalibur", ["excalibur", "excroi", "excstats", "exc_p", "exr", "exv"])
     meta_add(excalibur_h5_data)
 except Exception as e:
     print("Error setting up excalibur_h5_data", e)
@@ -45,7 +45,7 @@ excalibur_norm = Finder.find("excalibur_norm")
 # PVA snapper
 try:
     from exc_p import ExcPvaSnapper
-    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats"))
+    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats_standard"))
 except Exception as e:
     print("Error setting up exc snapper", e)
 #####
