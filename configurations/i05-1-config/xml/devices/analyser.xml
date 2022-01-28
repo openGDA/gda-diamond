@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="controller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
-		<property name="basePVName" value="BL05J-EA-DET-01:CAM:" />
+		<property name="basePVName" value="BL05J-EA-DET-03:CAM:" />
 	</bean>
 
 	<bean id="area" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL05J-EA-DET-01:CAM:" />
+		<property name="basePVName" value="BL05J-EA-DET-03:CAM:" />
 	</bean>
 
 	<bean id="analyser_total" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserTotalOnly">
@@ -81,48 +81,48 @@
 	</bean>
 
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL05J-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />
-		<property name="pvNameSetPoint" value="BL05J-EA-DET-01:CAM:CENTRE_ENERGY" />
+		<property name="pvNameGetPoint" value="BL05J-EA-DET-03:CAM:CENTRE_ENERGY_RBV" />
+		<property name="pvNameSetPoint" value="BL05J-EA-DET-03:CAM:CENTRE_ENERGY" />
 	</bean>
 
 	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL05J-EA-DET-01:CAM:AcquireTime_RBV" />
-		<property name="pvNameSetPoint" value="BL05J-EA-DET-01:CAM:STEP_TIME" />
+		<property name="pvNameGetPoint" value="BL05J-EA-DET-03:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="BL05J-EA-DET-03:CAM:STEP_TIME" />
 	</bean>
 
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
-		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
-		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:ArrayCounter_RBV" />
+		<property name="arrayPV" value="BL05J-EA-DET-03:CAM:IMAGE" />
+		<property name="frameNumberPV" value="BL05J-EA-DET-03:CAM:ArrayCounter_RBV" />
 	</bean>
 
 	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Sum Plot" />
-		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
-		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:ArrayCounter_RBV" />
+		<property name="arrayPV" value="BL05J-EA-DET-03:CAM:IMAGE" />
+		<property name="frameNumberPV" value="BL05J-EA-DET-03:CAM:ArrayCounter_RBV" />
 		<property name="sumFrames" value="true" />
-		<property name="acquirePV" value="BL05J-EA-DET-01:CAM:Acquire" />
+		<property name="acquirePV" value="BL05J-EA-DET-03:CAM:Acquire" />
 	</bean>
 
 	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Swept Plot" />
-		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
+		<property name="arrayPV" value="BL05J-EA-DET-03:CAM:IMAGE" />
 		<!-- For the swept plot want to trigger an update after each step so use current channel PV -->
-		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:CURRENT_CHANNEL_RBV" />
+		<property name="frameNumberPV" value="BL05J-EA-DET-03:CAM:CURRENT_CHANNEL_RBV" />
 	</bean>
 
 	<bean id="sweepupdater" class="uk.ac.gda.devices.vgscienta.SweepUpdater">
-		<property name="currentPointPV" value="BL05J-EA-DET-01:CAM:CURRENT_POINT_RBV" />
-		<property name="maxSweepPV" value="BL05J-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV" />
-		<property name="percentagePV" value="BL05J-EA-DET-01:CAM:PROGRESS_RBV" />
-		<property name="currentIterationPV" value="BL05J-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
+		<property name="currentPointPV" value="BL05J-EA-DET-03:CAM:CURRENT_POINT_RBV" />
+		<property name="maxSweepPV" value="BL05J-EA-DET-03:CAM:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="percentagePV" value="BL05J-EA-DET-03:CAM:PROGRESS_RBV" />
+		<property name="currentIterationPV" value="BL05J-EA-DET-03:CAM:NumExposuresCounter_RBV"/>
 	</bean>
 
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL05J-EA-DET-01:CAM:ELEMENT_SET" />
+		<property name="pvName" value="BL05J-EA-DET-03:CAM:ELEMENT_SET" />
 		<property name="outputFormat" value="%s" />
 	</bean>
 	
