@@ -19,7 +19,6 @@
 -Dgda.instance.dir=${project_loc:i18-config}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx4g
 -XX:+DisableExplicitGC

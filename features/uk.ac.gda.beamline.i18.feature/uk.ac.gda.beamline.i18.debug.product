@@ -19,7 +19,6 @@
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i18-config}/properties/live/JCALibrary.properties
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx4g
       </vmArgs>
