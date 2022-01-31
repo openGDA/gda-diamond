@@ -36,7 +36,7 @@
                 dummy-minPosition="-4.1"
                 dummy-maxPosition="6.35"
                 dummy-position="1.0"
-                dummy-unitString="mm"/>
+                dummy-unitString="px"/>
 
     <!-- kb_cs_y is a virtual motor. It transforms the camera pixels space 
              in the the kb_y space through geobrick. See https://jira.diamond.ac.uk/browse/K11-1254 -->
@@ -45,6 +45,6 @@
                 dummy-minPosition="-7.5"
                 dummy-maxPosition="2.8"
                 dummy-position="1"
-                dummy-unitString="mm"/>
+                dummy-unitString="px"/>
 
 </beans>

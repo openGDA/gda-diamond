@@ -3,26 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean id="tr6_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-        <property name="displayName" value="Load" />
-        <property name="scannableName" value="load" />
-        <property name="group" value="TR6" />
-        <property name="increment" value="1.0" />
-        <property name="incrementTextWidth" value="60" />
-    </bean>
-    
-    <bean id="tr6_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-        <property name="displayName" value="θ" />
-        <property name="scannableName" value="tr6_rot" />
-        <property name="group" value="TR6" />
-        <property name="increment" value="1.0" />
-        <property name="incrementTextWidth" value="60" />
-    </bean>
     
     <bean id="kb_cs_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
         <property name="displayName" value="X" />
         <property name="scannableName" value="kb_cs_x" />
-        <property name="group" value="Beam" />
+        <property name="group" value="KB" />
         <property name="increment" value="0.1" />
         <property name="incrementTextWidth" value="60" />
     </bean>
@@ -30,7 +15,7 @@
     <bean id="kb_cs_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
         <property name="displayName" value="Y" />
         <property name="scannableName" value="kb_cs_y" />
-        <property name="group" value="Beam" />
+        <property name="group" value="KB" />
         <property name="increment" value="0.1" />
         <property name="incrementTextWidth" value="60" />
     </bean> 
@@ -40,8 +25,6 @@
             <list>
                 <ref bean="kb_cs_x_control" />
                 <ref bean="kb_cs_y_control" />
-                <ref bean="tr6_y_control" />
-                <ref bean="tr6_rot_control" />
             </list>
         </property>
     </bean>
