@@ -57,3 +57,18 @@ try:
 except Exception as e:
     print("Error setting up exc threshold", e)
 #####
+
+# ROI def meta recorder for dat
+try:
+    from roi_dat_meta import RoiMetaDatFileDevice
+    ex_rois = RoiMetaDatFileDevice("ex_rois", "excalibur", ["exr", "exv"], "Excalibur")
+    meta_add(ex_rois)
+    p1_rois = RoiMetaDatFileDevice("p1_rois", "pilatus1", ["p1r", "p1v"], "Pilatus 1")
+    meta_add(p1_rois)
+    p2_rois = RoiMetaDatFileDevice("p2_rois", "pilatus2", ["p2r", "p2v"], "Pilatus 2")
+    meta_add(p2_rois)
+    p3_rois = RoiMetaDatFileDevice("p3_rois", "pilatus3", ["p3r", "p3v"], "Pilatus 3")
+    meta_add(p3_rois)
+except Exception as e:
+    print("Error setting up ROI meta devices", e)
+#####
