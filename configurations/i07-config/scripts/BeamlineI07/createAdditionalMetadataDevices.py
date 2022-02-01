@@ -15,9 +15,9 @@ from gdascripts.pd.dummy_pds import MultiInputExtraFieldsDummyPD
 
 
 def makeDummyPD(name):
-    device = MultiInputExtraFieldsDummyPD(name, [name + ".x", name + ".y"], [])
-    device.setOutputFormat(["%.0f", "%.0f"])
-    device.moveTo((-99999999, -99999999))
+    device = MultiInputExtraFieldsDummyPD(name, [name], [])
+    device.setOutputFormat(["%.0f"])
+    device.moveTo(-99999999)
     return device
 
 dpsx_zero = makeDummyPD("dpsx_zero")
