@@ -59,27 +59,27 @@
 
 	<!-- Focusing Mirrow M3 Motors -->
 	<bean id="MotorX_M3" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-FCMIR-01:UCSXR" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:X" />
 	</bean>
 
 	<bean id="MotorY_M3" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-FCMIR-01:UCSYR" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:Y" />
 	</bean>
 
 	<bean id="MotorZ_M3" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-FCMIR-01:UCSZR" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:Z" />
 	</bean>
 
 	<bean id="MotorYaw_M3" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-FCMIR-01:UCSCR" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:YAW" />
 	</bean>
 
 	<bean id="MotorPitch_M3" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-FCMIR-01:UCSBR" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:PITCH" />
 	</bean>
 
 	<bean id="MotorRoll_M3" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-FCMIR-01:UCSAR" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:ROLL" />
 	</bean>
 
 	<bean id="MotorFinePitch_M3" class="gda.device.motor.EpicsMotor">
