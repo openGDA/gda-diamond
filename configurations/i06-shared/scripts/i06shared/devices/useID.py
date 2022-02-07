@@ -4,6 +4,8 @@ from Diamond.PseudoDevices.ID_Polarisation import EnergyConsolidationClass;
 from Diamond.PseudoDevices.ID_Polarisation import CombinedIDEnergyClass;
 from Diamond.PseudoDevices.ID_Harmonic import ID_HarmonicClass
 
+import __main__  # @UnresolvedImport
+
 ### Polarisation Control on ID;
 print("-"*100)
 print("Enable the Polarisation Control on ID, creating objects:")
@@ -31,23 +33,23 @@ idupolStatusPV = 'BL06I-OP-IDU-01:POL:STATUS';
 iduEnablePV = "SR06I-MO-SERVC-21:IDBLENA";
 
 iddpol = ID_PolarisationClass('iddpol', iddpolSetPV, iddpolGetPV, iddpolStatusPV, iddEnablePV);
-denergy = EnergyConsolidationClass('denergy', iddpol, denergy0, denergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
-hdenergy = EnergyConsolidationClass('hdenergy', iddpol, iddpgmenergy, denergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
-iddrpenergy = EnergyConsolidationClass('iddrpenergy', iddpol, iddrpenergy0, iddrpenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
-Energy.addGroupMember(denergy);  # @UndefinedVariable
-Energy.addGroupMember(hdenergy);  # @UndefinedVariable
-Energy.addGroupMember(iddrpenergy);  # @UndefinedVariable
+denergy = EnergyConsolidationClass('denergy', iddpol, __main__.denergy0, __main__.denergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
+hdenergy = EnergyConsolidationClass('hdenergy', iddpol, __main__.iddpgmenergy, __main__.denergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
+iddrpenergy = EnergyConsolidationClass('iddrpenergy', iddpol, __main__.iddrpenergy0, __main__.iddrpenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
+__main__.Energy.addGroupMember(denergy);  # @UndefinedVariable
+__main__.Energy.addGroupMember(hdenergy);  # @UndefinedVariable
+__main__.Energy.addGroupMember(iddrpenergy);  # @UndefinedVariable
 
 idupol = ID_PolarisationClass('idupol', idupolSetPV, idupolGetPV, idupolStatusPV, iduEnablePV);
-uenergy = EnergyConsolidationClass('uenergy', idupol, uenergy0, uenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
-huenergy = EnergyConsolidationClass('huenergy', idupol, idupgmenergy, uenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
-idurpenergy = EnergyConsolidationClass('idurpenergy', idupol, idurpenergy0, idurpenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
-Energy.addGroupMember(uenergy);  # @UndefinedVariable
-Energy.addGroupMember(huenergy);  # @UndefinedVariable
-Energy.addGroupMember(idurpenergy);  # @UndefinedVariable
+uenergy = EnergyConsolidationClass('uenergy', idupol, __main__.uenergy0, __main__.uenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
+huenergy = EnergyConsolidationClass('huenergy', idupol, __main__.idupgmenergy, __main__.uenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
+idurpenergy = EnergyConsolidationClass('idurpenergy', idupol, __main__.idurpenergy0, __main__.idurpenergy1, inPositionTolerance = 0.001);  # @UndefinedVariable
+__main__.Energy.addGroupMember(uenergy);  # @UndefinedVariable
+__main__.Energy.addGroupMember(huenergy);  # @UndefinedVariable
+__main__.Energy.addGroupMember(idurpenergy);  # @UndefinedVariable
 
-duenergy = CombinedIDEnergyClass("duenergy", denergy, uenergy, pgmenergy);  # @UndefinedVariable
-Energy.addGroupMember(duenergy);  # @UndefinedVariable
+duenergy = CombinedIDEnergyClass("duenergy", denergy, uenergy, __main__.pgmenergy);  # @UndefinedVariable
+__main__.Energy.addGroupMember(duenergy);  # @UndefinedVariable
 
 ### Enable the Harmonic Control on ID";
 print("-"*100)

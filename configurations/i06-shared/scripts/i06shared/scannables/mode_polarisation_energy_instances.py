@@ -15,6 +15,7 @@ import math
 from gda.configuration.properties import LocalProperties
 from i06shared.scannables.dummyListScannable import DummyListScannable
 from gda.device.scannable import DummyScannable
+from i06shared.devices.useID import iddpol, idupol, iddrpenergy, idurpenergy
 
 GAP_LIMIT=99.0
 RAW_PHASE_MOTOR_TOLERANCE=1.0
@@ -92,10 +93,10 @@ beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
 
 if installation.isLive() and beamline != "lab44":
     __main__.smode=SourceMode('smode', defaultmode=SourceMode.SOURCE_MODES[4])
-    __main__.offhar=HarmonicOffset('offhar', __main__.smode, __main__.iddpol, __main__.idupol,__main__.iddrpenergy,__main__.idurpenergy, __main__.pgmenergy, offhar=0.0)
-    __main__.pol=Polarisation('pol', __main__.iddpol, __main__.iddrpenergy, __main__.iddgap, __main__.idupol, __main__.idurpenergy, __main__.idugap, __main__.pgmenergy, __main__.smode,__main__.offhar, detune=100.0, opengap=100.0,defaultPolarisation=Polarisation.POLARISATIONS[5])
+    __main__.offhar=HarmonicOffset('offhar', __main__.smode, iddpol, idupol,iddrpenergy,idurpenergy, __main__.pgmenergy, offhar=0.0)
+    __main__.pol=Polarisation('pol', iddpol, iddrpenergy, __main__.iddgap, idupol, idurpenergy, __main__.idugap, __main__.pgmenergy, __main__.smode,__main__.offhar, detune=100.0, opengap=100.0,defaultPolarisation=Polarisation.POLARISATIONS[5])
     initialisation()
-    __main__.energy=CombinedEnergy('energy', __main__.iddgap, __main__.idugap, __main__.iddrpenergy, __main__.idurpenergy, __main__.pgmenergy, __main__.smode, __main__.pol,__main__.offhar, detune=100.0, opengap=100.0)
+    __main__.energy=CombinedEnergy('energy', __main__.iddgap, __main__.idugap, iddrpenergy, idurpenergy, __main__.pgmenergy, __main__.smode, __main__.pol,__main__.offhar, detune=100.0, opengap=100.0)
     __main__.laa=LinearArbitraryAngle('laa', __main__.iddlaangle, __main__.idulaangle, __main__.smode, __main__.pol)
     __main__.offhar.setPolScannable(__main__.pol)
 else:
