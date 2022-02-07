@@ -345,45 +345,11 @@
 		</property>
 	</bean>
 
-	<bean id="medipixdrivermode" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
-		<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode" />
-		<property name="expression" value="3"/> <!--0:12 bit, 1:24 bit, 2:Tow Threshold, 3:Continuous RW, 4:Color, 5:Charge Summing  -->
-		<property name="enabled" value="true" />
-		<property name="restorePvValue" value="true" />
-		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
-				<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
-				<property name="expression" value="@medipix_adbase.getAcquireTime()"/>
-				<property name="enabled" value="true" />
-				<property name="restorePvValue" value="true" />
-				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.EpicsStartStop">
-						<property name="adBase" ref="medipix_adbase" />						
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
 	<bean id="medipixCollectionStrategy4zacscan" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
 		<property name="restoreAcquireState" value="false" />
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
-				<property name="restoreNumImagesAndImageMode" value="true" />
-				<property name="imageMode" value="1" /> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
-				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
-						<property name="restoreTriggerMode" value="true" />
-						<property name="triggerMode" value="3" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
-						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
-								<property name="restoreAcquireTime" value="true" />
-								<property name="restoreAcquirePeriod" value="true" />
-								<property name="acquirePeriodExpression" value="#acquireTime" />
-								<property name="decoratee" ref="medipixdrivermode" />
-							</bean>
-						</property>
-					</bean>
-				</property>
+			<bean class="gda.device.detector.addetector.collectionstrategy.EpicsStartStop">
+				<property name="adBase" ref="medipix_adbase" />
 			</bean>
 		</property>
 	</bean>
