@@ -76,8 +76,6 @@ def miscan(*args):
         Thus it can be used anywhere the standard GDA 'scan' is used.
     '''
     command = "miscan " # rebuild the input command as String so it can be recored into data file
-    image_mode = {}
-    number_images_per_collection = {}
     
     starttime = time.ctime()
     start = time.time()
@@ -136,12 +134,21 @@ def miscan(*args):
                 command += str(arg) + " "
         i=i+1
         if isinstance( arg,  NXDetector ):
-            decoratee = arg.getCollectionStrategy().getDecoratee()
-            if isinstance(decoratee, ImageModeDecorator):
+            if str(arg.getName()) == "medipix":
+                command += "mpx "
+            else:
+                command += str(arg.getName()) + " "
+            CACHE_PARAMETER_TOBE_CHANGED = False 
+            cs = arg.getCollectionStrategy()
+            decoratee = cs.getDecoratee()
+            adbase = cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
+            if adbase is not None:
                 #capture current detector settings before change them
-                image_mode[decoratee] = decoratee.getImageMode()
-                number_images_per_collection[decoratee] = decoratee.getNumberImagesPerCollection()
-                decoratee.setImgeMode(1) #this will make sure metadata in detector setting are correct as decoratee setting comes after metadata are collected
+                image_mode = adbase.getImageMode()
+                num_images = adbase.getNumImages()
+                CACHE_PARAMETER_TOBE_CHANGED = True
+            if isinstance(decoratee, ImageModeDecorator):
+                decoratee.setImageMode(1) #this will make sure metadata in detector setting are correct as decoratee setting comes after metadata are collected
                 if i<len(args)-1: # more than 2 arguments following detector
                     if type(args[i])==IntType and (type(args[i+1])==IntType or type(args[i+1])== FloatType):
                         #support the miscan command - first input after detector is number of images per data point
@@ -163,10 +170,9 @@ def miscan(*args):
         scan([e for e in newargs])
     finally:
         #restore detector settings
-        for key, value in image_mode:
-            key.setImageMode(value)
-        for key, value in number_images_per_collection:
-            key.setNumberOfImagesPerCollection(value)
+        if CACHE_PARAMETER_TOBE_CHANGED:
+            adbase.setImageMode(image_mode)
+            adbase.setNumImages(num_images)
             
         meta.rm("user_input", "command")    
 
