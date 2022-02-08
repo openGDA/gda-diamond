@@ -115,6 +115,9 @@ else:
         raise RuntimeError("EPICS PV and IOC required!")
     alias("rotate")
 
+LocalProperties.set("run.in.gda", True) # property 'run.in.gda' must be set before import add_pixel_mask, remove_pixel_mas
+from i06shared.metadata.detectorPixelMask import add_pixel_mask, remove_pixel_mask # @UnusedImport
+
 print("="*100)
 print("end of localStation.py for Beamline I06)")
 
