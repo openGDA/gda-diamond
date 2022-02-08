@@ -19,7 +19,7 @@ from gda.jython import ScriptBase
 import scisoftpy as dnp
 from gda.configuration.properties import LocalProperties
 from gda.jython import InterfaceProvider
-from java.io import File
+from java.io import File  # @UnresolvedImport
 from gdascripts.metadata.nexus_metadata_class import meta
 
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
@@ -186,11 +186,7 @@ class FastEnergyScanControlClass(object):
 	def prepareAreaDetectorForCollection(self, areadet, expotime, numImages):
 		#get camera control object
 		cs=areadet.getCollectionStrategy()
-		if self.isKBRastering():
-			self.adbase=cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
-		else:
-			# medipix - 4 level of decoratee in collection strategy
-			self.adbase=cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
+		self.adbase=cs.getDecoratee().getAdBase()
 		if self.adbase is not None:
 			#capture existing settings that will be changed for fast scan
 			self.aquire_state=self.adbase.getAcquireState()
@@ -207,7 +203,7 @@ class FastEnergyScanControlClass(object):
 			sleep(0.1)
 			self.drive_mode=int(self.chMedipixMode.caget())
 			sleep(0.1)
-			self.existingCameraParametersCaptured=True
+			self.existingCameraParametersCaptured = True
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
 			sleep(0.5)
@@ -278,6 +274,7 @@ class FastEnergyScanControlClass(object):
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
 				sleep(0.5)
+			self.existingCameraParametersCaptured = False
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 		if self.isKBRastering():
@@ -679,6 +676,8 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 	def stop(self):
 		print("%s: Panic Stop Called" % self.getName())
 		self.fesController.abortScan();
+		if beamline_name == "i06":
+			self.fesController.restoreAreaDetectorParametersAfterCollection()
 
 	def cvscan(self, startEnergy, endEnergy, scanTime, pointTime):
 		command = "zacscan " + str(startEnergy) + " " + str(endEnergy) + " " + str(scanTime) + " " + str(pointTime)
@@ -710,6 +709,7 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		try:
 			if beamline_name == "i06":
 				self.fesController.enableAreaDetector() #using area detector
+				self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
 				areadetector = self.fesController.getAreaDetector()
 				theScan = PointsScan([self,0,1,numPoint,fesData,0,1,areadetector,pointTime])
 			else:
@@ -728,6 +728,8 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		if self.fesController.isScanAborted():
 			print("The Fast Energy Scan is aborted.")
 		else:
+			if beamline_name == "i06":
+				self.fesController.restoreAreaDetectorParametersAfterCollection()
 			print("The Fast Energy Scan is completed.")
 
 #######################################################
