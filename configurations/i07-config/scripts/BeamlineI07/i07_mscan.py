@@ -45,7 +45,7 @@ excalibur_norm = Finder.find("excalibur_norm")
 # PVA snapper
 try:
     from exc_p import ExcPvaSnapper
-    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats_standard"))
+    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats_verbose"))
 except Exception as e:
     print("Error setting up exc snapper", e)
 #####
