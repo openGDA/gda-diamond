@@ -3,18 +3,19 @@
 
 from gda.jython.commands.GeneralCommands import  alias
 from i06shared.constant import Close, Open
+from __main__ import gv11i, gv9i  # @UnresolvedImport
 
 print("-"*100)
 print("create 'closebeam' and 'openbeam' commands - GV9 and GV11")
 def closebeam():
-	gv9i.moveTo(Close);  # @UndefinedVariable
-	gv11i.moveTo(Close);  # @UndefinedVariable
+	gv9i.moveTo(Close);
+	gv11i.moveTo(Close);
 
 alias("closebeam")
 
 def openbeam():
-	gv11i.moveTo(Open);  # @UndefinedVariable
-	gv9i.moveTo(Open);  # @UndefinedVariable
+	gv11i.moveTo(Open);
+	gv9i.moveTo(Open); 
 
 alias("openbeam")
 
