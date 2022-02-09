@@ -85,7 +85,7 @@
 	<bean id="dcam8_tiff" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dcam8_adbase" />
 		<property name="ndFile" ref="dcam8_ndfile_tiff" />
-		<property name="fileWriter" ref="dcam8_fimg_writer" />
+		<property name="fileWriter" ref="dcam8_tiff_writer" />
 		<property name="collectionStrategy" ref="dcam8_collection_strategy" />
 		<property name="computeStats" value="false" />
 		<property name="readArray" value="false" />

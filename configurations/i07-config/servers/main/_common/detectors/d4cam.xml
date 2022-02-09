@@ -87,7 +87,7 @@
 		<property name="adBase" ref="d4cam_adbase" />
 		<property name="ndFile" ref="d4cam_ndfile_tiff" />
 		<property name="ndArray" ref="d4cam_ndarray" />
-		<property name="fileWriter" ref="d4cam_fimg_writer" />
+		<property name="fileWriter" ref="d4cam_tiff_writer" />
 		<property name="collectionStrategy" ref="d4cam_collection_strategy" />
 		<property name="computeStats" value="false" />
 		<property name="readArray" value="false" />
