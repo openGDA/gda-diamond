@@ -43,6 +43,10 @@
 		<property name="name" value="frame" />
 	</bean>
 
+	<bean id="temperature_c" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="temperature_c" />
+	</bean>
+
 	<bean id="temperature_k" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="temperature_k" />
 	</bean>
