@@ -133,10 +133,14 @@ try_execfile("BeamlineI07/useElectroChemValves.py")
 try_execfile("BeamlineI07/i07_mscan.py")
 
 try:
-	from gdaserver import d5i
+	from gdaserver import d5i, padc1, padc2, padc3, padc4
 	add_default(d5i)
+	add_default(padc1)
+	add_default(padc2)
+	add_default(padc3)
+	add_default(padc4)
 except:
-	print('Could not find d5i to add as a default scannable')
+	print('Could not add all default scannables')
 
 
 from scannable.pv_with_separate_readback_and_tolerance import PVWithSeparateReadbackAndToleranceScannable
@@ -181,3 +185,6 @@ def checkHkl(position):
 		return(str(err))
 
 hkl.checkPositionValid = checkHkl
+run "iviumI16/compactStat.py"
+run "BeamlineI07/devices/ivium.py"
+del ivium2

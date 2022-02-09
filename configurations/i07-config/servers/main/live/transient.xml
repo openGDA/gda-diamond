@@ -12,7 +12,7 @@
 
 	<!-- <import resource="transient/dcdx.xml" /> -->
 	
-	<import resource="transient/gas_rig.xml" />
+	<!-- <import resource="transient/gas_rig.xml" /> -->
 
 	<!-- <import resource="transient/gsaxs.xml" /> -->
 

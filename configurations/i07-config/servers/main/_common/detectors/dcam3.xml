@@ -55,27 +55,26 @@
 	<bean id="dcam3_det" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dcam3_adbase" />
 		<property name="ndFile" ref="dcam3_ndfile" />
-		<property name="ndArray" ref="dcam3_ndarray" />
 		<property name="fileWriter" ref="dcam3_hdf5_writer" />
 		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
 		<property name="computeStats" value="false" />
+		<property name="readArray" value="false" />
 	</bean>
 
 	<!-- Stats-computing version -->
 	<bean id="dcam3_det_stat" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dcam3_adbase" />
 		<property name="ndFile" ref="dcam3_ndfile" />
-		<property name="ndArray" ref="dcam3_ndarray" />
 		<property name="ndStats" ref="dcam3_ndstats" />
 		<property name="fileWriter" ref="dcam3_hdf5_writer" />
 		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
 		<property name="computeStats" value="true" />
+		<property name="readArray" value="false" />
 	</bean>
 
 	<bean id="dcam3_png" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dcam3_adbase" />
 		<property name="ndFile" ref="dcam3_ndfile_fimg" />
-		<property name="ndArray" ref="dcam3_ndarray" />
 		<property name="fileWriter" ref="dcam3_fimg_writer" />
 		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
 		<property name="computeStats" value="false" />
@@ -86,8 +85,7 @@
 	<bean id="dcam3_tiff" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dcam3_adbase" />
 		<property name="ndFile" ref="dcam3_ndfile_tiff" />
-		<property name="ndArray" ref="dcam3_ndarray" />
-		<property name="fileWriter" ref="dcam3_fimg_writer" />
+		<property name="fileWriter" ref="dcam3_tiff_writer" />
 		<property name="collectionStrategy" ref="dcam3_collection_strategy" />
 		<property name="computeStats" value="false" />
 		<property name="readArray" value="false" />

@@ -93,7 +93,8 @@
     </bean>
 
      <bean id="dataservermanager" class="gda.data.DataServerProcessManager" >
-          <property name="baseExecutable" value="/dls_sw/i07/software/gda_versions/master_20201217/ds/ds-test/x86_64/dataserver" />
+          <property name="executable" value="/dls_sw/i07/software/gda_versions/master_20201217/ds/ds-test/x86_64/dataserver" />
+          <property name="customLoggingConfig" value="/dls_sw/i07/etc/init/data_server_logging.xml" />
      </bean>
 
 </beans>

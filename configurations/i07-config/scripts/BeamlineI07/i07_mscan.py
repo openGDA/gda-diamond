@@ -32,7 +32,7 @@ p2c.setHklProvider(hkl_prov)
 # Exc filename recorder
 try:
     from exc_h5_meta import ExcaliburExtFileMeta
-    excalibur_h5_data = ExcaliburExtFileMeta("excalibur_h5_data", "excalibur", ["excalibur", "excroi", "excstats", "exc_p"])
+    excalibur_h5_data = ExcaliburExtFileMeta("excalibur_h5_data", "excalibur", ["excalibur", "excroi", "excstats", "exc_p", "exr", "exv"])
     meta_add(excalibur_h5_data)
 except Exception as e:
     print("Error setting up excalibur_h5_data", e)
@@ -45,7 +45,7 @@ excalibur_norm = Finder.find("excalibur_norm")
 # PVA snapper
 try:
     from exc_p import ExcPvaSnapper
-    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats"))
+    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats_verbose"))
 except Exception as e:
     print("Error setting up exc snapper", e)
 #####
@@ -56,4 +56,19 @@ try:
     excthresh = ExcThreshold("excthresh", excalibur.getController().getBasePv())
 except Exception as e:
     print("Error setting up exc threshold", e)
+#####
+
+# ROI def meta recorder for dat
+try:
+    from roi_dat_meta import RoiMetaDatFileDevice
+    ex_rois = RoiMetaDatFileDevice("ex_rois", "excalibur", ["exr", "exv"], "Excalibur")
+    meta_add(ex_rois)
+    p1_rois = RoiMetaDatFileDevice("p1_rois", "pilatus1", ["p1r", "p1v"], "Pilatus 1")
+    meta_add(p1_rois)
+    p2_rois = RoiMetaDatFileDevice("p2_rois", "pilatus2", ["p2r", "p2v"], "Pilatus 2")
+    meta_add(p2_rois)
+    p3_rois = RoiMetaDatFileDevice("p3_rois", "pilatus3", ["p3r", "p3v"], "Pilatus 3")
+    meta_add(p3_rois)
+except Exception as e:
+    print("Error setting up ROI meta devices", e)
 #####

@@ -6,7 +6,6 @@
 
 	<alias name="sim_adbase" alias="dcam3_adbase" />
 	<alias name="sim_stats" alias="dcam3_ndstats" />
-	<alias name="sim_ndarray" alias="dcam3_ndarray" />
 	<alias name="sim_hdf5" alias="dcam3_hdf5" />
 	<alias name="sim_ndfile_fimg" alias="dcam3_ndfile_fimg" />
 	<alias name="sim_ndfile_tiff" alias="dcam3_ndfile_tiff" />

@@ -137,6 +137,7 @@
 				<property name="initialFileTemplate" value="%s%s%d.tif" />
 			</bean>
 		</property>
+		<property name="useSWMR" value="true" />
 	</bean>
 
 </beans>

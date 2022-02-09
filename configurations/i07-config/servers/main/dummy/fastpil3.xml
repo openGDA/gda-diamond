@@ -88,6 +88,7 @@
 				</property>
 			</bean>
 		</property>
+		<property name="useSWMR" value="true" />
 	</bean>
 
 	<bean id="fastpil3_hdf5filewriter"

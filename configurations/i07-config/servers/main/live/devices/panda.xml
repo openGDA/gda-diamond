@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="padc1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-MO-PANDA-02:DRV:POSBUS18:VAL" />
+	</bean>
+
+	<bean id="padc2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-MO-PANDA-02:DRV:POSBUS19:VAL" />
+	</bean>
+
+	<bean id="padc3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-MO-PANDA-02:DRV:POSBUS20:VAL" />
+	</bean>
+
+	<bean id="padc4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-MO-PANDA-02:DRV:POSBUS21:VAL" />
+	</bean>
+
+</beans>
