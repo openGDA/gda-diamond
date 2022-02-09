@@ -43,19 +43,19 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="chopperNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="chp" />
-		<property name="category" value="NX_INSTRUMENT"/>
-		<property name="nexusClass" value="NXcollection"/>
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="x"/>
-					<property name="scannableName" value="chopx"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="chopperNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register"> -->
+<!-- 		<property name="name" value="chp" /> -->
+<!-- 		<property name="category" value="NX_INSTRUMENT"/> -->
+<!-- 		<property name="nexusClass" value="NXcollection"/> -->
+<!-- 		<property name="childNodes"> -->
+<!-- 			<list> -->
+<!-- 				<bean class="org.eclipse.scanning.device.ScannableField"> -->
+<!-- 					<property name="name" value="x"/> -->
+<!-- 					<property name="scannableName" value="chopx"/> -->
+<!-- 				</bean> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	<bean id="d9NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="d9" />
 		<property name="category" value="NX_INSTRUMENT"/>
@@ -213,7 +213,7 @@
 				<!-- i06-1-config shared devices -->
 				<value>d8</value>
 				<value>s6</value>
-				<value>chp</value>
+<!-- 				<value>chp</value> -->
 				<value>d9</value>
 				<value>m7</value>
 				<value>d10</value>

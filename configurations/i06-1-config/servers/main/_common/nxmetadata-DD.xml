@@ -106,7 +106,7 @@
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="sample"/>
+					<property name="name" value="cryostat"/>
 					<property name="expression" value="@ls336.getPosition()[1]"/>
 					<property name="units" value="K"/>
 				</bean>
@@ -116,7 +116,7 @@
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="cryostat"/>
+					<property name="name" value="sample"/>
 					<property name="expression" value="@ls336.getPosition()[3]"/>
 					<property name="units" value="K"/>
 				</bean>
