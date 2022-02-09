@@ -206,8 +206,10 @@ class FastEnergyScanControlClass(object):
 			self.existingCameraParametersCaptured = True
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
-			sleep(0.5)
+			sleep(2.0)
 			#set camera parameters for fast scan
+			self.chMedipixMode.caput(3)
+			sleep(5.0)
 			self.adbase.setAcquireTime(expotime)
 			sleep(0.5)
 			self.adbase.setAcquirePeriod(expotime)
@@ -218,8 +220,6 @@ class FastEnergyScanControlClass(object):
 			sleep(0.5)
 			self.adbase.setTriggerMode(0) # Auto
 			sleep(0.5)
-			self.chMedipixMode.caput(3)
-			sleep(1.0)
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 		if self.isKBRastering():
