@@ -813,12 +813,6 @@ try:
 		scannable.configure()
 		return scannable
 
-	try:
-		energy_calibration = JEPConverterHolder("energy_calibration", "calibrated_energy.xml")
-		calibrated_energy = createConvertorScannable("ConvertorScannable", dcmenergy, energy_calibration)
-	except:
-		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
-
 	def check_zebra(zebraPositionScannable, reportOk=True):
 		position_mismatch = "    Mismatch between {} motor position and zebra encoder - Rocking it will probably fail!\n" + \
 			"     * To fix, run '{}.copyMotorPosToZebra()' when motor is static (it must not be moving at all).\n" + \
