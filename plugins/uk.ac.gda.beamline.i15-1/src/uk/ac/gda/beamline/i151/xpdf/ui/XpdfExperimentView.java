@@ -50,6 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.GDAMetadataProvider;
 import uk.ac.diamond.daq.beamline.i15.api.QueueConstants;
 import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
 import uk.ac.diamond.daq.beamline.i15.database.IXpdfDatabaseService;
@@ -140,22 +141,28 @@ public class XpdfExperimentView {
 	}
 
 	private void refresh() {
+		visitInfo = new VisitInfomation();
+
 		final List<ExperimentEntry> experiments = new ArrayList<>();
 
 		final List<Sample> samples = getSamplesForCurrentVisit();
 		for (Sample sample : samples) {
-			final Collection<DataCollectionPlan> dcps = getUniqueDataCollectionPlansForSample(sample);
-			for (DataCollectionPlan dcp : dcps) {
-				experiments.add(new ExperimentEntry(sample, dcp));
+			final var dcps = database.retrieveDataCollectionPlansForSample(sample.getSampleId());
+			final var udcps = getUniqueDataCollectionPlansForSample(dcps);
+			
+			final var sample_type_id = sample.getSampleTypeId();
+			final var components = database.retrieveComponentsForSampleType(sample_type_id);
+			final var composition = components.get(0).getComponentContent();
+			for (DataCollectionPlan dcp : udcps) {
+				experiments.add(new ExperimentEntry(sample, dcp, dcps, composition));
 			}
 		}
 
 		conf.setFromList(experiments);
 	}
 
-	private Collection<DataCollectionPlan> getUniqueDataCollectionPlansForSample(Sample sample) {
+	private Collection<DataCollectionPlan> getUniqueDataCollectionPlansForSample(final List<DataCollectionPlan> dcps) {
 		// From the DB you might have multiple DCPs with the same ID (to represent multiple scan axis)
-		final List<DataCollectionPlan> dcps = database.retrieveDataCollectionPlansForSample(sample.getSampleId());
 		// This is a trick to get unique elements by the DCP ID. Put into a map keyed by the ID and where there are
 		// duplicated keys throw away the second object. Then return all the values.
 		return dcps.stream()
@@ -188,18 +195,31 @@ public class XpdfExperimentView {
 	private class ExperimentEntry {
 
 		final Sample sample;
-		final DataCollectionPlan dcp;
+		final DataCollectionPlan udcp;
+		final List<DataCollectionPlan> dcps;
+		final String composition;
 
-		public ExperimentEntry(Sample sample, DataCollectionPlan dcp) {
+		public ExperimentEntry(Sample sample, DataCollectionPlan udcp, List<DataCollectionPlan> dcps,
+				String composition) {
 			this.sample = sample;
-			this.dcp = dcp;
+			this.udcp = udcp;
+			this.dcps = dcps;
+			this.composition = composition;
 		}
 
 		@Override
 		public String toString() {
 			// Note this toString is the thing used for what gets displayed in the UI. Not just for debugging!
-			return sample.getSampleName() + " (" + sample.getSampleId() + ") : " + dcp.getName() + " ("
-					+ dcp.getDcPlanId() + ")";
+			
+			// sample_name, composition, exposure_times, axes_names, axes_values, k
+			final var exposure_times = dcps.stream().map(dcp -> dcp.getExposureTime().toString()).collect(Collectors.joining(","));
+			final var axis_names     = dcps.stream().map(dcp -> dcp.getScanParamServiceName())   .collect(Collectors.joining(","));
+			//final var axis_values    = dcps.stream().map(dcp -> dcp.getScanParamModelArray())    .collect(Collectors.joining(","));
+			final var axis_values    = dcps.stream().map(dcp -> new String(
+					"["+dcp.getScanParamModelStart()+", "+ dcp.getScanParamModelStop()+", " +
+						dcp.getScanParamModelStep()+"]")).collect(Collectors.toList());
+			return sample.getSampleName() + " | " + composition + "\n\t" +
+				exposure_times + " | " + axis_names + " | " + axis_values + " | " + udcp.getDcPlanId();
 		}
 
 		public long getSampleId() {
@@ -207,7 +227,7 @@ public class XpdfExperimentView {
 		}
 
 		public long getDataCollectionPlanId() {
-			return dcp.getDcPlanId();
+			return udcp.getDcPlanId();
 		}
 	}
 
@@ -220,8 +240,8 @@ public class XpdfExperimentView {
 		final long sessionNumber;
 
 		private VisitInfomation() {
-			// Get the visit for this client; set at client startup
-			final String visit = LocalProperties.get(LocalProperties.RCP_APP_VISIT);
+			// Get the visit on the server
+			final String visit = GDAMetadataProvider.getInstance().getMetadataValue(GDAMetadataProvider.EXPERIMENT_IDENTIFIER);
 
 			// Get the matcher using the visit regex
 			final Matcher matcher = visitRegex.matcher(visit);

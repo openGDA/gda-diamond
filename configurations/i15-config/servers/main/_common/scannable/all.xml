@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- 
 	<import resource="I15-.xml"/>
@@ -17,7 +17,6 @@
 	<import resource="I15-D3.xml"/>
 	<import resource="I15-D4.xml"/>
 	<import resource="I15-D6.xml"/>
-	<import resource="I15-D7.xml"/>
 	<import resource="I15-D8.xml"/>
 	<import resource="I15-DCM.xml"/>
 	<import resource="I15-DET1.xml"/>
@@ -32,7 +31,6 @@
 	<import resource="I15-M3B.xml"/>
 	<import resource="I15-PIN2.xml"/>
 	<import resource="I15-PIN3.xml"/>
-	<import resource="I15-PIN4.xml"/>
 	<import resource="I15-Processing.xml"/>
 	<!-- 
 	 -->

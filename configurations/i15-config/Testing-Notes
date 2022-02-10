@@ -2,11 +2,28 @@
 Basic sanity check tests
 --------------------------------------------------------------------------------
 
+# Usually this won't be needed as localStationUser/Staff will set it correctly,
+# but if not then select the detector which is currently connected
 exposeDetector='mar'
 exposeDetector='pe'
 exposeDetector='pil3'
 
-exposeDark(1.1, exposeDetector+'+exposeDark+1.1')
+
+# If in shutdown, make sure that these are set:
+ds.ignoreFault=True
+exposeSuppressOpenDetectorShieldAtScanStart=True # Default is False
+exposeSuppressOpenEHShutterAtScanStart=True # Default is False
+
+# This should be True in shutdown as the detector shield may not have compressed air.
+manyShortScans(True)
+
+# If diode motors are in error, make sure they are disabled
+expose_d1out=False # Default is False
+expose_d2out=False # Default is True
+expose_d3out=False # Default is True
+
+# Run some basic functionality tests
+exposeDark(1.1, exposeDetector+'+exposeDark+1.1') # Not pil3
 expose(1.1, exposeDetector+'+expose+1.1')
 exposeN(1.2, 3, exposeDetector+'+expose+1.2+3')
 

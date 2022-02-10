@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Epics scannables for import into CommissioningView -->
+	<bean id="membrane_pressure"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-EA-DRUCK-01:PRESSURE_RBV" />
+	</bean>
+	<bean id="membrane_set_point"
+			class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL15I-EA-DRUCK-01:PRESSURESETPOINT_RBV" />
+		<property name="pvNameSetPoint" value="BL15I-EA-DRUCK-01:PRESSURESETPOINT" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+	<bean id="membrane_slew_rate"
+			class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL15I-EA-DRUCK-01:PRESSURESLEWRATE_RBV" />
+		<property name="pvNameSetPoint" value="BL15I-EA-DRUCK-01:PRESSURESLEWRATE" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+	<bean id="membrane_output_state"
+			class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL15I-EA-DRUCK-01:OUTPUTSTATE"/>
+		<property name="readOnly" value="false"/>
+	</bean>
+</beans>

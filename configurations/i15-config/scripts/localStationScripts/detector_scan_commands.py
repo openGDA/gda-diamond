@@ -94,8 +94,8 @@ def _configureConstantVelocityMove(axis, detector):
 def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	logger = LoggerFactory.getLogger("detector_scan_commands.py")
-	logger.trace("configureDetector(detector=%r, exposureTime=%r, noOfExposures=%r, sampleSuffix=%r, dark=%r)" % (
-							detector, exposureTime, noOfExposures, sampleSuffix, dark))
+	logger.trace("configureDetector(detector.name={}, exposureTime={}, noOfExposures={}, sampleSuffix={}, dark={}) detector={}",
+							detector.name, exposureTime, noOfExposures, sampleSuffix, dark, detector)
 
 	supportedDetectors = {'mar':    jythonNameMap.marHWT
 						, 'marHWT': detector
@@ -135,6 +135,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	fileTemplate="%s%s"
 	
 	if 'hdfwriter' in [p.getName() for p in detector.getPluginList()]:
+		logger.trace("Setting 'hdfwriter' file paths on {}", detector.name, detector)
 		detector.hdfwriter.setFileTemplate(fileTemplate+".hdf5")
 		detector.hdfwriter.setFilePathTemplate(filePathTemplate)
 		detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
@@ -149,6 +150,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		fileTemplate="%s%s%05d"	# One image per file
 	
 	if 'marwriter' in [p.getName() for p in detector.getPluginList()]:
+		logger.trace("Setting 'marwriter' file paths on {}", detector.name)
 		# Since the mar doesn't like underscores and replaces all characters after the underscore with a three
 		# digit sequence number, we have to strip out any underscores and ensure that a sequence number is added.
 		if "_" in sampleSuffix:
@@ -161,11 +163,13 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		detector.marwriter.setFileNameTemplate(fileNameTemplate)
 	
 	if 'tifwriter' in [p.getName() for p in detector.getPluginList()]:
+		logger.trace("Setting 'tifwriter' file paths on {}", detector.name)
 		detector.tifwriter.setFileTemplate(fileTemplate+".tif")
 		detector.tifwriter.setFilePathTemplate(filePathTemplate)
 		detector.tifwriter.setFileNameTemplate(fileNameTemplate)
 	
 	if 'cbfwriter' in [p.getName() for p in detector.getPluginList()]:
+		logger.trace("Setting 'cbfwriter' file paths on {}", detector.name)
 		# Hack attempt, may not work, even if it does,m may not work with outer scans  
 		fileTemplate="%s%s00001_%05d"
 		logger.debug("running setFileTemplate(%r) setFilePathTemplate(%r) & setFileNameTemplate(%r) on detector.cbfwriter" % (
@@ -181,6 +185,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		print "Dark subtraction %r on array and %r on live for detector %s " % (
 			darkSubtractionArray, darkSubtractionLive, hardwareTriggeredNXDetector.name)
 
+	logger.trace("hardwareTriggeredNXDetector={}", hardwareTriggeredNXDetector)
 	return hardwareTriggeredNXDetector
 
 def _darkExpose(detector,
