@@ -171,13 +171,6 @@ and any underlying hardware control system.
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.video.examples"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.video.mjpeg"
          download-size="0"
          install-size="0"

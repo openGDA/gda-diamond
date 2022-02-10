@@ -127,13 +127,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.video.examples"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.video.mjpeg"
          download-size="0"
          install-size="0"
