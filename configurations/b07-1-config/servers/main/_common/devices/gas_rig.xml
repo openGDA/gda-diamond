@@ -10,27 +10,35 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="7" />
+					<constructor-arg value="gr_mfc_07"/>
 				</bean>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="8" />
+					<constructor-arg value="gr_mfc_08"/>
 				</bean>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="9" />
+					<constructor-arg value="gr_mfc_09"/>
 				</bean>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="10" />
+					<constructor-arg value="gr_mfc_10"/>
 				</bean>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="11" />
+					<constructor-arg value="gr_mfc_11"/>
 				</bean>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="12" />
+					<constructor-arg value="gr_mfc_12"/>
 				</bean>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="13" />
+					<constructor-arg value="gr_mfc_13"/>
 				</bean>
 				<bean class="uk.ac.diamond.daq.gasrig.Gas">
 					<constructor-arg value="14" />
+					<constructor-arg value="gr_mfc_14"/>
 				</bean>
 			</list>
 		</constructor-arg>
@@ -42,9 +50,11 @@
 						<list>
 							<bean class="uk.ac.diamond.daq.gasrig.Gas">
 								<constructor-arg value="5" />
+								<constructor-arg value="gr_mfc_05"/>
 							</bean>
 							<bean class="uk.ac.diamond.daq.gasrig.Gas">
 								<constructor-arg value="6" />
+								<constructor-arg value="gr_mfc_06"/>
 							</bean>
 						</list>
 					</constructor-arg>
@@ -55,21 +65,70 @@
 						<list>
 							<bean class="uk.ac.diamond.daq.gasrig.Gas">
 								<constructor-arg value="1" />
+								<constructor-arg value="gr_mfc_01"/>
 							</bean>
 							<bean class="uk.ac.diamond.daq.gasrig.Gas">
 								<constructor-arg value="2" />
+								<constructor-arg value="gr_mfc_02"/>
 							</bean>
 							<bean class="uk.ac.diamond.daq.gasrig.Gas">
 								<constructor-arg value="3" />
+								<constructor-arg value="gr_mfc_03"/>
 							</bean>
 							<bean class="uk.ac.diamond.daq.gasrig.Gas">
 								<constructor-arg value="4" />
+								<constructor-arg value="gr_mfc_04"/>
 							</bean>
 						</list>
 					</constructor-arg>
 				</bean>
 			</list>
 		</constructor-arg>
+		<constructor-arg ref="molar_masses" />
+		<constructor-arg value="2" />
 	</bean>
 
+	<bean id="molar_masses" class="uk.ac.diamond.daq.gasrig.MolarMassTable">
+		<constructor-arg>
+			<map>
+				<entry key="Air" value="28.8" />
+				<entry key="Ar" value="40" />
+				<entry key="CH4" value="16" />
+				<entry key="CO" value="28" />
+				<entry key="CO2" value="44" />
+				<entry key="C2H6" value="30" />
+				<entry key="H2" value="2" />
+				<entry key="He" value="4" />
+				<entry key="N2" value="28" />
+				<entry key="N2O" value="44" />
+				<entry key="Ne" value="20" />
+				<entry key="O2" value="32" />
+				<entry key="C3H8" value="44" />
+				<entry key="nC4H10" value="58" />
+				<entry key="C2H2" value="26" />
+				<entry key="C2H4" value="28" />
+				<entry key="iC4H10" value="58" />
+				<entry key="Kr" value="84" />
+				<entry key="Xe" value="131" />
+				<entry key="SF6" value="146" />
+				<entry key="C-25" value="41" />
+				<entry key="C-10" value="40.4" />
+				<entry key="C-8" value="40.32" />
+				<entry key="C-2" value="40.08" />
+				<entry key="C-75" value="43" />
+				<entry key="HE-75" value="13" />
+				<entry key="HE-25" value="31" />
+				<entry key="A1025" value="40.1" />
+				<entry key="Star29" value="40.16" />
+				<entry key="P-5" value="38.8" />
+				<entry key="NO" value="30" />
+				<entry key="NF3" value="71" />
+				<entry key="NH3" value="17" />
+				<entry key="Cl2" value="71" />
+				<entry key="H2S" value="34" />
+				<entry key="SO2" value="64" />
+				<entry key="C3H6" value="42" />
+			</map>
+		</constructor-arg>
+	</bean>
 </beans>
