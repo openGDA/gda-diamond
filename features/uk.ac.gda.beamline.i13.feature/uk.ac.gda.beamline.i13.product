@@ -29,7 +29,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i13-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Duk.ac.diamond.scisoft.analysis.io.nocaching=true
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms256m
 -Xmx2024m
       </vmArgs>

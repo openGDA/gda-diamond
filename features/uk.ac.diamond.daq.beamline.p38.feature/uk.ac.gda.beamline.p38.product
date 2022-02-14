@@ -21,7 +21,6 @@
 -Dgda.instance.dir=${workspace_loc:p38-config}
 -Dgda.facility.dir=${workspace_loc:dls-config}
 -Dgda.core.dir=${workspace_loc:core-config}
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms1g
 -Xmx4g
 -XX:-UseCompressedOops

@@ -20,8 +20,7 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Dgda.mode=dummy
+      <vmArgs>-Dgda.mode=dummy
 -Dgda.config=${project_loc:i09-config}
 -Dgda.propertiesFile=${project_loc:i09-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-config}/properties/dummy/JCALibrary.properties 

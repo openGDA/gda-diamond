@@ -29,7 +29,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.group.dir=${project_loc:core-config}/no-group
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
--Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms256m
 -Xmx2048m
       </vmArgs>

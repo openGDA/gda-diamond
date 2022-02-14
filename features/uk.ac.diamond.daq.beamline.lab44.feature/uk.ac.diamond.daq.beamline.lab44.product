@@ -15,8 +15,7 @@
    <launcherArgs>
       <programArgs>-consoleLog
       </programArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Dgda.instance.dir=/dls_sw/lab44/software/gda/config
+      <vmArgs>-Dgda.instance.dir=/dls_sw/lab44/software/gda/config
 -Dgda.facility.dir=/dls_sw/lab44/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/lab44/software/gda/workspace_git/gda-core.git/core-config
 -Dgda.group.dir=/dls_sw/lab44/software/gda/i06-shared

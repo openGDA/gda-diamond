@@ -14,8 +14,7 @@
       <programArgs>-perspective
 uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.specsperspective
       </programArgs>
-      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
--Dgda.mode=dummy
+      <vmArgs>-Dgda.mode=dummy
 -Dgda.config=${project_loc:i09-1-config}
 -Dgda.propertiesFile=${project_loc:i09-1-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-1-config}/properties/dummy/JCALibrary.properties 
