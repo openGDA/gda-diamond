@@ -117,7 +117,7 @@
 		<constructor-arg name="yOffsetDefault" value="-0.145" /> <!-- Offset of camera in y axis -->
 		<constructor-arg name="xPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in x axis -->
 		<constructor-arg name="yPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in y axis -->
-		<constructor-arg name="csvFilePath" value="${gda.config}/clients/main/_common/camera_offset_calibration.csv" />
+		<constructor-arg name="csvFilePath" value="${gda.var}/camera_offset_calibration.csv" />
 	</bean>
 	
 	<bean id="sample_microscope_beam_position_calibration" class="uk.ac.gda.client.live.stream.calibration.BeamPositionCalibration">
