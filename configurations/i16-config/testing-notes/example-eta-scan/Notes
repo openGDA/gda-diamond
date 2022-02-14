@@ -1,0 +1,176 @@
+================================================================================
+					scancn eta 0.02 31 pil3_100k 1 roi2
+================================================================================
+`scancn eta` tests assume `pos eta 12.5345` beforehand.
+
+Scan	Command									?DW?	DWE	LF	Dummy/Live	nxls
+    867888	scancn eta 0.02 31 pil3_100k 1 roi2	NDW		DWE	LF	Live		Good
+
+2022020040	scancn eta 0.02 32 pil3_100k 1 roi2	NDW		DWE	LF	Dummy	Truncated
+2022020041	scancn eta 0.02 32 pil3_100k 1 roi2	NDW			LF	Dummy	Truncated
+2022020042	scancn eta 0.02 32 pil3_100k 1 roi2	NDW				Dummy		Good
+2022020043	scancn eta 0.02 32 pil3_100k 1 roi2	NSDW			Dummy		Good
+2022020044	scancn eta 0.02 32 pil3_100k 1 roi2	NDW		DWE		Dummy		Good
+
+================================================================================
+
+Removing LF removes:
+	entry1/instrument/pil3_100k/data	(NXdetector)
+	entry1/pil3_100k/data				(NXdata)
+		(differences between 40 & 44)
+
+Removing DWE removes:
+    entry1/definition='NXmx'
+    entry1/features: (3,)
+    entry1/instrument/pil3_100k/calibration_date='2018-07-11 11:15:52'
+    entry1/instrument/pil3_100k/calibration_scan_number=705061
+    entry1/instrument/pil3_100k/depends_on='/entry1/instrument/pil3_100k/transformations/origin_offset'
+    entry1/instrument/pil3_100k/image_data: (31,)
+    entry1/instrument/pil3_100k/module:NXdetector_module/
+    entry1/instrument/pil3_100k/module/data_origin: (2,)
+    entry1/instrument/pil3_100k/module/data_size: (2,)
+    entry1/instrument/pil3_100k/module/fast_pixel_direction: (1,)
+    entry1/instrument/pil3_100k/module/module_offset: (1,)
+    entry1/instrument/pil3_100k/module/slow_pixel_direction: (1,)
+    entry1/instrument/pil3_100k/saturation_value: (1,)
+    entry1/instrument/pil3_100k/sensor_material='Silicon'
+    entry1/instrument/pil3_100k/sensor_thickness: (1,)
+    entry1/instrument/pil3_100k/transformations:NXtransformations/
+    entry1/instrument/pil3_100k/transformations/origin_offset: (1,)
+    entry1/sample/beam/incident_wavelength=0.002974814801937272 nm
+    entry1/sample/depends_on='/entry1/sample/transformations/phi'
+    entry1/sample/name='Default Sample'
+    entry1/title_old='Scan of sample with GDA'
+		(differences between 44 & 42)
+
+Switching to NSDW adds/removes/moves:
+-   entry1/before_scan:NXcollection/										v
++   entry1/diamond_scan:NXcollection/
++ ? entry1/duration=34715 ms
+- ? entry1/entry_identifier='2022020042'
++   entry1/instrument/PPR:NXcollection/
+-   entry1/instrument/atime:NXpositioner/
++   entry1/instrument/atime:NXcollection/
++ ? entry1/instrument/beamline='i16'
++   entry1/instrument/before_scan:NXcollection/								^
++ ? entry1/instrument/before_scan/atime:NXcollection/
++ ? entry1/instrument/before_scan/atimetwo:NXcollection/
++ ? entry1/instrument/before_scan/delta_axis_offset:NXcollection/
++ ? entry1/instrument/before_scan/en:NXcollection/
++ ? entry1/instrument/before_scan/eta:NXcollection/
++ ? entry1/instrument/before_scan/ic1monitor:NXcollection/
++ ? entry1/instrument/before_scan/kap:NXcollection/
++ ? entry1/instrument/before_scan/kdelta:NXcollection/
++ ? entry1/instrument/before_scan/kgam:NXcollection/
++ ? entry1/instrument/before_scan/kmu:NXcollection/
++ ? entry1/instrument/before_scan/kphi:NXcollection/
++ ? entry1/instrument/before_scan/kth:NXcollection/
++ ? entry1/instrument/before_scan/rc:NXcollection/
++   entry1/instrument/delta_offset:NXpositioner/
++   entry1/instrument/delta_offset/name='delta_offset'
++   entry1/instrument/delta_offset/value=0
++	...
+-   entry1/instrument/eta/eta: (31,)										v
++   entry1/instrument/eta/name='eta'
+-   entry1/instrument/eta/soft_limit_max: (1,)							v
++   entry1/instrument/eta/soft_limit_max=115.0							^
+-   entry1/instrument/eta/soft_limit_min: (1,)						v
++   entry1/instrument/eta/soft_limit_min=-22.0						^
++   entry1/instrument/eta/value: (31,)										^
++   entry1/instrument/idNexusDevice:NXinsertion_device/
++   entry1/instrument/monochromatorNexusDevice:NXmonochromator/
++   entry1/instrument/rc/name='rc'
+-   entry1/instrument/rc/rc: (31,)											v
++   entry1/instrument/rc/value: (31,)										^
+-   entry1/instrument/source:NXsource/
++   entry1/instrument/sourceNexusDevice:NXsource/
+-   entry1/measurement:NXdata/
+-   entry1/pil3_100k/TimeFromEpoch: (31,)
++   entry1/pil3_100k/atime: (31,)
+-   entry1/pil3_100k/TimeSec: (31,)									v
++   entry1/pil3_100k/atimetwo: (31,)								^
+-   entry1/pil3_100k/delta: (31,)										v
++   entry1/pil3_100k/delta_axis_offset: (31,)				v
++   entry1/pil3_100k/kdelta: (31,)										^
++   entry1/pil3_100k/kgam: (31,)									v
+-   entry1/pil3_100k/gamma: (31,)									^
+-   entry1/pil3_100k/kappa: (31,)										v
++   entry1/pil3_100k/kap: (31,)											^
+- ? entry1/pil3_100k/maxval: (31,)
+- ? entry1/pil3_100k/maxx: (31,)
+- ? entry1/pil3_100k/maxy: (31,)
+-   entry1/pil3_100k/mu: (31,)										v
++   entry1/pil3_100k/kmu: (31,)										^
+-   entry1/pil3_100k/offsetdelta: (31,)						^			
+-   entry1/pil3_100k/path: (31,)
+-   entry1/pil3_100k/phi: (31,)											v
++   entry1/pil3_100k/kphi: (31,)										^
+- ? entry1/pil3_100k/sum: (31,)
+-   entry1/pil3_100k/theta: (31,)									v
++   entry1/pil3_100k/kth: (31,)										^
+-+  ...
+- ? entry1/roi2/roi2_maxval: (31,)
+- ? entry1/roi2/roi2_maxy: (31,)
+- ? entry1/roi2/roi2_sum: (31,)
+-   entry1/sample/beam/incident_energy: (1,)
++   entry1/sample/beam/incident_energy=416.77953347676055
++   entry1/sample/beamNexusDevice:NXbeam/
+-   entry1/scan_dimensions: (1,)
++   entry1/scan_fields: (22,)
+-   entry1/scan_identifier='70e5dcff-41ce-4c6a-90cd-a8d3133ef450'
++   entry1/scan_shape: (1,)
+-   entry1/title='scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2'
+-   entry1/user01/username='voo82358'
++   entry1/user01/facility_user_id='voo82358'
++   entry1/user01/name='Mark Booth'
+		(differences between 42 & 43)
+
+Notes
+
++ ? entry1/duration=34715 ms
+
+This is a standard option to NXentry and the entry1/diamond_scan/duration is
+the duplicate.
+
+See https://manual.nexusformat.org/classes/base_classes/NXentry.html#nxentry-duration-field
+
+- ? entry1/entry_identifier='2022020042'
+
+This is also a standard option to NXentry which has been lost.
+
++ ? entry1/instrument/beamline='i16'
+
+Should this be in diamond_scan?
+
++ ? entry1/instrument/before_scan/atime:NXcollection/
++ ? entry1/instrument/before_scan/atimetwo:NXcollection/
++ ? entry1/instrument/before_scan/delta_axis_offset:NXcollection/
++ ? entry1/instrument/before_scan/en:NXcollection/
++ ? entry1/instrument/before_scan/eta:NXcollection/
++ ? entry1/instrument/before_scan/ic1monitor:NXcollection/
++ ? entry1/instrument/before_scan/kap:NXcollection/
++ ? entry1/instrument/before_scan/kdelta:NXcollection/
++ ? entry1/instrument/before_scan/kgam:NXcollection/
++ ? entry1/instrument/before_scan/kmu:NXcollection/
++ ? entry1/instrument/before_scan/kphi:NXcollection/
++ ? entry1/instrument/before_scan/kth:NXcollection/
++ ? entry1/instrument/before_scan/rc:NXcollection/
+
+This change to add per point scannables to before_scan was a requested change
+in behaviour.
+
+- ? entry1/pil3_100k/maxval: (31,)
+- ? entry1/pil3_100k/maxx: (31,)
+- ? entry1/pil3_100k/maxy: (31,)
+- ? entry1/pil3_100k/sum: (31,)
+
+The pil3_100k NXdata node seems to be missing all 4 per point
+processing values.
+
+- ? entry1/roi2/roi2_maxval: (31,)
+- ? entry1/roi2/roi2_maxy: (31,)
+- ? entry1/roi2/roi2_sum: (31,)
+
+Oddly, the roi2 NXdata node seems to only be missing 3 per point
+processing values.
+

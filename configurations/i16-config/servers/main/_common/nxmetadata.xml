@@ -1,7 +1,43 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Beans required for NexusScanDataWriter
+	 -->
+
+	<bean id="before_scan" class="gda.data.scan.nexus.device.BeforeScanSnapshotWriter" init-method="register">
+		<property name="name" value="before_scan" />
+		<property name="additionalScannableNames">
+			<set>
+				<value>PPR</value>
+				<value>delta_offset</value>
+				<value>dettrans</value>
+				<value>mrwolf</value>
+				<value>p2</value>
+				<value>ppchi</value>
+				<value>ppchitemp</value>
+				<value>pppitch</value>
+				<value>ppth1</value>
+				<value>ppth1temp</value>
+				<value>ppth2</value>
+				<value>ppth2temp</value>
+				<value>ppx</value>
+				<value>ppy</value>
+				<value>ppyaw</value>
+				<value>ppz1</value>
+				<value>ppz1temp</value>
+				<value>ppz2</value>
+				<value>ppz2temp</value>
+				<value>rc</value>
+				<value>s7xgap</value>
+				<value>s7xtrans</value>
+				<value>s7ygap</value>
+				<value>s7ytrans</value>
+				<value>ubMeta</value>
+			</set>
+		</property>
+	</bean>
 
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
 		<property name="name" value="sourceNexusDevice" />
@@ -51,7 +87,15 @@
 		<property name="monochromatorName" value="monochromatorNexusDevice" />
 		<property name="beamName" value="beamNexusDevice" />
 		<property name="userDeviceName" value="userNexusDevice" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>before_scan</value>
+			</set>
+		</property>
 	</bean>
+
+	<!-- Beans required for NexusDataWriter & may be phased out as functionality is moved to NexusScanDataWriter
+	 -->
 
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"

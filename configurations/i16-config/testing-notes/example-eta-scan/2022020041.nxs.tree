@@ -1,0 +1,273 @@
+2022020041.nxs:
+root:NXroot
+  entry1:NXentry
+    before_scan:NXcollection
+      PPR:NXcollection
+        ppchi = 0.0
+        pppiezo1 = 0.0
+        pppiezo2 = 0.0
+        ppth1 = 0.0
+        ppth2 = 0.0
+        ppz1 = 0.0
+        ppz2 = 0.0
+      delta_offset:NXcollection
+        delta_offset = 0.0
+      dettrans:NXcollection
+        dettrans = 0.0
+      mrwolf:NXcollection
+        Day = 11
+        Hours = 15
+        Minutes = 52
+        Month = 2
+        Seconds = 27
+        Year = 2022
+      p2:NXcollection
+        p2rot = 0.0
+        p2x1 = 0.0
+        p2y1 = 0.0
+        p2zbot = 0.0
+        p2ztop = 0.0
+      ppchi:NXcollection
+        ppchi = 0.0
+      ppchitemp:NXcollection
+        ppchitemp = 0.0
+      pppitch:NXcollection
+        pppitch = 0.0
+      ppth1:NXcollection
+        ppth1 = 0.0
+      ppth1temp:NXcollection
+        ppth1temp = 0.0
+      ppth2:NXcollection
+        ppth2 = 0.0
+      ppth2temp:NXcollection
+        ppth2temp = 0.0
+      ppx:NXcollection
+        ppx = 0.0
+      ppy:NXcollection
+        ppy = 0.0
+      ppyaw:NXcollection
+        ppyaw = 0.0
+      ppz1:NXcollection
+        ppz1 = 0.0
+      ppz1temp:NXcollection
+        ppz1temp = 0.0
+      ppz2:NXcollection
+        ppz2 = 0.0
+      ppz2temp:NXcollection
+        ppz2temp = 0.0
+      s7xgap:NXcollection
+        s7xgap = 0.0
+      s7xtrans:NXcollection
+        s7xtrans = 0.0
+      s7ygap:NXcollection
+        s7ygap = 0.0
+      s7ytrans:NXcollection
+        s7ytrans = 0.0
+      ubMeta:NXcollection
+        value = {"name": null, "crystal": null, "reflist": {}, "orientli...
+    end_time = 2022-02-11T15:53:02.534Z
+    entry_identifier = 2022020041
+    instrument:NXinstrument
+      atime:NXpositioner
+        TimeSec = float64(31)
+          @local_name = 'atime.TimeSec'
+          @target = '/entry1/instrument/atime/TimeSec'
+      atimetwo:NXpositioner
+        TimeFromEpoch = float64(31)
+          @local_name = 'atimetwo.TimeFromEpoch'
+          @target = '/entry1/instrument/atimetwo/TimeFromEpoch'
+      eta:NXpositioner
+        eta = float64(31)
+          @axis = '1'
+          @label = '1'
+          @local_name = 'eta.eta'
+          @primary = '1'
+          @target = '/entry1/instrument/eta/eta'
+        soft_limit_max = 115.0
+        soft_limit_min = -22.0
+      ic1monitor:NXpositioner
+        ic1monitor = float64(31)
+          @local_name = 'ic1monitor.ic1monitor'
+          @target = '/entry1/instrument/ic1monitor/ic1monitor'
+      name = i16
+      pil3_100k:NXdetector
+        count_time = float64(31)
+          @local_name = 'pil3_100k.count_time'
+          @target = '/entry1/instrument/pil3_100k/count_time'
+        data -> scratch/dls_sw/all-dls/software/gda_versions/gda_9.25pre.i16a/gda_data_non_live/2022020041-pilatus3_100k-files/2022020041.hdf['/entry/instrument/detector/data']
+        description = DetectorBase
+        id = detectorbase-1
+        maxval = float64(31)
+          @local_name = 'pil3_100k.maxval'
+          @target = '/entry1/instrument/pil3_100k/maxval'
+        maxx = float64(31)
+          @local_name = 'pil3_100k.maxx'
+          @target = '/entry1/instrument/pil3_100k/maxx'
+        maxy = float64(31)
+          @local_name = 'pil3_100k.maxy'
+          @target = '/entry1/instrument/pil3_100k/maxy'
+        path = float64(31)
+          @local_name = 'pil3_100k.path'
+          @target = '/entry1/instrument/pil3_100k/path'
+        sum = float64(31)
+          @local_name = 'pil3_100k.sum'
+          @target = '/entry1/instrument/pil3_100k/sum'
+        type = DetectorBase
+      rc:NXpositioner
+        rc = float64(31)
+          @axis = '1'
+          @local_name = 'rc.rc'
+          @target = '/entry1/instrument/rc/rc'
+      roi2:NXdetector
+        description = 
+        id = 
+        roi2_maxval = float64(31)
+          @local_name = 'roi2.roi2_maxval'
+          @target = '/entry1/instrument/roi2/roi2_maxval'
+        roi2_maxx = float64(31)
+          @local_name = 'roi2.roi2_maxx'
+          @target = '/entry1/instrument/roi2/roi2_maxx'
+        roi2_maxy = float64(31)
+          @local_name = 'roi2.roi2_maxy'
+          @target = '/entry1/instrument/roi2/roi2_maxy'
+        roi2_sum = float64(31)
+          @local_name = 'roi2.roi2_sum'
+          @target = '/entry1/instrument/roi2/roi2_sum'
+        type = 
+      source:NXsource
+        name = DLS
+        probe = x-ray
+        type = Synchrotron X-Ray Source
+      transformations:NXtransformations
+        delta = float64(31)
+          @axis = '1'
+          @depends_on = 'entry1/instrument/transformations/gamma'
+          @local_name = 'kdelta.kdelta'
+          @target = '/entry1/instrument/transformations/delta'
+          @transformation_type = 'rotation'
+          @units = 'deg'
+          @vector = [0. 1. 0.]
+        gamma = float64(31)
+          @axis = '1'
+          @depends_on = '.'
+          @local_name = 'kgam.kgam'
+          @target = '/entry1/instrument/transformations/gamma'
+          @transformation_type = 'rotation'
+          @units = 'deg'
+          @vector = [1. 0. 0.]
+        offsetdelta = float64(31)
+          @axis = '1'
+          @depends_on = 'entry1/instrument/transformations/delta'
+          @local_name = 'delta_axis_offset.delta_axis_offset'
+          @target = '/entry1/instrument/transformations/offsetdelta'
+          @transformation_type = 'rotation'
+          @units = 'deg'
+          @vector = [ 0. -1.  0.]
+    measurement:NXdata
+      @axes = 'eta'
+      @signal = 'roi2_sum'
+      TimeFromEpoch = float64(31)
+      TimeSec = float64(31)
+      count_time = float64(31)
+      delta_axis_offset = float64(31)
+      eta = float64(31)
+      ic1monitor = float64(31)
+      kap = float64(31)
+      kdelta = float64(31)
+      kgam = float64(31)
+      kmu = float64(31)
+      kphi = float64(31)
+      kth = float64(31)
+      maxval = float64(31)
+      maxx = float64(31)
+      maxy = float64(31)
+      path = float64(31)
+      rc = float64(31)
+      roi2_maxval = float64(31)
+      roi2_maxx = float64(31)
+      roi2_maxy = float64(31)
+      roi2_sum = float64(31)
+      sum = float64(31)
+    pil3_100k:NXdata
+      TimeFromEpoch -> /entry1/instrument/atimetwo/TimeFromEpoch
+      TimeSec -> /entry1/instrument/atime/TimeSec
+      count_time -> /entry1/instrument/pil3_100k/count_time
+      data -> scratch/dls_sw/all-dls/software/gda_versions/gda_9.25pre.i16a/gda_data_non_live/2022020041-pilatus3_100k-files/2022020041.hdf['/entry/instrument/detector/data']
+      delta -> /entry1/instrument/transformations/delta
+      eta -> /entry1/instrument/eta/eta
+      gamma -> /entry1/instrument/transformations/gamma
+      ic1monitor -> /entry1/instrument/ic1monitor/ic1monitor
+      kappa -> /entry1/sample/transformations/kappa
+      maxval -> /entry1/instrument/pil3_100k/maxval
+      maxx -> /entry1/instrument/pil3_100k/maxx
+      maxy -> /entry1/instrument/pil3_100k/maxy
+      mu -> /entry1/sample/transformations/mu
+      offsetdelta -> /entry1/instrument/transformations/offsetdelta
+      path -> /entry1/instrument/pil3_100k/path
+      phi -> /entry1/sample/transformations/phi
+      rc -> /entry1/instrument/rc/rc
+      sum -> /entry1/instrument/pil3_100k/sum
+      theta -> /entry1/sample/transformations/theta
+    program_name = GDA 9.25.0pre
+    roi2:NXdata
+      TimeFromEpoch -> /entry1/instrument/atimetwo/TimeFromEpoch
+      TimeSec -> /entry1/instrument/atime/TimeSec
+      delta -> /entry1/instrument/transformations/delta
+      eta -> /entry1/instrument/eta/eta
+      gamma -> /entry1/instrument/transformations/gamma
+      ic1monitor -> /entry1/instrument/ic1monitor/ic1monitor
+      kappa -> /entry1/sample/transformations/kappa
+      mu -> /entry1/sample/transformations/mu
+      offsetdelta -> /entry1/instrument/transformations/offsetdelta
+      phi -> /entry1/sample/transformations/phi
+      rc -> /entry1/instrument/rc/rc
+      roi2_maxval -> /entry1/instrument/roi2/roi2_maxval
+      roi2_maxx -> /entry1/instrument/roi2/roi2_maxx
+      roi2_maxy -> /entry1/instrument/roi2/roi2_maxy
+      roi2_sum -> /entry1/instrument/roi2/roi2_sum
+      theta -> /entry1/sample/transformations/theta
+    sample:NXsample
+      beam:NXbeam
+        incident_energy = 416.77953347676055
+          @axis = '1'
+          @local_name = 'en.en'
+      transformations:NXtransformations
+        kappa = float64(31)
+          @axis = '1'
+          @depends_on = 'entry1/sample/transformations/theta'
+          @local_name = 'kap.kap'
+          @target = '/entry1/sample/transformations/kappa'
+          @transformation_type = 'rotation'
+          @units = 'deg'
+          @vector = [ 0.          0.64278761 -0.76604443]
+        mu = float64(31)
+          @axis = '1'
+          @depends_on = '.'
+          @local_name = 'kmu.km'
+          @target = '/entry1/sample/transformations/m'
+          @transformation_type = 'rotation'
+          @units = 'deg'
+          @vector = [1. 0. 0.]
+        phi = float64(31)
+          @axis = '1'
+          @depends_on = 'entry1/sample/transformations/kappa'
+          @local_name = 'kphi.kphi'
+          @target = '/entry1/sample/transformations/phi'
+          @transformation_type = 'rotation'
+          @units = 'deg'
+          @vector = [0. 1. 0.]
+        theta = float64(31)
+          @axis = '1'
+          @depends_on = 'entry1/sample/transformations/m'
+          @local_name = 'kth.kth'
+          @target = '/entry1/sample/transformations/theta'
+          @transformation_type = 'rotation'
+          @units = 'deg'
+          @vector = [0. 1. 0.]
+    scan_command = scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2
+    scan_dimensions = 31
+    scan_identifier = 00eff387-a54f-424f-9f65-5d73d0b749ca
+    start_time = 2022-02-11T15:52:25.582Z
+    title = scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2
+    user01:NXuser
+      username = voo82358

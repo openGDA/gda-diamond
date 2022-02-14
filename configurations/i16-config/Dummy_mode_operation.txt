@@ -15,7 +15,7 @@ cd /dls_sw/i16/software/gda # For example
 cp -R /dls_sw/i16/software/gda_versions/var/oldStyleShelveIO gda_var_non_live
 cp -R /dls_sw/i16/software/gda_versions/var/nff              gda_var_non_live
 cp /dls_sw/i16/software/gda_versions/var/reffilename.log     gda_var_non_live
-
+touch gda_var_non_live/$(date +%Y%m)0001.scanbase_numtracker
 --------------------------------------------------------------------------------
 #### To run up the Simulated Area Detector ####
 

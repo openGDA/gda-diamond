@@ -1,0 +1,370 @@
+2022020043.nxs:
+    entry1:NXentry/
+    entry1/diamond_scan:NXcollection/
+    entry1/diamond_scan/duration=34715 ms
+    entry1/diamond_scan/end_time=b'2022-02-11T17:03:52.586'
+    entry1/diamond_scan/keys:NXcollection/
+    entry1/diamond_scan/keys/uniqueKeys: (31,)
+    entry1/diamond_scan/point_end_times: (31,)
+    entry1/diamond_scan/point_start_times: (31,)
+    entry1/diamond_scan/scan_command='scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2'
+    entry1/diamond_scan/scan_dead_time=34716 ms
+    entry1/diamond_scan/scan_dead_time_percent=100.002884
+    entry1/diamond_scan/scan_estimated_duration=-1 ms
+    entry1/diamond_scan/scan_fields: (22,)
+    entry1/diamond_scan/scan_finished: (1,)
+    entry1/diamond_scan/scan_rank=1
+    entry1/diamond_scan/scan_shape: (1,)
+    entry1/diamond_scan/start_time='2022-02-11T17:03:17.871'
+    entry1/duration=34715 ms
+    entry1/end_time=b'2022-02-11T17:03:52.586'
+    entry1/instrument:NXinstrument/
+    entry1/instrument/PPR:NXcollection/
+    entry1/instrument/PPR/name='PPR'
+    entry1/instrument/PPR/ppchi=0.0
+    entry1/instrument/PPR/pppiezo1=0.0
+    entry1/instrument/PPR/pppiezo2=0.0
+    entry1/instrument/PPR/ppth1=0.0
+    entry1/instrument/PPR/ppth2=0.0
+    entry1/instrument/PPR/ppz1=0.0
+    entry1/instrument/PPR/ppz2=0.0
+    entry1/instrument/PPR.ppchi:NXpositioner/
+    entry1/instrument/PPR.ppchi/name='PPR.ppchi'
+    entry1/instrument/PPR.ppchi/value=0.0
+    entry1/instrument/PPR.pppiezo1:NXpositioner/
+    entry1/instrument/PPR.pppiezo1/name='PPR.pppiezo1'
+    entry1/instrument/PPR.pppiezo1/value=0.0
+    entry1/instrument/PPR.pppiezo2:NXpositioner/
+    entry1/instrument/PPR.pppiezo2/name='PPR.pppiezo2'
+    entry1/instrument/PPR.pppiezo2/value=0.0
+    entry1/instrument/PPR.ppth1:NXpositioner/
+    entry1/instrument/PPR.ppth1/name='PPR.ppth1'
+    entry1/instrument/PPR.ppth1/value=0.0
+    entry1/instrument/PPR.ppth2:NXpositioner/
+    entry1/instrument/PPR.ppth2/name='PPR.ppth2'
+    entry1/instrument/PPR.ppth2/value=0.0
+    entry1/instrument/PPR.ppz1:NXpositioner/
+    entry1/instrument/PPR.ppz1/name='PPR.ppz1'
+    entry1/instrument/PPR.ppz1/value=0.0
+    entry1/instrument/PPR.ppz2:NXpositioner/
+    entry1/instrument/PPR.ppz2/name='PPR.ppz2'
+    entry1/instrument/PPR.ppz2/value=0.0
+    entry1/instrument/atime:NXcollection/
+    entry1/instrument/atime/TimeSec: (31,)
+    entry1/instrument/atime/name='atime'
+    entry1/instrument/atimetwo:NXcollection/
+    entry1/instrument/atimetwo/TimeFromEpoch: (31,)
+    entry1/instrument/atimetwo/name='atimetwo'
+    entry1/instrument/beamline='i16'
+    entry1/instrument/before_scan:NXcollection/
+    entry1/instrument/before_scan/PPR:NXcollection/
+    entry1/instrument/before_scan/PPR/ppchi=0.0
+    entry1/instrument/before_scan/PPR/pppiezo1=0.0
+    entry1/instrument/before_scan/PPR/pppiezo2=0.0
+    entry1/instrument/before_scan/PPR/ppth1=0.0
+    entry1/instrument/before_scan/PPR/ppth2=0.0
+    entry1/instrument/before_scan/PPR/ppz1=0.0
+    entry1/instrument/before_scan/PPR/ppz2=0.0
+    entry1/instrument/before_scan/atime:NXcollection/
+    entry1/instrument/before_scan/atime/TimeSec=565.925880835
+    entry1/instrument/before_scan/atimetwo:NXcollection/
+    entry1/instrument/before_scan/atimetwo/TimeFromEpoch=1644598997.795
+    entry1/instrument/before_scan/delta_axis_offset:NXcollection/
+    entry1/instrument/before_scan/delta_axis_offset/delta_axis_offset=0
+    entry1/instrument/before_scan/delta_offset:NXcollection/
+    entry1/instrument/before_scan/delta_offset/delta_offset=0
+    entry1/instrument/before_scan/dettrans:NXcollection/
+    entry1/instrument/before_scan/dettrans/dettrans=0.0 
+    entry1/instrument/before_scan/en:NXcollection/
+    entry1/instrument/before_scan/en/en=416.77953347676055
+    entry1/instrument/before_scan/eta:NXcollection/
+    entry1/instrument/before_scan/eta/eta=12.254499999999998 
+    entry1/instrument/before_scan/ic1monitor:NXcollection/
+    entry1/instrument/before_scan/ic1monitor/ic1monitor=-0.0
+    entry1/instrument/before_scan/kap:NXcollection/
+    entry1/instrument/before_scan/kap/kap=0.0 
+    entry1/instrument/before_scan/kdelta:NXcollection/
+    entry1/instrument/before_scan/kdelta/kdelta=0.0 
+    entry1/instrument/before_scan/kgam:NXcollection/
+    entry1/instrument/before_scan/kgam/kgam=0.0 
+    entry1/instrument/before_scan/kmu:NXcollection/
+    entry1/instrument/before_scan/kmu/kmu=0.0 
+    entry1/instrument/before_scan/kphi:NXcollection/
+    entry1/instrument/before_scan/kphi/kphi=0.0 
+    entry1/instrument/before_scan/kth:NXcollection/
+    entry1/instrument/before_scan/kth/kth=12.254499999999998 
+    entry1/instrument/before_scan/mrwolf:NXcollection/
+    entry1/instrument/before_scan/mrwolf/Day=11
+    entry1/instrument/before_scan/mrwolf/Hours=17
+    entry1/instrument/before_scan/mrwolf/Minutes=3
+    entry1/instrument/before_scan/mrwolf/Month=2
+    entry1/instrument/before_scan/mrwolf/Seconds=17
+    entry1/instrument/before_scan/mrwolf/Year=2022
+    entry1/instrument/before_scan/p2:NXcollection/
+    entry1/instrument/before_scan/p2/p2rot=0.0
+    entry1/instrument/before_scan/p2/p2x1=0.0
+    entry1/instrument/before_scan/p2/p2y1=0.0
+    entry1/instrument/before_scan/p2/p2zbot=0.0
+    entry1/instrument/before_scan/p2/p2ztop=0.0
+    entry1/instrument/before_scan/ppchi:NXcollection/
+    entry1/instrument/before_scan/ppchi/ppchi=0.0 
+    entry1/instrument/before_scan/ppchitemp:NXcollection/
+    entry1/instrument/before_scan/ppchitemp/ppchitemp=0.0
+    entry1/instrument/before_scan/pppitch:NXcollection/
+    entry1/instrument/before_scan/pppitch/pppitch=0.0 
+    entry1/instrument/before_scan/ppth1:NXcollection/
+    entry1/instrument/before_scan/ppth1/ppth1=0.0 
+    entry1/instrument/before_scan/ppth1temp:NXcollection/
+    entry1/instrument/before_scan/ppth1temp/ppth1temp=0.0
+    entry1/instrument/before_scan/ppth2:NXcollection/
+    entry1/instrument/before_scan/ppth2/ppth2=0.0 
+    entry1/instrument/before_scan/ppth2temp:NXcollection/
+    entry1/instrument/before_scan/ppth2temp/ppth2temp=0.0
+    entry1/instrument/before_scan/ppx:NXcollection/
+    entry1/instrument/before_scan/ppx/ppx=0.0 
+    entry1/instrument/before_scan/ppy:NXcollection/
+    entry1/instrument/before_scan/ppy/ppy=0.0 
+    entry1/instrument/before_scan/ppyaw:NXcollection/
+    entry1/instrument/before_scan/ppyaw/ppyaw=0.0 
+    entry1/instrument/before_scan/ppz1:NXcollection/
+    entry1/instrument/before_scan/ppz1/ppz1=0.0 
+    entry1/instrument/before_scan/ppz1temp:NXcollection/
+    entry1/instrument/before_scan/ppz1temp/ppz1temp=0.0
+    entry1/instrument/before_scan/ppz2:NXcollection/
+    entry1/instrument/before_scan/ppz2/ppz2=0.0 
+    entry1/instrument/before_scan/ppz2temp:NXcollection/
+    entry1/instrument/before_scan/ppz2temp/ppz2temp=0.0
+    entry1/instrument/before_scan/rc:NXcollection/
+    entry1/instrument/before_scan/rc/rc=0
+    entry1/instrument/before_scan/s7xgap:NXcollection/
+    entry1/instrument/before_scan/s7xgap/s7xgap=0.0 
+    entry1/instrument/before_scan/s7xtrans:NXcollection/
+    entry1/instrument/before_scan/s7xtrans/s7xtrans=0.0 
+    entry1/instrument/before_scan/s7ygap:NXcollection/
+    entry1/instrument/before_scan/s7ygap/s7ygap=0.0 
+    entry1/instrument/before_scan/s7ytrans:NXcollection/
+    entry1/instrument/before_scan/s7ytrans/s7ytrans=0.0 
+    entry1/instrument/before_scan/ubMeta:NXcollection/
+    entry1/instrument/before_scan/ubMeta/value='{"name": null, "crystal": null, "reflist": {}, "orientlist": {}, "tau": 0, "sigma": 0, "reference": {"n_hkl_configured": "[1.0, 0.0, 0.0]", "n_phi_configured": null}, "surface": {"n_hkl_configured": null, "n_phi_configured": "[0.0, 0.0, 1.0]"}, "u": null, "ub": null, "or0": null, "or1": null}'
+    entry1/instrument/delta_offset:NXpositioner/
+    entry1/instrument/delta_offset/name='delta_offset'
+    entry1/instrument/delta_offset/value=0
+    entry1/instrument/dettrans:NXpositioner/
+    entry1/instrument/dettrans/name='dettrans'
+    entry1/instrument/dettrans/value=0.0 
+    entry1/instrument/eta:NXpositioner/
+    entry1/instrument/eta/name='eta'
+    entry1/instrument/eta/soft_limit_max=115.0
+    entry1/instrument/eta/soft_limit_min=-22.0
+    entry1/instrument/eta/value: (31,)
+    entry1/instrument/ic1monitor:NXcollection/
+    entry1/instrument/ic1monitor/ic1monitor: (31,)
+    entry1/instrument/ic1monitor/name='ic1monitor'
+    entry1/instrument/idNexusDevice:NXinsertion_device/
+    entry1/instrument/idNexusDevice/gap=5.85 
+    entry1/instrument/idNexusDevice/harmonic=3
+    entry1/instrument/idNexusDevice/type='wiggler'
+    entry1/instrument/monochromatorNexusDevice:NXmonochromator/
+    entry1/instrument/monochromatorNexusDevice/energy=416.77953347676055
+    entry1/instrument/mrwolf:NXcollection/
+    entry1/instrument/mrwolf/Day=11
+    entry1/instrument/mrwolf/Hours=17
+    entry1/instrument/mrwolf/Minutes=3
+    entry1/instrument/mrwolf/Month=2
+    entry1/instrument/mrwolf/Seconds=17
+    entry1/instrument/mrwolf/Year=2022
+    entry1/instrument/mrwolf/name='mrwolf'
+    entry1/instrument/name='i16'
+    entry1/instrument/p2:NXcollection/
+    entry1/instrument/p2/name='p2'
+    entry1/instrument/p2/p2rot=0.0
+    entry1/instrument/p2/p2x1=0.0
+    entry1/instrument/p2/p2y1=0.0
+    entry1/instrument/p2/p2zbot=0.0
+    entry1/instrument/p2/p2ztop=0.0
+    entry1/instrument/p2.p2rot:NXpositioner/
+    entry1/instrument/p2.p2rot/name='p2.p2rot'
+    entry1/instrument/p2.p2rot/value=0.0
+    entry1/instrument/p2.p2x1:NXpositioner/
+    entry1/instrument/p2.p2x1/name='p2.p2x1'
+    entry1/instrument/p2.p2x1/value=0.0
+    entry1/instrument/p2.p2y1:NXpositioner/
+    entry1/instrument/p2.p2y1/name='p2.p2y1'
+    entry1/instrument/p2.p2y1/value=0.0
+    entry1/instrument/p2.p2zbot:NXpositioner/
+    entry1/instrument/p2.p2zbot/name='p2.p2zbot'
+    entry1/instrument/p2.p2zbot/value=0.0
+    entry1/instrument/p2.p2ztop:NXpositioner/
+    entry1/instrument/p2.p2ztop/name='p2.p2ztop'
+    entry1/instrument/p2.p2ztop/value=0.0
+    entry1/instrument/pil3_100k:NXdetector/
+    entry1/instrument/pil3_100k/count_time: (31,)
+    entry1/instrument/pil3_100k/description='DetectorBase'
+    entry1/instrument/pil3_100k/id='detectorbase-1'
+    entry1/instrument/pil3_100k/maxval: (31,)
+    entry1/instrument/pil3_100k/maxx: (31,)
+    entry1/instrument/pil3_100k/maxy: (31,)
+    entry1/instrument/pil3_100k/path: (31,)
+    entry1/instrument/pil3_100k/sum: (31,)
+    entry1/instrument/pil3_100k/type='DetectorBase'
+    entry1/instrument/ppchi:NXpositioner/
+    entry1/instrument/ppchi/name='ppchi'
+    entry1/instrument/ppchi/value=0.0 
+    entry1/instrument/ppchitemp:NXpositioner/
+    entry1/instrument/ppchitemp/name='ppchitemp'
+    entry1/instrument/ppchitemp/value=0.0
+    entry1/instrument/pppitch:NXpositioner/
+    entry1/instrument/pppitch/name='pppitch'
+    entry1/instrument/pppitch/value=0.0 
+    entry1/instrument/ppth1:NXpositioner/
+    entry1/instrument/ppth1/name='ppth1'
+    entry1/instrument/ppth1/value=0.0 
+    entry1/instrument/ppth1temp:NXpositioner/
+    entry1/instrument/ppth1temp/name='ppth1temp'
+    entry1/instrument/ppth1temp/value=0.0
+    entry1/instrument/ppth2:NXpositioner/
+    entry1/instrument/ppth2/name='ppth2'
+    entry1/instrument/ppth2/value=0.0 
+    entry1/instrument/ppth2temp:NXpositioner/
+    entry1/instrument/ppth2temp/name='ppth2temp'
+    entry1/instrument/ppth2temp/value=0.0
+    entry1/instrument/ppx:NXpositioner/
+    entry1/instrument/ppx/name='ppx'
+    entry1/instrument/ppx/value=0.0 
+    entry1/instrument/ppy:NXpositioner/
+    entry1/instrument/ppy/name='ppy'
+    entry1/instrument/ppy/value=0.0 
+    entry1/instrument/ppyaw:NXpositioner/
+    entry1/instrument/ppyaw/name='ppyaw'
+    entry1/instrument/ppyaw/value=0.0 
+    entry1/instrument/ppz1:NXpositioner/
+    entry1/instrument/ppz1/name='ppz1'
+    entry1/instrument/ppz1/value=0.0 
+    entry1/instrument/ppz1temp:NXpositioner/
+    entry1/instrument/ppz1temp/name='ppz1temp'
+    entry1/instrument/ppz1temp/value=0.0
+    entry1/instrument/ppz2:NXpositioner/
+    entry1/instrument/ppz2/name='ppz2'
+    entry1/instrument/ppz2/value=0.0 
+    entry1/instrument/ppz2temp:NXpositioner/
+    entry1/instrument/ppz2temp/name='ppz2temp'
+    entry1/instrument/ppz2temp/value=0.0
+    entry1/instrument/rc:NXpositioner/
+    entry1/instrument/rc/name='rc'
+    entry1/instrument/rc/value: (31,)
+    entry1/instrument/roi2:NXdetector/
+    entry1/instrument/roi2/description=' '
+    entry1/instrument/roi2/id=' '
+    entry1/instrument/roi2/roi2_maxval: (31,)
+    entry1/instrument/roi2/roi2_maxx: (31,)
+    entry1/instrument/roi2/roi2_maxy: (31,)
+    entry1/instrument/roi2/roi2_sum: (31,)
+    entry1/instrument/roi2/type=' '
+    entry1/instrument/s7xgap:NXpositioner/
+    entry1/instrument/s7xgap/name='s7xgap'
+    entry1/instrument/s7xgap/value=0.0 
+    entry1/instrument/s7xtrans:NXpositioner/
+    entry1/instrument/s7xtrans/name='s7xtrans'
+    entry1/instrument/s7xtrans/value=0.0 
+    entry1/instrument/s7ygap:NXpositioner/
+    entry1/instrument/s7ygap/name='s7ygap'
+    entry1/instrument/s7ygap/value=0.0 
+    entry1/instrument/s7ytrans:NXpositioner/
+    entry1/instrument/s7ytrans/name='s7ytrans'
+    entry1/instrument/s7ytrans/value=0.0 
+    entry1/instrument/scannables:NXcollection/
+    entry1/instrument/scannables/delta_axis_offset:NXpositioner/
+    entry1/instrument/scannables/delta_axis_offset/name='delta_axis_offset'
+    entry1/instrument/scannables/delta_axis_offset/value: (31,)
+    entry1/instrument/scannables/en:NXpositioner/
+    entry1/instrument/scannables/en/name='en'
+    entry1/instrument/scannables/en/value=416.77953347676055
+    entry1/instrument/scannables/kap:NXpositioner/
+    entry1/instrument/scannables/kap/name='kap'
+    entry1/instrument/scannables/kap/soft_limit_max=180.0
+    entry1/instrument/scannables/kap/soft_limit_min=-180.0
+    entry1/instrument/scannables/kap/value: (31,)
+    entry1/instrument/scannables/kdelta:NXpositioner/
+    entry1/instrument/scannables/kdelta/name='kdelta'
+    entry1/instrument/scannables/kdelta/soft_limit_max=110.0
+    entry1/instrument/scannables/kdelta/soft_limit_min=-1.0
+    entry1/instrument/scannables/kdelta/value: (31,)
+    entry1/instrument/scannables/kgam:NXpositioner/
+    entry1/instrument/scannables/kgam/name='kgam'
+    entry1/instrument/scannables/kgam/soft_limit_max=120.0
+    entry1/instrument/scannables/kgam/soft_limit_min=-1.0
+    entry1/instrument/scannables/kgam/value: (31,)
+    entry1/instrument/scannables/kmu:NXpositioner/
+    entry1/instrument/scannables/kmu/name='kmu'
+    entry1/instrument/scannables/kmu/soft_limit_max=80.0
+    entry1/instrument/scannables/kmu/soft_limit_min=-1.0
+    entry1/instrument/scannables/kmu/value: (31,)
+    entry1/instrument/scannables/kphi:NXpositioner/
+    entry1/instrument/scannables/kphi/name='kphi'
+    entry1/instrument/scannables/kphi/soft_limit_max=271.0
+    entry1/instrument/scannables/kphi/soft_limit_min=-91.0
+    entry1/instrument/scannables/kphi/value: (31,)
+    entry1/instrument/scannables/kth:NXpositioner/
+    entry1/instrument/scannables/kth/name='kth'
+    entry1/instrument/scannables/kth/soft_limit_max=212.0
+    entry1/instrument/scannables/kth/soft_limit_min=-90.0
+    entry1/instrument/scannables/kth/value: (31,)
+    entry1/instrument/sourceNexusDevice:NXsource/
+    entry1/instrument/sourceNexusDevice/current=0 
+    entry1/instrument/sourceNexusDevice/name='Diamond Light Source'
+    entry1/instrument/sourceNexusDevice/probe='x-ray'
+    entry1/instrument/sourceNexusDevice/type='Synchrotron X-ray Source'
+    entry1/instrument/transformations:NXtransformations/
+    entry1/instrument/transformations/delta: (31,)
+    entry1/instrument/transformations/gamma: (31,)
+    entry1/instrument/transformations/offsetdelta: (31,)
+    entry1/instrument/ubMeta:NXpositioner/
+    entry1/instrument/ubMeta/name='ubMeta'
+    entry1/instrument/ubMeta/value='{"name": null, "crystal": null, "reflist": {}, "orientlist": {}, "tau": 0, "sigma": 0, "reference": {"n_hkl_configured": "[1.0, 0.0, 0.0]", "n_phi_configured": null}, "surface": {"n_hkl_configured": null, "n_phi_configured": "[0.0, 0.0, 1.0]"}, "u": null, "ub": null, "or0": null, "or1": null}'
+    entry1/pil3_100k:NXdata/
+    entry1/pil3_100k/atime: (31,)
+    entry1/pil3_100k/atimetwo: (31,)
+    entry1/pil3_100k/count_time: (31,)
+    entry1/pil3_100k/delta_axis_offset: (31,)
+    entry1/pil3_100k/eta: (31,)
+    entry1/pil3_100k/ic1monitor: (31,)
+    entry1/pil3_100k/kap: (31,)
+    entry1/pil3_100k/kdelta: (31,)
+    entry1/pil3_100k/kgam: (31,)
+    entry1/pil3_100k/kmu: (31,)
+    entry1/pil3_100k/kphi: (31,)
+    entry1/pil3_100k/kth: (31,)
+    entry1/pil3_100k/rc: (31,)
+    entry1/program_name='GDA 9.25.0pre'
+    entry1/roi2:NXdata/
+    entry1/roi2/atime: (31,)
+    entry1/roi2/atimetwo: (31,)
+    entry1/roi2/delta_axis_offset: (31,)
+    entry1/roi2/eta: (31,)
+    entry1/roi2/ic1monitor: (31,)
+    entry1/roi2/kap: (31,)
+    entry1/roi2/kdelta: (31,)
+    entry1/roi2/kgam: (31,)
+    entry1/roi2/kmu: (31,)
+    entry1/roi2/kphi: (31,)
+    entry1/roi2/kth: (31,)
+    entry1/roi2/rc: (31,)
+    entry1/roi2/roi2_maxx: (31,)
+    entry1/sample:NXsample/
+    entry1/sample/beam:NXbeam/
+    entry1/sample/beam/incident_energy=416.77953347676055
+    entry1/sample/beamNexusDevice:NXbeam/
+    entry1/sample/beamNexusDevice/distance=0.0 mm
+    entry1/sample/beamNexusDevice/incident_energy=416.77953347676055
+    entry1/sample/transformations:NXtransformations/
+    entry1/sample/transformations/kappa: (31,)
+    entry1/sample/transformations/mu: (31,)
+    entry1/sample/transformations/phi: (31,)
+    entry1/sample/transformations/theta: (31,)
+    entry1/scan_command='scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2'
+    entry1/scan_fields: (22,)
+    entry1/scan_shape: (1,)
+    entry1/start_time='2022-02-11T17:03:17.871'
+    entry1/user01:NXuser/
+    entry1/user01/facility_user_id='voo82358'
+    entry1/user01/name='Mark Booth'
