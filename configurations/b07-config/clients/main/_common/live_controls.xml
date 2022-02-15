@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="s4b_ygapsize_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="S4b_y gapsize " />
@@ -190,6 +194,51 @@
 		</property>
 	</bean>
 	
+	<bean id="pss_shutter1_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="PSS Shutter 1" />
+		<property name="group" value="...." />
+		<property name="scannableName" value="pss_shutter1" />
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Open" value-ref="green_colour" />
+				<entry key="Opening" value-ref="blue_colour" />
+				<entry key="Closed" value-ref="red_colour" />
+				<entry key="Closing" value-ref="magenta_colour" />
+				<entry key="Fault" value-ref="yellow_colour" />
+			</util:map>		
+		</property>
+	</bean>
+	
+	<bean id="pss_shutter2_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="PSS Shutter 2" />
+		<property name="group" value="...." />
+		<property name="scannableName" value="pss_shutter2" />
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Open" value-ref="green_colour" />
+				<entry key="Opening" value-ref="blue_colour" />
+				<entry key="Closed" value-ref="red_colour" />
+				<entry key="Closing" value-ref="magenta_colour" />
+				<entry key="Fault" value-ref="yellow_colour" />
+			</util:map>		
+		</property>
+	</bean>
+	
+	<bean id="fast_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="Fast Shutter" />
+		<property name="group" value="...." />
+		<property name="scannableName" value="fast_shutter" />
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Open" value-ref="green_colour" />
+				<entry key="Opening" value-ref="blue_colour" />
+				<entry key="Closed" value-ref="red_colour" />
+				<entry key="Closing" value-ref="magenta_colour" />
+				<entry key="Fault" value-ref="yellow_colour" />
+			</util:map>		
+		</property>
+	</bean>
+	
 	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -215,6 +264,9 @@
 				<ref bean="cap21_control" />
 				<ref bean="cap22_control" />
 				<ref bean="endstation_configurations_control" />
+	 			<ref bean="pss_shutter1_status" />
+		 	 	<ref bean="pss_shutter2_status" />
+				<ref bean="fast_shutter_status" />
 			</list>
 		</property>
 	</bean>

@@ -124,7 +124,7 @@
 	
 	<bean id="es2b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES2B Cam 1" />
-		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8083/ES2B.DCAM1.mjpg.mjpg" />
+		<property name="url" value="bl07b-di-serv-01.diamond.ac.uk:8083/ES2B.DCAM1.mjpg.mjpg" />
 		<property name="rgb" value="true" />
 		<property name="bottomUi" ref="sim_camera_controls_ui" />
 	</bean>

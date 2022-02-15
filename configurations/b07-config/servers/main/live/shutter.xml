@@ -7,6 +7,27 @@
 		<property name="pvBase" value="BL07B-PS-SHTR-01" />
 	</bean>
 	
+	<bean id="pss_shutter1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL07B-PS-SHTR-01:CON" />
+		<property name="statusPv" value="BL07B-PS-SHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
+	<bean id="pss_shutter2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL07B-PS-SHTR-02:CON" />
+		<property name="statusPv" value="BL07B-PS-SHTR-02:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
+	<bean id="fast_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL07B-EA-SHTR-21:CON" />
+		<property name="statusPv" value="BL07B-EA-SHTR-21:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
 	<bean id="pss_shutter1_con" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07B-PS-SHTR-01:CON" />
 		<property name="readOnly" value="false"/>
