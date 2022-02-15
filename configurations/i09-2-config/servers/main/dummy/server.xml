@@ -46,6 +46,8 @@
 	<import resource="SS7.xml" />
 	
 	<import resource="shutters.xml"/>
+	
+	<import resource="dummy_endstation.xml" />
 
 	<import resource="../main_common.xml" />
 </beans>
