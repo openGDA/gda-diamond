@@ -24,13 +24,13 @@
 		<constructor-arg value="BL11K-ML-SCAN-06"/>
 	</bean>
 	
-	<util:list id="diffractionScanAxes" value-type="java.lang.String">
-		<value>kb_cs_x</value>
-		<value>kb_cs_y</value>
-	</util:list>
+	<util:map id="diffractionScanAxes" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="x" value="kb_cs_x" />
+		<entry key="y" value="kb_cs_y" />
+	</util:map>
 	
-	<util:list id="tomographyScanAxes" value-type="java.lang.String">
-		<value>gts_theta</value>
-	</util:list>
+	<util:map id="tomographyScanAxes" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="theta" value="gts_theta" />
+	</util:map>
 
 </beans>

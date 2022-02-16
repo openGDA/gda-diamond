@@ -54,7 +54,7 @@
 			</list>
 		</property>
 		<property name="scanAxes">
-			<list></list>
+			<map />
 		</property>
 		
 		<property name="startPosition">
@@ -101,9 +101,7 @@
 			<list><value>PCO_CAMERA</value></list>
 		</property>
 		<property name="scanAxes">
-			<list>
-				<value></value>
-			</list>
+			<map />
 		</property>
 		
 		<property name="startPosition">
