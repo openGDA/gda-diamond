@@ -504,6 +504,62 @@
 		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
 	</bean>
 	
+	<!-- LEED perspective -->
+	
+	<bean id="es2_8_gain" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+	
+	<bean id="es2_8_gain_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gain" />
+		<property name="scannableName" value="es2_8_gain" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showStop" value="false" />
+		<property name="incrementTextWidth" value="30" />
+		<property name="increment" value="1" />
+	</bean>
+	
+	<bean id="ES2_8CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+		<constructor-arg ref="analyserCameraControl" />
+		<property name="changeExposureWhileCameraAcquiring" value="true" />
+		<property name="includeCameraGain" value="true" />
+		<property name="cameraGainControl" ref="es2_8_gain_control" />
+	</bean>
+	
+	<bean id="es2_8" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="topUi" ref="ES2_8CameraControlsUi" />
+		<property name="displayName" value="ES2-8" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
+	</bean>
+	
+	<bean id="es2_9_gain" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+	
+	<bean id="es2_9_gain_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gain" />
+		<property name="scannableName" value="es2_9_gain" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showStop" value="false" />
+		<property name="incrementTextWidth" value="30" />
+		<property name="increment" value="1" />
+	</bean>
+	
+	<bean id="ES2_9CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+		<constructor-arg ref="analyserCameraControl" />
+		<property name="changeExposureWhileCameraAcquiring" value="true" />
+		<property name="includeCameraGain" value="true" />
+		<property name="cameraGainControl" ref="es2_9_gain_control" />
+	</bean>
+	
+	<bean id="es2_9" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="topUi" ref="ES2_9CameraControlsUi" />
+		<property name="displayName" value="ES2-9" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
+	</bean>
+	
 	<!-- Import the server side object over RMI -->
 	<bean id="analyser_eav_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy">
 	</bean>
