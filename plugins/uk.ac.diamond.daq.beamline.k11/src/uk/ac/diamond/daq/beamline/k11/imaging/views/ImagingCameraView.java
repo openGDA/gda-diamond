@@ -78,7 +78,7 @@ public class ImagingCameraView extends ViewPart {
 				.map(ICameraConfiguration::getCameraConfiguration)
 				.map(Optional::get)
 				.orElseThrow(() -> new LiveStreamException("No Camera Confguration found"));
-		return SpringApplicationContextFacade.getBean(CameraStreamsManager.class).getStreamConnection(cc, StreamType.EPICS_ARRAY);
+		return SpringApplicationContextFacade.getBean(CameraStreamsManager.class).getStreamConnection(cc, StreamType.EPICS_PVA);
 	}
 
 	private String getCameraID(AcquisitionPropertyType acquisitionType) throws LiveStreamException {
