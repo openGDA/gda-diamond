@@ -190,36 +190,24 @@ class FastEnergyScanControlClass(object):
 		if self.adbase is not None:
 			#capture existing settings that will be changed for fast scan
 			self.aquire_state=self.adbase.getAcquireState()
-			sleep(0.1)
 			self.exposure_period=self.adbase.getAcquirePeriod()
-			sleep(0.1)
 			self.exposure_time=self.adbase.getAcquireTime()
-			sleep(0.1)
 			self.image_mode=self.adbase.getImageMode()
-			sleep(0.1)
 			self.num_images=self.adbase.getNumImages()
-			sleep(0.1)
 			self.trigger_mode=self.adbase.getTriggerMode()
-			sleep(0.1)
 			self.drive_mode=int(self.chMedipixMode.caget())
-			sleep(0.1)
 			self.existingCameraParametersCaptured = True
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
-			sleep(2.0)
+			sleep(0.5)
 			#set camera parameters for fast scan
 			self.chMedipixMode.caput(3)
-			sleep(5.0)
+			sleep(0.5)
 			self.adbase.setAcquireTime(expotime)
-			sleep(0.5)
 			self.adbase.setAcquirePeriod(expotime)
-			sleep(0.5)
 			self.adbase.setImageMode(1) # Multiple
-			sleep(0.5)
 			self.adbase.setNumImages(numImages)
-			sleep(0.5)
 			self.adbase.setTriggerMode(0) # Auto
-			sleep(0.5)
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 		if self.isKBRastering():
@@ -257,23 +245,17 @@ class FastEnergyScanControlClass(object):
 		if self.adbase is not None:
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
-			sleep(2.0)
+			sleep(0.5)
 			self.chMedipixMode.caput(self.drive_mode) # this need to be called first after stop!
-			sleep(5.0)
+			sleep(0.5)
 			#restore camera parameters before fast scan
 			self.adbase.setAcquireTime(self.exposure_time)
-			sleep(0.5)
 			self.adbase.setAcquirePeriod(self.exposure_period)
-			sleep(0.5)
 			self.adbase.setImageMode(self.image_mode) # Multiple
-			sleep(0.5)
 			self.adbase.setNumImages(self.num_images)
-			sleep(0.5)
 			self.adbase.setTriggerMode(self.trigger_mode) # Auto
-			sleep(0.5)
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
-				sleep(0.5)
 			self.existingCameraParametersCaptured = False
 		else:
 			raise RuntimeError("self.adbase is not defined!")

@@ -372,13 +372,8 @@
 		</property>
 	</bean>
 	
-	<bean id="medipixCollectionStrategy4zacscan" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
-		<property name="restoreAcquireState" value="false" />
-		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.EpicsStartStop">
-				<property name="adBase" ref="medipix_adbase" />
-			</bean>
-		</property>
+	<bean id="medipixCollectionStrategy4zacscan" class="gda.device.detector.addetector.collectionstrategy.EpicsStartStop">
+		<property name="adBase" ref="medipix_adbase" />
 	</bean>
 	
 	<!-- scannable to set medipix PROC average number of images -->
