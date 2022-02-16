@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Epics simulated  -->
+
+	<bean id="es3x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-ES3-01:X" />
+	</bean>
+	
+	<bean id="es3dummyx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-ES3-01:DX" />
+	</bean>
+	
+	<bean id="es3dummyy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-ES3-01:DY" />
+	</bean>
+	
+	<bean id="es3dummyz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-ES3-01:DZ" />
+	</bean>
+	
+
+</beans>

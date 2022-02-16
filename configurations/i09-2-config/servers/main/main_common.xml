@@ -28,6 +28,8 @@
 	<import resource="SS7.xml" />
 	<import resource="BeamMonitor.xml"/>
 <!-- 	<import resource="topup.xml"/> -->
+	<import resource="dummy_endstation.xml" />
+
 
 	<import resource="../servers_common.xml" />
 
