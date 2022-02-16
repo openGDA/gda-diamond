@@ -3,13 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-	<bean id="radiograph_decorator" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector" init-method="register">
+	<bean id="radiograph_decorator" class="uk.ac.diamond.daq.scanning.FrameCollectingScannable" init-method="register">
 		<property name="name" value="radiograph_decorator" />
 		<property name="beamlineConfiguration">
-			<map>
-				<!-- select imaging beam before snapping, then move back -->
-<!-- 				<entry key="beam_selector" value="Mono imaging beam" /> -->
-			</map>
+			<map />
 		</property>
 		<!-- will result in /entry/instrument/radiograph_decorator/data -->
 		<property name="nexusFieldName" value="data" />
@@ -17,12 +14,6 @@
 			<map>
 				<!-- You get to the radiograph in scan-02 via /entry/imaging -->
 				<entry key="BL11K-ML-SCAN-02" value="imaging" />
-			</map>
-		</property>
-		<property name="snapshotDetectors">
-			<map>
-				<!-- when using scan-01 (diffraction detector) take a snapshot imaging device -->
-				<entry key="BL11K-ML-SCAN-01" value-ref="malcolm_tomo_device" />
 			</map>
 		</property>
 	</bean>
