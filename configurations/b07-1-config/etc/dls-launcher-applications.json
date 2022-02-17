@@ -16,9 +16,9 @@
     {
         "type": "button", 
         "text": "Start b07-1 GDA Servers", 
-        "command": "startgdaservers.sh", 
+        "command": "/dls_sw/b07-1/software/gda/bin/gdaservers", 
         "icon": "sgda.png"
-    }, 
+    },
     {
         "type": "button", 
         "text": "Start b07-1 GDA Log Panel", 
@@ -44,18 +44,5 @@
         "text": "SPECS Analyser PC", 
         "command": "/usr/bin/xfreerdp --ignore-certificate -a 24 -g 1800x900 -d DIAMOND -u b07-1detector -k en-gb -p '!b07-1d3t3ct0r#' b07-1-nap150-2", 
         "icon": "/dls_sw/b07-1/etc/preferences-desktop-remote-desktop.png"
-    },
-    {
-        "type": "button", 
-        "text": "GDA Client (Reset Workspace)", 
-        "args": "--reset", 
-        "command": "/dls_sw/b07-1/software/gda/bin/gdaclient", 
-        "icon": "cgda.png"
-    }, 
-    {
-        "type": "button", 
-        "text": "GDA Servers", 
-        "command": "/dls_sw/b07-1/software/gda/bin/gdaservers", 
-        "icon": "sgda.png"
-    } 
+    }
 ]

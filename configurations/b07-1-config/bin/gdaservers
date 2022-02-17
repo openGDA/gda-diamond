@@ -6,9 +6,9 @@ gda --start logpanel
 HW_RBV=`caget BL07C-EA-ENDST-01:CFG:HW_RBV`
 
 if grep -q 'TPOT' <<< "$HW_RBV"; then
-	gda servers --springprofiles=TPOT $*
+	gda servers --springprofiles TPOT $*
 elif grep -q 'TCUP' <<< "$HW_RBV"; then
-	gda servers --springprofiles=TCUP $*
+	gda servers --springprofiles TCUP $*
 else
 	gda servers $*
 fi
