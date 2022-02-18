@@ -6,38 +6,7 @@
 	<!-- Beans required for NexusScanDataWriter
 	 -->
 
-	<bean id="before_scan" class="gda.data.scan.nexus.device.BeforeScanSnapshotWriter" init-method="register">
-		<property name="name" value="before_scan" />
-		<property name="additionalScannableNames">
-			<set>
-				<value>PPR</value>
-				<value>delta_offset</value>
-				<value>dettrans</value>
-				<value>mrwolf</value>
-				<value>p2</value>
-				<value>ppchi</value>
-				<value>ppchitemp</value>
-				<value>pppitch</value>
-				<value>ppth1</value>
-				<value>ppth1temp</value>
-				<value>ppth2</value>
-				<value>ppth2temp</value>
-				<value>ppx</value>
-				<value>ppy</value>
-				<value>ppyaw</value>
-				<value>ppz1</value>
-				<value>ppz1temp</value>
-				<value>ppz2</value>
-				<value>ppz2temp</value>
-				<value>rc</value>
-				<value>s7xgap</value>
-				<value>s7xtrans</value>
-				<value>s7ygap</value>
-				<value>s7ytrans</value>
-				<value>ubMeta</value>
-			</set>
-		</property>
-	</bean>
+	<bean class="gda.data.scan.nexus.device.BeforeScanSnapshotWriter" init-method="register" />
 
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
 		<property name="name" value="sourceNexusDevice" />
@@ -94,13 +63,16 @@
 		</property>
 	</bean>
 
-	<!-- Beans required for NexusDataWriter & may be phased out as functionality is moved to NexusScanDataWriter
+	<!-- Beans also required for NexusDataWriter
 	 -->
 
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
+	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<property name="nexusTemplateFiles">
+			<list>
+				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
+			</list>
+		</property>
+		<property name="locationMap">
 			<map>
 				<entry key="frontend">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -256,11 +228,7 @@
 				</entry>
 			</map>
 		</property>
-	</bean>
-
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
+		<property name="metadataScannables">
 			<set>
 				<value>kgam</value>
 				<value>kdelta</value>

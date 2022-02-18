@@ -1,0 +1,17 @@
+entry1/:
+  NX_class@: NXentry # the '@' has to come at the end as 
+  classic_scan/:
+    NX_class@: NXsubentry # the '@' has to come at the end as 
+    definition: NXclassic_scan
+    # default
+    title: /entry1/scan_command
+    start_time: /entry1/start_time
+    end_time: /entry1/end_time
+    before_scan: /entry1/instrument/before_scan
+    scan_command: /entry1/scan_command
+    scan_fields: /entry1/diamond_scan/scan_fields
+    #scan_header
+    #called_by
+    #data/: # or link to group
+    #  NX_class@: NXdata
+    #  data: /entry1/instrument/pilatus3/data

@@ -1,0 +1,855 @@
+2022020208.nxs:
+root:NXroot
+  @file_name = '/scratch/dls_sw/all-dls/software/gda_versions/...'
+  entry1:NXentry
+    @default = 'pilatus3'
+    classic_scan:NXsubentry
+      before_scan:NXcollection -> /entry1/instrument/before_scan
+        @target = '/entry1/instrument/before_scan'
+        PPR:NXcollection
+          ppchi = 0.0
+          pppiezo1 = 0.0
+          pppiezo2 = 0.0
+          ppth1 = 0.0
+          ppth2 = 0.0
+          ppz1 = 0.0
+          ppz2 = 0.0
+        atime:NXcollection
+          TimeSec = 168.893357145
+        atimetwo:NXcollection
+          TimeFromEpoch = 1646403751.117
+        delta_axis_offset:NXcollection
+          delta_axis_offset = 0
+        delta_offset:NXcollection
+          delta_offset = 0
+        dettrans:NXcollection
+          dettrans = 0.0
+            @units = ''
+        en:NXcollection
+          en = 416.77953347676055
+        eta:NXcollection
+          eta = 12.254499999999998
+            @units = ''
+        ic1monitor:NXcollection
+          ic1monitor = -0.0
+        kap:NXcollection
+          kap = 0.0
+            @units = ''
+        kdelta:NXcollection
+          kdelta = 0.0
+            @units = ''
+        kgam:NXcollection
+          kgam = 0.0
+            @units = ''
+        kmu:NXcollection
+          kmu = 0.0
+            @units = ''
+        kphi:NXcollection
+          kphi = 0.0
+            @units = ''
+        kth:NXcollection
+          kth = 12.254499999999998
+            @units = ''
+        mrwolf:NXcollection
+          Day = 4
+          Hours = 14
+          Minutes = 22
+          Month = 3
+          Seconds = 31
+          Year = 2022
+        p2:NXcollection
+          p2rot = 0.0
+          p2x1 = 0.0
+          p2y1 = 0.0
+          p2zbot = 0.0
+          p2ztop = 0.0
+        ppchi:NXcollection
+          ppchi = 0.0
+            @units = ''
+        ppchitemp:NXcollection
+          ppchitemp = 0.0
+        pppitch:NXcollection
+          pppitch = 0.0
+            @units = ''
+        ppth1:NXcollection
+          ppth1 = 0.0
+            @units = ''
+        ppth1temp:NXcollection
+          ppth1temp = 0.0
+        ppth2:NXcollection
+          ppth2 = 0.0
+            @units = ''
+        ppth2temp:NXcollection
+          ppth2temp = 0.0
+        ppx:NXcollection
+          ppx = 0.0
+            @units = ''
+        ppy:NXcollection
+          ppy = 0.0
+            @units = ''
+        ppyaw:NXcollection
+          ppyaw = 0.0
+            @units = ''
+        ppz1:NXcollection
+          ppz1 = 0.0
+            @units = ''
+        ppz1temp:NXcollection
+          ppz1temp = 0.0
+        ppz2:NXcollection
+          ppz2 = 0.0
+            @units = ''
+        ppz2temp:NXcollection
+          ppz2temp = 0.0
+        rc:NXcollection
+          rc = 0
+        s7xgap:NXcollection
+          s7xgap = 0.0
+            @units = ''
+        s7xtrans:NXcollection
+          s7xtrans = 0.0
+            @units = ''
+        s7ygap:NXcollection
+          s7ygap = 0.0
+            @units = ''
+        s7ytrans:NXcollection
+          s7ytrans = 0.0
+            @units = ''
+        ubMeta:NXcollection
+          value = {"name": null, "crystal": null, "reflist": {}, "orientli...
+      definition = NXclassic_scan
+      end_time -> /entry1/diamond_scan/end_time
+      scan_command -> /entry1/diamond_scan/scan_command
+      scan_fields -> /entry1/diamond_scan/scan_fields
+      start_time -> /entry1/diamond_scan/start_time
+      title -> /entry1/diamond_scan/scan_command
+    diamond_scan:NXcollection
+      duration = 33271
+        @target = '/entry1/diamond_scan/duration'
+        @units = 'ms'
+      end_time = 2022-03-04T14:23:04.412
+        @target = '/entry1/diamond_scan/end_time'
+      keys:NXcollection
+        uniqueKeys = int32(31)
+      point_end_times = ['2022-03-04T14:22:31.388', '2022-03-04T14:22:32.207', '...
+      point_start_times = ['2022-03-04T14:22:31.388', '2022-03-04T14:22:32.206', '...
+      scan_command = scan eta 12.234499999999999 12.8345 0.02 pilatus3 1 roi2
+        @target = '/entry1/diamond_scan/scan_command'
+      scan_dead_time = 33272
+        @units = 'ms'
+      scan_dead_time_percent = 100.00300598144531
+      scan_estimated_duration = -1
+        @units = 'ms'
+      scan_fields = ['eta', 'kphi', 'kap', 'kth', 'kmu', 'kdelta', 'kgam', '...
+        @target = '/entry1/diamond_scan/scan_fields'
+      scan_finished = 1
+      scan_rank = 1
+      scan_shape = 31
+        @target = '/entry1/diamond_scan/scan_shape'
+      start_time = 2022-03-04T14:22:31.141
+        @target = '/entry1/diamond_scan/start_time'
+    duration -> /entry1/diamond_scan/duration
+    end_time -> /entry1/diamond_scan/end_time
+    instrument:NXinstrument
+      PPR:NXcollection
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR
+        ppchi -> /entry1/instrument/PPR.ppchi/value
+        pppiezo1 -> /entry1/instrument/PPR.pppiezo1/value
+        pppiezo2 -> /entry1/instrument/PPR.pppiezo2/value
+        ppth1 -> /entry1/instrument/PPR.ppth1/value
+        ppth2 -> /entry1/instrument/PPR.ppth2/value
+        ppz1 -> /entry1/instrument/PPR.ppz1/value
+        ppz2 -> /entry1/instrument/PPR.ppz2/value
+      PPR.ppchi:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR.ppchi
+        value = 0.0
+          @gda_field_name = 'ppchi'
+          @local_name = 'PPR.ppchi'
+          @target = '/entry1/instrument/PPR.ppchi/value'
+      PPR.pppiezo1:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR.pppiezo1
+        value = 0.0
+          @gda_field_name = 'pppiezo1'
+          @local_name = 'PPR.pppiezo1'
+          @target = '/entry1/instrument/PPR.pppiezo1/value'
+      PPR.pppiezo2:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR.pppiezo2
+        value = 0.0
+          @gda_field_name = 'pppiezo2'
+          @local_name = 'PPR.pppiezo2'
+          @target = '/entry1/instrument/PPR.pppiezo2/value'
+      PPR.ppth1:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR.ppth1
+        value = 0.0
+          @gda_field_name = 'ppth1'
+          @local_name = 'PPR.ppth1'
+          @target = '/entry1/instrument/PPR.ppth1/value'
+      PPR.ppth2:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR.ppth2
+        value = 0.0
+          @gda_field_name = 'ppth2'
+          @local_name = 'PPR.ppth2'
+          @target = '/entry1/instrument/PPR.ppth2/value'
+      PPR.ppz1:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR.ppz1
+        value = 0.0
+          @gda_field_name = 'ppz1'
+          @local_name = 'PPR.ppz1'
+          @target = '/entry1/instrument/PPR.ppz1/value'
+      PPR.ppz2:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'PPR'
+        name = PPR.ppz2
+        value = 0.0
+          @gda_field_name = 'ppz2'
+          @local_name = 'PPR.ppz2'
+          @target = '/entry1/instrument/PPR.ppz2/value'
+      atime:NXcollection
+        @gda_scan_role = 'monitor_per_point'
+        @gda_scannable_name = 'atime'
+        TimeSec = float64(31)
+          @gda_field_name = 'TimeSec'
+          @local_name = 'atime.TimeSec'
+          @target = '/entry1/instrument/atime/TimeSec'
+        name = atime
+      atimetwo:NXcollection
+        @gda_scan_role = 'monitor_per_point'
+        @gda_scannable_name = 'atimetwo'
+        TimeFromEpoch = float64(31)
+          @gda_field_name = 'TimeFromEpoch'
+          @local_name = 'atimetwo.TimeFromEpoch'
+          @target = '/entry1/instrument/atimetwo/TimeFromEpoch'
+        name = atimetwo
+      beamline = i16
+      before_scan:NXcollection
+        @target = '/entry1/instrument/before_scan'
+        PPR:NXcollection
+          ppchi = 0.0
+          pppiezo1 = 0.0
+          pppiezo2 = 0.0
+          ppth1 = 0.0
+          ppth2 = 0.0
+          ppz1 = 0.0
+          ppz2 = 0.0
+        atime:NXcollection
+          TimeSec = 168.893357145
+        atimetwo:NXcollection
+          TimeFromEpoch = 1646403751.117
+        delta_axis_offset:NXcollection
+          delta_axis_offset = 0
+        delta_offset:NXcollection
+          delta_offset = 0
+        dettrans:NXcollection
+          dettrans = 0.0
+            @units = ''
+        en:NXcollection
+          en = 416.77953347676055
+        eta:NXcollection
+          eta = 12.254499999999998
+            @units = ''
+        ic1monitor:NXcollection
+          ic1monitor = -0.0
+        kap:NXcollection
+          kap = 0.0
+            @units = ''
+        kdelta:NXcollection
+          kdelta = 0.0
+            @units = ''
+        kgam:NXcollection
+          kgam = 0.0
+            @units = ''
+        kmu:NXcollection
+          kmu = 0.0
+            @units = ''
+        kphi:NXcollection
+          kphi = 0.0
+            @units = ''
+        kth:NXcollection
+          kth = 12.254499999999998
+            @units = ''
+        mrwolf:NXcollection
+          Day = 4
+          Hours = 14
+          Minutes = 22
+          Month = 3
+          Seconds = 31
+          Year = 2022
+        p2:NXcollection
+          p2rot = 0.0
+          p2x1 = 0.0
+          p2y1 = 0.0
+          p2zbot = 0.0
+          p2ztop = 0.0
+        ppchi:NXcollection
+          ppchi = 0.0
+            @units = ''
+        ppchitemp:NXcollection
+          ppchitemp = 0.0
+        pppitch:NXcollection
+          pppitch = 0.0
+            @units = ''
+        ppth1:NXcollection
+          ppth1 = 0.0
+            @units = ''
+        ppth1temp:NXcollection
+          ppth1temp = 0.0
+        ppth2:NXcollection
+          ppth2 = 0.0
+            @units = ''
+        ppth2temp:NXcollection
+          ppth2temp = 0.0
+        ppx:NXcollection
+          ppx = 0.0
+            @units = ''
+        ppy:NXcollection
+          ppy = 0.0
+            @units = ''
+        ppyaw:NXcollection
+          ppyaw = 0.0
+            @units = ''
+        ppz1:NXcollection
+          ppz1 = 0.0
+            @units = ''
+        ppz1temp:NXcollection
+          ppz1temp = 0.0
+        ppz2:NXcollection
+          ppz2 = 0.0
+            @units = ''
+        ppz2temp:NXcollection
+          ppz2temp = 0.0
+        rc:NXcollection
+          rc = 0
+        s7xgap:NXcollection
+          s7xgap = 0.0
+            @units = ''
+        s7xtrans:NXcollection
+          s7xtrans = 0.0
+            @units = ''
+        s7ygap:NXcollection
+          s7ygap = 0.0
+            @units = ''
+        s7ytrans:NXcollection
+          s7ytrans = 0.0
+            @units = ''
+        ubMeta:NXcollection
+          value = {"name": null, "crystal": null, "reflist": {}, "orientli...
+      delta_offset:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'delta_offset'
+        name = delta_offset
+        value = 0
+          @gda_field_name = 'delta_offset'
+          @local_name = 'delta_offset.delta_offset'
+      dettrans:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'dettrans'
+        name = dettrans
+        value = 0.0
+          @gda_field_name = 'dettrans'
+          @local_name = 'dettrans.dettrans'
+          @units = ''
+      eta:NXpositioner
+        @gda_scan_role = 'scannable'
+        @gda_scannable_name = 'eta'
+        name = eta
+        soft_limit_max = 115.0
+        soft_limit_min = -22.0
+        value = float64(31)
+          @gda_field_name = 'eta'
+          @local_name = 'eta.eta'
+          @target = '/entry1/instrument/eta/value'
+          @units = ''
+      ic1monitor:NXcollection
+        @gda_scan_role = 'monitor_per_point'
+        @gda_scannable_name = 'ic1monitor'
+        ic1monitor = float64(31)
+          @gda_field_name = 'ic1monitor'
+          @local_name = 'ic1monitor.ic1monitor'
+          @target = '/entry1/instrument/ic1monitor/ic1monitor'
+        name = ic1monitor
+      idNexusDevice:NXinsertion_device
+        gap = 5.85
+          @units = ''
+        harmonic = 3
+        type = wiggler
+      monochromatorNexusDevice:NXmonochromator
+        energy = 416.77953347676055
+      mrwolf:NXcollection
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'mrwolf'
+        Day = 4
+          @gda_field_name = 'Day'
+          @local_name = 'mrwolf.Day'
+        Hours = 14
+          @gda_field_name = 'Hours'
+          @local_name = 'mrwolf.Hours'
+        Minutes = 22
+          @gda_field_name = 'Minutes'
+          @local_name = 'mrwolf.Minutes'
+        Month = 3
+          @gda_field_name = 'Month'
+          @local_name = 'mrwolf.Month'
+        Seconds = 31
+          @gda_field_name = 'Seconds'
+          @local_name = 'mrwolf.Seconds'
+        Year = 2022
+          @gda_field_name = 'Year'
+          @local_name = 'mrwolf.Year'
+        name = mrwolf
+      name = i16
+      p2:NXcollection
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'p2'
+        name = p2
+        p2rot -> /entry1/instrument/p2.p2rot/value
+        p2x1 -> /entry1/instrument/p2.p2x1/value
+        p2y1 -> /entry1/instrument/p2.p2y1/value
+        p2zbot -> /entry1/instrument/p2.p2zbot/value
+        p2ztop -> /entry1/instrument/p2.p2ztop/value
+      p2.p2rot:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'p2'
+        name = p2.p2rot
+        value = 0.0
+          @gda_field_name = 'p2rot'
+          @local_name = 'p2.p2rot'
+          @target = '/entry1/instrument/p2.p2rot/value'
+      p2.p2x1:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'p2'
+        name = p2.p2x1
+        value = 0.0
+          @gda_field_name = 'p2x1'
+          @local_name = 'p2.p2x1'
+          @target = '/entry1/instrument/p2.p2x1/value'
+      p2.p2y1:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'p2'
+        name = p2.p2y1
+        value = 0.0
+          @gda_field_name = 'p2y1'
+          @local_name = 'p2.p2y1'
+          @target = '/entry1/instrument/p2.p2y1/value'
+      p2.p2zbot:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'p2'
+        name = p2.p2zbot
+        value = 0.0
+          @gda_field_name = 'p2zbot'
+          @local_name = 'p2.p2zbot'
+          @target = '/entry1/instrument/p2.p2zbot/value'
+      p2.p2ztop:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'p2'
+        name = p2.p2ztop
+        value = 0.0
+          @gda_field_name = 'p2ztop'
+          @local_name = 'p2.p2ztop'
+          @target = '/entry1/instrument/p2.p2ztop/value'
+      pilatus3:NXdetector
+        count_time = float64(31)
+          @local_name = 'pilatus3.count_time'
+        data -> 2022020208-pilatus3_100k-files/2022020208.hdf['/entry/instrument/detector/data']
+        data_file:NXnote
+          file_name = ['2022020208-pilatus3_100k-files/00001.tif', '2022020208...
+            @data_filename = 1
+        image_data = ['2022020208-pilatus3_100k-files/00001.tif', '2022020208...
+          @data_filename = 1
+          @signal = 1
+          @target = '/entry1/instrument/pilatus3/image_data'
+        local_name = pilatus3
+      ppchi:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppchi'
+        name = ppchi
+        value = 0.0
+          @gda_field_name = 'ppchi'
+          @local_name = 'ppchi.ppchi'
+          @units = ''
+      ppchitemp:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppchitemp'
+        name = ppchitemp
+        value = 0.0
+          @gda_field_name = 'ppchitemp'
+          @local_name = 'ppchitemp.ppchitemp'
+      pppitch:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'pppitch'
+        name = pppitch
+        value = 0.0
+          @gda_field_name = 'pppitch'
+          @local_name = 'pppitch.pppitch'
+          @units = ''
+      ppth1:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppth1'
+        name = ppth1
+        value = 0.0
+          @gda_field_name = 'ppth1'
+          @local_name = 'ppth1.ppth1'
+          @units = ''
+      ppth1temp:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppth1temp'
+        name = ppth1temp
+        value = 0.0
+          @gda_field_name = 'ppth1temp'
+          @local_name = 'ppth1temp.ppth1temp'
+      ppth2:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppth2'
+        name = ppth2
+        value = 0.0
+          @gda_field_name = 'ppth2'
+          @local_name = 'ppth2.ppth2'
+          @units = ''
+      ppth2temp:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppth2temp'
+        name = ppth2temp
+        value = 0.0
+          @gda_field_name = 'ppth2temp'
+          @local_name = 'ppth2temp.ppth2temp'
+      ppx:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppx'
+        name = ppx
+        value = 0.0
+          @gda_field_name = 'ppx'
+          @local_name = 'ppx.ppx'
+          @units = ''
+      ppy:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppy'
+        name = ppy
+        value = 0.0
+          @gda_field_name = 'ppy'
+          @local_name = 'ppy.ppy'
+          @units = ''
+      ppyaw:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppyaw'
+        name = ppyaw
+        value = 0.0
+          @gda_field_name = 'ppyaw'
+          @local_name = 'ppyaw.ppyaw'
+          @units = ''
+      ppz1:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppz1'
+        name = ppz1
+        value = 0.0
+          @gda_field_name = 'ppz1'
+          @local_name = 'ppz1.ppz1'
+          @units = ''
+      ppz1temp:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppz1temp'
+        name = ppz1temp
+        value = 0.0
+          @gda_field_name = 'ppz1temp'
+          @local_name = 'ppz1temp.ppz1temp'
+      ppz2:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppz2'
+        name = ppz2
+        value = 0.0
+          @gda_field_name = 'ppz2'
+          @local_name = 'ppz2.ppz2'
+          @units = ''
+      ppz2temp:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ppz2temp'
+        name = ppz2temp
+        value = 0.0
+          @gda_field_name = 'ppz2temp'
+          @local_name = 'ppz2temp.ppz2temp'
+      rc:NXpositioner
+        @gda_scan_role = 'monitor_per_point'
+        @gda_scannable_name = 'rc'
+        name = rc
+        value = int32(31)
+          @gda_field_name = 'rc'
+          @local_name = 'rc.rc'
+          @target = '/entry1/instrument/rc/value'
+      roi2:NXdetector
+        description = 
+        id = 
+        roi2_maxval = float64(31)
+        roi2_maxx = float64(31)
+          @target = '/entry1/instrument/roi2/roi2_maxx'
+        roi2_maxy = float64(31)
+        roi2_sum = float64(31)
+        type = 
+      s7xgap:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 's7xgap'
+        name = s7xgap
+        value = 0.0
+          @gda_field_name = 's7xgap'
+          @local_name = 's7xgap.s7xgap'
+          @units = ''
+      s7xtrans:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 's7xtrans'
+        name = s7xtrans
+        value = 0.0
+          @gda_field_name = 's7xtrans'
+          @local_name = 's7xtrans.s7xtrans'
+          @units = ''
+      s7ygap:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 's7ygap'
+        name = s7ygap
+        value = 0.0
+          @gda_field_name = 's7ygap'
+          @local_name = 's7ygap.s7ygap'
+          @units = ''
+      s7ytrans:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 's7ytrans'
+        name = s7ytrans
+        value = 0.0
+          @gda_field_name = 's7ytrans'
+          @local_name = 's7ytrans.s7ytrans'
+          @units = ''
+      scannables:NXcollection
+        delta_axis_offset:NXpositioner
+          @gda_scan_role = 'monitor_per_point'
+          @gda_scannable_name = 'delta_axis_offset'
+          name = delta_axis_offset
+          value = int32(31)
+            @depends_on = 'entry1/instrument/transformations/delta'
+            @gda_field_name = 'delta_axis_offset'
+            @local_name = 'delta_axis_offset.delta_axis_offset'
+            @target = '/entry1/instrument/scannables/delta_axis_offse...'
+            @transformation_type = 'rotation'
+            @units = 'deg'
+            @vector = [ 0. -1.  0.]
+        en:NXpositioner
+          @gda_scan_role = 'monitor_per_scan'
+          @gda_scannable_name = 'en'
+          name = en
+          value = 416.77953347676055
+            @gda_field_name = 'en'
+            @local_name = 'en.en'
+            @target = '/entry1/instrument/scannables/en/value'
+        kap:NXpositioner
+          @gda_scan_role = 'monitor_per_point'
+          @gda_scannable_name = 'kap'
+          name = kap
+          soft_limit_max = 180.0
+          soft_limit_min = -180.0
+          value = float64(31)
+            @depends_on = 'entry1/sample/transformations/theta'
+            @gda_field_name = 'kap'
+            @local_name = 'kap.kap'
+            @target = '/entry1/instrument/scannables/kap/value'
+            @transformation_type = 'rotation'
+            @units = 'deg'
+            @vector = [ 0.          0.64278761 -0.76604443]
+        kdelta:NXpositioner
+          @gda_scan_role = 'monitor_per_point'
+          @gda_scannable_name = 'kdelta'
+          name = kdelta
+          soft_limit_max = 110.0
+          soft_limit_min = -1.0
+          value = float64(31)
+            @depends_on = 'entry1/instrument/transformations/gamma'
+            @gda_field_name = 'kdelta'
+            @local_name = 'kdelta.kdelta'
+            @target = '/entry1/instrument/scannables/kdelta/value'
+            @transformation_type = 'rotation'
+            @units = 'deg'
+            @vector = [0. 1. 0.]
+        kgam:NXpositioner
+          @gda_scan_role = 'monitor_per_point'
+          @gda_scannable_name = 'kgam'
+          name = kgam
+          soft_limit_max = 120.0
+          soft_limit_min = -1.0
+          value = float64(31)
+            @depends_on = '.'
+            @gda_field_name = 'kgam'
+            @local_name = 'kgam.kgam'
+            @target = '/entry1/instrument/scannables/kgam/value'
+            @transformation_type = 'rotation'
+            @units = 'deg'
+            @vector = [1. 0. 0.]
+        kmu:NXpositioner
+          @gda_scan_role = 'monitor_per_point'
+          @gda_scannable_name = 'km'
+          name = kmu
+          soft_limit_max = 80.0
+          soft_limit_min = -1.0
+          value = float64(31)
+            @depends_on = '.'
+            @gda_field_name = 'km'
+            @local_name = 'kmu.km'
+            @target = '/entry1/instrument/scannables/kmu/value'
+            @transformation_type = 'rotation'
+            @units = 'deg'
+            @vector = [1. 0. 0.]
+        kphi:NXpositioner
+          @gda_scan_role = 'monitor_per_point'
+          @gda_scannable_name = 'kphi'
+          name = kphi
+          soft_limit_max = 271.0
+          soft_limit_min = -91.0
+          value = float64(31)
+            @depends_on = 'entry1/sample/transformations/kappa'
+            @gda_field_name = 'kphi'
+            @local_name = 'kphi.kphi'
+            @target = '/entry1/instrument/scannables/kphi/value'
+            @transformation_type = 'rotation'
+            @units = 'deg'
+            @vector = [0. 1. 0.]
+        kth:NXpositioner
+          @gda_scan_role = 'monitor_per_point'
+          @gda_scannable_name = 'kth'
+          name = kth
+          soft_limit_max = 212.0
+          soft_limit_min = -90.0
+          value = float64(31)
+            @depends_on = 'entry1/sample/transformations/m'
+            @gda_field_name = 'kth'
+            @local_name = 'kth.kth'
+            @target = '/entry1/instrument/scannables/kth/value'
+            @transformation_type = 'rotation'
+            @units = 'deg'
+            @vector = [0. 1. 0.]
+      sourceNexusDevice:NXsource
+        current = 0
+          @units = ''
+        name = Diamond Light Source
+        probe = x-ray
+        type = Synchrotron X-ray Source
+      transformations:NXtransformations
+        delta -> /entry1/instrument/scannables/kdelta/value
+        gamma -> /entry1/instrument/scannables/kgam/value
+        offsetdelta -> /entry1/instrument/scannables/delta_axis_offset/value
+      ubMeta:NXpositioner
+        @gda_scan_role = 'monitor_per_scan'
+        @gda_scannable_name = 'ubMeta'
+        name = ubMeta
+        value = {"name": null, "crystal": null, "reflist": {}, "orientli...
+          @gda_field_name = 'value'
+          @local_name = 'ubMeta.value'
+    pilatus3:NXdata
+      @atime_indices = 0
+      @atimetwo_indices = 0
+      @axes = 'eta'
+      @delta_axis_offset_indices = 0
+      @eta_indices = 0
+      @ic1monitor_indices = 0
+      @kap_indices = 0
+      @kdelta_indices = 0
+      @kgam_indices = 0
+      @kmu_indices = 0
+      @kphi_indices = 0
+      @kth_indices = 0
+      @rc_indices = 0
+      @signal = 'image_data'
+      atime -> /entry1/instrument/atime/TimeSec
+      atimetwo -> /entry1/instrument/atimetwo/TimeFromEpoch
+      delta_axis_offset -> /entry1/instrument/scannables/delta_axis_offset/value
+      eta -> /entry1/instrument/eta/value
+      ic1monitor -> /entry1/instrument/ic1monitor/ic1monitor
+      image_data -> /entry1/instrument/pilatus3/image_data
+      kap -> /entry1/instrument/scannables/kap/value
+      kdelta -> /entry1/instrument/scannables/kdelta/value
+      kgam -> /entry1/instrument/scannables/kgam/value
+      kmu -> /entry1/instrument/scannables/kmu/value
+      kphi -> /entry1/instrument/scannables/kphi/value
+      kth -> /entry1/instrument/scannables/kth/value
+      rc -> /entry1/instrument/rc/value
+    pilatus3.data:NXdata
+      @atime_indices = 0
+      @atimetwo_indices = 0
+      @axes = ['eta', '.', '.']
+      @delta_axis_offset_indices = 0
+      @eta_indices = 0
+      @ic1monitor_indices = 0
+      @kap_indices = 0
+      @kdelta_indices = 0
+      @kgam_indices = 0
+      @kmu_indices = 0
+      @kphi_indices = 0
+      @kth_indices = 0
+      @rc_indices = 0
+      @signal = 'data'
+      atime -> /entry1/instrument/atime/TimeSec
+      atimetwo -> /entry1/instrument/atimetwo/TimeFromEpoch
+      data -> 2022020208-pilatus3_100k-files/2022020208.hdf['/entry/instrument/detector/data']
+      delta_axis_offset -> /entry1/instrument/scannables/delta_axis_offset/value
+      eta -> /entry1/instrument/eta/value
+      ic1monitor -> /entry1/instrument/ic1monitor/ic1monitor
+      kap -> /entry1/instrument/scannables/kap/value
+      kdelta -> /entry1/instrument/scannables/kdelta/value
+      kgam -> /entry1/instrument/scannables/kgam/value
+      kmu -> /entry1/instrument/scannables/kmu/value
+      kphi -> /entry1/instrument/scannables/kphi/value
+      kth -> /entry1/instrument/scannables/kth/value
+      rc -> /entry1/instrument/rc/value
+    program_name = GDA 9.25.0pre
+    roi2:NXdata
+      @atime_indices = 0
+      @atimetwo_indices = 0
+      @axes = 'eta'
+      @delta_axis_offset_indices = 0
+      @eta_indices = 0
+      @ic1monitor_indices = 0
+      @kap_indices = 0
+      @kdelta_indices = 0
+      @kgam_indices = 0
+      @kmu_indices = 0
+      @kphi_indices = 0
+      @kth_indices = 0
+      @rc_indices = 0
+      @signal = 'roi2_maxx'
+      atime -> /entry1/instrument/atime/TimeSec
+      atimetwo -> /entry1/instrument/atimetwo/TimeFromEpoch
+      delta_axis_offset -> /entry1/instrument/scannables/delta_axis_offset/value
+      eta -> /entry1/instrument/eta/value
+      ic1monitor -> /entry1/instrument/ic1monitor/ic1monitor
+      kap -> /entry1/instrument/scannables/kap/value
+      kdelta -> /entry1/instrument/scannables/kdelta/value
+      kgam -> /entry1/instrument/scannables/kgam/value
+      kmu -> /entry1/instrument/scannables/kmu/value
+      kphi -> /entry1/instrument/scannables/kphi/value
+      kth -> /entry1/instrument/scannables/kth/value
+      rc -> /entry1/instrument/rc/value
+      roi2_maxx -> /entry1/instrument/roi2/roi2_maxx
+    sample:NXsample
+      beam:NXbeam
+        incident_energy -> /entry1/instrument/scannables/en/value
+      beamNexusDevice:NXbeam
+        distance = 0.0
+          @units = 'mm'
+        incident_energy = 416.77953347676055
+      transformations:NXtransformations
+        kappa -> /entry1/instrument/scannables/kap/value
+        mu -> /entry1/instrument/scannables/kmu/value
+        phi -> /entry1/instrument/scannables/kphi/value
+        theta -> /entry1/instrument/scannables/kth/value
+    scan_command -> /entry1/diamond_scan/scan_command
+    scan_fields -> /entry1/diamond_scan/scan_fields
+    scan_shape -> /entry1/diamond_scan/scan_shape
+    start_time -> /entry1/diamond_scan/start_time
+    user01:NXuser
+      facility_user_id = voo82358
+      name = Mark Booth

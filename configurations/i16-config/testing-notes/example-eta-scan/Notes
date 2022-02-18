@@ -1,7 +1,7 @@
 ================================================================================
 					scancn eta 0.02 31 pil3_100k 1 roi2
 ================================================================================
-`scancn eta` tests assume `pos eta 12.5345` beforehand.
+The `scancn eta` tests assume `pos eta 12.5345` beforehand.
 
 Scan	Command									?DW?	DWE	LF	Dummy/Live	nxls
     867888	scancn eta 0.02 31 pil3_100k 1 roi2	NDW		DWE	LF	Live		Good
@@ -11,6 +11,8 @@ Scan	Command									?DW?	DWE	LF	Dummy/Live	nxls
 2022020042	scancn eta 0.02 32 pil3_100k 1 roi2	NDW				Dummy		Good
 2022020043	scancn eta 0.02 32 pil3_100k 1 roi2	NSDW			Dummy		Good
 2022020044	scancn eta 0.02 32 pil3_100k 1 roi2	NDW		DWE		Dummy		Good
+2022020168	scancn eta 0.02 32 pil3_100k 1 roi2	NSDW+T			Dummy		Good
+2022020208	scancn eta 0.02 32 pilatus3 1 roi2	NSDW+T			Dummy		Good
 
 ================================================================================
 
@@ -19,6 +21,7 @@ Removing LF removes:
 	entry1/pil3_100k/data				(NXdata)
 		(differences between 40 & 44)
 
+--------------------------------------------------------------------------------
 Removing DWE removes:
     entry1/definition='NXmx'
     entry1/features: (3,)
@@ -43,6 +46,7 @@ Removing DWE removes:
     entry1/title_old='Scan of sample with GDA'
 		(differences between 44 & 42)
 
+--------------------------------------------------------------------------------
 Switching to NSDW adds/removes/moves:
 -   entry1/before_scan:NXcollection/										v
 +   entry1/diamond_scan:NXcollection/
@@ -174,3 +178,37 @@ processing values.
 Oddly, the roi2 NXdata node seems to only be missing 3 per point
 processing values.
 
+--------------------------------------------------------------------------------
+Adding a template (NSDW+T) adds
+
+2022020168.nxs:
+    entry1:NXentry/
+    entry1/classic_scan:NXsubentry/
+    entry1/classic_scan/before_scan:NXcollection/
+    entry1/classic_scan/before_scan/PPR:NXcollection/
+    ...
+    entry1/classic_scan/before_scan/ubMeta:NXcollection/
+    entry1/classic_scan/before_scan/ubMeta/value='{"name": null, "crystal": null, "reflist": {}, "orientlist": {}, "tau": 0, "sigma": 0, "reference": {"n_hkl_configured": "[1.0, 0.0, 0.0]", "n_phi_configured": null}, "surface": {"n_hkl_configured": null, "n_phi_configured": "[0.0, 0.0, 1.0]"}, "u": null, "ub": null, "or0": null, "or1": null}'
+    entry1/classic_scan/definition='NXclassic_scan'
+    entry1/classic_scan/end_time=b'2022-02-22T12:22:47.363'
+    entry1/classic_scan/scan_command='scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2'
+    entry1/classic_scan/scan_fields: (22,)
+    entry1/classic_scan/start_time='2022-02-22T12:22:12.383'
+    entry1/classic_scan/title='scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2'
+
+--------------------------------------------------------------------------------
+Switching pil3_100k for pilatus3 we lose the roi processors but get the data
+link
+
+2022020208.nxs:
+-   entry1/instrument/pil3_100k/maxval: (31,)
+-   entry1/instrument/pil3_100k/maxx: (31,)
+-   entry1/instrument/pil3_100k/maxy: (31,)
+-   entry1/instrument/pil3_100k/path: (31,)
+-   entry1/instrument/pil3_100k/sum: (31,)
++   entry1/instrument/pilatus3/data External link to 2022020208-pilatus3_100k-files/2022020208.hdf#/entry/instrument/detector/data: (31, 960, 1280)
++   entry1/instrument/pilatus3/data_file:NXnote/
++   entry1/instrument/pilatus3/data_file/file_name: (31,)
++   entry1/instrument/pilatus3/image_data: (31,)
+
+================================================================================
