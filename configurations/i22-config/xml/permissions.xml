@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+  <user fedid="i22user" level="2" staff="true"/>
+  <user fedid="njt78" level="3" staff="true"/> <!-- Nick -->
+  <user fedid="lsd43" level="3" staff="true"/> <!-- Lee -->
+  <user fedid="zbs27213" level="3" staff="true"/> <!-- Olga -->
+  <user fedid="ckn54496" level="3" staff="true"/> <!-- Andy -->
+  <user fedid="qan22331" level="3" staff="true"/> <!-- Peter -->
+  <user fedid="rng73417" level="3" staff="true"/> <!-- Tim -->
+
+  <!-- BEAMLINE USERS -->
+  <!-- by default users have permission 1 -->
+  <!-- level 2 will allow them to drive some extra motors (e.g. energy, dcm_finepitch) -->
+  <!-- with the current configuration all motors are accessible with level 3 -->
+</permissions>
