@@ -12,6 +12,7 @@
 
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	
@@ -20,5 +21,7 @@
 	<bean class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
+
+	<import resource="dashboard.xml"/>
 
 </beans>

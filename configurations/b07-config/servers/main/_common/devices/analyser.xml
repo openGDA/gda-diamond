@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="collection_strategy" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSeparateIterationCollectionStrategy">
+		<property name="analyser" ref="analyser" />
+		<property name="safeStateAfterScan" value="false" />
+	</bean>
+	
+	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserSeparateIterations">
+		<property name="name" value="analyser" />
+		<property name="controller" ref="analyser_controller" />
+		<property name="collectionStrategy" ref="collection_strategy" />
+		<property name="photonEnergyProvider" ref="pgm_energy" />
+		<property name="experimentalShutter" ref="expt_shutter" />
+		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->
+		<!-- Real value for detectorEnergyWidth will be read from EPICS. This will be used if EPICS can't be accessed. -->
+		<property name="detectorEnergyWidth" value="0.13" />
+		<property name="alignmentTimeout" value="950.0" />
+		<property name="configurablePhotonEnergyScannable">
+			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="pgm_energy" />
+					<constructor-arg name="scannableDescription" value="Photon Energy" />
+				</bean>
+		</property>
+		<property name="additionalConfigurableScannables">
+			<list>
+				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="s4b_xgapsize" />
+					<constructor-arg name="scannableDescription" value="Exit Slit X Gap Size" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="s4b_ygapsize" />
+					<constructor-arg name="scannableDescription" value="Exit Slit Y Gap Size" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
+					<constructor-arg name="scannable" ref="pgm_cff" />
+					<constructor-arg name="scannableDescription" value="PGM CFF" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
