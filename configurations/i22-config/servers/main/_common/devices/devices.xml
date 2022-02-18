@@ -32,5 +32,5 @@
 	<import resource="xmap.xml" />
 
 <!--     <import resource="gisaxs/gisaxs.xml"/> -->
-    <import resource="slits/slits.xml"/>
+    <import resource="slits/*.xml"/>
 </beans>

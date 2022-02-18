@@ -12,7 +12,6 @@
 	<import resource="xmap_dxp.xml" />
 
     <import resource="gisaxs/gisaxs.xml"/>
-    <import resource="slits/slits.xml"/>
     <import resource="qbpm.xml" />
 
     <beans profile="ioc_sim" >
