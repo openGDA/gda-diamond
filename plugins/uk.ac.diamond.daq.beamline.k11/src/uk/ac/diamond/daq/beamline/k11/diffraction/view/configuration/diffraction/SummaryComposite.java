@@ -66,21 +66,27 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 
 	private void updateSummary() {
 		if (summary == null || summary.isDisposed()) return;
-		var points = numberOfPoints();
-		var exposure = exposurePerPoint();
-		var message = String.format("Points: %d; Exposure: %.2f s; Total exposure: %.2f s", points, exposure, points * exposure);
-		summary.setText(message);
+		summary.setText(getSummary());
 	}
 
-	private int numberOfPoints() {
+	private String getSummary() {
 		var document = parameters.getScanpathDocument();
+		var xAxis = document.getScannableTrackDocuments().get(0);
+		var yAxis = document.getScannableTrackDocuments().get(1);
+		var exposure = exposurePerPoint();
+		var points = 0;
 		switch (document.getModelDocument()) {
 		case TWO_DIMENSION_GRID:
-			return pointsInAxis(document.getScannableTrackDocuments().get(0)) * pointsInAxis(document.getScannableTrackDocuments().get(1));
+			points = pointsInAxis(xAxis) * pointsInAxis(yAxis);
+			var xStepSize = xAxis.calculatedStep();
+			var yStepSize = yAxis.calculatedStep();
+			return String.format("Points: %d; Step size X: %.2f, Y: %.2f;%nExposure: %.2f s; Total exposure: %.2f s", points, xStepSize, yStepSize, exposure, points * exposure);
 		case TWO_DIMENSION_LINE:
-			return pointsInAxis(document.getScannableTrackDocuments().get(0));
+			points = pointsInAxis(xAxis);
+			var stepSize = Math.sqrt((xAxis.calculatedStep() * xAxis.calculatedStep()) + (yAxis.calculatedStep() * yAxis.calculatedStep()));
+			return String.format("Points: %d; Step size: %.2f;%nExposure: %.2f s; Total exposure: %.2f s", points, stepSize, exposure, points * exposure);
 		case TWO_DIMENSION_POINT:
-			return 1;
+			return String.format("Points: 1; Total exposure: %.2f s", exposure);
 		default:
 			throw new IllegalArgumentException("Unsupported type: " + document.getModelDocument().toString());
 		}
