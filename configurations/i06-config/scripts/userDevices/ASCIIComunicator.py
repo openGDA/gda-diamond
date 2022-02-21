@@ -63,35 +63,28 @@ class ASCIIComunicator(DeviceBase):
         return self.terminatorRequired
         
     def configure(self):
-        ''' configure and initialise the connection
+        ''' configure and initialize the connection
         '''
-        if not self.configured:
-            if self.ipaddress is not None:
-                self.communicator.setAddress(self.ipaddress)
-            else:
-                raise Exception("IP address is required!")
-            if self.port is not None and type(self.port) is int:
-                self.communicator.setPort(self.port)
-            else:
-                raise Exception("Port number is required and it is must an Integer Number!")
-            if self.terminator is not None:
-                self.communicator.setCmdTerm(self.terminator)
-                self.communicator.setReplyTerm(self.terminator)
-            else:
-                if self.terminatorRequired:
-                    raise Exception("Terminator is required!")
-                else:
-                    print "Terminator is not set, maybe not required by the device commands and replies."
-#             try:
-#                 self.communicator.connectIfRequired()
-#             except DeviceException, err:
-#                 print err
-#             else:
-#                 print "Device %s is connected in port %d." % (self.ipaddress, self.port)
-            
-            self.configured=True
+        if self.configured:
+            print("Device % is already configured at port %d !" % (self.ipaddress, self.port)) 
+            return
+        if self.ipaddress is not None:
+            self.communicator.setAddress(self.ipaddress)
         else:
-            print "Device % is already configured at port %d !" % (self.ipaddress, self.port) 
+            raise ValueError("IP address is required!")
+        if self.port is not None and type(self.port) is int:
+            self.communicator.setPort(self.port)
+        else:
+            raise ValueError("Port number is required and it is must an Integer Number!")
+        if self.terminator is not None:
+            self.communicator.setCmdTerm(self.terminator)
+            self.communicator.setReplyTerm(self.terminator)
+        else:
+            if self.terminatorRequired:
+                raise ValueError("Terminator is required!")
+            else:
+                print("Terminator is not set, maybe not required by the device commands and replies.")
+        self.configured=True
     
     def send(self, cmd):
         '''send command to device and get reply from this command'''
@@ -111,10 +104,13 @@ class ASCIIComunicator(DeviceBase):
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        print "close socket connection on exit with-statement"
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        if any(v is not None for v in [exc_type, exc_value, exc_tb]):
+            import traceback
+            traceback.print_exception(exc_type, exc_value, exc_tb)
+        print("close socket connection")
         self.close()
         
     def __del__(self):
-        print "close socket connection on delete this object."
+        print("close socket connection on delete this object.")
         self.close()

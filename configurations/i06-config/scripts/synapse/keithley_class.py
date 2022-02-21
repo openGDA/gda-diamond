@@ -51,7 +51,7 @@ class Keithley2461(object):
         '''switch auto range ON/OFF for measurement in the given mode
         '''
         if not (val in ['ON', 'OFF']):
-            raise Exception("input 'val' must be in ['ON', 'OFF']")
+            raise ValueError("input 'val' must be in ['ON', 'OFF']")
         self.communicator.sendCmdNoReply("SENS:"+str(function)+":RANG:AUTO "+str(val))
     
     def senseFunctionRange(self, function, val):
@@ -63,7 +63,7 @@ class Keithley2461(object):
         ''' set 4-wire remote sense
         '''
         if not (state in ['ON', 'OFF']):
-            raise Exception("state must be in ['ON', 'OFF']")
+            raise ValueError("state must be in ['ON', 'OFF']")
         self.communicator.sendCmdNoReply("SENS:VOLT:RSEN "+str(state))
         
     def sourcePulseTrain(self, function, pulseLevel, pulseWidth, numberOfPulses, measEnable, timeDelay):
@@ -81,7 +81,7 @@ class Keithley2461(object):
             failAbort = "off" (Determines if the pulse train is stopped immediately if a limit is exceeded)
         '''
         cmd='SOUR:PULS:TR:'+str(function)+' 0, '+str(pulseLevel)+', '+str(pulseWidth) + ', '+ str(numberOfPulses) + ', '+str(measEnable)+', "defbuffer1", '+str(timeDelay)+', '+ str(timeDelay)+', 100, 100, off'
-        print cmd
+        print(cmd)
         self.communicator.sendCmdNoReply(cmd) 
         
     def sourcePulseLinearSweep(self, function, stop, pulseWidth, timeDelay, numberOfPulses):
@@ -103,7 +103,7 @@ class Keithley2461(object):
             dual = "off" (Determines if the sweep runs from start to stop and then from stop to start)    
         '''
         cmd='SOUR:PULS:SWE:'+str(function)+':LIN 0, 0, '+str(stop)+', 2, '+str(pulseWidth) + ', off, "defbuffer1", '+str(timeDelay)+', '+ str(timeDelay)+', '+ str(numberOfPulses) +', 100, 100, off, off'
-        print cmd
+        print(cmd)
         self.communicator.sendCmdNoReply(cmd) 
         
     def startPulse(self):
@@ -145,9 +145,9 @@ class Keithley2461(object):
         '''records the measured source value (ON) or the configured source value (OFF) when making a measurement
         '''
         if not (function in ['VOLT','CURR']):
-            raise Exception("function must be in ['VOLT', 'CURR']")
+            raise ValueError("function must be in ['VOLT', 'CURR']")
         if not (state in ['ON', 'OFF']):
-            raise Exception("state must be in ['ON', 'OFF']")
+            raise ValueError("state must be in ['ON', 'OFF']")
         self.communicator.sendCmdNoReply("SOUR:"+str(function)+":READ:BACK "+str(state))
     
     def closeConnection(self):

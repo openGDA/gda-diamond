@@ -28,7 +28,7 @@ def whichSynapseTerminal(arg):
         raise Exception("First input must be in [1,2,3,4]")
     return synapse
 
-def generateCurrentPulseFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOfPulses):
+def generateCurrentPulseFromKeithley(pulse_level, pulse_width, time_delay, number_of_pulses):
     try:
         keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
         keithley.communicator.configure()
@@ -36,11 +36,11 @@ def generateCurrentPulseFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOf
         keithley.sourceFunction('CURR')
         keithley.senseFunction('VOLT')
         keithley.senseAutoRange('VOLT', 'ON')
-        keithley.sourcePulseTrain('CURR', pulseLevel, pulseWidth, numberOfPulses, 'OFF', timeDelay)
+        keithley.sourcePulseTrain('CURR', pulse_level, pulse_width, number_of_pulses, 'OFF', time_delay)
         keithley.startPulse()
         keithley.wait()
-        print "sleep %f" % ((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        sleep((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
+        print("sleep %f" % ((pulse_width+time_delay)*number_of_pulses*3+0.1))
+        sleep((pulse_width+time_delay)*number_of_pulses*3+0.1)
         keithley.closeConnection()
     except Exception as e:
         raise e
@@ -109,7 +109,7 @@ def pulse4(*args):
 
 alias('pulse4') 
 
-def generatePulseAndMeasureFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOfPulses, nplc):
+def generatePulseAndMeasureFromKeithley(pulse_level, pulse_width, time_delay, number_of_pulses, nplc):
     try:
         keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
         keithley.communicator.configure()
@@ -118,12 +118,12 @@ def generatePulseAndMeasureFromKeithley(pulseLevel, pulseWidth, timeDelay, numbe
         keithley.senseFunction('VOLT')
         keithley.senseFunctionNPLC('VOLT', nplc )
         keithley.senseAutoRange('VOLT', 'ON')
-        keithley.sourcePulseTrain('CURR', pulseLevel, pulseWidth, numberOfPulses, 'ON', timeDelay)
+        keithley.sourcePulseTrain('CURR', pulse_level, pulse_width, number_of_pulses, 'ON', time_delay)
         keithley.startPulse()
         keithley.wait()
-        print "sleep %f" % ((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        sleep((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        data=keithley.readTraceData(numberOfPulses)
+        print("sleep %f" % ((pulse_width+time_delay)*number_of_pulses*3+0.1))
+        sleep((pulse_width+time_delay)*number_of_pulses*3+0.1)
+        data=keithley.readTraceData(number_of_pulses)
         keithley.closeConnection()
         return data
     except Exception as e:
@@ -214,20 +214,20 @@ def measureResistance(count):
         if not Keithley2461.isConnectionClosed():
             keithley.closeConnection()
         
-def measureVoltage(val, compVoltage, autoRange, rangeValue, state, nplc):
+def measureVoltage(val, comp_voltage, auto_range, range_value, state, nplc):
     try:
         keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
         keithley.communicator.configure()
         keithley.reset()
         keithley.sourceFunction('CURR')
         keithley.sourceValue('CURR', val)
-        keithley.sourceVoltageLimit(compVoltage)
+        keithley.sourceVoltageLimit(comp_voltage)
         keithley.senseFunction('VOLT')
-        if autoRange:
+        if auto_range:
             keithley.senseAutoRange('VOLT', 'ON')
         else:
             keithley.senseAutoRange('VOLT', 'OFF')
-            keithley.senseFunctionRange('VOLT', rangeValue)
+            keithley.senseFunctionRange('VOLT', range_value)
         keithley.senseVoltRsen(state)
         voltage=keithley.readVoltage(nplc)
         keithley.closeConnection()

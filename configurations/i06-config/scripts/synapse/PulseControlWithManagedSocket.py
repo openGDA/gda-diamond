@@ -1,5 +1,5 @@
 '''
-define 'pulse' command for controlling pulse sweep through a sample via Synapse switch box using signals from keithley 2461
+define 'pulse' and 'pulseAndMeas' commands for controlling pulse sweep through a sample via Synapse switch box using signals from keithley 2461
 
 Created on 9 Nov 2018
 
@@ -16,6 +16,12 @@ KEITHLEY_SOCKET_PORT=5025
 KEITHLEY_COMMAND_TERMINATOR='\n'
 curr, volt = ['Current','Voltage']
 KEITHLEY_SOURCE_MODE=curr
+SLEEP_FOR_FORAMT = "Sleep for %f"
+CANNOT_USE_SAME_TERMINAL_FOR_BOTH_HING_AND_LOW = "Cannot use the same Synapse terminal for both high and low."
+CANNOT_USE_SAME_TERMINAL_MORE_THAN_ONCE = "Cannot use the same Synapse terminal more than once in this command."
+OPEN_CIRCUIT = "Open circuit"
+SOURCE_HIGH = "Source high"
+SOURCE_LOW = "Source low"
 
 def whichSynapseTerminal(arg):
     if arg == 1:
@@ -26,61 +32,58 @@ def whichSynapseTerminal(arg):
         synapse = synapse_s3
     elif arg == 4:
         synapse = synapse_s4
+    elif arg == 0:
+        synapse = synapse_cg
     else:
-        raise Exception("First input must be in [1,2,3,4]")
+        raise ValueError("Input must be in [0,1,2,3,4]")
     return synapse
 
-def generatePulseLinearSweepFromKeithley(sourceFunc, senseFunc, stop, pulseWidth, timeDelay, numberOfPulses):
+
+def createKeithley():
+    keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
+    keithley.communicator.configure()
+    keithley.reset()
+    return keithley
+
+def generatePulseLinearSweepFromKeithley(source, sense, stop, pulse_width, time_delay, number_of_pulses):
     try:
-        keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
-        keithley.communicator.configure()
-        keithley.reset()
-        keithley.sourceFunction(sourceFunc)
-        keithley.senseFunction(senseFunc)
-        keithley.senseAutoRange(senseFunc, 'ON')
-        keithley.sourcePulseLinearSweep(sourceFunc, stop, pulseWidth, timeDelay, numberOfPulses)
+        keithley = createKeithley()
+        keithley.sourceFunction(source)
+        keithley.senseFunction(sense)
+        keithley.senseAutoRange(sense, 'ON')
+        keithley.sourcePulseLinearSweep(source, stop, pulse_width, time_delay, number_of_pulses)
         keithley.startPulse()
         keithley.wait()
-        print "sleep %f" % ((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        sleep((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-    except Exception as e:
-        raise e
+        print(SLEEP_FOR_FORAMT % ((pulse_width+time_delay)*number_of_pulses*3+0.1))
+        sleep((pulse_width+time_delay)*number_of_pulses*3+0.1)
     finally:
         keithley.closeConnection()
 
-def generateCurrentPulseFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOfPulses):
+def generateCurrentPulseFromKeithley(pulse_level, pulse_width, time_delay, number_of_pulses):
     try:
-        keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
-        keithley.communicator.configure()
-        keithley.reset()
+        keithley = createKeithley()
         keithley.sourceFunction('CURR')
         keithley.senseFunction('VOLT')
         keithley.senseAutoRange('VOLT', 'ON')
-        keithley.sourcePulseTrain('CURR', pulseLevel, pulseWidth, numberOfPulses, 'OFF', timeDelay)
+        keithley.sourcePulseTrain('CURR', pulse_level, pulse_width, number_of_pulses, 'OFF', time_delay)
         keithley.startPulse()
         keithley.wait()
-        print "sleep %f" % ((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        sleep((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-    except Exception as e:
-        raise e
+        print(SLEEP_FOR_FORAMT % ((pulse_width+time_delay)*number_of_pulses*3+0.1))
+        sleep((pulse_width+time_delay)*number_of_pulses*3+0.1)
     finally:
         keithley.closeConnection()
 
-def generateVoltagePulseFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOfPulses):
+def generateVoltagePulseFromKeithley(pulse_level, pulse_width, time_delay, number_of_pulses):
     try:
-        keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
-        keithley.communicator.configure()
-        keithley.reset()
+        keithley = createKeithley()
         keithley.sourceFunction('VOLT')
         keithley.senseFunction('CURR')
         keithley.senseAutoRange('CURR', 'ON')
-        keithley.sourcePulseTrain('VOLT', pulseLevel, pulseWidth, numberOfPulses, 'OFF', timeDelay)
+        keithley.sourcePulseTrain('VOLT', pulse_level, pulse_width, number_of_pulses, 'OFF', time_delay)
         keithley.startPulse()
         keithley.wait()
-        print "sleep %f" % ((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        sleep((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-    except Exception as e:
-        raise e
+        print(SLEEP_FOR_FORAMT % ((pulse_width+time_delay)*number_of_pulses*3+0.1))
+        sleep((pulse_width+time_delay)*number_of_pulses*3+0.1)
     finally:
         keithley.closeConnection()
 
@@ -103,13 +106,13 @@ def pulse(*args, **kwargs):
     '''
     if len(args) == 6:
         if args[0]==args[1]:
-            raise Exception("Cannot use the same Synapse terminal for both high and low.")
-        synapse_setall.rawAsynchronousMoveTo("Open circuit")
+            raise ValueError(CANNOT_USE_SAME_TERMINAL_FOR_BOTH_HING_AND_LOW)
+        synapse_setall.rawAsynchronousMoveTo(OPEN_CIRCUIT)
         #configure synapse    
-        synapseHigh = whichSynapseTerminal(args[0])
-        synapseHigh.rawAsynchronousMoveTo("Source high")
-        synapseLow = whichSynapseTerminal(args[1])
-        synapseLow.rawAsynchronousMoveTo("Source low")
+        synapse_high = whichSynapseTerminal(args[0])
+        synapse_high.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_low = whichSynapseTerminal(args[1])
+        synapse_low.rawAsynchronousMoveTo(SOURCE_LOW)
         sleep(1) #ensure above finished before statement below 
         
         if kwargs.get('KEITHLEY_SOURCE_MODE', curr) == curr or str(JythonServerFacade.getInstance().getFromJythonNamespace('KEITHLEY_SOURCE_MODE')) == curr:
@@ -117,23 +120,23 @@ def pulse(*args, **kwargs):
         elif kwargs.get('KEITHLEY_SOURCE_MODE', curr) == volt or str(JythonServerFacade.getInstance().getFromJythonNamespace('KEITHLEY_SOURCE_MODE'))  == volt:
             generateVoltagePulseFromKeithley(args[2], args[3], args[4]/2, args[5])
         else:
-            raise Exception("Keithley source mode %s is not supported" % KEITHLEY_SOURCE_MODE)
+            raise ("Keithley source mode %s is not supported" % KEITHLEY_SOURCE_MODE)
         synapse_setall.rawAsynchronousMoveTo("STV")
-        print "Pulse sweep completed."
+        print("2-points pulse sweep completed.")
       
     elif len(args)== 8:
         if len(args[:4])!=len(set(args[:4])):
-            raise Exception("Cannot use the same Synapse terminal more than once in this command.")
-        synapse_setall.rawAsynchronousMoveTo("Open circuit")
+            raise ValueError(CANNOT_USE_SAME_TERMINAL_MORE_THAN_ONCE)
+        synapse_setall.rawAsynchronousMoveTo(OPEN_CIRCUIT)
         #configure synapse    
-        synapseHigh1 = whichSynapseTerminal(args[0])
-        synapseHigh1.rawAsynchronousMoveTo("Source high")
-        synapseHigh2 = whichSynapseTerminal(args[1])
-        synapseHigh2.rawAsynchronousMoveTo("Source high")
-        synapseLow1 = whichSynapseTerminal(args[2])
-        synapseLow1.rawAsynchronousMoveTo("Source low")
-        synapseLow2 = whichSynapseTerminal(args[3])
-        synapseLow2.rawAsynchronousMoveTo("Source low")
+        synapse_high1 = whichSynapseTerminal(args[0])
+        synapse_high1.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_high2 = whichSynapseTerminal(args[1])
+        synapse_high2.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_low1 = whichSynapseTerminal(args[2])
+        synapse_low1.rawAsynchronousMoveTo(SOURCE_LOW)
+        synapse_low2 = whichSynapseTerminal(args[3])
+        synapse_low2.rawAsynchronousMoveTo(SOURCE_LOW)
         sleep(1)#ensure above finished before statement below
         
         if kwargs.get('KEITHLEY_SOURCE_MODE', curr) == curr or str(JythonServerFacade.getInstance().getFromJythonNamespace('KEITHLEY_SOURCE_MODE'))  == curr:
@@ -141,36 +144,32 @@ def pulse(*args, **kwargs):
         elif kwargs.get('KEITHLEY_SOURCE_MODE', curr) == volt or str(JythonServerFacade.getInstance().getFromJythonNamespace('KEITHLEY_SOURCE_MODE'))  == volt:
             generateVoltagePulseFromKeithley(args[4], args[5], args[6]/2, args[7])
         else:
-            raise Exception("Keithley source mode %s is not supported" % KEITHLEY_SOURCE_MODE)
+            raise ValueError("Keithley source mode %s is not supported" % KEITHLEY_SOURCE_MODE)
        
         synapse_setall.rawAsynchronousMoveTo("STV")
-        print "Pulse sweep completed."
+        print("4-points pulse sweep completed.")
     
     else:
-        raise Exception("Number of parameters is wrong, require 6 or 8 arguments.")
+        raise ValueError("Number of parameters is wrong, require 6 or 8 arguments.")
 
 
 from gda.jython.commands.GeneralCommands import alias       
 alias('pulse') 
 
-def generatePulseAndMeasureFromKeithley(pulseLevel, pulseWidth, timeDelay, numberOfPulses, nplc):
+def generatePulseAndMeasureFromKeithley(pulse_level, pulse_width, time_delay, number_of_pulses, nplc):
     try:
-        keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
-        keithley.communicator.configure()
-        keithley.reset()
+        keithley = createKeithley()
         keithley.sourceFunction('CURR')
         keithley.senseFunction('VOLT')
         keithley.senseFunctionNPLC('VOLT', nplc )
         keithley.senseAutoRange('VOLT', 'ON')
-        keithley.sourcePulseTrain('CURR', pulseLevel, pulseWidth, numberOfPulses, 'ON', timeDelay)
+        keithley.sourcePulseTrain('CURR', pulse_level, pulse_width, number_of_pulses, 'ON', time_delay)
         keithley.startPulse()
         keithley.wait()
-        print "sleep %f" % ((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        sleep((pulseWidth+timeDelay)*numberOfPulses*3+0.1)
-        data=keithley.readTraceData(numberOfPulses)
+        print(SLEEP_FOR_FORAMT % ((pulse_width+time_delay)*number_of_pulses*3+0.1))
+        sleep((pulse_width+time_delay)*number_of_pulses*3+0.1)
+        data=keithley.readTraceData(number_of_pulses)
         return data
-    except Exception as e:
-        raise e
     finally:
         keithley.closeConnection()
         
@@ -188,80 +187,72 @@ def pulseAndMeas(*args):
     '''
     if len(args) == 7:
         if args[0]==args[1]:
-            raise Exception("Cannot use the same Synapse terminal for both high and low.")
-        synapse_setall.rawAsynchronousMoveTo("Open circuit")
+            raise ValueError(CANNOT_USE_SAME_TERMINAL_FOR_BOTH_HING_AND_LOW)
+        synapse_setall.rawAsynchronousMoveTo(OPEN_CIRCUIT)
         #configure synapse    
-        synapseHigh = whichSynapseTerminal(args[0])
-        synapseHigh.rawAsynchronousMoveTo("Source high")
-        synapseLow = whichSynapseTerminal(args[1])
-        synapseLow.rawAsynchronousMoveTo("Source low")
+        synapse_high = whichSynapseTerminal(args[0])
+        synapse_high.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_low = whichSynapseTerminal(args[1])
+        synapse_low.rawAsynchronousMoveTo(SOURCE_LOW)
         sleep(1) #ensure above finished before statement below 
         
         data=generatePulseAndMeasureFromKeithley(args[2], args[3], args[4]/2, args[5], args[6])
-        print data
+        print(data)
         synapse_setall.rawAsynchronousMoveTo("STV")
-        print "Pulse sweep completed."
+        print("2-points pulse measure completed.")
       
     elif len(args)== 9:
         if len(args[:4])!=len(set(args[:4])):
-            raise Exception("Cannot use the same Synapse terminal more than once in this command.")
-        synapse_setall.rawAsynchronousMoveTo("Open circuit")
+            raise ValueError(CANNOT_USE_SAME_TERMINAL_MORE_THAN_ONCE)
+        synapse_setall.rawAsynchronousMoveTo(OPEN_CIRCUIT)
         #configure synapse    
-        synapseHigh1 = whichSynapseTerminal(args[0])
-        synapseHigh1.rawAsynchronousMoveTo("Source high")
-        synapseHigh2 = whichSynapseTerminal(args[1])
-        synapseHigh2.rawAsynchronousMoveTo("Source high")
-        synapseLow1 = whichSynapseTerminal(args[2])
-        synapseLow1.rawAsynchronousMoveTo("Source low")
-        synapseLow2 = whichSynapseTerminal(args[3])
-        synapseLow2.rawAsynchronousMoveTo("Source low")
+        synapse_high1 = whichSynapseTerminal(args[0])
+        synapse_high1.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_high2 = whichSynapseTerminal(args[1])
+        synapse_high2.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_low1 = whichSynapseTerminal(args[2])
+        synapse_low1.rawAsynchronousMoveTo(SOURCE_LOW)
+        synapse_low2 = whichSynapseTerminal(args[3])
+        synapse_low2.rawAsynchronousMoveTo(SOURCE_LOW)
         sleep(1)#ensure above finished before statement below
 
         data=generatePulseAndMeasureFromKeithley(args[4], args[5], args[6]/2, args[7], args[8])
-        print data
+        print(data)
         synapse_setall.rawAsynchronousMoveTo("STV")
-        print "Pulse sweep completed."
+        print("4-points pPulse measure completed.")
     
     else:
-        raise Exception("Number of parameters is wrong, require 7 or 9 arguments.")
+        raise ValueError("Number of parameters is wrong, require 7 or 9 arguments.")
     
 alias('pulseAndMeas') 
 
 def measureResistance(count):
     try:
-        keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
-        keithley.communicator.configure()
-        keithley.reset()
+        keithley = createKeithley()
         keithley.sourceFunction('CURR')
         keithley.senseFunction('RES')
         keithley.senseAutoRange('RES', 'ON')
         keithley.senseResistanceCompensated('ON')
         resistance=keithley.readResistance(count)
         return resistance
-    except Exception as e:
-        raise e
     finally:
         keithley.closeConnection()
         
-def measureVoltage(val, compVoltage, autoRange, rangeValue, state, nplc):
+def measureVoltage(val, comp_voltage, auto_range, range_value, state, nplc):
     try:
-        keithley = Keithley2461("keithley", KEITHLEY_IP_ADDRESS, KEITHLEY_SOCKET_PORT, KEITHLEY_COMMAND_TERMINATOR)
-        keithley.communicator.configure()
-        keithley.reset()
+        keithley = createKeithley()
         keithley.sourceFunction('CURR')
         keithley.sourceValue('CURR', val)
-        keithley.sourceVoltageLimit(compVoltage)
+        keithley.sourceVoltageLimit(comp_voltage)
         keithley.senseFunction('VOLT')
-        if autoRange:
+        if auto_range:
             keithley.senseAutoRange('VOLT', 'ON')
         else:
             keithley.senseAutoRange('VOLT', 'OFF')
-            keithley.senseFunctionRange('VOLT', rangeValue)
+            keithley.senseFunctionRange('VOLT', range_value)
         keithley.senseVoltRsen(state)
         voltage=keithley.readVoltage(nplc)
         return voltage
-    except Exception as e:
-        raise e
     finally:
         keithley.closeConnection()
         
@@ -279,50 +270,49 @@ def probeRes(*args):
     '''
     if len(args) == 7:
         if args[0]==args[1]:
-            raise Exception("Cannot use the same Synapse terminal for both high and low.")
-        synapse_setall.rawAsynchronousMoveTo("Open circuit")
+            raise ValueError(CANNOT_USE_SAME_TERMINAL_FOR_BOTH_HING_AND_LOW)
+        synapse_setall.rawAsynchronousMoveTo(OPEN_CIRCUIT)
         sleep(1)
         #configure synapse    
-        synapseHigh = whichSynapseTerminal(args[0])
-        synapseHigh.rawAsynchronousMoveTo("Source high")
-        synapseLow = whichSynapseTerminal(args[1])
-        synapseLow.rawAsynchronousMoveTo("Source low")
+        synapse_high = whichSynapseTerminal(args[0])
+        synapse_high.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_low = whichSynapseTerminal(args[1])
+        synapse_low.rawAsynchronousMoveTo(SOURCE_LOW)
         sleep(1) #ensure above finished before statement below 
         
         voltage=measureVoltage(args[2],args[3],args[4],args[5], 'OFF', args[6])
-        print "2-point"
-        print "measured voltage = " + str(float(voltage.split(",")[1]))+", thus resistance = "+str(float(voltage.split(",")[1])/float(args[2]))
+        print("2-point")
+        print("measured voltage = " + str(float(voltage.split(",")[1]))+", thus resistance = "+str(float(voltage.split(",")[1])/float(args[2])))
         sleep(1) #ensure above finished before statement below
      
         synapse_setall.rawAsynchronousMoveTo("STV")
-        print "Probe Resistance completed."
+        print("Probe Resistance completed.")
       
     elif len(args)== 9:
         if len(args[:4])!=len(set(args[:4])):
-            raise Exception("Cannot use the same Synapse terminal more than once in this command.")
-        synapse_setall.rawAsynchronousMoveTo("Open circuit")
+            raise ValueError(CANNOT_USE_SAME_TERMINAL_MORE_THAN_ONCE)
+        synapse_setall.rawAsynchronousMoveTo(OPEN_CIRCUIT)
         #configure synapse    
-        synapseHigh1 = whichSynapseTerminal(args[0])
-        synapseHigh1.rawAsynchronousMoveTo("Source high")
-        synapseHigh2 = whichSynapseTerminal(args[1])
-        synapseHigh2.rawAsynchronousMoveTo("Source low")
-        synapseLow1 = whichSynapseTerminal(args[2])
-        synapseLow1.rawAsynchronousMoveTo("Sense high")
-        synapseLow2 = whichSynapseTerminal(args[3])
-        synapseLow2.rawAsynchronousMoveTo("Sense low")
+        synapse_high1 = whichSynapseTerminal(args[0])
+        synapse_high1.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_high2 = whichSynapseTerminal(args[1])
+        synapse_high2.rawAsynchronousMoveTo(SOURCE_LOW)
+        synapse_low1 = whichSynapseTerminal(args[2])
+        synapse_low1.rawAsynchronousMoveTo(SOURCE_HIGH)
+        synapse_low2 = whichSynapseTerminal(args[3])
+        synapse_low2.rawAsynchronousMoveTo(SOURCE_LOW)
         sleep(1)#ensure above finished before statement below
 
         voltage=measureVoltage(args[4], args[5],args[6],args[7], 'ON', args[8])
-        print "4-point"
-        #print "measured voltage = " + str(voltage)+", thus resistance = "+str(voltage/args[2])
-        print "measured voltage = " + str(float(voltage.split(",")[1]))+", thus resistance = "+str(float(voltage.split(",")[1])/args[4])
+        print("4-point")
+        print("measured voltage = " + str(float(voltage.split(",")[1]))+", thus resistance = "+str(float(voltage.split(",")[1])/args[4]))
         sleep(1) #ensure above finished before statement below
        
         synapse_setall.rawAsynchronousMoveTo("STV")
-        print "Probe Resistance completed."
+        print("Probe Resistance completed.")
     
     else:
-        raise Exception("Number of parameters is wrong, require 7 or 9 arguments.")
+        raise ValueError("Number of parameters is wrong, require 7 or 9 arguments.")
 
 
 alias('probeRes') 
@@ -385,7 +375,7 @@ def synapseCG(arg):
     '''connect common ground to specified choice.
     '''
     if not arg in [0,1,2,3,4]:
-        raise Exception("Input must be one of [0,1,2,3,4]")
+        raise ValueError("Input must be one of [0,1,2,3,4]")
     synapse_cg.rawAsynchronousMoveTo(arg)
 alias("synapseCG")
 

@@ -67,25 +67,25 @@ class EpicsReadWriteEnum(ScannableMotionBase):
             sleep(0.5) # there is no caput callback yet in EPIC
             output=int(self.rbvcli.caget())
             return self.positions[output]
-        except:
-            raise Exception("%s: Error get current position" % self.getName()) 
+        except Exception as e:
+            raise ("%s: Error get current position, %s" % (self.getName(), e.getMessage())) 
     
     def rawAsynchronousMoveTo(self,new_position):
-        lKey=None
+        lkey=None
         try:
             if not self.incli.isConfigured():
                 self.incli.configure()
             if isinstance(new_position, str):
-                lKey = [key for key, value in self.positions.iteritems() if value == new_position][0]
+                lkey = [key for key, value in self.positions.iteritems() if value == new_position][0]
             elif isinstance(new_position, int):
-                lKey=int(new_position)
+                lkey=int(new_position)
             else:
-                raise Exception("Input must be String or Integer.")
-            if lKey is None or (lKey<0 or lKey>=len(self.positions)):
-                raise Exception("Request position is not supported.")
-            self.incli.caput(lKey)
-        except:
-            raise Exception("%s: Error set position to '%s'" % (self.getName(), self.positions[lKey]))
+                raise ValueError("Input must be String or Integer.")
+            if lkey is None or (lkey<0 or lkey>=len(self.positions)):
+                raise ValueError("Request position is not supported.")
+            self.incli.caput(lkey)
+        except Exception as e:
+            raise ("%s: Error set position to '%s', %s" % (self.getName(), self.positions[lkey], e.getMessage()))
        
     
     def isBusy(self):
