@@ -6,7 +6,7 @@
     <import resource="../_common/client.xml"/>
     
     <bean id="ptychography_scan_detector" class="java.lang.String" factory-method="valueOf"><constructor-arg value="XRF/Imaging"/></bean>
-    <bean id="focus_scan_detector" class="java.lang.String" factory-method="valueOf"><constructor-arg value="Xspress3 software"/></bean>
+    <bean id="focus_scan_detector" class="java.lang.String" factory-method="valueOf"><constructor-arg value="XRF/Imaging"/></bean>
     
     
 </beans>
