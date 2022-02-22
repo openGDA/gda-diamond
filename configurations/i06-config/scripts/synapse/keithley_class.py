@@ -71,6 +71,7 @@ class Keithley2461(object):
             cmd='SOUR:PULS:TR:CURR bias,pulseLevel,pulseWidth,count,measEnable,bufferName,delay,offtime,xBiasLimit,xPulseLimit,failAbort' 
             bias = 0 (bias level amplitude between, before and after)
             pulseLevel = The amplitude current or voltage from zero (not from the bias level)
+            pulseWidth = The time at the amplitude level for each pulse
             count = The number of pulses in the pulse train; default is 1
             measEnable = "off"  (Enable (ON) or disable (OFF) measurements at the top of each pulse)
             bufferName = "defbuffer1" (A string that indicates the reading buffer; the default buffers (defbuffer1))
