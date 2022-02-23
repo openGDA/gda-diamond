@@ -27,8 +27,6 @@
                 <ref bean="s2_xminus"/>
                 <ref bean="s2_yplus"/>
                 <ref bean="s2_yminus"/>
-                <ref bean="s2_yplusi"/>
-                <ref bean="s2_yminusi"/>
             </list>
         </property>
         <property name="protectionLevel" value="3"/>

@@ -11,7 +11,6 @@
 	</bean>
 
 	<import resource="shutter.xml" />
-	<import resource="slits/slits.xml" />
 
 	<import resource="d1.xml" />
 	<import resource="d2.xml" />
