@@ -38,14 +38,14 @@ Extensions:
     def _timer_completed(self):
         self.stable = True
         if self.verbose:
-            print "DummyCryojetScannable: Hold timer finished..."
+            print("DummyCryojetScannable: Hold timer finished...")
 
     def getPosition(self):
         return (self.setpoint, self.sensor_reading)
 
     def rawAsynchronousMoveTo(self,setpoint):
         if self.verbose:
-            print "DummyCryojetScannable: Moving to %r" % setpoint
+            print("DummyCryojetScannable: Moving to %r" % setpoint)
         self.setpoint = setpoint
         self.increment = (setpoint - self.sensor_reading)/10.0
         
@@ -57,7 +57,7 @@ Extensions:
             self.rawAsynchronousMoveTo(self.sensor_reading)
         self.stable = True
         if self.verbose:
-            print "DummyCryojetScannable: Stopped"
+            print("DummyCryojetScannable: Stopped")
 
     def isBusy(self):
         # Note that we rely on isBusy being called often enough that the
@@ -70,17 +70,17 @@ Extensions:
             if abs(dtemp) > self.temp_tolerance:
                 self.hold_timer.cancel()
                 if self.verbose:
-                    print "DummyCryojetScannable: temperature differential %f greater than %f from %f" % (dtemp, self.temp_tolerance, self.setpoint)
+                    print("DummyCryojetScannable: temperature differential %f greater than %f from %f" % (dtemp, self.temp_tolerance, self.setpoint))
             elif not self.hold_timer.isAlive():
                 self.hold_timer = self._timer_factory()
                 self.hold_timer.start()
                 if self.verbose:
-                    print "DummyCryojetScannable: Hold timer started..."
+                    print("DummyCryojetScannable: Hold timer started...")
             else:
                 if self.verbose:
-                    print "DummyCryojetScannable: Holding..."
+                    print("DummyCryojetScannable: Holding...")
             return True
         
         if self.verbose:
-            print "DummyCryojetScannable: No longer busy"
+            print("DummyCryojetScannable: No longer busy")
         return False
