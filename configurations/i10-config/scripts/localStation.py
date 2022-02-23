@@ -2,7 +2,7 @@ from utils.ExceptionLogs import localStation_exceptions, localStation_exception
 from Diamond.Poly import Poly
 from gda.device.scannable import DummyScannable
 from gdascripts.messages.handle_messages import simpleLog
-    
+import sys
 import installation
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias
@@ -72,11 +72,11 @@ if installation.isLive():
 
 ########setting up the diagnostic cameras###############
 from detectors.diagnostic_cameras import cameraFactory
-cam1, peak2d1, max2d1 = cameraFactory('cam1', 'peak2d1', 'max2d1', d1camtiff, None)
-cam2, peak2d2, max2d2 = cameraFactory('cam2', 'peak2d2', 'max2d2', d2camtiff, None)
-cam3, peak2d3, max2d3 = cameraFactory('cam3', 'peak2d3', 'max2d3', d3camtiff, None)
+cam1, peak2d1, max2d1 = cameraFactory('cam1', 'peak2d1', 'max2d1', d1camtiff, None)  # @UndefinedVariable
+cam2, peak2d2, max2d2 = cameraFactory('cam2', 'peak2d2', 'max2d2', d2camtiff, None)  # @UndefinedVariable
+cam3, peak2d3, max2d3 = cameraFactory('cam3', 'peak2d3', 'max2d3', d3camtiff, None)  # @UndefinedVariable
 
-from java.lang import System
+from java.lang import System  # @UnresolvedImport
 spring_profiles = System.getProperty("gda.spring.profiles.active")
 
 if "scattering" in spring_profiles:
@@ -97,8 +97,8 @@ if "scattering" in spring_profiles:
     #PIXIS detectors customised to display image in 'Plot 1' view and return results of image process
     from detectors.pixisWithDataProcessor import pixisSMPV, pixis2d  # @UnusedImport
         
-    cam4, peak2d4, max2d4 = cameraFactory('cam4', 'peak2d4', 'max2d4', d4camtiff, None)
-    cam6, peak2d6, max2d6 = cameraFactory('cam6', 'peak2d6', 'max2d6', d6camtiff, None)
+    cam4, peak2d4, max2d4 = cameraFactory('cam4', 'peak2d4', 'max2d4', d4camtiff, None)  # @UndefinedVariable
+    cam6, peak2d6, max2d6 = cameraFactory('cam6', 'peak2d6', 'max2d6', d6camtiff, None)  # @UndefinedVariable
  
     from scannable.continuous.continuous_energy_scannables_scattering import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
     from rasor.scannable.ThArea import thArea  # @UnusedImport
@@ -146,11 +146,12 @@ if "absorption" in spring_profiles:
 
     camj1, peak2dj1, max2dj1 = cameraFactory('camj1', 'peak2dj1', 'max2dj1', dj1camtiff, None)  # @UndefinedVariable
     camj3, peak2dj3, max2dj3 = cameraFactory('camj3', 'peak2dj3', 'max2dj3', dj3camtiff, None)  # @UndefinedVariable
-    from scannable.continuous.continuous_energy_scannables_absorption import energy_controller, energye, mcse16, mcse17,mcse18,mcse19,mcse20,mcse21,mcse22,mcse23 # @UnusedImport
+#    from scannable.continuous.continuous_energy_scannables_absorption import energy_controller, energy, mcse16, mcse17,mcse18,mcse19,mcse20,mcse21,mcse22,mcse23 # @UnusedImport
+    from scannable.continuous.continuous_energy_scannables_scattering import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
 
 if "hfm" in spring_profiles:
     #High Field Magnet support
-    from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, hfmpitch_off  # @UnusedImport
+    from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, itc3, hfmpitch_off  # @UnusedImport
     if installation.isLive():
         try:
             from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass

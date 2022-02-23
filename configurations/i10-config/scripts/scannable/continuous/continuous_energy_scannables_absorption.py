@@ -48,7 +48,7 @@ binpoint_em_ID2Jawphase = WaveformChannelScannable('binpoint_em_ID2Jawphase', bi
 binpoint_em_McaTime   = WaveformChannelScannable('binpoint_em_McaTime',   binpoint_em_controller, 'MCA:ELAPSEDTIME:'); binpoint_em_McaTime.setHardwareTriggerProvider(energy_controller);   binpoint_em_McaTime.verbose=True
 
 #energye scannable used to parse input data and delegate motions to controllers above
-energye = ContinuousMovePgmEnergyIDGapBinpointScannable('energye', energy_controller, binpoint_em_GrtPitch, binpoint_em_MirPitch, binpoint_em_PgmEnergy); energye.verbose=True
+energy = ContinuousMovePgmEnergyIDGapBinpointScannable('energy', energy_controller, binpoint_em_GrtPitch, binpoint_em_MirPitch, binpoint_em_PgmEnergy); energy.verbose=True
 
 
 # cvscan energye 695 705 1 mcse17 2 
