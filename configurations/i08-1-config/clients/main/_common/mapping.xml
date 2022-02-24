@@ -50,6 +50,7 @@
 						<value>energyFocusPGM</value>
 						<value>ZonePlateZ</value>
 						<value>pgm_energy</value>
+						<value>IDEnergy</value>
 					</list>
 				</property>
 			</bean>
