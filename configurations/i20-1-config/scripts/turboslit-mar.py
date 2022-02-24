@@ -1,4 +1,5 @@
 from org.slf4j import LoggerFactory
+from gda.epics import CAClient
 
 class OverlapDetector(DetectorBase):
     """
@@ -51,7 +52,7 @@ from OverlapDet#getStats().getPosition()
         pass
 
     def createsOwnFiles(self):
-        return False 
+        return False
     
     def getStatus(self):
         return 0
@@ -107,30 +108,35 @@ from OverlapDet#getStats().getPosition()
 
     def atScanEnd(self):
         if len(self.overlapCurve) == 0 :
+            sdp = self.getLastScanDataPoint()
+            if sdp == None :
+                print "Could not load data from Nexus file - unable to get name of last scan"
+                return 
+            self.overlapCurve = self.getDataFromFile(sdp.getCurrentFilename(), "data")
+
+        if len(self.overlapCurve) == 0 :
             self.showWarning(self.getName()+" cannot compute statistics at end of scan - reference spectrum has not been set or no data has been collected")
             return
         
         axisData = self.getAxisDataFromFile()
         axisRange = max(axisData)-min(axisData)
+        maxFwhm = axisRange
+        maxArea = axisRange*10
+
         print "X axis range = %.4e, using %.2f of range about peak when fitting"%(axisRange, self.fitPeakRangeFrac)
-        self.fittedCurve = fitGaussian(axisData, self.overlapCurve, fitPeakRange=axisRange*self.fitPeakRangeFrac)
-        
+        self.fittedCurve = fitGaussian(axisData, self.overlapCurve, axisRange*self.fitPeakRangeFrac, maxFwhm, maxArea)
+
         message= "Results from %s : fitted curve peak position = %.4e"%(self.getName(), self.fittedCurve.getPosition())
         print message
         
     # Read the x values produced during the scan from the nexus file
     def getAxisDataFromFile(self):
-        import scisoftpy as dnp
         sdp = self.getLastScanDataPoint()
         filename = sdp.getCurrentFilename();
         
         # Assume the first scannable is the one being moved during the scan
         axisScannableName = sdp.getScannableNames()[0]
-        
-        # Open the Nexus file and retrieve the data from the tree.
-        dataFile = dnp.io.load(filename)
-        data = dataFile['entry1'][self.edeDetector.getName()][axisScannableName][...]
-        return data.data
+        return self.getDataFromFile(filename, axisScannableName)
 
     def getLastScanDataPoint(self):
         sdpp = InterfaceProvider.getScanDataPointProvider()
@@ -140,6 +146,10 @@ from OverlapDet#getStats().getPosition()
     def getStats(self):
         return self.fittedCurve
 
+    def getDataFromFile(self, filename, dataname) :
+        import scisoftpy as dnp
+        dataFile = dnp.io.load(filename)
+        return dataFile['entry1'][self.getName()][dataname][...].data
 
 from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian 
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter
@@ -166,23 +176,29 @@ def fitGaussian(xdata, ydata, fitPeakRange=20, fitMaxFwhm=100, fitMaxArea=100) :
     maxY = max(ydata)
     maxYIndex = ydataset.maxPos()[0]
     
-    print "Peak y value = %.4e at y index %d"%(maxY, maxYIndex)
     peakX = xdata[maxYIndex]
+    print "Peak at x = %.4e (y value = %.4e at y index %d)"%(peakX, maxY, maxYIndex)
     
     # Normalise the y dataset to help with the fitting
     range = max(ydata)-min(ydata)
     ydataset.isubtract(min(ydata))
     ydataset.imultiply(1.0/range)
-   
+
     # Define the Gaussian Fit function and range of values for the parameters
     # peak range, max fwhm and max area"
+    
     rangeStart = peakX-0.5*fitPeakRange
     rangeEnd = peakX+0.5*fitPeakRange
-    print "X axis range for fit : %.4f ... %.4f"%(rangeStart, rangeEnd)
+    print "X axis range for fit : %.4f ... %.4f (range = %.4e)"%(rangeStart, rangeEnd, fitPeakRange)
     fitFunc = Gaussian(rangeStart, rangeEnd, fitMaxFwhm, fitMaxArea)
+
+    i = 0
+    while i < len(xdata) :
+        print xdataset.getDouble(i), ydataset.getDouble(i)
+        i = i + 1
     
     # Fit the data
-    Fitter.ApacheNelderMeadFit([xdataset], ydataset, fitFunc);
+    Fitter.geneticFit([xdataset], ydataset, fitFunc);
     return fitFunc
 
 # Test Gaussian 'fitGaussian' function on a noisy gaussian curve
@@ -190,6 +206,7 @@ def testFitGaussian(noise=0.0):
     gaussianCurve = generateGaussian(noise)
     results = fitGaussian(gaussianCurve[0], gaussianCurve[1])
     print results
+    return results
 
 # Generate Gaussian curve : range = 0...100, centre=50, width = 10, with optional random noise) 
 # Return array of x and array of y values
@@ -204,20 +221,48 @@ def gaussian(pos, centre=50, width=5, noiseLevel=0.1) :
     gval = math.exp( -(float(pos-centre)/width)**2.0 )
     return gval + random.random()*noiseLevel
 
+overlapDet = OverlapDetector('overlapDet')
+overlapDet.configure()
+if LocalProperties.isDummyModeEnabled() :
+    overlapDet.setEdeDetector(xstrip)
+else :
+    overlapDet.setEdeDetector(frelon)
 
 # Functions for setting PVs on the Mar detector
 def getMarPvString(value) :
     marBasePv = "BL20J-EA-MAR-01:"
     return marBasePv+value
 
+
+def testFit(overlapDet, datafile) :
+    ydata = overlapDet.getDataFromFile(datafile, "data")
+    xdata = overlapDet.getDataFromFile(datafile, "turbo_slit_x")
+    axisRange = max(xdata)-min(xdata)
+    fitRangeFrac = overlapDet.fitPeakRangeFrac
+    maxFwhm = axisRange
+    maxArea = axisRange*10
+
+    print "X axis range = %.4e, using %.2f of range about peak when fitting"%(axisRange, fitRangeFrac)
+    return fitGaussian(xdata, ydata, axisRange*fitRangeFrac, maxFwhm, maxArea)
+
+
 # Set same PV value on both the CAM and TIFF plugins (for setting file name, path etc)
-def setMarPv(pvName, value) :
-    pluginNames = ["CAM", "TIFF"]
+def setMarPv(pvName, value, loopOverPlugins=True) :
+    caclient = CAClient()
+    pluginNames = ["CAM:", "TIFF:"]
+    if loopOverPlugins == False :
+        pluginNames = [""]
     for pluginPv in pluginNames :
-        fullPv = getMarPvString(pvName)
-        print "Setting Mar PV : %s = %s"%(fullPv, str(value))
-        if LocalProperties.isDummyModeEnabled() == False :
-            caput(fullPv, value)
+        fullPv = getMarPvString(pluginPv+pvName)
+        if LocalProperties.isDummyModeEnabled() :
+            return
+
+        if (type(value) == str) :
+            print "Setting Mar string PV : %s = %s"%(fullPv, str(value))
+            caclient.caputStringAsWaveform(fullPv, str(value)+"\0")
+        else :
+            print "Setting Mar PV : %s = %s"%(fullPv, str(value))
+            caput(fullPv, str(value)) # caput(fullPv, value)
 
 def setMarFilePath(filepath) :
     setMarPv("FilePath", filepath)
@@ -227,7 +272,7 @@ def setMarFilePathToVisit(subDir=""):
     fullPath = p.getVisitDirectory()+"/"+subDir
     if fullPath.endswith('/') == False :
         fullPath = fullPath+'/'
-    setMarFilePath(fullPath)
+    setMarFilePath(str(fullPath))
 
 def setMarFileName(filename) :
     setMarPv("FileName", filename)
@@ -237,23 +282,31 @@ def setMarFileNumber(filenumber) :
 
 def setMarFileTemplate(filetemplate):
     setMarPv("FileTemplate", filetemplate)
-     
-def closeMarCover() :
-    setMarPv(getMarPvString("CLOSE_COVER.PROC"), 1)
-    
-def openMarCover() :
-    setMarPv(getMarPvString("OPEN_COVER.PROC"), 1)
 
-overlapDet = OverlapDetector('overlapDet')
-overlapDet.configure()
-if LocalProperties.isDummyModeEnabled() :
-    overlapDet.setEdeDetector(xstrip)
-else :
-    overlapDet.setEdeDetector(frelon)
+def closeMarCover() :
+    caput(getMarPvString("CLOSE_COVER.PROC"), 1)
+
+def openMarCover() :
+    caput(getMarPvString("OPEN_COVER.PROC"), 1)
+
+def readoutMar() :
+    caput(getMarPvString("CAM:Acquire"), 1)
+
+def eraseMar() :
+    caput(getMarPvString("CAM:Erase"), 1)
+
+
 
 # Set some reasonable defaults on the TIFF and CAM plugins
-setMarFilePathToVisit('nexus')
-setMarFileTemplate("%s%s_%03d")
+setMarFilePathToVisit("nexus")
+setMarPv("CAM:FileTemplate", "%s%s_%03d", False)
+setMarPv("TIFF:FileTemplate", "%s%s_%03d.tiff", False)
 setMarPv("AutoIncrement", 1)
 setMarPv("NumCapture", 1)
 setMarPv("AutoSave", 1)
+
+if LocalProperties.isDummyModeEnabled() == False :
+    caput(getMarPvString("CAM:ImageMode"), 0)
+    caput(getMarPvString("CAM:NumExposures"), 1)
+    caput(getMarPvString("CAM:NumImages"), 1)
+
