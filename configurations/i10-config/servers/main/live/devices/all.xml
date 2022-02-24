@@ -33,6 +33,7 @@
 		<import resource="UI1_SCALER1.xml"/>
 		<import resource="LakeShore340.xml"/>
 		<import resource="RASOR_stanfords.xml"/>
+		<import resource="vortex.xml"/>
 	</beans>
 	<!-- J Absorption -->
 	<beans profile="absorption">
@@ -67,6 +68,7 @@
 		<import resource="MES2.xml"/>
 		<import resource="MES2_SCALERJ3.xml"/>
 		<import resource="lakeshore336.xml"/>
+		<import resource="RASOR-SCALER1.xml"/>
 	</beans>
 
 
