@@ -186,7 +186,7 @@ class FastEnergyScanControlClass(object):
 	def prepareAreaDetectorForCollection(self, areadet, expotime, numImages):
 		#get camera control object
 		cs=areadet.getCollectionStrategy()
-		self.adbase=cs.getDecoratee().getAdBase()
+		self.adbase=cs.getAdBase()
 		if self.adbase is not None:
 			#capture existing settings that will be changed for fast scan
 			self.aquire_state=self.adbase.getAcquireState()

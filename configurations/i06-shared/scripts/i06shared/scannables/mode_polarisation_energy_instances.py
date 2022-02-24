@@ -25,7 +25,7 @@ pc,nc,lh,lv,la,unknown=Polarisation.POLARISATIONS
 
 def initialisation():
     if float(__main__.iddgap.getPosition()) < GAP_LIMIT and float(__main__.idugap.getPosition()) < GAP_LIMIT:
-        if math.fabs(float(__main__.iddrpenergy.getPosition()) - float(__main__.idurpenergy.getPosition())) <= ENERGY_VALUE_TOLERANCE:
+        if math.fabs(float(iddrpenergy.getPosition()) - float(idurpenergy.getPosition())) <= ENERGY_VALUE_TOLERANCE:
             __main__.smode.mode=SourceMode.SOURCE_MODES[2]
             if math.fabs(float(__main__.iddtrp.getPosition()) - 0.0) <= RAW_PHASE_MOTOR_TOLERANCE and math.fabs(float(__main__.idutrp.getPosition()) - 0.0) <= RAW_PHASE_MOTOR_TOLERANCE:
                 __main__.pol.polarisation=Polarisation.POLARISATIONS[2]
@@ -42,16 +42,16 @@ def initialisation():
         else:
             __main__.smode.mode=SourceMode.SOURCE_MODES[3]
             if math.fabs(float(__main__.iddtrp.getPosition()) - 0.0) <= RAW_PHASE_MOTOR_TOLERANCE:
-                if math.fabs(float(__main__.iddrpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
+                if math.fabs(float(iddrpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
                     __main__.pol.polarisation=Polarisation.POLARISATIONS[2]
-                elif math.fabs(float(__main__.idurpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
+                elif math.fabs(float(idurpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
                     __main__.pol.polarisation=Polarisation.POLARISATIONS[3]
                 else:
                     __main__.pol.polarisation=Polarisation.POLARISATIONS[5]  
             elif math.fabs(float(__main__.iddtrp.getPosition()) - 22.0) <= RAW_PHASE_MOTOR_TOLERANCE:
-                if math.fabs(float(__main__.iddrpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
+                if math.fabs(float(iddrpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
                     __main__.pol.polarisation=Polarisation.POLARISATIONS[0]
-                elif math.fabs(float(__main__.idurpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
+                elif math.fabs(float(idurpenergy.getPosition()) - (float(__main__.pgmenergy.getPosition())+float(__main__.offhar.getPosition()))) <= ENERGY_VALUE_TOLERANCE:
                     __main__.pol.polarisation=Polarisation.POLARISATIONS[1]
                 else:
                     __main__.pol.polarisation=Polarisation.POLARISATIONS[5]   

@@ -140,8 +140,8 @@ def miscan(*args):
                 command += str(arg.getName()) + " "
             CACHE_PARAMETER_TOBE_CHANGED = False 
             cs = arg.getCollectionStrategy()
-            decoratee = cs.getDecoratee()
-            adbase = cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
+            decoratee = cs.getDecoratee().getDecoratee()
+            adbase = cs.getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getAdBase()
             if adbase is not None:
                 #capture current detector settings before change them
                 image_mode = adbase.getImageMode()

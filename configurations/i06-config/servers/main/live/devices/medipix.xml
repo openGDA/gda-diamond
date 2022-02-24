@@ -45,6 +45,9 @@
 				<property name="initialArrayPort" value="mpx.CAM" />
 			</bean>
 		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="medipix" />
@@ -63,6 +66,9 @@
 				<property name="initialArrayPort" value="mpx.CAM" />
 			</bean>
 		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="medipix" />
@@ -243,7 +249,7 @@
 					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
 						<property name="restoreAcquireTime" value="true" />
 						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" /> <!-- this is for SRW mode only, in CRW mode acquire time = acquire period -->
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" /> <!-- this is for SRW mode only, in CRW mode acquire time = acquire period -->
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 								<property name="restoreTriggerMode" value="true" />
@@ -375,7 +381,7 @@
 	<bean id="medipixCollectionStrategy4zacscan" class="gda.device.detector.addetector.collectionstrategy.EpicsStartStop">
 		<property name="adBase" ref="medipix_adbase" />
 	</bean>
-	
+
 	<!-- scannable to set medipix PROC average number of images -->
 	<bean id="medipixAverage" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-02:PROC:NumFilter" />
