@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
 <!-- for XH uncomment the following element -->
 	<bean id="daserverForTfg" class="gda.device.detector.DAServer">
 		<property name="host" value="bl20j-ea-tfg2-01.diamond.ac.uk" />
