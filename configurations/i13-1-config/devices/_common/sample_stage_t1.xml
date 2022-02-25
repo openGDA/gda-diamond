@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
 	<bean id="t1_sx" class="gda.device.scannable.ScannableMotor">

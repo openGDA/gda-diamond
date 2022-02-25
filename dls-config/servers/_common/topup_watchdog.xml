@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Pause scan from 4000 ms before top-up until 5000 ms after top-up -->
 	<!-- The top-up is assumed to occur every 10 minutes and take 15 seconds (see TopupWatchdogModel)-->

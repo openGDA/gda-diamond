@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Define a pseudo-scannable to aid saving & restoring device setting when changing polarisation -->
 	<!-- As the value of a SimpleScannable can be any object, the code that accesses it must of course -->

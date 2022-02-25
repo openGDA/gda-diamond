@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- ======= Shared Devices Access controller for Scattering/Absorption branches ======= -->
 	<!-- Discussed with Paul Steadman on 19 Feb 2018 who confirmed for now I10 don't want to split into I10 and I10-1 in GDA -->
