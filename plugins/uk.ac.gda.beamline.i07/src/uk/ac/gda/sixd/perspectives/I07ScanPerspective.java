@@ -43,7 +43,7 @@ public class I07ScanPerspective implements IPerspectiveFactory {
 	private static final String DATAVIS_DATASETS = I07DatasetPart.getId();
 	private static final String JYTHON_VIEW = JythonTerminalView.ID;
 	private static final String QUEUE_VIEW = QueueViews.getQueueViewID();
-	private static final List<String> DETECTOR_PLOTS = List.of("uk.ac.gda.sixd.views.AreaDetectorView", "uk.ac.gda.sixd.views.Pilatus1",
+	private static final List<String> DETECTOR_PLOTS = List.of("uk.ac.gda.sixd.views.Pilatus1",
 			"uk.ac.gda.sixd.views.Pilatus2", "uk.ac.gda.sixd.views.Pilatus3", "uk.ac.gda.sixd.views.Excalibur");
 	private static final String BATON_VIEW = BatonView.ID;
 	private static final String DASHBOARD_VIEW = DashboardView.ID;
