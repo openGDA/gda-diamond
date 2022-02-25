@@ -780,12 +780,8 @@
         <property name="name" value="claspshutter" />
     </bean>
 
-    <bean id="syringeleftvalve" class="gda.device.scannable.DummyScannable">
-        <property name="name" value="syringe_left_valve" />
-    </bean>
+    <bean id="syringeleftvalve" class="gda.device.scannable.DummyScannable" />
 
-    <bean id="syringerightvalve" class="gda.device.scannable.DummyScannable">
-        <property name="name" value="syringe_right_valve" />
-    </bean>
+    <bean id="syringerightvalve" class="gda.device.scannable.DummyScannable" />
 
 </beans>

@@ -27,7 +27,6 @@
 
 
 	<bean id="eig_pva" class="gda.device.detector.NXDetector">
-		<property name="name" value="eiger_pva" />
 		<property name="addCollectTimeMs" value="true" />
 		<property name="collectionStrategy"
 			ref="eiger_pva_strategy" />
