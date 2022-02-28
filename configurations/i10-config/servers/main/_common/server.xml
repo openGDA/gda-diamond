@@ -116,7 +116,8 @@
 			<property name="arguments">
 				<list>
 					<value>hfm</value>
-					<value>itc</value>
+					<value>itc2_device</value>
+					<value>itc3_device</value>
 					<value>ips</value>
 				</list>
 			</property>
