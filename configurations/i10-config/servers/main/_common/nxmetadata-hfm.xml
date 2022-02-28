@@ -48,7 +48,7 @@
 	</bean>
 	
 	<bean id="itc2NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="itc" /> <!-- nexus metadata dvice name cannot be the same as a scannable name -->
+		<property name="name" value="itc2_device" /> <!-- nexus metadata dvice name cannot be the same as a scannable name -->
 		<property name="category" value="NX_INSTRUMENT"/>
 		<property name="nexusClass" value="NXcollection"/>
 		<property name="childNodes">
@@ -60,6 +60,23 @@
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="sensor_temp"/>
 					<property name="expression" value="@itc2.getPosition()[1]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="itc3NexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="itc3_device" /> <!-- nexus metadata dvice name cannot be the same as a scannable name -->
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="set_point"/>
+					<property name="expression" value="@itc3.getPosition()[0]"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="sensor_temp"/>
+					<property name="expression" value="@itc3.getPosition()[1]"/>
 				</bean>
 			</list>
 		</property>
