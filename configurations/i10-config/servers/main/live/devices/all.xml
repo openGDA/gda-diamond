@@ -7,6 +7,9 @@
 	<import resource="Zebra.xml"/>
 	<import resource="stanfords_gain_maps.xml"/>
 	
+	<!-- for all end stations -->
+	<import resource="RASOR-SCALER1.xml"/>
+	
 	<beans profile="scattering">
 		<import resource="Shutter1.xml"/>
 	<!-- 	<import resource="accessControl4I.xml"/> -->
@@ -28,7 +31,7 @@
 		<import resource="RASOR-Cam1.xml"/>
 		<import resource="RASOR-Cam2.xml"/>
 		<import resource="RASOR-Cam3.xml"/>
-		<import resource="RASOR-SCALER1.xml"/>
+<!-- 		<import resource="RASOR-SCALER1.xml"/> -->
 		<import resource="RASOR_diff_sim_motors.xml"/>
 		<import resource="UI1_SCALER1.xml"/>
 		<import resource="LakeShore340.xml"/>
@@ -68,7 +71,6 @@
 		<import resource="MES2.xml"/>
 		<import resource="MES2_SCALERJ3.xml"/>
 		<import resource="lakeshore336.xml"/>
-		<import resource="RASOR-SCALER1.xml"/>
 	</beans>
 
 
