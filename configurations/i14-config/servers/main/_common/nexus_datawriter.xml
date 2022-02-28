@@ -55,7 +55,7 @@
 			<map>
 				<entry key="id_gap">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/id_gap" />
+						<property name="paths" value="instrument:NXInstrument/id_gap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -63,10 +63,10 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/filters:NXcollection/stick_1:NXfilter/attn1_stick1</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/filters:NXcollection/stick_1:NXfilter/attn1_stick1_position</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/filters:NXcollection/stick_2:NXfilter/attn1_stick2</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/filters:NXcollection/stick_2:NXfilter/attn1_stick2_position</value>
+								<value>instrument:NXInstrument/filters:NXcollection/stick_1:NXfilter/attn1_stick1</value>
+								<value>instrument:NXInstrument/filters:NXcollection/stick_1:NXfilter/attn1_stick1_position</value>
+								<value>instrument:NXInstrument/filters:NXcollection/stick_2:NXfilter/attn1_stick2</value>
+								<value>instrument:NXInstrument/filters:NXcollection/stick_2:NXfilter/attn1_stick2_position</value>
 							</list>
 						</property>
 						<property name="units">
@@ -83,12 +83,12 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/M1:NXmirror/m1_x</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M1:NXmirror/m1_y</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M1:NXmirror/m1_pitch</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M1:NXmirror/m1_up_bender</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M1:NXmirror/m1_down_bender</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M1:NXmirror/m1_mirror_stripe</value>
+								<value>instrument:NXInstrument/M1:NXmirror/m1_x</value>
+								<value>instrument:NXInstrument/M1:NXmirror/m1_y</value>
+								<value>instrument:NXInstrument/M1:NXmirror/m1_pitch</value>
+								<value>instrument:NXInstrument/M1:NXmirror/m1_up_bender</value>
+								<value>instrument:NXInstrument/M1:NXmirror/m1_down_bender</value>
+								<value>instrument:NXInstrument/M1:NXmirror/m1_mirror_stripe</value>
 							</list>
 						</property>
 						<property name="units">
@@ -107,12 +107,12 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/M2:NXmirror/m2_x</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M2:NXmirror/m2_y</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M2:NXmirror/m2_pitch</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M2:NXmirror/m2_roll</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M2:NXmirror/m2_mirror_stripe</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/M2:NXmirror/m2_piezo</value>
+								<value>instrument:NXInstrument/M2:NXmirror/m2_x</value>
+								<value>instrument:NXInstrument/M2:NXmirror/m2_y</value>
+								<value>instrument:NXInstrument/M2:NXmirror/m2_pitch</value>
+								<value>instrument:NXInstrument/M2:NXmirror/m2_roll</value>
+								<value>instrument:NXInstrument/M2:NXmirror/m2_mirror_stripe</value>
+								<value>instrument:NXInstrument/M2:NXmirror/m2_piezo</value>
 							</list>
 						</property>
 						<property name="units">
@@ -131,11 +131,11 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/DCM:NXmonochromator/dcm_pitch</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/DCM:NXmonochromator/dcm_roll</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/DCM:NXmonochromator/dcm_perp</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/DCM:NXmonochromator/dcm_bragg</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/DCM:NXmonochromator/dcm_energy</value>
+								<value>instrument:NXInstrument/DCM:NXmonochromator/dcm_pitch</value>
+								<value>instrument:NXInstrument/DCM:NXmonochromator/dcm_roll</value>
+								<value>instrument:NXInstrument/DCM:NXmonochromator/dcm_perp</value>
+								<value>instrument:NXInstrument/DCM:NXmonochromator/dcm_bragg</value>
+								<value>instrument:NXInstrument/DCM:NXmonochromator/dcm_energy</value>
 							</list>
 						</property>
 						<property name="units">
@@ -152,43 +152,43 @@
 
 				<entry key="d4_x">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/D4:NXpositioner/d4_x" />
+						<property name="paths" value="instrument:NXInstrument/D4:NXpositioner/d4_x" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d4_x_position">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/D4:NXpositioner/d4_x_position" />
+						<property name="paths" value="instrument:NXInstrument/D4:NXpositioner/d4_x_position" />
 						<property name="units" value="" />
 					</bean>
 				</entry>
 				<entry key="d4_y">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/D4:NXpositioner/d4_y" />
+						<property name="paths" value="instrument:NXInstrument/D4:NXpositioner/d4_y" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d4_lateral_position">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/D4:NXpositioner/d4_lateral_position" />
+						<property name="paths" value="instrument:NXInstrument/D4:NXpositioner/d4_lateral_position" />
 						<property name="units" value="" />
 					</bean>
 				</entry>
 				<entry key="d4_diode1">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/D4:NXpositioner/d4_diode1" />
+						<property name="paths" value="instrument:NXInstrument/D4:NXpositioner/d4_diode1" />
 						<property name="units" value="uA" />
 					</bean>
 				</entry>
 				<entry key="d4_diode2">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/D4:NXpositioner/d4_diode2" />
+						<property name="paths" value="instrument:NXInstrument/D4:NXpositioner/d4_diode2" />
 						<property name="units" value="uA" />
 					</bean>
 				</entry>
 				<entry key="d4_adc_inline">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXInstrument/beamline:NXcollection/D4:NXpositioner/d4_adc_inline" />
+						<property name="paths" value="instrument:NXInstrument/D4:NXpositioner/d4_adc_inline" />
 						<property name="units" value="" />
 					</bean>
 				</entry>
@@ -197,14 +197,14 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_x_centre</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_x_size</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_x_up</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_x_down</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_y_centre</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_y_size</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_y_up</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S1:NXslit/s1_y_down</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_x_centre</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_x_size</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_x_up</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_x_down</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_y_centre</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_y_size</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_y_up</value>
+								<value>instrument:NXInstrument/S1:NXslit/s1_y_down</value>
 							</list>
 						</property>
 						<property name="units">
@@ -225,10 +225,10 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/S2:NXslit/s2_x_centre</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S2:NXslit/s2_x_size</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S2:NXslit/s2_outboard</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S2:NXslit/s2_inboard</value>
+								<value>instrument:NXInstrument/S2:NXslit/s2_x_centre</value>
+								<value>instrument:NXInstrument/S2:NXslit/s2_x_size</value>
+								<value>instrument:NXInstrument/S2:NXslit/s2_outboard</value>
+								<value>instrument:NXInstrument/S2:NXslit/s2_inboard</value>
 							</list>
 						</property>
 						<property name="units">
@@ -245,10 +245,10 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/S3:NXslit/s3_x_centre</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S3:NXslit/s3_x_size</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S3:NXslit/s3_y_centre</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S3:NXslit/s3_y_size</value>
+								<value>instrument:NXInstrument/S3:NXslit/s3_x_centre</value>
+								<value>instrument:NXInstrument/S3:NXslit/s3_x_size</value>
+								<value>instrument:NXInstrument/S3:NXslit/s3_y_centre</value>
+								<value>instrument:NXInstrument/S3:NXslit/s3_y_size</value>
 							</list>
 						</property>
 						<property name="units">
@@ -265,8 +265,8 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/S4:NXslit/s4_x_size</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/S4:NXslit/s4_y_centre</value>
+								<value>instrument:NXInstrument/S4:NXslit/s4_x_size</value>
+								<value>instrument:NXInstrument/S4:NXslit/s4_y_centre</value>
 							</list>
 						</property>
 						<property name="units">
@@ -281,9 +281,9 @@
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXInstrument/beamline:NXcollection/KB1:NXMirror/kbv1_pitch</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/KB1:NXMirror/kbv1_roll</value>
-								<value>instrument:NXInstrument/beamline:NXcollection/KB1:NXMirror/kbh1_pitch</value>
+								<value>instrument:NXInstrument/KB1:NXMirror/kbv1_pitch</value>
+								<value>instrument:NXInstrument/KB1:NXMirror/kbv1_roll</value>
+								<value>instrument:NXInstrument/KB1:NXMirror/kbh1_pitch</value>
 							</list>
 						</property>
 						<property name="units">
