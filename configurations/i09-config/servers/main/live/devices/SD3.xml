@@ -74,7 +74,7 @@
 		</property>
 	</bean>
 	<bean id="sd3_cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="sd3_cam" />
 		<property name="collectionStrategy" ref="sd3_cam_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

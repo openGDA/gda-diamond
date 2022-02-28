@@ -19,7 +19,7 @@
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
 	<bean id="sd1_cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="sd1_cam" />
 		<property name="collectionStrategy" ref="eavCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
