@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-	<bean id="radiograph_decorator" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector" init-method="register">
+	<bean id="radiograph_decorator" class="uk.ac.diamond.daq.scanning.FrameCollectingScannable" init-method="register">
 		<property name="name" value="radiograph_decorator" />
 		<property name="beamlineConfiguration">
 			<map />
@@ -12,11 +12,6 @@
 		<property name="malcolmDetectorNames">
 			<map>
 				<entry key="#{workstation_malcolmsims}-ML-SCAN-02" value="IMAGING" />
-			</map>
-		</property>
-		<property name="snapshotDetectors">
-			<map>
-				<entry key="#{workstation_malcolmsims}-ML-SCAN-01" value-ref="TomoMalcolmDevice" />
 			</map>
 		</property>
 		<property name="useDetectorTable" value="true" />
