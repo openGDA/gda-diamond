@@ -37,6 +37,14 @@
 		</property>
 	</bean>
 
+	<bean id="fluoDist_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Fluo detector distance" />
+		<property name="scannableName" value="fluoDist" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+		<property name="group" value="Fluo detector distance" />
+	</bean>
+
   	<bean id="gantry_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Gantry stage X" />
 		<property name="scannableName" value="gantry_x" />
@@ -247,6 +255,7 @@
 			<list>
 				<ref bean="shutter_group" />
 				<ref bean="sample_controls_group" />
+				<ref bean="fluoDist_control" />
 				<ref bean="user_motors_controls_group" />
 				<ref bean="gantry_controls_group" />
 				<ref bean="hr_mirror_group" />
