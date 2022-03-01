@@ -10,14 +10,9 @@ from gda.epics import CAClient
 pv_root = "BL06I-EA-SRCM-01:"
 # selected Asyn PVs
 command = "ASYN.BOUT"  # DBF_CHAR (array)
-bytes_sent = "ASYN.NAWT"  # DBF_LONG
-max_send_size = "ASYN.OMAX"  # DBF_LONG
 response = "ASYN.BINP"  # DBF_CHAR (array)
 error = "ASYN.ERRS"  # DBF_STRING
-bytes_received = "ASYN.NORD"  # DBF_LONG
-max_receive_size = "ASYN.IMAX"  # DBF_LONG
 connect = "ASYN.CNCT"   #DBF_RECCHOICE
-reading = "READING"
 
 ENCODING = 'utf-8'
 
@@ -36,7 +31,6 @@ class EpicsKeithley2461(object):
         self.command = CAClient(pv_root + command)
         self.response = CAClient (pv_root + response)
         self.error = CAClient(pv_root + error)
-        self.reading = CAClient(pv_root + reading)
         self.connect = CAClient(pv_root + connect)
         self.configured = False
         
@@ -46,7 +40,6 @@ class EpicsKeithley2461(object):
         self.command.configure()
         self.response.configure()
         self.error.configure()
-        self.reading.configure()
         self.connect.configure() 
         self.configured = True
         
@@ -62,11 +55,6 @@ class EpicsKeithley2461(object):
         self.configure()
         return self.error.caget()
     
-    def read(self):
-        self.configure()
-        #TODO need to check the DBF data type here
-        return self.reading.cagetArrayByte().decode(ENCODING)
-         
     def reset(self):
         '''resets the instrument settings to their default values and clears the reading buffers.
         '''
@@ -173,13 +161,10 @@ class EpicsKeithley2461(object):
         self.send_command("SENS:RES:OCOM " + str(val))
     
 
-    def print_response_and_errors(self):
-        response = self.get_response()
+    def print_errors_if_any(self):
         errors = self.get_errors()
-        if not response:
-            print("response: %s" % response)
         if not errors:
-            print("Errors: %s" % errors)
+            print("%s returns errors: %s" % (self.name, errors))
 
     def readVoltage(self, nplc):
         ''' read voltage after the number of power line cycles (NPLC)
@@ -187,10 +172,9 @@ class EpicsKeithley2461(object):
         self.send_command("SENS:VOLT:NPLC " + str(nplc))
         self.send_command("OUTP ON")
         self.send_command(":READ? 'defbuffer1', sour, read")
-        self.print_response_and_errors() 
         self.send_command("OUTP OFF")
-        voltage = self.read()
-        return voltage
+        self.print_errors_if_any() 
+        return self.get_response()
         
     def readResistance(self, count):
         '''read resistance for the given number of count
@@ -199,20 +183,18 @@ class EpicsKeithley2461(object):
         self.send_command("OUTP ON")
         self.send_command("TRAC:TRIG 'defbuffer1'")
         self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ")
-        self.print_response_and_errors()
         self.send_commandy("OUTP OFF")
-        resistance = self.read()
-        return resistance
+        self.print_errors_if_any()
+        return self.get_response()
     
     def readTraceData(self, count):
         '''get data from source, measured reading and relative time of the measurements for a given number of pulses after pulse train.
         ''' 
         self.send_command("OUTP ON")
         self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ, REL")
-        self.print_response_and_errors()
         self.send_commandy("OUTP OFF")
-        data = self.read() 
-        return data
+        self.print_errors_if_any()
+        return self.get_response()
         
     def sourceReadback(self, function, state):
         '''records the measured source value (ON) or the configured source value (OFF) when making a measurement
