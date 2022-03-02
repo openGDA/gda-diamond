@@ -97,9 +97,7 @@
 				<ref bean="excalibur_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="excalibur_mask" />
 		<property name="detectorWidth" value="2069" />
 		<property name="detectorHeight" value="515" />
 		<property name="useUidDataset" value="true" />
@@ -119,12 +117,15 @@
 				<ref bean="excalibur_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="excalibur_mask" />
 		<property name="detectorWidth" value="2069" />
 		<property name="detectorHeight" value="515" />
 		<property name="useUidDataset" value="true" />
+	</bean>
+
+	<bean
+		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
+		id="excalibur_mask">
 	</bean>
 
 	<bean

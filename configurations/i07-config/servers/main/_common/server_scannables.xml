@@ -1370,12 +1370,10 @@
     </bean>
 
     <bean id="syringeleft" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="syringe_left" />
         <property name="motor" ref="MotorSyringe_left" />
     </bean>
 
     <bean id="syringeright" class="gda.device.scannable.ScannableMotor">
-        <property name="name" value="syringe_right" />
         <property name="motor" ref="MotorSyringe_right" />
     </bean>
 

@@ -1127,12 +1127,10 @@
 	</bean>
 
 	<bean id="syringeleftvalve" class="gda.device.scannable.SimplePVScannable">
-		<property name="name" value="syringe_left_valve" />
 		<property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
 	</bean>
 
 	<bean id="syringerightvalve" class="gda.device.scannable.SimplePVScannable">
-		<property name="name" value="syringe_right_valve" />
 		<property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
 	</bean>
 

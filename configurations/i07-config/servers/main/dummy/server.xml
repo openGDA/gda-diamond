@@ -23,10 +23,6 @@
 	<import resource="server_epics.xml" />
 	<import resource="eh2_epics.xml" />
 
-	<import resource="fastpil1.xml" />
-	<import resource="fastpil2.xml" />
-	<import resource="fastpil3.xml" />
-
 	<import resource="pilatus1_824.xml" />
 	<import resource="pilatus2_824.xml" />
 	<import resource="pilatus3_824.xml" />

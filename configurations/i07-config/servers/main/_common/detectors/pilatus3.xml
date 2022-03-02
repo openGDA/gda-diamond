@@ -80,9 +80,7 @@
 				<ref bean="pilatus3_plotter" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="pilatus3_mask" />
 		<property name="detectorWidth" value="487" />
 		<property name="detectorHeight" value="195" />
 	</bean>
@@ -100,11 +98,14 @@
 				<ref bean="pilatus3_plotter" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="pilatus3_mask" />
 		<property name="detectorWidth" value="487" />
 		<property name="detectorHeight" value="195" />
+	</bean>
+
+	<bean
+		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
+		id="pilatus3_mask">
 	</bean>
 
 	<bean
