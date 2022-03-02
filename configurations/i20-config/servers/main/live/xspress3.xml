@@ -11,4 +11,27 @@
 		<property name="useNewEpicsInterface" value="true"/>
 	</bean>
 
+<!-- Xspress3 configuration using Xspress4 classes (new IOC has same PVs as Xspress4). Added 16Nov 2021 -->
+	<bean id="xspress3ControllerXSP4"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL20I-EA-DET-06" />
+		<property name="numElements" value="4" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+	</bean>
+
+<!-- Xspress3X configuration using Xspress4 classes (new IOC has same PVs as Xspress4). Added 16Nov 2021 -->
+	<bean id="xspress3XController"
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
+		<property name="epicsTemplate" value="BL20I-EA-XSP3X-01" />
+		<property name="numberOfChannels" value="4"/>
+		<property name="useNewEpicsInterface" value="true"/>
+	</bean>
+
+	<bean id="xspress3XControllerXSP4"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL20I-EA-XSP3X-01" />
+		<property name="numElements" value="4" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+	</bean>
+
 </beans>

@@ -32,4 +32,28 @@
 		<property name="numberOfChannels" value="4"/>
 		<property name="simulationFileName" value="simulationFilename"/>
 	</bean>
+
+	<bean id="xspress3ControllerXSP4"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
+		<property name="numElements" value="4" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+	</bean>
+
+	<bean id="xspress3XController" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
+		<constructor-arg>
+			<ref bean="DAServerXspress3" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="tfgXspress3" />
+		</constructor-arg>
+		<property name="numberOfChannels" value="4"/>
+		<property name="simulationFileName" value="simulationFilename"/>
+	</bean>
+
+	<bean id="xspress3XControllerXSP4"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
+		<property name="numElements" value="4" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+	</bean>
+
 </beans>

@@ -9,7 +9,6 @@
 	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="xspress4DetectorRates"	class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
-		<property name="name" value="xspress4DetectorRate" />
 		<property name="dataProvider" ref="detectorMonitorDataProvider" />
 		<property name="viewDescription" value="Detector rates view for Xspress4" />
 		<property name="collectionTime" value="1.0" />
@@ -22,7 +21,6 @@
 	</bean>
 
 	<bean id="ionchamberI1Rates"	class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
-		<property name="name" value="ionchamberI1Rates" />
 		<property name="dataProvider" ref="detectorMonitorDataProvider" />
 		<property name="viewDescription" value="Detector rates view for I1 ionchamber" />
 		<property name="collectionTime" value="1.0" />
@@ -34,7 +32,6 @@
 	</bean>
 
 	<bean id="ionchamberRates" class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
-		<property name="name" value="ionchamberRates" />
 		<property name="dataProvider" ref="detectorMonitorDataProvider" />
 		<property name="viewDescription" value="Detector rates view for ionchambers" />
 		<property name="collectionTime" value="1.0" />

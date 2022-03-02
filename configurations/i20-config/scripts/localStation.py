@@ -194,6 +194,7 @@ from gda.epics import CAClient
 
 # Set default output format xspress4 ascii numbers
 xspress4.setOutputFormat(["%.6f"])
+xspress3X.setOutputFormat(["%.6f"])
 
 print "Setting Tfg veto options to normal values for output 0"
 DAServer.sendCommand("tfg setup-veto veto0-inv 0")
@@ -247,14 +248,28 @@ def setupXspress3() :
     xspress3Controller = xspress3.getController()
     basePvName = xspress3Controller.getEpicsTemplate()
     setup_xspress_detector(basePvName)
+    setupResGrades(basePvName, False)
             
     detPort = caget(basePvName+":PortName_RBV")
     set_hdf_input_port(basePvName, detPort)
+    set_sca_input_port(basePvName, 4, detPort)
+    set_hdf5_filetemplate(basePvName)
 
+def setupXspress3X() :
+    basePvName = xspress3X.getController().getBasePv()
+
+    setup_xspress_detector(basePvName)
+    setupResGrades(basePvName, False)
+    detPort = caget(basePvName+":PortName_RBV")
+    set_hdf_input_port(basePvName, detPort)
+    set_sca_input_port(basePvName, 4, detPort)
+    set_hdf5_filetemplate(basePvName)
+         
 def setupXspress4() : 
-    hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
     print "Setting up XSpress4 : "
     basename = xspress4.getController().getBasePv()
+    
+    setupResGrades(basename, True)
     setup_xspress_detector(basename)  # set the trigger mode, 1 frame of data to set data dimensions
 
     # Set the default deadtime correction energy if not already non-zero
@@ -264,10 +279,34 @@ def setupXspress4() :
          
     # # Set to empty string, so that at scan start path is set to current visit directory.
     xspress4.setFilePath("");
+    set_hdf5_filetemplate(basename)
+
+def setupResGrades(basePvName, collect) :
+    val = 0
+    if collect == True :
+        val = 1
+        
+    if int(caget(basePvName+":COLLECTRESGRADES_RBV")) != val:
+        print "Setting Xspress4 IOC "+basePvName+" to collect Resgrades"
+        CAClient.put(basePvName+":COLLECTRESGRADES", val)
+        Thread.sleep(500)
+    if int(caget(basePvName+":RECONNECT_REQUIRED")) == 1 :
+        print "Reconnecting IOC connection to Xspress detector"
+        CAClient.put(basePvName+":CONNECT", 1)
+        Thread.sleep(2000)
+        print "Finished reconnecting"
+
+def set_hdf5_filetemplate(basePvName):
+    print "Setting hdf filename template"
+    hdf5Values = { "FileTemplate" : "%s%s%d.hdf", "FileWriteMode" : 2}
     for key in hdf5Values :
-        pv = basename + ":HDF5:" + key
-        print "  Setting " + pv + " to " + hdf5Values[key]
-        CAClient.putStringAsWaveform(pv, hdf5Values[key])
+        pv = basePvName + ":HDF5:" + key
+        value = hdf5Values[key]
+        print "  Setting " + pv + " to " + str(value)
+        if isinstance(value, str) :
+            CAClient.putStringAsWaveform(pv, value) 
+        else :
+            CAClient.put(pv, value)
 
 def setupMedipix() :
     global medipix_basePvName
@@ -275,6 +314,7 @@ def setupMedipix() :
     collect_software_triggered_frame(medipix_basePvName+":CAM", 1.0)
     
 run_in_try_catch(setupXspress3)
+run_in_try_catch(setupXspress3X)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMedipix)
 
