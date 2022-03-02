@@ -75,9 +75,6 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	 */
 	@Override
 	public String writeDataFile(EdeDetector detector) throws Exception {
-		//		validateData(detector);
-		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusfileName);
-
 		// Writing out meta data
 		TimingGroupMetadata[] i0ScanMetaData = createTimingGroupsMetaData(i0InitialLightScan.getScanParameters());
 		TimingGroupMetadata[] itScanMetaData = createTimingGroupsMetaData(itScans[0].getScanParameters());
@@ -96,10 +93,15 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		if (detector.isEnergyCalibrationSet()) {
 			energyCalibration = detector.getEnergyCalibration().toString();
 		}
-		String sampleDetails = getSampleDetails();
+
+		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusfileName);
 		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
-		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration, sampleDetails);
-		timeResolvedNexusFileHelper.updateWithNormalisedData(writeAsciiData, writeInNewThread);
+		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration, getSampleDetails());
+		if (itScans.length>1) {
+			List<Integer> incompleteCycles = getIncompleteCycles(itScans[0].getScanParameters().getTotalNumberOfFrames());
+			timeResolvedNexusFileHelper.setIndicesOfExcludedCycles(incompleteCycles);
+		}
+		timeResolvedNexusFileHelper.updateWithNormalisedData(writeAsciiData);
 
 		addDataForExtraScannables();
 
