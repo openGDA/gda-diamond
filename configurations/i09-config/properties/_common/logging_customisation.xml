@@ -4,5 +4,6 @@
 
 	<!-- This prevents many DEBUG level messages from rs_message scannable -->
 	<logger name="gda.device.scannable.PVStringScannable" level="INFO"/>
+	<logger name="org.eclipse.january.dataset.RGBByteDataset" level="ERROR"/>
 
 </included>
