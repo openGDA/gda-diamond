@@ -53,8 +53,8 @@ public class PointScanpathEditor extends ScanpathEditor {
 		var composite = new Composite(mainComposite, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(composite);
 
-		new Label(composite, SWT.NONE).setText("X Start");
-		new Label(composite, SWT.NONE).setText("X Stop");
+		new Label(composite, SWT.NONE).setText("X Position");
+		new Label(composite, SWT.NONE).setText("Y Position");
 		xStartText = createTextControls(composite);
 		yStartText = createTextControls(composite);
 
