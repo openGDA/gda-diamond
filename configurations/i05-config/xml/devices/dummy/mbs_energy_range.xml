@@ -41,6 +41,12 @@
 										<constructor-arg><description>MaxKE</description><value>105</value></constructor-arg>
 									</bean>
 								</entry>
+								<entry key="30">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>105</value></constructor-arg>
+									</bean>
+								</entry>
 								<entry key="50">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
@@ -76,6 +82,12 @@
 									</bean>
 								</entry>
 								<entry key="20">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>69</value></constructor-arg>
+									</bean>
+								</entry>
+								<entry key="30">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>69</value></constructor-arg>
@@ -121,6 +133,12 @@
 										<constructor-arg><description>MaxKE</description><value>160</value></constructor-arg>
 									</bean>
 								</entry>
+								<entry key="30">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>160</value></constructor-arg>
+									</bean>
+								</entry>
 								<entry key="50">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
@@ -156,6 +174,12 @@
 									</bean>
 								</entry>
 								<entry key="20">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>160</value></constructor-arg>
+									</bean>
+								</entry>
+								<entry key="30">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>160</value></constructor-arg>
@@ -201,6 +225,12 @@
 										<constructor-arg><description>MaxKE</description><value>609</value></constructor-arg>
 									</bean>
 								</entry>
+								<entry key="30">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>609</value></constructor-arg>
+									</bean>
+								</entry>
 								<entry key="50">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>1</value></constructor-arg>
@@ -228,6 +258,12 @@
 									</bean>
 								</entry>
 								<entry key="20">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>448</value></constructor-arg>
+									</bean>
+								</entry>
+								<entry key="30">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>448</value></constructor-arg>
@@ -273,6 +309,12 @@
 										<constructor-arg><description>MaxKE</description><value>320</value></constructor-arg>
 									</bean>
 								</entry>
+								<entry key="30">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>320</value></constructor-arg>
+									</bean>
+								</entry>
 								<entry key="50">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
@@ -308,6 +350,12 @@
 									</bean>
 								</entry>
 								<entry key="20">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>480</value></constructor-arg>
+									</bean>
+								</entry>
+								<entry key="30">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>480</value></constructor-arg>
@@ -353,6 +401,12 @@
 										<constructor-arg><description>MaxKE</description><value>320</value></constructor-arg>
 									</bean>
 								</entry>
+								<entry key="30">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>320</value></constructor-arg>
+									</bean>
+								</entry>
 								<entry key="50">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
@@ -393,6 +447,12 @@
 										<constructor-arg><description>MaxKE</description><value>609</value></constructor-arg>
 									</bean>
 								</entry>
+								<entry key="30">
+									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
+										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>609</value></constructor-arg>
+									</bean>
+								</entry>
 								<entry key="50">
 									<bean class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration$EnergyRange">
 										<constructor-arg><description>MinKE</description><value>5</value></constructor-arg>
@@ -417,5 +477,42 @@
 				</entry>
             </map>
         </constructor-arg>
+    </bean>
+
+    <bean id="analyser_deflector_range" class="uk.ac.diamond.daq.pes.api.AnalyserDeflectorRangeConfiguration">
+		<constructor-arg>
+			<map>
+				<entry key="L4Ang0d6">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="0" />
+						<constructor-arg name="deflectorXMaximum" value="0" />
+					</bean>
+				</entry>
+				<entry key="L4Ang0d8">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="-15.6" />
+						<constructor-arg name="deflectorXMaximum" value="15.6" />
+					</bean>
+				</entry>
+				<entry key="L4Ang1d6">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="-7.8" />
+						<constructor-arg name="deflectorXMaximum" value="7.8" />
+					</bean>
+				</entry>
+				<entry key="L4Ang3d9">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="-3.5" />
+						<constructor-arg name="deflectorXMaximum" value="3.5" />
+					</bean>
+				</entry>
+				<entry key="L4Spat5">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="-2.5" />
+						<constructor-arg name="deflectorXMaximum" value="2.5" />
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
     </bean>
 </beans>
