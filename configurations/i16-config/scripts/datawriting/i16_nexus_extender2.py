@@ -543,8 +543,10 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, data)
 
     def writeDefinition(self, nFile, group, definition):
+        self.logger.debug("writeDefinition(nFile={}, group={}, definition={})", nFile, group, definition)
         data = DF.createFromObject(definition)
         data.name = "definition"
+        self.logger.debug("writeDefinition() data={}", nFile, data)
         nFile.createData(group, data)
 
     def writeDeltaOffset(self, nFile, transformations, metadata):

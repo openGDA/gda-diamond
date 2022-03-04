@@ -59,21 +59,23 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
         if not LocalProperties.get("gda.scan.endscan.neworder", "True").lower() == "true":
             print "Warning: gda.scan.endscan.neworder must be True to create hdf links"
             return
-        writer = writers[0]
-        ndfile = writer.getNdFile()
-        detectorFileName = ndfile.getFileTemplate_RBV() % (ndfile.getFilePath_RBV(), ndfile.getFileName_RBV(), ndfile.getFileNumber_RBV())
-        nexusPaths = ["/entry1/instrument/%s" % self.name, "/entry1/%s" % self.name]
-        datadirectory = LocalProperties.get("gda.data.scan.datawriter.datadir")
-        nexusFileName = "%s/%d.nxs" % (datadirectory, ndfile.getFileNumber_RBV())
-        detectorPath = "/entry/instrument/detector/data"
-        detectorFileName = detectorFileName.replace(datadirectory, "")
-        if detectorFileName[0] == '/':
-            detectorFileName = detectorFileName.split('/', 1)[1]
-        self.logger.debug("Calling nexusHDFLink.detectorLinkInserter({}, {}, {}, {}) on %s" % self.getName(),
-            nexusFileName, detectorFileName, nexusPaths, detectorPath)
-        print "Creating HDF Links"
-        # Comment this out with gda.data.scan.datawriter.dataFormat = NexusScanDataWriter 
-        self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
+
+        if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWriter':
+            writer = writers[0]
+            ndfile = writer.getNdFile()
+            detectorFileName = ndfile.getFileTemplate_RBV() % (ndfile.getFilePath_RBV(), ndfile.getFileName_RBV(), ndfile.getFileNumber_RBV())
+            nexusPaths = ["/entry1/instrument/%s" % self.name, "/entry1/%s" % self.name]
+            datadirectory = LocalProperties.get("gda.data.scan.datawriter.datadir")
+            nexusFileName = "%s/%d.nxs" % (datadirectory, ndfile.getFileNumber_RBV())
+            detectorPath = "/entry/instrument/detector/data"
+            detectorFileName = detectorFileName.replace(datadirectory, "")
+            if detectorFileName[0] == '/':
+                detectorFileName = detectorFileName.split('/', 1)[1]
+
+            self.logger.debug("Calling nexusHDFLink.detectorLinkInserter({}, {}, {}, {}) on %s" % self.getName(),
+                nexusFileName, detectorFileName, nexusPaths, detectorPath)
+            print "Creating HDF Links"
+            self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
 
     def getExtraNames(self):
         return ['count_time'] + SwitchableHardwareTriggerableProcessingDetectorWrapper.getExtraNames(self)[1:]
