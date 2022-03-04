@@ -21,6 +21,11 @@
 	<logger name="org.apache.activemq.thread.PooledTaskRunner">							<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.util.ClassLoadingAwareObjectInputStream">			<level value="DEBUG"/></logger>
 	<logger name="uk.ac.diamond.daq.concurrent.Async">									<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ROIManager">				<level value="DEBUG"/></logger>
+	<logger name="uk.ac.gda.client.liveplot.SubLivePlotView">							<level value="DEBUG"/></logger>
+	<logger name="uk.ac.gda.menu.JythonControlsFactory">								<level value="DEBUG"/></logger>
+	<logger name="gda.util.logging.LogbackUtils">										<level value="DEBUG"/></logger>
+	<logger name="gda.jython.batoncontrol.BatonManager">								<level value="DEBUG"/></logger>
 
 	<!-- Classes where we want all messages
 	 -->
