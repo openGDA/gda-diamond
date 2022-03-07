@@ -7,7 +7,6 @@ from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias
 from gda.factory import Finder
 import os
-import sys
 
 print "-"*100
 print "commands for directory/file operations: "
@@ -51,17 +50,7 @@ def nfn():
 # the subdirectory parts
 def setSubdirectory(dirname):
     '''create a new sub-directory under current data directory for data collection that follows'''
-    if os.sep not in dirname:
-        subdirectory = getSubdirectory()
-        if subdirectory:
-            dirname=str(subdirectory)+os.sep+str(dirname)
     Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
-    try:
-        os.mkdir(pwd())
-    except :
-        exceptionType, exception=sys.exc_info()[:2];
-        print "Error Type: ", exceptionType
-        print "Error value: ", exception
  
 def getSubdirectory():
     return Finder.find("GDAMetadata").getMetadataValue("subdirectory")

@@ -39,7 +39,7 @@ class SourceMode(ScannableBase):
     
     def rawAsynchronousMoveTo(self, mode):
         if mode not in X_RAY_SOURCE_MODES:
-            print "mode string is wrong: legal values are %s" % (SourceMode.SOURCE_MODES)
+            print("mode string is wrong: legal values are %s" % (SourceMode.SOURCE_MODES))
             return 
         self.amIBusy=True # need to block to ensure script run complete before any other actions
         if mode == X_RAY_SOURCE_MODES[0]:
