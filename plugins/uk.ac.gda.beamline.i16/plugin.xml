@@ -151,14 +151,22 @@
                relative="uk.ac.gda.rcp.views.dashboardView"
                visible="false"/>
          <view
-               id="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:Pilatus"
+               id="org.dawb.workbench.plotting.views.toolPageView.2D"
                ratio="0.7f"
                relationship="bottom"
                relative="org.eclipse.ui.editorss"/>
          <view
-               id="org.dawb.workbench.plotting.views.toolPageView.2D"
+               id="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:Pilatus"
                relationship="stack"
-               relative="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:Pilatus"/>
+               relative="org.dawb.workbench.plotting.views.toolPageView.2D"/>
+         <view
+               id="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:BPM"
+               relationship="stack"
+               relative="org.dawb.workbench.plotting.views.toolPageView.2D"/>
+         <view
+               id="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:Merlin"
+               relationship="stack"
+               relative="org.dawb.workbench.plotting.views.toolPageView.2D"/>
       </perspectiveExtension>
    </extension>
    <extension

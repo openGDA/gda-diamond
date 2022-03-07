@@ -1194,7 +1194,7 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 		localStation_exception("configuring %s" % name)
 
 try:
-	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps)
+	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps, panel_name_rcp='BPM')
 	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
 	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
 	camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
@@ -1303,7 +1303,7 @@ try:
 																	None,
 																	_merlin_for_snaps,
 																	[],
-																	panel_name_rcp='Plot 1',
+																	panel_name_rcp='Merlin',
 																	iFileLoader=PilatusTiffLoader,
 																	fileLoadTimout=60,
 																	printNfsTimes=False,
