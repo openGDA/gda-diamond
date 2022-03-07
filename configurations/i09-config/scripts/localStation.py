@@ -284,6 +284,9 @@ for each in meta_data_list:
 print("-"*100)
 print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\nAverage mode: keithley_a_average_mode, keithley_b_average_mode\nSweep mode: keithley_a_sweep_mode, keithley_b_sweep_mode")
 
+from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
+from scan.miscan import miscan  # @UnusedImport
+
 print
 print "="*100;
 print "Initialisation script complete." 
