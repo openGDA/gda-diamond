@@ -100,7 +100,7 @@
 		</property>
 	</bean>
 	<bean id="d1c_cam1" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d1c_cam1" />
 		<property name="collectionStrategy"
 			ref="d1c_cam1_CollectionStrategy" />
 		<property name="additionalPluginList">

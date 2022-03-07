@@ -78,7 +78,7 @@
 	</bean>
 
 	<bean id="d8c_cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d8c_cam" />
 		<property name="collectionStrategy" ref="d8c_cam1_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
