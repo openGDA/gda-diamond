@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		This file was copied over directly from i15-config before removing the
+		references to zebraContinuousMoveController.
+	</description>
+
+	<bean id="pil3AD_config_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:CAM:" />
+	</bean>
+
+	<bean id="pil3AD_summary_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ARR:" />
+	</bean>
+
+	<bean id="pil3AD_summary_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:STAT:" />
+	</bean>
+
+	<bean id="pil3AD_summary_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:ROI:" />
+	</bean>
+
+	<bean id="pil3AD_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:MJPG:" />
+	</bean>
+
+	<bean id="pil3AD_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:PROC:" />
+	</bean>
+
+	<bean id="pil3_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>	
+		</property>
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<bean id="pil3_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+</beans>

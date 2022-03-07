@@ -72,7 +72,6 @@ global run, etl, prop, add_default, vararg_alias, \
 	pin3x, pin3y,\
 	sx, sy, sz, spitch, syaw, sroll,\
 	spivotx, spivoty, spivotz, sphi, ssx, ssz,\
-	d7x, d7y,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9, \
@@ -719,7 +718,6 @@ try:
 				'pin3x', 'pin3y',
 				'sx', 'sy', 'sz', 'spitch', 'syaw', 'sroll',
 				'spivotx', 'spivoty', 'spivotz', 'sphi', 'ssx', 'ssz',
-				'd7x', 'd7y',
 				'bs2x', 'bs2y', 'bs3x', 'bs3y', 'bs3z',
 				'det2z',
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
@@ -814,12 +812,6 @@ try:
 
 		scannable.configure()
 		return scannable
-
-	try:
-		energy_calibration = JEPConverterHolder("energy_calibration", "calibrated_energy.xml")
-		calibrated_energy = createConvertorScannable("ConvertorScannable", dcmenergy, energy_calibration)
-	except:
-		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
 
 	def check_zebra(zebraPositionScannable, reportOk=True):
 		position_mismatch = "    Mismatch between {} motor position and zebra encoder - Rocking it will probably fail!\n" + \

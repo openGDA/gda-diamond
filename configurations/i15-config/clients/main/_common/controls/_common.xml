@@ -1,0 +1,118 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Live Controls ControlSet Beans -->
+
+	<bean id="shutterLiveControlGroup" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Shutter Control" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list> 
+				<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+					<property name="jythonCommand" value="shopen" />
+					<property name="buttonText" value="Open EH and Fast shutter (shopen)" />
+				</bean>
+				<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+					<property name="jythonCommand" value="shclose" />
+					<property name="buttonText" value="Close EH and Fast Shutter (shclose)" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="testControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="shutterLiveControlGroup" />
+				<!-- Initially shows position,  -->
+				<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+					<property name="group" value="Test" />
+					<property name="displayName" value="Y Gap ScannableValueControl" />
+					<property name="scannableName" value="s1ygap" />
+				</bean>
+				<!-- horizontalLayout=true & showIncrement=false seem to be incompatible -->
+				<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+					<property name="group" value="Test" />
+					<property name="displayName" value="Y Gap no inc" />
+					<property name="scannableName" value="s1ygap" />
+					<property name="horizontalLayout" value="true" />
+					<property name="readOnly" value="true" />
+					<property name="showIncrement" value="false" />
+				</bean>
+				<!-- The displayName defaults to the scannable name -->
+				<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+					<property name="group" value="Test" />
+					<property name="scannableName" value="s1ygap" />
+				</bean>
+				<bean class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+					<property name="group" value="S1 slits" />
+					<property name="numColumns" value="1" />
+					<property name="controls">
+						<list> 
+							<!-- Shows and updates position, but readOnly doesn't lock the tweak buttons, only the position textbox -->
+							<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+								<property name="displayName" value="X Gap" />
+								<property name="scannableName" value="s1xgap" />
+								<property name="increment" value="0.1" />
+								<property name="horizontalLayout" value="true" />
+							</bean>
+							<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+								<property name="displayName" value="Y Gap" />
+								<property name="scannableName" value="s1ygap" />
+								<property name="horizontalLayout" value="true" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+<!-- Examples from other beamlines
+	<bean id="removeLens" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="sequences.remove_lens()" />
+		<property name="buttonText" value="Remove Lens" />
+	</bean>
+
+	<bean id="buttonViewCompsite" class="uk.ac.gda.beamline.i02_2.composite.ButtonViewCompositeFactory">
+		<property name="removeLens"			ref="removeLens" />		See above
+		<property name="insertLowerLens"	ref="insertLowerLens" />
+		<property name="insertUpperLens"	ref="insertUpperLens" />
+		<property name="prepareForData" 	ref="prepareForData" />
+		<property name="prepareForImaging" 	ref="prepareForImaging" />
+		<property name="prepareForLoad"		ref="prepareForLoad" />
+		<property name="prepareForUnload"	ref="prepareForUnload" />
+	</bean>
+
+	<bean id="endstation_configurations" class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
+		<property name="jobTitle" value="Configuring endstation" />
+		<property name="group" value="Endstation configuration"/>
+		<property name="scripts">
+			<map>
+				<entry key="Sample transfer" value="Beamline/EndstationConfigurations/sample_transfer.py"/>
+				<entry key="Microscope" value="Beamline/EndstationConfigurations/microscope.py"/>
+				<entry key="Diode in" value="Beamline/EndstationConfigurations/in_diode.py"/>
+				<entry key="XRF/Imaging" value="Beamline/EndstationConfigurations/in_merlin.py"/>
+				<entry key="XRD/XRF" value="Beamline/EndstationConfigurations/in_xrd1.py"/>
+				<entry key="XRF only" value="Beamline/EndstationConfigurations/xrf_only.py"/>
+				<entry key="XRD2 in" value="Beamline/EndstationConfigurations/in_xrd2.py"/>
+				<entry key="XrayEye in" value="Beamline/EndstationConfigurations/in_xreye.py"/>
+				<entry key="Custom in" value="Beamline/EndstationConfigurations/custom.py"/>
+				<entry key="Safe position" value="Beamline/EndstationConfigurations/safe_position.py" />
+				<entry key="Run after restart" value="Beamline/EndstationConfigurations/run_after_restart.py"/>
+				<entry key="Clear common faults" value="Beamline/EndstationConfigurations/clear_common_faults.py"/>
+				<entry key="Move to focus position" value="Beamline/EndstationConfigurations/move_to_focus_position.py"/>
+				<entry key="Store focus position" value="Beamline/EndstationConfigurations/store_focus_position.py"/>
+				<entry key="Differential Phase Contrast" value="Beamline/EndstationConfigurations/differential_phase_contrast.py"/>
+				<entry key="Ptychography - high res" value="Beamline/EndstationConfigurations/ptychography_high_res.py"/>
+				<entry key="Ptychography - medium res" value="Beamline/EndstationConfigurations/ptychography_medium_res"/>
+			</map>
+		</property>
+	</bean>
+ -->
+</beans>

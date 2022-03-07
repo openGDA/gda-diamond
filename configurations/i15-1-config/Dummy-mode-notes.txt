@@ -13,6 +13,28 @@ Then click on "Start IOC".
 Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
 
 --------------------------------------------------------------------------------
+Run script at:	Scripts: User/Visits/cm28126-5.py
+Run command:	testForMark()
+
+def testForMark():
+    print "You may need to reset_namespace after restarting the server if there are any errors on startup"
+    j15.dummy_mode = True
+    pe2.calibrationFilePath = '/dls/i15-1/data/2021/cm28126-3/processed/cal/cal_i15-1-43819_pe2AD.nxs'
+    j15.setVisit("nt30186-2")
+    manual_rigs_scan(3604227,10)
+
+This needs a connection to the production iSpyB database, so switch to using
+ispyb.xpdf.connect.properties in dummy_instance_java.properties and then be
+careful what you do!
+
+from rigs.ispyb.discovery import showMeTheExperiments
+infos = showMeTheExperiments()
+
+import pprint
+pp=pprint.PrettyPrinter(indent=4)
+pp.pprint(infos)
+
+--------------------------------------------------------------------------------
 #### Run an example scan using mandelbrot detector ####
 
 Scanning Perspective

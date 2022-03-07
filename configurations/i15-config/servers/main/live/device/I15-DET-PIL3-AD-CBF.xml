@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- AD hardware -->
 
@@ -67,7 +67,7 @@
 
 	<bean id="pil3cbf"
 			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
-		<property name="name" value="pil3"/>
+		<property name="name" value="pil3cbf"/>
 		<!-- 
 		<property name="readOutTime" value="240"/>
 		 -->

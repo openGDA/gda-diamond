@@ -1,0 +1,83 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description>
+		This file was copied over directly from i15-config before removing the
+		references to zebraContinuousMoveController.
+	</description>
+
+	<!-- NXDetector collection strategies -->
+
+	<!-- Should now apply UnsynchronisedExternalShutterDecorator to SingleExposureStandard -->
+	<!-- 
+	<bean id="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
+		<property name="decoratee" ref="pil3_SingleExposureStandardCollectionStrategy" />
+		<property name="collectionExtensionTimeS" value="10" />
+	</bean>
+	 -->
+
+	<!-- public SingleExposureUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
+	<bean id="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+			class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
+		<constructor-arg ref="pil3AD_config_base" />
+		<constructor-arg value="-1" />
+		<constructor-arg value="10" />
+	</bean>
+	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
+	     dkphi set to minimumAccelerationDistance=0.004-->
+
+	<!-- NXDetector file writers -->
+
+	<bean id="pil3_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pil3_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-pil3" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="writeErrorStatusSupported" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<bean id="pil3_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pil3" />
+		<property name="ndFile" ref="pil3_NDFileTiff" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<!-- No zebraContinuousMoveController on i15-1
+	<bean id="pil3HWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="pil3"/>
+	 -->
+		<!-- 
+		<property name="readOutTime" value="240"/>
+		 -->
+	<!-- No zebraContinuousMoveController on i15-1
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pil3_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="pil3_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+	 -->
+
+	<bean id="pil3" class="gda.device.detector.NXDetector">
+		<property name="name" value="pil3" />
+		<property name="collectionStrategy" ref="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pil3_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="pil3_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+</beans>
