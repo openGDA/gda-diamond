@@ -79,11 +79,15 @@ cam3, peak2d3, max2d3 = cameraFactory('cam3', 'peak2d3', 'max2d3', d3camtiff, No
 from java.lang import System  # @UnresolvedImport
 spring_profiles = System.getProperty("gda.spring.profiles.active")
 
+# objects available for all 3 end-stations
+from scannable.continuous.energy_move_controller import energy_controller  # @UnusedImport
+from scannable.continuous.continuous_energy_scannables_scattering import energy, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
+
 if "scattering" in spring_profiles:
     ###Save and reload positions of a given scannable group and/or a list of scannables
     from rasor.saveAndReload import SaveAndReload  # @UnusedImport
     print(SaveAndReload.__doc__)
-    #RASOR Multilayer support
+    #RASOR Multi-layer support
     from rasor.scannable.polarisation_analyser_example import ml, mss, pa  # @UnusedImport
     from scannable.haxpod.m4_haxpod_motors import m4fpitch  # @UnusedImport
     from scannable.rasor.theta2theta_offsets import tth_off,th_off  # @UnusedImport
@@ -100,7 +104,6 @@ if "scattering" in spring_profiles:
     cam4, peak2d4, max2d4 = cameraFactory('cam4', 'peak2d4', 'max2d4', d4camtiff, None)  # @UndefinedVariable
     cam6, peak2d6, max2d6 = cameraFactory('cam6', 'peak2d6', 'max2d6', d6camtiff, None)  # @UndefinedVariable
  
-    from scannable.continuous.continuous_energy_scannables_scattering import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
     from rasor.scannable.ThArea import thArea  # @UnusedImport
     from rasor.scannable.TthArea import tthArea  # @UnusedImport
     print("\n")
@@ -108,9 +111,9 @@ if "scattering" in spring_profiles:
     #DiffCalc
     print("import DIFFCALC support for I10")
     try:
-        from startup.i10 import *  # @UnusedWildImport
-    except:
-        localStation_exception(sys.exc_info(), "import diffcalc error.")
+        from startup.i10 import *  # @UnusedWildImport 
+    except Exception as e:
+        localStation_exception(sys.exc_info(), "import diffcalc error: " + str(e.getMessage()))
 
     ##Position Wrapper
     print("-"*100)
@@ -119,17 +122,17 @@ if "scattering" in spring_profiles:
     from rasor.positionWrapper import PositionWrapper
     try:
         wa=PositionWrapper(wascannables)
-    except:
-        localStation_exception(sys.exc_info(), "create wa error.")
+    except Exception as e:
+        localStation_exception(sys.exc_info(), "create wa error: " + str(e.getMessage()))
     
     alias('wa')
     
-    print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
+    print("Creating 'wh' command for return RASOR positions in DIFFCALC HKL")
     wherescannables=[tth,th,chi,phi,h,k,l,en]  # @UndefinedVariable
     try:
         wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
-    except:
-        localStation_exception(sys.exc_info(), "create wh error.")
+    except Exception as e:
+        localStation_exception(sys.exc_info(), "create wh error: " + str(e.getMessage()))
     
     alias('wh')
     
@@ -146,12 +149,11 @@ if "absorption" in spring_profiles:
 
     camj1, peak2dj1, max2dj1 = cameraFactory('camj1', 'peak2dj1', 'max2dj1', dj1camtiff, None)  # @UndefinedVariable
     camj3, peak2dj3, max2dj3 = cameraFactory('camj3', 'peak2dj3', 'max2dj3', dj3camtiff, None)  # @UndefinedVariable
-#    from scannable.continuous.continuous_energy_scannables_absorption import energy_controller, energy, mcse16, mcse17,mcse18,mcse19,mcse20,mcse21,mcse22,mcse23 # @UnusedImport
-    from scannable.continuous.continuous_energy_scannables_scattering import energy, energy_controller, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
 
 if "hfm" in spring_profiles:
     #High Field Magnet support
     from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, itc3, hfmpitch_off  # @UnusedImport
+    from scannable.continuous.continuous_energy_scannables_hfm import energyh, mcsh16,mcsh17,mcsh18,mcsh19,mcsh20,mcsh21,mcsh22,mcsh23 # @UnusedImport
     if installation.isLive():
         try:
             from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
@@ -161,6 +163,7 @@ if "hfm" in spring_profiles:
     
 if "em" in spring_profiles:
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
+    from scannable.continuous.continuous_energy_scannables_em import energye,mcse16,mcse17,mcse18,mcse19,mcse20,mcse21,mcse22,mcse23 # @UnusedImport
     
 # check beam scannables
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan # @UnusedImport
