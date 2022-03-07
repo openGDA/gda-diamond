@@ -185,6 +185,22 @@
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.medipix.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
@@ -206,22 +222,6 @@
                label="Stop"
                style="push"
                tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.medipix.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -237,6 +237,22 @@
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i06.m4cam1.live.stream.view.LiveStreamViewWithHistogram?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.m4cam1.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
@@ -258,22 +274,6 @@
                label="Stop"
                style="push"
                tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.m4cam1.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -304,6 +304,22 @@
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i06.m5cam1.live.stream.view.LiveStreamViewWithHistogram?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.m5cam1.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
@@ -325,22 +341,6 @@
                label="Stop"
                style="push"
                tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.m5cam1.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -371,6 +371,22 @@
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i06.camc1.live.stream.view.LiveStreamViewWithHistogram?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.camc1.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
@@ -392,22 +408,6 @@
                label="Stop"
                style="push"
                tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.camc1.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
             <visibleWhen
                   checkEnabled="false">
                <with
@@ -438,6 +438,22 @@
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i06.camc2.live.stream.view.LiveStreamViewWithHistogram?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.camc2.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
@@ -459,22 +475,6 @@
                label="Stop"
                style="push"
                tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.camc2.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
             <visibleWhen
                   checkEnabled="false">
                <with
