@@ -54,7 +54,7 @@ import installation
 meta_data_list = [] #other common metadata can be added here if required!
 if installation.isLive():
     meta_data_list = meta_data_list +[rga]  # @UndefinedVariable
-    end_station_configuration = caget("BL07C-EA-ENDST-01:CFG:HW_RBV")
+    end_station_configuration = int(caget("BL07C-EA-ENDST-01:CFG:HW_RBV"))
     if end_station_configuration == 1: #TPOT
         print("add TPOT metadata scannables to be captured in data files.")
         meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_rotation] #@UndefinedVariable
@@ -62,7 +62,7 @@ if installation.isLive():
         print("add TCUP metadata scannables to be captured in data files.")
         meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
 else:
-    from java.lang import System
+    from java.lang import System  # @UnresolvedImport
     spring_profiles = System.getProperty("gda.spring.profiles.active")
     if "TPOT" in spring_profiles:
         print("add TPOT metadata scannables to be captured in data files.")
