@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
 	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->

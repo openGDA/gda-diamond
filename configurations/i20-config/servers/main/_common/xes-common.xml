@@ -3,9 +3,9 @@
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.springframework.org/schema/util/spring-util.xsd
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 

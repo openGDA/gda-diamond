@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-          http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+          http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 <!-- RecordPVs map set using values from Epics interface file for xmap -->
 	<bean id="xmap_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
