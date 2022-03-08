@@ -55,8 +55,6 @@ if installation.isLive():
 else:
     pass
 
-from detectors.pimteWithDataProcessor import pimteSMPV, pimte2d
-from detectors.pixisWithDataProcessor import pixisSMPV, pixis2d
 from detectors.fastDichroism import fastDichroism
 from detectors.diagnostic_cameras import peak2d1,max2d1,peak2d2,max2d2,peak2d3,max2d3,peak2d4,max2d4,peak2d6,max2d6,peak2dj1,max2dj1,peak2dj3,max2dj3  # @UnusedImport
 from rasor.pd_metadata import MetaDataPD

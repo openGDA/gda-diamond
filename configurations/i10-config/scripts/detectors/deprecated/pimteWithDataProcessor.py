@@ -11,7 +11,7 @@ from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import Sum
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 import sys
 from utils.ExceptionLogs import localStation_exception
-from gdaserver import pimtetiff
+from gdaserver import pimtetiff  # @UnresolvedImport
 
 print "-"*100
 print "Create PIMTE detector wrapper to support TIFF image process and plot in 'Plot 1' view"
