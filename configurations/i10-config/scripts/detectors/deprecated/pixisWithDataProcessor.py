@@ -10,7 +10,7 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 from utils.ExceptionLogs import localStation_exception
-from gdaserver import pixistiff
+from gdaserver import pixistiff  # @UnresolvedImport
 import sys
 
 print "-"*100

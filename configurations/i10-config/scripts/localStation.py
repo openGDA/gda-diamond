@@ -95,12 +95,6 @@ if "scattering" in spring_profiles:
     if installation.isLive():
         from scannable.haxpod.m4_haxpod_motors import m4_x, m4_y, m4_z, m4_yaw, m4_pitch, m4_roll, M4  # @UnusedImport
         
-    #PIMTE detectors customised to display image in 'Plot 1' view and return results of image process
-    from detectors.pimteWithDataProcessor import pimteSMPV, pimte2d  # @UnusedImport
-    
-    #PIXIS detectors customised to display image in 'Plot 1' view and return results of image process
-    from detectors.pixisWithDataProcessor import pixisSMPV, pixis2d  # @UnusedImport
-        
     cam4, peak2d4, max2d4 = cameraFactory('cam4', 'peak2d4', 'max2d4', d4camtiff, None)  # @UndefinedVariable
     cam6, peak2d6, max2d6 = cameraFactory('cam6', 'peak2d6', 'max2d6', d6camtiff, None)  # @UndefinedVariable
  
