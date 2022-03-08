@@ -70,12 +70,6 @@ if installation.isLive():
     from scannable.haxpod.m1_haxpod_motors import m1_x, m1_y, m1_z, m1_yaw, m1_pitch, m1_roll, M1  # @UnusedImport
     from scannable.haxpod.m3m5_haxpod_motors import m3m5_x, m3m5_y, m3m5_z, m3m5_yaw, m3m5_pitch, m3m5_roll, M3M5  # @UnusedImport
 
-########setting up the diagnostic cameras###############
-from detectors.diagnostic_cameras import cameraFactory
-cam1, peak2d1, max2d1 = cameraFactory('cam1', 'peak2d1', 'max2d1', d1camtiff, None)  # @UndefinedVariable
-cam2, peak2d2, max2d2 = cameraFactory('cam2', 'peak2d2', 'max2d2', d2camtiff, None)  # @UndefinedVariable
-cam3, peak2d3, max2d3 = cameraFactory('cam3', 'peak2d3', 'max2d3', d3camtiff, None)  # @UndefinedVariable
-
 from java.lang import System  # @UnresolvedImport
 spring_profiles = System.getProperty("gda.spring.profiles.active")
 
@@ -95,9 +89,6 @@ if "scattering" in spring_profiles:
     if installation.isLive():
         from scannable.haxpod.m4_haxpod_motors import m4_x, m4_y, m4_z, m4_yaw, m4_pitch, m4_roll, M4  # @UnusedImport
         
-    cam4, peak2d4, max2d4 = cameraFactory('cam4', 'peak2d4', 'max2d4', d4camtiff, None)  # @UndefinedVariable
-    cam6, peak2d6, max2d6 = cameraFactory('cam6', 'peak2d6', 'max2d6', d6camtiff, None)  # @UndefinedVariable
- 
     from rasor.scannable.ThArea import thArea  # @UnusedImport
     from rasor.scannable.TthArea import tthArea  # @UnusedImport
     print("\n")
@@ -140,9 +131,6 @@ if "absorption" in spring_profiles:
     from amplifiers.femto_instances import ca1je, ca2je, ca3je  # @UnusedImport
     if installation.isLive():
         from scannable.haxpod.m6_haxpod_motors import m6_x, m6_y, m6_z, m6_yaw, m6_pitch, m6_roll, M6  # @UnusedImport
-
-    camj1, peak2dj1, max2dj1 = cameraFactory('camj1', 'peak2dj1', 'max2dj1', dj1camtiff, None)  # @UndefinedVariable
-    camj3, peak2dj3, max2dj3 = cameraFactory('camj3', 'peak2dj3', 'max2dj3', dj3camtiff, None)  # @UndefinedVariable
 
 if "hfm" in spring_profiles:
     #High Field Magnet support
