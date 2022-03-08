@@ -11,8 +11,6 @@ print("*"*80)
 print("Running the I10 startup script localStation.py...")
 print("\n")
 
-global RASOR_SCALER, UI1, UJ1
-
 print("-"*100)
 print("Set scan returns to the original positions on completion to false (0); default is 0.")
 print("   To set scan returns to its start positions on completion please do:")
@@ -140,8 +138,8 @@ if "hfm" in spring_profiles:
         try:
             from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
             gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
-        except:
-            localStation_exception(sys.exc_info(), "creating gflow2 scannable")
+        except Exception as e:
+            localStation_exception(sys.exc_info(), "creating gflow2 scannable error: " + str(e.getMessage()))
     
 if "em" in spring_profiles:
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
