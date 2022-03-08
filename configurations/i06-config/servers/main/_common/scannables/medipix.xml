@@ -38,6 +38,7 @@
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
+		<property name="level" value="7"/>
 	</bean>
 	 	
 	<bean id="zacmedipix" class="gda.device.detector.NXDetector">
@@ -54,6 +55,7 @@
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
+		<property name="level" value="7"/>
 	</bean>
 	
  	<bean id="medipiximaging" class="gda.device.detector.NXDetector">
@@ -70,6 +72,7 @@
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
+		<property name="level" value="7"/>
 	</bean>
 	
  	<bean id="medipixpreview" class="gda.device.detector.NXDetector">
@@ -86,6 +89,7 @@
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
+		<property name="level" value="7"/>
 	</bean>
 	
  	<bean id="mpx" class="gda.device.detector.NXDetector">
@@ -102,6 +106,7 @@
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
+		<property name="level" value="7"/>
 	</bean>
 
 <!-- ADDetector used in new scanning -->
