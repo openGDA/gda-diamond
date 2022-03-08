@@ -166,16 +166,15 @@ scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from data_process.scanDataProcess import *  # @UnusedWildImport
 
-# source, energy, polarisation definitions
-from calibrations.mode_polarisation_energy_instances import smode, pol, energy_s, energy_pol, setBeamHarmonicsOrder, initialisation, energy_offset  # @UnusedImport
+# source, energy, polarisation, linear arbitrary angle definitions
+from calibrations.mode_polarisation_energy_instances import smode, pol, energy_s, energy_pol, laa, setBeamHarmonicsOrder, initialisation  # @UnusedImport
+from calibrations.energy_Offset import energy_offset  # @UnusedImport
 from calibrations.energy_polarisation_class import ROW_PHASE_MOTOR_TOLERANCE  # @UnusedImport
 from calibrations.xraysource import X_RAY_SOURCE_MODES
 from calibrations.energy_polarisation_class import X_RAY_POLARISATIONS
 idd,idu,unknown = X_RAY_SOURCE_MODES
 pc,nc,lh,lv,la,lh3,unknown = X_RAY_POLARISATIONS
 initialisation()
-from calibrations.linearArbitraryAngle import LinearArbitraryAngle
-laa = LinearArbitraryAngle("laa", idu_jawphase, idd_jawphase, smode, pol, jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True), angle_threshold_deg = 30.0)  # @UndefinedVariable
 
 #ID metadata scannables
 from scannable.stokesParameters import StokesParameters
