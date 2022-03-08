@@ -22,6 +22,14 @@
 		live-pvName="#{configProperties.DCM_PV_PREFIX}01:Z"
 		dummy-minPosition="-6.126" dummy-maxPosition="15.974"
 		dummy-position="-2.0" dummy-unitString="mm" />
+		
+	<gda:motor id="dcm1_roll"
+		live-pvName="#{configProperties.DCM_PV_PREFIX}01:ROLL"
+		dummy-unitString="µm" />
+		
+	<gda:motor id="dcm1_pitch"
+		live-pvName="#{configProperties.DCM_PV_PREFIX}01:PITCH"
+		dummy-unitString="µm" />
 
 	<bean id="dcm1"
 		class="gda.device.scannable.scannablegroup.ScannableGroup">

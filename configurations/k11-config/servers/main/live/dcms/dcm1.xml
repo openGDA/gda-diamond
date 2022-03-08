@@ -6,25 +6,6 @@
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 
-	<bean id="dcm1_roll" class="gda.device.scannable.MultiPVScannable">
-		<property name="writePV"
-			value="#{configProperties.DCM_PV_PREFIX}01:ROLL.VAL" />
-		<property name="readPV"
-			value="#{configProperties.DCM_PV_PREFIX}01:ROLL.RBV" />
-		<property name="hardwareUnitString" value="microns" />
-		<property name="userUnits" value="microns" />
-	</bean>
-
-	<bean id="dcm1_pitch"
-		class="gda.device.scannable.MultiPVScannable">
-		<property name="writePV"
-			value="#{configProperties.DCM_PV_PREFIX}01:PITCH.VAL" />
-		<property name="readPV"
-			value="#{configProperties.DCM_PV_PREFIX}01:PITCH.RBV" />
-		<property name="hardwareUnitString" value="microns" />
-		<property name="userUnits" value="microns" />
-	</bean>
-
 	<bean id="dcm1_y_positioner"
 		class="gda.device.enumpositioner.EpicsEnumPositioner">
 		<property name="pvBase"

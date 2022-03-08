@@ -28,6 +28,14 @@
 		dummy-maxPosition="15.974"
 		dummy-position="-2.0"
 		dummy-unitString="mm"/>
+		
+	<gda:motor id="dcm2_roll"
+		live-pvName="#{configProperties.DCM_PV_PREFIX}02:ROLL"
+		dummy-unitString="µm" />
+
+	<gda:motor id="dcm2_pitch"
+		live-pvName="#{configProperties.DCM_PV_PREFIX}02:PITCH"
+		dummy-unitString="µm" />
 
 	<bean id="dcm2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
