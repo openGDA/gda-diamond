@@ -1,1 +1,1 @@
-module load java/gda923
+module load java/gda925
