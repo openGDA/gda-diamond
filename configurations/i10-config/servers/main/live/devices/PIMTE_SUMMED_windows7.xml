@@ -82,9 +82,8 @@
 						<property name="ndProcess" ref="pimte_adproc"/>
 						<property name="processDataTypeOut" value="5"/>
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+							<bean class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
 								<property name="restoreNumImagesAndImageMode" value="true"/>
-								<property name="imageMode" value="1"/>
 								<property name="decoratee">
 									<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 										<property name="decoratee">
