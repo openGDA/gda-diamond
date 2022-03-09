@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i13_1.feature"
       label="Beamline I13-1 Feature"
-      version="9.25.0.qualifier"
+      version="9.26.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.diamond.ac.uk/description">

@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.laboratory.optics.feature"
       label="Feature"
-      version="9.25.0.qualifier"
+      version="9.26.0.qualifier"
       provider-name="Diamond Light Source Ltd"
       plugin="uk.ac.gda.laboratory.optics">
 
