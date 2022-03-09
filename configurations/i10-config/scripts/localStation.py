@@ -1,5 +1,4 @@
 from utils.ExceptionLogs import localStation_exceptions, localStation_exception
-from Diamond.Poly import Poly
 from gda.device.scannable import DummyScannable
 from gdascripts.messages.handle_messages import simpleLog
 import sys
@@ -96,7 +95,7 @@ if "scattering" in spring_profiles:
     try:
         from startup.i10 import *  # @UnusedWildImport 
     except Exception as e:
-        localStation_exception(sys.exc_info(), "import diffcalc error: " + str(e.getMessage()))
+        localStation_exception(sys.exc_info(), "import diffcalc error")
 
     ##Position Wrapper
     print("-"*100)
@@ -106,7 +105,7 @@ if "scattering" in spring_profiles:
     try:
         wa=PositionWrapper(wascannables)
     except Exception as e:
-        localStation_exception(sys.exc_info(), "create wa error: " + str(e.getMessage()))
+        localStation_exception(sys.exc_info(), "create wa error")
     
     alias('wa')
     
@@ -115,7 +114,7 @@ if "scattering" in spring_profiles:
     try:
         wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
     except Exception as e:
-        localStation_exception(sys.exc_info(), "create wh error: " + str(e.getMessage()))
+        localStation_exception(sys.exc_info(), "create wh error")
     
     alias('wh')
     
@@ -139,7 +138,7 @@ if "hfm" in spring_profiles:
             from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
             gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
         except Exception as e:
-            localStation_exception(sys.exc_info(), "creating gflow2 scannable error: " + str(e.getMessage()))
+            localStation_exception(sys.exc_info(), "creating gflow2 scannable error")
     
 if "em" in spring_profiles:
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
