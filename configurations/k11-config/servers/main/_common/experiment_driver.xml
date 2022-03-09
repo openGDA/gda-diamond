@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 	
 	<bean id="load_motor" class="gda.device.motor.DummyMotor">
 		<property name="position" value="0" />
@@ -31,6 +33,19 @@
 		<property name="readouts">
 			<map>
 				<entry key="Y" value-ref="stage3_y" />
+			</map>
+		</property>
+	</bean>
+	
+	<gda:motor id="test_rig_y" live-pvName="BL11K-MO-RIG-01:Y" />
+	
+	<bean id="test_rig_y_driver" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
+		<constructor-arg name="scannableMotor" ref="test_rig_y" />
+		<constructor-arg name="quantityName" value="Y" />
+		<constructor-arg name="quantityUnits" value="mm" />
+		<property name="readouts">
+			<map>
+				<entry key="Y" value-ref="test_rig_y" />
 			</map>
 		</property>
 	</bean>
