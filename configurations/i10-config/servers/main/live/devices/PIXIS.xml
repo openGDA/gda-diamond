@@ -64,8 +64,10 @@
 			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 				<property name="restoreAcquireTime" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 						<property name="restoreNumImagesAndImageMode" value="true"/>
+						<property name="imageMode" value="0"/>
+						<property name="numberOfImagesPerCollection" value="1"/>
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 								<property name="decoratee">
