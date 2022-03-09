@@ -16,22 +16,49 @@ Created on Nov 15, 2021
 from gda.jython.commands.ScannableCommands import scan
 from gda.device import Scannable
 import time
-from types import TupleType, FloatType, IntType
+from scan.miscan import all_elements_are_list_of_number, all_elements_are_number, \
+    parse_other_arguments, save_detector_settings_before_scan, \
+    restore_detector_setting_after_scan, parse_detector_arguments
+from types import TupleType
 from gda.device.detector import NXDetector
-from gda.device.detector.addetector.collectionstrategy import ImageModeDecorator
 from gdascripts.metadata.nexus_metadata_class import meta
 from gda.jython import InterfaceProvider
-from scan.miscan import allElementsAreListOfNumber, allElementsAreNumber
 
 PRINTTIME = False
 NUMBER_OF_DECIMAL_PLACES = 5
 ALWAYS_COLLECT_AT_STOP_POINT = True
 
+
+def parse_tuple_arguments(command, newargs, arg, always_collect_at_stop, decimal_places):
+    command += "("
+    if all_elements_are_list_of_number(arg): #parsing multiple regions into single tuple, fix floating point issue by round the number to NUMBER_OF_DECIMAL_PLACES
+        new_position_list = []
+        list_of_lists = []
+        for each in arg:
+            position = each[0]
+            while position <= each[1]:
+                if not position in new_position_list:
+                    new_position_list.append(round(position, decimal_places))
+                position += each[2]
+            
+            if position > each[1] and always_collect_at_stop and not float(each[1]) in new_position_list:
+                new_position_list.append(each[1])
+            list_of_lists.append("[" + ",".join([str(x) for x in each]) + "]")        
+        newargs.append(tuple(new_position_list))
+        command += ",".join(list_of_lists)
+    elif all_elements_are_number(arg): #parsing scannable group's position lists
+        newargs.append(arg)
+        command += ",".join([str(x) for x in arg])
+    else:
+        raise SyntaxError("Tuple of [start, stop, step]s or tuple of position values are required!")
+    command += ") "
+    return command, newargs
+
 def mrscan(*args):
     '''support multiple regions scanning in which each region has different step size. 
     Regions are specified as tuple of list of regions
     For example:
-        mrscan testMotor1 ([0, 5, 1], [6,10,0.1], [10,15,1]) detector <number_of_images> 0.1'''
+        mrscan ds ([0,5,1], [6,10,0.1], [10,15,1]) detector <number_of_images> 0.1'''
     
     ALWAYS_COLLECT_AT_STOP = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("ALWAYS_COLLECT_AT_STOP_POINT")
     DECIMAL_PLACES = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("NUMBER_OF_DECIMAL_PLACES")
@@ -53,60 +80,25 @@ def mrscan(*args):
     while i< len(args):
         arg = args[i]
         if type(arg)==TupleType:
-            command += "(" 
-            if allElementsAreListOfNumber(arg):
-                #parsing multiple regions into single tuple, fix floating point issue by round the number to NUMBER_OF_DECIMAL_PLACES
-                new_position_list=[]
-                list_of_lists = []
-                for each in arg:
-                    position = each[0]
-                    while position < each[1]:
-                        if not position in new_position_list:
-                            new_position_list.append(round(position, DECIMAL_PLACES))
-                        position += each[2]
-                    if not position == each[1] and ALWAYS_COLLECT_AT_STOP:
-                        new_position_list.append(each[1])                                                
-                    list_of_lists.append("[" + ",".join([str(x) for x in each]) +"]")
-                newargs.append(tuple(new_position_list))
-                command += ",".join(list_of_lists)
-            elif allElementsAreNumber(arg):
-                #parsing scannable group's position lists
-                newargs.append(arg)
-                command += ",".join([str(x) for x in arg])
-            else:
-                raise SyntaxError("Tuple of [start, stop, step]s or tuple of position values are required!")
-            command += ") "
+            command, newargs = parse_tuple_arguments(command, newargs, arg, ALWAYS_COLLECT_AT_STOP, DECIMAL_PLACES)
         else:
             newargs.append(arg)
-            if isinstance(arg, Scannable):
-                command += arg.getName() + " "
-            if type(arg)==IntType or type(arg)== FloatType:
-                command += str(arg) + " "
-
+            command = parse_other_arguments(command, arg)
         i=i+1
-        if isinstance( arg,  NXDetector ):
-            decoratee = arg.getCollectionStrategy().getDecoratee()
-            if isinstance(decoratee, ImageModeDecorator):
-                if i<len(args)-1: # more than 2 arguments following detector
-                    if type(args[i])==IntType and (type(args[i+1])==IntType or type(args[i+1])== FloatType):
-                        #support the miscan command - first input after detector is number of images per data point
-                        decoratee.setNumberOfImagesPerCollection(args[i])
-                    elif type(args[i])==FloatType and (type(args[i+1])==IntType or type(args[i+1])== FloatType):
-                        raise TypeError, "Number of images to collect per scan data point must be Int type."
-                    elif type(args[i])==FloatType and not (type(args[i+1])==IntType or type(args[i+1])== FloatType):
-                        decoratee.setNumberOfImagesPerCollection(1)
-                    command += str(args[i]) + " "
-                elif i==len(args)-1: #followed by only one argument - must be exposure time
-                    decoratee.setNumberOfImagesPerCollection(1)
-            else: #exposure time is the last one in the scan command
-                newargs.append(args[i]) #single image per data point
-                command += str(args[i])
-            i=i+1
+        CACHE_PARAMETER_TOBE_CHANGED = False
+        if isinstance(arg, NXDetector):
+            adbase, image_mode, num_images, acquite_time = save_detector_settings_before_scan(arg)
+            if all((adbase, image_mode, num_images, acquite_time)):
+                CACHE_PARAMETER_TOBE_CHANGED = True
+            i, command, newargs = parse_detector_arguments(command, newargs, args, i, arg)
+            i = i + 1
     
     meta.addScalar("user_input", "command", command)
     try:
         scan([e for e in newargs])
     finally:
+        if CACHE_PARAMETER_TOBE_CHANGED:
+            restore_detector_setting_after_scan(adbase, image_mode, num_images, acquite_time)
         meta.rm("user_input", "command")    
 
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time() - start))
