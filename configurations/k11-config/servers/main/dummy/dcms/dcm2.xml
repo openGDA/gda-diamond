@@ -3,17 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-	<bean id="dcm2_roll" class="gda.device.scannable.DummyScannableMotor">
-		<property name="hardwareUnitString" value="um" />
-		<property name="userUnits" value="um" />
-	</bean>
-	
-	<bean id="dcm2_pitch" class="gda.device.scannable.DummyScannableMotor">
-		<property name="hardwareUnitString" value="um" />
-		<property name="userUnits" value="um" />
-	</bean>
-	
 	<bean id="dcm2_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
