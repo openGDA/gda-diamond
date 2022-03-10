@@ -4,4 +4,4 @@
 # this cannot be done until all beamlines use the standard startup commands.
 
 export SPRING_PROFILES=xabs
-gda servers --springprofiles=$SPRING_PROFILES $*
+gda servers --springprofiles $SPRING_PROFILES $*
