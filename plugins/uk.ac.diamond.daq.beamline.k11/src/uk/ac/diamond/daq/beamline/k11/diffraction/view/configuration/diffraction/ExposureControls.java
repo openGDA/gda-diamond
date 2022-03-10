@@ -139,6 +139,7 @@ public class ExposureControls implements CompositeFactory, Reloadable{
 	}
 
 	private void updateExposureTextFromDocument() {
+		if (exposureText == null || exposureText.isDisposed()) return;
 		exposureText.setText(String.valueOf(getDetectorDocument().getExposure()));
 	}
 
