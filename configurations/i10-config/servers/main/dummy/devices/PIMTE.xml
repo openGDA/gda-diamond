@@ -76,8 +76,10 @@
 				<property name="ndArray" ref="pimte_ndarray"/>
 				<property name="arrayPortName" value="ADSIM.CAM"/>
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 						<property name="restoreNumImagesAndImageMode" value="true"/>
+						<property name="imageMode" value="0"/>
+						<property name="numberOfImagesPerCollection" value="1"/>
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 								<property name="decoratee">
