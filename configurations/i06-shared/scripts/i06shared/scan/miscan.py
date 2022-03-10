@@ -3,7 +3,6 @@
 configure the detector number of images to be collected before scan starts.
 
 It records both 'miscan' command as well as the actual standard 'scan' command in the data file.
-This command only works with detector 'mpx' which is configured to collect images in Multiple mode.
  
 Created on 31 Jan 2017
 
