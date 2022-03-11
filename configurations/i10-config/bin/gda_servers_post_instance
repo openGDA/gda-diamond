@@ -18,7 +18,7 @@ if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "s
   if [ $? == 0 ] ; then # 0=Yes, 1=No
     echo Starting GDA RCP Client...
     echo
-    bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client --springprofiles=$SPRING_PROFILES
+    bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client --springprofiles $SPRING_PROFILES --reset
     # Note that we don't want to source here, since this is already being run from gda_core
     # and using source will switch COMPONENT from servers to client!
     echo
