@@ -440,58 +440,72 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="hqx"/>
 					<property name="scannableName" value="m5hqx"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="hqy"/>
 					<property name="scannableName" value="m5hqy"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="hqz"/>
 					<property name="scannableName" value="m5hqz"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="hqrx"/>
 					<property name="scannableName" value="m5hqrx"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="hqry"/>
 					<property name="scannableName" value="m5hqry"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="hqrz"/>
 					<property name="scannableName" value="m5hqrz"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="lqx"/>
 					<property name="scannableName" value="m5lqx"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="lqy"/>
 					<property name="scannableName" value="m5lqy"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="lqz"/>
 					<property name="scannableName" value="m5lqz"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="lqrx"/>
 					<property name="scannableName" value="m5lqrx"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="lqry"/>
 					<property name="scannableName" value="m5lqry"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="lqrz"/>
 					<property name="scannableName" value="m5lqrz"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="longy"/>
 					<property name="scannableName" value="m5longy"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="tth"/>
 					<property name="scannableName" value="m5tth"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 			</list>
 		</property>

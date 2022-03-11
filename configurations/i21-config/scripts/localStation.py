@@ -122,6 +122,20 @@ else:
     print("Running in dummy mode")
     m1fpsetpoint=DummyDisplayEpicsPVClass('m1fpsetpoint', 0.0, 50.0, '', '%.10f')
     m2fpsetpoint=DummyDisplayEpicsPVClass('m2fpsetpoint', 0.0, 50.0, 'px', '%.10f')
+    def erio():
+        print("set BL21I-OP-SHTR-01:SRC to 0")
+    
+    def primary():
+        print("set BL21I-OP-SHTR-01:SRC to 1")
+    
+    def polarimeter():
+        print("set BL21I-OP-SHTR-01:SRC to 2")
+        
+    def lightOn():
+        print('set BL21I-EA-SMPL-01:BOLED1 to 1')
+        
+    def lightOff():
+        print('set BL21I-EA-SMPL-01:BOLED1 to 0')
 
 print("create clever amplifier scannables: cleverd7femto1, cleverd7femto2")
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
@@ -164,17 +178,6 @@ else:
 
 energypolarisation.setInputNames(["energy"])
 energypolarisation.setExtraNames(["polarisation"])
-
-# def export_scannable(scannable):
-#     exporter = GdaRmiServiceExporter()
-#     exporter.setService( scannable)
-#     exporter.setServiceName('gda/'+scannable.getName())
-#     import gda.device.Scannable
-#     exporter.setServiceInterface(gda.device.Scannable)
-#     exporter.afterPropertiesSet()
-#
-# export_scannable(polarisation)
-# export_scannable(energy_s)
 
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
