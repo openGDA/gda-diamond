@@ -42,6 +42,7 @@
 	<bean id="cff" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.controlpoint.EpicsControlPoint">
+				<property name="name" value="cff"/>
 				<property name="pvNameGetPoint" value="BL06I-OP-PGM-01:CFF" />
 				<property name="pvNameSetPoint" value="BL06I-OP-PGM-01:CFF" />
 			</bean>
@@ -57,6 +58,7 @@
 	<bean id="pgmgo" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.controlpoint.EpicsControlPoint">
+				<property name="name" value="pgmgo"/>
 				<property name="pvName" value="BL06I-OP-PGM-01:GRTOFFSET" />
 			</bean>
 		</property>
@@ -72,6 +74,7 @@
 	<bean id="pgmmo" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.controlpoint.EpicsControlPoint">
+				<property name="name" value="pgmmo"/>
 				<property name="pvName" value="BL06I-OP-PGM-01:MIROFFSET" />
 			</bean>
 		</property>
