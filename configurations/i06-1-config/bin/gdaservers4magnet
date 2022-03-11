@@ -5,4 +5,4 @@
 
 #export SPRING_PROFILES evn variable so it can be passed to client launch script as well
 export SPRING_PROFILES=magnet
-gda servers --springprofiles=$SPRING_PROFILES $*
+gda servers --springprofiles $SPRING_PROFILES $*
