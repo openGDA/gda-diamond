@@ -33,6 +33,7 @@
 	<bean id="pgmenergy" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.scannable.ScannableMotor">
+				<property name="name" value="pgmenergy"/>
 				<property name="motor" ref="MotorEnergy_PGM" />
 				<property name="protectionLevel" value="0" />
 				<property name="initialUserUnits" value="eV" />
@@ -54,6 +55,7 @@
 	<bean id="pgmmx" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.scannable.ScannableMotor">
+				<property name="name" value="pgmmx"/>
 				<property name="motor" ref="MotorXMirror_PGM" />
 				<property name="protectionLevel" value="0" />
 				<property name="initialUserUnits" value="mm" />
@@ -70,6 +72,7 @@
 	<bean id="pgmgx" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.scannable.ScannableMotor">
+				<property name="name" value="pgmgx"/>
 				<property name="motor" ref="MotorXGrating_PGM" />
 				<property name="protectionLevel" value="0" />
 				<property name="initialUserUnits" value="mm" />
@@ -86,6 +89,7 @@
 	<bean id="pgmpitch" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.scannable.ScannableMotor">
+				<property name="name" value="pgmpitch"/>
 				<property name="motor" ref="MotorPitchMirror_PGM" />
 				<property name="protectionLevel" value="0" />
 				<property name="initialUserUnits" value="Deg" />
@@ -108,6 +112,7 @@
 	<bean id="pgmgratpitch" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean id="pgmgratpitch" class="gda.device.scannable.ScannableMotor">
+				<property name="name" value="pgmgratpitch"/>
 				<property name="motor" ref="MotorPitchGrating_PGM" />
 				<property name="protectionLevel" value="0" />
 				<property name="initialUserUnits" value="Deg" />

@@ -86,6 +86,7 @@
 	<bean id="cff" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.controlpoint.DummyControlPoint">
+				<property name="name" value="cff"/>
 				<property name="value" value="2.250" />
 			</bean>
 		</property>
@@ -100,6 +101,7 @@
 	<bean id="pgmgo" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.controlpoint.DummyControlPoint">
+				<property name="name" value="pgmgo"/>
 				<property name="value" value="-0.05238000" />
 			</bean>
 		</property>
@@ -115,6 +117,7 @@
 	<bean id="pgmmo" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="gda.device.controlpoint.DummyControlPoint">
+				<property name="name" value="pgmmo"/>
 				<property name="value" value="-0.02410000" />
 			</bean>
 		</property>
