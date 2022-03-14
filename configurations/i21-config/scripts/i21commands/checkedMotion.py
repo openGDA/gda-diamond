@@ -74,8 +74,7 @@ class IllegalMoveException(Exception):
     '''
     pass
 
-with overwriting:  # @UndefinedVariable
-    from gdaserver import sgmr1, specl, armtth, spech  # @UnresolvedImport
+from gdaserver import sgmr1, specl, armtth, spech  # @UnresolvedImport
     
 def enable_arm_motion():
     '''this function just clear errors

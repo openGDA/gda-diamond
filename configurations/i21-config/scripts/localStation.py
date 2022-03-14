@@ -7,8 +7,7 @@ from gda.jython.commands.GeneralCommands import alias
 from time import sleep
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-with overwriting:  # @UndefinedVariable
-    from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnusedImport @UnresolvedImport
+from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnusedImport @UnresolvedImport
 import gdascripts
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
 from gda.device.scannable import DummyScannable
@@ -83,12 +82,12 @@ if installation.isLive():
         localStation_exception(sys.exc_info(), "Error creating 'm1fpsetpoint' or 'm2fpsetpoint'.")
 
     from epics_scripts.pv_scannable_utils import createPVScannable
-    with overwriting:  # @UndefinedVariable
-        try:
-            pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
-            pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
-        except:
-            localStation_exception(sys.exc_info(), "Error creating 'pgmMirrorPitch_UserOffset'  or 'pgmGratingPitch_UserOffset'.")
+
+    try:
+        pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
+        pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
+    except:
+        localStation_exception(sys.exc_info(), "Error creating 'pgmMirrorPitch_UserOffset'  or 'pgmGratingPitch_UserOffset'.")
 
     from scannabledevices.feedbackScannable import FeedbackScannable, FeedbackOffScannable
     try:
@@ -341,8 +340,7 @@ print("import DIFFCALC support for I21")
 from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi, uvw  # @UnusedImport
 
 try:
-    with overwriting:  # @UndefinedVariable
-        from startup.i21 import *  # @UnusedWildImport
+    from startup.i21 import *  # @UnusedWildImport
     #toolpoint_off()  # @UndefinedVariable
 except:
     localStation_exception(sys.exc_info(), "import diffcalc error.")
