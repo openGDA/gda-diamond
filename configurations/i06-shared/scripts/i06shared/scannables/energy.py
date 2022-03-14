@@ -31,6 +31,7 @@ class CombinedEnergy(ScannableBase):
         self.detune=detune
         self.opengap=opengap
         self.currpol='pc'
+        self.currsmode = None
 
     def setOpenGap(self, gap):
         self.opengap=gap
@@ -53,19 +54,19 @@ class CombinedEnergy(ScannableBase):
         '''set X-ray beam energy
         '''
         newenergy=float(value)
-        mode=self.smode.getPosition()
+        self.currsmode=self.smode.getPosition()
         offhar=float(self.offhar.getPosition())
         self.currpol=self.pol.getPosition()
-        if mode == SourceMode.SOURCE_MODES[0]:
+        if self.currsmode == SourceMode.SOURCE_MODES[0]:
             self.drpenergy.asynchronousMoveTo(newenergy+offhar)
             self.idugap.asynchronousMoveTo(self.opengap)
-        elif mode == SourceMode.SOURCE_MODES[1]:
+        elif self.currsmode == SourceMode.SOURCE_MODES[1]:
             self.urpenergy.asynchronousMoveTo(newenergy+offhar)
             self.iddgap.asynchronousMoveTo(self.opengap)
-        elif mode == SourceMode.SOURCE_MODES[2]:
+        elif self.currsmode == SourceMode.SOURCE_MODES[2]:
             self.drpenergy.asynchronousMoveTo(newenergy+offhar)
             self.urpenergy.asynchronousMoveTo(newenergy+offhar)
-        elif mode == SourceMode.SOURCE_MODES[3]:
+        elif self.currsmode == SourceMode.SOURCE_MODES[3]:
             if self.currpol == Polarisation.POLARISATIONS[0] or self.currpol == Polarisation.POLARISATIONS[2]:
                 self.drpenergy.asynchronousMoveTo(newenergy+offhar)
                 self.urpenergy.asynchronousMoveTo(newenergy+self.detune)
@@ -73,26 +74,33 @@ class CombinedEnergy(ScannableBase):
                 self.drpenergy.asynchronousMoveTo(newenergy+self.detune)
                 self.urpenergy.asynchronousMoveTo(newenergy+offhar)
             elif self.currpol == Polarisation.POLARISATIONS[4]:
-                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
+                message="Linear Polarisation is not supported in '%s' source mode" % (self.currsmode)
                 raise RuntimeError(message)
+            else:
+                raise RuntimeError("Polarisation %s is not supported." % self.currpol)
+        else:
+            raise RuntimeError("Source mode %s is not supported.", self.currsmode)
         self.pgmenergy.asynchronousMoveTo(newenergy)
 
         
     def isBusy(self):
-        mode=self.smode.getPosition()
-        if mode == SourceMode.SOURCE_MODES[0]:
+        if self.currsmode == SourceMode.SOURCE_MODES[0]:
             return self.drpenergy.isBusy() or self.idugap.isBusy() or self.pgmenergy.isBusy()
-        elif mode == SourceMode.SOURCE_MODES[1]:
+        elif self.currsmode == SourceMode.SOURCE_MODES[1]:
             return self.urpenergy.isBusy() or self.iddgap.isBusy() or self.pgmenergy.isBusy()
-        elif mode == SourceMode.SOURCE_MODES[2]:
+        elif self.currsmode == SourceMode.SOURCE_MODES[2]:
             return self.drpenergy.isBusy() or self.urpenergy.isBusy() or self.pgmenergy.isBusy()
-        elif mode == SourceMode.SOURCE_MODES[3]:
+        elif self.currsmode == SourceMode.SOURCE_MODES[3]:
             if self.currpol == Polarisation.POLARISATIONS[0] or self.currpol == Polarisation.POLARISATIONS[2]:
                 return self.drpenergy.isBusy() or self.urpenergy.isBusy() or self.pgmenergy.isBusy()
             elif self.currpol == Polarisation.POLARISATIONS[1] or self.currpol == Polarisation.POLARISATIONS[3]:
                 return self.drpenergy.isBusy() or self.urpenergy.isBusy() or self.pgmenergy.isBusy()
             elif self.currpol == Polarisation.POLARISATIONS[4]:
-                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
+                message="Linear Polarisation is not supported in '%s' source mode" % (self.currsmode)
                 raise RuntimeError(message)
-        return False
+            else:
+                raise RuntimeError("Polarisation %s is not supported." % self.currpol)
+        else:
+            raise RuntimeError("Source mode %s is not supported.", self.currsmode)
+
     

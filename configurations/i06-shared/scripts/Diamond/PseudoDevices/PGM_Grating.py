@@ -15,6 +15,7 @@ class PGM_GratingClass(ScannableMotionUnitsBase):
 		self.chStatusGrating=CAClient(strGratingMoveStatusPV);
 		self.strGrating='';
 		self.grating=0;
+		self.target = 150
 
 	def atScanStart(self):
 		if not self.chGetGrating.isConfigured():
@@ -29,11 +30,13 @@ class PGM_GratingClass(ScannableMotionUnitsBase):
 		return self.getGrating();
 	
 	def asynchronousMoveTo(self,newPos):
-		self.setGrating(newPos);
+		self.target = int(newPos)
+		self.setGrating(self.target);
 
 	def isBusy(self):
-		#sleep(60);
-		return self.getStatus()==1
+		from time import sleep
+		sleep(2);
+		return self.target != self.getGrating()
 	
 	def getUserUnits(self):
 		return self.units
