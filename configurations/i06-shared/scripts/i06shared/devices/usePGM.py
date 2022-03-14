@@ -7,7 +7,7 @@ print "Enable the Grating Control on PGM: 'grating'";
 
 gratingGetPV = 'BL06I-OP-PGM-01:NLINES.VAL';
 gratingSetPV = 'BL06I-OP-PGM-01:NLINES2.VAL';
-gratingMoveStatusPV="BL06I-OP-PGM-01:STATUS:MOVING";
+gratingMoveStatusPV="BL06I-OP-PGM-01:STATUS:MOVING"; # this PV gives false value during motion, cannot be used reliably
 if installation.isLive():
     grating = PGM_GratingClass('grating', gratingGetPV, gratingSetPV,gratingMoveStatusPV);
 else:
