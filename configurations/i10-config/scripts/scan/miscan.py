@@ -23,7 +23,7 @@ from gdascripts.metadata.nexus_metadata_class import meta
 
 print("-"*100)
 print("Creating 'miscan' - multiple images per scan data point")
-print("    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis_summed 0.1 10")
+print("    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis_summed 10 0.1")
 
 PRINTTIME = False
 dummyScannable = DummyScannable("dummyScannable")
