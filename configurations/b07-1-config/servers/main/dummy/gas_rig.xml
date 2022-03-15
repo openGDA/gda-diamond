@@ -7,64 +7,93 @@
 		<constructor-arg value="BL07C-GA-" />
 		<constructor-arg>
 			<list>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="1" />
 					<constructor-arg name="name" value="NH3" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="2" />
 					<constructor-arg name="name" value="H2S" />
+					<constructor-arg name="maximumMassFlow" value="20" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="3" />
 					<constructor-arg name="name" value="CO" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="4" />
-					<constructor-arg name="name" value="nC4H10" />
+					<constructor-arg name="name" value="C2H4" />
+					<constructor-arg name="maximumMassFlow" value="20" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="5" />
-					<constructor-arg name="name" value="nC4H10" />
+					<constructor-arg name="name" value="iC4H10" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="6" />
 					<constructor-arg name="name" value="NO" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="7" />
 					<constructor-arg name="name" value="H2" />
+					<constructor-arg name="maximumMassFlow" value="500" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="8" />
 					<constructor-arg name="name" value="CH4" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="9" />
 					<constructor-arg name="name" value="Air" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="10" />
 					<constructor-arg name="name" value="N2" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="11" />
 					<constructor-arg name="name" value="Ar" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="12" />
 					<constructor-arg name="name" value="He" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="13" />
 					<constructor-arg name="name" value="O2" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.gasrig.Gas">
+				<bean class="uk.ac.diamond.daq.gasrig.DummyGas">
 					<constructor-arg name="id" value="14" />
 					<constructor-arg name="name" value="CO2" />
+					<constructor-arg name="maximumMassFlow" value="50" />
 				</bean>
 			</list>
 		</constructor-arg>
 	</bean>
+
+	<bean id="gr_mfc_01" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_02" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_03" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_04" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_05" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_06" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_07" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_08" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_09" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_10" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_11" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_12" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_13" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_mfc_14" class="gda.device.scannable.DummyScannable" />
 
 </beans>
