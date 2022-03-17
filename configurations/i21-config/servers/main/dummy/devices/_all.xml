@@ -71,6 +71,5 @@
 	<import resource="topup.xml" />
 	<import resource="feedback.xml"/>
 	<import resource="xcam.xml"/>
-<!-- 	<import resource="xcam_simh5.xml"/> -->
 
 </beans>

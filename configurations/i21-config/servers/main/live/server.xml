@@ -9,7 +9,6 @@
 	<import resource="../../../properties/_common/gdaProperties.xml"/>
 	
 	<import resource="devices/_all.xml"/>
-	<import resource="nxmetadata.xml"/>
 	
 	<!-- add dummy motors from dls-config for solstice scanning testing-->
 	<import resource="../../../../../dls-config/servers/dummy/mapping_motors.xml"/>
@@ -18,5 +17,12 @@
 	<import resource="../../../../../dls-config/servers/live/icat_xml_creator.xml" />
 	<!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
+	
+	<beans profile="xcamlive">
+		<import resource="nxmetadata.xml"/>
+	</beans>
+	<beans profile="xcamsimulation">
+		<import resource="nxmetadata_xcam_simulation.xml"/>
+	</beans>	
 
 </beans>

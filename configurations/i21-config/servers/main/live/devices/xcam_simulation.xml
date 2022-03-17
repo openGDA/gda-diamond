@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/util 
-	http://www.springframework.org/schema/util/spring-util.xsd"> 
-	
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
 <!-- xcam driver specific information for metadata -->
 	<bean id="xcamADCOffset" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-03:CAM:ADC_OFFSET_RBV"/>
@@ -214,11 +214,15 @@
 		<property name="name" value="xcam_settings"/>
 		<property name="name2PVSimpleMap">
 			<util:map>
-    			<entry key="manufacturer" value="BL21I-EA-DET-03:H5CAM:Manufacturer_RBV" />
-    			<entry key="model" value="BL21I-EA-DET-03:H5CAM:Model_RBV" />
-    			<entry key="source_file" value="BL21I-EA-DET-03:H5CAM:Filename_RBV" />
-    			<entry key="image_size_x" value="BL21I-EA-DET-03:H5CAM:ArraySizeX_RBV" />
-    			<entry key="image_size_y" value="BL21I-EA-DET-03:H5CAM:ArraySizeY_RBV" />
+    			<entry key="manufacturer" value="BL21I-EA-DET-03:CAM:Manufacturer_RBV" />
+    			<entry key="model" value="BL21I-EA-DET-03:CAM:Model_RBV" />
+    			<entry key="serial_number" value="BL21I-EA-DET-03:CAM:CAM_SERIAL_RBV" />
+    			<entry key="adc_gain" value="BL21I-EA-DET-03:CAM:ADC_GAIN_RBV" />
+    			<entry key="adc_offset" value="BL21I-EA-DET-03:CAM:ADC_OFFSET_RBV" />
+    			<entry key="temperature_set" value="BL21I-EA-DET-03:CAM:Temperature_RBV" />
+    			<entry key="temperature_actual" value="BL21I-EA-DET-03:CAM:TemperatureActual" />
+    			<entry key="binning_x" value="BL21I-EA-DET-03:CAM:BinX_RBV" />
+    			<entry key="binning_y" value="BL21I-EA-DET-03:CAM:BinY_RBV" />
 			</util:map>		
 		</property>
 		<property name="fieldsToAppend">
@@ -235,13 +239,13 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="BL21I-EA-DET-03:H5CAM:Manufacturer_RBV"/>
+    						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:Manufacturer_RBV"/>
     					</bean>
     					<bean class="org.apache.commons.lang3.tuple.ImmutablePair">
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="BL21I-EA-DET-03:H5CAM:Model_RBV"/>
+    						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:Model_RBV"/>
     					</bean>
     				</list>
     			</entry>
@@ -250,7 +254,7 @@
     						<constructor-arg index="0">
     							<value type="gda.device.detector.EpicsProcessVariableCollection.InputType">PV</value>
     						</constructor-arg>
-    						<constructor-arg index="1" value="BL21I-EA-DET-03:H5CAM:PortName_RBV"/>
+    						<constructor-arg index="1" value="BL21I-EA-DET-03:CAM:CAM_SERIAL_RBV"/>
     				</bean>
      			</entry>
 			</util:map>		

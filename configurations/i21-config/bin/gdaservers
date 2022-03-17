@@ -11,4 +11,4 @@
 
 #gda logpanel
 export JAVA_OPTS="-Xms256m -Xmx2048m"
-gda servers $*
+gda servers --springprofiles xcamlive $*
