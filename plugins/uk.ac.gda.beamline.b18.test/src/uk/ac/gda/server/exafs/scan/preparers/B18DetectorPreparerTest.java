@@ -356,18 +356,18 @@ public class B18DetectorPreparerTest {
 		Mockito.verify(sensitivity_units[0]).moveTo("nA/V");
 		Mockito.verify(offsets[0]).moveTo("1");
 		Mockito.verify(offsets_units[0]).moveTo("pA");
-		Mockito.verifyZeroInteractions(sensitivities[1]);
-		Mockito.verifyZeroInteractions(sensitivity_units[1]);
-		Mockito.verifyZeroInteractions(offsets[1]);
-		Mockito.verifyZeroInteractions(offsets_units[1]);
-		Mockito.verifyZeroInteractions(sensitivities[2]);
-		Mockito.verifyZeroInteractions(sensitivity_units[2]);
-		Mockito.verifyZeroInteractions(offsets[2]);
-		Mockito.verifyZeroInteractions(offsets_units[2]);
+		Mockito.verifyNoInteractions(sensitivities[1]);
+		Mockito.verifyNoInteractions(sensitivity_units[1]);
+		Mockito.verifyNoInteractions(offsets[1]);
+		Mockito.verifyNoInteractions(offsets_units[1]);
+		Mockito.verifyNoInteractions(sensitivities[2]);
+		Mockito.verifyNoInteractions(sensitivity_units[2]);
+		Mockito.verifyNoInteractions(offsets[2]);
+		Mockito.verifyNoInteractions(offsets_units[2]);
 
 		Mockito.verify(ionc_gas_injector_scannables.get(0)).moveTo(new Object[]{"25.0","120.0",99630.0,200.0,1100.0,200.0,"-1","false"});
-		Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(1));
-		Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(2));
+		Mockito.verifyNoInteractions(ionc_gas_injector_scannables.get(1));
+		Mockito.verifyNoInteractions(ionc_gas_injector_scannables.get(2));
 	}
 
 	@Test

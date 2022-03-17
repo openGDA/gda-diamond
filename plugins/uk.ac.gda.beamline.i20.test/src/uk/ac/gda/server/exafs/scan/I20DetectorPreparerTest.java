@@ -233,22 +233,22 @@ public class I20DetectorPreparerTest {
 		Mockito.verify(sensitivities[0]).moveTo("1");
 		Mockito.verify(sensitivities[1]).moveTo("1");
 		Mockito.verify(sensitivities[2]).moveTo("1");
-		Mockito.verifyZeroInteractions(sensitivities[3]);
+		Mockito.verifyNoInteractions(sensitivities[3]);
 
 		Mockito.verify(sensitivity_units[0]).moveTo("nA/V");
 		Mockito.verify(sensitivity_units[1]).moveTo("nA/V");
 		Mockito.verify(sensitivity_units[2]).moveTo("nA/V");
-		Mockito.verifyZeroInteractions(sensitivity_units[3]);
+		Mockito.verifyNoInteractions(sensitivity_units[3]);
 
 		Mockito.verify(offset[0]).moveTo("1");
 		Mockito.verify(offset[1]).moveTo("1");
 		Mockito.verify(offset[2]).moveTo("1");
-		Mockito.verifyZeroInteractions(offset[3]);
+		Mockito.verifyNoInteractions(offset[3]);
 
 		Mockito.verify(offset_units[0]).moveTo("pA");
 		Mockito.verify(offset_units[1]).moveTo("pA");
 		Mockito.verify(offset_units[2]).moveTo("pA");
-		Mockito.verifyZeroInteractions(offset_units[3]);
+		Mockito.verifyNoInteractions(offset_units[3]);
 	}
 
 	@Test
@@ -278,22 +278,22 @@ public class I20DetectorPreparerTest {
 		Mockito.verify(sensitivities[0]).moveTo("1");
 		Mockito.verify(sensitivities[1]).moveTo("1");
 		Mockito.verify(sensitivities[2]).moveTo("1");
-		Mockito.verifyZeroInteractions(sensitivities[3]);
+		Mockito.verifyNoInteractions(sensitivities[3]);
 
 		Mockito.verify(sensitivity_units[0]).moveTo("nA/V");
 		Mockito.verify(sensitivity_units[1]).moveTo("nA/V");
 		Mockito.verify(sensitivity_units[2]).moveTo("nA/V");
-		Mockito.verifyZeroInteractions(sensitivity_units[3]);
+		Mockito.verifyNoInteractions(sensitivity_units[3]);
 
 		Mockito.verify(offset[0]).moveTo("1");
 		Mockito.verify(offset[1]).moveTo("1");
 		Mockito.verify(offset[2]).moveTo("1");
-		Mockito.verifyZeroInteractions(offset[3]);
+		Mockito.verifyNoInteractions(offset[3]);
 
 		Mockito.verify(offset_units[0]).moveTo("pA");
 		Mockito.verify(offset_units[1]).moveTo("pA");
 		Mockito.verify(offset_units[2]).moveTo("pA");
-		Mockito.verifyZeroInteractions(offset_units[3]);
+		Mockito.verifyNoInteractions(offset_units[3]);
 	}
 
 	@Test
@@ -324,22 +324,22 @@ public class I20DetectorPreparerTest {
 		Mockito.verify(sensitivities[0]).moveTo("1");
 		Mockito.verify(sensitivities[1]).moveTo("1");
 		Mockito.verify(sensitivities[2]).moveTo("1");
-		Mockito.verifyZeroInteractions(sensitivities[3]);
+		Mockito.verifyNoInteractions(sensitivities[3]);
 
 		Mockito.verify(sensitivity_units[0]).moveTo("nA/V");
 		Mockito.verify(sensitivity_units[1]).moveTo("nA/V");
 		Mockito.verify(sensitivity_units[2]).moveTo("nA/V");
-		Mockito.verifyZeroInteractions(sensitivity_units[3]);
+		Mockito.verifyNoInteractions(sensitivity_units[3]);
 
 		Mockito.verify(offset[0]).moveTo("1");
 		Mockito.verify(offset[1]).moveTo("1");
 		Mockito.verify(offset[2]).moveTo("1");
-		Mockito.verifyZeroInteractions(offset[3]);
+		Mockito.verifyNoInteractions(offset[3]);
 
 		Mockito.verify(offset_units[0]).moveTo("pA");
 		Mockito.verify(offset_units[1]).moveTo("pA");
 		Mockito.verify(offset_units[2]).moveTo("pA");
-		Mockito.verifyZeroInteractions(offset_units[3]);
+		Mockito.verifyNoInteractions(offset_units[3]);
 	}
 
 	@Test

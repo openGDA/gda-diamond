@@ -89,7 +89,7 @@ public class I20SamplePreparerTest {
 		// the movement operation
 		theIterator.next();
 
-		Mockito.verifyZeroInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
+		Mockito.verifyNoInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
 				sample_pitch);
 
 		assertTrue(theIterator.getNumberOfRepeats() == 1);
@@ -120,6 +120,6 @@ public class I20SamplePreparerTest {
 
 		thePreparer.configure(null, samParams);
 
-		Mockito.verifyZeroInteractions(filterwheel);
+		Mockito.verifyNoInteractions(filterwheel);
 	}
 }

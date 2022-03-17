@@ -20,7 +20,7 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.LinkedHashSet;
@@ -115,7 +115,7 @@ public class I18DetectorPreparerTest {
 
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 
-		verifyZeroInteractions(xspress3);
+		verifyNoInteractions(xspress3);
 
 		fluoParams.setDetectorType(FluorescenceParameters.XSPRESS3_DET_TYPE);
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
