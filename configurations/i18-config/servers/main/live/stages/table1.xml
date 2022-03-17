@@ -2,13 +2,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="t1x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{T1_PV_BASE}:X" /> <!-- defined in _common -->
+	</bean>
 
+	<bean id="t1y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{T1_PV_BASE}:Y" />
+	</bean>
+	
+	<bean id="t1z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{T1_PV_BASE}:Z" />
+	</bean>
+	
+	<bean id="t1theta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{T1_PV_BASE}:THETA" />
+	</bean>
+	
 	<bean id="alpha" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{T1_PV_BASE}:ALPHA" />
 	</bean>
 	
 	<bean id="t1skew" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="#{T1_PV_BASE}:WRITEGAMMA" />
+		<property name="pvName" value="#{T1_PV_BASE}:SKEW" />
 	</bean>
 
 </beans>

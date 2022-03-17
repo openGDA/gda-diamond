@@ -13,8 +13,8 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/stanfords.xml" />
 
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/qexafs.xml" />
-	<import resource="qexafs.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/qexafs.xml" /> -->
+<!-- 	<import resource="qexafs.xml" /> -->
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3.xml" />
 	<import resource="xspress3.xml" />

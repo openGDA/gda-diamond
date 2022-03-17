@@ -19,29 +19,29 @@
 		<property name="xspress3Detector" ref="xspress3" />
 	</bean>
 
-	<bean id="raster_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
-		<property name="qexafsXspress" ref="raster_xspress3" />
-		<property name="qexafsScaler" ref="raster_counterTimer01" />
-		<property name="i0_channel" value="1" />
-	</bean>
+<!-- 	<bean id="raster_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector"> -->
+<!-- 		<property name="qexafsXspress" ref="raster_xspress3" /> -->
+<!-- 		<property name="qexafsScaler" ref="raster_counterTimer01" /> -->
+<!-- 		<property name="i0_channel" value="1" /> -->
+<!-- 	</bean> -->
 
-	<bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FullCalculationsBufferedDetector">
-		<property name="xspress3Detector" ref="xspress3" />
-	</bean>
+<!-- 	<bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FullCalculationsBufferedDetector"> -->
+<!-- 		<property name="xspress3Detector" ref="xspress3" /> -->
+<!-- 	</bean> -->
 
-	<bean id="xspress3CollectionStrategy" class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
-		<constructor-arg ref="qexafs_xspress3" />
-	</bean>
+<!-- 	<bean id="xspress3CollectionStrategy" class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter"> -->
+<!-- 		<constructor-arg ref="qexafs_xspress3" /> -->
+<!-- 	</bean> -->
 
-	<bean id="qexafsXspress3" class="gda.device.detector.HardwareTriggeredNXDetector">
-		<property name="name" value="qexafsXspress3" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
-		<property name="collectionStrategy" ref="xspress3CollectionStrategy" />
-	</bean>
+<!-- 	<bean id="qexafsXspress3" class="gda.device.detector.HardwareTriggeredNXDetector"> -->
+<!-- 		<property name="name" value="qexafsXspress3" /> -->
+<!-- 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" /> -->
+<!-- 		<property name="collectionStrategy" ref="xspress3CollectionStrategy" /> -->
+<!-- 	</bean> -->
 
-	<bean id="qexafs_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3QexafsDetector">
-		<property name="qexafsXspress" ref="qexafs_xspress3" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-	</bean>
+<!-- 	<bean id="qexafs_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3QexafsDetector"> -->
+<!-- 		<property name="qexafsXspress" ref="qexafs_xspress3" /> -->
+<!-- 		<property name="qexafsScaler" ref="qexafs_counterTimer01" /> -->
+<!-- 	</bean> -->
 
 </beans>

@@ -20,10 +20,10 @@
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
 
-	<bean id="sc_energy_motor" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="motor" ref="dcm_energy_motor" />
-	</bean>
+<!-- 	<bean id="sc_energy_motor" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 		<property name="motor" ref="dcm_energy_motor" /> -->
+<!-- 	</bean> -->
 
 	<bean id="sc_dcm_crystal1_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />
@@ -58,89 +58,30 @@
 		</property>
 		<property name="protectionLevel" value="0" />
 	</bean>
-
-	<!-- ComboDCM controller -->
-	<bean id="sc_dcm_perp_mDeg" class="gda.device.scannable.ConvertorScannable">
-		<property name="protectionLevel" value="0" />
-		<property name="scannableName" value="sc_dcm_perp" />
-		<property name="convertorName" value="Deg_dcm_perp_mm_converter" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="convertorUnitString" value="Deg" />
+	
+	<bean id="energy" class="gda.device.scannable.PositionerDeterminedScannable">
+		<constructor-arg ref="dcm_crystal" />
+		<constructor-arg>
+		<map>
+			<entry key="1st crystal" value-ref="energy_Si111" />
+			<entry key="2nd crystal" value-ref="energy_Si311" />
+			<entry key="White beam"  value-ref="energy_Si111" />
+			<entry key="Maintenance" value-ref="energy_Si111" />
+		</map>
+		</constructor-arg>
+		<property name="outputFormat" value="%.2f" />
 	</bean>
-
-	<bean id="sc_idgap_mDeg" class="gda.device.scannable.ConvertorScannable">
-		<property name="protectionLevel" value="0" />
-		<property name="scannableName" value="sc_idgap" />
-		<property name="convertorName" value="auto_mDeg_idGap_mm_converter" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="convertorUnitString" value="Deg" />
-	</bean>
-
-	<bean id="sc_comboDCM_nogap" class="gda.device.scannable.CoupledScannable">
-		<property name="scannables">
-			<list>
-				<ref bean="sc_dcm_bragg" />
-				<ref bean="sc_dcm_perp_mDeg" />
-			</list>
-		</property>
-		<property name="functions">
-			<list>
-				<bean class="gda.function.IdentityFunction" />
-				<bean class="gda.function.IdentityFunction" />
-			</list>
-		</property>
-		<property name="initialUserUnits" value="Deg" />
-	</bean>
-
-	<bean id="sc_comboDCM_d" class="gda.device.scannable.CoupledScannable">
-		<property name="scannables">
-			<list>
-				<ref bean="sc_dcm_bragg" />
-				<ref bean="sc_idgap_mDeg" />
-				<ref bean="sc_dcm_perp_mDeg" />
-			</list>
-		</property>
-		<property name="functions">
-			<list>
-				<bean class="gda.function.IdentityFunction" />
-				<bean class="gda.function.IdentityFunction" />
-				<bean class="gda.function.IdentityFunction" />
-			</list>
-		</property>
-		<property name="initialUserUnits" value="Deg" />
-	</bean>
-
-	<bean id="energy" class="gda.device.scannable.ConvertorScannable">
-		<property name="protectionLevel" value="0" />
-		<property name="scannableName" value="sc_comboDCM_d" />
-		<property name="convertorName" value="eV_Deg_converter" />
-		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="25000" />
-		<property name="initialUserUnits" value="eV" />
-		<property name="convertorUnitString" value="eV" />
-	</bean>
-
-	<bean id="energy_nogap" class="gda.device.scannable.ConvertorScannable">
-		<property name="protectionLevel" value="0" />
-		<property name="scannableName" value="sc_comboDCM_nogap" />
-		<property name="convertorName" value="eV_Deg_converter" />
-		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="25000" />
-		<property name="initialUserUnits" value="eV" />
-		<property name="convertorUnitString" value="eV" />
-	</bean>
-
-	<bean id="sc_ComboDCMController" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="energy" />
-				<ref bean="sc_comboDCM_d" />
-				<ref bean="sc_comboDCM_nogap" />
-				<ref bean="sc_idgap_mDeg" />
-				<ref bean="sc_dcm_perp_mDeg" />
-			</list>
-		</property>
-		<property name="protectionLevel" value="0" />
+	
+	<bean id="energy_nogap" class="gda.device.scannable.PositionerDeterminedScannable">
+		<constructor-arg ref="dcm_crystal" />
+		<constructor-arg>
+		<map>
+			<entry key="1st crystal" value-ref="energy_nogap_Si111" />
+			<entry key="2nd crystal" value-ref="energy_nogap_Si311" />
+			<entry key="White beam"  value-ref="energy_nogap_Si111" />
+			<entry key="Maintenance" value-ref="energy_nogap_Si111" />
+		</map>
+		</constructor-arg>
 	</bean>
 
 </beans>

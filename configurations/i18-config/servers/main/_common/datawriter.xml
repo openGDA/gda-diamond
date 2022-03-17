@@ -195,38 +195,6 @@
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
-				<entry key="table_x">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_x" />
-						<property name="units" value="mm" />
-					</bean>
-				</entry>
-				<entry key="table_y">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_y" />
-						<property name="units" value="mm" />
-					</bean>
-				</entry>
-				<entry key="table_z">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_z" />
-						<property name="units" value="mm" />
-					</bean>
-				</entry>
-				<entry key="table_pitch">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/Stage3:NXpositioner/table_pitch" />
-						<property name="units" value="deg" />
-					</bean>
-				</entry>
 				<entry key="s1ygap">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
@@ -348,10 +316,6 @@
 				<value>t1z</value>
 				<value>t1theta</value>
 				<value>t1thetaFine</value>
-				<value>t3x</value>
-				<value>t3y</value>
-				<value>t3z</value>
-				<value>t3pitch</value>
 				<value>s1ygap</value>
 				<value>s1xgap</value>
 				<value>s1ypos</value>

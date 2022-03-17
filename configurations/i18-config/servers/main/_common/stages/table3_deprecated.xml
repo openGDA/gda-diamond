@@ -39,20 +39,12 @@
 		</property>
 	</bean>
 
-	<bean id="table_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="motor" ref="table_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-	</bean>
-
 	<bean id="table" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="table_x" />
 				<ref bean="table_y" />
 				<ref bean="table_z" />
-				<ref bean="table_pitch" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

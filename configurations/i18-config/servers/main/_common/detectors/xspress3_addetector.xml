@@ -15,12 +15,31 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 	
-	<bean id="software_triggered" class="gda.device.detector.addetector.triggering.Xspress3TriggeringStrategy">
-		<constructor-arg ref="xsp3_adbase" />
-		<property name="triggerMode">
-			<value type="gda.device.detector.addetector.triggering.Xspress3TriggeringStrategy.Xspress3TriggerMode">SOFTWARE</value>
-		</property>
+	<bean id="sw_start_stop" class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+		<property name="adBase" ref="xsp3_adbase" />
+		<property name="restoreAcquireState" value="true"/>
+		<property name="readAcquisitionTime" value="true"/>
+		<property name="stopAquiringInPreparation" value="true" />
 	</bean>
+	
+	<bean id="collection_time_decorator" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="decoratee" ref="sw_start_stop" />
+	</bean>
+	
+	<bean id="single_image" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="decoratee" ref="collection_time_decorator" />
+	</bean>
+	
+	<bean id="software_triggered" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+		<property name="triggerMode" value="0" /> <!-- SOFTWARE -->
+		<property name="decoratee" ref="single_image" />
+	</bean>
+	
+	<bean id="xsp3_software_triggered_collection" class="gda.device.detector.addetector.collectionstrategy.CustomPluginChainDecorator">
+		<constructor-arg ref="xsp3_base_pv" /> <!-- Defined in live/dummy -->
+		<constructor-arg ref="xsp3_plugin_chain" /> <!-- Defined in live/dummy -->
+		<property name="decoratee" ref="software_triggered" />
+   	</bean>
 
 	<bean id="Xspress3A" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="xsp3_adbase" />
@@ -28,18 +47,20 @@
 		<property name="ndArray" ref="xsp3_ndarray" />
 		<property name="ndStats" ref="xsp3_stats" />
 		<property name="fileWriter" ref="xsp3_hdf5_writer" />
-		<property name="collectionStrategy" ref="software_triggered" />
+		<property name="collectionStrategy" ref="xsp3_software_triggered_collection" />
 	</bean>
 
 	<bean id="xsp3Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 		<property name="name" value="Xspress3A" />
 		<property name="exposureTime" value="0.1" />
+		<property name="timeout" value="55000" />
 	</bean>
 	<bean id="xsp3Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id"          value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
 		<property name="label"       value="Xspress3" />
 		<property name="description" value="Xspress3" />
 	</bean>
+	
 	<bean id="Xspress3" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
 		<property name="name" value="Xspress3A" />
 		<property name="model" ref="xsp3Model" />

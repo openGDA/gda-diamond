@@ -1,0 +1,91 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ComboDCM controller -->
+	<bean id="sc_dcm_perp_mDeg_Si311" class="gda.device.scannable.ConvertorScannable">
+		<property name="protectionLevel" value="0" />
+		<property name="scannableName" value="sc_dcm_perp" />
+		<property name="convertorName" value="Deg_dcm_perp_mm_converter_Si311" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="convertorUnitString" value="Deg" />
+	</bean>
+	
+	<bean id="sc_idgap_mDeg_Si311" class="gda.device.scannable.ConvertorScannable">
+		<property name="protectionLevel" value="0" />
+		<property name="scannableName" value="sc_idgap" />
+		<property name="convertorName" value="auto_mDeg_idGap_mm_converter_Si311" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="convertorUnitString" value="Deg" />
+	</bean>
+	
+	<bean id="sc_comboDCM_nogap_Si311" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="sc_dcm_bragg" />
+				<ref bean="sc_dcm_perp_mDeg_Si311" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="Deg" />
+	</bean>
+	
+	<bean id="sc_comboDCM_d_Si311" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="sc_dcm_bragg" />
+				<ref bean="sc_idgap_mDeg_Si311" />
+				<ref bean="sc_dcm_perp_mDeg_Si311" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="Deg" />
+	</bean>
+
+	<bean id="energy_Si311" class="gda.device.scannable.ConvertorScannable">
+		<property name="protectionLevel" value="0" />
+		<property name="scannableName" value="sc_comboDCM_d_Si311" />
+		<property name="convertorName" value="eV_Deg_converter_Si311" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="25000" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="convertorUnitString" value="eV" />
+	</bean>
+
+	<bean id="energy_nogap_Si311" class="gda.device.scannable.ConvertorScannable">
+		<property name="protectionLevel" value="0" />
+		<property name="scannableName" value="sc_comboDCM_nogap_Si311" />
+		<property name="convertorName" value="eV_Deg_converter_Si311" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="25000" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="convertorUnitString" value="eV" />
+	</bean>
+	
+<!-- 	<bean id="sc_ComboDCMController_Si311" class="gda.device.scannable.scannablegroup.ScannableGroup"> -->
+<!-- 		<property name="groupMembers"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="energy" /> -->
+<!-- 				<ref bean="sc_comboDCM_d" /> -->
+<!-- 				<ref bean="sc_comboDCM_nogap" /> -->
+<!-- 				<ref bean="sc_idgap_mDeg" /> -->
+<!-- 				<ref bean="sc_dcm_perp_mDeg" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 	</bean> -->
+	
+</beans>

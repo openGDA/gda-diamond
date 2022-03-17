@@ -25,11 +25,11 @@
 	
 	<!-- Ion chamber readings -->
 	
-	<bean id="ion_chamber1" class="gda.device.monitor.EpicsMonitor">
+	<bean id="ion_chamber1" class="gda.device.monitor.EpicsMonitor" init-method="configure">
 		<property name="pvName" value="BL18I-EA-IAMP-07:I1F" />
 	</bean>
 	
-	<bean id="ion_chamber2" class="gda.device.monitor.EpicsMonitor">
+	<bean id="ion_chamber2" class="gda.device.monitor.EpicsMonitor" init-method="configure">
 		<property name="pvName" value="BL18I-EA-IAMP-07:I2F" />
 	</bean>
 

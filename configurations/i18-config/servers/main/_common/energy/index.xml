@@ -5,5 +5,11 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/energy/motors.xml" />
 	<import resource="scannables.xml" />
+	
+	<import resource="Si111/converters.xml" />
+	<import resource="Si111/Si111.xml" />
+	
+	<import resource="Si311/converters.xml" />
+	<import resource="Si311/Si311.xml" />
 
 </beans>

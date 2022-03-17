@@ -11,5 +11,16 @@
 	<bean id="xsp3_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_file_hdf5">
 		<property name="initialFileName" value="xsp3" />
 	</bean>
+	
+	<!-- Referenced by the collection strategy defined in common configuration -->
+	<alias name="sim_pvbase" alias="xsp3_base_pv" />
+	
+	<!-- Referenced by the collection strategy defined in common configuration -->
+	<bean id="xsp3_plugin_chain" class="java.util.HashMap">
+		<constructor-arg>
+			<map></map> <!-- no custom plugin chain needed -->
+		</constructor-arg>
+	</bean>	
+	
 
 </beans>

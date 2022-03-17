@@ -12,8 +12,6 @@
 		<property name="speed" value="1000.0"></property>
 	</bean>
 	
-	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor" />
-	
 	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.DummyMotor" />
@@ -21,10 +19,21 @@
 	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="1000.0"></property>
+		<property name="speed" value="1000.0" />
 	</bean>
 	
 	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor"/>
 	<bean id="bragg_offset" class="gda.device.monitor.DummyMonitor"/>
+	
+	<bean id="dcm_crystal" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Si111</value>
+				<value>Si311</value>
+				<value>White beam</value>
+				<value>Maintenance</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>
