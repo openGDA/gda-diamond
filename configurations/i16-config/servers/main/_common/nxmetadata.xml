@@ -67,11 +67,13 @@
 	 -->
 
 	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<!-- 
 		<property name="nexusTemplateFiles">
 			<list>
 				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
 			</list>
 		</property>
+		 -->
 		<property name="locationMap">
 			<map>
 				<entry key="frontend">
