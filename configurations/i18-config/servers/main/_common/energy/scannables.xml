@@ -63,9 +63,9 @@
 		<constructor-arg ref="dcm_crystal" />
 		<constructor-arg>
 		<map>
-			<entry key="1st crystal" value-ref="energy_Si111" />
-			<entry key="2nd crystal" value-ref="energy_Si311" />
-			<entry key="White beam"  value-ref="energy_Si111" />
+			<entry key="Si111" value-ref="energy_Si111" />
+			<entry key="Si311" value-ref="energy_Si311" />
+			<entry key="White Beam"  value-ref="energy_Si111" />
 			<entry key="Maintenance" value-ref="energy_Si111" />
 		</map>
 		</constructor-arg>
@@ -76,9 +76,9 @@
 		<constructor-arg ref="dcm_crystal" />
 		<constructor-arg>
 		<map>
-			<entry key="1st crystal" value-ref="energy_nogap_Si111" />
-			<entry key="2nd crystal" value-ref="energy_nogap_Si311" />
-			<entry key="White beam"  value-ref="energy_nogap_Si111" />
+			<entry key="Si111" value-ref="energy_nogap_Si111" />
+			<entry key="Si311" value-ref="energy_nogap_Si311" />
+			<entry key="White Beam"  value-ref="energy_nogap_Si111" />
 			<entry key="Maintenance" value-ref="energy_nogap_Si111" />
 		</map>
 		</constructor-arg>
