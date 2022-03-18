@@ -89,7 +89,8 @@ def mrscan(*args):
             command = parse_other_arguments(command, arg)
         i = i + 1
         CACHE_PARAMETER_TOBE_CHANGED = False
-        if isinstance(arg, NXDetector):
+        from org.opengda.detector.electronanalyser.nxdetector import EW4000
+        if isinstance(arg, NXDetector) and not isinstance(arg, EW4000):
             adbase, image_mode, num_images = save_detector_settings_before_scan(arg)
             if all((adbase, image_mode, num_images)):
                 CACHE_PARAMETER_TOBE_CHANGED = True

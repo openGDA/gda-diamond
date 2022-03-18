@@ -20,7 +20,7 @@ from gdascripts.metadata.nexus_metadata_class import meta
 
 print("-"*100)
 print("Creating 'miscan' - multiple images per scan data point")
-print("    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] mpx 10 0.1")
+print("    Syntax: miscan (scannable1, scannable2) ([1,2], [3,4],[5,6]) mpx 10 0.1")
 
 PRINTTIME = False
 dummyScannable = DummyScannable("dummyScannable")
@@ -170,7 +170,7 @@ def parse_other_arguments(command, arg):
 def miscan(*args):
     '''   a more generalised scan that extends standard GDA scan syntax to support 
         1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group, 
-        2. its corresponding path tuple (e.g. list of position tuples), if exist, and
+        2. its corresponding path tuple - tuple of lists e.g.([1,2], [3,4]), if exist, and
         3. area detector that takes 2 input numbers - 1st input is the number of images to be collected at each point,
            if omitted it default to 1, and 2nd input is detector exposure time which must be provided,
         4. syntax 'miscan detector 10 0.1 ...' is supported for collecting 10 images at a single point.
@@ -201,7 +201,8 @@ def miscan(*args):
             command = parse_other_arguments(command, arg)
         i = i + 1
         CACHE_PARAMETER_TOBE_CHANGED = False 
-        if isinstance(arg, NXDetector):
+        from org.opengda.detector.electronanalyser.nxdetector import EW4000
+        if isinstance(arg, NXDetector) and not isinstance(arg, EW4000):
             adbase, image_mode, num_images = save_detector_settings_before_scan(arg)
             if all((adbase, image_mode, num_images)):
                 CACHE_PARAMETER_TOBE_CHANGED = True
