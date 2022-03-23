@@ -8,4 +8,9 @@
 		<property name="pvName" value="BL05J-EA-ANAL-01:POLAR" />
 	</bean>
 
+	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL05J-EA-DET-03:CAM:DEFLECTOR_X_RBV" />
+		<property name="pvNameSetPoint" value="BL05J-EA-DET-03:CAM:DEFLECTOR_X" />
+	</bean>
+
 </beans>
