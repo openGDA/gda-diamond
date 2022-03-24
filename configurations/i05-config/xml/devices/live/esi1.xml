@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="esi1_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:CAM:" />
+		<property name="initialDataType" value="UInt8" />
+	</bean>
+
+	<bean id="esi1_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:ARR:" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="esi1" class="gda.device.detector.addetector.ADCameraDetector">
+		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:" />
+		<property name="areaDetector" ref="esi1_ad" />
+		<property name="array" ref="esi1_array" />
+	</bean>
+
+</beans>
