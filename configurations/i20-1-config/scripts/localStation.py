@@ -6,7 +6,6 @@ from gdascripts.utils import caget, caput
 from gda.jython.commands.ScannableCommands import cv as cvscan
 vararg_alias("cvscan")
 
-run("roi_control.py")
 run("gdascripts/javajythonutil.py")
 run 'gdascripts/metadata/metadata_commands.py'
 run("frelon_scan_runner.py")
@@ -14,6 +13,7 @@ run("turboxas_scan_runner.py")
 run("frelon-kinetic-roi-settings.py")
 run("frelon-adc-status.py")
 run("run_in_try_catch.py")
+run("scannable-restorer.py")
 
 if LocalProperties.isDummyModeEnabled() == False:
     run("shutter_functions.py")
