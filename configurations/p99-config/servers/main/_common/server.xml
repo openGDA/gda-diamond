@@ -27,13 +27,12 @@
 	<import resource="file:${gda.config}/servers/main/dummy/devices/front_end.xml" />
 	<import resource="file://${gda.facility.dir}/servers/dummy/machine_status.xml" />
 
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor2_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/smaract_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/j13_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/laser.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/i18_stage.xml" />
 
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/index.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />

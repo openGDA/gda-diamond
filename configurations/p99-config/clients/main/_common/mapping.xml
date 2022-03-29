@@ -45,6 +45,7 @@
 					<list>
 						<value>sample_z</value>
 						<value>i18_theta</value>
+						<value>ix</value>
 					</list>
 				</property>
 			</bean>
