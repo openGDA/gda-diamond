@@ -79,7 +79,7 @@
 		<property name="centreXScannable" ref="cross_x_sim_cam" />
 		<property name="centreYScannable" ref="cross_y_sim_cam" />
 		<property name="toggleScannable" ref="cross_toggle_sim_cam" />
-		<property name="showCrossOnly" value="false" />
+		<property name="plainCross" value="false" />
 		<property name="hideCentreXControl" value="true" />
 		<property name="hideCentreYControl" value="true" />
 		<property name="hideSpacingControl" value="true" />
