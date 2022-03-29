@@ -38,6 +38,7 @@
 
 	<bean id="ssfrelon" class="gda.device.detector.StepScanEdeDetector">
 		<property name="detector" ref="frelon"/>
+		<property name="timeUnitLength" value="1e-3" />
 	</bean>
 
 	<bean id="frelon_objects" class="gda.device.FindableObjectHolder">
