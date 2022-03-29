@@ -267,7 +267,7 @@
 		<property name="centreXScannable" ref="cross_x_es2b_cam1" />
 		<property name="centreYScannable" ref="cross_y_es2b_cam1" />
 		<property name="toggleScannable" ref="cross_toggle_es2b_cam1" />
-		<property name="showCrossOnly" value="false" />
+		<property name="plainCross" value="false" />
 		<property name="hideCentreXControl" value="true" />
 		<property name="hideCentreYControl" value="true" />
 		<property name="hideSpacingControl" value="true" />
@@ -373,7 +373,7 @@
 		<property name="centreXScannable" ref="cross_x_es2b_cam2" />
 		<property name="centreYScannable" ref="cross_y_es2b_cam2" />
 		<property name="toggleScannable" ref="cross_toggle_es2b_cam2" />
-		<property name="showCrossOnly" value="false" />
+		<property name="plainCross" value="false" />
 		<property name="hideCentreXControl" value="true" />
 		<property name="hideCentreYControl" value="true" />
 		<property name="hideSpacingControl" value="true" />

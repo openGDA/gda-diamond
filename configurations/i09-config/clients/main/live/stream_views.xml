@@ -107,7 +107,7 @@
 		<property name="centreXScannable" ref="cross_x_eav" />
 		<property name="centreYScannable" ref="cross_y_eav" />
 		<property name="toggleScannable" ref="cross_toggle_eav" />
-		<property name="showCrossOnly" value="true" />
+		<property name="plainCross" value="true" />
 	</bean>
 	
 	<bean id="analyserCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -168,7 +168,7 @@
 		<property name="centreXScannable" ref="cross_x_eav" />
 		<property name="centreYScannable" ref="cross_y_eav" />
 		<property name="toggleScannable" ref="cross_toggle_eav" />
-		<property name="showCrossOnly" value="true" />
+		<property name="plainCross" value="true" />
 	</bean>
 	
 	<bean id="analyserCameraControlsUi2" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -248,7 +248,7 @@
 		<property name="centreXScannable" ref="cross_x_es2_1" />
 		<property name="centreYScannable" ref="cross_y_es2_1" />
 		<property name="toggleScannable" ref="cross_toggle_es2_1" />
-		<property name="showCrossOnly" value="true" />
+		<property name="plainCross" value="true" />
 	</bean>
 
 	<bean id="es2_1CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -328,7 +328,7 @@
 		<property name="centreXScannable" ref="cross_x_es2_2" />
 		<property name="centreYScannable" ref="cross_y_es2_2" />
 		<property name="toggleScannable" ref="cross_toggle_es2_2" />
-		<property name="showCrossOnly" value="true" />
+		<property name="plainCross" value="true" />
 	</bean>
 
 	<bean id="es2_2CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -408,7 +408,7 @@
 		<property name="centreXScannable" ref="cross_x_es2_3" />
 		<property name="centreYScannable" ref="cross_y_es2_3" />
 		<property name="toggleScannable" ref="cross_toggle_es2_3" />
-		<property name="showCrossOnly" value="true" />
+		<property name="plainCross" value="true" />
 	</bean>
 
 	<bean id="es2_3CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -488,7 +488,7 @@
 		<property name="centreXScannable" ref="cross_x_xbpm" />
 		<property name="centreYScannable" ref="cross_y_xbpm" />
 		<property name="toggleScannable" ref="cross_toggle_xbpm" />
-		<property name="showCrossOnly" value="true" />
+		<property name="plainCross" value="true" />
 	</bean>
 	
 	<bean id="xbpmCameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
@@ -568,7 +568,7 @@
 		<property name="centreXScannable" ref="cross_x_sd3" />
 		<property name="centreYScannable" ref="cross_y_sd3" />
 		<property name="toggleScannable" ref="cross_toggle_sd3" />
-		<property name="showCrossOnly" value="true" />
+		<property name="plainCross" value="true" />
 	</bean>
 	
 	<bean id="sd3CameraControlsUi" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
