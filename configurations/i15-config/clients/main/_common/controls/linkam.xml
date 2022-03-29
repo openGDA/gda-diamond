@@ -18,6 +18,8 @@
 					<property name="textWidth" value="120" />
 				</bean>
 				<ref bean="shutterLiveControlGroup" />
+				<ref bean="secondTableJythonScriptFolderGroup" />
+				<ref bean="scriptsLiveControlGroup" />
 			</list>
 		</property>
 	</bean>

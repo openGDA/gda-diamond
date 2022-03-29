@@ -12,6 +12,11 @@
 		<!-- Control sets are normally left to right -->
 		<property name="controls">
 			<list>
+				<bean class="uk.ac.gda.client.livecontrol.JythonScriptFolderGroup">
+					<property name="group" value="Membrane Drive" />
+					<property name="numColumns" value="3" />
+					<property name="folder" value="/dls_sw/i15/scripts/procedures/membrane-drive"/>
+				</bean>
 				<!-- LiveControlGroup is a vertical group & it overrides group of controls inside it -->
 				<bean class="uk.ac.gda.client.livecontrol.LiveControlGroup">
 					<property name="group" value="Membrane" />
@@ -42,6 +47,7 @@
 					</property>
 				</bean>
 				<ref bean="shutterLiveControlGroup" />
+				<ref bean="scriptsLiveControlGroup" />
 			</list>
 		</property>
 	</bean>

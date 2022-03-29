@@ -12,7 +12,7 @@
 		<property name="group" value="Shutter Control" />
 		<property name="numColumns" value="1" />
 		<property name="controls">
-			<list> 
+			<list>
 				<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 					<property name="jythonCommand" value="shopen" />
 					<property name="buttonText" value="Open EH and Fast shutter (shopen)" />
@@ -25,10 +25,39 @@
 		</property>
 	</bean>
 
+	<bean id="secondTableJythonScriptFolderGroup" class="uk.ac.gda.client.livecontrol.JythonScriptFolderGroup">
+		<property name="group" value="Second Table" />
+		<property name="numColumns" value="2" />
+		<property name="folder" value="/dls_sw/i15/scripts/procedures/second-table"/>
+	</bean>
+
+	<bean id="scriptsLiveControlGroup" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Scripts" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<!-- Drop down list of all scripts on the folder -->
+				<bean class="uk.ac.gda.client.livecontrol.JythonScriptFolderControl">
+					<property name="folder" value="/dls_sw/i15/scripts/procedures"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="scriptsControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="scriptsLiveControlGroup" />
+			</list>
+		</property>
+	</bean>
+
+
 	<bean name="testControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="shutterLiveControlGroup" />
+				<ref bean="scriptsLiveControlGroup" />
 				<!-- Initially shows position,  -->
 				<bean class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 					<property name="group" value="Test" />
@@ -65,6 +94,36 @@
 								<property name="displayName" value="Y Gap" />
 								<property name="scannableName" value="s1ygap" />
 								<property name="horizontalLayout" value="true" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+					<property name="group" value="Membrane Drive Combo/List Control" />
+					<property name="numColumns" value="1" />
+					<property name="controls">
+						<list> 
+							<bean class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
+								<property name="scripts"><map>
+										<entry key="Membrane Drive On"	value="/dls_sw/i15/scripts/procedures/MembDriveOn.py"/>
+										<entry key="Membrane Drive Off"	value="/dls_sw/i15/scripts/procedures/MembDriveOff.py"/>
+								</map></property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+					<property name="group" value="Membrane Drive Command Control" />
+					<property name="numColumns" value="2" />
+					<property name="controls">
+						<list> 
+							<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+								<property name="command" value="run('/dls_sw/i15/scripts/procedures/MembDriveOn.py')" />
+								<property name="buttonText" value="Membrane Drive On" />
+							</bean>
+							<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+								<property name="command" value="run('/dls_sw/i15/scripts/procedures/MembDriveOff.py')" />
+								<property name="buttonText" value="Membrane Drive Off" />
 							</bean>
 						</list>
 					</property>
