@@ -130,11 +130,7 @@ public class DetectorFunctions  {
 	 */
 	private void waitForZebra(Zebra zebra, int numPoints, int timeOut) throws TimeoutException, IOException, InterruptedException {
 		logger.debug("Waiting up to {} secs for zebra to capture >= {} points...", timeOut, numPoints);
-		try {
-			zebra.getNumberOfPointsCapturedPV().waitForValue(numCaptured -> numCaptured >= numPoints, timeOut);
-		} finally {
-			zebra.getNumberOfPointsCapturedPV().setValueMonitoring(false);
-		}
+		zebra.getNumberOfPointsCapturedPV().waitForValue(numCaptured -> numCaptured >= numPoints, timeOut);
 		logger.debug("Captured >= {} points", numPoints);
 	}
 
