@@ -16,6 +16,7 @@ import uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
 import uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram;
 import uk.ac.gda.client.live.stream.view.SnapshotView;
+import uk.ac.gda.client.livecontrol.LiveControlsView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 
@@ -73,8 +74,9 @@ public class RIXSPerspective implements IPerspectiveFactory {
 		toolpageFolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
 		
 		IFolderLayout liveControlFolder=layout.createFolder(LIVE_CONTROL_FOLDER, IPageLayout.BOTTOM, (float)0.6, TOOLPAGE_FOLDER); //$NON-NLS-1$
-		liveControlFolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
+		liveControlFolder.addView(LiveControlsView.ID);
 		liveControlFolder.addView("uk.ac.gda.rcp.views.dashboardView");
+		liveControlFolder.addPlaceholder(LiveControlsView.ID + ":*");
 		liveControlFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 
 		IFolderLayout scanPlotFolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.BOTTOM, (float)0.15, STATUS_FOLDER); //$NON-NLS-1$
