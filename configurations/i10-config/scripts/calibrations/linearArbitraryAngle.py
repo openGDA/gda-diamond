@@ -71,6 +71,17 @@ class LinearArbitraryAngle(ScannableMotionBase):
         self.jawphase.asynchronousMoveTo(jawphase)
 
     def getPosition(self):
-        return self.angle_deg
+        pol=self.pol.getPosition()
+        if pol in X_RAY_POLARISATIONS[:2] or pol == X_RAY_POLARISATIONS[6]:
+            self.setOutputFormat(["%s"])
+            return "undefined"
+        else:
+            self.setOutputFormat(["%f"])
+            if pol == X_RAY_POLARISATIONS[2] or pol == X_RAY_POLARISATIONS[5]:
+                return 0
+            if pol == X_RAY_POLARISATIONS[3] :
+                return 90
+            if pol == X_RAY_POLARISATIONS[4] :
+                return self.angle_deg
     
     
