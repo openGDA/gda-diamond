@@ -30,7 +30,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.typed.BeanProperties;
+import org.eclipse.core.databinding.beans.typed.PojoProperties;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -182,8 +182,10 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		stretch.copy().span(1, 2).applyTo(left);
 
 		var selectFromMap = new Button(left, SWT.PUSH);
-		selectFromMap.setImage(getImage(ClientImages.POINT));
+		var icon = getImage(ClientImages.POINT);
+		selectFromMap.setImage(icon);
 		selectFromMap.setToolTipText("Pick coordinates from map");
+		selectFromMap.addDisposeListener(dispose -> icon.dispose());
 		GridDataFactory.swtDefaults().span(1,  2).applyTo(selectFromMap);
 
 		rightAlignedLabel(left, "X");
@@ -335,7 +337,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		AcquisitionEngineDocument engine = getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
 			.getAcquisition().getAcquisitionEngine();
 
-		bindingContext.bindValue(detectorName, BeanProperties.value("id").observe(engine));
+		bindingContext.bindValue(detectorName, PojoProperties.value("id").observe(engine));
 	}
 
 	private void initialiseDiffractionBeam() {

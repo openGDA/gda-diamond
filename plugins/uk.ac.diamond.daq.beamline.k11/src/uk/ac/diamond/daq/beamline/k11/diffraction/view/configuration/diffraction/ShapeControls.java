@@ -100,9 +100,11 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		divider(toolBar);
 
 		var redraw = new ToolItem(toolBar, SWT.PUSH);
-		redraw.setImage(getImage(ClientImages.MAP_REDRAW));
+		var icon = getImage(ClientImages.MAP_REDRAW);
+		redraw.setImage(icon);
 		redraw.setToolTipText("Redraw region in map");
 		redraw.addSelectionListener(widgetSelectedAdapter(selection -> updateMappingController()));
+		redraw.addDisposeListener(dispose -> icon.dispose());
 
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.FILL).grab(false, true).applyTo(
 				new Label(composite, SWT.VERTICAL | SWT.SEPARATOR));
@@ -133,7 +135,9 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 	private void addShape(ToolBar toolBar, AcquisitionTemplateType shape, ClientImages image) {
 		var button = new ToolItem(toolBar, SWT.RADIO);
-		button.setImage(getImage(image));
+		var icon = getImage(image);
+		button.setImage(icon);
+		button.addDisposeListener(dispose -> icon.dispose());
 		buttonToShape.put(button, shape);
 	}
 
