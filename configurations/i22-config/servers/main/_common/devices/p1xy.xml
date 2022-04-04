@@ -6,8 +6,8 @@
             http://www.diamond.ac.uk/schema/gda/gda
             http://www.diamond.ac.uk/schema/gda/gda/gda.xsd" >
 
-    <gda:motor id="p1xy_x" live-pvName="BL22I-MO-PXY-01:X"/>
-    <gda:motor id="p1xy_y" live-pvName="BL22I-MO-PXY-01:Y"/>
+    <gda:motor id="p1xy_x" live-pvName="BL22I-MO-PXY-01:X" dummy-unitString="mm"/>
+    <gda:motor id="p1xy_y" live-pvName="BL22I-MO-PXY-01:Y" dummy-unitString="mm"/>
 
     <bean id="p1xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
