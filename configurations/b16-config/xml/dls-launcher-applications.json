@@ -13,31 +13,30 @@
          "icon": "sgda.png"
     },
     {
-        "command": "gdaswingclient",
-        "icon": "cgda.png",
-        "text": "GDA Client (Swing for b16 and i16)",
-        "type": "button"
-    },
-    {
-        "command": "/usr/bin/env launcher-gdaclient",
+        "args": "client",
+        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda",
         "icon": "cgda.png",
         "text": "GDA Client",
         "type": "button"
     },
     {
-        "command": "/usr/bin/env launcher-gdaclient-reset",
+        "args": "client --reset",
+        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda",
         "icon": "cgda.png",
         "text": "GDA Client with fresh workspace (gdaclient --reset)",
         "type": "button"
     },
     {
-        "command": "/usr/bin/env launcher-gdalog",
+        "args": "logpanel",
+        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda",
         "icon": "cgda.png",
         "text": "GDA Log Panel",
         "type": "button"
     },
     {
-        "command": "launcher-dawn",
+        "args": "-c 'module load dawn; dawn'",
+        "command": "/usr/bin/env bash",
+        "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
         "text": "Dawn",
         "type": "button"
     },
