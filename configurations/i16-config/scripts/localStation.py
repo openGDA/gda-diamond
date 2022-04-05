@@ -1667,8 +1667,14 @@ else:
 
 try:
 	from sz_cryo import szCryoCompensation
-	cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
-	szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
+	cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01]
+				,'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]
+				,'4K22':[-4.946860907921413e-13, 4.204591199936939e-10, -1.215261111328385e-07, 9.803917323445766e-06, -0.0004902951460550646, 14.225861061835865]
+				}
+	szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example "+
+		"szc.calibrate('4K22',Ta) \nto calibrate using the 2022 commissioned 4K cryo and channel Ta,\n"+
+		"szc.calibrate('4K',Ta) \nto calibrate using the older 4K cryo and channel Ta or\n"+
+		"szc.calibrate('800K',Tc) \nfor the cryofurnace.")
 except:
 	localStation_exception("setting up szc")
 
