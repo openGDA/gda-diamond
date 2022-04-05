@@ -1763,13 +1763,6 @@ else:
 	except:
 		localStation_exception("running localStationUser dummy script")
 
-if LocalProperties.get("gda.jython.translator.class") == u'TokenStreamTranslator':
-	print "======================================================================"
-	localStation_print("\nNote\n\n"+
-		"Extended syntax for arrays has been deprecated due to problems it can\n"+
-		"cause when running valid Python scripts in GDA.\n\n"+
-		"This means using 'pos ds [3,3]' rather than 'pos ds [3 3]' for example\n")
-
 if len(localStation_exceptions) > 0:
 	print "======================  %r ERRORS DURING STARTUP ======================" % len(localStation_exceptions)
 
