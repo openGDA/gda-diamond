@@ -1431,7 +1431,7 @@ def meta_std(full=True):
 			meta_scannable_names += ['xtalinfo']
 		if full:
 			meta_scannable_names += ['jjslits', 'PPR', 'positions', 'gains_atten', 'lakeshore', 'offsets',
-									's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans', 'ppy', 'ppx', 
+									's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans', 'ppy', 'ppx',
 									'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
 									'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans',
 									'Energy', 'ubMeta']
@@ -1627,14 +1627,12 @@ if installation.isLive():
 
 if USE_NEXUS:
 	run("datawriting/i16_nexus")
-	pass
 else:
 	#clear extenders possible configured already
 	writerMap = Finder.getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 	ddwf = writerMap.get("DefaultDataWriterFactory")
 	for dwe in ddwf.getDataWriterExtenders():
 		ddwf.removeDataWriterExtender(dwe)
-	pass
 
 if USE_ROCKING_SCANNABLES:
 	try:
@@ -1692,7 +1690,7 @@ if USE_SMARGON:
 		BLobjects.my_smarphi =phi
 		euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)
 		hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az)
-	
+
 		localStation_print("Smargon script was successful")
 	except:
 		localStation_exception("setting up smargon")
@@ -1701,29 +1699,29 @@ else:
 
 localStation_print("Setting diffcalc ubmeta scannable")
 try:
-	from gda.device.scannable import ScannableBase 
-	from __builtin__ import False 
+	from gda.device.scannable import ScannableBase
+	from __builtin__ import False
 	try:
-		import json 
-	except ImportError: 
+		import json
+	except ImportError:
 		import simplejson as json
 
 	from diffcalc.ub.calcstate import UBCalcStateEncoder
 
 	class UBCalcMetadata (ScannableBase):
-		def __init__(self, name): 
-			self.name = name 
+		def __init__(self, name):
+			self.name = name
 
-		def getPosition(self): 
-			if ubcalc is not None or ubcalc._state is not None: 
-				return json.dumps(ubcalc._state, cls=UBCalcStateEncoder) 
-			return None 
+		def getPosition(self):
+			if ubcalc is not None or ubcalc._state is not None:
+				return json.dumps(ubcalc._state, cls=UBCalcStateEncoder)
+			return None
 
-		def rawAsynchronousMoveTo(self, position): 
-			pass 
+		def rawAsynchronousMoveTo(self, position):
+			pass
 
-		def isBusy(self): 
-			return False 
+		def isBusy(self):
+			return False
 
 	ubMeta = UBCalcMetadata("ubMeta")
 except:
@@ -1732,7 +1730,7 @@ except:
 # Define offset between pilatus detector and analyser crystal
 do.pil = 8.8
 
-# Setting the standard metadata scannables should be last 
+# Setting the standard metadata scannables should be last
 meta_std()
 
 if installation.isLive():
@@ -1773,7 +1771,7 @@ if LocalProperties.get("gda.jython.translator.class") == u'TokenStreamTranslator
 		"This means using 'pos ds [3,3]' rather than 'pos ds [3 3]' for example\n")
 
 if len(localStation_exceptions) > 0:
-	print "=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions)
+	print "======================  %r ERRORS DURING STARTUP ======================" % len(localStation_exceptions)
 
 for localStationException in localStation_exceptions:
 	print localStationException
