@@ -1730,6 +1730,20 @@ except:
 # Define offset between pilatus detector and analyser crystal
 do.pil = 8.8
 
+# Define a function which turns any scannable into one which doesn't pause the
+# scan if it's moving.
+from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
+
+class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
+
+	def waitWhileBusy(self):
+		return
+
+def asyncMonitor(scannable):
+	return AsyncMonitor(scannable)
+
+alias(asyncMonitor)
+
 # Setting the standard metadata scannables should be last
 meta_std()
 
