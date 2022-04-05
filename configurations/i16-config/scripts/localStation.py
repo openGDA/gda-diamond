@@ -1626,7 +1626,10 @@ if installation.isLive():
 		localStation_exception("running localStationScripts/startup_pie725 script")
 
 if USE_NEXUS:
-	run("datawriting/i16_nexus")
+	try:
+		run("datawriting/i16_nexus")
+	except:
+		localStation_exception("running datawriting/i16_nexus script")
 else:
 	#clear extenders possible configured already
 	writerMap = Finder.getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
