@@ -2,7 +2,8 @@ print "<<< Entering: startup_diffractometer_euler.py ..."
 
 from EulerianKconversionModes import EulerianKconversionModes
 EKCM = EulerianKconversionModes()
-mode e2k 1
+#mode e2k 1 # Requires gda.jython.translator.class = MMTranslator
+EKCM.setEuleriantoKmode(1)
 
 from diffractometer.scannable.EulerKappa import EulerKappa
 
