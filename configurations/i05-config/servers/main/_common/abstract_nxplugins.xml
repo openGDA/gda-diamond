@@ -19,5 +19,4 @@
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
-
 </beans>
