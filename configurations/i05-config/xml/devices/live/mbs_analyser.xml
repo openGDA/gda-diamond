@@ -53,6 +53,7 @@
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 		<property name="maximumNumberOfSteps" value="2000" />
 		<property name="deflectorRangeConfiguration" ref="analyser_deflector_range" />
+		<property name="energyStepPerPixel" value="0.08283989303014" />
 	</bean>
 	
 	<bean id="analyser_total" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
