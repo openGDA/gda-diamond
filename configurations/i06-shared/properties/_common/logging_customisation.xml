@@ -8,6 +8,6 @@
 	<logger name="org.dawnsci.plotting.views.ToolPageView" level="OFF"/>
 	<!-- sends logs to logback-beagle -->
 	<!-- <consolePlugin /> -->
-	
+	<logger name="org.eclipse.january.dataset.RGBByteDataset" level="ERROR"/>
 
 </included>
