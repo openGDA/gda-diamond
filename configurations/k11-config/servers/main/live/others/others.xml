@@ -31,5 +31,9 @@
 		<property name="unit" value="status" />
 		<property name="poll" value="true" />
 	</bean>
+	
+	<bean id="syringeController" class="gda.device.syringepump.controllor.EpicsSyringePumpController">
+		<property name="pvPrefix" value="BL11K-EA-SPUMP-01:" />
+	</bean>
 
 </beans>
