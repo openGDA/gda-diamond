@@ -330,8 +330,21 @@
 		</property>
 	</bean>
 
-<!-- Stanford amplifiers scannables - access to sensitivity as Scannable  -->
+	<!-- Stanford amplifiers scannables - access to sensitivity as Scannable  -->
 	<!-- stanford -->
+	<bean id="ca16b_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
+		<property name="basePVName" value="BL07B-DI-IAMP-16:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="4.5"/>
+		<property name="instantaneousPV" value="BL07B-OP-HRFM-01:I1:I"/>
+	</bean>
+	<bean id="ca16b" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07B-OP-HRFM-01:I1:"/>
+		<property name="amplifier" ref="ca16b_stanford"/>
+		<property name="adcChannel" value="1"/>
+		<property name="autoGain" value="false" />
+	</bean>
+
 	<bean id="ca35b_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
 		<property name="basePVName" value="BL07B-DI-IAMP-35:"/>
 		<property name="lowerVoltageBound" value="0.5"/>
