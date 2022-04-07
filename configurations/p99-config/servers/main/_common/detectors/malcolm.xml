@@ -46,4 +46,10 @@
 		<property name="icon" value=""/>
 	</bean>
 	
+	<bean id="malcolmInfoAndorMarana" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Andor Marana" />
+		<property name="description" value="Malcolm scan with Andor Marana" />
+		<property name="icon" value=""/>
+	</bean>
+	
 </beans>
