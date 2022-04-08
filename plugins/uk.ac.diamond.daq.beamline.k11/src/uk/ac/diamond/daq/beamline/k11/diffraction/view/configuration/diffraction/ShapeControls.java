@@ -48,7 +48,6 @@ import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
-import uk.ac.gda.client.AcquisitionManager;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.images.ClientImages;
@@ -60,14 +59,14 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	private Map<Widget, AcquisitionTemplateType> buttonToShape;
 	private Map<AcquisitionTemplateType, IMappingScanRegionShape> shapeToMappingRegion;
 	private Map<AcquisitionTemplateType, Supplier<ScanpathEditor>> editors;
-	private AcquisitionManager acquisitionManager;
+	private ScanpathDocumentCache scanpathDocumentCache;
 
 	private RegionAndPathController mappingController;
 
 	private Composite controls;
 	private ScanpathEditor scanpathEditor;
 
-	public ShapeControls(Supplier<ScanningParameters> scanningParameters, AcquisitionManager acquisitionManager) {
+	public ShapeControls(Supplier<ScanningParameters> scanningParameters) {
 		this.scanningParameters = scanningParameters;
 		buttonToShape = new HashMap<>();
 
@@ -81,7 +80,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		editors.put(AcquisitionTemplateType.TWO_DIMENSION_LINE, LineScanpathEditor::new);
 		editors.put(AcquisitionTemplateType.TWO_DIMENSION_GRID, RectangleScanpathEditor::new);
 
-		this.acquisitionManager = acquisitionManager;
+		this.scanpathDocumentCache = new ScanpathDocumentCache();
 	}
 
 	@Override
@@ -197,7 +196,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	 */
 	private void updateControls() {
 		var shape = getSelectedShape();
-		var document = acquisitionManager.cacheAndChangeShape(scanningParameters.get().getScanpathDocument(), shape);
+		var document = scanpathDocumentCache.cacheAndChangeShape(scanningParameters.get().getScanpathDocument(), shape);
 		scanningParameters.get().setScanpathDocument(document);
 
 		if (scanpathEditor != null) {
@@ -217,7 +216,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	private void updateScanpathDocument(Object source, Object argument) {
 		if (source.equals(scanpathEditor) && argument instanceof ScanpathDocument) {
 			var document = (ScanpathDocument) argument;
-			acquisitionManager.cache(document);
+			scanpathDocumentCache.cache(document);
 			scanningParameters.get().setScanpathDocument(document);
 			publishUpdate();
 		}
@@ -229,7 +228,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 	@Override
 	public void reload() {
-		acquisitionManager.cache(scanningParameters.get().getScanpathDocument());
+		scanpathDocumentCache.cache(scanningParameters.get().getScanpathDocument());
 		if (controls == null || controls.isDisposed()) return;
 		updateSelectionFromDocument();
 	}

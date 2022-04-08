@@ -123,7 +123,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 
 	protected DiffractionScanControls getScanControls() {
 		if (scanControls == null) {
-			this.scanControls = new DiffractionScanControls(acquisitionManager);
+			this.scanControls = new DiffractionScanControls();
 		}
 		return scanControls;
 	}
