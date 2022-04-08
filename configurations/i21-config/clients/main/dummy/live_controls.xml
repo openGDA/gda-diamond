@@ -103,4 +103,74 @@
 			</list>
 		</property>	
 	</bean>
+	
+		<!-- Sample Translations -->
+	<bean id="sim_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sim_x" />
+		<property name="group" value="Simulation Motors" />
+		<property name="scannableName" value="sim_x" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="sim_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sim_y" />
+		<property name="group" value="Simulation Motors" />
+		<property name="scannableName" value="sim_y" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="sim_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sim_z" />
+		<property name="group" value="Simulation Motors" />
+		<property name="scannableName" value="sim_z" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<!-- Sample Rotations -->
+	<bean id="sim_theta_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sim_theta" />
+		<property name="group" value="Simulation Motors" />
+		<property name="scannableName" value="sim_theta" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean id="sim_load_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sim_load" />
+		<property name="group" value="Simulation Motors" />
+		<property name="scannableName" value="sim_load" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
+	<bean name="simulationMotors" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="sim_x_control" />
+				<ref bean="sim_y_control" />
+				<ref bean="sim_z_control" />
+				<ref bean="sim_theta_control" />
+				<ref bean="sim_load_control" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>

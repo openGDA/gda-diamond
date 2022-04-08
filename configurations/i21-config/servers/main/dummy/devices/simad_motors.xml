@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="simx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="${simmotor}:M1" />
+	</bean>
+	<bean id="simy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="${simmotor}:M2" />
+	</bean>
+	<bean id="simz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="${simmotor}:M3" />
+	</bean>
+	<bean id="simtheta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="${simmotor}:M4" />
+	</bean>
+	<bean id="simload_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="${simmotor}:M5" />
+	</bean>
+
+	<bean id="sim_x" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="simx_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="simx_motor"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="sim_y" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="simy_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="simy_motor"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="sim_z" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="simz_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="simz_motor"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sim_theta" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="simtheta_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="simtheta_motor"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sim_load" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="simload_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="simload_motor"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="SIM_MOTORS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sim_x" />
+				<ref bean="sim_y" />
+				<ref bean="sim_z" />
+				<ref bean="sim_theta" />
+				<ref bean="sim_load" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
