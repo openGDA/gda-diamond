@@ -34,11 +34,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
-import uk.ac.gda.client.AcquisitionManager;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.AcquisitionControllerException;
@@ -63,12 +61,6 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 
 	private final LoadListener loadListener;
 
-	/*
-	 * TODO
-	 * Move AcquisitionManager into ScanningAcquisitionController
-	 * when all acquisitions are managed by it
-	 */
-	private AcquisitionManager acquisitionManager;
 	private ScanningAcquisitionController acquisitionController;
 
 
@@ -80,7 +72,7 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		try {
-			initialiseAcquisition();
+			getAcquisitionController().initialise(key);
 		} catch (AcquisitionControllerException e) {
 			logger.error("Error initialising beam selector acquisition", e);
 			var errorComposite = new Composite(parent, SWT.NONE);
@@ -131,18 +123,11 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 		return acquisitionButtonGroup;
 	}
 
-	/**
-	 * Loads existing instance or new acquisition if none exists
-	 */
-	private void initialiseAcquisition() throws AcquisitionControllerException {
-		getAcquisitionController().loadAcquisitionConfiguration(getAcquisitionManager().getAcquisition(key));
-	}
-
 	private void createNewAcquisition() {
 		boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
 		if (confirmed) {
 			try {
-				getAcquisitionController().loadAcquisitionConfiguration(getAcquisitionManager().newAcquisition(key));
+				getAcquisitionController().newScanningAcquisition(key);
 			} catch (AcquisitionControllerException e) {
 				logger.error("Could not create new beam selector acquisition", e);
 			}
@@ -162,13 +147,6 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 			acquisitionController = SpringApplicationContextFacade.getBean(ScanningAcquisitionController.class);
 		}
 		return acquisitionController;
-	}
-
-	private AcquisitionManager getAcquisitionManager() {
-		if (acquisitionManager == null) {
-			acquisitionManager = Activator.getService(AcquisitionManager.class);
-		}
-		return acquisitionManager;
 	}
 
 	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
