@@ -8,15 +8,18 @@
 	</description>
 	
 	<bean id="i22-tomo-setup-bean" class="uk.ac.diamond.daq.mapping.api.TensorTomoScanBean">
-		<property name="angle1ScannableName" value="hfm_pitch"/>
-		<property name="angle2ScannableName" value="hfm_yaw"/>
-		<property name="exposureTime" value="0.01"/>
-		<property name="angleRegionModel">
-			<bean class="uk.ac.diamond.daq.mapping.region.RectangularMappingRegion">
-				<property name="xStart" value="0"/>
-				<property name="xStop" value="180"/>
-				<property name="yStart" value="0"/>
-				<property name="yStop" value="90"/>
+		<property name="angle1Model">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+				<constructor-arg name="name" value="hfm_pitch"/>
+				<constructor-arg name="model"><null /></constructor-arg>
+				<constructor-arg name="includeInScan" value="true"/>
+			</bean>
+		</property>
+		<property name="angle2Model">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+				<constructor-arg name="name" value="hfm_yaw"/>
+				<constructor-arg name="model"><null /></constructor-arg>
+				<constructor-arg name="includeInScan" value="true"/>
 			</bean>
 		</property>
 	</bean>
