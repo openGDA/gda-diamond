@@ -219,6 +219,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 phase = -phase
             idcontrol['rowphase3'].asynchronousMoveTo(phase)
             idcontrol['rowphase4'].asynchronousMoveTo(0.0)
+            if polarisation == X_RAY_POLARISATIONS[6]:
+                raise RuntimeError("polarisation is not defined!")
             if not polarisation == X_RAY_POLARISATIONS[4]:
                 idcontrol['jawphase'].asynchronousMoveTo(0.0) #set ID jawphase to 0 position except for la
         except:

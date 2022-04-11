@@ -20,7 +20,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
     '''Controller for constant velocity scan moving both PGM Grating Pitch and ID Gap at same time at constant speed respectively.
         It works for both Live and Dummy mode.
     '''
-    def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch, pgmpvroot, energy, idupvroot, iddpvroot, move_pgm=True, move_id=True): # motors, maybe also detector to set the delay time
+    def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch, pgmpvroot, energy, polarisation, idupvroot, iddpvroot, move_pgm=True, move_id=True): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("ContinuousPgmGratingIDGapEnergyMoveController:%s" % name)
         self.verbose = False
         self.setName(name)
@@ -48,6 +48,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             
         #ID
         self.energy = energy
+        self.polarisation = polarisation
         self.idd = energy.idd
         self.idu = energy.idu
         self._id_gap_speed_orig=None
@@ -278,12 +279,12 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (+ve)' % (self.energy.source.getPosition(), (self._id_gap_start - self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
-            self.energy.move_id_to_positions(idcontrols, self._id_gap_start - self._id_gap_runupdown, phase_midpoint, self.energy.polarisation)
+                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (+ve)' % (self.energy.source.getPosition(), (self._id_gap_start - self._id_gap_runupdown), phase_midpoint, self.epolarisation.getPosition(), self._id_gap_speed_orig))
+            self.energy.move_id_to_positions(idcontrols, self._id_gap_start - self._id_gap_runupdown, phase_midpoint, self.polarisation.getPosition())
         else:
             if self.verbose:
-                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (-ve)' % (self.energy.source.getPosition(), (self._id_gap_start + self._id_gap_runupdown), phase_midpoint, self.energy.polarisation, self._id_gap_speed_orig))
-            self.energy.move_id_to_positions(idcontrols, self._id_gap_start + self._id_gap_runupdown, phase_midpoint, self.energy.polarisation)
+                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (-ve)' % (self.energy.source.getPosition(), (self._id_gap_start + self._id_gap_runupdown), phase_midpoint, self.polarisation.getPosition(), self._id_gap_speed_orig))
+            self.energy.move_id_to_positions(idcontrols, self._id_gap_start + self._id_gap_runupdown, phase_midpoint, self.polarisation.getPosition())
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
