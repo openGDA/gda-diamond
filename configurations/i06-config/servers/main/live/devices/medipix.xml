@@ -262,6 +262,14 @@
 			</bean>
 		</property>
 	</bean>
+	<bean id="kbRasteringPeriod_delayed" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
+		<property name="expression" value="@medipix_adbase.getAcquireTime() gt 0.1 ? @medipix_adbase.getAcquireTime() : 0.1"/>
+		<property name="enabled" value="true" />
+		<property name="restorePvValue" value="true" />
+		<property name="waitTimeInSeconds" value="0.5"/>
+		<property name="decoratee" ref="softstatrstop"/>
+	</bean>
 	<bean id="medipixMultipleCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
 		<property name="restoreAcquireState" value="false" />
 		<property name="decoratee">
@@ -284,7 +292,7 @@
 									<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 										<property name="restoreTriggerMode" value="true" />
 										<property name="triggerMode" value="0" /> <!-- Auto trigger mode -->
-										<property name="decoratee" ref="kbRasteringPeriod" />
+										<property name="decoratee" ref="kbRasteringPeriod_delayed" />
 									</bean>
 								</property>
 							</bean>
