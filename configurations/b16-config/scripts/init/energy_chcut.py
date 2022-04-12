@@ -1,10 +1,11 @@
 from gda.device.scannable import ScannableBase
 from gda.device.scannable import ScannableUtils
 import math
+from gdascripts.utils import caget
 
 
 # channel cut PV that drives monochromator energy in electron volts
-class _energy_chcut (ScannableBase):
+class EnergyChcut(ScannableBase):
     # silicon d spacing in Angstroms
     a0 = 5.4307
     # 311 reflection
@@ -22,7 +23,6 @@ class _energy_chcut (ScannableBase):
         self.setInputNames([name])
         self.setExtraNames([])
         self.setOutputFormat(["%5.5g"])
-        self.getPosition ()
 
     def getPosition(self):
         """returns the mono energy in eV"""
@@ -44,4 +44,4 @@ class _energy_chcut (ScannableBase):
         """Returns the status of this Scannable."""
         return int (caget ('BL16B-OP-DCM-01:XTAL1:BRAGG.MOVN'))
 
-energy_chcut = _energy_chcut ()
+energy_chcut = EnergyChcut()
