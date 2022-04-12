@@ -63,6 +63,7 @@ from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntens
 from gdascripts.scannable.dummy import SingleInputDummy, SingleInputStringDummy
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 from gda.device.scannable.scannablegroup import ScannableGroup
+from init.energy_chcut import energy_chcut
 
 
 print "======================================================================"
