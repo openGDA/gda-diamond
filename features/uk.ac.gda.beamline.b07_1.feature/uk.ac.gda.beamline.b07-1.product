@@ -11,6 +11,8 @@
    </configIni>
 
    <launcherArgs>
+      <programArgs>-perspective uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.specsperspective
+      </programArgs>
       <vmArgs>-Dgda.mode=dummy
 -Dgda.config=${project_loc:b07-1-config}
 -Dgda.propertiesFile=${project_loc:b07-1-config}/properties/dummy/dummy_instance_java.properties
@@ -76,5 +78,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
    </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
