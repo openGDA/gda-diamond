@@ -9,6 +9,11 @@
 
 	<bean id="sm_zp_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sm_rotation_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="sm_polar_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="deg"/>
+	</bean>
+	<bean id="sm_azimuth_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="deg"/>
+	</bean>
 
 </beans>

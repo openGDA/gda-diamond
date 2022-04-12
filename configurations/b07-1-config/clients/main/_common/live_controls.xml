@@ -70,12 +70,21 @@
 		<property name="increment" value="0.1" />
 	</bean>
 	
-	<bean id="sm_rotate" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+	<bean id="sm_polar_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Rotation A motor" />
 		<property name="group" value="Sample Manipulator" />
-		<property name="scannableName" value="sm_rotation" />
+		<property name="scannableName" value="sm_polar_rotation" />
 		<property name="incrementTextWidth" value="60"/>
-		<property name="userUnits" value="degrees" />
+		<property name="userUnits" value="deg" />
+		<property name="increment" value="0.1" />
+	</bean>
+	
+	<bean id="sm_azimuth_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Rotation B motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_azimuth_rotation" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="deg" />
 		<property name="increment" value="0.1" />
 	</bean>
 	
@@ -155,9 +164,7 @@
 		<property name="readOnly" value="true" />
 		<property name="textWidth" value="100" />
 		<property name="textInput" value="true" />
-	</bean>
-	
-	
+	</bean>	
 
 	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -171,7 +178,8 @@
 				<ref bean="sm_x_axis"/>
 				<ref bean="sm_y_axis"/>
 				<ref bean="sm_z_axis"/>
-				<ref bean="sm_rotate"/>
+				<ref bean="sm_polar_axis"/>
+				<ref bean="sm_azimuth_axis"/>
 				<ref bean="expt_shutter_control"/>
 				<ref bean="expt_shutter_status"/>
 				<ref bean="fast_shutter_control"/>

@@ -15,8 +15,12 @@
 		<property name="pvName" value="BL07C-EA-SM-01:ZP" />
 	</bean>
 
-	<bean id="sm_rotation_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="sm_polar_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-EA-SM-01:ROTA" />
 	</bean>
 
+	<bean id="sm_azimuth_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-SM-01:ROTB" />
+	</bean>
+	
 </beans>
