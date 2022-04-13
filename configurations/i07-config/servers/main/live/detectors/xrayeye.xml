@@ -84,6 +84,7 @@
 	<bean id="xrayeye_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL07I-DI-XRAY-01:HDF5:" />
 		<property name="file" ref="xrayeye_ndfile" />
+		<property name="useSWMR" value="true" />
 	</bean>
     
 </beans>
