@@ -3,7 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-
+	
+	
 	<bean id="th" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpthMotor" />
 		<property name="outputFormat">
@@ -14,7 +15,7 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="x" class="gda.device.scannable.ScannableMotor">
+	<bean id="x" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="smpxMotor" />
 		<property name="outputFormat">
 			<list>
@@ -22,6 +23,11 @@
 			</list>
 		</property>
 		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="smpxMotor"/>
+			</bean>		
+		</property>
 	</bean>
 
 	<bean id="y" class="gda.device.scannable.ScannableMotor">

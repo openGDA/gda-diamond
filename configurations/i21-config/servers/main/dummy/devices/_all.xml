@@ -71,5 +71,6 @@
 	<import resource="topup.xml" />
 	<import resource="feedback.xml"/>
 	<import resource="xcam.xml"/>
+	<import resource="simad_motors.xml"/>
 
 </beans>
