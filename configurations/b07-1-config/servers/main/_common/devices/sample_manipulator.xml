@@ -3,17 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sm" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="sm_xp" />
-				<ref bean="sm_yp" />
-				<ref bean="sm_zp" />
-				<ref bean="sm_rotation" />
-			</list>
-		</property>
-	</bean>
-
 	<bean id="sm_xp" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sm_xp_motor" />
 	</bean>
@@ -26,8 +15,24 @@
 		<property name="motor" ref="sm_zp_motor" />
 	</bean>
 
-	<bean id="sm_rotation" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sm_rotation_motor" />
+	<bean id="sm_polar_rotation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm_polar_motor" />
 	</bean>
 
+	<bean id="sm_azimuth_rotation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm_azimuth_motor" />
+	</bean>
+	
+
+	<bean id="sm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sm_xp" />
+				<ref bean="sm_yp" />
+				<ref bean="sm_zp" />
+				<ref bean="sm_polar_rotation" />
+				<ref bean="sm_azimuth_rotation" />
+			</list>
+		</property>
+	</bean>
 </beans>

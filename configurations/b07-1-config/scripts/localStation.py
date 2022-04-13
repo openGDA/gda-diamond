@@ -57,7 +57,7 @@ if installation.isLive():
     end_station_configuration = int(caget("BL07C-EA-ENDST-01:CFG:HW_RBV"))
     if end_station_configuration == 1: #TPOT
         print("add TPOT metadata scannables to be captured in data files.")
-        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_rotation] #@UndefinedVariable
+        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation] #@UndefinedVariable
     if end_station_configuration == 2: #TCUP
         print("add TCUP metadata scannables to be captured in data files.")
         meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
@@ -66,7 +66,7 @@ else:
     spring_profiles = System.getProperty("gda.spring.profiles.active")
     if "TPOT" in spring_profiles:
         print("add TPOT metadata scannables to be captured in data files.")
-        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_rotation] #@UndefinedVariable
+        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation] #@UndefinedVariable
     if "TCUP" in spring_profiles:
         print("add TCUP metadata scannables to be captured in data files.")
         meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
