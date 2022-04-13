@@ -14,7 +14,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL07I-DI-XRAY-01:ROI:" />
-				<property name="initialArrayPort" value="XRAYEYE.CAM" />
+				<property name="initialArrayPort" value="XRAYEYE1.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -24,7 +24,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL07I-DI-XRAY-01:STAT:" />
-				<property name="initialArrayPort" value="XRAYEYE.CAM" />
+				<property name="initialArrayPort" value="XRAYEYE1.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -34,7 +34,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL07I-DI-XRAY-01:ARR:" />
-				<property name="initialArrayPort" value="XRAYEYE.roi" />
+				<property name="initialArrayPort" value="XRAYEYE1.roi" />
 			</bean>
 		</property>
 	</bean>
@@ -44,7 +44,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL07I-DI-XRAY-01:HDF5:" />
-				<property name="initialArrayPort" value="XRAYEYE.stat" />
+				<property name="initialArrayPort" value="XRAYEYE1.stat" />
 			</bean>
 		</property>
 		<property name="initialWriteMode" value="0" />
@@ -58,7 +58,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL07I-DI-XRAY-01:FIMG:" />
-				<property name="initialArrayPort" value="XRAYEYE.CAM" />
+				<property name="initialArrayPort" value="XRAYEYE1.CAM" />
 			</bean>
 		</property>
 		<property name="initialWriteMode" value="0" />
@@ -72,7 +72,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL07I-DI-XRAY-01:TIFF:" />
-				<property name="initialArrayPort" value="XRAYEYE.CAM" />
+				<property name="initialArrayPort" value="XRAYEYE1.CAM" />
 			</bean>
 		</property>
 		<property name="initialWriteMode" value="0" />
