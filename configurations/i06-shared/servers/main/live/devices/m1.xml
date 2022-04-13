@@ -27,7 +27,7 @@
 	</bean>
 
 	<bean id="MotorFinePitch_M1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-COLM-01:FPITCH" />
+		<property name="pvName" value="BL06I-OP-COLM-01:S:FINEPITCH" />
 	</bean>
 
 		<!-- M1 Hexapod Legs Control Point -->

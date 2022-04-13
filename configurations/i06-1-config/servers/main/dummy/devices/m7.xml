@@ -102,10 +102,10 @@
 	</bean>
 
 	<bean id="MotorFinePitch_M7" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10.0000" />
-		<property name="maxPosition" value="10.0000" />
+		<property name="minPosition" value="-8190" />
+		<property name="maxPosition" value="8190" />
 		<property name="speed" value="1" />
-		<property name="unitString" value="V"/>
+		<property name="unitString" value="cts"/>
 	</bean>
 
 </beans>

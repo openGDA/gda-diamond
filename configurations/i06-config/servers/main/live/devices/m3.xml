@@ -83,7 +83,7 @@
 	</bean>
 
 	<bean id="MotorFinePitch_M3" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-OP-FCMIR-01:FPITCH" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:FINEPITCH" />
 	</bean>
 
 </beans>
