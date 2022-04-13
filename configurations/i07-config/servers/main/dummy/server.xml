@@ -41,7 +41,8 @@
 	<import resource="detectors/dcam6.xml" />
 	<import resource="detectors/dcam7.xml" />
 	<import resource="detectors/dcam8.xml" />
-	<import resource="detectors/xrayeye.xml" />
+	<import resource="detectors/xrayeye1.xml" />
+	<import resource="detectors/xrayeye2.xml" />
 	<import resource="detectors/d1cam.xml" />
 	<import resource="detectors/d1acam.xml" />
 	<import resource="detectors/d4cam.xml" />
