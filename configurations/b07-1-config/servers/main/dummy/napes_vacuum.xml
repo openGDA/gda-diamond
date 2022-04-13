@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="napes_vac_01" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="mbar"/>
+	<bean id="pirg_82" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="Torr"/>
 		<property name="value">
 			<value type="double">0.235e-2</value>
 		</property>
@@ -13,8 +13,8 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="napes_vac_02" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="mbar"/>
+	<bean id="pirg_83" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="Torr"/>
 		<property name="value">
 			<value type="double">0.235e-2</value>
 		</property>
@@ -34,26 +34,6 @@
 	</bean>
 
 	<bean id="napes_vac_04" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="mbar"/>
-		<property name="value">
-			<value type="double">0.235e-2</value>
-		</property>
-		<property name="lowerLimit" value="0" />
-		<property name="upperLimit" value="1.5" />
-		<property name="increment" value="0.2e-8" />
-	</bean>
-
-	<bean id="napes_vac_05" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="mbar"/>
-		<property name="value">
-			<value type="double">0.235e-2</value>
-		</property>
-		<property name="lowerLimit" value="0" />
-		<property name="upperLimit" value="1.5" />
-		<property name="increment" value="0.2e-8" />
-	</bean>
-
-	<bean id="napes_vac_06" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-2</value>

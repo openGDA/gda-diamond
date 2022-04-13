@@ -81,12 +81,10 @@
 				<!-- sample temperature -->
 				<value>sample_temperature</value>
 				<!-- NAPES vacuum -->
-				<value>napes_vac_01</value>
-				<value>napes_vac_02</value>
 				<value>napes_vac_03</value>
 				<value>napes_vac_04</value>
-				<value>napes_vac_05</value>
-				<value>napes_vac_06</value>
+				<value>pirg_82</value>
+				<value>pirg_83</value>
 				<!-- vacuum spaces -->
 				<value>bl07c_space_01</value>
 				<value>bl07c_space_02</value>

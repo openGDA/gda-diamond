@@ -3,16 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="napes_vac_01" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-CAPG-01:AV"/>
-		<property name="unit" value="mbar"/>
+	<bean id="pirg_82" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-VA-PIRG-82:PRESSURE3_RBV"/>
+		<property name="unit" value="Torr"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="napes_vac_02" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-CAPG-02:AV"/>
-		<property name="unit" value="mbar"/>
+	<bean id="pirg_83" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-VA-PIRG-83:PRESSURE3_RBV"/>
+		<property name="unit" value="Torr"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
@@ -26,20 +26,6 @@
 
 	<bean id="napes_vac_04" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-VA-CAPG-04:AV"/>
-		<property name="unit" value="mbar"/>
-		<property name="poll" value="true"/>
-		<property name="sensitivity" value="2.0"/>
-	</bean>
-
-	<bean id="napes_vac_05" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-CAPG-05:AV"/>
-		<property name="unit" value="mbar"/>
-		<property name="poll" value="true"/>
-		<property name="sensitivity" value="2.0"/>
-	</bean>
-
-	<bean id="napes_vac_06" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-CAPG-06:AV"/>
 		<property name="unit" value="mbar"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
