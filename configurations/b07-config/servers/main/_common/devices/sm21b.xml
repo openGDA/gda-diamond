@@ -7,20 +7,44 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 	
-	<bean id="sm21b_x" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm21b_x" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm21b_x_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm21b_x_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="sm21b_z" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm21b_z" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm21b_z_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm21b_z_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="sm21b_y" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm21b_y" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm21b_y_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm21b_y_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="sm21b_roty" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm21b_roty" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm21b_roty_motor" />
+		<property name="userUnits" value="deg" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm21b_roty_motor"/>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="sm21b" class="gda.device.scannable.scannablegroup.ScannableGroup">

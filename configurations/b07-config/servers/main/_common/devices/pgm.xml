@@ -3,13 +3,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pgm_energy" class="gda.device.scannable.ScannableMotor">
+	<bean id="pgm_energy" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="pgm_energy_motor" />
 		<property name="outputFormat" value="%.2f" />
+		<property name="userUnits" value="eV" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="pgm_energy_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">
+	<bean id="pgm_cff" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="pgm_cff_motor" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="pgm_cff_motor"/>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="pgm_mirror_pitch" class="gda.device.scannable.ScannableMotor">

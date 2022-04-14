@@ -3,24 +3,54 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sm_xp" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm_xp" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm_xp_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm_xp_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="sm_yp" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm_yp" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm_yp_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm_yp_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="sm_zp" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm_zp" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm_zp_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm_zp_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="sm_polar_rotation" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm_polar_rotation" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm_polar_motor" />
+		<property name="userUnits" value="deg" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm_polar_motor"/>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="sm_azimuth_rotation" class="gda.device.scannable.ScannableMotor">
+	<bean id="sm_azimuth_rotation" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="sm_azimuth_motor" />
+		<property name="userUnits" value="deg" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm_azimuth_motor"/>
+			</bean>
+		</property>
 	</bean>
 	
 

@@ -17,9 +17,15 @@
 		<property name="motor" ref="s4b_ygap_motor" />
 	</bean>
 
-	<bean id="s4b_ygapsize" class="gda.device.scannable.ScannableMotor">
+	<bean id="s4b_ygapsize" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="s4b_ysize_motor" />
 		<property name="outputFormat" value="%.3f" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="s4b_ysize_motor"/>
+			</bean>
+		</property>
 	</bean>
 
 	<!-- Slits z along the beam -->

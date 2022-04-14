@@ -12,8 +12,14 @@
 		<property name="motor" ref="m4c_y_motor" />
 	</bean>
 
-	<bean id="m4c_pitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4c_pitch" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="m4c_pitch_motor" />
+		<property name="userUnits" value="deg" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="m4c_pitch_motor"/>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="m4c_roll" class="gda.device.scannable.ScannableMotor">
