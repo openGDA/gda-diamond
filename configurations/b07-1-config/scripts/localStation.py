@@ -3,38 +3,41 @@
 #
 import java
 from gda.configuration.properties import LocalProperties
+import sys
+from utils.ExceptionLogs import localStation_exceptions, localStation_exception
+from gdascripts.messages.handle_messages import simpleLog
 
-print "=================================================================================================================";
-print "Performing beamline specific initialisation code (b07-1).";
-print "=================================================================================================================";
+print("=================================================================================================================")
+print("Performing beamline specific initialisation code (b07-1).")
+print("=================================================================================================================")
 print
 
-print "Load EPICS pseudo device utilities for creating scannable object from a PV name."
+print("Load EPICS pseudo device utilities for creating scannable object from a PV name.")
 from gdascripts.pd.epics_pds import * #@UnusedWildImport
 
-print "Load time utilities."
+print("Load time utilities.")
 from gdascripts.pd.time_pds import * #@UnusedWildImport
 # Make time scannable 
 # Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
 from gdascripts.scannable.timerelated import TimeSinceScanStart
 timeScannable = TimeSinceScanStart('timeScannable')
 
-print "Load utilities: caget(pv), caput(pv,value), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)"
+print("Load utilities: caget(pv), caput(pv,value), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)")
 from gdascripts.utils import * #@UnusedWildImport
 
-print "Installing standard scans with processing"
+print("Installing standard scans with processing")
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
-print "Installing regional scan"
+print("Installing regional scan")
 from gdascripts.scan.RegionalScan import RegionalScanClass
 mrscan = RegionalScanClass()
 alias('mrscan')
 
-print "Installing configure_analyser_fixed_transmission"
+print("Installing configure_analyser_fixed_transmission")
 from beamline.configure_analyser_fixed_transmission import configure_analyser_fixed_transmission
 
-print "Installing EPICS archiver client"
+print("Installing EPICS archiver client")
 from gdascripts.archiver.archiver import archive
 alias('archive')
 from gdaserver import archiver  # @UnresolvedImport @UnusedImport
@@ -56,11 +59,19 @@ if installation.isLive():
     meta_data_list = meta_data_list +[rga]  # @UndefinedVariable
     end_station_configuration = int(caget("BL07C-EA-ENDST-01:CFG:HW_RBV"))
     if end_station_configuration == 1: #TPOT
-        print("add TPOT metadata scannables to be captured in data files.")
-        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation] #@UndefinedVariable
+        print("add TPOT scannables to metadata list ...")
+        try:
+            meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation] #@UndefinedVariable
+        except Exception as e:
+            print("adding TPOT to metadata failed.")
+            localStation_exception(sys.exc_info(), "adding TPOT to metadata error")
     if end_station_configuration == 2: #TCUP
         print("add TCUP metadata scannables to be captured in data files.")
-        meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
+        try:
+            meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
+        except Exception as e:
+            print("adding TCUP to metadata failed.")
+            localStation_exception(sys.exc_info(), "adding TCUP to metadata error")
 else:
     from java.lang import System  # @UnresolvedImport
     spring_profiles = System.getProperty("gda.spring.profiles.active")
@@ -79,9 +90,20 @@ for each in meta_data_list:
 extraDetectors = ""
 
 print("-"*100)
-from gda.device.scannable import PVScannable
-print "To create a PVScannable from a PV:"
-print "   >>> my_scannable = PVScannable('my_scannable', 'PV_name')"
-print "   >>> my_scannable.configure()"
+print("To create a PVScannable from a PV:")
+print("   >>> my_scannable = PVScannable('my_scannable', 'PV_name')")
+print("   >>> my_scannable.configure()")
+from gda.device.scannable import PVScannable  # @UnusedImport
 
-print "-----------------------------------------------------------------------------------------------------------------"
+print("-"*100)
+
+if len(localStation_exceptions) > 0:
+    simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
+
+for localStationException in localStation_exceptions:
+    simpleLog(localStationException)
+
+print("**************************************************")
+print("localStation.py completed.")
+print("**************************************************")
+
