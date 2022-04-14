@@ -12,6 +12,7 @@
      </bean>
 
     <bean id="sample_temperature" class="gda.device.temperature.Eurotherm2K">
+    	<property name="inputNames" value="sample_temperature"/>
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "1"/>
         <property name="polltime" value = "1000"/>
