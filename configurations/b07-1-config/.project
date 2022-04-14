@@ -3,6 +3,7 @@
 	<name>b07-1-config</name>
 	<comment></comment>
 	<projects>
+		<project>uk.ac.gda.client</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.epics</project>
 	</projects>

@@ -9,16 +9,28 @@
 		<property name="motor" ref="s4c_xgap_motor" />
 	</bean>
 
-	<bean id="s4c_xgapsize" class="gda.device.scannable.ScannableMotor">
+	<bean id="s4c_xgapsize" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="s4c_xsize_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="s4c_xsize_motor"/>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="s4c_ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s4c_ygap_motor" />
 	</bean>
 
-	<bean id="s4c_ygapsize" class="gda.device.scannable.ScannableMotor">
+	<bean id="s4c_ygapsize" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="motor" ref="s4c_ysize_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="s4c_ysize_motor"/>
+			</bean>
+		</property>
 	</bean>
 
 	<!-- Slits z along the beam -->
