@@ -171,6 +171,7 @@ run_in_try_catch(setupMedipix)
 run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMythen)
+run_in_try_catch(setupPilatus)
 
 if globals().has_key("xspress4") == False :
     print "Not running default_scannable.py - xspress4 detector not present"

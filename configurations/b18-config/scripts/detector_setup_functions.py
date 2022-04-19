@@ -111,6 +111,23 @@ def setupMedipix() :
     cam_port = CAClient.get(medipix_basePvName+":CAM:PortName_RBV")
     CAClient.put(medipix_basePvName+":ARR:NDArrayPort", cam_port)
 
+def setupPilatus() :
+    print("Setting up Pilatus detector")
+    
+    adbase = pilatus_addetector.getAdBase()
+    basePv = adbase.getBasePVName().replace("CAM:","")
+    camPortName = adbase.getPortName_RBV()
+    print("  Base Pilatus PV name : %s"%(basePv))
+    arrayBasePv = pilatus_addetector.getNdArray().getBasePVName();
+    fileBasePV = pilatus_addetector.getNdFile().getBasePVName()
+    statsBasePV = pilatus_addetector.getNdStats().getBasePVName()
+    
+    print("  Setting array, file and stats plugin array ports to : %s"%(camPortName))
+    CAClient.put(arrayBasePv+"NDArrayPort", camPortName)
+    CAClient.put(fileBasePV+"NDArrayPort", camPortName)
+    CAClient.put(statsBasePV+"NDArrayPort", camPortName)
+
+
 def continuous_detector_scan(bufferedDetector, numReadouts, timePerReadout):
     # dummy_qexafs_energy = Finder.finf("dummy_qexafs_energy")
     qexafs_counterTimer01.setUseInternalTriggeredFrames(True)

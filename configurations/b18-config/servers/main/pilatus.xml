@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+
+	<bean id="pilatus_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pilatus_hdf5" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="pilatus_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="pilatus_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                        <property name="restoreTriggerMode" value="true" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+ 
+	<bean id="pilatus_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pilatus_adbase" />
+		<property name="ndFile" ref="pilatus_ndfile" />
+		<property name="ndArray" ref="pilatus_ndarray" />
+		<property name="ndStats" ref="pilatus_stats" />
+		<property name="fileWriter" ref="pilatus_hdf5_writer" />
+		<property name="collectionStrategy" ref="pilatus_collection_strategy"/>
+	</bean>
+
+	<bean id="pilatus_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="pilatus_adbase" />
+		<constructor-arg ref="pilatus_roi" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+
+</beans>
