@@ -43,7 +43,7 @@ daServer = Finder.find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
-
+detectorPreparer.setPilatusDetector(pilatus_addetector)
 
 # TODO this could all be done in Sping XML
 theFactory = XasScanFactory();
