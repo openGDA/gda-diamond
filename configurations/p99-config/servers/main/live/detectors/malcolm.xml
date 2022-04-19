@@ -88,4 +88,16 @@
 		<property name="activated" value="false" />
 	</bean>
 	
+	<bean id="malcolmModelAndorMarana" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-03" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceAndorMarana" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-03" />
+		<property name="model" ref="malcolmModelAndorMarana" />
+		<property name="deviceInformation" ref="malcolmInfoAndorMarana" />
+		<property name="activated" value="false" />
+	</bean>
+	
 </beans>

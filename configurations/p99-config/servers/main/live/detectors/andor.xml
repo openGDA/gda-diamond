@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- Andor Area Detector EPICS Plugins -->
+	
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="andor_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/andorRoi" />
+		<property name="service" ref="andor_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<bean id="andor_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats1" />
+		<property name="baseRoiPVName" value="BL99P-EA-DET-03:ROI1:" />
+		<property name="baseStatsPVName" value="BL99P-EA-DET-03:STAT1:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="andor_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats2" />
+		<property name="baseRoiPVName" value="BL99P-EA-DET-03:ROI2:" />
+		<property name="baseStatsPVName" value="BL99P-EA-DET-03:STAT2:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="andor_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats3" />
+		<property name="baseRoiPVName" value="BL99P-EA-DET-03:ROI3:" />
+		<property name="baseStatsPVName" value="BL99P-EA-DET-03:STAT3:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="2" />
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="andor_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats4" />
+		<property name="baseRoiPVName" value="BL99P-EA-DET-03:ROI4:" />
+		<property name="baseStatsPVName" value="BL99P-EA-DET-03:STAT4:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="andor_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats5" />
+		<property name="baseRoiPVName" value="BL99P-EA-DET-03:ROI5:" />
+		<property name="baseStatsPVName" value="BL99P-EA-DET-03:STAT5:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="andor_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats6" />
+		<property name="baseRoiPVName" value="BL99P-EA-DET-03:ROI6:" />
+		<property name="baseStatsPVName" value="BL99P-EA-DET-03:STAT6:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	
+		<bean id="andorCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="andor_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- use EPICS HDF5 plugin to write data to file -->
+	<bean id="andorHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="andor_hdf5"/>
+		<property name="fileNameTemplate" value="andor"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+	<!-- used with live stream view -->
+ 	<bean id="andor" class="gda.device.detector.NXDetector">
+		<property name="name" value="andor" />
+		<property name="collectionStrategy" ref="andorCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="andor_RoiStats1" />
+				<ref bean="andor_RoiStats2" />
+				<ref bean="andor_RoiStats3" />
+				<ref bean="andor_RoiStats4" />
+				<ref bean="andor_RoiStats5" />
+				<ref bean="andor_RoiStats6" />
+				<ref bean="andorHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
