@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <IonChambersBean>
-    <energy>7400.0</energy>
+    <energy>7437.0</energy>
     <ionChambers>
         <name>I0</name>
         <deviceName>counterTimer01</deviceName>
@@ -10,15 +10,15 @@
         <offset>1 pA</offset>
         <useGasProperties>true</useGasProperties>
         <gasType>Ar</gasType>
-        <percentAbsorption>20.0</percentAbsorption>
-        <pressure>0.03018534475110039</pressure>
+        <percentAbsorption>15.0</percentAbsorption>
+        <pressure>0.022337919657814998</pressure>
         <totalPressure>1.1</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
         <gas_fill2_period_box>100.0</gas_fill2_period_box>
         <changeSensitivity>false</changeSensitivity>
         <autoFillGas>false</autoFillGas>
-        <flush>true</flush>
+        <flush>false</flush>
     </ionChambers>
     <ionChambers>
         <name>It</name>
@@ -29,8 +29,8 @@
         <offset>1 pA</offset>
         <useGasProperties>true</useGasProperties>
         <gasType>Ar</gasType>
-        <percentAbsorption>80.0</percentAbsorption>
-        <pressure>0.21904118214590665</pressure>
+        <percentAbsorption>70.0</percentAbsorption>
+        <pressure>0.16702426168793216</pressure>
         <totalPressure>1.1</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
@@ -48,14 +48,14 @@
         <offset>1 pA</offset>
         <useGasProperties>true</useGasProperties>
         <gasType>Ar</gasType>
-        <percentAbsorption>80.0</percentAbsorption>
-        <pressure>0.21904118214590665</pressure>
+        <percentAbsorption>70.0</percentAbsorption>
+        <pressure>0.16702426168793216</pressure>
         <totalPressure>1.1</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
         <gas_fill2_period_box>100.0</gas_fill2_period_box>
         <changeSensitivity>false</changeSensitivity>
         <autoFillGas>false</autoFillGas>
-        <flush>true</flush>
+        <flush>false</flush>
     </ionChambers>
 </IonChambersBean>
