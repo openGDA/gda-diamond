@@ -31,7 +31,6 @@ from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImpo
 from gdascripts.scannable.dummy import SingleInputDummy #@UnusedImport
 from gdascripts.utils import caget, caput #@UnusedImport
 from gdascripts.visit import VisitSetter, PilatusAdapter, IPPAdapter, ProcessingDetectorWrapperAdapter, FileWritingDetectorAdapter
-#from init.init_scan_commands_and_processing import * #@UnusedWildImport
 from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
 import gdascripts.scan.concurrentScanWrapper
 from pd_MonitorWrapper import MonitorWrapper
@@ -64,6 +63,7 @@ from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntens
 from gdascripts.scannable.dummy import SingleInputDummy, SingleInputStringDummy
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 from gda.device.scannable.scannablegroup import ScannableGroup
+from init.energy_chcut import energy_chcut
 
 
 print "======================================================================"
@@ -113,7 +113,6 @@ def enable_nexus():
 
 disable_nexus()
 
-#from init.init_scan_commands_and_processing import *
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
