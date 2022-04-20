@@ -39,7 +39,7 @@ public class StepScanEdeDetector extends DetectorBase implements NexusDetector {
 	private int pollTimeMilliSecs = 10;
 	private EdeDetector detector;
 	private int numberScansPerFrame = 1;
-	private double timeUnitLength = 1000.0;
+	private double timeUnitLength = 1.0;
 
 	/**
 	 * Configure the detector once at start of scan to save some time during the collection
