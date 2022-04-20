@@ -22,7 +22,7 @@ import uk.ac.gda.client.scripting.JythonPerspective;
 
 public class RIXSPerspective implements IPerspectiveFactory {
 
-	public final static String ID="uk.ac.gda.beamline.i21.perspectives.rixs";
+	public static final String ID="uk.ac.gda.beamline.i21.perspectives.rixs";
 
 	private static final String TERMINAL_FOLDER = "terminalFolder";
 	private static final String PROJ_FOLDER = "projFolder";
@@ -61,7 +61,7 @@ public class RIXSPerspective implements IPerspectiveFactory {
 		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.45, STATUS_FOLDER); //$NON-NLS-1$
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView:andor#EPICS_ARRAY");
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView:andor2#EPICS_ARRAY");
-//		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.xcam.live.stream.view.LiveStreamView:xcam#EPICS_ARRAY");
+		detectorPlotFolder.addPlaceholder("uk.ac.gda.beamline.i21.xcam.live.stream.view.LiveStreamView:xcam#EPICS_ARRAY");
 		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
 		detectorPlotFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
 		detectorPlotFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
@@ -74,7 +74,7 @@ public class RIXSPerspective implements IPerspectiveFactory {
 		toolpageFolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
 		
 		IFolderLayout liveControlFolder=layout.createFolder(LIVE_CONTROL_FOLDER, IPageLayout.BOTTOM, (float)0.6, TOOLPAGE_FOLDER); //$NON-NLS-1$
-		liveControlFolder.addView(LiveControlsView.ID);
+		liveControlFolder.addView(LiveControlsView.ID + ":controlSet");
 		liveControlFolder.addView("uk.ac.gda.rcp.views.dashboardView");
 		liveControlFolder.addPlaceholder(LiveControlsView.ID + ":*");
 		liveControlFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
