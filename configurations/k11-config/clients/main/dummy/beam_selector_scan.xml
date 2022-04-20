@@ -8,6 +8,8 @@
 		<property name="yAxisName" value="simy" />
 		<property name="monoImagingScan" value="#{workstation}-ML-SCAN-02" />
 		<property name="pinkImagingScan" value="#{workstation}-ML-SCAN-01" />
+		<property name="imagingDetectorId" value="PCO_CAMERA" />
+		<property name="diffractionDetectorId" value="PILATUS" />
 	</bean>
 
 </beans>

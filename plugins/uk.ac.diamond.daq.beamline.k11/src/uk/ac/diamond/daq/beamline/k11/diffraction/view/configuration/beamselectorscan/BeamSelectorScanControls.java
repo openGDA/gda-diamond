@@ -40,6 +40,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
@@ -50,14 +51,18 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.api.acquisition.AcquisitionEngineDocument;
+import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.api.acquisition.parameters.DevicePositionDocument;
 import uk.ac.gda.api.acquisition.parameters.DevicePositionDocument.ValueType;
+import uk.ac.gda.api.camera.CameraControl;
+import uk.ac.gda.client.widgets.DetectorExposureWidget;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
@@ -83,6 +88,9 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	private Text xPosition;
 	private Text yPosition;
+
+	private DetectorExposureWidget imagingExposureWidget;
+	private DetectorExposureWidget diffractionExposureWidget;
 
 	private DataBindingContext bindingContext;
 
@@ -161,23 +169,107 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 			.ifPresent(helper -> helper.updateScannableTrackDocumentsPoints(points));
 	}
 
-	private void createImagingBeamControl(Composite composite) {
-		new Label(composite, SWT.NONE).setText("Imaging beam");
-		mono = new Button(composite, SWT.RADIO);
+	private void createImagingBeamControl(Composite parent) {
+
+		var group = createGroup(parent, "Imaging beam");
+
+		space(group);
+
+		mono = new Button(group, SWT.RADIO);
 		mono.setText("Monochromatic");
 
-		space(composite);
+		space(group);
 
-		pink = new Button(composite, SWT.RADIO);
+		pink = new Button(group, SWT.RADIO);
 		pink.setText("Polychromatic");
+
+		var label = new Label(group, SWT.NONE);
+		label.setText("Detector exposure");
+
+		imagingExposureWidget = new DetectorExposureWidget(group, this::setImagingDetectorExposure, this::readImagingDetectorExposure);
 	}
 
-	private void createDiffractionBeamControl(Composite composite) {
-		new Label(composite, SWT.NONE).setText("Diffraction beam");
+	private double getImagingDetectorExposureFromScan() {
+		return getDetectorExposureFromScan(config.getImagingDetectorId());
+	}
 
-		space(composite);
+	private double getDiffractionDetectorExposureFromScan() {
+		return getDetectorExposureFromScan(config.getDiffractionDetectorId());
+	}
 
-		var left = new Composite(composite, SWT.NONE);
+	private double getDetectorExposureFromScan(String detectorId) {
+		var params = getScanningParameters();
+		var detector = params.getDetectors().stream()
+				.filter(det -> det.getId().equals(detectorId))
+				.findFirst().orElseThrow();
+		return detector.getExposure();
+	}
+
+	private void setImagingDetectorExposure(double exposure) {
+		updateDetectorDocument(config.getImagingDetectorId(), exposure);
+	}
+
+	private void setDiffractionDetectorExposure(double exposure) {
+		updateDetectorDocument(config.getDiffractionDetectorId(), exposure);
+	}
+
+	private void updateDetectorDocument(String detectorId, double exposure) {
+		ScanningParameters parameters = getScanningParameters();
+
+		var detectorDocument = parameters.getDetectors().stream()
+								.filter(doc -> doc.getId().equals(detectorId))
+								.findFirst().orElseThrow();
+
+		if (detectorDocument.getExposure() == exposure) return;
+
+		var updatedDocument = new DetectorDocument.Builder()
+								.withMalcolmDetectorName(detectorDocument.getMalcolmDetectorName())
+								.withId(detectorDocument.getId())
+								.withExposure(exposure)
+								.build();
+		parameters.setDetector(updatedDocument);
+	}
+
+	private double readImagingDetectorExposure() {
+		return readDetectorExposure(config.getImagingDetectorId());
+
+	}
+
+	private double readDiffractionDetectorExposure() {
+		return readDetectorExposure(config.getDiffractionDetectorId());
+	}
+
+	/**
+	 * Read exposure from hardware
+	 */
+	private double readDetectorExposure(String detectorName) {
+		try {
+			return getCameraControl(detectorName).getAcquireTime();
+		} catch (DeviceException e) {
+			logger.error("Could not read {} exposure", detectorName, e);
+			return 0.0;
+		}
+	}
+
+	private CameraControl getCameraControl(String detector) {
+		return CameraHelper.getCameraControlByCameraID(detector).orElseThrow();
+	}
+
+	private Composite createGroup(Composite parent, String groupName) {
+		var group = new Group(parent, SWT.BORDER);
+		group.setText(groupName);
+
+		GridLayoutFactory.swtDefaults().extendedMargins(5, 5, 5, 5).numColumns(2).equalWidth(true).applyTo(group);
+		stretch.copy().span(2,1).applyTo(group);
+
+		return group;
+	}
+
+	private void createDiffractionBeamControl(Composite parent) {
+
+		var group = createGroup(parent, "Diffraction beam");
+
+		var left = new Composite(group, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).equalWidth(true).applyTo(left);
 		stretch.copy().span(1, 2).applyTo(left);
 
@@ -191,11 +283,11 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		rightAlignedLabel(left, "X");
 		rightAlignedLabel(left, "Y");
 
-		xPosition = new Text(composite, SWT.BORDER);
+		xPosition = new Text(group, SWT.BORDER);
 		xPosition.addVerifyListener(verifyOnlyDoubleText);
 		stretch.applyTo(xPosition);
 
-		yPosition = new Text(composite, SWT.BORDER);
+		yPosition = new Text(group, SWT.BORDER);
 		xPosition.addVerifyListener(verifyOnlyDoubleText);
 		stretch.applyTo(yPosition);
 
@@ -207,6 +299,11 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 		xPosition.addListener(SWT.Modify, event -> setStartPosition(config.getxAxisName(), "x", Double.parseDouble(xPosition.getText())));
 		yPosition.addListener(SWT.Modify, event -> setStartPosition(config.getyAxisName(), "y", Double.parseDouble(yPosition.getText())));
+
+		var label = new Label(group, SWT.NONE);
+		label.setText("Detector exposure");
+
+		diffractionExposureWidget = new DetectorExposureWidget(group, this::setDiffractionDetectorExposure, this::readDiffractionDetectorExposure);
 	}
 
 	private void initialiseMappingController() {
@@ -287,8 +384,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void separator(Composite composite) {
-		GridDataFactory.fillDefaults().span(numberOfColumns(composite), 1).applyTo(
-				new Label(composite, SWT.NONE));
+		var format = GridDataFactory.fillDefaults().span(numberOfColumns(composite), 1);
+		format.applyTo(new Label(composite, SWT.NONE));
 	}
 
 	private int numberOfColumns(Composite composite) {
@@ -338,6 +435,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 			.getAcquisition().getAcquisitionEngine();
 
 		bindingContext.bindValue(detectorName, PojoProperties.value("id").observe(engine));
+
+		imagingExposureWidget.updateFromModel(getImagingDetectorExposureFromScan());
 	}
 
 	private void initialiseDiffractionBeam() {
@@ -367,11 +466,12 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 				logger.error("Couldn't read beam positions");
 			}
 		}
+
+		diffractionExposureWidget.updateFromModel(getDiffractionDetectorExposureFromScan());
 	}
 
 	private List<DevicePositionDocument> beamPositionInAcquisition() {
-		ScanningParameters parameters = getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
-				.getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
+		ScanningParameters parameters = getScanningParameters();
 
 		return parameters.getStartPosition().stream()
 				.filter(doc -> doc.getDevice().equals(config.getxAxisName()) || doc.getDevice().equals(config.getyAxisName()))
@@ -382,6 +482,11 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	public void reload() {
 		if (name.isDisposed()) return;
 		initialiseControls();
+	}
+
+	private ScanningParameters getScanningParameters() {
+		return getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
+				.getAcquisition().getAcquisitionConfiguration().getAcquisitionParameters();
 	}
 
 	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
