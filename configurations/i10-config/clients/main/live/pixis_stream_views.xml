@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="scattering">
+		<bean id="pixis_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}pixisRoi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<import resource="../_common/pixis_live_controls.xml"/>
+		<bean id="pixis_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="PIXIS" />
+			<property name="url" value="http://i10-detector02:8081/PIXIS1.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10I-EA-PIXIS-01:ARR" />
+			<property name="roiProvider" ref="pixis_roi" />
+			<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+			<property name="topUi">
+				<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+					<property name="liveControls">
+						<list>
+							<ref bean="pixis_expsure_time_control" />
+							<ref bean="pixis_acquire_period_control"/>
+							<ref bean="pixis_proc_num_filter_control" />
+						</list>				
+					</property>
+					<property name="cameraState">
+						<bean class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+							<property name="cameraConfig" ref="pixis_cam"/>
+							<property name="stateVariableName" value="i10.pixis.live.stream.active"/>
+						</bean>
+					</property>
+				</bean>
+			</property>
+		</bean>
+	</beans>
+</beans>

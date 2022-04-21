@@ -20,6 +20,7 @@ import uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
 import uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram;
 import uk.ac.gda.client.live.stream.view.SnapshotView;
+import uk.ac.gda.client.livecontrol.LiveControlsView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 
@@ -65,26 +66,29 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 		topMiddlefolder.addView(LivePlotView.ID);
 		topMiddlefolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
 		topMiddlefolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
-		topMiddlefolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
-		topMiddlefolder.addPlaceholder(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
 		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
 		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
 		topMiddlefolder.addPlaceholder(SnapshotView.ID);
 
         IFolderLayout middlefolder = layout.createFolder(TERMINAL_FOLDER,IPageLayout.BOTTOM, 0.58f, PLOT_1D_FOLDER);
         middlefolder.addView(gda.rcp.views.JythonTerminalView.ID);
-
-        middlefolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
+        middlefolder.addView(LiveControlsView.ID);
+        middlefolder.addPlaceholder(LiveControlsView.ID);
+        middlefolder.addPlaceholder(LiveControlsView.ID + ":*");
 
         IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea); //$NON-NLS-1$
 		if (profiles.contains("scattering")) {
-			topRightFolder.addView("uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram:pimte_cam#EPICS_ARRAY");
-			topRightFolder.addView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram:pixis_cam#EPICS_ARRAY");
+			topRightFolder.addView("uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamView:pimte_cam#EPICS_ARRAY");
+			topRightFolder.addView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamView:pixis_cam#EPICS_ARRAY");
 		}
 		topRightFolder.addPlaceholder(LiveStreamView.ID+":*");
 		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
 		topRightFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
 		topRightFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
+
+        IFolderLayout bottomRightFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.6, PLOT_2D_FOLDER); //$NON-NLS-1$
+        bottomRightFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
+        bottomRightFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
 
 	}
 

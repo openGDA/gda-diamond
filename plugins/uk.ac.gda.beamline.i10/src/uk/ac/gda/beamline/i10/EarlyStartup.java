@@ -37,14 +37,14 @@ public class EarlyStartup implements IStartup {
 			@Override
 			public void run() {
 				try {
-					// make sure 'Region editor' view Title is shown at start without making the view either in focus or visible
+					// make sure tool page view Title is shown at start without making the view either in focus or visible
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID,
 							"org.dawb.workbench.plotting.tools.region.editor", IWorkbenchPage.VIEW_CREATE);
-					// ensure the PIMTE Stream View has focus so the 'Region Editor' above is linked to this image
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID,
+							"org.dawnsci.plotting.histogram.histogram_tool_page_2", IWorkbenchPage.VIEW_CREATE);
+					// ensure the PIMTE Stream View has focus so the tool page views above is linked to this image
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
-							"uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram", "pimte_cam#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
-					// make the dynamic toolbar items visible, not just inside drop-down menu.
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().resetPerspective();
+							"uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamView", "pimte_cam#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
 				} catch (PartInitException e) {
 					logger.warn("showView calls failed in {}", getClass().getName());
 				}

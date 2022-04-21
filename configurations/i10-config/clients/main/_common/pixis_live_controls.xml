@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="scattering">
+		<bean id="pixis_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Exposure" />
+			<property name="group" value="PIXIS Acquire Time" />
+			<property name="scannableName" value="pixisExposureTime" />
+			<property name="textWidth" value="35"/>
+			<property name="userUnits" value="s" />
+		</bean>
+		<bean id="pixis_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Period" />
+			<property name="group" value="PIXIS Acquire Time" />
+			<property name="scannableName" value="pixisAcquirePeriod" />
+			<property name="textWidth" value="35"/>
+			<property name="userUnits" value="s" />
+		</bean>
+		<bean id="pixis_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="PROC NumFilter" />
+			<property name="group" value="PIXIS PROC" />
+			<property name="scannableName" value="pixisProcNumFilter" />
+			<property name="textWidth" value="30" />
+			<property name="userUnits" value=""/>
+		</bean>
+	</beans>
+
+</beans>
