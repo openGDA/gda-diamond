@@ -13,5 +13,10 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="syringeController" class="gda.device.syringepump.DummySyringePumpController">
+		<property name="capacity" value="100"/>
+		<property name="enabled" value="true" />
+	</bean>
 
 </beans>
