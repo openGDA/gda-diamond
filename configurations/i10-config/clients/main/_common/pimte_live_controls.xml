@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="scattering">
+		<bean id="pimte_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Exposure" />
+			<property name="group" value="PIMTE Controls" />
+			<property name="scannableName" value="pimteExposureTime" />
+			<property name="textWidth" value="35"/>
+			<property name="userUnits" value="s" />
+		</bean>
+		<bean id="pimte_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="Period" />
+			<property name="group" value="PIMTE Controls" />
+			<property name="scannableName" value="pimteAcquirePeriod" />
+			<property name="textWidth" value="35" />
+		</bean>
+		<bean id="pimte_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="PROC NumFilter" />
+			<property name="group" value="PIMTE PROC" />
+			<property name="scannableName" value="pimteProcNumFilter" />
+			<property name="textWidth" value="30" />
+			<property name="userUnits" value=""/>
+		</bean>
+		<bean id="pimte_cover_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="Cover" />
+			<property name="scannableName" value="pimtecover" />
+			<property name="showStop" value="False" />
+			<property name="group" value="PIMTE Controls" />
+			<property name="horizontalLayout" value="true"/>
+		</bean>
+	</beans>
+</beans>

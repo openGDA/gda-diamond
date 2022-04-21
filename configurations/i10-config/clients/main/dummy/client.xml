@@ -9,11 +9,17 @@
 		http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
+		
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
 
 	<import resource="../../../properties/_common/gdaProperties.xml"/>
 	<import resource="../../../../i10-shared/clients/main/dummy/client.xml"/>
 	<import resource="stream_views.xml"/>
-	<import resource="live_controls.xml"/>
+	<import resource="pimte_live_controls.xml"/>
+	<import resource="pixis_live_controls.xml"/>
+	<import resource="pimte_stream_views.xml"/>
+	<import resource="pixis_stream_views.xml"/>
 	<import resource="../_common/client.xml" />
 
 </beans>
