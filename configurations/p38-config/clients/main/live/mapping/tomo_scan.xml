@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<description>
+		This file setups the TensorTomoScanBean required for the TensorTomoScanSetupView.
+	</description>
+	
+	<bean id="p38-tomo-setup-bean" class="uk.ac.diamond.daq.mapping.api.TensorTomoScanBean">
+		<property name="angle1Model">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+				<constructor-arg name="name" value="hfm_pitch"/>
+				<constructor-arg name="model"><null /></constructor-arg>
+				<constructor-arg name="includeInScan" value="true"/>
+			</bean>
+		</property>
+		<property name="angle2Model">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+				<constructor-arg name="name" value="hfm_yaw"/>
+				<constructor-arg name="model"><null /></constructor-arg>
+				<constructor-arg name="includeInScan" value="true"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>
