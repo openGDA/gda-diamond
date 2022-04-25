@@ -1,5 +1,6 @@
 '''
-A Scannable class that moves armtth, m5tth, and m5hqry concurrently for a single given position. Polynomial coefficients are required to calculate the position for m5hqry, and m5hqx, these are defined in the constructor.
+A Scannable class that moves armtth, m5tth, m5hqx and m5hqry concurrently for a single given position. 
+Polynomial coefficients are required to calculate the position for m5hqry, and m5hqx, these are defined in the constructor.
 Further requirements implemented are:
 1. m5hqx can only move after m5hqry motion completed
 2. this scannable should be supported in 'move' command just like 'armtth'
@@ -18,7 +19,7 @@ class M5GroupScannable(ScannableMotionBase):
 
     def __init__(self, name, armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737):
         '''
-        create a wrapper scannable that moves ARM tth, M5 tth, m5hqry, and m5hqx for a single tth position input, it returns positions of these motor on completion.
+        create a wrapper scannable that moves ARM tth, M5 tth, m5hqry, and m5hqx for a single tth position input, it returns positions of these motors on completion.
         '''
         self.logger = LoggerFactory.getLogger(M5GroupScannable.__class__.__name__)
         self.setName(name)
@@ -68,5 +69,24 @@ class M5GroupScannable(ScannableMotionBase):
         self.m5tth.stop()
         self.m5hqry.stop()
         self.m5hqx.stop()
+    
+    def showCoefficients(self):
+        print("Polynomial coefficients for  m5hqx: [%f, %f, %f]" % (self.m5hqx_0, self.m5hqx_1, self.m5hqx_2))
+        print("Polynomial coefficients for  m5hqry: [%f, %f, %f]" % (self.m5hqry_0, self.m5hqry_1, self.m5hqry_2))
+        
+    def setCoefficientsForM5hqx(self, value):
+        if not isinstance(value, list) or len(value) != 3:
+            raise ValueError("Input must be a list containing 3 coefficients")
+        self.m5hqx_0 = float(value[0])
+        self.m5hqx_1 = float(value[1])
+        self.m5hqx_2 = float(value[2])
+        
+    def setCoefficientsForM5hqry(self, value):
+        if not isinstance(value, list) or len(value) != 3:
+            raise ValueError("Input must be a list containing 3 coefficients")
+        self.m5hqry_0 = float(value[0])
+        self.m5hqry_1 = float(value[1])
+        self.m5hqry_2 = float(value[2])
+       
     
             
