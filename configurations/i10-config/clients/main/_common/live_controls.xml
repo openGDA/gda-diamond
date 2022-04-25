@@ -10,6 +10,10 @@
 			<property name="group" value="RASOR Table" />
 			<property name="scannableName" value="lgf" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="leg2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -17,6 +21,10 @@
 			<property name="group" value="RASOR Table" />
 			<property name="scannableName" value="lgm" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="leg3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -24,6 +32,10 @@
 			<property name="group" value="RASOR Table" />
 			<property name="scannableName" value="lgb" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<!-- RASOR CRYOSTAT -->
@@ -32,6 +44,10 @@
 			<property name="group" value="RASOR CryoStat" />
 			<property name="scannableName" value="sx" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="sy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -39,6 +55,10 @@
 			<property name="group" value="RASOR CryoStat" />
 			<property name="scannableName" value="sy" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="sz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -46,6 +66,10 @@
 			<property name="group" value="RASOR CryoStat" />
 			<property name="scannableName" value="sz" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<!-- RASOR Diffractometer -->
@@ -54,6 +78,10 @@
 			<property name="group" value="RASOR DIFF" />
 			<property name="scannableName" value="tth" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 		
 		<bean id="th_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -61,6 +89,10 @@
 			<property name="group" value="RASOR DIFF" />
 			<property name="scannableName" value="th" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="chi_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -68,13 +100,21 @@
 			<property name="group" value="RASOR DIFF" />
 			<property name="scannableName" value="chi" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 		
 		<bean id="alpha_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="alpha" />
+			<property name="displayName" value="alpha_rasor" />
 			<property name="group" value="RASOR DIFF" />
-			<property name="scannableName" value="alpha" />
+			<property name="scannableName" value="alpha_rasor" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="difx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -82,6 +122,10 @@
 			<property name="group" value="RASOR DIFF" />
 			<property name="scannableName" value="difx" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<!-- RASOR Pin hole -->
@@ -90,6 +134,10 @@
 			<property name="group" value="RASOR Pin Hole" />
 			<property name="scannableName" value="pinhx" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="pinhy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -97,6 +145,10 @@
 			<property name="group" value="RASOR Pin Hole" />
 			<property name="scannableName" value="pinhy" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<!-- RASOR REMEC -->
@@ -105,6 +157,10 @@
 			<property name="group" value="RASOR REMEC" />
 			<property name="scannableName" value="emecy1" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="emecy2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -112,6 +168,10 @@
 			<property name="group" value="RASOR REMEC" />
 			<property name="scannableName" value="emecy2" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="emecpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -119,6 +179,10 @@
 			<property name="group" value="RASOR REMEC" />
 			<property name="scannableName" value="emecpitch" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<!-- RASOR POLAN -->
@@ -127,6 +191,10 @@
 			<property name="group" value="RASOR POLAN" />
 			<property name="scannableName" value="eta" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 		
 		<bean id="thp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -134,6 +202,10 @@
 			<property name="group" value="RASOR POLAN" />
 			<property name="scannableName" value="thp" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="ttp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -141,6 +213,10 @@
 			<property name="group" value="RASOR POLAN" />
 			<property name="scannableName" value="ttp" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 		
 		<bean id="py_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -148,6 +224,10 @@
 			<property name="group" value="RASOR POLAN" />
 			<property name="scannableName" value="py" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="pz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -155,6 +235,10 @@
 			<property name="group" value="RASOR POLAN" />
 			<property name="scannableName" value="pz" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<!-- RASOR Pin hole -->
@@ -163,6 +247,10 @@
 			<property name="group" value="Detector Aperture" />
 			<property name="scannableName" value="dsd" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean id="dsu_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -170,6 +258,10 @@
 			<property name="group" value="Detector Aperture" />
 			<property name="scannableName" value="dsu" />
 			<property name="increment" value="1" />
+			<property name="unitDisplayOutsideTextBox" value="true"/>
+			<property name="horizontalLayout" value="true"/>
+			<property name="showIncrement" value="false"/>
+			<property name="showStop" value="false"/>
 		</bean>
 	
 		<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
@@ -184,8 +276,8 @@
 					<ref bean="tth_control" />
 					<ref bean="th_control" />
 					<ref bean="chi_control" />
-					<ref bean="alpha_control" />
 					<ref bean="difx_control" />
+					<ref bean="alpha_control" />
 					<ref bean="pinhx_control" />
 					<ref bean="pinhy_control" />
 					<ref bean="emecy1_control" />

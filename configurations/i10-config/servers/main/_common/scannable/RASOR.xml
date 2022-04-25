@@ -3,10 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">     
  	
- 	<!--Rasor-->
- 	
- 	
- 	<bean id="dsd" class="gda.device.scannable.ScannableMotor">
+ 	<!--Rasor--> 	
+ 	<bean id="dsd" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="dsd" />
 		<property name="inputNames">
 			<list>
@@ -16,6 +14,11 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="aptr2_trans_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="aptr2_trans_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 
 	<bean id="slitD" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -27,7 +30,7 @@
 		</property>
 	</bean>
 	
-	<bean id="dsu" class="gda.device.scannable.ScannableMotor">
+	<bean id="dsu" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="dsu" />
 		<property name="inputNames">
 			<list>
@@ -37,6 +40,11 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="aptr1_trans_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="aptr1_trans_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
 	<bean id="slitU" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -48,7 +56,7 @@
 		</property>
 	</bean>
 	
-	<bean id="sx" class="gda.device.scannable.ScannableMotor">
+	<bean id="sx" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="sx" />
 		<property name="inputNames">
 			<list>
@@ -58,9 +66,14 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_x_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="cryo_x_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="sy" class="gda.device.scannable.ScannableMotor">
+	<bean id="sy" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="sy" />
 		<property name="inputNames">
 			<list>
@@ -70,9 +83,14 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_y_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="cryo_y_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="sz" class="gda.device.scannable.ScannableMotor">
+	<bean id="sz" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="sz" />
 		<property name="inputNames">
 			<list>
@@ -82,6 +100,11 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="cryo_z_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="cryo_z_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
 	<bean id="CRYO" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -95,7 +118,7 @@
 		</property>
 	</bean>
 	
-	<bean id="lgf" class="gda.device.scannable.ScannableMotor">
+	<bean id="lgf" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="lgf" />
 		<property name="inputNames">
 			<list>
@@ -105,9 +128,14 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg1_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="table_leg1_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="lgm" class="gda.device.scannable.ScannableMotor">
+	<bean id="lgm" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="lgm" />
 		<property name="inputNames">
 			<list>
@@ -117,9 +145,14 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg2_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="table_leg2_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="lgb" class="gda.device.scannable.ScannableMotor">
+	<bean id="lgb" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="lgb" />
 		<property name="inputNames">
 			<list>
@@ -129,6 +162,11 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="table_leg3_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="table_leg3_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
 	<bean id="TABLE" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -142,7 +180,7 @@
 		</property>
 	</bean>
 	
-	<bean id="tth" class="gda.device.scannable.ScannableMotor">
+	<bean id="tth" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="tth" />
 		<property name="inputNames">
 			<list>
@@ -152,9 +190,14 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_twotheta_motor" />
 		<property name="hardwareUnitString" value="deg" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="diff_twotheta_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 
-	<bean id="th" class="gda.device.scannable.ScannableMotor">
+	<bean id="th" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="th" />
 		<property name="inputNames">
 			<list>
@@ -164,10 +207,14 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_theta_motor" />
 		<property name="hardwareUnitString" value="deg" />
-	</bean>
-	
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="diff_theta_motor"/>
+	        </bean>		
+		</property>
+	</bean>	
 
-	<bean id="chi" class="gda.device.scannable.ScannableMotor">
+	<bean id="chi" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="chi" />
 		<property name="inputNames">
 			<list>
@@ -177,9 +224,14 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_chi_motor" />
 		<property name="hardwareUnitString" value="deg" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="diff_chi_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="difx" class="gda.device.scannable.ScannableMotor">
+	<bean id="difx" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="difx" />
 		<property name="inputNames">
 			<list>
@@ -189,9 +241,15 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="diff_x_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="diff_x_motor"/>
+	        </bean>		
+		</property>
 	</bean>
+	
 	<!-- rename RASOR alpha to alpha_rasor to avoid name collision with DIFFCALC -->
-	<bean id="alpha_rasor" class="gda.device.scannable.ScannableMotor">
+	<bean id="alpha_rasor" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="alpha_rasor" />
 		<property name="inputNames">
 			<list>
@@ -201,24 +259,42 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_alpha_motor" />
 		<property name="hardwareUnitString" value="deg" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="diff_alpha_motor"/>
+	        </bean>		
+		</property>
 	</bean>
-	<bean id="pinhx" class="gda.device.scannable.ScannableMotor">
+	
+	
+	<bean id="pinhx" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="inputNames">
 			<list>
 				<value>pinhx</value>
 			</list>
 		</property>
-		<property name="initialUserUnits" value="mm" />
+		<property name="userUnits" value="mm" />
 		<property name="motor" ref="pinh_x_motor" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="pinh_x_motor"/>
+	        </bean>		
+		</property>
 	</bean>
-	<bean id="pinhy" class="gda.device.scannable.ScannableMotor">
+	
+	<bean id="pinhy" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="inputNames">
 			<list>
 				<value>pinhy</value>
 			</list>
 		</property>
-		<property name="initialUserUnits" value="mm" />
+		<property name="userUnits" value="mm" />
 		<property name="motor" ref="pinh_y_motor" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="pinh_y_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
 	<bean id="RASOR" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -236,7 +312,7 @@
 		</property>
 	</bean>
 
-	<bean id="emecy1" class="gda.device.scannable.ScannableMotor">
+	<bean id="emecy1" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="emecy1" />
 		<property name="inputNames">
 			<list>
@@ -246,9 +322,14 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="emec_y1_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="emec_y1_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="emecy2" class="gda.device.scannable.ScannableMotor">
+	<bean id="emecy2" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="emecy2" />
 		<property name="inputNames">
 			<list>
@@ -258,9 +339,14 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="emec_y2_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="emec_y2_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="emecpitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="emecpitch" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="emecpitch" />
 		<property name="inputNames">
 			<list>
@@ -270,6 +356,11 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="emec_pitch_motor" />
 		<property name="hardwareUnitString" value="deg" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="emec_pitch_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
 	<bean id="EMEC" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -283,7 +374,7 @@
 		</property>
 	</bean>
 
-	<bean id="eta" class="gda.device.scannable.ScannableMotor">
+	<bean id="eta" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="eta" />
 		<property name="inputNames">
 			<list>
@@ -293,9 +384,14 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_eta_motor" />
 		<property name="hardwareUnitString" value="deg" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="polan_eta_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="thp" class="gda.device.scannable.ScannableMotor">
+	<bean id="thp" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="thp" />
 		<property name="inputNames">
 			<list>
@@ -305,9 +401,14 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_theta_motor" />
 		<property name="hardwareUnitString" value="deg" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="polan_theta_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="ttp" class="gda.device.scannable.ScannableMotor">
+	<bean id="ttp" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="ttp" />
 		<property name="inputNames">
 			<list>
@@ -317,9 +418,14 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="polan_twotheta_motor" />
 		<property name="hardwareUnitString" value="deg" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="polan_twotheta_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="py" class="gda.device.scannable.ScannableMotor">
+	<bean id="py" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="py" />
 		<property name="inputNames">
 			<list>
@@ -331,9 +437,14 @@
 		<property name="hardwareUnitString" value="mm" />
 		<!-- Note that tolerance is required for correct isAt behaviour -->
 		<property name="tolerance" value="0.001" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="polan_y_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
-	<bean id="pz" class="gda.device.scannable.ScannableMotor">
+	<bean id="pz" class="gda.device.scannable.TweakableScannableMotor">
 		<property name="name" value="pz" />
 		<property name="inputNames">
 			<list>
@@ -345,6 +456,11 @@
 		<property name="hardwareUnitString" value="mm" />
 		<!-- Note that tolerance is required for correct isAt behaviour -->
 		<property name="tolerance" value="0.001" />
+		<property name="tweaker">
+	        <bean class="gda.device.motor.MotorPositionTweakControl">
+	            <property name="motor" ref="polan_z_motor"/>
+	        </bean>		
+		</property>
 	</bean>
 	
 	<bean id="POLAN" class="gda.device.scannable.scannablegroup.ScannableGroup">
