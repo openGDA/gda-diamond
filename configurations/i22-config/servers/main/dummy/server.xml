@@ -11,6 +11,8 @@
     <import resource="ncddetectors.xml" />
 
     <import resource="devices/devices.xml"/>
+    <import resource="mapping/*.xml"/>
+
 <!-- Do not remove anything below here -->
     <import resource="../_common/server.xml" />
 

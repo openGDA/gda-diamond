@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="p1xyScanModel" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL22I-ML-SCAN-01"/>
+		<property name="exposureTime" value="0.1"/>
+		<property name="axesToMove">
+			<list>
+				<value>p1xy_x</value>
+				<value>p1xy_y</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="p1xyScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Precision Stage Mapping (Dummy)"/>
+		<property name="description" value="Hardware mapping scanning using the precision p1xy stages (dummy)"/>
+	</bean>
+	
+	<bean id="p1xyScanDevice" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL22I-ML-SCAN-01"/>
+		<property name="model" ref="p1xyScanModel"/>
+		<property name="deviceInformation" ref="p1xyScanInfo"/>
+	</bean>
+
+</beans>
