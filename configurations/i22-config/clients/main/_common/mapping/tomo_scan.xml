@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<description>
+		This file setups the TensorTomoScanBean required for the I22TomoSetUpView.
+	</description>
+	
+	<bean id="i22-tomo-setup-bean" class="uk.ac.diamond.daq.mapping.api.TensorTomoScanBean">
+		<property name="angle1ScannableName" value="hfm_pitch"/>
+		<property name="angle2ScannableName" value="hfm_yaw"/>
+		<property name="exposureTime" value="0.01"/>
+		<property name="malcolmDeviceName" value="BL22I-ML-SCAN-01"/>
+		<property name="angleRegionModel">
+			<bean class="uk.ac.diamond.daq.mapping.region.RectangularMappingRegion">
+				<property name="xStart" value="0"/>
+				<property name="xStop" value="180"/>
+				<property name="yStart" value="0"/>
+				<property name="yStop" value="90"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>
