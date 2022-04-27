@@ -272,6 +272,8 @@ scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 scan_processor_normal_processes = scan_processor.processors
 scan_processor_empty_processes  = []
+goto = scan_processor.go
+alias("goto")
  
 def scan_processing_on():
     scan_processor.processors = scan_processor_normal_processes
