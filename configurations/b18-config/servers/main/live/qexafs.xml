@@ -142,19 +142,4 @@
 <!-- 		<property name="qexafsScaler" ref="qexafs_counterTimer01_gmsd" /> -->
 <!-- 	</bean> -->
 
-
-	<bean id="dummy_energy_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="1000" />
-	</bean>
-
-	<bean id="dummy_qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
-		<property name="motor" ref="dummy_energy_motor" />
-		<property name="lowerGdaLimits" value="-100000" />
-		<property name="upperGdaLimits" value="100000" />
-		<property name="outputFormat">
-			<list>
-				<value>%.3f</value>
-			</list>
-		</property>
-	</bean>
 </beans>

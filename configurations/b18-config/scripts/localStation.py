@@ -45,6 +45,26 @@ outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
 detectorPreparer.setPilatusDetector(pilatus_addetector)
 
+## Setup XspressOdin 
+xspress4IsPresent = 'xspress4Odin' in locals()
+
+if xspress4IsPresent :
+    print "Setting up Xspress4Odin detector objects"
+    detectorPreparer.addDetectorNameMapping("xspress4Odin", "qexafs_xspress4Odin")
+    detectorPreparer.addDetectorNameMapping("xspress4OdinFFI0", "qexafs_FFI0_xspress4Odin")
+    qexafs_xspress4Odin.setUseSwmrFileReading(True)
+
+    # TTL veto for step and continuous scans
+    xspress4Odin.setTriggerMode(3)
+    qexafs_xspress4Odin.setTriggerModeForContinuousScan(3)
+    xspress4Odin.setFilePrefix("xsp4_odin")
+    xspress4Odin.setFilePath("") ## use current visit/comissioning folder
+
+else :
+    print "Xspress4Odin detector not present"
+
+
+
 # TODO this could all be done in Sping XML
 theFactory = XasScanFactory();
 theFactory.setBeamlinePreparer(B18BeamlinePreparer());
@@ -175,11 +195,6 @@ run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMythen)
 run_in_try_catch(setupPilatus)
 
-if globals().has_key("xspress4") == False :
-    print "Not running default_scannable.py - xspress4 detector not present"
-else :
-    run("default_scannable_class.py")
-
 run("continuous_scans.py")
 # run("meca_status.py")
 
@@ -192,6 +207,35 @@ def setVisit(visitStr) :
 
 def pwd() :
     return InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+
+#Setup xspress4Odin for testng continuus scans (dummy mode, with 'live' detector, software and burst mode triggering)
+def setup_xspressOdin(filename="") :
+
+    # Write files to comissioning directory
+    xspress4Odin.setFilePath("/dls/b18/data/2022/cm31142-3/tmp")
+
+    # Setup trigger modes for testing : Software triggered mode for scans :
+    xspress4Odin.setTriggerMode(0)
+
+    # 'Burst mode' for continuous scan
+    qexafs_xspress4Odin.setTriggerModeForContinuousScan(2)
+
+
+# Times for 10000 frame scans : ~6sec (maxReadFrames=2000), ~7 sec (maxReadFrames=1000)
+def test_xspressOdin(numPoints=10000, maxReadFrames=1000, scanTime=10) :
+    from time import time
+    #setup_xspressOdin("/dls/p99/data/2022/cm31335-2/tmp/test_10000frames_meta.h5")
+    
+    # setup_xspressOdin("/dls/b18/data/2022/cm31142-3/tmp/xsp4_odin_544490_meta.h5")
+    
+    qexafs_xspress4Odin.setMaximumReadFrames(maxReadFrames) 
+    qexafs_counterTimer01.setUseInternalTriggeredFrames(True)
+    startTime = time()
+    #qexafs_counterTimer0
+    cv(dummy_qexafs_energy,2000,3000,numPoints, scanTime, [qexafs_xspress4Odin])
+    print("Scan with %d num points (readframes = %d) : %.2f sec"%(numPoints, maxReadFrames, time()-startTime) )
+
+
 
 alias("pwd")
 

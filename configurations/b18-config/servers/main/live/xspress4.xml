@@ -4,18 +4,27 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 <!-- Controllers for XSpress4  -->
-	<bean id="xspress3ControllerForXspress4"
-		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
-		<property name="epicsTemplate" value="BL18B-EA-XSP4-01" />
-		<property name="numberOfChannels" value="36"/>
-		<property name="useErasePv" value="false" />
-	</bean>
-
-	<bean id="xspress4Controller"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
-		<property name="basePv" value="BL18B-EA-XSP4-01" />
+<!-- 	<bean id="xspress4Controller"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller"> -->
+<!-- 		<property name="basePv" value="BL18B-EA-XSP4-01" /> -->
+<!-- 		<property name="numElements" value="36" /> -->
+<!-- 		<property name="numMcaChannels" value="4096" /> -->
+<!-- 		<property name="numScalers" value="8" /> -->
+<!-- 	</bean> -->
+	
+	<bean id="xspress4ControllerOdin"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL18B-EA-XSP4-02" />
+		<property name="mainControlPrefix" value=":CAM" />
+		<property name="hdfWriterPrefix" value=":OD" />
 		<property name="numElements" value="36" />
 		<property name="numMcaChannels" value="4096" />
 		<property name="numScalers" value="8" />
+		<property name="pvNameMap">
+			<map>
+				<!-- Point to the PVs in the metawriter -->
+				<entry key="HDF_FULL_FILENAME_RBV" value=":META:OutputFile_RBV" />
+				<entry key="NUM_CAPTURED_RBV" value=":META:FramesWritten_RBV" />
+			</map>
+		</property>
 	</bean>
 
 <!--  DAServer for XSPRESS4 36 element for debugging only. -->

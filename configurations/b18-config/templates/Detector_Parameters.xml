@@ -23,12 +23,13 @@
         <detector>FFI0_xspress3</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
-    <detectorGroup>
-        <name>Xspress4</name>
-        <detector>xspress4</detector>
-        <detector>xspress4FFI0</detector>
+     <detectorGroup>
+        <name>Xspress4Odin</name>
+        <detector>xspress4Odin</detector>
+        <detector>xspress4OdinFFI0</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
+    
     <detectorGroup>
         <name>Medipix</name>
         <detector>medipix</detector>
@@ -102,7 +103,7 @@
     <fluorescence>
         <configFileName>Xspress_Parameters.xml</configFileName>
         <workingEnergy>7111.14</workingEnergy>
-        <detectorType>Xspress2</detectorType>
+        <detectorType>Xspress4Odin</detectorType>
         <ionChamber>
             <name>I0</name>
             <deviceName>counterTimer01</deviceName>
