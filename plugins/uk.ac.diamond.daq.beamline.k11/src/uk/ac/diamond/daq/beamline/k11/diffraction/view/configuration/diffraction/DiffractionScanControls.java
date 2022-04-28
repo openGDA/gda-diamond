@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.Text;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.gda.client.AcquisitionManager;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
@@ -49,12 +48,6 @@ public class DiffractionScanControls implements CompositeFactory, Reloadable {
 
 	private List<Reloadable> reloadableControls = new ArrayList<>();
 
-	private AcquisitionManager acquisitionManager;
-
-
-	public DiffractionScanControls(AcquisitionManager acquisitionManager) {
-		this.acquisitionManager = acquisitionManager;
-	}
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
@@ -92,7 +85,7 @@ public class DiffractionScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void createShapeControls(Composite parent) {
-		var controls = new ShapeControls(this::getScanningParameters, acquisitionManager);
+		var controls = new ShapeControls(this::getScanningParameters);
 		controls.createComposite(parent, SWT.NONE);
 		reloadableControls.add(controls);
 	}

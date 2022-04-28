@@ -35,11 +35,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
-import uk.ac.gda.client.AcquisitionManager;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.AcquisitionControllerException;
@@ -62,12 +60,6 @@ public class DiffractionComposite implements NamedCompositeFactory {
 
 	private final LoadListener loadListener;
 
-	/*
-	 * TODO
-	 * Move AcquisitionManager into ScanningAcquisitionController
-	 * when all acquisitions are managed by it
-	 */
-	private AcquisitionManager acquisitionManager;
 	private ScanningAcquisitionController acquisitionController;
 
 	public DiffractionComposite(Supplier<Composite> controlButtonsContainerSupplier) {
@@ -80,7 +72,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		try {
-			initialiseAcquisition();
+			getAcquisitionController().initialise(key);
 		} catch (AcquisitionControllerException e) {
 			logger.error("Error initialising beam selector acquisition", e);
 			var errorComposite = new Composite(parent, SWT.NONE);
@@ -99,14 +91,6 @@ public class DiffractionComposite implements NamedCompositeFactory {
 		return controls;
 	}
 
-	/**
-	 * Loads existing instance or new acquisition if none exists
-	 */
-	private void initialiseAcquisition() throws AcquisitionControllerException {
-		var acquisition = getAcquisitionManager().getAcquisition(getAcquisitionKey());
-		getAcquisitionController().loadAcquisitionConfiguration(acquisition);
-	}
-
 	protected AcquisitionKeys getAcquisitionKey() {
 		return key;
 	}
@@ -123,18 +107,13 @@ public class DiffractionComposite implements NamedCompositeFactory {
 
 	protected DiffractionScanControls getScanControls() {
 		if (scanControls == null) {
-			this.scanControls = new DiffractionScanControls(acquisitionManager);
+			this.scanControls = new DiffractionScanControls();
 		}
 		return scanControls;
 	}
 
 	protected CompositeFactory getButtonControlsFactory() {
 		return getAcquistionButtonGroupFacoryBuilder().build();
-	}
-
-	public void createNewAcquisitionInController() throws AcquisitionControllerException {
-		getScanningAcquisitionTemporaryHelper()
-			.setNewScanningAcquisition(getAcquisitionKey());
 	}
 
 	private AcquisitionCompositeButtonGroupFactoryBuilder getAcquistionButtonGroupFacoryBuilder() {
@@ -160,7 +139,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 		boolean confirmed = UIHelper.showConfirm("Create new configuration? The existing one will be discarded");
 		if (confirmed) {
 			try {
-				getAcquisitionController().loadAcquisitionConfiguration(getAcquisitionManager().newAcquisition(getAcquisitionKey()));
+				getAcquisitionController().newScanningAcquisition(getAcquisitionKey());
 			} catch (AcquisitionControllerException e) {
 				logger.error("Could not create new diffraction acquisition", e);
 			}
@@ -172,13 +151,6 @@ public class DiffractionComposite implements NamedCompositeFactory {
 			acquisitionController = SpringApplicationContextFacade.getBean(ScanningAcquisitionController.class);
 		}
 		return acquisitionController;
-	}
-
-	private AcquisitionManager getAcquisitionManager() {
-		if (acquisitionManager == null) {
-			acquisitionManager = Activator.getService(AcquisitionManager.class);
-		}
-		return acquisitionManager;
 	}
 
 	private class LoadListener implements ApplicationListener<AcquisitionConfigurationResourceLoadEvent> {
