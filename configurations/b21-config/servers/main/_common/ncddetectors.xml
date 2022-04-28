@@ -41,6 +41,12 @@
 		<property name="scalingAndOffset" ref="bsdiodegain" />
 	</bean>
 
+	<bean name="scanStartFastShutterAction" class="uk.ac.gda.server.ncd.actions.TfgIdleStateChange">
+		<property name="state" value="0" />
+		<property name="channel" value="2" />
+		<property name="tfg" ref="Tfg" />
+	</bean>
+
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
@@ -55,6 +61,7 @@
 				<entry key="dawnlegacy" value=""/>
 			</map>
 		</property>
+		<property name="scanStartActions" ref="scanStartFastShutterAction" />
 	</bean>
 
 	<bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
