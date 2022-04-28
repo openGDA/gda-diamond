@@ -1,5 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<description>
@@ -49,48 +50,89 @@
 		</property>
 	</bean>
 
-	<!-- Omega in Vertical mode -->
-	<bean id="diff1omega" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorOMEGA_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
+
+
+	<bean id="diff1group"
+		class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+		<property name="groupMembers">
 			<list>
-				<value>%9.5f</value>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff1omega" />
+					<property name="motor" ref="MotorOMEGA_DIFF1" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff1theta" />
+					<property name="motor" ref="MotorTHETA_DIFF1" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff1chi" />
+					<property name="motor" ref="MotorCHI_DIFF1" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff1delta" />
+					<property name="motor" ref="MotorDELTA_DIFF1" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff1gamma" />
+					<property name="motor" ref="MotorGAMMA_DIFF1" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
+		<property name="deferredControlPoint" ref="diff1DeferMoves" />
 	</bean>
+
+	<!-- Create references to wrapped group members -->
+	<bean id="diff1omega" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1omega" />
+	<bean id="diff1theta" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1theta" />
+	<bean id="diff1chi" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1chi" />
+	<bean id="diff1delta" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1delta" />
+	<bean id="diff1gamma" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1gamma" />
+
+
 
 	<!-- Alpha in Vertical mode -->
 	<bean id="diff1alpha" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorALPHA_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Omega in Horizental mode (Theta) -->
-	<bean id="diff1theta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorTHETA_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Alpha in Horizental mode (Chi) -->
-	<bean id="diff1chi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorCHI_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
@@ -117,32 +159,6 @@
 	<!-- Phi on Eulerian -->
 	<bean id="diff1cphi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorPHI_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Delta in Vertical mode / Gamma in Horizental mode -->
-	<bean id="diff1delta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorDELTA_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Gamma in Vertical mode / Delta in Horizental mode -->
-	<bean id="diff1gamma" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorGAMMA_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />

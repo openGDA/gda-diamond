@@ -16,17 +16,20 @@
 	<bean id="MotorZ_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:Z" />
 	</bean>
-	<bean id="MotorOMEGA_DIFF1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorOMEGA_DIFF1" class="gda.device.motor.EpicsMotorDirect">
 		<property name="pvName" value="BL07I-MO-DIFF-01:OMEGA" />
+		<property name="pvNameDirect" value="BL07I-MO-STEP-08:CS2:M6:DirectDemand" />
 	</bean>
 	<bean id="MotorALPHA_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:ALPHA" />
 	</bean>
-	<bean id="MotorTHETA_DIFF1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorTHETA_DIFF1" class="gda.device.motor.EpicsMotorDirect">
 		<property name="pvName" value="BL07I-MO-DIFF-01:THETA" />
+		<property name="pvNameDirect" value="BL07I-MO-STEP-08:CS2:M2:DirectDemand" />
 	</bean>
-	<bean id="MotorCHI_DIFF1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorCHI_DIFF1" class="gda.device.motor.EpicsMotorDirect">
 		<property name="pvName" value="BL07I-MO-DIFF-01:CHI" />
+		<property name="pvNameDirect" value="BL07I-MO-STEP-08:CS2:M3:DirectDemand" />
 	</bean>
 	<bean id="MotorCHI2_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:CHI2" />
@@ -34,11 +37,13 @@
 	<bean id="MotorPHI_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:PHI" />
 	</bean>
-	<bean id="MotorDELTA_DIFF1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorDELTA_DIFF1" class="gda.device.motor.EpicsMotorDirect">
 		<property name="pvName" value="BL07I-MO-DIFF-01:DELTA" />
+		<property name="pvNameDirect" value="BL07I-MO-STEP-08:CS2:M4:DirectDemand" />
 	</bean>
-	<bean id="MotorGAMMA_DIFF1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorGAMMA_DIFF1" class="gda.device.motor.EpicsMotorDirect">
 		<property name="pvName" value="BL07I-MO-DIFF-01:GAMMA" />
+		<property name="pvNameDirect" value="BL07I-MO-STEP-08:CS2:M5:DirectDemand" />
 	</bean>
 	<bean id="MotorDROT_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:D_ROT" />
@@ -69,6 +74,14 @@
 	</bean>
 	<bean id="MotorBASEPITCH_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:PITCH" />
+	</bean>
+
+	<bean id="diff1DeferMoves"
+		class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint"
+			value="BL07I-MO-STEP-08:CS2:DeferMoves" />
+		<property name="pvNameGetPoint"
+			value="BL07I-MO-STEP-08:CS2:DeferMoves" />
 	</bean>
 
 </beans>
