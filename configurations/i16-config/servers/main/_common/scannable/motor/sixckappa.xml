@@ -72,10 +72,6 @@
 		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
 
 		<property name="deferredControlPoint" ref="deferFlag" />
-
-		<property name="logDefFlagChangesAsInfo" value="true" />
-
-		<property name="deferOnValue" value="1" />
 	</bean>
 
 	<bean id="kphi_rockable" class="gda.device.scannable.ScannableMotor">
@@ -136,10 +132,5 @@
 		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
 
 		<property name="deferredControlPoint" ref="deferFlag" />
-
-		<property name="logDefFlagChangesAsInfo" value="true" />
-
-		<property name="deferOnValue" value="1" />
-
 	</bean>
 </beans>
