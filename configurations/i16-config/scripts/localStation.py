@@ -265,7 +265,6 @@ if USE_CRYO_GEOMETRY:
 	sixckappa_cryo.setGroupMembers([cryophi, sixckappa.kap, sixckappa.kth, sixckappa.kmu, sixckappa.kdelta, sixckappa.kgam])
 	sixckappa_cryo.setName("sixckappa_cryo")
 	sixckappa_cryo.deferredControlPoint = sixckappa.getDeferredControlPoint()
-	sixckappa_cryo.deferOnValue = sixckappa.deferOnValue
 	sixckappa_cryo.configure()
 
 
@@ -475,9 +474,6 @@ if USE_CRYO_GEOMETRY:
 	euler.setName("euler")
 	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
 	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
-	euler.deferOnValue = sixckappa.deferOnValue
-	#euler.numberToMoveControlPoint = sixckappa.getNumberToMoveControlPoint()
-	#euler.checkStartControlPoint = sixckappa.getCheckStartControlPoint()
 	euler.configure()
 	phi = euler.phi
 	chi = euler.chi
@@ -1752,6 +1748,33 @@ def asyncMonitor(scannable):
 	return AsyncMonitor(scannable)
 
 alias(asyncMonitor)
+
+class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
+
+	def __init__(self, scannable, targetPosition):
+
+		super(AsyncScannable, self).__init__(scannable)
+		self.targetPosition = targetPosition
+
+	def atScanStart(self):
+		self.asynchronousMoveTo(self.targetPosition)
+		super(AsyncScannable, self).atScanStart()
+
+	def atScanEnd(self):
+		self.stop()
+		super(AsyncScannable, self).atScanEnd()
+
+	def atCommandFailure(self):
+		self.stop()
+		super(AsyncScannable, self).atCommandFailure()
+
+	def waitWhileBusy(self):
+		return
+
+def asyncScannable(scannable, targetPosition):
+	return AsyncScannable(scannable, targetPosition)
+
+alias(asyncScannable)
 
 # Setting the standard metadata scannables should be last
 meta_std()
