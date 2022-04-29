@@ -29,7 +29,7 @@
             name="I15 Scan Perspective">
       </perspective>
       <perspective
-            class="gda.rcp.EmptyPerspective"
+            class="uk.ac.gda.beamline.i15.I15ScanPerspective"
             icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
             id="uk.ac.gda.beamline.I15ScanningPerspective"
             name="I15 Scanning Perspective">
@@ -50,6 +50,61 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
+            targetID="uk.ac.gda.beamline.I15ScanPerspective">
+         <view
+               id="uk.ac.gda.client.livecontrol.liveControlSet.scriptsControlSet"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.views.baton.BatonView"/>
+         <view
+               id="uk.ac.gda.client.livecontrol.liveControlSet.linkamControlSet"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.views.baton.BatonView"/>
+         <view
+               id="uk.ac.gda.client.livecontrol.liveControlSet.membraneControlSet"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.views.baton.BatonView"/>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.I15ScanningPerspective">
+         <view
+               id="gda.rcp.views.scriptchooserview"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.views.baton.BatonView"/>
+         <view
+               id="gda.rcp.views.CommissioningView.linkamControlView"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.views.baton.BatonView"/>
+         <view
+               id="gda.rcp.views.CommissioningView.membraneControlView"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.views.baton.BatonView"/>
+      </perspectiveExtension>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
             targetID="uk.ac.gda.beamline.I15LaserHeatingPerspective">
          <view
                id="gda.rcp.jythonterminalview"
@@ -58,6 +113,20 @@
                relative="org.eclipse.ui.editorss"/>
          <view
                id="gda.rcp.views.scriptchooserview"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"/>
+         <view
+               id="uk.ac.gda.client.livecontrol.liveControlSet.linkamControlSet"
+               visible="true"
+               closeable="true"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"/>
+         <view
+               id="gda.rcp.views.CommissioningView.linkamControlView"
                visible="true"
                closeable="true"
                minimized="false"
@@ -232,6 +301,14 @@
             icon="platform:/plugin/uk.ac.gda.common.rcp/icons/table_multiple.png"
             restorable="true">
       </view>
+      <view
+            category="uk.ac.gda.beamline.i15.category"
+            class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:scriptsControlSet"
+            id="uk.ac.gda.client.livecontrol.liveControlSet.scriptsControlSet"
+            name="Scripts Chooser Live controls"
+            icon="platform:/plugin/uk.ac.gda.common.rcp/icons/application_form.png"
+            restorable="true">
+        </view>
       <view
             category="uk.ac.gda.beamline.i15.category"
             class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:membraneControlSet"

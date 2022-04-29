@@ -1431,7 +1431,7 @@ def meta_std(full=True):
 			meta_scannable_names += ['xtalinfo']
 		if full:
 			meta_scannable_names += ['jjslits', 'PPR', 'positions', 'gains_atten', 'lakeshore', 'offsets',
-									's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans', 'ppy', 'ppx', 
+									's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans', 'ppy', 'ppx',
 									'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
 									'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans',
 									'Energy', 'ubMeta']
@@ -1626,15 +1626,16 @@ if installation.isLive():
 		localStation_exception("running localStationScripts/startup_pie725 script")
 
 if USE_NEXUS:
-	run("datawriting/i16_nexus")
-	pass
+	try:
+		run("datawriting/i16_nexus")
+	except:
+		localStation_exception("running datawriting/i16_nexus script")
 else:
 	#clear extenders possible configured already
 	writerMap = Finder.getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 	ddwf = writerMap.get("DefaultDataWriterFactory")
 	for dwe in ddwf.getDataWriterExtenders():
 		ddwf.removeDataWriterExtender(dwe)
-	pass
 
 if USE_ROCKING_SCANNABLES:
 	try:
@@ -1666,8 +1667,14 @@ else:
 
 try:
 	from sz_cryo import szCryoCompensation
-	cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
-	szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
+	cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01]
+				,'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]
+				,'4K22':[-4.946860907921413e-13, 4.204591199936939e-10, -1.215261111328385e-07, 9.803917323445766e-06, -0.0004902951460550646, 14.225861061835865]
+				}
+	szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example "+
+		"szc.calibrate('4K22',Ta) \nto calibrate using the 2022 commissioned 4K cryo and channel Ta,\n"+
+		"szc.calibrate('4K',Ta) \nto calibrate using the older 4K cryo and channel Ta or\n"+
+		"szc.calibrate('800K',Tc) \nfor the cryofurnace.")
 except:
 	localStation_exception("setting up szc")
 
@@ -1692,7 +1699,7 @@ if USE_SMARGON:
 		BLobjects.my_smarphi =phi
 		euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)
 		hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az)
-	
+
 		localStation_print("Smargon script was successful")
 	except:
 		localStation_exception("setting up smargon")
@@ -1701,29 +1708,29 @@ else:
 
 localStation_print("Setting diffcalc ubmeta scannable")
 try:
-	from gda.device.scannable import ScannableBase 
-	from __builtin__ import False 
+	from gda.device.scannable import ScannableBase
+	from __builtin__ import False
 	try:
-		import json 
-	except ImportError: 
+		import json
+	except ImportError:
 		import simplejson as json
 
 	from diffcalc.ub.calcstate import UBCalcStateEncoder
 
 	class UBCalcMetadata (ScannableBase):
-		def __init__(self, name): 
-			self.name = name 
+		def __init__(self, name):
+			self.name = name
 
-		def getPosition(self): 
-			if ubcalc is not None or ubcalc._state is not None: 
-				return json.dumps(ubcalc._state, cls=UBCalcStateEncoder) 
-			return None 
+		def getPosition(self):
+			if ubcalc is not None or ubcalc._state is not None:
+				return json.dumps(ubcalc._state, cls=UBCalcStateEncoder)
+			return None
 
-		def rawAsynchronousMoveTo(self, position): 
-			pass 
+		def rawAsynchronousMoveTo(self, position):
+			pass
 
-		def isBusy(self): 
-			return False 
+		def isBusy(self):
+			return False
 
 	ubMeta = UBCalcMetadata("ubMeta")
 except:
@@ -1732,7 +1739,21 @@ except:
 # Define offset between pilatus detector and analyser crystal
 do.pil = 8.8
 
-# Setting the standard metadata scannables should be last 
+# Define a function which turns any scannable into one which doesn't pause the
+# scan if it's moving.
+from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
+
+class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
+
+	def waitWhileBusy(self):
+		return
+
+def asyncMonitor(scannable):
+	return AsyncMonitor(scannable)
+
+alias(asyncMonitor)
+
+# Setting the standard metadata scannables should be last
 meta_std()
 
 if installation.isLive():
@@ -1766,7 +1787,7 @@ else:
 		localStation_exception("running localStationUser dummy script")
 
 if len(localStation_exceptions) > 0:
-	print "=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions)
+	print "======================  %r ERRORS DURING STARTUP ======================" % len(localStation_exceptions)
 
 for localStationException in localStation_exceptions:
 	print localStationException

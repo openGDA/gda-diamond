@@ -30,4 +30,4 @@ def replot(relativefilenumber,axis1,axis2):
 	Plotter.plot('Data Vector',xdata,ydata)
 	#Gaussian(double minPeakPosition, double maxPeakPosition, double maxFWHM, double maxArea)
 	#output1=Fitter.plot(xdata,ydata.diff(3),GradientDescent(0.00001),[Gaussian(maxpos-3,maxpos+3,3,3) Gaussian(minpos-3,minpos+3,2,3)])
-	return [maxpos ymax minpos ymin filenumber]
+	return [maxpos, ymax, minpos, ymin, filenumber]
