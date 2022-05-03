@@ -52,11 +52,26 @@
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	
+	<bean id="sm52b_yp" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="sm52b_zp" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
 	<bean id="d3b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D3B Cam 1" />
-		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D3B.DCAM1.mjpg.mjpg" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8082/D3B.DCAM1.mjpg.mjpg" />
 		<property name="arrayPv" value="BL07B-DI-PHDGN-03:DCAM1:ARR" />
 		<property name="roiProvider" ref="d3b_cam1_roi" />
+		<property name="rgb" value="true" />
+		<property name="calibratedAxesProvider"> 
+			<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+				<constructor-arg name="xAxisScannable" ref="sm52b_yp" />     
+		        <constructor-arg name="xAxisPixelScaling" value="-0.052" />
+		        <constructor-arg name="xAxisOffset" value="16.611" />      
+		        <constructor-arg name="yAxisScannable" ref="sm52b_zp" />     
+		        <constructor-arg name="yAxisPixelScaling" value="-0.054" />
+		        <constructor-arg name="yAxisOffset" value="4.71" />
+			</bean>      
+		</property>
 	</bean>
 
 	<!-- D4B Cam 1 -->
@@ -163,6 +178,14 @@
 		<property name="roiProvider" ref="d21b_cam1_roi" />
 	</bean>
 
+	<!-- D98B Cam 1 -->
+	<bean id="d98b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D98B Cam 1" />
+<!--  	<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8083/D98B.DCAM1.mjpg.mjpg" /> -->
+	 	<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="rgb" value="true" />
+	</bean>
+	
 	<!-- ES2B Cam 1 -->
 	<bean id="es2b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}es2b1Roi" />

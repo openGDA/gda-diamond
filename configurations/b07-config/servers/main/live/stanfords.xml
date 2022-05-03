@@ -3,6 +3,34 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="ca16b_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL07B-DI-IAMP-16:SENS:SEL1" />
+		<property name="values">
+			<map>
+				<entry key="1" value="1" />
+				<entry key="2" value="2" />
+				<entry key="5" value="5" />
+				<entry key="10" value="10" />
+				<entry key="20" value="20" />
+				<entry key="50" value="50" />
+				<entry key="100" value="100" />
+				<entry key="200" value="200" />
+				<entry key="500" value="500" />
+			</map>
+		</property>
+	</bean>
+	<bean id="ca16b_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL07B-DI-IAMP-16:SENS:SEL2" />
+		<property name="values">
+			<map>
+				<entry key="pA/V" value="pA/V" />
+				<entry key="nA/V" value="nA/V" />
+				<entry key="uA/V" value="uA/V" />
+				<entry key="mA/V" value="mA/V" />
+			</map>
+		</property>
+	</bean>
+
 	<bean id="ca35b_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL07B-DI-IAMP-35:SENS:SEL1" />
 		<property name="values">
