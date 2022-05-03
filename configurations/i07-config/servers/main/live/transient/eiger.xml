@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="eiger_controller_base" class="uk.ac.gda.devices.odin.OdinDetectorControllerEpics" >
+	<bean id="eiger_controller_base" class="uk.ac.gda.devices.odin.control.OdinDetectorControllerEpics" >
 		<property name="basePv" value="BL07I-EA-EIGER-01:"/>
 	</bean>
 	
-	<bean id="eiger_controller" class="uk.ac.gda.devices.odin.OdinDetectorEiger" >
+	<bean id="eiger_controller" class="uk.ac.gda.devices.odin.control.OdinDetectorEiger" >
 		<constructor-arg ref="eiger_controller_base" />
 		<!--property name="basePv" value="BL07I-EA-EIGER-01:"/-->
 	</bean>
