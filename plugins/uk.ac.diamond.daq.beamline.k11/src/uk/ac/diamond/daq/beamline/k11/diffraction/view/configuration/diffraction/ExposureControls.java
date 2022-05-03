@@ -18,16 +18,12 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
-import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
-
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -39,6 +35,7 @@ import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEve
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.client.exception.GDAClientRestException;
+import uk.ac.gda.client.widgets.DetectorExposureWidget;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
@@ -46,7 +43,7 @@ import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
 public class ExposureControls implements CompositeFactory, Reloadable{
 
 	private Composite composite;
-	private Text exposureText;
+	private DetectorExposureWidget exposure;
 
 	private ScanningParameters parameters;
 
@@ -59,21 +56,14 @@ public class ExposureControls implements CompositeFactory, Reloadable{
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().margins(70, 0).numColumns(2).applyTo(composite);
+		GridLayoutFactory.swtDefaults().numColumns(2).equalWidth(true).applyTo(composite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(composite);
 
-		Label exposureLabel = new Label(composite, SWT.NONE);
-		exposureLabel.setText("Exposure (s)");
-		GridDataFactory.swtDefaults().span(2, 1).applyTo(exposureLabel);
+		new Label(composite, SWT.NONE).setText("Detector exposure (s)");
 
-		exposureText = new Text(composite, SWT.BORDER);
-		exposureText.setText(String.valueOf(getDetectorDocument().getExposure()));
-		exposureText.addModifyListener(e -> updateDetectorDocument());
-		GridDataFactory.swtDefaults().hint(95, SWT.DEFAULT).applyTo(exposureText);
+		exposure = new DetectorExposureWidget(composite, this::updateDetectorDocument, this::getDetectorExposure);
 
-		Button button = new Button(composite, SWT.PUSH);
-		button.setText("Fetch from hardware");
-		button.addSelectionListener(widgetSelectedAdapter(e -> exposureText.setText(String.valueOf(getCameraExposure()))));
-		GridDataFactory.swtDefaults().applyTo(button);
+		exposure.updateFromModel(getDetectorDocument().getExposure());
 
 		ScanningAcquisitionListener acquisitionListener = new ScanningAcquisitionListener();
 		SpringApplicationContextFacade.addDisposableApplicationListener(composite, acquisitionListener);
@@ -85,18 +75,18 @@ public class ExposureControls implements CompositeFactory, Reloadable{
 		return parameters.getDetectors().stream().findFirst().orElseThrow();
 	}
 
-	private void updateDetectorDocument() {
+	private void updateDetectorDocument(double exposure) {
 		var oldDetectorDocument = getDetectorDocument();
 		var detectorDocument = new DetectorDocument.Builder()
 					.withId(oldDetectorDocument.getId())
 					.withMalcolmDetectorName(oldDetectorDocument.getMalcolmDetectorName())
-					.withExposure(Double.parseDouble(exposureText.getText()))
+					.withExposure(exposure)
 					.build();
 		parameters.setDetector(detectorDocument);
 		publishUpdate();
 	}
 
-	private double getCameraExposure(){
+	private double getDetectorExposure(){
 		var cameraControlClient =  CameraHelper.getCameraConfigurationPropertiesByID(getDetectorDocument().getId())
 				.map(CameraHelper::createICameraConfiguration)
 				.map(ICameraConfiguration::getCameraControlClient)
@@ -139,8 +129,8 @@ public class ExposureControls implements CompositeFactory, Reloadable{
 	}
 
 	private void updateExposureTextFromDocument() {
-		if (exposureText == null || exposureText.isDisposed()) return;
-		exposureText.setText(String.valueOf(getDetectorDocument().getExposure()));
+		if (composite.isDisposed()) return;
+		exposure.updateFromModel(getDetectorDocument().getExposure());
 	}
 
 }

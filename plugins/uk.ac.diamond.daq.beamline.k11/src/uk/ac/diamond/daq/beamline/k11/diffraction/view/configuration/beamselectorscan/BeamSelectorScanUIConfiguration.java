@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan;
 
+import java.util.Objects;
+
 import gda.factory.FindableBase;
 
 /**
@@ -29,6 +31,8 @@ public class BeamSelectorScanUIConfiguration extends FindableBase {
 	private String yAxisName;
 	private String monoImagingScan;
 	private String pinkImagingScan;
+	private String imagingDetectorId;
+	private String diffractionDetectorId;
 
 	/**
 	 * The name of the X mapping axis
@@ -74,14 +78,28 @@ public class BeamSelectorScanUIConfiguration extends FindableBase {
 		this.pinkImagingScan = pinkImagingScan;
 	}
 
+	public String getImagingDetectorId() {
+		return imagingDetectorId;
+	}
+
+	public void setImagingDetectorId(String imagingDetectorName) {
+		this.imagingDetectorId = imagingDetectorName;
+	}
+
+	public String getDiffractionDetectorId() {
+		return diffractionDetectorId;
+	}
+
+	public void setDiffractionDetectorId(String diffractionDetectorName) {
+		this.diffractionDetectorId = diffractionDetectorName;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((monoImagingScan == null) ? 0 : monoImagingScan.hashCode());
-		result = prime * result + ((pinkImagingScan == null) ? 0 : pinkImagingScan.hashCode());
-		result = prime * result + ((xAxisName == null) ? 0 : xAxisName.hashCode());
-		result = prime * result + ((yAxisName == null) ? 0 : yAxisName.hashCode());
+		result = prime * result + Objects.hash(
+				diffractionDetectorId, imagingDetectorId, monoImagingScan, pinkImagingScan, xAxisName, yAxisName);
 		return result;
 	}
 
@@ -94,27 +112,11 @@ public class BeamSelectorScanUIConfiguration extends FindableBase {
 		if (getClass() != obj.getClass())
 			return false;
 		BeamSelectorScanUIConfiguration other = (BeamSelectorScanUIConfiguration) obj;
-		if (monoImagingScan == null) {
-			if (other.monoImagingScan != null)
-				return false;
-		} else if (!monoImagingScan.equals(other.monoImagingScan))
-			return false;
-		if (pinkImagingScan == null) {
-			if (other.pinkImagingScan != null)
-				return false;
-		} else if (!pinkImagingScan.equals(other.pinkImagingScan))
-			return false;
-		if (xAxisName == null) {
-			if (other.xAxisName != null)
-				return false;
-		} else if (!xAxisName.equals(other.xAxisName))
-			return false;
-		if (yAxisName == null) {
-			if (other.yAxisName != null)
-				return false;
-		} else if (!yAxisName.equals(other.yAxisName))
-			return false;
-		return true;
+		return Objects.equals(diffractionDetectorId, other.diffractionDetectorId)
+				&& Objects.equals(imagingDetectorId, other.imagingDetectorId)
+				&& Objects.equals(monoImagingScan, other.monoImagingScan)
+				&& Objects.equals(pinkImagingScan, other.pinkImagingScan) && Objects.equals(xAxisName, other.xAxisName)
+				&& Objects.equals(yAxisName, other.yAxisName);
 	}
 
 }
