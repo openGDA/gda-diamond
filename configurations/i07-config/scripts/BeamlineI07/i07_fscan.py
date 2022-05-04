@@ -11,11 +11,13 @@ def fscan(*args):
     if len(args) == 6:
         # single motor scan
         (motor, start, end, arg_step, detector, count) = args
+        pos(motor, start)
         mscan(motor, axis, start, end, step, arg_step, cont, detector, count / float(1000))
 
     elif len(args) == 9:
         # dual motor scan
         (motor1, start1, end1, motor2, start2, end2, step1, detector, count) = args
+        pos(motor1, start1, motor2, start2)
         points = int((end1 - start1)/step1) + 1
         mscan(motor1, motor2, line, start1, start2, end1, end2, pts, points, cont, detector, count / float(1000))
     else:
@@ -36,11 +38,13 @@ def fpscan(*args):
     if len(args) == 6:
         # single motor scan
         (motor, start, end, points, detector, count) = args
+        pos(motor, start)
         mscan(motor, axis, start, end, pts, points, cont, detector, count / float(1000))
 
     elif len(args) == 9:
         # dual motor scan
         (motor1, start1, end1, motor2, start2, end2, points, detector, count) = args
+        pos(motor1, start1, motor2, start2)
         mscan(motor1, motor2, line, start1, start2, end1, end2, pts, points, cont, detector, count / float(1000))
     else:
         print "fpscan syntax:\n"
