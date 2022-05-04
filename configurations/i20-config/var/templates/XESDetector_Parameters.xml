@@ -7,17 +7,10 @@
     </detectorGroup>
     <detectorGroup>
         <name>Silicon</name>
-        <detector>counterTimer03</detector>
         <detector>FFI0_vortex</detector>
         <detector>xmapMca</detector>
         <detector>ionchambers</detector>
     </detectorGroup>
-<!--     <detectorGroup> -->
-<!--         <name>Germanium</name> -->
-<!--         <detector>FFI0</detector> -->
-<!--         <detector>xspress2system</detector> -->
-<!--         <detector>ionchambers</detector> -->
-<!--     </detectorGroup> -->
     <detectorGroup>
         <name>Xspress4</name>
         <detector>xspress4</detector>
@@ -31,10 +24,16 @@
         <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
+        <name>Xspress3X</name>
+        <detector>xspress3X</detector>
+        <detector>xspress3XFFI0</detector>
+        <detector>ionchambers</detector>
+    </detectorGroup>
+    <detectorGroup>
         <name>XES_xmap</name>
+        <detector>FFI1</detector>
         <detector>xmapMca</detector>
         <detector>I1</detector>
-        <detector>FFI1</detector>
     </detectorGroup>
     <detectorGroup>
         <name>XES_medipix</name>
@@ -47,7 +46,13 @@
         <detector>xspress3FFI1</detector>
         <detector>I1</detector>
     </detectorGroup>
-    <experimentType>XES</experimentType>
+    <detectorGroup>
+        <name>XES_xspress3X</name>
+        <detector>xspress3X</detector>
+        <detector>xspress3XFFI1</detector>
+        <detector>I1</detector>
+    </detectorGroup>
+    <experimentType>Transmission</experimentType>
     <transmission>
         <detectorType>transmission</detectorType>
         <workingEnergy>7111.14</workingEnergy>
@@ -57,6 +62,7 @@
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>986.6494125122085</pressure>
@@ -69,6 +75,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>2.0</percentAbsorption>
             <pressure>2398.2255980303107</pressure>
@@ -81,6 +88,7 @@
             <channel>3</channel>
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>3.0</percentAbsorption>
             <pressure>2149.659370269412</pressure>
@@ -90,13 +98,14 @@
     </transmission>
     <fluorescence>
         <workingEnergy>7111.14</workingEnergy>
-        <detectorType>Germanium</detectorType>
+        <detectorType>Xspress4</detectorType>
         <ionChamber>
             <name>I0</name>
             <deviceName>ionchambers</deviceName>
             <channel>1</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>2823.152371036204</pressure>
@@ -109,6 +118,7 @@
             <channel>2</channel>
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>2.0</percentAbsorption>
             <pressure>2398.2255980303107</pressure>
@@ -121,6 +131,7 @@
             <channel>3</channel>
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>3.0</percentAbsorption>
             <pressure>2149.659370269412</pressure>
@@ -130,13 +141,14 @@
     </fluorescence>
     <xes>
         <workingEnergy>7111.14</workingEnergy>
-        <detectorType>Silicon</detectorType>
+        <detectorType>XES_medipix</detectorType>
         <ionChamber>
             <name>I1</name>
             <deviceName>I1</deviceName>
-            <channel>1</channel>
+            <channel>4</channel>
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
+            <offset>1 pA</offset>
             <gasType>He</gasType>
             <percentAbsorption>1.0</percentAbsorption>
             <pressure>2823.152371036204</pressure>

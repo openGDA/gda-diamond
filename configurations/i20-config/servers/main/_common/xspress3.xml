@@ -60,4 +60,16 @@
 		</property>
 	</bean>
 
+	<bean id="xspress3XFFI1" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress3X" />
+		<property name="counterTimer" ref="I1" />
+		<property name="i0_channel" value="-1" />
+		<property name="outputName" value="FFI1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

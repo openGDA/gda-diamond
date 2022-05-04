@@ -11,12 +11,6 @@
         <detector>xmapMca</detector>
         <detector>ionchambers</detector>
     </detectorGroup>
-<!--     <detectorGroup> -->
-<!--         <name>Germanium</name> -->
-<!--         <detector>FFI0</detector> -->
-<!--         <detector>xspress2system</detector> -->
-<!--         <detector>ionchambers</detector> -->
-<!--     </detectorGroup> -->
     <detectorGroup>
         <name>Xspress4</name>
         <detector>xspress4</detector>
@@ -50,6 +44,12 @@
         <name>XES_xspress3</name>
         <detector>xspress3</detector>
         <detector>xspress3FFI1</detector>
+        <detector>I1</detector>
+    </detectorGroup>
+    <detectorGroup>
+        <name>XES_xspress3X</name>
+        <detector>xspress3X</detector>
+        <detector>xspress3XFFI1</detector>
         <detector>I1</detector>
     </detectorGroup>
     <experimentType>Transmission</experimentType>
