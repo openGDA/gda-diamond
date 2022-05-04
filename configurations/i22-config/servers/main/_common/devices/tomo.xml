@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+    <gda:motor id="tomo_azi" live-pvName="BL22I-MO-TSAXS-01:AZI" />
+    <gda:motor id="tomo_alt" live-pvName="BL22I-MO-TSAXS-01:ALT" />
+</beans>
+

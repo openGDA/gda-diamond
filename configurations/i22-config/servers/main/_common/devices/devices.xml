@@ -26,6 +26,7 @@
     <import resource="vfm.xml" />
     <import resource="wd.xml" />
     <import resource="p1xy.xml" />
+    <import resource="tomo.xml" />
 
     <import resource="fswitch.xml" />
 
