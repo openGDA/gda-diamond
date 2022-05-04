@@ -42,20 +42,6 @@
 		<property name="initialFileName" value="dcam1" />
 		<property name="initialFileTemplate" value="%s%s.hdf5" />
 	</bean>
-
-	<bean id="dcam1_ndfile_fimg" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL07I-DI-DCAM-01:FIMG:" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL07I-DI-DCAM-01:FIMG:" />
-				<property name="initialArrayPort" value="DCAM1.CAM" />
-			</bean>
-		</property>
-		<property name="initialWriteMode" value="0" />
-		<property name="initialNumCapture" value="1" />
-		<property name="initialFileName" value="dcam1" />
-		<property name="initialFileTemplate" value="%s%s.png" />
-	</bean>
 	
 	<bean id="dcam1_ndfile_tiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL07I-DI-DCAM-01:TIFF:" />
