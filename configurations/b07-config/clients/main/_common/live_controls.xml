@@ -188,8 +188,11 @@
 		<property name="group" value="....."/>
 		<property name="scripts">
 			<map>
-				<entry key="Open beamline" value="/dls_sw/b07/scripts/Beamline/BL_ready_GDA_DG.py"/>
-				<entry key="Close beamline" value="/dls_sw/b07/scripts/Beamline/vent_ES2_GDA_DG.py"/>
+				<entry key="Open Beamline" value="/dls_sw/b07/scripts/Beamline/BL_ready_GDA_DG.py"/>
+				<entry key="Close Beamline" value="/dls_sw/b07/scripts/Beamline/vent_ES2_GDA_DG.py"/>
+				<entry key="Fill 1 mbar He" value="/dls_sw/b07/scripts/Beamline/ES2_He_1mbar_GDA_DG.py"/>
+				<entry key="Pump 1 mbar He" value="/dls_sw/b07/scripts/Beamline/ES2_pumpdown_GDA_DG.py"/>
+				<entry key="Reset Beamline" value="/dls_sw/b07/scripts/Beamline/fast_valve_reset_GDA_DG.py"/>
 			</map>
 		</property>
 	</bean>
