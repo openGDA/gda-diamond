@@ -19,6 +19,7 @@
       <vmArgs>-Dgda.instance.dir=${project_loc:i06-1-config}
 -Dgda.group.dir=${project_loc:i06-shared}
 -Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.spring.profiles.active=DD,magnet,xabs
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git

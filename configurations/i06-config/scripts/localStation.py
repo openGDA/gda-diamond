@@ -118,6 +118,11 @@ else:
 LocalProperties.set("run.in.gda", True) # property 'run.in.gda' must be set before import add_pixel_mask, remove_pixel_mas
 from i06shared.metadata.detectorPixelMask import add_pixel_mask, remove_pixel_mask # @UnusedImport
 
+from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
+scan_processor.rootNamespaceDict=globals()  
+import gdascripts
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
+
 print("="*100)
 print("end of localStation.py for Beamline I06)")
 

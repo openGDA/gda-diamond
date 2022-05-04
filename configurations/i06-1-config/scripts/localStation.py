@@ -58,24 +58,6 @@ alias("d12Fe")
 alias("d12Ni")
 alias("d12Gd")
 
-print("-"*100)
-# print("Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1.")    
-print(" To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal.")
-print(" To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal.")
-
-from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
-scan_processor.rootNamespaceDict=globals()  
-import gdascripts
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
-scan_processor_normal_processes = scan_processor.processors
-scan_processor_empty_processes  = []
- 
-def scan_processing_on():
-    scan_processor.processors = scan_processor_normal_processes
- 
-def scan_processing_off():
-    scan_processor.processors = scan_processor_empty_processes
-
 # amplifer gain splitter objects used by metadata
 from metadata.amplifierGainPaser import AmplifierGainParser
 from java.lang import System  # @UnresolvedImport
@@ -111,7 +93,11 @@ if "xabs" in profiles:
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
     # xabs_amp_2 = AmplifierGainParser("xabs_amp_2", "BL06I-DI-IAMP-41:XABS:GAIN")
     
-        
+from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
+scan_processor.rootNamespaceDict=globals()  
+import gdascripts
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
+       
 print("="*100)
 print("End of i06-1 localStation.py")
 
