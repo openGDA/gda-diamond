@@ -24,13 +24,20 @@
 		<constructor-arg value="#{workstation}-ML-SCAN-01"/>
 	</bean>
 	
-	<util:map id="diffractionScanAxes" key-type="java.lang.String" value-type="java.lang.String">
-		<entry key="x" value="simx" />
-		<entry key="y" value="simy" />
-	</util:map>
+	<bean id="diffractionXScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="simx"/>
+	</bean>
 	
-	<util:map id="tomographyScanAxes" key-type="java.lang.String" value-type="java.lang.String">
-		<entry key="theta" value="simtheta" />
-	</util:map>
+	<bean id="diffractionYScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="simy"/>
+	</bean>
+	
+	<bean id="tomographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="simtheta"/>
+	</bean>
+	
+
+	
+
 
 </beans>

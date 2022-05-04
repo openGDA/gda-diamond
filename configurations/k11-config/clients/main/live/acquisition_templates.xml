@@ -24,13 +24,16 @@
 		<constructor-arg value="BL11K-ML-SCAN-06"/>
 	</bean>
 	
-	<util:map id="diffractionScanAxes" key-type="java.lang.String" value-type="java.lang.String">
-		<entry key="x" value="kb_cs_x" />
-		<entry key="y" value="kb_cs_y" />
-	</util:map>
+	<bean id="diffractionXScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="kb_cs_x"/>
+	</bean>
 	
-	<util:map id="tomographyScanAxes" key-type="java.lang.String" value-type="java.lang.String">
-		<entry key="theta" value="gts_theta" />
-	</util:map>
+	<bean id="diffractionYScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="kb_cs_y"/>
+	</bean>
+	
+	<bean id="tomographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="gts_theta"/>
+	</bean>
 
 </beans>
