@@ -106,24 +106,6 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		totalTime = itScanParameters.getTotalTime();
 	}
 
-	@Override
-	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
-		int current = 0;
-		List<TimingGroup> groups = itScans[0].getScanParameters().getGroups();
-		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
-			current += groups.get(i).getNumberOfFrames();
-		}
-		current += progress.getFrameNumOfThisSDP() + 1; // + 1 because it is 0 index
-		int avg = (int) (totalNumberOfspectra / (totalTime / noOfSecPerSpectrumToPublish));
-		if (avg < 1) {
-			avg = 1;
-		}
-		if (current % avg == 0 || current == totalNumberOfspectra || current == 1) {
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * NPE if this is called before the scan has been run and the datawriter has been created
 	 *

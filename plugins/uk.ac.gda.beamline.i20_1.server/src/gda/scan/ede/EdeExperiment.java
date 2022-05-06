@@ -462,8 +462,6 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract ExperimentCollectionType getCollectionType();
 
-	protected abstract boolean shouldPublishItScanData(EdeScanProgressBean progress);
-
 	private void addToMultiScanAndRun() throws Exception {
 		try {
 			ScanPlotSettings plotNothing = new ScanPlotSettings();
@@ -797,23 +795,20 @@ public abstract class EdeExperiment implements IObserver {
 				controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.LN_I0_IREF_FINAL_COLUMN_NAME,
 						normalisedIRef, lastEnergyData));
 			} else if (ArrayUtils.contains(itScans, source)) {
-				if (shouldPublishItScanData(progress)) {
-					// TODO this will be affected by changes to EdeScan
-					lastItData = ((EdeScan)source).extractLastDetectorDataSet();
-					if (this.shouldRunItDark() & lastItDarkData != null) {
-						DoubleDataset itDarkForItLightData = getDataForCurrentGroup(itDarkScan, progress);
-						lastItData = lastItData.isubtract(itDarkForItLightData);
-					} else {
-						// If ItDark is not collected (which means each group parameters for It is the same as I0 parameters)
-						DoubleDataset i0DarkForItLightData = getDataForCurrentGroup(i0DarkScan, progress);
-						lastItData = lastItData.isubtract(i0DarkForItLightData);
-					}
-					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.IT_CORR_COLUMN_NAME,
-							lastItData, lastEnergyData));
-					DoubleDataset normalisedIt = EdeExperimentDataWriter.normaliseDatasset(lastItData, lastI0Data);
-					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress,
-							EdeDataConstants.LN_I0_IT_COLUMN_NAME, normalisedIt, lastEnergyData));
+				lastItData = ((EdeScan)source).extractLastDetectorDataSet();
+				if (this.shouldRunItDark() && lastItDarkData != null) {
+					DoubleDataset itDarkForItLightData = getDataForCurrentGroup(itDarkScan, progress);
+					lastItData = lastItData.isubtract(itDarkForItLightData);
+				} else {
+					// If ItDark is not collected (which means each group parameters for It is the same as I0 parameters)
+					DoubleDataset i0DarkForItLightData = getDataForCurrentGroup(i0DarkScan, progress);
+					lastItData = lastItData.isubtract(i0DarkForItLightData);
 				}
+				controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.IT_CORR_COLUMN_NAME,
+						lastItData, lastEnergyData));
+				DoubleDataset normalisedIt = EdeExperimentDataWriter.normaliseDatasset(lastItData, lastI0Data);
+				controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress,
+						EdeDataConstants.LN_I0_IT_COLUMN_NAME, normalisedIt, lastEnergyData));
 			}
 		}
 	}
