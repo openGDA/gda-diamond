@@ -74,7 +74,7 @@
 				<property name="increment" value="10" />
 			</bean>
 		</constructor-arg>
-		<property name="secondaryId" value="sim_cam#MJPEG" />
+		<property name="secondaryId" value="es2b_cam1#MJPEG" />
 	 	<property name="spacingScannable" ref="cross_spacing_sim_cam" />
 		<property name="centreXScannable" ref="cross_x_sim_cam" />
 		<property name="centreYScannable" ref="cross_y_sim_cam" />
@@ -115,7 +115,7 @@
 	
 	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="topUi" ref="sim_camera_controls_ui" />
 	</bean>
@@ -124,8 +124,7 @@
 	
 	<bean id="es2b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES2B Cam 1" />
-		<property name="url" value="bl07b-di-serv-01.diamond.ac.uk:8083/ES2B.DCAM1.mjpg.mjpg" />
-		<property name="rgb" value="true" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
 		<property name="bottomUi" ref="sim_camera_controls_ui" />
 	</bean>
 			
@@ -133,9 +132,17 @@
 
 	<bean id="es2b_cam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES2B Cam 2" />
-		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8083/ES2B.DCAM2.mjpg.mjpg" />
-		<property name="rgb" value="true" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
 		<property name="bottomUi" ref="sim_camera_controls_ui" />
 	</bean>
+	
+	<!-- D98B -->
+	
+	<bean id="d98b" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D98B" />
+		<property name="url" value="http://#{localhostname.hostName}:8080/ADSIM.mjpg.mjpg" />
+		<property name="bottomUi" ref="sim_camera_controls_ui" />
+	</bean>
+	
 </beans>
 

@@ -193,6 +193,14 @@
 		<property name="bottomUi" ref = "es2b_2_camera_controls_ui" />
 	</bean>
 	
+	<!-- D98b -->
+	
+	<bean id="d98b" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D98B" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8083/D98B.DCAM1.mjpg.mjpg" />
+		<property name="rgb" value="true" />
+	</bean>
+	
 	<!-- Grid -->
 	
 	<!-- ES2B Cam 1 -->
