@@ -98,9 +98,7 @@
 				<ref bean="eiger_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="eiger_mask" />
 		<property name="detectorWidth" value="2068" />
 		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
@@ -118,12 +116,15 @@
 				<ref bean="eiger_plotter" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="eiger_mask" />
 		<property name="detectorWidth" value="2068" />
 		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
+	</bean>
+	
+	<bean
+		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
+		id="eiger_mask">
 	</bean>
 
 	<bean

@@ -9,7 +9,7 @@
 	
 	<bean id="eiger_controller" class="uk.ac.gda.devices.odin.control.OdinDetectorEiger" >
 		<constructor-arg ref="eiger_controller_base" />
-		<!--property name="basePv" value="BL07I-EA-EIGER-01:"/-->
+		<property name="basePv" value="BL07I-EA-EIGER-01:"/>
 	</bean>
 
 	<bean id="eiger_pva"
