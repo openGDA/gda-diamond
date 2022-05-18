@@ -284,10 +284,18 @@ def setMarFileTemplate(filetemplate):
     setMarPv("FileTemplate", filetemplate)
 
 def closeMarCover() :
+    print("Closing Mar cover...")
     caput(getMarPvString("CLOSE_COVER.PROC"), 1)
+    sleep(1)
+    cagetWaitForValue(getMarPvString("COVER:CLOSED"), 1)
+    print("Mar cover closed")
 
 def openMarCover() :
+    print("Opening Mar cover...")
     caput(getMarPvString("OPEN_COVER.PROC"), 1)
+    sleep(1)
+    cagetWaitForValue(getMarPvString("COVER:OPENED"), 1)
+    print("Mar cover open")
 
 def readoutMar() :
     caput(getMarPvString("CAM:Acquire"), 1)
@@ -296,6 +304,19 @@ def eraseMar() :
     caput(getMarPvString("CAM:Erase"), 1)
 
 
+from gda.epics import LazyPVFactory
+from java.util.function import Predicate
+
+class lambdaFunction(Predicate):
+    def __init__(self, func):
+        self.func = func
+        
+    def test(self, t) :
+        return self.func(t)
+
+def cagetWaitForValue(pvName, value) :
+    pvPosition = LazyPVFactory.newReadOnlyDoublePV(pvName);
+    pvPosition.waitForValue(lambdaFunction(lambda x : x == value), 60.0)   	
 
 # Set some reasonable defaults on the TIFF and CAM plugins
 setMarFilePathToVisit("nexus")

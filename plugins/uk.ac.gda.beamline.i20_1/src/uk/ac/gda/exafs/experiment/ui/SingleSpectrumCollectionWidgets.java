@@ -316,7 +316,7 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 	private class SaveLoadButtonsForSingleCollection extends SaveLoadButtonsComposite {
 
 		public SaveLoadButtonsForSingleCollection(Composite parent, FormToolkit toolkit) {
-			super(parent, toolkit);
+			super(parent, toolkit, TimeResolvedExperimentParameters.class);
 		}
 
 		@Override
@@ -327,7 +327,7 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
-			if (!beanIsCorrectType(filename, TimeResolvedExperimentParameters.class)) {
+			if (!beanIsCorrectType(filename)) {
 				return;
 			}
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(getBeanFromFile(filename));

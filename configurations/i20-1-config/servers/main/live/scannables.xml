@@ -20,8 +20,8 @@
 
 	<bean id="gasRigValve" class="gda.device.enumpositioner.EpicsValve">
 		<property name="name" value="gasRigValve" />
-		<property name="epicsRecordName" value="ME08G-EA-VALVE-24" />
-		<property name="configureAtStartup" value="false" />
+		<property name="epicsRecordName" value="ME17G-EA-GAS-01:VICI" />
+		<property name="configureAtStartup" value="true" />
 	</bean>
 
 	<bean id="industrialGasRigValve" class="gda.device.enumpositioner.EpicsValve">

@@ -39,6 +39,7 @@ public class StepScanEdeDetector extends DetectorBase implements NexusDetector {
 	private int pollTimeMilliSecs = 10;
 	private EdeDetector detector;
 	private int numberScansPerFrame = 1;
+	private double timeUnitLength = 1.0;
 
 	/**
 	 * Configure the detector once at start of scan to save some time during the collection
@@ -64,7 +65,7 @@ public class StepScanEdeDetector extends DetectorBase implements NexusDetector {
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1); // num spectra
 		// for this class accept time in ms not s, as per the normal Detector interface
-		group1.setTimePerScan(getCollectionTime() / 1000.0); // accumulation time
+		group1.setTimePerScan(getCollectionTime() * timeUnitLength); // accumulation time
 		// group1.setTimePerFrame(getCollectionTime() / 1000.0); //
 		group1.setNumberOfScansPerFrame(numberScansPerFrame); // num accumulations
 
@@ -136,5 +137,20 @@ public class StepScanEdeDetector extends DetectorBase implements NexusDetector {
 
 	public void setNumberScansPerFrame(int numberScansPerFrame) {
 		this.numberScansPerFrame = numberScansPerFrame;
+	}
+
+	public double getTimeUnitLength() {
+		return timeUnitLength;
+	}
+
+	/**
+	 * Multiplier applied to collection time value to convert from 'user units' to seconds.
+	 * (This is the number entered for the detector time on  command line step scans).
+	 * Default value is milliseconds, 1e-3 (for Frelon).
+	 *
+	 * @param timeUnitLength
+	 */
+	public void setTimeUnitLength(double timeUnitLength) {
+		this.timeUnitLength = timeUnitLength;
 	}
 }

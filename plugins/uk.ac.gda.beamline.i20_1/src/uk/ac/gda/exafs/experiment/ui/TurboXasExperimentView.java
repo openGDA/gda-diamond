@@ -662,7 +662,7 @@ public class TurboXasExperimentView extends ViewPart {
 	private class SaveLoadButtonsForTurboXasExperiment extends SaveLoadButtonsComposite {
 
 		public SaveLoadButtonsForTurboXasExperiment(Composite parent, FormToolkit toolkit) {
-			super(parent, toolkit);
+			super(parent, toolkit, TurboXasParameters.class);
 		}
 
 		@Override
@@ -673,7 +673,7 @@ public class TurboXasExperimentView extends ViewPart {
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
-			if (!beanIsCorrectType(filename, TurboXasParameters.class)) {
+			if (!beanIsCorrectType(filename)) {
 				return;
 			}
 			turboXasParameters = TurboXasParameters.fromXML(getBeanFromFile(filename));

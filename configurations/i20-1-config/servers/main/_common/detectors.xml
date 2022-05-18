@@ -38,10 +38,12 @@
 
 	<bean id="ssxh" class="gda.device.detector.StepScanEdeDetector">
 		<property name="detector" ref="xh"/>
+		<property name="timeUnitLength" value="1e-6" />
 	</bean>
 	
 	<bean id="ssxstrip" class="gda.device.detector.StepScanEdeDetector">
 		<property name="detector" ref="xstrip"/>
+		<property name="timeUnitLength" value="1e-6" />
 	</bean>
 
 <!-- XSpress3 added 18Nov2016 -->
