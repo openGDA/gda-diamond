@@ -160,6 +160,9 @@ if LocalProperties.get("gda.mode") == "live":
 else :
     if material() == None:
         material('Si')
+    det_y.getMotor().setSpeed(10000)
+    xtal_x.getMotor().setSpeed(10000)
+
     # Set positions of some scannables to reasonable positions so that XESBragg calculation has a chance of working
     
     for scn in spectrometer.getGroupMembers() :
@@ -267,9 +270,17 @@ def setupXspress3X() :
          
 def setupXspress4() : 
     print "Setting up XSpress4 : "
+    
+    #arrayCounter = ":ArrayCounter_RBV" # Old Xspress4 IOC
+    arrayCounter = ":ARR:ArrayCounter_RBV" # New Xspress4 IOC (13April2022)
+    print("Setting Array counter RBV PV to :%s"%(arrayCounter))
+    xspress4.getController().setArrayCounterRbvName(arrayCounter)
+    # Recreate the PVs
+    xspress4.getController().afterPropertiesSet()
+    
     basename = xspress4.getController().getBasePv()
     
-    setupResGrades(basename, True)
+    # setupResGrades(basename, True)
     setup_xspress_detector(basename)  # set the trigger mode, 1 frame of data to set data dimensions
 
     # Set the default deadtime correction energy if not already non-zero
@@ -317,5 +328,8 @@ run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress3X)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMedipix)
+
+run "topup-scannable.py"
+run "energy-transfer-scannable.py"
 
 print "****GDA startup script complete.****\n\n"
