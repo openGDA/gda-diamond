@@ -59,6 +59,8 @@ theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannable(qexafs_energy);
 theFactory.setScanName("energyScan")
 
+# qexafs_energy.setPcEncType(0) # set zebra encoder to use when capturing pulses (0..3 for enc1..3, 4 for the avg)
+
 xas = theFactory.createEnergyScan();
 xanes = xas
 qexafs = theFactory.createQexafsScan()
@@ -179,7 +181,7 @@ else :
     run("default_scannable_class.py")
 
 run("continuous_scans.py")
-run("meca_status.py")
+# run("meca_status.py")
 
 from gda.data.metadata import GDAMetadataProvider
 def setVisit(visitStr) :
