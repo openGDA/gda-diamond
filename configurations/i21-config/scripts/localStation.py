@@ -4,7 +4,6 @@ import installation
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.degas.degas import Degas  # @UnusedImport
 from gda.jython.commands.GeneralCommands import alias
-from time import sleep
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
 from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnusedImport @UnresolvedImport
@@ -95,46 +94,15 @@ if installation.isLive():
         fboff=FeedbackOffScannable("fboff", pvroot="BL21I-OP-MIRR-01:FBCTRL")
     except:
         localStation_exception(sys.exc_info(), "Error creating 'fbs' or 'fboff'.")
-    #fast shutter source control
-    def erio():
-        caput("BL21I-OP-SHTR-01:SRC", 0)
-    
-    def primary():
-        caput("BL21I-OP-SHTR-01:SRC", 1)
-    
-    def polarimeter():
-        caput("BL21I-OP-SHTR-01:SRC", 2)
         
-    def lightOn():
-        caput('BL21I-EA-SMPL-01:BOLED1', 1)
-        
-    def lightOff():
-        caput('BL21I-EA-SMPL-01:BOLED1', 0)
-        
-    alias("erio")
-    alias("primary")
-    alias("polarimeter")
-    alias("lightOn")
-    alias("lightOff")
-
 else:
     print("Running in dummy mode")
     m1fpsetpoint=DummyDisplayEpicsPVClass('m1fpsetpoint', 0.0, 50.0, '', '%.10f')
     m2fpsetpoint=DummyDisplayEpicsPVClass('m2fpsetpoint', 0.0, 50.0, 'px', '%.10f')
-    def erio():
-        print("set BL21I-OP-SHTR-01:SRC to 0")
-    
-    def primary():
-        print("set BL21I-OP-SHTR-01:SRC to 1")
-    
-    def polarimeter():
-        print("set BL21I-OP-SHTR-01:SRC to 2")
-        
-    def lightOn():
-        print('set BL21I-EA-SMPL-01:BOLED1 to 1')
-        
-    def lightOff():
-        print('set BL21I-EA-SMPL-01:BOLED1 to 0')
+
+
+from shutters.detectorShutterControl import erio, primary, polarimeter  # @UnusedImport
+from lights.chamberLight import lightOff, lightOn  # @UnusedImport
 
 print("create clever amplifier scannables: cleverd7femto1, cleverd7femto2")
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
@@ -153,30 +121,9 @@ print("Create an 'dummyenergy' scannable which can be used for test energy scan 
 dummyenergy=BeamEnergy("dummyenergy",idscannable, ds, ds1, pgmGratingSelect)  # @UndefinedVariable
 print("Create an 'energy_s', 'polarisation', and 'energypolarisation' scannables")
 
-from calibration.energy_polarisation_class import X_RAY_POLARISATIONS, BeamEnergyPolarisationClass
+from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
-from lookup.IDLookup import IDLookup4LinearAngleMode
-lookup_file='${gda.config}/lookupTables/LinearAngle.csv' #theoretical table from ID group
-ID_ENERGY_TO_GAP_CALIBRATION_FILE = "IDEnergy2GapCalibrations.csv"
-EPICS_FEEDBACK_PV = "BL21I-OP-MIRR-01:FBCTRL:MODE"
-idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
-if installation.isLive():
-    energy_s=BeamEnergyPolarisationClass("energy_s", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, polarisationConstant=True,feedbackPV=EPICS_FEEDBACK_PV)  # @UndefinedVariable
-    energy_s.configure()
-    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, energyConstant=True,feedbackPV=EPICS_FEEDBACK_PV)  # @UndefinedVariable
-    polarisation.configure()
-    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE,feedbackPV=EPICS_FEEDBACK_PV)  # @UndefinedVariable
-    energypolarisation.configure()
-else:
-    energy_s=BeamEnergyPolarisationClass("energy_s", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, polarisationConstant=True)  # @UndefinedVariable
-    energy_s.configure()
-    polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE, energyConstant=True)  # @UndefinedVariable
-    polarisation.configure()
-    energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE)  # @UndefinedVariable
-    energypolarisation.configure()
-
-energypolarisation.setInputNames(["energy"])
-energypolarisation.setExtraNames(["polarisation"])
+from calibration.energy_polarisation_instances import energy_s, energypolarisation, polarisation  # @UnusedImport
 
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
@@ -217,57 +164,12 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
-ENABLE_ENCODER_LIGHT_CONTROL=False
-# repeat acquire at a fixed point
-def acquireImages(n, det, exposure_time, *args):
-    try:
-        newargs=[ds,1,n,1,det,exposure_time] # @UndefinedVariable
-        for arg in args:
-            newargs.append(arg)
-        if ENABLE_ENCODER_LIGHT_CONTROL:
-            # last recorded position of sgmpitch when the light was switched off
-            ENCODER_POSITION_BEFORE_LIGHT_OFF=float(sgmpitch.getPosition())
-            sleep(0.1)
-            # kill sgmpitch
-            caput("BL21I-OP-SGM-01:PITCH:KILL.PROC",1)
-            sleep(0.1)
-            # switch off encoder power
-            caput("BL21I-OP-SGM-01:TVLR:ENC_POWER",1)
-        scan([e for e in newargs])
-    finally:
-        if ENABLE_ENCODER_LIGHT_CONTROL:
-            # switch on encoder power
-            caput("BL21I-OP-SGM-01:TVLR:ENC_POWER",0)
-            sleep(0.1)
-            clearEncoderLoss()
-            sleep(0.1)
-            if ENCODER_POSITION_BEFORE_LIGHT_OFF is not None:
-                sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
-
-def acquireRIXS(n, det, exposure_time, *args):
-    if det is andor:  # @UndefinedVariable
-        primary()
-    elif det is andor2:  # @UndefinedVariable
-        polarimeter()
-    fastshutter("Open")
-    acquireImages(n, det, exposure_time, *args)
-
-alias("acquireRIXS")
-
-def acquiredark(n, det, exposure_time, *args):
-    fastshutter("Closed")
-    erio()
-    acquireImages(n, det, exposure_time, *args)
-
-alias("acquiredark")
-
-def clearEncoderLoss():
-    caput("BL21I-OP-SGM-01:PITCH:ELOSSRC.A", 0)
-    sleep(2.0)
-         
-alias("clearEncoderLoss")
+from acquisition.acquireImages import acquireImages, clearEncoderLoss, acquireRIXS, acquiredark  # @UnusedImport
+from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image  # @UnusedImport
+from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image  # @UnusedImport
+from acquisition.flatFieldAcqusition import acquire_flat_field, remove_flat_field  # @UnusedImport
     
-from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+from gdascripts.scan.installStandardScansWithProcessing import ascan,a2scan,a3scan,mesh,dscan,d2scan,d3scan,scan,rscan,cscan,scan_processor  # @UnusedImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 scan_processor_normal_processes = scan_processor.processors
@@ -295,42 +197,8 @@ GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checked
 # from i21commands.checkedMotion import lookuptable, move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE, moveWithinLimits, findRange, UnsafeOperationException, IllegalMoveException, checkIfMoveLegal
 # alias("move")
 # alias("asynmove")
+from functions.go_founctions import go, goLH, goLV, goCL, goCR  # @UnusedImport
 
-def goLH(en_val_std):
-    caput (EPICS_FEEDBACK_PV,0)
-    energy.moveTo(en_val_std)
-    polarisation.moveTo(LH)
-    caput (EPICS_FEEDBACK_PV,4)
-    print("energy is now at %f, polarisation is now at %s" % (en_val_std, LH))
-
-def goLV(en_val_std):
-    caput (EPICS_FEEDBACK_PV,0)
-    # energypolarisation.moveTo([en_val_std, LV])
-    energy.moveTo(en_val_std)
-    polarisation.moveTo(LV)
-    caput (EPICS_FEEDBACK_PV,4)
-    print("energy is now at %f, polarisation is now at %s" % (en_val_std, LV))
-    
-def goCR(en_val_std):
-    caput (EPICS_FEEDBACK_PV,0)
-    energy.moveTo(en_val_std)
-    polarisation.moveTo(CR)
-    caput (EPICS_FEEDBACK_PV,4)
-    print("energy is now at %f, polarisation is now at %s" % (en_val_std, CR))
-
-def goCL(en_val_std):
-    caput (EPICS_FEEDBACK_PV,0)
-    energy.moveTo(en_val_std)
-    polarisation.moveTo(CL)
-    caput (EPICS_FEEDBACK_PV,4)
-    print("energy is now at %f, polarisation is now at %s" % (en_val_std, CL))
-
-def go(en_val_std, pol):
-    caput (EPICS_FEEDBACK_PV,0)
-    energypolarisation.moveTo([en_val_std, pol])
-    caput (EPICS_FEEDBACK_PV,4)
-    print("energy is now at %f, polarisation is now at %s" % (en_val_std, pol))
-    
 print("create 'alltth' scannable")
 from scannabledevices.M5GroupScannable import M5GroupScannable
 alltth = M5GroupScannable("alltth", armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737)  # @UndefinedVariable

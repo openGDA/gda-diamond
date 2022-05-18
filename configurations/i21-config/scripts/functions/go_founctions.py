@@ -1,0 +1,44 @@
+'''
+define go functions to move Insertion Device to given energy and polarisation
+
+Created on May 6, 2022
+
+@author: fy65
+'''
+from gdascripts.utils import caput
+from calibration.energy_polarisation_instances import energypolarisation
+from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
+
+LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
+EPICS_FEEDBACK_PV = "BL21I-OP-MIRR-01:FBCTRL:MODE"
+
+def goLH(en_val_std):
+    ''' go to Linear Horizontal polarisation at the given energy
+    '''
+    go(en_val_std, LH)
+
+def goLV(en_val_std):
+    ''' go to Linear Vertical polarisation at the given energy
+    '''
+    go(en_val_std, LV)
+    
+def goCR(en_val_std):
+    ''' go to Circular Right polarisation at the given energy
+    '''
+    go(en_val_std, CR)
+    
+def goCL(en_val_std):
+    ''' go to Circular Left polarisation at the given energy
+    '''
+    go(en_val_std, CL)
+
+def go(en_val_std, pol):
+    ''' go to the given polarisation at the given energy
+    '''
+    if not (pol in X_RAY_POLARISATIONS[:-2]):
+        print("Requested polarisation %s is not supported" % pol)
+        return
+    caput (EPICS_FEEDBACK_PV,0)
+    energypolarisation.moveTo([en_val_std, pol])
+    caput (EPICS_FEEDBACK_PV,4)
+    print("energy is now at %f, polarisation is now at %s" % (en_val_std, pol))
