@@ -19,7 +19,7 @@ from gdascripts.metadata.nexus_metadata_class import meta
 
 print("-"*100)
 print("Creating 'miscan' - multiple images per scan data point")
-print("    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] mpx 10 0.1")
+print("    Syntax: miscan (scannable1, scannable2) ([1,2], [3,4],[5,6]) mpx 10 0.1")
 
 PRINTTIME = False
 dummyScannable = DummyScannable("dummyScannable")
@@ -38,6 +38,15 @@ def all_elements_are_list_of_number(arg):
             return False
         for item in each:
             if not (type(item) == FloatType or type(item) == IntType):
+                return False
+    return True
+
+def all_elements_are_list_of_number_or_string(arg):
+    for each in arg:
+        if not type(each) == ListType:
+            return False
+        for item in each:
+            if not (type(item) == FloatType or type(item) == IntType or type(item) == StringType):
                 return False
     return True
 
@@ -92,7 +101,7 @@ def parse_tuple_arguments(command, newargs, arg):
         command += ",".join(scannable_names)
         scannable_group.setName("pathgroup")
         newargs.append(scannable_group)
-    elif all_elements_are_list_of_number(arg):  # parsing scannable group's position lists
+    elif all_elements_are_list_of_number_or_string(arg):  # parsing scannable group's position lists
         newargs.append(arg)
         list_of_lists = []
         for each in arg:
@@ -113,7 +122,7 @@ def parse_tuple_arguments(command, newargs, arg):
         newargs.append(arg)
         command += ",".join(arg)
     else:
-        raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of tuples of numbers, list of numbers, or tuple of Strings are supported."
+        raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of lists of numbers or Strings, list of numbers, or tuple of Strings are supported."
     command += ") "
     return command, newargs
 

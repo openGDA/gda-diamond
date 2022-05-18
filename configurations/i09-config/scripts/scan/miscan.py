@@ -42,6 +42,15 @@ def all_elements_are_list_of_number(arg):
                 return False
     return True
 
+def all_elements_are_list_of_number_or_string(arg):
+    for each in arg:
+        if not type(each) == ListType:
+            return False
+        for item in each:
+            if not (type(item) == FloatType or type(item) == IntType or type(item) == StringType):
+                return False
+    return True
+
 
 def all_elements_are_number(arg):
     for each in arg:
@@ -93,7 +102,7 @@ def parse_tuple_arguments(command, newargs, arg):
         command += ",".join(scannable_names)
         scannable_group.setName("pathgroup")
         newargs.append(scannable_group)
-    elif all_elements_are_list_of_number(arg):  # parsing scannable group's position lists
+    elif all_elements_are_list_of_number_or_string(arg):  # parsing scannable group's position lists
         newargs.append(arg)
         list_of_lists = []
         for each in arg:
@@ -114,7 +123,7 @@ def parse_tuple_arguments(command, newargs, arg):
         newargs.append(arg)
         command += ",".join(arg)
     else:
-        raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of tuples of numbers, list of numbers, or tuple of Strings are supported."
+        raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of lists of numbers or Strings, list of numbers, or tuple of Strings are supported."
     command += ") "
     return command, newargs
 
@@ -170,10 +179,10 @@ def parse_other_arguments(command, arg):
 def miscan(*args):
     '''   a more generalised scan that extends standard GDA scan syntax to support 
         1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group, 
-        2. its corresponding path tuple - tuple of lists e.g.([1,2], [3,4]), if exist, and
+        2. its corresponding path tuple (e.g. list of position tuples), if exist, and
         3. area detector that takes 2 input numbers - 1st input is the number of images to be collected at each point,
            if omitted it default to 1, and 2nd input is detector exposure time which must be provided,
-        4. syntax 'miscan detector 10 0.1 ...' is supported for collecting 10 images at a single point.
+        4. syntax 'miscan mpx 10 0.1 ...' is supported for collecting 10 images at a single point.
     
         It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
         Thus it can be used anywhere the standard GDA 'scan' is used.
