@@ -192,7 +192,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	private class SaveLoadButtons extends SaveLoadButtonsComposite {
 
 		public SaveLoadButtons(Composite parent, FormToolkit toolkit) {
-			super(parent, toolkit);
+			super(parent, toolkit, AlignmentStageModel.class);
 		}
 
 		@Override
@@ -205,7 +205,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
-			if (!beanIsCorrectType(filename, AlignmentStageModel.class)) {
+			if (!beanIsCorrectType(filename)) {
 				return;
 			}
 			Path filePath = Paths.get(filename);

@@ -77,11 +77,6 @@ public class SingleSpectrumScan extends EdeExperiment {
 	}
 
 	@Override
-	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
-		return true;
-	}
-
-	@Override
 	protected int getRepetitions() {
 		return 1;
 	}

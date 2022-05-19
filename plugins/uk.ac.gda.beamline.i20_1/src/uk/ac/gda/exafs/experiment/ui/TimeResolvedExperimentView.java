@@ -213,7 +213,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 	private class SaveLoadButtonsForLinearExperiment extends SaveLoadButtonsComposite {
 
 		public SaveLoadButtonsForLinearExperiment(Composite parent, FormToolkit toolkit) {
-			super(parent, toolkit);
+			super(parent, toolkit, TimeResolvedExperimentParameters.class);
 		}
 
 		@Override
@@ -224,7 +224,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
-			if (!beanIsCorrectType(filename, TimeResolvedExperimentParameters.class)) {
+			if (!beanIsCorrectType(filename)) {
 				return;
 			}
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(getBeanFromFile(filename));

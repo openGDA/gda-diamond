@@ -31,8 +31,6 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -69,9 +67,12 @@ public abstract class SaveLoadButtonsComposite {
 
 	private Composite parent;
 
-	public SaveLoadButtonsComposite(Composite parent, FormToolkit toolkit) {
+	private final Class<?> expectedBeanType;
+
+	public SaveLoadButtonsComposite(Composite parent, FormToolkit toolkit, Class<?> expectedBeanType) {
 		this.parent = parent;
 		this.toolkit = toolkit;
+		this.expectedBeanType = expectedBeanType;
 		createWidgets();
 	}
 
@@ -97,12 +98,7 @@ public abstract class SaveLoadButtonsComposite {
 		loadFromXmlButton.setImage(ResourceManager.getImageDescriptor(TimeResolvedExperimentView.class,	"/icons/IMG_OPEN_MARKER.png").createImage());
 		loadFromXmlButton.setToolTipText("Load settings from an XML file");
 		loadFromXmlButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		loadFromXmlButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				showLoadParametersDialog();
-			}
-		});
+		loadFromXmlButton.addListener(SWT.Selection, e-> showLoadParametersDialog());
 
 		Label saveLabel = toolkit.createLabel(composite, "Save settings", SWT.None);
 		saveLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -111,12 +107,7 @@ public abstract class SaveLoadButtonsComposite {
 		saveToXmlButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		saveToXmlButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVE_EDIT));
 		saveToXmlButton.setToolTipText("Save current GUI settings to an XML file");
-		saveToXmlButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				showSaveParametersDialog();
-			}
-		});
+		saveToXmlButton.addListener(SWT.Selection, e -> showSaveParametersDialog());
 	}
 
 	private void setupFileDialog(FileDialog fileDialog, String filename) {
@@ -195,11 +186,10 @@ public abstract class SaveLoadButtonsComposite {
 	 * A warning dialog is displayed if bean does not match the expected type.
 	 *
 	 * @param filename path to XML or Nexus file
-	 * @param expectedClassType class type
 	 * @return true if bean matches class type, false otherwise.
 	 * @throws IOException
 	 */
-	protected boolean beanIsCorrectType(String filename, Class<?> expectedClassType) throws NexusException, IOException {
+	protected boolean beanIsCorrectType(String filename) throws NexusException, IOException {
 		String[] file = getBeanFromFile(filename).split("\n");
 
 		// Get the line containing the bean class type from the start of the file, ignoring the (optional) header line.
@@ -211,18 +201,18 @@ public abstract class SaveLoadButtonsComposite {
 		}
 		// Display warning dialog box if class does not match expected type
 		String className = beanTypeString.replaceAll("[<>]", "").trim();
-		if (!className.equals(expectedClassType.getSimpleName())) {
+		if (!className.equals(expectedBeanType.getSimpleName())) {
 			MessageDialog.openWarning(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "Problem reading from file",
-					"Could not load parameters from "+filename+" - it does not contain "+expectedClassType.getSimpleName()+" data");
+					"Could not load parameters from "+filename+" - it does not contain "+expectedBeanType.getSimpleName()+" data");
 			return false;
 		}
 		return true;
 	}
 
 	public String getBeanFromFile(String filename) throws NexusException, IOException {
-		logger.debug("Trying to load bean from {}...", filename);
+		String beanName = expectedBeanType.getSimpleName();
+		logger.debug("Trying to load {} bean from {}...", beanName, filename);
 		final String beforeScan = "/entry1/before_scan";
-
 		// Read file content
 		if (filename.endsWith(".nxs")) {
 			// Try to read bean from Nexus file
@@ -231,13 +221,13 @@ public abstract class SaveLoadButtonsComposite {
 				GroupNode node = nexusFile.getGroup(beforeScan, false);
 				if (node != null) {
 					for (var n : node.getDataNodeMap().entrySet()) {
-						if (n.getKey().endsWith("Parameters")) {
+						if (n.getKey().equals(beanName)) {
 							logger.debug("{} found in {}", n.getKey(), beforeScan);
 							return n.getValue().getString();
 						}
 					}
 				}
-				throw new IOException("Could not read parameters from Nexus file - no parameters found in "+beforeScan);
+				throw new IOException("Could not read parameters from Nexus file - no parameters called "+beanName+" found in "+beforeScan);
 			}
 		} else {
 			return FileUtils.readFileToString(Paths.get(filename).toFile(), Charset.defaultCharset());
