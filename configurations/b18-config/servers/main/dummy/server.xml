@@ -41,6 +41,9 @@
 	<import resource="file:${gda.config}/servers/main/gantry.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/meca-robot.xml" />
 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/pilatus.xml" />
+	<import resource="file:${gda.config}/servers/main/pilatus.xml" />
+
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

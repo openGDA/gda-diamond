@@ -43,7 +43,7 @@ daServer = Finder.find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
-
+detectorPreparer.setPilatusDetector(pilatus_addetector)
 
 # TODO this could all be done in Sping XML
 theFactory = XasScanFactory();
@@ -58,6 +58,8 @@ theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannable(qexafs_energy);
 theFactory.setScanName("energyScan")
+
+# qexafs_energy.setPcEncType(0) # set zebra encoder to use when capturing pulses (0..3 for enc1..3, 4 for the avg)
 
 xas = theFactory.createEnergyScan();
 xanes = xas
@@ -171,6 +173,7 @@ run_in_try_catch(setupMedipix)
 run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupMythen)
+run_in_try_catch(setupPilatus)
 
 if globals().has_key("xspress4") == False :
     print "Not running default_scannable.py - xspress4 detector not present"
@@ -178,7 +181,7 @@ else :
     run("default_scannable_class.py")
 
 run("continuous_scans.py")
-run("meca_status.py")
+# run("meca_status.py")
 
 from gda.data.metadata import GDAMetadataProvider
 def setVisit(visitStr) :

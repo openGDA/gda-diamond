@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
+
+	<alias name="sim_adbase" alias="pilatus_adbase" />
+	<alias name="sim_roi" alias="pilatus_roi" />
+	<alias name="sim_stats" alias="pilatus_stats" />
+	<alias name="sim_array" alias="pilatus_ndarray" />
+	<alias name="sim_file_hdf5" alias="pilatus_ndfile" />
+	<alias name="sim_hdf5" alias="pilatus_hdf5" />
+	
+</beans>

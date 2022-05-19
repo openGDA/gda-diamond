@@ -98,7 +98,7 @@
     </transmission>
     <fluorescence>
         <workingEnergy>7111.14</workingEnergy>
-        <detectorType>Germanium</detectorType>
+        <detectorType>Xspress4</detectorType>
         <ionChamber>
             <name>I0</name>
             <deviceName>ionchambers</deviceName>
@@ -141,7 +141,7 @@
     </fluorescence>
     <xes>
         <workingEnergy>7111.14</workingEnergy>
-        <detectorType>Silicon</detectorType>
+        <detectorType>XES_medipix</detectorType>
         <ionChamber>
             <name>I1</name>
             <deviceName>I1</deviceName>
