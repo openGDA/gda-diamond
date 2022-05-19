@@ -1,10 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util.xsd" >        
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd"> 
+
+
+	<gda:motor id="fluoDist" live-pvName="BL18B-MO-STEP-11:GE_DET" />
 
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="bragg" />

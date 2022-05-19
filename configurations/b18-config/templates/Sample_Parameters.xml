@@ -161,4 +161,10 @@
         <doMove>false</doMove>
         <demandPosition>3.00001</demandPosition>
     </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>fluoDist</scannableName>
+        <description>Fluo detector distance</description>
+        <doMove>false</doMove>
+        <demandPosition>-150.0</demandPosition>
+    </sampleParameterMotorPosition>
 </B18SampleParameters>

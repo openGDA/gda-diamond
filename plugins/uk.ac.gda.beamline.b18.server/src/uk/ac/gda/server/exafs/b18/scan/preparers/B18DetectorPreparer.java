@@ -61,6 +61,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	private Scannable energy_scannable;
 	private MythenDetectorImpl mythen_scannable;
+	private Detector pilatusDetector;
 
 	private List<Scannable> ionc_gas_injector_scannables;
 
@@ -344,6 +345,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		}
 	}
 
+
 	protected void control_mythen(IExperimentDetectorParameters fluorescenceParameters, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
@@ -360,26 +362,31 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 		energy_scannable.moveTo(fluorescenceParameters.getMythenEnergy());
 
-		mythen_scannable.setCollectionTime(fluorescenceParameters.getMythenTime());
-		mythen_scannable.setSubDirectory(mythenSubFolder);
+		Detector diffractionDetector = mythen_scannable;
+		String filenameTemplate = "/%d-mythen";
 
-		StaticScan staticscan = new StaticScan(new Scannable[] { mythen_scannable, energy_scannable});
+		if (pilatusDetector != null) {
+			diffractionDetector = pilatusDetector;
+			filenameTemplate = "/%d-pilatus";
+		}
+
+		diffractionDetector.setCollectionTime(fluorescenceParameters.getMythenTime());
+
+		StaticScan staticscan = new StaticScan(new Scannable[] { diffractionDetector, energy_scannable});
 
 		// use the Factory to enable unit testing - which would use a DummyDataWriter
 		DataWriterFactory datawriterFactory = new DefaultDataWriterFactory();
 		DataWriter datawriter = datawriterFactory.createDataWriter();
 		if (datawriter instanceof XasAsciiNexusDataWriter) {
 			((XasAsciiNexusDataWriter) datawriter).setRunFromExperimentDefinition(false);
-			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + "/%d-mythen.nxs");
-			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + "/%d-mythen.dat");
+			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + filenameTemplate+".nxs");
+			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + filenameTemplate+".dat");
 			staticscan.setDataWriter(datawriter);
 		}
 
-		//LocalProperties.setScanSetsScanNumber(true);
-		//staticscan.setScanNumber(1); // need to do this here to prevent the scan trying to use a numtracker to derive
-										// the scan number
 		try {
-			InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image...");
+			mythen_scannable.setSubDirectory(mythenSubFolder);
+			InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image using "+diffractionDetector.getName()+"...");
 			staticscan.run();
 			InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
 		} finally{
@@ -577,5 +584,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	public void setMedipixMutableRoi(MutableRectangularIntegerROI mutableRoiForMedipix) {
 		detectorPreparerFunctions.setMutableRoiForMedipix(mutableRoiForMedipix);
+	}
+
+	public Detector getPilatusDetector() {
+		return pilatusDetector;
+	}
+
+	public void setPilatusDetector(Detector pilatusDetector) {
+		this.pilatusDetector = pilatusDetector;
 	}
 }
