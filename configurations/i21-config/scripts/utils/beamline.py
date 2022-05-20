@@ -7,7 +7,7 @@ print("create 'beamlinefunction' object and commands 'last_scan_file', 'get_titl
 
 beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
 beamlinefunction = BeamlineFunctionClass(beamline);
-beamlinefunction.setTerminalLogger();
+beamlinefunction.set_terminal_logger();
 
 def last_scan_file():
     return beamlinefunction.get_last_scan_file()

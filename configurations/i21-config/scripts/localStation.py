@@ -216,7 +216,7 @@ except:
     localStation_exception(sys.exc_info(), "import diffcalc error.")
     
 from calibration.extraPVCoupledScannable import ScannableWithPVControl
-pgm_energy = ScannableWithPVControl('pgm_energy', pgmEnergy, pvname=EPICS_FEEDBACK_PV,pvvaluebefore=0, pvvalueafter=4)  # @UndefinedVariable
+pgm_energy = ScannableWithPVControl('pgm_energy', pgmEnergy, pvname="BL21I-OP-MIRR-01:FBCTRL:MODE",pvvaluebefore=0, pvvalueafter=4)  # @UndefinedVariable
 
 #initialize Jython Scannable Wrappers must be done after the wrapped scannable become available
 uvw_wrapper.connectScannable()  # @UndefinedVariable

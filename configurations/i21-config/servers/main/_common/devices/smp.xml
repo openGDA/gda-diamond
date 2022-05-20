@@ -82,6 +82,18 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
+ 	<bean id="sample_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="x" />
+				<ref bean="y" />
+				<ref bean="z" />
+				<ref bean="th" />
+				<ref bean="chi" />
+				<ref bean="phi" />
+			</list>
+		</property>
+	</bean>
 	<!-- Group d4-related objects -->	
  	<bean id="SMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
