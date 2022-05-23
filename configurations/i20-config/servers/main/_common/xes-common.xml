@@ -153,6 +153,7 @@
 		<property name="cut2" ref="cut2" />
 		<property name="cut3" ref="cut3" />
 		<property name="material" ref="material" />
+		<property name="userUnits" value="eV" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -271,6 +272,7 @@
 		<property name="cut2" ref="cut2" />
 		<property name="cut3" ref="cut3" />
 		<property name="material" ref="material" />
+		<property name="userUnits" value="eV" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>

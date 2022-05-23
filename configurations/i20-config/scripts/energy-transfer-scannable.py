@@ -4,8 +4,8 @@ from gda.util.converters import IQuantityConverter
 from __builtin__ import None
 
 # Convert values to/from position relative to current position of scannable
-## toTarget converts from relative to absolute position :  absolute position = refScannable.getPosition() + sourcePosition
-## toSource converts from absolute to relative position :  relative position = targetPosition - refScannable.getPosition()
+## toTarget converts from relative to absolute position :  absolute position = refScannable.getPosition() - sourcePosition
+## toSource converts from absolute to relative position :  relative position = refScannable.getPosition() - targetPosition
 
 class RelativePositionConverter(IQuantityConverter) :
 
@@ -16,6 +16,7 @@ class RelativePositionConverter(IQuantityConverter) :
     # The reference scannable : values are relative to its current position
     def setReferenceScannable(self, refScannable) :
         self.refScannable = refScannable
+        self.units = refScannable.getUserUnits()
     
     def getAcceptableSourceUnits(self):
         return [self.units]
@@ -36,10 +37,8 @@ class RelativePositionConverter(IQuantityConverter) :
         #print target.toString(), inputValue.toString()
         ## Position from 'reference' scannable, convert to quantity and get a doubvle
         refValue = self.getReferencePosAsDouble()
-        
         #print refPos, refValue
-        
-        return QuantityFactory.createFromObject(refValue + inputValue, self.units);
+        return QuantityFactory.createFromObject(refValue-inputValue, self.units);
 
     # Get the current position of the reference scannable as a double
     def getReferencePosAsDouble(self):
@@ -51,7 +50,10 @@ class RelativePositionConverter(IQuantityConverter) :
         # print "To source : target = "+target.toString()
         targetValue = QuantityFactory.createFromObject(target, self.units).getValue();
         refValue = self.getReferencePosAsDouble()
-        return QuantityFactory.createFromObject(targetValue - refValue, self.units);
+        return QuantityFactory.createFromObject(refValue-targetValue, self.units);
+    
+    def setUnits(self, units):
+        self.units = units
     
 converterRelativeToBragg = RelativePositionConverter()
 converterRelativeToBragg.setReferenceScannable(bragg1)
