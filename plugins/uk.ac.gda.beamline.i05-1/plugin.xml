@@ -23,15 +23,10 @@
       </product>
    </extension>
    <extension point="uk.ac.gda.client.dashboard.objects">
-         <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
-         <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
+         <Scannable name="energy" tooltip="photon energy" />
+         <Scannable name="id" tooltip="insertion device" />
          <Scannable name="exit_slit" tooltip="monochromator exit slit setting" />
          <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
-         <Scannable name="energy" tooltip="photon energy" />
-         <Scannable name="polarisation" tooltip="photon beam polarisation" />
-         <Scannable name="id" tooltip="insertion device" />
-         <Scannable name="pgm_cff" tooltip="monochromator cff" />
-         <Scannable name="psu_mode" tooltip="Analyser high or low pass mode" />
    </extension>
    <extension
          point="org.eclipse.ui.views">
