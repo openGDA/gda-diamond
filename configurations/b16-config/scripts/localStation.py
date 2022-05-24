@@ -275,7 +275,7 @@ if installation.isLive():
 		vmcagross = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcagross', vortexMca, 'gross')
 		vmcanet =   pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcanet', vortexMca, 'net')
 		vmcafancy = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcaroi', vortexMca, 'fancy')
-	except Exception, e:
+	except (Exception, java.lang.Exception), e:
 		print "***********************************************************************************"
 		print "***** ERROR: problem starting up vmca devices. TRY RESETING THE GDA SERVER    *****"
 		print "***** (this currently needs to be done after the Epics IOC has been restarted *****"
@@ -286,7 +286,7 @@ if installation.isLive():
 		vmcagross2 = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcagross2', vortexMca2, 'gross')
 		vmcanet2 =   pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcanet2', vortexMca2, 'net')
 		vmcafancy2 = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcaroi2', vortexMca2, 'fancy')
-	except Exception, e:
+	except (Exception, java.lang.Exception), e:
 		print "***********************************************************************************"
 		print "***** ERROR: problem starting up vmca devices. TRY RESETING THE GDA SERVER    *****"
 		print "***** (this currently needs to be done after the Epics IOC has been restarted *****"
@@ -421,7 +421,7 @@ if installation.isLive():
 		att3b = XiaFilter('att3b', 'BL16B-OP-ATTN-03', 2, timeout=5)
 		att3c = XiaFilter('att3c', 'BL16B-OP-ATTN-03', 3, timeout=5)
 		att3d = XiaFilter('att3d', 'BL16B-OP-ATTN-03', 4, timeout=5)
-	except Exception as e:
+	except (Exception, java.lang.Exception) as e:
 		print("ERROR: Could not initialise XIA Filters")
 		print(e)
 
@@ -684,14 +684,16 @@ else:
 ###                                Uniblitz                                 ###
 ###############################################################################
 if installation.isLive():
+	try:
+		import pd_setBinaryPvAndWait
+		unishtr = pd_setBinaryPvAndWait.SetBinaryPvAndWait('unishtr',"BL16B-EA-SHTR-03:SHUTTER",delayAfterAskingToMove=0.1, flip = True )
+		from scannable.hw.exposeUniblitzShutter import ExposeUniblitzShutter
+		expuni = ExposeUniblitzShutter('expuni', 'BL16B-EA-SHTR-03')#,'BL16B-EA-DET-01:SCALER1' )
 
-	import pd_setBinaryPvAndWait
-	unishtr = pd_setBinaryPvAndWait.SetBinaryPvAndWait('unishtr',"BL16B-EA-SHTR-03:SHUTTER",delayAfterAskingToMove=0.1, flip = True )
-	from scannable.hw.exposeUniblitzShutter import ExposeUniblitzShutter
-	expuni = ExposeUniblitzShutter('expuni', 'BL16B-EA-SHTR-03')#,'BL16B-EA-DET-01:SCALER1' )
-
-	from scannable.hw.TimingSystemScannable import TimingSystemScannable
-	expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO1','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
+		from scannable.hw.TimingSystemScannable import TimingSystemScannable
+		expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO1','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
+	except (Exception, java.lang.Exception) as e:
+		print("ERROR: Could not setup Uniblitz devices")
 
 
 ###############################################################################
