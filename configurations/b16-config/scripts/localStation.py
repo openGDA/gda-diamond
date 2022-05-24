@@ -109,9 +109,8 @@ def disable_nexus():
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
 
 def enable_nexus():
-	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusScanDataWriter")
 
-disable_nexus()
 
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
@@ -1242,7 +1241,7 @@ except:
 # Create scannable to check that the nexus writer is enabled when the xmapMca is used
 # If only dat files are written then the full spectrum is not recorded
 from scannable.utility.check_data_writer import CheckDataWriter
-_xmapNexusDataWriterChecker = CheckDataWriter('_xmapNexusDataWriterChecker', ['xmapMca', 'xmapMca2'], 'NexusDataWriter')
+_xmapNexusDataWriterChecker = CheckDataWriter('_xmapNexusDataWriterChecker', ['xmapMca', 'xmapMca2'], 'NexusScanDataWriter')
 add_default(_xmapNexusDataWriterChecker)
 
 def pcoedge_multi_n(n):
@@ -1262,7 +1261,7 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #print "*" * 80
 #
 #medipix.returnPathAsImageNumberOnly = True
-#LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+#LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusScanDataWriter")
 
 if installation.isLive():
 	print "Setting up Zylar detector from I16"

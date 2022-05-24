@@ -30,7 +30,7 @@
 -Duk.ac.gda.client/gda.open_xyplot_on_scan_start_id=uk.ac.gda.client.liveplotview
 -Duk.ac.diamond.scisoft.analysis.rcp/plotView.plottingsystem=1
 -Xms256m
--Xmx2024m
+-Xmx4096m
 -XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
