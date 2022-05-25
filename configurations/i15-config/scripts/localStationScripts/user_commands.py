@@ -42,6 +42,10 @@ _sweepHelp = """
 	exposeSweepMotor is assumed (default) to be dkphi.
 	"""
 
+_sweepNHelp = """
+	exposeNumber is the number of swept exposures to take.
+	"""
+
 _gridHelp = """
 	exposeHorizMotor defaults to dx (inner loop) and exposeVertMotor efaults to dz (outer loop). horizStepNumber, vertStepNumber are the number of steps, so the number of positions are these numbers plus one.
 	"""
@@ -238,14 +242,22 @@ def exposeSweep(exposeTime, sweepStart, sweepEnd, sweepAngle, fileName):
 	"""
 	Single exposure per segment of sweep
 	"""
+	exposeNSweep(exposeTime, 1, sweepStart, sweepEnd, sweepAngle, fileName)
+
+exposeSweep.__doc__ += _exposeHelp + _sweepHelp
+aliasList.append("exposeSweep")
+
+def exposeNSweep(exposeTime, exposeNumber, sweepStart, sweepEnd, sweepAngle, fileName):
+	"""
+	Multiple exposures per segment of sweep. This does not currently work.
+	"""
 	verification = verifyParameters(exposeTime=exposeTime, sweepStart=sweepStart, sweepEnd=sweepEnd, sweepAngle=sweepAngle, fileName=fileName)
 	if len(verification)>0:
 		return verification
 	_exposeN(exposeTime=exposeTime, exposeNumber=1, fileName=fileName, sweepMotor=_sweepMotor(), sweepStart=sweepStart, sweepEnd=sweepEnd, sweepAngle=sweepAngle)
 
-exposeSweep.__doc__ += _exposeHelp + _sweepHelp
-aliasList.append("exposeSweep")
-
+exposeNSweep.__doc__ += _exposeHelp + _sweepHelp + _sweepNHelp
+aliasList.append("exposeNSweep")
 
 # Combining exposure, line or grid scans, and rocking
 
