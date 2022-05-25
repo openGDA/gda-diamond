@@ -18,11 +18,13 @@
 		<property name="initialCompression" value="zlib" />
 	</bean>
 
+	<!-- For the new pil3 it looks like we need to use the camserver tiff writer
 	<bean id="pil3_NDFileTiff"
 			class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL15I-EA-PILAT-03:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
+	 -->
 
 	<!-- NXDetector collection strategies -->
 
@@ -63,7 +65,7 @@
 	<bean id="pil3_tiff_SingleImagePerFileWriter"
 			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pil3" />
-		<property name="ndFile" ref="pil3_NDFileTiff" />
+		<property name="ndFile" ref="pil3_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
@@ -76,11 +78,18 @@
 		<property name="readOutTime" value="240"/>
 		 -->
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="collectionStrategy" ref="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" />
+		<property name="collectionStrategy" ref="pil3_HardwareTriggeredPilatusCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pil3_hdf5_MultipleImagesPerHDF5FileWriter" />
 				<ref bean="pil3_tiff_SingleImagePerFileWriter" />
+				<!-- Note pil3_tiff_SingleImagePerFileWriter does not enable array callbacks, as it
+					 writes .tif files via the CAM plugin.
+
+					 If no other plugins are in this list then no other AD plugins will see data
+					 unless pilatus3_force_callbacks is included.
+				<ref bean="pilatus3_force_callbacks" />
+				 -->
 			</list>
 		</property>
 	</bean>
@@ -93,6 +102,13 @@
 			<list>
 				<ref bean="pil3_hdf5_MultipleImagesPerHDF5FileWriter" />
 				<ref bean="pil3_tiff_SingleImagePerFileWriter" />
+				<!-- Note pil3_tiff_SingleImagePerFileWriter does not enable array callbacks, as it
+					 writes .tif files via the CAM plugin.
+
+					 If no other plugins are in this list then no other AD plugins will see data
+					 unless pilatus3_force_callbacks is included.
+				<ref bean="pilatus3_force_callbacks" />
+				 -->
 			</list>
 		</property>
 	</bean>

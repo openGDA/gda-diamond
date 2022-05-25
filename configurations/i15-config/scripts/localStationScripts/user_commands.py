@@ -608,7 +608,15 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 													 sampleSuffix=fileName, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(
 													axis=rockMotor, detector=hardwareTriggeredNXDetector)
+	if len(continuousMoveController.getTriggeredControllers()) > 0 and not disableZebra2:
+		msg = "For rock scans, you may need to set disableZebra2=True in localStationConfiguration"
+		print "-"*80
+		print msg
+		print "-"*80
+		logger.warn(msg+"\nlen(continuousMoveController.getTriggeredControllers()) = {} and disableZebra2 = {}",
+				len(continuousMoveController.getTriggeredControllers()), disableZebra2)
 	if False: # len(continuousMoveController.getTriggeredControllers()) > 0:
+		# Note disableZebra2=True should do this anyway!
 		i0Monitor, continuousMonitorController = jythonNameMap.etlZebraScannableMonitor, jythonNameMap.zebra2ZebraMonitorController
 		fastShutterFeedback = jythonNameMap.fastShutterFeedbackScannableMonitor
 		zebra2info = ",\n %r,\n %r,\n %r" % (i0Monitor.name, fastShutterFeedback.name, continuousMonitorController.name)

@@ -122,6 +122,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	else:
 		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors.keys()))
 
+	collectionStrategy = detector.getCollectionStrategy()
+
 	# Configure single file filewriters first
 
 	filePathTemplate="$datadir$/"
@@ -132,7 +134,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		fileNameTemplate="$scan$-%s-%s" % (detector.name, sampleSuffix)
 		print "%s has not been tested with using filenames where detector and sample names come before scan number." % detector.name
 
-	fileTemplate="%s%s"
+	fileTemplate="%s%s" # filePathTemplate, fileNameTemplate & file number ignored
 
 	if 'hdfwriter' in [p.getName() for p in detector.getPluginList()]:
 		logger.trace("Setting 'hdfwriter' file paths on {}", detector.name, detector)
@@ -142,12 +144,10 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 
 	# Then configure multi-file filewriters
 
-	collectionStrategy = detector.getCollectionStrategy()
-
 	if noOfExposures != 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s/" % (detector.name, sampleSuffix)
-		fileNameTemplate=""
-		fileTemplate="%s%s%05d"	# One image per file
+		fileNameTemplate="%s_" % sampleSuffix
+		fileTemplate="%s%s%05d"	# filePathTemplate, fileNameTemplate & file number, One image per file
 
 	if 'marwriter' in [p.getName() for p in detector.getPluginList()]:
 		logger.trace("Setting 'marwriter' file paths on {}", detector.name)
@@ -155,6 +155,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		# digit sequence number, we have to strip out any underscores and ensure that a sequence number is added.
 		if "_" in sampleSuffix:
 			raise Exception('Detector %r does not support underscores in sampleSuffix: %s' % (detector.name, sampleSuffix))
+		if noOfExposures != 1:
+			fileNameTemplate=""
 		fileTemplate="%s%s_%03d" # Breaks GDA because it expects the file to be called blah and it is blah.mar3450 on the filesystem
 		#fileTemplate="%s%s_%03d.mar3450" # Breaks Area detector because it expects the file to be called blah.mar3450.mar3450 and it is blah.mar3450 on the filesystem
 
@@ -170,8 +172,6 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 
 	if 'cbfwriter' in [p.getName() for p in detector.getPluginList()]:
 		logger.trace("Setting 'cbfwriter' file paths on {}", detector.name)
-		# Hack attempt, may not work, even if it does,m may not work with outer scans  
-		fileTemplate="%s%s00001_%05d"
 		logger.debug("running setFileTemplate(%r) setFilePathTemplate(%r) & setFileNameTemplate(%r) on detector.cbfwriter" % (
 							fileTemplate+".cbf", filePathTemplate, fileNameTemplate))
 		detector.cbfwriter.setFileTemplate(fileTemplate+".cbf")
