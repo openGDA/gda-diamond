@@ -499,14 +499,10 @@ if not USE_DIFFCALC:
 	psic.setInputNames(['psic'])
 else:
 	del sixc
-	import diffcalc
-	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__')[0]
-	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
-	try:
-		localStation_print("Starting Diffcalc by running: %r" % diffcalc_startup_script)
-		run(diffcalc_startup_script)
-	except:
-		localStation_exception("trying to set up diffcalc via "+diffcalc_startup_script)
+	robot_startup_script = "diffractometer/scannable/RobotArmBeamline"
+	run(robot_startup_script)
+	from startup.i16 import *
+
 	if USE_DIFFCALC_WITHOUT_LASTUB:
 		localStation_print("Not running lastub() as it has been suppressed by Starting Diffcalc by USE_DIFFCALC_WITHOUT_LASTUB %r" % USE_DIFFCALC_WITHOUT_LASTUB)
 	else:
