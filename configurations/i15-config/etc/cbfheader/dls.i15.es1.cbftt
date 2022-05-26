@@ -1,13 +1,9 @@
 ###CBF: VERSION 1.1
-# Template for Diamond I19 for use with the Pilatus 300K detector. (was)
-# Template for Diamond I15 for use with the Pilatus 2M detector. 
-# * Pre-3/2013 MXsettings and translation table _chi_ is aliased to _omega_
-# * Post-3/2013 _omega_ is explicitly referenced.
-# * Post-21/9/2017 kappa placeholder used explicitly, does not use chi/dchi as proxies
-# * If you change this check with Graeme that the syntax is correct! 
-# * chi and dchi declarations removed as pilatus does not accept placeholder 
-# * declarations that are then not fulfilled at collection time
-# Alpha angle is encoded in the cif template itself.
+# Template for Diamond I19-1 for use with the Pilatus 2M detector. 
+#
+# Chi is hard coded as -54.7 degrees for I19-1 fixed chi device
+# Axis for scanning is phi or omega
+# If you change this template please check with Graeme Winter that the syntax is correct
 # 
 # DECTRIS translation table follows...
 # 
@@ -17,7 +13,6 @@
 @ Omega_increment   _domega_
 @ Phi               _phi_
 @ Phi_increment     _dphi_
-@ Kappa             _kappa_
 @ Detector_2theta   _2theta_
 @ Timestamp         _timestamp_
 @ Count_cutoff      _cutoff_
@@ -27,7 +22,7 @@
 @ Wavelength        _wave_
 --- End of preamble
 # This and all subsequent lines will appear in the header
-# Template modified 08:20 05/MAR/2021
+# Template modified 09:00 22/OCT/2015
 
 _diffrn.id %(beamline)s
 _diffrn.crystal_id %(xtal_id)s
@@ -64,10 +59,10 @@ _diffrn_detector.number_of_axes
 loop_
 _diffrn_detector_axis.detector_id
 _diffrn_detector_axis.axis_id
- %(detector_id)s DETECTOR_2THETA
- %(detector_id)s DETECTOR_X
- %(detector_id)s DETECTOR_Y
- %(detector_id)s DETECTOR_Z
+ %(detector_id)s DET_2THETA
+ %(detector_id)s DET_X
+ %(detector_id)s DET_Y
+ %(detector_id)s DET_Z
 
 loop_
 _diffrn_detector_element.id
@@ -94,23 +89,19 @@ _diffrn_measurement.id
 _diffrn_measurement.number_of_axes
 _diffrn_measurement.method
 _diffrn_measurement.sample_detector_distance
- %(beamline)s GONIOMETER 3 rotation %(distance).2f
+ %(beamline)s GONIOMETER 2 rotation %(distance).2f
 
 loop_
 _diffrn_measurement_axis.measurement_id
 _diffrn_measurement_axis.axis_id
- GONIOMETER GONIOMETER_OMEGA
- GONIOMETER GONIOMETER_KAPPA
- GONIOMETER GONIOMETER_PHI
+ GONIOMETER GON_OMEGA
+ GONIOMETER GON_PHI
 
 loop_
 _diffrn_radiation_wavelength.id
 _diffrn_radiation_wavelength.wavelength
 _diffrn_radiation_wavelength.wt
  WAVELENGTH1 _wave_ 1
-
-# N.B. This template does not allow for recording scans in kappa.
-# Chi and dChi placeholders can be used as proxies for kappa if this is required.
 
 loop_
 _diffrn_scan_axis.scan_id
@@ -121,13 +112,12 @@ _diffrn_scan_axis.angle_increment
 _diffrn_scan_axis.displacement_start
 _diffrn_scan_axis.displacement_range
 _diffrn_scan_axis.displacement_increment
- SCAN1 GONIOMETER_OMEGA _omega_ _domega_ _domega_ 0.0 0.0 0.0
- SCAN1 GONIOMETER_KAPPA _kappa_ 0.0 0.0 0.0 0.0 0.0
- SCAN1 GONIOMETER_PHI _phi_ _dphi_ _dphi_ 0.0 0.0 0.0
- SCAN1 DETECTOR_2THETA _2theta_ 0.0 0.0 0.0 0.0 0.0
- SCAN1 DETECTOR_Z 0.0 0.0 0.0 %(distance).2f 0.0 0.0
- SCAN1 DETECTOR_Y 0.0 0.0 0.0 0.0 0.0 0.0
- SCAN1 DETECTOR_X 0.0 0.0 0.0 0.0 0.0 0.0
+ SCAN1 GON_OMEGA  _omega_ _domega_ _domega_ 0.0 0.0 0.0
+ SCAN1 GON_PHI    _phi_ _dphi_ _dphi_ 0.0 0.0 0.0
+ SCAN1 DET_2THETA _2theta_ 0.0 0.0 0.0 0.0 0.0
+ SCAN1 DET_Z      0.0 0.0 0.0 %(distance).2f 0.0 0.0
+ SCAN1 DET_Y      0.0 0.0 0.0 0.0 0.0 0.0
+ SCAN1 DET_X      0.0 0.0 0.0 0.0 0.0 0.0
 
 loop_
 _diffrn_scan_frame.frame_id
@@ -143,13 +133,12 @@ _diffrn_scan_frame_axis.frame_id
 _diffrn_scan_frame_axis.axis_id
 _diffrn_scan_frame_axis.angle
 _diffrn_scan_frame_axis.displacement
- FRAME1 GONIOMETER_OMEGA _omega_ 0.0
- FRAME1 GONIOMETER_KAPPA _kappa_ 0.0
- FRAME1 GONIOMETER_PHI _phi_ 0.0
- FRAME1 DETECTOR_2THETA _2theta_ 0.0
- FRAME1 DETECTOR_Z 0.0 %(distance).2f
- FRAME1 DETECTOR_Y 0.0 0.0
- FRAME1 DETECTOR_X 0.0 0.0
+ FRAME1 GON_OMEGA _omega_ 0.0
+ FRAME1 GON_PHI _phi_ 0.0
+ FRAME1 DET_2THETA _2theta_ 0.0
+ FRAME1 DET_Z 0.0 %(distance).2f
+ FRAME1 DET_Y 0.0 0.0
+ FRAME1 DET_X 0.0 0.0
 
 loop_
 _axis.id
@@ -158,17 +147,16 @@ _axis.equipment
 _axis.depends_on
 _axis.vector[1] _axis.vector[2] _axis.vector[3]
 _axis.offset[1] _axis.offset[2] _axis.offset[3]
- GONIOMETER_OMEGA rotation goniometer . 1 0 0 . . .
- GONIOMETER_KAPPA rotation goniometer GONIOMETER_OMEGA 0.642788 -0.766044 0 . . .
- GONIOMETER_PHI   rotation goniometer GONIOMETER_KAPPA 1 0 0 . . .
- SOURCE           general source . 0 0 1 . . .
- GRAVITY          general gravity . 0 -1 0 . . .
- DETECTOR_2THETA  rotation    detector . 1 0 0 . . . 
- DETECTOR_Z       translation detector DETECTOR_2THETA 0 0 -1 0 0 0
- DETECTOR_Y       translation detector DETECTOR_Z 0 -1 0 0 0 0
- DETECTOR_X       translation detector DETECTOR_Y 1 0 0 0 0 0
- ELEMENT_X        translation detector DETECTOR_X 1 0 0 -%(beam_x).2f %(beam_y).2f 0
- ELEMENT_Y        translation detector ELEMENT_X 0 -1 0 0 0 0
+ GON_OMEGA  rotation    goniometer .       1 0 0 . . .
+ GON_PHI    rotation    goniometer GON_OMEGA 0 -1 0 . . .
+ SOURCE     general     source   .         0 0 1 . . .
+ GRAVITY    general     gravity  .         0 -1 0 . . .
+ DET_2THETA rotation    detector .         1 0 0 . . . 
+ DET_Z      translation detector DET_2THETA 0 0 -1 0 0 0
+ DET_Y      translation detector DET_Z     0 -1 0 0 0 0
+ DET_X      translation detector DET_Y     1 0 0 0 0 0
+ ELEMENT_X  translation detector DET_X     1 0 0 -%(beam_x).2f %(beam_y).2f 0
+ ELEMENT_Y  translation detector ELEMENT_X 0 -1 0 0 0 0
 
 loop_
 _array_structure_list.array_id
@@ -211,4 +199,5 @@ _array_structure.encoding_type
 _array_structure.compression_type
 _array_structure.byte_order
  ARRAY1 "signed 32-bit integer" _compress_ little_endian
+
 
