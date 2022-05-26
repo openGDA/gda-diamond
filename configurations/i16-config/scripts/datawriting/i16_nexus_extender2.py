@@ -94,6 +94,8 @@ TRANSFORMATION_OFFSET_UNITS = "transformationOffsetUnits"
 TRANSFORMATION_ROTATION = "rotation"
 TRANSFORMATION_TRANSLATION = "translation"
 
+# Note that pilatus3 & merlin are updated from calibration geometry files, which is why their TRANSFORMATION_VECTOR and
+# PIXEL_DIRECTION values are all zero, and only pilatus1 and simad have those values populated.
 DETECTOR_TRANSFORMATIONS = {
         "pilatus1" : [
             {
@@ -107,6 +109,17 @@ DETECTOR_TRANSFORMATIONS = {
             },
         ],
         "pilatus3" : [
+            {
+                TRANSFORMATION_NAME : 'origin_offset',
+                TRANSFORMATION_TYPE : TRANSFORMATION_TRANSLATION,
+                TRANSFORMATION_VECTOR : [0., 0., 0.],
+                TRANSFORMATION_OFFSET : [0., 0., 0.],
+                TRANSFORMATION_SIZE : [1.],
+                TRANSFORMATION_UNITS : 'mm',
+                TRANSFORMATION_OFFSET_UNITS : 'mm',
+            },
+        ],
+        "merlin" : [
             {
                 TRANSFORMATION_NAME : 'origin_offset',
                 TRANSFORMATION_TYPE : TRANSFORMATION_TRANSLATION,
@@ -163,6 +176,22 @@ DETECTOR_MODULES = {
             OFFSET_OFFSET : [0., 0., 0.],
             OFFSET_UNITS : 'mm'
         },
+        "merlin" : {
+            DATA_ORIGIN : [0, 0],
+            DATA_SIZE : [515, 515],
+            FAST_PIXEL_DIRECTION : [0., 0., 0.],
+            FAST_PIXEL_SIZE : [0.055],
+            FAST_PIXEL_OFFSET : [0., 0., 0.],
+            FAST_PIXEL_UNITS : 'mm',
+            SLOW_PIXEL_DIRECTION : [0., 0., 0.],
+            SLOW_PIXEL_SIZE : [0.055],
+            SLOW_PIXEL_UNITS : 'mm',
+            SLOW_PIXEL_OFFSET : [0., 0., 0.],
+            OFFSET : [0.],
+            OFFSET_VECTOR : [0., 0., 0.],
+            OFFSET_OFFSET : [0., 0., 0.],
+            OFFSET_UNITS : 'mm'
+        },
         "simad" : {
             DATA_ORIGIN : [0., 0.],
             DATA_SIZE : [300, 200],
@@ -202,6 +231,16 @@ DETECTOR_PROPERTIES = {
             CALIBRATION_TIME : CALIBRATION_TIME_DEF,
             CALIBRATION_SCAN : CALIBRATION_SCAN_DEF
         },
+        "merlin" : {
+            SENSOR_SATURATION_VALUE : [1000000],
+            SENSOR_MATERIAL : "Silicon",
+            SENSOR_THICKNESS : [500.],
+            SENSOR_THICKNESS_UNITS : "um",
+            SENSOR_TYPE : "Pixel",
+            SENSOR_DESCRIPTION : "Quad Merlin",
+            CALIBRATION_TIME : CALIBRATION_TIME_DEF,
+            CALIBRATION_SCAN : CALIBRATION_SCAN_DEF
+        },
         "simad" : {
             SENSOR_SATURATION_VALUE : [1000000],
             SENSOR_MATERIAL : "Silicon",
@@ -230,6 +269,13 @@ DETECTOR_MODULES["pil3_100ks"] = DETECTOR_MODULES["pilatus3"]
 DETECTOR_PROPERTIES["pil3_100ks"] = DETECTOR_PROPERTIES["pilatus3"]
 DETECTOR_TRANSFORMATIONS["pil3_100ks"] = DETECTOR_TRANSFORMATIONS['pilatus3']
 
+DETECTOR_MODULES["_merlin"] = DETECTOR_MODULES["merlin"]
+DETECTOR_PROPERTIES["_merlin"] = DETECTOR_PROPERTIES["merlin"]
+DETECTOR_TRANSFORMATIONS["_merlin"] = DETECTOR_TRANSFORMATIONS['merlin']
+DETECTOR_MODULES["merlins"] = DETECTOR_MODULES["merlin"]
+DETECTOR_PROPERTIES["merlins"] = DETECTOR_PROPERTIES["merlin"]
+DETECTOR_TRANSFORMATIONS["merlins"] = DETECTOR_TRANSFORMATIONS['merlin']
+
 DETECTOR_MODULES["simd"] = DETECTOR_MODULES["simad"]
 DETECTOR_PROPERTIES["simd"] = DETECTOR_PROPERTIES["simad"]
 DETECTOR_TRANSFORMATIONS["simd"] = DETECTOR_TRANSFORMATIONS["simad"]
@@ -244,11 +290,12 @@ DETECTOR_TRANSFORMATIONS["smd"] = DETECTOR_TRANSFORMATIONS["swmr"]
 
 class I16NexusExtender(DataWriterExtenderBase):
 
-    def __init__(self, geometry_file):
+    def __init__(self, geometry_files):
         DataWriterExtenderBase.__init__(self)
         self.logger = LoggerFactory.getLogger("I16NexusExtender")
         self.complete = True
-        self.updateFromGeometry(geometry_file)
+        for geometry_file in geometry_files:
+            self.updateFromGeometry(geometry_file)
 
     def updateFromGeometry(self, geometry_file):
         geometryXml = ET()

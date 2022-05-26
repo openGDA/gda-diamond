@@ -1294,6 +1294,7 @@ localStation_print("-------------------------------MEDIPIX INIT COMPLETE--------
 
 localStation_print("-------------------------------MERLIN INIT---------------------------------------")
 try:
+	#merlin = NxProcessingDetectorWrapper('merlin',
 	merlin = SwitchableHardwareTriggerableProcessingDetectorWrapper('merlin',
 																	_merlin,
 																	None,
@@ -1307,6 +1308,26 @@ try:
 	merlin.disable_operation_outside_scans = False
 	merlin.processors=[DetectorDataProcessorWithRoi('max', merlin, [SumMaxPositionAndValue()], False)]
 	merlins = DetectorWithShutter(merlin, x1, X1_DELAY)
+	"""
+	# As with pil3, we can't just use merlin, we have to wrap a merlins to get the processing to work.
+	merlins = DetectorWithShutter(NxProcessingDetectorWrapper('merlins',
+			merlin.detector,
+			merlin.hardware_triggered_detector,
+			merlin.detector_for_snaps,
+			merlin.processors,
+			merlin.panel_name,
+			merlin.toreplace,
+			merlin.replacement,
+			merlin.iFileLoader,
+			merlin.root_datadir,
+			merlin.fileLoadTimout,
+			merlin.printNfsTimes,
+			merlin.returnPathAsImageNumberOnly,
+			merlin.panel_name_rcp,
+			merlin.return_performance_metrics,
+			merlin.array_monitor_for_hardware_triggering),
+		x1, X1_DELAY, nameSuffix="")
+	"""
 except gda.factory.FactoryException as e:
 	localStation_exception("connecting to merlin (FactoryException)", e)
 except java.lang.IllegalStateException as e:

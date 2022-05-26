@@ -17,5 +17,12 @@ if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWrit
 	for dwe in ddwf.getDataWriterExtenders():
 		ddwf.removeDataWriterExtender(dwe)
 
-	nexusExtender = I16NexusExtender("/dls_sw/i16/scripts/pilatus_calibration/geometry.xml")
+	nexusExtender = I16NexusExtender([
+		"/dls_sw/i16/scripts/pilatus_calibration/geometry.xml",
+		"/dls_sw/i16/scripts/pilatus_calibration/geometry_merlin.xml"])
+	"""
+	nexusExtender = I16NexusExtender([
+		"/dls_sw/i16/scripts/calibration/geometry_pilatus.xml",
+		"/dls_sw/i16/scripts/calibration/geometry_merlin.xml"])
+	"""
 	ddwf.addDataWriterExtender(nexusExtender)
