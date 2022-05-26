@@ -26,7 +26,7 @@ import java.util.Map;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.BoundingLine;
-import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
+import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -171,7 +171,7 @@ public class LineScanpathEditor extends ScanpathEditor {
 	}
 
 	@Override
-	protected IScanPointGeneratorModel modelToMappingPath() {
+	protected IMapPathModel modelToMappingPath() {
 		var path = new TwoAxisLinePointsModel();
 		path.setPoints(getXAxis().getPoints());
 		path.setBoundingLine(getBoundingLineFromModel());

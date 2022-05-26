@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
+import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.device.ui.AbstractModelEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -141,7 +141,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	/**
 	 * Used when updating the mapping controller
 	 */
-	protected abstract IScanPointGeneratorModel modelToMappingPath();
+	protected abstract IMapPathModel modelToMappingPath();
 
 	/**
 	 * Call to synchronise the mapping controller after updating your model.

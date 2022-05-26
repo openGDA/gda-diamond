@@ -26,7 +26,7 @@ import java.util.Map;
 
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.BoundingBox;
-import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
+import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisGridPointsModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -186,7 +186,7 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 
 
 	@Override
-	protected IScanPointGeneratorModel modelToMappingPath() {
+	protected IMapPathModel modelToMappingPath() {
 		var path = new TwoAxisGridPointsModel();
 		path.setxAxisPoints(getXAxis().getPoints());
 		path.setyAxisPoints(getYAxis().getPoints());

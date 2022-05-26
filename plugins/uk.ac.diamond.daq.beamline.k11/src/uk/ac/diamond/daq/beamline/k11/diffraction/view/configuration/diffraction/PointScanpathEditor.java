@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
+import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -106,7 +106,7 @@ public class PointScanpathEditor extends ScanpathEditor {
 	}
 
 	@Override
-	protected IScanPointGeneratorModel modelToMappingPath() {
+	protected IMapPathModel modelToMappingPath() {
 		var path = new TwoAxisPointSingleModel();
 		path.setX(getXCoordinate());
 		path.setY(getYCoordinate());
