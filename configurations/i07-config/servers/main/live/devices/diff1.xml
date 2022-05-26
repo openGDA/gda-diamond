@@ -16,9 +16,8 @@
 	<bean id="MotorZ_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:Z" />
 	</bean>
-	<bean id="MotorOMEGA_DIFF1" class="gda.device.motor.EpicsMotorDirect">
+	<bean id="MotorOMEGA_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:OMEGA" />
-		<property name="pvNameDirect" value="BL07I-MO-STEP-08:CS2:M6:DirectDemand" />
 	</bean>
 	<bean id="MotorALPHA_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:ALPHA" />
