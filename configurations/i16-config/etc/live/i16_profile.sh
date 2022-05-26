@@ -1,4 +1,4 @@
-# b16 beamline profile
+# i16 beamline profile
 
 if [ ! -n "$BEAMLINE" ]; then
   echo "ERROR: BEAMLINE not set" 1>&2
