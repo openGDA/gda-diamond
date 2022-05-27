@@ -4,39 +4,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<!-- XRF fast scanning -->
-	<bean id="xrfFastScanningInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XRF fast scanning" />
-		<property name="description" value="XRF fast scanning" />
+	<!-- XRF -->
+	<bean id="xrfScanningInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRF scanning" />
+		<property name="description" value="XRF scanning" />
 	</bean>
 
-	<bean id="xrfFastScanningModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<bean id="xrfScanningModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
-	<bean id="xrfFastScanningDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="xrfScanningDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL14I-ML-SCAN-01" />
-		<property name="model" ref="xrfFastScanningModel" />
-		<property name="deviceInformation" ref="xrfFastScanningInfo" />
-		<property name="activated" value="false" />
-	</bean>
-
-	<!-- XRF-only scan -->
-	<bean id="malcolmInfoXrfOnly" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XRF only" />
-		<property name="description" value="XRF only scan" />
-	</bean>
-
-	<bean id="malcolmModelXrfOnly" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL14I-ML-SCAN-06" />
-		<property name="exposureTime" value="0.01" />
-	</bean>
-
-	<bean id="malcolmDeviceXrfOnly" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="BL14I-ML-SCAN-06" />
-		<property name="model" ref="malcolmModelXrfOnly" />
-		<property name="deviceInformation" ref="malcolmInfoXrfOnly" />
+		<property name="model" ref="xrfScanningModel" />
+		<property name="deviceInformation" ref="xrfScanningInfo" />
 		<property name="activated" value="false" />
 	</bean>
 
