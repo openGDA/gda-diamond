@@ -63,17 +63,23 @@
 		</property>
 	</bean>
 
+	<!-- org.eclipse.dawnsci.nexus.scan.IDefaultDataGroupCalculator -->
+	<bean id="nexusDefaultDataGroupName" class="org.eclipse.scanning.sequencer.nexus.DefaultDataGroupConfiguration">
+		<property name="defaultDataGroupName" value="measurement" />
+	</bean>
+
 	<!-- Beans also required for NexusDataWriter
 	 -->
 
 	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
-		<!-- 
+		<!-- Clear the nexusTemplateFiles if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWriter' as
+			 these only work with NexusScanDataWriter, see scripts/datawriting/16_nexus.py -->
 		<property name="nexusTemplateFiles">
 			<list>
 				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
 			</list>
 		</property>
-		 -->
+		<!-- The locationMap will work with both NexusDataWriter and NexusScanDataWriter, but is deprecated for the latter -->
 		<property name="locationMap">
 			<map>
 				<entry key="frontend">

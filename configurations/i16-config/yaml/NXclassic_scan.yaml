@@ -10,8 +10,4 @@ entry1/:
     before_scan: /entry1/instrument/before_scan
     scan_command: /entry1/scan_command
     scan_fields: /entry1/diamond_scan/scan_fields
-    #scan_header
-    #called_by
-    #data/: # or link to group
-    #  NX_class@: NXdata
-    #  data: /entry1/instrument/pilatus3/data
+    measurement: /entry1/measurement
