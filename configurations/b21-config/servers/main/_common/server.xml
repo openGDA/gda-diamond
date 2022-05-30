@@ -44,6 +44,12 @@
 		<property name="sharedState" ref="hatsaxs_state" />
 	</bean>
 
+	<bean id="ManualRunner" class="gda.util.SingleCommandRunner" >
+		<property name="runner" ref="command_server" />
+		<property name="command" value="import manual;manual.Manual('%s').run()" />
+		<property name="sharedState" ref="hatsaxs_state" />
+	</bean>
+
 	<gda:rbac />
 	<context:property-placeholder />
 	<import resource="devices/*.xml" />
