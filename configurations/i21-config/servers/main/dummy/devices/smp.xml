@@ -9,9 +9,9 @@
 
 	<!-- motors -->
 	<bean id="smpthMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0000" />
-		<property name="maxPosition" value="150.000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-52.409885" />
+		<property name="maxPosition" value="228.590115" />
+		<property name="speed" value="0.5" />
 	</bean>
 	<bean id="smpxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5.00000" />
@@ -19,29 +19,29 @@
 		<property name="speed" value="2.00000" />
 	</bean>
 	<bean id="smpyMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-5.00000" />
-		<property name="maxPosition" value="5.00000" />
+		<property name="minPosition" value="-4.691173" />
+		<property name="maxPosition" value="4.691173" />
 		<property name="speed" value="2.000000" />
 	</bean>
 	<bean id="smpzMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-994.900000" />
-		<property name="maxPosition" value="1005.100000" />
+		<property name="minPosition" value="-73.7000" />
+		<property name="maxPosition" value="26.3000" />
 		<property name="speed" value="0.500000" />
 	</bean>
 	<bean id="smpphiMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-100.000000" />
-		<property name="maxPosition" value="100.000000" />
+		<property name="minPosition" value="-179.401645" />
+		<property name="maxPosition" value="179.5000" />
 		<property name="speed" value="0.500000" />
 	</bean>
 	<bean id="smpdeltaMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-170.000" />
-		<property name="maxPosition" value="170.000" />
+		<property name="minPosition" value="-52.7000" />
+		<property name="maxPosition" value="290.2000" />
 		<property name="speed" value="4.000000" />
 	</bean>
 	<bean id="smpchiMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-45.000000" />
-		<property name="maxPosition" value="32.000000" />
-		<property name="speed" value="1.000000" />
+		<property name="minPosition" value="-30.000000" />
+		<property name="maxPosition" value="50.000000" />
+		<property name="speed" value="0.5000000" />
 	</bean>
 	<!-- Femto -->
 	<bean id="draincurrent" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>

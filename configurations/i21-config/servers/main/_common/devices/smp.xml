@@ -2,8 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-
-	
 	
 	<bean id="th" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpthMotor" />
@@ -82,12 +80,18 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
- 	<bean id="sample_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
+ 	<bean id="xyz_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="x" />
 				<ref bean="y" />
 				<ref bean="z" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="rotation_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
 				<ref bean="th" />
 				<ref bean="chi" />
 				<ref bean="phi" />

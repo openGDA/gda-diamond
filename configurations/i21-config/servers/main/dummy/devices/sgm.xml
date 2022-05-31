@@ -10,49 +10,50 @@
 	<bean id="sgmheightMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="speed" value="0.05" />
 	</bean>
 
 	<bean id="sgmrollMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="speed" value="1" />
 	</bean>
 	<bean id="sgmgratingtranslationMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="speed" value="1" />
 	</bean>
 	<bean id="sgmgratingpitchMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-998.371178" />
+		<property name="maxPosition" value="1001.628822" />
+		<property name="speed" value="0.016941" />
 	</bean>
 	<bean id="sgmlongxMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="1579.6790" />
+		<property name="maxPosition" value="2999.67900" />
+		<property name="speed" value="4.80" />
+		<property name="position" value="1600.00"/>
 	</bean>
 	<bean id="sgmwedgeoffsideMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-1054.998950" />
+		<property name="maxPosition" value="945.001050" />
+		<property name="speed" value="0.050" />
 	</bean>
 	<bean id="sgmwedgenearsideMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-1057.777750" />
+		<property name="maxPosition" value="942.222250" />
+		<property name="speed" value="0.05000" />
 	</bean>
 
 	<!-- Air control for SGM -->
 	<bean id="sgmr1_air" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
 			<util:map>
-				<entry key="Off" value="Off"/> 
-				<entry key="On" value="On"/>
+				<entry key="Air Off" value="Air Off"/> 
+				<entry key="Air On" value="Air On"/>
 			</util:map>
 		</property>
-		<property name="startPositionName" value="Off"/>
+		<property name="startPositionName" value="Air Off"/>
 	</bean>
 	<bean id="sgmGratingSelect" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">

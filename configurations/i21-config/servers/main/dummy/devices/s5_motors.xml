@@ -5,20 +5,20 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="s5v1gapMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.01" />
-		<property name="maxPosition" value="15.0" />
+		<property name="minPosition" value="-13.600" />
+		<property name="maxPosition" value="4986.40" />
 		<property name="speed" value="90" />
 	</bean>
 
 	<bean id="s5v2gapMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.01" />
-		<property name="maxPosition" value="15.0" />
+		<property name="minPosition" value="-7.500" />
+		<property name="maxPosition" value="5014.70" />
 		<property name="speed" value="90" />
 	</bean>
 
 	<bean id="s5hgapMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.01" />
-		<property name="maxPosition" value="15.0" />
+		<property name="minPosition" value="0.00" />
+		<property name="maxPosition" value="5000.00" />
 		<property name="speed" value="90" />
 	</bean>
 

@@ -8,36 +8,42 @@
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 		
 	<bean id="specgammaMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-180" />
-		<property name="maxPosition" value="180" />
-		<property name="speed" value="10" />
+		<property name="minPosition" value="11.990" />
+		<property name="maxPosition" value="39.900" />
+		<property name="speed" value="1" />
+		<property name="position" value="12.000"/>
 	</bean>
 	
 	<bean id="xcamgammaMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-180" />
-		<property name="maxPosition" value="180" />
-		<property name="speed" value="10" />
+		<property name="minPosition" value="12" />
+		<property name="maxPosition" value="40" />
+		<property name="speed" value="1" />
+		<property name="position" value="13.00"/>
 	</bean>
 
 	<bean id="speczMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="712" />
+		<property name="maxPosition" value="2336" />
+		<property name="speed" value="1.6" />
+		<property name="position" value="1000"/>
 	</bean>
 	<bean id="specxMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="10381.9824" />
+		<property name="maxPosition" value="15501.0000" />
+		<property name="speed" value="16" />
+		<property name="position" value="11000.000"/>
 	</bean>
 	<bean id="spectthMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0" />
-		<property name="maxPosition" value="150" />
+		<property name="minPosition" value="0.0" />
+		<property name="maxPosition" value="153.5" />
 		<property name="speed" value="1" />
+		<property name="position" value="25"/>
 	</bean>
 	<bean id="spectthOffsetMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0" />
-		<property name="maxPosition" value="1" />
-		<property name="speed" value="1" />
+		<property name="minPosition" value="-2" />
+		<property name="maxPosition" value="2" />
+		<property name="speed" value="0.04" />
+		<property name="position" value="0.0"/>
 	</bean>
 	<bean id="andorEffectiveHorizontal" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value">
@@ -59,10 +65,10 @@
 	<bean id="armtth_air" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
 			<util:map>
-				<entry key="Off" value="Off"/> 
-				<entry key="On" value="On"/>
+				<entry key="Air Off" value="Air Off"/> 
+				<entry key="Air On" value="Air On"/>
 			</util:map>
 		</property>
-		<property name="startPositionName" value="Off"/>
+		<property name="startPositionName" value="Air Off"/>
 	</bean>
 </beans>
