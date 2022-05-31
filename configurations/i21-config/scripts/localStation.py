@@ -164,7 +164,7 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
-from acquisition.acquireImages import acquireImages, clearEncoderLoss, acquireRIXS, acquiredark  # @UnusedImport
+from acquisition.acquire_images import acquireImages, clearEncoderLoss, acquireRIXS, acquiredark  # @UnusedImport
 from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image  # @UnusedImport
 from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image  # @UnusedImport
 from acquisition.flatFieldAcqusition import acquire_flat_field, remove_flat_field  # @UnusedImport
@@ -193,15 +193,14 @@ from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, ch
 
 # from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport #this is reverted to before not monitor the scanner light
 
-GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
-# from i21commands.checkedMotion import lookuptable, move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE, moveWithinLimits, findRange, UnsafeOperationException, IllegalMoveException, checkIfMoveLegal
+# GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
+from i21commands.checkedMotion import move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE  # @UnusedImport
 # alias("move")
 # alias("asynmove")
 from functions.go_founctions import go, goLH, goLV, goCL, goCR  # @UnusedImport
 
 print("create 'alltth' scannable")
-from scannabledevices.M5GroupScannable import M5GroupScannable
-alltth = M5GroupScannable("alltth", armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737)  # @UndefinedVariable
+from scannabledevices.M5GroupScannable import alltth
 
 print("-"*100)
 #DiffCalc

@@ -16,11 +16,10 @@ def loadLookupTable(filename):
     return lookuptable    
 
 def test():
-    lookuptable=loadLookupTable("/dls_sw/i21/software/gda/config/lookupTables/IDEnergy2GapCalibrations.txt")
+    lookuptable=loadLookupTable("../../lookupTables/ArmMotionProtectionLimits2.txt")
     for key, value in lookuptable.iteritems():
         print key, value
     print
-    print lookuptable[("LH","1200-1400")]
 
 if __name__ == "__main__":
     test()

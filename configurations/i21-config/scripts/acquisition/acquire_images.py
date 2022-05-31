@@ -54,9 +54,10 @@ alias("clearEncoderLoss")
 def acquireRIXS(n, det, exposure_time, *args):
     ''' collect RIXS data from detector
     '''
-    if det is andor:  # @UndefinedVariable
+    from gdaserver import andor, andor2  # @UnresolvedImport
+    if det is andor:
         primary()
-    elif det is andor2:  # @UndefinedVariable
+    elif det is andor2:
         polarimeter()
     fastshutter("Open")
     acquireImages(n, det, exposure_time, *args)

@@ -15,13 +15,14 @@ from gda.data.scan.datawriter import NexusScanDataWriter
 from org.eclipse.dawnsci.analysis.api.tree import Node
 import os
 from gda.jython.commands.GeneralCommands import alias   
-from acquisition import acquireImages
+from acquisition.acquire_images import acquireImages
 from shutters.detectorShutterControl import primary, polarimeter
 from gdaserver import fastshutter  # @UnresolvedImport
 
 def acquire_flat_field(num_images, detector, acquire_time, *args):
     '''collect number of images from detector under flat field condition, and then set up flat_field link metadata device to be used in subsequent scans.
     '''
+    print("\nAcquire flat field data ...")
     if det is andor:  # @UndefinedVariable
         primary()
     elif det is andor2:  # @UndefinedVariable
@@ -33,7 +34,7 @@ def acquire_flat_field(num_images, detector, acquire_time, *args):
     external_link_path = str(Node.SEPARATOR).join(seq)
     filename = os.path.basename(str(last_scan_file()))
     meta.addLink(detector.getName(), NXdetector.NX_FLATFIELD, external_link_path, filename)
-    print("A link to flat field image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed" % (filename, external_link_path, detector.getName(), NXdetector.NX_FLATFIELD))
+    print("A link to flat field image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed\n" % (filename, external_link_path, detector.getName(), NXdetector.NX_FLATFIELD))
     
 alias("acquire_flat_field")
 
