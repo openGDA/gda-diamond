@@ -52,7 +52,7 @@ class StokesParameters(ScannableMotionBase):
         else:
             return POLPARISATION_DICT[pol]
 
-    def asynchronuousMovtTo(self, npos):
+    def asynchronousMoveTo(self, npos):
         print("%s is read-only scannable!" % (self.getName()))
 
     def isBusy(self):

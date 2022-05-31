@@ -25,7 +25,7 @@ class BeamExtent(ScannableMotionBase):
     def getPosition(self):
         return [self.h_size, self.v_size]
     
-    def asynchronousMovTo(self, new_pos):
+    def asynchronousMoveTo(self, new_pos):
         if not isinstance(new_pos, list) or len(new_pos) != 2:
             raise ValueError("Input is not a list containing 2 values: [horizontal_size, vertical_size]")
         self.h_size = new_pos[0]
