@@ -8,6 +8,7 @@ Created on May 6, 2022
 from gdascripts.utils import caput
 from calibration.energy_polarisation_instances import energypolarisation
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
+import installation
 
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 EPICS_FEEDBACK_PV = "BL21I-OP-MIRR-01:FBCTRL:MODE"
@@ -38,7 +39,14 @@ def go(en_val_std, pol):
     if not (pol in X_RAY_POLARISATIONS[:-2]):
         print("Requested polarisation %s is not supported" % pol)
         return
-    caput (EPICS_FEEDBACK_PV,0)
+    if installation.isDummy():
+        print("disable feedback: set %s to 0" % EPICS_FEEDBACK_PV)
+    else:
+        caput(EPICS_FEEDBACK_PV,0)
+    print("\nmove (energy, polarisation) to %r ..." % ([en_val_std, pol]))
     energypolarisation.moveTo([en_val_std, pol])
-    caput (EPICS_FEEDBACK_PV,4)
+    if installation.isDummy():
+        print("enable feedback: set %s to 4" % EPICS_FEEDBACK_PV)
+    else:
+        caput(EPICS_FEEDBACK_PV,4)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, pol))

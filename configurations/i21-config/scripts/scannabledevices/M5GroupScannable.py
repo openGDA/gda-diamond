@@ -87,6 +87,8 @@ class M5GroupScannable(ScannableMotionBase):
         self.m5hqry_0 = float(value[0])
         self.m5hqry_1 = float(value[1])
         self.m5hqry_2 = float(value[2])
-       
+
+from gdaserver import armtth,m5tth,m5hqry,m5hqx  # @UnresolvedImport
+alltth = M5GroupScannable("alltth", armtth, m5tth, m5hqry, m5hqx, m5hqry_0=342.9979644425, m5hqry_1=-0.2487741425, m5hqry_2=0.0018219019, m5hqx_0=-363.5691038104, m5hqx_1=-2.1936146304, m5hqx_2=0.0074169737)  # @UndefinedVariable
     
             

@@ -1,5 +1,5 @@
 '''
-functions to switch detector fast shutter source control 
+functions to switch detector fast shutter source control for andor or andor2 detector.
 Created on May 5, 2022
 
 @author: fy65

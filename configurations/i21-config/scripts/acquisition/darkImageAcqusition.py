@@ -17,13 +17,14 @@ from gdaserver import fastshutter  # @UnresolvedImport
 from org.eclipse.dawnsci.analysis.api.tree import Node
 from shutters.detectorShutterControl import erio, primary
 from utils.beamline import last_scan_file
-from acquisition import acquireImages
+from acquisition.acquire_images import acquireImages
 
 NXDDETECTOR_DARK_IMAGE = "dark_image"
 
 def acquire_dark_image(num_images, detector, acquire_time, *args):
     '''collect number of dark images from the given detector when shutter is closed, and then set up dark_image link in this detector's metadata device to be used in subsequent scans.
     '''
+    print("\nAcquire dark image ...")
     erio()
     fastshutter('Closed')
     acquireImages(num_images, detector, acquire_time, *args)
@@ -34,7 +35,7 @@ def acquire_dark_image(num_images, detector, acquire_time, *args):
     external_link_path = str(Node.SEPARATOR).join(seq)
     filename = os.path.basename(str(last_scan_file()))
     meta.addLink(detector.getName(), NXDDETECTOR_DARK_IMAGE, external_link_path, filename)
-    print("A link to dark image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed" % (filename, external_link_path, detector.getName(), NXDDETECTOR_DARK_IMAGE))
+    print("A link to dark image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed\n" % (filename, external_link_path, detector.getName(), NXDDETECTOR_DARK_IMAGE))
     
 alias("acquire_dark_image")
 
