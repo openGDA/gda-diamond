@@ -13,7 +13,7 @@ from templates.momentumTransferFunctions import thLscan, tthLscan
 from i21commands.checkedMotion import move
 from gdascripts.metadata.nexus_metadata_class import meta
 from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image
-from acquisition.acquireImages import acquireRIXS
+from acquisition.acquire_images import acquireRIXS
 
 ###########################################################
 ###########################################################
@@ -25,15 +25,16 @@ def calc_sgmpitch(tth):
     return -5.30033926e-09 * tth**3 + 8.63019222e-07 * tth**2 -4.12472878e-05*tth +  2.33059388e+00
 
 def tth_correction(tth):
-    m5hqx.moveTo(calc_m5hqx(tth))
-    sgmpitch.moveTo(calc_sgmpitch(tth))
+    m5hqx.asynchronousMoveTo(calc_m5hqx(tth))
+    sgmpitch.asynchronuousMoveTo(calc_sgmpitch(tth))
+    m5hqx.waitWhileBusy()
+    sgmpitch.waitWhileBusy()
 
 
 # sleep(120)
 ###########################################################################################
 ######################## SAMPLE PARAMETERS ################################################
 ###########################################################################################
-###########################################################
 # input of the lattice parameter
 
 a = 4.01
@@ -43,6 +44,7 @@ c = 12.42
 
 ###########################################################
 # definition of the sample and ctape position along (H,0)
+###########################################################
 phi_offset_pi0 = 0.0
 phi.moveTo(phi_offset_pi0)
 
@@ -130,8 +132,8 @@ spech.moveTo(spech_val_fix)
 
 # a zero value of h_val or l_list would give a zero division error
 h_val= -0.05
-l_list = frange(0.15, 0.41, 0.025)
-#l_list = frange(0, -0.16, 0.02) + frange(-0.17, -0.3, 0.01) + [-0.305]
+l_list = [round(x,3) for x in frange(0.15, 0.41, 0.025)]
+#l_list = [round(x,2) for x in frange(0, -0.16, 0.02)] + [round(x,2) for x in frange(-0.17, -0.3, 0.01)] + [-0.305]
 
 
 for l_val in l_list:
@@ -192,7 +194,7 @@ spech.moveTo(spech_val_fix)
 # a zero value of l_val or h_list would give a zero division error
 l_val = 0.3
 # to reduce number of tth rotations, we make a list of positive and negative values sorted in increasing order of absolute value 
-hlist = frange(0.05, 0.31, 0.05)
+hlist = [round(x,2) for x in frange(0.05, 0.31, 0.05)]
 h_list = [0.0001]
 for h_val in hlist:
     h_list = h_list.append(h_val)

@@ -11,7 +11,7 @@ from gdascripts.utils import frange
 from shutters.detectorShutterControl import primary
 from functions.go_founctions import go
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
-from acquisition.acquireImages import acquireRIXS
+from acquisition.acquire_images import acquireRIXS
 
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 
