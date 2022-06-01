@@ -19,7 +19,7 @@ from templates.momentumTransferFunctions import qtransinplane2th
 from gdascripts.metadata.nexus_metadata_class import meta
 from templates.unitTransferFunctions import energy2wavelength, dspacing
 from acquisition.acquireCarbonTapeImages import acquire_ctape_image
-from acquisition.acquireImages import acquireRIXS
+from acquisition.acquire_images import acquireRIXS
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 
 

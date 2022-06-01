@@ -11,7 +11,7 @@ from i21commands.checkedMotion import move
 from gdascripts.metadata.nexus_metadata_class import meta
 from acquisition.acquireCarbonTapeImages import acquire_ctape_image,\
     remove_ctape_image
-from acquisition.acquireImages import acquireRIXS
+from acquisition.acquire_images import acquireRIXS
 from scannabledevices.checkbeanscannables import checkbeam
 from templates.momentumTransferFunctions import thLscan, tthLscan
 
