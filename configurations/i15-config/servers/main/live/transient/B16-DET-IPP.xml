@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ippwsme07m" class="gda.device.detector.IPPserver">
+		<property name="outputFolderRoot" value="c:/data/" />
+		<property name="fileNameRoot" value="ipp" />
+		<property name="fileFormat" value="tif" />
+		<property name="collectionTime" value="1" />
+		<property name="host" value="172.23.86.197" />
+		<property name="port" value="23" />
+		<property name="snapshotNumTrackerExtension" value="ippwsme07m" />
+	</bean>
+
+</beans>

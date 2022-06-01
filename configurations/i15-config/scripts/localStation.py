@@ -500,8 +500,11 @@ try:
 
 	try:
 		from scannables.EpicsRockingScannable import EpicsRockingScannable
-		dkphi_rockscan = EpicsRockingScannable('dkphi_rockscan', scannable=dkphi)
+		dkphi_rockscan = EpicsRockingScannable('dkphi_rockscan', scannable=dkphi,
+			check_cs_pv_base='BL15I-MO-STEP-08:M6', check_cs_raw_value=u'2.0', check_cs_axis_value=u'I')
 		alias('dkphi_rockscan')
+		if not dkphi_rockscan.checkSetup():
+			localStation_exception(sys.exc_info(), "checking dkphi_rockscan object")
 	except:
 		localStation_exception(sys.exc_info(), "creating dkphi_rockscan object")
 
@@ -537,24 +540,25 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	from localStationConfiguration import enableAttoPiezos
-	if enableAttoPiezos:
-		try:
+	try:
+		from localStationConfiguration import enableAttoPiezos
+		if enableAttoPiezos:
 			print "Installing atto devices from epics BL15I-EA-ATTO..."
 			
 			from future.anc150axis import createAnc150Axis
 			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
-			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25)
-			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25)
-			atto3 = createAnc150Axis("atto3", "BL15I-EA-ATTO-03:PIEZO3:", 0.25)
+			# BL16B > equipment > Attocube ANC150								# B16 GDA name
+			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25) # attox3
+			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25) # attoz1
+			atto3 = createAnc150Axis("atto3", "BL15I-EA-ATTO-03:PIEZO3:", 0.25) # attorot1
 			atto4 = createAnc150Axis("atto4", "BL15I-EA-ATTO-04:PIEZO1:", 0.25)
-			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25)
-			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25)
+			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25) # attoz2
+			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25) # attorot2
 			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
 			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25, True, False)
 			atto8 = createAnc150Axis("atto8", "BL15I-EA-ATTO-05:PIEZO2:", 0.25, True, False)
 			atto9 = createAnc150Axis("atto9", "BL15I-EA-ATTO-05:PIEZO3:", 0.25, True, False)
-			
+
 			atto1.setFrequency(900)
 			atto2.setFrequency(900)
 			atto3.setFrequency(900)
@@ -563,10 +567,52 @@ try:
 			atto6.setFrequency(900)
 			# Do not override the current EPICS frequency for atto7 to atto9
 			# See https://jira.diamond.ac.uk/browse/I15-587
-		except:
-			localStation_exception(sys.exc_info(), "creating atto devices")
-	else:
-		print "* Not installing atto devices *"
+
+			from future.ecc100axis import createEcc100Axis
+			# BL15I > Experimental Hutch > Sample Environments > B16 ECC100 Attocube
+			# BL16B > equipment > Attocube ECC100
+			attol1 = createEcc100Axis("attol1", "BL15I-EA-ECC-03:ACT0:")
+			attol2 = createEcc100Axis("attol2", "BL15I-EA-ECC-03:ACT1:")
+			attol3 = createEcc100Axis("attol3", "BL15I-EA-ECC-03:ACT2:")
+
+			attoltilt1 = createEcc100Axis("attoltilt1", "BL15I-EA-ECC-02:ACT0:")
+			attoutilt1 = createEcc100Axis("attoutilt1", "BL15I-EA-ECC-02:ACT1:")
+			attorot1   = createEcc100Axis("attorot1",   "BL15I-EA-ECC-02:ACT2:")
+
+			attoltilt2 = createEcc100Axis("attoltilt2", "BL15I-EA-ECC-01:ACT0:")
+			attoutilt2 = createEcc100Axis("attoutilt2", "BL15I-EA-ECC-01:ACT1:")
+			attorot2   = createEcc100Axis("attorot2",   "BL15I-EA-ECC-01:ACT2:")
+
+			attol4 = createEcc100Axis("attol4", "BL15I-EA-ECC-04:ACT0:")
+			attol5 = createEcc100Axis("attol5", "BL15I-EA-ECC-04:ACT1:")
+			attov1 = createEcc100Axis("attov1", "BL15I-EA-ECC-04:ACT2:")
+		else:
+			print "* Not installing atto devices *"
+	except:
+		localStation_exception(sys.exc_info(), "creating atto devices")
+
+	try:
+		from localStationConfiguration import enableIpp3
+		if enableIpp3:
+			from gdascripts.visit import VisitSetter, IPPAdapter, ProcessingDetectorWrapperAdapter
+
+			ipp3windowsPath = 'X://'
+			ipp3linuxPath = '/dls/i16/'
+			# TODO: add ippwsme07m to sprint, add ipp3 panel to client
+			ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace=ipp3windowsPath, replacement=ipp3linuxPath, panel_name_rcp='ipp3', returnPathAsImageNumberOnly=True) #@UndefinedVariable)
+			ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
+			ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
+			ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
+			visit_setter = VisitSetter()
+			visit_setter.addDetectorAdapter(IPPAdapter(ippwsme07m, subfolder='ippimages', create_folder=True, toreplace=ipp3linuxPath, replacement=ipp3windowsPath)) #@UndefinedVariable)
+			visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp3, report_path = False))
+			# Do we need to run this now too? When do we need to run itotherwise?
+			#visit_setter.setDetectorDirectories()
+		else:
+			print "* Not installing ipp3 devices *"
+			localStation_exceptions.append("    not installing ipp3 devices") # REMOVE ME
+	except:
+		localStation_exception(sys.exc_info(), "creating ipp3 devices")
 
 	from localStationConfiguration import enableWirescanner
 	if enableWirescanner:

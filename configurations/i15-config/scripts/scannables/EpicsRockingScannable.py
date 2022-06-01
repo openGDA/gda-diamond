@@ -25,11 +25,16 @@ class EpicsRockingScannable(ScannableMotionBase):
         for the start of the next move.
     """
 
-    def __init__(self, name, scannable):
+    def __init__(self, name, scannable, check_cs_pv_base, check_cs_raw_value, check_cs_axis_value):
         self.name=name
         self.scannable=ScannableMotionBase()
         self.setName(name)
         self.scannable = scannable
+        self.check_cs_pv_base=check_cs_pv_base
+        self.check_cs_raw_pv = check_cs_pv_base+':CsRaw_RBV'
+        self.check_cs_axis_pv = check_cs_pv_base+':CsAxis_RBV'
+        self.check_cs_raw_value=check_cs_raw_value
+        self.check_cs_axis_value=check_cs_axis_value
         assert len(scannable.getInputNames())==1
         assert len(scannable.getExtraNames())==0
         assert len(scannable.getOutputFormat())==1
@@ -49,10 +54,23 @@ class EpicsRockingScannable(ScannableMotionBase):
             simpleLog("%r configured with noOfRocksPerExposure=%r so scan points will not end at their next start position!" % (self.scannable.name, noOfRocksPerExposure))
             simpleLog("For use in a scan, you should use an even number of rocks per exposure.")
             simpleLog("="*80)
+        self.checkSetup()
         caput(self.scannable.getMotor().getPvName()+":ROCK:STARTPOSITION", centre-rockSize) # deg
         caput(self.scannable.getMotor().getPvName()+":ROCK:ENDPOSITION", centre+rockSize) # deg
         caput(self.scannable.getMotor().getPvName()+":ROCK:NUMROCKS", noOfRocksPerExposure)
         caput(self.scannable.getMotor().getPvName()+":ROCK:ACCELERATION", 50.0) # Degrees/s/s
+
+    def checkSetup(self):
+        ok=True
+        check_cs_raw_value = caget(self.check_cs_raw_pv)
+        check_cs_axis_value = caget(self.check_cs_axis_pv)
+        if check_cs_raw_value <> self.check_cs_raw_value:
+            simpleLog("%r failed the coordinate system check, %r returned %r rather than %r, rockscan may not work!" % (self.scannable.name, self.check_cs_raw_pv, check_cs_raw_value, self.check_cs_raw_value))
+            ok = False
+        if check_cs_axis_value <> self.check_cs_axis_value:
+            simpleLog("%r failed the coordinate system check, %r returned %r rather than %r, rockscan may not work!" % (self.scannable.name, self.check_cs_axis_pv, check_cs_axis_value, self.check_cs_axis_value))
+            ok = False
+        return ok
 
     def atScanStart(self):
         if self.verbose:

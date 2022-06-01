@@ -26,25 +26,25 @@ class DiodeController(ScannableBase):
 		self.exposeDarkFlag = exposeDarkFlag
 		self.suppressOpenEHShutterAtScanStart = suppressOpenEHShutterAtScanStart
 		self.suppressCloseEHShutterAtScanEnd = suppressCloseEHShutterAtScanEnd
-		
+
 	def atScanStart(self):
 		if self.d1out:
 			self.d1out()
 		else:
 			simpleLog("DiodeController: d1out disabled.")
-		
+
 		if self.d2out:
 			self.d2out()
 		else:
 			simpleLog("DiodeController: d2out disabled.")
-		
+
 		if self.d3out:
 			self.d3out()
 		else:
 			simpleLog("DiodeController: d3out disabled.")
-		
+
 		self.zebraFastShutter.forceOpenRelease()
-		
+
 		if (self.exposeDarkFlag):
 			simpleLog("DiodeController: Dark expose, so closing the EH shutter...")
 			closeEHShutter()
@@ -52,7 +52,7 @@ class DiodeController(ScannableBase):
 			simpleLog("DiodeController: EH shutter open is suppressed.")
 		else:
 			openEHShutter()
-		
+
 	def atScanEnd(self):
 		self.zebraFastShutter.forceOpenRelease()
 		if self.suppressCloseEHShutterAtScanEnd:
@@ -88,7 +88,7 @@ def _configureConstantVelocityMove(axis, detector):
 		continuouslyScannableViaController = jythonNameMap.sphiZebraScannableMotor
 	else:
 		raise Exception('Error configuring motor %r' % (axis.name))
-	
+
 	return continuouslyScannableViaController, continuousMoveController
 
 def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark):
@@ -112,18 +112,20 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 						, 'pil3HWT': detector
 						, 'pil3cbf': detector
 						}
-	
+
 	# Since the interface changed, check that noOfExposures is numeric
 	if not isinstance(noOfExposures, (int, long, float)):
 		raise TypeError("noOfExposures=%r (%s), but expected it to be numeric!" % (noOfExposures, type(noOfExposures),))
-	
+
 	if supportedDetectors.has_key(detector.name):
 		hardwareTriggeredNXDetector = supportedDetectors[detector.name]
 	else:
 		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors.keys()))
-	
+
+	collectionStrategy = detector.getCollectionStrategy()
+
 	# Configure single file filewriters first
-	
+
 	filePathTemplate="$datadir$/"
 	if detector.name in ("pe"):
 		fileNameTemplate="%s-%s-$scan$" % (detector.name, sampleSuffix)
@@ -132,8 +134,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		fileNameTemplate="$scan$-%s-%s" % (detector.name, sampleSuffix)
 		print "%s has not been tested with using filenames where detector and sample names come before scan number." % detector.name
 
-	fileTemplate="%s%s"
-	
+	fileTemplate="%s%s" # filePathTemplate, fileNameTemplate & file number ignored
+
 	if 'hdfwriter' in [p.getName() for p in detector.getPluginList()]:
 		logger.trace("Setting 'hdfwriter' file paths on {}", detector.name, detector)
 		detector.hdfwriter.setFileTemplate(fileTemplate+".hdf5")
@@ -141,43 +143,41 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
 
 	# Then configure multi-file filewriters
-	
-	collectionStrategy = detector.getCollectionStrategy()
 
 	if noOfExposures != 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s/" % (detector.name, sampleSuffix)
-		fileNameTemplate=""
-		fileTemplate="%s%s%05d"	# One image per file
-	
+		fileNameTemplate="%s_" % sampleSuffix
+		fileTemplate="%s%s%05d"	# filePathTemplate, fileNameTemplate & file number, One image per file
+
 	if 'marwriter' in [p.getName() for p in detector.getPluginList()]:
 		logger.trace("Setting 'marwriter' file paths on {}", detector.name)
 		# Since the mar doesn't like underscores and replaces all characters after the underscore with a three
 		# digit sequence number, we have to strip out any underscores and ensure that a sequence number is added.
 		if "_" in sampleSuffix:
 			raise Exception('Detector %r does not support underscores in sampleSuffix: %s' % (detector.name, sampleSuffix))
+		if noOfExposures != 1:
+			fileNameTemplate=""
 		fileTemplate="%s%s_%03d" # Breaks GDA because it expects the file to be called blah and it is blah.mar3450 on the filesystem
 		#fileTemplate="%s%s_%03d.mar3450" # Breaks Area detector because it expects the file to be called blah.mar3450.mar3450 and it is blah.mar3450 on the filesystem
-		
+
 		detector.marwriter.setFileTemplate(fileTemplate)
 		detector.marwriter.setFilePathTemplate(filePathTemplate)
 		detector.marwriter.setFileNameTemplate(fileNameTemplate)
-	
+
 	if 'tifwriter' in [p.getName() for p in detector.getPluginList()]:
 		logger.trace("Setting 'tifwriter' file paths on {}", detector.name)
 		detector.tifwriter.setFileTemplate(fileTemplate+".tif")
 		detector.tifwriter.setFilePathTemplate(filePathTemplate)
 		detector.tifwriter.setFileNameTemplate(fileNameTemplate)
-	
+
 	if 'cbfwriter' in [p.getName() for p in detector.getPluginList()]:
 		logger.trace("Setting 'cbfwriter' file paths on {}", detector.name)
-		# Hack attempt, may not work, even if it does,m may not work with outer scans  
-		fileTemplate="%s%s00001_%05d"
 		logger.debug("running setFileTemplate(%r) setFilePathTemplate(%r) & setFileNameTemplate(%r) on detector.cbfwriter" % (
 							fileTemplate+".cbf", filePathTemplate, fileNameTemplate))
 		detector.cbfwriter.setFileTemplate(fileTemplate+".cbf")
 		detector.cbfwriter.setFilePathTemplate(filePathTemplate)
 		detector.cbfwriter.setFileNameTemplate(fileNameTemplate)
-	
+
 	darkSubtractionPVs=_darkSubtractionPVs(hardwareTriggeredNXDetector)
 	if darkSubtractionPVs:
 		darkSubtractionArray = caget(darkSubtractionPVs['array']+"EnableBackground_RBV")
@@ -197,14 +197,14 @@ def _darkExpose(detector,
 	darkSubtractionPVs = _darkSubtractionPVs(detector)
 	if not darkSubtractionPVs:
 		raise Exception('No support for dark subtraction on detector %r' % (detector.name))
-	
+
 	print "Dark subtraction is " + caget(darkSubtractionPVs['array']+"EnableBackground_RBV") + " on array"
 	print "Dark subtraction is " + caget(darkSubtractionPVs['live'] +"EnableBackground_RBV") + " on live"
 
 	print "Disabling dark subtraction before dark collection"
 	caput(darkSubtractionPVs['array']+"EnableBackground", 0)
 	caput(darkSubtractionPVs['live' ]+"EnableBackground", 0)
-	
+
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	detectorShield = jythonNameMap.ds
 	detectorShield.suppressOpenDetectorShieldAtScanStart = exposeSuppressOpenDetectorShieldAtScanStart
