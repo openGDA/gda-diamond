@@ -154,7 +154,7 @@ print("Total exposure time requested to detector excluding all motion times: %r"
 # progress logs
 number_of_data_files_collected_so_far = 0
 number_of_images_collected_so_far = 0
-number_of_data_files__to_be_collected = total_number_of_data_files_to_be_collected
+number_of_data_files_to_be_collected = total_number_of_data_files_to_be_collected
 number_of_images_to_be_collected = total_number_of_images_to_be_collected
 
 ###define experimental logics to collecting data from carbon tape and sample
@@ -173,7 +173,7 @@ def collect_data(ctape, sample, point_list, det):
     from gdaserver import th, m4c1, xyz_stage, pgmEnergy, spech  # @UnresolvedImport
     from scannable.continuous.continuous_energy_scannables import energy
 
-    global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files__to_be_collected,number_of_images_to_be_collected
+    global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files_to_be_collected,number_of_images_to_be_collected
 
     th_last = float(th.getPosition())
     for th_val, energy_val in point_list:
@@ -199,10 +199,10 @@ def collect_data(ctape, sample, point_list, det):
         acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
         number_of_data_files_collected_so_far += 1
         number_of_images_collected_so_far += ctape_no_images
-        number_of_data_files__to_be_collected -= 1
+        number_of_data_files_to_be_collected -= 1
         number_of_images_to_be_collected -= ctape_no_images
         print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
+        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
         print("Number of images collected so far: %r" % number_of_images_collected_so_far)
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************')
@@ -213,10 +213,10 @@ def collect_data(ctape, sample, point_list, det):
         acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
         number_of_data_files_collected_so_far += 1
         number_of_images_collected_so_far += sample_no_images
-        number_of_data_files__to_be_collected -= 1
+        number_of_data_files_to_be_collected -= 1
         number_of_images_to_be_collected -= sample_no_images
         print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
+        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
         print("Number of images collected so far: %r" % number_of_images_collected_so_far)
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************')
@@ -286,9 +286,10 @@ if answer == "y":
     #################################################
     
     # move spech to the optimised position for qscan (resonance)    
-    energy.moveTo(energy_val_fix)
-    spech.moveTo(spech_val_fix)
-
+    energy.asynchronousMoveTo(energy_val_fix)
+    spech.asynchronousMoveTo(spech_val_fix)
+    energy.waitWhileBusy()
+    spech.waitWhileBusy()
 
 #####################################################################
 print('Macro is completed !!!')

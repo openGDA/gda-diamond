@@ -143,7 +143,7 @@ def calc_sgmpitch(tth):
 # progress logs
 number_of_data_files_collected_so_far = 0
 number_of_images_collected_so_far = 0
-number_of_data_files__to_be_collected = total_number_of_data_files_to_be_collected
+number_of_data_files_to_be_collected = total_number_of_data_files_to_be_collected
 number_of_images_to_be_collected = total_number_of_images_to_be_collected
 
 ###define experimental logics to collecting data from carbon tape and sample
@@ -158,19 +158,19 @@ def collect_data(point_list, det):
     from gdascripts.metadata.nexus_metadata_class import meta
     from acquisition.acquire_images import acquireRIXS
     from scannabledevices.checkbeanscannables import checkbeam
-    global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files__to_be_collected,number_of_images_to_be_collected
+    global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files_to_be_collected,number_of_images_to_be_collected
 
     for th_val, true_tth_val, armtth_val, h_val, l_val in point_list:
     
-        energy.moveTo(energy_val_instrument)
+        energy.asynchronousMoveTo(energy_val_instrument)
     
         print ('th=%.3f, m5tth=%.3f and true_tth=%.3f for h0=%.3f and l=%.3f\n'%(th_val,armtth_val,true_tth_val,h_val,l_val))
         gv17('Close')
         
         #Motor position correction for arm tth :
         print ('move m5hqx to %f ...' % calc_m5hqx(armtth_val))
-        print ('move sgmpitch to %f ...' % calc_sgmpitch(armtth_val))
         m5hqx.asynchronousMoveTo(calc_m5hqx(armtth_val))
+        print ('move sgmpitch to %f ...' % calc_sgmpitch(armtth_val))
         sgmpitch.asynchronousMoveTo(calc_sgmpitch(armtth_val))
         
         #move rest of the motors:    
@@ -185,6 +185,7 @@ def collect_data(point_list, det):
         print ('arm rotation completed')
         
         #make sure all motor motions complete
+        energy.waitWhileBusy()
         m5hqx.waitWhileBusy()
         sgmpitch.waitWhileBusy()
         th.waitWhileBusy()
@@ -203,27 +204,27 @@ def collect_data(point_list, det):
         ###Collect data
         print("move to ctape position %r" % ctape_pi0)
         #### Note 'acquire_ctape_image' will create 'elastic_image' node link metadata item to the detector used.
-        xyz_stage.asynchronousMoveTo(ctape_pi0)
+        xyz_stage.moveTo(ctape_pi0)
         acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
         number_of_data_files_collected_so_far += 1
         number_of_images_collected_so_far += ctape_no_images
-        number_of_data_files__to_be_collected -= 1
+        number_of_data_files_to_be_collected -= 1
         number_of_images_to_be_collected -= ctape_no_images
         print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
+        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
         print("Number of images collected so far: %r" % number_of_images_collected_so_far)
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************\n')
         
         print("move to sample position %r" % sample_pi0)
-        xyz_stage.asynchronousMoveTo(sample_pi0)
+        xyz_stage.moveTo(sample_pi0)
         acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
         number_of_data_files_collected_so_far += 1
         number_of_images_collected_so_far += sample_no_images
-        number_of_data_files__to_be_collected -= 1
+        number_of_data_files_to_be_collected -= 1
         number_of_images_to_be_collected -= sample_no_images
         print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
+        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
         print("Number of images collected so far: %r" % number_of_images_collected_so_far)
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************\n')
