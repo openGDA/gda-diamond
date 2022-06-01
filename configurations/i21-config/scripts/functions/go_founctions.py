@@ -36,6 +36,9 @@ def goCL(en_val_std):
 def go(en_val_std, pol):
     ''' go to the given polarisation at the given energy
     '''
+    from gdaserver import pgmEnergy  # @UnresolvedImport
+    from time import sleep
+    from utils.ScriptLogger import SinglePrint
     if not (pol in X_RAY_POLARISATIONS[:-2]):
         print("Requested polarisation %s is not supported" % pol)
         return
@@ -43,7 +46,10 @@ def go(en_val_std, pol):
         print("disable feedback: set %s to 0" % EPICS_FEEDBACK_PV)
     else:
         caput(EPICS_FEEDBACK_PV,0)
-    print("\nmove (energy, polarisation) to %r ..." % ([en_val_std, pol]))
+    while pgmEnergy.isBusy():
+        SinglePrint.sprint("pgmEnergy is busy at the moment, wait for it to stop before move energy ...")
+        sleep(1.0)
+    print("move (energy, polarisation) to %r ..." % ([en_val_std, pol]))
     energypolarisation.moveTo([en_val_std, pol])
     if installation.isDummy():
         print("enable feedback: set %s to 4" % EPICS_FEEDBACK_PV)
