@@ -180,7 +180,7 @@ def move(motor, new_position, sgmr1_val=None, specl_val=None):
         print("sleep 5 seconds after %s move." % motor.getName())
         sleep (5)
         if motor is armtth or motor is alltth:
-            armtthoffset.moveTo(-0.14)
+            armtthoffset.moveTo(-0.1)
             if sgmr1_val:
                 if armtth.isOn():
                     armtth.off()
