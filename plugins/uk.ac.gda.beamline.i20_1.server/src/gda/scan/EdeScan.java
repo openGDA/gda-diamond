@@ -691,7 +691,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		int publishInterval = 1;
 		if (isLightItScan()) {
 			double framesPerSecond = totalNumFrames/scanParameters.getTotalTime();
-			publishInterval =  (int) (noOfSecPerSpectrumToPublish * framesPerSecond);
+			publishInterval =  (int) Math.max(1, noOfSecPerSpectrumToPublish * framesPerSecond);
 		}
 
 		long startTime = System.currentTimeMillis();
