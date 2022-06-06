@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Front End Beam Permit -->
+ 	<bean id="feBeamPermit" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE07B-CS-BEAM-01:BLCON" />
+		<property name="statusPv" value="FE07B-CS-BEAM-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutterMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE07B-PS-SHTR-01:STA" />
+	</bean>
+	<!-- port shutter for synopyics status view -->
+	<bean id="portshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE07B-PS-SHTR-01:CON" />
+		<property name="statusPv" value="FE07B-PS-SHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	<bean id="feabsorber" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE07B-RS-ABSB-02:BLCON" />
+		<property name="statusPv" value="FE07B-RS-ABSB-02:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+</beans>

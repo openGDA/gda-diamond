@@ -48,6 +48,8 @@
 	
 	<!-- Pressures -->
 	<import resource="pressures.xml" />
+	<import resource="frontEnd.xml"/>
+	<import resource="ring.xml"/>
 	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
