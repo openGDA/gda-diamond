@@ -55,12 +55,12 @@ if installation.isLive():
     alias("medipix_rotate")
         
     def unrotate():
-        caput("BL06I-EA-DET-01:ROT:Angle",0)
+        caput("BL06I-EA-DET-02:ROT:Angle",0)
     alias("unrotate")
     
     def rotate():
         rot=caget("BL06I-EA-LEEM-01:CALC:ROT:ANGLE")
-        caput("BL06I-EA-DET-01:ROT:Angle",rot)
+        caput("BL06I-EA-DET-02:ROT:Angle",rot)
     alias("rotate")
     
     def set_medipix_acquire_time(t):

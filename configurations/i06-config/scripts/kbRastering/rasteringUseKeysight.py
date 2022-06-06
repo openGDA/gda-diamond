@@ -1,6 +1,6 @@
 '''
 Module define and create KB Mirror Rastering Control Scannables:
-    raster, beamsize, vrastamplitude, hrastamplitude, vrastoffset, hrastoffset, rastperiod, vraststatus, hraststatus
+    raster, beamsize, vrastamplitude, hrastamplitude, rastperiod, vraststatus, hraststatus
 
 Fix Issue: I06-620
 Created on 5 Mar 2019
@@ -11,23 +11,22 @@ from gda.device.scannable import PVScannable, ScannableMotionBase,\
     EpicsScannable
 from peem.leem_instances import FOV
 from scisoftpy.jython.jymaths import nan
-from gdaserver import s4ygap
+from gdaserver import s4ygap  # @UnresolvedImport
 
-print "-"*100
-print "create KB Rastering control scannables: raster, beamsize, vrastamplitude, hrastamplitude, vrastoffset, hrastoffset, rastperiod, vraststatus, hraststatus"
+print("-"*100)
+print("create KB Rastering control scannables: raster, beamsize, vrastamplitude, hrastamplitude, rastperiod, vraststatus, hraststatus")
 
 #Low Level Scannables
-vrastamplitude=PVScannable("vrastamplitude","BL06I-EA-SGEN-01:CH2:AMP"); vrastamplitude.configure()
-hrastamplitude=PVScannable("hrastamplitude","BL06I-EA-SGEN-01:CH1:AMP"); hrastamplitude.configure()
-vrastoffset=PVScannable("vrastoffset","BL06I-EA-SGEN-01:CH2:OFF"); vrastoffset.configure()
-hrastoffset=PVScannable("hrastoffset","BL06I-EA-SGEN-01:CH1:OFF"); hrastoffset.configure()
+vrastamplitude=PVScannable("vrastamplitude","BL06I-EA-SGEN-01:CH1:AMP"); vrastamplitude.configure()
+hrastamplitude=PVScannable("hrastamplitude","BL06I-EA-SGEN-01:CH2:AMP"); hrastamplitude.configure()
 rastperiod=PVScannable("rastperiod","BL06I-EA-SGEN-01:PERIOD"); rastperiod.configure()
 vraststatus=EpicsScannable(); vraststatus.setName("vraststatus"); vraststatus.setHasUnits(False); 
-vraststatus.setPvName("BL06I-EA-SGEN-01:CH2:OUT"); vraststatus.setGetAsString(True); 
+vraststatus.setPvName("BL06I-EA-SGEN-01:CH1:OUT"); vraststatus.setGetAsString(True); 
 vraststatus.setUseNameAsInputName(True); vraststatus.configure()
 hraststatus=EpicsScannable(); hraststatus.setName("hraststatus"); hraststatus.setHasUnits(False); 
-hraststatus.setPvName("BL06I-EA-SGEN-01:CH1:OUT"); hraststatus.setGetAsString(True); 
+hraststatus.setPvName("BL06I-EA-SGEN-01:CH2:OUT"); hraststatus.setGetAsString(True); 
 hraststatus.setUseNameAsInputName(True); hraststatus.configure()
+raster=PVScannable("raster","BL06I-OP-KBM-01:RASTER:MODE"); rastperiod.configure()
 
 
 KEYSIGHT_OUTPUT_STATUS={0:'Off',1:'On'}
@@ -99,7 +98,7 @@ class KBMirrorRasteringStateControl(ScannableMotionBase):
         return self.vraststatus.isBusy() or self.hraststatus.isBusy()
     
 
-raster=KBMirrorRasteringStateControl("raster",vraststatus, hraststatus, vrastamplitude, hrastamplitude)
+# raster=KBMirrorRasteringStateControl("raster",vraststatus, hraststatus, vrastamplitude, hrastamplitude)
 
 class BeamSize(ScannableMotionBase):
     

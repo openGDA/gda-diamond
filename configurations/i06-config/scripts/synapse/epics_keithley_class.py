@@ -6,6 +6,7 @@ Created on 22 Feb 2022
 @author: fy65
 '''
 from gda.epics import CAClient
+from java.lang import String
 # the root name of keithley PV
 pv_root = "BL06I-EA-SRCM-01:"
 # selected Asyn PVs
@@ -29,7 +30,7 @@ class EpicsKeithley2461(object):
         '''
         self.name = name
         self.command = CAClient(pv_root + command)
-        self.response = CAClient (pv_root + response)
+        self.response = CAClient(pv_root + response)
         self.error = CAClient(pv_root + error)
         self.connect = CAClient(pv_root + connect)
         self.configured = False
@@ -45,11 +46,13 @@ class EpicsKeithley2461(object):
         
     def send_command(self, command):
         self.configure()
-        self.command.caputWait(command.encode(ENCODING))
+        self.command.caputStringAsWaveform(command)
         
     def get_response(self):
         self.configure()
-        return self.response.cagetArrayByte().decode(ENCODING)
+        caget_array_byte = self.response.cagetArrayByte()
+        print(caget_array_byte)
+        return String(caget_array_byte).trim()
     
     def get_errors(self):
         self.configure()
@@ -183,7 +186,7 @@ class EpicsKeithley2461(object):
         self.send_command("OUTP ON")
         self.send_command("TRAC:TRIG 'defbuffer1'")
         self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ")
-        self.send_commandy("OUTP OFF")
+        self.send_command("OUTP OFF")
         self.print_errors_if_any()
         return self.get_response()
     
@@ -192,7 +195,7 @@ class EpicsKeithley2461(object):
         ''' 
         self.send_command("OUTP ON")
         self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ, REL")
-        self.send_commandy("OUTP OFF")
+        self.send_command("OUTP OFF")
         self.print_errors_if_any()
         return self.get_response()
         

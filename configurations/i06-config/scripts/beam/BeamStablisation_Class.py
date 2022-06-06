@@ -7,20 +7,8 @@ from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
 from gda.scan import ScanInformation
 from gda.factory import Finder
 from beam.AreaDetectorROIs import RoiStatPairClass
-from gda.device.controlpoint import EpicsControlPoint
+from scannables.m4m5finepitches import m4fpitch, m5fpitch
 
-exec("[m4fpitch, m5fpitch]=[None, None]")
-
-m4fpitch = EpicsControlPoint()
-m4fpitch.setName('m4fpitch')
-m4fpitch.setPvName('BL06I-EA-SGEN-01:CH1:OFF')
-m4fpitch.setOutputFormat(['%f'])
-m4fpitch.configure()
-m5fpitch = EpicsControlPoint()
-m5fpitch.setName('m5fpitch')
-m5fpitch.setPvName('BL06I-EA-SGEN-01:CH2:OFF')
-m5fpitch.setOutputFormat(['%f'])
-m5fpitch.configure()
 
 Derived_class_must_override_this_method = "Derived class must override this method."
 Input_must_be_a_list_of_ROIs = "Input must be a list of ROIs, each provides a list specifies [x_start,y_start,x_size,y_size]"
