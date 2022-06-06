@@ -180,7 +180,7 @@
 				<property name="scannableId" value="shutter" />
 			</bean>
 		</property>
-		<property name="labelledPosition" value="OPEN" />
+		<property name="position" value="OPEN" />
 	</bean>
 	
 	<bean id="basex_gts" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
@@ -190,7 +190,7 @@
 				<property name="scannableId" value="selector" />
 			</bean>
 		</property>
-		<property name="labelledPosition" value="GTS" />
+		<property name="position" value="GTS" />
 	</bean>
 
 </beans>

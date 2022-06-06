@@ -60,7 +60,6 @@ import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPat
 import uk.ac.gda.api.acquisition.AcquisitionEngineDocument;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.api.acquisition.parameters.DevicePositionDocument;
-import uk.ac.gda.api.acquisition.parameters.DevicePositionDocument.ValueType;
 import uk.ac.gda.api.camera.CameraControl;
 import uk.ac.gda.client.widgets.DetectorExposureWidget;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
@@ -366,7 +365,6 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		DevicePositionDocument document = new DevicePositionDocument.Builder()
 												.withDevice(device)
 												.withAxis(axis)
-												.withValueType(ValueType.NUMERIC)
 												.withPosition(position)
 												.build();
 
@@ -446,8 +444,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 		List<DevicePositionDocument> beamPosition = beamPositionInAcquisition();
 		if (beamPosition.size() == 2) {
-			double x = beamPosition.stream().filter(doc -> doc.getDevice().equals(xAxis)).findFirst().orElseThrow().getPosition();
-			double y = beamPosition.stream().filter(doc -> doc.getDevice().equals(yAxis)).findFirst().orElseThrow().getPosition();
+			double x = (double) beamPosition.stream().filter(doc -> doc.getDevice().equals(xAxis)).findFirst().orElseThrow().getPosition();
+			double y = (double) beamPosition.stream().filter(doc -> doc.getDevice().equals(yAxis)).findFirst().orElseThrow().getPosition();
 			handlingRegionMove = true;
 			xPosition.setText(String.valueOf(x));
 			yPosition.setText(String.valueOf(y));
