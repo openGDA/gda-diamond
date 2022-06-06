@@ -1,7 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
 #
-from gdaserver import ncddetectors
 print "===================================================================";
 print "Performing beamline specific initialisation code (i22).";
 print
