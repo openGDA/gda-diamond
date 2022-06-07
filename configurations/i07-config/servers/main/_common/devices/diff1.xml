@@ -51,23 +51,22 @@
 	</bean>
 
 
+	<bean id="diff1omega" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorOMEGA_DIFF1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="diff1group"
 		class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<bean class="gda.device.scannable.ScannableMotor">
-					<property name="name" value="diff1omega" />
-					<property name="motor" ref="MotorOMEGA_DIFF1" />
-					<property name="protectionLevel" value="0" />
-					<property name="initialUserUnits" value="Deg" />
-					<property name="hardwareUnitString" value="Deg" />
-					<property name="outputFormat">
-						<list>
-							<value>%9.5f</value>
-						</list>
-					</property>
-				</bean>
 				<bean class="gda.device.scannable.ScannableMotor">
 					<property name="name" value="diff1theta" />
 					<property name="motor" ref="MotorTHETA_DIFF1" />
@@ -122,7 +121,6 @@
 	</bean>
 
 	<!-- Create references to wrapped group members -->
-	<bean id="diff1omega" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1omega" />
 	<bean id="diff1theta" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1theta" />
 	<bean id="diff1chi" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1chi" />
 	<bean id="diff1delta" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1delta" />

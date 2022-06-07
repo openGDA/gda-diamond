@@ -27,6 +27,7 @@
 
 
 	<bean id="eig_pva" class="gda.device.detector.NXDetector">
+		<property name="name" value="eig_pva" />
 		<property name="addCollectTimeMs" value="true" />
 		<property name="collectionStrategy"
 			ref="eiger_pva_strategy" />
@@ -73,63 +74,75 @@
 
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="eigerroi">
+		id="eir">
 		<property name="detector" ref="eiger" />
-		<property name="processor" ref="eiger_roistats_swmr" />
+		<property name="processor" ref="eiger_swmr_standard" />
 	</bean>
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
-		id="eigerstats">
+		id="eiv">
 		<property name="detector" ref="eiger" />
-		<property name="processor" ref="eiger_stats_swmr" />
+		<property name="processor" ref="eiger_swmr_verbose" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="eiger_roistats_swmr">
+		id="eiger_swmr_standard">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="eiger_roistats" />
+				<ref bean="eiger_stats_standard" />
+				<ref bean="eiger_roistats_standard" />
 				<ref bean="eiger_plotter" />
 				<ref bean="eiger_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="eiger_mask" />
 		<property name="detectorWidth" value="2068" />
 		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
+
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
-		id="eiger_stats_swmr">
+		id="eiger_swmr_verbose">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
 		<constructor-arg index="2" value="SDS" />
 		<constructor-arg index="3">
 			<list>
-				<ref bean="eiger_stats" />
+				<ref bean="eiger_stats_verbose" />
+				<ref bean="eiger_roistats_verbose" />
 				<ref bean="eiger_plotter" />
+				<ref bean="eiger_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4">
-			<null />
-		</constructor-arg>
+		<constructor-arg index="4" ref="eiger_mask" />
 		<property name="detectorWidth" value="2068" />
 		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
 	</bean>
+	
+	<bean
+		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
+		id="eiger_mask">
+	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
-		id="eiger_roistats">
+		id="eiger_roistats_standard">
 		<property name="plotName" value="Eiger" />
-		<property name="statsProcessor" ref="eiger_stats" />
+		<property name="statsProcessor" ref="eiger_stats_standard" />
+	</bean>
+
+	<bean
+		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
+		id="eiger_roistats_verbose">
+		<property name="plotName" value="Eiger" />
+		<property name="statsProcessor" ref="eiger_stats_verbose" />
 	</bean>
 
 	<bean
@@ -137,17 +150,30 @@
 		id="eiger_norm">
 		<property name="attenuatorScannableName" value="filterset" />
 		<property name="transmissionFieldName" value="transmission" />
-		<property name="roiStats" ref="eiger_roistats" />
+		<property name="roiStats" ref="eiger_roistats_standard" />
 		<property name="enable" value="false" />
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
-		id="eiger_stats">
+		id="eiger_stats_standard">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>SUM</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
+		id="eiger_stats_verbose">
 		<property name="enabledStats">
 			<list>
 				<value>MAX_VAL</value>
 				<value>MAX_X</value>
 				<value>MAX_Y</value>
+				<value>MIN_VAL</value>
+				<value>MIN_X</value>
+				<value>MIN_Y</value>
 				<value>MEAN</value>
 				<value>SUM</value>
 			</list>

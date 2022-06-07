@@ -25,6 +25,18 @@
     },
     {
         "type": "button",
+        "text": "EH2 GDA Instance Client",
+        "command": "/dls_sw/i07/software/gda_versions/master_eh2/config/bin/gda client",
+        "icon": "cgda.png"
+    },
+    {
+        "type": "button",
+        "text": "EH2 GDA Instance Server",
+        "command": "gnome-terminal -- bash -c /dls_sw/i07/software/gda/config/etc/live/start_eh2_gda.sh",
+        "icon": "sgda.png"
+    },
+    {
+        "type": "button",
         "text": "Dawn",
         "command": "/usr/bin/env bash /dls_sw/i07/software/gda/config/bin/launcher-dawn.sh"
     },

@@ -7,14 +7,9 @@
 	<alias name="sim_adbase" alias="dcam2_adbase" />
 	<alias name="sim_stats" alias="dcam2_ndstats" />
 	<alias name="sim_hdf5" alias="dcam2_hdf5" />
-	<alias name="sim_ndfile_fimg" alias="dcam2_ndfile_fimg" />
 	<alias name="sim_ndfile_tiff" alias="dcam2_ndfile_tiff" />
 
 	<bean id="dcam2_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_hdf5">
-		<property name="initialFileName" value="dcam2" />
-	</bean>
-
-	<bean id="dcam2_ndfile_fimg" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_fimg">
 		<property name="initialFileName" value="dcam2" />
 	</bean>
 
