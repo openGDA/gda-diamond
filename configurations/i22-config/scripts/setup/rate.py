@@ -1,6 +1,5 @@
 from gda.configuration.properties import LocalProperties
 from gda.observable import IObserver
-from gdaserver import ncddetectors, eh_shutter, det_shutter
 from uk.ac.gda.server.ncd.plotting import DetectorRates
 
 class DetGuard(IObserver):

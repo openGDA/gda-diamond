@@ -13,6 +13,11 @@
         <property name="showArmed" value="true"/>
     </bean>
 
+    <bean id="fast_shutter" class="gda.device.timer.TfgChannelEnum" >
+        <property name="tfg" ref="Tfg" />
+        <property name="channel" value="2" />
+    </bean>
+
     <bean class="gda.device.memory.Scaler" id="CalibMemory">
         <property name="daServerName" value="DAServer"/>
         <property name="width" value="9"/>
