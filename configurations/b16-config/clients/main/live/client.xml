@@ -4,8 +4,6 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<!-- EPG 22/11 uncomment out in attempt to allow Vortex Gui to connect to hw -->
-	<import resource="../../../servers/main/live/epics/detector/mca_vortex.xml" />
 	
 	<import resource="stream_views.xml" />
 	<import resource="rmi_imports.xml" />

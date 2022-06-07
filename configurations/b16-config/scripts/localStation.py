@@ -275,7 +275,7 @@ if installation.isLive():
 		vmcagross = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcagross', vortexMca, 'gross')
 		vmcanet =   pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcanet', vortexMca, 'net')
 		vmcafancy = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcaroi', vortexMca, 'fancy')
-	except Exception, e:
+	except (Exception, java.lang.Exception), e:
 		print "***********************************************************************************"
 		print "***** ERROR: problem starting up vmca devices. TRY RESETING THE GDA SERVER    *****"
 		print "***** (this currently needs to be done after the Epics IOC has been restarted *****"
@@ -286,7 +286,7 @@ if installation.isLive():
 		vmcagross2 = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcagross2', vortexMca2, 'gross')
 		vmcanet2 =   pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcanet2', vortexMca2, 'net')
 		vmcafancy2 = pd_epicsMcaHardwareRoiWrapper.EpicsMcaHardwareRoiWrapper('vmcaroi2', vortexMca2, 'fancy')
-	except Exception, e:
+	except (Exception, java.lang.Exception), e:
 		print "***********************************************************************************"
 		print "***** ERROR: problem starting up vmca devices. TRY RESETING THE GDA SERVER    *****"
 		print "***** (this currently needs to be done after the Epics IOC has been restarted *****"
@@ -300,14 +300,6 @@ else:
 ###                           Creating      Piezo devices                   ###
 ###############################################################################
 
-### Linox piezo stages ###
-if installation.isLive():
-	from scannable.hw.linosCn30Piezo import LinosCn30PiezoStage
-	linosx =  LinosCn30PiezoStage("linosx",'BL16B-EA-CN30-01:X:')
-	linosy =  LinosCn30PiezoStage("linosy",'BL16B-EA-CN30-01:Y:')
-	linosz =  LinosCn30PiezoStage("linosz",'BL16B-EA-CN30-01:Z:')
-	linos = ScannableGroup('linos', [linosx,  linosy, linosz])
-	linos.configure()
 
 print "Creating Jena Piezo devices. Channel1 -> jpx, Channel2 -> jpy"
 #print "* Seems to work okay with Readback rate set to 0.2 s on epics panel *"
@@ -421,7 +413,7 @@ if installation.isLive():
 		att3b = XiaFilter('att3b', 'BL16B-OP-ATTN-03', 2, timeout=5)
 		att3c = XiaFilter('att3c', 'BL16B-OP-ATTN-03', 3, timeout=5)
 		att3d = XiaFilter('att3d', 'BL16B-OP-ATTN-03', 4, timeout=5)
-	except Exception as e:
+	except (Exception, java.lang.Exception) as e:
 		print("ERROR: Could not initialise XIA Filters")
 		print(e)
 
@@ -684,14 +676,16 @@ else:
 ###                                Uniblitz                                 ###
 ###############################################################################
 if installation.isLive():
+	try:
+		import pd_setBinaryPvAndWait
+		unishtr = pd_setBinaryPvAndWait.SetBinaryPvAndWait('unishtr',"BL16B-EA-SHTR-03:SHUTTER",delayAfterAskingToMove=0.1, flip = True )
+		from scannable.hw.exposeUniblitzShutter import ExposeUniblitzShutter
+		expuni = ExposeUniblitzShutter('expuni', 'BL16B-EA-SHTR-03')#,'BL16B-EA-DET-01:SCALER1' )
 
-	import pd_setBinaryPvAndWait
-	unishtr = pd_setBinaryPvAndWait.SetBinaryPvAndWait('unishtr',"BL16B-EA-SHTR-03:SHUTTER",delayAfterAskingToMove=0.1, flip = True )
-	from scannable.hw.exposeUniblitzShutter import ExposeUniblitzShutter
-	expuni = ExposeUniblitzShutter('expuni', 'BL16B-EA-SHTR-03')#,'BL16B-EA-DET-01:SCALER1' )
-
-	from scannable.hw.TimingSystemScannable import TimingSystemScannable
-	expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO1','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
+		from scannable.hw.TimingSystemScannable import TimingSystemScannable
+		expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO1','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
+	except (Exception, java.lang.Exception) as e:
+		print("ERROR: Could not setup Uniblitz devices")
 
 
 ###############################################################################
@@ -974,11 +968,6 @@ if installation.isLive():
 	bo2trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo2trig','BL16B-EA-DIO-01:BO2',True )
 	bo2trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo2trig','BL16B-EA-DIO-01:BO2',True )
 	bo2trig = bo2trigBasic
-
-	vortlivet = pd_readPvAfterWaiting.ReadPvAfterWaiting("vlivet","BL16B-EA-DET-01:aim_adc1.ELTM")
-	vortrealt = pd_readPvAfterWaiting.ReadPvAfterWaiting("vrealt","BL16B-EA-DET-01:aim_adc1.ERTM")
-	vortroi1lo = pd_readPvAfterWaiting.ReadPvAfterWaiting("roi1lo","BL16B-EA-DET-01:aim_adc1.R1LO")
-	vortroi1hi = pd_readPvAfterWaiting.ReadPvAfterWaiting("roi1hi","BL16B-EA-DET-01:aim_adc1.R1HI")
 
 	test2mot5.outputFormat = ['%.4f'] #@UndefinedVariable
 	test2mot6.outputFormat = ['%.4f']#@UndefinedVariable
