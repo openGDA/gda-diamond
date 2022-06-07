@@ -37,7 +37,8 @@ Export-Package: gda.exafs.ui,
  gda.exafs.ui.preferencepages,
  gda.exafs.validation,
  uk.ac.gda.beamline.i20,
- uk.ac.gda.beamline.i20.ui.handlers
+ uk.ac.gda.beamline.i20.ui.handlers,
+ uk.ac.gda.ui.views.synoptic
 Bundle-Vendor: Diamond Light Source
 Import-Package: Jama,
  org.eclipse.january,

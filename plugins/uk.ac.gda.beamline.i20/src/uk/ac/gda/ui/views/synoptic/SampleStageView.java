@@ -101,13 +101,13 @@ public class SampleStageView extends HardwareDisplayComposite {
 
 		// NB sample stage for XAS : pitch and roll arrows are reversed.
 		HighlightImageLabel lineLabel = new HighlightImageLabel(parent);
-		lineLabel.setScannable(sampleStageForXes ? samplePitchScannable : sampleRollScannable);
+		lineLabel.addScannableToMonitor(sampleStageForXes ? samplePitchScannable : sampleRollScannable);
 		lineLabel.setImage(getImageFromPlugin("arrow images/pitch.png"));
 		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/pitch_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 60, 15);
 
 		lineLabel = new HighlightImageLabel(parent);
-		lineLabel.setScannable(sampleStageForXes ? sampleRollScannable : samplePitchScannable);
+		lineLabel.addScannableToMonitor(sampleStageForXes ? sampleRollScannable : samplePitchScannable);
 		lineLabel.setImage(getImageFromPlugin("arrow images/roll.png"));
 		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/roll_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 15, 3);

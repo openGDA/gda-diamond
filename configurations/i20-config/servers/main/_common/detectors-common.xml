@@ -34,4 +34,53 @@
 		<property name="daServer" ref="DAServer" />
 	</bean>
 
+<!-- Groups of Stanford amplifier sensitivity and offset controls -->
+	<bean id="stanford_amplifiers_i0" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="i0_stanford_sensitivity" />
+				<ref bean="i0_stanford_sensitivity_units" />
+				<ref bean="i0_stanford_offset" />
+				<ref bean="i0_stanford_offset_units" />
+				<ref bean="i0_stanford_offset_current" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stanford_amplifiers_it" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="it_stanford_sensitivity" />
+				<ref bean="it_stanford_sensitivity_units" />
+				<ref bean="it_stanford_offset" />
+				<ref bean="it_stanford_offset_units" />
+				<ref bean="it_stanford_offset_current" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stanford_amplifiers_iref" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="iref_stanford_sensitivity" />
+				<ref bean="iref_stanford_sensitivity_units" />
+				<ref bean="iref_stanford_offset" />
+				<ref bean="iref_stanford_offset_units" />
+				<ref bean="iref_stanford_offset_current" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stanford_amplifiers_i1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="i1_stanford_sensitivity" />
+				<ref bean="i1_stanford_sensitivity_units" />
+				<ref bean="i1_stanford_offset" />
+				<ref bean="i1_stanford_offset_units" />
+				<ref bean="i1_stanford_offset_current" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

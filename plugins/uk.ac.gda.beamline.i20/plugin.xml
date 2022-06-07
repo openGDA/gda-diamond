@@ -51,10 +51,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 Beamline">
+            name="GDA I20 Offline">
          <property
                name="appName"
-               value="GDA I20 Beamline">
+               value="GDA I20 Offline">
          </property>
          <property
                name="aboutImage"
@@ -539,25 +539,34 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.xesStageView">
+                   value="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesStageView">
              </parameter>
           </command>
           <command
                 commandId="org.eclipse.ui.views.showView"
-                label="Sample stage"
+                label="XAS sample stage view"
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.sampleStageView">
+                   value="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xasSampleStageView">
              </parameter>
           </command>
-                    <command
+          <command
                 commandId="org.eclipse.ui.views.showView"
-                label="Xas table"
+                label="XES sample stage view"
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.xasTable">
+                   value="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesSampleStageView">
+             </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="XAS table view (T1)"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xasTableView">
              </parameter>
           </command>
           <command
@@ -566,7 +575,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.xesCrystalView">
+                   value="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesAnalysersView">
              </parameter>
           </command>
           <command
@@ -593,7 +602,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.xesOffsetsView">
+                   value="uk.ac.gda.ui.views.synoptic.xesOffsetView">
              </parameter>
           </command>
           <command
@@ -696,30 +705,30 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesOffsetsView"
-            id="uk.ac.gda.ui.views.synoptic.xesOffsetView"
-            name="XES offset view"
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xasSampleStageView"
+            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xasSampleStageView"
+            name="XAS sammple stage view"
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.SampleStageView"
-            id="uk.ac.gda.ui.views.synoptic.sampleStageView"
-            name="Sample stage view"
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xesSampleStageView"
+            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesSampleStageView"
+            name="XES sammple stage view"
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XasTableView"
-            id="uk.ac.gda.ui.views.synoptic.xasTable"
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xasTableView"
+            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xasTableView"
             name="XAS table view (T1)"
             restorable="true">
       </view>
       <view
-             class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesCrystalAnalysersView"
-             id="uk.ac.gda.ui.views.synoptic.xesCrystalView"
-             name="XES Crystal Analyser View"
-             restorable="true">
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xesAnalysersView"
+            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesAnalysersView"
+            name="XES Crystal Analyser view"
+            restorable="true">
       </view>
-             <view
+       <view
             class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesCalibrationView"
             id="uk.ac.gda.ui.views.synoptic.xesCalibrationView"
             name="XES Calibration view"
@@ -732,8 +741,8 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesStageView"
-            id="uk.ac.gda.ui.views.synoptic.xesStageView"
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xesStageView"
+            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesStageView"
             name="XES Stage view"
             restorable="true">
       </view>
@@ -743,14 +752,14 @@
             name="XES Calibration View"
             restorable="true">
       </view>
-       <view
+      <view
             class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesOffsetsView"
-            id="uk.ac.gda.ui.views.synoptic.xesOffsetsView"
+            id="uk.ac.gda.ui.views.synoptic.xesOffsetView"
             name="XES Offsets View"
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesSimulatedPositionsView"
+            class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:xesSimulatedPosition"
             id="uk.ac.gda.ui.views.synoptic.xesSimulatedPositionsView"
             name="XES Simulated Positions View"
             restorable="true">

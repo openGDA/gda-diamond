@@ -22,6 +22,8 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import uk.ac.gda.client.livecontrol.LiveControlsView;
+
 public class SynopticPerspective implements IPerspectiveFactory {
 	private static final String SYNOPTICVIEWS_PERSPECTIVE_ID = "synopticViewsPerspective";
 
@@ -32,17 +34,18 @@ public class SynopticPerspective implements IPerspectiveFactory {
 		// Motor offset view
 		IFolderLayout xesOffsetFolder = layout.createFolder("XES_POSITIONS_FOLDER", IPageLayout.RIGHT, 0.1f, SYNOPTICVIEWS_PERSPECTIVE_ID);
 		IFolderLayout simulatedPositionsFolder = layout.createFolder("XES_SIMULATED_POSITIONS", IPageLayout.BOTTOM, 0.5f, "XES_POSITIONS_FOLDER");
-		simulatedPositionsFolder.addView("uk.ac.gda.ui.views.synoptic.xesSimulatedPositionsView");
+		simulatedPositionsFolder.addView(LiveControlsView.ID+":xesSimulatedPosition");
 		simulatedPositionsFolder.addView("uk.ac.gda.ui.views.synoptic.xesOffsetView");
 
 		// XES stage view
 		IFolderLayout xesStageFolder = layout.createFolder("XES_STAGE", IPageLayout.LEFT, 0.43f, SYNOPTICVIEWS_PERSPECTIVE_ID);
-		xesStageFolder.addView("uk.ac.gda.ui.views.synoptic.xesStageView");
+		xesStageFolder.addView(SynopticView.ID+":xesStageView");
 
 		// Crystal analysers and calibration views
 		IFolderLayout xesCalibrationFolder = layout.createFolder("XES_ANALYSERS", IPageLayout.LEFT, 0.7f, SYNOPTICVIEWS_PERSPECTIVE_ID);
 		IFolderLayout xesCrystalsFolder = layout.createFolder("XES_CRYSTALS", IPageLayout.TOP, 0.78f, "XES_ANALYSERS");
-		xesCrystalsFolder.addView("uk.ac.gda.ui.views.synoptic.xesCrystalView");
+		xesCrystalsFolder.addView(SynopticView.ID+":xesAnalysersView");
+
 		IFolderLayout xesCalibrationControlsFolder = layout.createFolder("XES_CALIB_CONTROLS", IPageLayout.BOTTOM, 0.2f, "XES_ANALYSERS");
 		xesCalibrationControlsFolder.addView("uk.ac.gda.ui.views.synoptic.xesCalibrationView");
 	}
