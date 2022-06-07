@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pv_provider" class="uk.ac.diamond.daq.devices.specs.phoibos.api.AnalyserPVProvider">
+		<property name="name" value="pv_provider"/>
+		<property name="spectrumPV" value="TEST-SPECS-02:INT_SPECTRUM" />
+		<property name="imagePV" value="TEST-SPECS-02:IMAGE" />
+		<property name="totalPointsIterationPV" value="TEST-SPECS-02:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="slicesPV" value="TEST-SPECS-02:SLICES_RBV" />
+	</bean>
+	
+
+</beans>

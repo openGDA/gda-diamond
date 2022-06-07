@@ -8,4 +8,5 @@
 	<import resource="stream_views.xml"/>
 	<import resource="shutters.xml"/>
 	<import resource="valves.xml"/>
+	<import resource="data_update.xml"/>
 </beans>

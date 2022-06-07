@@ -5,4 +5,6 @@
 	
 	<import resource="../_common/client.xml"/>
 	<import resource="stream_views.xml"/>
+	<import resource="data_update.xml"/>
+	
 </beans>
