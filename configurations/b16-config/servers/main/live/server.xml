@@ -67,7 +67,6 @@
 	<import resource="epics/detector/balor.xml" />
 	<import resource="epics/detector/dcam9.xml" />
 	<import resource="epics/detector/scaler_vortex.xml" />
-	<import resource="epics/detector/mca_vortex.xml" />
 	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
 	<import resource="epics/detector/medipix_base.xml" />
 	<import resource="epics/detector/medipix4_base.xml" />
