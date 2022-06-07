@@ -26,8 +26,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -43,24 +41,31 @@ public abstract class HardwareDisplayComposite {
 
 	private static final Logger logger = LoggerFactory.getLogger(HardwareDisplayComposite.class);
 
-	protected final Composite parent;
+	protected Composite parent;
 
 	private String viewName;
 
 	/** Pixel position of where the background image is located (origin for relative positions) */
-	private Point imageStart;
+	private Point imageStart = new Point(0,0);
 
 	/** Size of image used for background image */
-	private Point imageSize;
+	private Point imageSize = new Point(0,0);
 
 	/** Image used for background of parent composite */
 	private Image backgroundImage;
 
+	public HardwareDisplayComposite() {
+	}
+
 	public HardwareDisplayComposite(final Composite parent, int style) {
-		this(parent, style, null);
+		createControls(parent, null);
 	}
 
 	public HardwareDisplayComposite(final Composite parent, int style, Layout layout) {
+		createControls(parent, layout);
+	}
+
+	public void createControls(final Composite parent, Layout layout) {
 		this.parent = parent;
 
 		ScrolledComposite scrolledComposite = new ScrolledComposite(parent,  SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
@@ -123,6 +128,10 @@ public abstract class HardwareDisplayComposite {
 		setBounds(control, absX, absY, width);
 	}
 
+	protected void setAbsoluteWidgetPosition(Control control, int x, int y) {
+		setBounds(control, x, y, SWT.DEFAULT);
+	}
+
 	/**
 	 * Set background image of parent composite.
 	 * @param image
@@ -147,7 +156,9 @@ public abstract class HardwareDisplayComposite {
 	private Image getPaddedImage(Image image, Point newsize, Point startPos) {
 		final Image newImage = new Image(parent.getDisplay(), newsize.x, newsize.y);
 		GC gc = new GC(newImage);
-		gc.drawImage(image, startPos.x, startPos.y);
+		if (image != null) {
+			gc.drawImage(image, startPos.x, startPos.y);
+		}
 		gc.dispose();
 		return newImage;
 	}
@@ -180,14 +191,8 @@ public abstract class HardwareDisplayComposite {
 	 * Print absolute pixel position and position relative to image origin (as %)
 		(useful for getting correct % position for controls, images etc.)
 	 */
-	protected void addPercentagePositionOutput(Composite parent) {
-		parent.addMouseMoveListener( new MouseMoveListener() {
-			@Override
-			public void mouseMove(MouseEvent e) {
-				Point relPos = getRelativePositionFromAbsolute(e.x, e.y);
-				System.out.printf("(%d, %d) - > (%d, %d)\n", e.x, e.y, relPos.x, relPos.y);
-			}
-		});
+	protected void addMousePositionOutput(Composite parent) {
+		parent.addMouseMoveListener( mouseEvent -> logger.debug("Mouse pixel position in '{}' view : {}, {}", viewName, mouseEvent.x, mouseEvent.y));
 	}
 
 	public String getViewName() {

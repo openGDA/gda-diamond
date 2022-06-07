@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+		
+<!-- Setup for XES crystal analysers Synoptic view  -->
+
+
+	
+	<bean id="crystalCutLabelWidth" class="java.lang.String">
+		<constructor-arg value="70" />
+	</bean>
+
+ 	<bean id="crystal_cut1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="cut1" />
+		<property name="displayName" value="H" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="crystal_cut2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="cut2" />
+		<property name="displayName" value="K" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+	
+	<bean id="crystal_cut3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="cut3" />
+		<property name="displayName" value="L" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="crystal_material_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="material" />
+		<property name="displayName" value="Material" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="radius_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="radius" />
+		<property name="displayName" value="Radius" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+ 		<property name="showIncrement" value="false" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="crystal_cut_controls" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Crystal cuts" />
+ 		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="crystal_material_control" />
+				<ref bean="crystal_cut1_control" />
+				<ref bean="crystal_cut2_control" />
+				<ref bean="crystal_cut3_control" />
+				<ref bean="radius_control" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="crystal_moveable_controls" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="crystalsAllowedToMove" />
+ 		<property name="group" value="Analyser crystals to move" />
+ 		<property name="displayNameWidth" value="90" />
+ 		<property name="numColumns" value="1" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+		<property name="descriptions">
+			<list>
+				<value>Crystal -1</value>
+				<value>Crystal  0</value>
+				<value>Crystal +1</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="motorLabelWidth" class="java.lang.String">
+		<constructor-arg value="130" />
+	</bean>
+	<bean id="motorIncrementWidth" class="java.lang.String">
+		<constructor-arg value="30" />
+	</bean>
+	
+	 <bean id="xtal_minus1_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+	 	<property name="displayName" value="Main translation (x)" />
+		<property name="scannableName" value="xtal_x" />
+		<property name="increment" value="1" />
+ 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
+	</bean>
+ 	<bean id="minus_crystal_controls" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="minusCrystal" />
+ 		<property name="group" value="Analyser crystal -1" />
+ 		<property name="numColumns" value="1" />
+ 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
+	</bean>
+ 	<bean id="centre_crystal_controls" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="centreCrystal" />
+  		<property name="group" value="Analyser crystal 0" />
+ 		<property name="numColumns" value="1" />
+ 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
+	</bean>
+ 	<bean id="plus_crystal_controls" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="plusCrystal" />
+ 		<property name="group" value="Analyser crystal +1" />
+		<property name="numColumns" value="1" />
+ 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
+	</bean>
+
+	<bean id="pitch_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/pitch.png" />
+		<property name="busyImageName" value="arrow images/pitch_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>xtal_minus1_pitch</value>
+				<value>xtal_central_pitch</value>
+				<value>xtal_plus1_pitch</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="yaw_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/yaw.png" />
+		<property name="busyImageName" value="arrow images/yaw_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>xtal_minus1_rot</value>
+				<value>xtal_central_rot</value>
+				<value>xtal_plus1_rot</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="x_translation_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/z.png" />
+		<property name="busyImageName" value="arrow images/z_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>xtal_x</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="yaw_label" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="Rotation" />
+	</bean>
+
+	<bean id="pitch_label" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="Pitch" />
+	</bean>
+	
+	<bean id="x_translation_label" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="X translation" />
+	</bean>
+	
+	<bean id="minus_xtal_label" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-1" />
+	</bean>
+		
+	<bean id="centre_xtal_label" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="0" />
+	</bean>
+
+	<bean id="plus_xtal_label" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+1" />
+	</bean>
+
+	 <bean id="atn5_filters" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="atn5group" />
+ 		<property name="group" value="Experimental Hutch Filters" />
+ 		 <property name="displayNameWidth" value="90" />
+ 		<property name="numColumns" value="2" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+	</bean>
+
+	<bean name="liveControlSet2" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="atn5_filters" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="xesAnalysersView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
+		<property name="viewName" value="XES Crystal Analysers"/>
+		<property name="backgroundImage" value="oe images/xes_analysers2.bmp"/>
+		<property name="imageStart" value="10,470" />
+		<property name="showCoordinates" value="#{showCoordinates}" />
+		<property name="controlsList">
+			<map>
+				<entry key-ref="minus_crystal_controls" value="20,20" />
+				<entry key-ref="centre_crystal_controls" value="250,20" />
+				<entry key-ref="plus_crystal_controls" value="480,20" />
+				<entry key-ref="xtal_minus1_x_control" value="20,580" />
+				<entry key-ref="crystal_moveable_controls" value="500,580" />
+				<entry key-ref="crystal_cut_controls" value="520,740" />
+				
+				<entry key-ref="pitch_arrow" value="440, 560" />
+				<entry key-ref="yaw_arrow" value="350, 670" />
+				<entry key-ref="x_translation_arrow" value="340, 790" />
+				
+				<entry key-ref="pitch_label" value="450, 650" />
+				<entry key-ref="yaw_label" value="360, 740" />
+				<entry key-ref="x_translation_label" value="350, 840" />
+				
+				<entry key-ref="minus_xtal_label" value="250, 500" />
+				<entry key-ref="centre_xtal_label" value="320, 520" />
+				<entry key-ref="plus_xtal_label" value="380, 540" />
+			</map>
+		</property>
+	</bean>
+	
+	
+	<bean name="liveControlSetMinus1" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="minus_crystal_controls" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="liveControlSetCentre" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="centre_crystal_controls" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="liveControlSetPlus1" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="plus_crystal_controls" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

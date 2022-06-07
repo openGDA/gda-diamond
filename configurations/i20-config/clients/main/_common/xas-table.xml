@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<bean id="amplifierLabelWidth" class="java.lang.String">
+		<constructor-arg value="70" />
+	</bean>
+	<bean id="widgetWidth" class="java.lang.String">
+		<constructor-arg value="260" />
+	</bean>
+
+<!--  Live controls for Stanford amplifiers -->
+	<bean id="i0_stanford_control" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+	 	<property name="scannableGroupName" value="stanford_amplifiers_i0" />
+ 		<property name="group" value="Ion chamber I0" />
+ 		<property name="displayNameWidth" value="#{amplifierLabelWidth}" />
+ 		<property name="numColumns" value="2" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+ 		<property name="widgetWidth" value="#{widgetWidth}" />
+		<property name="descriptions">
+			<list>
+				<value>Sensitivity</value>
+				<value></value>
+				<value>Offset</value>
+				<value></value>
+				<value>Current</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="it_stanford_control" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+	 	<property name="scannableGroupName" value="stanford_amplifiers_it" />
+ 		<property name="group" value="Ion chamber It" />
+ 		<property name="displayNameWidth" value="#{amplifierLabelWidth}" />
+ 		<property name="numColumns" value="2" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+ 		<property name="widgetWidth" value="#{widgetWidth}" />
+		<property name="descriptions">
+			<list>
+				<value>Sensitivity</value>
+				<value></value>
+				<value>Offset</value>
+				<value></value>
+				<value>Current</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="iref_stanford_control" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+	 	<property name="scannableGroupName" value="stanford_amplifiers_iref" />
+ 		<property name="group" value="Ion chamber Iref" />
+ 		<property name="displayNameWidth" value="#{amplifierLabelWidth}" />
+ 		<property name="numColumns" value="2" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="widgetWidth" value="#{widgetWidth}" />
+		<property name="descriptions">
+			<list>
+				<value>Sensitivity</value>
+				<value></value>
+				<value>Offset</value>
+				<value></value>
+				<value>Current</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="i1_stanford_control" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+	 	<property name="scannableGroupName" value="stanford_amplifiers_i1" />
+ 		<property name="group" value="Ion chamber I1" />
+ 		<property name="displayNameWidth" value="#{amplifierLabelWidth}" />
+ 		<property name="numColumns" value="2" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+ 		<property name="widgetWidth" value="#{widgetWidth}" />
+		<property name="descriptions">
+			<list>
+				<value>Sensitivity</value>
+				<value></value>
+				<value>Offset</value>
+				<value></value>
+				<value>Current</value>
+			</list>
+		</property>
+	</bean>
+
+<!--  Controls for table x, table y and filter wheeel -->
+
+ 	<bean id="table1_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="table1_x" />
+		<property name="displayName" value="X motion" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+	<bean id="table1_x_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/x.png" />
+		<property name="busyImageName" value="arrow images/x_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>table1_x</value> 
+			</list>
+		</property>
+	</bean>	
+
+ 	<bean id="table1_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="table1_y" />
+		<property name="displayName" value="Y motion" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+	<bean id="table1_y_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/y2.png" />
+		<property name="busyImageName" value="arrow images/y2_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>table1_y</value> 
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="filterwheel_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="filterwheel" />
+		<property name="displayName" value="Filter wheel" />
+ 		<property name="showStop" value="false"/>
+	</bean>
+
+	<bean id="i0_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="I0" />
+	</bean>	
+	<bean id="it_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="It" />
+	</bean>	
+		<bean id="iref_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="Iref" />
+	</bean>	
+	
+	<bean name="xasTableLiveControls" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="i0_stanford_control" />		
+				<ref bean="it_stanford_control" />				
+				<ref bean="iref_stanford_control" />				
+			</list>
+		</property>
+	</bean>
+
+	<bean id="xasTableView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
+		<property name="viewName" value="XAS table stage (T1)"/>
+		<property name="backgroundImage" value="oe images/table_right_scaled.jpg"/>
+		<property name="imageStart" value="200, 200" />
+		<property name="showCoordinates" value="#{showCoordinates}" />
+		<property name="controlsList">
+			<map>
+				<entry key-ref="i0_stanford_control" value="60, 70" />
+				<entry key-ref="it_stanford_control" value="340, 50" />
+				<entry key-ref="iref_stanford_control" value="620, 40" />
+				
+				<entry key-ref="table1_x_control" value="110, 550" />
+				<entry key-ref="table1_y_control" value="510, 550" />
+				<entry key-ref="filterwheel_control" value="700, 250" />
+
+				<entry key-ref="table1_x_arrow" value="260, 580" />
+				<entry key-ref="table1_y_arrow" value="460, 530" />
+				
+				<entry key-ref="xray_beam_arrow" value="70, 290" />
+				<entry key-ref="xray_beam_text" value="80 260" />
+				
+				<entry key-ref="i0_text" value="290, 290" />
+				<entry key-ref="it_text" value="475, 260" />
+				<entry key-ref="iref_text" value="620, 235" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

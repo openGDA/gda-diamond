@@ -18,6 +18,9 @@
 
 package uk.ac.gda.ui.views.synoptic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -42,7 +45,7 @@ class HighlightImageLabel implements IObserver {
 
 	private final Composite parent;
 	private Label nameLabel;
-	private Scannable scannable;
+	private List<Scannable> scannablesToMonitor = new ArrayList<>();
 
 	/** Position of widget relative to origin of background image (percent). */
 	private Point relativePosition = new Point(0,0);
@@ -63,31 +66,34 @@ class HighlightImageLabel implements IObserver {
 	public HighlightImageLabel(final Composite parent) {
 		this.parent = parent;
 		setLayout();
-		scannable = null;
-	}
-
-	public HighlightImageLabel(Composite parent, Scannable scannable) {
-		this.parent = parent;
-		setLayout();
-		setScannable(scannable);
 	}
 
 	public HighlightImageLabel(Composite parent, String scannableName) {
 		this.parent = parent;
 		setLayout();
-		scannable = Finder.find(scannableName);
-		setScannable(scannable);
+		Scannable scannable = Finder.find(scannableName);
+		addScannableToMonitor(scannable);
+	}
+
+	public HighlightImageLabel(Composite parent, Scannable scannable) {
+		this.parent = parent;
+		setLayout();
+		addScannableToMonitor(scannable);
+	}
+
+	public void addScannableToMonitor(Scannable scn) {
+		scannablesToMonitor.add(scn);
+		scn.addIObserver(this);
 	}
 
 	private void setLayout() {
 		nameLabel = new Label(parent, SWT.NONE);
 		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
-	}
 
-	public void setScannable(Scannable scannable) {
-		this.scannable = scannable;
-		scannable.addIObserver(this);
-		nameLabel.setToolTipText("Scannable : "+scannable.getName());
+		// remove this class from each scannable's observers
+		nameLabel.addDisposeListener(l -> {
+			scannablesToMonitor.forEach(scn -> scn.deleteIObserver(this));
+		});
 	}
 
 	/** Create busyImage from normalImage by making a copy of it and changing all black pixels to highlightColor */
@@ -123,37 +129,33 @@ class HighlightImageLabel implements IObserver {
 	 */
 	public void setLabelImage(final Image image) {
 		if (!parent.isDisposed()) {
-			parent.getDisplay().syncExec(new Runnable() {
-				@Override
-				public void run() {
-					logger.debug("Update label image");
-
-					if (!nameLabel.isDisposed()) {
-						nameLabel.setImage(image);
-					}
+			parent.getDisplay().syncExec(() -> {
+				logger.trace("Update label image");
+				if (!nameLabel.isDisposed()) {
+					nameLabel.setImage(image);
 				}
 			});
 		}
 	}
 
 	/** Wait for scannable to finishe being busy, update between busy and idle label images */
-	private void updateLabelWaitForScannable() {
-		if (scannable==null) {
+	private void updateLabelWaitForScannable(Scannable scn) {
+		if (scn==null) {
 			return;
 		}
 		updateInProgress = true;
-		logger.debug("LineLabel update called");
+		logger.trace("LineLabel update called ");
 		try {
 			setLabelImage(busyImage);
 			do {
-				logger.debug("Wait while scannable is busy");
+				logger.trace("Wait while {} is busy", scn.getName());
 				Thread.sleep(250);
-			} while (scannable.isBusy() );
-			logger.debug("Scannable movement finished");
+			} while (scn.isBusy() );
+			logger.trace("Scannable movement finished");
 			setLabelImage(normalImage);
 
 		} catch (InterruptedException | DeviceException e) {
-			logger.warn("Problem waiting for scannable to finish", e);
+			logger.warn("Problem waiting for {} to finish moving", scn.getName(), e);
 		}
 		updateInProgress = false;
 	}
@@ -164,8 +166,9 @@ class HighlightImageLabel implements IObserver {
 	public void update(Object source, Object arg) {
 		if (updateInProgress)
 			return;
-
-		Async.execute(this::updateLabelWaitForScannable);
+		if (source instanceof Scannable) {
+			Async.execute(() -> updateLabelWaitForScannable((Scannable)source));
+		}
 	}
 
 	public void setLabelText(String text) {

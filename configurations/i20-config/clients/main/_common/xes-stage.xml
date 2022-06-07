@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- Setup for 'XES stage' Synoptic view -->
+
+	<bean id="motorWidth" class="java.lang.String">
+		<constructor-arg value="70" />
+	</bean>
+
+<!-- Live controls  -->
+ 	<bean id="XESEnergy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESEnergy" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+ 	<bean id="XESBragg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESBragg" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+	
+ 	<bean id="det_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="det_x" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+ 	<bean id="det_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="det_y" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+ 	<bean id="det_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="det_rot" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+ 	<bean id="det_slit_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="det_slit" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+
+ 	<bean id="table2_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="table2_x" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>		
+ 	<bean id="table2_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="table2_y" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>	
+
+ 	<bean id="spec_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="spec_rot" />
+ 		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>	
+
+<!-- Arrow images  -->
+	 <bean id="table2_x_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/z.png" />
+		<property name="busyImageName" value="arrow images/z_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>table2_x</value>
+			</list>
+		</property>
+	</bean>		
+
+	 <bean id="table2_y_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/y.png" />
+		<property name="busyImageName" value="arrow images/y_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>table2_y</value>
+			</list>
+		</property>
+	</bean>		
+	
+	 <bean id="det_x_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/z.png" />
+		<property name="busyImageName" value="arrow images/z_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>det_x</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="det_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/pitch.png" />
+		<property name="busyImageName" value="arrow images/pitch_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>det_rot</value>
+			</list>
+		</property>
+	</bean>
+	
+	 <bean id="spec_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/yaw2.png" />
+		<property name="busyImageName" value="arrow images/yaw2_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>spec_rot</value>
+			</list>
+		</property>
+	</bean>		
+
+	<bean id="xesStageView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
+		<property name="viewName" value="XES Stage"/>
+		<property name="backgroundImage" value="oe images/xes_main.bmp"/>
+		<property name="imageStart" value="50,50" />
+		<property name="showCoordinates" value="#{showCoordinates}" />
+		<property name="controlsList">
+			<map>
+				<entry key-ref="XESEnergy_control" value="540, 50" />
+				<entry key-ref="XESBragg_control" value="540, 200" />
+				
+				<entry key-ref="det_x_control" value="40, 40" />
+				<entry key-ref="det_x_arrow" value="230, 70" />
+				<entry key-ref="det_y_control" value="0, 250" />
+				<entry key-ref="det_rot_control" value="320, 150" />
+				<entry key-ref="det_rot_arrow" value="320, 70" />
+				<entry key-ref="det_slit_control" value="320, 280" />
+		
+				<entry key-ref="table2_y_control" value="10, 400" />
+				<entry key-ref="table2_y_arrow" value="60, 540" />
+				
+				<entry key-ref="spec_rot_control" value="730, 530" />
+				<entry key-ref="spec_rot_arrow" value="650, 600" />
+				
+				<entry key-ref="table2_x_arrow" value="380, 630" />
+				<entry key-ref="table2_x_control" value="410, 810" />
+			</map>
+		</property>
+	</bean>
+</beans>

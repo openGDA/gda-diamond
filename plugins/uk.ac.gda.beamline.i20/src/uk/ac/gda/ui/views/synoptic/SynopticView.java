@@ -18,9 +18,13 @@
 
 package uk.ac.gda.ui.views.synoptic;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -28,8 +32,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.factory.Finder;
+import uk.ac.gda.client.livecontrol.LiveControl;
+
 public class SynopticView extends ViewPart {
-	public static final String Id = "uk.ac.gda.ui.views.synoptic.SynopticView";
+	public static final String ID = "uk.ac.gda.ui.views.synoptic.SynopticView";
 	private static final Logger logger = LoggerFactory.getLogger(SynopticView.class);
 
 	private String className = ""; //Full name of class with composite to be opened
@@ -54,6 +61,14 @@ public class SynopticView extends ViewPart {
 		if (!className.isEmpty()) {
 			fullClassName = className;
 		}
+
+		var viewConfig = Finder.findOptionalOfType(fullClassName, SynopticViewConfiguration.class);
+		if (viewConfig.isPresent()) {
+			logger.info("Creating synoptic view from client configuration {}", viewConfig.get().getName());
+			createPartControl(parent, viewConfig.get());
+			return;
+		}
+
 		// If no class name specified, use 'beamline overview' view.
 		if (fullClassName == null) {
 			fullClassName = OverviewButtonsView.class.getCanonicalName();
@@ -69,7 +84,7 @@ public class SynopticView extends ViewPart {
 			Object obj = classFromName.getDeclaredConstructor(constructorParamTypes).newInstance(parent, SWT.NONE);
 			viewComposite = (HardwareDisplayComposite) obj;
 		} catch (Exception e) {
-			logger.error("Problem occured when tring to create view for id {}", fullClassName, e);
+			logger.error("Problem occured when trying to create view for id {}", fullClassName, e);
 			MessageDialog.openWarning(parent.getShell(), "Problem opening syntopic view", "Problem occured when tring to create view for "+fullClassName);
 
 		}
@@ -93,7 +108,7 @@ public class SynopticView extends ViewPart {
 	 */
 	public static void openView(String className) {
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SynopticView.Id, className, IWorkbenchPage.VIEW_ACTIVATE);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SynopticView.ID, className, IWorkbenchPage.VIEW_ACTIVATE);
 		} catch (PartInitException e1) {
 			logger.error("Problem opening Synoptic view with name {}", className, e1);
 		}
@@ -106,4 +121,57 @@ public class SynopticView extends ViewPart {
 	public void setClassName(String classId) {
 		this.className = classId;
 	}
+
+
+	public void createPartControl(Composite parent, SynopticViewConfiguration viewConfig) {
+		setPartName(viewConfig.getViewName());
+		SynopticGuiComposite composite = new SynopticGuiComposite();
+		composite.setViewConfig(viewConfig);
+		composite.createControls(parent, null);
+	}
+
+	private class SynopticGuiComposite extends HardwareDisplayComposite {
+		private SynopticViewConfiguration viewConfig;
+
+		public void setViewConfig(SynopticViewConfiguration viewConfig) {
+			this.viewConfig = viewConfig;
+		}
+
+		@Override
+		protected void createControls(Composite parent) throws Exception {
+			this.parent = parent;
+			super.setViewName(viewConfig.getViewName());
+			if (!StringUtils.isEmpty(viewConfig.getBackgroundImage())) {
+				super.setBackgroundImage(getImageFromPlugin(viewConfig.getBackgroundImage()), viewConfig.getImageStart());
+			}
+			parent.setBackgroundMode(SWT.INHERIT_FORCE);
+
+			for(var liveControl : viewConfig.getControls().entrySet()) {
+				LiveControl cont = liveControl.getKey();
+
+				Composite group;
+				if (StringUtils.isNotEmpty(cont.getGroup())) {
+					group = new Group(parent, SWT.NONE);
+					((Group)group).setText(cont.getGroup());
+				} else {
+					group = new Composite(parent, SWT.NONE);
+				}
+
+				group.setLayout(new GridLayout());
+
+				cont.createControl(group);
+
+				Point position = liveControl.getValue();
+				setAbsoluteWidgetPosition(group, position.x, position.y);
+			}
+
+			addResizeListener(parent);
+
+			if (viewConfig.isShowCoordinates()) {
+				addMousePositionOutput(parent);
+			}
+		}
+	}
+
+
 }

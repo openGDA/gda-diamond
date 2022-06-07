@@ -26,33 +26,44 @@ import org.eclipse.ui.part.ViewPart;
 
 /**
  * Class to allow a specific Synoptic view to be created from a 'org.eclipse.ui.views' extension point.
- * Class name for view is SynopticViewFactory with class of view to open appended to it. e.g.
+ * The view to be opened is specified by either appending to the class id either :
+ * <li> The name of the client side SynopticViewConfiguration object defining the view setup
+ * <li> The name of the {@link HardwareDisplayComposite} class implementation that generates the view.
+ * e.g. :
  * <pre>{@code
- *       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesStageView"
-            id="uk.ac.gda.ui.views.synoptic.xesStageView"
-            name="XES Stage view"
-            restorable="true">
-      </view> }
-     </pre>
+<view
+    class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesStageView"
+    id="uk.ac.gda.ui.views.synoptic.xesStageView"
+    name="XES Stage view"
+    restorable="true">
+</view>
+}</pre>
+
+   * <pre>{@code
+<view
+    class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xesAnalysersView"
+    id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesAnalysersView"
+    name="XES Crystal Analyser view (new)"
+    restorable="true">
+</view>
+}</pre>
  * The view id can then be used in a showView command in usual way.
  */
 public class SynopticViewFactory implements IExecutableExtensionFactory, IExecutableExtension {
 
-	private String className = "";
+	private String classOrConfigName = "";
 
 	@Override
-	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
-			throws CoreException {
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		if (propertyName.equals("class") && data instanceof String) {
-			className = (String) data;
+			classOrConfigName = (String) data;
 		}
 	}
 
 	@Override
 	public ViewPart create() {
 		SynopticView synopticView = new SynopticView();
-		synopticView.setClassName(className);
+		synopticView.setClassName(classOrConfigName);
 		return synopticView;
 	}
 
