@@ -68,7 +68,7 @@
 	</bean>
 
 	<bean
-		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"
 		id="pilatus2_swmr_standard">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
@@ -86,7 +86,7 @@
 	</bean>
 
 	<bean
-		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"
 		id="pilatus2_swmr_verbose">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
@@ -148,7 +148,7 @@
 		</property>
 	</bean>
 
-	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
+	<bean class="gda.device.detector.nexusprocessor.DatasetPlotter"
 		id="pilatus2_plotter">
 		<property name="plotName" value="Pilatus 2" />
 	</bean>

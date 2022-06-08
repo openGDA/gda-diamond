@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DatasetFitter">
 		<property name="enable" value="false" />
 	</bean>
 
@@ -15,7 +15,7 @@
 		<property name="enable" value="false" />
 	</bean>
 
-	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="Image Plot 1" />
 		<property name="enable" value="false" />
 	</bean>
@@ -24,7 +24,7 @@
 		<property name="enable" value="false" />
 	</bean>
 
-	<util:list id="imageProcessors" value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+	<util:list id="imageProcessors" value-type="gda.device.detector.nexusprocessor.DatasetProcessor">
 		<ref bean="imageFitter" />
 		<ref bean="imageStats" />
 		<ref bean="imagePlotter" />

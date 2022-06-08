@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DatasetFitter">
 		<property name="enable" value="false" />
 	</bean>
 	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
@@ -21,7 +21,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="Image Plot 1" />
 		<property name="enable" value="false" />
 	</bean>
@@ -29,7 +29,7 @@
 		<property name="enable" value="true" />
 	</bean>
 
-	<bean id="imageFitter2" class="gda.device.detector.nexusprocessor.DataSetFitter">
+	<bean id="imageFitter2" class="gda.device.detector.nexusprocessor.DatasetFitter">
 		<property name="enable" value="false" />
 		<property name="prefix" value="2."/>
 	</bean>
@@ -44,7 +44,7 @@
 		</property>
 	</bean>
 
-	<bean id="imagePlotter2" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+	<bean id="imagePlotter2" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="enable" value="false" />
 		<property name="plotName" value="Image Plot 2"/>
 	</bean>
@@ -53,7 +53,7 @@
 		<property name="enable" value="true" />
 	</bean>
 
-	<bean id="imageFitter3" class="gda.device.detector.nexusprocessor.DataSetFitter">
+	<bean id="imageFitter3" class="gda.device.detector.nexusprocessor.DatasetFitter">
 		<property name="enable" value="false" />
 		<property name="prefix" value="3."/>
 	</bean>
@@ -68,7 +68,7 @@
 		</property>
 	</bean>
 
-	<bean id="imagePlotter3" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+	<bean id="imagePlotter3" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="enable" value="false" />
 		<property name="plotName" value="Image Plot 3"/>
 	</bean>
@@ -78,21 +78,21 @@
 	</bean>
 
 	<util:list id="imageProcessors"
-		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		value-type="gda.device.detector.nexusprocessor.DatasetProcessor">
 		<ref bean="imageFitter" />
 		<ref bean="imageStats" />
 		<ref bean="imagePlotter" />
 	</util:list>
 
 	<util:list id="imageProcessors2"
-		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		value-type="gda.device.detector.nexusprocessor.DatasetProcessor">
 		<ref bean="imageFitter2" />
 		<ref bean="imageStats2" />
 		<ref bean="imagePlotter2" />
 	</util:list>
 
 	<util:list id="imageProcessors3"
-		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		value-type="gda.device.detector.nexusprocessor.DatasetProcessor">
 		<ref bean="imageFitter3" />
 		<ref bean="imageStats3" />
 		<ref bean="imagePlotter3" />
