@@ -135,5 +135,149 @@
 
 	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.GasRigController">
 		<constructor-arg value="BL07C-GA-" />
+		<constructor-arg>
+			<list>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="7" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="46" />
+							<entry key="2" value="45" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="8" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="52" />
+							<entry key="2" value="51" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="9" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="58" />
+							<entry key="2" value="57" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="10" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="64" />
+							<entry key="2" value="63" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="11" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="70" />
+							<entry key="2" value="69" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="12" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="76" />
+							<entry key="2" value="75" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="13" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="82" />
+							<entry key="2" value="81" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="14" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="88" />
+							<entry key="2" value="87" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="5" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="34" />
+							<entry key="2" value="35" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="6" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="39" />
+							<entry key="2" value="40" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="1" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="14" />
+							<entry key="2" value="15" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="2" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="19" />
+							<entry key="2" value="20" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="3" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="24" />
+							<entry key="2" value="25" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="4" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="29" />
+							<entry key="2" value="30" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
 	</bean>
 </beans>
