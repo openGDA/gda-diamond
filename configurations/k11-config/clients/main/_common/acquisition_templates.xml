@@ -16,8 +16,26 @@
 		<property name="detectors">
 			<list><value>PILATUS</value></list>
 		</property>
-		<property name="scanAxes" ref="diffractionScanAxes" /> <!-- mode-specific -->
-		
+		<property name="defaultPaths">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
+					<constructor-arg name="axis" value="x" />
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="10" />
+					<constructor-arg name="step" value="10" />
+					<constructor-arg name="points" value="0" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
+					<constructor-arg name="axis" value="y" />
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="10" />
+					<constructor-arg name="step" value="10" />
+					<constructor-arg name="points" value="0" />
+				</bean>
+			</list>
+		</property>
 		<property name="processingProperties">
 			<bean class="uk.ac.gda.client.properties.acquisition.processing.ProcessingRequestProperties">
 				<property name="frameCapture">
@@ -52,9 +70,18 @@
 				<value>PILATUS</value>
 				<value>PCO_CAMERA</value>
 			</list>
-		</property>
-		<property name="scanAxes">
-			<map />
+		</property>		
+		<property name="defaultPaths">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable"><null/></constructor-arg>
+					<constructor-arg name="axis"><null/></constructor-arg>
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="0" />
+					<constructor-arg name="step" value="0" />
+					<constructor-arg name="points" value="100" />
+				</bean>
+			</list>
 		</property>
 		
 		<property name="startPosition">
@@ -77,7 +104,18 @@
 		<property name="detectors">
 			<list><value>PCO_CAMERA</value></list>
 		</property>
-		<property name="scanAxes" ref="tomographyScanAxes" />
+		<property name="defaultPaths">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
+					<constructor-arg name="axis" value="theta" />
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="180" />
+					<constructor-arg name="step" value="0" />
+					<constructor-arg name="points" value="100" />
+				</bean>
+			</list>
+		</property>
 		
 		<property name="startPosition">
 			<list>
@@ -90,7 +128,7 @@
 	
 	<bean id="radiographyTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
 		<property name="type" value="TOMOGRAPHY" />
-		<property name="subType" value="STANDARD" />
+		<property name="subType" value="RADIOGRAPHY" />
 		<property name="engine">
 			<bean class="uk.ac.gda.api.acquisition.AcquisitionEngineDocument">
 				<property name="type" value="MALCOLM" />
@@ -100,8 +138,17 @@
 		<property name="detectors">
 			<list><value>PCO_CAMERA</value></list>
 		</property>
-		<property name="scanAxes">
-			<map />
+		<property name="defaultPaths">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable"><null/></constructor-arg>
+					<constructor-arg name="axis"><null/></constructor-arg>
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="0" />
+					<constructor-arg name="step" value="0" />
+					<constructor-arg name="points" value="1" />
+				</bean>
+			</list>
 		</property>
 		
 		<property name="startPosition">
