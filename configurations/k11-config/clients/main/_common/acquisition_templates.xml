@@ -79,7 +79,7 @@
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="0" />
 					<constructor-arg name="step" value="0" />
-					<constructor-arg name="points" value="100" />
+					<constructor-arg name="points" value="0" /> <!-- force users to explicitly specify this, at K11's request -->
 				</bean>
 			</list>
 		</property>
