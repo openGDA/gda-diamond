@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i20.feature"
       label="i20 Feature"
-      version="9.26.0.qualifier"
+      version="9.27.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
