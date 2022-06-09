@@ -13,13 +13,13 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 
-	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DatasetFitter">
 		<property name="enable" value="false" />
 	</bean>
 	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats">
 		<property name="enable" value="false" />
 	</bean>
-	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="Detector Image" />
 		<property name="enable" value="false" />
 	</bean>
@@ -28,7 +28,7 @@
 		<property name="enable" value="false" />
 	</bean>
 
-	<util:list id="imageProcessors" value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+	<util:list id="imageProcessors" value-type="gda.device.detector.nexusprocessor.DatasetProcessor">
 		<ref bean="imageFitter" />
 		<ref bean="imageStats" />
 		<ref bean="imagePlotter" />

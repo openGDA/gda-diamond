@@ -86,7 +86,7 @@
 	</bean>
 
 	<bean
-		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"
 		id="eiger_swmr_standard">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
@@ -107,7 +107,7 @@
 
 
 	<bean
-		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"
 		id="eiger_swmr_verbose">
 		<constructor-arg index="0" value="" />
 		<constructor-arg index="1" value="" />
@@ -180,7 +180,7 @@
 		</property>
 	</bean>
 
-	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
+	<bean class="gda.device.detector.nexusprocessor.DatasetPlotter"
 		id="eiger_plotter">
 		<property name="plotName" value="Eiger" />
 	</bean>
