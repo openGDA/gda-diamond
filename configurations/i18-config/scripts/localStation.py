@@ -17,13 +17,12 @@ from gda.jython.commands.ScannableCommands import add_default
 
 from mapping_scan_commands import static
 
-print "Initialization Started";
+print("Initialisation started...\n");
 
 live_mode = LocalProperties.get("gda.mode") == 'live'
 
 test = DummyScannable("test")
 
-print "Creating topup , beam, detector-filling, trajectory monitors to pause and resume scans"
 topupMonitor = TopupChecker()
 topupMonitor.setName("topupMonitor")
 topupMonitor.setTolerance(2.0)
@@ -52,7 +51,6 @@ add_default(beamMonitor)
 # don't add detectorFillingMonitor as a default
 
 # Watchdogs
-print "Adding watchdog commands: enableWatchdogs, disableWatchdogs, listWatchdogs"
 from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog
 alias("enableWatchdogs")
 alias("disableWatchdogs")
@@ -175,19 +173,28 @@ def set_energy_scannable(scannable):
     
 set_energy_scannable(energy)
 
-print "Initialization Complete"
+from diffraction_calibration_appender import DiffractionAppenderManager
+excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
 
-print "****************************************"
-print ""
-print "Useful commands:"
-print ""
-print "Select energy scannable for scans:"
-print " set_energy_scannable(energy_nogap_lut) # one of energy, energy_nogap, energy_lut, energy_nogap_lut"
-print ""
-print "To disable/enable all watchdogs:"
-print " disableWatchdogs()/enableWatchdogs()"
-print ""
-print "To disable/enable a single watchdog e.g. topup:"
-print " topup_watchdog.setEnabled(False)/(True)"
-print ""
-print "****************************************"
+print("\n...initialisation complete!")
+
+useful_info = """
+****************************************
+Useful commands:
+
+Select energy scannable for scans:
+ set_energy_scannable(energy_nogap_lut) # one of energy, energy_nogap, energy_lut, energy_nogap_lut
+
+Disable/enable all watchdogs:
+ disableWatchdogs()/enableWatchdogs()
+
+Disable/enable a single watchdog e.g. topup:
+ topup_watchdog.setEnabled(False)/(True)
+
+Specify calibration and mask files for Excalibur:
+ excalibur_metadata.set_calibration_file(...)
+ excalibur_metadata.set_mask_file(...)
+****************************************
+"""
+
+print(useful_info)
