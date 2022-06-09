@@ -3,7 +3,6 @@ Created on 27th Mar 2019
 
 @author: i21user
 '''
-import math as mh
 
 #############################################################################################
 ######  Unit Transfer ### FUNCTIONS
@@ -35,6 +34,7 @@ def BrillouinLength(a):
     @param a: is the crystal parameter along one given direction in the unit of 'Angstrom'
     @return: Brillouin Length, unit is the inverse of 'Angstrom'
     '''
+    import math as mh
     return 2*mh.pi/a # The unit is the inverse of 'Angstrom'
 
 def dspacing(h,k,l,a,b,c):
@@ -42,5 +42,7 @@ def dspacing(h,k,l,a,b,c):
     @param h, k, l: are the Miller indices
     @return d-space
     '''
+    import math as mh
+
     # a, b, c are the crystal lattice parameters in the unit of 'Angstrom'
     return 1/mh.sqrt((h/a)**2+(k/b)**2+(l/c)**2)

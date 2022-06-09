@@ -6,14 +6,14 @@ Created on 27th Mar 2019
 ##############################################################################################
 ###### Defining the momentum transfer at a fixed spectrometer tth angle ######################
 #############################################################################################
-import math as mh
+
 from templates.unitTransferFunctions import energy2wavelength, dspacing
 
 def th2qtrans_inplane(energy_sa,thval,thoffset,tth,h_sa,k_sa,l_sa,a,b,c):
     '''
     defining the projection of the momentum transfer along the in-plane direction of the sample
     '''
-
+    import math as mh
     lamda = energy2wavelength(energy_sa)    
     
     Kph = (2*mh.pi/lamda)
@@ -28,6 +28,7 @@ def th2qtrans_normal(energy_sa,thval,thoffset,tth,h_sa,k_sa,l_sa,a,b,c):
     defining the projection of the momentum transfer along the surface normal direction of the sample
     '''
 
+    import math as mh
     lamda = energy2wavelength(energy_sa)    
     
     Kph = (2*mh.pi/lamda)
@@ -40,6 +41,7 @@ def th2qtrans_normal(energy_sa,thval,thoffset,tth,h_sa,k_sa,l_sa,a,b,c):
 def qtransinplane2th(energy_sa,qval_inplane,thoffset,tth,h_sa,k_sa,l_sa,a,b,c):
     '''defining the corresponded th angle for a given momentum transfer along the in-plane direction of the sample
     '''
+    import math as mh
     lamda = energy2wavelength(energy_sa)
     
     Kph = (2*mh.pi/lamda)
@@ -53,6 +55,7 @@ def qtransinplane2th(energy_sa,qval_inplane,thoffset,tth,h_sa,k_sa,l_sa,a,b,c):
 def qtransnormal2th(energy_sa,qval_normal,thoffset,tth,h_sa,k_sa,l_sa):
     '''defining the corresponded th angle for a given momentum transfer along the surface normal direction of the sample
     '''
+    import math as mh
     lamda = energy2wavelength(energy_sa)
     
     Kph = (2*mh.pi/lamda)
@@ -66,6 +69,7 @@ def qtransnormal2th(energy_sa,qval_normal,thoffset,tth,h_sa,k_sa,l_sa):
 
 def tthLscan(energy_sa,qval_inplane,qval_normal,h_sa,k_sa,a,b,c):
 
+    import math as mh
     lamda = energy2wavelength(energy_sa)
     
     Kph = (2*mh.pi/lamda)
@@ -74,7 +78,7 @@ def tthLscan(energy_sa,qval_inplane,qval_normal,h_sa,k_sa,a,b,c):
     return tth_val
 
 def thLscan(energy_sa,qval_inplane,qval_normal,thoffset,h_sa,k_sa,a,b,c):
-
+    import math as mh
     th_val = tthLscan(energy_sa,qval_inplane,qval_normal,h_sa,k_sa,a,b,c)/2+mh.atan((qval_inplane/qval_normal)*dspacing(0.,0.,1.,a,b,c)/dspacing(h_sa,k_sa,0.,a,b,c))*180/mh.pi+thoffset
     
     return th_val
