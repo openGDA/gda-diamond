@@ -42,6 +42,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         self.verbose = self._controller.verbose
         self.elements_read = 0
         self.collectionCompleted = False
+        self.stoppedExplicitly = False # see I21-989
         
     def stop(self):
         #flag to stop polling loop
