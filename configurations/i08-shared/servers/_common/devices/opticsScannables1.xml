@@ -19,21 +19,38 @@
 	</bean>
 
 	<!-- Phase motors -->
-	<bean id="phase_upper" class="gda.device.scannable.ScannableMotor">
+	<bean id="phase_top" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="phase_upper_motor" />
+		<property name="motor" ref="phase_top_motor" />
 	</bean>
 
-	<bean id="phase_lower" class="gda.device.scannable.ScannableMotor">
+	<bean id="phase_bottom" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="phase_lower_motor" />
+		<property name="motor" ref="phase_bottom_motor" />
 	</bean>
 
-	<bean id="phase" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Move both phase motors to the same position -->
+	<bean id="phase" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="phase_top" />
+				<ref bean="phase_bottom" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="phase_group" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="phase_upper" />
-				<ref bean="phase_lower" />
+				<ref bean="phase_top" />
+				<ref bean="phase_bottom" />
+				<ref bean="phase" />
 			</list>
 		</property>
 	</bean>

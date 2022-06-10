@@ -17,26 +17,26 @@
 	<bean id="idenergy_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="250.0" />
 		<property name="maxPosition" value="4400.0" />
-		<property name="position" value="310.09" />
+		<property name="position" value="4197.1" />
 	 	<property name="unitString" value="eV"/>
 	 	<property name="speed" value="100"/>
 	</bean>
 
 	<!-- Phase motors -->
-	<bean id="phase_upper_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.0" />
-		<property name="maxPosition" value="1.0" />
+	<bean id="phase_top_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-30.0" />
+		<property name="maxPosition" value="30.0" />
 		<property name="position" value="0.003" />
 	 	<property name="unitString" value="mm"/>
-	 	<property name="speed" value="100"/>
+	 	<property name="speed" value="10"/>
 	 </bean>
 
-	<bean id="phase_lower_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.0" />
-		<property name="maxPosition" value="1.0" />
+	<bean id="phase_bottom_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-30.0" />
+		<property name="maxPosition" value="30.0" />
 		<property name="position" value="0.002" />
 	 	<property name="unitString" value="mm"/>
-	 	<property name="speed" value="100"/>
+	 	<property name="speed" value="10"/>
 	 </bean>
 
 	<bean id="bda_x_motor" class="gda.device.motor.DummyMotor">
