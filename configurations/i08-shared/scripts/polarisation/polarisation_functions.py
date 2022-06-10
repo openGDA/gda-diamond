@@ -5,6 +5,8 @@ from org.eclipse.scanning.api.script import ScriptLanguage
 from org.eclipse.scanning.api.script import ScriptRequest
 from uk.ac.diamond.daq.mapping.api import PolarisationScanParameters
 from mapping_scan_commands import submit
+from i08_shared_utilities import is_live
+from id_energy_gap_mapping import set_mappings_for_linear_polarisation, set_mappings_for_circular_polarisation
 
 # Functions to perform polarisation scans
 
@@ -70,6 +72,8 @@ def submit_polarisation_scan(scanRequest, beforeScript, scanName):
 def set_polarisation(negative):
     global polarisation_phase_position
 
+    set_mappings_for_circular_polarisation()
+
     phase = polarisation_phase_position
     if negative:
         phase = -phase
@@ -94,6 +98,7 @@ def move_motors(phase):
 def restore_polarisation():
     global original_phase_position
     move_motors(original_phase_position)
+    set_mappings_for_linear_polarisation()
 
 # Convert a script name to a ScriptRequest object
 def create_script_request(scriptName):
