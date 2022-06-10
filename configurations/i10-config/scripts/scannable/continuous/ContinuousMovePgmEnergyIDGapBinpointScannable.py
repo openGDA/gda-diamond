@@ -125,7 +125,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
     def stop(self):
         if self._operating_continuously:
             if installation.isLive():
-                print("cvscan cannot be stopped, please wait it to finish!")
+                print("Continuous ID motion in energy cannot be stopped, please wait the current cvscan to finish !")
             else:    
                 self._binpointPgmEnergy.stop()
                 self._binpointGrtPitch.stop()
