@@ -60,7 +60,7 @@ alias("beam_available_watchdog")
 
 from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 
-topup_watchdog.setEnabled(True)
+topup_watchdog.setEnabled(False)
 beam_available_watchdog.setEnabled(True)
 
 rcpController =                Finder.find("RCPController")
