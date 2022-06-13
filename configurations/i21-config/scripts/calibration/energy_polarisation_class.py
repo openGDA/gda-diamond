@@ -352,7 +352,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
         else:  
             self.idscannable.stop()
-        self.submit.cancel(self.isBusy())
+        if self.submit is not None:
+            self.submit.cancel(self.isBusy())
             
     def atScanStart(self):
         if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":
