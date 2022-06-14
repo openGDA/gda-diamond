@@ -32,12 +32,12 @@
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="andorShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andorshutter.moveTo('Open')" />
+		<property name="command" value="andorshutter.moveTo('Open')" />
 		<property name="buttonText" value="Open Shutter" />
 		<property name="group" value="Andor" />
 	</bean>
 	<bean id="andorShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andorshutter.moveTo('Close')" />
+		<property name="command" value="andorshutter.moveTo('Close')" />
 		<property name="buttonText" value="Close Shutter" />
 		<property name="group" value="Andor" />
 	</bean>
