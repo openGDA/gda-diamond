@@ -21,7 +21,7 @@
 		<constructor-arg index="0" ref="excalibur_controller"/>
 	</bean>
 
-<!-- For PVA plugin -->
+<!-- For PVA plugin, currently commented out until PVA changes merged 
 
 
 	<bean id="exc_pva" class="gda.device.detector.NXDetector">
@@ -63,7 +63,7 @@
 	</bean>
 
 
-	<!-- End PVA -->
+	 End PVA -->
 
 
 
