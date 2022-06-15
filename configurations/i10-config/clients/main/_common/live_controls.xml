@@ -264,7 +264,7 @@
 			<property name="showStop" value="false"/>
 		</bean>
 	
-		<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<bean name="controlSet_scattering" class="uk.ac.gda.client.livecontrol.ControlSet">
 			<property name="controls">
 				<list>
 					<ref bean="leg1_control" />
@@ -316,7 +316,7 @@
 			<property name="increment" value="1" />
 		</bean>
 	
-		<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<bean name="controlSet_hfm" class="uk.ac.gda.client.livecontrol.ControlSet">
 			<property name="controls">
 				<list>
 					<ref bean="hfmx_control" />
