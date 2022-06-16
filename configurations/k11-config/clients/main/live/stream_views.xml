@@ -72,6 +72,9 @@
 		<property name="url" value="http://K11-IMAGING01:8080/pco.mjpg.mjpg" />
 		<property name="topUi" ref="histogram_topui" />
 		<property name="bottomUi" ref="histogram_bottomui" />
+		<property name="calibratedAxesProvider">
+			<bean class="uk.ac.gda.client.live.stream.calibration.PixelCalibration" />
+		</property>
 	</bean>
 
 	<bean id="pilatus_cam_config"
