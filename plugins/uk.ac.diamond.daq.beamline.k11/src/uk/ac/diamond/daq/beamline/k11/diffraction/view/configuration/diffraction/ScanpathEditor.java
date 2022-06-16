@@ -28,6 +28,7 @@ import org.eclipse.scanning.api.points.models.IScanPointGeneratorModel;
 import org.eclipse.scanning.device.ui.AbstractModelEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
@@ -222,7 +223,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 			// controls not created yet
 			return;
 		}
-		modelToControls();
+		Display.getDefault().syncExec(this::modelToControls);
 		updateMappingController();
 	}
 

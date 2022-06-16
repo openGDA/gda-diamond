@@ -217,15 +217,18 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 
 	private void handleRegionMove() {
 		if (handlingMappingUpdate) return;
-		handlingMappingUpdate = true;
-		double xStart = rectangle.getxCentre() - rectangle.getxRange()/2;
-		double xStop = rectangle.getxCentre() + rectangle.getxRange()/2;
-		double yStart = rectangle.getyCentre() - rectangle.getyRange()/2;
-		double yStop = rectangle.getyCentre() + rectangle.getyRange()/2;
-		int xPoints = Integer.parseInt(xPointsSpinner.getText());
-		int yPoints = Integer.parseInt(yPointsSpinner.getText());
-		updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, xPoints, yPoints));
-		handlingMappingUpdate = false;
+		try {
+			handlingMappingUpdate = true;
+			double xStart = rectangle.getxCentre() - rectangle.getxRange()/2;
+			double xStop = rectangle.getxCentre() + rectangle.getxRange()/2;
+			double yStart = rectangle.getyCentre() - rectangle.getyRange()/2;
+			double yStop = rectangle.getyCentre() + rectangle.getyRange()/2;
+			int xPoints = getXAxis().calculatedPoints();
+			int yPoints = getYAxis().calculatedPoints();
+			updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, xPoints, yPoints));
+		} finally {
+			handlingMappingUpdate = false;
+		}
 	}
 
 	private ScannableTrackDocument updateScannableTrackDocument(int axis, double start, double stop, int numberPoints){

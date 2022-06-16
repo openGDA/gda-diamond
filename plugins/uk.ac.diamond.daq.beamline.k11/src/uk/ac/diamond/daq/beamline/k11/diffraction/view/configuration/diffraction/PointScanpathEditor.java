@@ -138,11 +138,14 @@ public class PointScanpathEditor extends ScanpathEditor {
 
 	private void handleRegionMove() {
 		if (handlingMappingUpdate) return;
-		handlingMappingUpdate = true;
-		var xAxis = point.getxPosition();
-		var yAxis = point.getyPosition();
-		updateModel(updateScanpathDocument(xAxis, yAxis));
-		handlingMappingUpdate = false;
+		try {
+			handlingMappingUpdate = true;
+			var xAxis = point.getxPosition();
+			var yAxis = point.getyPosition();
+			updateModel(updateScanpathDocument(xAxis, yAxis));
+		} finally {
+			handlingMappingUpdate = false;
+		}
 	}
 
 	private ScannableTrackDocument updateScannableTrackDocument(Supplier<ScannableTrackDocument> axis, double point){
