@@ -6,6 +6,8 @@
 	<bean id="excalibur_controller" class="uk.ac.gda.devices.odin.control.OdinDetectorControllerDummy" >
 	</bean>
 
+	<alias name="sim_adbase" alias="exc_pva_adbase" />
+
 
 </beans>
 
