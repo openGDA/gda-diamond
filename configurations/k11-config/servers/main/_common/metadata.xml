@@ -59,6 +59,7 @@
 				<value>hfm</value>
 				<value>robot_detector_coordinate</value>
 				<value>robot_user_coordinate</value>
+				<value>base_x_cont</value>
 			</set>
 		</property>
 	</bean>
@@ -493,7 +494,7 @@
 							</list>
 						</property>
 					</bean>
-				</entry>				
+				</entry>
 			</map>
 		</property>
 	</bean>
