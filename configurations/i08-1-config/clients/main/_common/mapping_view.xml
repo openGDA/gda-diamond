@@ -30,11 +30,21 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel">
 					<property name="createSeparator" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection">
-					<property name="edgeToPhasePosition" ref="edgeToPhasePosition" />
-				</bean>	
+				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSelector">
+					<property name="sections">
+						<list>
+							<bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection">
+								<property name="edgeToPhasePosition" ref="edgeToPhasePosition" />
+							</bean>
+							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.EnergySubmitScanSection">
+ 								<property name="buttonText" value="Submit Energy scan" />
+ 								<property name="description" value="Energy scan" />
+ 								<property name="energyScannableName" value="energyFocus" />
+ 							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
-
 </beans>

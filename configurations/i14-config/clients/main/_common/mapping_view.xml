@@ -164,170 +164,170 @@
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Cs" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Ba" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="La" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Ce" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Pr" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Nd" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Pm" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Sm" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Eu" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Gd" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Tb" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Dy" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Ho" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Er" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Tm" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Yb" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Lu" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Hf" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Ta" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="W" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Re" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Os" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Ir" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Pt" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Au" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Hg" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Tl" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Pb" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Bi" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Po" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="At" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Fr" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Ra" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Ac" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Th" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Pa" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="U" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Np" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
 					<property name="elementName" value="Pu" />
 					<property name="radioactive" value="true" />
-					<property name="edge" value="L" />
+					<property name="edge" value="L3" />
 				</bean>
 			</util:list>
 		</property>
