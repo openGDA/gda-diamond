@@ -1,10 +1,16 @@
 '''
+XAS - fast energy scan with raster of sample position y and z
+
+@since: 20 June 2022
+@contact: Fajin Yuan
+@group: Diamond I21 Team
+@status: tested in dummy mode  
+
 Created on 12th Oct 2021
 
 @author: SA
 '''
 
-from gdaserver import xyz_stage, th, s5v1gap, gv17, difftth, fastshutter, m5tth, draincurrent_i, diff1_i,fy2_i # @UnresolvedImport
 from shutters.detectorShutterControl import erio, primary
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 from scan.cvscan import cvscan
@@ -45,37 +51,49 @@ pol_val = LH
 #############################################
 exit_slit = 30
 
+#############################################
+# User Section - defining th value
+#############################################
+th_val = 90
+
 #########################################################################
 ## Define amplifier's gain
 #########################################################################
 # to change Femto Gain if the diode signal or drain current is too small or is saturating
 # value must be one of (1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9) for "Low Noise" mode,  
-if installation.isLive():
+if installation.isLive(): #only live mode requires this - i.e running in i21 GDA.
+    from gdaserver import draincurrent_i, diff1_i,fy2_i # @UnresolvedImport
     draincurrent_i.setGain(1e9)
     diff1_i.setGain(1e8)
     fy2_i.setGain(1e8)
 # please do NOT change m4c1 gain !!!
 
 #####################################
-# defining exit slit opening
+# data collection
 #####################################
+from gdaserver import xyz_stage, th, s5v1gap, gv17, difftth, fastshutter, m5tth # @UnresolvedImport
+
+# defining exit slit opening
+print("move s5v1gap to %f ..." % exit_slit)
 s5v1gap.asynchronousMoveTo(exit_slit)
 
 # Position photo diode to so that we measure XAS through M5 optics
-difftth.asynchronousMoveTo(float(m5tth.getPosition())+1.5)
-
-#########################################################
-#########  NORMAL INCIDENCE , THETA = 90 ################
-#########################################################
+difftth_val = float(m5tth.getPosition())+1.5
+print("move difftth to %f ..." % difftth_val)
+difftth.asynchronousMoveTo(difftth_val)
 
 # Move to sample and correct theta
+print("move sampel stage to %r ..." % [x_sample_pi0, y_sample_pi0, z_sample_pi0])
 xyz_stage.asynchronousMoveTo([x_sample_pi0, y_sample_pi0, z_sample_pi0])
-th.asynchronousMoveTo(90)
+
+print("move th to %f ..." % th_val)
+th.asynchronousMoveTo(th_val)
 
 s5v1gap.waitWhileBusy()
 difftth.waitWhileBusy()
 xyz_stage.waitWhileBusy()
 th.waitWhileBusy()
+print("All motions are now completed")
 
 # Keep Fast Shutter open throughout XAS measurements
 erio();fastshutter('Open');gv17('Close')
@@ -86,7 +104,7 @@ go(E_initial, pol_val)
 #########################################################
 #########  fast XAS scan  (on the fly) ##################
 #########################################################
-#########################################################
+
 from scannable.continuous.continuous_energy_scannables import draincurrent_c, diff1_c, fy2_c, m4c1_c, energy
 from scannabledevices.checkbeanscannables import checkbeamcv
 for j in range(z_sample_iteration_number):

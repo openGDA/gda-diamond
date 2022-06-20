@@ -1,12 +1,14 @@
 '''
-This module support data collections from user defined carbon tape position and sample position in (x,y,z)
+This module supports data collections from user defined carbon tape position and sample position in (x,y,z)
  at each (theta, energy) position defined in a list of theta positions and a list of energy positions.
  It implements raster scan algorithm.
+
+ dark image is also collected before ctape and sample data collection.
 
 @since: 27 May 2022
 @contact: Fajin Yuan
 @group: Diamond I21 Team
-@status:   
+@status: tested in dummy mode  
 
 Based on /dls_sw/i21/scripts/Users/RIXS_Escan_template_new.py
 Created on 26th Mar 2019
@@ -88,7 +90,7 @@ spech_val_fix = 1365.554  # Spech corresponding to the resonant energy
 # User Section - Define Energies and Theta values at which we want to measure
 ###############################################################################
 th_start = 20
-th_staop = 140.01
+th_stop = 140.01
 th_step = 10
 
 energy_start = 925
@@ -109,10 +111,10 @@ ctape_pipi= [x_ctape_pipi,y_ctape_pipi,z_ctape_pipi]
 # User Section - Define order of data collection
 #################################################################
 
-polarisation_collect_order = [LH, LV, LH, LV]
-sample_collect_order = [sample_pi0, sample_pi0, sample_pipi, sample_pipi]
-ctape_collect_order = [ctape_pi0, ctape_pi0, ctape_pipi, ctape_pipi]
-phi_positions = [phi_pi0, phi_pi0, phi_pipi, phi_pipi]
+polarisation_collect_order = [LH,         LV,         LV,          LH        ]
+sample_collect_order =       [sample_pi0, sample_pi0, sample_pipi, sample_pipi]
+ctape_collect_order =        [ctape_pi0,  ctape_pi0,  ctape_pipi,  ctape_pipi ]
+phi_positions =              [phi_pi0,    phi_pi0,    phi_pipi,    phi_pipi   ]
 
 ##################################################################
 ###### User don't need to edit the sections below this line ######
@@ -124,7 +126,7 @@ print("Data Collections are ordered in list (polarisation, phi_position, ctape_p
 ######################################################################
 ### Calculate raster points for data collection
 ######################################################################
-th_list = [round(x,3) for x in frange(th_start, th_staop, th_step)]
+th_list = [round(x,3) for x in frange(th_start, th_stop, th_step)]
 print("theta positions: %r" % th_list)
 energy_list = [round(x,3) for x in frange(energy_start, energy_stop, energy_step)]
 print("energy positions: %r" % energy_list)
@@ -272,7 +274,7 @@ if answer == "y":
     from gdaserver import phi  # @UnresolvedImport
     i = 0
     for pol, phi_val, ctape, sample in collection_positions:
-        phi.asynchronousMoveTo((phi_val))
+        phi.asynchronousMoveTo(phi_val)
         if i % 2 == 0:
             go(E_initial, pol) # for forward energy change
         if i % 2 == 1:
