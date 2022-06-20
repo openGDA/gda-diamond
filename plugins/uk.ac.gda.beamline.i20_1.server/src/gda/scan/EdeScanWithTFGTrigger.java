@@ -263,6 +263,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 	@Override
 	public void doCollection() throws Exception {
+		if (smartStopDetected()) {
+			return;
+		}
+
 		if (theDetector.getName().equalsIgnoreCase("frelon")) {
 			doCollectionFrelon();
 		}

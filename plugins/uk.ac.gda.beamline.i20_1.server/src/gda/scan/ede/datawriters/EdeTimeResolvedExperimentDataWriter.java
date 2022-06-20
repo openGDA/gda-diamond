@@ -98,7 +98,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
 		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration, getSampleDetails());
 		if (itScans.length>1) {
-			List<Integer> incompleteCycles = getIncompleteCycles(itScans[0].getScanParameters().getTotalNumberOfFrames());
+			List<Integer> incompleteCycles = getIncompleteCycles();
 			timeResolvedNexusFileHelper.setIndicesOfExcludedCycles(incompleteCycles);
 		}
 		timeResolvedNexusFileHelper.updateWithNormalisedData(writeAsciiData);

@@ -420,7 +420,10 @@ public abstract class EdeExperiment implements IObserver {
 		} catch (ScanInterruptedException e) {
 			// Catch interrupted exception so can attempt to create ascii files and process the Nexus data
 			logger.warn("Caught 'scan interrupted' exception - attempting to write processed Nexus data and ascii files", e);
-		} finally {
+		} catch(Exception e) {
+			logger.warn("Exception during scan", e);
+		}
+		finally {
 			nexusFilename = getMultiScan().getDataWriter().getCurrentFileName();
 		}
 
@@ -932,5 +935,19 @@ public abstract class EdeExperiment implements IObserver {
 	 */
 	public EdeDetector getDetector() {
 		return theDetector;
+	}
+
+	/**
+	 * Set the 'smart stop' parameter on each 'Light It' scan object.
+	 *
+	 * @param stop
+	 */
+	public void setSmartStop(boolean stop) {
+		logger.info("Setting smartStop = {} for lightIt scans", stop);
+		scansForIt
+			.stream()
+			.filter(EdeScan.class::isInstance)
+			.map(EdeScan.class::cast)
+			.forEach(edeScan -> edeScan.setSmartstop(stop));
 	}
 }

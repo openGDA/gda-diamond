@@ -680,23 +680,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				currentNormalisedItData.setName("Normalised It");
 				currentEnergyData = edeExperimentProgress.getEnergyData();
 				currentEnergyData.setName("Energy");
-
-				// TODO This is commented out to disable the marker feature to show currently scanning spectra
-
-				//				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
-				//				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
-				//				Display.getDefault().asyncExec(new Runnable() {
-				//					//					@Override
-				//					//					public void run() {
-				//					//						if (groupList.size() -1 < currentGroupNumber) {
-				//					//							System.out.println(groupList.size());
-				//					//							System.out.println(currentGroupNumber);
-				//					//						}
-				//					//						final TimingGroupUIModel currentGroup = (TimingGroupUIModel) groupList.get(currentGroupNumber);
-				//					//						// TODO refactor the group to manage its own state
-				//					//						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
-				//					//					}
-				//					//				});
 			}
 		}
 
@@ -733,14 +716,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			currentNormalisedItData = null;
 			currentEnergyData = null;
 			try {
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
+				Display.getDefault().syncExec(() -> {
 						String scanCommand = buildScanCommand();
-						logger.info("Sending command: " + scanCommand);
+						logger.info("Sending command: {}", scanCommand);
 						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
 					}
-				});
+				);
 
 			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
@@ -752,7 +733,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		@Override
 		protected void canceling() {
-			stopScan();
+			doStop();
 		}
 	}
 
@@ -764,8 +745,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return timeIntervalData;
 	}
 
-	public void stopScan() {
-		doStop();
+	public void stopScan(String experimentObjectName) {
+		String stopCurrentCommand=experimentObjectName+".getMultiScan().getCurrentRunningScan().setSmartstop(True);";
+		String stopLightItCommand=experimentObjectName+".setSmartStop(True);";
+		InterfaceProvider.getCommandRunner().runCommand(stopCurrentCommand + stopLightItCommand);
 	}
 
 	public DoubleDataset[] getScanDataSet() {
@@ -773,21 +756,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void setScanDataSet(final DoubleDataset[] value) {
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				firePropertyChange(SCAN_DATA_SET_PROP_NAME, scanDataSet, scanDataSet = value);
-			}
-		});
+		Display.getDefault().syncExec(() ->	firePropertyChange(SCAN_DATA_SET_PROP_NAME, scanDataSet, scanDataSet = value));
 	}
 
 	public void setScanning(final boolean value) {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
-			}
-		});
+		Display.getDefault().asyncExec(() -> firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value));
 	}
 
 	public boolean isScanning() {
@@ -795,12 +768,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void doStop() {
-		String stopCommand=LINEAR_EXPERIMENT_OBJ+".getMultiScan().getCurrentRunningScan().setSmartstop(True);";
-		InterfaceProvider.getCommandRunner().runCommand(stopCommand);
-
-		//		if (this.isScanning()) {
-		//			JythonServerFacade.getInstance().requestFinishEarly();
-		//		}
+		stopScan(LINEAR_EXPERIMENT_OBJ);
 	}
 
 	public SpectrumModel getCurrentScanningSpectrum() {
