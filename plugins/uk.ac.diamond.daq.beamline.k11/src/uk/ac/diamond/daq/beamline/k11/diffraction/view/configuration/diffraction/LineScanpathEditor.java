@@ -203,14 +203,17 @@ public class LineScanpathEditor extends ScanpathEditor {
 
 	private void handleRegionMove() {
 		if (handlingMappingUpdate) return;
-		handlingMappingUpdate = true;
-		double xStart = line.getxStart();
-		double yStart = line.getyStart();
-		double xStop = line.getxStop();
-		double yStop = line.getyStop();
-		int numberPoints = Integer.parseInt(pointsSpinner.getText());
-		updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, numberPoints));
-		handlingMappingUpdate = false;
+		try {
+			handlingMappingUpdate = true;
+			double xStart = line.getxStart();
+			double yStart = line.getyStart();
+			double xStop = line.getxStop();
+			double yStop = line.getyStop();
+			int numberPoints = getXAxis().calculatedPoints();
+			updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, numberPoints));
+		} finally {
+			handlingMappingUpdate = false;
+		}
 	}
 
 	private ScannableTrackDocument updateScannableTrackDocument(int axis, double start, double stop, int numberPoints){
