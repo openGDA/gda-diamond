@@ -123,8 +123,6 @@ def switch_on_air_supply(motor):
             sgmr1.on()
         print("switch arm air on, wait for 14 seconds.")
         sleep(14.0)
-        print("sleep 1 second after call armtth stop to clear following error")
-        sleep(1.0)
     if motor is sgmr1 and not sgmr1.isOn():
         sgmr1.on()
         print("switch sgm air on, wait for 10 seconds.")
@@ -138,28 +136,27 @@ def switch_off_air_supply(motor):
         print("air supply is off for both sgmr1 and armtth!")
 
 def move(motor, new_position, sgmr1_val=None):
-    if not check_if_move_legal(motor, new_position):
-        #switch on air supply if they are not on yet
+    #the following 2 ifs should not be here - this is an awful hack to ensure remove of following error in motor
+    #motor engineer should solve the following error issue in the motor driver
+    if motor is armtth or motor is alltth or motor is sgmr1:
         switch_on_air_supply(motor)
-        
-        #the following 2 ifs should not be here - this is an awful hack to ensure remove of following error in motor
-        #motor engineer should solve the following error issue in the motor driver
-        if motor is armtth or motor is alltth:
-            armtth.stop() #called to clear following error of the motor
-            sgmr1.stop()
-        if motor is sgmr1:
-            sgmr1.stop()
-   
+        armtth.stop() #called to clear following error of the motor
+        sgmr1.stop()
+        print("sleep 1 second after call armtth stop to clear following error")
+        sleep(1.0)
+
+    if not check_if_move_legal(motor, new_position):   
         print("moving '%s' to %f ...."  % (motor.getName(), new_position))
         motor.moveTo(new_position)
         print("sleep 5 seconds after %s move." % motor.getName())
         sleep (5)
         
-        #reset motor values
-        if motor is armtth or motor is alltth:
-            armtthoffset.moveTo(-0.1)
+    #reset motor values
+    if motor is armtth or motor is alltth:
+        armtthoffset.moveTo(-0.1)
+        if sgmr1_val:
             sgmr1.moveTo(sgmr1_val)
-            print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
+        print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
             
         #switch off air supply
         switch_off_air_supply(motor)
