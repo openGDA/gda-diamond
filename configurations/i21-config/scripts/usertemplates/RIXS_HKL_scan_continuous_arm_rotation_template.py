@@ -46,7 +46,7 @@ Created on 27th Mar 2019
 '''
 
 from gdascripts.utils import frange
-from templates.momentumTransferFunctions import thLscan, tthLscan
+from functions.momentumTransferFunctions import thLscan, tthLscan
 from gdaserver import andor, andor2, xcam  # @UnresolvedImport
 
 ###########################################################################################

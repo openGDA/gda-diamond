@@ -11,10 +11,7 @@ Created on 12th Oct 2021
 @author: SA
 '''
 
-from shutters.detectorShutterControl import erio, primary
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
-from scan.cvscan import cvscan
-from functions.go_founctions import go
 import installation
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 
@@ -72,6 +69,8 @@ if installation.isLive(): #only live mode requires this - i.e running in i21 GDA
 # data collection
 #####################################
 from gdaserver import xyz_stage, th, s5v1gap, gv17, difftth, fastshutter, m5tth # @UnresolvedImport
+from shutters.detectorShutterControl import erio, primary
+from functions.go_founctions import go
 
 # defining exit slit opening
 print("move s5v1gap to %f ..." % exit_slit)
@@ -107,6 +106,8 @@ go(E_initial, pol_val)
 
 from scannable.continuous.continuous_energy_scannables import draincurrent_c, diff1_c, fy2_c, m4c1_c, energy
 from scannabledevices.checkbeanscannables import checkbeamcv
+from scan.cvscan import cvscan
+
 for j in range(z_sample_iteration_number):
     for i in range(Y_Sample_iteration_number):
         xyz_stage.moveTo([x_sample_pi0, y_sample_pi0 + y_sample_increment * i, z_sample_pi0 + z_sample_increment * j])

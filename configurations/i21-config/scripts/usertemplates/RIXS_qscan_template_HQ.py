@@ -190,7 +190,7 @@ ctape_pipi= [x_ctape_pipi,y_ctape_pipi,z_ctape_pipi]
 ##################################################################
 # this is to make theta position calculation from q early so if there is any math domain error it catched before scan or data collection starts
 def calculate_theta_value_for_q(th_offset, qlist, tth_m5q, h, k):
-    from templates.momentumTransferFunctions import qtransinplane2th
+    from functions.momentumTransferFunctions import qtransinplane2th
     th_list = []
     for qval in qlist:
         try:
