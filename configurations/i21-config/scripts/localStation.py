@@ -194,13 +194,12 @@ from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, ch
 # from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport #this is reverted to before not monitor the scanner light
 
 # GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
-from i21commands.checkedMotion import move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE  # @UnusedImport
-# alias("move")
-# alias("asynmove")
+from i21commands.checkedMotion import move, enable_arm_motion  # @UnusedImport
+
 from functions.go_founctions import go, goLH, goLV, goCL, goCR  # @UnusedImport
 
 print("create 'alltth' scannable")
-from scannabledevices.M5GroupScannable import alltth
+from scannabledevices.M5GroupScannable import alltth  # @UnusedImport
 
 print("-"*100)
 #DiffCalc
