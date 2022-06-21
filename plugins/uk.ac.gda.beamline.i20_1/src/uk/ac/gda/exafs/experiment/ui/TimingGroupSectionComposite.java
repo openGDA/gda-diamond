@@ -336,20 +336,28 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		numberOfSpectraPerSecToPlotText = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, false);
 		numberOfSpectraPerSecToPlotText.setUnit(UnitSetup.SEC.getText());
 		numberOfSpectraPerSecToPlotText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		// TODO Refactor this
-		if (model instanceof CyclicExperimentModel) {
-			Composite repeatingGroupsComposite = new Composite(sectionComposite, SWT.NONE);
-			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-			gridData.horizontalSpan = 2;
-			repeatingGroupsComposite.setLayoutData(gridData);
-			repeatingGroupsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 
-			lbl = toolkit.createLabel(repeatingGroupsComposite, "Number of cycles", SWT.NONE);
+		if (model instanceof CyclicExperimentModel) {
+			Composite repetitionsComposite = new Composite(sectionComposite, SWT.NONE);
+			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+			repetitionsComposite.setLayoutData(gridData);
+			repetitionsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(4, false));
+
+			//Number of cycles
+			lbl = toolkit.createLabel(repetitionsComposite, "Number of cycles", SWT.NONE);
 			lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-			NumberEditorControl repeatingGroupsControl = new NumberEditorControl(repeatingGroupsComposite, SWT.None, model, CyclicExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME, false);
-			repeatingGroupsControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			NumberEditorControl repeatingGroupsControl = new NumberEditorControl(repetitionsComposite, SWT.None, model, CyclicExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME, false);
 			repeatingGroupsControl.setRange(2, Integer.MAX_VALUE);
+			repeatingGroupsControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+			// Time between cycles
+			lbl = toolkit.createLabel(repetitionsComposite, "Time between cycles", SWT.NONE);
+			lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+			NumberEditorControl timeBetweenRepetitions = new NumberEditorControl(repetitionsComposite, SWT.None, model, CyclicExperimentModel.TIME_BETWEEN_REPETITIONS_PROP_NAME, false);
+			timeBetweenRepetitions.setUnit(UnitSetup.SEC.getText());
+			timeBetweenRepetitions.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		}
 	}
 
