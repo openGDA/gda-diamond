@@ -75,6 +75,11 @@
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:PITCH" />
 	</bean>
 
+	<bean id="mo8ax8" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-MO-STEP-08:M8:CsPort" />
+		<property name="readOnly" value="False"/>
+	</bean>
+
 	<bean id="diff1DeferMoves"
 		class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint"

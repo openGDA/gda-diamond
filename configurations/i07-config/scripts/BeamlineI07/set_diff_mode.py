@@ -66,6 +66,11 @@ if diffmode in ['eh1v', 'eh1h', 'eh2']:
         False, True)
     #set_motor_aliases(diffmode)
 
+if diffmode == 'eh1v':
+    pos(mo8ax8, "CS2")
+else:
+    pos(mo8ax8, "None")
+
 silent = (lambda:'silent')()  # allows options without the need for brackets
 
 alias('eh1h')
