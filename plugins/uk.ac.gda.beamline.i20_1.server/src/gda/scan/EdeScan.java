@@ -132,6 +132,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private int absFrameNumber;
 	private double noOfSecPerSpectrumToPublish = 1;
 
+	private double waitTimeAfterCollection = 0;
+
 	/**
 	 * @param scanParameters
 	 *            - timing parameters of the data collection
@@ -409,7 +411,10 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			logger.debug(toString() + " starting detector running...");
 			collectDetectorData();
 		}
+
 		fastShutterMoveTo(ValvePosition.CLOSE);
+
+		waitAfterCollection();
 	}
 
 	/**
@@ -426,6 +431,21 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		terminalPrinter.print(message);
 		logger.info(message);
 		return true;
+	}
+
+	/**
+	 * Sleep for {@link #waitTimeAfterCollection} seconds - if smart stop is not set to true.
+	 * (To be run after data collection to implement 'wait time between cycles').
+	 * @throws InterruptedException
+	 */
+	protected void waitAfterCollection() throws InterruptedException {
+		// Wait only if smartStop is not active.
+		if (waitTimeAfterCollection > 0 && !isSmartstop()) {
+			String msg = "Waiting for "+waitTimeAfterCollection+" seconds after collection";
+			logger.info(msg);
+			terminalPrinter.print(msg);
+			Thread.sleep((long)waitTimeAfterCollection*1000);
+		}
 	}
 
 	private boolean isLightItScan() {
@@ -1056,5 +1076,17 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	public void setNoOfSecPerSpectrumToPublish(double noOfSecPerSpectrumToPublish) {
 		this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish;
+	}
+
+	public double getSleepTimeAfterCollection() {
+		return waitTimeAfterCollection;
+	}
+
+	/**
+	 * How long to wait for after collection has finished
+	 * @param waitTimeAfterCollection (time in seconds)
+	 */
+	public void setWaitTimeAfterCollection(double waitTimeAfterCollection) {
+		this.waitTimeAfterCollection = waitTimeAfterCollection;
 	}
 }

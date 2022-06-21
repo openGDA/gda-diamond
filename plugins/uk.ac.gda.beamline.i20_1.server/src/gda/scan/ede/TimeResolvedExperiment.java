@@ -51,6 +51,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	public static final double DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2.0d;
 
 	protected int numberOfRepetitions = 1;
+	private double timeBetweenRepetitions = 0;
 
 	private double noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	private int totalNumberOfspectra;
@@ -222,10 +223,17 @@ public class TimeResolvedExperiment extends EdeExperiment {
 				scansForIt.add(itScans[repIndex]);
 			}
 		}
-		// Add the cycle number to plot label if num cycles is > 1
+		// Repetition properties
 		if (repetitions > 1) {
+			// Add the cycle number to plot label
 			Stream.of(itScans).forEach(sc -> sc.setIncludeCyclePlotLabel(true));
+
+			// Set the time between repetitions (for all but the last scan)
+			for(int i=0; i<itScans.length-1; i++) {
+				itScans[i].setWaitTimeAfterCollection(timeBetweenRepetitions);
+			}
 		}
+
 		Stream.of(itScans).forEach(sc-> sc.setNoOfSecPerSpectrumToPublish(noOfSecPerSpectrumToPublish));
 
 		// Make Topup checker for final I0 scan (I0 collection time + time for motor move from It to I0)
@@ -337,5 +345,13 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	public void setWriteAsciiData(boolean writeAsciiData) {
 		this.writeAsciiData = writeAsciiData;
+	}
+
+	public double getTimeBetweenRepetitions() {
+		return timeBetweenRepetitions;
+	}
+
+	public void setTimeBetweenRepetitions(double timeBetweenRepetitions) {
+		this.timeBetweenRepetitions = timeBetweenRepetitions;
 	}
 }

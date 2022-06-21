@@ -275,6 +275,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		}
 		fastShutterMoveTo(ValvePosition.CLOSE);
 		addScalerFrameCountsToNexus();
+
+		waitAfterCollection();
 	}
 
 	//	@Override
