@@ -61,7 +61,7 @@ def enable_arm_motion():
     '''this function just clear following errors for specl and spech
     '''
     if installation.isDummy():
-        print("set BL21I-MO-ARM-01:CLRF to clrf")
+        print("set BL21I-MO-ARM-01:CLRF to 'msclrf4 msclrf5 clrf'")
     else:
         caput("BL21I-MO-ARM-01:CLRF", 'msclrf4 msclrf5 clrf')
         sleep(1)
@@ -87,6 +87,7 @@ def check_armtth_and_move_sgmr1_if_required(motor, new_position):
                 sgmr1.moveTo(lookuptable[found_range][1] - 1.0)
                 print('sleep 1 second after sgmr1 move')
                 sleep(1)
+                
 
 def check_if_move_legal(motor, new_position):
     '''check motor limits using lookup table data. this is to work around the issues related to motion stuck problems
