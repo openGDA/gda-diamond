@@ -61,7 +61,6 @@
 		</property>
 	</bean>
 
-	<import resource="ebe.xml" />
 	<import resource="server_dummies.xml" />
 	<import resource="eh2_scannables.xml" />
 
@@ -70,6 +69,7 @@
 	<import resource="detectors/dcam4.xml" />
 	<import resource="detectors/dcam5.xml" />
 
+    <import resource="eh2/*.xml" />
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths" />
@@ -104,5 +104,6 @@
 		<import resource="detectors/excalibur.xml" />
 		<import resource="devices/*.xml" />
 	</beans>
+
 </beans>
 

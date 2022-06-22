@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="XRC" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="xrcremote" />
+                <ref bean="xrcstatus" />
+                <ref bean="xrcfc" />
+                <ref bean="xrcfv" />
+                <ref bean="xrcanodep" />
+                <ref bean="xrcanode" />
+                <ref bean="xrcanodev" />
+                <ref bean="xrcec" />
+            </list>
+        </property>
+    </bean>
+</beans>

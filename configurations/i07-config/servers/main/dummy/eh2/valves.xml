@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="bcipv" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="xrdipv" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="bctpv" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="xrdtpv" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="evap1sh" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="evap2sh" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="evap3sh" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="scv" class="gda.device.enumpositioner.DummyValve" />
+</beans>

@@ -119,71 +119,14 @@
 
     <bean id="MotorRZ_HEX2" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="llimg" class="gda.device.monitor.DummyEpicsMonitor"/>
-
     <bean id="llpirg" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <bean id="bcimg" class="gda.device.monitor.DummyEpicsMonitor"/>
 
     <bean id="bcpirg" class="gda.device.monitor.DummyEpicsMonitor"/>
 
     <bean id="bcionp" class="gda.device.monitor.DummyEpicsMonitor"/>
 
-    <bean id="xrdimg" class="gda.device.monitor.DummyEpicsMonitor"/>
-
     <bean id="xrdpirg" class="gda.device.monitor.DummyEpicsMonitor"/>
 
     <bean id="xrdionp" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-
-    <!-- EH2 Eurotherm Devices -->
-
-    <bean id="evap1temp" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="evap2temp" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="xrdtemp" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="bctemp" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="evap3temp" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <!-- Monitor for Pyrometer temperature -->
-    <bean id="pyrotemp" class="gda.device.monitor.DummyEpicsMonitor" />
 
 </beans>

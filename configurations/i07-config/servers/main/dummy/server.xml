@@ -15,7 +15,6 @@
 	<import
 		resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-	<import resource="ebe.xml" />
 	<import resource="sim_addetector.xml" />
 	<import resource="eh2_epics.xml" />
 	<import resource="detectors/dcam2.xml" />
@@ -33,6 +32,7 @@
 		resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
 	<import resource="commandQueueProcessor.xml" />
+    <import resource="eh2/*.xml" />
 
 	<beans profile="eh1">
 		<import resource="slits.xml" />

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ebcbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL07I-EA-EBC-01:BombardmentVoltage" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
+	
+	<bean id="ebcec" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-EBC-01:EmissionCurrent_RBV" />
+	</bean>
+
+	<bean id="ebcfc" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL07I-EA-EBC-01:FilamentCurrent" />
+		<property name="readPV" value="BL07I-EA-EBC-01:FilamentCurrent_RBV" />
+	</bean>
+	
+	<bean id="ebctemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-EBC-01:Temp_RBV" />
+	</bean>
+
+	<bean id="ebcremote" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-EBC-01:Remote" />
+	</bean>
+	
+	<bean id="ebceclim" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL07I-EA-EBC-01:EmissionCurrentLimit" />
+		<property name="readPV" value="BL07I-EA-EBC-01:EmissionCurrentLimit_RBV" />
+	</bean>
+
+</beans>

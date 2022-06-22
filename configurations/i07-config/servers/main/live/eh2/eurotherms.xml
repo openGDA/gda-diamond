@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="euro1temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-01:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="euro1temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="euro1temp_controller" />
+	</bean>
+	
+	<bean id="euro2temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-02:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="euro2temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="euro2temp_controller" />
+	</bean>
+	
+	<bean id="euro3temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-03:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="euro3temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="euro3temp_controller" />
+	</bean>
+	
+	<bean id="euro4temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-04:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="euro4temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="euro4temp_controller" />
+	</bean>
+	
+	<bean id="euro5temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-EVAP-05:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="euro5temp" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="euro5temp_controller" />
+	</bean>
+	
+</beans>
