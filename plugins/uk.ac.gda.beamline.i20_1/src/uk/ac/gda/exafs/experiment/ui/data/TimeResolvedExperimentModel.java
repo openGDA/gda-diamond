@@ -909,13 +909,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	private void loadGenerateAsciiData() {
 		try {
-			generateAsciiData = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getGenerateAsciiDataKey(), boolean.class );
+			generateAsciiData = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getGenerateAsciiDataKey(), Boolean.class);
 		} catch(NullPointerException e) {
 			logger.info("Problem loading 'generate ascii data' option from preference store", e );
 		}
 	}
-
-//	private void saveGenerateAsciiData() {
-//		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getGenerateAsciiDataKey(), generateAsciiData );
-//	}
 }
