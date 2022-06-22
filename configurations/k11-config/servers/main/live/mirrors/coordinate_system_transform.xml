@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="kinematic_transform_00" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11K-OP-KBM-01:CS:X:KBXSCALE" />
+	</bean>
+	
+	<bean id="kinematic_transform_01" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11K-OP-KBM-01:CS:X:KBYSCALE" />
+	</bean>
+	
+	<bean id="kinematic_transform_02" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11K-OP-KBM-01:CS:X:OFFSET" />
+	</bean>
+	
+	<bean id="kinematic_transform_10" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11K-OP-KBM-01:CS:Y:KBXSCALE" />
+	</bean>
+	
+	<bean id="kinematic_transform_11" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11K-OP-KBM-01:CS:Y:KBYSCALE" />
+	</bean>
+	
+	<bean id="kinematic_transform_12" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11K-OP-KBM-01:CS:Y:OFFSET" />
+	</bean>
+	
+	<bean id="kinematic_transform_20" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="0" />
+	</bean>
+	
+	<bean id="kinematic_transform_21" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="0" />
+	</bean>
+	
+	<bean id="kinematic_transform_22" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="1" />
+	</bean>
+
+</beans>

@@ -60,6 +60,15 @@
 				<value>robot_detector_coordinate</value>
 				<value>robot_user_coordinate</value>
 				<value>base_x_cont</value>
+				<value>kinematic_transform_00</value>
+				<value>kinematic_transform_01</value>
+				<value>kinematic_transform_02</value>
+				<value>kinematic_transform_10</value>
+				<value>kinematic_transform_11</value>
+				<value>kinematic_transform_12</value>
+				<value>kinematic_transform_20</value>
+				<value>kinematic_transform_21</value>
+				<value>kinematic_transform_22</value>
 			</set>
 		</property>
 	</bean>
@@ -492,6 +501,87 @@
 								<value>deg</value>
 								<value>deg</value>
 							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_00">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row0:NXtransformations/ele0</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_01">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row0:NXtransformations/ele1</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_02">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row0:NXtransformations/ele2</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_10">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row1:NXtransformations/ele0</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_11">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row1:NXtransformations/ele1</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_12">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row1:NXtransformations/ele2</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_20">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row2:NXtransformations/ele0</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_21">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row2:NXtransformations/ele1</value>
+						</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kinematic_transform_22">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+						<list>
+							<value>instrument:NXInstrument/coordinate_system_transform:NXtransformations/row2:NXtransformations/ele2</value>
+						</list>
 						</property>
 					</bean>
 				</entry>
