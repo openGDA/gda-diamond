@@ -17,6 +17,7 @@ from localStationScripts.operationalControl import * # @UnusedWildImport
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters	# @UnusedImport
 from gda.device.epicsdevice import ReturnType
+import gda.device.motor.DummyMotor
 from gda.util import VisitPath	# @UnusedImport
 from gda.factory import Finder
 from localStationScripts.constants import * # @UnusedWildImport
@@ -595,6 +596,7 @@ try:
 		from localStationConfiguration import enableIpp3
 		if enableIpp3:
 			from gdascripts.visit import VisitSetter, IPPAdapter, ProcessingDetectorWrapperAdapter
+			from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
 			ipp3windowsPath = 'X://'
 			ipp3linuxPath = '/dls/i16/'
