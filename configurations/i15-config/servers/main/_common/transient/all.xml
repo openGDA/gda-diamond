@@ -7,7 +7,7 @@
 	<import resource="I15-.xml"/>
 	 -->
 
-	<import resource="I15-geo2.xml"/>
+	<import resource="B16-geo2.xml"/>
 	<import resource="I15-VCOLD.xml"/>
 	<!-- 
 	<import resource="I16-FS.xml"/>
