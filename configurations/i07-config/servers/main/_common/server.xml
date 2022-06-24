@@ -26,8 +26,7 @@
 		</property>
 	</bean>
 
-	<import resource="ebe.xml" />
-	<import resource="dcm.xml" />
+
 
 	<bean id="subdirectory"
 		class="gda.data.metadata.SubdirectoryMetadataEntry" />
@@ -62,33 +61,15 @@
 		</property>
 	</bean>
 
-	<import resource="slits.xml" />
-	<import resource="server_scannables.xml" />
+	<import resource="ebe.xml" />
 	<import resource="server_dummies.xml" />
 	<import resource="eh2_scannables.xml" />
 
-	<!-- GigE cams -->
-	<import resource="detectors/dcam1.xml" />
 	<import resource="detectors/dcam2.xml" />
 	<import resource="detectors/dcam3.xml" />
 	<import resource="detectors/dcam4.xml" />
 	<import resource="detectors/dcam5.xml" />
-	<import resource="detectors/dcam6.xml" />
-	<import resource="detectors/dcam7.xml" />
-	<import resource="detectors/dcam8.xml" />
-	<import resource="detectors/xrayeye1.xml" />
-	<import resource="detectors/xrayeye2.xml" />
-	<import resource="detectors/d1cam.xml" />
-	<import resource="detectors/d1acam.xml" />
-	<import resource="detectors/d4cam.xml" />
 
-	<!-- Main detectors -->
-	<import resource="detectors/pilatus1.xml" />
-	<import resource="detectors/pilatus2.xml" />
-	<import resource="detectors/pilatus3.xml" />
-	<import resource="detectors/excalibur.xml" />
-
-	<import resource="devices/*.xml" />
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths" />
@@ -104,4 +85,24 @@
 			value="/dls_sw/i07/etc/init/data_server_logging.xml" />
 	</bean>
 
+	<beans profile="eh1">
+		<import resource="dcm.xml" />
+		<import resource="slits.xml" />
+		<import resource="server_scannables.xml" />
+		<import resource="detectors/dcam1.xml" />
+		<import resource="detectors/dcam6.xml" />
+		<import resource="detectors/dcam7.xml" />
+		<import resource="detectors/dcam8.xml" />
+		<import resource="detectors/xrayeye1.xml" />
+		<import resource="detectors/xrayeye2.xml" />
+		<import resource="detectors/d1cam.xml" />
+		<import resource="detectors/d1acam.xml" />
+		<import resource="detectors/d4cam.xml" />
+		<import resource="detectors/pilatus1.xml" />
+		<import resource="detectors/pilatus2.xml" />
+		<import resource="detectors/pilatus3.xml" />
+		<import resource="detectors/excalibur.xml" />
+		<import resource="devices/*.xml" />
+	</beans>
 </beans>
+
