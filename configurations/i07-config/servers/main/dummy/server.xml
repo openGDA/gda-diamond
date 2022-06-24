@@ -7,12 +7,13 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder/>
+	<context:property-placeholder />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<import
+		resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<import resource="ebe.xml" />
 
@@ -56,16 +57,18 @@
 	<import resource="devices/*.xml" />
 
 	<import resource="server_core.xml" />
-	
+
 	<import resource="transient.xml" />
-	
+
 	<import resource="../_common/server.xml" />
 
 	<import resource="lakeshore.xml" />
 
-	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
+	<import
+		resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" />
 
-	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+	<import
+		resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
 	<import resource="commandQueueProcessor.xml" />
 
