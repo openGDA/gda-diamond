@@ -1,36 +1,53 @@
 # Functions to change the mappings between ID energy & gap
+import sys
+import csv
 from gdascripts.utils import caput
 from i08_shared_utilities import is_live
+from gda.configuration.properties import LocalProperties
 
 print("Running id_energy_gap_mapping.py")
 
-# Energy to gap for linear polarisation
-linear_ev_to_mm = [3.4358, 1.1055e-1]
+gda_var_dir = LocalProperties.get("gda.var")
+circular_coefficients_filename = gda_var_dir + "/circular.csv"
+linear_coefficients_filename = gda_var_dir + "/linear.csv"
+energy_to_gap_col_name= "eV to mm"
+gap_to_energy_col_name = "mm to eV"
 
-# Gap to energy for linear polarisation
-linear_mm_to_ev = [1.5212e3, -3.8e2]
-
-# Energy to gap for circular polarisation
-circular_ev_to_mm = [1.2175e1, 1.83e-2]
-
-# Gap to energy for circular polarisation
-circular_mm_to_ev = [-6.6613e2, 5.4725e1]
+def get_coefficients(file_path):
+    polarisation_type = file_path.split("/")[-1].split(".")[0]
+          
+    filename = open(file_path, 'r')
+    file = csv.DictReader(filename)
+    
+    energy_to_gap = []
+    gap_to_energy = []
+    
+    for col in file:
+        energy_to_gap.append(float(col[energy_to_gap_col_name]))
+        gap_to_energy.append(float(col[gap_to_energy_col_name]))
+        
+    print("Energy to gap for {} polarisation coefficients: {}".format(polarisation_type, energy_to_gap))
+    print("Gap to energy for {} polarisation coefficients: {}".format(polarisation_type, gap_to_energy))
+    
+    return energy_to_gap, gap_to_energy
 
 def set_mappings_for_linear_polarisation():
     print("Setting mappings for linear polarisation")
-    set_mappings(linear_ev_to_mm, linear_mm_to_ev)
+    energy_to_gap, gap_to_energy = get_coefficients(linear_coefficients_filename)
+    set_mappings(energy_to_gap, gap_to_energy)
 
 def set_mappings_for_circular_polarisation():
     print("Setting mappings for circular polarisation")
-    set_mappings(circular_ev_to_mm, circular_mm_to_ev)
+    energy_to_gap, gap_to_energy = get_coefficients(circular_coefficients_filename)
+    set_mappings(energy_to_gap, gap_to_energy)
 
-def set_mappings(ev_to_mm, mm_to_ev):
-    for x in range(2):
+def set_mappings(energy_to_gap, gap_to_energy):
+    for x in range(len(energy_to_gap)):
         pv = "BL08I-OP-ID-01:VT:C{}".format(x + 1)
-        set_mapping(pv, ev_to_mm[x])
-    for x in range(2):
+        set_mapping(pv, energy_to_gap[x])
+    for x in range(len(gap_to_energy)):
         pv = "BL08I-OP-ID-01:BVT:C{}".format(x + 1)
-        set_mapping(pv, mm_to_ev[x])
+        set_mapping(pv, gap_to_energy[x])
 
 def set_mapping(pv, value):
     if is_live():
