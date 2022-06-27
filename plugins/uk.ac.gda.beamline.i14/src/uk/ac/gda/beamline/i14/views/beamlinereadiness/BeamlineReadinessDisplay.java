@@ -43,16 +43,34 @@ import uk.ac.gda.client.viewer.FourStateDisplay;
 public class BeamlineReadinessDisplay extends FourStateDisplay {
 	private static final Logger logger = LoggerFactory.getLogger(BeamlineReadinessDisplay.class);
 
-	private enum ReadinessState {
-		OUT_OF_POSITION_X, OUT_OF_POSITION_Y, INTENSITY_ZERO, INTENSITY_TOO_LOW, READY, UNKNOWN
-	}
+	private enum StateSeverity { OK, WARNING, CRITICAL, UNKNOWN }
 
-	private static final String BEAM_POSITION_MESSAGE = "Beam %s position is too far from its setpoint";
-	private static final String BEAM_OFF_MESSAGE = "Beam is off";
-	private static final String BEAM_TOO_LOW_MESSAGE = "Beam intensity is too far from its target";
-	private static final String BEAMLINE_READY_MESSAGE = "Beamline is ready";
-	private static final String BEAMLINE_STATE_UNKNOWN_MESSAGE = "Beamline state unknown - see log for details";
-	private static final String ENERGY_OUTSIDE_RANGE_MESSAGE = "State unknown: energy {} is outside the calibrated range";
+	private enum ReadinessState {
+		READY("Beamline is ready", StateSeverity.OK),
+		INTENSITY_ZERO("Beam is off", StateSeverity.CRITICAL),
+		INTENSITY_TOO_LOW("Beam intensity is too far from its target", StateSeverity.WARNING),
+		SHUTTERS_NOT_OPEN("Shutters are not open", StateSeverity.CRITICAL),
+		OUT_OF_POSITION_X("Beam x position is too far from its setpoint", StateSeverity.CRITICAL),
+		OUT_OF_POSITION_Y("Beam y position is too far from its setpoint", StateSeverity.CRITICAL),
+		ENERGY_OUTSIDE_RANGE("Beamline state unknown: energy is outside the calibrated range", StateSeverity.UNKNOWN),
+		UNKNOWN("Beamline state unknown - see log for details", StateSeverity.UNKNOWN);
+
+		private final String message;
+		private final StateSeverity severity;
+
+		private ReadinessState(String message, StateSeverity severity) {
+			this.message = message;
+			this.severity = severity;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public StateSeverity getSeverity() {
+			return severity;
+		}
+	}
 
 	private Monitor xPosition;
 	private Monitor yPosition;
@@ -146,33 +164,9 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		}
 	}
 
-	private void setReadinessStatus() {
-		try {
-			if (!shuttersAreOpen() || (double) ringCurrent.getPosition() < displayParams.getRingCurrentThreshold()) {
-				state = ReadinessState.INTENSITY_ZERO;
-			} else if (!isInPosition((double) xPosition.getPosition(), (double) xSetpoint.getPosition(), displayParams.getxTolerance())) {
-				state = ReadinessState.OUT_OF_POSITION_X;
-			} else if (!isInPosition((double) yPosition.getPosition(), (double) ySetpoint.getPosition(), displayParams.getyTolerance())) {
-				state = ReadinessState.OUT_OF_POSITION_Y;
-			} else {
-				final double eh2Intensity = getIntensity();
-				final Double targetIntensity = getTargetIntensity((double) energy.getPosition());
-				if (targetIntensity == null) {
-					state = ReadinessState.UNKNOWN;
-				} else {
-					state = (eh2Intensity >= targetIntensity) ? ReadinessState.READY : ReadinessState.INTENSITY_TOO_LOW;
-				}
-			}
-			Display.getDefault().asyncExec(this::setDisplay);
-		} catch (Exception e) {
-			logger.error("Error getting BPM data", e);
-			state = ReadinessState.UNKNOWN;
-		}
-	}
-
 	private boolean shuttersAreOpen() throws DeviceException {
 		for (Scannable shutter : shutters) {
-			if (!shutter.getPosition().equals("Open")) {
+			if(shutter.getPosition()==null || !shutter.getPosition().equals("Open")) {
 				return false;
 			}
 		}
@@ -185,7 +179,7 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 
 	private Double getTargetIntensity(double energy) {
 		if (!beamIntensityFunction.isValidPoint(energy)) {
-			logger.warn(ENERGY_OUTSIDE_RANGE_MESSAGE, energy);
+			logger.warn("Energy {} is outside the calibrated range", energy);
 			return null;
 		}
 		double targetIntensity = beamIntensityFunction.value(energy);
@@ -203,25 +197,48 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		return 0.0;
 	}
 
-	private void setDisplay() {
-		if (state == ReadinessState.INTENSITY_ZERO) {
-			setRed();
-			setToolTipText(BEAM_OFF_MESSAGE);
-		} else if (state == ReadinessState.OUT_OF_POSITION_X) {
-			setRed();
-			setToolTipText(String.format(BEAM_POSITION_MESSAGE, "x"));
-		} else if (state == ReadinessState.OUT_OF_POSITION_Y) {
-			setRed();
-			setToolTipText(String.format(BEAM_POSITION_MESSAGE, "y"));
-		} else if (state == ReadinessState.INTENSITY_TOO_LOW) {
-			setYellow();
-			setToolTipText(BEAM_TOO_LOW_MESSAGE);
-		} else if (state == ReadinessState.READY) {
-			setGreen();
-			setToolTipText(BEAMLINE_READY_MESSAGE);
-		} else {
-			setGrey();
-			setToolTipText(BEAMLINE_STATE_UNKNOWN_MESSAGE);
+
+	private void setReadinessStatus() {
+		try {
+			if (!shuttersAreOpen()) {
+				state = ReadinessState.SHUTTERS_NOT_OPEN;
+			} else if ((double) ringCurrent.getPosition() < displayParams.getRingCurrentThreshold()) {
+				state = ReadinessState.INTENSITY_ZERO;
+			} else if(!isInPosition((double) xPosition.getPosition(), (double) xSetpoint.getPosition(), displayParams.getxTolerance())) {
+				state = ReadinessState.OUT_OF_POSITION_X;
+			} else if(!isInPosition((double) yPosition.getPosition(), (double) ySetpoint.getPosition(), displayParams.getyTolerance())) {
+				state = ReadinessState.OUT_OF_POSITION_Y;
+			} else {
+				final Double targetIntensity = getTargetIntensity((double) energy.getPosition());
+				if (targetIntensity == null) {
+					state = ReadinessState.ENERGY_OUTSIDE_RANGE;
+				} else {
+					state = (getIntensity() >= targetIntensity) ? ReadinessState.READY : ReadinessState.INTENSITY_TOO_LOW;
+				}
+			}
+		} catch(Exception e) {
+			logger.error("Error getting BPM data", e);
+			state = ReadinessState.UNKNOWN;
 		}
+		Display.getDefault().asyncExec(this::setDisplay);
 	}
+
+	private void setDisplay() {
+		switch(state.getSeverity()) {
+			case OK:
+				setGreen();
+				break;
+			case WARNING:
+				setYellow();
+				break;
+			case CRITICAL:
+				setRed();
+				break;
+			case UNKNOWN:
+				setGrey();
+				break;
+		}
+		setToolTipText(state.getMessage());
+	}
+
 }
