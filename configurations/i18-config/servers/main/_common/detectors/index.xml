@@ -28,4 +28,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/vma_motions.xml" />
 	<import resource="vma_motions.xml" />
 
+	<!-- name of the device (or dataset name in Malcolm scan) to register diffraction appenders against -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction_device_name.xml" />
+	<import resource="diffraction_calibration_appenders.xml" />
 </beans>
