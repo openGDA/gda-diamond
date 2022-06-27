@@ -26,7 +26,7 @@ vraststatus.setUseNameAsInputName(True); vraststatus.configure()
 hraststatus=EpicsScannable(); hraststatus.setName("hraststatus"); hraststatus.setHasUnits(False); 
 hraststatus.setPvName("BL06I-EA-SGEN-01:CH2:OUT"); hraststatus.setGetAsString(True); 
 hraststatus.setUseNameAsInputName(True); hraststatus.configure()
-raster=PVScannable("raster","BL06I-OP-KBM-01:RASTER:MODE"); rastperiod.configure()
+raster=PVScannable("raster","BL06I-OP-KBM-01:RASTER:MODE"); raster.configure()
 
 
 KEYSIGHT_OUTPUT_STATUS={0:'Off',1:'On'}

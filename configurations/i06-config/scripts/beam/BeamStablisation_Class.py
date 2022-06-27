@@ -248,7 +248,7 @@ class BeamStablisationUsingExtraRoiStatPair(BeamStabilisation):
     def setup_rois(self):
         '''configure ROIs and STATs plug-ins in EPICS with regions of interests and its index
         '''
-        if isinstance(self.rois, list):
+        if not isinstance(self.rois, list):
             raise TypeError(Input_must_be_a_list_of_ROIs)
 
         for index, roi in zip(self.roistat_index, self.rois):
