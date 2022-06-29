@@ -16,7 +16,7 @@ from gdascripts.pd.dummy_pds import DummyEpicsReadWritePVClass
 
 if installation.isLive():
     try:
-        m6_x = PositionCompareMotorClass("m6_x", "BBL10J-OP-FOCA-01:X.VAL", "BL10J-OP-FOCA-01:X.RBV", "BL10J-OP-FOCA-01:X.STOP", 0.002, "mm", "%.3f")
+        m6_x = PositionCompareMotorClass("m6_x", "BL10J-OP-FOCA-01:X.VAL", "BL10J-OP-FOCA-01:X.RBV", "BL10J-OP-FOCA-01:X.STOP", 0.002, "mm", "%.3f")
         m6_y = PositionCompareMotorClass("m6_y", "BL10J-OP-FOCA-01:Y.VAL", "BL10J-OP-FOCA-01:Y.RBV", "BL10J-OP-FOCA-01:Y.STOP", 0.002, "mm", "%.3f")
         m6_z = PositionCompareMotorClass("m6_z", "BL10J-OP-FOCA-01:Z.VAL", "BL10J-OP-FOCA-01:Z.RBV", "BL10J-OP-FOCA-01:Z.STOP", 0.002, "mm", "%.3f")
         m6_yaw = PositionCompareMotorClass("m6_yaw", "BL10J-OP-FOCA-01:YAW.VAL", "BL10J-OP-FOCA-01:YAW.RBV", "BL10J-OP-FOCA-01:YAW.STOP", 0.002, "urad", "%.3f")
