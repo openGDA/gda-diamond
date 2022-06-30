@@ -119,9 +119,8 @@ print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Create ETL detector objects, names: llimxy, ulimxy, pmtxy, "
-print "    where x is MAC stage number (1,.., 5); y is detector number (1,..,9)"
-from detector_control_pds import * #@UnusedWildImport
+print "Create ETL detector objects, names: llimIe2, ulimIe2, pmIe2"
+from detector_control_pds import llimIe2, ulimIe2, pmIe2, pds # pds is a list containing the other three
 print "Available Detector objects are:"
 print pds
 print
@@ -140,15 +139,6 @@ print "Create method for load sample information spreadsheet to GDA system."
 from loadfile import * #@UnusedWildImport
 print
 
-# print "-----------------------------------------------------------------------------------------------------------------"
-# print "Enable automatic beamline energy setting for all devices by e.g. 'pos setenergy 15.0'."
-# ALL, BEAM_ENERGY, STAGE_ANGLE, DETECTOR=range(4)
-# from Automation_class import Automation
-# print "To set/get Mono and ID energy only, use 'energy_gap' object"
-# energy_gap=Automation('energy_gap','energytable', BEAM_ENERGY, rootNameSpace=globals())
-# pds.append(energy_gap)
-# print
-
 ### set output format for scannables
 globals()['dcm_energy'].setOutputFormat(["%10.7f"])
 globals()['dcm_bragg'].setOutputFormat(["%10.7f"])
@@ -164,7 +154,6 @@ def setwavelength(wavelength):
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Setup PSD or mythen detector system."
 import gda
 
 from gda.device.scannable import DummyScannable
@@ -174,16 +163,6 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "The default scannable list: "
 list_defaults #@UndefinedVariable
-sleep(0.5)
-print
-#print "---------------------------------------------------------numFrames--------------------------------------------------------"
-#print "Create rocking theta scannable 'rocktheta'"
-#print "    To change the rocking limits, use 'rocktheta.setLowerLimit(10)', 'rocktheta.setUpperLimit(10)'; "
-#print "    To view the rocking limits, use 'rocktheta.getLowerLimit()', 'rockthets.getUpperLimit()'."
-from rockingMotion_class import RockingMotion  # @UnusedImport
-#theta1=Finder.find("theta")
-#rocktheta=RockingMotion("rocktheta", theta1, -10, 10)
-
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'interruptable()' function which can be used to make for-loop interruptable in GDA."
