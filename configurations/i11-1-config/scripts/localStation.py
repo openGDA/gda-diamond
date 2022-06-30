@@ -228,11 +228,6 @@ tfg2=TFG2("tfg2")
 daserver=Finder.find("daserver")
 
 print "-----------------------------------------------------------------------------------------------------------------"
-print "create derivative scannable 'deriv' object to provide derivative value of enegry to Ie2"
-from scan_detetor_with_derivative import DeviceDerivativeClass
-deriv = DeviceDerivativeClass("deriv", "energy", "Ie2", "derivative");
-
-print "-----------------------------------------------------------------------------------------------------------------"
 print "create extra pixium scannables: pixium_PUMode, pixium_BaseExposure, pixium_BaseAcquirePeriod, pixium_EarlyFrames, pixium_TotalCount,pixium_FanSpeed1,pixium_FanSpeed2,pixium_DetectorTemperature"
 from i11utilities import createScannableFromPV, ConstantScannable, CalibrantScannable
 try:
