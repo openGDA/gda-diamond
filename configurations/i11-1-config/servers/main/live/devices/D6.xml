@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="d6filter" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL11J-DI-PHDGN-01:MP:"/>
+		<property name="recordName" value="BL11J-DI-PHDGN-01:MP"/>
 	</bean>
 
 </beans>
