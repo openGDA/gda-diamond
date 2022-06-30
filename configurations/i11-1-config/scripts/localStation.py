@@ -214,18 +214,6 @@ def interruptable():
 
 print
 from timerelated import clock, t, dt, w #@UnusedImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "create 'adc2' object to provide access to ADC2 device"
-from peloop.adccontrol import AdcControl
-adc2=AdcControl("adc2")
-print "create 'fg2' object to provide access to the 2nd Function generator device"
-from peloop.functiongenerator import FunctionGenerator
-fg2=FunctionGenerator("fg2")
-print "create 'tfg2' object to provide control of Time Frame Generator device"
-from peloop.tfg2 import TFG2
-tfg2=TFG2("tfg2")
-daserver=Finder.find("daserver")
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create extra pixium scannables: pixium_PUMode, pixium_BaseExposure, pixium_BaseAcquirePeriod, pixium_EarlyFrames, pixium_TotalCount,pixium_FanSpeed1,pixium_FanSpeed2,pixium_DetectorTemperature"
