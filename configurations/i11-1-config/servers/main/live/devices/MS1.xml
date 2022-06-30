@@ -13,18 +13,6 @@
 		<property name="pvName" value="BL11J-MO-MSLID-01:ROT"/>
 	</bean>
 
-	<bean id="ms1_temp4" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL11J-EA-MCL-01:CHIL:TEMP4" />
-		<property name="unit" value="C" />
-	</bean>
-	<bean id="ms1_temp3" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL11J-EA-MCL-01:CHIL:TEMP3" />
-		<property name="unit" value="C" />
-	</bean>
-	<bean id="ms1_temp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL11J-EA-MCL-01:CHIL:TEMP2" />
-		<property name="unit" value="C" />
-	</bean>
 	<bean id="ms1_temp1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL11J-EA-MCL-01:CHIL:TEMP1" />
 		<property name="unit" value="C" />

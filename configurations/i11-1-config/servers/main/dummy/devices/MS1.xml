@@ -7,15 +7,6 @@
 	<bean id="ms1y_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="ms1rot_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="ms1_temp4" class="gda.device.monitor.DummyMonitor">
-		<property name="unit" value="C" />
-	</bean>
-	<bean id="ms1_temp3" class="gda.device.monitor.DummyMonitor">
-		<property name="unit" value="C" />
-	</bean>
-	<bean id="ms1_temp2" class="gda.device.monitor.DummyMonitor">
-		<property name="unit" value="C" />
-	</bean>
 	<bean id="ms1_temp1" class="gda.device.monitor.DummyMonitor">
 		<property name="unit" value="C" />
 	</bean>
