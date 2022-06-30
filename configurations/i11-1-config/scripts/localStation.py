@@ -316,5 +316,4 @@ from lde.lde_robot import LdeRobot
 sample = LdeRobot('sample', 'BL11J-EA-ROBOT-01:', robot_stage=((rsx, -239.934), (rsy, 0)))
 
 from gdascripts.scan.gdascans import Cscan
-# overwriting hack
-_, cscan = None, Cscan()
+cscan = Cscan()
