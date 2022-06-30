@@ -66,7 +66,6 @@
 	<import resource="S1.xml" />
 	<import resource="S2.xml" />
 	<import resource="S3.xml" />
-	<import resource="S4.xml" />
 	<import resource="S5.xml" />
 	<import resource="S6.xml" />
 	<import resource="S7.xml" />
