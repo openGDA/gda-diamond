@@ -37,46 +37,46 @@
 
 	<!-- PCO detector control -->
 	<bean id="pcoStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pco_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pco_addetector.collectData()" />
+		<property name="command" value="pco_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pco_addetector.collectData()" />
 		<property name="buttonText" value="Start" />
 		<property name="group" value="PCO Camera" />
 	</bean>
 
 	<bean id="pcoStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pco_addetector.adBase.stopAcquiring()" />
+		<property name="command" value="pco_addetector.adBase.stopAcquiring()" />
 		<property name="buttonText" value="Stop" />
 		<property name="group" value="PCO Camera" />
 	</bean>
 	
 	<!-- PCO mode control -->
 	<bean id="preview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pcopreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); pcopreview.collectData()" />
+		<property name="command" value="pcopreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); pcopreview.collectData()" />
 		<property name="buttonText" value="Preview" />
 		<property name="group" value="PCO Mode" />
 	</bean>
 	<bean id="imaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pcoimaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); pcoimaging.collectData()" />
+		<property name="command" value="pcoimaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); pcoimaging.collectData()" />
 		<property name="buttonText" value="Imaging" />
 		<property name="group" value="PCO Mode" />
 	</bean>
 	<!-- PCO Live Stream Control -->
 	<bean id="pcoarrayenable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',1)" />
+		<property name="command" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',1)" />
 		<property name="buttonText" value="Enable" />
 		<property name="group" value="PCO Array Live Stream Control" />
 	</bean>
 	<bean id="pcoarraydisable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',0)" />
+		<property name="command" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',0)" />
 		<property name="buttonText" value="Disable" />
 		<property name="group" value="PCO Array Live Stream Control" />
 	</bean>
 	<bean id="unrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="unrotate()" />
+		<property name="command" value="unrotate()" />
 		<property name="buttonText" value="Unrotate" />
 		<property name="group" value="PCO Rotation" />
 	</bean>
 	<bean id="rotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="rotate()" />
+		<property name="command" value="rotate()" />
 		<property name="buttonText" value="Rotate" />
 		<property name="group" value="PCO Rotation" />
 	</bean>

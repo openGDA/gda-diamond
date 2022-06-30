@@ -4,7 +4,6 @@ from scannables.EnumPVScannable import EnumPVScannable
 
 print("=" *100)
 print("Performing Beamline I06 specific initialisation code (localStation.py).\n")
-from Diamond.Utility.Functions import logger
 print("-"*100)
 print("Set scan returns to the start positions on completion")
 print("   To set scan returns to its start positions on completion please do:")
@@ -47,23 +46,6 @@ def disableRatsering():
 alias("disableRatsering")
   
 if installation.isLive():
-    def medipix_unrotate():
-        caput("BL06I-EA-DET-02:ROT:Angle",0)
-    alias("medipix_unrotate")
-    
-    def medipix_rotate():
-        rot=caget("BL06I-EA-LEEM-01:CALC:ROT:ANGLE")
-        caput("BL06I-EA-DET-02:ROT:Angle",rot)
-    alias("medipix_rotate")
-        
-    def unrotate():
-        caput("BL06I-EA-DET-02:ROT:Angle",0)
-    alias("unrotate")
-    
-    def rotate():
-        rot=caget("BL06I-EA-LEEM-01:CALC:ROT:ANGLE")
-        caput("BL06I-EA-DET-02:ROT:Angle",rot)
-    alias("rotate")
     
     def set_medipix_acquire_time(t):
         stopped_by_me=False
@@ -100,22 +82,6 @@ if installation.isLive():
         caput('BL06I-EA-DET-02:PROCB:EnableFilter','Enable')
     
     alias("average")
-else:
-    def medipix_unrotate():
-        raise RuntimeError("EPICS PV and IOC required!")
-    alias("medipix_unrotate")
-    
-    def medipix_rotate():
-        raise RuntimeError("EPICS PV and IOC required!")
-    alias("medipix_rotate")
-    
-    def unrotate():
-        raise RuntimeError("EPICS PV and IOC required!")
-    alias("unrotate")
-    
-    def rotate():
-        raise RuntimeError("EPICS PV and IOC required!")
-    alias("rotate")
 
 LocalProperties.set("run.in.gda", True) # property 'run.in.gda' must be set before import add_pixel_mask, remove_pixel_mas
 from i06shared.metadata.detectorPixelMask import add_pixel_mask, remove_pixel_mask # @UnusedImport

@@ -6,6 +6,10 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<bean id="leem_calc" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL06I-EA-LEEM-01:CALC:SEL"/>
+		<property name="readOnly" value="false"/>
+	</bean>
 	<!-- Medipix plugins -->
 	<bean id="medipix_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL06I-EA-DET-02:CAM:" />

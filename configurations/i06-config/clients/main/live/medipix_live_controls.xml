@@ -47,7 +47,7 @@
 		<property name="getPositionExpression" value="(#output - @medipixExposureTime.getPosition())>0.002 ? #output - @medipixExposureTime.getPosition() : 0.002"/>
 	</bean>
 	<bean id="medipixRotationAngle" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:ROT:Angle"/>
+		<property name="pvName" value="BL06I-EA-LEEM-01:CALC:ROT:ANGLE"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.1f</value>

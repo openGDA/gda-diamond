@@ -6,6 +6,16 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<bean id="leem_calc" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Zero</value>
+				<value>PHI</value>
+				<value>-LEEM</value>
+				<value>PHI-LEEM</value>
+			</list>
+		</property>
+	</bean>
 	<!-- Medipix plugins -->
 	<bean id="medipix_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />

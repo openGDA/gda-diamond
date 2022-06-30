@@ -7,22 +7,22 @@
 
 	<!-- medipix camera control -->
 	<bean id="medipix_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Exposure" />
+		<property name="displayName" value="Exposure " />
 		<property name="group" value="medipix Acquire Time" />
 		<property name="scannableName" value="medipixAcquireTime" />
-		<property name="textWidth" value="35"/>
-		<property name="userUnits" value="s" />
+		<property name="textWidth" value="40"/>
+		<property name="userUnits" value=" s" />
 	</bean>
 	<bean id="medipix_idle_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Idle" />
+		<property name="displayName" value="Idle " />
 		<property name="group" value="medipix Acquire Time" />
 		<property name="scannableName" value="medipixIdleTime" />
-		<property name="textWidth" value="35"/>
-		<property name="userUnits" value="s" />
+		<property name="textWidth" value="40"/>
+		<property name="userUnits" value=" s" />
 		<property name="lowerLimit" value="0.002"/>
 	</bean>
 	<bean id="medipix_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="NumFilter" />
+		<property name="displayName" value="NumFilter " />
 		<property name="group" value="medipix PROC" />
 		<property name="scannableName" value="medipixProcNumFilterWithResetEnableAfter" />
 		<property name="textWidth" value="30" />
@@ -31,33 +31,26 @@
 
 	<!-- medipix mode control -->
 	<bean id="medipixpreview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="medipixpreview.stop();sleep(1);medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); medipixpreview.collectData()" />
+		<property name="command" value="medipixpreview.stop();sleep(1);medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); medipixpreview.collectData()" />
 		<property name="buttonText" value="Preview" />
 		<property name="group" value="medipix Mode" />
 	</bean>
-<!-- 	<bean id="medipiximaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl"> -->
-<!-- 		<property name="jythonCommand" value="medipiximaging.stop();sleep(1);medipiximaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); medipiximaging.collectData()" /> -->
-<!-- 		<property name="buttonText" value="Imaging" /> -->
-<!-- 		<property name="group" value="medipix Mode" /> -->
-<!-- 	</bean> -->
 
 	<!-- medipix image rotation control -->
 	<bean id="medipix_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Rot.Ang" />
+		<property name="displayName" value="Rot.Ang " />
 		<property name="group" value="medipix Rotation" />
 		<property name="scannableName" value="medipixRotationAngle" />
 		<property name="textWidth" value="40" />
-		<property name="userUnits" value="deg"/>
+		<property name="userUnits" value=" deg"/>
 	</bean>
-	<bean id="medipixunrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="medipix_unrotate()" />
-		<property name="buttonText" value="Unrotate" />
+
+	<bean id="leem_calc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Leem" />
 		<property name="group" value="medipix Rotation" />
-	</bean>
-	<bean id="medipixrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="medipix_rotate()" />
-		<property name="buttonText" value="Rotate" />
-		<property name="group" value="medipix Rotation" />
+		<property name="scannableName" value="leem_calc" />
+		<property name="horizontalLayout" value="true"/>
+		<property name="showStop" value="false"/>
 	</bean>
 
 	<bean id="medipixCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
@@ -73,10 +66,8 @@
 						<ref bean="medipix_idle_time_control"/>
 						<ref bean="medipix_proc_num_filter_control" />
 						<ref bean="medipixpreview" />
-<!-- 						<ref bean="medipiximaging" /> -->
 						<ref bean="medipix_image_rotation_angle_control" />
-						<ref bean="medipixunrotate"/>
-						<ref bean="medipixrotate"/>
+						<ref bean="leem_calc_control"/>
 					</list>
 				</property>
 				<property name="cameraState" ref="medipixCameraState"/>
