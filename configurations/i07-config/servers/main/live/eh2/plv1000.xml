@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="plvv" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-PLV-01:Voltage"/>
+		<property name="writePV" value="BL07I-EA-PLV-01:Voltage_RBV"/>
+	</bean>
+	<bean id="plv" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL07I-EA-PLV-01:OnOffSwitch" />
+	</bean>	
+	<bean id="plvpf" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL07I-EA-PLV-01:FEEDBACK" />
+	</bean>
+	<bean id="plvtp" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL07I-EA-PLV-01:TARGET_PRESSURE" />
+		<property name="outputFormat" value="%.e" />
+	</bean>
+	<bean id="plvfe" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-PLV-01:PRESSURE_ERROR_RBV" />
+	</bean>
+	<bean id="plvstep" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL07I-EA-PLV-01:FEEDBACK_STEP" />
+	</bean>
+	<bean id="plvfrv" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL07I-EA-PLV-01:FAST_RAMP_VOLTAGE" />
+	</bean>
+	<bean id="plvfrstep" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL07I-EA-PLV-01:FAST_RAMP_STEP" />
+	</bean>
+	
+</beans>

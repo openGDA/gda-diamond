@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pyrotemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-PYRO-01:TEMP" />
+	</bean>
+	<bean id="pyrostatus" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-PYRO-01:MESSAGE" />
+	</bean>
+</beans>

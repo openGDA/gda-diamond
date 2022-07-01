@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="XRD" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="pirgpre" />
+                <ref bean="pirgrun" />
+                <ref bean="xrdimg" />
+                <ref bean="xrdipv" />
+                <ref bean="xrdtpv" />
+                <ref bean="evap1sh" />
+                <ref bean="evap2sh" />
+                <ref bean="evap3sh" />
+                <ref bean="scv" />
+                <ref bean="euro1temp" />
+                <ref bean="euro2temp" />
+                <ref bean="euro3temp" />
+                <ref bean="EBC" />
+                <ref bean="XRC" />
+                <ref bean="QCM" />
+                <ref bean="RGA" />
+            </list>
+        </property>
+    </bean>
+</beans>

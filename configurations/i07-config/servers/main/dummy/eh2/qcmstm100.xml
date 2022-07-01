@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="qcmfilm" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="qcmdensity" class="gda.device.scannable.DummyScannable"/>
+	<bean id="qcmzfactor" class="gda.device.scannable.DummyScannable"/>
+	<bean id="qcmth" class="gda.device.scannable.DummyScannable"/>
+	<bean id="qcmthlim" class="gda.device.scannable.DummyScannable"/>
+	<bean id="qcmtool" class="gda.device.scannable.DummyScannable"/>
+	<bean id="qcmzero" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+</beans>

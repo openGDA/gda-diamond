@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="plvv" class="gda.device.scannable.DummyScannable"/>
+	<bean id="plv" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="plvpf" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="plvtp" class="gda.device.scannable.DummyScannable"/>
+	<bean id="plvfe" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="plvstep" class="gda.device.scannable.DummyScannable"/>
+	<bean id="plvfrv" class="gda.device.scannable.DummyScannable"/>
+	<bean id="plvfrstep" class="gda.device.scannable.DummyScannable"/>
+	
+</beans>

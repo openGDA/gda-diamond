@@ -16,19 +16,19 @@
 		resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<import resource="eh2_epics.xml" />
-	<import resource="ebe.xml" />
+
 	<import resource="detectors/dcam2.xml" />
 	<import resource="detectors/dcam3.xml" />
 	<import resource="detectors/dcam4.xml" />
 	<import resource="detectors/dcam5.xml" />
 	<import resource="server_core.xml" />
 
+	<import resource="eh2/*.xml" />
+
 	<import resource="../_common/server.xml" />
-
-
 	<import resource="solstice_scanning.xml" />
 	<import resource="commandQueueProcessor.xml" />
-
+	
 	<beans profile="eh1">
 		<import resource="slits.xml" />
 		<import resource="server_epics.xml" />
@@ -48,6 +48,7 @@
 		<import resource="detectors/d1cam.xml" />
 		<import resource="detectors/d1acam.xml" />
 		<import resource="detectors/d4cam.xml" />
+		
 		<import resource="detectors/pilatus1.xml" />
 		<import resource="detectors/pilatus2.xml" />
 		<import resource="detectors/pilatus3.xml" />
@@ -56,5 +57,6 @@
 		<import resource="devices/*.xml" />
 		<import resource="transient.xml" />
 		<import resource="lakeshore.xml" />
+		
 	</beans>
 </beans>

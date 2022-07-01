@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ebcbv" class="gda.device.scannable.DummyScannable"/>
+	
+	<bean id="ebcec" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+	<bean id="ebcfc" class="gda.device.scannable.DummyScannable"/>
+	
+	<bean id="ebctemp" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+	<bean id="ebcremote" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	
+	<bean id="ebceclim" class="gda.device.scannable.DummyScannable"/>
+	
+</beans>

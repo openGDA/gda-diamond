@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="VALVES_EH2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="bcipv" />
+                <ref bean="xrdipv" />
+                <ref bean="bctpv" />
+                <ref bean="xrdtpv" />
+                <ref bean="evap1sh" />
+                <ref bean="evap2sh" />
+                <ref bean="evap3sh" />
+                <ref bean="scv" />
+            </list>
+        </property>
+    </bean>
+</beans>

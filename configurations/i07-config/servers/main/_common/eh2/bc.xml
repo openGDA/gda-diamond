@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="BC" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="pirgpre" />
+                <ref bean="pirgrun" />
+                <ref bean="bcimg" />
+                <ref bean="bcipv" />
+                <ref bean="bctpv" />
+                <ref bean="euro4temp" />
+                <ref bean="IQE" />
+                <ref bean="PLV" />
+            </list>
+        </property>
+    </bean>
+</beans>

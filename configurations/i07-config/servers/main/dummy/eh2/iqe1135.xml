@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="iqee" class="gda.device.scannable.DummyScannable"/>
+	<bean id="iqeec" class="gda.device.scannable.DummyScannable"/>
+	<bean id="iqefv" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqefc" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqeenc" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqeemtemp" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqeremote" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="iqelocal" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqeoperate" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqedegas" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqeoff" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqestatus" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqestandby" class="gda.device.monitor.DummyEpicsMonitor"/>
+	<bean id="iqetimer" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+</beans>

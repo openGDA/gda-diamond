@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<bean id="xrcremote" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL07I-EA-XRC-01:Remote" />
+		<property name="controlPv" value="BL07I-EA-XRC-01:Remote" />
+		<property name="statusPv" value="BL07I-EA-XRC-01:Remote_RBV" />
+	</bean>	
+	<bean id="xrcstatus" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL07I-EA-XRC-01:OperatingStatus" />
+	</bean>
+	<bean id="xrcfc" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-XRC-01:FilamentCurrent_RBV" />
+	</bean>
+	<bean id="xrcfv" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-XRC-01:FilamentVoltage_RBV" />
+	</bean>
+	<bean id="xrcanodep" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-XRC-01:AnnodePower_RBV" />
+	</bean>
+	<bean id="xrcanode" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL07I-EA-XRC-01:Anode" />
+		<property name="controlPv" value="BL07I-EA-XRC-01:Anode" />
+		<property name="statusPv" value="BL07I-EA-XRC-01:Anode_RBV" />
+	</bean>	
+	<bean id="xrcanodev" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL07I-EA-XRC-01:AnnodeVoltage" />
+		<property name="readPV" value="BL07I-EA-XRC-01:AnnodeVoltage_RBV" />
+	</bean>
+	<bean id="xrcec" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL07I-EA-XRC-01:EmissionCurrent" />
+		<property name="readPV" value="BL07I-EA-XRC-01:EmissionCurrent_RBV" />
+	</bean>
+
+</beans>

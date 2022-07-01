@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="qcmfilm" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL07I-EA-STM-01:Film" />
+	</bean>
+	<bean id="qcmdensity" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-STM-01:"/>
+		<property name="writePV" value="BL07I-EA-STM-01:_RBV"/>
+	</bean>
+	<bean id="qcmzfactor" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-STM-01:ZFactor"/>
+		<property name="writePV" value="BL07I-EA-STM-01:ZFactor_RBV"/>
+	</bean>
+	<bean id="qcmth" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-STM-01:EndThickness"/>
+		<property name="writePV" value="BL07I-EA-STM-01:EndThickness_RBV"/>
+	</bean>
+	<bean id="qcmthlim" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-STM-01:ThicknessLimit"/>
+		<property name="writePV" value="BL07I-EA-STM-01:ThicknessLimit_RBV"/>
+	</bean>
+	<bean id="qcmtool" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-STM-01:ToolingFactor"/>
+		<property name="writePV" value="BL07I-EA-STM-01:ToolingFactor_RBV"/>
+	</bean>
+	<bean id="qcmzero" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:EnergyCurrent_RBV"/>
+	</bean>
+
+</beans>

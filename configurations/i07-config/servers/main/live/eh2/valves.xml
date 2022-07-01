@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="bcipv" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-30"/>
+	</bean>
+	<bean id="xrdipv" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-33"/>
+	</bean>
+	<bean id="bctpv" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-31"/>
+	</bean>
+	<bean id="xrdtpv" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-32"/>
+	</bean>
+	<bean id="evap1sh" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-34"/>
+	</bean>
+	<bean id="evap2sh" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-36"/>
+	</bean>
+	<bean id="evap3sh" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-37"/>
+	</bean>
+	<bean id="scv" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL07I-VA-VALVE-35"/>
+	</bean>
+</beans>

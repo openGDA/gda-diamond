@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="iqee" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-IQE-01:Energy"/>
+		<property name="writePV" value="BL07I-EA-IQE-01:Energy_RBV"/>
+	</bean>
+	<bean id="iqeec" class="gda.device.scannable.MultiPVScannable">
+		<property name="readPV" value="BL07I-EA-IQE-01:EmissionCurrent"/>
+		<property name="writePV" value="BL07I-EA-IQE-01:EmissionCurrent_RBV"/>
+	</bean>
+	<bean id="iqefv" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:FilamentVoltage_RBV"/>
+	</bean>
+	<bean id="iqefc" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:FilamentCurrent_RBV"/>
+	</bean>
+	<bean id="iqeenc" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:EnergyCurrent_RBV"/>
+	</bean>
+	<bean id="iqeemtemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:EnergyModuleTemperature_RBV"/>
+	</bean>
+	<bean id="iqeremote" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-IQE-01:Remote"/>
+	</bean>
+	<bean id="iqelocal" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-IQE-01:Local"/>
+	</bean>
+	<bean id="iqeoperate" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:Operate"/>
+	</bean>
+	<bean id="iqedegas" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:Degas"/>
+	</bean>
+	<bean id="iqeoff" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:Off"/>
+	</bean>
+	<bean id="iqestatus" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:OperatingStatus_RBV"/>
+	</bean>
+	<bean id="iqestandby" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:StandbyCmd"/>
+	</bean>
+	<bean id="iqetimer" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-IQE-01:DLY1"/>
+	</bean>
+
+</beans>
