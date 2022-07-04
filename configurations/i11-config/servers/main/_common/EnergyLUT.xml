@@ -5,6 +5,6 @@
 
 	<bean id="energytable"  class="gda.function.lookup.LookupTable">
 		<property name="filename" value="Automated_energy_setup.txt"/>
-		<property name="dirLUT" value="${gda.function.lookupTable.dir}"/>
+		<property name="directory" value="${gda.function.lookupTable.dir}"/>
 	</bean>
 </beans>
