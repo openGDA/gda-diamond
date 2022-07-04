@@ -81,7 +81,7 @@
 		<property name="currentIterationRemainingTimePV" value="BL09I-EA-DET-01:CAM:REGION_TIME_LEFT_RBV"/>
 		<property name="iterationLeadPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_LEAD_POINTS_RBV" />
 		<property name="iterationProgressPV" value="BL09I-EA-DET-01:CAM:REGION_PROGRESS_RBV"/>
-		<property name="totalDataPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_DATA_POINTS_RBV" />
+		<property name="totalDataPointsPV" value="BL09I-EA-DET-01:CAM:X_COUNT_RBV" />
 		<property name="iterationCurrentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV" />
 		<property name="totalRemianingTimePV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
 		<property name="totalProgressPV" value="BL09I-EA-DET-01:CAM:PROGRESS_RBV"></property>
@@ -128,7 +128,7 @@
 		<property name="currentIterationRemainingTimePV" value="BL09I-EA-DET-01:CAM:REGION_TIME_LEFT_RBV"/>
 		<property name="iterationLeadPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_LEAD_POINTS_RBV" />
 		<property name="iterationProgressPV" value="BL09I-EA-DET-01:CAM:REGION_PROGRESS_RBV"/>
-		<property name="totalDataPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_DATA_POINTS_RBV" />
+		<property name="totalDataPointsPV" value="BL09I-EA-DET-01:CAM:X_COUNT_RBV" />
 		<property name="iterationCurrentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV" />
 		
 		<property name="totalRemianingTimePV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
