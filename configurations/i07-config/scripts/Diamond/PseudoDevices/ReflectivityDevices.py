@@ -90,6 +90,13 @@ class DoubleCrystalDeflectorClass(ScannableMotionBase):
         e=( (h*c/ev)*1.0e7 )/wavelength;
         return e;
     
+    def atLevelMoveStart(self):
+        self.motorTheta.atLevelMoveStart();
+        self.motorOmega.atLevelMoveStart()
+        self.motorGamma.atLevelMoveStart()
+        for device in self.trackingDevices:
+            device.atLevelMoveStart()
+
 
     #To get wavelength in Angstrom based on photon energy in keV
     def getWavelength(self, energy=None):
@@ -303,7 +310,6 @@ class MomentumTransferDeviceClass(ScannableMotionBase):
         self.motorTheta = motorTheta;#Incident beam angle
         self.motor2Theta = motor2Theta;#detector angle
 
-        self.extraDevices=extraDevices;
         self.setExtraDevices(extraDevices);
 
     def setExtraDevices(self, extraDevices):
@@ -316,7 +322,6 @@ class MomentumTransferDeviceClass(ScannableMotionBase):
             for d in extraDevices:
                 extraNames.extend(d.getInputNames()+d.getExtraNames())
                 outputFormat.extend( d.getOutputFormat() );
-
 
         self.setExtraNames(extraNames);
         self.setOutputFormat(outputFormat);
@@ -390,8 +395,6 @@ class MomentumTransferDeviceClass(ScannableMotionBase):
             
         q=self.getQ( th );
 
-
-
         angles=[q, th];
         if self.extraDevices is not None:
             for d in self.extraDevices:
@@ -407,6 +410,7 @@ class MomentumTransferDeviceClass(ScannableMotionBase):
     def asynchronousMoveTo(self, newQ):
         newTheta=self.getTheta(newQ);
         
+        self.motorTheta.atLevelMoveStart()
         self.motorTheta.asynchronousMoveTo(newTheta);
         
         if self.motor2Theta is not None:
