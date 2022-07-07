@@ -24,7 +24,7 @@
 	<bean id="sm1yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09J-MO-SM-01:YAW" />
 	</bean>
-	<bean id="sm1fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
+	<bean id="sm1fpitch_motor" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="pvName" value="BL09J-MO-SM-01:FPITCH" />
 	</bean>
 
