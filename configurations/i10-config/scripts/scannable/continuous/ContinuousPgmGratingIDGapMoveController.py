@@ -279,7 +279,7 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (+ve)' % (self.energy.source.getPosition(), (self._id_gap_start - self._id_gap_runupdown), phase_midpoint, self.epolarisation.getPosition(), self._id_gap_speed_orig))
+                self.logger.info('prepareID:move_id_to_positions([%s, %f, %f, %s]) @ %r mm/sec (+ve)' % (self.energy.source.getPosition(), (self._id_gap_start - self._id_gap_runupdown), phase_midpoint, self.polarisation.getPosition(), self._id_gap_speed_orig))
             self.energy.move_id_to_positions(idcontrols, self._id_gap_start - self._id_gap_runupdown, phase_midpoint, self.polarisation.getPosition())
         else:
             if self.verbose:
@@ -492,19 +492,19 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
 
     def _restore_orig_speed(self):
         if self.isPGMMoveEnabled() and self._pgm_grat_pitch_speed_orig:
-                if self.verbose: self.logger.info('Restoring original PGM Grating Pitch speed %r, was %r' % (self._pgm_grat_pitch_speed_orig, self._pgm_grat_pitch.speed))
-                self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
-                self._pgm_grat_pitch_speed_orig = None
+            if self.verbose: self.logger.info('Restoring original PGM Grating Pitch speed %r, was %r' % (self._pgm_grat_pitch_speed_orig, self._pgm_grat_pitch.speed))
+            self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
+            self._pgm_grat_pitch_speed_orig = None
         if self.isIDMoveEnabled() and self._id_gap_speed_orig:
-                if installation.isLive() and self.continuousMovingStarted:
-                    while self.idcontrols['gap'].isBusy():
-                        sleep(0.5)
-                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
-                    self.idpvs['vel'].caput(self._id_gap_speed_orig)
-                else:
-                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idcontrols['gap'].speed))
-                    self.idcontrols['gap'].speed = self._id_gap_speed_orig 
-                self._id_gap_speed_orig = None
+            if installation.isLive() and self.continuousMovingStarted:
+                while self.idcontrols['gap'].isBusy():
+                    sleep(0.5)
+                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
+                self.idpvs['vel'].caput(self._id_gap_speed_orig)
+            else:
+                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idcontrols['gap'].speed))
+                self.idcontrols['gap'].speed = self._id_gap_speed_orig 
+            self._id_gap_speed_orig = None
 
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()...')
