@@ -5,7 +5,6 @@ Bundle-SymbolicName: uk.ac.gda.dls.client;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- uk.ac.gda.common,
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="1.0.0",
@@ -25,7 +24,9 @@ Export-Package: uk.ac.gda.dls.client,
  uk.ac.gda.dls.client.views
 Bundle-Activator: uk.ac.gda.dls.client.Activator
 Eclipse-RegisterBuddy: uk.ac.gda.core
-Import-Package: org.slf4j;version="[1.7.2,2.0.0)",
+Import-Package: gda.configuration.properties,
+ gda.observable,
+ org.slf4j;version="[1.7.2,2.0.0)",
  org.springframework.beans.factory;version="3.0.4",
  org.springframework.util;version="3.0.4"
 Automatic-Module-Name: uk.ac.gda.dls.client

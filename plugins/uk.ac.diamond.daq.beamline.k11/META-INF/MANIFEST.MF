@@ -8,9 +8,11 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: com.fasterxml.jackson.databind;version="2.6.2",
+ gda.configuration.properties,
  gda.device,
  gda.factory,
  gda.mscan.element,
+ gda.observable,
  org.apache.commons.beanutils;version="1.9.3",
  org.apache.commons.io;version="2.6.0",
  org.apache.commons.lang3.tuple;version="3.1.0",
@@ -32,9 +34,9 @@ Import-Package: com.fasterxml.jackson.databind;version="2.6.2",
  uk.ac.gda.api.acquisition.resource.event,
  uk.ac.gda.client.live.stream,
  uk.ac.gda.client.live.stream.view,
+ uk.ac.gda.common.entity,
  uk.ac.gda.core.tool.spring
-Require-Bundle: uk.ac.gda.common,
- org.eclipse.scanning.api;bundle-version="1.0.0",
+Require-Bundle: org.eclipse.scanning.api;bundle-version="1.0.0",
  org.eclipse.scanning.event.ui;bundle-version="1.0.0",
  org.dawnsci.mapping.ui;bundle-version="1.0.0",
  org.eclipse.swt,

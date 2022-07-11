@@ -11,7 +11,6 @@ Bundle-NativeCode: lib/linux-x86/libJavaToUnix.so;
  osname=linux; processor=x86_64,
  *
 Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
- uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.epics;bundle-version="1.0.0",
  javax.measure.unit-api;bundle-version="1.0.0",
  si.uom.si-quantity;bundle-version="0.9.0",
@@ -36,7 +35,9 @@ Export-Package: gda.analysis.io,
  gda.images.camera,
  gda.images.camera.example,
  gda.util
-Import-Package: gda.device.detectorfilemonitor,
+Import-Package: gda.configuration.properties,
+ gda.device.detectorfilemonitor,
+ gda.observable,
  org.apache.commons.math.linear;version="[2.2.0,3.0.0)",
  org.slf4j;version="[1.7.2,2.0.0)",
  org.springframework.beans;version="3.0.4",
@@ -44,7 +45,8 @@ Import-Package: gda.device.detectorfilemonitor,
  org.springframework.beans.factory.xml;version="3.0.4",
  org.springframework.context.support;version="3.0.4",
  org.springframework.core;version="3.0.4",
- org.springframework.util;version="3.0.4"
+ org.springframework.util;version="3.0.4",
+ uk.ac.gda.util.array
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Bundle-ClassPath: .
 Automatic-Module-Name: uk.ac.gda.dls

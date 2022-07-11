@@ -6,7 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
-Import-Package: javax.annotation;version="1.2.0",
+Import-Package: gda.configuration.properties,
+ gda.observable,
+ javax.annotation;version="1.2.0",
  javax.inject;version="1.0.0",
  org.slf4j;version="[1.7.2,2.0.0)",
  org.springframework.beans.factory;version="4.0.6.RELEASE"
@@ -21,7 +23,6 @@ Require-Bundle: uk.ac.gda.api,
  org.eclipse.core.runtime;bundle-version="3.13.0",
  uk.ac.diamond.daq.mapping.standards.ui;bundle-version="1.0.0",
  org.apache.commons.math3,
- uk.ac.gda.common,
  org.eclipse.e4.core.contexts,
  org.eclipse.scanning.api,
  uk.ac.gda.core,
