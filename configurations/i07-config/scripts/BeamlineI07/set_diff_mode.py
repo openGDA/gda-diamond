@@ -3,10 +3,7 @@
 # This replaces all the diff***.py scripts which have been moved into the
 # deprecated folder and maps the motors for the various configurations to the
 # internal diffcalc axes by calling the appropriate I07XX startup script from
-# Diffcalc itself, The desired configuration is stored in the GDA property 
-# gda.spring.profiles.active allowing it to be specified when the server starts
-# and paving the ways for reloading of the Spring context to only include beans
-# relevant to the configuration at a later stage.
+# Diffcalc itself.
 
 from gda.configuration.properties import LocalProperties
 from distutils.util import strtobool
@@ -52,7 +49,7 @@ def set_motor_aliases(diffmode):
 # be updated without the need to restart the server. Defaults to eh1h
 diffmode = LocalProperties.get('gda.active.diffractometer.mode')
 if diffmode is None:
-    diffmode = LocalProperties.get('gda.spring.profiles.active', 'eh1h')
+    diffmode = 'eh1h'
 LocalProperties.set('gda.active.diffractometer.mode', diffmode)
 
 if diffmode in ['eh1v', 'eh1h', 'eh2']:

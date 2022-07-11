@@ -47,33 +47,6 @@ fi
 # For instance if you use an actual group config (like mx) you might put
 # export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
 
-# rewrite the diffractometer mode shorthand if it is present. N.B.
-# can only use shorthand if springprofiles not explicitly defined
-if [[ "${@}" != *"--springprofiles"* ]]; then
-    diffmodeset=false                    # flag to prevent multiple setting
-    args=($@)                            # make an array copy of the args
-    for index in "${!args[@]}"; do
-        read lcword < <(echo "${args[$index]}" | tr "[:upper:]" "[:lower:]")
-        case ${lcword} in
-            eh1h|eh1v|eh2)
-                if [[ $diffmodeset == false ]]; then
-                    args[$index]="--springprofiles=${lcword}"
-                    diffmodeset=true
-                else
-                    echo "ERROR: Cannot set more than one diffractometer mode"
-                    exit 1
-                fi
-                ;;
-            *)
-                continue
-                ;;
-        esac
-    done
-    if [[ $diffmodeset == true ]]; then
-        set - "${args[@]}" # overwrite the incoming args with the modified array
-    fi
-fi
-
 ######################################################################
 # before the gda-core script is invoked using the environment settings
 ######################################################################
