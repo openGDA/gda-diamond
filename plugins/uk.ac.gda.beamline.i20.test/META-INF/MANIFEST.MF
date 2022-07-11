@@ -20,7 +20,11 @@ Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis,
  com.google.gson
-Import-Package: gda.device.detector.xspress,
+Import-Package: gda.configuration.properties,
+ gda.device.detector.xspress,
+ gda.observable,
  org.eclipse.january.dataset,
- org.springframework.beans.factory;version="4.0.6.RELEASE"
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
+ uk.ac.gda.util.beans,
+ uk.ac.gda.util.beans.xml
 Automatic-Module-Name: uk.ac.gda.beamline.i20.test

@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.gda.beamline.i20_1.Activator
 Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.nexus,
- uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
  org.eclipse.january;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
@@ -48,7 +47,9 @@ Export-Package: uk.ac.gda.beamline.i20_1,
  uk.ac.gda.exafs.experiment.ui.data,
  uk.ac.gda.exafs.ui.views
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
-Import-Package: gda.device.frelon,
+Import-Package: gda.configuration.properties,
+ gda.device.frelon,
+ gda.observable,
  org.apache.commons.collections,
  org.apache.commons.lang3.tuple;version="3.1.0",
  org.dawnsci.plotting.tools.hyper2d,
@@ -113,5 +114,6 @@ Import-Package: gda.device.frelon,
  org.python.core,
  org.slf4j;version="[1.7.2,2.0.0)",
  org.springframework.beans.factory;version="4.0.6.RELEASE",
+ uk.ac.gda.beans,
  uk.ac.gda.devices.detector.xspress3
 Automatic-Module-Name: uk.ac.gda.beamline.i20_1

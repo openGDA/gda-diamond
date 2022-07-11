@@ -25,7 +25,6 @@ Require-Bundle: uk.ac.gda.core,
  org.eclipse.dawnsci.hdf5,
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
  uk.ac.gda.nexus,
- uk.ac.gda.common;bundle-version="1.0.0",
  com.google.gson;bundle-version="2.2.4",
  org.apache.commons.math3;bundle-version="[3.2.0,4.0.0)",
  org.apache.commons.io;bundle-version="2.4.0",
@@ -47,13 +46,17 @@ Require-Bundle: uk.ac.gda.core,
  org.eclipse.january,
  org.eclipse.dawnsci.nexus.template,
  uk.ac.diamond.daq.persistence
-Import-Package: gda.device.frelon,
+Import-Package: gda.configuration.properties,
+ gda.device.frelon,
+ gda.observable,
  org.eclipse.dawnsci.hdf5,
  org.eclipse.dawnsci.hdf5.nexus,
  org.eclipse.january.dataset,
  org.python.core,
  org.slf4j;version="[1.7.2,2.0.0)",
  org.springframework.beans.factory;version="4.0.6.RELEASE",
- uk.ac.gda.ede.data
+ uk.ac.gda.beans,
+ uk.ac.gda.ede.data,
+ uk.ac.gda.util.beans.xml
 Bundle-Vendor: Diamond Light Source
 Automatic-Module-Name: uk.ac.gda.beamline.i20_1.server

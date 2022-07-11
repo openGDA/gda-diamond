@@ -8,7 +8,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",
- uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.epics;bundle-version="1.0.0",
  uk.ac.gda.devices.mythen;bundle-version="1.0.0",
  org.eclipse.ui.workbench.texteditor;bundle-version="3.6.1",
@@ -47,10 +46,13 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: gda.exafs.validation,
  uk.ac.gda.beamline.b18
 Bundle-Vendor: Diamond Light Source
-Import-Package: org.apache.commons.io,
+Import-Package: gda.configuration.properties,
+ gda.observable,
+ org.apache.commons.io,
  org.apache.commons.lang;version="2.6.0",
  org.slf4j;version="[1.7.2,2.0.0)",
  org.springframework.beans.factory;version="4.0.6.RELEASE",
- uk.ac.diamond.scisoft.analysis.plotclient
+ uk.ac.diamond.scisoft.analysis.plotclient,
+ uk.ac.gda.util.io
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Automatic-Module-Name: uk.ac.gda.beamline.b18

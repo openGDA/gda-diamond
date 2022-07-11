@@ -7,7 +7,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Require-Bundle: uk.ac.gda.core,
- uk.ac.gda.common,
  uk.ac.diamond.scisoft.analysis,
  uk.ac.gda.server.exafs,
  uk.ac.gda.epics,
@@ -28,10 +27,13 @@ Require-Bundle: uk.ac.gda.core,
  uk.ac.gda.api,
  org.apache.commons.configuration,
  uk.ac.diamond.daq.persistence
-Import-Package: org.apache.commons.io,
+Import-Package: gda.configuration.properties,
+ gda.observable,
+ org.apache.commons.io,
  org.slf4j,
  org.springframework.beans.factory;version="4.0.6.RELEASE",
- org.springframework.util;version="4.0.6.RELEASE"
+ org.springframework.util;version="4.0.6.RELEASE",
+ uk.ac.gda.util.beans.xml
 Export-Package: gda.device.detector,
  uk.ac.gda.beamline.i20.scannable,
  uk.ac.gda.beamline.i20.xesoffset,
