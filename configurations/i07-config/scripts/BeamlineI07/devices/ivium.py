@@ -204,8 +204,38 @@ class ScannableIvium(EpicsDeviceClass):
         vals = float(self.pcb.caget()),float(self.mpr.caget()),float(self.mcr.caget())
         self.acquire.caput(0)
         return vals
-        
-    
+
+
+class IviumMethodScannable(ScannableBase):
+    def __init__(self, name, pvBase):
+        self.pvBase = pvBase
+        self.setName(name)
+        self.setExtraNames([])
+	self.setInputNames([])
+        self.setOutputFormat([])
+
+    def asynchronousMoveTo(self, position):
+	# start method
+        caput(self.pvBase + ":PORT1:StartMethod", 1)
+
+
+    def isBusy(self):
+        """
+        [ 0] No IviumSoft
+        [ 1] Not Connected
+        [ 2] Available Idle
+        [ 3] Available Busy
+        """
+        state = caget(self.pvBase + ":CHAN1:DeviceStatus_RBV")
+        return state != "2"
+
+    def stop(self):
+        caput(self.pvBase + ":PORT1:StopMethod", 1)
+
+    def getPosition(self):
+        return None
+
+
 iviumPotential = IviumEpicsMonitor()
 iviumPotential.setController(ivium)
 iviumPotential.setPvName("BL07I-EA-IVIUM-01:CHAN1:MeasuredPotential_RBV")
@@ -222,6 +252,17 @@ iviumRange.setRecordName("BL07I-EA-IVIUM-01:PORT1:CurrentRange")
 iviumRange.configure()
 iviumRange.setReadOnly(False)
 
+
+iviumStatus = EpicsSimpleMbbinary()
+iviumStatus.setName("iviumStatus")
+iviumStatus.setRecordName("BL07I-EA-IVIUM-01:CHAN1:DeviceStatus_RBV")
+iviumStatus.configure()
+iviumStatus.setReadOnly(True)
+
+iviumMethodS = IviumMethodScannable("iviumMethod", "BL07I-EA-IVIUM-01")
+iviumMethodS.configure()
+iviumMethodS.setLevel(100)
+
 ivium1 = ScannableIvium("ivium1", "BL07I-EA-IVIUM-01")
     
 """
@@ -229,4 +270,5 @@ NOTES ON OPERATION IN DIRECT MODE
 1. Changes to applied current/voltage are only taken into account when the PORT is Stopped and Started again
 2. When Cell Mode is set to Potential or Current,  is the live Voltage reading and LastCollectionY_RBV is the live Current reading
 """
+run "BeamlineI07/devices/iviumMethodDetector.py"
 print "Ivium scripts loaded"
