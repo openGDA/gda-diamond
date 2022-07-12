@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 import gda.mscan.element.Mutator;
-import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
+import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
 
 public class ScanpathDocumentCache {
 
