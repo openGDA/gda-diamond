@@ -3,35 +3,83 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="geo2mot1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot1Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT1" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 
-	<bean id="geo2mot2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot2Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT2" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 
-	<bean id="geo2mot3Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot3Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT3" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 
-	<bean id="geo2mot4Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot4Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT4" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 
-	<bean id="geo2mot5Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot5Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT5" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 
-	<bean id="geo2mot6Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot6Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT6" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 
-	<bean id="geo2mot7Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot7Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT7" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 
-	<bean id="geo2mot8Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="unknown" />
+	<bean id="geo2mot8Motor" class="gda.device.motor.EpicsMotorDecorator">
+		<property name="iocPv" value="BL15I-EA-IOC-22:STATUS"/>
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL15I-MO-BGEO-02:MOT8" />
+			</bean>
+		</constructor-arg>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 </beans>

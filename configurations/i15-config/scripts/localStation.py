@@ -543,7 +543,11 @@ try:
 
 	try:
 		from localStationConfiguration import enableAttoPiezos
-		if enableAttoPiezos:
+		if enableAttoPiezos and caget("BL15I-EA-IOC-22:STATUS") != u'0':
+			msg = "Not installing atto devices, as the IOC is down"
+			print "* "+msg+" *"
+			localStation_exceptions.append("    "+msg)
+		elif enableAttoPiezos:
 			print "Installing atto devices from epics BL15I-EA-ATTO..."
 			
 			from future.anc150axis import createAnc150Axis
@@ -598,18 +602,22 @@ try:
 			from gdascripts.visit import VisitSetter, IPPAdapter, ProcessingDetectorWrapperAdapter
 			from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
-			ipp3windowsPath = 'X://'
-			ipp3linuxPath = '/dls/i16/'
-			# TODO: add ippwsme07m to sprint, add ipp3 panel to client
-			ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace=ipp3windowsPath, replacement=ipp3linuxPath, panel_name_rcp='ipp3', returnPathAsImageNumberOnly=True) #@UndefinedVariable)
+			ipp3rootPathForWindows = 'Z:/data'
+			ipp3rootPathForLinux = '/dls/i15/data'
+			ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace=ipp3rootPathForWindows,
+				replacement=ipp3rootPathForLinux, panel_name_rcp='ipp3', returnPathAsImageNumberOnly=True) #@UndefinedVariable
 			ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
 			ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
 			ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
 			visit_setter = VisitSetter()
-			visit_setter.addDetectorAdapter(IPPAdapter(ippwsme07m, subfolder='ippimages', create_folder=True, toreplace=ipp3linuxPath, replacement=ipp3windowsPath)) #@UndefinedVariable)
-			visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp3, report_path = False))
-			# Do we need to run this now too? When do we need to run itotherwise?
-			#visit_setter.setDetectorDirectories()
+			# This sets the ipp3 detector to use the correct Windows path
+			visit_setter.addDetectorAdapter(IPPAdapter(ippwsme07m, subfolder='ippimages', create_folder=True,
+				toreplace=ipp3rootPathForLinux, replacement=ipp3rootPathForWindows))
+			# Then this clobbers the windows path with a unix path again!
+			#visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp3, report_path = False))
+			# Is ^ even needed as both visit setters are targetting the same detector, and only one is needed.
+			# Force processing this now, otherwise changes won't be picked up by a reset_namespace
+			visit_setter.setDetectorDirectories()
 		else:
 			print "* Not installing ipp3 devices *"
 			localStation_exceptions.append("    not installing ipp3 devices") # REMOVE ME

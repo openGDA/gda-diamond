@@ -7,13 +7,13 @@
 	<import resource="I15-.xml"/>
 	 -->
 
-	<import resource="../../dummy/transient/B16-geo2.xml"/>
+	<import resource="B16-geo2.xml"/>
+	<import resource="B16-DET-IPP.xml"/>
 	<import resource="I15-Cryostream.xml"/>
 	<import resource="I15-ETL.xml"/>
 	<import resource="I15-Scaler.xml"/>
 	<import resource="../../dummy/transient/I15-VCOLD.xml"/>
 	<!-- 
-	<import resource="B16-DET-IPP.xml"/>
 	<import resource="I16-FS.xml"/>
 	 -->
 	<!-- To convert to using dummy devices, prefix the resource files with ../../dummy/transient/ -->
