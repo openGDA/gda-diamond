@@ -8,7 +8,7 @@
 	</description>
 	
 
-	<bean class="uk.ac.diamond.daq.experiment.structure.NodeFileCreationRequestResponder"  init-method="connect">
+	<bean class="uk.ac.diamond.daq.experiment.structure.NodeInsertionRequestResponder"  init-method="connect">
         <property name="broker" value="${gda.activemq.broker.uri}" />
         <property name="requestTopic" value="${experiment.structure.job.request.topic}" />
         <property name="responseTopic" value="${experiment.structure.job.response.topic}" />
