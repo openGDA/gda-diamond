@@ -2,7 +2,7 @@ from uk.ac.diamond.scisoft.analysis.fitting.functions import Offset, CompositeFu
 from uk.ac.diamond.scisoft.analysis.optimize import NelderMead
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
 
-from org.eclipse.january.dataset import DatasetFactory, Dataset
+from org.eclipse.january.dataset import DatasetFactory
 
 from gda.analysis import RCPPlotter
 
@@ -10,7 +10,7 @@ def parser(dataset):
     length = dataset.getDimensions()[0]
     #print length
     
-    ds = DatasetFactory.zeros([length], Dataset.FLOAT64)
+    ds = DatasetFactory.zeros([length])
     peaks = []
     
     for i in range(length) :
