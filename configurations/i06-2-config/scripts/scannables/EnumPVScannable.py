@@ -24,7 +24,7 @@ class EnumPVScannable(ScannableMotionBase):
         self.availablePositions=[]
         self.pvcli.configure()
         sleep(1)
-        self.availablePositions=self.pvcli.cagetLables()
+        self.availablePositions=self.pvcli.cagetLabels()
 
     
     def getPosition(self):
