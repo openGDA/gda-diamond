@@ -23,6 +23,7 @@ class Polarisation(ScannableBase):
         Constructor - default polarisation mode is 'pc'
         '''
         self.setName(name)
+        self.setInputNames([name])
         self.dpol=dpol
         self.dgap=dgap
         self.upol=upol

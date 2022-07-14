@@ -103,6 +103,6 @@ else:
     __main__.smode = DummyListScannable('smode', list_values=SourceMode.SOURCE_MODES[:-1])
     __main__.offhar = DummyScannable('offhar')
     __main__.pol = DummyListScannable('pol', list_values=Polarisation.POLARISATIONS[:-1])
-    __main__.energy=__main__.pgmenergy
+    __main__.energy=__main__.pgmenergy; __main__.energy.setInputNames(['energy'])
     __main__.laa=LinearArbitraryAngle('laa', __main__.iddlaangle, __main__.idulaangle, __main__.smode, __main__.pol)
     

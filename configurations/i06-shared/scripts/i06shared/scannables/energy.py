@@ -20,6 +20,7 @@ class CombinedEnergy(ScannableBase):
         Constructor - default energy is set to 400.0 eV
         '''
         self.setName(name)
+        self.setInputNames([name])
         self.iddgap=iddgap
         self.idugap=idugap
         self.drpenergy=drpenergy
