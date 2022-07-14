@@ -11,6 +11,7 @@
 		<property name="fileNameTemplate" value="pilatus3" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
 	</bean>
 
 	<bean id="pilatus3_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
