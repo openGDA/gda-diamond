@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xspress3MiniController" class="uk.ac.gda.devices.detector.xspress3mini.controllerimpl.EpicsXspress3MiniController">
+		<property name="epicsTemplate" value="BL07B-EA-XSP3-01" />
+	</bean>
+
+	<bean id="xspress3Mini" class="uk.ac.gda.devices.detector.xspress3.Xspress3MiniDetector">
+		<property name="controller" ref="xspress3MiniController" />
+		<property name="writeHDF5Files" value="false" />
+		<property name="maxNumberOfRois" value="1" />
+	</bean>
+
+</beans>
