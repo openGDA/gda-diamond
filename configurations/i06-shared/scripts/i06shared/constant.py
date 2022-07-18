@@ -7,11 +7,12 @@ Open=OPEN=opn='Open';
 Reset=RESET='Reset';
 
 #For ID polarisation settings
-lh=LH='Horizontal'; #linear horizontal polarization"
-lv=LV='Vertical';   #linear vertical polarization"
-pc=PC='PosCirc';    #positive circular polarization"
-nc=NC='NegCirc';    #negative circular polarization"
-la=LA='LA';         #linear arbitrary/angle"
+#commented out as these are defined in mode_polarisation_energy_instances.py now for the new system.
+# lh=LH='Horizontal'; #linear horizontal polarization"
+# lv=LV='Vertical';   #linear vertical polarization"
+# pc=PC='PosCirc';    #positive circular polarization"
+# nc=NC='NegCirc';    #negative circular polarization"
+# la=LA='LA';         #linear arbitrary/angle"
 
 vertical=ver='Vertical'
 horizontal=hor='Horizontal'
