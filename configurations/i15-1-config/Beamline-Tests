@@ -1,0 +1,4 @@
+To run beamline tests, all that is needed is to import them and run them:
+
+from beamline_test import run_tests
+run_tests()
