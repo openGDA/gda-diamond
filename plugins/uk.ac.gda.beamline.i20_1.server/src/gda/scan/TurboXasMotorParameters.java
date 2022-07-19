@@ -18,13 +18,17 @@
 
 package gda.scan;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.thoughtworks.xstream.XStream;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import gda.device.DeviceException;
@@ -41,7 +45,7 @@ public class TurboXasMotorParameters {
 
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasMotorParameters.class);
 
-	@XStreamAlias("TurboXasParameters")
+	@JsonProperty("TurboXasParameters")
 	private TurboXasParameters scanParameters;
 	private TurboSlitTimingGroup currentTimingGroup = null;
 
@@ -138,6 +142,7 @@ public class TurboXasMotorParameters {
 		positionCalculator.setPolynomial(eqnString);
 	}
 
+	@JsonIgnore
 	public PolynomialFunction getPositionToEnergyPolynomial() {
 		return positionCalculator.getPolynomial();
 	}
@@ -150,6 +155,7 @@ public class TurboXasMotorParameters {
 	 *
 	 * @return timing group last used to set motor parameters by call to {@link #setMotorParametersForTimingGroup(int)}
 	 */
+	@JsonIgnore
 	public TurboSlitTimingGroup getCurrentTimingGroup() {
 		return currentTimingGroup;
 	}
@@ -491,33 +497,27 @@ public class TurboXasMotorParameters {
 	}
 
 	/**
-	 * Return new XStream object that can serialize/deserialize {@link TurboXasMotorParameters} objects to/from XML
-	 * @return XStream
-	 */
-	private static XStream getXStream() {
-		XStream xstream = TurboXasParameters.getXStream();
-		xstream.alias("scanParameters", TurboXasParameters.class);
-		xstream.omitField(TurboXasMotorParameters.class , "positionCalculator");
-		return xstream;
-	}
-
-	/**
 	 * Serialize {@link TurboXasMotorParameters} object to XML.
 	 * @return String with XML serialized object
+	 * @throws JsonProcessingException
 	 */
-	public String toXML() {
-		XStream xstream = TurboXasMotorParameters.getXStream();
-		return xstream.toXML(this);
+	public String toXML() throws IOException {
+		try {
+			return XmlSerializationMappers.getXmlMapper().writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			throw new IOException("Problem converting TuboXasMotorParameters to XML", e);
+		}
 	}
 
 	/**
 	 * Create new {@link TurboXasMotorParameters} object deserialized from supplied XML string.
 	 * @param xmlString
 	 * @return TurboXasMotorParameters object
+	 * @throws JsonProcessingException
+	 * @throws JsonMappingException
 	 */
-	static public TurboXasMotorParameters fromXML(String xmlString) {
-		XStream xstream = TurboXasMotorParameters.getXStream();
-		return (TurboXasMotorParameters) xstream.fromXML(xmlString);
+	public static TurboXasMotorParameters fromXML(String xmlString) throws JsonMappingException, JsonProcessingException {
+		return XmlSerializationMappers.getXmlMapper().readValue(xmlString, TurboXasMotorParameters.class);
 	}
 
 }

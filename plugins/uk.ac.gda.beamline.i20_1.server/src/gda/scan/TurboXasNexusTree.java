@@ -18,6 +18,7 @@
 
 package gda.scan;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -482,7 +483,11 @@ public class TurboXasNexusTree {
 		// Add XML string of motor parameters
 		TurboXasMotorParameters motorParams = getMotorParameters();
 		if (motorParams != null) {
-			NXDetectorData.addData(detTree, MOTOR_PARAMS_COLUMN_NAME, new NexusGroupData(motorParams.toXML()), "", 1);
+			try {
+				NXDetectorData.addData(detTree, MOTOR_PARAMS_COLUMN_NAME, new NexusGroupData(motorParams.toXML()), "", 1);
+			} catch (IOException e) {
+				logger.warn("Problem adding Motor Parameter information to Nexus file", e);
+			}
 		}
 		return frame;
 	}

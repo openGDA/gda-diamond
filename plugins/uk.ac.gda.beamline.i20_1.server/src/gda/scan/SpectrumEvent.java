@@ -18,12 +18,24 @@
 
 package gda.scan;
 
+import java.util.Arrays;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 import gda.device.Scannable;
+import gda.device.scannable.ScannableUtils;
 
 public class SpectrumEvent {
 	private int spectrumNumber;
-	private transient Scannable scannable;
+	@JsonIgnore
+	private Scannable scannable;
 	private String scannableName;
+
+    @JsonTypeInfo(use=Id.CLASS, include=As.PROPERTY, property="class", visible=true)
 	private Object position;
 
 	public SpectrumEvent() {
@@ -62,8 +74,41 @@ public class SpectrumEvent {
 	public Object getPosition() {
 		return position;
 	}
+
+
+
+	/**
+	 * Set the position of a scannable.
+	 * If the position is a String it is parsed to an array of values/single value.
+	 * Values are also converted from String to Double using {@link ScannableUtils#objectToDouble(Object)}
+	 * if valid conversion is possible.
+	 *
+	 * @param position
+	 */
 	public void setPosition(Object position) {
-		this.position = position;
+
+		if (position instanceof String) {
+			String pos = (String) position;
+			String[] splitStr = pos.split("\\s+");
+			if (splitStr.length == 1) {
+				this.position = convertString(splitStr[0]);
+			} else {
+				this.position = Arrays.stream(splitStr).map(this::convertString).toArray();
+			}
+		} else {
+			this.position = position;
+		}
+	}
+
+	/**
+	 * Convert string to a double using {@link ScannableUtils#objectToDouble(Object)}.
+	 * If conversion is not possible, the original object is returned.
+	 * @param s
+	 * @return
+	 */
+	private Object convertString(String s) {
+		Double d = ScannableUtils.objectToDouble(s);
+		return d == null ? s : d;
 	}
 
 	public String getScannableName() {
@@ -75,7 +120,12 @@ public class SpectrumEvent {
 
 	@Override
 	public String toString() {
-		return String.format("Spectrum %d : %s to position %s", spectrumNumber, scannable.getName(), position);
+		return String.format("Spectrum %d : %s to position %s", spectrumNumber, scannableName, position);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(position, scannableName, spectrumNumber);
 	}
 
 	@Override
@@ -87,16 +137,7 @@ public class SpectrumEvent {
 		if (getClass() != obj.getClass())
 			return false;
 		SpectrumEvent other = (SpectrumEvent) obj;
-		if (position == null) {
-			if (other.position != null)
-				return false;
-		} else if (!position.equals(other.position))
-			return false;
-		if (scannable == null) {
-			if (other.scannable != null)
-				return false;
-		} else if (!scannable.getName().equals(other.scannable.getName()))
-			return false;
-		return spectrumNumber == other.spectrumNumber;
+		return Objects.equals(position, other.position) && Objects.equals(scannableName, other.scannableName)
+				&& spectrumNumber == other.spectrumNumber;
 	}
 }

@@ -25,6 +25,10 @@
          id="uk.ac.diamond.scisoft.core.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.diamond.daq.thirdparty.xml.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i20_1"
          download-size="0"
