@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -34,14 +35,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.scannable.ScannableUtils;
 import gda.exafs.xes.IXesOffsets;
 import gda.factory.Finder;
+import uk.ac.gda.client.livecontrol.ScannablePositionerControl;
 
 public class XesCalibrationView extends HardwareDisplayComposite {
 
 	private static final Logger logger = LoggerFactory.getLogger(XesCalibrationView.class);
 
 	private IXesOffsets offsets;
+	private Scannable energyScannable;
 	private Text loadedOffsetFileTextbox;
 
 	public XesCalibrationView(Composite parent, int style) {
@@ -67,7 +72,11 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 		if (!offsetObject.isEmpty()) {
 			offsets = offsetObject.values().iterator().next();
 			logger.debug("Using XesOffsets object {}", offsets.getName());
+			energyScannable = Finder.find(offsets.getXesEnergyScannableName());
 		}
+	}
+	private void showViewCreationMessageProblem(String message) {
+		MessageDialog.openWarning(parent.getShell(), "Cannot open XES calibration view", "Cannot open XES calibration view : "+message);
 	}
 
 	@Override
@@ -76,7 +85,11 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 
 		setupScannables();
 		if (offsets == null) {
-			MessageDialog.openWarning(parent.getShell(), "Cannot open XES calibration view", "Cannot open XES calibration view - required XesOffset object not found on server.");
+			showViewCreationMessageProblem("required XesOffset object not found on server.");
+			return;
+		}
+		if (energyScannable == null) {
+			showViewCreationMessageProblem("energy scannable "+offsets.getXesEnergyScannableName()+" could not be found.");
 			return;
 		}
 
@@ -84,15 +97,23 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 		comp.setLayout(new GridLayout(4, false));
 
 		// First row : XES energy control, expected energy and calibrate button
-		int options = MotorControlsGui.COMPACT_LAYOUT | MotorControlsGui.HIDE_BORDER;
-		MotorControlsGui xesEnergy = new MotorControlsGui(comp, "XESEnergy", options);
-		xesEnergy.setLabel("XES energy");
+		ScannablePositionerControl posControl = new ScannablePositionerControl();
+		posControl.setHorizontalLayout(true);
+		posControl.setScannableName(energyScannable.getName());
+		posControl.setDisplayName("XES energy");
+
+		// XES energy control goes in its own composite
+		Composite energyComp = new Composite(comp, SWT.NONE);
+		energyComp.setLayout(new FillLayout());
+		posControl.createControl(energyComp);
+
+		String[] energyPos = ScannableUtils.getFormattedCurrentPositionArray(energyScannable);
 
 		addLabel(comp, "Expected energy");
 
 		Text expectedEnergyTextbox = new Text(comp, SWT.NONE);
 		expectedEnergyTextbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		expectedEnergyTextbox.setText(xesEnergy.getFormattedPosition());
+		expectedEnergyTextbox.setText(energyPos[0]);
 
 		Button calibrateButton = addButton(comp, "Calibrate");
 		calibrateButton.addListener(SWT.Selection, event -> applyCalibration(expectedEnergyTextbox.getText()));

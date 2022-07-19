@@ -69,10 +69,6 @@ public class SynopticView extends ViewPart {
 			return;
 		}
 
-		// If no class name specified, use 'beamline overview' view.
-		if (fullClassName == null) {
-			fullClassName = OverviewButtonsView.class.getCanonicalName();
-		}
 		try {
 			Class<? extends HardwareDisplayComposite> classFromName = getClassMatchingName(fullClassName);
 			if (classFromName == null) {
