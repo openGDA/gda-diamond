@@ -81,7 +81,7 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 			return errorComposite;
 		}
 
-		var controls = getScanControls().createComposite(parent, style);
+		var controls = createScanControls().createComposite(parent, style);
 		var buttonsComposite = buttonsCompositeSupplier.get();
 		Arrays.asList(buttonsComposite.getChildren()).forEach(Control::dispose);
 		getButtonControlsFactory().createComposite(buttonsComposite, SWT.NONE);
@@ -101,10 +101,8 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 		return ClientMessages.BEAM_SELECTOR_ACQUISITION_TP;
 	}
 
-	private CompositeFactory getScanControls() {
-		if (scanControls == null) {
-			this.scanControls = new BeamSelectorScanControls();
-		}
+	private CompositeFactory createScanControls() {
+		this.scanControls = new BeamSelectorScanControls();
 		return scanControls;
 	}
 
@@ -161,7 +159,7 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 				return;
 			}
 			var controller = (ScanningAcquisitionController) event.getSource();
-			if (controller.getAcquisitionKeys().getPropertyType() == key.getPropertyType()) {
+			if (controller.getAcquisitionKeys().equals(key)) {
 				Display.getDefault().asyncExec(scanControls::reload);
 			}
 		}

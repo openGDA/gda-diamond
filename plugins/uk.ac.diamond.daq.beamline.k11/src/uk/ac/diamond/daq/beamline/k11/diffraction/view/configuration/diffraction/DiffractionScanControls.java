@@ -121,7 +121,6 @@ public class DiffractionScanControls implements CompositeFactory, Reloadable {
 
 	@Override
 	public void reload() {
-		if (name.isDisposed()) return;
 		reloadableControls.forEach(Reloadable::reload);
 	}
 

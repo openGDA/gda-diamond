@@ -123,7 +123,6 @@ public class ExposureControls implements CompositeFactory, Reloadable{
 
 	@Override
 	public void reload() {
-		if (composite == null || composite.isDisposed()) return;
 		refreshParameters();
 		updateExposureTextFromDocument();
 	}

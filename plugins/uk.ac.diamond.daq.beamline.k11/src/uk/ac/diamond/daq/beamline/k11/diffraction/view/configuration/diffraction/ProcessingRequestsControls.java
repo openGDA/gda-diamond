@@ -67,9 +67,7 @@ public class ProcessingRequestsControls implements CompositeFactory, Reloadable 
 
 	@Override
 	public void reload() {
-		if (controls != null) {
-			controls.reload();
-		}
+		controls.reload();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

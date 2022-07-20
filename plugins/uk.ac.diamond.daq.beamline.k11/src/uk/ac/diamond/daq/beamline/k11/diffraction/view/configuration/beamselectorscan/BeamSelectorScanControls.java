@@ -480,7 +480,6 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	@Override
 	public void reload() {
-		if (name.isDisposed()) return;
 		initialiseControls();
 	}
 

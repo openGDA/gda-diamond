@@ -81,7 +81,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 			return errorComposite;
 		}
 
-		var controls = getScanControls().createComposite(parent, style);
+		var controls = createScanControls().createComposite(parent, style);
 		var buttonsComposite = buttonsCompositeSupplier.get();
 		Arrays.asList(buttonsComposite.getChildren()).forEach(Control::dispose);
 		getButtonControlsFactory().createComposite(buttonsComposite, SWT.NONE);
@@ -106,9 +106,11 @@ public class DiffractionComposite implements NamedCompositeFactory {
 	}
 
 	protected DiffractionScanControls getScanControls() {
-		if (scanControls == null) {
-			this.scanControls = new DiffractionScanControls();
-		}
+		return scanControls;
+	}
+
+	private DiffractionScanControls createScanControls() {
+		this.scanControls = new DiffractionScanControls();
 		return scanControls;
 	}
 
@@ -120,7 +122,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 		var acquisitionButtonGroup = new AcquisitionCompositeButtonGroupFactoryBuilder();
 		acquisitionButtonGroup.addNewSelectionListener(widgetSelectedAdapter(event -> {
 			createNewAcquisition();
-			scanControls.reload();
+			getScanControls().reload();
 		}));
 		acquisitionButtonGroup.addSaveSelectionListener(widgetSelectedAdapter(event -> saveAcquisition()));
 		acquisitionButtonGroup.addRunSelectionListener(widgetSelectedAdapter(event -> getScanningAcquisitionTemporaryHelper().runAcquisition()));
@@ -162,8 +164,8 @@ public class DiffractionComposite implements NamedCompositeFactory {
 			var controller = (ScanningAcquisitionController) event.getSource();
 
 			// ...relating to diffraction acquisitions
-			if (controller.getAcquisitionKeys().getPropertyType().equals(AcquisitionPropertyType.DIFFRACTION)) {
-				Display.getDefault().asyncExec(scanControls::reload);
+			if (controller.getAcquisitionKeys().equals(key)) {
+				Display.getDefault().asyncExec(getScanControls()::reload);
 			}
 		}
 	}
