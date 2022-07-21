@@ -40,6 +40,7 @@ Export-Package: gda.exafs.ui,
  uk.ac.gda.ui.views.synoptic
 Bundle-Vendor: Diamond Light Source
 Import-Package: Jama,
+ gda.configuration.properties,
  gda.observable,
  org.eclipse.january,
  org.eclipse.january.dataset,
