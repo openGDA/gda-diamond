@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="atn5_filters_group" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="atn5group" />
+ 		<property name="group" value="ATN5 Filters" />
+ 		<property name="displayNameWidth" value="90" />
+ 		<property name="numColumns" value="2" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+
+   		<property name="readOnlyList">
+   			<list>
+			<value>true</value>
+			<value>false</value>
+			</list>
+		</property>
+   		
+		<property name="descriptions">
+			<list>
+				<value></value>
+				<value></value>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="hutchFiltersView" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="atn5_filters_group" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

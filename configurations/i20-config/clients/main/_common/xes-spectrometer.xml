@@ -174,23 +174,6 @@
 		<property name="labelText" value="+1" />
 	</bean>
 
-	 <bean id="atn5_filters" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
- 		<property name="scannableGroupName" value="atn5group" />
- 		<property name="group" value="Experimental Hutch Filters" />
- 		 <property name="displayNameWidth" value="90" />
- 		<property name="numColumns" value="2" />
- 		<property name="showStop" value="false"/>
- 		<property name="horizontalLayout" value="true" />
-	</bean>
-
-	<bean name="liveControlSet2" class="uk.ac.gda.client.livecontrol.ControlSet">
-		<property name="controls">
-			<list>
-				<ref bean="atn5_filters" />
-			</list>
-		</property>
-	</bean>
-
 	<bean id="xesAnalysersView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
 		<property name="viewName" value="XES Crystal Analysers"/>
 		<property name="backgroundImage" value="oe images/xes_analysers2.bmp"/>

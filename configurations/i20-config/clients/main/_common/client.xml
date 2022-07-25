@@ -35,6 +35,7 @@
 	<import resource="sample-stage.xml" />
 	<import resource="xas-table.xml" />
 	<import resource="xes-simulated-positions.xml" />
+	<import resource="hutch-filters.xml" />
 
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 

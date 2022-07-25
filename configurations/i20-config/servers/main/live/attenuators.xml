@@ -113,26 +113,4 @@
 	<bean id="atn5_filter8" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL20I-OP-ATTN-05:F8" />
 	</bean>
-	<bean id="atn5group" class="gda.device.scannable.scannablegroup.ScannableGroupNamed">
-		<property name="groupMembers">
-			<list>
-				<ref bean="atn5_filter1_name" />
-				<ref bean="atn5_filter1" />
-				<ref bean="atn5_filter2_name" />
-				<ref bean="atn5_filter2" />
-				<ref bean="atn5_filter3_name" />
-				<ref bean="atn5_filter3" />
-				<ref bean="atn5_filter4_name" />
-				<ref bean="atn5_filter4" />
-				<ref bean="atn5_filter5_name" />
-				<ref bean="atn5_filter5" />
-				<ref bean="atn5_filter6_name" />
-				<ref bean="atn5_filter6" />
-				<ref bean="atn5_filter7_name" />
-				<ref bean="atn5_filter7" />
-				<ref bean="atn5_filter8_name" />
-				<ref bean="atn5_filter8" />
-			</list>
-		</property>
-	</bean>
 </beans>

@@ -25,7 +25,7 @@ import java.util.List;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +52,12 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 	private boolean readOnly = false;
 	private boolean showIncrement = true;
 	private int widgetWidth = SWT.DEFAULT;
+
+	// For setting the description of each widget in the group
 	private List<String> descriptions = Collections.emptyList();
+
+	// For setting the read only property of each widget in the group
+	private List<Boolean> readOnlyList = Collections.emptyList();
 
 	public void setScannableGroupName(String name) throws FactoryException {
 		IScannableGroup scnGroup = Finder.findOptionalOfType(name, IScannableGroup.class)
@@ -65,54 +70,50 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 		scannableGroup = crystalScannableGroup;
 	}
 
-	private boolean canSetDescriptions() {
-		if (descriptions.isEmpty()) {
-			return false;
-		}
-
-		int numDescriptions = descriptions.size();
-		int numscannables = scannableGroup.getGroupMemberNames().length;
-		if (numDescriptions == numscannables) {
-			return true;
-		}
-
-		logger.warn("Cannot set labels - descriptions does not match number of scannables in {}. {} expected, found {}",
-				scannableGroup.getName(), numDescriptions, numscannables);
-		return false;
-	}
-
 	@Override
 	public void createControl(Composite composite) {
-		boolean setDescriptions = canSetDescriptions();
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		composite.setBackgroundMode(SWT.INHERIT_FORCE);
 
 		// Create LiveControl object for each scannable in the group
 		List<LiveControl> liveControls = new ArrayList<>();
 		for(String name : scannableGroup.getGroupMemberNames()) {
-			ScannablePositionerControl control = new ScannablePositionerControl();
+			int itemIndex = liveControls.size();
+			Boolean isReadOnlyFromList = null;
+			if (!readOnlyList.isEmpty()) {
+				int size = readOnlyList.size();
+				isReadOnlyFromList = readOnlyList.get(itemIndex%size);
+			}
+
+			// set the display name from the description
+			String description = null;
+			if (!descriptions.isEmpty()) {
+				description = descriptions.get(itemIndex%descriptions.size());
+			}
+
+			var control = new ScannablePositionerControl();
 			control.setScannableName(name);
 			control.setDisplayName(name);
 			control.setDisplayNameWidth(displayNameWidth);
 			control.setIncrementTextWidth(incrementTextWidth);
 			control.setHorizontalLayout(horizontalLayout);
 			control.setShowStop(showStop);
-			control.setReadOnly(readOnly);
-			control.setShowIncrement(showIncrement);
-
-			// set the display name from the description
-			if (setDescriptions) {
-				String desc = descriptions.get(liveControls.size());
-				control.setDisplayName(desc);
+			if (readOnly || Boolean.TRUE.equals(isReadOnlyFromList)) {
+				control.setReadOnly(true);
 			}
+			control.setShowIncrement(showIncrement);
+			if (description != null) {
+				control.setDisplayName(description);
+			}
+
+
 			liveControls.add(control);
 		}
 		setControls(liveControls);
 
 		// Make new composite for all the widgets to go into
 		final Composite container = new Composite(composite, SWT.NONE);
-		if (widgetWidth > 0) {
-			container.setLayout(new GridLayout());
+		if (widgetWidth > 0 && !(composite.getLayout() instanceof RowLayout)) {
 			GridDataFactory.fillDefaults().hint(widgetWidth, SWT.DEFAULT).applyTo(container);
 		} else {
 			container.setLayout(new FillLayout());
@@ -136,6 +137,10 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 		this.readOnly = readOnly;
 	}
 
+	public void setReadOnlyList(List<Boolean> readOnly) {
+		this.readOnlyList = new ArrayList<>(readOnly);
+	}
+
 	public void setDisplayNameWidth(int displayNameWidth) {
 		this.displayNameWidth = displayNameWidth;
 	}
@@ -156,6 +161,14 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 		this.showStop = showStop;
 	}
 
+	/**
+	 * Set the description for each widget in the group.
+	 * <li> If empty, the scannable name will be used.
+	 * <li> If there are fewer descriptions than scannables,
+	 * the description indices will 'wrap around'.
+	 * i.e. description index = widget index % num descriptions
+	 * @param descriptions
+	 */
 	public void setDescriptions(List<String> descriptions) {
 		this.descriptions = new ArrayList<>(descriptions);
 	}

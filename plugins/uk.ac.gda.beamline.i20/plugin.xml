@@ -720,7 +720,7 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.HutchFilterView"
+            class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:hutchFiltersView"
             id="uk.ac.gda.ui.views.synoptic.hutchFilterView"
             name="ATN5 view"
             restorable="true">
