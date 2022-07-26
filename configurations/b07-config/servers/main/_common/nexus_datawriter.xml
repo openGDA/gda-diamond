@@ -105,6 +105,14 @@
 				<value>sm21b_y</value>
 				<value>sm21b_roty</value>
 				<value>sm21b_y_positioner</value>
+				<!-- sm52b -->
+				<value>sm52b_x</value>
+				<value>sm52b_y</value>
+				<value>sm52b_z</value>
+				<value>sm52b_roty</value>
+				<value>sm52b_xp</value>
+				<value>sm52b_yp</value>
+				<value>sm52b_zp</value>
 				<!-- ring -->
 				<value>ring_current</value>
 				<!-- pgm -->

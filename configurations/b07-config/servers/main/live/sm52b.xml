@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- raw motors  -->
+	
+	<bean id="sm52b_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:X" />
+	</bean>
+	
+	<bean id="sm52b_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:Y" />
+	</bean>
+	
+	<bean id="sm52b_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:Z" />
+	</bean>
+	
+	<bean id="sm52b_roty_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:ROTY" />
+	</bean>
+	
+	<!-- compound motors -->
+	
+	<bean id="sm52b_xp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:XP" />
+	</bean>
+	
+	<bean id="sm52b_yp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:YP" />
+	</bean>
+	
+	<bean id="sm52b_zp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:ZP" />
+	</bean>
+
+	
+</beans>

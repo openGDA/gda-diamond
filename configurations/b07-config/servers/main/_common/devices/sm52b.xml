@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!-- raw -->
+	
+	<bean id="sm52b_x" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_x_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_x_motor"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sm52b_y" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_y_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_y_motor"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sm52b_z" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_z_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_z_motor"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sm52b_roty" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_roty_motor" />
+		<property name="userUnits" value="deg" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_roty_motor"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Compound -->
+	
+	<bean id="sm52b_xp" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_xp_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_xp_motor"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="sm52b_yp" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_yp_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_yp_motor"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="sm52b_zp" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_zp_motor" />
+		<property name="userUnits" value="mm" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_zp_motor"/>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

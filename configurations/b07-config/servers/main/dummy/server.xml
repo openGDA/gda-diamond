@@ -44,6 +44,7 @@
 	<import resource="es2b_cam1.xml"/>
 	<import resource="es2b_cam2.xml"/>
 	<import resource="sm21b.xml"/>
+	<import resource="sm52b.xml"/>
 	<import resource="analyser.xml"/>
 	
 	<!-- Pressures -->
