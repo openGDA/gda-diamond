@@ -157,6 +157,9 @@ class IviumPotentiastat:
     def stopAcquiring(self):
         caput(self.pvStem+"PORT"+str(1)+":Acquire",0)
 
+    def startAcquiring(self):
+        caput(self.pvStem+"PORT"+str(1)+":Acquire",1)
+
     def startMethod(self):
         for i in [1]:
             caput(self.pvStem+"PORT"+str(i)+":Acquire",1)
@@ -391,6 +394,7 @@ class IviumMethodRunner(DetectorBase, NexusDetector):
         self.startRunningMethod()
 
     def startRunningMethod(self):
+        ivium.startAcquiring()
         self.methodScannable.asynchronousMoveTo(None)
 
     def isBusy(self):
