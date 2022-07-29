@@ -1253,14 +1253,14 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusScanDataWriter")
 
 if installation.isLive():
-	print "Setting up Zyla detector from I16"
+	print "Setting up Zyla detector"
 	zyla = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 			'zyla',
 			_zyla,
 			None,
 			_zyla_for_snaps,
 			[],
-			panel_name_rcp='Plot 2',
+			panel_name_rcp='zyla',
 			fileLoadTimout=60,
 			printNfsTimes=False,
 			returnPathAsImageNumberOnly=True)
