@@ -3,20 +3,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="zylar_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+	<bean id="zyla_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL16I-EA-DET-16:and2:" />
 	</bean>
 
-	<bean id="zylar_ndfile_base"
+	<bean id="zyla_ndfile_base"
 			class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 		<property name="basePVName" value="BL16I-EA-DET-16:TIFF:" />
 	</bean>
 
-	<bean id="zylar_ndfile"
+	<bean id="zyla_ndfile"
 			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL16I-EA-DET-16:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
-		<property name="pluginBase" ref="zylar_ndfile_base" />
+		<property name="pluginBase" ref="zyla_ndfile_base" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/b16" />
@@ -25,44 +25,44 @@
 		</property>
 	</bean>
 
-	<bean id="zylar_nxcollectionstrategy"
+	<bean id="zyla_nxcollectionstrategy"
 			class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="zylar_adbase" />
+		<constructor-arg ref="zyla_adbase" />
 		<constructor-arg value="-1" />
 	</bean>
 
-	<bean id="zylar_nxfilewriter_for_scans"
+	<bean id="zyla_nxfilewriter_for_scans"
 			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="zylar" />
-		<property name="ndFile" ref="zylar_ndfile" />
+		<constructor-arg value="zyla" />
+		<property name="ndFile" ref="zyla_ndfile" />
 		<property name="waitForFileArrival" value="false" />
-		<property name="keyNameForMetadataPathTemplate" value="zylar_path_template" />
+		<property name="keyNameForMetadataPathTemplate" value="zyla_path_template" />
 	</bean>
 
-	<bean id="zylar_nxfilewriter_for_snaps"
+	<bean id="zyla_nxfilewriter_for_snaps"
 			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
-		<constructor-arg value="zylar" />
-		<property name="ndFile" ref="zylar_ndfile" />
-		<property name="numTrackerExtension" value="zylarsnaps" />
+		<constructor-arg value="zyla" />
+		<property name="ndFile" ref="zyla_ndfile" />
+		<property name="numTrackerExtension" value="zylasnaps" />
 		<property name="writeErrorStatusSupported" value="false" />
 	</bean>
 
-	<bean id="_zylar" class="gda.device.detector.NXDetector">
-		<property name="name" value="_zylar" />
-		<property name="collectionStrategy" ref="zylar_nxcollectionstrategy" />
+	<bean id="_zyla" class="gda.device.detector.NXDetector">
+		<property name="name" value="_zyla" />
+		<property name="collectionStrategy" ref="zyla_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="zylar_nxfilewriter_for_scans" />
+				<ref bean="zyla_nxfilewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="_zylar_for_snaps" class="gda.device.detector.NXDetector">
-		<property name="name" value="_zylar_for_snaps" />
-		<property name="collectionStrategy" ref="zylar_nxcollectionstrategy" />
+	<bean id="_zyla_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="_zyla_for_snaps" />
+		<property name="collectionStrategy" ref="zyla_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="zylar_nxfilewriter_for_snaps" />
+				<ref bean="zyla_nxfilewriter_for_snaps" />
 			</list>
 		</property>
 	</bean>

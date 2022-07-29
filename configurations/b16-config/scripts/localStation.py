@@ -1253,32 +1253,32 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusScanDataWriter")
 
 if installation.isLive():
-	print "Setting up Zylar detector from I16"
-	zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-			'zylar',
-			_zylar,
+	print "Setting up Zyla detector from I16"
+	zyla = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+			'zyla',
+			_zyla,
 			None,
-			_zylar_for_snaps,
+			_zyla_for_snaps,
 			[],
 			panel_name_rcp='Plot 2',
 			fileLoadTimout=60,
 			printNfsTimes=False,
 			returnPathAsImageNumberOnly=True)
 	
-	zylar.display_image = True
-	zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
-	zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
+	zyla.display_image = True
+	zylamax2d = DetectorDataProcessorWithRoi('zylamax2d', zyla, [SumMaxPositionAndValue()])
+	zylapeak2d = DetectorDataProcessorWithRoi('zylapeak2d', zyla, [TwodGaussianPeak()])
 	
-	#zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-	#zylar needs scaling factors?
-	#zylar.processors[0].processors[1].setScalingFactors(1, 1)
+	#zyla.processors=[DetectorDataProcessorWithRoi('peak', zyla, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+	#zyla needs scaling factors?
+	#zyla.processors[0].processors[1].setScalingFactors(1, 1)
 	
-	zylarroi1 = DetectorDataProcessorWithRoi('zylarroi1', zylar, [SumMaxPositionAndValue()])
-	zylarroi2 = DetectorDataProcessorWithRoi('zylarroi2', zylar, [SumMaxPositionAndValue()])
-	zylarroi3 = DetectorDataProcessorWithRoi('zylarroi3', zylar, [SumMaxPositionAndValue()])
-	#zylarroi1.setRoi(0,0,50,50)
+	zylaroi1 = DetectorDataProcessorWithRoi('zylaroi1', zyla, [SumMaxPositionAndValue()])
+	zylaroi2 = DetectorDataProcessorWithRoi('zylaroi2', zyla, [SumMaxPositionAndValue()])
+	zylaroi3 = DetectorDataProcessorWithRoi('zylaroi3', zyla, [SumMaxPositionAndValue()])
+	#zylaroi1.setRoi(0,0,50,50)
 	
-	print "zylar setup"
+	print "zyla setup"
 
 
 ######################################################################################################################################
