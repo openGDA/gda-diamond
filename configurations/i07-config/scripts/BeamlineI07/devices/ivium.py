@@ -3,7 +3,98 @@ from datetime import datetime
 from gda.device.monitor import EpicsMonitor
 from gda.device.enumpositioner import EpicsSimpleMbbinary
 from gda.device.scannable import ScannableMotionBase
-from iviumI16.EpicsDevices import EpicsDeviceClass
+
+
+class EpicsDeviceClass(ScannableBase):
+	def __init__(self, name, pvSet, pvGet, pvStatus, strUnit, strFormat, timeout=None):
+		self.setName(name);
+		self.setInputNames([name]);
+		self.Units=[strUnit];
+		self.setOutputFormat([strFormat]);
+		
+		self.delay=1;
+		self.timeout = timeout;
+
+		self.setupEpics(pvSet, pvGet, pvStatus);
+
+	def __del__(self):
+		self.cleanChannel(self.chSet);
+		self.cleanChannel(self.chGet);
+		if self.chStatus:
+			self.cleanChannel(self.chStatus);
+	
+	def setupEpics(self, pvSet, pvGet, pvStatus):
+#		Epics PVs for checking fast scan readiness:
+		self.chSet=CAClient(pvSet);  self.configChannel(self.chSet);
+		self.chGet=CAClient(pvGet);  self.configChannel(self.chGet);
+
+		if pvStatus:
+			self.chStatus = CAClient(pvStatus);	self.configChannel(self.chStatus);
+		else:
+			self.chStatus = None;
+		
+	def configChannel(self, channel):
+		if not channel.isConfigured():
+			channel.configure();
+
+	def cleanChannel(self, channel):
+		if channel.isConfigured():
+			channel.clearup();
+	
+	def setDelay(self, newDelay):
+		self.delay = newDelay;
+	
+	def setTimeout(self, newTimeout):
+		self.timeout = newTimeout;
+
+	def caget(self):
+		try:
+			result = float(self.chGet.caget())
+		except:
+			print "Error getting position"
+		return result;
+
+	def caput(self, new_position):
+		try:
+			if self.timeout is None:
+				self.chSet.caput(new_position);
+			else:
+				self.chSet.caput(new_position, self.timeout);
+		except:
+			print "Error setting position"
+			
+	def getPosition(self):
+		return self.caget();
+
+	def asynchronousMoveTo(self, new_position):
+		self.currentposition = new_position;
+		self.caput(new_position);
+
+		sleep(self.delay);
+
+	def getStatus(self):
+		status=0;
+		try:
+			if self.chStatus:
+				status = int(float(self.chStatus.caget()));
+		except:
+			print "Error getting status"
+		if status == 1:
+			return EpicsDevicStatus.DEVICE_STATUS_IDLE;
+		if status ==0:
+			return EpicsDevicStatus.DEVICE_STATUS_BUSY;
+
+
+	def isBusy(self):
+		if self.chStatus is None:#No status pv provided, so no status feedback necessary
+			return False;
+		
+		if self.getStatus() == EpicsDevicStatus.DEVICE_STATUS_IDLE:#It's done
+			return False;
+		else:
+			return True;
+
+
 
 
 class IviumPotentiastat:
@@ -65,6 +156,9 @@ class IviumPotentiastat:
     
     def stopAcquiring(self):
         caput(self.pvStem+"PORT"+str(1)+":Acquire",0)
+
+    def startAcquiring(self):
+        caput(self.pvStem+"PORT"+str(1)+":Acquire",1)
 
     def startMethod(self):
         for i in [1]:
@@ -204,8 +298,38 @@ class ScannableIvium(EpicsDeviceClass):
         vals = float(self.pcb.caget()),float(self.mpr.caget()),float(self.mcr.caget())
         self.acquire.caput(0)
         return vals
-        
-    
+
+
+class IviumMethodScannable(ScannableBase):
+    def __init__(self, name, pvBase):
+        self.pvBase = pvBase
+        self.setName(name)
+        self.setExtraNames([])
+	self.setInputNames([])
+        self.setOutputFormat([])
+
+    def asynchronousMoveTo(self, position):
+	# start method
+        caput(self.pvBase + ":PORT1:StartMethod", 1)
+
+
+    def isBusy(self):
+        """
+        [ 0] No IviumSoft
+        [ 1] Not Connected
+        [ 2] Available Idle
+        [ 3] Available Busy
+        """
+        state = caget(self.pvBase + ":CHAN1:DeviceStatus_RBV")
+        return state != "2"
+
+    def stop(self):
+        caput(self.pvBase + ":PORT1:StopMethod", 1)
+
+    def getPosition(self):
+        return None
+
+
 iviumPotential = IviumEpicsMonitor()
 iviumPotential.setController(ivium)
 iviumPotential.setPvName("BL07I-EA-IVIUM-01:CHAN1:MeasuredPotential_RBV")
@@ -222,6 +346,17 @@ iviumRange.setRecordName("BL07I-EA-IVIUM-01:PORT1:CurrentRange")
 iviumRange.configure()
 iviumRange.setReadOnly(False)
 
+
+iviumStatus = EpicsSimpleMbbinary()
+iviumStatus.setName("iviumStatus")
+iviumStatus.setRecordName("BL07I-EA-IVIUM-01:CHAN1:DeviceStatus_RBV")
+iviumStatus.configure()
+iviumStatus.setReadOnly(True)
+
+iviumMethodS = IviumMethodScannable("iviumMethod", "BL07I-EA-IVIUM-01")
+iviumMethodS.configure()
+iviumMethodS.setLevel(100)
+
 ivium1 = ScannableIvium("ivium1", "BL07I-EA-IVIUM-01")
     
 """
@@ -229,4 +364,111 @@ NOTES ON OPERATION IN DIRECT MODE
 1. Changes to applied current/voltage are only taken into account when the PORT is Stopped and Started again
 2. When Cell Mode is set to Potential or Current,  is the live Voltage reading and LastCollectionY_RBV is the live Current reading
 """
+
+# Method detector
+
+from gda.device.detector.addetector.filewriter import MultipleImagesPerHDF5FileWriter
+from gda.device.detector.areadetector.v17.impl import NDFileHDF5Impl, NDPluginBaseImpl, NDFileImpl
+from gda.device.detector import NXDetectorData
+from gda.device.detector import NexusDetector
+
+import os.path
+
+
+class IviumMethodRunner(DetectorBase, NexusDetector):
+
+
+    def __init__(self, name, fileWriter, methodScannable, pathInDatafile="#entry/instrument/detector/data"):
+        self.setName(name)
+        self.setExtraNames(["datapath"])
+        self.setOutputFormat(["%s"])
+        self.setInputNames([])
+        self.fileWriter = fileWriter
+        self.lastReadout = None
+        self.pathInDatafile = pathInDatafile
+        self.methodScannable = methodScannable
+
+    def collectData(self):
+        self.lastReadout = None
+        self.fileWriter.prepareForCollection(1, None)
+        self.startRunningMethod()
+
+    def startRunningMethod(self):
+        ivium.startAcquiring()
+        self.methodScannable.asynchronousMoveTo(None)
+
+    def isBusy(self):
+        return self.fileWriter.getNdFileHDF5().getCapture_RBV() == 1
+
+    def getStatus(self):
+        return 0
+
+    def readout(self):
+        if self.lastReadout == None:
+            fName = self.fileWriter.getNdFileHDF5().getFullFileName_RBV()
+            self.lastReadout = NXDetectorDataWithFilepathForSrs(self)
+            self.lastReadout.addExternalFileLink(self.getName(), "data", "nxfile://" + fName + self.pathInDatafile, 3);
+            self.lastReadout.addFileName(self.getName(), os.path.basename(fName))
+        return self.lastReadout
+
+    def createsOwnFiles(self):
+        return False
+
+    def atScanEnd(self):
+        self.fileWriter.completeCollection()
+
+    def runMethodBlocking(self):
+        staticscan(self)
+
+    def runMethodNonBlocking(self):
+        self.collectData()
+        
+    def stop(self):
+        self.fileWriter.completeCollection()
+        
+    def atCommandFailure(self):
+        self.fileWriter.completeCollection()
+
+    def runMethod(self):
+        staticscan(self)
+
+    def runMethodAsync(self):
+        self.startRunningMethod()
+        print("Method running in background")
+
+
+
+iviumNdFilePb = NDPluginBaseImpl()
+iviumNdFilePb.setBasePVName("BL07I-EA-IVIUM-01:HDF:")
+iviumNdFilePb.setInitialArrayPort("ADSIM.CAM")
+iviumNdFilePb.afterPropertiesSet()
+
+iviumNdFile = NDFileImpl()
+iviumNdFile.setBasePVName("BL07I-EA-IVIUM-01:HDF:")
+iviumNdFile.setPluginBase(iviumNdFilePb)
+iviumNdFile.setInitialWriteMode(0)
+iviumNdFile.setInitialNumCapture(1)
+iviumNdFile.setInitialFileName("ivium-method")
+iviumNdFile.setInitialFileTemplate("%s%s.hdf5")
+iviumNdFile.afterPropertiesSet()
+
+iviumNdFileHdf = NDFileHDF5Impl()
+iviumNdFileHdf.setFile(iviumNdFile)
+iviumNdFileHdf.setBasePVName("BL07I-EA-IVIUM-01:HDF:")
+iviumNdFileHdf.afterPropertiesSet()
+#iviumNdFileHdf.configure()
+
+
+fWriter = MultipleImagesPerHDF5FileWriter()
+fWriter.setNdFileHDF5(iviumNdFileHdf)
+fWriter.setFileTemplate("%s%s-%d.hdf5")
+fWriter.setFilePathTemplate("$datadir$")
+fWriter.setFileNameTemplate("ivium-method")
+fWriter.setFileNumberAtScanStart(-1)
+fWriter.setSetFileNameAndNumber(True)
+fWriter.afterPropertiesSet()
+#fWriter.configure()
+
+iviumMethod = IviumMethodRunner("iviumMethod", fWriter, iviumMethodS)
+
 print "Ivium scripts loaded"
