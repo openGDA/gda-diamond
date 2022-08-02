@@ -372,65 +372,103 @@ from gda.device.detector.areadetector.v17.impl import NDFileHDF5Impl, NDPluginBa
 from gda.device.detector import NXDetectorData
 from gda.device.detector import NexusDetector
 
+from org.eclipse.scanning.api.device import AbstractRunnableDevice
+from uk.ac.diamond.daq.detectors.addetector import  ServiceHolder
+from uk.ac.diamond.daq.detectors.addetector.api import AreaDetectorRunnableDeviceModel
+from org.eclipse.dawnsci.nexus import NexusNodeFactory
+from org.eclipse.dawnsci.nexus.builder import NexusObjectWrapper
+from org.eclipse.dawnsci.nexus import INexusDevice
+from org.eclipse.january.dataset import LazyWriteableDataset
+from org.eclipse.january.dataset import DatasetFactory
+from org.eclipse.january.dataset import SliceND
+from java.lang import Double
+
 import os.path
 
 
-class IviumMethodRunner(DetectorBase, NexusDetector):
+class IviumMethodRunner(AbstractRunnableDevice, INexusDevice):
 
 
     def __init__(self, name, fileWriter, methodScannable, pathInDatafile="#entry/instrument/detector/data"):
-        self.setName(name)
-        self.setExtraNames(["datapath"])
-        self.setOutputFormat(["%s"])
-        self.setInputNames([])
+        super(IviumMethodRunner, self).__init__(ServiceHolder.getRunnableDeviceService())
         self.fileWriter = fileWriter
         self.lastReadout = None
         self.pathInDatafile = pathInDatafile
         self.methodScannable = methodScannable
+        model = AreaDetectorRunnableDeviceModel()
+        model.setName(name)
+        self.setName(name)
+        self.setModel(model)
+        self.register()
+        self.dNames = {"x": "x", "y": "y", "z": "z"}
 
-    def collectData(self):
+    def run(self, position):
         self.lastReadout = None
         self.fileWriter.prepareForCollection(1, None)
         self.startRunningMethod()
+
+        self.fileWriter.read(1)
+
+
+        fName = self.fileWriter.getNdFileHDF5().getFullFileName_RBV()
+        self.lastReadout = NXDetectorDataWithFilepathForSrs(self)
+        self.lastReadout.addExternalFileLink(self.getName(), "data", "nxfile://" + fName + self.pathInDatafile, 3);
+        self.lastReadout.addFileName(self.getName(), os.path.basename(fName))
+
+        ds = dnp.io.load(fName)["entry"]['instrument']['detector']['data']
+        x = ds[0, :, 0]
+        y = ds[0, :, 1]
+        z = ds[0, :, 2]
+
+        self.xDataset.setSlice(None, x, SliceND(x.getShape()))
+        self.yDataset.setSlice(None, y, SliceND(y.getShape()))
+        self.zDataset.setSlice(None, z, SliceND(z.getShape()))
+
+        self.fileWriter.completeCollection()
+
 
     def startRunningMethod(self):
         ivium.startAcquiring()
         self.methodScannable.asynchronousMoveTo(None)
 
-    def isBusy(self):
-        return self.fileWriter.getNdFileHDF5().getCapture_RBV() == 1
 
-    def getStatus(self):
-        return 0
+    def getNexusProvider(self, info):
 
-    def readout(self):
-        if self.lastReadout == None:
-            fName = self.fileWriter.getNdFileHDF5().getFullFileName_RBV()
-            self.lastReadout = NXDetectorDataWithFilepathForSrs(self)
-            self.lastReadout.addExternalFileLink(self.getName(), "data", "nxfile://" + fName + self.pathInDatafile, 3);
-            self.lastReadout.addFileName(self.getName(), os.path.basename(fName))
-        return self.lastReadout
+        nxDet = NexusNodeFactory.createNXdetector();
+        wrapper = NexusObjectWrapper("ivium", nxDet);
 
-    def createsOwnFiles(self):
-        return False
+        self.xDataset = LazyWriteableDataset(self.dNames["x"], Double, [0], [-1], None, None)
+        self.yDataset = LazyWriteableDataset(self.dNames["y"], Double, [0], [-1], None, None)
+        self.zDataset = LazyWriteableDataset(self.dNames["z"], Double, [0], [-1], None, None)
 
-    def atScanEnd(self):
-        self.fileWriter.completeCollection()
+
+        wrapper.getNexusObject().createDataNode(self.dNames["x"], self.xDataset);
+        wrapper.getNexusObject().createDataNode(self.dNames["y"], self.yDataset);
+        wrapper.getNexusObject().createDataNode(self.dNames["z"], self.zDataset);
+
+        wrapper.addAxisDataFieldNames(self.dNames["x"], self.dNames["y"], self.dNames["z"]);
+        wrapper.setPrimaryDataFieldName(self.dNames["x"])
+        wrapper.addAdditionalPrimaryDataFieldName(self.dNames["y"])
+        wrapper.addAdditionalPrimaryDataFieldName(self.dNames["z"])
+        return wrapper
+
+    #def isBusy(self):
+        #return self.fileWriter.getNdFileHDF5().getCapture_RBV() == 1
 
     def runMethodBlocking(self):
-        staticscan(self)
+        mscan(static, 1, self, 1)
 
-    def runMethodNonBlocking(self):
-        self.collectData()
-        
-    def stop(self):
-        self.fileWriter.completeCollection()
-        
-    def atCommandFailure(self):
-        self.fileWriter.completeCollection()
+    #def runMethodNonBlocking(self):
+    #REDO
+     #   self.collectData()
+
+    #def stop(self):
+    #REDO
+     #   self.fileWriter.completeCollection()
+
 
     def runMethod(self):
-        staticscan(self)
+        self.runMethodBlocking()
 
     def runMethodAsync(self):
         self.startRunningMethod()
