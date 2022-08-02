@@ -8,7 +8,7 @@ Created on 22 Feb 2022
 from synapse.SynapseSwitchBox import synapse_s1, synapse_s2, synapse_s3, synapse_s4, synapse_setall, \
     synapse_cg
 from time import sleep
-from synapse.epics_keithley_class import EpicsKeithley2461
+from i06shared.keithley.epics_keithley_class import EpicsKeithley2461
 from gda.jython import JythonServerFacade
 
 curr, volt = ['Current', 'Voltage']
