@@ -83,7 +83,7 @@
 		<property name="showStop" value="false" />
 		<property name="showIncrement" value="false" />
 		<property name="readOnly" value="true" />
-	</bean>	
+	</bean> 
 	
 	<bean id="ca36b_sensitivity_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="ca36b sensitivity " />

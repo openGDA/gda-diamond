@@ -130,8 +130,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="ca35b_adc_output" class="gda.device.scannable.DummyScannable" />
 
 	<bean id="ca36b_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
@@ -261,5 +259,4 @@
 		</property>
 	</bean>
 	
-	<bean id="ca36b_adc_output" class="gda.device.scannable.DummyScannable" />
 </beans>
