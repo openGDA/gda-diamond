@@ -363,4 +363,36 @@
             </map>
         </constructor-arg>
     </bean>
+    
+    <bean id="analyser_deflector_range" class="uk.ac.diamond.daq.pes.api.AnalyserDeflectorRangeConfiguration">
+		<constructor-arg>
+			<map>
+				<entry key="Transmission">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="0" />
+						<constructor-arg name="deflectorXMaximum" value="0" />
+					</bean>
+				</entry>
+				<entry key="A14_08">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="0" />
+						<constructor-arg name="deflectorXMaximum" value="0" />
+					</bean>
+				</entry>
+				<entry key="A30_08">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="0" />
+						<constructor-arg name="deflectorXMaximum" value="0" />
+					</bean>
+				</entry>
+				<entry key="DA30Q_08">
+					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
+						<constructor-arg name="deflectorXMinimum" value="-15.0" />
+						<constructor-arg name="deflectorXMaximum" value="15.0" />
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+    </bean>
+    
 </beans>

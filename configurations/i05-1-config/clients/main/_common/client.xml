@@ -27,12 +27,8 @@
 
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
-	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
 
 	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
 	<import resource="mapping.xml" />
