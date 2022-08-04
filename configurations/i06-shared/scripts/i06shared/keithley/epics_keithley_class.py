@@ -7,7 +7,6 @@ Created on 22 Feb 2022
 '''
 from gda.epics import CAClient
 from gda.device import DeviceException
-from time import sleep
 
 # the root name of keithley PV
 pv_root = "BL06I-EA-SRCM-01:"
@@ -58,21 +57,19 @@ class EpicsKeithley2461(object):
         self.asyn_timeout.configure()
         self.configured = True
         
-    def send_command_no_reply(self, command, timeout = 1.0):
+    def send_command_no_reply(self, command, timeout = 0.2):
         self.configure()
         self.asyn_timeout.caput(timeout)
         self.transfer_mode.caput(1)
-        sleep(0.5)
         self.command.caput([ord(c) for c in command + str('\0')])
-        sleep(1)
+
         
-    def send_command(self, command, timeout = 1.0):
+    def send_command(self, command, timeout = 0.2):
         self.configure()
         self.asyn_timeout.caput(timeout)
         self.transfer_mode.caput(0)
-        sleep(0.5)
         self.command.caput([ord(c) for c in command + str('\0')])
-        sleep(1)
+
         
     def get_response(self, timeout):
         self.configure()
@@ -80,7 +77,6 @@ class EpicsKeithley2461(object):
         timeout_time = time.time() + timeout
         byte_array_char_code = self.response.cagetArrayByte()
         while all( v == 0 for v in byte_array_char_code):
-            sleep(1)
             byte_array_char_code = self.response.cagetArrayByte()
             if time.time() > timeout_time :
                 print("timeout after wait data for %f seconds" % timeout)
@@ -112,6 +108,12 @@ class EpicsKeithley2461(object):
         '''resets the instrument settings to their default values and clears the reading buffers.
         '''
         self.send_command_no_reply('*RST')
+        
+    def outputOn(self):
+        self.send_command_no_reply("OUTP ON")
+        
+    def outputOff(self):
+        self.send_command_no_reply("OUTP OFF")
         
     def sourceFunction(self, function):
         '''Set the source function
@@ -226,7 +228,6 @@ class EpicsKeithley2461(object):
         self.send_command_no_reply("SENS:VOLT:NPLC " + str(nplc))
         self.send_command_no_reply("OUTP ON")
         self.send_command(":READ? 'defbuffer1', sour, read", timeout)
-        sleep(timeout)
         if self.get_error_count() > 0:
             print("Error count is not zero, please clear the error count in EPICS before use the last command again!")
         respose = self.get_response(timeout)            
