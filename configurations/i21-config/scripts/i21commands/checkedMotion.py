@@ -61,12 +61,15 @@ def enable_arm_motion():
     '''this function just clear following errors for specl and spech
     '''
     if installation.isDummy():
-        print("set BL21I-MO-ARM-01:CLRF to 'msclrf4 msclrf5 clrf'")
+        print("set BL21I-MO-ARM-01:CLRF to clrf")
     else:
         caput("BL21I-MO-ARM-01:CLRF", 'msclrf4 msclrf5 clrf')
         sleep(1)
-        spech.stop()
-        specl.stop()
+        spech_val = float(spech.getPosition())
+        specl_val = float(specl.getPosition())
+ #       sleep(1)
+        caput("BL21I-MO-ARM-01:HORZ", specl_val + 0.001)
+        caput("BL21I-MO-ARM-01:VERT", spech_val + 0.001)
 
 
 def check_armtth_and_move_sgmr1_if_required(motor, new_position):
@@ -87,7 +90,6 @@ def check_armtth_and_move_sgmr1_if_required(motor, new_position):
                 sgmr1.moveTo(lookuptable[found_range][1] - 1.0)
                 print('sleep 1 second after sgmr1 move')
                 sleep(1)
-                
 
 def check_if_move_legal(motor, new_position):
     '''check motor limits using lookup table data. this is to work around the issues related to motion stuck problems
@@ -116,14 +118,13 @@ def check_if_move_legal(motor, new_position):
         enable_arm_motion()
         return False
 
-
 def switch_on_air_supply(motor):
-    if (motor is armtth or motor is alltth) and not armtth.isOn():
+    if (motor is armtth or motor is alltth):
         armtth.on()
-        if not sgmr1.isOn():
-            sgmr1.on()
+        sleep(4.0)
+        sgmr1.on()
         print("switch arm air on, wait for 14 seconds.")
-        sleep(14.0)
+        sleep(10.0)
     if motor is sgmr1 and not sgmr1.isOn():
         sgmr1.on()
         print("switch sgm air on, wait for 10 seconds.")
@@ -157,11 +158,10 @@ def move(motor, new_position, sgmr1_val=None):
         armtthoffset.moveTo(-0.1)
         if sgmr1_val:
             sgmr1.moveTo(sgmr1_val)
-        print("%s moves completed at %f" % (motor.getName(), motor.getPosition()))
+        print("%s moves completed at %s" % (motor.getName(), str(motor.getPosition())))
             
         #switch off air supply
         switch_off_air_supply(motor)
-
 try:
     from gda.jython.commands.GeneralCommands import alias
     alias("move")
