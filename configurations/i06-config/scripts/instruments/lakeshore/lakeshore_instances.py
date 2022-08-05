@@ -7,7 +7,7 @@ exec('[lakeshore, temp, heater, setTemp]=[None, None, None, None]')
 com1 = rs232(1,'U1')
 #Baud = 9600, bit = 7, bitstop = 1, parity = Odd, Flow Control = None
 #\r\n OutTerminator, \r\n InTerminator
-#com1.setParameters(9600,7, 1, "Odd", "None", "\r\n","\r\n")
+com1.setParameters(9600,7, 1, "Odd", "None", "\r\n","\r\n")
 lakeshore=Lakeshore331_class('lakeshore', com1) 
 temp = LakeshoreTemperature_class('temp',lakeshore)
 heater = LakeshoreHeaterOut_class('heater',lakeshore)

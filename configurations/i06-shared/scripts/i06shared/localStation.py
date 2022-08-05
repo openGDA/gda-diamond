@@ -70,7 +70,7 @@ if beamline != "lab44" and beamline != "i06-2":
     m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
     m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 
-    from i06shared.scannables.mode_polarisation_energy_instances import GAP_LIMIT, RAW_PHASE_MOTOR_TOLERANCE, ENERGY_VALUE_TOLERANCE, idd,idu,dpu,dmu,pc,nc,lh,lv,la,unknown, initialisation  # @UnusedImport
+    from i06shared.scannables.mode_polarisation_energy_instances import GAP_LIMIT, RAW_PHASE_MOTOR_TOLERANCE, ENERGY_VALUE_TOLERANCE, idd,idu,dpu,dmu,pc,nc,lh,lv,la,unknown, initialisation, energypolarisation  # @UnusedImport
     #add checkbeam scannable
     from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
     #Metadata objects
