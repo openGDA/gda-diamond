@@ -35,6 +35,14 @@ def picture(acqTime):
 from gda.jython.commands.GeneralCommands import alias
 alias("picture")
 #
+def preview():
+    from time import sleep
+    from gdaserver import medipixpreview  # @UnresolvedImport
+    medipixpreview.stop()
+    sleep(1)
+    medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None)
+    medipixpreview.collectData()
+    
 def enableRastering():
     from gdaserver import medipix  # @UnresolvedImport
     medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(True)

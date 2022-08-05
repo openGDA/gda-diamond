@@ -47,21 +47,17 @@ public class SpELUtils {
 	 * @param time
 	 * @throws DeviceException
 	 */
-	public static void updateAcquirePeriodWhenAcquireTimeChanges(Scannable acquireTime, Scannable acquirePeriod, Double time) throws DeviceException {
+	public static void updateAcquirePeriodWhenAcquireTimeChanges(Scannable acquireTime, Scannable acquirePeriod, Scannable idleTime, Double time) {
 		try {
-			double exposureTime = Double.parseDouble(acquireTime.getPosition().toString());
-			double period = Double.parseDouble(acquirePeriod.getPosition().toString());
-			double idle = period - exposureTime;
+			double idle = Double.parseDouble(idleTime.getPosition().toString());
 			acquireTime.asynchronousMoveTo(time);
-			acquirePeriod.asynchronousMoveTo(time + idle);// keep idle time the same
-
+			acquirePeriod.asynchronousMoveTo(time + idle);
 		} catch (DeviceException e) {
-			logger.error("updateAcquirePeriodWhenAcquireTimeChanges({}, {}, {})", acquireTime.getName(), acquirePeriod.getName(), time, e);
-			throw e;
+			logger.error("updateAcquirePeriodWhenAcquireTimeChanges({}, {}, {}, {})", acquireTime.getName(), acquirePeriod.getName(), idleTime.getName(), time, e);
 		}
 	}
 
-	public static void updateNumFilterInProc(Scannable enableFilter, Scannable resetFilter, Scannable numFilter, Integer num) throws DeviceException {
+	public static void updateNumFilterInProc(Scannable enableFilter, Scannable resetFilter, Scannable numFilter, Integer num) {
 		// when detector exposure time is very small, proc plugin will not have time to response to further request.
 		try {
 			// disable filtering
@@ -74,7 +70,6 @@ public class SpELUtils {
 			enableFilter.asynchronousMoveTo(1);
 		} catch (DeviceException e) {
 			logger.error("updateNumFilterInProc({}, {}, {}, {})", enableFilter.getName(), resetFilter.getName(),numFilter.getName(), num, e);
-			throw e;
 		}
 	}
 

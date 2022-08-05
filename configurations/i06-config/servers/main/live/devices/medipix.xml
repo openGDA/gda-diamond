@@ -353,33 +353,42 @@
 		<property name="ndArray" ref="medipix_ndarray2"/>
 		<property name="arrayPortName" value="mpxview.ROT"/>
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
-				<property name="restoreState" value="true"/>
-				<property name="ndProcess" ref="medipix_procb"/>
-				<property name="processDataTypeOut">
-					<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT16"/>
-				</property>
-				<property name="outputEveryArray" value="true"/>
-				<property name="resetFilterAtStart" value="true"/>
-				<property name="autoReset" value="false"/>
-				<property name="filterType" value="0"/>
-				<property name="numberOfImagesToFilter" value="1"/>
-				<property name="enableFilter" value="true"/>
-				<property name="enableNumFilter" value="false"/>
+			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+				<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode" />
+				<property name="expression" value="1"/> <!--0:12 bit, 1:24 bit, 2:Tow Threshold, 3:Continuous RW, 4:Color, 5:Charge Summing  -->
+				<property name="waitTimeInSeconds" value="0.5"/>
+				<property name="enabled" value="true" />
+				<property name="restorePvValue" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
-						<property name="restoreNumImagesAndImageMode" value="true"/>
-						<property name="imageMode" value="2"/> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
+					<bean class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
+						<property name="restoreState" value="true"/>
+						<property name="ndProcess" ref="medipix_procb"/>
+						<property name="processDataTypeOut">
+							<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT16"/>
+						</property>
+						<property name="outputEveryArray" value="true"/>
+						<property name="resetFilterAtStart" value="true"/>
+						<property name="autoReset" value="true"/>
+						<property name="filterType" value="0"/>
+						<property name="numberOfImagesToFilter" value="3"/>
+						<property name="enableFilter" value="true"/>
+						<property name="enableNumFilter" value="true"/>
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
-								<property name="restoreTriggerMode" value="true"/>
-								<property name="triggerMode" value="0"/>
+							<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+								<property name="restoreNumImagesAndImageMode" value="true"/>
+								<property name="imageMode" value="2"/> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
 								<property name="decoratee">
-									<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
-										<property name="restoreAcquireTime" value="true"/>
-										<property name="restoreAcquirePeriod" value="true"/>
-										<property name="acquirePeriodExpression" value="#acquireTime + 0.002"/>
-										<property name="decoratee" ref="kbRasteringPeriod"/>
+									<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+										<property name="restoreTriggerMode" value="true"/>
+										<property name="triggerMode" value="0"/>
+										<property name="decoratee">
+											<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+												<property name="restoreAcquireTime" value="true"/>
+												<property name="restoreAcquirePeriod" value="true"/>
+												<property name="acquirePeriodExpression" value="#acquireTime + 0.002"/>
+												<property name="decoratee" ref="kbRasteringPeriod_delayed"/>
+											</bean>
+										</property>
 									</bean>
 								</property>
 							</bean>
