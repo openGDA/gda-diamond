@@ -95,5 +95,6 @@
 	<bean id="gr_mfc_12" class="gda.device.scannable.DummyScannable" />
 	<bean id="gr_mfc_13" class="gda.device.scannable.DummyScannable" />
 	<bean id="gr_mfc_14" class="gda.device.scannable.DummyScannable" />
+	<bean id="gr_butterfly_valve_position" class="gda.device.scannable.DummyScannable" />
 
 </beans>

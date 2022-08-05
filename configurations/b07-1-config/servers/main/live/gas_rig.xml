@@ -132,6 +132,22 @@
 		<property name="recordName" value="BL07C-GA-VALVE-92:CON"/>
 		<property name="readOnly" value="false"/>
 	</bean>
+	
+	<bean id="gr_endstation_valve" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-VA-VALVE-36:STA" />
+		<property name="readOnly" value="true" />
+	</bean>
+	
+	<bean id="line_2_valve" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-GA-VALVE-94:STA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
+	<bean id="gr_sample_temp" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="B07-EA-TCTRL-01:PV:RBV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
 
 	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.GasRigController">
 		<constructor-arg value="BL07C-GA-" />
@@ -279,5 +295,7 @@
 				</bean>
 			</list>
 		</constructor-arg>
+		<constructor-arg name="butterflyValvePressure" ref="gr_butterfly_valve_pressure" />
+		<constructor-arg name="butterflyValvePosition" ref="gr_butterfly_valve_position" />
 	</bean>
 </beans>
