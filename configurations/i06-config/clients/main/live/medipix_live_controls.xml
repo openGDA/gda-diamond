@@ -19,6 +19,16 @@
 			</list>
 		</property>	
 	</bean>
+	<bean id="medipixIdleTime" class="uk.ac.diamond.daq.beamline.i06_shared.scannables.SpELExpressionScannable">
+		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquirePeriod"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>
+		<property name="moveToExpression" value="#input > 0.002 ? @medipixExposureTime.getPosition() + #input : @medipixExposureTime.getPosition() + 0.002"/>
+		<property name="getPositionExpression" value="(#output - @medipixExposureTime.getPosition())>0.002 ? #output - @medipixExposureTime.getPosition() : 0.002"/>
+	</bean>
 	<bean id="medipixAcquireTime" class="uk.ac.diamond.daq.beamline.i06_shared.scannables.SpELExpressionScannable">
 		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquireTime"/>
 		<property name="outputFormat">
@@ -31,20 +41,11 @@
 			<list>
 				<value>gda.device.Scannable</value>
 				<value>gda.device.Scannable</value>
+				<value>gda.device.Scannable</value>
 				<value>java.lang.Double</value>
 			</list>
 		</property>
-		<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, #input)"/>
-	</bean>
-	<bean id="medipixIdleTime" class="uk.ac.diamond.daq.beamline.i06_shared.scannables.SpELExpressionScannable">
-		<property name="pvName" value="BL06I-EA-DET-02:CAM:AcquirePeriod"/>
-		<property name="outputFormat">
-			<list>
-				<value>%4.3f</value>
-			</list>
-		</property>
-		<property name="moveToExpression" value="#input > 0.002 ? @medipixExposureTime.getPosition() + #input : @medipixExposureTime.getPosition() + 0.002"/>
-		<property name="getPositionExpression" value="(#output - @medipixExposureTime.getPosition())>0.002 ? #output - @medipixExposureTime.getPosition() : 0.002"/>
+		<property name="moveToExpression" value="#updateAcquirePeriodWhenAcquireTimeChanges(@medipixExposureTime, @medipixAcquirePeriod, @medipixIdleTime, #input)"/>
 	</bean>
 	<bean id="medipixRotationAngle" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL06I-EA-LEEM-01:CALC:ROT:ANGLE"/>
