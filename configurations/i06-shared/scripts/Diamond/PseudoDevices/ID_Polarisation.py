@@ -96,7 +96,7 @@ class EnergyConsolidationClass(ScannableMotionBase):
 		if self.verbose: self.logger.info("asynchronousMoveTo(%r)..."%newPos)
 		# Since energy and polarisation could come very close together, delay until we can be
 		# sure that polarisation has been set before we decide which energy to use and set.
-		self.delayedSwitchAndMoveEnergyTimer = Timer(0.1, self.delayedSwitchAndMoveEnergy, [newPos])
+		self.delayedSwitchAndMoveEnergyTimer = Timer(0.2, self.delayedSwitchAndMoveEnergy, [newPos])
 		self.delayedSwitchAndMoveEnergyTimer.start()
 		if self.verbose: self.logger.info("...asynchronousMoveTo(%r)"%newPos)
 
