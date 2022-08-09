@@ -95,14 +95,12 @@
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
 		<property name="arrayPV" value="BL05J-EA-DET-03:CAM:IMAGE" />
-		<property name="frameNumberPV" value="BL05J-EA-DET-03:CAM:CURRENT_MEAS_POINT_RBV" />
 	</bean>
 
 	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Sum Plot" />
 		<property name="arrayPV" value="BL05J-EA-DET-03:CAM:IMAGE" />
-		<property name="frameNumberPV" value="BL05J-EA-DET-03:CAM:CURRENT_MEAS_POINT_RBV" />
 		<property name="sumFrames" value="true" />
 		<property name="acquirePV" value="BL05J-EA-DET-03:CAM:Acquire" />
 	</bean>
@@ -111,8 +109,6 @@
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Swept Plot" />
 		<property name="arrayPV" value="BL05J-EA-DET-03:CAM:IMAGE" />
-		<!-- For the swept plot want to trigger an update after each step so use current channel PV -->
-		<property name="frameNumberPV" value="BL05J-EA-DET-03:CAM:CURRENT_MEAS_POINT_RBV" />
 	</bean>
 
 	<bean id="sweepupdater" class="uk.ac.gda.devices.vgscienta.SweepUpdater">
