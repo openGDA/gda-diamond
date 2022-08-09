@@ -132,7 +132,7 @@
 	<!-- ============= Current Amplifier Controller, BPM Controller and BPM 
 		definition section ============ -->
 	<!-- QBPM1 (D2) Current Amplifier Controller, BPM Controller and BPM -->
-	<bean id="bpm1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+	<bean id="bpm1qca" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-DI-PHDGN-02:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-DI-PHDGN-02:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-DI-PHDGN-02:BPMI1" />
@@ -155,7 +155,7 @@
 	</bean>
 
 	<!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
-	<bean id="bpm2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+	<bean id="bpm2qca" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-DI-PHDGN-03:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-DI-PHDGN-03:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-DI-PHDGN-03:BPMI1" />
@@ -178,7 +178,7 @@
 	</bean>
 
 	<!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
-	<bean id="bpm3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+	<bean id="bpm3qca" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-DI-PHDGN-05:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-DI-PHDGN-05:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-DI-PHDGN-05:BPMI1" />
@@ -201,7 +201,7 @@
 	</bean>
 
 	<!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
-	<bean id="mbs1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+	<bean id="mbs1qca" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-AL-SLITS-02:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-AL-SLITS-02:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-AL-SLITS-02:BPMI1" />
@@ -224,7 +224,7 @@
 	</bean>
 
 	<!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
-	<bean id="mbs2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+	<bean id="mbs2qca" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-AL-SLITS-03:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-AL-SLITS-03:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-AL-SLITS-03:BPMI1" />
@@ -248,7 +248,7 @@
 
 
 	<!-- MBS3 Current Amplifier Controller, BPM Controller and BPM -->
-	<bean id="mbs3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+	<bean id="mbs3qca" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-AL-SLITS-04:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-AL-SLITS-04:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-AL-SLITS-04:BPMI1" />
@@ -292,7 +292,7 @@
 		</bean> -->
 	<!-- ==================== Quadra Current Amplifier definition section ===================== -->
 	<!-- Ion Chamber Quadra Current Amplifier -->
-	<bean id="adcqca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+	<bean id="adcqca" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-OP-IONC-01:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-OP-IONC-01:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-OP-IONC-01:I1" />
