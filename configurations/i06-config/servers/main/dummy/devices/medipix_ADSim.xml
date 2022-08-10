@@ -325,7 +325,7 @@
 	<!--Preview -->
 	<bean id="medipixPreviewCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
 		<property name="ndArray" ref="medipix_ndarray"/>
-		<property name="arrayPortName" value="mpxview.PROC"/>
+		<property name="arrayPortName" value="ADSIM.proc"/>
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
 				<property name="restoreState" value="true"/>
