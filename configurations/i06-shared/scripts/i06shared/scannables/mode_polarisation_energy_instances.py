@@ -100,7 +100,6 @@ if installation.isLive() and beamline != "lab44":
     __main__.energy=CombinedEnergy('energy', __main__.iddgap, __main__.idugap, iddrpenergy, idurpenergy, __main__.pgmenergy, __main__.smode, __main__.pol,__main__.offhar, detune=100.0, opengap=100.0)
     __main__.laa=LinearArbitraryAngle('laa', __main__.iddlaangle, __main__.idulaangle, __main__.smode, __main__.pol)
     __main__.offhar.setPolScannable(__main__.pol)
-    energypolarisation=CombinedEnergyPolarisation('energypolarisation', iddpol, iddrpenergy, __main__.iddgap, idupol, idurpenergy, __main__.idugap, __main__.pgmenergy, __main__.smode, __main__.pol,__main__.offhar, detune=100.0, opengap=100.0)
 else:
     __main__.smode = DummyListScannable('smode', list_values=SourceMode.SOURCE_MODES[:-1])
     __main__.offhar = DummyScannable('offhar')
@@ -108,3 +107,4 @@ else:
     __main__.energy=__main__.pgmenergy; __main__.energy.setInputNames(['energy'])
     __main__.laa=LinearArbitraryAngle('laa', __main__.iddlaangle, __main__.idulaangle, __main__.smode, __main__.pol)
     
+energypolarisation=CombinedEnergyPolarisation('energypolarisation', iddpol, iddrpenergy, __main__.iddgap, idupol, idurpenergy, __main__.idugap, __main__.pgmenergy, __main__.smode, __main__.pol,__main__.offhar, detune=100.0, opengap=100.0)
