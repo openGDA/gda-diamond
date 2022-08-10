@@ -7,4 +7,6 @@
 	<!-- sends logs to logback-beagle -->
 	<!-- <consolePlugin /> -->
 	<logger name="org.eclipse.january.dataset.RGBByteDataset" level="ERROR"/>
+	<logger name="uk.ac.gda.remoting.client.ClientSideIObservableMethodInterceptor" level="ERROR"/>
+	
 </included>

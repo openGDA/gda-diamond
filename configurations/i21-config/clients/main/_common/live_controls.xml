@@ -72,17 +72,17 @@
 	</bean>	
 	<!-- Sample Position control -->
 	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
+		<property name="command" value="smp_positioner.asynchronousMoveTo('Screws')" />
 		<property name="buttonText" value="Screws" />
 		<property name="group" value="Sample" />
 	</bean>
 	<bean id="transfer_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Transfer')" />
+		<property name="command" value="smp_positioner.asynchronousMoveTo('Transfer')" />
 		<property name="buttonText" value="Transfer" />
 		<property name="group" value="Sample" />
 	</bean>
 	<bean id="rixs_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('RIXS')" />
+		<property name="command" value="smp_positioner.asynchronousMoveTo('RIXS')" />
 		<property name="buttonText" value="RIXS" />
 		<property name="group" value="Sample" />
 	</bean>
