@@ -9,7 +9,6 @@
 
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
 		<property name="controller" ref="xspress3ControllerXSP4" />
-		<property name="xspress3Controller" ref="xspress3Controller" />
 		<property name="defaultSubdirectory" value="nexus" />
 		<property name="tfgFFI0" ref="xspress3XFFI0" />
 		<property name="configFileName" value="${gda.config}/var/templates/Xspress3_Parameters.xml" />
@@ -43,7 +42,6 @@
 
 	<bean id="xspress3X" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
 		<property name="controller" ref="xspress3XControllerXSP4" />
-		<property name="xspress3Controller" ref="xspress3XController" />
 		<property name="defaultSubdirectory" value="nexus" />
 		<property name="tfgFFI0" ref="xspress3XFFI0" />
 		<property name="configFileName" value="${gda.config}/var/templates/Xspress3X_Parameters.xml" />

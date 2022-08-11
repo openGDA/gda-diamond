@@ -6,7 +6,7 @@
 	<bean id="xspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
 		<property name="name" value="xspress4" />
 		<property name="controller" ref="xspress4Controller" />
-		<property name="xspress3Controller" ref="xspress3ControllerForXspress4" />
+<!-- 		<property name="xspress3Controller" ref="xspress3ControllerForXspress4" /> -->
 		<property name="defaultSubdirectory" value="nexus" />
 		<property name="tfgFFI0" ref="xspress4FFI0" />
 		<property name="configFileName" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
