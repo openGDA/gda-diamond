@@ -7,8 +7,6 @@
 	<bean id="idgap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="idgapMotor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="upperGdaLimits" value="100" />
-		<property name="lowerGdaLimits" value="19.85" />
 	</bean>
 	
 	<bean id="idscannable" class="gda.device.insertiondevice.Apple2IDGapPolarPos">

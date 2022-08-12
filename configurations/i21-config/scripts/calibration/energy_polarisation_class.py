@@ -9,9 +9,9 @@ from gda.device.scannable import ScannableMotionBase, ScannableStatus
 from gda.device.scannable.scannablegroup import ScannableGroup
 from lookup.fourKeysLookupTable import load_lookup_table, get_fitting_coefficents
 import numbers
-from gda.device.MotorProperties import MotorEvent
 from gda.observable import IObserver
 from org.apache.commons.lang3.builder import EqualsBuilder, HashCodeBuilder
+from gda.device import MotorStatus
 
 logger = logging.getLogger('__main__')
 
@@ -167,39 +167,39 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         elif mode in X_RAY_POLARISATIONS[-2:]:
             BeamEnergyPolarisationClass.harmonicOrder = 1
             gap, polarisation, phase = self.getIDPositions() # get Current ID position
-            print("Current ID Gap, Polarisation, Phase = %f, %s, %f before lookup calculation" % (gap, polarisation, phase))
+            self.logger.debug("Current ID Gap, Polarisation, Phase = %f, %s, %f before lookup calculation" % (gap, polarisation, phase))
             if self.polarisationConstant or self.energyConstant:
                 if (phase<0): #row phase can be negative in EPICS but lookup table only has positive phase values.
                     polarisation_angle,energy = self.idlamlookup.getEnergyPolarisation(gap, -phase)
                 else:
                     polarisation_angle,energy = self.idlamlookup.getEnergyPolarisation(gap, phase)  
-                print("Polarisation_Angle, Energy = %f, %f at current Gap, Phase = %f, %f" % (polarisation_angle, energy, gap, phase))
+                self.logger.debug("Polarisation_Angle, Energy = %f, %f at current Gap, Phase = %f, %f" % (polarisation_angle, energy, gap, phase))
                 if self.polarisationConstant:       #move energy only
-                    if (polarisation_angle>0):
-                        polarisation_angle=-polarisation_angle #lookup table only contains negative polarisation angle!
-                        self.inputSignSwitched=True
+                    if (polarisation_angle > 0):
+                        polarisation_angle = -polarisation_angle #lookup table only contains negative polarisation angle!
+                        self.inputSignSwitched = True
                     gap, phase = self.idlamlookup.getGapPhase(Ep, polarisation_angle) #only energy changes, keep existing polarisation
-                    print("Gap, Phase = %f, %f at Energy, Polarisation_Angle = %f, %f after lookup calculation" % (gap, phase, Ep, polarisation_angle))
+                    self.logger.debug("Gap, Phase = %f, %f at Energy, Polarisation_Angle = %f, %f after lookup calculation" % (gap, phase, Ep, polarisation_angle))
                 elif self.energyConstant:      #move polarisation angle only
-                    if (polar>0):
-                        polar=-polar #lookup table only contains negative polarisation angle!
-                        self.inputSignSwitched=True
+                    if (polar > 0):
+                        polar = -polar #lookup table only contains negative polarisation angle!
+                        self.inputSignSwitched = True
                     gap, phase = self.idlamlookup.getGapPhase(energy, polar) #only polarisation changes, keep existing energy
-                    print("Gap, Phase = %f, %f at Energy, Polarisation_Angle = %f, %f after lookup calculation" % (gap, phase, energy, polar))
+                    self.logger.debug("Gap, Phase = %f, %f at Energy, Polarisation_Angle = %f, %f after lookup calculation" % (gap, phase, energy, polar))
             elif not self.polarisationConstant and not self.energyConstant:
                 if Ep is not None and polar is not None:
                     if (polar>0):
-                        polar=-polar #lookup table only contains negative polarisation angle!
-                        self.inputSignSwitched=True
+                        polar = -polar #lookup table only contains negative polarisation angle!
+                        self.inputSignSwitched = True
                     gap, phase = self.idlamlookup.getGapPhase(Ep, polar) # both energy and polarisation change
-                    print("Gap, Phase = %f, %f at Energy, Polarisation_Angle = %f, %f after lookup calculation" % (gap, phase, Ep, polar))
+                    self.logger.debug("Gap, Phase = %f, %f at Energy, Polarisation_Angle = %f, %f after lookup calculation" % (gap, phase, Ep, polar))
                 else:
                     raise ValueError("Both energy and polarisation angle are required!")
             if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
                 raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s!" % (gap, self.minGap,self.maxGap))
         else:
             raise ValueError("Unsupported polarisation mode %s is requested!" % (mode))
-        if phase<0 or phase>self.maxPhase: #Physical limits of ID Row Phase
+        if phase < 0 or phase > self.maxPhase: #Physical limits of ID Row Phase
             raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, 0, self.maxPhase))
         return (gap, phase)
         
@@ -217,7 +217,6 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 polarisation_angle = self.idlamlookup.getEnergyPolarisation(gap, phase)[0]
                 if self.inputSignSwitched:
                     polarisation_angle = -polarisation_angle
-                    self.inputSignSwitched=False
                 if self.polarisationConstant:
                     return energy
                 elif self.energyConstant:
@@ -243,8 +242,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
 
     def validatePolarisation(self, polarisation_angle):
         new_polarisation = None
-        if polarisation_angle < -90 or polarisation_angle > 90:
-            raise ValueError("polarisation_angle input is outside supported range (-90, 90)!")
+        if polarisation_angle < -89.882 or polarisation_angle > 89.882:
+            raise ValueError("polarisation_angle input is outside supported range (-89.882, 89.882)!")
         elif polarisation_angle < 0:
             new_polarisation = "LAN"
         else:
@@ -295,7 +294,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     if self.polarisationConstant: #input must be for energy
                         raise ValueError("Input value must be a number.")
                     new_polarisation=str(new_position)
-                    if not new_polarisation in X_RAY_POLARISATIONS[:-2]:
+                    if new_polarisation not in X_RAY_POLARISATIONS[:-2]:
                         raise ValueError("Input value must be one of valid polarisation mode: %s" % str(X_RAY_POLARISATIONS[:-2]) )
                     energy=self.pgmenergy.getPosition()
                 elif isinstance(new_position, numbers.Number):
@@ -303,9 +302,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                         energy=float(new_position) #energy validation is done in getFittingCoefficent() method
                         gap, new_polarisation, phase = self.getIDPositions()  #get existing polarisation mode
                     if self.energyConstant:       #input must be for polarisation angle in Linear Arbitrary mode
-                        polarisation_angle=float(new_position)
+                        polarisation_angle = float(new_position)
                         new_polarisation = self.validatePolarisation(polarisation_angle)
-                        energy=self.pgmenergy.getPosition()                         
+                        self.inputSignSwitched = False
+                        energy = self.pgmenergy.getPosition()                         
                 else:
                     raise ValueError("Input value must be a string or number.")
             else: #2 arguments
@@ -317,11 +317,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 else:
                     raise ValueError("1st input for energy must be a number")
                 if isinstance(args[1], numbers.Number):
-                    polarisation_angle=float(args[1])
+                    polarisation_angle = float(args[1])
                     new_polarisation = self.validatePolarisation(polarisation_angle)
+                    self.inputSignSwitched = False
                 elif isinstance(args[1], basestring):
                     new_polarisation=str(args[1])
-                    if not new_polarisation in X_RAY_POLARISATIONS[:-2]:
+                    if new_polarisation not in X_RAY_POLARISATIONS[:-2]:
                         raise ValueError("Input value must be one of valid polarisation mode: %s" % str(X_RAY_POLARISATIONS[:-2]) )
                 else:
                     raise ValueError("2nd input for polarisation must be a number or string")
@@ -388,15 +389,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.removeIObservers()
     
     def updateValue(self):
-        sleep(0.2)
+        sleep(0.2) # wait for motor to start moving
         while self.pgmenergy.isBusy() or self.idscannable.isBusy():
             sleep(0.1)
             self.notifyIObservers(self, self.rawGetPosition())
     
     def updatePolarisation(self, source, change):
-        if self.energyConstant and change == MotorEvent.MOVE_COMPLETE:  # @UndefinedVariable
+        if self.energyConstant and change == MotorStatus.BUSY:
             self.logger.debug("source is %s, change is %s" % (source, change))
-            self.notifyIObservers(self, self.rawGetPosition())
+            self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
         
     def updateEnergy(self, source, change):
         if self.polarisationConstant and change == ScannableStatus.BUSY:

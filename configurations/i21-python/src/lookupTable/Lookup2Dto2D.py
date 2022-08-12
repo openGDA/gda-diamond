@@ -168,3 +168,6 @@ if __name__ == "__main__":
     #main()
     print reverseLookup(-30, 800)
     print forwardLookup(25, 17)
+    print reverseLookup(-89.773250524, 823.7374929759999)
+    print forwardLookup(27.1374738, 28.0)
+    

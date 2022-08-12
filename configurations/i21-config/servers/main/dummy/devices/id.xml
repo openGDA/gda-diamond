@@ -9,6 +9,7 @@
 	<bean id="idgapMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="19.85" />
 		<property name="maxPosition" value="100.0" />
+		<property name="position" value="39.588" />
 		<property name="fastSpeed" value="1" />
 		<property name="mediumSpeed" value="1" />
 		<property name="slowSpeed" value="1" />

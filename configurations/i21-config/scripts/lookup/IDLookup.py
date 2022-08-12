@@ -6,6 +6,7 @@ Created on 30 Aug 2016
 from external import create_function
 # from scisoftpy.external import create_function
 import time
+import logging
 
 starttime=time.time()
 INSIDE_DIAMOND_NETWORK=True
@@ -29,7 +30,7 @@ else:
     python_exe="/home/fy65/miniconda2/envs/gdaenv/bin/python"
     
 class IDLookup4LinearAngleMode():
-    def __init__(self, name, lut=lookup_file):
+    def __init__(self, name, lut = lookup_file):
         self.name=name
         #TODO need to check and fix external process exit on termination so it does not left external process on after GDA stopped.
         self.lookupPolarEnergy=create_function("reverseLookup",module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], keep=True)
@@ -39,17 +40,18 @@ class IDLookup4LinearAngleMode():
         #self.lookupGapPhase=create_function("forwardLookup", module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], dls_module=True, keep=True)
         self.lookupGapPhaseCreatedInScanStart=False
         self.lut=lut
+        self.logger = logging.getLogger(self.__class__.__name__)
     
     def getEnergyPolarisation(self, gap, phase):
-        out=self.lookupGapPhase(gap, phase, filename=self.lut)
-#         return out # used in scisoftpy
-        out= [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        out = self.lookupGapPhase(gap, phase, filename = str(self.lut))
+        self.logger.debug("getEnergPolarisation(%f, %f) returns %s, type(out) is %s" % (gap, phase, str(out), type(out)))
+        out = [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
         return out
     
     def getGapPhase(self, energy, polarisation):
-        out=self.lookupPolarEnergy(polarisation, energy, filename=self.lut)
-#         return out # used in scisoftpy
-        out= [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        out = self.lookupPolarEnergy(polarisation, energy, filename=self.lut)
+        self.logger.debug("getGapPhase(%f, %f) returns %s, type(out) is %s" % (energy, polarisation, str(out), type(out)))
+        out = [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
         return out
     
     def stop(self):
