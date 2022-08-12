@@ -4,14 +4,16 @@ from time import sleep
 import logging
 import installation
 from uk.ac.diamond.daq.concurrent import Async
-logger = logging.getLogger('__main__')
-
 from gda.configuration.properties import LocalProperties
-from gda.device.scannable import ScannableMotionBase
+from gda.device.scannable import ScannableMotionBase, ScannableStatus
 from gda.device.scannable.scannablegroup import ScannableGroup
 from lookup.fourKeysLookupTable import load_lookup_table, get_fitting_coefficents
 import numbers
+from gda.device.MotorProperties import MotorEvent
+from gda.observable import IObserver
+from org.apache.commons.lang3.builder import EqualsBuilder, HashCodeBuilder
 
+logger = logging.getLogger('__main__')
 
 def load_dataset(filename):
     '''loads a CSV with the provided filename 
@@ -26,6 +28,24 @@ def load_dataset(filename):
 
 X_RAY_POLARISATIONS = ["LH", "LV", "CR", "CL", "LH3", "LV3", "LH5", "LV5", "LAN", "LAP"]
 
+
+# cannot use python 'lambda source, change : updateFunction(source, change)' for annonymouse IObserver as you cannot delete it after added it, which results in 'reset_namespace' add more observer agaia
+class GenericObserver(IObserver):
+    def __init__(self, name, update_function):
+        self.name =name
+        self.updateFunction = update_function # a function point
+        
+    def update(self, source, change):
+        self.updateFunction(source, change)
+    
+    #both equals and hashCode method required by addIObserver and deleteIOberser in Java observers set.        
+    def equals(self, other):
+        return EqualsBuilder.reflectionEquals(self, other, True)
+      
+    def hashCode(self):
+        # Apache lang3 org.apache.commons.lang3.builder.HashCodeBuilder
+        return HashCodeBuilder.reflectionHashCode(self, True)
+    
 class BeamEnergyPolarisationClass(ScannableMotionBase):
     '''Coupled beam energy and polarisation scannable that encapsulates and fan-outs control to ID gap, row phase, and PGM energy.
     
@@ -63,6 +83,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.isConfigured = False
         self.inputSignSwitched = False
         self.submit = None
+        self.energyObserver = None
+        self.polarisationObserver =  None
         self.logger = logger.getChild(self.__class__.__name__)
     
     def configure(self):
@@ -71,11 +93,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.minGap=self.idscannable.getController().getMinGapPos()
             self.maxPhase=self.idscannable.getController().getMaxPhaseMotorPos()
         self.isConfigured=True
-        # if self.energyConstant:
-        #     self.idscannable.addIObserver(lambda source, change: self.notifyIObservers(source, change))
-        # if self.polarisationConstant:
-        #     self.pgmenergy.addIObserver(lambda source, change: self.notifyIObservers(source, change)) 
-    
+
     def getIDPositions(self):
         '''get gap and phase from ID hardware controller, and set polarisation mode in GDA 'idscannable' instance
         This method sync current object states with ID state in EPICS IOC.
@@ -251,8 +269,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 except:
                     print("cannot set %s to %f." % (s.getName(), energy))
                     raise
-        self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
-
+    
     def rawAsynchronousMoveTo(self, new_position):
         '''move beam energy, polarisation, or both to specified values.
         At the background this moves both ID gap, phase, and PGM energy to the values corresponding to this energy, polarisation or both.
@@ -269,6 +286,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         else:
             if not self.SCANNING:  #ensure ID hardware in sync in 'pos' command
                 self.rawGetPosition()
+                #required for Live Control GUI update when 'pos'
+                self.addIObservers()
                 
             #parse arguments as it could be 1 or 2 inputs, string or number type, depending on polarisation mode and instance attribute value
             if not isinstance(new_position, list): # single argument
@@ -318,14 +337,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             caput(self.feedbackPV, 4)
         else:
             self.moveDevices(gap, new_polarisation, phase, energy)
-        sleep(1)
-        self.notifyIObservers(self, self.rawGetPosition())
             
-    def updateValue(self):
-        while self.isBusy():
-            sleep(0.1)
-            self.notifyIObservers(self, self.rawGetPosition())
-            
+          
     def isBusy(self):
         '''checks the busy status of all child scannables.        
         If and only if all child scannables are done this will be set to False.
@@ -354,6 +367,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.idscannable.stop()
         if self.submit is not None:
             self.submit.cancel(self.isBusy())
+        self.removeIObservers()
             
     def atScanStart(self):
         if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":
@@ -361,11 +375,65 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         else: # real hardware
             self.rawGetPosition() #ensure ID hardware in sync at start of scan
             self.SCANNING=True
+            #setup IObserver (cannot be called in configure() method as reset_namespace will add them again
+            self.addIObservers()
+
        
     def atScanEnd(self):
-        self.SCANNING=False
- 
-         
+        if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":
+            return;
+        else: # real hardware
+            self.SCANNING=False
+            #remove IOberser when finished scan
+            self.removeIObservers()
+    
+    def updateValue(self):
+        sleep(0.2)
+        while self.pgmenergy.isBusy() or self.idscannable.isBusy():
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition())
+    
+    def updatePolarisation(self, source, change):
+        if self.energyConstant and change == MotorEvent.MOVE_COMPLETE:  # @UndefinedVariable
+            self.logger.debug("source is %s, change is %s" % (source, change))
+            self.notifyIObservers(self, self.rawGetPosition())
+        
+    def updateEnergy(self, source, change):
+        if self.polarisationConstant and change == ScannableStatus.BUSY:
+            self.logger.debug("source is %s, change is %s" % (source, change))
+            self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
+
+    def addIObservers(self):
+        if self.energyConstant and self.polarisationObserver is None: # check required to stop multiple add
+            self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisation)
+            self.idscannable.addIObserver(self.polarisationObserver)
+        if self.polarisationConstant and self.energyObserver is None:
+            self.energyObserver = GenericObserver("energyObserver", self.updateEnergy)
+            self.pgmenergy.addIObserver(self.energyObserver)
+        if not self.energyConstant and not self.polarisationConstant:
+            if self.polarisationObserver is None:
+                self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisation)
+                self.idscannable.addIObserver(self.polarisationObserver)
+            if self.energyObserver is None:
+                self.energyObserver = GenericObserver("energyObserver", self.updateEnergy)
+                self.pgmenergy.addIObserver(self.energyObserver)
+        
+    def removeIObservers(self):
+        '''delete observer from observed object'''
+        if self.energyConstant and self.polarisationObserver is not None:
+            self.idscannable.deleteIObserver(self.polarisationObserver)
+            self.polarisationObserver = None
+        if self.polarisationConstant and self.energyObserver is not None:
+            self.pgmenergy.deleteIObserver(self.energyObserver)
+            self.energyObserver = None
+        if not self.energyConstant and not self.polarisationConstant:
+            if self.polarisationObserver is None:
+                self.idscannable.deleteIObserver(self.polarisationObserver)
+                self.polarisationObserver = None
+            if self.energyObserver is None:
+                self.pgmenergy.deleteIObserver(self.energyObserver)
+                self.energyObserver = None
+        
 
 # lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv' #theoretical table from ID group
 #  

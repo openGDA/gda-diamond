@@ -104,7 +104,8 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         else:
             self._move_controller._energy.stop()
         self.mybusy=False
-        
+        self._move_controller._energy.removeIObservers()      
+          
     def atCommandFailure(self):
         self.stop()
         
@@ -121,6 +122,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         else:
             stream=PositionInputStreamImplementer(self._move_controller._energy)
             self.stream_indexer=PositionStreamIndexer(stream)
+        self._move_controller._energy.addIObservers()
             
     def atScanLineEnd(self):
         if self.verbose: self.logger.info('atScanLineEnd()...')
@@ -129,6 +131,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
             self._binpointPgmEnergy.atScanLineEnd()
         else:
             self.stream_indexer=None
+        self._move_controller._energy.removeIObservers()
 
     def getPosition(self):
         if self.verbose: self.logger.info('getPosition()...')
