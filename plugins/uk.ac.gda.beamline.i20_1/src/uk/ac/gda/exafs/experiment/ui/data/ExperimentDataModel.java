@@ -63,11 +63,19 @@ public class ExperimentDataModel extends UIObservableModel {
 	private Map<String, String> scannablesToMonitor = null;
 
 
+	public static final String GENERAL_EVENT_PROP_NAME = "firePropertyEvent";
+
 	private boolean collectMultipleItSpectra = false;
 
 	private String scannableToMove = "";
 
 	private List<List<Double>> motorPositionsDuringScan = null;
+
+	@Expose
+	private double timeBetweenRepetitions = 0;
+
+	@Expose
+	private int numRepetitions = 1;
 
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
@@ -181,4 +189,23 @@ public class ExperimentDataModel extends UIObservableModel {
 		this.motorPositionsDuringScan = motorPositionsDuringScan;
 	}
 
+	public double getTimeBetweenRepetitions() {
+		return timeBetweenRepetitions;
+	}
+
+	public void setTimeBetweenRepetitions(double timeBetweenRepetitions) {
+		firePropertyChangeEvent(this.timeBetweenRepetitions, this.timeBetweenRepetitions = timeBetweenRepetitions);
+	}
+
+	public int getNumRepetitions() {
+		return numRepetitions;
+	}
+
+	public void setNumRepetitions(int numRepetitions) {
+		firePropertyChangeEvent(this.numRepetitions, this.numRepetitions = numRepetitions);
+	}
+
+	private void firePropertyChangeEvent(Object oldValue, Object newValue) {
+		this.firePropertyChange(GENERAL_EVENT_PROP_NAME, oldValue, newValue);
+	}
 }

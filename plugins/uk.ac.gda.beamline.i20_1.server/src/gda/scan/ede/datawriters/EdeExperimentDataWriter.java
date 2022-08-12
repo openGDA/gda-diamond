@@ -173,12 +173,12 @@ public abstract class EdeExperimentDataWriter {
 	}
 
 	/**
-	 * Get list of cycles that may be incomplete - i.e. contain fewer than 'expectedNumFramesPerCycle' frames.
+	 * Get list of cycles that may be incomplete - a cycle is incomplete if it contains fewer
+	 * frames than the cycle with the most frames.
 	 *
-	 * @param expectedNumFramesPerCycle
 	 * @return
 	 */
-	protected List<Integer> getIncompleteCycles(int expectedNumFramesPerCycle) {
+	protected List<Integer> getIncompleteCycles() {
 		logger.info("Trying to create list of incomplete cycles");
 		try(NexusFile file = NexusFileHDF5.openNexusFile(nexusfileName)) {
 			String detectorName = theDetector.getName();
@@ -196,13 +196,16 @@ public abstract class EdeExperimentDataWriter {
 				.map(cycles::getInt)
 				.forEach(cycle -> framesPerCycle[cycle]++);
 
-			logger.debug("Frames per cycle : {}", Arrays.toString(framesPerCycle));
-			logger.debug("Expected number of frames per cycle : {}", expectedNumFramesPerCycle);
+			// Max frames in a cycle is the expected number of frames per cycle.
+			int expectedNumFrames = IntStream.of(framesPerCycle).max().getAsInt();
 
-			// Return list of cycles that do not contain excepected number of frames.
+			logger.debug("Frames per cycle : {}", Arrays.toString(framesPerCycle));
+			logger.debug("Expected number of frames per cycle : {}", expectedNumFrames);
+
+			// Return indices of cycles that do not contain expected number of frames.
 			return IntStream.range(0, numCycles)
 					.boxed()
-					.filter(i -> framesPerCycle[i] != expectedNumFramesPerCycle)
+					.filter(i -> framesPerCycle[i] != expectedNumFrames)
 					.collect(Collectors.toList());
 
 		} catch (NexusException | DatasetException e) {

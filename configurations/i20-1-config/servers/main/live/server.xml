@@ -21,7 +21,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frelon_motors.xml" />	
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/usermotors.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/usermotors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />

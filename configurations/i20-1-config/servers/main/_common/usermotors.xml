@@ -1,56 +1,50 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/gda
+    http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="um1" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um1_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="um2" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um2_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="um3" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um3_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="um6" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um6_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="um7" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um7_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="um8" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um8_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
+	<gda:motor id="um1" live-pvName="BL20J-EA-PATCH-01:MTR1"
+          hardwareUnitString="mm"
+          protectionLevel="3" />
 
-	<bean id="um9" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um9_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="um10" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="um10_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
+	<gda:motor id="um2" live-pvName="BL20J-EA-PATCH-01:MTR2"
+          hardwareUnitString="mm"
+          protectionLevel="3" />
+ 
+ 	<gda:motor id="um3" live-pvName="BL20J-EA-PATCH-01:MTR3"
+          hardwareUnitString="mm"
+          protectionLevel="3" />
+
+	<gda:motor id="um4" live-pvName="BL20J-EA-PATCH-01:MTR4"
+          hardwareUnitString="mm"
+          protectionLevel="3" />
+
+	<gda:motor id="um5" live-pvName="BL20J-EA-PATCH-01:MTR5"
+          hardwareUnitString="mm"
+          protectionLevel="3" />
+
+ 	<gda:motor id="um6" live-pvName="BL20J-EA-PATCH-01:MTR6"
+          hardwareUnitString="mm"
+          protectionLevel="3" /> 
+
+	<gda:motor id="um7" live-pvName="BL20J-EA-PATCH-01:MTR7"
+          hardwareUnitString="mm"
+          protectionLevel="3" />
+
+	<gda:motor id="um8" live-class="#dummy"
+          hardwareUnitString="mm"
+          protectionLevel="3" />
+
+ 	<gda:motor id="um9" live-class="#dummy"
+          hardwareUnitString="mm"
+          protectionLevel="3" /> 
+
+  	<gda:motor id="um10" live-class="#dummy"
+          hardwareUnitString="mm"
+          protectionLevel="3" /> 
 
 	<bean id="um" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -58,6 +52,8 @@
 				<ref bean="um1" />
 				<ref bean="um2" />
 				<ref bean="um3" />
+				<ref bean="um4" />
+				<ref bean="um5" />
 				<ref bean="um6" />
 				<ref bean="um7" />
 				<ref bean="um8" />

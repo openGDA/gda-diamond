@@ -51,10 +51,9 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	public static final double DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2.0d;
 
 	protected int numberOfRepetitions = 1;
+	private double timeBetweenRepetitions = 0;
 
 	private double noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
-	private int totalNumberOfspectra;
-	private double totalTime;
 	private double i0accumulationTime;
 	private boolean writeAsciiData;
 
@@ -65,7 +64,6 @@ public class TimeResolvedExperiment extends EdeExperiment {
 				beamShutterScannableName);
 		this.i0accumulationTime = i0accumulationTime;
 		setDefaultI0Parameters(i0accumulationTime);
-		setupTimingGroups();
 		writeAsciiData = true;
 	}
 
@@ -76,7 +74,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	 */
 	public void setNumberI0Accumulations(int numI0Accumulations) throws DeviceException {
 		List<TimingGroup> groups = i0ScanParameters.getGroups();
-		if (groups!=null && groups.size()>0) {
+		if (groups!=null && !groups.isEmpty()) {
 			double accumulationTime = groups.get(0).getTimePerScan();
 			setCommonI0Parameters(accumulationTime, numI0Accumulations);
 		}
@@ -91,7 +89,6 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		itScanParameters = new EdeScanParameters();
 		itScanParameters.setTimingGroups(timingGroups);
 		setDefaultI0Parameters(i0accumulationTime);
-		setupTimingGroups();
 	}
 
 	private static Gson gson = new Gson();
@@ -99,11 +96,6 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		Type listOfObjects = new TypeToken<List<TimingGroup>>(){}.getType();
 		List<TimingGroup> timingGroups = gson.fromJson(timingGroupsString, listOfObjects);
 		setTimingGroups(timingGroups);
-	}
-
-	private void setupTimingGroups() {
-		totalNumberOfspectra = itScanParameters.getTotalNumberOfFrames();
-		totalTime = itScanParameters.getTotalTime();
 	}
 
 	/**
@@ -159,15 +151,9 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish;
 	}
 
-	private TopupChecker createTopupCheckerForAfterItScans() {
-		double predictedExperimentTime = getTimeRequiredForFinalScans();
-		return createTopupChecker(predictedExperimentTime);
-	}
-
 	@Override
 	protected void addFinalScans() throws Exception {
 		int repetitions = getRepetitions();
-		double timeToTopup = getNextTopupTime();
 
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
@@ -222,10 +208,17 @@ public class TimeResolvedExperiment extends EdeExperiment {
 				scansForIt.add(itScans[repIndex]);
 			}
 		}
-		// Add the cycle number to plot label if num cycles is > 1
+		// Repetition properties
 		if (repetitions > 1) {
+			// Add the cycle number to plot label
 			Stream.of(itScans).forEach(sc -> sc.setIncludeCyclePlotLabel(true));
+
+			// Set the time between repetitions (for all but the last scan)
+			for(int i=0; i<itScans.length-1; i++) {
+				itScans[i].setWaitTimeAfterCollection(timeBetweenRepetitions);
+			}
 		}
+
 		Stream.of(itScans).forEach(sc-> sc.setNoOfSecPerSpectrumToPublish(noOfSecPerSpectrumToPublish));
 
 		// Make Topup checker for final I0 scan (I0 collection time + time for motor move from It to I0)
@@ -267,12 +260,6 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			header.append("iRefFinalScan: " + iRefFinalScan.getHeaderDescription() + "\n");
 		}
 		return header.toString();
-	}
-
-	private Double getTimeRequiredForFinalScans() {
-		//LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(i0ScanParameters, itScanParameters, iRefScanParameters, i0Position, itPosition, iRefPosition);
-		//return estimator.getBeforeItDuration();
-		return getTimeRequiredAfterItCollection();
 	}
 
 	@Override
@@ -337,5 +324,13 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	public void setWriteAsciiData(boolean writeAsciiData) {
 		this.writeAsciiData = writeAsciiData;
+	}
+
+	public double getTimeBetweenRepetitions() {
+		return timeBetweenRepetitions;
+	}
+
+	public void setTimeBetweenRepetitions(double timeBetweenRepetitions) {
+		this.timeBetweenRepetitions = timeBetweenRepetitions;
 	}
 }

@@ -626,7 +626,8 @@ public class EdeScanTest extends EdeTestBase {
 		final int numberExpectedSpectra = getNumSpectra(groups);
 
 		CyclicExperiment theExperiment = new CyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
-				"xh", "topup", shutter.getName(), numCycles);
+				"xh", "topup", shutter.getName());
+		theExperiment.setRepetitions(numCycles);
 		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
 		theExperiment.runExperiment();
 

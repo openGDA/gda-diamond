@@ -53,6 +53,7 @@ public class TimeResolvedExperimentParameters {
 	private double i0AccumulationTime;
 	private int i0NumAccumulations;
 	private int numberOfRepetition = 1;	 // 1 = Timeresolved, >1 Cyclic
+	private double timeBetweenRepetitions;
 
 	private String detectorName;
 	private String topupMonitorName;
@@ -140,6 +141,14 @@ public class TimeResolvedExperimentParameters {
 	public void setNumberOfRepetition(int numberOfRepetition) {
 		this.numberOfRepetition = numberOfRepetition;
 	}
+
+	public double getTimeBetweenRepetitions() {
+		return timeBetweenRepetitions;
+	}
+	public void setTimeBetweenRepetitions(double timeBetweenRepetitions) {
+		this.timeBetweenRepetitions = timeBetweenRepetitions;
+	}
+
 	public Map<String, Double> getI0MotorPositions() {
 		return i0MotorPositions;
 	}
@@ -431,6 +440,7 @@ public class TimeResolvedExperimentParameters {
 
 		if (params.getNumberOfRepetition()>1) {
 			theExperiment.setRepetitions(params.getNumberOfRepetition());
+			theExperiment.setTimeBetweenRepetitions(params.getTimeBetweenRepetitions());
 		}
 
 		return theExperiment;

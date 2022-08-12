@@ -19,7 +19,6 @@
 package uk.ac.gda.exafs.experiment.ui.data;
 
 import gda.device.DeviceException;
-import gda.jython.InterfaceProvider;
 import gda.scan.ede.CyclicExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 
@@ -33,18 +32,27 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	private static final int INITIAL_NO_OF_CYCLES = 2;
 
-	private int noOfRepeatedGroups;
+	public static final String TIME_BETWEEN_REPETITIONS_PROP_NAME = "timeBetweenRepetitions";
 
-	private double cyclesDuration;
+	private volatile int noOfRepeatedGroups;
+
+	private volatile double timeBetweenRepetitions;
 
 	public CyclicExperimentModel() {
-		this.setNoOfRepeatedGroups(INITIAL_NO_OF_CYCLES);
+		noOfRepeatedGroups = INITIAL_NO_OF_CYCLES;
 	}
 
+	@Override
+	public void setup() {
+		super.setup();
+		noOfRepeatedGroups = getExperimentDataModel().getNumRepetitions();
+		timeBetweenRepetitions = getExperimentDataModel().getTimeBetweenRepetitions();
+	}
 	@Override
 	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
 		TimeResolvedExperimentParameters params = super.getParametersBeanFromCurrentSettings();
 		params.setNumberOfRepetition(noOfRepeatedGroups);
+		params.setTimeBetweenRepetitions(timeBetweenRepetitions);
 		return params;
 	}
 
@@ -52,6 +60,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
 		super.setupFromParametersBean(params);
 		setNoOfRepeatedGroups(params.getNumberOfRepetition());
+		setTimeBetweenRepetitions(params.getTimeBetweenRepetitions());
 	}
 
 	public int getNoOfRepeatedGroups() {
@@ -60,14 +69,20 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	public void setNoOfRepeatedGroups(int noOfRepeatedGroups) {
 		this.firePropertyChange(NO_OF_REPEATED_GROUPS_PROP_NAME, this.noOfRepeatedGroups, this.noOfRepeatedGroups = noOfRepeatedGroups);
+		getExperimentDataModel().setNumRepetitions(noOfRepeatedGroups);
 	}
 
-	public double getCyclesDuration() {
-		return cyclesDuration;
+	public double getTimeBetweenRepetitions() {
+		return timeBetweenRepetitions;
 	}
 
-	public double getCyclesDurationInSec() {
-		return ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(cyclesDuration, ExperimentUnit.SEC);
+	/**
+	 * Set the time between repetitions/cycles
+	 * @param timeBetweenRepetitions (seconds)
+	 */
+	public void setTimeBetweenRepetitions(double timeBetweenRepetitions) {
+		this.firePropertyChange(TIME_BETWEEN_REPETITIONS_PROP_NAME, this.timeBetweenRepetitions, this.timeBetweenRepetitions = timeBetweenRepetitions);
+		getExperimentDataModel().setTimeBetweenRepetitions(timeBetweenRepetitions);
 	}
 
 	@Override
@@ -79,13 +94,13 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	protected String buildScanCommand() {
 		StringBuilder scanCommand = buildScanCommand(CYCLIC_EXPERIMENT_OBJ, CyclicExperiment.class);
 		scanCommand.append(String.format("%s.setRepetitions(%d);%n",CYCLIC_EXPERIMENT_OBJ, this.getNoOfRepeatedGroups()));
+		scanCommand.append(String.format("%s.setTimeBetweenRepetitions(%g);%n",CYCLIC_EXPERIMENT_OBJ, this.getTimeBetweenRepetitions()));
 		scanCommand.append(CYCLIC_EXPERIMENT_OBJ + ".runExperiment();");
 		return scanCommand.toString();
 	}
 
 	@Override
 	public void doStop() {
-		String stopCommand=CYCLIC_EXPERIMENT_OBJ+".getMultiScan().getCurrentRunningScan().setSmartstop(True);";
-		InterfaceProvider.getCommandRunner().runCommand(stopCommand);
+		stopScan(CYCLIC_EXPERIMENT_OBJ);
 	}
 }

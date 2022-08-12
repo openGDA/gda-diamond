@@ -132,6 +132,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private int absFrameNumber;
 	private double noOfSecPerSpectrumToPublish = 1;
 
+	private double waitTimeAfterCollection = 0;
+
 	/**
 	 * @param scanParameters
 	 *            - timing parameters of the data collection
@@ -320,6 +322,10 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	@Override
 	public void doCollection() throws Exception {
+		if (smartStopDetected()) {
+			return;
+		}
+
 		validate();
 
 		// Periodically update cache of positions of scannables being monitored
@@ -405,7 +411,41 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			logger.debug(toString() + " starting detector running...");
 			collectDetectorData();
 		}
+
 		fastShutterMoveTo(ValvePosition.CLOSE);
+
+		waitAfterCollection();
+	}
+
+	/**
+	 * Log and display a message about current cycle to be skipped if smart stop has been selected.
+	 *
+	 * @return true if smartStop is active.
+	 */
+	protected boolean smartStopDetected() {
+		if (!isSmartstop()) {
+			return false;
+		}
+		int cycle = indexer == null ? 0 : indexer.getRepetition();
+		String message = "'Stop scan' detected - skipping "+scanType.toString()+" scan (cycle "+cycle+")";
+		terminalPrinter.print(message);
+		logger.info(message);
+		return true;
+	}
+
+	/**
+	 * Sleep for {@link #waitTimeAfterCollection} seconds - if smart stop is not set to true.
+	 * (To be run after data collection to implement 'wait time between cycles').
+	 * @throws InterruptedException
+	 */
+	protected void waitAfterCollection() throws InterruptedException {
+		// Wait only if smartStop is not active.
+		if (waitTimeAfterCollection > 0 && !isSmartstop()) {
+			String msg = "Waiting for "+waitTimeAfterCollection+" seconds after collection";
+			logger.info(msg);
+			terminalPrinter.print(msg);
+			Thread.sleep((long)waitTimeAfterCollection*1000);
+		}
 	}
 
 	private boolean isLightItScan() {
@@ -525,10 +565,12 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
 			// have been collected so far
+			logger.warn("Exception during data collection - stopping detector", e);
 			theDetector.stop();
 			throw e;
 		} finally {
 			// have we read all the frames?
+			logger.info("Reading out final frames of data");
 			if (theDetector instanceof XhDetector) {
 				if (isSmartstop()) {
 					int groupNum = DetectorScanDataUtils.getGroupNum(scanParameters, nextFrameToRead);
@@ -536,7 +578,6 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					for(int i=groupNum+1; i<scanParameters.getGroups().size(); i++) {
 						scanParameters.getGroups().get(i).setNumberOfFrames(0);
 					}
-					setSmartstop(false);
 				} else {
 					readoutRestOfFrames(nextFrameToRead);
 				}
@@ -555,7 +596,6 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 							scanParameters.getGroups().get(i).setNumberOfFrames(0);
 						}
 					}
-					setSmartstop(false);
 				}
 				if (lastImageRead != finalImage) {
 					if (finalImage != -1) {
@@ -1036,5 +1076,17 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	public void setNoOfSecPerSpectrumToPublish(double noOfSecPerSpectrumToPublish) {
 		this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish;
+	}
+
+	public double getSleepTimeAfterCollection() {
+		return waitTimeAfterCollection;
+	}
+
+	/**
+	 * How long to wait for after collection has finished
+	 * @param waitTimeAfterCollection (time in seconds)
+	 */
+	public void setWaitTimeAfterCollection(double waitTimeAfterCollection) {
+		this.waitTimeAfterCollection = waitTimeAfterCollection;
 	}
 }
