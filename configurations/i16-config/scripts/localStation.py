@@ -75,6 +75,7 @@ from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
 global Finder, pos, add_default, meta
+global idgap
 
 global sixckappa, euler_cryo, sixckappa_cryo, cryophi
 global delta_axis_offset
@@ -1567,11 +1568,12 @@ from gda.jython import InterfaceProvider
 print "======================================================================"
 localStation_print("Current data directory: %r" % InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir"))
 print "======================================================================"
-if USE_DUMMY_IDGAP_MOTOR or type(idgap.getMotor())==gda.device.motor.DummyMotor:
+from gda.device.motor import DummyMotor
+if USE_DUMMY_IDGAP_MOTOR or type(idgap.getMotor())==DummyMotor:
 	print "!"*80
 	localStation_print("Warning: Using a dummy idgap motor")
 	print "!"*80
-if type(bragg.getMotor())==gda.device.motor.DummyMotor:
+if type(bragg.getMotor())==DummyMotor:
 	print "!"*80
 	localStation_print("WARNING: Using a dummy bragg motor")
 
