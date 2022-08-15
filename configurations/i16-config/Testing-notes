@@ -6,6 +6,8 @@ scan x 1 2 1
 pos pil3 1 # Can't be run before first scan
 help ub
 ub
+lastub
+ub
 scan x 1 10 1 pil3 1 roi1 roi2
 scancn phi .01 21 pil3 .5 lcroi
 
