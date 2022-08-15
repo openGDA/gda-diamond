@@ -127,14 +127,17 @@ answer = raw_input("\nAre these collection parameters correct to continue [y/n]?
 #########  Data Collection ################
 #########################################################
 if answer == "y":
-    from gdaserver import xyz_stage, s5v1gap, difftth, m5tth, fastshutter, gv17 # @UnresolvedImport
+    from gdaserver import xyz_stage, s5v1gap, difftth, m5tth, fastshutter, gv17 , phi, chi # @UnresolvedImport
     from shutters.detectorShutterControl import erio, primary
     
     #move to sample position
     print("move sampel stage to %r ..." % [x_sample_pi0, y_sample_pi0, z_sample_pi0])
     xyz_stage.asynchronousMoveTo([x_sample_pi0, y_sample_pi0, z_sample_pi0])
+    print("move phi to %f ..." % phi_sample_pi0)
+    phi.asynchronousMoveTo(phi_sample_pi0)   
+    print("move chi to %f ..." % chi_sample_pi0)
+    chi.asynchronousMoveTo(chi_sample_pi0)   # defining exit slit opening
     
-    # defining exit slit opening
     print("move s5v1gap to %f ..." % exit_slit)
     s5v1gap.asynchronousMoveTo(exit_slit)
     
@@ -146,6 +149,8 @@ if answer == "y":
     s5v1gap.waitWhileBusy()
     difftth.waitWhileBusy()
     xyz_stage.waitWhileBusy()
+    phi.waitWhileBusy()
+    chi.waitWhileBusy()
     print("All motions are now completed")
     
     # Keep Fast Shutter open throughout XAS measurements

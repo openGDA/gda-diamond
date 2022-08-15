@@ -69,14 +69,16 @@ LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 x_sample_pi0 = -1.357
 y_sample_pi0 = -1.5
 z_sample_pi0 = -0.9
+phi_sample_pi0 = -50.7 
+chi_sample_pi0 = 0.0 
 
 enable_sample_collection = True
-
-phi_sample_pi0 = -50.7 ###???this is not used here???
 
 x_ctape_pi0 = +0.39
 y_ctape_pi0 = -1.5
 z_ctape_pi0 = -3.5
+phi_ctape_pi0 = -50.7 
+chi_ctape_pi0 = 0.0 
 
 enable_ctape_collection = True
 
@@ -222,8 +224,8 @@ def move_energy_to(energy_val, spech_val):
 ##################################################################
 ## Define survey scan function
 ##################################################################
-def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, det):
-    from gdaserver import m4c1,xyz_stage  # @UnresolvedImport
+def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample, chi_sample, phi_ctape, chi_ctape, det):
+    from gdaserver import m4c1,xyz_stage, phi, chi  # @UnresolvedImport
     from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image
     from acquisition.acquire_images import acquireRIXS
     from scannabledevices.checkbeanscannables import checkbeam
@@ -236,7 +238,11 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, det):
             move_energy_to(*energy_spech_pair)
             if enable_ctape_collection:
                 print("move to ctape position %r ..." % ([x_ctape_pi0, y_ctape_pi0, z_ctape_pi0]))
+                phi.asynchronousMoveTo(phi_ctape)
+                chi.asynchronousMoveTo(chi_ctape)
                 xyz_stage.moveTo([x_ctape_pi0, y_ctape_pi0, z_ctape_pi0])
+                phi.waitWhileBusy()
+                chi.waitWhileBusy()
                 ctape_data_collected = False
                 acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
                 number_of_data_files_collected_so_far += 1
@@ -252,7 +258,11 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, det):
 
             if enable_sample_collection:
                 print("move to sample position %r ..." % (list(sample_pos)))
+                phi.asynchronousMoveTo(phi_sample)
+                chi.asynchronousMoveTo(chi_sample)
                 xyz_stage.moveTo(list(sample_pos))
+                phi.waitWhileBusy()
+                chi.waitWhileBusy()
                 acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
                 number_of_data_files_collected_so_far += 1
                 number_of_images_collected_so_far += sample_no_images
@@ -276,8 +286,8 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, det):
 #################################################################################################
 ## Define energy and sample mapping scan function - energy changes with z position changes
 ##################################################################################################
-def energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, det):
-    from gdaserver import m4c1,xyz_stage  # @UnresolvedImport
+def energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, phi_sample, chi_sample, phi_ctape, chi_ctape, det):
+    from gdaserver import m4c1,xyz_stage, phi, chi  # @UnresolvedImport
     from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image
     from acquisition.acquire_images import acquireRIXS
     from scannabledevices.checkbeanscannables import checkbeam
@@ -292,7 +302,11 @@ def energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, det)
             for y_val in y_sample_pi0_list_map:
                 if enable_ctape_collection:
                     print("move to ctape position %r ..." % ([x_ctape_pi0, y_ctape_pi0, z_ctape_pi0]))
+                    phi.asynchronousMoveTo(phi_ctape)
+                    chi.asynchronousMoveTo(chi_ctape)
                     xyz_stage.moveTo([x_ctape_pi0, y_ctape_pi0, z_ctape_pi0])
+                    phi.waitWhileBusy()
+                    chi.waitWhileBusy()
                     ctape_data_collected = False
                     acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
                     number_of_data_files_collected_so_far += 1
@@ -308,7 +322,11 @@ def energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, det)
                 
                 if enable_sample_collection: 
                     print("move to sample position %r ..." % ([x_sample_pi0, y_val, z_val]))
+                    phi.asynchronousMoveTo(phi_sample)
+                    chi.asynchronousMoveTo(chi_sample)
                     xyz_stage.moveTo([x_sample_pi0, y_val, z_val])
+                    phi.waitWhileBusy()
+                    chi.waitWhileBusy()
                     acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
                     number_of_data_files_collected_so_far += 1
                     number_of_images_collected_so_far += sample_no_images
@@ -380,13 +398,13 @@ if answer == "y":
     ###################### Survey Scans #########################
     #############################################################    
     if do_survey_collection:        
-        survey_scan_at_fixed_energy(sample_pi0_positions_survey, energy_spech_pair, detector_to_use)
+        survey_scan_at_fixed_energy(sample_pi0_positions_survey, energy_spech_pair, phi_sample_pi0, chi_sample_pi0, phi_ctape_pi0, chi_ctape_pi0, detector_to_use)
     
     #############################################################
     ######################## Energy map #########################
     #############################################################
     if do_energy_map_collection:
-        energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, detector_to_use)
+        energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, phi_sample_pi0, chi_sample_pi0, phi_ctape_pi0, chi_ctape_pi0, detector_to_use)
 
     #################################################
 

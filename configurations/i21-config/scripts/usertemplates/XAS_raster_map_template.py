@@ -24,6 +24,9 @@ x_sample_pi0 = -1.
 y_sample_pi0 = 0.0
 z_sample_pi0 = 0.0
 
+phi_sample_pi0 = 0.0
+chi_sample_pi0 = 0.0
+
 y_sample_increment = 0.05
 Y_Sample_iteration_number = 5
 
@@ -68,7 +71,7 @@ if installation.isLive(): #only live mode requires this - i.e running in i21 GDA
 #####################################
 # data collection
 #####################################
-from gdaserver import xyz_stage, th, s5v1gap, gv17, difftth, fastshutter, m5tth # @UnresolvedImport
+from gdaserver import xyz_stage, th, s5v1gap, gv17, difftth, fastshutter, m5tth, phi, chi # @UnresolvedImport
 from shutters.detectorShutterControl import erio, primary
 from functions.go_founctions import go
 
@@ -87,11 +90,17 @@ xyz_stage.asynchronousMoveTo([x_sample_pi0, y_sample_pi0, z_sample_pi0])
 
 print("move th to %f ..." % th_val)
 th.asynchronousMoveTo(th_val)
+print("move phi to %f ..." % phi_sample_pi0)
+phi.asynchronousMoveTo(phi_sample_pi0)
+print("move chi to %f ..." % chi_sample_pi0)
+chi.asynchronousMoveTo(chi_sample_pi0)
 
 s5v1gap.waitWhileBusy()
 difftth.waitWhileBusy()
 xyz_stage.waitWhileBusy()
 th.waitWhileBusy()
+phi.waitWhileBusy()
+chi.waitWhileBusy()
 print("All motions are now completed")
 
 # Keep Fast Shutter open throughout XAS measurements
