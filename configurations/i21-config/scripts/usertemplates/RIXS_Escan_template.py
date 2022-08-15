@@ -40,6 +40,7 @@ y_ctape_pi0=-1.5
 z_ctape_pi0=-3.5
 
 phi_pi0 = 0.0
+chi_pi0 = 0.0 #I21-996
 
 ############################################################################
 # User Section - definition of the sample and ctape position along (pi,pi)
@@ -54,6 +55,7 @@ y_ctape_pipi = -2.0
 z_ctape_pipi = -2.8
 
 phi_pipi = 45
+chi_pipi = 0.0 #I21-996
 
 #############################################
 # User Section - defining exit slit opening
@@ -115,13 +117,14 @@ polarisation_collect_order = [LH,         LV,         LV,          LH        ]
 sample_collect_order =       [sample_pi0, sample_pi0, sample_pipi, sample_pipi]
 ctape_collect_order =        [ctape_pi0,  ctape_pi0,  ctape_pipi,  ctape_pipi ]
 phi_positions =              [phi_pi0,    phi_pi0,    phi_pipi,    phi_pipi   ]
+chi_positions =              [chi_pi0,    chi_pi0,    chi_pipi,    chi_pipi   ]
 
 ##################################################################
 ###### User don't need to edit the sections below this line ######
 ##################################################################
 
-collection_positions = zip(polarisation_collect_order, phi_positions, ctape_collect_order, sample_collect_order)
-print("Data Collections are ordered in list (polarisation, phi_position, ctape_positions, sample_positions): %r" % collection_positions)
+collection_positions = zip(polarisation_collect_order, phi_positions, chi_positions, ctape_collect_order, sample_collect_order)
+print("Data Collections are ordered in list (polarisation, phi_position, chi_positions, ctape_positions, sample_positions): %r" % collection_positions)
 
 ######################################################################
 ### Calculate raster points for data collection
@@ -271,15 +274,17 @@ if answer == "y":
     fastshutter('Open')    
 
     # collecting data with given parameters
-    from gdaserver import phi  # @UnresolvedImport
+    from gdaserver import phi, chi  # @UnresolvedImport
     i = 0
-    for pol, phi_val, ctape, sample in collection_positions:
+    for pol, phi_val, chi_val, ctape, sample in collection_positions:
         phi.asynchronousMoveTo(phi_val)
+        chi.asynchronousMoveTo(chi_val)
         if i % 2 == 0:
             go(E_initial, pol) # for forward energy change
         if i % 2 == 1:
             go(E_end, pol) # for reverse energy change
         phi.waitWhileBusy()
+        chi.waitWhileBusy()
         collect_data(ctape, sample, point_list, detector_to_use)
         i += 1
     

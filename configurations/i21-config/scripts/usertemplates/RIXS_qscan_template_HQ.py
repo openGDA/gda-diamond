@@ -93,17 +93,18 @@ c = 11.68
 # User Section - definition of the sample and ctape position along (pi,0)#
 ##########################################################################
 
-x_sample_pi0= +0.4429
-y_sample_pi0= +0.7
-z_sample_pi0= +1.6
-phi_sample_pi0= 0
+x_sample_pi0 = +0.4429
+y_sample_pi0 = +0.7
+z_sample_pi0 = +1.6
+phi_sample_pi0 = 0
+chi_sample_pi0 = 0
  
-x_ctape_pi0=+0.39
-y_ctape_pi0=-1.5
-z_ctape_pi0=-3.5
-phi_ctape_pi0= 0
- 
-chi_offset_pi0 = 0.0
+x_ctape_pi0 = +0.39
+y_ctape_pi0 = -1.5
+z_ctape_pi0 = -3.5
+phi_ctape_pi0 = 0
+chi_ctape_pi0 = 0
+
 th_offset_pi0 = +2.8+2.393
  
 ############################################################################
@@ -114,13 +115,14 @@ x_sample_pipi=-1.373
 y_sample_pipi=-2.0
 z_sample_pipi=+0.9
 phi_sample_pipi= 45
+chi_sample_pipi= 45
  
 x_ctape_pipi=+0.18
 y_ctape_pipi=-2.0
 z_ctape_pipi=-2.8
 phi_ctape_pipi= 45
+chi_ctape_pipi= 45
  
-chi_offset_pipi = 0.0
 th_offset_pipi = +2.8+2.393
  
 #############################################
@@ -223,14 +225,16 @@ ctape_collect_order =        [ctape_pi0,          ctape_pi0,          ctape_pipi
 phi_sample_positions =       [phi_sample_pi0,     phi_sample_pi0,     phi_sample_pipi,     phi_sample_pipi]
 phi_ctape_positions =        [phi_ctape_pi0,      phi_ctape_pi0,      phi_ctape_pipi,      phi_ctape_pipi ]
 q_th_pair_positions_list =   [q_th_pair_list_pi0, q_th_pair_list_pi0, q_th_pair_list_pipi, q_th_pair_list_pipi]
+chi_sample_positions =       [chi_sample_pi0,     chi_sample_pi0,     chi_sample_pipi,     chi_sample_pipi]
+chi_ctape_positions =        [chi_ctape_pi0,      chi_ctape_pi0,      chi_ctape_pipi,      chi_ctape_pipi ]
 
 
 ##################################################################
 ###### User don't need to edit the sections below this line ######
 ##################################################################
 
-collection_positions = zip(polarisation_collect_order, phi_ctape_positions, phi_sample_positions, ctape_collect_order, sample_collect_order, q_th_pair_positions_list)
-print("Data Collections are ordered in list (polarisation, phi_ctape_position, phi_sample_position, ctape_positions, sample_positions, q_positions): %r" % collection_positions)
+collection_positions = zip(polarisation_collect_order, phi_ctape_positions, phi_sample_positions, chi_ctape_positions, chi_sample_positions, ctape_collect_order, sample_collect_order, q_th_pair_positions_list)
+print("Data Collections are ordered in list (polarisation, phi_ctape_position, phi_sample_position, chi_ctape_positions, chi_sample_positions, ctape_positions, sample_positions, q_positions): %r" % collection_positions)
 
 total_number_of_data_files_to_be_collected = ((len(qlist_pi0) + len(qlist_pipi)) * len(q_th_pair_positions_list) / 2 * 2) # divide by 2 because we only collect 2 for each q list, times 2 because both ctape and sample are collected at each q 
 print("\nTotal number of data files to be collected: %r" % (total_number_of_data_files_to_be_collected))
@@ -245,12 +249,12 @@ number_of_images_collected_so_far = 0
 number_of_data_files__to_be_collected = total_number_of_data_files_to_be_collected
 number_of_images_to_be_collected = total_number_of_images_to_be_collected
 
-def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, pol, det):
+def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, det):
     from acquisition.acquire_images import acquireRIXS
     from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image
     from scannabledevices.checkbeanscannables import checkbeam
     from gdascripts.metadata.nexus_metadata_class import meta
-    from gdaserver import xyz_stage, th, m4c1, phi  # @UnresolvedImport
+    from gdaserver import xyz_stage, th, m4c1, phi, chi  # @UnresolvedImport
     
     global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files__to_be_collected,number_of_images_to_be_collected
 
@@ -261,9 +265,11 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, pol, det)
         
         print('Total number of points is %d. Point number %d is at qtrans_inplane=%.4f, th=%.3f for ctape at %r' % (len(q_th_pair_list), number_of_data_files_collected_so_far + 1.0, qval, thval, ctape))
         phi.asynchronousMoveTo((phi_ctape))
+        chi.asynchronousMoveTo(chi_ctape)
         th.waitWhileBusy()
         phi.waitWhileBusy()
-        
+        chi.waitWhileBusy()
+       
         xyz_stage.moveTo(ctape)
         acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
         number_of_data_files_collected_so_far += 1
@@ -278,8 +284,10 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, pol, det)
     
         print('Total number of points is %d. Point number %d is at qtrans_inplane=%.4f, th=%.3f for sample at %r)' % (len(q_th_pair_list), number_of_data_files_collected_so_far + 1.0, qval, thval, sample))
         phi.asynchronousMoveTo((phi_sample))
+        chi.asynchronousMoveTo(chi_sample)
         xyz_stage.moveTo(sample)
         phi.waitWhileBusy()
+        chi.waitWhileBusy()
         acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)    
         number_of_data_files_collected_so_far += 1
         number_of_images_collected_so_far += sample_no_images
@@ -330,9 +338,9 @@ if answer == "y":
     fastshutter('Open')
     
     #################### HQ MIRROR ###########################    
-    for pol, phi_ctape, phi_sample, ctape, sample, q_th_pair_list in collection_positions:
+    for pol, phi_ctape, phi_sample, chi_ctape, chi_sample, ctape, sample, q_th_pair_list in collection_positions:
         go(E_initial, pol)
-        collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, pol, detector_to_use)
+        collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, detector_to_use)
     
 #####################################################################
 print('Macro is completed !!!')
