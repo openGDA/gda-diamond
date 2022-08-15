@@ -1,11 +1,11 @@
 from gda.jython.commands import InputCommands
 from math import pi, tan
-from localStationScripts.GeneralScan import GeneralScan
+from gda.scan import ScanBase
 from localStationScripts.operationalControl import genericScanChecks
 #from scanPeak import fitStepFunction
 
 # Does this need to inherit from GeneralScan? nothing in this class seems to need it!
-class CentreDAC(GeneralScan):
+class CentreDAC(ScanBase):
 	"""
 	CentreDAC(rotation_axis, perp2rot_axis, focus_axis,
 			  scanRange, scanStep, rockAngle, diode, autoFit, rotation_centre)
