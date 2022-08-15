@@ -163,7 +163,7 @@ number_of_data_files_to_be_collected = total_number_of_data_files_to_be_collecte
 number_of_images_to_be_collected = total_number_of_images_to_be_collected
 
 ###define experimental logics to collecting data from carbon tape and sample
-def collect_data(ctape, sample, point_list, det):
+def collect_data(ctape, sample, point_list, det, dark_image_filename):
     '''collect experiment data from ctape and sample positions at the given points with the given detector
     @param ctape: ctape position
     @param sample: sample position
@@ -177,6 +177,7 @@ def collect_data(ctape, sample, point_list, det):
     from time import sleep
     from gdaserver import th, m4c1, xyz_stage, pgmEnergy, spech  # @UnresolvedImport
     from scannable.continuous.continuous_energy_scannables import energy
+    from acquisition.darkImageAcqusition import add_dark_image_link, remove_dark_image_link
 
     global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files_to_be_collected,number_of_images_to_be_collected
 
@@ -212,6 +213,7 @@ def collect_data(ctape, sample, point_list, det):
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************')
         
+        add_dark_image_link(det, dark_image_filename)
         print("move to sample position %r" % sample)
         xyz_stage.moveTo(sample)
         print('RIXS at th = %.3f and Energy = %.3f'%(th_val,energy_val))
@@ -226,6 +228,7 @@ def collect_data(ctape, sample, point_list, det):
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************')
         
+        remove_dark_image_link(det)
         remove_ctape_image(det)
 
 answer = "y"
@@ -234,12 +237,13 @@ answer = "y"
 answer = raw_input("\nAre these collection parameters correct to continue [y/n]?")
 
 if answer == "y":
-    from acquisition.darkImageAcqusition import acquire_dark_image
+    from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from gdaserver import s5v1gap, difftth, fastshutter, spech  # @UnresolvedImport
     from shutters.detectorShutterControl import primary, polarimeter
     from functions.go_founctions import go
     from scannable.continuous.continuous_energy_scannables import energy
-
+    from acquisition.acquireCarbonTapeImages import remove_ctape_image
+    
     #####################################
     # defining exit slit opening
     #####################################
@@ -249,8 +253,10 @@ if answer == "y":
     #We acquire some dark images before the E scan:
     ##################################################################
     #Dark Image
-    energy.moveTo(dark_image_energy) 
-    acquire_dark_image(1, detector_to_use, sample_exposure_time)    
+    energy.moveTo(dark_image_energy)
+    remove_dark_image_link(detector_to_use) # ensure any previous dark image file link is removed
+    remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
+    dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
     
     ######################################
     # moving diode to 0
@@ -285,7 +291,7 @@ if answer == "y":
             go(E_end, pol) # for reverse energy change
         phi.waitWhileBusy()
         chi.waitWhileBusy()
-        collect_data(ctape, sample, point_list, detector_to_use)
+        collect_data(ctape, sample, point_list, detector_to_use, dark_image_filename)
         i += 1
     
             

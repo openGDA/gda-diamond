@@ -246,12 +246,14 @@ def collect_ctape_data(x_ctape, y_ctape, z_ctape, det, no_images, exposure_time)
     print("Number of images to go: %r" % number_of_images_to_be_collected)
     print('******************************************************************')
 
-def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_time):
+def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_time, dark_image_filename):
     from gdaserver import xyz_stage, m4c1  # @UnresolvedImport
     from scannabledevices.checkbeanscannables import checkbeam
     from acquisition.acquire_images import acquireRIXS
+    from acquisition.darkImageAcqusition import remove_dark_image_link, add_dark_image_link
     global number_of_data_files_collected_so_far, number_of_images_collected_so_far, number_of_data_files_to_be_collected, number_of_images_to_be_collected
     
+    add_dark_image_link(det, dark_image_filename)
     print("move to sample position %r" % [x_sample, y_sample, z_sample])
     xyz_stage.moveTo([x_sample, y_sample, z_sample])
     acquireRIXS(no_images, det, exposure_time, m4c1, exposure_time, checkbeam)
@@ -264,8 +266,9 @@ def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_t
     print("Number of images collected so far: %r" % number_of_images_collected_so_far)
     print("Number of images to go: %r" % number_of_images_to_be_collected)
     print('******************************************************************')
+    remove_dark_image_link(det)
 
-def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_ctape, chi_ctape, det, ctape_no_images, ctape_exposure_time, sample_no_images, sample_exposure_time):
+def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_ctape, chi_ctape, det, ctape_no_images, ctape_exposure_time, sample_no_images, sample_exposure_time, dark_image_filename):
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
     from gdaserver import chi  # @UnresolvedImport
     if enable_ctape_collection:
@@ -273,7 +276,7 @@ def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_c
         collect_ctape_data(x_ctape, y_ctape, z_ctape, det, ctape_no_images, ctape_exposure_time)
     if enable_sample_collection:
         chi.moveTo(chi_sample)
-        collect_sample_data(x_sample, y_sample, z_sample, det, sample_no_images, sample_exposure_time)
+        collect_sample_data(x_sample, y_sample, z_sample, det, sample_no_images, sample_exposure_time, dark_image_filename)
     if enable_ctape_collection:
         remove_ctape_image(det)
 
@@ -294,11 +297,14 @@ if answer == "y":
     ##################################################################
     #We acquire some dark images before the E scan:
     ##################################################################
-    from acquisition.darkImageAcqusition import acquire_dark_image
+    from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from scannable.continuous.continuous_energy_scannables import energy
+    from acquisition.acquireCarbonTapeImages import remove_ctape_image
     
     energy.moveTo(dark_image_energy)
-    acquire_dark_image(1, detector_to_use, sample_exposure_time)
+    remove_dark_image_link(detector_to_use) # ensure any previous dark image file link is removed
+    remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
+    dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
     
     ###########################################
     # shutter control
@@ -338,7 +344,7 @@ if answer == "y":
         print("all motions are completed!")
         
         print('\n%s RIXS at th = %.3f, phi = %.3f, Energy = %.3f and spech = %.3f' % (pol_val, th_val, phi_val, energy_val, spech_val))
-        collect_data(x_sample_pi0, y_sample_pi0, z_sample_pi0, chi_sample_pi0, x_ctape_pi0, y_ctape_pi0, z_ctape_pi0, chi_ctape_pi0, detector_to_use, ctape_no_images, ctape_exposure_time, no_images, sample_exposure_time)
+        collect_data(x_sample_pi0, y_sample_pi0, z_sample_pi0, chi_sample_pi0, x_ctape_pi0, y_ctape_pi0, z_ctape_pi0, chi_ctape_pi0, detector_to_use, ctape_no_images, ctape_exposure_time, no_images, sample_exposure_time, dark_image_filename)
         
     ##########################################
     

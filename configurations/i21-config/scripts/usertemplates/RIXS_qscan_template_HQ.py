@@ -60,6 +60,7 @@ from gdaserver import  andor, andor2, xcam  # @UnresolvedImport
 from gdascripts.utils import frange
 from functions.go_founctions import go
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
+
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 
 
@@ -249,13 +250,14 @@ number_of_images_collected_so_far = 0
 number_of_data_files__to_be_collected = total_number_of_data_files_to_be_collected
 number_of_images_to_be_collected = total_number_of_images_to_be_collected
 
-def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, det):
+def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, det, dark_image_filename):
     from acquisition.acquire_images import acquireRIXS
     from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image
     from scannabledevices.checkbeanscannables import checkbeam
     from gdascripts.metadata.nexus_metadata_class import meta
     from gdaserver import xyz_stage, th, m4c1, phi, chi  # @UnresolvedImport
-    
+    from acquisition.darkImageAcqusition import add_dark_image_link, remove_dark_image_link
+
     global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files__to_be_collected,number_of_images_to_be_collected
 
     print('\nscan between q= %.4f and q= %.4f using the M5hq mirror, s5v1gap = %d, %s, energy = %.2f'%(q_th_pair_list[0][0], q_th_pair_list[len(q_th_pair_list)-1][0], exit_slit, pol, E_initial))
@@ -282,6 +284,7 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************')
     
+        add_dark_image_link(det, dark_image_filename)
         print('Total number of points is %d. Point number %d is at qtrans_inplane=%.4f, th=%.3f for sample at %r)' % (len(q_th_pair_list), number_of_data_files_collected_so_far + 1.0, qval, thval, sample))
         phi.asynchronousMoveTo((phi_sample))
         chi.asynchronousMoveTo(chi_sample)
@@ -299,6 +302,7 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('*******************************************************************')
         
+        remove_dark_image_link(det)
         # comment out next line if comment out acquire_ctape_image above
         remove_ctape_image(det)
         meta.rm("Q", "H")
@@ -315,7 +319,8 @@ if answer == "y":
     from gdaserver import  s5v1gap, difftth, fastshutter  # @UnresolvedImport
     from shutters.detectorShutterControl import primary, polarimeter    
     from scannable.continuous.continuous_energy_scannables import energy
-    from acquisition.darkImageAcqusition import acquire_dark_image
+    from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
+    from acquisition.acquireCarbonTapeImages import remove_ctape_image
     
     s5v1gap.moveTo(exit_slit)
     
@@ -329,7 +334,9 @@ if answer == "y":
     ##################################################################
     #Dark Image
     energy.moveTo(dark_image_energy)
-    acquire_dark_image(1, detector_to_use, sample_exposure_time)
+    remove_dark_image_link(detector_to_use) # ensure any previous dark image file link is removed
+    remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
+    dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
 
     if detector_to_use in [andor, xcam]:
         primary()
@@ -340,7 +347,7 @@ if answer == "y":
     #################### HQ MIRROR ###########################    
     for pol, phi_ctape, phi_sample, chi_ctape, chi_sample, ctape, sample, q_th_pair_list in collection_positions:
         go(E_initial, pol)
-        collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, detector_to_use)
+        collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, detector_to_use, dark_image_filename)
     
 #####################################################################
 print('Macro is completed !!!')

@@ -260,7 +260,7 @@ number_of_data_files_to_be_collected = total_number_of_data_files_to_be_collecte
 number_of_images_to_be_collected = total_number_of_images_to_be_collected
 
 ###define experimental logics to collecting data from carbon tape and sample
-def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset):
+def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset, dark_image_filename):
     '''collect experiment data from ctape and sample positions at the given points with the given detector
     @param point_list: list of (th_val, true_tth_val, armtth_val, h_val, l_val) tuple positions 
     @param det: the detector used to collect images
@@ -271,6 +271,7 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset):
     from gdascripts.metadata.nexus_metadata_class import meta
     from acquisition.acquire_images import acquireRIXS
     from scannabledevices.checkbeanscannables import checkbeam
+    from acquisition.darkImageAcqusition import remove_dark_image_link, add_dark_image_link
     global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files_to_be_collected,number_of_images_to_be_collected
 
     phi.asynchronousMoveTo(phi_offset)
@@ -334,6 +335,7 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset):
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************\n')
         
+        add_dark_image_link(det, dark_image_filename)
         print("move to sample position %r" % sample_pi0)
         xyz_stage.moveTo(sample)
         acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
@@ -347,6 +349,7 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset):
         print("Number of images to go: %r" % number_of_images_to_be_collected)
         print('******************************************************************\n')
         
+        remove_dark_image_link(det)
         # able next line if you want to explicitly remove the node link to ctape data collected above from any subsequent scan.
         remove_ctape_image(det)
     
@@ -364,7 +367,8 @@ if answer == "y":
     from gdaserver import phi, chi, s5v1gap, spech, fastshutter  # @UnresolvedImport
     from shutters.detectorShutterControl import primary, polarimeter
     from scannable.continuous.continuous_energy_scannables import energy
-    from acquisition.darkImageAcqusition import acquire_dark_image
+    from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
+    from acquisition.acquireCarbonTapeImages import remove_ctape_image
     
     s5v1gap.asynchronousMoveTo(exit_slit)
     energy.asynchronousMoveTo(energy_val_instrument)
@@ -378,7 +382,9 @@ if answer == "y":
     # Dark Image                                                                #
     #############################################################################
     energy.moveTo(dark_image_energy)
-    acquire_dark_image(1, andor, sample_exposure_time)
+    remove_dark_image_link(detector_to_use) # ensure any previous dark image file link is removed
+    remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
+    dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
     energy.moveTo(energy_val_fix)
     
     # shutter control based on detector to use for data collection
@@ -393,25 +399,25 @@ if answer == "y":
         #                  L scan with fixed H  (not valid for hexagonal symmetry) #
         ############################################################################
         if enable_l_scan_at_fixed_h:
-            collect_data(l_points_pi0, detector_to_use, ctape_pi0, sample_pi0, phi_offset_pi0, chi_offset_pi0)  
+            collect_data(l_points_pi0, detector_to_use, ctape_pi0, sample_pi0, phi_offset_pi0, chi_offset_pi0, dark_image_filename)  
             
         ############################################################################
         #                 H scan with fixed L   (not valid for hexagonal symmetry) #
         ############################################################################
         if enable_h_scan_at_fixed_l:
-            collect_data(h_points_pi0, detector_to_use, ctape_pi0, sample_pi0, phi_offset_pi0, chi_offset_pi0)
+            collect_data(h_points_pi0, detector_to_use, ctape_pi0, sample_pi0, phi_offset_pi0, chi_offset_pi0, dark_image_filename)
 
     if enable_pipi_collection:
         ############################################################################
         #                  L scan with fixed H  (not valid for hexagonal symmetry) #
         ############################################################################
         if enable_l_scan_at_fixed_h:
-            collect_data(l_points_pipi, detector_to_use, ctape_pipi, sample_pipi, phi_offset_pipi, chi_offset_pipi)  
+            collect_data(l_points_pipi, detector_to_use, ctape_pipi, sample_pipi, phi_offset_pipi, chi_offset_pipi, dark_image_filename)  
             
         ############################################################################
         #                 H scan with fixed L   (not valid for hexagonal symmetry) #
         ############################################################################
         if enable_h_scan_at_fixed_l:
-            collect_data(h_points_pipi, detector_to_use, ctape_pipi, sample_pipi, phi_offset_pipi, chi_offset_pipi)  
+            collect_data(h_points_pipi, detector_to_use, ctape_pipi, sample_pipi, phi_offset_pipi, chi_offset_pipi, dark_image_filename)  
         
 print ('macro is finished')
