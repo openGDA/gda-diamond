@@ -53,16 +53,6 @@ public class BeamlineReadinessParameters extends FindableBase {
 	private String yPosition;
 
 	/**
-	 * Name of scannable for setpoint in the x plane
-	 */
-	private String xSetpoint;
-
-	/**
-	 * Name of scannable for setpoint in the y plane
-	 */
-	private String ySetpoint;
-
-	/**
 	 * Name of scannable for beam intensity
 	 */
 	private String intensity;
@@ -134,22 +124,6 @@ public class BeamlineReadinessParameters extends FindableBase {
 		this.yPosition = yPosition;
 	}
 
-	public String getxSetpoint() {
-		return xSetpoint;
-	}
-
-	public void setxSetpoint(String xSetpoint) {
-		this.xSetpoint = xSetpoint;
-	}
-
-	public String getySetpoint() {
-		return ySetpoint;
-	}
-
-	public void setySetpoint(String ySetpoint) {
-		this.ySetpoint = ySetpoint;
-	}
-
 	public String getIntensity() {
 		return intensity;
 	}
@@ -202,7 +176,7 @@ public class BeamlineReadinessParameters extends FindableBase {
 	public String toString() {
 		return "BeamlineReadinessParameters [shutters=" + shutters + ", ringCurrent=" + ringCurrent
 				+ ", ringCurrentThreshold=" + ringCurrentThreshold + ", xPosition=" + xPosition + ", yPosition="
-				+ yPosition + ", xSetpoint=" + xSetpoint + ", ySetpoint=" + ySetpoint + ", intensity=" + intensity
+				+ yPosition + ", intensity=" + intensity
 				+ ", energy=" + energy + ", targetIntensities=" + targetIntensities + ", xTolerance=" + xTolerance
 				+ ", yTolerance=" + yTolerance + ", intensityTolerance=" + intensityTolerance + "]";
 	}
