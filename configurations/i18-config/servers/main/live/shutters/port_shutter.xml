@@ -5,7 +5,7 @@
 
 
 	<bean id="portshutter" class="gda.device.enumpositioner.EpicsValve">
-		<property name="epicsRecordName" value="FE18I-PS-SHTR-02" />
+		<property name="epicsRecordName" value="FE18I-PS-SHTR-01" />
 	</bean>
 
 </beans>
