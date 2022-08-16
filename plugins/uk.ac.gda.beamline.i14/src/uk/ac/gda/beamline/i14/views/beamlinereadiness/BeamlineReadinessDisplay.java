@@ -50,8 +50,6 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		INTENSITY_ZERO("Beam is off", StateSeverity.CRITICAL),
 		INTENSITY_TOO_LOW("Beam intensity is too far from its target", StateSeverity.WARNING),
 		SHUTTERS_NOT_OPEN("Shutters are not open", StateSeverity.CRITICAL),
-		OUT_OF_POSITION_X("Beam x position is too far from its setpoint", StateSeverity.CRITICAL),
-		OUT_OF_POSITION_Y("Beam y position is too far from its setpoint", StateSeverity.CRITICAL),
 		ENERGY_OUTSIDE_RANGE("Beamline state unknown: energy is outside the calibrated range", StateSeverity.UNKNOWN),
 		UNKNOWN("Beamline state unknown - see log for details", StateSeverity.UNKNOWN);
 
@@ -75,8 +73,6 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 	private Monitor xPosition;
 	private Monitor yPosition;
 	private Monitor intensity;
-	private Monitor xSetpoint;
-	private Monitor ySetpoint;
 	private Monitor ringCurrent;
 	private List<Scannable> shutters;
 	private Scannable energy;
@@ -108,9 +104,6 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 
 		yPosition = Finder.find(displayParams.getyPosition());
 		yPosition.addIObserver(this::handleUpdate);
-
-		xSetpoint = Finder.find(displayParams.getxSetpoint());
-		ySetpoint = Finder.find(displayParams.getySetpoint());
 
 		energy = Finder.find(displayParams.getEnergy());
 		energy.addIObserver(this::handleUpdate);
@@ -146,9 +139,9 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 	private void logCurrentValues() {
 		try {
 			logger.debug(
-					"intensity: {}, xPosition: {}, yPosition: {}, xSetpoint: {}, ySetpoint: {}, energy: {}, ringCurrent: {}, targetIntensity: {}",
-					getIntensity(), xPosition.getPosition(), yPosition.getPosition(), xSetpoint.getPosition(),
-					ySetpoint.getPosition(), energy.getPosition(), ringCurrent.getPosition(), getTargetIntensity((double) energy.getPosition()));
+					"intensity: {}, xPosition: {}, yPosition: {}, energy: {}, ringCurrent: {}, targetIntensity: {}",
+					getIntensity(), xPosition.getPosition(), yPosition.getPosition(), energy.getPosition(),
+					ringCurrent.getPosition(), getTargetIntensity((double) energy.getPosition()));
 		} catch (DeviceException e) {
 			logger.error("Error getting beamline state", e);
 		}
@@ -204,10 +197,6 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 				state = ReadinessState.SHUTTERS_NOT_OPEN;
 			} else if ((double) ringCurrent.getPosition() < displayParams.getRingCurrentThreshold()) {
 				state = ReadinessState.INTENSITY_ZERO;
-			} else if(!isInPosition((double) xPosition.getPosition(), (double) xSetpoint.getPosition(), displayParams.getxTolerance())) {
-				state = ReadinessState.OUT_OF_POSITION_X;
-			} else if(!isInPosition((double) yPosition.getPosition(), (double) ySetpoint.getPosition(), displayParams.getyTolerance())) {
-				state = ReadinessState.OUT_OF_POSITION_Y;
 			} else {
 				final Double targetIntensity = getTargetIntensity((double) energy.getPosition());
 				if (targetIntensity == null) {
