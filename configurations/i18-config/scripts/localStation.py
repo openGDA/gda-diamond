@@ -156,13 +156,16 @@ selectStage = StageSelector(map)
 alias("selectStage")
 selectStage(1)
 
-# In order to perform AcquireRequests with Xspress3 we must initialise the plugin array:
-from gdaserver import Xspress3A
-from gdascripts.detectors.initialise_detector import initialise_detector
-if live_mode:
-    initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Software")
-else:
-    initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Internal", "Single")
+def fix_snapshot():
+    # In order to perform AcquireRequests with Xspress3 we must initialise the plugin array:
+    from gdaserver import Xspress3A
+    from gdascripts.detectors.initialise_detector import initialise_detector
+    if live_mode:
+        initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Software")
+    else:
+        initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Internal", "Single")
+        
+fix_snapshot()
 
 from mapping_scan_commands import mscan, grid, detector, mstep, rect
 from org.eclipse.scanning.api.points.models import AxialStepModel
@@ -194,6 +197,9 @@ Disable/enable a single watchdog e.g. topup:
 Specify calibration and mask files for Excalibur:
  excalibur_metadata.set_calibration_file(...)
  excalibur_metadata.set_mask_file(...)
+ 
+To fix snapshots after detector IOC restart:
+ fix_snapshot()
 ****************************************
 """
 
