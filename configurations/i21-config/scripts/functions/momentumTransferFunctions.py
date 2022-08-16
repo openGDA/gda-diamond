@@ -7,7 +7,7 @@ Created on 27th Mar 2019
 ###### Defining the momentum transfer at a fixed spectrometer tth angle ######################
 #############################################################################################
 
-from templates.unitTransferFunctions import energy2wavelength, dspacing
+from functions.unitTransferFunctions import energy2wavelength, dspacing
 
 def th2qtrans_inplane(energy_sa,thval,thoffset,tth,h_sa,k_sa,l_sa,a,b,c):
     '''

@@ -4,7 +4,7 @@ Created on May 17, 2022
 @author: fy65
 '''
 import math as mh
-from templates.unitTransferFunctions import energy2wavelength, dspacing
+from functions.unitTransferFunctions import energy2wavelength, dspacing
 
 #################################
 # FIXED L SCAN
