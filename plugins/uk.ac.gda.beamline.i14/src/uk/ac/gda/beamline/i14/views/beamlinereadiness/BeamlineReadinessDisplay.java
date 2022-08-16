@@ -22,7 +22,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.function.Consumer;
 
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.eclipse.swt.widgets.Composite;
@@ -50,6 +54,7 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		INTENSITY_ZERO("Beam is off", StateSeverity.CRITICAL),
 		INTENSITY_TOO_LOW("Beam intensity is too far from its target", StateSeverity.WARNING),
 		SHUTTERS_NOT_OPEN("Shutters are not open", StateSeverity.CRITICAL),
+		INTENSITY_NOT_DEFINED("Beamline state unknown: target intensities have not been defined", StateSeverity.UNKNOWN),
 		ENERGY_OUTSIDE_RANGE("Beamline state unknown: energy is outside the calibrated range", StateSeverity.UNKNOWN),
 		UNKNOWN("Beamline state unknown - see log for details", StateSeverity.UNKNOWN);
 
@@ -120,10 +125,15 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		}
 
 		// Create a function to calculate required beam intensity
-		final Map<Double, Double> targetIntensities = displayParams.getTargetIntensities();
+		SortedMap<Double, Double> targetIntensities = new TreeMap<>();
+		Consumer<CSVRecord> consumer = row -> targetIntensities.put(Double.parseDouble(row.get("Energy")), Double.parseDouble(row.get("Intensity")));
+		CsvReader.processCsvFile(displayParams.getTargetIntensitiesFile(), "Energy", "Intensity", consumer);
+
 		final double[] energies = targetIntensities.entrySet().stream().map(Map.Entry<Double, Double>::getKey).mapToDouble(x -> x).toArray();
 		final double[] intensities = targetIntensities.entrySet().stream().map(Map.Entry<Double, Double>::getValue).mapToDouble(x -> x).toArray();
-		beamIntensityFunction = new LinearInterpolator().interpolate(energies, intensities);
+		if (energies.length > 1 && intensities.length > 1) {
+			beamIntensityFunction = new LinearInterpolator().interpolate(energies, intensities);
+		}
 
 		logger.debug("BeamlineReadinessDisplay initialised");
 		logger.debug("xTolerance: {}%, yTolerance: {}%, intensityTolerance: {}%",
@@ -166,18 +176,18 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		return true;
 	}
 
-	private static boolean isInPosition(double position, double setpoint, double tolerance) {
-		return Math.abs((position - setpoint) / position) * 100.0 < tolerance;
-	}
-
 	private Double getTargetIntensity(double energy) {
-		if (!beamIntensityFunction.isValidPoint(energy)) {
-			logger.warn("Energy {} is outside the calibrated range", energy);
+		if (beamIntensityFunction != null) {
+			if (!beamIntensityFunction.isValidPoint(energy)) {
+				logger.warn("Energy {} is outside the calibrated range", energy);
+				return null;
+			}
+			double targetIntensity = beamIntensityFunction.value(energy);
+			targetIntensity *= (1.0 - (displayParams.getIntensityTolerance() / 100.0));
+			return targetIntensity;
+		} else {
 			return null;
 		}
-		double targetIntensity = beamIntensityFunction.value(energy);
-		targetIntensity *= (1.0 - (displayParams.getIntensityTolerance() / 100.0));
-		return targetIntensity;
 	}
 
 	private double getIntensity() throws DeviceException {
@@ -197,13 +207,15 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 				state = ReadinessState.SHUTTERS_NOT_OPEN;
 			} else if ((double) ringCurrent.getPosition() < displayParams.getRingCurrentThreshold()) {
 				state = ReadinessState.INTENSITY_ZERO;
-			} else {
+			} else if (beamIntensityFunction != null) {
 				final Double targetIntensity = getTargetIntensity((double) energy.getPosition());
 				if (targetIntensity == null) {
 					state = ReadinessState.ENERGY_OUTSIDE_RANGE;
 				} else {
 					state = (getIntensity() >= targetIntensity) ? ReadinessState.READY : ReadinessState.INTENSITY_TOO_LOW;
 				}
+			} else {
+				state = ReadinessState.INTENSITY_NOT_DEFINED;
 			}
 		} catch(Exception e) {
 			logger.error("Error getting BPM data", e);

@@ -19,7 +19,6 @@
 package uk.ac.gda.beamline.i14.views.beamlinereadiness;
 
 import java.util.List;
-import java.util.SortedMap;
 
 import gda.factory.FindableBase;
 
@@ -63,9 +62,9 @@ public class BeamlineReadinessParameters extends FindableBase {
 	private String energy;
 
 	/**
-	 * Target beam intensity for various energies
+	 * File containing target beam intensity for various energies
 	 */
-	private SortedMap<Double, Double> targetIntensities;
+	private String targetIntensitiesFile;
 
 	/**
 	 * Maximum % difference between beam's x position and the corresponding setpoint
@@ -140,12 +139,12 @@ public class BeamlineReadinessParameters extends FindableBase {
 		this.energy = energy;
 	}
 
-	public SortedMap<Double, Double> getTargetIntensities() {
-		return targetIntensities;
+	public String getTargetIntensitiesFile() {
+		return targetIntensitiesFile;
 	}
 
-	public void setTargetIntensities(SortedMap<Double, Double> targetIntensities) {
-		this.targetIntensities = targetIntensities;
+	public void setTargetIntensitiesFile(String targetIntensitiesFile) {
+		this.targetIntensitiesFile = targetIntensitiesFile;
 	}
 
 	public double getxTolerance() {
@@ -172,13 +171,14 @@ public class BeamlineReadinessParameters extends FindableBase {
 		this.intensityTolerance = intensityTolerance;
 	}
 
+
 	@Override
 	public String toString() {
 		return "BeamlineReadinessParameters [shutters=" + shutters + ", ringCurrent=" + ringCurrent
 				+ ", ringCurrentThreshold=" + ringCurrentThreshold + ", xPosition=" + xPosition + ", yPosition="
-				+ yPosition + ", intensity=" + intensity
-				+ ", energy=" + energy + ", targetIntensities=" + targetIntensities + ", xTolerance=" + xTolerance
-				+ ", yTolerance=" + yTolerance + ", intensityTolerance=" + intensityTolerance + "]";
+				+ yPosition + ", intensity=" + intensity + ", energy=" + energy + ", targetIntensitiesFile="
+				+ targetIntensitiesFile + ", xTolerance=" + xTolerance + ", yTolerance=" + yTolerance + ", intensityTolerance="
+				+ intensityTolerance + "]";
 	}
 
 }
