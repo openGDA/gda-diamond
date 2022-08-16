@@ -3,10 +3,10 @@ define scannables that interact with Keithley 2461 source meter using SCPI (Stan
 
 SCPI Command execution rules are as follows:
 
-• Commands execute in the order that they are presented in the command message. 
-• An invalid command generates an event message and is not executed.
-• Valid commands that precede an invalid command in a command message are executed.
-• Valid commands that follow an invalid command in a command message are ignored.
+1. Commands execute in the order that they are presented in the command message. 
+2. An invalid command generates an event message and is not executed.
+3. Valid commands that precede an invalid command in a command message are executed.
+4. Valid commands that follow an invalid command in a command message are ignored.
 
 Source and measure order
 When you are using a remote interface, you should set the measure function first, then set the source
