@@ -22,19 +22,20 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -46,6 +47,7 @@ import gda.device.DeviceException;
 import gda.device.scannable.ScannableBase;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
+import uk.ac.diamond.daq.concurrent.Async;
 
 /**
  * Provides Ethernet communications a Keyence Camera Controller
@@ -64,11 +66,10 @@ public class Keyence extends ScannableBase {
 
 	private int socketTimeOut = 2000;
 
+	private List<String> startupCommands = new ArrayList<>();
 
-	private ArrayList<String> startupCommands = new ArrayList<String>();
 
-
-    private static Charset charset = Charset.forName("US-ASCII");
+    private static Charset charset = StandardCharsets.US_ASCII;
     private static CharsetEncoder encoder = charset.newEncoder();
     private static CharsetDecoder decoder = charset.newDecoder();
 
@@ -99,7 +100,10 @@ public class Keyence extends ScannableBase {
 		} catch (DeviceException e) {
 			throw new FactoryException("Error connecting to Keyence device",e);
 		}
-		new Thread(this::runKeyence, getName() + " buffer emptier").start();
+
+		Async.scheduleAtFixedRate(this::emptyBuffer, 0, 21987, TimeUnit.MILLISECONDS,"%s buffer emptier", getName());
+		// 21987 magic number, may be explained in the pre-git history.
+
 		setConfigured(true);
 	}
 
@@ -125,13 +129,8 @@ public class Keyence extends ScannableBase {
 					connected = true;
 				}
 			}
-		} catch (UnknownHostException ex) {
-			// this could be fatal as reconnect attempts are futile.
-			logger.error(getName() + ": connect: " + ex.getMessage());
-		} catch (ConnectException ex) {
-			logger.debug(getName() + ": connect: " + ex.getMessage());
-		} catch (IOException ix) {
-			logger.error(getName() + ": connect: " + ix.getMessage());
+		} catch (IOException ex) {
+			logger.error("{}: connect: {}", getName(), ex.getMessage());
 		}
 	}
 
@@ -194,7 +193,7 @@ public class Keyence extends ScannableBase {
 	public String processCommand(String msg) throws DeviceException {
 		String command = msg + '\r';
 		String reply = null;
-		logger.debug(getName() + ": sent command: |" + msg + "|");
+		logger.debug("{}: sent command: |{}|", getName(), msg);
 		synchronized (socketAccessLock) {
 			if (!isConnected()) {
 				throw new DeviceException("not connected");
@@ -206,7 +205,7 @@ public class Keyence extends ScannableBase {
 				socketChannel.read(bb);
 				bb.flip();
 				reply = decoder.decode(bb).toString();
-				logger.debug(getName() + ": got reply: |" + reply.trim() + "|");
+				logger.debug("{}: got reply: |{}|", getName(), reply.trim());
 			} catch (SocketTimeoutException ex) {
 				throw new DeviceException("sendCommand read timeout " + ex.getMessage(),ex);
 			} catch (IOException ex) {
@@ -286,8 +285,8 @@ public class Keyence extends ScannableBase {
 	public Object[] processImageRequest(String msg, int expectedReplyItems) throws DeviceException {
 		if (expectedReplyItems < 2) throw new IllegalArgumentException("need at least two values for images (length definition and data)");
 		String command = msg + '\r';
-		Object reply[] = new Object[expectedReplyItems+1];
-		logger.debug(getName() + ": sent command: " + msg);
+		Object[] reply = new Object[expectedReplyItems+1];
+		logger.debug("{}: sent command: {}", getName(), msg);
 		synchronized (socketAccessLock) {
 			try{
 				if (!isConnected()) {
@@ -308,7 +307,7 @@ public class Keyence extends ScannableBase {
 						socketChannel.read(singleByte);
 					singleByte.flip();
 					String c = decoder.decode(singleByte).toString();
-					logger.debug(c.toString());
+					logger.debug(c);
 					if (c.equals(",")) {
 						reply[argCounter] = sb.toString();
 						sb = new StringBuilder();
@@ -345,7 +344,7 @@ public class Keyence extends ScannableBase {
 		for (String command : startupCommands) {
 			String reply = processCommand(command);
 			if (reply.startsWith("ER")) {
-				logger.error("error sending command " + command + " received error reply from device: " + reply);
+				logger.error("error sending command {} received error reply from device: {}", command, reply);
 			}
 		}
 	}
@@ -385,14 +384,14 @@ public class Keyence extends ScannableBase {
 	/**
 	 * @param startupCommands
 	 */
-	public void setStartupCommands(ArrayList<String> startupCommands) {
+	public void setStartupCommands(List<String> startupCommands) {
 		this.startupCommands = startupCommands;
 	}
 
 	/**
 	 * @return an array list of startup commands to be processed by da.server on startup
 	 */
-	public ArrayList<String> getStartupCommands() {
+	public List<String> getStartupCommands() {
 		return startupCommands;
 	}
 
@@ -428,6 +427,21 @@ public class Keyence extends ScannableBase {
 	public void setInputNames(String[] names) {
 	}
 
+	private void emptyBuffer() {
+		try {
+			cleanPipe();
+		} catch (IOException e) {
+			logger.error("Exception while cleaning pipe of {}", getName(), e);
+		}
+		if (isConfigured() && !isConnected()) {
+			try {
+				reconnect();
+			} catch (DeviceException e) {
+				logger.error("Exception while reconnecting after cleaning pipe of {}", getName(), e);
+			}
+		}
+	}
+
 	private void cleanPipe() throws IOException {
 		synchronized (socketAccessLock) {
 			if(isConnected()){
@@ -444,35 +458,6 @@ public class Keyence extends ScannableBase {
 						// we know that already
 					}
 					throw ex;
-				}
-			}
-		}
-	}
-
-	private void runKeyence() {
-		try {
-			runKeyenceLoop();
-		} catch (InterruptedException e) {
-			logger.error("Thread interrupted while running Keyence {}", getName(), e);
-			Thread.currentThread().interrupt();
-		}
-	}
-
-	private void runKeyenceLoop() throws InterruptedException {
-		while (true) {
-			Thread.sleep(21987);
-			try {
-				cleanPipe();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (isConfigured() && !isConnected()) {
-				try {
-					reconnect();
-				} catch (DeviceException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
 		}
