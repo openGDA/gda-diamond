@@ -47,6 +47,7 @@
 						<value>energy</value>
 						<value>energy_nogap</value>
 						<value>t1thetaFine</value>
+                        <value>t1theta</value>
 					</list>
 				</property>
 			</bean>
