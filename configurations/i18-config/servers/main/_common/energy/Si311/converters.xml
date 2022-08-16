@@ -100,74 +100,74 @@
 	<bean id="harmonic1_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic1_Si311" />
 		<constructor-arg value="harmonic1_converter_Si311" />
-		<constructor-arg value="56.187" />
-		<constructor-arg value="72.000" />
+		<constructor-arg value="90.000" />
+		<constructor-arg value="91.000" />
 	</bean>
 	<bean id="harmonic3_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic3_Si311" />
 		<constructor-arg value="harmonic3_converter_Si311" />
-		<constructor-arg value="24.801" />
-		<constructor-arg value="58.186" />
+		<constructor-arg value="53.541" />
+		<constructor-arg value="89.999" />
 	</bean>
 	<bean id="harmonic5_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic5_Si311" />
 		<constructor-arg value="harmonic5_converter_Si311" />
-		<constructor-arg value="17.201" />
-		<constructor-arg value="24.800" />
+		<constructor-arg value="34.50" />
+		<constructor-arg value="53.54" />
 	</bean>
 	<bean id="harmonic7_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic7_Si311" />
 		<constructor-arg value="harmonic7_converter_Si311" />
-		<constructor-arg value="13.201" />
-		<constructor-arg value="17.200" />
+		<constructor-arg value="25.94" />
+		<constructor-arg value="34.50" />
 	</bean>
 	<bean id="harmonic9_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic9_Si311" />
 		<constructor-arg value="harmonic9_converter_Si311" />
-		<constructor-arg value="11.001" />
-		<constructor-arg value="13.200" />
+		<constructor-arg value="21.44" />
+		<constructor-arg value="25.94" />
 	</bean>
 	<bean id="harmonic11_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic11_Si311" />
 		<constructor-arg value="harmonic11_converter_Si311" />
-		<constructor-arg value="9.251" />
-		<constructor-arg value="11.000" />
+		<constructor-arg value="17.93" />
+		<constructor-arg value="21.44" />
 	</bean>
 	<bean id="harmonic13_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic13_Si311" />
 		<constructor-arg value="harmonic13_converter_Si311" />
-		<constructor-arg value="8.001" />
-		<constructor-arg value="9.250" />
+		<constructor-arg value="15.46" />
+		<constructor-arg value="17.93" />
 	</bean>
 	<bean id="harmonic15_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic15_Si311" />
 		<constructor-arg value="harmonic15_converter_Si311" />
-		<constructor-arg value="7.101" />
-		<constructor-arg value="8.000" />
+		<constructor-arg value="13.69" />
+		<constructor-arg value="15.46" />
 	</bean>
 	<bean id="harmonic17_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic17_Si311" />
 		<constructor-arg value="harmonic17_converter_Si311" />
-		<constructor-arg value="6.701" />
-		<constructor-arg value="7.100" />
+		<constructor-arg value="12.91" />
+		<constructor-arg value="13.69" />
 	</bean>
 	<bean id="harmonic19_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic19_Si311" />
 		<constructor-arg value="harmonic19_converter_Si311" />
-		<constructor-arg value="5.733" />
-		<constructor-arg value="6.700" />
+		<constructor-arg value="11.03" />
+		<constructor-arg value="12.91" />
 	</bean>
 	<bean id="harmonic21_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic21_Si311" />
 		<constructor-arg value="harmonic21_converter_Si311" />
-		<constructor-arg value="5.431" />
-		<constructor-arg value="5.732" />
+		<constructor-arg value="10.44" />
+		<constructor-arg value="11.03" />
 	</bean>
 	<bean id="harmonic23_Si311" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic23_Si311" />
 		<constructor-arg value="harmonic23_converter_Si311" />
-		<constructor-arg value="5.300" />
-		<constructor-arg value="5.430" />
+		<constructor-arg value="10.19" />
+		<constructor-arg value="10.44" />
 	</bean>
 
 	<bean id="lookup_name_provider_Si311" class="gda.util.converters.util.RangeConverterNameProvider">
