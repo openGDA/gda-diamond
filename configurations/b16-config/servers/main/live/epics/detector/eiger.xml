@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<bean id="_eiger" class="uk.ac.gda.devices.odin.OdinDetector">
+		<property name="controller" ref="eiger_controller" />
+		<property name="collectionStrategy"
+			ref="eiger_single_strategy" />
+	</bean>
+	<bean id="eiger_single_strategy"
+		class="uk.ac.gda.devices.odin.OdinSingleFileStrategy">
+		<constructor-arg index="0" ref="eiger_controller" />
+		<property name="triggerMode" value="Internal Series" />
+	</bean>
+	
+	<bean id="_eigerTh" class="uk.ac.gda.devices.odin.OdinDetector">
+		<property name="controller" ref="eiger_threshold_controller" />
+		<property name="collectionStrategy"
+			ref="eiger_threshold_strategy" />
+	</bean>
+	<bean id="eiger_threshold_strategy"
+		class="uk.ac.gda.devices.odin.OdinSingleFileStrategy">
+		<constructor-arg index="0" ref="eiger_threshold_controller" />
+		<property name="triggerMode" value="Internal Series" />
+	</bean>
+
+
+
+
+
+	<!-- Objects for Processing -->
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="eiger">
+		<property name="detector" ref="_eiger" />
+		<property name="processor" ref="eiger_plot_swmr" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="eigerroi">
+		<property name="detector" ref="_eiger" />
+		<property name="processor" ref="eiger_roistats_swmr" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="eigerstats">
+		<property name="detector" ref="_eiger" />
+		<property name="processor" ref="eiger_stats_swmr" />
+	</bean>
+	
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="eigerTh">
+		<property name="detector" ref="_eigerTh" />
+		<property name="processor" ref="eiger_plot_swmr" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="eigerroiTh">
+		<property name="detector" ref="_eigerTh" />
+		<property name="processor" ref="eiger_roistats_swmr" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
+		id="eigerstatsTh">
+		<property name="detector" ref="_eigerTh" />
+		<property name="processor" ref="eiger_stats_swmr" />
+	</bean>
+	
+	<bean
+		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		id="eiger_plot_swmr">
+		<constructor-arg index="0" value="" />
+		<constructor-arg index="1" value="" />
+		<constructor-arg index="2" value="SDS" />
+		<constructor-arg index="3">
+			<list>
+				<ref bean="eiger_plotter" />
+			</list>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<null />
+		</constructor-arg>
+		<property name="detectorWidth" value="2068" />
+		<property name="detectorHeight" value="2162" />
+		<property name="useUidDataset" value="true" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		id="eiger_roistats_swmr">
+		<constructor-arg index="0" value="" />
+		<constructor-arg index="1" value="" />
+		<constructor-arg index="2" value="SDS" />
+		<constructor-arg index="3">
+			<list>
+				<ref bean="eiger_roistats" />
+				<ref bean="eiger_plotter" />
+			</list>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<null />
+		</constructor-arg>
+		<property name="detectorWidth" value="2068" />
+		<property name="detectorHeight" value="2162" />
+		<property name="useUidDataset" value="true" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.SwmrHdfDataSetProviderProcessor"
+		id="eiger_stats_swmr">
+		<constructor-arg index="0" value="" />
+		<constructor-arg index="1" value="" />
+		<constructor-arg index="2" value="SDS" />
+		<constructor-arg index="3">
+			<list>
+				<ref bean="eiger_stats" />
+				<ref bean="eiger_plotter" />
+			</list>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<null />
+		</constructor-arg>
+		<property name="detectorWidth" value="2068" />
+		<property name="detectorHeight" value="2162" />
+		<property name="useUidDataset" value="true" />
+	</bean>
+	<bean
+		class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"
+		id="eiger_roistats">
+		<property name="plotName" value="eiger" />
+		<property name="statsProcessor" ref="eiger_stats" />
+	</bean>
+
+	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
+		id="eiger_stats">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>MAX_X</value>
+				<value>MAX_Y</value>
+				<value>MEAN</value>
+				<value>SUM</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="gda.device.detector.nexusprocessor.DataSetPlotter"
+		id="eiger_plotter">
+		<property name="plotName" value="eiger" />
+	</bean>
+
+
+
+	<!-- Live below -->
+
+	<bean id="eiger_controller_base"
+		class="uk.ac.gda.devices.odin.control.OdinDetectorControllerEpics">
+		<property name="basePv" value="BL16B-EA-EIGER-01:" />
+	</bean>
+
+	<bean id="eiger_controller"
+		class="uk.ac.gda.devices.odin.control.OdinDetectorEiger">
+		<constructor-arg ref="eiger_controller_base" />
+		<property name="basePv" value="BL16B-EA-EIGER-01:"/>
+	</bean>
+	
+	<bean id="eiger_threshold_controller"
+		class="uk.ac.gda.devices.odin.control.OdinDetectorEigerThresholdScan">
+		<constructor-arg ref="eiger_controller_base" />
+		<property name="basePv" value="BL16B-EA-EIGER-01:"/>
+	</bean>
+
+	<!-- bean id="eiger_pva"
+		class="gda.device.detector.areadetector.v17.impl.NDPvaImpl">
+		<property name="basePVName" value="BL16B-EA-EIGER-01:PVA:" />
+		<property name="pluginBase">
+			<bean
+				class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16B-EA-EIGER-01:PVA:" />
+				<property name="initialArrayPort" value="EIG1.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="eiger_pva_adbase"
+		class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL16B-EA-EIGER-01:CAM:" />
+	</bean-->
+
+	<bean id="eiger_camera_control"	
+		class="uk.ac.gda.devices.odin.EigerOdinCameraControl">
+		<property name="controller" ref="eiger_threshold_controller" />
+	</bean>
+
+	<bean id="eig_threshold" class="gda.device.scannable.PVScannable">
+		<property name="pvName"
+			value="BL16B-EA-EIGER-01:CAM:ThresholdEnergy" />
+	</bean>
+	<bean id="eig_photon_en" class="gda.device.scannable.PVScannable">
+		<property name="pvName"
+			value="BL16B-EA-EIGER-01:CAM:PhotonEnergy" />
+	</bean>
+
+
+</beans>

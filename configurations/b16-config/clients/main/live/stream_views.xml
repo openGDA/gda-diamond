@@ -245,4 +245,35 @@
 		<property name="bottomUi" ref="balor_histogramBottomUI" />
 	</bean>
 
+	<bean id="eiger_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="eiger_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="eiger_histogramTopUI" />
+	</bean>
+	<bean id="eiger_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="eiger_camera_control" />
+	</bean>
+	<bean id="eiger_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="eiger_controlsUI" />
+				<ref bean="eiger_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="eiger_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Eiger2 S 4M" />
+		<property name="pvAccessPv" value="BL16B-EA-EIGER-01:PVA:IMAGE" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="eiger_topUI" />
+		<property name="bottomUi" ref="eiger_histogramBottomUI" />
+	</bean>
+
+
 </beans>
