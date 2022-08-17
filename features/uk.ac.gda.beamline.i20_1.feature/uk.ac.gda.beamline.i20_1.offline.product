@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I20 EDE offline" uid="uk.ac.gda.beamline.i20_1.product.offline" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="9.27.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I20 EDE offline" uid="uk.ac.gda.beamline.i20_1.product.offline" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="9.28.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
