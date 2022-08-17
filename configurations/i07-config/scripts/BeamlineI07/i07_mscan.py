@@ -29,15 +29,6 @@ hkl_prov = DCHklAdapter()
 exc.setHklProvider(hkl_prov)
 p2c.setHklProvider(hkl_prov)
 
-# Exc filename recorder
-try:
-    from exc_h5_meta import ExcaliburExtFileMeta
-    excalibur_h5_data = ExcaliburExtFileMeta("excalibur_h5_data", "excalibur", ["excalibur", "excroi", "excstats", "exc_p", "exr", "exv"])
-    meta_add(excalibur_h5_data)
-except Exception as e:
-    print("Error setting up excalibur_h5_data", e)
-#####
-
 # Inject normaliser processor for use in namespace
 excalibur_norm = Finder.find("excalibur_norm")
 #####
