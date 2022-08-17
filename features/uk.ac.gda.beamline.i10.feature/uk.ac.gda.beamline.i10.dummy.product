@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="I10 GDA Client for Dummy Mode" uid="uk.ac.gda.beamline.i10.dummy" id="uk.ac.gda.beamline.i10.dummy_product" application="uk.ac.gda.client.application" version="9.27.0" useFeatures="true" includeLaunchers="true">
+<product name="I10 GDA Client for Dummy Mode" uid="uk.ac.gda.beamline.i10.dummy" id="uk.ac.gda.beamline.i10.dummy_product" application="uk.ac.gda.client.application" version="9.28.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <text>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="uk.ac.diamond.daq.beamline.i06-2.dummy.product" uid="uk.ac.diamond.daq.beamline.i06-2.dummy.product" id="uk.ac.diamond.daq.beamline.i06-2.dummy_product" application="uk.ac.gda.client.application" version="9.27.0" useFeatures="true" includeLaunchers="false">
+<product name="uk.ac.diamond.daq.beamline.i06-2.dummy.product" uid="uk.ac.diamond.daq.beamline.i06-2.dummy.product" id="uk.ac.diamond.daq.beamline.i06-2.dummy_product" application="uk.ac.gda.client.application" version="9.28.0" useFeatures="true" includeLaunchers="false">
 
    <aboutInfo>
       <text>
