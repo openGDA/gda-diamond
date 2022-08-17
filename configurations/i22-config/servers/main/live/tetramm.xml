@@ -35,7 +35,6 @@
 		<property name="controller" ref="tetramm_controller" />
 		<property name="channel" value="6" />
 		<property name="detectorType" value="OTHER" />
-		<property name="baseSampleRate" value="100000" />
 	</bean>
 
 	<bean id="bsdiode_tetramm_hdf5" class="uk.ac.gda.server.ncd.epics.NDFileHDF5Impl">
@@ -68,6 +67,5 @@
 		<property name="controller" ref="bsdiode_tetramm_controller" />
 		<property name="channel" value="7" />
 		<property name="detectorType" value="OTHER" />
-		<property name="baseSampleRate" value="100000" />
 	</bean>
 </beans>
