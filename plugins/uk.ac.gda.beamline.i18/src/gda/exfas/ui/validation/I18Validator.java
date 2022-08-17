@@ -19,11 +19,18 @@
 package gda.exfas.ui.validation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import gda.device.Scannable;
+import gda.device.scannable.ScannableUtils;
 import gda.exafs.scan.ExafsValidator;
+import gda.factory.Finder;
 import uk.ac.gda.beans.exafs.ISampleParameters;
+import uk.ac.gda.beans.exafs.ScannableConfiguration;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
@@ -63,10 +70,45 @@ public class I18Validator extends ExafsValidator {
 			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName()
 					+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 		}
-
+		errors.addAll(checkSampleParameters(s));
 		// TODO add some other validation here?
 
 		return errors;
+	}
+
+	private List<InvalidBeanMessage> checkSampleParameters(I18SampleParameters sampleParams){
+		final List<InvalidBeanMessage> errors = new ArrayList<>();
+		List<String> stageAxes = Arrays.asList("t1x","t1y","t1z");
+		List<String> msgs = sampleParams.getScannableConfigurations().stream().filter(config -> stageAxes.contains(config.getScannableName()))
+				.map(this::getStageWillMoveWarning).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+		if(!msgs.isEmpty()) {
+			String errorMsg = String.join("", msgs)+"PROCEEDING WITH THIS SCAN WILL MOVE THE STAGE AXES! ARE YOU SURE YOU WANT TO PROCEED?";
+			errors.add(new InvalidBeanMessage(errorMsg));
+		}
+		return errors;
+	}
+
+	private Optional<String> getStageWillMoveWarning(ScannableConfiguration config){
+		try {
+			var axisName = config.getScannableName();
+			Scannable axis = Finder.find(axisName);
+			if (axis==null) {
+				return Optional.of(String.format("Unable to find motor axis: %s", axis));
+			}
+			var currentPos = ScannableUtils.objectToDouble(axis.getPosition());
+			var demandPos = ScannableUtils.objectToDouble(config.getPosition());
+			double tolerance = 0.0001;
+			if (Math.abs(currentPos - demandPos)>tolerance) {
+				String msg = String.format("WARNING: %s sample motor parameter [%s] and actual motor parameter [%s] do not match!\n", axisName, currentPos, demandPos);
+				return Optional.of(msg);
+			}
+			else {
+				return Optional.empty();
+			}
+		}
+		catch(Exception e) {
+			return Optional.of(String.format("Error comparing sample and actual motor positions: %s", e));
+		}
 	}
 
 	// for I18 will need our own logic for this
