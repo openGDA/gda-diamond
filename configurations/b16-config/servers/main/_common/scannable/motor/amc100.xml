@@ -6,8 +6,8 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<gda:motor id="attov2" live-pvName="BL16B-EA-AMC-01:AXIS0" />
-	<gda:motor id="attol6" live-pvName="BL16B-EA-AMC-01:AXIS1" />
-	<gda:motor id="attol7" live-pvName="BL16B-EA-AMC-01:AXIS2" />
+	<gda:motor id="attol7" live-pvName="BL16B-EA-AMC-01:AXIS0" />
+	<gda:motor id="attol8" live-pvName="BL16B-EA-AMC-01:AXIS1" />
+	<gda:motor id="attov1" live-pvName="BL16B-EA-AMC-01:AXIS2" />
 
 </beans>
