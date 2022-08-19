@@ -1,13 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- 	xmlns:util="http://www.springframework.org/schema/utils"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd
-           http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util.xsd
-           http://www.diamond.ac.uk/schema/gda/gda
-           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 <!--     <gda:motor id="gantry_x" live-pvName="BL18B-MO-USER-01:AXIS5" live-class="#dummy"/> -->
 <!--     <gda:motor id="gantry_y" live-pvName="BL18B-MO-USER-01:AXIS6" live-class="#dummy"/> -->
