@@ -7,6 +7,7 @@ Created on 22 Feb 2022
 '''
 from gda.epics import CAClient
 from gda.device import DeviceException
+from time import sleep
 
 # the root name of keithley PV
 pv_root = "BL06I-EA-SRCM-01:"
@@ -42,6 +43,7 @@ class EpicsKeithley2461(object):
         self.connect = CAClient(pv_root + connect)
         self.asyn_timeout = CAClient(pv_root + asyn_timeout)
         self.configured = False
+        self.last_transfer_mode = 1 #WRITE
         
     def configure(self):
         if self.configured:
@@ -57,21 +59,25 @@ class EpicsKeithley2461(object):
         self.asyn_timeout.configure()
         self.configured = True
         
-    def send_command_no_reply(self, command, timeout = 0.2):
+    def send_command_no_reply(self, command, timeout = 1.0):
         self.configure()
         self.asyn_timeout.caput(timeout)
-        self.transfer_mode.caput(1)
+        if self.last_transfer_mode != 1:
+            self.transfer_mode.caput(1)
+            self.last_transfer_mode = 1
+        sleep(0.1)
         self.command.caput([ord(c) for c in command + str('\0')])
-
         
-    def send_command(self, command, timeout = 0.2):
+    def send_command(self, command, timeout = 1.0):
         self.configure()
         self.asyn_timeout.caput(timeout)
-        self.transfer_mode.caput(0)
+        if self.last_transfer_mode != 0:
+            self.transfer_mode.caput(0)
+            self.last_transfer_mode = 0
+        sleep(0.1)
         self.command.caput([ord(c) for c in command + str('\0')])
-
         
-    def get_response(self, timeout):
+    def get_response(self, timeout = 1.0):
         self.configure()
         import time
         timeout_time = time.time() + timeout
@@ -114,6 +120,16 @@ class EpicsKeithley2461(object):
         
     def outputOff(self):
         self.send_command_no_reply("OUTP OFF")
+        
+    def isBufferClear(self, buffer_name):
+        '''check if buffer is cleared, i.e. the number of readings in buffer is 0
+        '''
+        self.send_command('TRACe:ACTual? "' + str(buffer_name) + '"')
+        return int(self.get_response()) == 0
+    
+    def numberOfReadingInBuffer(self, buffer_name):
+        self.send_command('TRACe:ACTual:END? "' + str(buffer_name) + '"')
+        return int(self.get_response())
         
     def sourceFunction(self, function):
         '''Set the source function
