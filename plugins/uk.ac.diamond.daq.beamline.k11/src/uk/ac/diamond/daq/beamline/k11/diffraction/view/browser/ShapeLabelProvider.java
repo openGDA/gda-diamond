@@ -33,9 +33,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 
 import gda.rcp.views.Browser;
-import uk.ac.diamond.daq.mapping.api.document.AcquisitionTemplateType;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
+import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.browser.IComparableStyledLabelProvider;
 import uk.ac.gda.ui.tool.images.ClientImages;
