@@ -104,45 +104,55 @@ class CombinedEnergyPolarisation(ScannableMotionBase):
                    
         mode = self.smode.getPosition()
         offhar = float(self.offhar.getPosition())
+        self.pgmenergy.asynchronousMoveTo(new_energy)
         if mode == SourceMode.SOURCE_MODES[0]:
-            self.drpenergy.asynchronousMoveTo(new_energy + offhar)
-            self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[new_polarisation])
             self.ugap.asynchronousMoveTo(self.opengap)
+            self.drpenergy.moveTo(new_energy + offhar)
+            self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[new_polarisation])
         elif mode == SourceMode.SOURCE_MODES[1]:
-            self.urpenergy.asynchronousMoveTo(new_energy + offhar)
-            self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[new_polarisation])
             self.dgap.asynchronousMoveTo(self.opengap)
+            self.urpenergy.moveTo(new_energy + offhar)
+            self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[new_polarisation])
         elif mode == SourceMode.SOURCE_MODES[2]:
             self.drpenergy.asynchronousMoveTo(new_energy + offhar)
             self.urpenergy.asynchronousMoveTo(new_energy + offhar)
+            self.drpenergy.waitWhileBusy()
+            self.urpenergy.waitWhileBusy()
             self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[new_polarisation])
             self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[new_polarisation])
         elif mode == SourceMode.SOURCE_MODES[3]:
             if newpos == Polarisation.POLARISATIONS[0]:
                 self.drpenergy.asynchronousMoveTo(new_energy + offhar)
                 self.urpenergy.asynchronousMoveTo(new_energy + self.detune)
+                self.drpenergy.waitWhileBusy()
+                self.urpenergy.waitWhileBusy()
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['pc'])
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['nc'])
             elif newpos == Polarisation.POLARISATIONS[1]:
                 self.drpenergy.asynchronousMoveTo(new_energy + self.detune)
                 self.urpenergy.asynchronousMoveTo(new_energy + offhar)
+                self.drpenergy.waitWhileBusy()
+                self.urpenergy.waitWhileBusy()
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['pc'])
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['nc'])
             elif newpos == Polarisation.POLARISATIONS[2]:
                 self.drpenergy.asynchronousMoveTo(new_energy + offhar)
                 self.urpenergy.asynchronousMoveTo(new_energy + self.detune)
+                self.drpenergy.waitWhileBusy()
+                self.urpenergy.waitWhileBusy()
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lh'])
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lv'])
             elif newpos == Polarisation.POLARISATIONS[3]:
                 self.drpenergy.asynchronousMoveTo(new_energy + self.detune)
                 self.urpenergy.asynchronousMoveTo(new_energy + offhar)
+                self.drpenergy.waitWhileBusy()
+                self.urpenergy.waitWhileBusy()
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lh'])
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lv'])
             elif newpos == Polarisation.POLARISATIONS[4]:
                 message="Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
         self.polarisation=newpos
-        self.pgmenergy.asynchronousMoveTo(new_energy)
     
     def isBusy(self):
         mode=self.smode.getPosition()
