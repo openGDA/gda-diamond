@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ppc_temp_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:TEMP1" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+	<bean id="ppc_temp_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:TEMP2" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+	<bean id="ppc_temp_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:TEMP3" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+	<bean id="ppc_temp_4" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:TEMP4" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+
+	<bean id="ppc_ai_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AI1" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ai_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AI2" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ai_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AI3" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ai_4" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AI4" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppc_ao_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AO1" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ao_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AO2" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ao_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AO3" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ao_4" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-USER-01:AO4" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+
+	<bean id="ppc_di_1" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DI1" />
+		<property name="readonly" value="true" />
+	</bean>
+	<bean id="ppc_di_2" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DI2" />
+		<property name="readonly" value="true" />
+	</bean>
+	<bean id="ppc_di_3" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DI3" />
+		<property name="readonly" value="true" />
+	</bean>
+	<bean id="ppc_di_4" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DI4" />
+		<property name="readonly" value="true" />
+	</bean>
+	
+	<bean id="ppc_do_5" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DO5" />
+	</bean>
+	<bean id="ppc_do_6" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DO6" />
+	</bean>
+	<bean id="ppc_do_7" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DO7" />
+	</bean>
+	<bean id="ppc_do_8" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-EA-USER-01:DO8" />
+	</bean>
+
+</beans>
