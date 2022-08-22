@@ -5,6 +5,7 @@
 
 	<bean id="zebra2"
 			class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebra2"/>
 		<property name="zebraPrefix" value="BL16I-MO-DIFF-01:ZEB2:"/>
 		<property name="armPutNoWait" value="True" />
 	</bean>
