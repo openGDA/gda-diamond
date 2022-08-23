@@ -1,29 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd"
+	profile="cryo">
 
-	<bean id="cryox" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cryox_motor" />
-	</bean>
-
-	<bean id="cryoy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cryoy_motor" />
-	</bean>
-
-	<bean id="cryoz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cryoz_motor" />
-	</bean>
-
-	<bean id="cryorot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cryorot_motor" />
-	</bean>
-
-	<bean id="cryobsx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cryobsx_motor" />
-	</bean>
-
-	<bean id="cryobsy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cryobsy_motor" />
-	</bean>
+	<gda:motor id="cryox" live-pvName="BL15I-MO-VCOLD-01:X" />
+	<gda:motor id="cryoy" live-pvName="BL15I-MO-VCOLD-01:Y" />
+	<gda:motor id="cryoz" live-pvName="BL15I-MO-VCOLD-01:Z" />
+	<gda:motor id="cryorot" live-pvName="BL15I-MO-VCOLD-01:THETA" />
+	<gda:motor id="cryobsx" live-pvName="BL15I-MO-VCOLD-01:BS:X" />
+	<gda:motor id="cryobsy" live-pvName="BL15I-MO-VCOLD-01:BS:Y" />
 </beans>

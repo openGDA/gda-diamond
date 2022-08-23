@@ -17,7 +17,6 @@ from localStationScripts.operationalControl import * # @UnusedWildImport
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters	# @UnusedImport
 from gda.device.epicsdevice import ReturnType
-import gda.device.motor.DummyMotor
 from gda.util import VisitPath	# @UnusedImport
 from gda.factory import Finder
 from localStationScripts.constants import * # @UnusedWildImport
@@ -75,8 +74,10 @@ global run, etl, prop, add_default, vararg_alias, \
 	spivotx, spivoty, spivotz, sphi, ssx, ssz,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
-	d1, d2, d3, d4, d5, d6, d7, d8, d9, \
-	cryox, cryoy, cryoz, cryorot\
+	d1, d2, d3, d4, d5, d6, d7, d8, d9
+
+if Finder.find("cryox"):
+	global cryox, cryoy, cryoz, cryorot
 
 #	det2z,
 
@@ -254,13 +255,13 @@ try:
 
 	#dummyDetector = SimpleDummyDetector()
 
-	print "Checking cryo motors are in the correct mode, dummy or live"
 	from localStationConfiguration import enableCryoMotors
 	if enableCryoMotors:
-		if isinstance(cryox.motor,gda.device.motor.DummyMotor):
-			localStation_exception(sys.exc_info(), "checking that cryo motors are in live mode. Please set enableCryoMotors=False or ask your GDA representative to switch VCOLD motors in transient/all.xml to live")
-	elif not isinstance(cryox.motor,gda.device.motor.DummyMotor):
-			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or ask your GDA representative to switch VCOLD motors in transient/all.xml to dummy")
+		print "Checking cryo motors are available"
+		if not Finder.find("cryox"):
+			localStation_exception(sys.exc_info(), "checking that cryo motors are in live mode. Please set enableCryoMotors=False or restart the GDA servers with the cryo transient device enabled")
+	elif Finder.find("cryox"):
+			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or restart the GDA servers without the cryo transient device")
 
 	try:
 		from dls_scripts.scannable.CryojetScannable import CryojetScannable
@@ -778,9 +779,9 @@ try:
 				'det2z',
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
-				'cryox', 'cryoy', 'cryoz', 'cryorot',
 				)
-			
+			if enableCryoMotors and Finder.find("cryox"):
+				stdmetadatascannables += ('cryox', 'cryoy', 'cryoz', 'cryorot')
 			before=set(metashop.getMetaScannables())
 			cant_find=[]
 			errors=[]

@@ -12,7 +12,6 @@
 	<import resource="I15-Cryostream.xml"/>
 	<import resource="I15-ETL.xml"/>
 	<import resource="I15-Scaler.xml"/>
-	<import resource="../../dummy/transient/I15-VCOLD.xml"/>
 	<!-- 
 	<import resource="I16-FS.xml"/>
 	 -->
