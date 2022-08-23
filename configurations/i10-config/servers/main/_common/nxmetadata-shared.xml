@@ -44,7 +44,7 @@
 					<property name="scannableName" value="pol"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="linear_arbirary_angle"/>
+					<property name="name" value="linear_arbitrary_angle"/>
 					<property name="scannableName" value="laa"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
