@@ -599,7 +599,7 @@ try:
 
 	try:
 		from localStationConfiguration import enableIpp3
-		if enableIpp3:
+		if enableIpp3 and Finder.find("ippwsme07m"):
 			from gdascripts.visit import VisitSetter, IPPAdapter, ProcessingDetectorWrapperAdapter
 			from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 
@@ -619,6 +619,10 @@ try:
 			# Is ^ even needed as both visit setters are targetting the same detector, and only one is needed.
 			# Force processing this now, otherwise changes won't be picked up by a reset_namespace
 			visit_setter.setDetectorDirectories()
+		elif enableIpp3:
+			localStation_exception(sys.exc_info(), "checking IPP. Please set enableIpp3=False or restart the GDA servers with the B16-IPP transient device enabled")
+		elif Finder.find("ippwsme07m"):
+			localStation_exception(sys.exc_info(), "checking IPP. Please set enableIpp3=True or restart the GDA servers without the B16-IPP transient device")
 		else:
 			print "* Not installing ipp3 devices *"
 			localStation_exceptions.append("    not installing ipp3 devices") # REMOVE ME
