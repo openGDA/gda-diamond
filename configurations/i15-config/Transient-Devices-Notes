@@ -1,0 +1,84 @@
+================================================================================
+Using transient devices
+================================================================================
+
+Transient devices should be implemented using profiles.
+
+For example B16-IPP.xml starts with:
+
+--------------------------------------------------------------------------------
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="B16-IPP">
+
+	<bean id="ippwsme07m" class="gda.device.detector.IPPserver">
+...
+--------------------------------------------------------------------------------
+
+This means that, the ippwsme07m device will only be included if the GDA servers
+are started with B16-IPP in the list of extra profiles to include.
+
+From Jython we can tell whether a profile is active by checking whether any
+device or scannable defined in that profile is available in the Finder.
+
+For example:
+
+--------------------------------------------------------------------------------
+		if Finder.find("ippwsme07m"):
+			ipp3=...
+--------------------------------------------------------------------------------
+
+The easiest way to allow users to select profiles is to the add an option to
+run gda-conf.py to the launcher applications, using a file in var to store
+the configuration and state.
+
+For example:
+--------------------------------------------------------------------------------
+/dls_sw/i15/etc/dls-launcher-applications/dls-launcher-applications.json
+--------------------------------------------------------------------------------
+            {
+                "args": "servers", 
+                "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda", 
+                "icon": "sgda.png", 
+                "text": "Start GDA Servers (with no transient devices)", 
+                "type": "button"
+            }, 
+            {
+                "args": "/dls_sw/i15/software//gda_versions/var/i15.cfg", 
+                "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py", 
+                "icon": "sgda.png",
+                "text": "Start GDA Servers (with transient devices)",
+                "type": "button"
+            },
+--------------------------------------------------------------------------------
+
+Note that I renamed "Start GDA Servers" to "Start GDA Servers (with no transient
+devices)" to differentiate it from "Start GDA Servers (with transient devices)"
+
+Similarly:
+
+--------------------------------------------------------------------------------
+/dls_sw/i15/etc/dls-launcher-applications/dls-launcher-applications.xml
+--------------------------------------------------------------------------------
+    <button text="Start GDA Servers (with no transient devices)"   command="/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda" args="servers"                         icon="sgda.png"/>
+    <button text="Start GDA Servers (with transient devices)"      command="/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py" args="/dls_sw/i15/software//gda_versions/var/i15.cfg" icon="sgda.png"/>
+--------------------------------------------------------------------------------
+
+The configuration should list all profiles which the user can choose, along with
+the default initial state of those options:
+
+--------------------------------------------------------------------------------
+/dls_sw/i15/software/gda_versions/var/i15.cfg
+--------------------------------------------------------------------------------
+[options]
+
+[devices]
+b16-geo2 = False
+b16-ipp = True
+cryo = False
+--------------------------------------------------------------------------------
+
+As users launch GDA Servers with or without these options, this .cfg file will
+record the most recently saved options.
