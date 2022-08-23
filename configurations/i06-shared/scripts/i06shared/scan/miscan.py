@@ -186,8 +186,10 @@ def miscan(*args):
         It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
         Thus it can be used anywhere the standard GDA 'scan' is used.
     '''
+    if len(args) == 0:
+        raise ValueError("Missing arguments - miscan requires arguments to work!")
     command = "miscan "  # rebuild the input command as String so it can be recored into data file
-    
+    CACHE_PARAMETER_TOBE_CHANGED = False
     starttime = time.ctime()
     start = time.time()
     if PRINTTIME: print("=== Scan started: " + starttime)
