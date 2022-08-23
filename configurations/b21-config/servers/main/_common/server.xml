@@ -35,13 +35,13 @@
 
 	<bean id="BSSCRunner" class="gda.util.SingleCommandRunner" >
 		<property name="runner" ref="command_server" />
-		<property name="command" value="import BSSC;BSSC.BSSCRun('%s').run()" />
+		<property name="command" value="from b21scripts import BSSC;BSSC.BSSCRun('%s').run()" />
 		<property name="sharedState" ref="hatsaxs_state" />
 	</bean>
 
 	<bean id="HPLCRunner" class="gda.util.SingleCommandRunner" >
 		<property name="runner" ref="command_server" />
-		<property name="command" value="import HPLC;HPLC.HPLC('%s').run()" />
+		<property name="command" value="from b21scripts import HPLC;HPLC.HPLC('%s').run()" />
 		<property name="sharedState" ref="hatsaxs_state" />
 	</bean>
 
