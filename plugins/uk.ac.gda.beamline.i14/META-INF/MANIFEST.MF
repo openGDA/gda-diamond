@@ -12,7 +12,8 @@ Import-Package: gda.configuration.properties,
  javax.inject;version="1.0.0",
  org.apache.commons.csv;version="1.8.0",
  org.slf4j;version="[1.7.2,2.0.0)",
- org.springframework.beans.factory;version="4.0.6.RELEASE"
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
+ uk.ac.diamond.daq.mapping.ui.experiment
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: uk.ac.gda.beamline.i14
 Require-Bundle: uk.ac.gda.api,
