@@ -9,17 +9,13 @@
         http://www.springframework.org/schema/util 
         http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:component-scan
-		base-package="uk.ac.diamond.daq.experiment.structure"></context:component-scan>
-	<context:component-scan
-		base-package="uk.ac.gda.core.tool.spring"></context:component-scan>
-	<context:component-scan
-		base-package="uk.ac.diamond.daq.web"></context:component-scan>	
-		
+	<context:component-scan	base-package="uk.ac.diamond.daq.experiment" />
+	<context:component-scan	base-package="uk.ac.diamond.daq.experiment.structure" />
+	<context:component-scan base-package="uk.ac.gda.core.tool.spring" />
+	<context:component-scan base-package="uk.ac.diamond.daq.web" />	
 
 	<context:property-placeholder />
-	<context:property-placeholder
-		properties-ref="configProperties" />
+	<context:property-placeholder properties-ref="configProperties" />
 
 	<util:properties id="configProperties">
 		<prop key="BSEL_PV_PREFIX">BL11K-MO-BSEL-</prop>
