@@ -8,4 +8,5 @@
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3.xml" />
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m4.xml" />
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/coordinate_system_transform.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/kb/kb.xml" />
 </beans>
