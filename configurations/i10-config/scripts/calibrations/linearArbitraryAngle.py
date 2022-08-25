@@ -36,14 +36,14 @@ class LinearArbitraryAngle(ScannableMotionBase):
         self.jawphase = None
         self.angle_deg = 0.0
 
-    def __str__(self):
-        output_format=", ".join([ a + "=" + b for (a,b) in zip(
-              self.getInputNames() + self.getExtraNames(), self.getOutputFormat())])
-        return output_format % self.getPosition()
+    # def __str__(self):
+    #     output_format=", ".join([ a + "=" + b for (a,b) in zip(
+    #           self.getInputNames() + self.getExtraNames(), self.getOutputFormat())])
+    #     return output_format % self.getPosition()
 
-    def __repr__(self):
-        output_format = "LinearArbitraryAngle(%r, %r, %r, %r, %r, %r)"
-        return output_format % (self.getName(), self.idu_jawphase.name, self.idd_jawphase.name, self.smode.name, self.pol.name, "jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True), angle_threshold_deg = 30.0)")
+    # def __repr__(self):
+    #     output_format = "LinearArbitraryAngle(%r, %r, %r, %r, %r, %r)"
+    #     return output_format % (self.getName(), self.idu_jawphase.name, self.idd_jawphase.name, self.smode.name, self.pol.name, "jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True), angle_threshold_deg = 30.0)")
 
     def isBusy(self):
         return self.jawphase.isBusy()
@@ -83,5 +83,7 @@ class LinearArbitraryAngle(ScannableMotionBase):
                 return 90
             if pol == X_RAY_POLARISATIONS[4] :
                 return self.angle_deg
+            self.setOutputFormat(["%s"])
+            return "undefined"
     
     
