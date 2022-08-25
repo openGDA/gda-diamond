@@ -229,7 +229,6 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	@Override
 	public void reload() {
 		scanpathDocumentCache.cache(scanningParameters.get().getScanpathDocument());
-		if (controls == null || controls.isDisposed()) return;
 		updateSelectionFromDocument();
 	}
 }
