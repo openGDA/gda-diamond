@@ -74,9 +74,6 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 			return severity;
 		}
 	}
-
-	private Monitor xPosition;
-	private Monitor yPosition;
 	private Monitor intensity;
 	private Monitor ringCurrent;
 	private List<Scannable> shutters;
@@ -104,12 +101,6 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		intensity = Finder.find(displayParams.getIntensity());
 		intensity.addIObserver(this::handleUpdate);
 
-		xPosition = Finder.find(displayParams.getxPosition());
-		xPosition.addIObserver(this::handleUpdate);
-
-		yPosition = Finder.find(displayParams.getyPosition());
-		yPosition.addIObserver(this::handleUpdate);
-
 		energy = Finder.find(displayParams.getEnergy());
 		energy.addIObserver(this::handleUpdate);
 
@@ -136,8 +127,7 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		}
 
 		logger.debug("BeamlineReadinessDisplay initialised");
-		logger.debug("xTolerance: {}%, yTolerance: {}%, intensityTolerance: {}%",
-				displayParams.getxTolerance(), displayParams.getyTolerance(), displayParams.getIntensityTolerance());
+		logger.debug("intensityTolerance: {}%", displayParams.getIntensityTolerance());
 		logCurrentValues();
 
 		// Set initial state of the readiness indicator
@@ -149,9 +139,9 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 	private void logCurrentValues() {
 		try {
 			logger.debug(
-					"intensity: {}, xPosition: {}, yPosition: {}, energy: {}, ringCurrent: {}, targetIntensity: {}",
-					getIntensity(), xPosition.getPosition(), yPosition.getPosition(), energy.getPosition(),
-					ringCurrent.getPosition(), getTargetIntensity((double) energy.getPosition()));
+					"intensity: {}, energy: {}, ringCurrent: {}, targetIntensity: {}",
+					getIntensity(), energy.getPosition(), ringCurrent.getPosition(),
+					getTargetIntensity((double) energy.getPosition()));
 		} catch (DeviceException e) {
 			logger.error("Error getting beamline state", e);
 		}

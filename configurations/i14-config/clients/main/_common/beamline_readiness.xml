@@ -13,10 +13,6 @@
 			</list>
 		</property>
 		<property name="ringCurrent" value="ring_current" />
-		<property name="xPosition" value="eh2_bpm_x" />
-		<property name="yPosition" value="eh2_bpm_y" />
-		<property name="xTolerance" value="5" />
-		<property name="yTolerance" value="5" />
 		<property name="intensity" value="eh2_bpm_intensity" />
 		<property name="intensityTolerance" value="25" />
 		<property name="energy" value="dcm_enrg" />
