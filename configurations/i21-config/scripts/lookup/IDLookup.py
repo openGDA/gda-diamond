@@ -49,7 +49,7 @@ class IDLookup4LinearAngleMode():
         return out
     
     def getGapPhase(self, energy, polarisation):
-        out = self.lookupPolarEnergy(polarisation, energy, filename=self.lut)
+        out = self.lookupPolarEnergy(polarisation, energy, filename=str(self.lut))
         self.logger.debug("getGapPhase(%f, %f) returns %s, type(out) is %s" % (energy, polarisation, str(out), type(out)))
         out = [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
         return out
