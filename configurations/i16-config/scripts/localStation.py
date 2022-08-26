@@ -341,9 +341,8 @@ def set_sixc_returns_demand_position(b):
 
 ### Dummy IDGAP
 if USE_DUMMY_IDGAP_MOTOR:
-	overwriting.unprotect('idgap')
-	exec("idgap=dummyClass('idgap')")
-	overwriting.protect('idgap')
+	with overwriting:
+		exec("idgap=dummyClass('idgap')")
 
 # TODO: This shouldn't be necessary, try removing it.
 #       Look for "Overwriting scannable 'c1'" etc. in logs
@@ -355,9 +354,8 @@ localStation_print("Wrapping Monitors...")
 for objname in dir():
 	if isinstance(eval(objname),EpicsMonitor):
 		toPrint+= objname + " "
-		overwriting.unprotect(objname)
-		exec(objname + " = MonitorWrapper(" + objname + ")")
-		overwriting.protect(objname)
+		with overwriting:
+			exec(objname + " = MonitorWrapper(" + objname + ")")
 localStation_print("Wrapped the monitors: " + toPrint)
 
 ### Create dummy Scannables
