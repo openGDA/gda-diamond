@@ -1,12 +1,287 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean id="ca36b_adc_output" class="gda.device.scannable.DummyScannable" />
-
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="ca16b_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca16b_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ca35b_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_filter_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>6dB High Pass</value>
+				<value>12dB High Pass</value>
+				<value>6dB Band Pass</value>
+				<value>6dB Low Pass</value>
+				<value>12dB Low Pass</value>
+				<value>None</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_filter_highpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>0.03 Hz</value>
+				<value>0.1 Hz</value>
+				<value>0.3 Hz</value>
+				<value>1 Hz</value>
+				<value>3 Hz</value>
+				<value>10 Hz</value>
+				<value>30 Hz</value>
+				<value>100 Hz</value>
+				<value>300 Hz</value>
+				<value>1 kHz</value>
+				<value>3 kHz</value>
+				<value>10 KHz</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_filter_lowpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>0.03 Hz</value>
+				<value>0.1 Hz</value>
+				<value>0.3 Hz</value>
+				<value>1 Hz</value>
+				<value>3 Hz</value>
+				<value>10 Hz</value>
+				<value>30 Hz</value>
+				<value>100 Hz</value>
+				<value>300 Hz</value>
+				<value>1 kHz</value>
+				<value>3 kHz</value>
+				<value>10 KHz</value>
+				<value>30 kHz</value>
+				<value>100 kHz</value>
+				<value>300 kHz</value>
+				<value>1 MHz</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca35b_gain_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Low Noise</value>
+				<value>High Bandwidth</value>
+				<value>Low Drift</value>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="ca35b_adc_output" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca36b_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_filter_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>6dB High Pass</value>
+				<value>12dB High Pass</value>
+				<value>6dB Band Pass</value>
+				<value>6dB Low Pass</value>
+				<value>12dB Low Pass</value>
+				<value>None</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_filter_highpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>0.03 Hz</value>
+				<value>0.1 Hz</value>
+				<value>0.3 Hz</value>
+				<value>1 Hz</value>
+				<value>3 Hz</value>
+				<value>10 Hz</value>
+				<value>30 Hz</value>
+				<value>100 Hz</value>
+				<value>300 Hz</value>
+				<value>1 kHz</value>
+				<value>3 kHz</value>
+				<value>10 KHz</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_filter_lowpass" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>0.03 Hz</value>
+				<value>0.1 Hz</value>
+				<value>0.3 Hz</value>
+				<value>1 Hz</value>
+				<value>3 Hz</value>
+				<value>10 Hz</value>
+				<value>30 Hz</value>
+				<value>100 Hz</value>
+				<value>300 Hz</value>
+				<value>1 kHz</value>
+				<value>3 kHz</value>
+				<value>10 KHz</value>
+				<value>30 kHz</value>
+				<value>100 kHz</value>
+				<value>300 kHz</value>
+				<value>1 MHz</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ca36b_gain_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Low Noise</value>
+				<value>High Bandwidth</value>
+				<value>Low Drift</value>
+			</list>
+		</property>
+	</bean>
 	
-	
-</beans>	
+	<bean id="ca36b_adc_output" class="gda.device.scannable.DummyScannable" />
+</beans>

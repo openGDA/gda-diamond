@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="pgm_cff_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="pgm_cff"/>
+		<property name="labelName" value="PGM CFF"/>
+		<property name="scannableName" value="pgm_cff"/>
+		<property name="defaultValue" value="2.25"/>
+		<property name="paramType" value="PRESET"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="1" value="SINGLE"/>
+			</util:map>
+		</property>
+	</bean>
+
+
+	<bean id="pgm_grating_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="pgm_grating"/>
+		<property name="labelName" value="PGM Grating"/>
+		<property name="defaultValue" value="0"/>
+		<property name="scannableName" value="pgm_grating"/>
+		<property name="paramType" value="PRESET"/>
+		<property name="valueType" value="ENUM"/>
+	</bean>
+	
+	<bean id="ca16b_sensitivity_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="ca16b_sensitivity"/>
+		<property name="labelName" value="CA16B sensitivity"/>
+		<property name="defaultValue" value="6"/>
+		<property name="scannableName" value="ca16b_sensitivity"/>
+		<property name="paramType" value="PRESET"/>
+		<property name="valueType" value="ENUM"/>
+	</bean>
+	
+	<bean id="ca16b_sensitivity_units_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="ca16b_sensitivity_units"/>
+		<property name="labelName" value="CA16B sensitivity units"/>
+		<property name="defaultValue" value="0"/>
+		<property name="scannableName" value="ca16b_sensitivity_units"/>
+		<property name="paramType" value="PRESET"/>
+		<property name="valueType" value="ENUM"/>
+	</bean>
+	
+	<bean id="s4b_ygapsize_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="s4b_ygapsize"/>
+		<property name="labelName" value="S4B ygapsize"/>
+		<property name="defaultValue" value="0.025"/>
+		<property name="scannableName" value="s4b_ygapsize"/>
+		<property name="paramType" value="PRESET"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="1" value="SINGLE"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="pgm_energy_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="pgm_energy"/>
+		<property name="labelName" value="PGM Energy"/>
+		<property name="scannableName" value="pgm_energy"/>
+		<property name="paramType" value="SET"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="1" value="SINGLE"/>
+				<entry key="3" value="LOOP"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="ca18b_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="CA18B"/>
+		<property name="labelName" value="CA18B"/>
+		<property name="scannableName" value="ca18b"/>
+		<property name="paramType" value="COLLECTED"/>
+		<property name="defaultValue" value="1"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="1" value="ON"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="ca51b_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="CA51B"/>
+		<property name="labelName" value="CA51B"/>
+		<property name="scannableName" value="ca51b"/>
+		<property name="paramType" value="COLLECTED"/>
+		<property name="defaultValue" value="1"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="1" value="ON"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="ca52b_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="CA52B"/>
+		<property name="labelName" value="CA52B"/>
+		<property name="scannableName" value="ca52b"/>
+		<property name="paramType" value="COLLECTED"/>
+		<property name="defaultValue" value="1"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="1" value="ON"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="time_scannable_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="timeScannable"/>
+		<property name="scannableName" value="timeScannable"/>
+		<property name="paramType" value="COLLECTED"/>
+		<property name="valueType" value="NONE"/>
+		<property name="managingMode" value="AUTO"/>
+	</bean>
+	
+	<bean id="ring_current_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="ring_current"/>
+		<property name="labelName" value="Ring Current"/>
+		<property name="scannableName" value="ring_current"/>
+		<property name="paramType" value="COLLECTED"/>
+		<property name="valueType" value="NONE"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="0" value="ON"/>
+			</util:map>
+		</property>
+	</bean>	
+	
+	<bean id="checkbeam_param" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.PathscanBuilderParam">
+		<property name="name" value="checkbeam"/>
+		<property name="labelName" value="Check beam"/>
+		<property name="scannableName" value="checkbeam"/>
+		<property name="paramType" value="COLLECTED"/>
+		<property name="valueType" value="NONE"/>
+		<property name="statesMap">
+			<util:map>
+				<entry key="0" value="ON"/>
+			</util:map>
+		</property>
+	</bean>
+</beans>

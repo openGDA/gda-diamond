@@ -25,5 +25,9 @@
 	</bean>
 
 	<import resource="dashboard.xml"/>
+	
+	<import resource="param_values.xml"/>
+	
+	<import resource="plate_registration.xml"/>
 
 </beans>
