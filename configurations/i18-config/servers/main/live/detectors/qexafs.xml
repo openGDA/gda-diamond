@@ -4,7 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
-		<property name="zebraPrefix" value="BL18I-OP-DCM-01:ZEBRA:" />
+		<property name="zebraPrefix" value="BL18I-MO-DCM-01:ZEBRA:" />
 		<property name="armPutNoWait" value="true" />
 	</bean>
 

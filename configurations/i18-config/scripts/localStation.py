@@ -75,7 +75,7 @@ elementListScriptController = Finder.find("elementListScriptController")
 
 sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedVariable
 sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
-detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, None, raster_xspress3,None) # @UndefinedVariable
+detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3, raster_FFI0_xspress3) # @UndefinedVariable
 
 samplePreparer   = I18SamplePreparer() # @UndefinedVariable
 outputPreparer   = I18OutputPreparer(datawriterconfig, Finder.find("metashop"))
@@ -105,9 +105,9 @@ xas = theFactory.createEnergyScan();
 xanes = xas
 
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
-theFactory.setQexafsEnergyScannableForConstantVelocityScan(None); # @UndefinedVariable
-theFactory.setQexafsNXDetectorList([None]) # @UndefinedVariable
-# qexafs = theFactory.createQexafsConstantVelocityScan()
+theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
+theFactory.setQexafsNXDetectorList([qexafsXspress3FFI0]) # @UndefinedVariable
+qexafs = theFactory.createQexafsConstantVelocityScan()
 
 mapFactory = MapFactory();
 mapFactory.setBeamlinePreparer(beamlinePreparer);

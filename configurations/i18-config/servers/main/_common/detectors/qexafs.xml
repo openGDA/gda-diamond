@@ -76,6 +76,7 @@
 		<!-- <property name="name" value="zebraBragg" /> -->
 		<property name="motor" ref="dcm_energy_motor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController" />
+		<property name="pcEnc" value="3" />
 		<!-- <property name="scurveTimeToVelocity" value="5"/> --> <!-- read from weight system -->
 	</bean>
 
@@ -84,7 +85,7 @@
 		<property name="zebraConstantVelocityMoveControllerForQexafs" ref="zebraContinuousMoveControllerForQexafs" />
 		<property name="zebraScannableMotor" ref="zebraBragg" />
 		<property name="braggScannableMotor" ref="sc_dcm_bragg" />
-		<property name="converter" ref="eV_Deg_converter" />
+		<property name="converter" ref="eV_Deg_converter_Si111" />
 		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
 	</bean>
 
