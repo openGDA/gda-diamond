@@ -75,7 +75,8 @@ Require-Bundle: org.eclipse.scanning.api;bundle-version="1.0.0",
  uk.ac.gda.api,
  org.eclipse.scanning.device.ui
 Export-Package: uk.ac.diamond.daq.beamline.k11,
- uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan
+ uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan,
+ uk.ac.diamond.daq.beamline.k11.view
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
 Service-Component: OSGI-INF/*.xml
 Bundle-Activator: uk.ac.diamond.daq.beamline.k11.Activator

@@ -18,7 +18,7 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
+import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
@@ -27,6 +27,7 @@ import java.util.Optional;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.client.properties.mode.Modes;
@@ -34,7 +35,6 @@ import uk.ac.gda.client.properties.mode.TestMode;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientResourceManager;
-import uk.ac.gda.ui.tool.ClientScrollableContainer;
 import uk.ac.gda.ui.tool.spring.ClientSpringProperties;
 
 /**
@@ -47,12 +47,12 @@ public class PerspectiveDashboard extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		final var mainContainer = createClientCompositeWithGridLayout(parent, SWT.NONE, 1);
+		final var composite = composite(parent, 1);
+		composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		var labelName = createClientLabel(mainContainer, SWT.NONE, ClientMessages.DIAD,
+		var labelName = createClientLabel(composite, SWT.NONE, ClientMessages.DIAD,
 				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
-		createClientGridDataFactory().align(SWT.BEGINNING, SWT.END).indent(5, 5).applyTo(labelName);
+		createClientGridDataFactory().align(SWT.CENTER, SWT.END).indent(5, 5).applyTo(labelName);
 
 		Optional.ofNullable(getClientProperties())
 			.map(ClientSpringProperties::getModes)
@@ -60,13 +60,7 @@ public class PerspectiveDashboard extends ViewPart {
 			.filter(TestMode::isActive)
 			.ifPresent(t -> labelName.setText(labelName.getText() + " [Test Mode]"));
 
-		new PerspectiveComposite().create(mainContainer);
-
-		ClientScrollableContainer clientScrollableContainer = new ClientScrollableContainer(null);
-		clientScrollableContainer.createComposite(mainContainer, SWT.NONE);
-
-		// The scrollable content.
-		clientScrollableContainer.populateInnerContainer(new PerspectiveDashboardCompositeFactory());
+		new PerspectiveDashboardCompositeFactory().createComposite(composite, SWT.NONE);
 	}
 
 	@Override

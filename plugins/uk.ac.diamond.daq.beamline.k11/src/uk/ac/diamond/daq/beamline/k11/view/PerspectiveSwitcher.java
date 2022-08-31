@@ -18,11 +18,11 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-import static uk.ac.gda.ui.tool.ClientMessages.MODE;
 import static uk.ac.gda.ui.tool.ClientMessages.MODE_TP;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
+import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
+import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createCombo;
+import static uk.ac.gda.ui.tool.ClientSWTElements.label;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -52,15 +52,15 @@ import uk.ac.gda.ui.tool.WidgetUtilities;
  *
  * @author Maurizio Nagni
  */
-public class PerspectiveComposite {
+public class PerspectiveSwitcher {
 
 	private Combo modeCombo;
 
 	public enum PerspectiveType {
 
+		DIFFRACTION("Diffraction", Diffraction.ID),
 		IMAGING("Imaging", Imaging.ID),
-		FULLY_AUTOMATED("Fully Automated",	FullyAutomated.ID),
-		DIFFRACTION("Diffraction", Diffraction.ID);
+		FULLY_AUTOMATED("Fully Automated",	FullyAutomated.ID);
 
 		private final String id;
 		private final String label;
@@ -79,20 +79,21 @@ public class PerspectiveComposite {
 		}
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(PerspectiveComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(PerspectiveSwitcher.class);
 
 	/**
 	 * Build the {@link Composite} containing controls for selecting the experiment mode
 	 *
-	 * @param composite
+	 * @param parent
 	 *            The Experiment {@link Composite}
 	 */
-	public void create(Composite composite) {
-		var label = createClientLabel(composite, SWT.NONE, MODE);
-		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(label);
+	public void create(Composite parent) {
+
+		var composite = composite(parent, 2, false);
+		label(composite, "Acquisition type");
 
 		modeCombo = createCombo(composite, SWT.READ_ONLY, getTypes(), MODE_TP);
-		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(modeCombo);
+		STRETCH.applyTo(modeCombo);
 
 		WidgetUtilities.addWidgetDisposableListener(modeCombo, SWT.Selection, getComboModeSelectionListener());
 		setModeComboSelection(getActiveWindow().getActivePage().getPerspective().getId());

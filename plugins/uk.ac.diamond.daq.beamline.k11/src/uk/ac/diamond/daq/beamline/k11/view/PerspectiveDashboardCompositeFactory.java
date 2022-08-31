@@ -19,24 +19,21 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 import static uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView.openCameraConfigurationViewButton;
-import static uk.ac.diamond.daq.mapping.ui.stage.StagesComposite.buildModeComposite;
-import static uk.ac.gda.ui.tool.ClientMessages.CAMERAS;
-import static uk.ac.gda.ui.tool.ClientMessages.CONFIGURE_EXPERIMENT_DRIVER;
-import static uk.ac.gda.ui.tool.ClientMessages.EXPERIMENT_DRIVER;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientButton;
+import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
+import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
-import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
+import static uk.ac.gda.ui.tool.ClientSWTElements.innerComposite;
 
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Label;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
+import uk.ac.diamond.daq.experiment.ui.ExperimentUiUtils;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverDialog;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 
@@ -48,60 +45,50 @@ import uk.ac.gda.ui.tool.ClientSWTElements;
  */
 public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 
-	private Button experimentDriver;
-
-	public PerspectiveDashboardCompositeFactory() {
-		super();
-	}
-
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		var container = createClientCompositeWithGridLayout(parent, style, 1);
 		ClientSWTElements.createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
 
-		createElements(container, SWT.NONE);
-		bindElements(container);
+		createElements(container);
+
 		return container;
 	}
 
-	private void createElements(Composite parent, int style) {
-		createExperimentManager(parent, style);
+	private void createElements(Composite parent) {
+		createExperimentManager(parent);
+		separator(parent);
+		createExperimentMode(parent);
+		separator(parent);
 		createSource(parent);
-		createStage(parent, style);
-		createCameraControl(parent, style);
-		createExperimentDriver(parent, style);
+		createStage(parent);
+		createCameraControl(parent);
+		createExperimentDriver(parent);
 	}
 
-	private void createExperimentManager(Composite parent, int style) {
-		var container = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
-		new ExperimentManager().createComposite(container, SWT.NONE);
+	private void separator(Composite composite) {
+		STRETCH.applyTo(new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR));
 	}
 
-	private void createStage(Composite parent, int style) {
-		var container = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
-		buildModeComposite(container);
+	private void createExperimentManager(Composite parent) {
+		new ExperimentManager().createComposite(parent, SWT.NONE);
 	}
 
-	private void createCameraControl(Composite parent, int style) {
-		var container = createClientGroup(parent, style, 1, CAMERAS);
-		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(container);
+	private void createExperimentMode(Composite parent) {
+		new PerspectiveSwitcher().create(parent);
+	}
+
+	private void createStage(Composite parent) {
+		new StageControls().create(parent);
+	}
+
+	private void createCameraControl(Composite parent) {
+		var container = innerComposite(parent, 1, false);
 		openCameraConfigurationViewButton(container);
 	}
 
-	private void createExperimentDriver(Composite parent, int style) {
-		var container = createClientCompositeWithGridLayout(parent, style, 1);
-		createClientGridDataFactory().align(SWT.FILL, SWT.FILL).applyTo(container);
-
-		experimentDriver = createClientButton(container, SWT.PUSH, EXPERIMENT_DRIVER,
-				CONFIGURE_EXPERIMENT_DRIVER);
-		createClientGridDataFactory().applyTo(experimentDriver);
-	}
-
 	private void createSource(Composite parent) {
-		var composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).equalWidth(true).applyTo(composite);
+		var composite = innerComposite(parent, 2, true);
 		var gridData = GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP).grab(true, false);
 		gridData.applyTo(composite);
 
@@ -112,12 +99,17 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		gridData.applyTo(shutter);
 	}
 
-	private void bindElements(Composite parent) {
-		Listener experimentDriverListener = e -> {
-			// FIXME ID: Experiment name? Visit ID?
+	private void createExperimentDriver(Composite parent) {
+		var composite = composite(parent, 1);
+		var button = new Button(composite, SWT.PUSH);
+		var image = ExperimentUiUtils.getImage(ExperimentUiUtils.CONFIGURE_ICON);
+		button.setImage(image);
+		button.addDisposeListener(dispose -> image.dispose());
+		button.setText("Experiment drivers");
+		button.addSelectionListener(SelectionListener.widgetSelectedAdapter(selection -> {
+			//FIXME what should experimentId be? experiment name? visit?
 			String experimentId = null;
 			new ExperimentDriverDialog(parent.getShell(), experimentId).open();
-		};
-		experimentDriver.addListener(SWT.Selection, experimentDriverListener);
+		}));
 	}
 }

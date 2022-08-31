@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="stages_configuration" class="uk.ac.diamond.daq.beamline.k11.view.StagesConfiguration">
+		<constructor-arg>
+			<map>
+				<entry key="GTS">
+					<map>
+						<entry key="X" value="gts_x" />
+						<entry key="Y" value="gts_y" />
+						<entry key="Z" value="gts_z" />
+						<entry key="Theta" value="gts_theta" />
+					</map>
+				</entry>
+				<entry key="TR6">
+					<map>
+						<entry key="Y" value="tr6_y" />
+						<entry key="Theta" value="tr6_rot" />
+					</map>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+</beans>
