@@ -123,13 +123,10 @@ public class MonoOptimisation extends FindableBase {
 		}
 
 		logger.info("Running optimisation for single energy "+lowEnergy);
-		Object initialPos = bragg.getPosition();
 
 		fittedGaussianLowEnergy = runAndFitOffsetScan(bragg, lowEnergy);
 		this.lowEnergy = lowEnergy;
 		this.highEnergy = lowEnergy;
-
-		moveEnergyScannable(bragg, initialPos);
 
 		// Try to setup the offset parameters for the scannable
 		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
@@ -153,15 +150,12 @@ public class MonoOptimisation extends FindableBase {
 		}
 
 		logger.info("Running optimisation for energies "+lowEnergy+" and "+highEnergy);
-		Object initialPos = bragg.getPosition();
 
 		fittedGaussianHighEnergy = runAndFitOffsetScan(bragg, highEnergy);
 		this.highEnergy = highEnergy;
 
 		fittedGaussianLowEnergy = runAndFitOffsetScan(bragg, lowEnergy);
 		this.lowEnergy = lowEnergy;
-
-		moveEnergyScannable(bragg, initialPos);
 
 		// Try to setup the offset parameters for the scannable
 		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
