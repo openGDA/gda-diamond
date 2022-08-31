@@ -40,6 +40,7 @@
 	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
 	
 	<import resource="acquisition_templates.xml" />
+	<import resource="imaging_configuration.xml" />
 	
 	<import resource="mapping.xml"/>
 
