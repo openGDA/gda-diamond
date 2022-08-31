@@ -1108,7 +1108,7 @@
 
 	<!-- Yogurt Pot -->
 	<bean id="MotorYogurt" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-OP-DCD-02:YOGX" />
+		<property name="pvName" value="BL07I-MO-YGRT-01:POS" />
 	</bean>
 
 
