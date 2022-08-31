@@ -1,4 +1,13 @@
-To run beamline tests, all that is needed is to import them and run them:
+To run all beamline tests, all that is needed is to import them and run them:
 
 from beamline_test import run_tests
 run_tests()
+
+To run all beamline tests, except email tests, run:
+
+run_tests(marks='not email')
+
+This requires marks support to be available.
+
+Note, support for marks was cherry picked from change/36289/1 onto the
+GDA 9.27 release branch for i15-1, to enable testing.
