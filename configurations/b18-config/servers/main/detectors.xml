@@ -132,35 +132,6 @@
 		<property name="timer" ref="tfg" />
 	</bean>
 
-	<!-- this class will return the in-window sca counts and a link to the HDF5
-		file containing the MCAs -->
-	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
-		<property name="controller" ref="xspress3Controller" />
-		<property name="numberOfChannelsToRead" value="4" />
-		<property name="writeHDF5Files" value="true" />
-		<property name="defaultSubdirectory" value="xspress3" />
-	</bean>
-
-	<bean id="qexafs_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
-		<property name="xspress3Detector" ref="xspress3" />
-	</bean>
-
-	<bean id="FFI0_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector">
-		<property name="xspress3" ref="xspress3" />
-		<property name="counterTimer" ref="counterTimer01" />
-		<!-- i0_channel must match the i0 channel definition index in the counterTimer -->
-		<property name="i0_channel" value="0" />
-	</bean>
-
-	<bean id="qexafs_FFI0_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
-		<property name="qexafsXspress" ref="qexafs_xspress3" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="i0_channel" value="1" />
-	</bean>
-
 	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
 		<property name="name" value="detectorMonitorDataProvider" />
 	</bean>

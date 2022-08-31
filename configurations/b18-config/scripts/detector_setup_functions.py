@@ -30,6 +30,25 @@ def setupXspress3() :
     # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
     CAClient.put(basePv+":CTRL_DTC", 1)
 
+def setupXspress3X() :
+    basePvName = xspress3X.getController().getBasePv()
+
+    setup_xspress_detector(basePvName)
+    setupResGrades(basePvName, False)
+    detPort = caget(basePvName+":PortName_RBV")
+    set_hdf_input_port(basePvName, detPort)
+    set_sca_input_port(basePvName, 4, detPort)
+    set_hdf5_filetemplate(basePvName)
+    for c in range(1, xspress3X.getController().getNumElements()+1) :
+        # BL18B-EA-XSP3X-01:C2_SCAS:EnableCallbacks
+        scaPv = basePvName+":C%d_SCAS:"%(c)
+        mcaEnablePv = basePvName+":MCA%d:Enable"%(c)
+        CAClient.put(scaPv+"EnableCallbacks", 1)
+        CAClient.put(scaPv+"TS:TSNumPoints", 10000)
+        CAClient.put(mcaEnablePv, 1)
+
+    ## Set the HDf file path explicitely - for testing on beamline workstation in dummy mode
+    # xspress3X.setFilePath("/dls/b18/data/2022/cm31142-4/xspress3")
 
 def caputXspress4(pv, value) :
     basePv = xspress4.getController().getBasePv()
