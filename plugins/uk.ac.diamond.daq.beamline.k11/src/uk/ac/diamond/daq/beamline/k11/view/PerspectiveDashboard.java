@@ -29,7 +29,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.diamond.daq.beamline.k11.view.PerspectiveComposite.PerspectiveType;
 import uk.ac.gda.client.properties.mode.Modes;
 import uk.ac.gda.client.properties.mode.TestMode;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
@@ -44,8 +43,6 @@ import uk.ac.gda.ui.tool.spring.ClientSpringProperties;
 public class PerspectiveDashboard extends ViewPart {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard";
-
-	private ClientScrollableContainer clientScrollableContainer;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -63,9 +60,9 @@ public class PerspectiveDashboard extends ViewPart {
 			.filter(TestMode::isActive)
 			.ifPresent(t -> labelName.setText(labelName.getText() + " [Test Mode]"));
 
-		PerspectiveComposite.buildModeComposite(mainContainer, PerspectiveType.IMAGING);
+		new PerspectiveComposite().create(mainContainer);
 
-		clientScrollableContainer = new ClientScrollableContainer(null);
+		ClientScrollableContainer clientScrollableContainer = new ClientScrollableContainer(null);
 		clientScrollableContainer.createComposite(mainContainer, SWT.NONE);
 
 		// The scrollable content.

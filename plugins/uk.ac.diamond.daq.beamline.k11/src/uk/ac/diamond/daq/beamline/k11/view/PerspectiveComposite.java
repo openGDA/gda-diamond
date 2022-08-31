@@ -54,10 +54,7 @@ import uk.ac.gda.ui.tool.WidgetUtilities;
  */
 public class PerspectiveComposite {
 
-	private final Composite parent;
 	private Combo modeCombo;
-
-	private PerspectiveType type;
 
 	public enum PerspectiveType {
 
@@ -84,37 +81,23 @@ public class PerspectiveComposite {
 
 	private static final Logger logger = LoggerFactory.getLogger(PerspectiveComposite.class);
 
-	private PerspectiveComposite(Composite parent, PerspectiveType type) {
-		this.parent = parent;
-		this.type = type;
-	}
-
-	public static final void buildModeComposite(Composite parent, PerspectiveType type) {
-		var pc = new PerspectiveComposite(parent, type);
-		pc.buildModeComposite();
-	}
-
-	private Composite getParent() {
-		return parent;
-	}
-
 	/**
 	 * Build the {@link Composite} containing controls for selecting the experiment mode
 	 *
-	 * @param parent
+	 * @param composite
 	 *            The Experiment {@link Composite}
 	 */
-	private void buildModeComposite() {
-		var label = createClientLabel(getParent(), SWT.NONE, MODE);
+	public void create(Composite composite) {
+		var label = createClientLabel(composite, SWT.NONE, MODE);
 		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(label);
 
-		modeCombo = createCombo(parent, SWT.READ_ONLY, getTypes(), MODE_TP);
+		modeCombo = createCombo(composite, SWT.READ_ONLY, getTypes(), MODE_TP);
 		createClientGridDataFactory().indent(5, SWT.DEFAULT).applyTo(modeCombo);
 
 		WidgetUtilities.addWidgetDisposableListener(modeCombo, SWT.Selection, getComboModeSelectionListener());
 		setModeComboSelection(getActiveWindow().getActivePage().getPerspective().getId());
 
-		getActiveWindow().addPerspectiveListener(new IPerspectiveListener() {
+		final IPerspectiveListener perspectiveListener = new IPerspectiveListener() {
 			@Override
 			public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId) {
 				// Do nothing
@@ -127,7 +110,10 @@ public class PerspectiveComposite {
 			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
 				setModeComboSelection(perspective.getId());
 			}
-		});
+		};
+
+		getActiveWindow().addPerspectiveListener(perspectiveListener);
+		modeCombo.addDisposeListener(dispose -> getActiveWindow().removePerspectiveListener(perspectiveListener));
 	}
 
 	private Listener getComboModeSelectionListener() {
@@ -171,10 +157,9 @@ public class PerspectiveComposite {
 	}
 
 	private void setType(PerspectiveType type) {
-		this.type = type;
 		modeCombo.setText(type.getLabel());
 		try {
-			getWorkbench().showPerspective(this.type.getId(), getActiveWindow());
+			getWorkbench().showPerspective(type.getId(), getActiveWindow());
 		} catch (WorkbenchException e) {
 			logger.error("Cannot switch perspective", e);
 		}
