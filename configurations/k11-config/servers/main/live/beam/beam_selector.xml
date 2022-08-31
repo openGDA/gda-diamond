@@ -3,8 +3,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="beam_selector" class="gda.device.enumpositioner.EpicsEnumPositioner">
+	<bean id="beam_selector_readback" class="gda.device.enumpositioner.EpicsEnumPositioner">
 		<property name="pvBase" value="#{configProperties.BSEL_PV_PREFIX}01:MP:SELECT" />
+	</bean>
+	
+	<!-- not yet commissioned in EPICS -->
+	<bean id="imaging_hint_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Mono imaging beam</value>
+				<value>Pink imaging beam</value>
+			</list>
+		</property>
 	</bean>
 	
 </beans>

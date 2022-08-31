@@ -28,6 +28,8 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridL
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
@@ -35,7 +37,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 
 import gda.rcp.views.CompositeFactory;
-import uk.ac.diamond.daq.client.gui.energy.summary.EnergySummaryComposite;
 import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -66,7 +67,7 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 
 	private void createElements(Composite parent, int style) {
 		createExperimentManager(parent, style);
-		createSource(parent, style);
+		createSource(parent);
 		createStage(parent, style);
 		createCameraControl(parent, style);
 		createExperimentDriver(parent, style);
@@ -99,8 +100,17 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		createClientGridDataFactory().applyTo(experimentDriver);
 	}
 
-	private void createSource(Composite parent, int style) {
-		new EnergySummaryComposite().createComposite(parent, style);
+	private void createSource(Composite parent) {
+		var composite = new Composite(parent, SWT.NONE);
+		GridLayoutFactory.swtDefaults().numColumns(2).equalWidth(true).applyTo(composite);
+		var gridData = GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP).grab(true, false);
+		gridData.applyTo(composite);
+
+		var beamSelector = new BeamSelectorWidget("beam_selector", "beam_selector_readback").createControls(composite);
+		gridData.applyTo(beamSelector);
+
+		var shutter = new ShutterWidget("eh_shutter", "eh1_searched_and_locked").createControls(composite);
+		gridData.applyTo(shutter);
 	}
 
 	private void bindElements(Composite parent) {

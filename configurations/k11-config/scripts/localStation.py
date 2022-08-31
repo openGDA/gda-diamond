@@ -14,6 +14,8 @@ print("Adding mscan mapping scan command. Use help(mscan) to get information on 
 #run('mapping_scan_commands.py')
 from gdascripts.mscanHandler import *
 
+run("jythonscannables.py")
+
 # Watchdogs
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")
 alias("enable_watchdogs")

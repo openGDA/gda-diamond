@@ -6,5 +6,9 @@
 	<bean id="syringe" class="gda.device.syringepump.SyringePump">
 		<property name="controller" ref="syringeController"/>
 	</bean>
+	
+	<bean id="eh1_searched_and_locked" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="eh1_searched_locked_jy" />
+	</bean>
 		
 </beans>

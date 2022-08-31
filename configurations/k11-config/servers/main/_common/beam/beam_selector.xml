@@ -5,6 +5,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
+	<bean id="beam_selector" class="gda.device.scannable.JythonEnumPositionerWrapper">
+		<property name="scannableName" value="beam_selector_jy" />
+	</bean>
+
 	<!-- These items break the separation between dummy and live components 
 		as the gda:motor element may automatically morph into a dummy or live one -->
 	<gda:motor id="bsel_motor"
