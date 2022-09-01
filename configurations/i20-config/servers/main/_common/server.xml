@@ -40,6 +40,8 @@
 	<import resource="file:${gda.config}/servers/main/_common/xspress3.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/scannables.xml" />
+
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
 

@@ -35,4 +35,10 @@
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>fluo_det_x</scannableName>
+        <description>Fluo detector X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
 </I20SampleParameters>
