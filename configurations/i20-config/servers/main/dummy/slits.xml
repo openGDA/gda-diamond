@@ -3,39 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-     <!--	slits-->
-	
-	<bean id="s1_hgap_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s1_hoffset_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s1_vgap_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s1_voffset_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_xa_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_xb_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_ya_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_yb_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_xa_motor_mm" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_xb_motor_mm" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_ya_motor_mm" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s1_yb_motor_mm" class="gda.device.motor.DummyMotor"/> 
-
-	<bean id="s2_hgap_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s2_hoffset_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s2_vgap_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s2_voffset_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s2_xplus_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s2_xminus_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor"/> 
-	
-	<bean id="s3_hgap_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s3_hoffset_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s3_vgap_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s3_voffset_motor" class="gda.device.motor.DummyMotor"/> 
-	<bean id="s3_xplus_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s3_xminus_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s3_yplus_motor" class="gda.device.motor.DummyMotor"/>  
-	<bean id="s3_yminus_motor" class="gda.device.motor.DummyMotor"/> 
-
 	<bean id="photonshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>

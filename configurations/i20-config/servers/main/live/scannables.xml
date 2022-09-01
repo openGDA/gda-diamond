@@ -28,17 +28,6 @@
 <!-- 		private static final String[] ehDetectorNames = new String[] { "ionchambers", "xspress2system", "xmapMca", "I1", "FFI0", "FFI1", "FFI0_vortex", "d9_current", "d9_gain" }; -->
 	</bean>
 
-	<bean id="test_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="500" />
-	</bean>
-
-	<bean id="test" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="1" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="test_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
 	<bean id="d3_drain_yplus" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:PLUS:I" />
 	</bean>
@@ -65,24 +54,6 @@
 	<bean id="sr_y_angle" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="SR-DI-I20-01:Y:ANGLE" />
 		<property name="pvNameSetPoint" value="SR-DI-I20-01:Y:ANGLE_S" />
-	</bean>
-
-<!-- more needs adding to this list -->
-	<bean id="sample_alignment" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="sample_x" />
-				<ref bean="sample_y" />
-				<ref bean="sample_z" />
-				<ref bean="sample_pitch" />
-				<ref bean="sample_roll" />
-				<ref bean="sample_rot" />
-				<ref bean="sample_fine_rot" />
-				<ref bean="filterwheel" />
-				<ref bean="cryostick" />
-				<ref bean="cryostick_pos" />
-			</list>
-		</property>
 	</bean>
 
 <!-- Eurotherm furnace -->
