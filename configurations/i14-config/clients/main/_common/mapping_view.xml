@@ -38,11 +38,18 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSelector">
 					<property name="sections">
 						<list>
-							<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
+							<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection">
+								<property name="stateReporter">
+									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
+								</property> 
+							</bean>
 							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesSubmitScanSection">
 								<property name="buttonText" value="Submit XANES scan" />
 								<property name="description" value="XANES scan" />
 								<property name="energyScannableName" value="dcm_enrg" />
+								<property name="stateReporter">
+									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
+								</property> 
 							</bean>
 							<bean class="uk.ac.diamond.daq.mapping.ui.tomography.TomographySubmitScanSection">
 								<constructor-arg name="xMotor" value="SampleX" />
@@ -53,11 +60,17 @@
 								<constructor-arg name="tomoDryRunScript" value="scanning/submit_tomography_dry_run.py" />
 								<property name="buttonText" value="Submit tomography scan" />
 								<property name="description" value="Tomography scan" />
+								<property name="stateReporter">
+									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
+								</property> 
 							</bean>
 							<bean class="uk.ac.diamond.daq.mapping.ui.ptychography.PtychographySubmitScanSection">
 								<property name="buttonText" value="Submit ptychography scan" />
 								<property name="description" value="Ptychography scan" />
 								<property name="detectorName" ref="ptychography_scan_detector" />
+								<property name="stateReporter">
+									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
+								</property> 
 							</bean>
 						</list>
 					</property>
