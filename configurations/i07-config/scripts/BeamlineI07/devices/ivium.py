@@ -384,6 +384,8 @@ from org.eclipse.january.dataset import SliceND
 from java.lang import Double
 
 import os.path
+from os.path import exists
+import re
 
 
 class IviumMethodRunner(AbstractRunnableDevice, INexusDevice):
@@ -406,33 +408,41 @@ class IviumMethodRunner(AbstractRunnableDevice, INexusDevice):
         self.lastReadout = None
         self.fileWriter.prepareForCollection(1, None)
         self.startRunningMethod()
-
         self.fileWriter.read(1)
 
 
         fName = self.fileWriter.getNdFileHDF5().getFullFileName_RBV()
-        self.lastReadout = NXDetectorDataWithFilepathForSrs(self)
-        self.lastReadout.addExternalFileLink(self.getName(), "data", "nxfile://" + fName + self.pathInDatafile, 3);
-        self.lastReadout.addFileName(self.getName(), os.path.basename(fName))
+        #self.lastReadout = NXDetectorDataWithFilepathForSrs(self)
+        #self.lastReadout.addExternalFileLink(self.getName(), "data", "nxfile://" + fName + self.pathInDatafile, 3);
+        #self.lastReadout.addFileName(self.getName(), os.path.basename(fName))
+        while (iviumStatus.getPosition() != "Available Idle") and (not exists(fName)):
+        	sleep(0.2)
 
         ds = dnp.io.load(fName)["entry"]['instrument']['detector']['data']
         x = ds[0, :, 0]
         y = ds[0, :, 1]
         z = ds[0, :, 2]
 
-        self.xDataset.setSlice(None, x, SliceND(x.getShape()))
-        self.yDataset.setSlice(None, y, SliceND(y.getShape()))
-        self.zDataset.setSlice(None, z, SliceND(z.getShape()))
+        self.xDataset.setSlice(None, x._jdataset(), SliceND(x.shape))
+        self.yDataset.setSlice(None, y._jdataset(), SliceND(y.shape))
+        self.zDataset.setSlice(None, z._jdataset(), SliceND(z.shape))
 
+        # TODO need to call this at failure too
         self.fileWriter.completeCollection()
 
 
     def startRunningMethod(self):
+        # TODO need to set to method mode
+        # TODO need to set the scanning timeout/ask Matt how to do it properly
         ivium.startAcquiring()
         self.methodScannable.asynchronousMoveTo(None)
 
 
     def getNexusProvider(self, info):
+    	
+    	scanFileName = os.path.basename(os.path.splitext(info.getFilePath())[0]) # without extension
+    	scanNumber = re.findall("\d+$", scanFileName)[0]
+    	self.fileWriter.setScanNumber(scanNumber)
 
         nxDet = NexusNodeFactory.createNXdetector();
         wrapper = NexusObjectWrapper("ivium", nxDet);
@@ -475,6 +485,18 @@ class IviumMethodRunner(AbstractRunnableDevice, INexusDevice):
         print("Method running in background")
 
 
+class CustomScanNumberFileWriter(MultipleImagesPerHDF5FileWriter):
+
+	def __init__(self):
+		self.thisScanNumber = None
+	
+	def getScanNumber(self):
+		return self.thisScanNumber
+	
+	
+	def setScanNumber(self, scanNumber):
+		self.thisScanNumber = int(scanNumber)
+
 
 iviumNdFilePb = NDPluginBaseImpl()
 iviumNdFilePb.setBasePVName("BL07I-EA-IVIUM-01:HDF:")
@@ -497,12 +519,13 @@ iviumNdFileHdf.afterPropertiesSet()
 #iviumNdFileHdf.configure()
 
 
-fWriter = MultipleImagesPerHDF5FileWriter()
+fWriter = CustomScanNumberFileWriter()
 fWriter.setNdFileHDF5(iviumNdFileHdf)
 fWriter.setFileTemplate("%s%s-%d.hdf5")
 fWriter.setFilePathTemplate("$datadir$")
 fWriter.setFileNameTemplate("ivium-method")
 fWriter.setFileNumberAtScanStart(-1)
+fWriter.setLazyOpen(True)
 fWriter.setSetFileNameAndNumber(True)
 fWriter.afterPropertiesSet()
 #fWriter.configure()
