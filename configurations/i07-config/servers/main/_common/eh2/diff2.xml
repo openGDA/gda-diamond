@@ -6,221 +6,210 @@
 	<description>
 		Configuration for DIFF2 (Diffractometer 2) in EH2
 	</description>
-	    <bean id="diff2omega" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorOMEGA_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    <!-- Alpha in Vertical mode -->
-    <bean id="diff2alpha" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorALPHA_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    <!-- Delta in Vertical mode / Gamma in Horizental mode -->
-    <bean id="diff2delta" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorDELTA_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    
-    <!-- Gamma in Vertical mode / Delta in Horizental mode -->
-    <bean id="diff2gamma" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorGAMMA_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    
-    <!-- Gonio Rotation (DRot)-->
-    <bean id="diff2detselect" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorDROT_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
+	<bean id="diff2omega" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorOMEGA_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Alpha in Vertical mode -->
+	<bean id="diff2alpha" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorALPHA_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Delta in Vertical mode / Gamma in Horizental mode -->
+	<bean id="diff2delta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorDELTA_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Gamma in Vertical mode / Delta in Horizental mode -->
+	<bean id="diff2gamma" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorGAMMA_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Gonio Rotation (DRot) -->
+	<bean id="diff2detselect"
+		class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorDROT_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
 
 
-    <!-- Pilatus Rotation -->
-    <bean id="diff2prot" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorDETROT_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-
-    
-    <!-- Point detector -->
-    <bean id="diff2dets4rot" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorNU2_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    <!-- Post sample slits rotation -->
-    <bean id="diff2dets3rot" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorNU1_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
+	<!-- Pilatus Rotation -->
+	<bean id="diff2prot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorDETROT_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
 
 
-    <!-- Slits detector -->
-<!--
-    <bean id="diff2dets1" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorSLIT_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
--->
+	<!-- Point detector -->
+	<bean id="diff2dets4rot"
+		class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorNU2_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Post sample slits rotation -->
+	<bean id="diff2dets3rot"
+		class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorNU1_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
 
-    <!-- Slits vacuum rotation -->
-<!--    
-    <bean id="diff2detsvrot" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorSLITVR_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
--->    
-    
-    <!-- Base X, Y, Y1, Y2, Pitch-->
-    <bean id="diff2basex" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorBASEX_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="diff2basey" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorBASEY_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="diff2basey1" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorBASEY1_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="diff2basey2" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorBASEY2_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="diff2basepitch" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorBASEPITCH_DIFF2" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
-        <property name="outputFormat">
-            <list>
-                <value>%9.5f</value>
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="DIFF2" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="groupMembers">
-            <list>
-                <ref bean="diff2omega" />
-                <ref bean="diff2alpha" />
-                <ref bean="diff2delta" />
-                <ref bean="diff2gamma" />
-                
-                <ref bean="diff2detselect" />
-                <ref bean="diff2prot" />
-                
-                <ref bean="diff2dets4rot" />
-                <ref bean="diff2dets3rot" />
-<!--                <ref bean="diff2dets1" /> -->
-<!--                <ref bean="diff2detsvrot" /> -->
 
-                <ref bean="diff2basex" />
-                <ref bean="diff2basey" />
-                <ref bean="diff2basey1" />
-                <ref bean="diff2basey2" />
-                <ref bean="diff2basepitch" />
-            </list>
-        </property>
-        <property name="protectionLevel" value="0" />
-    </bean>
-	
+	<!-- Slits detector -->
+	<!-- <bean id="diff2dets1" class="gda.device.scannable.ScannableMotor"> 
+	     		<property name="motor" ref="MotorSLIT_DIFF2" /> <property name="protectionLevel" 
+		value="0" /> <property name="initialUserUnits" value="mm" /> <property name="hardwareUnitString" 
+		value="mm" /> <property name="outputFormat"> <list> <value>%9.5f</value> 
+		</list> </property> </bean> -->
+
+	<!-- Slits vacuum rotation -->
+	<!-- <bean id="diff2detsvrot" class="gda.device.scannable.ScannableMotor"> 
+	     		<property name="motor" ref="MotorSLITVR_DIFF2" /> <property name="protectionLevel" 
+		value="0" /> <property name="initialUserUnits" value="Deg" /> <property name="hardwareUnitString" 
+		value="Deg" /> <property name="outputFormat"> <list> <value>%9.5f</value> 
+		</list> </property> </bean> -->
+
+	<!-- Base X, Y, Y1, Y2, Pitch -->
+	<bean id="diff2basex" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorBASEX_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="diff2basey" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorBASEY_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="diff2basey1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorBASEY1_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="diff2basey2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorBASEY2_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="diff2basepitch"
+		class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorBASEPITCH_DIFF2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.5f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DIFF2"
+		class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="diff2omega" />
+				<ref bean="diff2alpha" />
+				<ref bean="diff2delta" />
+				<ref bean="diff2gamma" />
+
+				<ref bean="diff2detselect" />
+				<ref bean="diff2prot" />
+
+				<ref bean="diff2dets4rot" />
+				<ref bean="diff2dets3rot" />
+				<!-- <ref bean="diff2dets1" /> -->
+				<!-- <ref bean="diff2detsvrot" /> -->
+
+				<ref bean="diff2basex" />
+				<ref bean="diff2basey" />
+				<ref bean="diff2basey1" />
+				<ref bean="diff2basey2" />
+				<ref bean="diff2basepitch" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
 </beans>
