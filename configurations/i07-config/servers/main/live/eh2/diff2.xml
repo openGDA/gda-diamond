@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Diffractometer 2 (DIFF2) Motors -->
+	<bean id="MotorBASEX_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:X" />
+	</bean>
+	<bean id="MotorBASEY_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y" />
+	</bean>
+
+	<bean id="MotorBASEY1_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y1" />
+	</bean>
+
+	<bean id="MotorBASEY2_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y2" />
+	</bean>
+
+	<bean id="MotorOMEGA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:OMEGA" />
+	</bean>
+	<bean id="MotorALPHA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:ALPHA" />
+	</bean>
+	<bean id="MotorDELTA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:DELTA" />
+	</bean>
+	<bean id="MotorGAMMA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:GAMMA" />
+	</bean>
+
+
+	<bean id="MotorDROT_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:D_ROT" />
+	</bean>
+	<bean id="MotorDETROT_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:NU_PIL" />
+	</bean>
+	<bean id="MotorNU2_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:NU_DET" />
+	</bean>
+	<bean id="MotorNU1_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:VAC_ROT" />
+	</bean>
+	<!-- <bean id="MotorSLIT_DIFF2" class="gda.device.motor.EpicsMotor"> <property
+		name="pvName" value="BL07I-MO-DIFF-02:SL-DET1" /> </bean> <bean
+	id="MotorSLITVR_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:SL-VR" /> </bean> -->
+
+	<bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:PITCH" />
+	</bean>
+
+
+
+</beans>
