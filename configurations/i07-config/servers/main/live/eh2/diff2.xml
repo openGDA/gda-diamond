@@ -55,5 +55,13 @@
 	</bean>
 
 
+	<bean id="diff2DeferMoves"
+		class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint"
+			value="BL07I-MO-STEP-11:CS2:DeferMoves" />
+		<property name="pvNameGetPoint"
+			value="BL07I-MO-STEP-11:CS2:DeferMoves" />
+	</bean>
+
 
 </beans>
