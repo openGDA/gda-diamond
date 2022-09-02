@@ -1,9 +1,16 @@
 [
     {
         "args": "servers", 
-        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
+        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda", 
         "icon": "sgda.png", 
-        "text": "GDA Servers", 
+        "text": "Start GDA Servers (with no transient devices)", 
+        "type": "button"
+    }, 
+    {
+        "args": "/dls_sw/i16/software/gda_versions/var/i16.cfg", 
+        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py", 
+        "icon": "sgda.png", 
+        "text": "Start GDA Servers (with transient devices)", 
         "type": "button"
     }, 
     {
