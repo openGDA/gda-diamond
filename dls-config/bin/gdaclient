@@ -194,7 +194,7 @@ fi
 # get name of directory in which client is installed
 CLIENT_DIR=$(basename $(dirname $GDA_CLIENT))
 
-CONFIG_DIRNAME=$(whoami)-$CLIENT_DIR
+CONFIG_DIRNAME=$(whoami)/$CLIENT_DIR
 CONFIG=$CONFIG_PARENT/$CONFIG_DIRNAME
 
 if [ ! -z $GDA_RESET ] ; then
