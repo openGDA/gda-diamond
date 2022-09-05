@@ -56,7 +56,7 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 		perp2rot_axis	= jythonNameMap.dv
 		focus_axis		= jythonNameMap.dy
 
-	elif rotation_axis == jythonNameMap.cryorot:
+	elif rotation_axis.name == u"cryorot":
 		perp2rot_axis	= jythonNameMap.cryox
 		focus_axis		= jythonNameMap.cryoz
 		print "Inverting focus axis because rotation_axis is cryorot"

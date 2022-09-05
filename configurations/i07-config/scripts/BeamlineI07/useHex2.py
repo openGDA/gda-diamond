@@ -5,7 +5,6 @@ from Diamond.Objects.EpicsPv import EpicsButtonClass
 from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
 from Diamond.PseudoDevices.HexapodPivot import HexapodPivotDeviceClass;
 
-
 pvNamePivotX = "BL07I-MO-HEX-02:PIVOT:X"
 pvNamePivotY = "BL07I-MO-HEX-02:PIVOT:Y"
 pvNamePivotZ = "BL07I-MO-HEX-02:PIVOT:Z"
@@ -23,6 +22,10 @@ hex2pivotz=HexapodPivotDeviceClass('hex2pivotz', pvNamePivotZ, syncButton, homeB
 HEX2.addGroupMember(hex2pivotx);
 HEX2.addGroupMember(hex2pivoty);
 HEX2.addGroupMember(hex2pivotz);
+
+add_reset_hook(lambda group=HEX2, member=hex2pivotx: group.removeGroupMemberByScannable(member))
+add_reset_hook(lambda group=HEX2, member=hex2pivoty: group.removeGroupMemberByScannable(member))
+add_reset_hook(lambda group=HEX2, member=hex2pivotz: group.removeGroupMemberByScannable(member))
 
 def hex2pivot():
     xpos = hex2x.getPosition()

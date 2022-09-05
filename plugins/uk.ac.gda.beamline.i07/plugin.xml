@@ -303,6 +303,11 @@
             </visibleWhen>
          </menu>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            class="uk.ac.gda.sixd.perspectives.I07ScanPerspectiveExtensions"
+            locationURI="menu:uk.ac.gda.client.sixd.I07ScanPerspective.file?after=org.dawnsci.datavis.importseparator">
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.views">

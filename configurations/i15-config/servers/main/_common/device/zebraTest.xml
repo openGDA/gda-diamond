@@ -5,6 +5,7 @@
 
 	<bean id="zebraTest"
 			class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebraTest" />
 		<property name="zebraPrefix" value="TESTZEBRA:ZEBRA:"/>
 	</bean>
 

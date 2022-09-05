@@ -4,6 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="zebra1" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebra1" />
 		<property name="zebraPrefix" value="BL15I-EA-ZEBRA-01:"/>
 		<!-- Note that zebra1 is not built as an area detector zebra, unlike zebra2, so doesn't require armPutNoWait -->
 	</bean>
@@ -57,6 +58,7 @@
 	</bean>
 
 	<bean id="zebra2" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebra2" />
 		<property name="zebraPrefix" value="BL15I-EA-ZEBRA-02:"/>
 		<property name="armPutNoWait" value="true" />
 		<!-- Note that zebra2 is built as an area detector zebra, unlike zebra1, so requires armPutNoWait -->

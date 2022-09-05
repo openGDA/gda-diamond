@@ -38,40 +38,6 @@
 
     <bean id="MotorYCentre_TS2" class="gda.device.motor.DummyMotor"/>
 
-    <!-- Diffractometer 2 (DIFF2) Motors -->
-    <bean id="MotorBASEX_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEY_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEY1_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorBASEY2_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorOMEGA_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorALPHA_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorDELTA_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorGAMMA_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorDROT_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorDETROT_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorNU2_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorNU1_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-<!--
-    <bean id="MotorSLIT_DIFF2" class="gda.device.motor.DummyMotor"/>
-
-    <bean id="MotorSLITVR_DIFF2" class="gda.device.motor.DummyMotor"/>
-
--->
-
-    <bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.DummyMotor"/>
-
     <!-- Detector Slits DETS3 Motors -->
     <bean id="MotorXPos_DETS3" class="gda.device.motor.DummyMotor"/>
 

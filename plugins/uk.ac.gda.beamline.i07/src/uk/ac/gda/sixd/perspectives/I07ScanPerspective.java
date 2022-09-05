@@ -50,7 +50,7 @@ public class I07ScanPerspective implements IPerspectiveFactory {
 	private static final String OLD_PLOT_VIEW = LivePlotView.getID();
 
 	/** This perspective's ID */
-	private static final String ID = "uk.ac.gda.client.sixd.I07ScanPerspective";
+	static final String ID = "uk.ac.gda.client.sixd.I07ScanPerspective";
 
 	public static String getId() {
 		return ID;

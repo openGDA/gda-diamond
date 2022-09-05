@@ -6,19 +6,19 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<gda:motor id="htx" live-pvName="BL07I-MO-HEX-03:X" />
-	<gda:motor id="hty" live-pvName="BL07I-MO-HEX-03:Y" />
-	<gda:motor id="htz" live-pvName="BL07I-MO-HEX-03:Z" />
+	<gda:motor id="hx" live-pvName="BL07I-MO-HEX-03:X" />
+	<gda:motor id="hy" live-pvName="BL07I-MO-HEX-03:Y" />
+	<gda:motor id="hz" live-pvName="BL07I-MO-HEX-03:Z" />
 	<gda:motor id="hrx" live-pvName="BL07I-MO-HEX-03:RX" />
 	<gda:motor id="hry" live-pvName="BL07I-MO-HEX-03:RY" />
 	<gda:motor id="hrz" live-pvName="BL07I-MO-HEX-03:RZ" />
 
-	<bean id="HEX3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="H" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="htx" />
-				<ref bean="hty" />
-				<ref bean="htz" />
+				<ref bean="hx" />
+				<ref bean="hy" />
+				<ref bean="hz" />
 				<ref bean="hrx" />
 				<ref bean="hry" />
 				<ref bean="hrz" />

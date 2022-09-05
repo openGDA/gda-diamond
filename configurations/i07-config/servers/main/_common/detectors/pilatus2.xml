@@ -12,6 +12,8 @@
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
+		<property name="clearXmlLayoutFile" value="true" />
 	</bean>
 
 	<bean id="pilatus2_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
