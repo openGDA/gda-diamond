@@ -18,6 +18,8 @@
 	
 	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.DummyMotor" />
 	
+	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor" />
+	
 	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="1000.0" />
 	</bean>
