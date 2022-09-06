@@ -23,7 +23,7 @@ def fscan(*args):
         # dual motor scan
         (motor1, start1, end1, motor2, start2, end2, step1, detector, count) = args
         pos(motor1, start1, motor2, start2)
-        points = int((end1 - start1)/step1) + 1
+        points = abs(int((end1 - start1)/step1) + 1)
         mscan(motor1, motor2, line, start1, start2, end1, end2, pts, points, cont, detector, count / float(1000))
     else:
         print "fscan syntax:\n"
