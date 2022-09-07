@@ -82,6 +82,7 @@
 	<!--
 	<import resource="detector/andor1.xml" />
 	 -->
+	<import resource="detector/bpm1.xml" />
 	<import resource="detector/cam1.xml" />
 	<!--
 	<import resource="detector/cam2.xml" />

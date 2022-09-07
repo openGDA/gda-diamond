@@ -92,6 +92,7 @@ global x2000, x2003
 global delta
 global energy, simple_energy, gam
 global x1
+global _bpm1, _bpm1_for_snaps
 global _cam1, _cam1_for_snaps
 global _camd3, _camd3_for_snaps
 global _camd4, _camd4_for_snaps
@@ -1201,12 +1202,13 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 		localStation_exception("configuring %s" % name)
 
 try:
-	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps, panel_name_rcp='BPM')
+	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _bpm1, _bpm1_for_snaps, panel_name_rcp='BPM')
+	cam1, cam1_peak2d, cam1_max2d = wrappedDetector("cam1", _cam1, _cam1_for_snaps, panel_name_rcp='Plot 2')
 	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
 	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
 	camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
 except:
-	localStation_exception("configuring wrapped detectors")
+	localStation_exception("configuring cam1, bpm, camd3, camd4 and camd5 cameras")
 
 def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
 	try:
