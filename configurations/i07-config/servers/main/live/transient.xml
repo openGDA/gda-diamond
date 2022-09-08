@@ -21,8 +21,6 @@
 	<!-- <import resource="transient/flight_tube.xml" /> -->
 
 	<!-- <import resource="transient/xmap.xml" /> -->
-
-	<!-- <import resource="transient/hex3.xml" /> -->
 	
 	<import resource="transient/eiger.xml" />
 

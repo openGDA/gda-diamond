@@ -52,6 +52,7 @@ deviceList = [d4dx, d4x, dpsx, dpsy, dpsz, dpsz2, hfmpitch, hfmstripe,
         hfmx, hfmx1, hfmx2, hfmy, hfmy1, hfmy2, hfmyaw, vfmpitch, vfmx, vfmy,
         vfmy1, vfmy2, filterset]
 
+hexapodList = [hx, hy, hz, hrx, hry, hrz]
 
 #EH2
 hex2List=[hex2x, hex2y, hex2z, hex2rx, hex2ry, hex2rz, hex2pivotx, hex2pivoty,
@@ -89,6 +90,7 @@ metadata += diffOffsetList
 metadata += dcdList
 metadata += hex1List
 metadata += deviceList
+metadata += hexapodList
 metadata += hex2List
 metadata += dets4List
 metadata += dets3List
