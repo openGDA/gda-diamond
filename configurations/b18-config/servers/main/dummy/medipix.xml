@@ -17,11 +17,11 @@
 	</bean>
 
 	<bean id="medipixCamPort" class="java.lang.String">
-		<constructor-arg value="CAM.CAM" />
+		<constructor-arg value="ADSIM.CAM" />
 	</bean>
 
 	<bean id="medipixRoiPort" class="java.lang.String">
-		<constructor-arg value="CAM.roi" />
+		<constructor-arg value="ADSIM.roi" />
 	</bean>
 
 	<bean id="medipixBaseRoiPv" class="java.lang.String">
@@ -33,7 +33,7 @@
 	</bean>
 
 	<bean id="legacyTSPvs" class="java.lang.Boolean">
-		<constructor-arg value="true" />
+		<constructor-arg value="false" />
 	</bean>
 
 	<bean id="medipix_adbase"

@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- Medipix area detector configuration for dummy mode -->
 
@@ -17,11 +20,11 @@
 	</bean>
 
 	<bean id="medipixCamPort" class="java.lang.String">
-		<constructor-arg value="CAM.CAM" />
+		<constructor-arg value="ADSIM.CAM" />
 	</bean>
 
 	<bean id="medipixRoiPort" class="java.lang.String">
-		<constructor-arg value="CAM.roi" />
+		<constructor-arg value="ADSIM.roi" />
 	</bean>
 
 	<bean id="medipixBaseRoiPv" class="java.lang.String">
@@ -33,7 +36,7 @@
 	</bean>
 
 	<bean id="legacyTSPvs" class="java.lang.Boolean">
-		<constructor-arg value="true" />
+		<constructor-arg value="false" />
 	</bean>
 
 	<bean id="medipix_adbase"
