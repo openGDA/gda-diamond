@@ -8,6 +8,8 @@ exc = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
 p2c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-02")
 # Exc and p2m
 m3 = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-03")
+# Pilatus 3
+p3c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-33")
 
 
 from BeamlineI07.i07_fscan import fscan, fpscan

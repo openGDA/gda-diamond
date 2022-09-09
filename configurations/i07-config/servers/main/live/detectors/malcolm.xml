@@ -312,4 +312,68 @@
 		<property name="activated" value="false" />
 	</bean>
 	
+	<!-- scan 30 -->
+	<bean id="malcolm_info_scan30" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 30" />
+		<property name="description" value="Scan 30" />
+	</bean>
+	<bean id="malcolm_model_scan30" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-30" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan30" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-30" />
+		<property name="model" ref="malcolm_model_scan30" />
+		<property name="deviceInformation" ref="malcolm_info_scan30" />
+		<property name="activated" value="false" />
+	</bean>
+	
+	<!-- scan 31 -->
+	<bean id="malcolm_info_scan31" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 31" />
+		<property name="description" value="Scan 31" />
+	</bean>
+	<bean id="malcolm_model_scan31" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-31" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan31" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-31" />
+		<property name="model" ref="malcolm_model_scan31" />
+		<property name="deviceInformation" ref="malcolm_info_scan31" />
+		<property name="activated" value="false" />
+	</bean>
+	
+	<!-- scan 32 -->
+	<bean id="malcolm_info_scan32" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 32" />
+		<property name="description" value="Scan 32" />
+	</bean>
+	<bean id="malcolm_model_scan32" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-32" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan32" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-32" />
+		<property name="model" ref="malcolm_model_scan32" />
+		<property name="deviceInformation" ref="malcolm_info_scan32" />
+		<property name="activated" value="false" />
+	</bean>
+	
+	<!-- scan 33 -->
+	<bean id="malcolm_info_scan33" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 33" />
+		<property name="description" value="Scan 33" />
+	</bean>
+	<bean id="malcolm_model_scan33" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-33" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan33" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-33" />
+		<property name="model" ref="malcolm_model_scan33" />
+		<property name="deviceInformation" ref="malcolm_info_scan33" />
+		<property name="activated" value="false" />
+	</bean>
+	
 </beans>
