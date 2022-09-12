@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ppc_temp_1" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+	<bean id="ppc_temp_2" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+	<bean id="ppc_temp_3" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+	<bean id="ppc_temp_4" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+
+	<bean id="ppc_ai_1" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ai_2" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ai_3" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ai_4" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppc_ao_1" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ao_2" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ao_3" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	<bean id="ppc_ao_4" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+
+	<bean id="ppc_di_1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ppc_di_2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ppc_di_3" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ppc_di_4" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ppc_do_5" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ppc_do_6" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ppc_do_7" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ppc_do_8" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Off</value>
+				<value>On</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

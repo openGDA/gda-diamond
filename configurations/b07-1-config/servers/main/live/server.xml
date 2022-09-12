@@ -62,6 +62,7 @@
 	<!-- Gas Rig -->
 	<import resource="gas_rig.xml"/>
 	<import resource="manipulator.xml"/><!-- this gives either TPOT or TCUP -->
+	<import resource="patch_panel.xml"/>
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
