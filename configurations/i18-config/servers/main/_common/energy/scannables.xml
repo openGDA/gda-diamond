@@ -20,10 +20,10 @@
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
 
-<!-- 	<bean id="sc_energy_motor" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="protectionLevel" value="0" /> -->
-<!-- 		<property name="motor" ref="dcm_energy_motor" /> -->
-<!-- 	</bean> -->
+	<bean id="sc_energy_motor" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="motor" ref="dcm_energy_motor" />
+	</bean>
 
 	<bean id="sc_dcm_crystal1_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />
