@@ -19,7 +19,6 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
 import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
-import static uk.ac.gda.core.tool.spring.SpringApplicationContextFacade.addApplicationListener;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -28,19 +27,17 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.mapping.ui.controller.AcquisitionUiReloader;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionKeys;
 import uk.ac.gda.api.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.api.acquisition.AcquisitionSubType;
 import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
-import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.AcquisitionControllerException;
@@ -58,7 +55,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 
 	private DiffractionScanControls scanControls;
 
-	private final LoadListener loadListener;
+	private final AcquisitionUiReloader loadListener;
 
 	private ScanningAcquisitionController acquisitionController;
 
@@ -66,7 +63,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 		this.buttonsCompositeSupplier = controlButtonsContainerSupplier;
 
 		// instantiate listener but only attach when composite is created
-		loadListener = new LoadListener();
+		loadListener = new AcquisitionUiReloader(getAcquisitionKey(), getScanControls());
 	}
 
 	@Override
@@ -86,7 +83,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 		Arrays.asList(buttonsComposite.getChildren()).forEach(Control::dispose);
 		getButtonControlsFactory().createComposite(buttonsComposite, SWT.NONE);
 		buttonsComposite.layout(true, true);
-		addApplicationListener(loadListener);
+		SpringApplicationContextFacade.addApplicationListener(loadListener);
 		controls.addDisposeListener(dispose -> SpringApplicationContextFacade.removeApplicationListener(loadListener));
 		return controls;
 	}
@@ -153,21 +150,6 @@ public class DiffractionComposite implements NamedCompositeFactory {
 			acquisitionController = SpringApplicationContextFacade.getBean(ScanningAcquisitionController.class);
 		}
 		return acquisitionController;
-	}
-
-	private class LoadListener implements ApplicationListener<AcquisitionConfigurationResourceLoadEvent> {
-
-		@Override
-		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
-			// we are only interested in load events broadcasted by acquisition controller...
-			if (!(event.getSource() instanceof ScanningAcquisitionController)) return;
-			var controller = (ScanningAcquisitionController) event.getSource();
-
-			// ...relating to diffraction acquisitions
-			if (controller.getAcquisitionKeys().equals(key)) {
-				Display.getDefault().asyncExec(getScanControls()::reload);
-			}
-		}
 	}
 
 	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
