@@ -12,9 +12,10 @@ m3 = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-03")
 p3c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-33")
 
 
-from BeamlineI07.i07_fscan import fscan, fpscan
+from BeamlineI07.i07_fscan import fscan, fpscan, fhklscan
 alias(fscan)
 alias(fpscan)
+alias(fhklscan)
 
 class DCHklAdapter(HklAdapter):
 # eh1h: '_fourc', (diff1delta, diff1gamma, diff1chi, diff1theta)
