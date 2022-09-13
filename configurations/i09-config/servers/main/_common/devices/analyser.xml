@@ -171,7 +171,7 @@
 	
 	<bean id="analyser_spectrumlugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.PVArrayPlugin">
 		<constructor-arg value="BL09I-EA-DET-01:CAM:INT_SPECTRUM_COPY" />
-		<constructor-arg value="BL09I-EA-DET-01:CAM:TOTAL_DATA_POINTS_RBV"/>
+		<constructor-arg value="BL09I-EA-DET-01:CAM:X_COUNT_RBV"/>
 		<property name="dataName" value="spectrum"/>
 		<property name="dataUnit" value="counts"/>
 	</bean>
