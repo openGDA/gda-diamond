@@ -74,8 +74,8 @@ def fhklscan(hkl, start, stop, step, runnable_device, exposure_time):
         hkl_posns += [ScannableUtils.calculateNextPoint(hkl_posns[-1], sobj.getStep())]
 
     angles = []
-    for pos in hkl_posns:
-        angles += [hkl._diffcalc.hkl_to_angles(pos[0], pos[1], pos[2])[0]]
+    for posn in hkl_posns:
+        angles += [hkl._diffcalc.hkl_to_angles(posn[0], posn[1], posn[2])[0]]
     angles_ds = dnp.array(angles)
 
 
@@ -96,5 +96,6 @@ def fhklscan(hkl, start, stop, step, runnable_device, exposure_time):
     # TODO add monitors, per point and per scan
     request = ScanRequestBuilder().withCompoundModel(scan_model).withDetectors(dets).build()
 
+    pos(hkl, start)
     submit(request)
 
