@@ -1498,7 +1498,6 @@
                 <ref bean="diff1x" />
                 <ref bean="diff1y" />
                 <ref bean="diff1z" />
-                <ref bean="diff1alpha" />
                 <ref bean="diff1chi" />
                 <ref bean="diff1delta" />
                 <ref bean="diff1gamma" />

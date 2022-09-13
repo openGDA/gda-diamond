@@ -18,8 +18,6 @@ def setpos(motor, newpos):
 			offsetscannable = diff1vgammaoffset
 		elif(motor.getName() == 'diff1theta'):
 			offsetscannable = diff1homegaoffset
-		elif(motor.getName() == 'diff1alpha'):
-			offsetscannable = diff1valphaoffset
 		elif(motor.getName() == 'diff1omega'):
 			offsetscannable = diff1vomegaoffset
 		else:
