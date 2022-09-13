@@ -31,6 +31,7 @@ class DCHklAdapter(HklAdapter):
 hkl_prov = DCHklAdapter()
 exc.setHklProvider(hkl_prov)
 p2c.setHklProvider(hkl_prov)
+p3c.setHklProvider(hkl_prov)
 
 # Inject normaliser processor for use in namespace
 excalibur_norm = Finder.find("excalibur_norm")
