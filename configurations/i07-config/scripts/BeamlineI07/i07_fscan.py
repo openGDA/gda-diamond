@@ -32,6 +32,31 @@ def fscan(*args):
         print "Dual motor:"
         print "   fscan motor1 start1 end1 motor2 start2 end2 step_size1 detector count_in_milliseconds"
 
+def cfscan(*args):
+    '''
+    Centred continuous scan, same as fscan but specify width rather than start/end points
+
+    Syntax:
+       cfscan motor halfwidth step_size detector count_in_milliseconds
+       cfscan motor centre halfwidth step_size detector count_in_milliseconds
+    '''
+    if len(args) == 5:
+        (motor, halfwidth, step, detector, count) = args
+        centre = motor.getPosition()
+        (start, end) = centre-halfwidth, centre+halfwidth
+        fscan(motor, start, end, step, detector, count)
+    elif len(args) == 6:
+        (motor, centre, halfwidth, step, detector, count) = args
+        (start, end) = centre-halfwidth, centre+halfwidth
+        fscan(motor, start, end, step, detector, count)
+    else:
+        print "cfscan syntax:\n"
+        print "At current position:"
+        print "   cfscan motor halfwidth step_size detector count_in_milliseconds"
+        print "At arbitrary position (centre):\n"
+        print "   cfscan motor centre halfwidth step_size detector count_in_milliseconds"
+
+
 def fpscan(*args):
     '''
     Continuous scan of one or two motors, specifying the number of points.
