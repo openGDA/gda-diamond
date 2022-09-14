@@ -24,22 +24,19 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.math3.util.Pair;
 import org.dawnsci.ede.PolynomialParser;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.thoughtworks.xstream.XStream;
 
 import gda.device.zebra.ZebraGatePulsePreparer;
 import gda.device.zebra.controller.Zebra;
@@ -48,6 +45,7 @@ public class TurboXasParametersTest {
 
 	TurboXasParameters parameters;
 	private TurboXasMotorParameters motorParameters;
+	private XmlGenerator xmlGenerator = new XmlGenerator();
 
 	static final String testSampleName = "Test sample";
 	static final double startEnergy = 1200.0;
@@ -113,17 +111,15 @@ public class TurboXasParametersTest {
 	}
 
 	@Test
-	public void serializedXmlCanBeProduced() {
+	public void serializedXmlCanBeProduced() throws IOException {
 		String xmlStringFromParams = parameters.toXML();
 		assertThat( xmlStringFromParams, is(notNullValue()) );
 		assertTrue(xmlStringFromParams.length() > 0);
 	}
 
 	@Test
-	public void serializedXmlIsCorrect() {
-		String xmlStringFromParams = parameters.toXML();
-		String actualXmlString = getCorrectXmlString(parameters);
-		assertThat(xmlStringFromParams , is( equalTo(actualXmlString) ) );
+	public void serializedXmlIsCorrect() throws IOException {
+		testDeserialization(parameters);
 	}
 
 	@Test
@@ -136,7 +132,7 @@ public class TurboXasParametersTest {
 		testDoublesEquals( calibrationMinPos, parameters.getEnergyCalibrationMinPosition() );
 		testDoublesEquals( calibrationMaxPos, parameters.getEnergyCalibrationMaxPosition() );
 
-		assertEquals( defaultDetector,  parameters.getDetectors()[0]);
+		assertEquals( defaultDetector,  parameters.getDetectors().get(0));
 
 		assertEquals( extraScannablesList, parameters.getExtraScannables());
 
@@ -246,45 +242,6 @@ public class TurboXasParametersTest {
 		assertArrayEquals( correctCoeffs, extractedCoeffs, numericalTolerance);
 	}
 
-	public String getExpectedMapXmlString(Map<String, String> map) {
-		return getExpectedMapXmlString(map, "");
-	}
-
-	public String getExpectedMapXmlString(Map<String, String> map, String prefix) {
-		String xmlString = prefix+"<scannablesToMonitorDuringScan>\n";
-		String keyName = TurboXasParameters.MapConverter.keyNodeName;
-		String valueName = TurboXasParameters.MapConverter.valueNodeName;
-
-		for(Entry item : map.entrySet()) {
-			xmlString += String.format("%s  <%s>%s</%s>\n", prefix, keyName, item.getKey(), keyName);
-			xmlString += String.format("%s  <%s>%s</%s>\n", prefix, valueName, item.getValue(), valueName);
-		}
-		xmlString += prefix+"</scannablesToMonitorDuringScan>";
-		return xmlString;
-	}
-
-	@Test
-	public void testMapSerializesOk() {
-		Map<String, String> map = getScannableMap();
-		String expectedMapString = getExpectedMapXmlString(map);
-
-		XStream xstream = TurboXasParameters.getXStream();
-		String serializedMapString = xstream.toXML(map);
-
-		assertNotNull(serializedMapString);
-		assertEquals("Serialized map string does not match expected value", expectedMapString, serializedMapString);
-	}
-
-	@Test
-	public void testMapDeserializesOk() {
-		Map<String, String> map = getScannableMap();
-		String expectedMapString = getExpectedMapXmlString(map);
-
-		XStream xstream = TurboXasParameters.getXStream();
-		Map<String,String> deserializedMap = (Map<String,String>)xstream.fromXML(expectedMapString);
-		assertEquals("Deserialized map object not match expected value", map, deserializedMap);
-	}
-
 	private Map<String, String> getScannableMap() {
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put("scannable1", "");
@@ -293,12 +250,10 @@ public class TurboXasParametersTest {
 	}
 
 	@Test
-	public void testExtraScannablesSerialize() {
+	public void testExtraScannablesSerialize() throws IOException {
 		scannablesToMonitor = getScannableMap();
 		parameters.setScannablesToMonitorDuringScan(scannablesToMonitor);
-		String xmlStringFromParams = parameters.toXML();
-		String expectedXmlString = getCorrectXmlString(parameters);
-		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
+		testDeserialization(parameters);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -307,47 +262,41 @@ public class TurboXasParametersTest {
 	}
 
 	@Test
-	public void testRunningAverageNamesSerialize() {
+	public void testRunningAverageNamesSerialize() throws IOException {
 		parameters.setNamesOfDatasetsToAverage(Arrays.asList("name1", "name2", "name3"));
-		String xmlStringFromParams = parameters.toXML();
-		String expectedXmlString = getCorrectXmlString(parameters);
-		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
+		testDeserialization(parameters);
 	}
 
 	@Test
-	public void testScannablePositionsSerialize() {
+	public void testScannablePositionsSerialize() throws IOException {
 		String scannableToMove = "mappingScannable";
 		List<List<Double>> positions = new ArrayList<>();
-		List<Double> vals = new ArrayList<>();
-		vals.addAll(Arrays.asList(11.0, 12.0, 13.0, 14.0, 15.0));
-		positions.add(vals);
+		positions.add(Arrays.asList(11.0, 12.0, 13.0, 14.0, 15.0));
+		positions.add(Arrays.asList(101.0, 102.0, 103.0, 104.0, 105.0));
 
 		parameters.setScannableToMove(scannableToMove);
 		parameters.setScannablePositions(positions);
 
-		String xmlStringFromParams = parameters.toXML();
-		String expectedXmlString = getCorrectXmlString(parameters);
-		System.out.println("XML from XStream : \n"+xmlStringFromParams);
-		System.out.println("Expected XML : \n"+expectedXmlString);
-		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
+		testDeserialization(parameters);
 	}
 
+	private void testDeserialization(TurboXasParameters params) throws IOException {
+		String xmlString = xmlGenerator.getCorrectXmlString(params);
+		assertEquals("Serialized XML is not correct", xmlString, params.toXML());
+		TurboXasParameters paramsFromXml = TurboXasParameters.fromXML(xmlString);
+		assertEquals("Deserialized object is not correct",params, paramsFromXml);
+
+	}
 	@Test
-	public void testSpectrumEventsSerialize() {
+	public void testSpectrumEventsSerialize() throws IOException {
 		List<SpectrumEvent> spectrumEvents = new ArrayList<>();
 		spectrumEvents.add(new SpectrumEvent(0, "scn1", 100.0));
 		spectrumEvents.add(new SpectrumEvent(2, "scn2", 17.0));
 		spectrumEvents.add(new SpectrumEvent(8, "scn3", 42.0));
 
 		parameters.setSpectrumEvents(spectrumEvents);
-		String expectedXmlString = getCorrectXmlString(parameters);
-		assertEquals(expectedXmlString, parameters.toXML());
-
-		// Check that lists of TimingGroup and SpectrumEvent are de-serialized correctly.
-		TurboXasParameters paramsFromXml = TurboXasParameters.fromXML(expectedXmlString);
-		assertEquals(parameters.getSpectrumEvents(), paramsFromXml.getSpectrumEvents());
-		assertEquals(parameters.getTimingGroups(), paramsFromXml.getTimingGroups());
-
+		xmlGenerator.setObjectIncludesClass(false);
+		testDeserialization(parameters);
 	}
 
 	@Test
@@ -374,125 +323,6 @@ public class TurboXasParametersTest {
 			}
 		}
 		return groupSpectrumIndex;
-	}
-
-	private String getXmlTagLine(String tag, double value) {
-		return getXmlTagLine(tag, TurboXasParameters.doubleToString(value), 1);
-	}
-
-	private String getXmlTagLine(String tag, double value, int level) {
-		return getXmlTagLine(tag, TurboXasParameters.doubleToString(value), level);
-	}
-	private String getIndent(int indent) {
-		StringBuilder sb = new StringBuilder();
-		while (indent-- > 0) {
-			sb.append("  ");
-		}
-		return sb.toString();
-	}
-	private String getXmlTagLine(String tag, String value, int indent) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("<" + tag + ">");
-		sb.append(value);
-		sb.append("</" + tag + ">\n");
-		return getIndent(indent)+sb.toString();
-	}
-
-	/**
-	 * Return string with serialized version of TurboXasParameters test object
-	 * @return
-	 */
-	private String getCorrectXmlString(TurboXasParameters parameters) {
-		StringBuilder serializedXmlString = new StringBuilder();
-
-		serializedXmlString.append("<TurboXasParameters>\n" +
-				getXmlTagLine("sampleName", parameters.getSampleName(), 1) +
-				getXmlTagLine("startEnergy", parameters.getStartEnergy()) +
-				getXmlTagLine("endEnergy", parameters.getEndEnergy()) +
-				getXmlTagLine("energyStep", parameters.getEnergyStep()) +
-				getXmlTagLine("startPosition", parameters.getStartPosition()) +
-				getXmlTagLine("endPosition", parameters.getEndPosition()) +
-				getXmlTagLine("positionStepSize", parameters.getPositionStepSize()) +
-				getXmlTagLine("usePositionsForScan", Boolean.toString(parameters.isUsePositionsForScan()), 1) +
-				getXmlTagLine("energyCalibrationPolynomial", parameters.getEnergyCalibrationPolynomial(), 1) +
-				getXmlTagLine("energyCalibrationMinPosition", parameters.getEnergyCalibrationMinPosition()) +
-				getXmlTagLine("energyCalibrationMaxPosition", parameters.getEnergyCalibrationMaxPosition()) +
-				getXmlTagLine("energyCalibrationReferenceFile", parameters.getEnergyCalibrationReferenceFile(), 1) +
-				getXmlTagLine("energyCalibrationFile", parameters.getEnergyCalibrationFile(), 1) +
-				getXmlTagLine("motorToMove", parameters.getMotorToMove(), 1));
-
-		// Add the detector(s)
-		serializedXmlString.append("  <detectors>\n");
-		for(String detectorName : parameters.getDetectors()) {
-			serializedXmlString.append(getXmlTagLine("string", detectorName, 2));
-		}
-		serializedXmlString.append("  </detectors>\n");
-
-		serializedXmlString.append(getXmlTagLine("useTrajectoryScan", Boolean.toString(parameters.getUseTrajectoryScan()), 1));
-		serializedXmlString.append(getXmlTagLine("twoWayScan", Boolean.toString(parameters.isTwoWayScan()), 1));
-
-		// Add the timing groups
-		if (parameters.getTimingGroups() != null) {
-			parameters.getTimingGroups().forEach( timingGroup -> {
-				serializedXmlString.append("  <TimingGroup>\n");
-				serializedXmlString.append(getXmlTagLine("name", timingGroup.getName(), 2));
-				serializedXmlString.append(getXmlTagLine("timePerSpectrum", timingGroup.getTimePerSpectrum(), 2));
-				serializedXmlString.append(getXmlTagLine("timeBetweenSpectra", timingGroup.getTimeBetweenSpectra(), 2));
-				serializedXmlString.append(getXmlTagLine("numSpectra", Integer.toString(timingGroup.getNumSpectra()), 2));
-				serializedXmlString.append("  </TimingGroup>\n");
-			});
-		}
-
-		if (parameters.getScannablesToMonitorDuringScan() != null) {
-			serializedXmlString.append(getExpectedMapXmlString(parameters.getScannablesToMonitorDuringScan(), "  ")+"\n");
-		}
-
-		if (parameters.getExtraScannables() != null) {
-			serializedXmlString.append("  <extraScannables>\n");
-			parameters.getExtraScannables().forEach((name) -> serializedXmlString.append(getXmlTagLine("string", name, 2)));
-			serializedXmlString.append("  </extraScannables>\n");
-		}
-
-		if (parameters.getNamesOfDatasetsToAverage() != null) {
-			serializedXmlString.append("  <namesOfDatasetsToAverage>\n");
-			parameters.getNamesOfDatasetsToAverage().forEach((name) -> serializedXmlString.append(getXmlTagLine("string", name, 2)) );
-			serializedXmlString.append("  </namesOfDatasetsToAverage>\n");
-		}
-
-		serializedXmlString.append(getXmlTagLine("writeAsciiData", Boolean.toString(parameters.getWriteAsciiData()), 1));
-		serializedXmlString.append(getXmlTagLine("fastShutterName", parameters.getFastShutterName(), 1));
-
-		serializedXmlString.append(getXmlTagLine("runMappingScan", Boolean.toString(parameters.isRunMappingScan()), 1));
-		if (parameters.getScannableToMove() != null && parameters.getScannablePositions() != null) {
-			serializedXmlString.append(getXmlTagLine("scannableToMove", parameters.getScannableToMove(), 1));
-			serializedXmlString.append("  <scannablePositions>\n");
-			parameters.getScannablePositions().forEach(positions -> {
-				serializedXmlString.append("    <list>\n");
-				for(Double val : positions) {
-					serializedXmlString.append(getXmlTagLine("double", val.toString(), 3));
-				}
-				serializedXmlString.append("    </list>\n");
-
-			});
-			serializedXmlString.append("  </scannablePositions>\n");
-		}
-
-		if (parameters.getSpectrumEvents() != null && !parameters.getSpectrumEvents().isEmpty()) {
-			serializedXmlString.append("  <spectrumEvents>\n");
-			for(SpectrumEvent event : parameters.getSpectrumEvents()) {
-				serializedXmlString.append("    <SpectrumEvent>\n");
-				serializedXmlString.append(getXmlTagLine("spectrumNumber", Integer.toString(event.getSpectrumNumber()), 3));
-				serializedXmlString.append(getXmlTagLine("scannableName", event.getScannableName(), 3));
-
-				Object pos = event.getPosition();
-				serializedXmlString.append("      <position class=\""+pos.getClass().getSimpleName().toLowerCase()+"\">"+pos+"</position>\n");
-				serializedXmlString.append("    </SpectrumEvent>\n");
-			}
-			serializedXmlString.append("  </spectrumEvents>\n");
-		}
-		serializedXmlString.append("</TurboXasParameters>");
-
-		return serializedXmlString.toString();
 	}
 
 	@Test
@@ -576,5 +406,4 @@ public class TurboXasParametersTest {
 		double spaceNeededForPulses = zebra.getPCPulseMax() * zebra.getPCPulseStep();
 		assertTrue(zebra.getPCGateWidth() > spaceNeededForPulses);
 	}
-
 }

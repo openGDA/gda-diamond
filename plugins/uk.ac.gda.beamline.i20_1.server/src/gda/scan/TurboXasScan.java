@@ -864,7 +864,11 @@ public class TurboXasScan extends ContinuousScan {
 	private void addMetaDataScannable() {
 		MetashopDataScannable scannableToManageMetadata = new MetashopDataScannable();
 
-		scannableToManageMetadata.addData("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML());
+		try {
+			scannableToManageMetadata.addData("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML());
+		} catch (IOException e) {
+			logger.warn("Problem saving TurboXasParameters to meta data", e);
+		}
 		Xspress3BufferedDetector xspress3Detector = detectorFunctions.getXspress3Detector();
 		if (xspress3Detector != null) {
 			try {

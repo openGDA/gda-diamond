@@ -18,8 +18,8 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -200,7 +200,7 @@ public class TurboXasExperimentView extends ViewPart {
 		startScanButton.setEnabled(!scanIsRunning);
 	}
 
-	protected void createSections(final SashForm parent) {
+	protected void createSections(final SashForm parent) throws IOException {
 		Composite composite = new Composite(parent, SWT.None);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(1,false));
@@ -697,12 +697,17 @@ public class TurboXasExperimentView extends ViewPart {
 		startScanButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				updateParametersFromGui();
-				TurboXasMotorParameters motorParams = getMotorParameters();
-				if (tryToCalculatePositions(motorParams, false)) {
-					runScan();
-				} else {
-					showMotorParameterDialog();
+				try {
+					updateParametersFromGui();
+					TurboXasMotorParameters motorParams = getMotorParameters();
+					if (tryToCalculatePositions(motorParams, false)) {
+						runScan();
+					} else {
+						showMotorParameterDialog();
+					}
+				} catch(Exception ex) {
+					logger.warn("Problem running scan from GUI", e);
+					MessageDialog.openWarning(parent.getShell(), "Problem starting scan", "Problem encountered when trying to start scan : "+ex.getMessage());
 				}
 			}
 		});
@@ -754,13 +759,14 @@ public class TurboXasExperimentView extends ViewPart {
 	 * Run a scan using the current TurboXasParameters. <p>
 	 * The parameters are serialised to an XML string which is then used to
 	 * construct a string of Jython commands to setup and run the scan.
+	 * @throws IOException
 	 */
-	private void runScan() {
+	private void runScan() throws IOException {
 		// Get name of data to be selected by default in the plot view (e.g. lnI0It, FFI0 etc)
 		// use last detector (Xspress3 if selected);
-		String[] selectedDetectors = turboXasParameters.getDetectors();
-		int numDetectors = selectedDetectors.length;
-		String lastDetector = selectedDetectors[numDetectors-1];
+		List<String> selectedDetectors = turboXasParameters.getDetectors();
+		int numDetectors = selectedDetectors.size();
+		String lastDetector = selectedDetectors.get(numDetectors-1);
 		String defaultSelectedDataName = defaultPlottedFields.get(lastDetector);
 		// Create Jython command string to set the data name :
 		String setPlotString = "txasScan.setDataNameToSelectInPlot(\""+defaultSelectedDataName+"\")\n";
@@ -867,7 +873,7 @@ public class TurboXasExperimentView extends ViewPart {
 		useTrajectoryScanButton.setSelection(turboXasParameters.getUseTrajectoryScan());
 		useTwoWayScanButton.setSelection(turboXasParameters.isTwoWayScan());
 
-		List<String> selectedDetectors = Arrays.asList(turboXasParameters.getDetectors());
+		List<String> selectedDetectors = turboXasParameters.getDetectors();
 		for(Button box : detectorCheckboxes) {
 			boolean selected = selectedDetectors.contains(box.getData());
 			box.setSelection(selected);
@@ -970,8 +976,9 @@ public class TurboXasExperimentView extends ViewPart {
 
 	/**
 	 * Load TurboXasParameters from value saved in the preference store and update the GUI.
+	 * @throws IOException
 	 */
-	private void loadSettingsFromPreferenceStore(){
+	private void loadSettingsFromPreferenceStore() throws IOException{
 		String savedParamsXmlString = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(PREFERENCE_STORE_KEY, String.class);
 		if (StringUtils.isNotEmpty(savedParamsXmlString)) {
 			turboXasParameters = TurboXasParameters.fromXML(savedParamsXmlString);
@@ -1004,7 +1011,11 @@ public class TurboXasExperimentView extends ViewPart {
 	 * Save the current TurboXasParameters to preference store.
 	 */
 	private void saveSettingsToPreferenceStore(){
-		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(PREFERENCE_STORE_KEY, turboXasParameters.toXML());
+		try {
+			EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(PREFERENCE_STORE_KEY, turboXasParameters.toXML());
+		} catch (IOException e) {
+			logger.warn("Problem saving XML parameters to data store", e);
+		}
 	}
 
 	@Override

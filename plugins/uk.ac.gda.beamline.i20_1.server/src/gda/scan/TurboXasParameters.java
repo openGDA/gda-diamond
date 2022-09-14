@@ -18,16 +18,18 @@
 
 package gda.scan;
 
+import java.beans.Transient;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -36,16 +38,17 @@ import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.Annotations;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.converters.basic.DoubleConverter;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 import gda.device.ContinuousParameters;
 import gda.device.Scannable;
@@ -55,21 +58,31 @@ import gda.device.scannable.PVScannable;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.scan.XmlSerializationMappers.ListDeserializer;
+import gda.scan.XmlSerializationMappers.ListSerializer;
+import gda.scan.XmlSerializationMappers.MapDeserializer;
+import gda.scan.XmlSerializationMappers.MapSerializer;
+import gda.scan.XmlSerializationMappers.NestedListDeserializer;
+import gda.scan.XmlSerializationMappers.NestedListSerializer;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 import gda.scan.ede.position.EnergyPositionCalculator;
-
 
 /**
  * Collection of parameters used to define Turbo Xas scan.
  * Also has methods to serialize/deserialize to/from XML. and load object from a file.
  * @since 13/7/2016
  */
-@XStreamAlias("TurboXasParameters")
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "sampleName", "startEnergy", "endEnergy", "energyStep",
+	"startPosition", "endPosition", "positionStepSize", "usePositionsForScan",
+	"energyCalibrationPolynomial", "energyCalibrationMinPosition", "energyCalibrationMaxPosition",
+	"energyCalibrationReferenceFile", "energyCalibrationFile",
+	"motorToMove", "detectors", "useTrajectoryScan", "twoWayScan", "TimingGroup",
+	"scannablesToMonitorDuringScan", "extraScannables", "namesOfDatasetsToAverage"
+})
 public class TurboXasParameters {
 
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasParameters.class);
-
-	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
 	private String sampleName;
 
@@ -77,8 +90,7 @@ public class TurboXasParameters {
 
 	private double endEnergy;
 
-	@XStreamAlias("energyStep")
-	private double energyStepSize;
+	private double energyStep;
 
 	private double startPosition;
 
@@ -112,24 +124,33 @@ public class TurboXasParameters {
 	/**
 	 * Names of {@link BufferedDetector}s to be used during scan.
 	 */
-	private String[] detectors;
+	@JsonDeserialize(using=ListDeserializer.class)
+	@JsonSerialize(using=ListSerializer.class)
+	private List<String> detectors;
 
 	private boolean useTrajectoryScan;
 
 	private boolean twoWayScan;
 
+	@JsonProperty("TimingGroup")
 	private List<TurboSlitTimingGroup> timingGroups;
 
 	/** Scannables to be monitored during scan : key = name of scannable, value = PV with value to record (optional) */
+	@JsonSerialize(using = MapSerializer.class)
+	@JsonDeserialize(using = MapDeserializer.class)
 	private LinkedHashMap<String, String> scannablesToMonitorDuringScan;
 
 	/** Names of any extra scannables that should be added to TurboXasScan object */
+	@JsonDeserialize(using=ListDeserializer.class)
+	@JsonSerialize(using=ListSerializer.class)
 	private List<String> extraScannables;
 
 	/**
 	 * List of datasets to compute running average of during scan. Names are formatted as : <detector name>/<dataset name>
 	 * . e.g. scaler_for_zebra/I0, buffered_xspress3/FFI0 ...
 	 */
+	@JsonDeserialize(using=ListDeserializer.class)
+	@JsonSerialize(using=ListSerializer.class)
 	private List<String> namesOfDatasetsToAverage;
 
 	private boolean writeAsciiData;
@@ -140,8 +161,12 @@ public class TurboXasParameters {
 
 	private String scannableToMove;
 
+	@JsonDeserialize(using=NestedListDeserializer.class)
+	@JsonSerialize(using=NestedListSerializer.class)
 	private List<List<Double>> scannablePositions;
 
+	@JacksonXmlElementWrapper(useWrapping = true, localName="spectrumEvents")
+	@JsonProperty("SpectrumEvent")
 	private List<SpectrumEvent> spectrumEvents;
 
 	public TurboXasParameters() {
@@ -162,8 +187,8 @@ public class TurboXasParameters {
 		energyCalibrationMinPosition = startEnergy*0.8;
 		energyCalibrationMaxPosition = endEnergy*1.2;
 
-		energyStepSize = (endEnergy - startEnergy)/(contparams.getNumberDataPoints()+1);
-		positionStepSize = energyStepSize;
+		energyStep = (endEnergy - startEnergy)/(contparams.getNumberDataPoints()+1);
+		positionStepSize = energyStep;
 
 		double timeForSpectra = contparams.getTotalTime();
 		timingGroups.add( new TurboSlitTimingGroup("group1", timeForSpectra, timeForSpectra, 1) );
@@ -179,7 +204,7 @@ public class TurboXasParameters {
 
 		startEnergy=1000;
 		endEnergy=2000;
-		energyStepSize=10;
+		energyStep=10;
 
 		startPosition=0;
 		endPosition=10;
@@ -189,7 +214,7 @@ public class TurboXasParameters {
 		timingGroups = new ArrayList<>();
 		motorToMove = "turbo_xas_slit";
 		useTrajectoryScan = false;
-		detectors = new String[]{"scaler_for_zebra"};
+		detectors = Arrays.asList("scaler_for_zebra");
 		writeAsciiData = false;
 		fastShutterName = "fast_shutter";
 		twoWayScan = false;
@@ -218,10 +243,10 @@ public class TurboXasParameters {
 	}
 
 	public double getEnergyStep() {
-		return energyStepSize;
+		return energyStep;
 	}
 	public void setEnergyStep(double energyStepSize) {
-		this.energyStepSize = energyStepSize;
+		this.energyStep = energyStepSize;
 	}
 
 	public double getStartPosition() {
@@ -263,10 +288,12 @@ public class TurboXasParameters {
 		return timingGroups;
 	}
 
+	@JsonIgnore
 	public int getNumTimingGroups() {
 		return timingGroups != null ? timingGroups.size() : 0;
 	}
 
+	@JsonIgnore
 	public int getTotalNumSpectra() {
 		int totNumSpectra = 0;
 		for (TurboSlitTimingGroup group : timingGroups) {
@@ -329,8 +356,13 @@ public class TurboXasParameters {
 		this.motorToMove = motorToMove;
 	}
 
-	public String[] getDetectors() {
+	public List<String> getDetectors() {
 		return detectors;
+	}
+
+	@JsonSetter("detectors")
+	public void setDetectors(List<String> detectors) {
+		this.detectors = new ArrayList<>(detectors);
 	}
 
 	/**
@@ -338,7 +370,7 @@ public class TurboXasParameters {
 	 * @param detectors
 	 */
 	public void setDetectors(String[] detectors) {
-		this.detectors = detectors;
+		this.detectors = Arrays.stream(detectors).collect(Collectors.toList());
 	}
 
 	public void setExtraScannables(List<String> extraScannables) {
@@ -387,6 +419,7 @@ public class TurboXasParameters {
 		this.energyCalibrationFile = energyCalibrationFile;
 	}
 
+	@Transient
 	public TurboXasMotorParameters getMotorParameters() {
 		return new TurboXasMotorParameters(this);
 	}
@@ -445,130 +478,38 @@ public class TurboXasParameters {
 		this.scannablePositions = new ArrayList<>(scannablePositions);
 	}
 
-	/**
-	 * Custom converter for double precision numbers, so have full control over double to string conversion
-	 * used when serializing.
-	 * @param doubleVal
-	 * @return double formatted as string
-	 */
-public static String doubleToString( double doubleVal ) {
-		return Double.toString(doubleVal);
-	}
-
-	public static class CustomDoubleConverter extends DoubleConverter {
-		@Override
-		public String toString(Object obj) {
-			return (obj == null ? null : doubleToString((double) obj));
-		}
-	}
-
-	/** Custom converter used for (de)serialization of Maps, so that the XML string output is more informative and less verbose.
-	 * Instead of series of series of lines for items in map e.g.:
-	 * <pre>
-	 * {@code
-	 * <entry>
-	 *    <value>nameOfScannable</value>
-	 *    <value>pvForScannable</value>
-	 * </entry>
-	 * }</pre>
-	 *
-	 * This formatter instead produced just two lines for each item :
-	 * <pre>{@code
-	 * <scannableName>nameOfScannable</scannableName>
-	 * <pv>pvForScannable</pv>
-	 * }</pre>
-	 *
-	 * See <a href= "http://x-stream.github.io/converter-tutorial.html"/>http://x-stream.github.io/converter-tutorial.html</a> for a useful tutorial on Converters
-	 * @see TurboXasParametersTest
-	 */
-	public static class MapConverter implements Converter {
-
-		public static final String keyNodeName = "scannableName";
-		public static final String valueNodeName = "pv";
-
-		@Override
-		public boolean canConvert(Class clazz) {
-			return clazz.equals(LinkedHashMap.class) || clazz.equals(HashMap.class);
-		}
-
-		@Override
-		public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-			Map<String, String> map = (Map<String, String>) value;
-			for(Entry<String,String> item : map.entrySet()) {
-				writer.startNode(keyNodeName);
-				writer.setValue(item.getKey());
-				writer.endNode();
-				writer.startNode(valueNodeName);
-				writer.setValue(item.getValue());
-				writer.endNode();
-			}
-		}
-
-		@Override
-		public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-			Map<String, String> map = new LinkedHashMap<String, String>();
-			reader.moveDown();
-			while( reader.getNodeName().equals(keyNodeName) ) {
-				String scnName = reader.getValue();
-				reader.moveUp();
-
-				reader.moveDown();
-				String scnPv = reader.getValue();
-				reader.moveUp();
-
-				map.put(scnName,  scnPv);
-				if (reader.hasMoreChildren()) {
-					reader.moveDown();
-				}
-			}
-			return map;
-		}
-	}
-
-	/**
-	 * Return new XStream object that can serialize/deserialize {@link TurboXasParameters} objects to/from XML
-	 * @return XStream
-	 */
-	static public XStream getXStream() {
-		XStream xstream = new XStream( new DomDriver() );
-		xstream.setClassLoader(TurboXasParameters.class.getClassLoader());
-		// Most of this can be done automatically from annotations in newer versions of XStream > 1.3...
-		Annotations.configureAliases(xstream,  TurboXasParameters.class );
-		Annotations.configureAliases(xstream,  TurboSlitTimingGroup.class );
-		xstream.addImplicitCollection(TurboXasParameters.class, "timingGroups");
-
-		xstream.omitField(TurboXasParameters.class , "logger");
-		xstream.registerConverter(new CustomDoubleConverter(), XStream.PRIORITY_VERY_HIGH);
-		xstream.registerConverter(new MapConverter(), XStream.PRIORITY_VERY_HIGH);
-		xstream.alias("scannablesToMonitorDuringScan", LinkedHashMap.class);
-
-		xstream.alias("SpectrumEvent", SpectrumEvent.class);
-
-		return xstream;
-	}
 
 	/**
 	 * Serialize supplied {@link TurboXasParameters} object to XML.
 	 * @param params
 	 * @return String with XML serialized object
+	 * @throws JsonProcessingException
 	 */
-	static public String toXML( TurboXasParameters params ) {
-		XStream xstream = TurboXasParameters.getXStream();
-		return xstream.toXML( params );
+	public static String toXML(TurboXasParameters params ) throws IOException {
+		try {
+			return XmlSerializationMappers.getXmlMapper().writeValueAsString( params );
+		} catch(JsonProcessingException e) {
+			throw new IOException("Problem converting TurboXasParameters to XML", e);
+		}
 	}
 
-	public String toXML() {
-		return toXML( this );
+	public String toXML() throws IOException {
+		return toXML(this);
 	}
 
 	/**
 	 * Create new {@link TurboXasParameters} object deserialized from supplied XML string.
 	 * @param xmlString
 	 * @return TurboXasScanParameters object
+	 * @throws JsonProcessingException
+	 * @throws JsonMappingException
 	 */
-	public static TurboXasParameters fromXML(String xmlString) {
-		XStream xstream = TurboXasParameters.getXStream();
-		return (TurboXasParameters) xstream.fromXML(xmlString);
+	public static TurboXasParameters fromXML(String xmlString) throws IOException {
+		try {
+			return XmlSerializationMappers.getXmlMapper().readValue(xmlString, TurboXasParameters.class);
+		} catch(JsonProcessingException e) {
+			throw new IOException("Problem converting XML string to TurboXasParameters", e);
+		}
 	}
 
 	public static TurboXasParameters loadFromFile(String filePath) throws IOException {
@@ -588,7 +529,7 @@ public static String doubleToString( double doubleVal ) {
 	public void saveToFile(String filePath) throws IOException {
 		try {
 			String xmlString = this.toXML();
-			FileUtils.writeStringToFile(Paths.get(filePath).toFile(), XML_HEADER + xmlString, Charset.defaultCharset());
+			FileUtils.writeStringToFile(Paths.get(filePath).toFile(), xmlString, Charset.defaultCharset());
 		} catch (IOException e) {
 			InterfaceProvider.getTerminalPrinter().print("Problem saving data to file "+filePath+" : "+e.getMessage());
 			throw new IOException("Problem saving serialized object to file "+filePath, e);
@@ -600,7 +541,7 @@ public static String doubleToString( double doubleVal ) {
 	 * <li> value = empty/null -> use key as name of scannable and locate it using Finder.
 	 * <li> value != empty ->create new {@link PVScannable} with : scannable name = map key, PV = map value
 	*/
-	public List<Scannable> getScannablesToMonitor() {
+	private List<Scannable> getScannablesToMonitor() {
 		final List<Scannable> scannableList = new ArrayList<>();
 		if (scannablesToMonitorDuringScan != null) {
 			for (Map.Entry<String, String> entry : scannablesToMonitorDuringScan.entrySet() ) {
@@ -745,10 +686,58 @@ public static String doubleToString( double doubleVal ) {
 		this.spectrumEvents = new ArrayList<>(spectrumEvents);
 	}
 
+	@JsonIgnore
 	public EnergyPositionCalculator getEnergyPositionCalculator() {
 		EnergyPositionCalculator calculator = new EnergyPositionCalculator();
 		calculator.setPositionRange(getEnergyCalibrationMinPosition(), getEnergyCalibrationMaxPosition());
 		calculator.setPolynomial(getEnergyCalibrationPolynomial());
 		return calculator;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(detectors, endEnergy, endPosition, energyCalibrationFile, energyCalibrationMaxPosition,
+				energyCalibrationMinPosition, energyCalibrationPolynomial, energyCalibrationReferenceFile, energyStep,
+				extraScannables, fastShutterName, motorToMove, namesOfDatasetsToAverage, positionStepSize,
+				runMappingScan, sampleName, scannablePositions, scannableToMove, scannablesToMonitorDuringScan,
+				spectrumEvents, startEnergy, startPosition, timingGroups, twoWayScan, usePositionsForScan,
+				useTrajectoryScan, writeAsciiData);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TurboXasParameters other = (TurboXasParameters) obj;
+		return Objects.equals(detectors, other.detectors)
+				&& Double.doubleToLongBits(endEnergy) == Double.doubleToLongBits(other.endEnergy)
+				&& Double.doubleToLongBits(endPosition) == Double.doubleToLongBits(other.endPosition)
+				&& Objects.equals(energyCalibrationFile, other.energyCalibrationFile)
+				&& Double.doubleToLongBits(energyCalibrationMaxPosition) == Double
+						.doubleToLongBits(other.energyCalibrationMaxPosition)
+				&& Double.doubleToLongBits(energyCalibrationMinPosition) == Double
+						.doubleToLongBits(other.energyCalibrationMinPosition)
+				&& Objects.equals(energyCalibrationPolynomial, other.energyCalibrationPolynomial)
+				&& Objects.equals(energyCalibrationReferenceFile, other.energyCalibrationReferenceFile)
+				&& Double.doubleToLongBits(energyStep) == Double.doubleToLongBits(other.energyStep)
+				&& Objects.equals(extraScannables, other.extraScannables)
+				&& Objects.equals(fastShutterName, other.fastShutterName)
+				&& Objects.equals(motorToMove, other.motorToMove)
+				&& Objects.equals(namesOfDatasetsToAverage, other.namesOfDatasetsToAverage)
+				&& Double.doubleToLongBits(positionStepSize) == Double.doubleToLongBits(other.positionStepSize)
+				&& runMappingScan == other.runMappingScan && Objects.equals(sampleName, other.sampleName)
+				&& Objects.equals(scannablePositions, other.scannablePositions)
+				&& Objects.equals(scannableToMove, other.scannableToMove)
+				&& Objects.equals(scannablesToMonitorDuringScan, other.scannablesToMonitorDuringScan)
+				&& Objects.equals(spectrumEvents, other.spectrumEvents)
+				&& Double.doubleToLongBits(startEnergy) == Double.doubleToLongBits(other.startEnergy)
+				&& Double.doubleToLongBits(startPosition) == Double.doubleToLongBits(other.startPosition)
+				&& Objects.equals(timingGroups, other.timingGroups) && twoWayScan == other.twoWayScan
+				&& usePositionsForScan == other.usePositionsForScan && useTrajectoryScan == other.useTrajectoryScan
+				&& writeAsciiData == other.writeAsciiData;
 	}
 }
