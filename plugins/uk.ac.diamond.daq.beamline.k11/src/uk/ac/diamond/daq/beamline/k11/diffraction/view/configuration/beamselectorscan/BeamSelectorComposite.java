@@ -27,19 +27,17 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.mapping.ui.controller.AcquisitionUiReloader;
 import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionKeys;
 import uk.ac.gda.api.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.api.acquisition.AcquisitionSubType;
 import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
-import uk.ac.gda.api.acquisition.resource.event.AcquisitionConfigurationResourceLoadEvent;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.AcquisitionControllerException;
@@ -59,14 +57,14 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 
 	private final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.BEAM_SELECTOR, AcquisitionTemplateType.STATIC_POINT);
 
-	private final LoadListener loadListener;
+	private final AcquisitionUiReloader loadListener;
 
 	private ScanningAcquisitionController acquisitionController;
 
 
 	public BeamSelectorComposite(Supplier<Composite> buttonsCompositeSupplier) {
 		this.buttonsCompositeSupplier = buttonsCompositeSupplier;
-		this.loadListener = new LoadListener();
+		this.loadListener = new AcquisitionUiReloader(key, scanControls);
 	}
 
 	@Override
@@ -149,20 +147,6 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 
 	private ScanningAcquisitionTemporaryHelper getScanningAcquisitionTemporaryHelper() {
 		return SpringApplicationContextFacade.getBean(ScanningAcquisitionTemporaryHelper.class);
-	}
-
-	private class LoadListener implements ApplicationListener<AcquisitionConfigurationResourceLoadEvent> {
-
-		@Override
-		public void onApplicationEvent(AcquisitionConfigurationResourceLoadEvent event) {
-			if (!(event.getSource() instanceof ScanningAcquisitionController)) {
-				return;
-			}
-			var controller = (ScanningAcquisitionController) event.getSource();
-			if (controller.getAcquisitionKeys().equals(key)) {
-				Display.getDefault().asyncExec(scanControls::reload);
-			}
-		}
 	}
 
 
