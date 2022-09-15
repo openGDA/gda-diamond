@@ -18,13 +18,19 @@
 
 package gda.scan.ede.position;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
+import gda.scan.XmlSerializationMappers;
 
 /**
  * This is used for serialization of alignment stage locations to/from XML using XStream
@@ -32,6 +38,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class AlignmentStageModel {
 
+	@JsonProperty("Position")
 	private List<Position> positions = Collections.emptyList();
 
 	public AlignmentStageModel() {
@@ -41,6 +48,7 @@ public class AlignmentStageModel {
 		setDeviceLocations(deviceLocations);
 	}
 
+	@JsonIgnore
 	public List<Location> getDeviceLocations() {
 		return positions
 				.stream()
@@ -54,25 +62,32 @@ public class AlignmentStageModel {
 				.collect(Collectors.toList());
 	}
 
+	public void setPositions(List<Position> positions) {
+		this.positions = new ArrayList<>(positions);
+	}
+
 	public List<Position> getPositions() {
 		return positions;
 	}
 
-	public String toXml() {
-		return getXStream().toXML(this);
+	public String toXml() throws IOException {
+		try {
+			return getXmlMapper().writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			throw new IOException("Problem converting "+AlignmentStageModel.class.getSimpleName()+" to string", e);
+		}
 	}
 
-	public static AlignmentStageModel fromXml(String xmlString) {
-		return (AlignmentStageModel) getXStream().fromXML(xmlString);
+	public static AlignmentStageModel fromXml(String xmlString) throws IOException {
+		try {
+			return getXmlMapper().readValue(xmlString, AlignmentStageModel.class);
+		} catch (JsonProcessingException e) {
+			throw new IOException("Problem converting Json string to "+AlignmentStageModel.class.getSimpleName()+" object", e);
+		}
 	}
 
-	private static XStream getXStream() {
-		XStream xstream = new XStream( new DomDriver());
-		xstream.setClassLoader(AlignmentStageModel.class.getClassLoader());
-		xstream.addImplicitCollection(AlignmentStageModel.class, "positions");
-		xstream.alias("Position", Position.class);
-		xstream.alias("AlignmentStageModel", AlignmentStageModel.class);
-		return xstream;
+	private static XmlMapper getXmlMapper() {
+		return XmlSerializationMappers.getXmlMapper();
 	}
 
 	protected static class Position {
@@ -94,6 +109,7 @@ public class AlignmentStageModel {
 			yPosition = location.getyPosition();
 		}
 
+		@JsonIgnore
 		public Location getLocation() {
 			return Location.create(name, displayLabel, xPosition, yPosition);
 		}

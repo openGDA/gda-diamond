@@ -20,6 +20,7 @@ package gda.device.scannable;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,9 +31,11 @@ import gda.scan.ede.position.Location;
 
 public class AlignmentStageModelTest {
 
+	private static final String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
 	private String getExpectedXml(List<Location> locations) {
 		StringBuilder strBuilder = new StringBuilder();
-
+		strBuilder.append(header);
 		strBuilder.append("<AlignmentStageModel>\n");
 		for(Location loc : locations) {
 			strBuilder.append(
@@ -44,7 +47,7 @@ public class AlignmentStageModelTest {
 					"    <relative>false</relative>\n" +
 					"  </Position>\n");
 		}
-		strBuilder.append("</AlignmentStageModel>");
+		strBuilder.append("</AlignmentStageModel>\n");
 		return strBuilder.toString();
 	}
 
@@ -58,7 +61,7 @@ public class AlignmentStageModelTest {
 	}
 
 	@Test
-	public void testSaveToXml() {
+	public void testSaveToXml() throws IOException {
 		AlignmentStageModel model = getModel();
 		String xmlString = model.toXml();
 		String expectedXml = getExpectedXml(model.getDeviceLocations());
