@@ -17,11 +17,23 @@
 	</bean>
 
 	<bean id="smpolar_motor" class="gda.device.motor.EpicsMotor">
+		<property name="accessControl" ref="polAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:POL" />
+	</bean>
+	
+	<bean id="polAccessControl" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="BL05J-EA-SM-01:POL:ENABLE:RBV" />
+		<property name="reversedPvLogic" value="true" />
 	</bean>
 
 	<bean id="smazimuth_motor" class="gda.device.motor.EpicsMotor">
+		<property name="accessControl" ref="azmAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:AZM" />
+	</bean>
+	
+	<bean id="azmAccessControl" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="BL05J-EA-SM-01:AZM:ENABLE:RBV" />
+		<property name="reversedPvLogic" value="true" />
 	</bean>
 
 	<bean id="smdefocus_motor" class="gda.device.motor.EpicsMotor">
