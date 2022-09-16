@@ -45,10 +45,12 @@ def cfscan(*args):
         centre = motor.getPosition()
         (start, end) = centre-halfwidth, centre+halfwidth
         fscan(motor, start, end, step, detector, count)
+        pos(motor, centre)
     elif len(args) == 6:
         (motor, centre, halfwidth, step, detector, count) = args
         (start, end) = centre-halfwidth, centre+halfwidth
         fscan(motor, start, end, step, detector, count)
+        pos(motor, centre)
     else:
         print "cfscan syntax:\n"
         print "At current position:"
