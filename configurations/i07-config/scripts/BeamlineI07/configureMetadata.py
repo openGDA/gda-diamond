@@ -33,7 +33,7 @@ slitList = [dets1xcentre, dets1xsize, dets1ycentre, dets1ysize, dets2xcentre,
         jj2xsize, jj2ypos, jj2ysize]
 
 diffList = [diff1x, diff1y, diff1z, diff1basex, diff1basey, diff1basepitch,
-        diff1cchi, diff1cphi, diff1vomega, diff1valpha, diff1vdelta,
+        diff1cchi, diff1cphi, diff1vomega, diff1vdelta,
         diff1vgamma, diff1homega, diff1halpha]
 
 diffDetList = [diff1detdist,diff1dets1rot,diff1dets2rot,diff1detselect,
@@ -75,7 +75,7 @@ tabList = [tab1x, tab1y]
 qbpmList = [d4range, ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
         qbpm1range, qbpm2range, qbpm3range]
 
-miscList = [note, dpsx_zero, dpsy1_zero, dpsy2_zero, dpsz_zero, dps_cpx, dps_cpy,
+miscList = [note, dpsx_zero, dpsy_zero, dpsz_zero, dpsz2_zero, dps_cpx, dps_cpy,
             diff1_cpx, diff1_cpy, diff2_cpx, diff2_cpy]
 
 metadata = []
