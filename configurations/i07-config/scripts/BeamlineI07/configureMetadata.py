@@ -39,7 +39,7 @@ diffList = [diff1x, diff1y, diff1z, diff1basex, diff1basey, diff1basepitch,
 diffDetList = [diff1detdist,diff1dets1rot,diff1dets2rot,diff1detselect,
         diff1prot]
 
-diffOffsetList = [diff1halphaoffset, diff1homegaoffset, diff1valphaoffset,
+diffOffsetList = [diff1halphaoffset, diff1homegaoffset,
         diff1vdeltaoffset, diff1vgammaoffset, diff1vomegaoffset]
 
 dcdList = [dcdc1pitch, dcdc1roll, dcdc1rad, dcdc2pitch, dcdc2roll, dcdc2rad,
