@@ -19,13 +19,14 @@
 package uk.ac.gda.exafs.ui.data;
 
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
-import uk.ac.gda.util.beans.xml.XMLHelpers;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import gda.scan.XmlSerializationMappers;
 
 /**
  * Defines the collection parameters for linear or cycling experiments on the I20-1 Energy Dispersive EXAFS (EDE)
@@ -51,17 +52,6 @@ public class EdeScanParameters implements Serializable {
 
 	public static final String[] OUTPUT_TRIG_CHOICES = new String[] { TRIG_NONE, TRIG_GROUP_BEFORE, TRIG_GROUP_AFTER,
 		TRIG_FRAME_BEFORE, TRIG_FRAME_AFTER, TRIG_SCAN_BEFORE };
-
-	static public final URL mappingURL = EdeScanParameters.class.getResource("EdeParametersMapping.xml");
-	static public final URL schemaURL = EdeScanParameters.class.getResource("EdeParametersMapping.xsd");
-
-	public static EdeScanParameters createFromXML(String filename) throws Exception {
-		return XMLHelpers.createFromXML(mappingURL, EdeScanParameters.class, schemaURL, filename);
-	}
-
-	public static void writeToXML(EdeScanParameters scanParameters, String filename) throws Exception {
-		XMLHelpers.writeToXML(mappingURL, scanParameters, filename);
-	}
 
 	/**
 	 * Utility method to easily create a single group, single frame, single scan EdeScanParameters of the given
@@ -106,7 +96,9 @@ public class EdeScanParameters implements Serializable {
 	// collections
 
 	// the timing groups
-	private List<TimingGroup> timingGroups = new Vector<TimingGroup>();
+	@JsonDeserialize(using=XmlSerializationMappers.ListDeserializer.class)
+	@JsonSerialize(using=XmlSerializationMappers.ListSerializer.class)
+	private List<TimingGroup> timingGroups = new ArrayList<>();
 
 	private Boolean includeCountsOutsideROIs = false;
 
@@ -136,7 +128,7 @@ public class EdeScanParameters implements Serializable {
 
 	public EdeScanParameters(TimingGroup[] groups){
 		super();
-		setTimingGroups(new Vector<TimingGroup>(Arrays.asList(groups)));
+		setTimingGroups(new ArrayList<>(Arrays.asList(groups)));
 	}
 
 	/**
@@ -177,7 +169,7 @@ public class EdeScanParameters implements Serializable {
 	public void setTimingGroups(List<TimingGroup> timingGroups) {
 		// Ensure that there is always a timing group, even if it's empty
 		if (timingGroups == null) {
-			timingGroups = new ArrayList<TimingGroup>();
+			timingGroups = new ArrayList<>();
 		}
 		this.timingGroups = timingGroups;
 	}

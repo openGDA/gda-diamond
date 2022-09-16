@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -18,19 +22,30 @@ import org.dawnsci.ede.PolynomialParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.scan.XmlSerializationMappers;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
-import gda.scan.ede.position.ExplicitScanPositions;
 import uk.ac.gda.ede.data.DetectorSetupType;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
-import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -39,6 +54,18 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * This is designed for easy serialisation and saving to/loading from xml text file. A new TimeResolvedExperiment object
  * to run a scan can be created from the current set of parameters using {@link#createTimeResolvedExperiment()}.
  */
+@SuppressWarnings("restriction") //using Jackson x-internal classes from com.fasterxml.jackson.databind.ser.impl
+@JsonFilter("LemoFilter")
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({ "fileNameSuffix", "sampleDetails", "useFastShutter", "fastShutterName",
+	"generateAsciiData", "i0AccumulationTime", "i0NumAccumulations", "numberOfRepetition", "timeBetweenRepetitions",
+	"detectorName", "topupMonitorName", "beamShutterScannableName",
+	"itTimingGroups", "itTriggerOptions", "i0ScanPosition", "itScanPosition",
+	"doIref", "irefIntegrationTime", "i0ForIRefNoOfAccumulations", "irefNoOfAccumulations",
+	"energyCalibrationPolynomial", "energyCalibrationReferenceFile", "energyCalibrationFile",
+	"hideLemoFields", "scannablesToMonitorDuringScan",
+	"collectMultipleItSpectra", "scannableToMoveForItScan", "positionsForItScan"
+})
 public class TimeResolvedExperimentParameters {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentParameters.class);
@@ -59,11 +86,13 @@ public class TimeResolvedExperimentParameters {
 	private String topupMonitorName;
 	private String beamShutterScannableName;
 
+	@JacksonXmlElementWrapper(useWrapping = true, localName = "itTimingGroups")
+	@JsonProperty("TimingGroup") // to specify wrapper name of each element in the list
 	private List<TimingGroup> itTimingGroups;
 	private TFGTrigger itTriggerOptions;
 
-	private EdeScanPosition i0ScanPosition;
-	private EdeScanPosition itScanPosition;
+	private EdeScanMotorPositions i0ScanPosition;
+	private EdeScanMotorPositions itScanPosition;
 
 	private Map<String, Double> i0MotorPositions;
 	private Map<String, Double> itMotorPositions;
@@ -85,10 +114,15 @@ public class TimeResolvedExperimentParameters {
 
 	private boolean hideLemoFields;
 
+	@JsonSerialize(using = TimeResolvedExperimentParameters.MapSerializerStringString.class)
+	@JsonDeserialize(using = TimeResolvedExperimentParameters.MapDeserializerStringString.class)
 	private Map<String, String> scannablesToMonitorDuringScan;
 
 	private boolean collectMultipleItSpectra;
 	private String scannableToMoveForItScan;
+
+	@JsonSerialize(using = XmlSerializationMappers.NestedListSerializer.class)
+	@JsonDeserialize(using = XmlSerializationMappers.NestedListDeserializer.class)
 	private List<List<Double>> positionsForItScan;
 
 	public Map<String, String> getScannablesToMonitorDuringScan() {
@@ -99,16 +133,16 @@ public class TimeResolvedExperimentParameters {
 		this.scannablesToMonitorDuringScan = scannablesToMonitorDuringScan;
 	}
 
-	public EdeScanPosition getI0ScanPosition() {
+	public EdeScanMotorPositions getI0ScanPosition() {
 		return i0ScanPosition;
 	}
-	public void setI0ScanPosition(EdeScanPosition i0ScanPosition) {
+	public void setI0ScanPosition(EdeScanMotorPositions i0ScanPosition) {
 		this.i0ScanPosition = i0ScanPosition;
 	}
 	public EdeScanPosition getItScanPosition() {
 		return itScanPosition;
 	}
-	public void setItScanPosition(EdeScanPosition itScanPosition) {
+	public void setItScanPosition(EdeScanMotorPositions itScanPosition) {
 		this.itScanPosition = itScanPosition;
 	}
 	public double getI0AccumulationTime() {
@@ -148,7 +182,7 @@ public class TimeResolvedExperimentParameters {
 	public void setTimeBetweenRepetitions(double timeBetweenRepetitions) {
 		this.timeBetweenRepetitions = timeBetweenRepetitions;
 	}
-
+	@JsonIgnore
 	public Map<String, Double> getI0MotorPositions() {
 		return i0MotorPositions;
 	}
@@ -156,7 +190,7 @@ public class TimeResolvedExperimentParameters {
 		this.i0MotorPositions = i0MotorPositions;
 		i0ScanPosition = new EdeScanMotorPositions(EdePositionType.OUTBEAM, i0MotorPositions);
 	}
-
+	@JsonIgnore
 	public Map<String, Double> getItMotorPositions() {
 		return itMotorPositions;
 	}
@@ -253,7 +287,7 @@ public class TimeResolvedExperimentParameters {
 	public void setHideLemoFields(boolean hideLemoFields) {
 		this.hideLemoFields = hideLemoFields;
 	}
-	public boolean getHideLemoFields(boolean hideLemoFields) {
+	public boolean getHideLemoFields() {
 		return this.hideLemoFields;
 	}
 
@@ -285,12 +319,27 @@ public class TimeResolvedExperimentParameters {
 	 * Return {@link TimeResolvedExperimentParameters} object created from xml string.
 	 * @param xmlString
 	 * @return
+	 * @throws JsonProcessingException
+	 * @throws
 	 */
-	public static TimeResolvedExperimentParameters fromXML(String xmlString) {
-		logger.debug("Creating parameters from XML string {}", xmlString);
+	public static TimeResolvedExperimentParameters fromXML(String xmlString) throws IOException {
 
-		XStream xstream = getXStream();
-		TimeResolvedExperimentParameters parameters = (TimeResolvedExperimentParameters) xstream.fromXML(xmlString);
+		logger.debug("Creating parameters from XML string {}", xmlString);
+		xmlString = sanitizeXmlString(xmlString);
+
+		XmlMapper mapper = getXmlMapper();
+
+		// Examine the XML string to determine the detector type and add the
+		// Serialization field filters if using the Frelon detector.
+		String[] splitString = xmlString.split("\n");
+		Stream.of(splitString)
+				.filter(str -> str.contains("detector"))
+				.findFirst()
+				.ifPresent(detToken ->
+					addMapperFilters(mapper, detToken.contains(DetectorSetupType.FRELON.getDetectorName()))
+				);
+
+		TimeResolvedExperimentParameters parameters = mapper.readValue(xmlString, TimeResolvedExperimentParameters.class);
 
 		//Setup the I0, It scan position (maps with scannable motor as key and and position as the value)
 		// and copy over to parameters.
@@ -317,13 +366,22 @@ public class TimeResolvedExperimentParameters {
 		return parameters;
 	}
 
-	public String toXML() {
-		XStream xstream = getXStream();
+	/**
+	 * Remove any class="..." and resolves-to="..." text from field declarations
+	 *
+	 * @param xmlString
+	 * @return sanitised XML string
+	 */
+	public static String sanitizeXmlString(String xmlString) {
+		xmlString = xmlString.replaceAll(" class=\"\\S+\"", "");
+		return xmlString.replaceAll(" resolves-to=\"\\S+\"", "");
+	}
+
+	public String toXML() throws IOException {
+		XmlMapper mapper = getXmlMapper();
 		// Remove lemo trigger fields if using frelon detector (only needed for Xh, Xstrip)
-		if (hideLemoFields || detectorName.equals(DetectorSetupType.FRELON.getDetectorName())) {
-			removeXhLemoTriggerFields(xstream);
-		}
-		return xstream.toXML(this);
+		addMapperFilters(mapper, isRemoveXhFields());
+		return mapper.writeValueAsString(this);
 	}
 
 	public static TimeResolvedExperimentParameters loadFromFile(String fname) throws IOException {
@@ -337,6 +395,10 @@ public class TimeResolvedExperimentParameters {
 		}
 	}
 
+	private boolean isRemoveXhFields() {
+		return hideLemoFields || detectorName.equals(DetectorSetupType.FRELON.getDetectorName());
+	}
+
 	/**
 	 * Serialize current object to xml file
 	 * @param filePath
@@ -344,12 +406,12 @@ public class TimeResolvedExperimentParameters {
 	public void saveToFile(String filePath) throws IOException {
 		try {
 			logger.debug("Saving current parameters to file {}", filePath);
-			XStream xstream = getXStream();
+			XmlMapper mapper = getXmlMapper();
+
 			// Remove lemo trigger fields if using frelon detector (only needed for Xh, Xstrip)
-			if (hideLemoFields || detectorName.equals(DetectorSetupType.FRELON.getDetectorName())) {
-				removeXhLemoTriggerFields(xstream);
-			}
-			String xmlString = XML_HEADER + xstream.toXML(this);
+			addMapperFilters(mapper, isRemoveXhFields());
+
+			String xmlString = mapper.writeValueAsString(this);
 			FileUtils.writeStringToFile(Paths.get(filePath).toFile(), xmlString, Charset.defaultCharset());
 		} catch (IOException e) {
 			InterfaceProvider.getTerminalPrinter().print("Problem saving data to file "+filePath+" : "+e.getMessage());
@@ -357,62 +419,55 @@ public class TimeResolvedExperimentParameters {
 		}
 	}
 
-	public static XStream getXStream() {
-		// XStream xstream = new XStream();
-		// GDA9 needs to use DomDriver() when creating XStream, to avoid 'java.lang.IllegalArgumentException: XPP3 pull parser library not present'
-		// when (de)serializing in unit tests... Why is this needed here but not for TurboXasParameters?
-		XStream xstream = new XStream(new DomDriver());
-
-		xstream.setClassLoader(TimeResolvedExperimentParameters.class.getClassLoader());
-
-		xstream.omitField(ExplicitScanPositions.class , "xScannable");
-		xstream.omitField(ExplicitScanPositions.class , "yScannable");
-
-		xstream.omitField(TFGTrigger.class, "totalTimeChangeListener");
-		xstream.omitField(TFGTrigger.class, "usingExternalScripts4TFG");
-
-		// Ignore fields with scannables (scannable names are used instead for ease of serialization)
-		xstream.omitField(EdeScanMotorPositions.class, "scannablePositions");
-		xstream.omitField(EdeScanMotorPositions.class, "scannableToMoveDuringScan");
-
-		xstream.omitField(TimeResolvedExperimentParameters.class, "logger");
-
-		xstream.omitField(TimeResolvedExperimentParameters.class,"i0MotorPositions");
-		xstream.omitField(TimeResolvedExperimentParameters.class,"itMotorPositions");
-
-		// Class name aliases
-		xstream.alias("TriggerableObject" , TriggerableObject.class);
-		xstream.alias("TimingGroup",  TimingGroup.class);
-		xstream.alias("TimeResolvedExperimentParameters" , TimeResolvedExperimentParameters.class);
-		xstream.alias("EdeScanMotorPositions" , EdeScanMotorPositions.class);
-
-		// Implicit list for timingGroup
-		xstream.addImplicitCollection(EdeScanParameters.class, "timingGroups");
-
-		return xstream;
+	/**
+	 * Add filters to remove XH specific fields from XmlMapper object
+	 *
+	 * @param mapper
+	 * @param filterOutXh if true, XH fields are added to filterproviders of the mapper
+	 */
+	private static void addMapperFilters(XmlMapper mapper, boolean filterOutXh) {
+		SimpleBeanPropertyFilter filter;
+		if (filterOutXh) {
+			filter = SimpleBeanPropertyFilter.serializeAllExcept(getXhFields());
+		} else {
+			filter = SimpleBeanPropertyFilter.serializeAllExcept("class");
+		}
+		FilterProvider filterProvider = new SimpleFilterProvider().addFilter("LemoFilter", filter);
+		mapper.setFilterProvider(filterProvider);
 	}
 
-	// Remove some fields from TimingGroup and EdeScanParameters that relate to Xh/XStrip triggering options.
-	// These are not needed if using Frelon, helps to simplify xml output...
-	private void removeXhLemoTriggerFields(XStream xstream) {
-		String ignoreFields[] = { "outLemo", "outputsChoice", "outputsWidth" };
-		Class<?> ignoreClass[] = { TimingGroup.class, EdeScanParameters.class, EdeScanParameters.class };
+	private static XmlMapper getXmlMapper() {
+		return XmlSerializationMappers.getXmlMapper();
+	}
 
-		for (int index = 0; index < ignoreClass.length; index++) {
+	/** Some fields from {@link TimingGroup} and {@link EdeScanParameters} that relate only Xh/XStrip triggering options
+	 * and are not needed for Frelon detector.
+	 * Removing these fields during serialization helps simplify the output.
+	 *
+	 * @return List of XH/XStrip specific fields to ignore during serialization
+	 */
+	private static Set<String> getXhFields() {
+		Set<String> fieldsToIgnore = new LinkedHashSet<>();
+
+		// Remove several fields in a loop - these all have 0...8 appended to them.
+		// e.g. outLemo0, outLemo1, ...
+		List<String> fieldToRemove = Arrays.asList("outLemo", "outputsChoice", "outputsWidth");
+		for (String field : fieldToRemove) {
 			for (int i = 0; i < 8; i++) {
 				String num = String.valueOf(i);
-				xstream.omitField(ignoreClass[index], ignoreFields[index] + num);
+				fieldsToIgnore.add(field+num);
 			}
 		}
 
 		// Remove trig related fields (defaults are ok)...
 		// Keep groupTrig though, since that is used to indicate scan that uses Tfg triggering
-		String[] ignoreXhFields = { "allFramesTrig", "framesExclFirstTrig", "scansTrig", "groupTrigLemo",
+		List<String> ignoreXhFields = Arrays.asList("allFramesTrig", "framesExclFirstTrig", "scansTrig", "groupTrigLemo",
 				"allFramesTrigLemo", "framesExclFirstTrigLemo", "scansTrigLemo", "groupTrigRisingEdge",
-				"allFramesTrigRisingEdge", "framesExclFirstTrigRisingEdge", "scansTrigRisingEdge" };
-		for (String field : ignoreXhFields) {
-			xstream.omitField(TimingGroup.class, field);
-		}
+				"allFramesTrigRisingEdge", "framesExclFirstTrigRisingEdge", "scansTrigRisingEdge");
+
+		fieldsToIgnore.addAll(ignoreXhFields);
+		fieldsToIgnore.add("class");
+		return fieldsToIgnore;
 	}
 
 	/**
@@ -527,7 +582,7 @@ public class TimeResolvedExperimentParameters {
 		// Use first timing group to get: It accumulation time, number of It accumulations and 'use topup' flag
 		double itAccumulationTimes = timingGroups.get(0).getTimePerScan();
 		int itNumAccumulations = timingGroups.get(0).getNumberOfScansPerFrame();
-		boolean useTopupChecker = timingGroups.get(0).getUseTopChecker();
+		boolean useTopupChecker = timingGroups.get(0).getUseTopupChecker();
 
 		SingleSpectrumScan theExperiment = new SingleSpectrumScan(params.getI0AccumulationTime(), params.getI0NumAccumulations(),
 				itAccumulationTimes, itNumAccumulations, params.getI0MotorPositions(), params.getItMotorPositions(),
@@ -633,5 +688,42 @@ public class TimeResolvedExperimentParameters {
 
 	public void setPositionsForItScan(List<List<Double>> positionsForItScan) {
 		this.positionsForItScan = positionsForItScan;
+	}
+
+	public static class MapSerializerStringDouble extends XmlSerializationMappers.MapSerializer {
+		public MapSerializerStringDouble() {
+			super();
+			keyFieldName = "string";
+			valueFieldName = "double";
+			entryFieldName = "entry";
+		}
+	}
+
+	public static class MapDeserializerStringDouble extends XmlSerializationMappers.MapDeserializer {
+		public MapDeserializerStringDouble() {
+			super();
+			keyFieldName = "string";
+			valueFieldName = "double";
+			entryFieldName = "entry";
+		}
+	}
+
+
+	public static class MapSerializerStringString extends XmlSerializationMappers.MapSerializer {
+		public MapSerializerStringString() {
+			super();
+			keyFieldName = "string";
+			valueFieldName = "string";
+			entryFieldName = "entry";
+		}
+	}
+
+	public static class MapDeserializerStringString extends XmlSerializationMappers.MapDeserializer {
+		public MapDeserializerStringString() {
+			super();
+			keyFieldName = "string";
+			valueFieldName = "string";
+			entryFieldName = "entry";
+		}
 	}
 }

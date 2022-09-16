@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.experiment.ui.data;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -299,7 +300,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			uiTimingGroup.setTimePerSpectrum(convertSecWorkingUnit*timingGroup.getTimePerFrame());
 			uiTimingGroup.setIntegrationTime(convertSecWorkingUnit*timingGroup.getTimePerScan());
 			uiTimingGroup.setDelay(convertSecWorkingUnit*timingGroup.getPreceedingTimeDelay());
-			uiTimingGroup.setUseTopupChecker(timingGroup.getUseTopChecker());
+			uiTimingGroup.setUseTopupChecker(timingGroup.getUseTopupChecker());
 			startTime = endTime;
 			// endtime, including delay at end of group
 			endTime = startTime + convertSecWorkingUnit*(timingGroup.getTimePerFrame()*timingGroup.getNumberOfFrames() + timingGroup.getPreceedingTimeDelay());
@@ -532,7 +533,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			TimeResolvedExperimentParameters params = getParametersBeanFromCurrentSettings();
 			String paramString = params.toXML().replace("\n", " "); // Serialized xml string of bean
 			builder.append(String.format("%s.setParameterBean('%s');%n", objectName, paramString));
-		} catch (DeviceException e) {
+		} catch (DeviceException | IOException e) {
 			logger.warn("Problem adding TimeResolvedExperimentParameters to experiment object", e);
 		}
 

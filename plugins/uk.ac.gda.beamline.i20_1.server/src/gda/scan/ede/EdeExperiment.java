@@ -18,6 +18,7 @@
 
 package gda.scan.ede;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -452,8 +453,14 @@ public abstract class EdeExperiment implements IObserver {
 		if (metashop != null) {
 			String key = TimeResolvedExperimentParameters.class.getSimpleName();
 			if (timeResolvedExperimentParameters != null) {
-				logger.info("Adding {} to 'before_scan' metadata", key);
-				metashop.add(key, timeResolvedExperimentParameters.toXML());
+				try {
+					logger.info("Adding {} to 'before_scan' metadata", key);
+					metashop.add(key, timeResolvedExperimentParameters.toXML());
+				} catch (IOException e) {
+					logger.error("Problem adding metadata", e);
+					// remove any previous entry
+					metashop.remove(key);
+				}
 			} else {
 				// remove previous entry if parameters object has not been set for this scan
 				metashop.remove(key);
@@ -721,7 +728,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	public boolean getItWaitForTopup() {
 		if ( itScanParameters.getGroups().size() > 0 ) {
-			return itScanParameters.getGroups().get(0).getUseTopChecker();
+			return itScanParameters.getGroups().get(0).getUseTopupChecker();
 		} else {
 			return false;
 		}
@@ -918,7 +925,7 @@ public abstract class EdeExperiment implements IObserver {
 		this.timeResolvedExperimentParameters = params;
 	}
 
-	public void setParameterBean(String parameterXmlString) {
+	public void setParameterBean(String parameterXmlString) throws IOException {
 		this.timeResolvedExperimentParameters = TimeResolvedExperimentParameters.fromXML(parameterXmlString);
 	}
 

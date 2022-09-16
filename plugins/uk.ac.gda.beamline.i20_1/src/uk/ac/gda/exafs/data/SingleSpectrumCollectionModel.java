@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.data;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -206,7 +207,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 		setItIntegrationTime(conversion*group0.getTimePerScan());
 		setItNumberOfAccumulations(numItAccum);
-		setUseTopupCheckerForIt(group0.getUseTopChecker());
+		setUseTopupCheckerForIt(group0.getUseTopupChecker());
 
 		setupSampleStageMotors(params);
 
@@ -268,7 +269,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		try {
 			TimeResolvedExperimentParameters params = getParametersBeanFromCurrentSettings();
 			EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getBeanDataKey(), params.toXML());
-		} catch (DeviceException e) {
+		} catch (DeviceException | IOException e) {
 			logger.error("Problem saving TimeResolvedExperimentParameters from GUI settings", e);
 		}
 	}
@@ -288,7 +289,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 			command.append("experimentParams = TimeResolvedExperimentParameters.fromXML('"+paramBeanString+"'); \n");
 			command.append(SINGLE_JYTHON_DRIVER_OBJ + " = experimentParams.createSingleSpectrumScan(); \n");
 			addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, command);
-		} catch (DeviceException e) {
+		} catch (DeviceException | IOException e) {
 			logger.error("Problem creating SingleSpectrum command", e);
 		}
 		return command.toString();

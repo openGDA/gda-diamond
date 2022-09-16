@@ -20,10 +20,17 @@ package uk.ac.gda.exafs.ui.data;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * Defines a group of equally sized data collections used in an EDE scan. To define a complex experiment where the data
  * collection time, or pause time between collections, varies then multiple Frames must be defined.
  */
+@JsonFilter("LemoFilter")
+@JsonInclude(Include.NON_NULL)
 public class TimingGroup implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -104,6 +111,7 @@ public class TimingGroup implements Serializable {
 
 	private boolean useTopupChecker;
 
+	@JsonIgnore
 	public String getHeaderDescription() {
 		String desc = "has " + numberOfFrames + " frames. Accumulations are " + timePerScan + "s long";
 		if (numberOfScansPerFrame == 0){
@@ -114,6 +122,7 @@ public class TimingGroup implements Serializable {
 		return desc;
 	}
 
+	@JsonIgnore
 	public int getTotalNumberScans() {
 
 		Double scansPerFrame;
@@ -312,6 +321,7 @@ public class TimingGroup implements Serializable {
 		this.outLemo7 = outLemo7;
 	}
 
+	@JsonIgnore
 	public boolean[] getOutLemos() {
 		return new boolean[] { outLemo0, outLemo1, outLemo2, outLemo3, outLemo4, outLemo5, outLemo6, outLemo7 };
 	}
@@ -362,7 +372,7 @@ public class TimingGroup implements Serializable {
 		this.numberOfScansPerFrame = numberOfScansPerFrame;
 	}
 
-	public boolean getUseTopChecker() {
+	public boolean getUseTopupChecker() {
 		return useTopupChecker;
 	}
 

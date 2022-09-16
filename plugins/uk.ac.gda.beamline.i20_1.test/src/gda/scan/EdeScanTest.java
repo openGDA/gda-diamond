@@ -763,6 +763,7 @@ public class EdeScanTest extends EdeTestBase {
 
 		// Create new bean from xml file, compare with original
 		TimeResolvedExperimentParameters savedParams = TimeResolvedExperimentParameters.loadFromFile(fullPathToFile);
+		savedParams.setHideLemoFields(allParams.getHideLemoFields());
 		assertEquals(origXmlString, savedParams.toXML());
 	}
 

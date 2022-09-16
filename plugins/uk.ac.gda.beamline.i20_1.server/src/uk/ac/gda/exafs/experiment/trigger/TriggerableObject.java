@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.experiment.trigger;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
 import uk.ac.gda.beans.ObservableModel;
@@ -146,10 +147,12 @@ public class TriggerableObject extends ObservableModel implements Serializable, 
 		firePropertyChange(NAME_PROP_NAME, this.name, this.name = name);
 	}
 
+	@JsonIgnore
 	public double getTotalDuration() {
 		return getTriggerPulseLength();
 	}
 
+	@JsonIgnore
 	public double getTotalDelay() {
 		return this.getTriggerDelay() + getTotalDuration();
 	}

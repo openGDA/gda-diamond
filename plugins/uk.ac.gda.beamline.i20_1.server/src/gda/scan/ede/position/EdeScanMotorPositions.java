@@ -26,15 +26,26 @@ import java.util.Map.Entry;
 
 import org.dawnsci.ede.EdePositionType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.scan.ede.TimeResolvedExperimentParameters;
 
+@JsonInclude(Include.NON_NULL)
 public class EdeScanMotorPositions implements EdeScanPosition {
 	private final EdePositionType type;
 	private final Map<Scannable, Double> scannablePositions = new HashMap<Scannable, Double>();
+
+	@JsonSerialize(using = TimeResolvedExperimentParameters.MapSerializerStringDouble.class)
+	@JsonDeserialize(using = TimeResolvedExperimentParameters.MapDeserializerStringDouble.class)
 	private final Map<String, Double> positionMap;
 
 	private Scannable scannableToMoveDuringScan;
@@ -72,6 +83,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 		nameOfScannableToMoveDuringScan = scannableToMoveDuringScan.getName();
 	}
 
+	@JsonIgnore
 	public Scannable getScannableToMoveDuringScan() {
 		if (scannableToMoveDuringScan==null && nameOfScannableToMoveDuringScan!=null) {
 			scannableToMoveDuringScan=Finder.find(nameOfScannableToMoveDuringScan);
@@ -83,6 +95,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 		this.motorPositionsDuringScan = motorPositionsDuringScan;
 	}
 
+	@JsonIgnore
 	public List<Object> getMotorPositionsDuringScan() {
 		return motorPositionsDuringScan;
 	}
@@ -102,6 +115,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 		}
 	}
 
+	@JsonIgnore
 	public Map<Scannable, Double> getPositions() {
 		return scannablePositions;
 	}
@@ -116,6 +130,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 	 * @author Iain Hall
 	 * @since 9/10/2015
 	 */
+	@JsonIgnore
 	@Override
 	public double getTimeToMove()  {
 		return getTimeToMove(null);
@@ -200,5 +215,13 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 
 	private void printMessage(String msg) {
 		InterfaceProvider.getTerminalPrinter().print(msg);
+	}
+
+	public double getMoveTolerance() {
+		return moveTolerance;
+	}
+
+	public void setMoveTolerance(double moveTolerance) {
+		this.moveTolerance = moveTolerance;
 	}
 }

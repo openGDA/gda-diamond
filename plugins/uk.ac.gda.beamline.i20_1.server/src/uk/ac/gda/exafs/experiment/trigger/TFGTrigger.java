@@ -35,6 +35,10 @@ import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.google.gson.annotations.Expose;
 
 import gda.device.detector.DetectorData;
@@ -45,6 +49,7 @@ import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 
+@JsonPropertyOrder({ "sampleEnvironment", "detectorDataCollection" })
 public class TFGTrigger extends ObservableModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -60,6 +65,8 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	private boolean usingExternalScripts4TFG=false;
 
 	@Expose
+	@JacksonXmlElementWrapper(useWrapping = true, localName = "sampleEnvironment")
+	@JsonProperty("TriggerableObject")
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<>();
 
 	public static final String TOTAL_TIME_PROP_NAME = "totalTime";
@@ -70,12 +77,15 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	private boolean useCountFrameScalers = false;
 	private boolean triggerOnRisingEdge = true; /** Whether detector starts on rising or falling edge of trigger signal from Tfg */
-	private int livePauseTtlPort = 1; /** the 'live pause' TTL trigger input port on Tfg [0...3] */
+	private int livePauseTtlPort = 1;
+
+	/** the 'live pause' TTL trigger input port on Tfg [0...3] */
 
 	public TFGTrigger() {
 		detectorDataCollection.addPropertyChangeListener(totalTimeChangeListener);
 	}
 
+	@JsonIgnore
 	public PropertyChangeListener getTotalTimeChangeListener() {
 		return totalTimeChangeListener;
 	}
@@ -88,6 +98,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return sampleEnvironment;
 	}
 
+	@JsonIgnore
 	public double getTotalTime() {
 		double total = 0.0;
 		for (TriggerableObject obj : sampleEnvironment) {
@@ -465,6 +476,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 				.collect(Collectors.toList());
 	}
 
+	@JsonIgnore
 	public Map<Integer, Pair<Integer, Integer> > getFramesForSpectra() {
 		List<TriggerParams> triggerParams = processTimes(true);
 		// Each TriggerParams corresponds to pulse edge.
@@ -728,6 +740,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		firePropertyChange(TOTAL_TIME_PROP_NAME, null, getTotalTime());
 	}
 
+	@JsonIgnore
 	public EdeDetector getDetector() {
 		return detector;
 	}
@@ -736,6 +749,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		this.detector = detector;
 	}
 
+	@JsonIgnore
 	public boolean isUsingExternalScripts4TFG() {
 		return usingExternalScripts4TFG;
 	}
@@ -758,5 +772,13 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	public boolean getTriggerOnRisingEdge() {
 		return triggerOnRisingEdge;
+	}
+
+	public int getLivePauseTtlPort() {
+		return livePauseTtlPort;
+	}
+
+	public void setLivePauseTtlPort(int livePauseTtlPort) {
+		this.livePauseTtlPort = livePauseTtlPort;
 	}
 }

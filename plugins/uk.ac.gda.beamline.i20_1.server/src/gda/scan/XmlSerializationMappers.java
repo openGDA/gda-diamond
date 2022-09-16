@@ -20,6 +20,7 @@ package gda.scan;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,69 +68,129 @@ public class XmlSerializationMappers {
 		return mapper;
 	}
 
-	public static class MapSerializer extends JsonSerializer<Map<String,String>> {
+	/**
+	 * Return String or Double value from JsonNode object
+	 * (to have proper value for map value)
+	 * @param node
+	 * @return
+	 */
+	private static Object getNodeValue(JsonNode node) {
+		try {
+			return Double.parseDouble(node.asText());
+		} catch(NumberFormatException nfe) {
+		}
+		return node.asText();
+	}
+
+	public static class MapSerializer extends JsonSerializer<Map<Object, Object>> {
+
+		protected String keyFieldName = "scannableName";
+		protected String valueFieldName = "pv";
+		protected String entryFieldName = "";
 
 		public MapSerializer() {
 			super();
 		}
 
 	    @Override
-	    public void serialize(Map<String,String> value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+	    public void serialize(Map<Object,Object> value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 	        ToXmlGenerator xmlGen = (ToXmlGenerator) gen;
 	        xmlGen.writeStartObject();
-	        for (Map.Entry<String, String> entry : value.entrySet()) {
+	        for (Map.Entry<?, ?> entry : value.entrySet()) {
 
 //	        	<scannableName>scannable1</scannableName>
 //	        	<pv>pvForScannable1</pv>
 //	        	<scannableName>scannable2</scannableName>
 //	        	<pv>pv:for:scannable2</pv>
-
-	            xmlGen.writeObjectFieldStart("scannableName");
+	        	if (!entryFieldName.isEmpty()) {
+	        		xmlGen.writeObjectFieldStart(entryFieldName);
+	        	}
+	            xmlGen.writeObjectFieldStart(keyFieldName);
 	            xmlGen.setNextIsAttribute(false);
-	            xmlGen.writeRaw(entry.getKey());
+	            xmlGen.writeRaw(entry.getKey().toString());
 	            xmlGen.writeEndObject();
 
-	            xmlGen.writeObjectFieldStart("pv");
+	            xmlGen.writeObjectFieldStart(valueFieldName);
 	            xmlGen.setNextIsAttribute(false);
-	            xmlGen.writeRaw(entry.getValue());
+	            xmlGen.writeRaw(entry.getValue().toString());
 	            xmlGen.writeEndObject();
+	            if (!entryFieldName.isEmpty()) {
+	            	xmlGen.writeEndObject();
+	            }
 	        }
 	        xmlGen.writeEndObject();
 	    }
 
 	}
 
-	public static class MapDeserializer extends JsonDeserializer<Map<String,String>> {
+	public static class MapDeserializer extends JsonDeserializer<Map<Object,Object>> {
+
+		protected String keyFieldName = "scannableName";
+		protected String valueFieldName = "pv";
+		protected String entryFieldName = "";
 
 		public MapDeserializer() {
 			super();
 		}
 
 		@Override
-		public Map<String, String> deserialize(JsonParser j, DeserializationContext ctxt)
+		public Map<Object, Object> deserialize(JsonParser j, DeserializationContext ctxt)
 				throws IOException {
 
 			JsonNode node = j.getCodec().readTree(j);
-	        var scnNameIter = node.get("scannableName").elements();
-	        var pvIter = node.get("pv").elements();
+			if (node.get(entryFieldName) != null) {
+				return getMapFromEntry(node.get(entryFieldName));
+			}
 
-	        Map<String,String> map = new LinkedHashMap<>();
+			// Iterate through list of key value pairs and add each to the map
+	        var scnNameIter = node.get(keyFieldName).elements();
+	        var pvIter = node.get(valueFieldName).elements();
+
+			Map<Object,Object> map = new LinkedHashMap<>();
 	        while(scnNameIter.hasNext() && pvIter.hasNext()) {
-	        	map.put(scnNameIter.next().asText(), pvIter.next().asText());
+	        	map.put(scnNameIter.next().asText(), getNodeValue(pvIter.next()));
 	        }
 			return map;
 		}
 
+		/**
+		 * Iterate over entry nodes, extract the key-value pairs and generate a map
+		 * @param node
+		 * @return
+		 */
+		private Map<Object, Object> getMapFromEntry(JsonNode node) {
+			Iterator<JsonNode> iter = node.iterator();
+			Map<Object, Object> map = new LinkedHashMap<>();
+			while(iter.hasNext()) {
+				JsonNode nodeValue = iter.next();
+				if (nodeValue.isArray() && nodeValue.size()>1) {
+					// list of values : 1st the key, 2nd is the value
+					map.put(nodeValue.get(0).asText(), getNodeValue(nodeValue.get(1)));
+				} else if (nodeValue.get(keyFieldName) == null) {
+					// map with single entry
+					map.put(nodeValue.asText(), getNodeValue(iter.next()));
+				} else {
+					JsonNode keyNode = nodeValue.get(keyFieldName);
+					if (keyNode.isArray()) {
+						// If 2 key nodes, then use these for key and value : key = 1st item, value = 2nd item
+						map.put(keyNode.get(0).asText(), getNodeValue(keyNode.get(1)));
+					} else {
+						map.put(nodeValue.get(keyFieldName).asText(), getNodeValue(nodeValue.get(valueFieldName)));
+					}
+				}
+			}
+			return map;
+		}
 	}
 
-	public static class ListSerializer extends JsonSerializer<List<String>> {
+	public static class ListSerializer extends JsonSerializer<List<Object>> {
 
 		public ListSerializer() {
 			super();
 		}
 
 	    @Override
-	    public void serialize(List<String> value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+	    public void serialize(List<Object> value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 	        ToXmlGenerator xmlGen = (ToXmlGenerator) gen;
 	        xmlGen.writeStartObject();
 	        for(var v : value) {
@@ -142,10 +203,10 @@ public class XmlSerializationMappers {
 	    }
 	}
 
-	public static class ListDeserializer extends JsonDeserializer<List<String>> {
+	public static class ListDeserializer extends JsonDeserializer<List<Object>> {
 
 		@Override
-		public List<String> deserialize(JsonParser j, DeserializationContext ctxt)
+		public List<Object> deserialize(JsonParser j, DeserializationContext ctxt)
 				throws IOException {
 
 			JsonNode node = j.getCodec().readTree(j);
@@ -154,7 +215,7 @@ public class XmlSerializationMappers {
 			}
 
 			var entry = node.fields().next();
-			List<String> nestedList = new ArrayList<>();
+			List<Object> nestedList = new ArrayList<>();
 			JsonNode value = entry.getValue();
 			// Node is a single text value
 			if (value.isValueNode()) {
@@ -170,7 +231,7 @@ public class XmlSerializationMappers {
 					var iterator = nodeValues.elements();
 					while(iterator.hasNext()) {
 						var els = iterator.next();
-						nestedList.add(els.textValue());
+						nestedList.add(getNodeValue(els));
 					}
 				}
 			}
@@ -246,5 +307,4 @@ public class XmlSerializationMappers {
 			return nestedList;
 		}
 	}
-
 }
