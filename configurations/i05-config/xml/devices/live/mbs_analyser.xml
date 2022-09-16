@@ -33,11 +33,11 @@
 
 	<!-- Currently this config is the same for all modes so we're just going to re-use one DetectorConfiguration object -->
 	<bean id="detector_config" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
-		<property name="startX" value="178" />
-		<property name="sizeX" value="929" />
-		<property name="startY" value="1" />
-		<property name="sizeY" value="963" />
-		<property name="slices" value="963" />
+		<property name="startX" value="202" />
+		<property name="sizeX" value="1034" />
+		<property name="startY" value="106" />
+		<property name="sizeY" value="835" />
+		<property name="slices" value="835" />
 	</bean>
 
 	<bean id="analyser" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
