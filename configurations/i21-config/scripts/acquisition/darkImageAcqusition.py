@@ -44,10 +44,12 @@ def add_dark_image_link(detector, filename):
     meta.addLink(detector.getName(), NXDETECTOR_DARK_IMAGE, external_link_path, filename)
     print("A link to dark image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed\n" % (filename, external_link_path, detector.getName(), NXDETECTOR_DARK_IMAGE))
 
+alias("add_dark_image_link") 
+
     
 def remove_dark_image_link(detector):
     '''remove current dark image link from the given detector's metadata device
     '''
     meta.rm(str(detector.getName()), NXDETECTOR_DARK_IMAGE)
 
-alias("remove_dark_image") 
+alias("remove_dark_image_link") 
