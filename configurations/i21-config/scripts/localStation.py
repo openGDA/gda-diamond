@@ -166,7 +166,7 @@ from scannabledevices.samplePoistioner_instance import smp_positioner  # @Unused
 
 from acquisition.acquire_images import acquireImages, clearEncoderLoss, acquireRIXS, acquiredark  # @UnusedImport
 from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image  # @UnusedImport
-from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image  # @UnusedImport
+from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link, add_dark_image_link  # @UnusedImport
 from acquisition.flatFieldAcqusition import acquire_flat_field, remove_flat_field  # @UnusedImport
     
 from gdascripts.scan.installStandardScansWithProcessing import ascan,a2scan,a3scan,mesh,dscan,d2scan,d3scan,scan,rscan,cscan,scan_processor  # @UnusedImport
