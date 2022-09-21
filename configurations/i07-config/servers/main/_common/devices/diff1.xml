@@ -10,7 +10,6 @@
 	<!-- I07-366 Aliases for backwards compatibility -->
 	<alias name="diff1omega" alias="diff1vomega"/>
 	<alias name="diff1theta" alias="diff1homega"/>
-	<alias name="diff1chi" alias="diff1halpha"/>
 	<alias name="diff1delta" alias="diff1vdelta"/>
 	<alias name="diff1gamma" alias="diff1vgamma"/>
 

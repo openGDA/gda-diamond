@@ -21,7 +21,7 @@ from diffcalc.hkl.willmott.calcwill_horizontal import WillmottHorizontalPosition
 demoCommands = []
 
 diffcalcObjects=createDiffcalcObjects(
-	axisScannableList = (diff1vdelta, diff1vgamma, diff1halpha, diff1homega),
+	axisScannableList = (diff1vdelta, diff1vgamma, diff1chi, diff1homega),
 	diffractometerScannableName = 'sixc', #  staff prefer these to be the same across configurations
 	energyScannable = dcm1energy,
 	geometryPlugin = WillmottHorizontalPosition,

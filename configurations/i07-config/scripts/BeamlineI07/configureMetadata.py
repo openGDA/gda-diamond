@@ -34,12 +34,12 @@ slitList = [dets1xcentre, dets1xsize, dets1ycentre, dets1ysize, dets2xcentre,
 
 diffList = [diff1x, diff1y, diff1z, diff1basex, diff1basey, diff1basepitch,
         diff1cchi, diff1cphi, diff1vomega, diff1vdelta,
-        diff1vgamma, diff1homega, diff1halpha]
+        diff1vgamma, diff1homega, diff1chi]
 
 diffDetList = [diff1detdist,diff1dets1rot,diff1dets2rot,diff1detselect,
         diff1prot]
 
-diffOffsetList = [diff1halphaoffset, diff1homegaoffset,
+diffOffsetList = [diff1chioffset, diff1homegaoffset,
         diff1vdeltaoffset, diff1vgammaoffset, diff1vomegaoffset]
 
 dcdList = [dcdc1pitch, dcdc1roll, dcdc1rad, dcdc2pitch, dcdc2roll, dcdc2rad,

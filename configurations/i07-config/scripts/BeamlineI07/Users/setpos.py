@@ -11,7 +11,7 @@ def setpos(motor, newpos):
 	elif (motor.getClass() == CoordinatedChildScannableMotionUnits):
 		offsetscannable = False
 		if(motor.getName() == 'diff1chi'):
-			offsetscannable = diff1halphaoffset
+			offsetscannable = diff1chioffset
 		elif(motor.getName() == 'diff1delta'):
 			offsetscannable = diff1vdeltaoffset
 		elif(motor.getName() == 'diff1gamma'):

@@ -23,7 +23,7 @@ demoCommands = []
 
 diffcalcObjects=createDiffcalcObjects(
 #	dummyAxisNames = ('dummy1vdelta', 'dummy1vgamma', 'dummy1halpha', 'dummy1homega'),
-	axisScannableList = (diff1vdelta, diff1vgamma, diff1halpha, diff1homega),
+	axisScannableList = (diff1vdelta, diff1vgamma, diff1chi, diff1homega),
 	diffractometerScannableName = 'sixc', #  staff prefer these to be the same across configurations
 	energyScannable = dcm1energy,
 	geometryPlugin = WillmottHorizontalGeometry(),
