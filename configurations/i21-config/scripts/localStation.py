@@ -233,6 +233,8 @@ beam_flux_at_sample = BeamFlux("beam_flux_at_sample", pgmEnergy, pgmGratingSelec
 from metadata.beamExtent import BeamExtent
 beam_size_at_sample =  BeamExtent("beam_size_at_sample", horizontal_size = 40.0, vertical_size = 2.5)
 
+from functions.manipulator_positions import sample_pos, carbon_tape_pos, save_sample_positions, save_carbon_tape_positions, move_to_sample_positions, move_to_carbon_tape_positions  # @UnusedImport
+
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
