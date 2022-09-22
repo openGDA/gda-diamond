@@ -138,7 +138,8 @@ public class AlignmentStageScannableTest {
 	}
 
 	@Test
-	public void testMove() throws FactoryException, DeviceException {
+	public void testMove() throws Exception {
+		TestHelpers.setUpTest(AlignmentStageScannableTest.class, "testMove", true);
 		alignmentStageScn.configure();
 
 		// Make the Location positions unique so mockito.verify can work properly
@@ -160,7 +161,8 @@ public class AlignmentStageScannableTest {
 	}
 
 	@Test
-	public void testMoveFailsForUnknownPosition() throws FactoryException, DeviceException {
+	public void testMoveFailsForUnknownPosition() throws Exception {
+		TestHelpers.setUpTest(AlignmentStageScannableTest.class, "testMoveFailsForUnknownPosition", true);
 		alignmentStageScn.configure();
 		assertThrows(DeviceException.class, () -> alignmentStageScn.moveTo("unknown position"));
 		Mockito.verify(xMotor, Mockito.never()).asynchronousMoveTo(ArgumentMatchers.anyDouble());
