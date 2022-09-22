@@ -38,8 +38,6 @@
 	<context:property-placeholder/>
 	<!-- ? -->
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>

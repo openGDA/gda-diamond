@@ -34,7 +34,6 @@
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/constantVelocityDevice.xml"/>
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrot_detectors.xml"/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<!-- beanAdder must be placed after commandServer.xml -->
 	<import resource="../../../../optics-config/servers/main/_common/beanAdder.xml"/>

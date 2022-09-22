@@ -32,7 +32,6 @@
 	<import resource="../../../../../dls-config/servers/_common/constantVelocityDevice.xml"/>
 	<import resource="../../../../../dls-config/servers/_common/mandelbrot_detectors.xml"/>
 	
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="commandServer.xml" />
 	<import resource="beanAdder.xml"/>
 

@@ -11,8 +11,6 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 

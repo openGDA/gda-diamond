@@ -8,8 +8,6 @@
 
 	<context:property-placeholder />
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<bean class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>

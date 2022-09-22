@@ -23,8 +23,6 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>
 	</bean>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />

@@ -6,8 +6,6 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import resource="required_at_start.xml"/>
 
 	<import resource="abstract_command_server.xml"/>

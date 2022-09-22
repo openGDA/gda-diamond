@@ -18,6 +18,4 @@
 	<context:property-placeholder/>
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>

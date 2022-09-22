@@ -22,8 +22,6 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<!-- Motors -->
 
 	<import resource="motor/atten.xml" />

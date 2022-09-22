@@ -11,8 +11,6 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import resource="required_at_start.xml"/>
 	
 	<!-- Exports objects over RMI -->

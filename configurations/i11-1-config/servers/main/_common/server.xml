@@ -7,7 +7,6 @@
 
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 	<context:property-placeholder />
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<import resource="GDAMetadata.xml"/>
 	<import resource="commandServer.xml"/>

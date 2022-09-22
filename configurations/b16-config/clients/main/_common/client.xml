@@ -103,6 +103,4 @@
 
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>

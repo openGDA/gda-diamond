@@ -8,7 +8,6 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
