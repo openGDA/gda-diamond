@@ -26,7 +26,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import gda.scan.XmlSerializationMappers;
+import gda.exafs.xml.XmlSerializationMappers;
 
 /**
  * Defines the collection parameters for linear or cycling experiments on the I20-1 Energy Dispersive EXAFS (EDE)

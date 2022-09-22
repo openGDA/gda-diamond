@@ -30,10 +30,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
-import gda.scan.XmlSerializationMappers;
+import gda.exafs.xml.XmlSerializationMappers;
 
 /**
- * This is used for serialization of alignment stage locations to/from XML using XStream
+ * This is used for serialization of alignment stage locations to/from XML
  * by {@link AlignmentStageCalibrationView}
  */
 public class AlignmentStageModel {

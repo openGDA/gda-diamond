@@ -38,10 +38,10 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 
 import gda.device.DeviceException;
+import gda.exafs.xml.XmlSerializationMappers;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.scan.XmlSerializationMappers;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.ede.data.DetectorSetupType;

@@ -29,10 +29,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.exafs.xml.XmlSerializationMappers;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.position.EnergyPositionCalculator;
 
@@ -40,7 +40,6 @@ import gda.scan.ede.position.EnergyPositionCalculator;
  * This class calculates real space motor positions for a Turbo XAS scan from user specified set of parameters based on energy.
  * @since 14/7/2016
  */
-@XStreamAlias("TurboXasMotorParameters")
 public class TurboXasMotorParameters {
 
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasMotorParameters.class);
@@ -516,7 +515,7 @@ public class TurboXasMotorParameters {
 	 * @throws JsonProcessingException
 	 * @throws JsonMappingException
 	 */
-	public static TurboXasMotorParameters fromXML(String xmlString) throws JsonMappingException, JsonProcessingException {
+	public static TurboXasMotorParameters fromXML(String xmlString) throws IOException, JsonProcessingException {
 		return XmlSerializationMappers.getXmlMapper().readValue(xmlString, TurboXasMotorParameters.class);
 	}
 

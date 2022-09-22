@@ -18,14 +18,11 @@
 
 package gda.scan;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 /**
  * Class to specify a single timing group i.e. set of identical sweeps of the slit
  * for a Turbo XAS scan.
  * @since 14/7/2016
  */
-@XStreamAlias("TimingGroup")
 public class TurboSlitTimingGroup {
 
 	private String name; // TimingGroup.label
