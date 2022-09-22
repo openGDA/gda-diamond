@@ -5,7 +5,7 @@ class DiffcalcHeaders(ScannableMotionBase):
 	def __init__(self, name):
 		self.setName(name)
 		self.setInputNames(['diffcalc_lattice', 'diffcalc_u', 'diffcalc_ub'])
-		self.setOutputFormat(['%s', '%s', '%s'])
+		self.setOutputFormat(['[%f, %f, %f, %f, %f, %f]', '[[%f, %f, %f], [%f, %f, %f], [%f, %f, %f]]', '[[%f, %f, %f], [%f, %f, %f], [%f, %f, %f]]'])
 
 	def getPosition(self):
 		try:
