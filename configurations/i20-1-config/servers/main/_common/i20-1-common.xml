@@ -13,6 +13,4 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 </beans>

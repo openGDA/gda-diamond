@@ -9,8 +9,6 @@
 	<context:property-placeholder/>
 	<import resource="file:${gda.core.dir}/clients/_common/client.xml" />
 	
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	
 	<!-- Provides ability to import/find remote objects over RMI -->
