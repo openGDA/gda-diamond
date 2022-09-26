@@ -1,5 +1,7 @@
 from uk.ac.gda.server.ncd.subdetector import NcdSubDetector
+from gdascripts.utils import caput, caget
 from gda.jython import InterfaceProvider
+from gdaserver import ncddetectors
 
 class AdCam(NcdSubDetector):
     """
@@ -29,6 +31,7 @@ class AdCam(NcdSubDetector):
         self.setDetectorType("OTHER")
         self.detector = detector
         self.basePV = detector.getBasePVName()
+        basePV = detector.getBasePVName()
         self.acquireImageCount = basePV + "CAM:NumImages"
         self.acquirePV = basePV + "CAM:Acquire"
         self.hdfImageCount = basePV + "HDF5:NumCapture"
@@ -42,20 +45,20 @@ class AdCam(NcdSubDetector):
         self.extraDimY = basePV + "HDF5:ExtraDimSizeY"
 
         self.thisFile = ""
-    def atScanStart(self):
-        csih = InterfaceProvider.getCurrentScanInformationHolder()
-        csc = csih.getCurrentScanInformation()
+    def atScanStart(self, info):
 
         frames = ncddetectors.getTimer().getFramesets().get(0).getFrameCount()
 
-        scanNumber = csc.getScanNumber()
+        scanNumber = info.getScanNumber()
         self.thisFile = "%s/%s" %(InterfaceProvider.getPathConstructor().createFromDefaultProperty(), self.fileTemplate %scanNumber)
         filename = [ord(x) for x in self.thisFile]+[0]
 
+        self.detector.setTriggerMode(1) # External
+        self.detector.setImageMode(1) # Multiple
         caput(self.hdfFileName, filename) #set hdf5 filename
         caput(self.hdfImageCount, frames) #set hdf5 frame count
         caput(self.extraDimN, frames)
-        self._setDimensions(csc)
+        self._setDimensions(info)
 
         caput(self.acquireImageCount, caget(self.basePV + "HDF5:NumCapture_RBV"))#set camera frame count
 
