@@ -25,7 +25,7 @@ from gdascripts.scan.process.tuner import Tuner #@UnusedImport
 from gdascripts.scannable.ScanFileHolderScannable import ScanFileHolderScannable
 from gdascripts.scannable.SelectableCollectionOfScannables import SelectableCollectionOfScannables #@UnusedImport
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
-from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
+from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
 from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImport
 from gdascripts.scannable.dummy import SingleInputDummy #@UnusedImport
@@ -859,6 +859,20 @@ if installation.isLive() and ENABLE_PCO4000:
 	pcoedgemax2d = DetectorDataProcessorWithRoi('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
 	pcoedgeintensity2d = DetectorDataProcessorWithRoi('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
 
+if installation.isLive() :
+	dcam9 = ProcessingDetectorWrapper(
+		'dcam9',
+		_dcam9,  # @UndefinedVariable
+		[],
+		panel_name_rcp='dcam9',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	dcam9peak2d = DetectorDataProcessorWithRoi('dcam9peak2d', dcam9, [TwodGaussianPeak()]) # modified to work with bimorph script
+	dcam9max2d = DetectorDataProcessorWithRoi('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
+	dcam9intensity2d = DetectorDataProcessorWithRoi('dcam9intensity2d', dcam9, [PixelIntensity()])
+	dcam9roi = DetectorDataProcessorWithRoi('dcam9roi', dcam9, [SumMaxPositionAndValue()])
+
 if installation.isLive():
 	pslv1 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		'pslv1',
@@ -1268,6 +1282,7 @@ if installation.isLive():
 	zyla.display_image = True
 	zylamax2d = DetectorDataProcessorWithRoi('zylamax2d', zyla, [SumMaxPositionAndValue()])
 	zylapeak2d = DetectorDataProcessorWithRoi('zylapeak2d', zyla, [TwodGaussianPeak()])
+	zylaintensity2d = DetectorDataProcessorWithRoi('zylaintensity2d', zyla, [PixelIntensity()])
 	
 	#zyla.processors=[DetectorDataProcessorWithRoi('peak', zyla, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
 	#zyla needs scaling factors?
@@ -1279,7 +1294,6 @@ if installation.isLive():
 	#zylaroi1.setRoi(0,0,50,50)
 	
 	print "zyla setup"
-
 
 ######################################################################################################################################
 #Linkam temperature controller
