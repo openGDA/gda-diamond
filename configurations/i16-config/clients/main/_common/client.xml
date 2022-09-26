@@ -41,6 +41,4 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
-
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>

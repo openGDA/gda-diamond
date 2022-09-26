@@ -7,7 +7,4 @@
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="serverFileListener.xml"/>
-
-	<!-- ensure all Findables have their name set (from ID attribute?) -->
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>

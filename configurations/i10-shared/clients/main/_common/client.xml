@@ -13,6 +13,4 @@
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="batonStateProvider.xml"/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-	
 </beans>

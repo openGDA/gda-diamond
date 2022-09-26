@@ -59,7 +59,6 @@
 	<bean id="pgmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="dcmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />

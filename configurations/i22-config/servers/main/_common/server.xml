@@ -11,7 +11,6 @@
                 http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
     <context:property-placeholder/>
 
-    <bean class="gda.spring.FindableNameSetterPostProcessor"/>
     <bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
     <bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable"/>

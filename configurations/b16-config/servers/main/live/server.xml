@@ -15,8 +15,6 @@
 		</property>
 	</bean>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import	resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
 	
 	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>

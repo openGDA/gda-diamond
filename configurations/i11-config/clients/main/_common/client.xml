@@ -17,9 +17,6 @@
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
-
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
 		<property name="clientFileAnnouncerName" value="client_file_announcer"/>
 	</bean>

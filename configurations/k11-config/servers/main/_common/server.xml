@@ -36,7 +36,6 @@
 		<prop key="MO_ROBOT_PREFIX">BL11K-MO-ROBOT-</prop>
 	</util:properties>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<!-- This must be included early on, as configuration of ROI/Stats modules 

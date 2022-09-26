@@ -9,8 +9,6 @@
     
  	<context:property-placeholder/>
 
-    <bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<bean id="command_server" class="uk.ac.gda.remoting.client.GdaRmiProxy" />

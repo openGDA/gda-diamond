@@ -3,8 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import resource="required_at_start.xml"/>
 
 	<import resource="nxmetadata.xml" />

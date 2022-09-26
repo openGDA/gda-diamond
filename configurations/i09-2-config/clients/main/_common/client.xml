@@ -19,8 +19,6 @@
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-	
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<import resource="live_controls.xml" />
 

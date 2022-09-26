@@ -15,8 +15,6 @@
 		</property>
 	</bean>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="monitoring_controls.xml" />
 
