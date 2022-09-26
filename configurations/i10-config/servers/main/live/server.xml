@@ -1,13 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd
-           http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util.xsd
-           http://www.diamond.ac.uk/schema/gda/gda
-           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="../../../properties/_common/gdaProperties.xml"/>
 	<import resource="../../../../i10-shared/servers/main/live/devices/all.xml"/>
