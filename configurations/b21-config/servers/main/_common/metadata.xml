@@ -116,19 +116,4 @@
 		<property name="outputFormat" value="%s" />
 		<property name="currentPosition" value="" />
 	</bean>
-
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
-			<set>
-				<value>energy</value>
-				<value>sample_name</value>
-				<value>sample_thickness</value>
-				<value>sample_concentration</value>
-				<value>sample_type</value>
-				<value>sample_environment</value>
-			</set>
-		</property>
-	</bean>
 </beans>
