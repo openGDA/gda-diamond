@@ -95,27 +95,27 @@
 		<property name="xAxisMax" value="150.000"/>
 		<property name="liveDataListeners">
 			<list>
-				<bean class="org.javatuples.Triplet">
+				<bean class="uk.ac.gda.client.hrpd.views.EpicsLivePlotViewConfiguration">
 					<constructor-arg index="0" value="mac1"/>
 					<constructor-arg index="1" ref="mac1x"/>
 					<constructor-arg index="2" ref="mac1y"/>
 				</bean>
-				<bean class="org.javatuples.Triplet">
+				<bean class="uk.ac.gda.client.hrpd.views.EpicsLivePlotViewConfiguration">
 					<constructor-arg index="0" value="mac2"/>
 					<constructor-arg index="1" ref="mac2x"/>
 					<constructor-arg index="2" ref="mac2y"/>
 				</bean>
-				<bean class="org.javatuples.Triplet">
+				<bean class="uk.ac.gda.client.hrpd.views.EpicsLivePlotViewConfiguration">
 					<constructor-arg index="0" value="mac3"/>
 					<constructor-arg index="1" ref="mac3x"/>
 					<constructor-arg index="2" ref="mac3y"/>
 				</bean>
-				<bean class="org.javatuples.Triplet">
+				<bean class="uk.ac.gda.client.hrpd.views.EpicsLivePlotViewConfiguration">
 					<constructor-arg index="0" value="mac4"/>
 					<constructor-arg index="1" ref="mac4x"/>
 					<constructor-arg index="2" ref="mac4y"/>
 				</bean>
-				<bean class="org.javatuples.Triplet">
+				<bean class="uk.ac.gda.client.hrpd.views.EpicsLivePlotViewConfiguration">
 					<constructor-arg index="0" value="mac5"/>
 					<constructor-arg index="1" ref="mac5x"/>
 					<constructor-arg index="2" ref="mac5y"/>
@@ -124,7 +124,7 @@
 		</property>
 		<property name="dataUpdatedListener" ref="pulsedone"/>
 		<property name="finalDataListener">
-			<bean class="org.javatuples.Triplet">
+			<bean class="uk.ac.gda.client.hrpd.views.EpicsLivePlotViewConfiguration">
 				<constructor-arg index="0" ref="allx"/>
 				<constructor-arg index="1" ref="ally"/>
 				<constructor-arg index="2" ref="allye"/>
