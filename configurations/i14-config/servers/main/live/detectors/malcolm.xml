@@ -57,5 +57,41 @@
 		<property name="deviceInformation" ref="malcolmInfoXsp3Merlin" />
 		<property name="activated" value="false" />
 	</bean>
+	
+	<!-- Eiger imaging -->
+	<bean id="malcolmInfoEiger" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Eiger imaging"/>
+		<property name="description" value="Eiger imaging scan"/>
+	</bean>
+	
+	<bean id="malcolmModelEiger" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-02" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+	
+	<bean id="malcolmDeviceEiger" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-02" />
+		<property name="model" ref="malcolmModelEiger" />
+		<property name="deviceInformation" ref="malcolmInfoEiger" />
+		<property name="activated" value="false" />
+	</bean>
 
+	
+	<!-- XRF/Eiger imaging -->
+	<bean id="malcolmInfoXrfEiger" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRF/Eiger imaging"/>
+		<property name="description" value="Combined XRF/Eiger imaging scan"/>
+	</bean>
+	
+	<bean id="malcolmModelXrfEiger" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-03" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+	
+	<bean id="malcolmDeviceXrfEiger" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-03" />
+		<property name="model" ref="malcolmModelXrfEiger" />
+		<property name="deviceInformation" ref="malcolmInfoXrfEiger" />
+		<property name="activated" value="false" />
+	</bean>
 </beans>
