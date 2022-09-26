@@ -8,7 +8,6 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
