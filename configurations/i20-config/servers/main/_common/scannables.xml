@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<gda:motor id="fluo_det_x" live-pvName="BL20I-EA-DET-02:X" />
+
+	<gda:motor id="test" live-class="#dummy" userUnits="mm"/>
+
+	<bean id="sample_alignment" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sample_x" />
+				<ref bean="sample_y" />
+				<ref bean="sample_z" />
+				<ref bean="sample_pitch" />
+				<ref bean="sample_roll" />
+				<ref bean="sample_rot" />
+				<ref bean="sample_fine_rot" />
+				<ref bean="filterwheel" />
+				<ref bean="cryostick" />
+				<ref bean="cryostick_pos" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

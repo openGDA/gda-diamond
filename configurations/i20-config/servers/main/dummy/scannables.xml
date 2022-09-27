@@ -26,33 +26,4 @@
 		<property name="pssPVName" value="BL20I-PS-IOC-01:M11:LOP"/>
 	</bean>
 
-	<bean id="test_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-
-	<bean id="test" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="test_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
-	<!-- more needs adding to this list -->
-	<bean id="sample_alignment" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="sample_x" />
-				<ref bean="sample_y" />
-				<ref bean="sample_z" />
-				<ref bean="sample_pitch" />
-				<ref bean="sample_roll" />
-				<ref bean="sample_rot" />
-				<ref bean="sample_fine_rot" />
-				<ref bean="filterwheel" />
-				<ref bean="cryostick" />
-				<ref bean="cryostick_pos" />
-			</list>
-		</property>
-	</bean>
-
 </beans>

@@ -1,46 +1,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="table1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table1_x_motor" />
-	</bean>
-	<bean id="table1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table1_y_motor" />
-	</bean>
-
-	<bean id="table2_x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table2_x_motor" />
-	</bean>
-	<bean id="table2_y" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table2_y_motor" />
-	</bean>
-
-	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_x_motor" />
-	</bean>
-	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_y_motor" />
-	</bean>
-	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_z_motor" />
-	</bean>
-	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_pitch_motor" />
-	</bean>
-	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_roll_motor" />
-	</bean>
-	<bean id="sample_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_rot_motor" />
-	</bean>
-	<bean id="sample_fine_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_fine_rot_motor" />
-	</bean>
+	<gda:motor id="table1_x" live-pvName="BL20I-MO-TABLE-01:X" />           
+	<gda:motor id="table1_y" live-pvName="BL20I-MO-TABLE-01:Y" />           
+	<gda:motor id="table2_x" live-pvName="BL20I-MO-TABLE-02:X" />           
+	<gda:motor id="table2_y" live-pvName="BL20I-MO-TABLE-02:Y" />   
+	
+	<gda:motor id="sample_x" live-pvName="BL20I-MO-TABLE-03:X" />           
+	<gda:motor id="sample_y" live-pvName="BL20I-MO-TABLE-03:Y" />           
+	<gda:motor id="sample_z" live-pvName="BL20I-MO-TABLE-03:Z" />           
+	<gda:motor id="sample_pitch" live-pvName="BL20I-MO-TABLE-03:PITCH" />  
+	<gda:motor id="sample_roll" live-pvName="BL20I-MO-TABLE-03:ROLL" />           
+	<gda:motor id="sample_rot" live-pvName="BL20I-MO-TABLE-03:ROT" />           
+	<gda:motor id="sample_fine_rot" live-pvName="BL20I-MO-TABLE-03:ROTF" />
 
 </beans>

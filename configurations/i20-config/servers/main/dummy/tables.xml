@@ -3,22 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!--	sample -->
-
-	<bean id="table1_x_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="table1_y_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="table2_x_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="table2_y_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="sample_y_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="sample_z_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="sample_pitch_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="sample_roll_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="sample_rot_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="sample_fine_rot_motor" class="gda.device.motor.DummyMotor"/>
-
 	<bean id="filterwheel" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>

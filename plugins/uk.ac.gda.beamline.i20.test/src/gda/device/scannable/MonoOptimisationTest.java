@@ -20,8 +20,8 @@ package gda.device.scannable;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.january.dataset.Dataset;
 import org.junit.Before;
@@ -103,10 +103,10 @@ public class MonoOptimisationTest {
 
 		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
 		InOrder inorder = Mockito.inOrder(mockBraggMotor);
-		inorder.verify(mockBraggMotor).getPosition();  // record initial mono position
-		inorder.verify(mockBraggMotor).moveTo(highMonoEnergy); // mono to the high energy position for offset scan
-		// mono to the low energy position for the offset scan, then back to original (low energy) position
-		inorder.verify(mockBraggMotor,Mockito.times(2)).moveTo(lowMonoEnergy);
+		// mono to the high energy position for offset scan
+		inorder.verify(mockBraggMotor).moveTo(highMonoEnergy);
+		// mono to the low energy position for the offset scan
+		inorder.verify(mockBraggMotor).moveTo(lowMonoEnergy);
 	}
 
 	@Test
