@@ -1,18 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="ms2x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ms2x_motor"/>
-	</bean>
-	<bean id="ms2y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ms2y_motor"/>
-	</bean>
-	<bean id="ms2rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ms2rot_motor"/>
-	</bean>
-
+	<gda:motor id="ms2x" live-pvName="BL11J-MO-MSLID-02:X"/>
+	<gda:motor id="ms2y" live-pvName="BL11J-MO-MSLID-02:Y"/>
+	<gda:motor id="ms2rot" live-pvName="BL11J-MO-MSLID-02:ROT"/>
 	<bean id="ms2" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
 			<list>

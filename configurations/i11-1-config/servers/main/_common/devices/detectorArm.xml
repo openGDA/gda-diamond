@@ -1,19 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="detectorX" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="detectorX_motor" />
-	</bean>
-	<bean id="detectorY" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="detectorY_motor" />
-	</bean>
-	<bean id="detectorZ" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="detectorZ_motor" />
-	</bean>
-
-
+	<gda:motor id="detectorX" live-pvName="BL11J-MO-DET-01:X"/>
+	<gda:motor id="detectorY" live-pvName="BL11J-MO-DET-01:Y"/>
+	<gda:motor id="detectorZ" live-pvName="BL11J-MO-DET-01:Z"/>
 	<bean id="detectorArm" class="org.opengda.lde.experiments.DetectorArm">
 		<property name="parkPosition" value="2800.0" />
 		<property name="positionTolerance" value="0.01"/>
@@ -25,5 +20,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>

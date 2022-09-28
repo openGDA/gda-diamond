@@ -1,22 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ss1x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-MO-SSLID-01:X"/>
+	<bean id="ss1_co2_1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-CELL-01:CO2_FILT" />
 	</bean>
-	<bean id="ss1y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-MO-SSLID-01:Y"/>
+	<bean id="ss1_co2_2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-CELL-02:CO2_FILT" />
 	</bean>
-
-    <bean id="ss1_co2_1" class="gda.device.monitor.EpicsMonitor">
-        <property name="pvName" value="BL11J-EA-CELL-01:CO2_FILT" />
-    </bean>
-    <bean id="ss1_co2_2" class="gda.device.monitor.EpicsMonitor">
-        <property name="pvName" value="BL11J-EA-CELL-02:CO2_FILT" />
-    </bean>
-    <bean id="ss1_co2_3" class="gda.device.monitor.EpicsMonitor">
-        <property name="pvName" value="BL11J-EA-CELL-03:CO2_FILT" />
-    </bean>
+	<bean id="ss1_co2_3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-CELL-03:CO2_FILT" />
+	</bean>
 </beans>

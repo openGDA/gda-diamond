@@ -1,24 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="tbase" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tbase_motor"/>
-	</bean>
-	<bean id="tx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tx_motor" />
-	</bean>
-	<bean id="ty" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ty_motor" />
-	</bean>
-	<bean id="tz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="tz_motor"/>
-	</bean>
-	<bean id="trot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="trot_motor" />
-	</bean>
-
+	<gda:motor id="tbase" live-pvName="BL11J-EA-TABLE-01:BASE"/>
+	<gda:motor id="tx" live-pvName="BL11J-EA-TABLE-01:X"/>
+	<gda:motor id="ty" live-pvName="BL11J-EA-TABLE-01:Y"/>
+	<gda:motor id="tz" live-pvName="BL11J-EA-TABLE-01:Z"/>
+	<gda:motor id="trot" live-pvName="BL11J-EA-TABLE-01:ROT"/>
 	<bean id="table1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
