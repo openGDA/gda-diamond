@@ -22,6 +22,8 @@
 
 	<!-- <import resource="transient/xmap.xml" /> -->
 	
+	<import resource="../_common/transient/fastatt.xml" />
+	
 	<import resource="transient/eiger.xml" />
 
 </beans>

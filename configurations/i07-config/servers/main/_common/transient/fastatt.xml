@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.diamond.ac.uk/schema/gda/gda
+			http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+	<gda:motor id="attm1" live-pvName="BL07I-MO-FILT-02:FILTER1" />
+	<gda:motor id="attm2" live-pvName="BL07I-MO-FILT-02:FILTER2" />
+	<gda:motor id="attm3" live-pvName="BL07I-MO-FILT-02:FILTER3" />
+	<gda:motor id="attm4" live-pvName="BL07I-MO-FILT-02:FILTER4" />
+	<gda:motor id="attm5" live-pvName="BL07I-MO-FILT-02:SHUTTER" />
+
+	<bean id="ATT" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="attm1" />
+				<ref bean="attm2" />
+				<ref bean="attm3" />
+				<ref bean="attm4" />
+				<ref bean="attm5" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
