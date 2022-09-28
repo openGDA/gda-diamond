@@ -1,6 +1,7 @@
 from gda.device.scannable import ScannableMotor
 from gda.jython.commands.GeneralCommands import alias
 from gda.device.scannable.scannablegroup import CoordinatedChildScannableMotionUnits
+from gda.device.scannable.scannablegroup import CoordinatedChildScannableMotor
 
 def setpos(motor, newpos):
 	if (type(newpos) != int and type(newpos) != float):
@@ -8,7 +9,8 @@ def setpos(motor, newpos):
 	if (motor.getClass() == ScannableMotor):
 		motor.setPosition(float(newpos))
 		print "Offset changed"
-	elif (motor.getClass() == CoordinatedChildScannableMotionUnits):
+	elif (isinstance(motor, CoordinatedChildScannableMotionUnits)):
+		print "Warning: changing this offset may make continuous scan readbacks incorrect"
 		offsetscannable = False
 		if(motor.getName() == 'diff1chi'):
 			offsetscannable = diff1chioffset
