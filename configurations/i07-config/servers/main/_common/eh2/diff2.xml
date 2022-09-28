@@ -74,22 +74,6 @@
 	<bean id="diff2delta" factory-bean="diff2group" factory-method="getGroupMember" c:name="diff2delta" />
 	<bean id="diff2gamma" factory-bean="diff2group" factory-method="getGroupMember" c:name="diff2gamma" />
 
-
-	<!-- Gonio Rotation (DRot) -->
-	<bean id="diff2detselect"
-		class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorDROT_DIFF2" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-
 	<!-- Pilatus Rotation -->
 	<bean id="diff2prot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorDETROT_DIFF2" />
@@ -105,7 +89,7 @@
 
 
 	<!-- Point detector -->
-	<bean id="diff2dets4rot"
+	<bean id="diff2dets3rot"
 		class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorNU2_DIFF2" />
 		<property name="protectionLevel" value="0" />
@@ -117,20 +101,6 @@
 			</list>
 		</property>
 	</bean>
-	<!-- Post sample slits rotation -->
-	<bean id="diff2dets3rot"
-		class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorNU1_DIFF2" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
 
 	<!-- Slits detector -->
 	<!-- <bean id="diff2dets1" class="gda.device.scannable.ScannableMotor"> 
@@ -214,10 +184,8 @@
 				<ref bean="diff2delta" />
 				<ref bean="diff2gamma" />
 
-				<ref bean="diff2detselect" />
 				<ref bean="diff2prot" />
 
-				<ref bean="diff2dets4rot" />
 				<ref bean="diff2dets3rot" />
 				<!-- <ref bean="diff2dets1" /> -->
 				<!-- <ref bean="diff2detsvrot" /> -->

@@ -66,8 +66,7 @@ dets3List=[dets3hall, dets3ring, dets3top, dets3bottom, dets3xsize,
 
 mbs4List=[mbs4xsize, mbs4xcentre, mbs4ysize, mbs4ycentre]
 
-diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect,
-        diff2prot, diff2dets4rot, diff2dets3rot, diff2basex, diff2basey,
+diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2prot, diff2dets3rot, diff2basex, diff2basey,
         diff2basey1, diff2basey2, diff2basepitch]
 
 tabList = [tab1x, tab1y]
