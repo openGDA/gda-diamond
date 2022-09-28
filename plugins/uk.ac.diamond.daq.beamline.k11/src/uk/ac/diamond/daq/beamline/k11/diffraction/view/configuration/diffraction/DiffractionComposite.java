@@ -55,15 +55,10 @@ public class DiffractionComposite implements NamedCompositeFactory {
 
 	private DiffractionScanControls scanControls;
 
-	private final AcquisitionUiReloader loadListener;
-
 	private ScanningAcquisitionController acquisitionController;
 
 	public DiffractionComposite(Supplier<Composite> controlButtonsContainerSupplier) {
 		this.buttonsCompositeSupplier = controlButtonsContainerSupplier;
-
-		// instantiate listener but only attach when composite is created
-		loadListener = new AcquisitionUiReloader(getAcquisitionKey(), getScanControls());
 	}
 
 	@Override
@@ -83,6 +78,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 		Arrays.asList(buttonsComposite.getChildren()).forEach(Control::dispose);
 		getButtonControlsFactory().createComposite(buttonsComposite, SWT.NONE);
 		buttonsComposite.layout(true, true);
+		var loadListener = new AcquisitionUiReloader(getAcquisitionKey(), getScanControls());
 		SpringApplicationContextFacade.addApplicationListener(loadListener);
 		controls.addDisposeListener(dispose -> SpringApplicationContextFacade.removeApplicationListener(loadListener));
 		return controls;

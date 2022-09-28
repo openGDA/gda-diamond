@@ -57,14 +57,11 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 
 	private final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.BEAM_SELECTOR, AcquisitionTemplateType.STATIC_POINT);
 
-	private final AcquisitionUiReloader loadListener;
-
 	private ScanningAcquisitionController acquisitionController;
 
 
 	public BeamSelectorComposite(Supplier<Composite> buttonsCompositeSupplier) {
 		this.buttonsCompositeSupplier = buttonsCompositeSupplier;
-		this.loadListener = new AcquisitionUiReloader(key, scanControls);
 	}
 
 	@Override
@@ -84,6 +81,7 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 		Arrays.asList(buttonsComposite.getChildren()).forEach(Control::dispose);
 		getButtonControlsFactory().createComposite(buttonsComposite, SWT.NONE);
 		buttonsComposite.layout(true, true);
+		var loadListener = new AcquisitionUiReloader(key, scanControls);
 		SpringApplicationContextFacade.addApplicationListener(loadListener);
 		controls.addDisposeListener(dispose -> SpringApplicationContextFacade.removeApplicationListener(loadListener));
 		return controls;
