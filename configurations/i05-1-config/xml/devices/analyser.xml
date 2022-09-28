@@ -62,16 +62,16 @@
 		<property name="startX" value="150" />
 		<property name="sizeX" value="1170" />
 		<property name="startY" value="65" />
-		<property name="sizeY" value="920" />
-		<property name="slices" value="920" />
+		<property name="sizeY" value="1000" />
+		<property name="slices" value="1000" />
 	</bean>
 
 	<bean id="sweptConfiguration" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
 		<property name="startX" value="310" />
 		<property name="sizeX" value="915" />
-		<property name="startY" value="130" />
-		<property name="sizeY" value="785" />
-		<property name="slices" value="785" />
+		<property name="startY" value="110" />
+		<property name="sizeY" value="890" />
+		<property name="slices" value="890" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
