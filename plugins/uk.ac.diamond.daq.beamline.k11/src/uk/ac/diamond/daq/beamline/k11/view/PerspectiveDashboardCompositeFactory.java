@@ -30,7 +30,6 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGroup;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -38,7 +37,7 @@ import org.eclipse.swt.widgets.Listener;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
-import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
+import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverDialog;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 
 
@@ -116,10 +115,8 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 	private void bindElements(Composite parent) {
 		Listener experimentDriverListener = e -> {
 			// FIXME ID: Experiment name? Visit ID?
-			var driverWizard = new ExperimentDriverWizard(null);
-			var wizardDialog = new WizardDialog(parent.getShell(), driverWizard);
-			wizardDialog.setPageSize(driverWizard.getPreferredPageSize());
-			wizardDialog.open();
+			String experimentId = null;
+			new ExperimentDriverDialog(parent.getShell(), experimentId).open();
 		};
 		experimentDriver.addListener(SWT.Selection, experimentDriverListener);
 	}
