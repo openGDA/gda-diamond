@@ -133,6 +133,12 @@
 		<property name="readOnly" value="false"/>
 	</bean>
 	
+	<bean id="gr_butterfly_valve_control" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-92:CON" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+	
 	<bean id="gr_endstation_valve" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07C-VA-VALVE-36:STA" />
 		<property name="readOnly" value="true" />
@@ -295,7 +301,6 @@
 				</bean>
 			</list>
 		</constructor-arg>
-		<constructor-arg name="butterflyValvePressure" ref="gr_butterfly_valve_pressure" />
-		<constructor-arg name="butterflyValvePosition" ref="gr_butterfly_valve_position" />
+		
 	</bean>
 </beans>
