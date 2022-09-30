@@ -86,6 +86,7 @@
 		</constructor-arg>
 		<constructor-arg ref="molar_masses" />
 		<constructor-arg value="2" />
+		<property name="removeLiveControls" value="true" />
 	</bean>
 
 	<bean id="molar_masses" class="uk.ac.diamond.daq.gasrig.MolarMassTable">

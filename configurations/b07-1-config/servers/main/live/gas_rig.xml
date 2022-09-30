@@ -301,6 +301,6 @@
 				</bean>
 			</list>
 		</constructor-arg>
-		
+		<property name="v92ControlSleep" value="400" />
 	</bean>
 </beans>
