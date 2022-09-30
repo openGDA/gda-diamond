@@ -46,4 +46,12 @@ if installation.isLive():
 #check beam scannables
 from scannables.checkbeanscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
 
+print("-"*100)
+print("To create a PVScannable from a PV:")
+print("   >>> my_scannable = PVScannable('my_scannable', 'PV_name')")
+print("   >>> my_scannable.configure()")
+from gda.device.scannable import PVScannable  # @UnusedImport
+
+print("-"*100)
+
 print "-----------------------------------------------------------------------------------------------------------------"
