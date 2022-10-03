@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="uk.ac.gda.beamline.i21.dummy.product" uid="uk.ac.gda.beamline.i21.dummy" id="uk.ac.gda.beamline.i21.dummy_product" application="uk.ac.gda.client.application" version="9.28.0" useFeatures="true" includeLaunchers="true">
+<product name="uk.ac.gda.beamline.i21.dummy.product" uid="uk.ac.gda.beamline.i21.dummy" id="uk.ac.gda.beamline.i21.dummy_product" application="uk.ac.gda.client.application" version="9.28.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <text>
@@ -68,7 +68,7 @@ See &lt;http://www.opengda.org/&gt;
       startupProgressRect="2,215,598,15"
       startupMessageRect="4,195,598,20"
       startupForegroundColor="000000" />
-   <launcher name="gda-i10">
+   <launcher name="gda-i21">
       <win useIco="false">
          <bmp/>
       </win>
