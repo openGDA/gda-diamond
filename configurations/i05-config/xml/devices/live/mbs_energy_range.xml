@@ -484,32 +484,32 @@
 			<map>
 				<entry key="L4Ang0d8">
 					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
-						<constructor-arg name="deflectorXMinimum" value="-15.6" />
-						<constructor-arg name="deflectorXMaximum" value="15.6" />
+						<constructor-arg name="deflectorXMinimum" value="-17.12" />
+						<constructor-arg name="deflectorXMaximum" value="17.12" />
 					</bean>
 				</entry>
 				<entry key="L4Ang1d6">
 					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
-						<constructor-arg name="deflectorXMinimum" value="-7.8" />
-						<constructor-arg name="deflectorXMaximum" value="7.8" />
+						<constructor-arg name="deflectorXMinimum" value="-8.07" />
+						<constructor-arg name="deflectorXMaximum" value="8.07" />
 					</bean>
 				</entry>
 				<entry key="L4Ang3d9">
 					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
-						<constructor-arg name="deflectorXMinimum" value="-3.5" />
-						<constructor-arg name="deflectorXMaximum" value="3.5" />
+						<constructor-arg name="deflectorXMinimum" value="-3.01" />
+						<constructor-arg name="deflectorXMaximum" value="3.01" />
 					</bean>
 				</entry>
 				<entry key="L4MSpat5">
 					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
-						<constructor-arg name="deflectorXMinimum" value="-2.5" />
-						<constructor-arg name="deflectorXMaximum" value="2.5" />
+						<constructor-arg name="deflectorXMinimum" value="-2.63" />
+						<constructor-arg name="deflectorXMaximum" value="2.63" />
 					</bean>
 				</entry>
 				<entry key="L4MAng0d7">
 					<bean class="uk.ac.diamond.daq.pes.api.DeflectorRange">
-						<constructor-arg name="deflectorXMinimum" value="-15.6" />
-						<constructor-arg name="deflectorXMaximum" value="15.6" />
+						<constructor-arg name="deflectorXMinimum" value="-17.85" />
+						<constructor-arg name="deflectorXMaximum" value="17.85" />
 					</bean>
 				</entry>
 			</map>
