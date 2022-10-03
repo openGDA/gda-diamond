@@ -3,4 +3,7 @@
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_0ZimcLfoEeuDkoEAJivtpQ" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.5">
     <elements xsi:type="basic:Part" xmi:id="_5dQX8LfoEeuDkoEAJivtpQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:d98c_cam1#MJPEG" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="D98C"/>
   </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_qdA3EEMWEe2y8IDksVQIVg" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.2">
+    <elements xsi:type="basic:Part" xmi:id="_rytesEMWEe2y8IDksVQIVg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.image" toBeRendered="false" visible="false" containerData="8000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Image" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/analyser_image_icon.png" closeable="true"/>
+  </fragments>
 </fragment:ModelFragments>

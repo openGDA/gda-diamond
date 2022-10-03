@@ -5,4 +5,5 @@ Bundle-SymbolicName: uk.ac.gda.beamline.i09-1;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Require-Bundle: org.eclipse.equinox.app,
- org.eclipse.ui;bundle-version="3.107.0"
+ org.eclipse.ui;bundle-version="3.107.0",
+ org.eclipse.e4.ui.model.workbench;bundle-version="2.2.0.v20210727-1533"
