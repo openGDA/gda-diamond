@@ -1818,50 +1818,68 @@ def asyncScannable(scannable, targetPosition):
 
 alias(asyncScannable)
 
-# Setting the standard metadata scannables should be last
+# Setting the standard metadata scannables & protecting all defined scannables should be last
 meta_std()
+
+def protect_all_scannables():
+	def unprotected_scannables():
+		return [i for i in InterfaceProvider.getJythonNamespace().getAllNamesForType(Scannable) if not overwriting.isProtected(i)]
+
+	scannables_to_protect = unprotected_scannables()
+	[overwriting.protect(i) for i in scannables_to_protect]
+
+	if scannables_to_protect:
+		print "Scannables now protected: %r" % scannables_to_protect
+
+alias("protect_all_scannables")
 
 if installation.isLive():
 	print "*"*80
 	localStation_print("Attempting to run localStationStaff.py from user scripts directory")
+	print "*"*80
 	try:
 		run("localStationStaff")
 		localStation_print("localStationStaff.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_exception("running localStationStaff user script!", e)
+		localStation_exception("running localStationStaff user script! See above for details.", e)
 	except:
-		localStation_exception("running localStationStaff user script!")
+		localStation_exception("running localStationStaff user script! See above for details.")
 
 	print "*"*80
 	localStation_print("Attempting to run localStationUser.py from user scripts directory")
+	print "*"*80
 	try:
 		run("localStationUser")
 		localStation_print("localStationUser.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_exception("running localStationUser user script!", e)
+		localStation_exception("running localStationUser user script! See above for details.", e)
 	except:
-		localStation_exception("running localStationUser user script!")
+		localStation_exception("running localStationUser user script! See above for details.")
 else:
 	try:
 		run("dummy/localStationStaff")
 	except:
 		localStation_exception("running localStationStaff dummy script")
+
+	protect_all_scannables()
+
 	try:
 		run("dummy/localStationUser")
 	except:
 		localStation_exception("running localStationUser dummy script")
 
+print "*"*80
+protect_all_scannables()
+
 if localStation_warnings:
 	print "\n====================== DURING STARTUP: %r warnings ======================" % len(localStation_warnings)
+	for localStation_warning in localStation_warnings:
+		print localStation_warning
 
-for localStation_warning in localStation_warnings:
-	print localStation_warning
-
-if len(localStation_exceptions) > 0:
+if localStation_exceptions:
 	print "\n======================  DURING STARTUP : %r ERRORS ======================" % len(localStation_exceptions)
-
-for localStationException in localStation_exceptions:
-	print localStationException
+	for localStationException in localStation_exceptions:
+		print localStationException
 
 print "\n======================================================================"
 localStation_print("Local Station Script completed")
