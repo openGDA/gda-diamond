@@ -45,6 +45,8 @@
 				<property name="name" value="cff"/>
 				<property name="pvNameGetPoint" value="BL06I-OP-PGM-01:CFF" />
 				<property name="pvNameSetPoint" value="BL06I-OP-PGM-01:CFF" />
+				<property name="upperLimit" value="20.0"/>
+				<property name="lowerLimit" value="1.5"/>
 			</bean>
 		</property>
 		<property name="proxyTargetClass" value="true" />
