@@ -104,7 +104,7 @@
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="draincurrent"/>
-					<property name="scannableName" value="ca61sr"/>
+					<property name="scannableName" value="ca62sr"/>
 				</bean>		
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="amp_gain"/>
