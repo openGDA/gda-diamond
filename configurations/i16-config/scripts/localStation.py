@@ -592,7 +592,7 @@ if Finder.find("kbmbase"):
 	except:
 		localStation_exception("creating kbm1 and kbm2.")
 else:
-	localStation_warning("creating kbm1 and kbm2. Please restart the GDA servers with the kbmbase transient device enabled, if you need them.")
+	localStation_warning("creating kbm1 and kbm2. Please restart the GDA servers with the 'kbm' transient device enabled, if you need them.")
 
 ###############################################################################
 ###############################################################################
