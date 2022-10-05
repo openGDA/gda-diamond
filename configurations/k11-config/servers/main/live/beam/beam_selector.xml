@@ -7,14 +7,8 @@
 		<property name="pvBase" value="#{configProperties.BSEL_PV_PREFIX}01:MP:SELECT" />
 	</bean>
 	
-	<!-- not yet commissioned in EPICS -->
-	<bean id="imaging_hint_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Mono imaging beam</value>
-				<value>Pink imaging beam</value>
-			</list>
-		</property>
+	<bean id="imaging_hint_positioner" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL11K-BL-SET-01:IMG:SET:SELECT" />
 	</bean>
 	
 </beans>
