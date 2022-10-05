@@ -30,12 +30,12 @@
 
 	<bean id="kb_cs_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="kb_cs_x_motor" />
-		<property name="hardwareUnitString" value="" />
+		<property name="userUnits" value="" />
 	</bean>
 	
 	<bean id="kb_cs_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="kb_cs_y_motor" />
-		<property name="hardwareUnitString" value="" />
+		<property name="userUnits" value="" />
 	</bean>
 
 </beans>
