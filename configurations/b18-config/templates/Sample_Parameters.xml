@@ -90,52 +90,34 @@
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>user1</scannableName>
-        <description>User stage 1</description>
+        <scannableName>gasX</scannableName>
+        <description>Gas stage X</description>
         <doMove>false</doMove>
-        <demandPosition>62.9955</demandPosition>
+        <demandPosition>0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>user2</scannableName>
-        <description>User stage 2</description>
+        <scannableName>gasY</scannableName>
+        <description>Gas stage Y</description>
         <doMove>false</doMove>
-        <demandPosition>-6777.26</demandPosition>
+        <demandPosition>0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>user3</scannableName>
-        <description>User stage 3</description>
+        <scannableName>sxRot</scannableName>
+        <description>Soft x-ray Rotation</description>
         <doMove>false</doMove>
-        <demandPosition>673.515</demandPosition>
+        <demandPosition>0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>user4</scannableName>
-        <description>User stage 4</description>
+        <scannableName>sxY</scannableName>
+        <description>Soft x-ray Y</description>
         <doMove>false</doMove>
-        <demandPosition>-1084.38</demandPosition>
+        <demandPosition>0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>user5</scannableName>
-        <description>User stage 5</description>
+        <scannableName>sam1x</scannableName>
+        <description>Sam1 x</description>
         <doMove>false</doMove>
-        <demandPosition>0.442</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
-        <scannableName>user6</scannableName>
-        <description>User stage 6</description>
-        <doMove>false</doMove>
-        <demandPosition>-7.634</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
-        <scannableName>user7</scannableName>
-        <description>User stage 7</description>
-        <doMove>false</doMove>
-        <demandPosition>8.848</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
-        <scannableName>user8</scannableName>
-        <description>User stage 8</description>
-        <doMove>false</doMove>
-        <demandPosition>13.848</demandPosition>
+        <demandPosition>0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>sam1y</scannableName>
@@ -161,9 +143,39 @@
         <doMove>false</doMove>
         <demandPosition>3.00001</demandPosition>
     </sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>sampleStageX</scannableName>
+		<description>Sample stage X</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>sampleStageY</scannableName>
+		<description>Sample stage Y</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>frameX</scannableName>
+		<description>Frame X</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>frameY</scannableName>
+		<description>Frame Y</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>fluoDist</scannableName>
-        <description>Fluo detector distance</description>
+        <description>Ge detector distance</description>
+        <doMove>false</doMove>
+        <demandPosition>-150.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>vortexDist</scannableName>
+        <description>Si detector distance</description>
         <doMove>false</doMove>
         <demandPosition>-150.0</demandPosition>
     </sampleParameterMotorPosition>
