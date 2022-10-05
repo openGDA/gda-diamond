@@ -1,16 +1,15 @@
 from gda.device.monitor import MonitorBase
-from gda.epics import CAClient
+from gda.epics import CAClient, LazyPVFactory
 from k11_utilities import is_live
 
 class EH1SearchedAndLocked(MonitorBase):
     def __init__(self, name, pv):
         self.setName(name)
-        self.ca = CAClient(pv)
-        self.ca.configure()
-        self.ca.camonitor(lambda event: self.notifyIObservers(self, self.getPosition()))
+        self.pv = LazyPVFactory.newBytePV(pv)
+        self.pv.addObserver(lambda source, arg: self.notifyIObservers(self, self.getPosition()))
         
     def rawGetPosition(self):
-        word = self.ca.cagetArrayInt()[0]
+        word = self.pv.get()
         return word == 0
     
 pv = "BL11K-PS-IOC-01:M11:LOP" if is_live() else "ws413-MO-SIM-01:M5.RBV"
