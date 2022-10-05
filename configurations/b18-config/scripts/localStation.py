@@ -64,6 +64,11 @@ else :
     print "Xspress4Odin detector not present"
 
 
+if 'xspress3X' in locals() : 
+    print "Adding Xspress3X objects to detector preparer"
+    detectorPreparer.addDetectorNameMapping("xspress3X", "qexafs_xspress3X")
+    detectorPreparer.addDetectorNameMapping("xspress3XFFI0", "qexafs_FFI0_xspress3X")
+
 
 # TODO this could all be done in Sping XML
 theFactory = XasScanFactory();

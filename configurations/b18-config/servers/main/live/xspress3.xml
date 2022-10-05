@@ -20,7 +20,7 @@
 		<property name="numScalers" value="8" />
 		<property name="pvNameMap">
 			<map>
-				<entry key="ROI_RES_GRADE_BIN" value=":GDA:ROI:BinY" />
+				<entry key="ROI_RES_GRADE_BIN" value=":ROI1:BinY" />
 			</map>
 		</property>
 	</bean>
