@@ -276,6 +276,10 @@ except java.io.FileNotFoundException, e:
 except:
     localStation_exception(sys.exc_info(), "running localStationUser user script")
 
+print "*"*80
+print "Active profiles %s (gda.spring.profiles.active)" % ",".join(LocalProperties.getStringArray("gda.spring.profiles.active"))
+
+
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
