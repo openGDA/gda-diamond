@@ -32,6 +32,7 @@ OPTIONS:
     --client Z         Use client Z, overriding default and GDA_CLIENT variable.
     --springprofiles P Use the given spring profiles when loading configuration.
                        Overrides values in properties files.
+    --nospringprofiles Specify no Spring Profiles to be used, overriding the java property default
     --                 End argument parsing, send remaining options to the GDA client.
 
 EXAMPLES:
@@ -86,7 +87,7 @@ fi
 # eg /scratch/gda_workspaces/abc12345_gda-9.12
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)_$(basename ${GDA_WORKSPACE_PARENT})
 
-ARGS=$(getopt -a -o d --longoptions help,data:,reset,debug,log,start,keep,mode:,springprofiles:,nohup:,client: -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o d --longoptions help,data:,reset,debug,log,start,keep,mode:,springprofiles:,nospringprofiles,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
@@ -153,6 +154,9 @@ while true; do
             GDA_SPRING_PROFILES="-Dgda.spring.profiles.active=$1"
             shift;
         fi
+      ;;
+    --nospringprofiles)
+        GDA_SPRING_PROFILES="-Dgda.spring.profiles.active="
       ;;
     --mode)
         shift;
