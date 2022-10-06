@@ -23,6 +23,13 @@
         <detector>FFI0_xspress3</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
+    <detectorGroup>
+        <name>Xspress3X</name>
+        <detector>xspress3X</detector>
+        <detector>xspress3XFFI0</detector>
+        <detector>counterTimer01</detector>
+    </detectorGroup>
+
      <detectorGroup>
         <name>Xspress4Odin</name>
         <detector>xspress4Odin</detector>
