@@ -19,12 +19,14 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap.xml" />
 
     <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3.xml" />
+    <import resource="file:${gda.config}/servers/main/xspress3.xml" />
+   
     <import resource="file:${gda.config}/servers/main/${gda.mode}/mythen.xml" />
     <import resource="file:${gda.config}/servers/main/${gda.mode}/medipix.xml" />
     <import resource="file:${gda.config}/servers/main/medipix.xml" />
 
-<!--     <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress4.xml" /> -->
-<!--     <import resource="file:${gda.config}/servers/main/xspress4.xml" /> -->
+    <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress4.xml" />
+    <import resource="file:${gda.config}/servers/main/xspress4.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/epics-cameras.xml" />
 

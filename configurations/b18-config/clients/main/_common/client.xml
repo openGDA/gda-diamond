@@ -75,6 +75,16 @@
 		<property name="detectorName" value="xspress3" />
 	</bean>
 
+	<bean id="xspress4ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="name" value="xspress4ViewFactory" />
+		<property name="detectorName" value="xspress4Odin" />
+		<property name="maxDetectorElementCounts" value="500000" />
+	</bean>
+
+	<bean id="xspress3XViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="detectorName" value="xspressX" />
+	</bean>
+
 	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
 		<property name="detectorGroupsMap">
 			<map>
@@ -83,7 +93,8 @@
 						<value>XMap</value>
 						<value>Xspress2</value>
 						<value>Xspress3</value>
-						<value>Xspress4</value>
+						<value>Xspress3X</value>
+						<value>Xspress4Odin</value>
 						<value>Medipix</value>
 					</list>
 				</entry>
@@ -96,7 +107,8 @@
 				<entry key="medipix" value="${gda.config}/templates/Medipix_Parameters.xml"/>
 				<entry key="xspress2system" value="${gda.config}/templates/Xspress_Parameters36.xml"/>
 				<entry key="xspress3" value="${gda.config}/templates/Xspress3_Parameters.xml" />
-				<entry key="xspress4" value="${gda.config}/templates/Xspress4_Parameters_36Ge.xml" />
+				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
+				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
 			</map>
 		</property>

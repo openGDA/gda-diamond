@@ -6,23 +6,17 @@
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
-		<property name="host" value="b18-xspress0" />
+<!-- 	<bean id="DAServer" class="gda.device.detector.DAServer"> -->
+		<property name="host" value="b18-xspress1" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
 				<value>~config</value>
+				<value>tfg setup-veto veto1-inv 1</value>
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
-		<property name="xspressMode">
-			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
-				factory-method="valueOf">
-				<constructor-arg>
-					<value>XSPRESS2_FULL_MCA</value>
-				</constructor-arg>
-			</bean>
-		</property>
 	</bean>
 
 	<bean id="struckScaler" class="gda.device.detector.DummyDetector">
@@ -88,18 +82,6 @@
 <!-- 			</bean> -->
 <!-- 		</property> -->
 <!-- 	</bean> -->
-
-	<bean id="xspress3Controller"
-		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
-		<constructor-arg>
-			<ref bean="DAServer" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="tfg" />
-		</constructor-arg>
-		<property name="simulationFileName" value="simulationFileName" />
-		<property name="numberOfChannels" value="4"/>
-	</bean>
 
 	<!-- 27/02 KrisB - Section below is causing errors -->
 	<bean id="xspress2controller"

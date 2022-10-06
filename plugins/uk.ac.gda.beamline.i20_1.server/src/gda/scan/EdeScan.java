@@ -320,6 +320,21 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 	}
 
+	private void collectSingleFrame() throws DeviceException, InterruptedException {
+		double collectionTime = 1e-3;
+		logger.debug("Collecting single frame of data ({} sec)", collectionTime);
+		// Collect single frame of data
+		theDetector.prepareDetectorwithScanParameters(EdeScanParameters.createSingleFrameScan(1e-3));
+		theDetector.collectData();
+
+		// Wait for it to finish
+		Thread.sleep((long)collectionTime*1000);
+		DetectorStatus progressData = theDetector.fetchStatus();
+		while(!collectionFinished(progressData)) {
+			progressData = theDetector.fetchStatus();
+		}
+	}
+
 	@Override
 	public void doCollection() throws Exception {
 		if (smartStopDetected()) {
@@ -331,6 +346,12 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		// Periodically update cache of positions of scannables being monitored
 		if (useNexusTreeWriter) {
 			scheduler.scheduleAtFixedRate(this::updatePositions, 0, 100, TimeUnit.MILLISECONDS);
+		}
+
+		// Perform single frame collection to ensure XH memory is cleared of
+		// data from any previous scans that have ended early
+		if (theDetector instanceof XhDetector && !isLightItScan() ) {
+			collectSingleFrame();
 		}
 
 		logger.debug(toString() + " loading detector parameters...");
@@ -640,8 +661,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		return progressData;
 	}
 
-	private Boolean collectionFinished(DetectorStatus progressData) {
-		return progressData.getDetectorStatus() == EdeDetector.IDLE || progressData.getDetectorStatus() == EdeDetector.FAULT;
+	private boolean collectionFinished(DetectorStatus progressData) {
+		return progressData.getDetectorStatus() == Detector.IDLE || progressData.getDetectorStatus() == Detector.FAULT;
 	}
 
 	@Override
