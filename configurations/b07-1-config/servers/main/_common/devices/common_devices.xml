@@ -28,8 +28,9 @@
 	<import resource="d9c.xml"/>
 	<import resource="d21c.xml"/>
 
-	<!-- Monocromator -->
+	<!-- Monocromators -->
 	<import resource="pgm.xml"/>
+	<import resource="ccmc.xml"/>
 
 	<!-- Dummy devices -->
 	<import resource="dummy.xml"/>
