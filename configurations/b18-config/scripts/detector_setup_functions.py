@@ -30,6 +30,32 @@ def setupXspress3() :
     # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
     CAClient.put(basePv+":CTRL_DTC", 1)
 
+def setupXspress3X() :
+    # This fix is also set in spring - can be removed after server restart (9/9/2022)
+    controller = xspress3X.getController()
+    controller.setPvNameMap({"ROI_RES_GRADE_BIN":":ROI1:BinY"})
+    controller.afterPropertiesSet()
+
+    basePvName = xspress3X.getController().getBasePv()
+    setup_xspress_detector(basePvName)
+    
+    setupResGrades(basePvName, False)
+    
+    set_hdf5_filetemplate(basePvName)
+    for c in range(1, xspress3X.getController().getNumElements()+1) :
+        # BL18B-EA-XSP3X-01:C2_SCAS:EnableCallbacks
+        scaPv = basePvName+":C%d_SCAS:"%(c)
+        mcaEnablePv = basePvName+":MCA%d:Enable"%(c)
+        CAClient.put(scaPv+"EnableCallbacks", 1)
+        CAClient.put(scaPv+"TS:TSNumPoints", 10000)
+        CAClient.put(mcaEnablePv, 1)
+        
+    # Use Ttl veto trigger mode for step and continuous scans
+    qexafs_xspress3X.setTriggerModeForContinuousScan(3)
+    xspress3X.setTriggerMode(3)
+
+    print "Set detector to not apply DTC factors"
+    set_xspress_use_dtc(basePvName, False) 
 
 def caputXspress4(pv, value) :
     basePv = xspress4.getController().getBasePv()

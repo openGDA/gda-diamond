@@ -9,8 +9,18 @@
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda.xsd"> 
 
-
-	<gda:motor id="fluoDist" live-pvName="BL18B-MO-STEP-11:GE_DET" />
+    <gda:motor id="fluoDist" live-pvName="BL18B-EA-GEDET-01:GE_DET" />
+    <gda:motor id="vortexDist" live-pvName="BL18B-EA-SIDET-01:SI_DET" />
+    <gda:motor id="pilatusAngle" live-pvName="BL18B-EA-PILAT-01:ANGLE" />
+    <gda:motor id="sampleStageX" live-pvName="BL18B-EA-PMAC-11:LONGX" />
+    <gda:motor id="sampleStageY" live-pvName="BL18B-EA-PMAC-11:LONGY" />
+    <gda:motor id="frameX" live-pvName="BL18B-EA-PMAC-11:FRAMEX" />
+    <gda:motor id="frameY" live-pvName="BL18B-EA-PMAC-11:FRAMEY" />
+    <gda:motor id="gasX" live-pvName="BL18B-EA-GIR-01:X" />
+    <gda:motor id="gasY" live-pvName="BL18B-EA-GIR-01:Y" />
+    <gda:motor id="sxRot" live-pvName="BL18B-EA-SXR-01:ROT" />
+    <gda:motor id="sxY" live-pvName="BL18B-EA-SXR-01:Y" />
+    <gda:motor id="sam1x" live-pvName="BL18B-EA-SAMPL-01:X" />
 
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="bragg" />
@@ -512,41 +522,42 @@
 	<bean id="ln2" class="gda.device.scannable.Ln2Scannable" >
 		<property name="cryo" ref="cryo" />
 	</bean>
+
 	<bean id="user1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER1_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 	<bean id="user2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER2_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 	<bean id="user3" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER3_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 	<bean id="user4" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER4_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 	<bean id="user5" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER5_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 	<bean id="user6" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER6_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 	<bean id="user7" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER7_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 	<bean id="user8" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER8_motor" />
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 	</bean>
 
 	<bean id="userstage" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="configureAtStartup" value="true"/>
+		<property name="configureAtStartup" value="false"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="user1" />
@@ -597,5 +608,21 @@
 		<property name="monitor" ref="A3" />
 		<property name="control" ref="A3" />
 	</bean>
+
+	<bean id="dummy_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000" />
+	</bean>
+
+	<bean id="dummy_qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="dummy_energy_motor" />
+		<property name="lowerGdaLimits" value="-100000" />
+		<property name="upperGdaLimits" value="100000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
 
 </beans>
