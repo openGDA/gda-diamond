@@ -40,6 +40,7 @@
 
 	<!-- Monocromators -->
 	<import resource="pgm.xml"/>
+	<import resource="ccmc.xml"/>
 
 	<!-- Endstation -->
 	<import resource="sample_manipulator.xml"/>

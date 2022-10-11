@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Size and centre scannable motors -->
+	<bean id="ccmc_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ccmc_x_motor" />
+	</bean>
+	
+	<bean id="ccmc_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ccmc_y_motor" />
+	</bean>
+	
+	<bean id="ccmc_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ccmc_z_motor" />
+	</bean>
+	
+	<bean id="roty" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="roty_motor" />
+	</bean>
+
+
+</beans>
