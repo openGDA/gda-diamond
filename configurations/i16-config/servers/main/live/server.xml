@@ -48,8 +48,8 @@
 	<import resource="motor/sixcsample.xml" />
 
 	<import resource="transient/kbmbase.xml" />
-	<!-- If Smargon on use "transient/smargon.xml" otherwise use "../dummy/transient/smargon.xml" -->
-	<import resource="../dummy/transient/smargon.xml" />
+	<import resource="transient/pilatus3_100k_smargon.xml" />
+	<import resource="transient/smargon.xml" />
 
 	<import resource="motor/pie725_raster.xml" />
 	<import resource="detector/rasterpil1.xml" />
@@ -73,9 +73,9 @@
 	 -->
 	<import resource="detector/pilatus2M.xml" />
 	<import resource="detector/andor1.xml" />
+	<import resource="detector/bpm1.xml" />
 	<import resource="detector/cam1.xml" />
 	<import resource="detector/cam2.xml" />
-	<import resource="detector/cam5.xml" />
 	<import resource="detector/camd3.xml" />
 	<import resource="detector/camd4.xml" />
 	<import resource="detector/camd5.xml" />

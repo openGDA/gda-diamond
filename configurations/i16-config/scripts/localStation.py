@@ -15,6 +15,7 @@ import logging
 localStation_python_logger = logging.getLogger("localStation.py(python)")
 
 localStation_exceptions = []
+localStation_warnings = []
 
 def localStation_exception(msg, exception=True):
 	"""Use exception=None if you don't want a stack trace."""
@@ -30,6 +31,10 @@ def localStation_exception(msg, exception=True):
 		localStation_slf4j_logger.error(msg + ':\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
 		localStation_python_logger.error(msg, exc_info=exception)
 	# Check out https://confluence.diamond.ac.uk/x/FZbCB
+
+def localStation_warning(msg):
+	import java, sys, traceback
+	localStation_warnings.append("    %s" % msg)
 
 def localStation_print(msg):
 	print msg
@@ -80,13 +85,14 @@ global idgap
 global sixckappa, euler_cryo, sixckappa_cryo, cryophi
 global delta_axis_offset
 global azir, psi, psic, hkl
-global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
+global setDatadirPropertyFromPersistanceDatabase, pitchupClass
 global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
 global ic1monitor
 global x2000, x2003
 global delta
 global energy, simple_energy, gam
 global x1
+global _bpm1, _bpm1_for_snaps
 global _cam1, _cam1_for_snaps
 global _camd3, _camd3_for_snaps
 global _camd4, _camd4_for_snaps
@@ -119,6 +125,9 @@ try:
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 except:
 	localStation_exception("creating jythonNameMap")
+
+if Finder.find("kbmbase"):
+	global kbmbase
 
 localStation_print("Importing installation")
 import installation
@@ -341,9 +350,8 @@ def set_sixc_returns_demand_position(b):
 
 ### Dummy IDGAP
 if USE_DUMMY_IDGAP_MOTOR:
-	overwriting.unprotect('idgap')
-	exec("idgap=dummyClass('idgap')")
-	overwriting.protect('idgap')
+	with overwriting:
+		exec("idgap=dummyClass('idgap')")
 
 # TODO: This shouldn't be necessary, try removing it.
 #       Look for "Overwriting scannable 'c1'" etc. in logs
@@ -355,9 +363,8 @@ localStation_print("Wrapping Monitors...")
 for objname in dir():
 	if isinstance(eval(objname),EpicsMonitor):
 		toPrint+= objname + " "
-		overwriting.unprotect(objname)
-		exec(objname + " = MonitorWrapper(" + objname + ")")
-		overwriting.protect(objname)
+		with overwriting:
+			exec(objname + " = MonitorWrapper(" + objname + ")")
 localStation_print("Wrapped the monitors: " + toPrint)
 
 ### Create dummy Scannables
@@ -557,32 +564,35 @@ hmtrans_offset=pd_offset.Offset('hmtrans_offset', warningIfChangeGreaterThan=5)
 kbmx_offset=pd_offset.Offset('kbmx_offset', warningIfChangeGreaterThan=5)
 kbmroll_offset=pd_offset.Offset('kbmroll_offset', warningIfChangeGreaterThan=.5)
 
-try:
-	kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
-
-	kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
-
-	from pd_single_element_of_vector_pd import * #@UnusedWildImport
-	#kbmx=single_element_of_vector_pd_class('kbmxx', kbm1, 'kbm1_x', help='Distance along beam (mm) for KBM2')
-	#vmpitch=single_element_of_vector_pd_class('vfm_pitch', kbm1, 'kbm1_alpha3', help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
-	#hmpitch=single_element_of_vector_pd_class('hfm_pitch', kbm2, 'kbm2_alpha2', help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
-	#vmtrans=single_element_of_vector_pd_class('vfm_trans', kbm1, 'kbm1_y', help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
-	#hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
-
-	##### new devices for KBM pitch and trans. Now with offsets.
-	vmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_pitch', kbm1, 'kbm1_alpha3', vmpitch_offset, help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
-	hmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_pitch', kbm2, 'kbm2_alpha2', hmpitch_offset, help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
-	vmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_trans', kbm1, 'kbm1_y', vmtrans_offset, help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
-	hmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_trans', kbm2, 'kbm2_z', hmtrans_offset, help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
-	kbmx=single_element_of_vector_pd_with_offset_and_scalefactor_class('kbm_x', kbm2, 'kbm2_z', kbmx_offset, help='Distance along beam (mm) for KBM2 - normally zero when box-face to sample is about 83 mm')
-	kbmroll=single_element_of_vector_pd_with_offset_and_scalefactor_class('kbm_roll', kbm2, 'kbm2_alpha1', kbmroll_offset, help='KBM1/2 roll: usually close to zero')
-	RsV=ReadSingleValueFromVectorPDClass
-	kbm=ReadPDGroupClass('kbm calibrated mirror values',[RsV(vmtrans,0,'vmtrans','%.3f'),RsV(hmtrans,0,'hmtrans','%.3f'),RsV(vmpitch,0,'vmpitch','%.3f'),RsV(hmpitch,0,'hmpitch','%.3f'),RsV(kbmx,0,'kbmx','%.3f'),RsV(kbmroll,0,'kbmroll','%.3f')], help='Use help vmpitch etc for help on each. Use kbm1/kbm2 for raw values\nCalibrated values all close to zero when mirrors aligned with zero pitch ')
-
-	###########################################
-
-except:
-	localStation_exception("creating kbm1 and kbm2, is the transient kbmbase device available?")
+if Finder.find("kbmbase"):
+	try:
+		kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
+	
+		kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
+	
+		from pd_single_element_of_vector_pd import * #@UnusedWildImport
+		#kbmx=single_element_of_vector_pd_class('kbmxx', kbm1, 'kbm1_x', help='Distance along beam (mm) for KBM2')
+		#vmpitch=single_element_of_vector_pd_class('vfm_pitch', kbm1, 'kbm1_alpha3', help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
+		#hmpitch=single_element_of_vector_pd_class('hfm_pitch', kbm2, 'kbm2_alpha2', help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
+		#vmtrans=single_element_of_vector_pd_class('vfm_trans', kbm1, 'kbm1_y', help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
+		#hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
+	
+		##### new devices for KBM pitch and trans. Now with offsets.
+		vmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_pitch', kbm1, 'kbm1_alpha3', vmpitch_offset, help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
+		hmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_pitch', kbm2, 'kbm2_alpha2', hmpitch_offset, help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
+		vmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_trans', kbm1, 'kbm1_y', vmtrans_offset, help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
+		hmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_trans', kbm2, 'kbm2_z', hmtrans_offset, help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
+		kbmx=single_element_of_vector_pd_with_offset_and_scalefactor_class('kbm_x', kbm2, 'kbm2_z', kbmx_offset, help='Distance along beam (mm) for KBM2 - normally zero when box-face to sample is about 83 mm')
+		kbmroll=single_element_of_vector_pd_with_offset_and_scalefactor_class('kbm_roll', kbm2, 'kbm2_alpha1', kbmroll_offset, help='KBM1/2 roll: usually close to zero')
+		RsV=ReadSingleValueFromVectorPDClass
+		kbm=ReadPDGroupClass('kbm calibrated mirror values',[RsV(vmtrans,0,'vmtrans','%.3f'),RsV(hmtrans,0,'hmtrans','%.3f'),RsV(vmpitch,0,'vmpitch','%.3f'),RsV(hmpitch,0,'hmpitch','%.3f'),RsV(kbmx,0,'kbmx','%.3f'),RsV(kbmroll,0,'kbmroll','%.3f')], help='Use help vmpitch etc for help on each. Use kbm1/kbm2 for raw values\nCalibrated values all close to zero when mirrors aligned with zero pitch ')
+	
+		###########################################
+	
+	except:
+		localStation_exception("creating kbm1 and kbm2.")
+else:
+	localStation_warning("creating kbm1 and kbm2. Please restart the GDA servers with the 'kbm' transient device enabled, if you need them.")
 
 ###############################################################################
 ###############################################################################
@@ -1192,12 +1202,13 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 		localStation_exception("configuring %s" % name)
 
 try:
-	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _cam1, _cam1_for_snaps, panel_name_rcp='BPM')
+	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _bpm1, _bpm1_for_snaps, panel_name_rcp='BPM')
+	cam1, cam1_peak2d, cam1_max2d = wrappedDetector("cam1", _cam1, _cam1_for_snaps, panel_name_rcp='Plot 2')
 	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
 	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
 	camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
 except:
-	localStation_exception("configuring wrapped detectors")
+	localStation_exception("configuring cam1, bpm, camd3, camd4 and camd5 cameras")
 
 def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
 	try:
@@ -1234,31 +1245,34 @@ except:
 ###############################################################################
 ###                              Configure andor                            ###
 ###############################################################################
-localStation_print("Configuring andor")
-from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
-# the andor has no hardware triggered mode configured. This class is used to hijak its DetectorSnapper implementation.
-try:
-	global andor1, andor1_for_snaps
-	andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
-								andor1,
-								None,
-								andor1_for_snaps,
-								[],
-								panel_name_rcp='Plot 1',
-								toreplace=None,
-								replacement=None,
-								iFileLoader=TIFFImageLoader,
-								fileLoadTimout=15,
-								returnPathAsImageNumberOnly=True)
-
-	from scannable.adbase import ADTemperature
-	andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase())
-	from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
-	alias('andor_trigger_output_disable')
-	alias('andor_trigger_output_enable')
-	andor_trigger_output_enable()
-except:
-	localStation_exception("configuring andor. Is IOC running?")
+if Finder.find(""):
+	localStation_print("Configuring andor")
+	from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
+	# the andor has no hardware triggered mode configured. This class is used to hijak its DetectorSnapper implementation.
+	try:
+		global andor1, andor1_for_snaps
+		andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
+									andor1,
+									None,
+									andor1_for_snaps,
+									[],
+									panel_name_rcp='Plot 1',
+									toreplace=None,
+									replacement=None,
+									iFileLoader=TIFFImageLoader,
+									fileLoadTimout=15,
+									returnPathAsImageNumberOnly=True)
+	
+		from scannable.adbase import ADTemperature
+		andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase())
+		from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
+		alias('andor_trigger_output_disable')
+		alias('andor_trigger_output_enable')
+		andor_trigger_output_enable()
+	except:
+		localStation_exception("configuring andor. Is IOC running?")
+else:
+	localStation_warning("finding andor detector. Please restart the GDA servers with the andor transient device enabled, if you need it.")
 
 localStation_print("-------------------------------MEDIPIX INIT---------------------------------------")
 try:
@@ -1698,7 +1712,7 @@ try:
 except:
 	localStation_exception("setting up szc")
 
-if USE_SMARGON:
+if USE_SMARGON and Finder.find("sgphi"):
 	try:
 		""" Smargon motors now defined in spring
 		sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
@@ -1723,6 +1737,10 @@ if USE_SMARGON:
 		localStation_print("Smargon script was successful")
 	except:
 		localStation_exception("setting up smargon")
+elif USE_SMARGON:
+	localStation_warning("checking that smargon devices are available. Please set USE_SMARGON=False or restart the GDA servers with the smargon transient device enabled")
+elif Finder.find("sgphi"):
+	localStation_warning("checking that smargon devices are unavailable. Please set USE_SMARGON=True or restart the GDA servers with the smargon transient device disabled")
 else:
 	localStation_print("Not configuring smargon")
 
@@ -1800,45 +1818,69 @@ def asyncScannable(scannable, targetPosition):
 
 alias(asyncScannable)
 
-# Setting the standard metadata scannables should be last
+# Setting the standard metadata scannables & protecting all defined scannables should be last
 meta_std()
+
+def protect_all_scannables():
+	def unprotected_scannables():
+		return [i for i in InterfaceProvider.getJythonNamespace().getAllNamesForType(Scannable) if not overwriting.isProtected(i)]
+
+	scannables_to_protect = unprotected_scannables()
+	[overwriting.protect(i) for i in scannables_to_protect]
+
+	if scannables_to_protect:
+		print "Scannables now protected: %r" % scannables_to_protect
+
+alias("protect_all_scannables")
 
 if installation.isLive():
 	print "*"*80
 	localStation_print("Attempting to run localStationStaff.py from user scripts directory")
+	print "*"*80
 	try:
 		run("localStationStaff")
 		localStation_print("localStationStaff.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_exception("running localStationStaff user script!", e)
+		localStation_exception("running localStationStaff user script! See above for details.", e)
 	except:
-		localStation_exception("running localStationStaff user script!")
+		localStation_exception("running localStationStaff user script! See above for details.")
 
 	print "*"*80
 	localStation_print("Attempting to run localStationUser.py from user scripts directory")
+	print "*"*80
 	try:
 		run("localStationUser")
 		localStation_print("localStationUser.py completed.")
 	except java.io.FileNotFoundException, e:
-		localStation_exception("running localStationUser user script!", e)
+		localStation_exception("running localStationUser user script! See above for details.", e)
 	except:
-		localStation_exception("running localStationUser user script!")
+		localStation_exception("running localStationUser user script! See above for details.")
 else:
 	try:
 		run("dummy/localStationStaff")
 	except:
 		localStation_exception("running localStationStaff dummy script")
+
+	protect_all_scannables()
+
 	try:
 		run("dummy/localStationUser")
 	except:
 		localStation_exception("running localStationUser dummy script")
 
-if len(localStation_exceptions) > 0:
-	print "======================  %r ERRORS DURING STARTUP ======================" % len(localStation_exceptions)
+print "*"*80
+protect_all_scannables()
 
-for localStationException in localStation_exceptions:
-	print localStationException
+if localStation_warnings:
+	print "\n====================== DURING STARTUP: %r warnings ======================" % len(localStation_warnings)
+	for localStation_warning in localStation_warnings:
+		print localStation_warning
 
-print "======================================================================"
+if localStation_exceptions:
+	print "\n======================  DURING STARTUP : %r ERRORS ======================" % len(localStation_exceptions)
+	for localStationException in localStation_exceptions:
+		print localStationException
+
+print "\n======================================================================"
 localStation_print("Local Station Script completed")
 print "======================================================================"
