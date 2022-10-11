@@ -53,6 +53,7 @@
 	<import resource="I15-Sample-Environments-Laser-Heating.xml"/>
 	<import resource="I15-Sample-Environments-Linkam.xml"/>
 	<import resource="I15-Sample-Environments-Membrane.xml"/>
+	<import resource="I15-Sample-Environments-TTi-07.xml"/>
 	<import resource="I15-SFAB.xml"/>
 	<import resource="I15-SHD.xml"/>
 	<import resource="I15-SHD2.xml"/>
