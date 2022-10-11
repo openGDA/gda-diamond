@@ -2,17 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd"
-	profile="sample_stage">
+	profile="trans">
 
-	<bean id="samX_motor"
+	<bean id="transX_motor"
 			class="gda.device.motor.DummyMotor"/>
 
-	<bean id="samY_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="samPhi_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="blowerZ_motor"
+	<bean id="transPhi_motor"
 			class="gda.device.motor.DummyMotor"/>
 </beans>

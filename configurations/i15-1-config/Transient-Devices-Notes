@@ -1,0 +1,105 @@
+================================================================================
+Using transient devices
+================================================================================
+
+Transient devices should be implemented using profiles.
+
+For example I15-1-XPS5.xml starts with:
+
+--------------------------------------------------------------------------------
+I15-1-XPS5.xml
+--------------------------------------------------------------------------------
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="xps5">
+
+	<bean id="xps5stage1" class="gda.device.scannable.ScannableMotor">
+	...
+--------------------------------------------------------------------------------
+
+This means that, the xps5stage1 device will only be included if the GDA servers
+are started with xps5 in the list of profiles to include, or the xps5 profile
+is added to the gda.spring.profiles.active java property.
+
+--------------------------------------------------------------------------------
+common_instance_java.properties.xml
+--------------------------------------------------------------------------------
+gda.spring.profiles.active=xps5
+--------------------------------------------------------------------------------
+
+From Jython we can tell whether a profile is active by checking the property.
+
+For example:
+
+--------------------------------------------------------------------------------
+	if "xps5" in LocalProperties.getStringArray("gda.spring.profiles.active")
+		...
+--------------------------------------------------------------------------------
+
+Alternatively we can check whether any device or scannable defined in that
+profile is available in the Finder.
+
+--------------------------------------------------------------------------------
+	if Finder.find("xps5stage1"):
+		...
+--------------------------------------------------------------------------------
+
+The easiest way to allow users to select profiles is to the add an option to
+run gda-conf.py to the launcher applications, using a file in var to store
+the configuration and state.
+
+For example:
+--------------------------------------------------------------------------------
+/dls_sw/$BEAMLINE/etc/dls-launcher-applications/dls-launcher-applications.json
+--------------------------------------------------------------------------------
+            {
+                "args": "servers", 
+                "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda", 
+                "icon": "sgda.png", 
+                "text": "Start GDA Servers (with default devices)", 
+                "type": "button"
+            }, 
+            {
+                "args": "/dls_sw/$BEAMLINE/software/gda_versions/var/$BEAMLINE.cfg", 
+                "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py", 
+                "icon": "sgda.png",
+                "text": "Start GDA Servers (with specific devices)",
+                "type": "button"
+            },
+--------------------------------------------------------------------------------
+
+Note that I renamed "Start GDA Servers" to "Start GDA Servers (with default
+device profiles)" to differentiate it from "Start GDA Servers (with specific
+device profiles)".
+
+The configuration should list all profiles which the user can choose, along with
+the default initial state of those options:
+
+--------------------------------------------------------------------------------
+/dls_sw/$BEAMLINE/software/gda_versions/var/$BEAMLINE.cfg
+--------------------------------------------------------------------------------
+[options]
+title=Launch I15-1 GDA servers with the selected device profiles
+prefix=Only the device profiles selected below will be enabled:
+suffix=The default beamline device profiles will be overridden.
+font=lucida 10
+tooltips = True
+
+[devices]
+trans = True
+xps5 = False
+sample_stage = False
+
+[descritions]
+trans = Temporary translation stages (enabled by default)
+xps5 = XPS motor stages (only enable if connected)
+sample_stage = Old sample stages, awaiting new PVs
+
+--------------------------------------------------------------------------------
+
+As users launch GDA Servers with or without these options, this .cfg file will
+record the most recently saved options.
+
+--------------------------------------------------------------------------------

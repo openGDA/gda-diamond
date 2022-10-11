@@ -14,8 +14,11 @@
 	<import resource="I15-1-JCAM2.xml"/>
 	 -->
 	<import resource="I15-1-JCL.xml"/>
-	<!-- 
+	<!--
 	<import resource="I15-1-JD1.xml"/>
+	 -->
+	<import resource="I15-1-JENV.xml"/>
+	<!-- 
 	<import resource="I15-1-JEYE1.xml"/>
 	 -->
 	<import resource="I15-1-JF1.xml"/>
@@ -31,6 +34,7 @@
 	<import resource="I15-1-JS4.xml"/>
 	<import resource="I15-1-JS5.xml"/>
 	<import resource="I15-1-JSAM.xml"/>
+	<import resource="I15-1-JTRANS.xml"/>
 	<!-- 
 	<import resource="I15-1-JWEB1.xml"/>
 	<import resource="I15-1-JWEB2.xml"/>
