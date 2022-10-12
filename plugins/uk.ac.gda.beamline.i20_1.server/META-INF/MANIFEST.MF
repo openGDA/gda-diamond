@@ -44,7 +44,8 @@ Require-Bundle: uk.ac.gda.core,
  org.dawnsci.ede,
  org.eclipse.january,
  org.eclipse.dawnsci.nexus.template,
- uk.ac.diamond.daq.persistence
+ uk.ac.diamond.daq.persistence,
+ uk.ac.diamond.daq.thirdparty.tango
 Import-Package: com.fasterxml.jackson.annotation;version="2.12.1",
  com.fasterxml.jackson.core;version="2.12.1",
  com.fasterxml.jackson.databind;version="2.12.1",
