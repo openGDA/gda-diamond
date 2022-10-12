@@ -17,6 +17,9 @@ from time import sleep
 import os
 import numbers
 
+EDGE_GRATING_TABLE = "lookupTables/edge_grating_table.csv"
+GDA_CONGIG_PROPERTY = "gda.config"
+
 def load_lookup_table(filename):
     with open(filename) as csv_data:
         reader = csv.reader(csv_data)
@@ -38,7 +41,7 @@ def is_busy(scannables):
     return _busy
 
 
-def set_edge(edge, grating, lookup_table="lookupTables/edge_grating_table.csv"):
+def set_edge(edge, grating, lookup_table = EDGE_GRATING_TABLE):
     '''move energy and motors positions to the given edge and grating selection
     '''
     from scannable.continuous.continuous_energy_scannables import energy
@@ -70,15 +73,18 @@ def set_edge(edge, grating, lookup_table="lookupTables/edge_grating_table.csv"):
     print("\nmove to (%s, %s) completed." % (edge, grating))
     
 
-def save_edge(edge, lookup_table="lookupTables/edge_grating_table.csv", keep_order=True):
+def save_edge(edge, lookup_table = EDGE_GRATING_TABLE, keep_order=True):
+    '''save new edge or update an existing edge motors' position data in lookup table file given.
+    The lookup_table file is default to ${gda.config}/lookupTables/edge_grating_table.csv. User can specify another file with absolute file path.
+    '''
     if keep_order:
         save_edge_keep_order(edge, lookup_table)
     else:
         save_edge_not_keep_order(edge, lookup_table)
         
     
-def save_edge_keep_order(edge, lookup_table="lookupTables/edge_grating_table.csv"):
-    '''save new edge or update an existing edge motors' position data in lookup table file given.
+def save_edge_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
+    '''save new edge or update an existing edge motors' position data in lookup table file given. It keeps the original data order in the file.
     The lookup_table file is default to ${gda.config}/lookupTables/edge_grating_table.csv. User can specify another file with absolute file path.
     '''
     from scannable.continuous.continuous_energy_scannables import energy
@@ -86,7 +92,7 @@ def save_edge_keep_order(edge, lookup_table="lookupTables/edge_grating_table.csv
         filename = str(lookup_table)
     else:
         from gda.configuration.properties import LocalProperties
-        filename = str(LocalProperties.get('gda.config')+os.path.sep+lookup_table)
+        filename = str(LocalProperties.get(GDA_CONGIG_PROPERTY) + os.path.sep + lookup_table)
     lookuptable, header, units = load_lookup_table(filename)  # @UnusedVariable
     scannable_names = header[1:]
     scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names] 
@@ -122,8 +128,8 @@ def save_edge_keep_order(edge, lookup_table="lookupTables/edge_grating_table.csv
     else:
         print("\nEdge '%s' is added in lookup table %s" % (edge, filename))
 
-def save_edge_not_keep_order(edge, lookup_table="lookupTables/edge_grating_table.csv"):
-    '''save new edge or update an existing edge motors' position data in lookup table file given.
+def save_edge_not_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
+    '''save new edge or update an existing edge motors' position data in lookup table file given.It does not keep the original data order in the file.
     The lookup_table file is default to ${gda.config}/lookupTables/edge_grating_table.csv. User can specify another file with absolute file path.
     '''
     from scannable.continuous.continuous_energy_scannables import energy
@@ -131,7 +137,7 @@ def save_edge_not_keep_order(edge, lookup_table="lookupTables/edge_grating_table
         filename = str(lookup_table)
     else:
         from gda.configuration.properties import LocalProperties
-        filename = str(LocalProperties.get('gda.config')+os.pathsep+lookup_table)
+        filename = str(LocalProperties.get(GDA_CONGIG_PROPERTY) + os.pathsep + lookup_table)
     lookuptable, header, units = load_lookup_table(filename)  # @UnusedVariable
     scannable_names = header[1:]
     scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names] 
@@ -145,7 +151,6 @@ def save_edge_not_keep_order(edge, lookup_table="lookupTables/edge_grating_table
         _updated = False
         print('\n'.join("'{0}' at {1}".format(*k) for k in zip(scannable_names[1:], scannable_values[1:])))
     lookuptable[(edge, scannable_values[0])] = scannable_values[1:]
-    # filename += ".test"
     with open(filename, "w") as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(header)
