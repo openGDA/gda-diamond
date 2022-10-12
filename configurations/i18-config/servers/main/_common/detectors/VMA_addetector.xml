@@ -15,23 +15,27 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 	
-	<bean id="vma_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+	<bean id="stop_decorator" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="decoratee" ref="acquire_time_decorator"/>
+	</bean>
+	
+	<bean id="acquire_time_decorator" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
-		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-				<property name="restoreNumImagesAndImageMode" value="true" />
-				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="vma_adbase" />
-								<property name="restoreAcquireState" value="true" />
-							</bean>
-						</property>
-					</bean>
-				</property>
-			</bean>
-		</property>
+		<property name="decoratee" ref="single_image_mode_decorator"/>
+	</bean>
+	
+	<bean id="single_image_mode_decorator" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee" ref="internal_trigger_mode_decorator"/>
+	</bean>
+	
+	<bean id="internal_trigger_mode_decorator" class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+		<property name="decoratee" ref="software_start_stop"/>
+	</bean>
+	
+	<bean id="software_start_stop" class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+		<property name="adBase" ref="vma_adbase" />
+		<property name="restoreAcquireState" value="true" />
 	</bean>
 
 	<bean id="VMA" class="gda.device.detector.addetector.ADDetector">
@@ -40,7 +44,7 @@
 		<property name="ndArray" ref="vma_ndarray" />
 		<property name="ndStats" ref="vma_stats" />
 		<property name="fileWriter" ref="vma_hdf5_writer" />
-		<property name="collectionStrategy" ref="vma_strategy" />
+		<property name="collectionStrategy" ref="stop_decorator" />
 	</bean>
 
 	<bean id="vmaModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
