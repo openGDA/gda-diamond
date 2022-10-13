@@ -16,6 +16,8 @@ def get_fitting_coefficents(polarisation_mode, Ep, vpg, lut={}):
     # print("Low energy limits %s" % str(low_energies))
     high_energies = sorted([e[2] for e in lut.keys() if (e[0]==polarisation_mode and e[3]==vpg)])
     # print("High energy limits %s" % str(high_energies))
+    if not low_energies or not high_energies:
+        raise KeyError("Polarisation Mode '%s' or PGM Grating Select '%s' is not available in the calibration lookup table!" % (polarisation_mode, vpg))
     minimum_energy = min(low_energies)
     maximum_energy = max(high_energies)
     limits = zip(low_energies, high_energies)

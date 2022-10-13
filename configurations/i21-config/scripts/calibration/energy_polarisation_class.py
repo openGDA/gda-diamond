@@ -205,7 +205,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             try:
                 coef = get_fitting_coefficents(mode, Ep, str(self.pgmgratingselect.getPosition()), self.lut)
                 gap = coef[0] + coef[1]*Ep + coef[2]*Ep**2 +coef[3]*Ep**3 + coef[4]*Ep**4 + coef[5]*Ep**5 + coef[6]*Ep**6 + coef[7]*Ep**7
-            except KeyError as e:
+            except (KeyError, ValueError) as e:
                 if mode not in ["CR", "CL"]:
                     raise e
                 gap = self.get_gap_use_theoretical_coefficients(Ep)
