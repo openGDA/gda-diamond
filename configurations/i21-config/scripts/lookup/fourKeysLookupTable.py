@@ -10,7 +10,7 @@ Created on 24 Spet 2019
 import csv
 
 def get_fitting_coefficents(polarisation_mode, Ep, vpg, lut={}):
-    if not (polarisation_mode in [key[0] for key in lut.keys()]):
+    if polarisation_mode not in [key[0] for key in lut.keys()]:
         raise KeyError("Polarisation Mode '%s' is not available in the calibration lookup table!" % (polarisation_mode))
     low_energies = sorted([e[1] for e in lut.keys() if (e[0]==polarisation_mode and e[3]==vpg)])
     # print("Low energy limits %s" % str(low_energies))
@@ -24,7 +24,7 @@ def get_fitting_coefficents(polarisation_mode, Ep, vpg, lut={}):
         raise ValueError("Demanding energy must lie between %s and %s eV!"%(minimum_energy, maximum_energy))
     else:
         for low, high in limits:
-            if (Ep >= low and Ep < high): 
+            if (Ep >= low and Ep < high):
                 return lut[(polarisation_mode, low, high, vpg)]
             
 def load_lookup_table(filename):

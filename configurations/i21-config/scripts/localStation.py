@@ -117,8 +117,6 @@ cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.
 clevertdiff1=CleverAmplifier("clevertdiff1", diff1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 
 print("-"*100)
-print("Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'ds' and 'ds1'")
-dummyenergy=BeamEnergy("dummyenergy",idscannable, ds, ds1, pgmGratingSelect)  # @UndefinedVariable
 print("Create an 'energy_s', 'polarisation', and 'energypolarisation' scannables")
 
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
