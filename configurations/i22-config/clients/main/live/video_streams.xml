@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="saxs_pil_2M">
+		<property name="displayName" value="SAXS Detector" />
+		<property name="arrayPv" value="BL22I-EA-PILAT-01:ARR" />
+		<property name="sleepTime" value="500" />
+	</bean>
+
+        <bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="waxs_pil_2M">
+                <property name="displayName" value="WAXS Detector" />
+                <property name="arrayPv" value="BL22I-EA-PILAT-03:ARR" />
+                <property name="sleepTime" value="500" />
+        </bean>
+
+        <bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="i22_webcam_07">
+                <property name="displayName" value="Webcam 7" />
+                <property name="url" value="http://i22-webcam7.diamond.ac.uk/mjpg/video.mjpg" />
+                <property name="sleepTime" value="250" />
+		<property name="rgb" value="True" />
+                <property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />    
+                </property>
+        </bean>
+
+        <bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="i22_webcam_08">
+                <property name="displayName" value="Webcam 8" />
+                <property name="url" value="http://i22-webcam8.diamond.ac.uk/mjpg/video.mjpg" />
+                <property name="sleepTime" value="250" />
+                <property name="rgb" value="True" />
+                <property name="topUi">
+                        <bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />    
+                </property>
+        </bean>
+</beans>
