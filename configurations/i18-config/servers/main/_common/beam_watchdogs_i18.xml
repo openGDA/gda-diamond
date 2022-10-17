@@ -1,0 +1,9 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="beam_available_watchdog_i18.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/topup_watchdog.xml" />
+
+</beans>
