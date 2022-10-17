@@ -32,8 +32,8 @@ class DetGuard(IObserver):
         
     def hardAction(self, message, current_value, limit, high_counts=()):
         print "ERROR: count rate %g exceeds limit %g on detector %s intolerable, closing shutter" % (current_value, limit, message)
-        if (high_counts):
-            print "High count pixels: " + '\n'.join(str(hc) for hc in high_counts)
+        if high_counts:
+            print "High count pixels (max 50 listed): " + '\n'.join(str(hc) for hc in high_counts[:50])
         for shutter in self.shutters:
             shutter("Close")
 
