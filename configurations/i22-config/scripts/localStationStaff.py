@@ -2,9 +2,6 @@
 # Configuration of servers after restart/reset
 # ===================================================================================
 
-# Uncomment (and edit) if non-standard motors are required for use with ncdgridscan
-gridscan_stage = [base_x, base_y]
-
 # Uncomment to change which channels and gain settings are used for It and I0 values in nexus files
 # NB Commenting this out again after a reset will not return the settings to default until the servers
 #    are restarted
