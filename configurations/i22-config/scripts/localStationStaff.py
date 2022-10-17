@@ -107,3 +107,29 @@ def optimise_pitch():
             print "Not enough beam to optimise - Aborting here"
         feedback_auto()
         return
+
+def enable_pressure():
+    from gdaserver import ncd_pressure_cell
+    if ncd_pressure_cell not in ncddetectors.detectors:
+        ncddetectors.addDetector(ncd_pressure_cell)
+
+def disable_pressure():
+    from gdaserver import ncd_pressure_cell
+    if ncd_pressure_cell in ncddetectors.detectors:
+        ncddetectors.removeDetector(ncd_pressure_cell)
+
+from setup import tfgsetup
+def pressure_collection(pressure_from, pressure_to, xray_frames_before, xray_frames_after, frame_time, title):
+    with tfgsetup.tfgGroups():
+        tfgsetup.addGroup(xray_frames_before, frame_time, 10, runPulse="11101111")
+        tfgsetup.addGroup(xray_frames_after, frame_time, 10, runPulse="11111111")
+    enable_pressure()
+    ncd_pressure_cell.setJumpPressures(pressure_from, pressure_to)
+    pressure_samples_before = xray_frames_before * (frame_time+10) * 10
+    pressure_samples_after = xray_frames_after * (frame_time+10) * 10
+    ncd_pressure_cell.setSamplesBefore(pressure_samples_before)
+    ncd_pressure_cell.setSamplesAfter(pressure_samples_after)
+    setTitle(title)
+    staticscan(ncddetectors)
+    disable_pressure()
+

@@ -33,5 +33,6 @@
 	<import resource="beamline.xml" />
 
 	<import resource="qbpm.xml" />
+	<import resource="pressure_cell.xml"/>
 
 </beans>
