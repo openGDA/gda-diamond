@@ -136,4 +136,9 @@ except Exception as e:
 #print "creating sampleCam and adding to ncdDetectors"
 #execfile(gdaScriptDir + "sampleCam.py")
 #run(setupScriptDir + "ZebraDetectors.py")
+try:
+    from staffScripts.config_tests import *
+except Exception, e:
+    logger.error("Error importing config tests", exc_info=True)
+    print("Error importing config tests: " + e)
 print "==================================================================="
