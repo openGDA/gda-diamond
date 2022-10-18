@@ -3,15 +3,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="bm" class="gda.device.monitor.IonChamberBeamMonitor">
-		<property name="monitor" ref="Ic6"/>
-		<property name="threshold" value="0.5"/>
-		<property name="monitorOn" value="true" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/bm" />
-		<property name="service" ref="bm" />
-		<property name="serviceInterface" value="gda.device.IBeamMonitor" />
-	</bean>
+    <bean id="ic6_threshold" class="uk.ac.diamond.daq.beamcondition.ScannableThresholdCheck" >
+        <property name="name" value="ic6_threshold" />
+        <property name="scannable" ref="Ic6" />
+        <property name="lowerLimit" value="0.5" />
+    </bean>
+    <bean id="bm" class="uk.ac.diamond.daq.beamcondition.BeamMonitor">
+        <property name="checks">
+            <list>
+                <ref bean="ic6_threshold" />
+            </list>
+        </property>
+    </bean>
 
 </beans>
