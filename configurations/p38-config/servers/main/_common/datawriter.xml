@@ -21,25 +21,17 @@
         </property>
     </bean>
 
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadata"/>
-        <property name="arguments">
+    <bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+        <property name="metadata">
             <map>
                 <entry key="sample_background" value="sample:NXsample/background"/>
                 <entry key="sample_name" value="sample:NXsample/name"/>
             </map>
         </property>
-    </bean>
-
-    <bean
-        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod"
-            value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-        <property name="arguments">
+        <property name="locationMap">
             <map>
                 <entry key="sample_thickness">
-                    <bean
-                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                    <bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
                         <property name="paths" value="sample:NXsample/thickness" />
                     </bean>
                 </entry>
