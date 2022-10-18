@@ -122,8 +122,8 @@ print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Create ETL detector objects, names: llimIe2, ulimIe2, pmIe2"
-from detector_control_pds import llimIe2, ulimIe2, pmIe2, pds # pds is a list containing the other three
+print "Create ETL detector objects, names: llimIe2, ulimIe2, pmtIe2"
+from detector_control_pds import llimIe2, ulimIe2, pmtIe2, pds # pds is a list containing the other three
 print "Available Detector objects are:"
 print pds
 print
