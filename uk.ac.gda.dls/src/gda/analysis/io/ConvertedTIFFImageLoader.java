@@ -19,9 +19,7 @@
 
 package gda.analysis.io;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import uk.ac.diamond.daq.util.logging.deprecation.DeprecationLogger;
 import uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader;
 
 /**
@@ -29,7 +27,7 @@ import uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader;
  */
 public class ConvertedTIFFImageLoader extends TIFFImageLoader {
 
-	private static final Logger logger = LoggerFactory.getLogger(ConvertedTIFFImageLoader.class);
+	private static final DeprecationLogger logger = DeprecationLogger.getLogger(ConvertedTIFFImageLoader.class);
 
 	/**
 	 * @param FileName
@@ -38,10 +36,10 @@ public class ConvertedTIFFImageLoader extends TIFFImageLoader {
 	 * @deprecated Use {@link TIFFImageLoader}
 	 */
 	@SuppressWarnings("unused")
-	@Deprecated
+	@Deprecated(since="(at least) 2013")
 	public ConvertedTIFFImageLoader(String FileName, String outputFormat, String outputCompression) {
 		super(FileName);
-		logger.warn("Deprecated: use PilatusTiffLoader or TIFFImageLoader");
+		logger.deprecatedClass(null, "uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader");
 	}
 
 }
