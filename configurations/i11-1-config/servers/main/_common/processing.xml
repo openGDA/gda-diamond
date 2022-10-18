@@ -7,17 +7,17 @@
 	<!-- calibration adds a calibration request to scans in which it's involved -->
 	<bean id="calibration" class="gda.device.scannable.SingleFileProcessingRequest"
 			c:name="calibration"
-			c:key="calibration">
-		<property name="processingFile" value="calib.json"/>
-		<property name="relativePathBase" value="${gda.paths.visitdirectory}"/>
+			c:key="pyfai-calibration">
+		<property name="processingFile" value="calibration.json"/>
+        <property name="relativePathBase" value="${gda.var}/processing"/>
 	</bean>
 
 	<!-- process adds a process request to scans in which it's involved -->
 	<bean id="process" class="gda.device.scannable.SingleFileProcessingRequest"
 			c:name="process"
-			c:key="dawn">
-		<property name="processingFile" value="process.json"/>
-		<property name="relativePathBase" value="${gda.paths.visitdirectory}"/>
+			c:key="pyfai-integration">
+		<property name="processingFile" value="processing.json"/>
+        <property name="relativePathBase" value="${gda.var}/processing"/>
 	</bean>
 
 	<!-- processing listener listens for AMQ messages and deserializes them for handler -->
@@ -25,10 +25,13 @@
 		c:type="org.opengda.lde.ReductionResponse"
 		init-method="configure">
 		<property name="topic" value="gda.messages.calibration.xrd2" />
-		<property name="handler" ref="processingHandler" />
+		<property name="handler" ref="calibration_file" />
 	</bean>
 
 	<!-- processing handler takes deserialized processing messages and sends file events -->
-	<bean id="processingHandler" class="org.opengda.lde.ProcessingResultHandler" />
+    <bean id="calibration_file" class="org.opengda.lde.ExternalCalibrationMetadataEntry">
+        <property name="name" value="calibration_file"/>
+        <property name="terminal" ref="jythonServerFacade" />
+    </bean>
 </beans>
 

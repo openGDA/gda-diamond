@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="pixiumMetadata.xml"/>
 	<import resource="GDAMetadata.xml"/>
 	<import resource="MachineStatus.xml" />
 	<import resource="devices/devices.xml"/>

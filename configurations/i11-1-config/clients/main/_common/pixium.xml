@@ -10,15 +10,6 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<bean id="processingHandler" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-
-	<bean id="dataplotviewfactory" class="org.opengda.lde.ui.viewfactories.ReducedDataPlotViewFactory">
-		<property name="viewPartName" value="Reduced Data" />
-		<property name="eventSource" ref="processingHandler"/>
-		<property name="resUtil" ref="resUtil"/>
-		<property name="config" ref="reducedDataConfig" />
-	</bean>
-
 	<bean id="reducedDataConfig" class="org.opengda.lde.ui.views.ReducedDataPlotView.ReducedDataConfig"
 		c:xName="2 Theta"
 		c:yName="Sum"

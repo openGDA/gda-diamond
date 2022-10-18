@@ -29,12 +29,14 @@
 				</bean>
 
 				<ref bean="beamCurrent" />
-
 				<ref bean="facilityMode" />
-
 				<ref bean="fillMode" />
-
 				<ref bean="beamEnergy" />
+                <ref bean="calibration_file"/>
+
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="detector_distance" />
+                </bean>
 
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="federalid" />
