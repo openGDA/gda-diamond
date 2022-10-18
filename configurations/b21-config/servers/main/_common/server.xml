@@ -12,6 +12,7 @@
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<bean id="commandQueue" class="gda.commandqueue.CommandQueue" />
