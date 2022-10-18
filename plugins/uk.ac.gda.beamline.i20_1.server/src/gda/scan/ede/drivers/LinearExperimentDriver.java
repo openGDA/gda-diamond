@@ -26,19 +26,24 @@ import gda.device.Scannable;
 import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Finder;
 import gda.scan.ede.TimeResolvedExperiment;
+import uk.ac.diamond.daq.util.logging.deprecation.DeprecationLogger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class LinearExperimentDriver extends ScanDriver {
+
+	private static final DeprecationLogger logger = DeprecationLogger.getLogger(LinearExperimentDriver.class);
 
 	private final StripDetector detector;
 	private final EdeScanParameters iTScanParameters;
 	private final Monitor topupMonitor;
 	private final Scannable shutter2;
 	private double noOfSecPerSpectrumToPublish = TimeResolvedExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
-	@Deprecated
+	@Deprecated(since="GDA 8.44")
 	public LinearExperimentDriver(String detectorName, String topupMonitorName, Vector<TimingGroup> timingGroups, Scannable shutter2) {
 		super();
+		// FIXME: Is this class deprecated? Or is just constructing it without a fileTemplate?
+		logger.deprecatedMethod("LinearExperimentDriver(String, String, Vector<TimingGroup>, Scannable)");
 		detector = Finder.find(detectorName);
 		topupMonitor = Finder.find(topupMonitorName);
 		iTScanParameters = new EdeScanParameters();
