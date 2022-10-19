@@ -3,7 +3,7 @@ from gda.device.detector import DetectorBase
 from uk.ac.diamond.scisoft.analysis import SDAPlotter
 from time import sleep
 from gdascripts.utils import caget, caput
-
+from org.eclipse.january.dataset import DatasetFactory
 
 """Temporary script for testing extra Excalibur functionality"""
 
@@ -25,7 +25,7 @@ class ExcPvaSnapper(DetectorSnapper, DetectorBase):
         self.adBase.startAcquiring()
         while self.pvaPlugin.getPluginBase().getArrayCounter_RBV() != 1:
             sleep(0.1)
-        imageData = self.pvaPlugin.getImageDataset()
+        imageData = DatasetFactory.createFromObject(self.pvaPlugin.getImageObject(), self.pvaPlugin.getHeight(), self.pvaPlugin.getWidth())
         SDAPlotter.imagePlot("Excalibur", imageData)
         # Acquire
         # Get image

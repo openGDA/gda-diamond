@@ -80,10 +80,10 @@
 	<!--
 	<import resource="detector/andor1.xml" />
 	 -->
+	<import resource="detector/bpm1.xml" />
 	<import resource="detector/cam1.xml" />
 	<!--
 	<import resource="detector/cam2.xml" />
-	<import resource="detector/cam5.xml" />
 	 -->
 	<import resource="../live/detector/camlab84.xml" />
 	<!-- 

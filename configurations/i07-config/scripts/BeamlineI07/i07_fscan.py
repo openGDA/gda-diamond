@@ -23,7 +23,7 @@ def fscan(*args):
         # dual motor scan
         (motor1, start1, end1, motor2, start2, end2, step1, detector, count) = args
         pos(motor1, start1, motor2, start2)
-        points = int((end1 - start1)/step1) + 1
+        points = abs(int((end1 - start1)/step1) + 1)
         mscan(motor1, motor2, line, start1, start2, end1, end2, pts, points, cont, detector, count / float(1000))
     else:
         print "fscan syntax:\n"
@@ -31,6 +31,33 @@ def fscan(*args):
         print "   fscan motor start end step_size detector count_in_milliseconds"
         print "Dual motor:"
         print "   fscan motor1 start1 end1 motor2 start2 end2 step_size1 detector count_in_milliseconds"
+
+def cfscan(*args):
+    '''
+    Centred continuous scan, same as fscan but specify width rather than start/end points
+
+    Syntax:
+       cfscan motor halfwidth step_size detector count_in_milliseconds
+       cfscan motor centre halfwidth step_size detector count_in_milliseconds
+    '''
+    if len(args) == 5:
+        (motor, halfwidth, step, detector, count) = args
+        centre = motor.getPosition()
+        (start, end) = centre-halfwidth, centre+halfwidth
+        fscan(motor, start, end, step, detector, count)
+        pos(motor, centre)
+    elif len(args) == 6:
+        (motor, centre, halfwidth, step, detector, count) = args
+        (start, end) = centre-halfwidth, centre+halfwidth
+        fscan(motor, start, end, step, detector, count)
+        pos(motor, centre)
+    else:
+        print "cfscan syntax:\n"
+        print "At current position:"
+        print "   cfscan motor halfwidth step_size detector count_in_milliseconds"
+        print "At arbitrary position (centre):\n"
+        print "   cfscan motor centre halfwidth step_size detector count_in_milliseconds"
+
 
 def fpscan(*args):
     '''
@@ -74,8 +101,8 @@ def fhklscan(hkl, start, stop, step, runnable_device, exposure_time):
         hkl_posns += [ScannableUtils.calculateNextPoint(hkl_posns[-1], sobj.getStep())]
 
     angles = []
-    for pos in hkl_posns:
-        angles += [hkl._diffcalc.hkl_to_angles(pos[0], pos[1], pos[2])[0]]
+    for posn in hkl_posns:
+        angles += [hkl._diffcalc.hkl_to_angles(posn[0], posn[1], posn[2])[0]]
     angles_ds = dnp.array(angles)
 
 
@@ -96,5 +123,6 @@ def fhklscan(hkl, start, stop, step, runnable_device, exposure_time):
     # TODO add monitors, per point and per scan
     request = ScanRequestBuilder().withCompoundModel(scan_model).withDetectors(dets).build()
 
+    pos(hkl, start)
     submit(request)
 

@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="blowerY_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-EA-BLOWR-01:TLATE" />
+	</bean>
+
+	<bean id="envX_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-TABLE-01:ENV:X" />
+	</bean>
+</beans>

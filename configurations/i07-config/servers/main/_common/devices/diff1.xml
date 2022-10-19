@@ -9,9 +9,7 @@
 	
 	<!-- I07-366 Aliases for backwards compatibility -->
 	<alias name="diff1omega" alias="diff1vomega"/>
-	<alias name="diff1alpha" alias="diff1valpha"/>
 	<alias name="diff1theta" alias="diff1homega"/>
-	<alias name="diff1chi" alias="diff1halpha"/>
 	<alias name="diff1delta" alias="diff1vdelta"/>
 	<alias name="diff1gamma" alias="diff1vgamma"/>
 
@@ -128,20 +126,6 @@
 	<bean id="diff1delta" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1delta" />
 	<bean id="diff1gamma" factory-bean="diff1group" factory-method="getGroupMember" c:name="diff1gamma" />
 
-
-
-	<!-- Alpha in Vertical mode -->
-	<bean id="diff1alpha" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorALPHA_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
 
 	<!-- Chi on Eulerian (Chi2) -->
 	<bean id="diff1cchi" class="gda.device.scannable.ScannableMotor">
@@ -303,7 +287,6 @@
 				<ref bean="diff1x" />
 				<ref bean="diff1y" />
 				<ref bean="diff1z" />
-				<ref bean="diff1alpha" />
 				<ref bean="diff1chi" />
 				<ref bean="diff1delta" />
 				<ref bean="diff1gamma" />

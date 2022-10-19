@@ -37,8 +37,7 @@ def eh2(options=''):
 
 
 def set_motor_aliases(diffmode):
-    global alpha, chi, delta, gamma, omega, theta
-    alpha = {'eh1v' : None, 'eh1h' : diff1alpha, 'eh2' : None}.get(diffmode)
+    global chi, delta, gamma, omega, theta
     chi = {'eh1v' : None, 'eh1h' : diff1chi, 'eh2' : None}.get(diffmode)
     delta = {'eh1v' : None, 'eh1h' : diff1delta, 'eh2' : None}.get(diffmode)
     gamma = {'eh1v' : None, 'eh1h' : diff1gamma, 'eh2' : None}.get(diffmode)

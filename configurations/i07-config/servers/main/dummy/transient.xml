@@ -19,6 +19,8 @@
 
 	<import resource="transient/flight_tube.xml" />
 
+	<import resource="../_common/transient/fastatt.xml" />
+	
 	<import resource="transient/xmap.xml" />
 
 

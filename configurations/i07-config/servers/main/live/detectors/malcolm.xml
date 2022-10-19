@@ -3,19 +3,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 
 	<bean id="MalcRoiProcExc" class="uk.ac.gda.analysis.mscan.RoiProc">
 		<property name="plotName" value="Excalibur" />
 	</bean>
-		<bean id="MalcRoiProcPil" class="uk.ac.gda.analysis.mscan.RoiProc">
+	<bean id="MalcRoiProcPil2" class="uk.ac.gda.analysis.mscan.RoiProc">
 		<property name="plotName" value="Pilatus 2" />
 	</bean>
-		<bean id="MalcPlotProcExc" class="uk.ac.gda.analysis.mscan.PlotProc">
+	<bean id="MalcRoiProcPil3" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="plotName" value="Pilatus 3" />
+	</bean>
+	<bean id="MalcPlotProcExc" class="uk.ac.gda.analysis.mscan.PlotProc">
 		<property name="plotName" value="Excalibur" />
 	</bean>
-		<bean id="MalcPlotProcPil" class="uk.ac.gda.analysis.mscan.PlotProc">
+	<bean id="MalcPlotProcPil2" class="uk.ac.gda.analysis.mscan.PlotProc">
 		<property name="plotName" value="Pilatus 2" />
+	</bean>
+	<bean id="MalcPlotProcPil3" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="plotName" value="Pilatus 3" />
 	</bean>
 
 
@@ -43,9 +49,9 @@
 				<ref bean="MalcPlotProcExc" />
 			</list>
 		</property>
-		
+
 	</bean>
-	
+
 	<!-- scan 2 -->
 	<bean id="malcolm_info_scan02" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 02" />
@@ -66,12 +72,12 @@
 		<property name="primaryDataName" value="PILATUS" />
 		<property name="processors">
 			<list>
-				<ref bean="MalcRoiProcPil" />
-				<ref bean="MalcPlotProcPil" />
+				<ref bean="MalcRoiProcPil2" />
+				<ref bean="MalcPlotProcPil2" />
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- scan 3 -->
 	<bean id="malcolm_info_scan03" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 03" />
@@ -87,7 +93,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan03" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 4 -->
 	<bean id="malcolm_info_scan04" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 04" />
@@ -103,7 +109,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan04" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 5 -->
 	<bean id="malcolm_info_scan05" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 05" />
@@ -119,7 +125,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan05" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 10 -->
 	<bean id="malcolm_info_scan10" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 10" />
@@ -135,7 +141,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan10" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 11 -->
 	<bean id="malcolm_info_scan11" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 11" />
@@ -151,7 +157,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan11" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 12 -->
 	<bean id="malcolm_info_scan12" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 12" />
@@ -167,7 +173,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan12" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 13 -->
 	<bean id="malcolm_info_scan13" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 13" />
@@ -183,7 +189,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan13" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 14 -->
 	<bean id="malcolm_info_scan14" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 14" />
@@ -199,7 +205,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan14" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 15 -->
 	<bean id="malcolm_info_scan15" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 15" />
@@ -215,7 +221,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan15" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 20 -->
 	<bean id="malcolm_info_scan20" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 20" />
@@ -231,7 +237,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan20" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 21 -->
 	<bean id="malcolm_info_scan21" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 21" />
@@ -247,7 +253,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan21" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 22 -->
 	<bean id="malcolm_info_scan22" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 22" />
@@ -263,7 +269,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan22" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 23 -->
 	<bean id="malcolm_info_scan23" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 23" />
@@ -279,7 +285,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan23" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 24 -->
 	<bean id="malcolm_info_scan24" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 24" />
@@ -295,7 +301,7 @@
 		<property name="deviceInformation" ref="malcolm_info_scan24" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
 	<!-- scan 25 -->
 	<bean id="malcolm_info_scan25" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 25" />
@@ -311,5 +317,79 @@
 		<property name="deviceInformation" ref="malcolm_info_scan25" />
 		<property name="activated" value="false" />
 	</bean>
-	
+
+	<!-- scan 30 -->
+	<bean id="malcolm_info_scan30" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 30" />
+		<property name="description" value="Scan 30" />
+	</bean>
+	<bean id="malcolm_model_scan30" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-30" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan30" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-30" />
+		<property name="model" ref="malcolm_model_scan30" />
+		<property name="deviceInformation" ref="malcolm_info_scan30" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- scan 31 -->
+	<bean id="malcolm_info_scan31" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 31" />
+		<property name="description" value="Scan 31" />
+	</bean>
+	<bean id="malcolm_model_scan31" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-31" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan31" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-31" />
+		<property name="model" ref="malcolm_model_scan31" />
+		<property name="deviceInformation" ref="malcolm_info_scan31" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- scan 32 -->
+	<bean id="malcolm_info_scan32" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 32" />
+		<property name="description" value="Scan 32" />
+	</bean>
+	<bean id="malcolm_model_scan32" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-32" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan32" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-32" />
+		<property name="model" ref="malcolm_model_scan32" />
+		<property name="deviceInformation" ref="malcolm_info_scan32" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- scan 33 -->
+	<bean id="malcolm_info_scan33" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 33" />
+		<property name="description" value="Scan 33" />
+	</bean>
+	<bean id="malcolm_model_scan33" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-33" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan33" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-33" />
+		<property name="model" ref="malcolm_model_scan33" />
+		<property name="deviceInformation" ref="malcolm_info_scan33" />
+		<property name="activated" value="false" />
+		<property name="detFileNameSuffix" value="-PILATUS.h5" />
+		<property name="detFrameEntry" value="/entry/detector/detector" />
+		<property name="detUidEntry" value="/entry/NDAttributes/NDArrayUniqueId" />
+		<property name="primaryDataName" value="PILATUS" />
+		<property name="processors">
+			<list>
+				<ref bean="MalcRoiProcPil3" />
+				<ref bean="MalcPlotProcPil3" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

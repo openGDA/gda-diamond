@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Epics scannables for import into CommissioningView -->
+
+	<bean id="TTi_V1"
+			class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.9564" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%3.3f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="TTi_V1_read"
+			class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value" value="0.9564" />
+		<!-- 
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="10" />
+		<property name="increment" value="0" />
+		 -->
+	</bean>
+
+	<bean id="TTi_I1"
+			class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.9564" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%3.3f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="TTi_I1_read"
+			class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="A" />
+		<property name="value" value="0.9564" />
+		<!-- 
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="10" />
+		<property name="increment" value="0" />
+		 -->
+	</bean>
+
+	<bean id="TTi_V2"
+			class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.9564" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%3.3f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="TTi_V2_read"
+			class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value" value="0.9564" />
+		<!-- 
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="10" />
+		<property name="increment" value="0" />
+		 -->
+	</bean>
+
+	<bean id="TTi_I2"
+			class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.9564" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%3.3f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="TTi_I2_read"
+			class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="A" />
+		<property name="value" value="0.9564" />
+		<!-- 
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="10" />
+		<property name="increment" value="0" />
+		 -->
+	</bean>
+</beans>

@@ -33,13 +33,13 @@ slitList = [dets1xcentre, dets1xsize, dets1ycentre, dets1ysize, dets2xcentre,
         jj2xsize, jj2ypos, jj2ysize]
 
 diffList = [diff1x, diff1y, diff1z, diff1basex, diff1basey, diff1basepitch,
-        diff1cchi, diff1cphi, diff1vomega, diff1valpha, diff1vdelta,
-        diff1vgamma, diff1homega, diff1halpha]
+        diff1cchi, diff1cphi, diff1vomega, diff1vdelta,
+        diff1vgamma, diff1homega, diff1chi]
 
 diffDetList = [diff1detdist,diff1dets1rot,diff1dets2rot,diff1detselect,
         diff1prot]
 
-diffOffsetList = [diff1halphaoffset, diff1homegaoffset, diff1valphaoffset,
+diffOffsetList = [diff1chioffset, diff1homegaoffset,
         diff1vdeltaoffset, diff1vgammaoffset, diff1vomegaoffset]
 
 dcdList = [dcdc1pitch, dcdc1roll, dcdc1rad, dcdc2pitch, dcdc2roll, dcdc2rad,
@@ -52,6 +52,7 @@ deviceList = [d4dx, d4x, dpsx, dpsy, dpsz, dpsz2, hfmpitch, hfmstripe,
         hfmx, hfmx1, hfmx2, hfmy, hfmy1, hfmy2, hfmyaw, vfmpitch, vfmx, vfmy,
         vfmy1, vfmy2, filterset]
 
+hexapodList = [hx, hy, hz, hrx, hry, hrz]
 
 #EH2
 hex2List=[hex2x, hex2y, hex2z, hex2rx, hex2ry, hex2rz, hex2pivotx, hex2pivoty,
@@ -65,8 +66,7 @@ dets3List=[dets3hall, dets3ring, dets3top, dets3bottom, dets3xsize,
 
 mbs4List=[mbs4xsize, mbs4xcentre, mbs4ysize, mbs4ycentre]
 
-diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect,
-        diff2prot, diff2dets4rot, diff2dets3rot, diff2basex, diff2basey,
+diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2prot, diff2dets3rot, diff2basex, diff2basey,
         diff2basey1, diff2basey2, diff2basepitch]
 
 tabList = [tab1x, tab1y]
@@ -74,7 +74,7 @@ tabList = [tab1x, tab1y]
 qbpmList = [d4range, ioncrange, qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x,
         qbpm1range, qbpm2range, qbpm3range]
 
-miscList = [note, dpsx_zero, dpsy1_zero, dpsy2_zero, dpsz_zero, dps_cpx, dps_cpy,
+miscList = [note, dpsx_zero, dpsy_zero, dpsz_zero, dpsz2_zero, dps_cpx, dps_cpy,
             diff1_cpx, diff1_cpy, diff2_cpx, diff2_cpy]
 
 metadata = []
@@ -89,6 +89,7 @@ metadata += diffOffsetList
 metadata += dcdList
 metadata += hex1List
 metadata += deviceList
+metadata += hexapodList
 metadata += hex2List
 metadata += dets4List
 metadata += dets3List

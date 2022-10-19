@@ -7,14 +7,18 @@
 # Note: use at your own risk! Moving certain combinations of motors may result in collisions
 # and this script may not always move what/where you were expecting
 
+from os import path
+from array import array
+
 peakFindMotors = []
 peakFindDetector = ""
 
 def peak(*args):
     global peakFindMotors, peakFindDetector
 
-    (data, counts, headings, detectorName, motorNames, dispOnly) = peakFindCommon(args, "to peak in")
+    (data, counts, headings, detectorName, motorNames, dispOnly, nexus) = peakFindCommon(args, "to peak in")
 
+    counts = counts.tolist()
     peakPos = counts.index(max(counts))
     peakVal = max(counts)
     print " Peak is " + detectorName + '\x20=\x20' + str(peakVal)
@@ -24,12 +28,20 @@ def peak(*args):
     busyString = "while "
     motorPos = []
     for i in range(0, len(peakFindMotors)):
-        motorPos.append( data.getAxis(motorUsedCol(peakFindMotors[i], headings)).getData()[peakPos] )
+        if nexus:
+            motorPos.append( findNxMotor(data, detectorName, peakFindMotors[i])[peakPos] )
+        else:
+            motorPos.append( data.getAxis(motorUsedCol(peakFindMotors[i], headings)).getData()[peakPos] )
         print " " + motorNames[i] + '\x20=\x20' + str(motorPos[i])
 
         if not dispOnly:
-            exec motorNames[i]+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
-            busyString+=motorNames[i]+".isBusy() or "
+            if nexus:
+                mt = motorNames[i].split('_', 1)[0]
+                exec mt+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
+                busyString+=mt+".isBusy() or "
+            else:
+                exec motorNames[i]+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
+                busyString+=motorNames[i]+".isBusy() or "
 
     if not dispOnly:
         busyString+=" False: \n\tsleep(0.2)"
@@ -38,7 +50,7 @@ def peak(*args):
 def com(*args):
     global peakFindMotors, peakFindDetector
 
-    (data, counts, headings, detectorName, motorNames, dispOnly) = peakFindCommon(args, "to centre of mass in")
+    (data, counts, headings, detectorName, motorNames, dispOnly, nexus) = peakFindCommon(args, "to centre of mass in")
 
     mass = 0
     sum = 0
@@ -52,12 +64,12 @@ def com(*args):
     (index, frac) = divmod(mass, 1)
 #   print index, frac
 
-    peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly)
+    peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly, nexus, detectorName)
 
 def cen(*args):
     global peakFindMotors, peakFindDetector
 
-    (data, counts, headings, detectorName, motorNames, dispOnly) = peakFindCommon(args, "to centre of FWHM in")
+    (data, counts, headings, detectorName, motorNames, dispOnly, nexus) = peakFindCommon(args, "to centre of FWHM in")
 
     halfval = min(counts) + ( max(counts) - min(counts) )/2.0
 
@@ -87,12 +99,12 @@ def cen(*args):
     (index, frac) = divmod(midpoint, 1)
 #   print v1, v2, midpoint, index, frac
 
-    peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly)
+    peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly, nexus, detectorName)
 
 def half(*args):
     global peakFindMotors, peakFindDetector
 
-    (data, counts, headings, detectorName, motorNames, dispOnly) = peakFindCommon(args, "to half height in")
+    (data, counts, headings, detectorName, motorNames, dispOnly, nexus) = peakFindCommon(args, "to half height in")
     halfval = min(counts) + ( max(counts) - min(counts) )/2.0
 
     print " Half value is " + detectorName + '\x20=\x20' + str(halfval)
@@ -114,9 +126,9 @@ def half(*args):
             break
     (index, frac) = divmod(v1, 1)
 
-    peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly)    
+    peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly, nexus, detectorName)    
 
-def peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly):
+def peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly, nexus, detectorName):
     global peakFindMotors, peakFindDetector    
     # will move to fractionally in between two adjacent data points
     print "Moving to:"
@@ -124,27 +136,79 @@ def peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, disp
     busyString = "while "
     motorPos = []
     for i in range(0, len(peakFindMotors)):
-        motorPos.append( data.getAxis(motorUsedCol(peakFindMotors[i], headings)).getData()[int(index)] * (1-frac) + \
-                         data.getAxis(motorUsedCol(peakFindMotors[i], headings)).getData()[int(index)+1] * frac )
+        if nexus:
+            motorPos.append( findNxMotor(data, detectorName, peakFindMotors[i])[int(index)] * (1-frac) + \
+                             findNxMotor(data, detectorName, peakFindMotors[i])[int(index)+1] * frac )
+        else:
+            motorPos.append( data.getAxis(motorUsedCol(peakFindMotors[i], headings)).getData()[int(index)] * (1-frac) + \
+                             data.getAxis(motorUsedCol(peakFindMotors[i], headings)).getData()[int(index)+1] * frac )
         print " " + motorNames[i] + '\x20=\x20' + str(motorPos[i])
 
         if not dispOnly:
-            exec motorNames[i]+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
-            busyString+=motorNames[i]+".isBusy() or "
+            if nexus:
+                mt = motorNames[i].split('_', 1)[0]
+                exec mt+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
+                busyString+=mt+".isBusy() or "
+            else:
+                exec motorNames[i]+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
+                busyString+=motorNames[i]+".isBusy() or "
 
     if not dispOnly:
         busyString+=" False: \n\tsleep(0.2)"
         exec busyString
 
+def parseNx(scanfile):
+    detlist = []
+    motorlist = []
+    motorlist2 = []
+
+    for i in scanfile['/entry'].items():
+        if i[0].startswith('EXCALIBUR_') or i[0].startswith('PILATUS_') or i[0].startswith('EIGER_'):
+            detlist.append(i[0])
+
+    for i in scanfile['/entry'][detlist[0]].items():
+        if i[0].endswith('_value') or i[0].endswith('_value_set'):
+            motorlist2.append(i[0])
+
+    # as remove method appears to be broken
+    for i in motorlist2:
+        if not i + '_set' in motorlist2:
+                motorlist.append(i)
+
+    if 'hkl' in scanfile['/entry']:
+        for i in scanfile['/entry/hkl']:
+            if i[0] == 'h' or i[0] == 'k' or i[0] == 'l':
+                motorlist.append(i[0])
+    print "Motors available: " + str(motorlist)
+    print "Detectors available: " + str(detlist)
+    return motorlist + detlist, motorlist, detlist
+
+def findNxCounts(scanfile, detname):
+    s = scanfile['entry'][detname][detname.split('_', 1)[1]]
+    return s[0:s.shape[0]]
+
+def findNxMotor(scanfile, detname, motorname):
+    if motorname == 'h' or motorname == 'k' or motorname == 'l':
+        s = scanfile['entry']['hkl'][motorname]
+    else:
+        s = scanfile['entry'][detname][motorname]
+    return s[0:s.shape[0]]
+
 def peakFindCommon(args, textDesc):
     global peakFindMotors, peakFindDetector
     # load the data file
-    data = gda.analysis.ScanFileHolder()
-#    data.loadSRS("/dls/i07/data/2012/si7264-1/84876.dat")
-#    data.loadSRS(lastscan)
-#    data.loadSRS(i07.getLastScanFile())
-    data.loadSRS(i07.getLastSrsScanFile())
-    headings = data.getHeadings()
+    data = []
+    last = i07.getLastSrsScanFile()
+    nexus = True
+    if path.exists(last):
+        nexus = False
+        data = gda.analysis.ScanFileHolder()
+        data.loadSRS(last)
+        headings = data.getHeadings()
+    else:
+        print "Loading NeXus data, please wait..."
+        data = dnp.io.load(path.dirname(last) + path.sep + 'i07-' + path.basename(last)[:-3] + 'nxs')
+        (headings, headings_motors, headings_detectors) = parseNx(data)
 
     newMotor = False
     newDetector = False
@@ -162,20 +226,27 @@ def peakFindCommon(args, textDesc):
         elif(type(args[i]) == int and args[i] == 0):
             dispOnly = True
         else:
-#           print args[i]
-            try:
-                if (args[i].getClass() == gda.device.scannable.ScannableMotor) or ("DiffractometerAxisClass" in str(args[i].getClass())):
-                    print  args[i]
+            if nexus:
+                if args[i] in headings_motors:
+                    peakFindMotors.append(args[i])
+                    newMotor = True
+                elif args[i] in headings_detectors:
+                    peakFindDetector = args[i]
+                    newDetector = True
+            else:
+                try:
+                    if (args[i].getClass() == gda.device.scannable.ScannableMotor) or ("DiffractometerAxisClass" in str(args[i].getClass())):
+                        print  args[i]
+                        if motorUsedInScan(args[i],headings):
+                            peakFindMotors.append(args[i])
+                            newMotor = True
+                    else:
+                        if motorUsedInScan(args[i],headings):
+                            peakFindDetector = args[i]
+                            newDetector = True
+                except (NameError, AttributeError):
                     if motorUsedInScan(args[i],headings):
-                        peakFindMotors.append(args[i])
-                        newMotor = True
-                else:
-                    if motorUsedInScan(args[i],headings):
-                        peakFindDetector = args[i]
-                        newDetector = True
-            except (NameError, AttributeError):
-                if motorUsedInScan(args[i],headings):
-                    peakFindDetector = args[i]                    
+                        peakFindDetector = args[i]                    
 
     # if no new motors/detector given, use the previous ones
     if len(peakFindMotors) == 0:
@@ -224,14 +295,18 @@ def peakFindCommon(args, textDesc):
         outStr += " (inverted)"
     print outStr    
 
-    cc = data.getAxis(motorUsedCol(peakFindDetector, headings)).getData()
+    if nexus:
+        cc = findNxCounts(data, detectorName)
+    else:
+        cc = data.getAxis(motorUsedCol(peakFindDetector, headings)).getData()
+
     counts = []
     if invert:
         for i in range(0,len(cc)):
             cc[i] = cc[i] * -1
     counts = cc
         
-    return (data, counts, headings, detectorName, motorNames, dispOnly)
+    return (data, counts, headings, detectorName, motorNames, dispOnly, nexus)
 
 def motorUsedInScan(motor, headings):
     try:

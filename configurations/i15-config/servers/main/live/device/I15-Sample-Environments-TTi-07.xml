@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Epics scannables for import into CommissioningView -->
+
+	<bean id="TTi_V1"
+			class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL15I-EA-TTI-07:1:VOLTAGE_RBV" />
+		<property name="pvNameSetPoint" value="BL15I-EA-TTI-07:1:VOLTAGE" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="TTi_V1_read"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-EA-TTI-07:1:VOLTAGE_RBV" />
+	</bean>
+
+	<bean id="TTi_I1"
+			class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL15I-EA-TTI-07:1:CURRENT_RBV" />
+		<property name="pvNameSetPoint" value="BL15I-EA-TTI-07:1:CURRENT" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="TTi_I1_read"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-EA-TTI-07:1:CURRENT_RBV" />
+	</bean>
+
+	<bean id="TTi_V2"
+			class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL15I-EA-TTI-07:2:VOLTAGE_RBV" />
+		<property name="pvNameSetPoint" value="BL15I-EA-TTI-07:2:VOLTAGE" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="TTi_V2_read"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-EA-TTI-07:2:VOLTAGE_RBV" />
+	</bean>
+
+	<bean id="TTi_I2"
+			class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL15I-EA-TTI-07:2:CURRENT_RBV" />
+		<property name="pvNameSetPoint" value="BL15I-EA-TTI-07:2:CURRENT" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="TTi_I2_read"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-EA-TTI-07:2:CURRENT_RBV" />
+	</bean>
+</beans>

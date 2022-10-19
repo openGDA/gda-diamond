@@ -138,48 +138,47 @@
 	</bean>
 
 	<!-- Main area detector - does not compute stats -->
-	<bean id="dcam9_det" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="dcam9_adbase" />
-		<property name="ndFile" ref="dcam9_ndfile" />
-		<property name="ndArray" ref="dcam9_ndarray" />
-		<property name="fileWriter" ref="dcam9_hdf5_writer" />
+	<bean id="dcam9_det" class="gda.device.detector.NXDetector">
+		<property name="name" value="dcam9_det" />
 		<property name="collectionStrategy" ref="dcam9_collection_strategy" />
-		<property name="computeStats" value="false" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="dcam9_hdf5_writer" />
+			</list>
+		</property>
 	</bean>
 
 	<!-- Stats-computing version -->
-	<bean id="dcam9_det_stat" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="dcam9_adbase" />
-		<property name="ndFile" ref="dcam9_ndfile" />
-		<property name="ndArray" ref="dcam9_ndarray" />
-		<property name="ndStats" ref="dcam9_ndstats" />
-		<property name="fileWriter" ref="dcam9_hdf5_writer" />
+	<bean id="dcam9_det_stat" class="gda.device.detector.NXDetector">
+		<property name="name" value="dcam9_det_stat" />
 		<property name="collectionStrategy" ref="dcam9_collection_strategy" />
-		<property name="computeStats" value="true" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="dcam9_hdf5_writer" />
+			</list>
+		</property>
 	</bean>
 
-	<bean id="dcam9_png" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="dcam9_adbase" />
-		<property name="ndFile" ref="dcam9_ndfile_fimg" />
-		<property name="ndArray" ref="dcam9_ndarray" />
-		<property name="fileWriter" ref="dcam9_fimg_writer" />
+	<bean id="dcam9_png" class="gda.device.detector.NXDetector">
+		<property name="name" value="dcam9_png" />
 		<property name="collectionStrategy" ref="dcam9_collection_strategy" />
-		<property name="computeStats" value="false" />
-		<property name="readArray" value="false" />
-		<property name="readFilepath" value="true" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="dcam9_fimg_writer" />
+			</list>
+		</property>
 	</bean>
 
-	<bean id="dcam9_tiff" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="dcam9_adbase" />
-		<property name="ndFile" ref="dcam9_ndfile_tiff" />
-		<property name="ndArray" ref="dcam9_ndarray" />
-		<property name="fileWriter" ref="dcam9_tiff_writer" />
+	<bean id="dcam9_tiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="dcam9_tiff" />
 		<property name="collectionStrategy" ref="dcam9_collection_strategy" />
-		<property name="computeStats" value="false" />
-		<property name="readArray" value="false" />
-		<property name="readFilepath" value="true" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="dcam9_tiff_writer" />
+			</list>
+		</property>
 	</bean>
 
-	<alias name="dcam9_tiff" alias="dcam9" />
+	<alias name="dcam9_tiff" alias="_dcam9" />
 
 </beans>

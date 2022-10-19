@@ -17,9 +17,7 @@ diff1vgammaoffset = EpicsMotorOffsetClass('diff1vgammaoffset', MotorGAMMA_DIFF1.
 
 diff1vomegaoffset = EpicsMotorOffsetClass('diff1vomegaoffset', MotorOMEGA_DIFF1.getPvName(), '%.6f');
 
-diff1valphaoffset = EpicsMotorOffsetClass('diff1valphaoffset', MotorALPHA_DIFF1.getPvName(), '%.6f');
-
 diff1homegaoffset = EpicsMotorOffsetClass('diff1homegaoffset', MotorTHETA_DIFF1.getPvName(), '%.6f');
 
-diff1halphaoffset = EpicsMotorOffsetClass('diff1halphaoffset', MotorCHI_DIFF1.getPvName(), '%.6f');
+diff1chioffset = EpicsMotorOffsetClass('diff1chioffset', MotorCHI_DIFF1.getPvName(), '%.6f');
 

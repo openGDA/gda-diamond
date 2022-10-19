@@ -8,11 +8,14 @@ exc = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
 p2c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-02")
 # Exc and p2m
 m3 = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-03")
+# Pilatus 3
+p3c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-33")
 
-
-from BeamlineI07.i07_fscan import fscan, fpscan
+from BeamlineI07.i07_fscan import fscan, fpscan, fhklscan, cfscan
 alias(fscan)
 alias(fpscan)
+alias(fhklscan)
+alias(cfscan)
 
 class DCHklAdapter(HklAdapter):
 # eh1h: '_fourc', (diff1delta, diff1gamma, diff1chi, diff1theta)
@@ -28,6 +31,7 @@ class DCHklAdapter(HklAdapter):
 hkl_prov = DCHklAdapter()
 exc.setHklProvider(hkl_prov)
 p2c.setHklProvider(hkl_prov)
+p3c.setHklProvider(hkl_prov)
 
 # Inject normaliser processor for use in namespace
 excalibur_norm = Finder.find("excalibur_norm")

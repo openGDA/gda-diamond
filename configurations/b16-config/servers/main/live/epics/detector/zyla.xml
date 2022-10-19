@@ -4,25 +4,19 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="zyla_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL16I-EA-DET-16:and2:" />
+		<property name="basePVName" value="BL16B-EA-ANDOR-16:CAM:" />
 	</bean>
 
 	<bean id="zyla_ndfile_base"
 			class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="basePVName" value="BL16I-EA-DET-16:TIFF:" />
+		<property name="basePVName" value="BL16B-EA-ANDOR-16:TIFF:" />
 	</bean>
 
 	<bean id="zyla_ndfile"
 			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL16I-EA-DET-16:TIFF:" />
+		<property name="basePVName" value="BL16B-EA-ANDOR-16:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="pluginBase" ref="zyla_ndfile_base" />
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/b16" />
-				<property name="windowsSubString" value="M:" />
-			</bean>
-		</property>
 	</bean>
 
 	<bean id="zyla_nxcollectionstrategy"

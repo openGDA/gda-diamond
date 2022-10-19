@@ -21,9 +21,13 @@ def makeDummyPD(name):
     return device
 
 dpsx_zero = makeDummyPD("dpsx_zero")
-dpsy1_zero = makeDummyPD("dpsy1_zero")
-dpsy2_zero = makeDummyPD("dpsy2_zero")
+dpsx_zero.setOutputFormat(["%f"])
+dpsy_zero = makeDummyPD("dpsy_zero")
+dpsy_zero.setOutputFormat(["%f"])
 dpsz_zero = makeDummyPD("dpsz_zero")
+dpsz_zero.setOutputFormat(["%f"])
+dpsz2_zero = makeDummyPD("dpsz2_zero")
+dpsz2_zero.setOutputFormat(["%f"])
 
 dps_cpx = makeDummyPD("dps_cpx")
 dps_cpy = makeDummyPD("dps_cpy")

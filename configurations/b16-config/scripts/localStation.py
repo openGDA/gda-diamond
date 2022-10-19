@@ -25,7 +25,7 @@ from gdascripts.scan.process.tuner import Tuner #@UnusedImport
 from gdascripts.scannable.ScanFileHolderScannable import ScanFileHolderScannable
 from gdascripts.scannable.SelectableCollectionOfScannables import SelectableCollectionOfScannables #@UnusedImport
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
-from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
+from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
 from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImport
 from gdascripts.scannable.dummy import SingleInputDummy #@UnusedImport
@@ -236,8 +236,8 @@ sca.assign(16, ['ct16'])
 ###############################################################################
 
 # there is an offical server.xml device to do this. This hack taken from i16.
-print "Creating TCA scanables"
 if False and installation.isLive():
+	print "Creating TCA scanables"
 	vtca=device_tca.TCA('BL16B-EA-DET-01:tca1')
 
 	vroi1 = pd_tca.tcasca('vroi1',"%4.3f",vtca,"%",'1')
@@ -250,8 +250,8 @@ else:
 ###############################################################################
 ###                             Analogue Outputs                            ###
 ###############################################################################
-print "Manually creating Analogue Outputs from RIM card"
 if installation.isLive():
+	print "Manually creating Analogue Outputs from RIM card"
 	import pd_setPvAndWait;reload(pd_setPvAndWait)
 	piezox=pd_setPvAndWait.SetPvAndWait("piezox","BL16B-EA-RIM-03:AO1", 0.2)
 	piezoy=pd_setPvAndWait.SetPvAndWait("piezoy","BL16B-EA-RIM-03:AO2", 0.2)
@@ -301,9 +301,9 @@ else:
 ###############################################################################
 
 
-print "Creating Jena Piezo devices. Channel1 -> jpx, Channel2 -> jpy"
-#print "* Seems to work okay with Readback rate set to 0.2 s on epics panel *"
 if installation.isLive():
+	print "Creating Jena Piezo devices. Channel1 -> jpx, Channel2 -> jpy"
+	#print "* Seems to work okay with Readback rate set to 0.2 s on epics panel *"
 	jpx=pd_JenaPiezoChannel.JenaPiezoChannel('x',"BL16B-EA-IOC-01:JENA1",distancePerStep=1, readSetPosition=0, delayAfterAskingToMove=0.2)
 	jpy=pd_JenaPiezoChannel.JenaPiezoChannel('y',"BL16B-EA-IOC-01:JENA2",distancePerStep=1, readSetPosition=0, delayAfterAskingToMove=0.2)
 else:
@@ -442,9 +442,9 @@ except NameError:
 ###############################################################################
 ###                           Wait for beam device                          ###
 ###############################################################################
-print "Adding checkbeam device (rc>190mA, 60s wait after beam back)"
-print "   (change threshold with checkbeam.minumumThreshold=12345)"
 if installation.isLive():
+	print "Adding checkbeam device (rc>190mA, 60s wait after beam back)"
+	print "   (change threshold with checkbeam.minumumThreshold=12345)"
 	oldcheckbeam = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checkbeam', rc, minumumThreshold=190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=180) #@UndefinedVariable
 	oldcheckbeam = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checkbeam', rc, minumumThreshold=190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=180) #@UndefinedVariable
 	oldcheckbeam.setLevel(6)
@@ -486,8 +486,8 @@ if installation.isLive():
 ###############################################################################
 ###                            PCO optics motors                            ###
 ###############################################################################
-print "** 23oct08: Adding pcocam1 and pcocam2 device to move pco optics. Note these assume all moves take 2s.  Change delay with pcocam1.delayAfterAskingToMove = num_seconds"
 if installation.isLive():
+	print "** 23oct08: Adding pcocam1 and pcocam2 device to move pco optics. Note these assume all moves take 2s.  Change delay with pcocam1.delayAfterAskingToMove = num_seconds"
 	pcocam1=pd_setPvAndWaitWithSeparateReadback.SetPvAndWaitWithSeparateReadback("pcocam1","BL16B-EA-DET-02:CAM1:DEMAND","BL16B-EA-DET-02:CAM1:RBV" ,2)
 	pcocam2=pd_setPvAndWaitWithSeparateReadback.SetPvAndWaitWithSeparateReadback("pcocam2","BL16B-EA-DET-02:CAM2:DEMAND","BL16B-EA-DET-02:CAM2:RBV" ,2)
 	pcocam3=pd_setPvAndWaitWithSeparateReadback.SetPvAndWaitWithSeparateReadback("pcocam3","BL16B-EA-DET-02:CAM3:DEMAND","BL16B-EA-DET-02:CAM3:RBV" ,2)
@@ -858,6 +858,20 @@ if installation.isLive() and ENABLE_PCO4000:
 	pcoedgepeak2d = DetectorDataProcessorWithRoi('pcoedgepeak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
 	pcoedgemax2d = DetectorDataProcessorWithRoi('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
 	pcoedgeintensity2d = DetectorDataProcessorWithRoi('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+
+if installation.isLive() :
+	dcam9 = ProcessingDetectorWrapper(
+		'dcam9',
+		_dcam9,  # @UndefinedVariable
+		[],
+		panel_name_rcp='dcam9',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	dcam9peak2d = DetectorDataProcessorWithRoi('dcam9peak2d', dcam9, [TwodGaussianPeak()]) # modified to work with bimorph script
+	dcam9max2d = DetectorDataProcessorWithRoi('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
+	dcam9intensity2d = DetectorDataProcessorWithRoi('dcam9intensity2d', dcam9, [PixelIntensity()])
+	dcam9roi = DetectorDataProcessorWithRoi('dcam9roi', dcam9, [SumMaxPositionAndValue()])
 
 if installation.isLive():
 	pslv1 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
@@ -1268,6 +1282,7 @@ if installation.isLive():
 	zyla.display_image = True
 	zylamax2d = DetectorDataProcessorWithRoi('zylamax2d', zyla, [SumMaxPositionAndValue()])
 	zylapeak2d = DetectorDataProcessorWithRoi('zylapeak2d', zyla, [TwodGaussianPeak()])
+	zylaintensity2d = DetectorDataProcessorWithRoi('zylaintensity2d', zyla, [PixelIntensity()])
 	
 	#zyla.processors=[DetectorDataProcessorWithRoi('peak', zyla, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
 	#zyla needs scaling factors?
@@ -1279,7 +1294,6 @@ if installation.isLive():
 	#zylaroi1.setRoi(0,0,50,50)
 	
 	print "zyla setup"
-
 
 ######################################################################################################################################
 #Linkam temperature controller
