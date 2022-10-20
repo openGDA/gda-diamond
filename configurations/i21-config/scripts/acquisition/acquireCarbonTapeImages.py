@@ -24,13 +24,16 @@ def acquire_ctape_image(num_images, detector, acquire_time, *args):
     '''collect number of dark images from the given detector when shutter is closed, and then set up dark_image link in this detector's metadata device to be used in subsequent scans.
     '''
     print("\nAcquire ctape data ...")
+    link_added = False
     acquireRIXS(num_images, detector, acquire_time, *args)
     entry_name = str(LocalProperties.get(NexusScanDataWriter.PROPERTY_NAME_ENTRY_NAME, NexusScanDataWriter.DEFAULT_ENTRY_NAME)) 
     seq = ("", entry_name, str(NexusScanDataWriter.METADATA_ENTRY_NAME_INSTRUMENT), str(detector.getName()), "data")
     external_link_path = str(Node.SEPARATOR).join(seq)
     filename = os.path.basename(str(last_scan_file()))
     meta.addLink(detector.getName(), NXDDETECTOR_ELASTIC_IMAGE, external_link_path, filename)
+    link_added = True
     print("A link to carbon tape image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed\n" % (filename, external_link_path, detector.getName(), NXDDETECTOR_ELASTIC_IMAGE))
+    return link_added
 
     
 alias("acquire_ctape_image")

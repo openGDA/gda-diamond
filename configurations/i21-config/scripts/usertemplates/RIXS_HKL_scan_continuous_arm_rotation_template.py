@@ -320,38 +320,41 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset, dark_im
         gv17('Reset')
         gv17('Open')
     
-        ###Collect data
-        print("move to ctape position %r" % ctape_pi0)
-        #### Note 'acquire_ctape_image' will create 'elastic_image' node link metadata item to the detector used.
-        xyz_stage.moveTo(ctape)
-        acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
-        number_of_data_files_collected_so_far += 1
-        number_of_images_collected_so_far += ctape_no_images
-        number_of_data_files_to_be_collected -= 1
-        number_of_images_to_be_collected -= ctape_no_images
-        print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
-        print("Number of images collected so far: %r" % number_of_images_collected_so_far)
-        print("Number of images to go: %r" % number_of_images_to_be_collected)
-        print('******************************************************************\n')
-        
-        add_dark_image_link(det, dark_image_filename)
-        print("move to sample position %r" % sample_pi0)
-        xyz_stage.moveTo(sample)
-        acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
-        number_of_data_files_collected_so_far += 1
-        number_of_images_collected_so_far += sample_no_images
-        number_of_data_files_to_be_collected -= 1
-        number_of_images_to_be_collected -= sample_no_images
-        print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
-        print("Number of images collected so far: %r" % number_of_images_collected_so_far)
-        print("Number of images to go: %r" % number_of_images_to_be_collected)
-        print('******************************************************************\n')
-        
-        remove_dark_image_link(det)
-        # able next line if you want to explicitly remove the node link to ctape data collected above from any subsequent scan.
-        remove_ctape_image(det)
+        try:
+            ###Collect data
+            print("move to ctape position %r" % ctape_pi0)
+            #### Note 'acquire_ctape_image' will create 'elastic_image' node link metadata item to the detector used.
+            xyz_stage.moveTo(ctape)
+            ctape_image_link_added = acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
+            number_of_data_files_collected_so_far += 1
+            number_of_images_collected_so_far += ctape_no_images
+            number_of_data_files_to_be_collected -= 1
+            number_of_images_to_be_collected -= ctape_no_images
+            print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
+            print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
+            print("Number of images collected so far: %r" % number_of_images_collected_so_far)
+            print("Number of images to go: %r" % number_of_images_to_be_collected)
+            print('******************************************************************\n')
+            
+            dark_image_link_added = add_dark_image_link(det, dark_image_filename)
+            print("move to sample position %r" % sample_pi0)
+            xyz_stage.moveTo(sample)
+            acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
+            number_of_data_files_collected_so_far += 1
+            number_of_images_collected_so_far += sample_no_images
+            number_of_data_files_to_be_collected -= 1
+            number_of_images_to_be_collected -= sample_no_images
+            print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
+            print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
+            print("Number of images collected so far: %r" % number_of_images_collected_so_far)
+            print("Number of images to go: %r" % number_of_images_to_be_collected)
+            print('******************************************************************\n')
+        finally:
+            if dark_image_link_added:
+                remove_dark_image_link(det)
+            if ctape_image_link_added:
+                # able next line if you want to explicitly remove the node link to ctape data collected above from any subsequent scan.
+                remove_ctape_image(det)
     
         ### !!!remove dynamic metadata items if you don't want any side effect for future data collection into data files.
         meta.rm("Q", "H")

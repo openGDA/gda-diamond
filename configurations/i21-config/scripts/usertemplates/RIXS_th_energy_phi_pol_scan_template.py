@@ -235,7 +235,7 @@ def collect_ctape_data(x_ctape, y_ctape, z_ctape, det, no_images, exposure_time)
     
     print("move to ctape position %r" % [x_ctape, y_ctape, z_ctape])
     xyz_stage.moveTo([x_ctape, y_ctape, z_ctape])
-    acquire_ctape_image(no_images, det, exposure_time, m4c1, exposure_time, checkbeam)
+    ctape_image_link_added = acquire_ctape_image(no_images, det, exposure_time, m4c1, exposure_time, checkbeam)
     number_of_data_files_collected_so_far += 1
     number_of_images_collected_so_far += no_images
     number_of_data_files_to_be_collected -= 1
@@ -245,15 +245,16 @@ def collect_ctape_data(x_ctape, y_ctape, z_ctape, det, no_images, exposure_time)
     print("Number of images collected so far: %r" % number_of_images_collected_so_far)
     print("Number of images to go: %r" % number_of_images_to_be_collected)
     print('******************************************************************')
+    return ctape_image_link_added
 
 def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_time, dark_image_filename):
     from gdaserver import xyz_stage, m4c1  # @UnresolvedImport
     from scannabledevices.checkbeanscannables import checkbeam
     from acquisition.acquire_images import acquireRIXS
-    from acquisition.darkImageAcqusition import remove_dark_image_link, add_dark_image_link
+    from acquisition.darkImageAcqusition import add_dark_image_link
     global number_of_data_files_collected_so_far, number_of_images_collected_so_far, number_of_data_files_to_be_collected, number_of_images_to_be_collected
     
-    add_dark_image_link(det, dark_image_filename)
+    dark_image_link_added = add_dark_image_link(det, dark_image_filename)
     print("move to sample position %r" % [x_sample, y_sample, z_sample])
     xyz_stage.moveTo([x_sample, y_sample, z_sample])
     acquireRIXS(no_images, det, exposure_time, m4c1, exposure_time, checkbeam)
@@ -266,19 +267,23 @@ def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_t
     print("Number of images collected so far: %r" % number_of_images_collected_so_far)
     print("Number of images to go: %r" % number_of_images_to_be_collected)
     print('******************************************************************')
-    remove_dark_image_link(det)
+    return dark_image_link_added
 
 def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_ctape, chi_ctape, det, ctape_no_images, ctape_exposure_time, sample_no_images, sample_exposure_time, dark_image_filename):
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
+    from acquisition.darkImageAcqusition import remove_dark_image_link
     from gdaserver import chi  # @UnresolvedImport
+    
     if enable_ctape_collection:
         chi.moveTo(chi_ctape)
-        collect_ctape_data(x_ctape, y_ctape, z_ctape, det, ctape_no_images, ctape_exposure_time)
+        ctape_image_link_added = collect_ctape_data(x_ctape, y_ctape, z_ctape, det, ctape_no_images, ctape_exposure_time)
     if enable_sample_collection:
         chi.moveTo(chi_sample)
-        collect_sample_data(x_sample, y_sample, z_sample, det, sample_no_images, sample_exposure_time, dark_image_filename)
-    if enable_ctape_collection:
+        dark_image_link_added = collect_sample_data(x_sample, y_sample, z_sample, det, sample_no_images, sample_exposure_time, dark_image_filename)
+    if enable_ctape_collection and ctape_image_link_added:
         remove_ctape_image(det)
+    if enable_sample_collection and dark_image_link_added:
+        remove_dark_image_link(det)
 
 if answer == "y":
     

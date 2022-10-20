@@ -272,39 +272,42 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape
         phi.waitWhileBusy()
         chi.waitWhileBusy()
        
-        xyz_stage.moveTo(ctape)
-        acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
-        number_of_data_files_collected_so_far += 1
-        number_of_images_collected_so_far += ctape_no_images
-        number_of_data_files__to_be_collected -= 1
-        number_of_images_to_be_collected -= ctape_no_images
-        print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
-        print("Number of images collected so far: %r" % number_of_images_collected_so_far)
-        print("Number of images to go: %r" % number_of_images_to_be_collected)
-        print('******************************************************************')
-    
-        add_dark_image_link(det, dark_image_filename)
-        print('Total number of points is %d. Point number %d is at qtrans_inplane=%.4f, th=%.3f for sample at %r)' % (len(q_th_pair_list), number_of_data_files_collected_so_far + 1.0, qval, thval, sample))
-        phi.asynchronousMoveTo((phi_sample))
-        chi.asynchronousMoveTo(chi_sample)
-        xyz_stage.moveTo(sample)
-        phi.waitWhileBusy()
-        chi.waitWhileBusy()
-        acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)    
-        number_of_data_files_collected_so_far += 1
-        number_of_images_collected_so_far += sample_no_images
-        number_of_data_files__to_be_collected -= 1
-        number_of_images_to_be_collected -= sample_no_images
-        print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
-        print("Number of images collected so far: %r" % number_of_images_collected_so_far)
-        print("Number of images to go: %r" % number_of_images_to_be_collected)
-        print('*******************************************************************')
+        try:
+            xyz_stage.moveTo(ctape)
+            ctape_image_link_added = acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
+            number_of_data_files_collected_so_far += 1
+            number_of_images_collected_so_far += ctape_no_images
+            number_of_data_files__to_be_collected -= 1
+            number_of_images_to_be_collected -= ctape_no_images
+            print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
+            print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
+            print("Number of images collected so far: %r" % number_of_images_collected_so_far)
+            print("Number of images to go: %r" % number_of_images_to_be_collected)
+            print('******************************************************************')
         
-        remove_dark_image_link(det)
-        # comment out next line if comment out acquire_ctape_image above
-        remove_ctape_image(det)
+            dark_image_link_added = add_dark_image_link(det, dark_image_filename)
+            print('Total number of points is %d. Point number %d is at qtrans_inplane=%.4f, th=%.3f for sample at %r)' % (len(q_th_pair_list), number_of_data_files_collected_so_far + 1.0, qval, thval, sample))
+            phi.asynchronousMoveTo((phi_sample))
+            chi.asynchronousMoveTo(chi_sample)
+            xyz_stage.moveTo(sample)
+            phi.waitWhileBusy()
+            chi.waitWhileBusy()
+            acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)    
+            number_of_data_files_collected_so_far += 1
+            number_of_images_collected_so_far += sample_no_images
+            number_of_data_files__to_be_collected -= 1
+            number_of_images_to_be_collected -= sample_no_images
+            print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
+            print("Number of data files to go: %r" % number_of_data_files__to_be_collected)
+            print("Number of images collected so far: %r" % number_of_images_collected_so_far)
+            print("Number of images to go: %r" % number_of_images_to_be_collected)
+            print('*******************************************************************')
+        finally:
+            if dark_image_link_added:
+                remove_dark_image_link(det)
+            if ctape_image_link_added:
+                # comment out next line if comment out acquire_ctape_image above
+                remove_ctape_image(det)
         meta.rm("Q", "H")
 
 answer = "y"

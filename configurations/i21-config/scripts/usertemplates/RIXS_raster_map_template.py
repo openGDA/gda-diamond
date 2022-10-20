@@ -245,8 +245,7 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample,
                 xyz_stage.moveTo([x_ctape_pi0, y_ctape_pi0, z_ctape_pi0])
                 phi.waitWhileBusy()
                 chi.waitWhileBusy()
-                ctape_data_collected = False
-                acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
+                ctape_image_link_added = acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
                 number_of_data_files_collected_so_far += 1
                 number_of_images_collected_so_far += ctape_no_images
                 number_of_data_files_to_be_collected -= 1
@@ -256,10 +255,9 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample,
                 print("Number of images collected so far: %r" % number_of_images_collected_so_far)
                 print("Number of images to go: %r" % number_of_images_to_be_collected)
                 print('******************************************************************')
-                ctape_data_collected = True
 
             if enable_sample_collection:
-                add_dark_image_link(det, dark_image_filename)
+                dark_image_link_added = add_dark_image_link(det, dark_image_filename)
                 print("move to sample position %r ..." % (list(sample_pos)))
                 phi.asynchronousMoveTo(phi_sample)
                 chi.asynchronousMoveTo(chi_sample)
@@ -276,7 +274,6 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample,
                 print("Number of images collected so far: %r" % number_of_images_collected_so_far)
                 print("Number of images to go: %r" % number_of_images_to_be_collected)
                 print('******************************************************************')
-                remove_dark_image_link(det)
             
             points_done.append(sample_pos)
         
@@ -284,7 +281,10 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample,
             print("Survey scan data collection interrupted. Points not collected yet are: %r" % ([x for x in sample_positions if x not in points_done]))
             raise e
         finally:
-            if enable_ctape_collection and ctape_data_collected:
+            if enable_sample_collection and dark_image_link_added:
+                remove_dark_image_link(det)
+                
+            if enable_ctape_collection and ctape_image_link_added:
                 remove_ctape_image(det)
             
 #################################################################################################

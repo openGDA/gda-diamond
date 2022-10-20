@@ -38,11 +38,14 @@ alias("acquire_dark_image")
 def add_dark_image_link(detector, filename):
     '''set up dark_image link in this detector's metadata device to be used in subsequent scans
     '''
+    link_added =  False
     entry_name = str(LocalProperties.get(NexusScanDataWriter.PROPERTY_NAME_ENTRY_NAME, NexusScanDataWriter.DEFAULT_ENTRY_NAME)) 
     seq = ("", entry_name, str(NexusScanDataWriter.METADATA_ENTRY_NAME_INSTRUMENT), str(detector.getName()), "data")
     external_link_path = str(Node.SEPARATOR).join(seq)
     meta.addLink(detector.getName(), NXDETECTOR_DARK_IMAGE, external_link_path, filename)
+    link_added = True
     print("A link to dark image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed\n" % (filename, external_link_path, detector.getName(), NXDETECTOR_DARK_IMAGE))
+    return link_added
 
 alias("add_dark_image_link") 
 

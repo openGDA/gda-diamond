@@ -198,38 +198,40 @@ def collect_data(ctape, sample, point_list, det, dark_image_filename):
         th.waitWhileBusy()
         energy.waitWhileBusy()
         spech.waitWhileBusy()
-        
-        print("move to ctape position %r" % ctape)
-        xyz_stage.moveTo(ctape)
-        print('cTape at th = %.3f and Energy = %.3f'%(th_val,energy_val))
-        acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
-        number_of_data_files_collected_so_far += 1
-        number_of_images_collected_so_far += ctape_no_images
-        number_of_data_files_to_be_collected -= 1
-        number_of_images_to_be_collected -= ctape_no_images
-        print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
-        print("Number of images collected so far: %r" % number_of_images_collected_so_far)
-        print("Number of images to go: %r" % number_of_images_to_be_collected)
-        print('******************************************************************')
-        
-        add_dark_image_link(det, dark_image_filename)
-        print("move to sample position %r" % sample)
-        xyz_stage.moveTo(sample)
-        print('RIXS at th = %.3f and Energy = %.3f'%(th_val,energy_val))
-        acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
-        number_of_data_files_collected_so_far += 1
-        number_of_images_collected_so_far += sample_no_images
-        number_of_data_files_to_be_collected -= 1
-        number_of_images_to_be_collected -= sample_no_images
-        print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
-        print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
-        print("Number of images collected so far: %r" % number_of_images_collected_so_far)
-        print("Number of images to go: %r" % number_of_images_to_be_collected)
-        print('******************************************************************')
-        
-        remove_dark_image_link(det)
-        remove_ctape_image(det)
+        try:
+            print("move to ctape position %r" % ctape)
+            xyz_stage.moveTo(ctape)
+            print('cTape at th = %.3f and Energy = %.3f'%(th_val,energy_val))
+            ctape_image_link_added = acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
+            number_of_data_files_collected_so_far += 1
+            number_of_images_collected_so_far += ctape_no_images
+            number_of_data_files_to_be_collected -= 1
+            number_of_images_to_be_collected -= ctape_no_images
+            print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
+            print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
+            print("Number of images collected so far: %r" % number_of_images_collected_so_far)
+            print("Number of images to go: %r" % number_of_images_to_be_collected)
+            print('******************************************************************')
+            
+            dark_image_link_added = add_dark_image_link(det, dark_image_filename)
+            print("move to sample position %r" % sample)
+            xyz_stage.moveTo(sample)
+            print('RIXS at th = %.3f and Energy = %.3f'%(th_val,energy_val))
+            acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
+            number_of_data_files_collected_so_far += 1
+            number_of_images_collected_so_far += sample_no_images
+            number_of_data_files_to_be_collected -= 1
+            number_of_images_to_be_collected -= sample_no_images
+            print("Number of data files collected so far: %r" % number_of_data_files_collected_so_far)
+            print("Number of data files to go: %r" % number_of_data_files_to_be_collected)
+            print("Number of images collected so far: %r" % number_of_images_collected_so_far)
+            print("Number of images to go: %r" % number_of_images_to_be_collected)
+            print('******************************************************************')
+        finally:
+            if dark_image_link_added:
+                remove_dark_image_link(det)
+            if ctape_image_link_added:
+                remove_ctape_image(det)
 
 answer = "y"
 
