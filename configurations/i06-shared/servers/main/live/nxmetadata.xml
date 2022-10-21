@@ -32,19 +32,19 @@
 					<property name="units" value="°C"/>
 				</bean>		
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-					<property name="name" value="400llmmEnergyGradient"/>
+					<property name="name" value="EnergyGradient400llmm"/>
 					<property name="pvName" value="BL06I-OP-PGM-01:400:MX"/>
 				</bean>		
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-					<property name="name" value="400llmmEnergyReference"/>
+					<property name="name" value="EnergyReference400llmm"/>
 					<property name="pvName" value="BL06I-OP-PGM-01:400:REFERENCE"/>
 				</bean>		
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-					<property name="name" value="400llmmMirrorOffset"/>
+					<property name="name" value="MirrorOffset400llmm"/>
 					<property name="pvName" value="BL06I-OP-PGM-01:400:MOFF"/>
 				</bean>		
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-					<property name="name" value="400llmmGratingOffset"/>
+					<property name="name" value="GratingOffset400llmm"/>
 					<property name="pvName" value="BL06I-OP-PGM-01:400:GOFF"/>
 				</bean>		
 			</list>
