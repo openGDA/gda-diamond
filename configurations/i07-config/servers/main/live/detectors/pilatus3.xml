@@ -59,4 +59,8 @@
 		<property name="useSWMR" value="true" />
 	</bean>
 
+	<bean id="pilatus3_cam_plugin_name" class="java.lang.String">
+		<constructor-arg value="pilatus3.CAM" />
+	</bean>
+
 </beans>

@@ -14,4 +14,8 @@
 		<property name="initialFileName" value="pilatus1" />
 	</bean>
 
+	<bean id="pilatus1_cam_plugin_name" class="java.lang.String">
+		<constructor-arg value="ADSIM.CAM" />
+	</bean>
+
 </beans>

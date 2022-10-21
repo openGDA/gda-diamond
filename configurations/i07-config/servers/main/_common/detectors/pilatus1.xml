@@ -14,7 +14,7 @@
 		<property name="lazyOpen" value="true" />
 		<property name="swmrModeEnabled" value="true" />
 		<property name="clearXmlLayoutFile" value="true" />
-		<property name="ndArrayPortVal" value="pilatus1.CAM"/>
+		<property name="ndArrayPortVal" ref="pilatus1_cam_plugin_name"/>
 	</bean>
 
 	<bean id="pilatus1_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
