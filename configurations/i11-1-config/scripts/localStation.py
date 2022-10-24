@@ -14,6 +14,8 @@ from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
+
+from gdaserver import GDAMetadata as meta
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
@@ -90,6 +92,7 @@ def abspath(*bits):
 
 from gda.factory import Finder
 from time import sleep  # @UnusedImport
+import time
 import java #@UnresolvedImport
 
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -119,8 +122,8 @@ print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Create ETL detector objects, names: llimIe2, ulimIe2, pmIe2"
-from detector_control_pds import llimIe2, ulimIe2, pmIe2, pds # pds is a list containing the other three
+print "Create ETL detector objects, names: llimIe2, ulimIe2, pmtIe2"
+from detector_control_pds import llimIe2, ulimIe2, pmtIe2, pds # pds is a list containing the other three
 print "Available Detector objects are:"
 print pds
 print
@@ -261,12 +264,25 @@ def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
         scan(ds, 1.0,n,1.0, det, t)  # @UndefinedVariable
     else:
         if (collectionType==CAL):
+            meta['calibration_file'] = ''
             if (str(calibrantName.getPosition())=="Undefined"):  # @UndefinedVariable
                 raise Exception("Calibrant name is not defined.")
             datareduction.setCalibrant(True)  # @UndefinedVariable
+            proc = calibration
         else:
             datareduction.setCalibrant(False)  # @UndefinedVariable
-        scan(datareduction, 1.0,n,1.0, det, t)  # @UndefinedVariable
+            proc = process
+        scan(datareduction, 1.0,n,1.0, det, t, proc)  # @UndefinedVariable
+        if collectionType == CAL:
+            print 'Waiting for calibration to complete'
+            start = time.time()
+            timeout = start + 300
+            while time.time() < timeout:
+                if meta['calibration_file']:
+                    break
+                time.sleep(2)
+            else:
+                raise ValueError('No calibration result received after 300s')
 
 alias("lde")
 ##### new objects must be added above this line ###############

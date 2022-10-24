@@ -8,6 +8,9 @@ from gda.device.scannable import DummyScannable
 from gda.factory import Finder
 from gda.jython.commands.ScannableCommands import scan
 
+from gdaserver import process, calibration, GDAMetadata as meta
+import time
+
 ds1=DummyScannable("ds1")
 NDR=0
 CAL=1
@@ -34,9 +37,12 @@ def ldescan(*args):
         if (args[i]==CAL):
             if (str(calName.getPosition())=="Undefined"):  # @UndefinedVariable
                 raise Exception("Calibrant name is not defined.")
+            meta['calibration_file'] = ''
             dr.setCalibrant(True)
+            proc = calibration
         else:
             dr.setCalibrant(False)
+            proc = process
         i=1
         if (isinstance(args[i], Detector)) :
             newargs.append(dr)
@@ -50,4 +56,17 @@ def ldescan(*args):
             i=i+1
         if MUSTADDDATAREDUCTIONATEND:
             newargs.append(dr)
+
+        newargs.append(proc)
         scan(newargs)
+        if args[0] == CAL:
+            print 'Waiting for calibration to complete'
+            start = time.time()
+            timeout = start + 300
+            while time.time() < timeout:
+                if meta['calibration_file']:
+                    break
+                time.sleep(2)
+            else:
+                raise ValueError('No calibration result received after 300s')
+

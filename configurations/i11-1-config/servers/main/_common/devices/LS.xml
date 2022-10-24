@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<bean id="ls1x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="lsx_motor"/>
@@ -27,6 +31,8 @@
 	<bean id="ls1pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ls1pitch_motor"/>
 	</bean>
+
+        <gda:monitor id="ai2" live-pvName="BL11J-EA-LCL-01:AI2" />
 
 	<bean id="ls1" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
