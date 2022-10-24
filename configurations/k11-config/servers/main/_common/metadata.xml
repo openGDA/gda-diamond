@@ -33,12 +33,9 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
+	
+	<bean id="nexusDataWriterConfig" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<property name="metadataScannables">
 			<set>
 				<value>ring_current</value>
 				<value>ring_energy</value>
@@ -71,13 +68,7 @@
 				<value>kinematic_transform_22</value>
 			</set>
 		</property>
-	</bean>
-
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
+		<property name="locationMap">
 			<map>
 				<entry key="ring_current">
 					<bean
