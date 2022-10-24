@@ -10,6 +10,7 @@
 	<import resource="devices/devices.xml" />
 	<import resource="../_common/*.xml" />
 	<import resource="devices/simulated_detector/*.xml"/>
+	<import resource="malcolm/*.xml"/>
 	<beans profile="pilatus" >
 		<import resource="pilatus2m_saxs.xml" />
 	</beans>

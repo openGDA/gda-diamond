@@ -63,7 +63,7 @@ def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, r
     See addGroup for details
     """
     with tfgGroups():
-        addGroup(*a, **kw)
+        addGroup(numberOfFrames, exposure, waitTime, waitPulse, runPulse, waitPause, runPause)
 
 def fs(actionrequested=None):
     """Set the idle position of the fast shutter
