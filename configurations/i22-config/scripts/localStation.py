@@ -59,14 +59,8 @@ run(setupScriptDir +  "TopupCountdown.py")
 #run(setupScriptDir +  "gainpds.py")
 #run(setupScriptDir +  "microfocus.py")
 
-from sampleEnvironment.linkam import Linkam
-linkam=Linkam("linkam","BL22I-EA-TEMPC-01")
-from sampleEnvironment.linkamrampmaster4000 import LinkamRampMaster4000
-lrm4k=LinkamRampMaster4000("lrm4k",linkam)
-
 from setup.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
-
 
 # preseed listener dispatcher
 print "Pre-seeding listener dispatcher"
@@ -83,28 +77,6 @@ autoPostProcessing = Finder.find('autoPostProcessing')
 #scan slit start end step cam1 620 peak2d
 #run "setupBimorphOptimisation"
 run(setupScriptDir + "energy.py")
-from setup import gridscan
-
-print "Create ncdgridscan"
-try:
-	del(gridxy)
-except:
-	pass
-
-try:
-	gridxy=ScannableGroup()
-	gridxy.setName("gridxy")
-	if 'gridscan_stage' in globals():
-		stage = globals()['gridscan_stage']
-	else:
-		stage = [mfstage_x, mfstage_y]
-	gridxy.setGroupMembers(stage)
-	gridxy.configure()
-	ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", d13gige, gridxy, ncddetectors)
-	ncdgridscan.snap()
-except Exception as e:
-	print "Could not configure ncdgridscan"
-	print '    ' + str(e)
 
 try:
 	from ncdutils import DetectorMeta
@@ -135,14 +107,8 @@ try:
 except:
 	print "Could not set up metadatatweaks"
 
-import bslUtils
-bslUtils.restore()
-print '\t%sconverting to BSL' %('' if bslUtils.isConvertingOn() else 'not ',)
-
 #run("BeamlineScripts/master.py")
 
-# Temporarily don't run rate.py, meaning the DetGuard object isn't set up.
-# This is because it's closing the shutter when beamline staff think it shouldn't
 run(setupScriptDir +  "rate.py")
 
 from gdascripts.pd.time_pds import actualTimeClass
@@ -170,4 +136,9 @@ except Exception as e:
 #print "creating sampleCam and adding to ncdDetectors"
 #execfile(gdaScriptDir + "sampleCam.py")
 #run(setupScriptDir + "ZebraDetectors.py")
+try:
+    from staffScripts.config_tests import *
+except Exception, e:
+    logger.error("Error importing config tests", exc_info=True)
+    print("Error importing config tests: " + e)
 print "==================================================================="

@@ -13,22 +13,30 @@
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_zoom" />
 	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_cam_control" />
 
-	<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration" id="oav_zoom_calibration_base">
-		<constructor-arg name="xAxisScannable" ref="base_x" />
-		<constructor-arg name="xAxisPixelScaling" value="0.001037" />
-		<constructor-arg name="xAxisOffset" value="-0.050" />
-		<constructor-arg name="yAxisScannable" ref="base_y" />
-		<constructor-arg name="yAxisPixelScaling" value="0.001037" />
-		<constructor-arg name="yAxisOffset" value="-0.18" />
+	<bean id="oav_zoom_calibration_base" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibration">
+		<constructor-arg name="xAxis" ref="base_x" />
+		<constructor-arg name="yAxis" ref="base_y" />
+		<constructor-arg name="xOffsetDefault" value="-0.050" /> <!-- Offset of camera in x axis -->
+		<constructor-arg name="yOffsetDefault" value="-0.18" /> <!-- Offset of camera in y axis -->
+		<constructor-arg name="xPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in x axis -->
+		<constructor-arg name="yPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in y axis -->
+		<constructor-arg name="csvFilePath" value="${gda.var}/camera_offset_calibration_base.csv" />
+	</bean>
+	<bean id="oav_offset_ext_base" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsOffsetCalibrate">
+		<property name="CsvCameraOffsetCalibration" ref="oav_zoom_calibration_base" />
 	</bean>
 
-	<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration" id="oav_zoom_calibration_p1xy">
-		<constructor-arg name="xAxisScannable" ref="p1xy_x" />
-		<constructor-arg name="xAxisPixelScaling" value="0.001037" />
-		<constructor-arg name="xAxisOffset" value="-0.050" />
-		<constructor-arg name="yAxisScannable" ref="p1xy_y" />
-		<constructor-arg name="yAxisPixelScaling" value="0.001037" />
-		<constructor-arg name="yAxisOffset" value="-0.18" />
+	<bean id="oav_zoom_calibration_p1xy" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibration">
+		<constructor-arg name="xAxis" ref="p1xy_x" />
+		<constructor-arg name="yAxis" ref="p1xy_y" />
+		<constructor-arg name="xOffsetDefault" value="-0.050" /> <!-- Offset of camera in x axis -->
+		<constructor-arg name="yOffsetDefault" value="-0.18" /> <!-- Offset of camera in y axis -->
+		<constructor-arg name="xPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in x axis -->
+		<constructor-arg name="yPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in y axis -->
+		<constructor-arg name="csvFilePath" value="${gda.var}/camera_offset_calibration_p1xy.csv" />
+	</bean>
+	<bean id="oav_offset_ext_p1xy" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsOffsetCalibrate">
+		<property name="CsvCameraOffsetCalibration" ref="oav_zoom_calibration_p1xy" />
 	</bean>
 
 	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config_base">
@@ -40,6 +48,11 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="oav_cam_control" />
+                <property name="extensions">
+                    <list>
+                        <ref bean="oav_offset_ext_base" />
+                    </list>
+                </property>
 			</bean>
 		</property>
 	</bean>
@@ -53,6 +66,11 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="oav_cam_control" />
+                <property name="extensions">
+                    <list>
+                        <ref bean="oav_offset_ext_p1xy" />
+                    </list>
+                </property>
 			</bean>
 		</property>
 	</bean>

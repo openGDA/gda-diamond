@@ -2,9 +2,6 @@
 # Configuration of servers after restart/reset
 # ===================================================================================
 
-# Uncomment (and edit) if non-standard motors are required for use with ncdgridscan
-gridscan_stage = [base_x, base_y]
-
 # Uncomment to change which channels and gain settings are used for It and I0 values in nexus files
 # NB Commenting this out again after a reset will not return the settings to default until the servers
 #    are restarted
@@ -16,28 +13,6 @@ gridscan_stage = [base_x, base_y]
 # ===================================================================================
 #diode_y = SingleEpicsPositionerClass('diode_y', 'BL22I-MO-TABLE-05:Y', 'BL22I-MO-TABLE-05:Y.RBV' , 'BL22I-MO-TABLE-05:Y.DMOV' , 'BL22I-MO-TABLE-05:Y.STOP','mm', '%.4f')
 #diode_x = SingleEpicsPositionerClass('diode_x', 'BL22I-MO-TABLE-05:X', 'BL22I-MO-TABLE-05:X.RBV' , 'BL22I-MO-TABLE-05:X.DMOV' , 'BL22I-MO-TABLE-05:X.STOP','mm', '%.4f')
-from gdascripts.pd.epics_pds import DisplayEpicsPVClass
-
-qbpm1_xpos = DisplayEpicsPVClass("qbpm1_xpos","BL22I-EA-XBPM-01:PosX:MeanValue_RBV","um","%.6f")
-qbpm1_ypos = DisplayEpicsPVClass("qbpm1_ypos","BL22I-EA-XBPM-01:PosY:MeanValue_RBV","um","%.6f")
-qbpm1_quad1 = DisplayEpicsPVClass("qbpm1_quad1","BL22I-EA-XBPM-01:Cur1:MeanValue_RBV","A","%.6e")
-qbpm1_quad2 = DisplayEpicsPVClass("qbpm1_quad2","BL22I-EA-XBPM-01:Cur2:MeanValue_RBV","A","%.6e")
-qbpm1_quad3 = DisplayEpicsPVClass("qbpm1_quad3","BL22I-EA-XBPM-01:Cur3:MeanValue_RBV","A","%.6e")
-qbpm1_quad4 = DisplayEpicsPVClass("qbpm1_quad4","BL22I-EA-XBPM-01:Cur4:MeanValue_RBV","A","%.6e")
-qbpm1_total = DisplayEpicsPVClass("qbpm1_total","BL22I-EA-XBPM-01:SumAll:MeanValue_RBV","A","%.6e")
-qbpm2_xpos = DisplayEpicsPVClass("qbpm2_xpos","BL22I-EA-XBPM-02:PosX:MeanValue_RBV","um","%.6f")
-qbpm2_ypos = DisplayEpicsPVClass("qbpm2_ypos","BL22I-EA-XBPM-02:PosY:MeanValue_RBV","um","%.6f")
-qbpm2_quad1 = DisplayEpicsPVClass("qbpm2_quad1","BL22I-EA-XBPM-02:Cur1:MeanValue_RBV","A","%.6e")
-qbpm2_quad2 = DisplayEpicsPVClass("qbpm2_quad2","BL22I-EA-XBPM-02:Cur2:MeanValue_RBV","A","%.6e")
-qbpm2_quad3 = DisplayEpicsPVClass("qbpm2_quad3","BL22I-EA-XBPM-02:Cur3:MeanValue_RBV","A","%.6e")
-qbpm2_quad4 = DisplayEpicsPVClass("qbpm2_quad4","BL22I-EA-XBPM-02:Cur4:MeanValue_RBV","A","%.6e")
-qbpm2_total = DisplayEpicsPVClass("qbpm2_total","BL22I-EA-XBPM-02:SumAll:MeanValue_RBV","A","%.6e")
-
-sample_diode = DisplayEpicsPVClass("sample_diode","BL22I-EA-TTRM-01:Cur1:MeanValue_RBV","A","%.6e")
-user_tetrAMM_ch1 = DisplayEpicsPVClass("user_tetrAMM_ch1","BL22I-EA-TTRM-01:Cur1:MeanValue_RBV","A","%.6e")
-user_tetrAMM_ch2 = DisplayEpicsPVClass("user_tetrAMM_ch2","BL22I-EA-TTRM-01:Cur2:MeanValue_RBV","A","%.6e")
-user_tetrAMM_ch3 = DisplayEpicsPVClass("user_tetrAMM_ch3","BL22I-EA-TTRM-01:Cur3:MeanValue_RBV","A","%.6e")
-user_tetrAMM_ch4 = DisplayEpicsPVClass("user_tetrAMM_ch4","BL22I-EA-TTRM-01:Cur4:MeanValue_RBV","A","%.6e")
 
 def feedback_SS():
     caput("BL22I-OP-KBM-01:HFM:FBS4.INP","BL22I-EA-XBPM-01:PosX:MeanValue_RBV")
@@ -82,28 +57,45 @@ def feedback_on():
     print "Feedback is ON in manual mode"
     
 def optimise_pitch():
-    if eh_shutter.getPosition() == "Closed":
-        print "Shutter is closed, using D4D1 to optimise"
-        feedback_off()
-        pos d4filter 'IL Diode VFM'
-        d4d1gain.setFixed(0)
-        if d4d1.getPosition() > 1e6:
-            rscan dcm_finepitch -100 100 1 d4d1
-            inc dcm_finepitch -100
-            go peak
-        else:
-            print "Not enough beam to optimise - Aborting here"
-        pos d4filter 'Clear deflected'
+    feedback_off()
+    if qbpm0_total.getPosition() > 1e-8:
+        rscan(dcm_pitch,-150,150,2,qbpm0_total)
+        inc(dcm_pitch,-150)
+        go(peak)
         feedback_auto()
-        return
     else:
-        print "Shutter is open, using QBPM1 to optimise"
-        feedback_off()
-        if qbpm1_total.getPosition() > 1e-8:
-            rscan dcm_finepitch -100 100 1 qbpm1_total
-            inc dcm_finepitch -100
-            go peak
-        else:
-            print "Not enough beam to optimise - Aborting here"
+        print "Not enough beam to optimise - Aborting here"
         feedback_auto()
         return
+
+def enable_pressure():
+    from gdaserver import ncd_pressure_cell
+    if ncd_pressure_cell not in ncddetectors.detectors:
+        ncddetectors.addDetector(ncd_pressure_cell)
+
+def disable_pressure():
+    from gdaserver import ncd_pressure_cell
+    if ncd_pressure_cell in ncddetectors.detectors:
+        ncddetectors.removeDetector(ncd_pressure_cell)
+
+from setup import tfgsetup
+def pressure_collection(pressure_from, pressure_to, xray_frames_before, xray_frames_after, frame_time, title):
+    with tfgsetup.tfgGroups():
+        tfgsetup.addGroup(xray_frames_before, frame_time, 10, runPulse="11101111")
+        tfgsetup.addGroup(xray_frames_after, frame_time, 10, runPulse="11111111")
+    enable_pressure()
+    ncd_pressure_cell.setJumpPressures(pressure_from, pressure_to)
+    pressure_samples_before = xray_frames_before * (frame_time+10) * 10
+    pressure_samples_after = xray_frames_after * (frame_time+10) * 10
+    ncd_pressure_cell.setSamplesBefore(pressure_samples_before)
+    ncd_pressure_cell.setSamplesAfter(pressure_samples_after)
+    setTitle(title)
+    staticscan(ncddetectors)
+    disable_pressure()
+
+from setup import sampleCam
+
+d11_ncd = sampleCam.AdCam('d11_ncd', d11gige)
+add_reset_hook(lambda ncd=ncddetectors, cam=d11_ncd: ncd.removeDetector(cam))
+d12_ncd = sampleCam.AdCam('d12_ncd', d12gige)
+add_reset_hook(lambda ncd=ncddetectors, cam=d12_ncd: ncd.removeDetector(cam))

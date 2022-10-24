@@ -31,6 +31,7 @@
     <import resource="fswitch.xml" />
 
 	<import resource="xmap.xml" />
+    <import resource="pressure_cell.xml"/>
 
 <!--     <import resource="gisaxs/gisaxs.xml"/> -->
     <import resource="slits/*.xml"/>
