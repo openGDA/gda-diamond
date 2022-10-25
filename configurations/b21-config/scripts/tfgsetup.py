@@ -51,7 +51,7 @@ def addGroup(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, r
     (optional)waitPause: defaults to 0 (no pause)
     (optional)runPause: defaults to 0 (no pause)
     """
-
+    if waitTime <= 0: raise ValueError("Wait time must be greater than 0")
     runPulse = _normalise_pulse(runPulse)
     waitPulse = _normalise_pulse(waitPulse)
     timer.addFrameSet(numberOfFrames, waitTime, exposure, waitPulse, runPulse, waitPause, runPause)
