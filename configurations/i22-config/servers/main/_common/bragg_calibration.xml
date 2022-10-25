@@ -1,0 +1,117 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:c="http://www.springframework.org/schema/c"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+    <bean id="exafs" class="uk.ac.gda.server.ncd.calibration.ExafsScannable">
+        <property name="incident" ref="qbpm0_total"/>
+        <property name="transmission" ref="qbpm1_total"/>
+    </bean>
+
+    <bean id="bragg_calibration_service" class="uk.ac.gda.server.ncd.calibration.CalibrationScanRunner" >
+        <property name="energy" ref="energy" />
+        <property name="bragg" ref="dcm_bragg" />
+        <property name="server" ref="jythonServerFacade" />
+        <property name="additionalScannables" value="#{ {qbpm0_total,d6d1,exafs} }"/>
+        <property name="edgePositions">
+            <map>
+                <entry key-ref="edge_Fe" value="50.2" />
+                <entry key-ref="edge_Cu" value="71.6" />
+                <entry key-ref="edge_Zn" value="61.0" />
+                <entry key-ref="edge_Au" value="40.0" />
+                <entry key-ref="edge_Zr" value="7.1" />
+                <entry key-ref="edge_Mo" value="17.8" />
+            </map>
+        </property>
+        <property name="edgePositioner" ref="d5motor"/>
+        <property name="scanPositions">
+            <bean class="uk.ac.gda.server.ncd.calibration.CentroidScanParameters" c:before="0.06" c:after="0.1" c:step="0.005" />
+        </property>
+        <property name="pitchOptimiser">
+            <bean class="uk.ac.gda.server.ncd.calibration.GaussianOptimisingScan" c:positioner-ref="dcm_pitch" c:readback-ref="qbpm0_total" c:range="500" c:centre="0" c:step="2">
+                <property name="scanTitle" ref="title"/>
+            </bean>
+        </property>
+        <property name="exafsPath" value="/entry1/default/exafs" />
+        <property name="braggPath" value="/entry1/default/dcm_bragg" />
+        <property name="scanTitle" ref="title" />
+        <property name="sampleName" ref="sample_name" />
+    </bean>
+
+    <bean id="edge_Fe" class="uk.ac.gda.server.ncd.calibration.CalibrationEdge" c:name="Fe" c:energy="7.112">
+        <constructor-arg name="features">
+            <list>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="16.14456421" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="16.13337802" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="16.12569663" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="16.10571326" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="16.09968166" c:type="SCAN"/>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="edge_Cu" class="uk.ac.gda.server.ncd.calibration.CalibrationEdge" c:name="Cu" c:energy="8.979">
+        <constructor-arg name="features">
+            <list>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="12.72339768" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="12.72008476" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="12.707569" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="12.70196655" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="12.69177999" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="12.68920011" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="12.65746823" c:type="SCAN"/>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="edge_Zn" class="uk.ac.gda.server.ncd.calibration.CalibrationEdge" c:name="Zn" c:energy="9.659">
+        <constructor-arg name="features">
+            <list>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="11.81423241" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="11.80555347" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="11.80183786" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="11.79317725" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="11.79070514" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="11.77589438" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="11.76727206" c:type="SCAN"/>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="edge_Au" class="uk.ac.gda.server.ncd.calibration.CalibrationEdge" c:name="Au" c:energy="11.919">
+        <constructor-arg name="features">
+            <list>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.550563575" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.544905389" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.541675163" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.531192083" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.527971175" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.522339845" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.515109383" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="9.510295201" c:type="SCAN"/>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="edge_Zr" class="uk.ac.gda.server.ncd.calibration.CalibrationEdge" c:name="Zr" c:energy="17.998">
+        <constructor-arg name="features">
+            <list>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="6.308256192" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="6.30473895" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="6.302630491" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="6.298067008" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="6.297014836" c:type="SCAN"/>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="edge_Mo" class="uk.ac.gda.server.ncd.calibration.CalibrationEdge" c:name="Mo" c:energy="20">
+        <constructor-arg name="features">
+            <list>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="5.67461023" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="5.671622856" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="5.670059298" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="5.667786573" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="5.666650895" c:type="SCAN"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="5.664380906" c:type="DERIVATIVE"/>
+                <bean class="uk.ac.gda.server.ncd.calibration.ExpectedFeature" c:bragg="5.662396159" c:type="SCAN"/>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>

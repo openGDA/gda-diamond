@@ -6,6 +6,7 @@
     <import resource="beamline.xml" />
     <import resource='bs.xml'/>
     <import resource='d4.xml'/>
+    <import resource='d6.xml'/>
     <import resource='diodes.xml'/>
     <import resource="filters.xml" />
     <import resource='shutter.xml'/>
