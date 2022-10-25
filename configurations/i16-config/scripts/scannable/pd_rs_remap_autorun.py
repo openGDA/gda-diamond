@@ -30,7 +30,7 @@ class RSRemapAutorun(ScannableMotionBase):
 
 	def atScanEnd(self):
 		print("Reciprocal space remapping has been requested, submitting job to cluster")
-		command = "/dls_sw/i16/scripts/AutoProc/run_rs_remap.sh %s %f" % (self.getCurrentFileName(), self.miller_step)
+		command = "/dls_sw/i16/scripts/AutoProc/run_rs_map.sh %s %f" % (self.getCurrentFileName(), self.miller_step)
 		print("Command which will be run is '%s'" % command)
 		print(subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read())
 		print("Submission complete")
