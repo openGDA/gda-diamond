@@ -22,7 +22,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
 import org.eclipse.swt.SWT;
@@ -35,6 +34,7 @@ import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 public class PointScanpathEditor extends ScanpathEditor {
 
@@ -50,8 +50,7 @@ public class PointScanpathEditor extends ScanpathEditor {
 	public Composite createEditorPart(Composite parent) {
 		var mainComposite = super.createEditorPart(parent);
 
-		var composite = new Composite(mainComposite, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(composite);
+		var composite = ClientSWTElements.composite(mainComposite, 2);
 
 		new Label(composite, SWT.NONE).setText("X Position");
 		new Label(composite, SWT.NONE).setText("Y Position");

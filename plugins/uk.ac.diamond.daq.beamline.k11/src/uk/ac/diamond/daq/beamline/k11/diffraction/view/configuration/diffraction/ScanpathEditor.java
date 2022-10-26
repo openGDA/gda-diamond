@@ -18,12 +18,12 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
+import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
+
 import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.device.ui.AbstractModelEditor;
 import org.eclipse.swt.SWT;
@@ -42,6 +42,7 @@ import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 /**
  * Concrete implementations should assume that {@link #setModel(ScanpathDocument)} will be called
@@ -75,9 +76,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 
 	@Override
 	public Composite createEditorPart(Composite parent) {
-		composite = new Composite(parent, SWT.NONE);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(composite);
-		GridLayoutFactory.swtDefaults().applyTo(composite);
+		composite = ClientSWTElements.innerComposite(parent, 1, true);
 
 		initialiseMappingController();
 
@@ -86,7 +85,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 
 	protected Text createTextControls(Composite parent) {
 		Text text = new Text(parent, SWT.BORDER);
-		GridDataFactory.swtDefaults().hint(95, SWT.DEFAULT).applyTo(text);
+		STRETCH.applyTo(text);
 		text.addModifyListener(e -> controlsToModel());
 		return text;
 	}
@@ -98,6 +97,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 		spinner.setSelection(5);
 		spinner.setIncrement(1);
 		spinner.addModifyListener(e -> controlsToModel());
+		STRETCH.applyTo(spinner);
 		return spinner;
 	}
 

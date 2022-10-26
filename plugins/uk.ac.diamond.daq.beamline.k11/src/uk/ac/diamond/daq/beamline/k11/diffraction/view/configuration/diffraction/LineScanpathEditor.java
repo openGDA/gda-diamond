@@ -23,8 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.BoundingLine;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
@@ -43,6 +41,7 @@ import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 public class LineScanpathEditor extends ScanpathEditor {
 
@@ -75,8 +74,7 @@ public class LineScanpathEditor extends ScanpathEditor {
 	}
 
 	private void createRegionControls(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(composite);
+		Composite composite = ClientSWTElements.composite(parent, 2);
 
 		new Label(composite, SWT.NONE).setText("X Start");
 		new Label(composite, SWT.NONE).setText("X Stop");
@@ -90,13 +88,11 @@ public class LineScanpathEditor extends ScanpathEditor {
 
 		new Label(composite, SWT.NONE).setText("Points");
 		pointsSpinner = createSpinner(composite);
-		GridDataFactory.swtDefaults().span(3, 0).applyTo(pointsSpinner);
 
 	}
 
 	private void createMutatorsControls(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(composite);
+		Composite composite = ClientSWTElements.composite(parent, 2);
 
 		stepButton = new Button(composite, SWT.RADIO);
 		stepButton.setText("Step");
