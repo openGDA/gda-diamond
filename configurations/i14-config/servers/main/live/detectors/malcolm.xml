@@ -66,7 +66,7 @@
 	
 	<bean id="malcolmModelEiger" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-02" />
-		<property name="exposureTime" value="0.01" />
+		<property name="exposureTime" value="0.00075" />
 	</bean>
 	
 	<bean id="malcolmDeviceEiger" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
