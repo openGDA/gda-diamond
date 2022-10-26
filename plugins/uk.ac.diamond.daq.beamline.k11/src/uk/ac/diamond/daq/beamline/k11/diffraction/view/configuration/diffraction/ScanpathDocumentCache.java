@@ -35,11 +35,22 @@ public class ScanpathDocumentCache {
 	private Map<AcquisitionTemplateType, ScanpathDocument> scanpathDocuments = new EnumMap<>(AcquisitionTemplateType.class);
 
 	public void cache(ScanpathDocument document) {
-		scanpathDocuments.put(document.getModelDocument(), document);
+		scanpathDocuments.put(getInnerShape(document), document);
+	}
+
+	private AcquisitionTemplateType getInnerShape(ScanpathDocument document) {
+		var shape = document.getModelDocument();
+
+		if (shape == AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY) {
+			// I can't handle the outer dimension, so I'll assume you want a grid
+			shape = AcquisitionTemplateType.TWO_DIMENSION_GRID;
+		}
+
+		return shape;
 	}
 
 	public ScanpathDocument cacheAndChangeShape(ScanpathDocument document, AcquisitionTemplateType shape) {
-		scanpathDocuments.put(document.getModelDocument(), document);
+		cache(document);
 		var swapped = scanpathDocuments.computeIfAbsent(shape, s -> defaultDocument(document, shape));
 
 		return new ScanpathDocument(swapped.getModelDocument(), ScanningParametersUtils.updateAxes(document, swapped.getScannableTrackDocuments()), swapped.getMutators());
@@ -79,7 +90,7 @@ public class ScanpathDocumentCache {
 
 	private String getAxisName(ScanpathDocument document, Axis axis) {
 		return document.getScannableTrackDocuments().stream()
-				.filter(track -> track.getAxis().equals(axis))
+				.filter(track -> track.getAxis() == axis)
 				.map(ScannableTrackDocument::getScannable).findFirst().orElseThrow();
 	}
 

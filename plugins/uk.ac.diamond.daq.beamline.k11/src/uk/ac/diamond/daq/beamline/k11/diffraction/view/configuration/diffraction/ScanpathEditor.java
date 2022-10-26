@@ -121,9 +121,8 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	}
 
 	protected void updateAxes(ScannableTrackDocument updatedX, ScannableTrackDocument updatedY) {
-		var updatedDocument = new ScanpathDocument(getModel().getModelDocument(),
-				ScanningParametersUtils.updateAxes(getModel(), List.of(updatedX, updatedY)),
-						getModel().getMutators());
+		var updatedAxes = ScanningParametersUtils.updateAxes(getModel(), List.of(updatedX, updatedY));
+		var updatedDocument = new ScanpathDocument(getModel().getModelDocument(), updatedAxes, getModel().getMutators());
 		updateModel(updatedDocument);
 	}
 
