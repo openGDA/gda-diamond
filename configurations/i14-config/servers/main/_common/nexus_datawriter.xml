@@ -6,9 +6,8 @@
 
 
 	<!-- Define the metadata values to be written -->
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
+	<bean id="nexusDataWriterConfig" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<property name="metadataScannables">
 			<set>
 				<!-- beamline -->
 				<value>id_gap</value>
@@ -46,12 +45,10 @@
 				<value>xreye_z</value>
 			</set>
 		</property>
-	</bean>
+
 
 	<!-- Define where metadata and other scannables should be written (overriding default locations -->
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
+		<property name="locationMap">
 			<map>
 				<entry key="id_gap">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
