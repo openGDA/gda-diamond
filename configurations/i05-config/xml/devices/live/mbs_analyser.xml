@@ -139,11 +139,11 @@
 	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:DeflX_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:DeflX" />
-		<property name="dynamicPositionLimits" ref="dynamic_limits"/>
+		<property name="dynamicScannableLimits" ref="dynamic_limits"/>
 	</bean>
 	
 	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" init-method="init" destroy-method="destroy">
-		<property name="deflectorRange" ref="defl_x_range" />
+		<property name="limitsMap" ref="defl_x_range" />
 		<property name="pvName" value="BL05I-EA-DET-02:CAM:LensMode"/>
 	</bean>
 	
