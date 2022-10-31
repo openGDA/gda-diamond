@@ -21,6 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffractio
 import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -114,6 +115,17 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	protected abstract void controlsToModel();
 
 	protected abstract void modelToControls();
+
+	protected ScannableTrackDocument modifyAxis(ScannableTrackDocument axisToModify, double start, double stop, int points) {
+		return new ScannableTrackDocument.Builder(axisToModify).withStart(start).withStop(stop).withPoints(points).build();
+	}
+
+	protected void updateAxes(ScannableTrackDocument updatedX, ScannableTrackDocument updatedY) {
+		var updatedDocument = new ScanpathDocument(getModel().getModelDocument(),
+				ScanningParametersUtils.updateAxes(getModel(), List.of(updatedX, updatedY)),
+						getModel().getMutators());
+		updateModel(updatedDocument);
+	}
 
 	protected void updateModel(ScanpathDocument scanpathDocument) {
 		setModel(scanpathDocument);

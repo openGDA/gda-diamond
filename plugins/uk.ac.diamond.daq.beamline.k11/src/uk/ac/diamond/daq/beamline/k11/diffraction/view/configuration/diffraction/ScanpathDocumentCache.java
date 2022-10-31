@@ -40,7 +40,9 @@ public class ScanpathDocumentCache {
 
 	public ScanpathDocument cacheAndChangeShape(ScanpathDocument document, AcquisitionTemplateType shape) {
 		scanpathDocuments.put(document.getModelDocument(), document);
-		return scanpathDocuments.computeIfAbsent(shape, s -> defaultDocument(document, shape));
+		var swapped = scanpathDocuments.computeIfAbsent(shape, s -> defaultDocument(document, shape));
+
+		return new ScanpathDocument(swapped.getModelDocument(), ScanningParametersUtils.updateAxes(document, swapped.getScannableTrackDocuments()), swapped.getMutators());
 	}
 
 	private ScanpathDocument defaultDocument(ScanpathDocument document, AcquisitionTemplateType shape) {

@@ -19,8 +19,6 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
 import java.beans.PropertyChangeListener;
-import java.util.List;
-import java.util.function.Supplier;
 
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
@@ -30,8 +28,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -70,7 +66,7 @@ public class PointScanpathEditor extends ScanpathEditor {
 			double xAxis = Double.parseDouble(xStartText.getText());
 			double yAxis = Double.parseDouble(yStartText.getText());
 
-			updateModel(updateScanpathDocument(xAxis, yAxis));
+			updatePoint(xAxis, yAxis);
 		} finally {
 			handlingDocumentUpdate = false;
 		}
@@ -141,22 +137,15 @@ public class PointScanpathEditor extends ScanpathEditor {
 			handlingMappingUpdate = true;
 			var xAxis = point.getxPosition();
 			var yAxis = point.getyPosition();
-			updateModel(updateScanpathDocument(xAxis, yAxis));
+			updatePoint(xAxis, yAxis);
 		} finally {
 			handlingMappingUpdate = false;
 		}
 	}
 
-	private ScannableTrackDocument updateScannableTrackDocument(Supplier<ScannableTrackDocument> axis, double point){
-		var scannableTrackDocumentBuilder = new ScannableTrackDocument.Builder(axis.get());
-		scannableTrackDocumentBuilder.withStart(point).withStop(point).withPoints(1);
-		return scannableTrackDocumentBuilder.build();
+	private void updatePoint(double xAxis, double yAxis) {
+		updateAxes(modifyAxis(getXAxis(), xAxis, xAxis, 1),
+				   modifyAxis(getYAxis(), yAxis, yAxis, 1));
 	}
 
-	private ScanpathDocument updateScanpathDocument(double xAxis, double yAxis) {
-		var xScannableTrackDocument = updateScannableTrackDocument(this::getXAxis, xAxis);
-		var yScannableTrackDocument = updateScannableTrackDocument(this::getYAxis, yAxis);
-		List<ScannableTrackDocument> scannableTrackDocuments = List.of(xScannableTrackDocument, yScannableTrackDocument);
-		return new ScanpathDocument(getModel().getModelDocument(), scannableTrackDocuments, getModel().getMutators());
-	}
 }
