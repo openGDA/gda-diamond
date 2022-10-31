@@ -145,6 +145,7 @@
 	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" init-method="init" destroy-method="destroy">
 		<property name="limitsMap" ref="defl_x_range" />
 		<property name="pvName" value="BL05I-EA-DET-02:CAM:LensMode"/>
+		<property name="useMonitor" value="true"/>
 	</bean>
 	
 	<!-- Configure limits when using deflector_x in Jython -->
