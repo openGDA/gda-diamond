@@ -20,7 +20,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="x" />
+					<constructor-arg name="axis" value="X" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="10" />
 					<constructor-arg name="step" value="10" />
@@ -28,7 +28,7 @@
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="y" />
+					<constructor-arg name="axis" value="Y" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="10" />
 					<constructor-arg name="step" value="10" />
@@ -75,7 +75,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable"><null/></constructor-arg>
-					<constructor-arg name="axis"><null/></constructor-arg>
+					<constructor-arg name="axis" value="STATIC" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="0" />
 					<constructor-arg name="step" value="0" />
@@ -108,7 +108,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="theta" />
+					<constructor-arg name="axis" value="THETA" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="180" />
 					<constructor-arg name="step" value="0" />
@@ -142,7 +142,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable"><null/></constructor-arg>
-					<constructor-arg name="axis"><null/></constructor-arg>
+					<constructor-arg name="axis" value="STATIC" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="0" />
 					<constructor-arg name="step" value="0" />

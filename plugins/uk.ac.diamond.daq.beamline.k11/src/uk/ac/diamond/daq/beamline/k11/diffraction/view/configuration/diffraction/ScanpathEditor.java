@@ -38,6 +38,7 @@ import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
@@ -173,7 +174,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	 */
 	protected ScannableTrackDocument getXAxis() {
 		return getModel().getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equalsIgnoreCase("x"))
+				.filter(doc -> doc.getAxis().equals(Axis.X))
 				.findFirst().orElseThrow();
 	}
 
@@ -183,7 +184,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	 */
 	protected ScannableTrackDocument getYAxis() {
 		return getModel().getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equalsIgnoreCase("y"))
+				.filter(doc -> doc.getAxis().equals(Axis.Y))
 				.findFirst().orElseThrow();
 	}
 
