@@ -11,5 +11,20 @@
 	<bean id="id_gap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR14I-MO-SERVC-01:BLGAPMTR" />
 	</bean>
+	
+	<!-- Dummy ID gap to run XANES without beam -->
+	<bean id="id_gap_monitor_dummy" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">10.5</value>
+		</property>
+		<property name="outputFormat" value="%.2f" />
+	</bean>
+
+	<bean id="id_gap_motor_dummy" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="4.9000" />
+		<property name="maxPosition" value="30.100" />
+		<property name="position" value="6.1317" />
+		<property name="unitString" value="mm" />
+	</bean>
 
 </beans>
