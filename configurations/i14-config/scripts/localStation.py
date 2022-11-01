@@ -1,5 +1,5 @@
 from java.io import FileNotFoundException
-from gdaserver import dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current, sample_dtab_addetector
+from gdaserver import dcm_bragg, dcm_perp, id_gap, id_gap_dummy, m1_mirror_stripe, m2_mirror_stripe, ring_current, sample_dtab_addetector
 from gda.configuration.properties import LocalProperties
 from gda.jython.commands.GeneralCommands import alias, cmd, ls, ls_names, pause, reset_namespace, run
 from gdascripts.scan import gdascans
