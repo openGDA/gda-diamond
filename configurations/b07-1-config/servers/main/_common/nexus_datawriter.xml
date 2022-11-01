@@ -4,11 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
+	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<property name="metadataScannables">
 			<set>
 				<!-- s1c -->
 				<value>s1c_xcentre</value>
