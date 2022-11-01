@@ -8,5 +8,11 @@
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="id_gap_motor" />
 	</bean>
+	
+	<!-- Dummy ID gap to run XANES without beam -->
+	<bean id="id_gap_dummy" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="id_gap_motor_dummy" />
+	</bean>
 
 </beans>
