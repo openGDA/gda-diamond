@@ -140,7 +140,52 @@
 	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-SIM-02:CAM:DeflX_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-SIM-02:CAM:DeflX" />
+		<property name="dynamicScannableLimits" ref="dynamic_limits"/>
 	</bean>
+	
+	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" init-method="init" destroy-method="destroy">
+		<property name="limitsMap" ref="defl_x_range" />
+		<property name="pvName" value="BL05I-EA-SIM-02:CAM:LensMode"/>
+		<property name="useMonitor" value="true"/>
+	</bean>
+	
+	<!-- Configure limits when using deflector_x in Jython -->
+	<bean id="defl_x_range" class="gda.device.controlpoint.LimitsMap">
+		<constructor-arg>
+			<map>
+				<entry key="L4Ang0d8">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-17.12" />
+						<constructor-arg name="high" value="17.12" />
+					</bean>
+				</entry>
+				<entry key="L4Ang0d6">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-8.07" />
+						<constructor-arg name="high" value="8.07" />
+					</bean>
+				</entry>
+				<entry key="L4Ang1d6">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-3.01" />
+						<constructor-arg name="high" value="3.01" />
+					</bean>
+				</entry>
+				<entry key="L4Spat5">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-2.63" />
+						<constructor-arg name="high" value="2.63" />
+					</bean>
+				</entry>
+				<entry key="L4Ang3d9">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-17.85" />
+						<constructor-arg name="high" value="17.85" />
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+    </bean>
 
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05I-EA-SIM-02:CAM:PsuMode_RBV" />
