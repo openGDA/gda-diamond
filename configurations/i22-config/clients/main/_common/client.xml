@@ -48,9 +48,9 @@
                     <list value-type="java.lang.String">
                         <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
                         <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
-                        <value>uk.ac.diamond.daq.mapping.ui.experiment.MappingExperimentView</value>
-                        <value>gda.rcp.ncd.perspectives.SaxsPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.SaxsWaxsPerspective</value>
                         <value>uk.ac.gda.client.scripting.JythonPerspective</value>
+                        <value>uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective</value>
                     </list>
                 </entry>
             </map>
