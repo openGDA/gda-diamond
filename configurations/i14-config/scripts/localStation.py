@@ -82,9 +82,6 @@ run('ifs_functions.py')
 # Define functions to control shutters
 run('shutter_control.py')
 
-# Define autofocus function
-run('autofocus/autofocus.py')
-
 # Define tomography scan functions
 run('scanning/tomo_scan_functions.py')
 
