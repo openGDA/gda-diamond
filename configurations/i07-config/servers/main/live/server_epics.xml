@@ -1111,7 +1111,6 @@
 		<property name="pvName" value="BL07I-MO-YGRT-01:POS" />
 	</bean>
 
-
 	<bean id="MotorSyringe_left" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:MOTOR" />
 	</bean>
