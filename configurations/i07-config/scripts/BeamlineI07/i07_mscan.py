@@ -1,6 +1,5 @@
 from gdascripts.mscanHandler import *
 from uk.ac.gda.analysis.mscan import HklAdapter
-from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.api.device import IRunnableDeviceService
@@ -64,24 +63,6 @@ try:
     p3s.setHklProvider(hkl_prov)
 except Exception as e:
     print("Error setting up hkl providers", e)
-
-#####
-
-# PVA snapper
-try:
-    from exc_p import ExcPvaSnapper
-    exc_snap = ExcPvaSnapper("exc_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats_verbose"))
-except Exception as e:
-    print("Error setting up exc snapper", e)
-#####
-
-# Exc Threshold
-try:
-    from exc_p import ExcThreshold
-    excthresh = ExcThreshold("excthresh", excalibur.getController().getBasePv())
-except Exception as e:
-    print("Error setting up exc threshold", e)
-#####
 
 # ROI def meta recorder for dat
 try:

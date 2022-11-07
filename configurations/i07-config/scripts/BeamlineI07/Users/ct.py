@@ -1,10 +1,18 @@
-from time import sleep
 from gda.device.detector import NXDetectorDataWithFilepathForSrs
 from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget, caput
-from gda.jython.commands.ScannableCommands import pos 
-from gda.jython.commands.GeneralCommands import alias 
 from gdascripts.installation import isLive
+from gda.factory import Finder
+from gdaserver import exc_pva, eig_pva
+
+# PVA snapper
+try:
+	from odin_detector_snapper import ExcPvaSnapper, EigPvaSnapper
+	ex_snap = ExcPvaSnapper("ex_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("excalibur_stats_verbose"), "Excalibur")
+	ei_snap = EigPvaSnapper("ei_snap", eig_pva.getCollectionStrategy(),eig_pva.getAdditionalPluginList()[0].getNdPva(), Finder.find("eiger_stats_verbose"), "Eiger")
+except Exception as e:
+	print("Error setting up exc snapper", e)
+#####
 
 def ct(ct_time = 0):
 
@@ -59,8 +67,8 @@ def ct(ct_time = 0):
 	
 	if ct_time == 0 :
 		ct_time = ct.defaultTime
-	if not ( ct.p2 or ct.ex or ct.p3 ) :
-		print "No detectors enabled, please set ct.p2, ct.p3 and/or ct.ex to True."
+	if not ( ct.p2 or ct.ex or ct.p3 or ct.ei ) :
+		print "No detectors enabled, please set ct.p2, ct.p3, ct.ex and/or ct.ei to True."
 		return
 	if ct.specWarning:
 		print "This is not SPEC!"
@@ -70,10 +78,12 @@ def ct(ct_time = 0):
 	
 	pos(ct.fastshutter, 1)
 	if ct.ex :
-		pos(exc_snap, ct_time)
+		pos(ex_snap, ct_time)
 	else :
 		#Not needed if using exc as it's slow anyway
 		sleep(ct.fsSleep)
+	if ct.ei :
+		pos(ei_snap, ct_time)
 	if ct.p2 :
 		pos(pil2stats, ct_time)
 	if ct.p3 :
@@ -81,29 +91,33 @@ def ct(ct_time = 0):
 	pos(ct.fastshutter, 0)
 	
 	if ct.ex :
-		stats = dict(zip(exc_snap.getExtraNames(), exc_snap.readout()))
+		stats = dict(zip(ex_snap.getExtraNames(), ex_snap.readout()))
 		print "Excalibur Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
+	if ct.ei :
+		stats = dict(zip(ei_snap.getExtraNames(), ei_snap.readout()))
+		print "Eiger Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
 	if ct.p2 :
 		readout_pilatus(pil2stats, "Pilatus 2M")
 	if ct.p3 :
 		readout_pilatus(pil3stats, "Pilatus 100K")
 
-ct.p2, ct.p3, ct.ex = False, False, True
+ct.p2, ct.p3, ct.ex, ct.ei = False, False, True, False
 
 def ct_detectors(*detector_list):	#Need to make it interpret this as a list however many entries there are.
 	def print_detectors() :
 		printout = "Detectors enabled for ct: "
 		if ct.p2 : printout += "pilatus 2, "
 		if ct.p3 : printout += "pilatus 3, "
-		if ct.ex : printout += "excalibur"
-		if not (ct.p2 or ct.p3 or ct.ex) : printout += "none"
+		if ct.ex : printout += "excalibur, "
+		if ct.ei : printout += "eiger"
+		if not (ct.p2 or ct.p3 or ct.ex or ct.ei) : printout += "none"
 		print printout
 
 	if len(detector_list) == 0 :
 		print_detectors()
 		return
 
-	available_detectors = ["p2", "p3", "ex", "pil2stats", "pil3stats", "exc_snap"]
+	available_detectors = ["p2", "p3", "ex", "ei", "pil2stats", "pil3stats", "ex_snap", "ei_snap"]
 	found=False
 	
 	for det in detector_list :
@@ -114,10 +128,11 @@ def ct_detectors(*detector_list):	#Need to make it interpret this as a list howe
 	if found :
 		ct.p2 = "p2" in detector_list or  "pil2stats" in detector_list
 		ct.p3 = "p3" in detector_list or  "pil3stats" in detector_list
-		ct.ex = "ex" in detector_list or  "exc_snap" in detector_list
+		ct.ex = "ex" in detector_list or  "ex_snap" in detector_list
+		ct.ei = "ei" in detector_list or  "ei_snap" in detector_list
 		print_detectors()
 	else :
-		print "Only ex (exc_snap), p2 (pil2stats) and p3 (pil3stats) are compatible with ct command."
+		print "Only ex (ex_snap), ei (ei_snap), p2 (pil2stats) and p3 (pil3stats) are compatible with ct command."
 
 alias("ct")
 alias("ct_detectors")
@@ -127,6 +142,6 @@ ct.defaultTime = 1
 ct.fsSleep = 0.5
 ct.fastshutter = fs
 
-if isLive() and  LocalProperties.get('gda.active.diffractometer.mode')=='eh2' :
+if isLive() and LocalProperties.get("gda.active.diffractometer.mode") == "eh2" :
 	ct.p3=True
 	ct.ex=False
