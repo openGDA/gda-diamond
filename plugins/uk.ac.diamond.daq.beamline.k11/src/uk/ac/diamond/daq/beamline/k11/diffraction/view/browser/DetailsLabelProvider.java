@@ -30,6 +30,7 @@ import org.eclipse.swt.SWT;
 import gda.rcp.views.Browser;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientMessagesUtility;
@@ -55,18 +56,26 @@ class DetailsLabelProvider extends LabelProvider implements IComparableStyledLab
 	}
 
 	private String getDetailsSummary(ScanpathDocument scanpathDocument) {
-		switch (scanpathDocument.getModelDocument()) {
-		case TWO_DIMENSION_GRID:
-			return getGridDetails(scanpathDocument);
-		case TWO_DIMENSION_LINE:
-			return getLineDetails(scanpathDocument);
-		case TWO_DIMENSION_POINT:
-			return getPointDetails(scanpathDocument);
-		case STATIC_POINT:
-			return getBeamSelectorScanDetails(scanpathDocument);
-		default:
-			return "Details unavailable";
-		}
+		return switch (scanpathDocument.getModelDocument()) {
+			case DIFFRACTION_TOMOGRAPHY -> getThreeDimensionalGridDetails(scanpathDocument);
+			case TWO_DIMENSION_GRID -> getGridDetails(scanpathDocument);
+			case TWO_DIMENSION_LINE -> getLineDetails(scanpathDocument);
+			case TWO_DIMENSION_POINT -> getPointDetails(scanpathDocument);
+			case STATIC_POINT -> getBeamSelectorScanDetails(scanpathDocument);
+			default -> "Details unavailable";
+		};
+	}
+
+	private String getThreeDimensionalGridDetails(ScanpathDocument scanpathDocument) {
+		var x = getAxis(Axis.X, scanpathDocument);
+		var y = getAxis(Axis.Y, scanpathDocument);
+		var theta = getAxis(Axis.THETA, scanpathDocument);
+		return String.format("%d (X) x %d (Y) x %d (θ) points", x.getPoints(), y.getPoints(), theta.getPoints());
+	}
+
+	private ScannableTrackDocument getAxis(Axis axis, ScanpathDocument document) {
+		return document.getScannableTrackDocuments().stream()
+				.filter(doc -> doc.getAxis().equals(axis)).findFirst().orElseThrow();
 	}
 
 	private String getGridDetails(ScanpathDocument scanpathDocument) {
