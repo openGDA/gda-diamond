@@ -43,10 +43,25 @@
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
 							</bean>
-							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesSubmitScanSection">
+							<bean id="xanesScan" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesSubmitScanSection">
+								<property name="sparseScanning" value="False"/>
 								<property name="buttonText" value="Submit XANES scan" />
 								<property name="description" value="XANES scan" />
 								<property name="energyScannableName" value="dcm_enrg" />
+								<property name="scriptFilePath" value="scanning/submit_xanes_scan.py"/>
+								<property name="submitButtonColour" value="#{new org.eclipse.swt.graphics.RGB(179, 204, 255)}"/>
+								<property name="stateReporter">
+									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
+								</property> 
+							</bean>
+							<bean id="sparseXanesScan" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesSubmitScanSection">
+								<property name="sparseScanning" value="True"/>
+								<property name="buttonText" value="Submit Sparse XANES scan" />
+								<property name="description" value="Sparse XANES scan" />
+								<property name="energyScannableName" value="dcm_enrg" />
+								<property name="detectorName" ref="sparse_xanes_scan_detector"/>
+								<property name="scriptFilePath" value="scanning/submit_sparse_xanes_scan.py"/>
+								<property name="submitButtonColour" value="#{new org.eclipse.swt.graphics.RGB(221,221,248)}"/>
 								<property name="stateReporter">
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
