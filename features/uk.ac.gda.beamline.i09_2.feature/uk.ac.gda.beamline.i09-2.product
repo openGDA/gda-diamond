@@ -29,6 +29,7 @@ http://www.opengda.org
 -Dgda.instance.dir=${project_loc:i09-2-config} 
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
+-Declipse.pluginCustomization=${project_loc:i09-2-config}/plugin_customization.ini
 -Xms1g 
 -Xmx3g
       </vmArgs>

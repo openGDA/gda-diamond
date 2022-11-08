@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- DLD controls -->
+	<bean id="dldExposureTime" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="dldAcquirePeriod" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+
+	<bean id="dldState" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:DetectorState_RBV"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	<bean id="dldTimeStart" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="dldTimeStart" />
+		<constructor-arg index="1" value="0.0" />
+		<property name="outputFormat">
+			<list>
+				<value>%12.1f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="dldTimeLength" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="dldTimeLength" />
+		<constructor-arg index="1" value="500000000.0" />
+		<property name="outputFormat">
+			<list>
+				<value>%12.1f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="dldHistogramLength" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="dldHistogramLength" />
+		<constructor-arg index="1" value="200000" />
+		<property name="outputFormat">
+			<list>
+				<value>%8.0f</value>
+			</list>
+		</property>	
+	</bean>
+
+</beans>

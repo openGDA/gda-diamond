@@ -14,6 +14,7 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
 
 	<import resource="GDAMetadata.xml"/>
 	<import resource="ID.xml" />
@@ -44,6 +45,7 @@
 	<import resource="shutters.xml"/>
 	
 	<import resource="dummy_endstation.xml" />
+	<import resource="DLD.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

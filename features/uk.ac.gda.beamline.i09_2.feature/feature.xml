@@ -62,6 +62,13 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          version="0.0.0"/>
 
    <plugin
+         id="uk.ac.gda.client.live.stream.controls"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="uk.ac.gda.beamline.i09-2"
          download-size="0"
          install-size="0"

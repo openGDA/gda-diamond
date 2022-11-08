@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Diamond Light Source Beamline I09-2 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i09-2;singleton:=true
-Bundle-Version: 8.43.0
-Bundle-Activator: uk.ac.gda.beamline.i09-2.Activator
+Bundle-Version: 9.28.0
+Bundle-Activator: uk.ac.gda.beamline.i09_2.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.ui.intro,
@@ -17,8 +17,12 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.common;bundle-version="1.0.0",
- uk.ac.gda.common.rcp;bundle-version="1.0.0"
+ uk.ac.gda.common.rcp;bundle-version="1.0.0",
+ uk.ac.gda.client.live.stream;bundle-version="1.0.0",
+ uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0",
+ org.dawnsci.plotting,
+ org.slf4j.api
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Diamond Light Source
 Automatic-Module-Name: uk.ac.gda.beamline.i09-2
