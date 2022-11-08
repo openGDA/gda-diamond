@@ -56,6 +56,7 @@
 	<!-- Stanford -->
 	<import resource="stanford.xml"/>
 
+	<import resource="gv12.xml"/>
 	<import resource="gv22.xml"/>
 	<import resource="gv24.xml"/>
 	<import resource="gv25.xml"/>
@@ -67,6 +68,9 @@
 	<!-- Gas Rig -->
 	<import resource="gas_rig.xml" />
 	<import resource="patch_panel.xml"/>
+	
+	<!-- beam to endstation status -->
+	<import resource="beam_to_endstation.xml"/>
 	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
