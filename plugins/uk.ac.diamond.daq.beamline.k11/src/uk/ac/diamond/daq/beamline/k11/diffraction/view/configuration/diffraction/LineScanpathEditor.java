@@ -23,8 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.BoundingLine;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel;
@@ -39,10 +37,10 @@ import org.eclipse.swt.widgets.Text;
 
 import gda.mscan.element.Mutator;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 public class LineScanpathEditor extends ScanpathEditor {
 
@@ -75,8 +73,7 @@ public class LineScanpathEditor extends ScanpathEditor {
 	}
 
 	private void createRegionControls(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(composite);
+		Composite composite = ClientSWTElements.composite(parent, 2);
 
 		new Label(composite, SWT.NONE).setText("X Start");
 		new Label(composite, SWT.NONE).setText("X Stop");
@@ -90,13 +87,11 @@ public class LineScanpathEditor extends ScanpathEditor {
 
 		new Label(composite, SWT.NONE).setText("Points");
 		pointsSpinner = createSpinner(composite);
-		GridDataFactory.swtDefaults().span(3, 0).applyTo(pointsSpinner);
 
 	}
 
 	private void createMutatorsControls(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(composite);
+		Composite composite = ClientSWTElements.composite(parent, 2);
 
 		stepButton = new Button(composite, SWT.RADIO);
 		stepButton.setText("Step");
@@ -128,7 +123,8 @@ public class LineScanpathEditor extends ScanpathEditor {
 			double xStop = Double.parseDouble(xStopText.getText());
 			double yStop = Double.parseDouble(yStopText.getText());
 			int numberPoints = Integer.parseInt(pointsSpinner.getText());
-			updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, numberPoints));
+			updateAxes(modifyAxis(getXAxis(), xStart, xStop, numberPoints),
+					   modifyAxis(getYAxis(), yStart, yStop, numberPoints));
 		} finally {
 			handlingDocumentUpdate = false;
 		}
@@ -210,23 +206,11 @@ public class LineScanpathEditor extends ScanpathEditor {
 			double xStop = line.getxStop();
 			double yStop = line.getyStop();
 			int numberPoints = getXAxis().calculatedPoints();
-			updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, numberPoints));
+			updateAxes(modifyAxis(getXAxis(), xStart, xStop, numberPoints),
+					   modifyAxis(getYAxis(), yStart, yStop, numberPoints));
 		} finally {
 			handlingMappingUpdate = false;
 		}
-	}
-
-	private ScannableTrackDocument updateScannableTrackDocument(int axis, double start, double stop, int numberPoints){
-		var scannableTrackDocumentBuilder = new ScannableTrackDocument.Builder(getModel().getScannableTrackDocuments().get(axis));
-		scannableTrackDocumentBuilder.withStart(start).withStop(stop).withPoints(numberPoints);
-		return scannableTrackDocumentBuilder.build();
-	}
-
-	private ScanpathDocument updateScanpathDocument(double xStart, double yStart, double xStop, double yStop, int numberPoints) {
-		var xScannableTrackDocument = updateScannableTrackDocument(0, xStart, xStop, numberPoints);
-		var yScannableTrackDocument = updateScannableTrackDocument(1, yStart, yStop, numberPoints);
-		List<ScannableTrackDocument> scannableTrackDocuments = List.of(xScannableTrackDocument, yScannableTrackDocument);
-		return new ScanpathDocument(getModel().getModelDocument(), scannableTrackDocuments, getModel().getMutators());
 	}
 
 	private ScanpathDocument updateScanpathDocumentMutators(Map<Mutator, List<Number>> mutatorMap) {

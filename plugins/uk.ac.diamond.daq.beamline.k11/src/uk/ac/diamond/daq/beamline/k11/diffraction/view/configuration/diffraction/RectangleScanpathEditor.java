@@ -24,7 +24,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.BoundingBox;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisGridPointsModel;
@@ -39,10 +38,10 @@ import org.eclipse.swt.widgets.Text;
 
 import gda.mscan.element.Mutator;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 public class RectangleScanpathEditor extends ScanpathEditor {
 
@@ -76,8 +75,7 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 	}
 
 	private void createRegionControls(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(composite);
+		Composite composite = ClientSWTElements.composite(parent, 2);
 
 		new Label(composite, SWT.NONE).setText("X Start");
 		new Label(composite, SWT.NONE).setText("X Stop");
@@ -96,8 +94,7 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 	}
 
 	private void createMutatorsControls(Composite parent) {
-		Composite radioButtonComposite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(radioButtonComposite);
+		Composite radioButtonComposite = ClientSWTElements.composite(parent, 2);
 
 		stepButton = new Button(radioButtonComposite, SWT.RADIO);
 		stepButton.setText("Step");
@@ -109,8 +106,7 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 		continuousButton.setToolTipText("Fly scan");
 		continuousButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(this::handleMutatorSelection));
 
-		Composite checkBoxComposite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(checkBoxComposite);
+		Composite checkBoxComposite = ClientSWTElements.composite(parent, 1);
 		alternatingButton = new Button(checkBoxComposite, SWT.CHECK);
 		alternatingButton.setText("Alternating");
 		alternatingButton.setData(Mutator.ALTERNATING);
@@ -140,7 +136,8 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 			int xPoints = Integer.parseInt(xPointsSpinner.getText());
 			int yPoints = Integer.parseInt(yPointsSpinner.getText());
 
-			updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, xPoints, yPoints));
+			updateAxes(modifyAxis(getXAxis(), xStart, xStop, xPoints),
+					   modifyAxis(getYAxis(), yStart, yStop, yPoints));
 
 		} finally {
 			handlingDocumentUpdate = false;
@@ -225,23 +222,12 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 			double yStop = rectangle.getyCentre() + rectangle.getyRange()/2;
 			int xPoints = getXAxis().calculatedPoints();
 			int yPoints = getYAxis().calculatedPoints();
-			updateModel(updateScanpathDocument(xStart, yStart, xStop, yStop, xPoints, yPoints));
+
+			updateAxes(modifyAxis(getXAxis(), xStart, xStop, xPoints),
+					   modifyAxis(getYAxis(), yStart, yStop, yPoints));
 		} finally {
 			handlingMappingUpdate = false;
 		}
-	}
-
-	private ScannableTrackDocument updateScannableTrackDocument(int axis, double start, double stop, int numberPoints){
-		var scannableTrackDocumentBuilder = new ScannableTrackDocument.Builder(getModel().getScannableTrackDocuments().get(axis));
-		scannableTrackDocumentBuilder.withStart(start).withStop(stop).withPoints(numberPoints);
-		return scannableTrackDocumentBuilder.build();
-	}
-
-	private ScanpathDocument updateScanpathDocument(double xStart, double yStart, double xStop, double yStop, int xPoints, int yPoints) {
-		var xScannableTrackDocument = updateScannableTrackDocument(0, xStart, xStop, xPoints);
-		var yScannableTrackDocument = updateScannableTrackDocument(1, yStart, yStop, yPoints);
-		List<ScannableTrackDocument> scannableTrackDocuments = List.of(xScannableTrackDocument, yScannableTrackDocument);
-		return new ScanpathDocument(getModel().getModelDocument(), scannableTrackDocuments, getModel().getMutators());
 	}
 
 	private ScanpathDocument addMutator(Mutator mutator) {

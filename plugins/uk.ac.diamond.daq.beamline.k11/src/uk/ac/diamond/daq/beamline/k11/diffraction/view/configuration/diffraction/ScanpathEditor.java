@@ -18,12 +18,13 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
+import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
+
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.device.ui.AbstractModelEditor;
 import org.eclipse.swt.SWT;
@@ -38,10 +39,12 @@ import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
+import uk.ac.gda.ui.tool.ClientSWTElements;
 
 /**
  * Concrete implementations should assume that {@link #setModel(ScanpathDocument)} will be called
@@ -75,9 +78,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 
 	@Override
 	public Composite createEditorPart(Composite parent) {
-		composite = new Composite(parent, SWT.NONE);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(composite);
-		GridLayoutFactory.swtDefaults().applyTo(composite);
+		composite = ClientSWTElements.innerComposite(parent, 1, true);
 
 		initialiseMappingController();
 
@@ -86,7 +87,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 
 	protected Text createTextControls(Composite parent) {
 		Text text = new Text(parent, SWT.BORDER);
-		GridDataFactory.swtDefaults().hint(95, SWT.DEFAULT).applyTo(text);
+		STRETCH.applyTo(text);
 		text.addModifyListener(e -> controlsToModel());
 		return text;
 	}
@@ -98,6 +99,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 		spinner.setSelection(5);
 		spinner.setIncrement(1);
 		spinner.addModifyListener(e -> controlsToModel());
+		STRETCH.applyTo(spinner);
 		return spinner;
 	}
 
@@ -113,6 +115,16 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	protected abstract void controlsToModel();
 
 	protected abstract void modelToControls();
+
+	protected ScannableTrackDocument modifyAxis(ScannableTrackDocument axisToModify, double start, double stop, int points) {
+		return new ScannableTrackDocument.Builder(axisToModify).withStart(start).withStop(stop).withPoints(points).build();
+	}
+
+	protected void updateAxes(ScannableTrackDocument updatedX, ScannableTrackDocument updatedY) {
+		var updatedAxes = ScanningParametersUtils.updateAxes(getModel(), List.of(updatedX, updatedY));
+		var updatedDocument = new ScanpathDocument(getModel().getModelDocument(), updatedAxes, getModel().getMutators());
+		updateModel(updatedDocument);
+	}
 
 	protected void updateModel(ScanpathDocument scanpathDocument) {
 		setModel(scanpathDocument);
@@ -173,7 +185,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	 */
 	protected ScannableTrackDocument getXAxis() {
 		return getModel().getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equalsIgnoreCase("x"))
+				.filter(doc -> doc.getAxis().equals(Axis.X))
 				.findFirst().orElseThrow();
 	}
 
@@ -183,7 +195,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	 */
 	protected ScannableTrackDocument getYAxis() {
 		return getModel().getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equalsIgnoreCase("y"))
+				.filter(doc -> doc.getAxis().equals(Axis.Y))
 				.findFirst().orElseThrow();
 	}
 

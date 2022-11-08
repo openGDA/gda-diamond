@@ -29,6 +29,7 @@ import org.eclipse.ui.IWorkbenchPage;
 
 import gda.rcp.views.Browser;
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.tomography.view.DiffractionTomographyComposite;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.browser.MapBrowser;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorComposite;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionComposite;
@@ -93,6 +94,7 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 		List<NamedCompositeFactory> configurations = new ArrayList<>();
 		configurations.add(new DiffractionComposite(controlButtonsContainerSupplier));
 		configurations.add(new PointAndShootComposite(controlButtonsContainerSupplier));
+		configurations.add(new DiffractionTomographyComposite(controlButtonsContainerSupplier));
 		configurations.add(new BeamSelectorComposite(controlButtonsContainerSupplier));
 		return configurations;
 	}

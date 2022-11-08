@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Widget;
+import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.Activator;
@@ -65,6 +66,8 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 	private Composite controls;
 	private ScanpathEditor scanpathEditor;
+
+	private ModelUpdater modelUpdater;
 
 	public ShapeControls(Supplier<ScanningParameters> scanningParameters) {
 		this.scanningParameters = scanningParameters;
@@ -122,6 +125,9 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 		initialiseMappingController();
 
+		modelUpdater = new ModelUpdater();
+		SpringApplicationContextFacade.addApplicationListener(modelUpdater);
+
 		composite.addDisposeListener(disposeEvent -> dispose());
 		return composite;
 	}
@@ -130,6 +136,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		if (scanpathEditor != null) {
 			scanpathEditor.dispose();
 		}
+		SpringApplicationContextFacade.removeApplicationListener(modelUpdater);
 	}
 
 	private void addShape(ToolBar toolBar, AcquisitionTemplateType shape, ClientImages image) {
@@ -162,6 +169,14 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 			.filter(ToolItem::getSelection).findFirst();
 	}
 
+	public void disableShape(AcquisitionTemplateType shape) {
+		buttonToShape.entrySet().stream()
+			.filter(entry -> entry.getValue() == shape)
+			.map(Map.Entry::getKey)
+			.filter(ToolItem.class::isInstance).map(ToolItem.class::cast)
+			.findFirst().ifPresent(button -> button.setEnabled(false));
+	}
+
 	/**
 	 * Call only if sure that a button is selected!
 	 */
@@ -174,21 +189,35 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	}
 
 	private void updateSelectionFromDocument() {
+
+		// find button mapped to the current document's shape
+		var shape = getInnerScanShape();
+
+		var buttonToSelect = buttonToShape.entrySet().stream()
+				.filter(entry -> entry.getValue().equals(shape))
+				.map(Map.Entry::getKey)
+				.filter(ToolItem.class::isInstance).map(ToolItem.class::cast)
+				.findFirst()
+				.orElseThrow(() -> new IllegalStateException("Current acquisition has unexpected shape: " + shape.toString()));
+
+
 		// deselect any previous selection
 		getSelectedButton().ifPresent(button -> button.setSelection(false));
 
-		// find button mapped to the current document's shape
-		var shape = scanningParameters.get().getScanpathDocument().getModelDocument();
-		var button = buttonToShape.entrySet().stream()
-						.filter(entry -> entry.getValue().equals(shape))
-						.map(Map.Entry::getKey)
-						.filter(ToolItem.class::isInstance).map(ToolItem.class::cast)
-						.findFirst()
-						.orElseThrow(() -> new IllegalStateException("Current acquisition has unexpected shape: " + shape.toString()));
-
 		// programmatically select it and notify it's listeners
-		button.setSelection(true);
-		button.notifyListeners(SWT.Selection, new Event());
+		buttonToSelect.setSelection(true);
+		buttonToSelect.notifyListeners(SWT.Selection, new Event());
+	}
+
+	private AcquisitionTemplateType getInnerScanShape() {
+		var shape = scanningParameters.get().getScanpathDocument().getModelDocument();
+
+		if (shape == AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY) {
+			// I can't handle the outer dimension, so I'll assume you want a grid
+			shape = AcquisitionTemplateType.TWO_DIMENSION_GRID;
+		}
+
+		return shape;
 	}
 
 	/**
@@ -216,8 +245,8 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	private void updateScanpathDocument(Object source, Object argument) {
 		if (source.equals(scanpathEditor) && argument instanceof ScanpathDocument) {
 			var document = (ScanpathDocument) argument;
-			scanpathDocumentCache.cache(document);
 			scanningParameters.get().setScanpathDocument(document);
+			scanpathDocumentCache.cache(document);
 			publishUpdate();
 		}
 	}
@@ -230,5 +259,15 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	public void reload() {
 		scanpathDocumentCache.cache(scanningParameters.get().getScanpathDocument());
 		updateSelectionFromDocument();
+	}
+
+	class ModelUpdater implements ApplicationListener<ScanningAcquisitionChangeEvent> {
+
+		@Override
+		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
+			if (event.getSource().equals(ShapeControls.this)) return;
+			scanpathEditor.setModel(scanningParameters.get().getScanpathDocument());
+		}
+
 	}
 }

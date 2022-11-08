@@ -20,7 +20,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="x" />
+					<constructor-arg name="axis" value="X" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="10" />
 					<constructor-arg name="step" value="10" />
@@ -28,7 +28,7 @@
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="y" />
+					<constructor-arg name="axis" value="Y" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="10" />
 					<constructor-arg name="step" value="10" />
@@ -55,6 +55,57 @@
 		</property>
 	</bean>
 	
+	<!-- FIXME -->
+	<bean id="diffractionTomographyMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg ref="diffractionMalcolmMri" />
+	</bean>
+	
+	<bean id="diffractionTomographyTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="DIFFRACTION" />
+		<property name="subType" value="DIFFRACTION_TOMOGRAPHY" />
+		<property name="engine">
+			<bean class="uk.ac.gda.api.acquisition.AcquisitionEngineDocument">
+				<property name="type" value="MALCOLM" />
+				<property name="id" ref="diffractionTomographyMalcolmMri" />
+			</bean>
+		</property>
+		<property name="detectors">
+			<list><value>PILATUS</value></list>
+		</property>
+		<property name="defaultPaths">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
+					<constructor-arg name="axis" value="X" />
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="10" />
+					<constructor-arg name="step" value="0" />
+					<constructor-arg name="points" value="5" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
+					<constructor-arg name="axis" value="THETA" />
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="180" />
+					<constructor-arg name="step" value="0" />
+					<constructor-arg name="points" value="100" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<constructor-arg name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
+					<constructor-arg name="axis" value="Y" />
+					<constructor-arg name="start" value="0" />
+					<constructor-arg name="stop" value="10" />
+					<constructor-arg name="step" value="0" />
+					<constructor-arg name="points" value="5" />
+				</bean>
+			</list>
+		</property>
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_open" />
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="beamSelectorTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
 		<property name="type" value="DIFFRACTION" />
@@ -75,7 +126,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable"><null/></constructor-arg>
-					<constructor-arg name="axis"><null/></constructor-arg>
+					<constructor-arg name="axis" value="STATIC" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="0" />
 					<constructor-arg name="step" value="0" />
@@ -108,7 +159,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="theta" />
+					<constructor-arg name="axis" value="THETA" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="180" />
 					<constructor-arg name="step" value="0" />
@@ -142,7 +193,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<constructor-arg name="scannable"><null/></constructor-arg>
-					<constructor-arg name="axis"><null/></constructor-arg>
+					<constructor-arg name="axis" value="STATIC" />
 					<constructor-arg name="start" value="0" />
 					<constructor-arg name="stop" value="0" />
 					<constructor-arg name="step" value="0" />
@@ -164,6 +215,7 @@
 		<constructor-arg>
 			<list>
 				<ref bean="diffractionTemplate" />
+				<ref bean="diffractionTomographyTemplate" />
 				<ref bean="beamSelectorTemplate" />
 				<ref bean="tomographyTemplate" />
 				<ref bean="radiographyTemplate" />
