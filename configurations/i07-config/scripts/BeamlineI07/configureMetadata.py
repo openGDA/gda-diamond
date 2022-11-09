@@ -50,7 +50,7 @@ hex1List = [hex1x, hex1y, hex1z, hex1rx, hex1ry, hex1rz, hex1pivotx,
 
 deviceList = [d4dx, d4x, dpsx, dpsy, dpsz, dpsz2, hfmpitch, hfmstripe,
         hfmx, hfmx1, hfmx2, hfmy, hfmy1, hfmy2, hfmyaw, vfmpitch, vfmx, vfmy,
-        vfmy1, vfmy2, filterset]
+        vfmy1, vfmy2]
 
 hexapodList = [hx, hy, hz, hrx, hry, hrz]
 
