@@ -90,6 +90,14 @@
                relative="org.dawnsci.mapping.ui.spectrumview">
          </view>
          <view
+               id="uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView"
+               minimized="false"
+               visible="false"
+               closeable="true"
+               relationship="stack"
+               relative="org.dawnsci.mapping.ui.mapview">
+         </view>
+         <view
                id="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
                minimized="false"
                closeable="false"
