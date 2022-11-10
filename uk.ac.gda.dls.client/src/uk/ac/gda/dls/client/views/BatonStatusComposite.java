@@ -22,6 +22,7 @@ import static uk.ac.gda.dls.client.views.BatonStatusPopupMenuBuilder.showView;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -30,6 +31,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -62,9 +64,11 @@ final class BatonStatusComposite extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(BatonStatusComposite.class);
 
-	private static final Color BATON_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
-	private static final Color BATON_HELD_UDC_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-	private static final Color BATON_NOT_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private static final Color BATON_HELD_COLOR = getSystemColor(SWT.COLOR_GREEN);
+	private static final Color BATON_HELD_UDC_COLOR = getSystemColor(SWT.COLOR_BLUE);
+
+	private static final Color BATON_NOT_HELD_COLOR = getSystemColor(SWT.COLOR_RED);
+	private static final Color STATUS_ABSENCE_COLOR = getSystemColor(SWT.COLOR_DARK_RED);
 
 	private static final String BATON_HELD_TOOL_TIP = """
 			Baton held!
@@ -89,16 +93,23 @@ final class BatonStatusComposite extends Composite {
 
 	private static final String PROP_BATON_BANNER = "gda.beamline.baton.banner";
 
+	private static final String BATON_STATUS_UNAVAILABLE = """
+			STATUS
+			UNAVAILABLE
+			""";
+
 	private final Optional<Label> maybeLabelBanner;
-	private final BatonStatusCanvas canvas;
 
 	public BatonStatusComposite(Composite parent, int style, IBatonStateProvider batonStateProvision, String label) {
 		super(parent, style);
-		var group = prepareGroup(this, style, label);
 		var ui = parent.getDisplay();
+		var group = prepareGroup(this, style, label);
 		maybeLabelBanner = maybeExtractBannerText().map(this::createBannerLabel);
-		canvas = new BatonStatusCanvas(group, batonStateProvision, ui::asyncExec);
-		BatonStatusPopupMenuBuilder.preparePopUpMenu(this, canvas::setMenu, batonStateProvision);
+		if (Objects.nonNull(batonStateProvision)) {
+			prepareBatonStatusCanvas(ui, group, batonStateProvision);
+		} else {
+			prepareStatusUnavailableLabel(group);
+		}
 	}
 
 	public void setBannerProvider(IObservable provider) {
@@ -110,6 +121,18 @@ final class BatonStatusComposite extends Composite {
 			}
 		};
 		addObserverWithDisposalHandling(provider, iObserver);
+	}
+
+	private void prepareBatonStatusCanvas(Display ui, Group group, IBatonStateProvider batonStateProvision) {
+		var canvas = new BatonStatusCanvas(group, batonStateProvision, ui::asyncExec);
+		BatonStatusPopupMenuBuilder.preparePopUpMenu(this, canvas::setMenu, batonStateProvision);
+	}
+
+	private void prepareStatusUnavailableLabel(Group group) {
+		var style = SWT.READ_ONLY;
+		var label = new StyledText(group, style);
+		label.setForeground(STATUS_ABSENCE_COLOR);
+		label.setText(BATON_STATUS_UNAVAILABLE);
 	}
 
 	private void addObserverWithDisposalHandling(IObservable iObservable, IObserver iObserver) {
@@ -138,13 +161,13 @@ final class BatonStatusComposite extends Composite {
 		return banner;
 	}
 
-	private static Optional<String> maybeExtractBannerText() {
+	static Optional<String> maybeExtractBannerText() {
 		var textFromProperty = LocalProperties.get(PROP_BATON_BANNER, " ");
 		return Optional.of(textFromProperty)
 						.filter(StringUtils::hasLength);
 	}
 
-	private static Group prepareGroup(Composite parent, int style, String label) {
+	static Group prepareGroup(Composite parent, int style, String label) {
 		prepareAsSingleColumnWithDefaultFill(parent);
 		var group = new Group(parent, style);
 		prepareAsSingleColumnWithDefaultFill(group);
@@ -182,6 +205,11 @@ final class BatonStatusComposite extends Composite {
 		return batonHolder != null && batonHolder.isAutomatedUser();
 	}
 
+	private static Color getSystemColor(int identifier) {
+		return Display.getDefault()
+						.getSystemColor(identifier);
+	}
+
 	private final class BatonStatusCanvas {
 
 		private static final int OUTLINE_LINE_WIDTH = 1;
@@ -197,14 +225,17 @@ final class BatonStatusComposite extends Composite {
 		private static final String UNABLE_TO_OPEN_MESSAGES_VIEW = "Unable to open Messages view";
 
 		private final IBatonStateProvider batonStateProvider;
-		private final AtomicColour atomicColourCache;
+		private final AtomicReference<Color> atomicColourCache;
 		private final Canvas batonCanvas;
 		private final UiThreadAsynchExecution uiAsynchExec;
 
 		private BatonStatusCanvas(Group group, IBatonStateProvider batonStateProvision, UiThreadAsynchExecution displayAsynch) {
+			if(batonStateProvision == null) {
+				logger.error("Baton State Provider absent - Baton display will not update correctly");
+			}
 			batonStateProvider = batonStateProvision;
 			var initialStatusColor = representBatonStateByColour(batonStateProvider);
-			atomicColourCache = new AtomicColour(initialStatusColor);
+			atomicColourCache = new AtomicReference<>(initialStatusColor);
 
 			uiAsynchExec = displayAsynch;
 			batonCanvas = new Canvas(group, SWT.NONE);
@@ -239,7 +270,7 @@ final class BatonStatusComposite extends Composite {
 
 		private void whenBatonChanges(IBatonStateProvider batonStateProvider) {
 			var stateColor = representBatonStateByColour(batonStateProvider);
-			atomicColourCache.writeCurrentColour(stateColor);
+			atomicColourCache.set(stateColor);
 			var toolTipText = getBatonStateTooltip(batonStateProvider);
 			updateBatonCanvas(toolTipText);
 		}
@@ -299,7 +330,7 @@ final class BatonStatusComposite extends Composite {
 			batonCanvas.addPaintListener( paintEvent -> {
 				GC gc = paintEvent.gc;
 				gc.setAntialias(SWT.ON);
-				var latestColor = atomicColourCache.readCurrentColour();
+				var latestColor = atomicColourCache.get();
 				gc.setBackground(latestColor);
 				gc.setLineWidth(OUTLINE_LINE_WIDTH);
 				Point topLeft = new Point(CANVAS_MARGIN, CANVAS_MARGIN);
@@ -315,29 +346,6 @@ final class BatonStatusComposite extends Composite {
 			var marginX = clientArea.width - delta;
 			var marginY = clientArea.height - delta;
 			return new Point(marginX, marginY);
-		}
-	}
-
-	private static final class AtomicColour {
-
-		private final Object synchronizationLock = new Object();
-
-		private Color colour;
-
-		private AtomicColour(Color initialColour) {
-			writeCurrentColour(initialColour);
-		}
-
-		void writeCurrentColour(Color color) {
-			synchronized (synchronizationLock) {
-				colour = color;
-			}
-		}
-
-		Color readCurrentColour() {
-			synchronized (synchronizationLock) {
-				return colour;
-			}
 		}
 	}
 
