@@ -29,9 +29,10 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel">
 					<property name="createSeparator" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection">
-					<property name="edgeToPhasePosition" ref="edgeToPhasePosition" />
-				</bean>	
+<!-- 				<bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection"> -->
+<!-- 					<property name="edgeToPhasePosition" ref="edgeToPhasePosition" /> -->
+<!-- 				</bean>	 -->
+				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />	
 			</list>
 		</property>
 	</bean>
