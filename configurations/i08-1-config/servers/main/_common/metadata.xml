@@ -34,9 +34,8 @@
 		</property>
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
+	<bean id="nexusDataWriterConfig" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<property name="locationMap">
 			<map>
 				<entry key="ring_current">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
