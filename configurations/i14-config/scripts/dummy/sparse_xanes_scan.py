@@ -101,7 +101,7 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
             scan_name = "Sparse XANES_scan_{0}_of_{1}".format(idx+1, num_scans)
             try:
                 #submitter.blockingSubmit(ScanBean(request))
-                submit(scanRequest, block=True, name=scan_name)
+                submit(request, block=True, name=scan_name)
             except JavaException as e:
                 # scan failed?
                 print(e)
