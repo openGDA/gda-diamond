@@ -36,9 +36,93 @@
 		</property>
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
+	<bean id="nexusDataWriterConfig" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<property name="metadataScannables">
+			<set>
+				<value>bda_x</value>
+				<value>bda_y</value>
+				<value>m1_x</value>
+				<value>m1_pitch</value>
+				<value>m1_roll</value>
+				<value>m1_yaw</value>
+				<value>s1_xsize</value>
+				<value>s1_xcentre</value>
+				<value>s1_xminus</value>
+				<value>s1_xplus</value>
+				<value>s1_ysize</value>
+				<value>s1_ycentre</value>
+				<value>s1_yminus</value>
+				<value>s1_yplus</value>
+				<value>pgm_cff</value>
+				<value>grating_pitch</value>
+				<value>grating_x</value>
+				<value>pgm_energy</value>
+				<value>m2_x</value>
+				<value>m2_pitch</value>
+				<value>m3_x</value>
+				<value>m3_pitch</value>
+				<value>m3_yaw</value>
+				<value>m3_roll</value>
+				<value>m3_y</value>
+				<value>m4_x</value>
+				<value>m4_pitch</value>
+				<value>m4_yaw</value>
+				<value>m4_roll</value>
+				<value>m4_ellipticity</value>
+				<value>m4_curvature</value>
+				<value>s2_ap_x</value>
+				<value>s2_ap_y</value>
+				<value>s2_ss_x</value>
+				<value>s2_ss_y</value>
+				<value>s2_ztranslation</value>
+				<value>SampleX_coarse</value>
+				<value>SampleY_coarse</value>
+				<value>SampleZ_coarse</value>
+				<value>SampleX_fine</value>
+				<value>SampleY_fine</value>
+				<value>ZonePlateX</value>
+				<value>ZonePlateY</value>
+				<value>ZonePlateZ</value>
+			</set>
+		</property>
+			<!--Metas to be recorded for specific detector  -->
+		<property name="metadataScannablesPerDetectorMap">
+			<map>
+				<entry key="andor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+                    </set>
+				</entry>
+				<entry key="_andorrastor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+					</set>
+				</entry>
+			</map>
+		</property>
+		<property name="locationMap">
 			<map>
 				<entry key="bda_x">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -399,99 +483,6 @@
 						<property name="units" value="GeV" />
 					</bean>
 				</entry> -->
-			</map>
-		</property>
-	</bean>
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
-			<set>
-				<value>bda_x</value>
-				<value>bda_y</value>
-				<value>m1_x</value>
-				<value>m1_pitch</value>
-				<value>m1_roll</value>
-				<value>m1_yaw</value>
-				<value>s1_xsize</value>
-				<value>s1_xcentre</value>
-				<value>s1_xminus</value>
-				<value>s1_xplus</value>
-				<value>s1_ysize</value>
-				<value>s1_ycentre</value>
-				<value>s1_yminus</value>
-				<value>s1_yplus</value>
-				<value>pgm_cff</value>
-				<value>grating_pitch</value>
-				<value>grating_x</value>
-				<value>pgm_energy</value>
-				<value>m2_x</value>
-				<value>m2_pitch</value>
-				<value>m3_x</value>
-				<value>m3_pitch</value>
-				<value>m3_yaw</value>
-				<value>m3_roll</value>
-				<value>m3_y</value>
-				<value>m4_x</value>
-				<value>m4_pitch</value>
-				<value>m4_yaw</value>
-				<value>m4_roll</value>
-				<value>m4_ellipticity</value>
-				<value>m4_curvature</value>
-				<value>s2_ap_x</value>
-				<value>s2_ap_y</value>
-				<value>s2_ss_x</value>
-				<value>s2_ss_y</value>
-				<value>s2_ztranslation</value>
-				<value>SampleX_coarse</value>
-				<value>SampleY_coarse</value>
-				<value>SampleZ_coarse</value>
-				<value>SampleX_fine</value>
-				<value>SampleY_fine</value>
-				<value>ZonePlateX</value>
-				<value>ZonePlateY</value>
-				<value>ZonePlateZ</value>
-			</set>
-		</property>
-	</bean>
-
-	<!--Metas to be recorded for specific detector  -->
-
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadataScannablesPerDetector" />
-		<property name="arguments">
-			<map>
-				<entry key="andor">
-					<set>
-						<value>andorAccumulatePeriod</value>
-						<value>andorShutterMode</value>
-						<value>andorExtShutterTrigger</value>
-						<value>andorPreampGain</value>
-						<value>andorADCSpeed</value>
-						<value>andorVerticalShiftSpeed</value>
-						<value>andorVerticalShiftAmplitude</value>
-						<value>andorEMCCDGain</value>
-						<value>andorCoolerTemperature</value>
-						<value>andorCoolerControl</value>
-						<value>andorBinningSizeX</value>
-						<value>andorBinningSizeY</value>
-                    </set>
-				</entry>
-				<entry key="_andorrastor">
-					<set>
-						<value>andorAccumulatePeriod</value>
-						<value>andorShutterMode</value>
-						<value>andorExtShutterTrigger</value>
-						<value>andorPreampGain</value>
-						<value>andorADCSpeed</value>
-						<value>andorVerticalShiftSpeed</value>
-						<value>andorVerticalShiftAmplitude</value>
-						<value>andorEMCCDGain</value>
-						<value>andorCoolerTemperature</value>
-						<value>andorCoolerControl</value>
-						<value>andorBinningSizeX</value>
-						<value>andorBinningSizeY</value>
-					</set>
-				</entry>
 			</map>
 		</property>
 	</bean>
