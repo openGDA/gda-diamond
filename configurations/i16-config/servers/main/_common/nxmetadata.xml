@@ -77,6 +77,9 @@
 		<property name="nexusTemplateFiles">
 			<list>
 				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
+				<!-- 
+				<value>${gda.config}/yaml/locationMap.yaml</value>
+				 -->
 			</list>
 		</property>
 		<!-- The locationMap will work with both NexusDataWriter and NexusScanDataWriter, but is deprecated for the latter -->
@@ -249,4 +252,106 @@
 		</property>
 	</bean>
 
+	<!-- Transform to test
+	<bean id="kgam_transform" class="org.eclipse.scanning.device.PositionerTransformationsAppender">
+		<property name="name" value="delta" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="axisName" value="gamma" />
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/transformations/gamma" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	 -->
+				<!-- 
+				<entry key="kgam">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/gamma" />
+						<property name="depends_on" value="." />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>1</value>
+								<value>0</value>
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				 -->
+
+	<!-- Transform to test
+	<bean id="kdelta_transform" class="org.eclipse.scanning.device.PositionerTransformationsAppender">
+		<property name="name" value="delta" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="axisName" value="kdelta" />
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/transformations/gamma" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	 -->
+
+	<!-- Not used
+				<property name="offset">
+					<list>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</list>
+				</property>
+				<property name="offsetUnits" value="deg" />
+
+	Example Transformation from unit test
+		Transformation(String axisName, TransformationType type, String dependsOn,
+			double size, double[] vector, double[] offset, String offsetUnits) {
+
+		private static final Transformation POSITIONER_TRANSFORMATION = new Transformation(
+			"theta", ROTATION, "phi", 0.0, new double[] { 0.67, 0, -0.33 },
+			new double[] { 1.23, 4.56, 7.89  }, "mm");
+	
+	Original TransformationWriter bean
+			Y	<entry key="kdelta">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+			N			<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/delta" />
+																							Transformations get added to the scannable, not a specific place
+			Y			<property name="depends_on"
+							value="entry1/instrument/transformations/gamma" />
+			Y			<property name="transformation" value="rotation" />
+			N			<property name="units" value="deg" />					This is the unit of the scannable, not the offset units of the transformation
+			Y			<property name="vector">
+							<list><list>
+								<value>0</value>
+								<value>1</value>
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+	 -->
 </beans>

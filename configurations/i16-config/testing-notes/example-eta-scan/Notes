@@ -3,16 +3,26 @@
 ================================================================================
 The `scancn eta` tests assume `pos eta 12.5345` beforehand.
 
-Scan	Command									?DW?	DWE	LF	Dummy/Live	nxls
-    867888	scancn eta 0.02 31 pil3_100k 1 roi2	NDW		DWE	LF	Live		Good
+Scan command: scancn eta 0.02 31 pil 1 roi2
 
-2022020040	scancn eta 0.02 32 pil3_100k 1 roi2	NDW		DWE	LF	Dummy	Truncated
-2022020041	scancn eta 0.02 32 pil3_100k 1 roi2	NDW			LF	Dummy	Truncated
-2022020042	scancn eta 0.02 32 pil3_100k 1 roi2	NDW				Dummy		Good
-2022020043	scancn eta 0.02 32 pil3_100k 1 roi2	NSDW			Dummy		Good
-2022020044	scancn eta 0.02 32 pil3_100k 1 roi2	NDW		DWE		Dummy		Good
-2022020168	scancn eta 0.02 32 pil3_100k 1 roi2	NSDW+T			Dummy		Good
-2022020208	scancn eta 0.02 32 pilatus3 1 roi2	NSDW+T			Dummy		Good
+Scan		Configuration	Dummy	nxlsa	Notes
+			NDW	DWE	LF	T	/Live			
+----------- --- --- --	-	-----	-----	------------------------------------
+2022020040	NDW	DWE	LF		Dummy	Trunc	Baseline NexusDataWriter
+2022020041	NDW		LF		Dummy	Trunc	Remove DWE
+2022020042	NDW				Dummy	Good	Remove LF too
+2022020043	NSD				Dummy	Good	Switch to NexusScanDataWriter
+2022020044	NDW	DWE			Dummy	Good	Remove LF instead
+2022020168	NSD			T	Dummy	Good	Add template
+2022020208	NSD			T	Dummy	Good	Use pilatus3 rather than pil3_100k
+----------- --- --- --	-	-----	-----	------------------------------------
+    867888	NDW	DWE	LF		Live	Good	Example data collection
+----------- --- --- --	-	-----	-----	------------------------------------
+	NDW	NexusDataWriter				NSD	NexusScanDataWriter
+	DWE	DataWriterExtender			T	Template
+	LF	Link Files					Trunc	Truncated
+
+	See bottom of file for: Preparing a scan for archiving here
 
 ================================================================================
 
@@ -47,7 +57,7 @@ Removing DWE removes:
 		(differences between 44 & 42)
 
 --------------------------------------------------------------------------------
-Switching to NSDW adds/removes/moves:
+Switching NDW to NSD adds/removes/moves:
 -   entry1/before_scan:NXcollection/										v
 +   entry1/diamond_scan:NXcollection/
 + ? entry1/duration=34715 ms
@@ -197,8 +207,7 @@ Adding a template (NSDW+T) adds
     entry1/classic_scan/title='scan eta 12.234499999999999 12.8345 0.02 pil3_100k 1 roi2'
 
 --------------------------------------------------------------------------------
-Switching pil3_100k for pilatus3 we lose the roi processors but get the data
-link
+Switching pil3_100k for pilatus3 we lose the roi processors but get the data link
 
 2022020208.nxs:
 -   entry1/instrument/pil3_100k/maxval: (31,)
@@ -210,5 +219,27 @@ link
 +   entry1/instrument/pilatus3/data_file:NXnote/
 +   entry1/instrument/pilatus3/data_file/file_name: (31,)
 +   entry1/instrument/pilatus3/image_data: (31,)
+
+================================================================================
+					Preparing a scan for archiving here
+================================================================================
+
+cd /dls_sw/i16/software/gda/config/testing-notes/example-eta-scan
+module load msmapper/latest
+VISIT=cm31138-14
+SCAN=960660
+
+ls -tr /dls/i16/data/2022/$VISIT/$SCAN*
+rsync -av --exclude=*/*.tif /dls/i16/data/2022/$VISIT/$SCAN* .
+nxls -a $SCAN.nxs > $SCAN.nxs.nxlsa
+nexus.tree $SCAN.nxs > $SCAN.nxs.tree
+echo $SCAN.nxs.nxlsa $SCAN.nxs.tree
+
+BASELINESCAN=$SCAN
+
+kdiff3 $BASELINESCAN.nxs.tree $SCAN.nxs.tree
+kdiff3 $BASELINESCAN.nxs.nxlsa $SCAN.nxs.nxlsa
+
+Once analysis is done, the original .nxs file and scan files folder can be removed.
 
 ================================================================================
