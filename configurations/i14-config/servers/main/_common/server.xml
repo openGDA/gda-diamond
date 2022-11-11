@@ -168,5 +168,17 @@
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+	
+	<!-- Automated experiments -->
+	<context:component-scan	base-package="uk.ac.diamond.daq.experiment" />
+	<context:component-scan	base-package="uk.ac.diamond.daq.experiment.structure" />
+	<context:component-scan base-package="uk.ac.gda.core.tool.spring" />
+	<context:component-scan base-package="uk.ac.diamond.daq.web" />	
+
+	<bean class="uk.ac.diamond.daq.experiment.structure.NodeInsertionRequestResponder"  init-method="connect">
+        <property name="broker" value="${gda.activemq.broker.uri}" />
+        <property name="requestTopic" value="${experiment.structure.job.request.topic}" />
+        <property name="responseTopic" value="${experiment.structure.job.response.topic}" />
+    </bean>
 
 </beans>
