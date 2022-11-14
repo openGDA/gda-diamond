@@ -48,6 +48,8 @@ def setupXspress3X() :
         mcaEnablePv = basePvName+":MCA%d:Enable"%(c)
         CAClient.put(scaPv+"EnableCallbacks", 1)
         CAClient.put(scaPv+"TS:TSNumPoints", 10000)
+        # Refresh the time series data 1 time per second
+        CAClient.put(scaPv+"TS:TSRead.SCAN", 6)
         CAClient.put(mcaEnablePv, 1)
         
     # Use Ttl veto trigger mode for step and continuous scans

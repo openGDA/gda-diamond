@@ -53,6 +53,18 @@
             restorable="true">
       </view>
       <view
+            class="gda.rcp.views.ViewFactoryFinder:xspress3XViewFactory"
+            id="uk.ac.gda.exafs.ui.views.xspress3XView"
+            name="XspressX view"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:xspress4ViewFactory"
+            id="uk.ac.gda.exafs.ui.views.xspress4View"
+            name="Xspress4 view"
+            restorable="true">
+      </view>
+      <view
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:medipix"
             name="Medipix view"
@@ -283,6 +295,24 @@
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
                      value="uk.ac.gda.exafs.ui.views.xspress3View">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XSpress3X"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.xspress3XView">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XSpress4"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.xspress4View">
                </parameter>
             </command>
             <command

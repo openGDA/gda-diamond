@@ -9,18 +9,25 @@
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda.xsd"> 
 
-    <gda:motor id="fluoDist" live-pvName="BL18B-EA-GEDET-01:GE_DET" />
-    <gda:motor id="vortexDist" live-pvName="BL18B-EA-SIDET-01:SI_DET" />
-    <gda:motor id="pilatusAngle" live-pvName="BL18B-EA-PILAT-01:ANGLE" />
-    <gda:motor id="sampleStageX" live-pvName="BL18B-EA-PMAC-11:LONGX" />
-    <gda:motor id="sampleStageY" live-pvName="BL18B-EA-PMAC-11:LONGY" />
-    <gda:motor id="frameX" live-pvName="BL18B-EA-PMAC-11:FRAMEX" />
-    <gda:motor id="frameY" live-pvName="BL18B-EA-PMAC-11:FRAMEY" />
-    <gda:motor id="gasX" live-pvName="BL18B-EA-GIR-01:X" />
-    <gda:motor id="gasY" live-pvName="BL18B-EA-GIR-01:Y" />
-    <gda:motor id="sxRot" live-pvName="BL18B-EA-SXR-01:ROT" />
-    <gda:motor id="sxY" live-pvName="BL18B-EA-SXR-01:Y" />
+    <gda:motor id="fluoDist" live-pvName="BL18B-EA-GEDET-01:DIST" />
+    <gda:motor id="vortexDist" live-pvName="BL18B-EA-SIDET-01:DIST" />
+    <gda:motor id="pilatusAngle" live-pvName="BL18B-EA-PILAT-01:DIST" />
+    <gda:motor id="sampleStageX" live-pvName="BL18B-EA-USER-11:LONGX" />
+    <gda:motor id="sampleStageY" live-pvName="BL18B-EA-USER-11:LONGY" />
+    <gda:motor id="frameX" live-pvName="BL18B-EA-USER-11:FRAMEX" />
+    <gda:motor id="frameY" live-pvName="BL18B-EA-USER-11:FRAMEY" />
+    <gda:motor id="gasX" live-pvName="BL18B-EA-USER-07:GASX" />
+    <gda:motor id="gasY" live-pvName="BL18B-EA-USER-07:GASY" />
+    <gda:motor id="sxRot" live-pvName="BL18B-EA-USER-07:ANGLE" />
+    <gda:motor id="sxY" live-pvName="BL18B-EA-USER-07:Y" />
     <gda:motor id="sam1x" live-pvName="BL18B-EA-SAMPL-01:X" />
+    
+    <!--  TODO : Add combined scannables to move y2,y2 by centre position and adjust size-->
+	<gda:motor id="s5y2" live-pvName="BL18B-AL-SLITS-05:Y2" /> 
+	<gda:motor id="s5y1" live-pvName="BL18B-AL-SLITS-05:Y1" />
+	<gda:motor id="s5x2" live-pvName="BL18B-AL-SLITS-05:X2" />
+	<gda:motor id="s5x1" live-pvName="BL18B-AL-SLITS-05:X1" />
+
 
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="bragg" />

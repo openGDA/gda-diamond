@@ -20,7 +20,7 @@
 		<property name="pathToAttributeDataGroup" value="/" />
 		<property name="dtcFactorDataNameFormat" value="dtc" />
 		<property name="scalerDataNameFormat" value="scalar_%d" />
-		<property name="hdfDataIsTwoD" value="true" />
+		<property name="twoDHdfData" value="true" />
 	</bean>
 
 	<bean id="xspress4OdinFFI0" class="gda.device.detector.TfgFFoverI0">
