@@ -174,7 +174,7 @@
 	<bean
 		class="gda.device.detector.nexusprocessor.roistats.NormalisingRegionProcessor"
 		id="excalibur_norm">
-		<property name="attenuatorScannableName" value="filterset" />
+		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiStats" ref="excalibur_roistats_standard" />
 		<property name="enable" value="false" />

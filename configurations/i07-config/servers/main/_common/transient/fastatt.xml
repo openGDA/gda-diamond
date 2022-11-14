@@ -6,11 +6,11 @@
 			http://www.diamond.ac.uk/schema/gda/gda
 			http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-	<gda:motor id="attm1" live-pvName="BL07I-MO-FILT-02:FILTER1" />
-	<gda:motor id="attm2" live-pvName="BL07I-MO-FILT-02:FILTER2" />
-	<gda:motor id="attm3" live-pvName="BL07I-MO-FILT-02:FILTER3" />
-	<gda:motor id="attm4" live-pvName="BL07I-MO-FILT-02:FILTER4" />
-	<gda:motor id="attm5" live-pvName="BL07I-MO-FILT-02:SHUTTER" />
+	<gda:motor id="attm1" live-pvName="BL07I-OP-FILT-01:FILTER1" />
+	<gda:motor id="attm2" live-pvName="BL07I-OP-FILT-01:FILTER2" />
+	<gda:motor id="attm3" live-pvName="BL07I-OP-FILT-01:FILTER3" />
+	<gda:motor id="attm4" live-pvName="BL07I-OP-FILT-01:FILTER4" />
+	<gda:motor id="attm5" live-pvName="BL07I-OP-FILT-01:SHUTTER" />
 
 	<bean id="ATT" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
