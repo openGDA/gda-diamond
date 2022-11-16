@@ -38,6 +38,7 @@ import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.factory.Finder;
+import gda.observable.IObserver;
 import uk.ac.gda.client.viewer.FourStateDisplay;
 
 /**
@@ -54,6 +55,7 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		INTENSITY_ZERO("Beam is off", StateSeverity.CRITICAL),
 		INTENSITY_TOO_LOW("Beam intensity is too far from its target", StateSeverity.WARNING),
 		SHUTTERS_NOT_OPEN("Shutters are not open", StateSeverity.CRITICAL),
+		ION_CHAMBERS_OFF("Beamline state unknown: could not connect to ion chambers", StateSeverity.UNKNOWN),
 		INTENSITY_NOT_DEFINED("Beamline state unknown: target intensities have not been defined", StateSeverity.UNKNOWN),
 		ENERGY_OUTSIDE_RANGE("Beamline state unknown: energy is outside the calibrated range", StateSeverity.UNKNOWN),
 		UNKNOWN("Beamline state unknown - see log for details", StateSeverity.UNKNOWN);
@@ -79,6 +81,8 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 	private List<Scannable> shutters;
 	private Scannable energy;
 
+	private boolean ionChambersOn;
+
 	private BeamlineReadinessParameters displayParams;
 
 	private PolynomialSplineFunction beamIntensityFunction;
@@ -97,21 +101,25 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 			displayParams = params.values().iterator().next();
 		}
 
+		// observers to handle updates
+		IObserver intensityHandler = (source, arg) -> handleIntensityUpdate();
+		IObserver handler = (source, arg) -> handleUpdate();
+
 		// Get scannables for the various values we are monitoring
 		intensity = Finder.find(displayParams.getIntensity());
-		intensity.addIObserver(this::handleUpdate);
+		intensity.addIObserver(intensityHandler);
 
 		energy = Finder.find(displayParams.getEnergy());
-		energy.addIObserver(this::handleUpdate);
+		energy.addIObserver(handler);
 
 		ringCurrent = Finder.find(displayParams.getRingCurrent());
-		ringCurrent.addIObserver(this::handleUpdate);
+		ringCurrent.addIObserver(handler);
 
 		final List<String> shutterNames = displayParams.getShutters();
 		shutters = new ArrayList<>(shutterNames.size());
 		for (String shutterName : shutterNames) {
 			final Scannable shutter = Finder.find(shutterName);
-			shutter.addIObserver(this::handleUpdate);
+			shutter.addIObserver(handler);
 			shutters.add(shutter);
 		}
 
@@ -147,13 +155,17 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private void handleUpdate(Object source, Object arg) {
+
+	private void handleIntensityUpdate() {
+		ionChambersOn = true;
+		handleUpdate();
+	}
+
+	private void handleUpdate() {
 		final ReadinessState oldState = state;
 		setReadinessStatus();
 		if (state != oldState) {
 			logger.debug("Readiness state changed from {} to {}", oldState, state);
-			logCurrentValues();
 		}
 	}
 
@@ -180,12 +192,18 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		}
 	}
 
-	private double getIntensity() throws DeviceException {
-		final Object intensityVal = intensity.getPosition();
-		if (intensityVal instanceof Double) {
-			return (double) intensityVal;
-		} else if (intensityVal instanceof double[]) {
-			return Arrays.stream((double[]) intensityVal).average().orElse(0);
+	private double getIntensity() {
+		try {
+			final Object intensityVal = intensity.getPosition();
+			if (intensityVal instanceof Double) {
+				return (double) intensityVal;
+			} else if (intensityVal instanceof double[]) {
+				return Arrays.stream((double[]) intensityVal).average().orElse(0);
+			}
+			ionChambersOn = true;
+		} catch (DeviceException e) {
+			ionChambersOn = false;
+			logger.error(ReadinessState.ION_CHAMBERS_OFF.getMessage(), e);
 		}
 		return 0.0;
 	}
@@ -197,12 +215,15 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 				state = ReadinessState.SHUTTERS_NOT_OPEN;
 			} else if ((double) ringCurrent.getPosition() < displayParams.getRingCurrentThreshold()) {
 				state = ReadinessState.INTENSITY_ZERO;
+			} else if(!ionChambersOn) {
+				state = ReadinessState.ION_CHAMBERS_OFF;
 			} else if (beamIntensityFunction != null) {
 				final Double targetIntensity = getTargetIntensity((double) energy.getPosition());
 				if (targetIntensity == null) {
 					state = ReadinessState.ENERGY_OUTSIDE_RANGE;
 				} else {
 					state = (getIntensity() >= targetIntensity) ? ReadinessState.READY : ReadinessState.INTENSITY_TOO_LOW;
+					logCurrentValues();
 				}
 			} else {
 				state = ReadinessState.INTENSITY_NOT_DEFINED;
