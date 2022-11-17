@@ -22,13 +22,16 @@ import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Finder;
+import uk.ac.diamond.daq.util.logging.deprecation.DeprecationLogger;
 
 /**
  * Convenience class which takes a series of parameters, runs the scan and then returns the name of the ascii file
  * created.
  */
-@Deprecated
+@Deprecated(since="GDA 8.44")
 public class SingleSpectrumDriver extends ScanDriver{
+
+	private static final DeprecationLogger logger = DeprecationLogger.getLogger(SingleSpectrumDriver.class);
 
 	private final StripDetector detector;
 
@@ -42,6 +45,7 @@ public class SingleSpectrumDriver extends ScanDriver{
 	public SingleSpectrumDriver(String detectorName, String topupMonitorName, Double i0_scantime, Integer i0_numberscans, Double it_scantime,
 			Integer it_numberscans, Scannable shutter2) {
 		super();
+		logger.deprecatedClass();
 
 		this.i0_scantime = i0_scantime;
 		this.i0_numberscans = i0_numberscans;
