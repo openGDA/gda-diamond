@@ -176,6 +176,14 @@ if installation.isDummy():
 	for mot in (alpha, delta, omega, chi, phi): #@UndefinedVariable
 		mot.getMotor().setSpeed(3600000)
 
+
+	# Set up ProcessingDetectorWrapper using simad (area detector simulation)
+	from gdaserver import _simad  # @UnresolvedImport
+	simad = SwitchableHardwareTriggerableProcessingDetectorWrapper("simad", _simad, None, None, [], panel_name_rcp='simad', returnPathAsImageNumberOnly=True)
+	simadpeak2d = DetectorDataProcessorWithRoi("simadpeak2d", simad, [TwodGaussianPeak()])
+	simadmax2d = DetectorDataProcessorWithRoi("simadmax2d", simad, [SumMaxPositionAndValue()])
+	simadintensity2d = DetectorDataProcessorWithRoi('simadintensity2d', simad, [PixelIntensity()])
+
 t2t=TwoCircle("t2t",fcTheta,fc2Theta) #@UndefinedVariable
 
 ###############################################################################
