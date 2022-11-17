@@ -27,10 +27,9 @@ import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.january.IMonitor;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IntegerDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import gda.util.OSCommandRunner;
+import uk.ac.diamond.daq.util.logging.deprecation.DeprecationLogger;
 import uk.ac.diamond.scisoft.analysis.io.AbstractFileLoader;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.Utils;
@@ -43,15 +42,15 @@ public class PilatusLoader extends AbstractFileLoader {
 	/**
 	 * Setup the logging facilities
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(PilatusLoader.class);
+	private static final DeprecationLogger logger = DeprecationLogger.getLogger(PilatusLoader.class);
 
 	/**
 	 * @param FileName
 	 * @deprecated Use {@link PilatusTiffLoader} or {@link TIFFImageLoader}
 	 */
-	@Deprecated
+	@Deprecated(since="(at least) 2013")
 	public PilatusLoader(String FileName) {
-		logger.warn("Deprecated: use PilatusTiffLoader or TIFFImageLoader");
+		logger.deprecatedClass(null, "gda.analysis.io.PilatusTiffLoader or gda.analysis.io.TIFFImageLoader");
 		fileName = FileName;
 	}
 

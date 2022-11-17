@@ -46,6 +46,7 @@ Import-Package: gda.configuration.properties,
  org.springframework.context.support;version="3.0.4",
  org.springframework.core;version="3.0.4",
  org.springframework.util;version="3.0.4",
+ uk.ac.diamond.daq.util.logging.deprecation,
  uk.ac.gda.util.array
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Bundle-ClassPath: .
