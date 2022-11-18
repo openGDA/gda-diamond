@@ -34,6 +34,7 @@ import uk.ac.gda.beans.exafs.ScannableConfiguration;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
+import uk.ac.gda.beans.validation.WarningType;
 
 public class I18Validator extends ExafsValidator {
 
@@ -70,21 +71,24 @@ public class I18Validator extends ExafsValidator {
 			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName()
 					+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 		}
-		errors.addAll(checkSampleParameters(s));
+		errors.addAll(validateStageAxes(s));
 		// TODO add some other validation here?
 
 		return errors;
 	}
 
-	private List<InvalidBeanMessage> checkSampleParameters(I18SampleParameters sampleParams){
+	private List<InvalidBeanMessage> validateStageAxes(I18SampleParameters sampleParams){
 		final List<InvalidBeanMessage> errors = new ArrayList<>();
 		List<String> stageAxes = Arrays.asList("t1x","t1y","t1z");
 		List<String> msgs = sampleParams.getScannableConfigurations().stream().filter(config -> stageAxes.contains(config.getScannableName()))
 				.map(this::getStageWillMoveWarning).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 		if(!msgs.isEmpty()) {
-			String errorMsg = String.join("", msgs)+"PROCEEDING WITH THIS SCAN WILL MOVE THE STAGE AXES! ARE YOU SURE YOU WANT TO PROCEED?";
-			errors.add(new InvalidBeanMessage(errorMsg));
+			String errorMsg = "INFO: Proceeding with this scan will move the stage axes. Do you wish to continue to run the scan?\n"+String.join("", msgs);
+			InvalidBeanMessage bean = new InvalidBeanMessage(errorMsg);
+			bean.setSeverity(WarningType.LOW);
+			errors.add(bean);
 		}
+
 		return errors;
 	}
 
@@ -99,7 +103,7 @@ public class I18Validator extends ExafsValidator {
 			var demandPos = ScannableUtils.objectToDouble(config.getPosition());
 			double tolerance = 0.0001;
 			if (Math.abs(currentPos - demandPos)>tolerance) {
-				String msg = String.format("WARNING: %s sample motor parameter [%s] and actual motor parameter [%s] do not match!\n", axisName, currentPos, demandPos);
+				String msg = String.format("Motor %s | Current position: [%s] -> New Position: [%s]\n", axisName, currentPos, demandPos);
 				return Optional.of(msg);
 			}
 			else {
