@@ -5,7 +5,6 @@ from gda.util.osgi import OsgiJythonHelper
 from org.eclipse.dawnsci.analysis.api.persistence import IMarshallerService
 from org.eclipse.scanning.api.event.scan import ScanRequest
 from uk.ac.diamond.daq.mapping.api import XanesEdgeParameters
-from dummy.sparse_xanes_scan import run_sparse_xanes_scan_request
 
 print("Running submit_xanes_scan.py")
 
