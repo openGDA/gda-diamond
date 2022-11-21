@@ -51,7 +51,6 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 
 	private ScanManagementController smController;
 
-	private LiveStreamBackgroundAction liveStreamAction;
 
 	public DiffractionConfigurationView() {
 		smController = getMappingRemoteServices().getScanManagementController();
@@ -63,11 +62,12 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 		super.createPartControl(parent);
 		prepareMapEvents();
 		MappingServices.updateDetectorParameters();
-		// Creates camera stream item in the context menu
-		liveStreamAction = new LiveStreamBackgroundAction(new BackgroundStateHelper());
-		//EnableMappingLiveBackgroundAction.appendContextMenuAction();
+		setupLiveStreamBackgroundAction();
 	}
 
+	private LiveStreamBackgroundAction setupLiveStreamBackgroundAction() {
+		return new LiveStreamBackgroundAction(new BackgroundStateHelper());
+	}
 	/**
 	 * Point&Shoot depends on {@link IMapClickEvent}s firing when users click on the map. The producer of these is
 	 * registered once the {@link MappedDataView} is created; here Eclipse finds it, creating it and registering all the
