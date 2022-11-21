@@ -7,6 +7,7 @@ from external import create_function
 # from scisoftpy.external import create_function
 import time
 import logging
+from time import sleep
 
 starttime=time.time()
 INSIDE_DIAMOND_NETWORK=True
@@ -44,12 +45,22 @@ class IDLookup4LinearAngleMode():
     
     def getEnergyPolarisation(self, gap, phase):
         out = self.lookupGapPhase(gap, phase, filename = str(self.lut))
-        self.logger.debug("getEnergPolarisation(%f, %f) returns %s, type(out) is %s" % (gap, phase, str(out), type(out)))
+        if not out: #sometime nothing is returned from external lookup table, then try again
+            sleep(1)
+            out = self.lookupGapPhase(gap, phase, filename = str(self.lut))
+        if not out:
+            raise LookupError("energy and polarisation lookup from gap %f and phase %f failed to return any value" % (gap, phase))
+        self.logger.debug("getEnergyPolarisation(%f, %f) returns %s, type(out) is %s" % (gap, phase, str(out), type(out)))
         out = [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
         return out
     
     def getGapPhase(self, energy, polarisation):
         out = self.lookupPolarEnergy(polarisation, energy, filename=str(self.lut))
+        if not out: #sometime nothing is returned from external lookup table, then try again
+            sleep(1)
+            out = self.lookupPolarEnergy(polarisation, energy, filename=str(self.lut))
+        if not out:
+            raise LookupError("gap and phase lookup from energy %f and polarisation %f failed to return any value" % (energy, polarisation))
         self.logger.debug("getGapPhase(%f, %f) returns %s, type(out) is %s" % (energy, polarisation, str(out), type(out)))
         out = [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
         return out

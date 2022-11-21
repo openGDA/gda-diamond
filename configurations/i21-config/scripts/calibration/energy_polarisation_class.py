@@ -127,7 +127,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     
     def get_ID_gap_phase_at_current_polarisation(self, energy):
         gap, polarisation, phase = self.getIDPositions()  # @UnusedVariable
-        gap, phase = self.idgapphase(Ep=energy, mode=polarisation)
+        polarisation_angle = None
+        if polarisation in X_RAY_POLARISATIONS[-2:]:
+            polarisation_angle, energy = self.idlamlookup.getEnergyPolarisation(gap, phase if phase > 0 else -phase)
+        gap, phase = self.idgapphase(Ep=energy, polar=polarisation_angle, mode=polarisation)
         return gap, polarisation, phase
 
 
