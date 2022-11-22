@@ -20,6 +20,7 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.tomography.view;
 
 import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
 import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
+import static uk.ac.gda.ui.tool.ClientSWTElements.innerComposite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.label;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		var composite = composite(parent, 1);
+		var composite = innerComposite(parent, 1, true);
 
 		createNameControl(composite);
 
