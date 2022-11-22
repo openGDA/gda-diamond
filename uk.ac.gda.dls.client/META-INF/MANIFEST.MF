@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.diamond.scisoft.analysis.plotserver;bundle-version="1.0.0",
  com.sun.mail.javax.mail;bundle-version="[1.5.2,1.6.0)"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: uk.ac.gda.dls.client,
  uk.ac.gda.dls.client.feedback,
  uk.ac.gda.dls.client.views

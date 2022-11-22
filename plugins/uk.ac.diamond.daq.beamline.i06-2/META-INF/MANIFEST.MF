@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0",
  uk.ac.gda.client.live.stream;bundle-version="1.0.0",
  uk.ac.diamond.daq.beamline.i06-shared;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.i06
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Diamond Light Source

@@ -3,5 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Optics
 Bundle-SymbolicName: uk.ac.gda.laboratory.optics;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: uk.ac.gda.laboratory.optics
