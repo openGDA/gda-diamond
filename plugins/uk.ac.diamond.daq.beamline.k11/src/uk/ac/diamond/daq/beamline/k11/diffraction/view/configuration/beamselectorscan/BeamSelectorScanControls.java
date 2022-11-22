@@ -27,7 +27,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.typed.PojoProperties;
@@ -332,8 +331,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	private void handleRegionUpdate(RegionPathState state) {
 		var shape = state.scanRegionShape();
-		if (shape instanceof PointMappingRegion) {
-			newPoint((PointMappingRegion) shape);
+		if (shape instanceof PointMappingRegion pointRegion) {
+			newPoint(pointRegion);
 		}
 	}
 
@@ -473,7 +472,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 		return parameters.getStartPosition().stream()
 				.filter(doc -> doc.getDevice().equals(config.getxAxisName()) || doc.getDevice().equals(config.getyAxisName()))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	@Override

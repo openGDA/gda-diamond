@@ -202,11 +202,10 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 	@Override
 	protected void handleMappingUpdate(RegionPathState state) {
 		var updatedRegion = state.scanRegionShape();
-		if (updatedRegion instanceof CentredRectangleMappingRegion) {
+		if (updatedRegion instanceof CentredRectangleMappingRegion newRectangle) {
 			if (this.rectangle != null) {
 				this.rectangle.removePropertyChangeListener(regionMoveListener);
 			}
-			CentredRectangleMappingRegion newRectangle = (CentredRectangleMappingRegion) updatedRegion;
 			newRectangle.addPropertyChangeListener(regionMoveListener);
 			this.rectangle = newRectangle;
 		}

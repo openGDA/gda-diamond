@@ -20,7 +20,6 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffractio
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
@@ -56,7 +55,7 @@ public class ScanningParametersUtils {
 	 * Reduce the {@link ScannableTrackDocument}s in the list to their axis label e.g. "x"
 	 */
 	private static List<Axis> getAxesLabels(List<ScannableTrackDocument> axesDocuments) {
-		return axesDocuments.stream().map(ScannableTrackDocument::getAxis).collect(Collectors.toList());
+		return axesDocuments.stream().map(ScannableTrackDocument::getAxis).toList();
 	}
 
 }
