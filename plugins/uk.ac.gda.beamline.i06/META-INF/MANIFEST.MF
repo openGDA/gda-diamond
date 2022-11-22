@@ -29,7 +29,7 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.epics,
  uk.ac.diamond.daq.beamline.i06-shared;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Bundle-Vendor: Diamond Light Source
 Import-Package: gda.epics.connection,
