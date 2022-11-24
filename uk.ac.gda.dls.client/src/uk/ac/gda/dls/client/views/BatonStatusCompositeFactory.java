@@ -33,7 +33,8 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		var batonStateProvider = InterfaceProvider.getBatonStateProvider();
-		var status = new BatonStatusComposite(parent, style, batonStateProvider, parent.getDisplay(), label);
+		var status = new BatonStatusComposite(parent, style, batonStateProvider, label);
+
 		status.setBannerProvider(bannerProvider);
 		return status;
 	}
