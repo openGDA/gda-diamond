@@ -32,9 +32,6 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
@@ -46,10 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +57,6 @@ import gda.jython.batoncontrol.ClientDetails;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
 import uk.ac.gda.views.baton.MessageView;
-import uk.ac.gda.views.baton.action.RefreshBatonAction;
 
 final class BatonStatusComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(BatonStatusComposite.class);
@@ -76,17 +68,6 @@ final class BatonStatusComposite extends Composite {
 	private static final String BATON_HELD_UDC_TOOL_TIP = "Baton held by automated client!\nRight click open menu\nLeft click open manager";
 	private static final String BATON_NOT_HELD_TOOL_TIP = "Baton not held!\nRight click open menu\nLeft click open manager";
 	private static final String PROP_BATON_BANNER = "gda.beamline.baton.banner";
-
-	private static final String BATON_REQUESTED = "Baton requested";
-	private static final String REQUESTED_BATON_FROM_UNATTENDED_CLIENT_MESSAGE =
-			"You have requested the baton from an automated client.\n\nThe automated client"
-			+ " is finishing the current instruction, after which you will be assigned the"
-			+ " baton automatically. Thank you for your patience.";
-	private static final String TAKE_MESSAGE = "You do not have enough authorisation to take the"
-			+ " baton from the current holder.\n\nThe current holder is aware of your request and"
-			+ " will normally release within two minutes.";
-	private static final String REQUEST_MESSAGE = "The current holder is aware of your request."
-			+ "\n\nNormally the baton is released within two minutes.";
 
 	private static final Display DEFAULT_DISPLAY = Display.getDefault();
 	private static final UserInterfaceAsynchronously DEFAULT_DISPLAY_ASYNCH =
@@ -102,12 +83,6 @@ final class BatonStatusComposite extends Composite {
 	private IBatonStateProvider batonState = InterfaceProvider.getBatonStateProvider();
 	private Font boldFont;
 	private Label lblBanner;
-
-	private MenuItem takeBaton;
-	private MenuItem passBatonToUDCClient;
-	private MenuItem requestBaton;
-	private MenuItem releaseBaton;
-	private MenuItem openChat;
 
 	public BatonStatusComposite(Composite parent, int style, IBatonStateProvider batonStateProvision, Display display, String label) {
 		super(parent, style);
@@ -150,7 +125,7 @@ final class BatonStatusComposite extends Composite {
 		});
 		var initialTooltip = getBatonStateTooltip(batonStateProvider);
 		batonCanvas.setToolTipText(initialTooltip);
-		batonCanvas.setMenu(createPopup(this));
+		BatonStatusPopupMenuBuilder.preparePopUpMenu(this, batonCanvas::setMenu, batonStateProvider);
 
 		IObserver serverObserver = createServerObserver();
 
@@ -220,91 +195,6 @@ final class BatonStatusComposite extends Composite {
 			}
 		});
 	}
-
-	@SuppressWarnings("unused")
-	private Menu createPopup(Composite parent) {
-
-		Menu menu = new Menu(parent);
-
-		takeBaton = new MenuItem(menu, SWT.NONE);
-		takeBaton.setText("Take Baton");
-		takeBaton.addSelectionListener(popupSelectionListener);
-
-		releaseBaton = new MenuItem(menu, SWT.NONE);
-		releaseBaton.setText("Release Baton");
-		releaseBaton.addSelectionListener(popupSelectionListener);
-		requestBaton = new MenuItem(menu, SWT.NONE);
-		requestBaton.setText("Request Baton");
-		requestBaton.addSelectionListener(popupSelectionListener);
-
-		new MenuItem(menu, SWT.SEPARATOR);
-
-		openChat = new MenuItem(menu, SWT.NONE);
-		openChat.setText("Messaging");
-		openChat.addSelectionListener(popupSelectionListener);
-
-		if (udcClientExists()) {
-			passBatonToUDCClient = new MenuItem(menu, SWT.NONE);
-			passBatonToUDCClient.setText("Pass baton to UDC client");
-			passBatonToUDCClient.addSelectionListener(popupSelectionListener);
-		}
-
-		return menu;
-	}
-
-	SelectionListener popupSelectionListener = new SelectionAdapter() {
-		@Override
-		public void widgetSelected(SelectionEvent event) {
-			MenuItem selected = null;
-
-			if (event.widget instanceof MenuItem) {
-				selected = (MenuItem) event.widget;
-			}
-			else
-				return;
-
-			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OK | SWT.ICON_WARNING);
-
-			if (selected.equals(takeBaton) || selected.equals(requestBaton)) {
-				if (!InterfaceProvider.getBatonStateProvider().requestBaton()) {
-					if (InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
-						messageBox.setMessage(REQUESTED_BATON_FROM_UNATTENDED_CLIENT_MESSAGE);
-					} else {
-						if (selected.equals(takeBaton)) {
-							messageBox.setMessage(TAKE_MESSAGE);
-						} else {
-							messageBox.setMessage(REQUEST_MESSAGE);
-						}
-					}
-					messageBox.setText(BATON_REQUESTED);
-					messageBox.open();
-				}
-				RefreshBatonAction.refresh();
-			}
-			else if (selected.equals(releaseBaton)) {
-				InterfaceProvider.getBatonStateProvider().returnBaton();
-			}
-			else if (selected.equals(openChat)) {
-				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MessageView.ID);
-				} catch (PartInitException e) {
-					logger.error("Cannot show messages: ", e);
-				}
-			}
-			else if (selected.equals(passBatonToUDCClient)) {
-				int batonHolderIndex = InterfaceProvider.getBatonStateProvider().getBatonHolder().getIndex();
-				ClientDetails[] clients = InterfaceProvider.getBatonStateProvider().getOtherClientInformation();
-				int udcClientIndex = 0;
-				for (ClientDetails client : clients) {
-					if (client.isAutomatedUser()) {
-						udcClientIndex = client.getIndex();
-						break;
-					}
-				}
-				InterfaceProvider.getBatonStateProvider().assignBaton(udcClientIndex, batonHolderIndex);
-			}
-		}
-	};
 
 	@Override
 	public void dispose() {
