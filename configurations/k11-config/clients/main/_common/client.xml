@@ -40,9 +40,8 @@
 	<import resource="acquisition_templates.xml" />
 	<import resource="imaging_configuration.xml" />
 	<import resource="stages.xml" />
-	
+	<import resource="shutters.xml" />
 	<import resource="mapping.xml"/>
 
 	<import resource="experiment.xml" />
-
 </beans>

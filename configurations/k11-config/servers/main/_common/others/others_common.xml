@@ -7,8 +7,27 @@
 		<property name="controller" ref="syringeController"/>
 	</bean>
 	
+	<!-- interlocks -->
+	<bean id="eh_non_critical" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="eh_non_critical_jy" />
+	</bean>
+	
 	<bean id="eh1_searched_and_locked" class="gda.device.scannable.JythonScannableWrapper">
 		<property name="scannableName" value="eh1_searched_locked_jy" />
 	</bean>
-		
+	
+	<bean id="guardlines" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="guardlines_jy" />
+	</bean>
+	
+	<bean id="interlocks" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="eh_non_critical" />
+				<ref bean="eh1_searched_and_locked" />
+				<ref bean="guardlines" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

@@ -1,2 +1,2 @@
-run("eh1seachedlocked.py")
+run("interlocks.py")
 run("beamselector.py")

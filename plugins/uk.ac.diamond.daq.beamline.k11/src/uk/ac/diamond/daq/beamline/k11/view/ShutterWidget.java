@@ -18,10 +18,13 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.joining;
 import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.label;
 
-import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.nebula.widgets.opal.switchbutton.SwitchButton;
 import org.eclipse.swt.SWT;
@@ -39,34 +42,32 @@ import gda.observable.IObserver;
 
 /**
  * Label and switch button to open/close a shutter. Control can be enabled/disabled
- * by a second hint scannable which returns a boolean indicating availability of the shutter.
+ * by other hint scannables which return booleans indicating availability of the shutter.
  */
 public class ShutterWidget {
 
 	private static final Logger logger = LoggerFactory.getLogger(ShutterWidget.class);
 
-	private Scannable shutter;
-	private Optional<Scannable> enablingScannable;
+	private final Scannable shutter;
+	private final String shutterName;
+	private final Map<Scannable, String> enablingScannables;
 
 	private Label label;
 	private SwitchButton shutterControl;
 
+	/** Results of evaluation of individual enabling scannable */
+	record EnablementResult(boolean enabled, String tooltip) {}
 
-	/**
-	 * @param shutterName		Name of shutter scannable. Moved to "Reset", then "Open" to open,
-	 * 							and "Close" to close.
-	 *
-	 * @param enablingScannable Name of scannable returning {@code true} if shutter may be operated,
-	 * 							otherwise {@code false}. May be {@code null}.
-	 */
-	public ShutterWidget(String shutterName, String enablingScannable) {
-		shutter = Finder.find(shutterName);
-		this.enablingScannable = Optional.ofNullable(Finder.find(enablingScannable));
+	public ShutterWidget(ShutterWidgetConfiguration config) {
+		shutter = Finder.find(config.getShutterName());
+		shutterName = config.getShutterDisplayName();
+		enablingScannables = config.getEnablingScannableNamesAndMessages().entrySet().stream()
+			.collect(Collectors.toMap(entry -> (Scannable) Finder.find(entry.getKey()), Map.Entry::getValue));
 	}
 
 	public Control createControls(Composite parent) {
 		var composite = composite(parent, 1);
-		label = label(composite, "Shutter");
+		label = label(composite, shutterName);
 
 		shutterControl = new SwitchButton(composite, SWT.NONE);
 
@@ -75,32 +76,51 @@ public class ShutterWidget {
 
 		shutterControl.addListener(SWT.Selection, select -> toggleShutter());
 
-		final IObserver stateUpdater = (source, arg) -> updateShutterState();
+		// update shutter control when scannable position changes
+		IObserver stateUpdater = (source, arg) -> updateShutterState();
 		shutter.addIObserver(stateUpdater);
-		shutterControl.addDisposeListener(dispose -> shutter.deleteIObserver(stateUpdater));
 
-		updateShutterState();
+		// recalculate shutter availability when receiving events from any of the enabling scannables
+		IObserver autoEnablementToggle = (source, argument) -> evaluateShutterEnablement();
 
-		enablingScannable.ifPresent(scannable -> {
-			IObserver autoEnablementToggle = (source, argument) -> toggleEnablement();
-			scannable.addIObserver(autoEnablementToggle);
-			shutterControl.addDisposeListener(dispose -> scannable.deleteIObserver(autoEnablementToggle));
-			toggleEnablement();
+		enablingScannables.keySet().forEach(scannable -> scannable.addIObserver(autoEnablementToggle));
+
+		// dispose scannable to widget listeners when the widget is disposed
+		shutterControl.addDisposeListener(dispose -> {
+			shutter.deleteIObserver(stateUpdater);
+			enablingScannables.keySet().forEach(scannable -> scannable.deleteIObserver(autoEnablementToggle));
 		});
+
+		// set initial states
+		updateShutterState();
+		evaluateShutterEnablement();
 
 		return composite;
 	}
 
-	private void toggleEnablement() {
-		var scannable = enablingScannable.get();
+	private void evaluateShutterEnablement() {
+		var results = enablingScannables.entrySet().stream()
+			.map(entry -> evaluateCondition(entry.getKey(), entry.getValue())).toList();
+
+		var enabled = results.stream().allMatch(EnablementResult::enabled);
+		var tooltip = results.stream().map(EnablementResult::tooltip).filter(not(String::isBlank)).collect(joining("\n"));
+
+		Display.getDefault().asyncExec(() -> {
+			shutterControl.setEnabled(enabled);
+			shutterControl.getParent().setToolTipText(tooltip);
+			label.setText(shutterName + (enabled ? "" : " (disabled)"));
+			shutterControl.getParent().pack(); // force refresh, sometimes needed
+		});
+	}
+
+	private EnablementResult evaluateCondition(Scannable scannable, String reasonForDisabling) {
 		try {
 			boolean enabled = (boolean) scannable.getPosition();
-			Display.getDefault().asyncExec(() -> {
-				shutterControl.setEnabled(enabled);
-				label.setText(enabled ? "Shutter" : "Shutter (disabled)");
-			});
+			return new EnablementResult(enabled, enabled ? "" : reasonForDisabling);
 		} catch (DeviceException e) {
-			logger.error("Error reading {} position", scannable.getName(), e);
+			var msg = String.format("Error reading %s position", scannable.getName());
+			logger.error(msg, e);
+			return new EnablementResult(false, msg);
 		}
 	}
 
@@ -120,7 +140,7 @@ public class ShutterWidget {
 	private void updateShutterState() {
 		try {
 			var position = shutter.getPosition().toString();
-			boolean open = position.equals("Open");
+			boolean open = position.equalsIgnoreCase("Open");
 
 			// https://github.com/eclipse/nebula/issues/300
 			// Fixed in Nebula 2.5
@@ -138,7 +158,7 @@ public class ShutterWidget {
 
 
 	private void open() throws DeviceException {
-		shutter.moveTo("Reset");
+		shutter.moveTo("Reset"); // TODO this logic should be moved to the scannable that requires it
 		shutter.moveTo("Open");
 	}
 

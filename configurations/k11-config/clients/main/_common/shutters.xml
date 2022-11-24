@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="eh_shutter_config" class="uk.ac.diamond.daq.beamline.k11.view.ShutterWidgetConfiguration">
+		<property name="shutterName" value="eh_shutter" />
+		<property name="shutterDisplayName" value="EH Shutter" />
+		<property name="enablingScannableNamesAndMessages">
+			<map>
+				<entry key="eh_non_critical" value="EH non-critical interlock not cleared: check gas (He and Ar) levels!" />
+				<entry key="eh1_searched_and_locked" value="Hutch not searched?" />
+				<entry key="guardlines" value="Check guardline interlock status: if not cleared but EH1 searched and locked contact the control room 8899 and request them to be reset." />
+			</map>
+		</property>
+	</bean>
+
+</beans>
