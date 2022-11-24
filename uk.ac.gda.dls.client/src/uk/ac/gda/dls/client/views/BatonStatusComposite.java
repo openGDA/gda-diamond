@@ -18,6 +18,11 @@
 
 package uk.ac.gda.dls.client.views;
 
+import static uk.ac.gda.dls.client.views.BatonStatusPopupMenuBuilder.showView;
+
+import java.util.Optional;
+import java.util.function.Consumer;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -64,26 +69,13 @@ import uk.ac.gda.views.baton.action.RefreshBatonAction;
 final class BatonStatusComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(BatonStatusComposite.class);
 
-	private final Color BATON_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
-	private final Color BATON_HELD_UDC_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-	private final Color BATON_NOT_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-	private final String BATON_HELD_TOOL_TIP = "Baton held!\nRight click open menu\nLeft click open manager";
-	private final String BATON_HELD_UDC_TOOL_TIP = "Baton held by automated client!\nRight click open menu\nLeft click open manager";
-	private final String BATON_NOT_HELD_TOOL_TIP = "Baton not held!\nRight click open menu\nLeft click open manager";
-	private final String PROP_BATON_BANNER = "gda.beamline.baton.banner";
-
-	private Display display;
-	private Color currentColor;
-	private Canvas batonCanvas;
-	private IBatonStateProvider batonState = InterfaceProvider.getBatonStateProvider();
-	private Font boldFont;
-	private Label lblBanner;
-
-	private MenuItem takeBaton;
-	private MenuItem passBatonToUDCClient;
-	private MenuItem requestBaton;
-	private MenuItem releaseBaton;
-	private MenuItem openChat;
+	private static final Color BATON_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
+	private static final Color BATON_HELD_UDC_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
+	private static final Color BATON_NOT_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private static final String BATON_HELD_TOOL_TIP = "Baton held!\nRight click open menu\nLeft click open manager";
+	private static final String BATON_HELD_UDC_TOOL_TIP = "Baton held by automated client!\nRight click open menu\nLeft click open manager";
+	private static final String BATON_NOT_HELD_TOOL_TIP = "Baton not held!\nRight click open menu\nLeft click open manager";
+	private static final String PROP_BATON_BANNER = "gda.beamline.baton.banner";
 
 	private static final String BATON_REQUESTED = "Baton requested";
 	private static final String REQUESTED_BATON_FROM_UNATTENDED_CLIENT_MESSAGE =
@@ -96,9 +88,30 @@ final class BatonStatusComposite extends Composite {
 	private static final String REQUEST_MESSAGE = "The current holder is aware of your request."
 			+ "\n\nNormally the baton is released within two minutes.";
 
+	private static final Display DEFAULT_DISPLAY = Display.getDefault();
+	private static final UserInterfaceAsynchronously DEFAULT_DISPLAY_ASYNCH =
+		DEFAULT_DISPLAY::asyncExec;
 
-	public BatonStatusComposite(Composite parent, int style, final Display display, String label) {
+	private final IBatonStateProvider batonStateProvider;
+	private final Consumer<Runnable> displayAsyncExec;
+
+	private Optional<Runnable> maybeDisposeFont = Optional.empty();
+
+	private Color currentColor;
+	private Canvas batonCanvas;
+	private IBatonStateProvider batonState = InterfaceProvider.getBatonStateProvider();
+	private Font boldFont;
+	private Label lblBanner;
+
+	private MenuItem takeBaton;
+	private MenuItem passBatonToUDCClient;
+	private MenuItem requestBaton;
+	private MenuItem releaseBaton;
+	private MenuItem openChat;
+
+	public BatonStatusComposite(Composite parent, int style, IBatonStateProvider batonStateProvision, Display display, String label) {
 		super(parent, style);
+		batonStateProvider = batonStateProvision;
 
 		GridDataFactory.fillDefaults().applyTo(this);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);
@@ -109,18 +122,11 @@ final class BatonStatusComposite extends Composite {
 		grp.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		grp.setText(label);
 
-		this.display = display;
+		displayAsyncExec = display::asyncExec;
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 
-		// Set currentColor for baton status
-		if (batonState.amIBatonHolder()) {
-			currentColor = BATON_HELD_COLOR;
-		} else if (InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
-			currentColor = BATON_HELD_UDC_COLOR;
-		} else {
-			currentColor = BATON_NOT_HELD_COLOR;
-		}
+		currentColor = representBatonStateByColour(batonStateProvision);
 
 		batonCanvas = new Canvas(grp, SWT.NONE);
 		GridData gridData = new GridData(GridData.VERTICAL_ALIGN_FILL);
@@ -142,55 +148,15 @@ final class BatonStatusComposite extends Composite {
 				gc.drawOval(topLeft.x, topLeft.y, size.x, size.y);
 			}
 		});
+		var initialTooltip = getBatonStateTooltip(batonStateProvider);
+		batonCanvas.setToolTipText(initialTooltip);
 		batonCanvas.setMenu(createPopup(this));
 
-		//initialize tooltip
-		if (batonState.amIBatonHolder()) {
-			batonCanvas.setToolTipText(BATON_HELD_TOOL_TIP);
-		} else if (InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
-			batonCanvas.setToolTipText(BATON_HELD_UDC_TOOL_TIP);
-		} else {
-			batonCanvas.setToolTipText(BATON_NOT_HELD_TOOL_TIP);
-		}
-
-		final IObserver serverObserver = new IObserver() {
-			@Override
-			public void update(Object theObserved, final Object changeCode) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						if (changeCode instanceof gda.jython.batoncontrol.BatonChanged) {
-							if (batonState.amIBatonHolder()) {
-								currentColor = BATON_HELD_COLOR;
-								batonCanvas.setToolTipText(BATON_HELD_TOOL_TIP);
-							} else if (InterfaceProvider.getBatonStateProvider().getBatonHolder() != null
-									&& InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
-								currentColor = BATON_HELD_UDC_COLOR;
-								batonCanvas.setToolTipText(BATON_HELD_UDC_TOOL_TIP);
-							} else {
-								currentColor = BATON_NOT_HELD_COLOR;
-								if (batonCanvas != null && !batonCanvas.isDisposed()) {
-									batonCanvas.setToolTipText(BATON_NOT_HELD_TOOL_TIP);
-								}
-							}
-							updateBatonCanvas();
-						}
-
-						else if (changeCode instanceof UserMessage) {
-							// Message received - ensure "Messages" view is open
-							try {
-								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MessageView.ID);
-							} catch (Exception e) {
-								logger.warn("Unable to open Messages view", e);
-							}
-						}
-					}
-				});
-			}
-		};
+		IObserver serverObserver = createServerObserver();
 
 		try {
-			InterfaceProvider.getJSFObserver().addIObserver(serverObserver);
+			var jsfObserver = InterfaceProvider.getJSFObserver();
+			jsfObserver.addIObserver(serverObserver);
 		} catch (Exception ne) {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
@@ -221,6 +187,7 @@ final class BatonStatusComposite extends Composite {
 			boldFont = FontDescriptor.createFrom(lblBanner.getFont())
 				.setStyle( SWT.BOLD )
 				.createFont( lblBanner.getDisplay() );
+			maybeDisposeFont = Optional.of(boldFont::dispose);
 			lblBanner.setFont(boldFont);
 			lblBanner.setText(banner);
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.FILL).applyTo(lblBanner);
@@ -240,12 +207,13 @@ final class BatonStatusComposite extends Composite {
 		}
 	}
 
-	private void updateBatonCanvas() {
-		display.asyncExec(new Runnable() {
+	private void updateBatonCanvas(String toolTipText) {
+		displayAsyncExec.accept(new Runnable() {
 
 			@Override
 			public void run() {
 				if (batonCanvas != null && !batonCanvas.isDisposed()) {
+					batonCanvas.setToolTipText(toolTipText);
 					batonCanvas.redraw();
 					batonCanvas.update();
 				}
@@ -341,11 +309,16 @@ final class BatonStatusComposite extends Composite {
 	@Override
 	public void dispose() {
 		super.dispose();
-		this.boldFont.dispose();
+		maybeDisposeFont.ifPresent(Runnable::run);
+	}
+
+	private IObserver createServerObserver() {
+		return (source, arg) ->
+			DEFAULT_DISPLAY_ASYNCH.asynchronouslyExecuteOnUiThread( () -> whenServerBroadcastsUpdate(arg) );
 	}
 
 	public boolean udcClientExists() {
-		ClientDetails[] clients = InterfaceProvider.getBatonStateProvider().getOtherClientInformation();
+		ClientDetails[] clients = batonState.getOtherClientInformation();
 		boolean udcClientExists = false;
 		for (ClientDetails client : clients) {
 			if (client.isAutomatedUser()) {
@@ -354,5 +327,51 @@ final class BatonStatusComposite extends Composite {
 			}
 		}
 		return udcClientExists;
+	}
+
+	private void whenServerBroadcastsUpdate(Object arg) {
+		if (arg instanceof gda.jython.batoncontrol.BatonChanged) {
+			whenBatonChanges(batonStateProvider);
+		}
+		if (arg instanceof UserMessage) {
+			ensureMessagesViewIsOpen();
+		}
+	}
+	private void ensureMessagesViewIsOpen() {
+		// Message received - ensure "Messages" view is open
+		try {
+			showView(MessageView.ID);
+		} catch (Exception e) {
+			logger.warn("Unable to open Messages view", e);
+		}
+	}
+	private void whenBatonChanges(IBatonStateProvider batonStateProvider) {
+		currentColor = representBatonStateByColour(batonStateProvider);
+		var toolTipText = getBatonStateTooltip(batonStateProvider);
+		updateBatonCanvas(toolTipText);
+	}
+
+	private static String getBatonStateTooltip(IBatonStateProvider batonStateProvider) {
+		if (isBatonHeld(batonStateProvider)) return BATON_HELD_TOOL_TIP;
+		return isBatonHeldByUdc(batonStateProvider) ? BATON_HELD_UDC_TOOL_TIP : BATON_NOT_HELD_TOOL_TIP;
+	}
+
+	private static Color representBatonStateByColour(IBatonStateProvider batonStateProvider) {
+		if (isBatonHeld(batonStateProvider)) return BATON_HELD_COLOR;
+		return isBatonHeldByUdc(batonStateProvider) ? BATON_HELD_UDC_COLOR : BATON_NOT_HELD_COLOR;
+	}
+
+	private static boolean isBatonHeld(IBatonStateProvider batonStateProvider) {
+		return batonStateProvider.amIBatonHolder();
+	}
+
+	private static boolean isBatonHeldByUdc(IBatonStateProvider batonStateProvider) {
+		var batonHolder = batonStateProvider.getBatonHolder();
+		return batonHolder != null && batonHolder.isAutomatedUser();
+	}
+
+	@FunctionalInterface
+	interface UserInterfaceAsynchronously {
+		void asynchronouslyExecuteOnUiThread(Runnable r);
 	}
 }

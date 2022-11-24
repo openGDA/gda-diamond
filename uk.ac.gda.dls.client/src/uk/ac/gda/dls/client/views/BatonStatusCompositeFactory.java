@@ -20,6 +20,7 @@ package uk.ac.gda.dls.client.views;
 
 import org.eclipse.swt.widgets.Composite;
 
+import gda.jython.InterfaceProvider;
 import gda.observable.IObservable;
 import gda.rcp.views.CompositeFactory;
 
@@ -31,7 +32,8 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		BatonStatusComposite status = new BatonStatusComposite(parent, style, parent.getDisplay(), label);
+		var batonStateProvider = InterfaceProvider.getBatonStateProvider();
+		var status = new BatonStatusComposite(parent, style, batonStateProvider, parent.getDisplay(), label);
 		status.setBannerProvider(bannerProvider);
 		return status;
 	}
