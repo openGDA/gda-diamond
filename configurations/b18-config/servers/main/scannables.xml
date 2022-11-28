@@ -22,12 +22,35 @@
     <gda:motor id="sxY" live-pvName="BL18B-EA-USER-07:Y" />
     <gda:motor id="sam1x" live-pvName="BL18B-EA-SAMPL-01:X" />
     
-    <!--  TODO : Add combined scannables to move y2,y2 by centre position and adjust size-->
+<!-- s5 slit scannables  -->
 	<gda:motor id="s5y2" live-pvName="BL18B-AL-SLITS-05:Y2" /> 
 	<gda:motor id="s5y1" live-pvName="BL18B-AL-SLITS-05:Y1" />
 	<gda:motor id="s5x2" live-pvName="BL18B-AL-SLITS-05:X2" />
 	<gda:motor id="s5x1" live-pvName="BL18B-AL-SLITS-05:X1" />
 
+<!--  Combined scannables to move s5 x and y by centre position and adjust size-->
+<!--  NB : JawGap>0 if firstJaw>secondJaw -->
+
+	<bean id="s5ycentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5y1" />
+		<property name="secondJaw" ref="s5y2" />
+	</bean>
+	<bean id="s5ysize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5y2" />
+		<property name="secondJaw" ref="s5y1" />
+	</bean>
+	<bean id="s5xcentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5x1" />
+		<property name="secondJaw" ref="s5x2" />
+	</bean>
+	<bean id="s5xsize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5x2" />
+		<property name="secondJaw" ref="s5x1" />
+	</bean>
 
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="bragg" />
