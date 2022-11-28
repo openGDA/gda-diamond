@@ -243,8 +243,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	 * Callback for {@link ScanpathEditor}.
 	 */
 	private void updateScanpathDocument(Object source, Object argument) {
-		if (source.equals(scanpathEditor) && argument instanceof ScanpathDocument) {
-			var document = (ScanpathDocument) argument;
+		if (source.equals(scanpathEditor) && argument instanceof ScanpathDocument document) {
 			scanningParameters.get().setScanpathDocument(document);
 			scanpathDocumentCache.cache(document);
 			publishUpdate();

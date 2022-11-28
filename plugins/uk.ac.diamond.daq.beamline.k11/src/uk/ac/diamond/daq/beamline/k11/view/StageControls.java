@@ -23,7 +23,6 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -63,7 +62,7 @@ public class StageControls {
 
 		List<StageCompositeDefinition> axes = value.entrySet().stream()
 				.map(axis -> axis(axis.getKey(), axis.getValue()))
-				.collect(Collectors.toList());
+				.toList();
 
 		var controls = new StageCompositeFactory();
 		controls.setStageCompositeDefinitions(axes.toArray(new StageCompositeDefinition[0]));

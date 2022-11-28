@@ -187,11 +187,10 @@ public class LineScanpathEditor extends ScanpathEditor {
 	@Override
 	protected void handleMappingUpdate(RegionPathState state) {
 		var updatedRegion = state.scanRegionShape();
-		if (updatedRegion instanceof LineMappingRegion) {
+		if (updatedRegion instanceof LineMappingRegion newLine) {
 			if (this.line != null) {
 				this.line.removePropertyChangeListener(regionMoveListener);
 			}
-			LineMappingRegion newLine = (LineMappingRegion) updatedRegion;
 			newLine.addPropertyChangeListener(regionMoveListener);
 			this.line = newLine;
 		}

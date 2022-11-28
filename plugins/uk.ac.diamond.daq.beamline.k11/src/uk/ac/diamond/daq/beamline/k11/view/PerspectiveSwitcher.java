@@ -25,7 +25,6 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.createCombo;
 import static uk.ac.gda.ui.tool.ClientSWTElements.label;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.swt.SWT;
@@ -167,7 +166,7 @@ public class PerspectiveSwitcher {
 	}
 
 	private String[] getTypes() {
-		return Arrays.stream(PerspectiveType.values()).map(PerspectiveType::getLabel).collect(Collectors.toList())
+		return Arrays.stream(PerspectiveType.values()).map(PerspectiveType::getLabel).toList()
 				.toArray(new String[0]);
 	}
 }

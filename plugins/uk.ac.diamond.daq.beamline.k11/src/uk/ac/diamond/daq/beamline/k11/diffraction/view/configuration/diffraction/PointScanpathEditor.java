@@ -121,11 +121,10 @@ public class PointScanpathEditor extends ScanpathEditor {
 	@Override
 	protected void handleMappingUpdate(RegionPathState state) {
 		var updatedRegion = state.scanRegionShape();
-		if (updatedRegion instanceof PointMappingRegion) {
+		if (updatedRegion instanceof PointMappingRegion newPoint) {
 			if (this.point != null) {
 				this.point.removePropertyChangeListener(regionMoveListener);
 			}
-			PointMappingRegion newPoint = (PointMappingRegion) updatedRegion;
 			newPoint.addPropertyChangeListener(regionMoveListener);
 			this.point = newPoint;
 		}
