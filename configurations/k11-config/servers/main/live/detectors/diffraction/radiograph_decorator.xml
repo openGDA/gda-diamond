@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="radiograph_decorator" class="uk.ac.diamond.daq.scanning.FrameCollectingScannable" init-method="register">
-		<property name="name" value="radiograph_decorator" />
+	<bean id="radiograph" class="uk.ac.diamond.daq.scanning.FrameCollectingScannable" init-method="register">
+		<property name="name" value="radiograph" />
 		<property name="beamlineConfiguration">
 			<map />
 		</property>
-		<!-- will result in /entry/instrument/radiograph_decorator/data -->
+		<!-- will result in /entry/instrument/radiograph/data -->
 		<property name="nexusFieldName" value="data" />
 		<property name="malcolmDetectorNames">
 			<map>
