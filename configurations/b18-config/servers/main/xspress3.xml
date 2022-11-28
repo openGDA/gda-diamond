@@ -37,7 +37,7 @@
 
 	<bean id="xspress3X" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
 		<property name="controller" ref="xspress3XControllerME7" />
-		<property name="defaultSubdirectory" value="xspress3" />
+		<property name="defaultSubdirectory" value="xspress3X" />
 		<property name="tfgFFI0" ref="xspress3XFFI0" />
 		<property name="configFileName" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
 	</bean>

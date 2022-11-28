@@ -204,11 +204,8 @@
 
 	</bean>
 
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
+	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+    	<property name="locationMap">
 			<map>
 				<entry key="s1xcentre">
 					<bean
@@ -636,12 +633,7 @@
 				</entry>
 			</map>
 		</property>
-	</bean>
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
+		<property name="metadataScannables">
 			<set>
 				<value>s1xcentre</value>
 				<value>s1xsize</value>

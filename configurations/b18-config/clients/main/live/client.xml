@@ -7,6 +7,10 @@
 	  <constructor-arg value="BL18B-EA-DET-18"/>
 	</bean>
 
+	<bean id="pilatusBasePv" class="java.lang.String">
+		<constructor-arg value="BL18B-EA-PILAT-01" />
+	</bean>
+
 	<import resource="../_common/client.xml" />
 <!-- 	<import resource="rga.xml" /> -->
 	

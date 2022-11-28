@@ -19,6 +19,7 @@
 	<import resource="detector-rate-views.xml" />
 	<import resource="live_controls.xml" />
 	<import resource="medipix.xml" />
+	<import resource="pilatus.xml" />
 	<import resource="../${gda.mode}/epics-cameras.xml" />
 	<import resource="epics-cameras.xml" />
 	
@@ -66,23 +67,21 @@
 	</bean>
 
 	<bean id="xspress2ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
-		<property name="name" value="xspress2ViewFactory" />
 		<property name="detectorName" value="xspress2system" />
 	</bean>
 
 	<bean id="xspress3ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
-		<property name="name" value="xspress3ViewFactory" />
 		<property name="detectorName" value="xspress3" />
 	</bean>
 
 	<bean id="xspress4ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
-		<property name="name" value="xspress4ViewFactory" />
 		<property name="detectorName" value="xspress4Odin" />
 		<property name="maxDetectorElementCounts" value="500000" />
 	</bean>
 
 	<bean id="xspress3XViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
-		<property name="detectorName" value="xspressX" />
+		<property name="detectorName" value="xspress3X" />
+		<property name="maxDetectorElementCounts" value="500000" />
 	</bean>
 
 	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
@@ -95,7 +94,7 @@
 						<value>Xspress3</value>
 						<value>Xspress3X</value>
 						<value>Xspress4Odin</value>
-						<value>Medipix</value>
+						<value>Medipix</value>					
 					</list>
 				</entry>
 			</map>
@@ -110,6 +109,7 @@
 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
 				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
+				<entry key="pilatus_addetector" value="${gda.config}/templates/Pilatus_Parameters.xml" />
 			</map>
 		</property>
 	</bean>

@@ -59,7 +59,11 @@ if xspress4IsPresent :
     qexafs_xspress4Odin.setTriggerModeForContinuousScan(3)
     xspress4Odin.setFilePrefix("xsp4_odin")
     xspress4Odin.setFilePath("") ## use current visit/comissioning folder
-
+    
+    # Switch off SWMR file reading if in dummy mode
+    if LocalProperties.isDummyModeEnabled() : 
+        qexafs_xspress4Odin.setUseSwmrFileReading(False)
+        qexafs_xspress4Odin.getController().setTotalNumFramesAvailable(100000)
 else :
     print "Xspress4Odin detector not present"
 

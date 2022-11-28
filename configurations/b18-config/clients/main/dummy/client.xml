@@ -15,6 +15,10 @@
 		<constructor-arg value="#{hostName}-AD-SIM-01" />
 	</bean>
 
+	<bean id="pilatusBasePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	</bean>
+
 	<import resource="../_common/client.xml" />
 	
 </beans>

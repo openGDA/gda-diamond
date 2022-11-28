@@ -19,7 +19,7 @@
 
 <!-- Controller for xspress3X (ME7)  -->
 	<bean id="xspress3XControllerME7"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
-		<property name="numElements" value="8" />
+		<property name="numElements" value="7" />
 		<property name="numMcaChannels" value="4096" />
 		<property name="numScalers" value="8" />
      	<property name="timeSeriesNumPoints" value="10000" />	
