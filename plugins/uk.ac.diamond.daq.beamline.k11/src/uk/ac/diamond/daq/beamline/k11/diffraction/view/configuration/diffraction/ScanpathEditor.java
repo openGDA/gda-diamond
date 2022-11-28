@@ -94,7 +94,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 
 	protected Spinner createSpinner(Composite parent) {
 		Spinner spinner = new Spinner(parent, SWT.NONE);
-		spinner.setMinimum(3);
+		spinner.setMinimum(1);
 		spinner.setMaximum(Integer.MAX_VALUE);
 		spinner.setSelection(5);
 		spinner.setIncrement(1);
