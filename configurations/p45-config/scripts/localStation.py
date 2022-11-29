@@ -8,6 +8,7 @@
 
 # Enables the new mscan
 from gdascripts.mscanHandler import *
+from gdascripts.blueskyHandler import *
 
 print "Installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
