@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import gda.factory.Finder;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
 import uk.ac.diamond.daq.experiment.ui.ExperimentUiUtils;
@@ -95,8 +96,12 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		var beamSelector = new BeamSelectorWidget("beam_selector", "beam_selector_readback").createControls(composite);
 		gridData.applyTo(beamSelector);
 
-		var shutter = new ShutterWidget("eh_shutter", "eh1_searched_and_locked").createControls(composite);
-		gridData.applyTo(shutter);
+		var shutters = innerComposite(composite, 1, false);
+		STRETCH.copy().align(SWT.FILL, SWT.TOP).applyTo(shutters);
+		Finder.listLocalFindablesOfType(ShutterWidgetConfiguration.class).forEach(shutterConfig -> {
+			var shutter = new ShutterWidget(shutterConfig).createControls(shutters);
+			gridData.applyTo(shutter);
+		});
 	}
 
 	private void createExperimentDriver(Composite parent) {
