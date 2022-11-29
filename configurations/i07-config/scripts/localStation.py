@@ -183,3 +183,9 @@ def checkHkl(position):
 
 hkl.checkPositionValid = checkHkl
 run "BeamlineI07/devices/ivium.py"
+
+# add hexapod reset command
+run "reset_symetrie.py"
+
+# add transmissions command
+run "transmissions.py"
