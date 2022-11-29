@@ -835,6 +835,23 @@ if installation.isLive() and ENABLE_PCOEDGE:
 	pcoedge_multi_intensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge_multi, [PixelIntensity()],prefix_name_to_extranames=False)
 
 
+if installation.isLive():
+
+	sydor = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'sydor',
+		_sydor,  # @UndefinedVariable
+		None,
+		_sydor_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name_rcp='sydor',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	sydorpeak2d = DetectorDataProcessorWithRoi('peak2d', sydor, [TwodGaussianPeak()],prefix_name_to_extranames=True) 
+	sydormax2d = DetectorDataProcessorWithRoi('max2d', sydor, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	sydorintensity2d = DetectorDataProcessorWithRoi('intensity2d', sydor, [PixelIntensity()],prefix_name_to_extranames=False)
+	
+	
 if installation.isLive() and ENABLE_PCO4000:
 
 	pco4000 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
