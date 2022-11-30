@@ -40,6 +40,7 @@ import org.springframework.context.ApplicationListener;
 import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.api.acquisition.Acquisition;
 import uk.ac.gda.client.UIHelper;
@@ -210,7 +211,7 @@ public class PointAndShootController {
 		 */
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-			if (armed) {
+			if (armed && event.getProperty().equals(UpdatedProperty.PATH)) {
 				latch.countDown();
 				armed = false;
 			}

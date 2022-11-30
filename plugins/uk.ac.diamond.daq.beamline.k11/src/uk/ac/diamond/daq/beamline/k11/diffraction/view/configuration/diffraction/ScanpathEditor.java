@@ -64,6 +64,9 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	private RegionAndPathController mappingController;
 	private Consumer<RegionPathState> mappingUpdateListener = this::handleMappingUpdate;
 
+	private IMappingScanRegionShape region;
+	private IMapPathModel path;
+
 	protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.00");
 
 	/**
@@ -166,8 +169,19 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 		if (handlingMappingUpdate) return;
 
 		handlingMappingUpdate = true;
-		mappingController.getRegionSelectorListener().handleRegionChange(modelToMappingRegion());
-		mappingController.changePath(modelToMappingPath());
+
+		var updatedRegion = modelToMappingRegion();
+		if (region == null || !region.equals(updatedRegion)) {
+			mappingController.getRegionSelectorListener().handleRegionChange(updatedRegion);
+			region = updatedRegion;
+		}
+
+		var updatedPath = modelToMappingPath();
+		if (path == null || !path.equals(updatedPath)) {
+			mappingController.changePath(modelToMappingPath());
+			path = updatedPath;
+		}
+
 		mappingController.updatePlotRegion();
 		handlingMappingUpdate = false;
 	}

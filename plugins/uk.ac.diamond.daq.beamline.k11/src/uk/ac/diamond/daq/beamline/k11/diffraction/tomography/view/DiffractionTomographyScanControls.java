@@ -39,6 +39,7 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ScanningParametersUtils;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeControls;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
@@ -109,14 +110,13 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 	}
 
 	private void rotationAxisUpdated(@SuppressWarnings("unused") Object source, Object argument) {
-		if (argument instanceof ScannableTrackDocument) {
-			var rotationAxis = (ScannableTrackDocument) argument;
+		if (argument instanceof ScannableTrackDocument rotationAxis) {
 			var oldScanpathDocument = getScanningParameters().getScanpathDocument();
 			var updatedAxes = ScanningParametersUtils.updateAxes(oldScanpathDocument, List.of(rotationAxis));
 			var updatedScanpathDocument = new ScanpathDocument(AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY, updatedAxes, oldScanpathDocument.getMutators());
 			getScanningParameters().setScanpathDocument(updatedScanpathDocument);
 
-			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
+			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this, UpdatedProperty.PATH));
 		}
 	}
 

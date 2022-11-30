@@ -42,6 +42,7 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
@@ -225,7 +226,8 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	 */
 	private void updateControls() {
 		var shape = getSelectedShape();
-		var document = scanpathDocumentCache.cacheAndChangeShape(scanningParameters.get().getScanpathDocument(), shape);
+		var oldPath = scanningParameters.get().getScanpathDocument();
+		var document = scanpathDocumentCache.cacheAndChangeShape(oldPath, shape);
 		scanningParameters.get().setScanpathDocument(document);
 
 		if (scanpathEditor != null) {
@@ -251,7 +253,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	}
 
 	private void publishUpdate() {
-		SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this));
+		SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this, UpdatedProperty.PATH));
 	}
 
 	@Override
@@ -264,8 +266,10 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 		@Override
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
-			if (event.getSource().equals(ShapeControls.this)) return;
-			scanpathEditor.setModel(scanningParameters.get().getScanpathDocument());
+			if (!event.getSource().equals(ShapeControls.this) &&
+				event.getProperty().equals(UpdatedProperty.PATH)) {
+					scanpathEditor.setModel(scanningParameters.get().getScanpathDocument());
+				}
 		}
 
 	}
