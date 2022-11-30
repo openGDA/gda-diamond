@@ -18,7 +18,10 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan;
 
+import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
+import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.getImage;
+import static uk.ac.gda.ui.tool.ClientSWTElements.innerComposite;
 import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyDoubleText;
 import static uk.ac.gda.ui.tool.ClientVerifyListener.verifyOnlyPositiveIntegerText;
 
@@ -50,8 +53,12 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ProcessingRequestsControls;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.SummaryComposite;
 import uk.ac.diamond.daq.client.gui.camera.CameraHelper;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
+import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
@@ -90,6 +97,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	private DetectorExposureWidget imagingExposureWidget;
 	private DetectorExposureWidget diffractionExposureWidget;
 
+	private ProcessingRequestsControls processingControls;
+
 	private DataBindingContext bindingContext;
 
 	/** caching simply to remove listener when it is replaced */
@@ -106,8 +115,6 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	/** triggered when the existing point is replaced */
 	private Consumer<RegionPathState> regionUpdateListener = this::handleRegionUpdate;
 
-	private GridDataFactory stretch = GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false);
-
 	public BeamSelectorScanControls() {
 		config = Finder.findLocalSingleton(BeamSelectorScanUIConfiguration.class);
 	}
@@ -115,14 +122,18 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 
-		var composite = createBaseComposite(parent);
+		var composite = composite(parent, 1);
+		var twoColumnComposite = innerComposite(composite, 2, true);
 
-		createNameControl(composite);
-		createCyclesControl(composite);
-		separator(composite);
-		createImagingBeamControl(composite);
-		separator(composite);
-		createDiffractionBeamControl(composite);
+		createNameControl(twoColumnComposite);
+		createCyclesControl(twoColumnComposite);
+		separator(twoColumnComposite);
+		createImagingBeamControl(twoColumnComposite);
+		separator(twoColumnComposite);
+		createDiffractionBeamControl(twoColumnComposite);
+
+		createProcessingSection(composite);
+		createSummary(composite);
 
 		initialiseControls();
 
@@ -138,17 +149,10 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		}
 	}
 
-	private Composite createBaseComposite(Composite parent) {
-		var composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).equalWidth(true).applyTo(composite);
-		stretch.applyTo(composite);
-		return composite;
-	}
-
 	private void createNameControl(Composite composite) {
 		new Label(composite, SWT.NONE).setText("Acquisition name");
 		name = new Text(composite, SWT.BORDER);
-		stretch.applyTo(name);
+		STRETCH.applyTo(name);
 
 		name.addModifyListener(event -> getScanningAcquisitionTemporaryHelper().getScanningAcquisition().orElseThrow().setName(name.getText()));
 	}
@@ -156,7 +160,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	private void createCyclesControl(Composite composite) {
 		new Label(composite, SWT.NONE).setText("Number of cycles");
 		cycles = new Text(composite, SWT.BORDER);
-		stretch.applyTo(cycles);
+		STRETCH.applyTo(cycles);
 
 		cycles.addVerifyListener(verifyOnlyPositiveIntegerText);
 		cycles.addModifyListener(event -> setNumberOfCycles(Integer.parseInt(cycles.getText())));
@@ -165,6 +169,11 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	private void setNumberOfCycles(int points) {
 		getScanningAcquisitionTemporaryHelper().createScannableTrackDocumentHelper()
 			.ifPresent(helper -> helper.updateScannableTrackDocumentsPoints(points));
+		publishEvent(UpdatedProperty.PATH);
+	}
+
+	private void publishEvent(UpdatedProperty updatedProperty) {
+		SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this, updatedProperty));
 	}
 
 	private void createImagingBeamControl(Composite parent) {
@@ -185,6 +194,16 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		label.setText("Detector exposure");
 
 		imagingExposureWidget = new DetectorExposureWidget(group, this::setImagingDetectorExposure, this::readImagingDetectorExposure);
+	}
+
+	private void createProcessingSection(Composite parent) {
+		processingControls = new ProcessingRequestsControls();
+		processingControls.createComposite(parent, SWT.NONE);
+	}
+
+	private void createSummary(Composite parent) {
+		var summary = new SummaryComposite();
+		summary.createComposite(parent, SWT.IGNORE);
 	}
 
 	private double getImagingDetectorExposureFromScan() {
@@ -226,6 +245,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 								.withExposure(exposure)
 								.build();
 		parameters.setDetector(updatedDocument);
+		publishEvent(UpdatedProperty.DETECTOR_EXPOSURE);
 	}
 
 	private double readImagingDetectorExposure() {
@@ -258,7 +278,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		group.setText(groupName);
 
 		GridLayoutFactory.swtDefaults().extendedMargins(5, 5, 5, 5).numColumns(2).equalWidth(true).applyTo(group);
-		stretch.copy().span(2,1).applyTo(group);
+		STRETCH.copy().span(2,1).applyTo(group);
 
 		return group;
 	}
@@ -269,7 +289,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 		var left = new Composite(group, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).equalWidth(true).applyTo(left);
-		stretch.copy().span(1, 2).applyTo(left);
+		STRETCH.copy().span(1, 2).applyTo(left);
 
 		var selectFromMap = new Button(left, SWT.PUSH);
 		var icon = getImage(ClientImages.POINT);
@@ -283,11 +303,11 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 		xPosition = new Text(group, SWT.BORDER);
 		xPosition.addVerifyListener(verifyOnlyDoubleText);
-		stretch.applyTo(xPosition);
+		STRETCH.applyTo(xPosition);
 
 		yPosition = new Text(group, SWT.BORDER);
 		xPosition.addVerifyListener(verifyOnlyDoubleText);
-		stretch.applyTo(yPosition);
+		STRETCH.applyTo(yPosition);
 
 		initialiseMappingController();
 		selectFromMap.addListener(SWT.Selection, event -> {
@@ -406,6 +426,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		initialiseCycles();
 		initialiseImagingBeam();
 		initialiseDiffractionBeam();
+		processingControls.reload();
 	}
 
 	private void initialiseName() {
