@@ -49,6 +49,17 @@
 		<property name="scannableName" value="vma_zoom" />
 		<property name="group" value="Miscellaneous" />
 	</bean>
+	
+	<!-- Watchdogs -->
+	<bean id="watchdog_control" class="uk.ac.gda.client.livecontrol.WatchdogControl">
+		<property name="group" value="Watchdogs" />
+		<property name="watchdogNames">
+			<list>
+				<value>beam_available_watchdog</value>
+				<value>topup_watchdog</value>
+			</list>
+		</property>
+	</bean>
 
 	<!-- Overall control set -->
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
@@ -60,6 +71,7 @@
 				<ref bean="t1z_control" />
 				<ref bean="t1thetaFine_control" />
 				<ref bean="zoom_control" />
+				<ref bean="watchdog_control" />
 			</list>
 		</property>
 	</bean>

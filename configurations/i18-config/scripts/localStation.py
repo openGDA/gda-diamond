@@ -19,7 +19,7 @@ from mapping_scan_commands import static
 
 from mapping_scan_commands import mscan, grid, detector, mstep, rect
 from org.eclipse.scanning.api.points.models import AxialStepModel
-from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled
 from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 from diffraction_calibration_appender import DiffractionAppenderManager
 
