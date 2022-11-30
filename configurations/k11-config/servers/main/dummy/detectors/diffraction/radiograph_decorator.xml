@@ -6,7 +6,9 @@
 	<bean id="radiograph" class="uk.ac.diamond.daq.scanning.FrameCollectingScannable" init-method="register">
 		<property name="name" value="radiograph" />
 		<property name="beamlineConfiguration">
-			<map />
+			<map>
+				<entry key="beam_selector" value="Imaging" />
+			</map>
 		</property>
 		<property name="nexusFieldName" value="data" />
 		<property name="malcolmDetectorNames">
