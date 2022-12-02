@@ -784,4 +784,6 @@
 
     <bean id="syringerightvalve" class="gda.device.scannable.DummyScannable" />
 
+    <bean id="fatt" class="gda.device.scannable.DummyScannable" />
+
 </beans>

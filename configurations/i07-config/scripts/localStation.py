@@ -138,6 +138,7 @@ try:
 except:
 	print('Could not find d5i to add as a default scannable')
 
+try_execfile("BeamlineI07/useFastAttenuators.py")
 
 from scannable.pv_with_separate_readback_and_tolerance import PVWithSeparateReadbackAndToleranceScannable
 chiller1=PVWithSeparateReadbackAndToleranceScannable('chiller1', pv_set='BL07I-EA-CHIL-01:SET_TEMP', pv_read='BL07I-EA-CHIL-01:TEMP', timeout=30*60, tolerance=0.2)

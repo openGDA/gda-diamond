@@ -1133,4 +1133,12 @@
 		<property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
 	</bean>
 
+	<bean id="fatt" class="gda.device.scannable.FastAttenuatorScannable">
+		<property name="basePv" value="BL07I-OP-FILT-01" />
+		<property name="filterManager" ref="fatt_filters" />
+	</bean>
+
+	<bean id="fatt_filters" class="gda.device.scannable.FastAttenuatorFilters">
+		<property name="basePv" value="BL07I-OP-FILT-01" />
+	</bean>
 </beans>
