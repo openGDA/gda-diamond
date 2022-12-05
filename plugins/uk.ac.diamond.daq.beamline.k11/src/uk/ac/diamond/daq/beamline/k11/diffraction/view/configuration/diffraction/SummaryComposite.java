@@ -72,13 +72,12 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 	}
 
 	private String getSummary() {
-		var exposure = exposurePerPoint();
 		var axes = parameters.getScanpathDocument().getScannableTrackDocuments().size();
 
 		return switch (axes) {
-			case 1 -> get1DSummary(exposure);
-			case 2 -> get2DSummary(exposure);
-			case 3 -> get3DSummary(exposure);
+			case 1 -> get1DSummary();
+			case 2 -> get2DSummary();
+			case 3 -> get3DSummary();
 			default -> String.format("Unexpected number of axes (%d)!", axes);
 		};
 	}
@@ -89,12 +88,12 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 			.findFirst().orElseThrow();
 	}
 
-	private String get1DSummary(double exposure) {
+	private String get1DSummary() {
 		var points = pointsInAxis(parameters.getScanpathDocument().getScannableTrackDocuments().get(0));
-		return String.format("Points: %d; Exposure: %.3f s; Total exposure: %.3f s", points, exposure, points * exposure);
+		return String.format("Points: %d; %s", points, getExposureSummary(points));
 	}
 
-	private String get2DSummary(double exposure) {
+	private String get2DSummary() {
 		var document = parameters.getScanpathDocument();
 		var xAxis = document.getScannableTrackDocuments().get(0);
 		var yAxis = document.getScannableTrackDocuments().get(1);
@@ -105,19 +104,19 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 			points = pointsInAxis(xAxis) * pointsInAxis(yAxis);
 			var xStepSize = xAxis.calculatedStep();
 			var yStepSize = yAxis.calculatedStep();
-			return String.format("Points: %d; Step size X: %.2f, Y: %.2f;%nExposure: %.3f s; Total exposure: %.3f s", points, xStepSize, yStepSize, exposure, points * exposure);
+			return String.format("Points: %d; Step size X: %.2f, Y: %.2f;%n%s", points, xStepSize, yStepSize, getExposureSummary(points));
 		case TWO_DIMENSION_LINE:
 			points = pointsInAxis(xAxis);
 			var stepSize = Math.sqrt((xAxis.calculatedStep() * xAxis.calculatedStep()) + (yAxis.calculatedStep() * yAxis.calculatedStep()));
-			return String.format("Points: %d; Step size: %.2f;%nExposure: %.3f s; Total exposure: %.3f s", points, stepSize, exposure, points * exposure);
+			return String.format("Points: %d; Step size: %.2f;%n%s", points, stepSize, getExposureSummary(points));
 		case TWO_DIMENSION_POINT:
-			return String.format("Points: 1; Total exposure: %.3f s", exposure);
+			return String.format("Points: 1; %s", getExposureSummary(1));
 		default:
 			throw new IllegalArgumentException("Unsupported type: " + document.getModelDocument().toString());
 		}
 	}
 
-	private String get3DSummary(double exposure) {
+	private String get3DSummary() {
 		var document = parameters.getScanpathDocument();
 
 		var xAxis = getAxisDocument(document, Axis.X);
@@ -127,8 +126,16 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 		var xStepSize = xAxis.calculatedStep();
 		var yStepSize = yAxis.calculatedStep();
 		var rotStepSize = rotAxis.calculatedStep();
-		return String.format("Points: %d; Step size X: %.2f, Y: %.2f; θ: %.2f%nExposure: %.3f s; Total exposure: %.3f s",
-				points, xStepSize, yStepSize, rotStepSize, exposure, points * exposure);
+		return String.format("Points: %d; Step size X: %.2f, Y: %.2f; θ: %.2f%n%s",
+				points, xStepSize, yStepSize, rotStepSize, getExposureSummary(points));
+	}
+
+	private String getExposureSummary(int points) {
+		var exposurePerPoint = exposurePerPoint();
+		if (points == 1) {
+			return String.format("Total exposure: %.3f s", exposurePerPoint);
+		}
+		return String.format("Exposure: %.3f s; Total exposure: %.3f s", exposurePerPoint, exposurePerPoint * points);
 	}
 
 	private double exposurePerPoint() {
