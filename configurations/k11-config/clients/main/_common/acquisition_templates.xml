@@ -51,6 +51,7 @@
 		<property name="startPosition">
 			<list>
 				<ref bean="shutter_open" />
+				<ref bean="diffraction_beam" />
 			</list>
 		</property>
 	</bean>
@@ -103,6 +104,7 @@
 		<property name="startPosition">
 			<list>
 				<ref bean="shutter_open" />
+				<ref bean="diffraction_beam" />
 			</list>
 		</property>
 	</bean>
@@ -171,7 +173,7 @@
 		<property name="startPosition">
 			<list>
 				<ref bean="shutter_open" />
-				<ref bean="basex_gts" />
+				<ref bean="imaging_beam" />
 			</list>
 		</property>
 		
@@ -205,7 +207,32 @@
 		<property name="startPosition">
 			<list>
 				<ref bean="shutter_open" />
-				<ref bean="basex_gts" />
+				<ref bean="imaging_beam" />
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="flatFieldTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="CALIBRATION" />
+		<property name="subType" value="FLAT" />
+		
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_open" />
+				<ref bean="imaging_beam" />
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="darkFieldTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="CALIBRATION" />
+		<property name="subType" value="DARK" />
+		
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_closed" />
 			</list>
 		</property>
 		
@@ -219,6 +246,8 @@
 				<ref bean="beamSelectorTemplate" />
 				<ref bean="tomographyTemplate" />
 				<ref bean="radiographyTemplate" />
+				<ref bean="flatFieldTemplate" />
+				<ref bean="darkFieldTemplate" />
 			</list>
 		</constructor-arg>
 	</bean>
@@ -235,6 +264,16 @@
 		<property name="position" value="OPEN" />
 	</bean>
 	
+	<bean id="shutter_closed" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
+		<property name="scannableKeys">
+			<bean class="uk.ac.gda.client.properties.stage.position.ScannableKeys">
+				<property name="groupId" value="shutter" />
+				<property name="scannableId" value="shutter" />
+			</bean>
+		</property>
+		<property name="position" value="CLOSE" />
+	</bean>
+	
 	<bean id="basex_gts" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
 		<property name="scannableKeys">
 			<bean class="uk.ac.gda.client.properties.stage.position.ScannableKeys">
@@ -243,6 +282,26 @@
 			</bean>
 		</property>
 		<property name="position" value="GTS" />
+	</bean>
+	
+	<bean id="diffraction_beam" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
+		<property name="scannableKeys">
+			<bean class="uk.ac.gda.client.properties.stage.position.ScannableKeys">
+				<property name="groupId" value="beam_selector" />
+				<property name="scannableId" value="selector" />
+			</bean>
+		</property>
+		<property name="position" value="Diffraction" />
+	</bean>
+	
+	<bean id="imaging_beam" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
+		<property name="scannableKeys">
+			<bean class="uk.ac.gda.client.properties.stage.position.ScannableKeys">
+				<property name="groupId" value="beam_selector" />
+				<property name="scannableId" value="selector" />
+			</bean>
+		</property>
+		<property name="position" value="Imaging" />
 	</bean>
 
 </beans>
