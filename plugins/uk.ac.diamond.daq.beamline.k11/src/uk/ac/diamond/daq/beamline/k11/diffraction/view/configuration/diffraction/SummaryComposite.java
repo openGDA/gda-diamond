@@ -30,6 +30,8 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
@@ -70,10 +72,33 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 	}
 
 	private String getSummary() {
+		var exposure = exposurePerPoint();
+		var axes = parameters.getScanpathDocument().getScannableTrackDocuments().size();
+
+		return switch (axes) {
+			case 1 -> get1DSummary(exposure);
+			case 2 -> get2DSummary(exposure);
+			case 3 -> get3DSummary(exposure);
+			default -> String.format("Unexpected number of axes (%d)!", axes);
+		};
+	}
+
+	private ScannableTrackDocument getAxisDocument(ScanpathDocument scan, Axis axis) {
+		return scan.getScannableTrackDocuments().stream()
+			.filter(doc -> doc.getAxis().equals(axis))
+			.findFirst().orElseThrow();
+	}
+
+	private String get1DSummary(double exposure) {
+		var points = pointsInAxis(parameters.getScanpathDocument().getScannableTrackDocuments().get(0));
+		return String.format("Points: %d; Exposure: %.3f s; Total exposure: %.3f s", points, exposure, points * exposure);
+	}
+
+	private String get2DSummary(double exposure) {
 		var document = parameters.getScanpathDocument();
 		var xAxis = document.getScannableTrackDocuments().get(0);
 		var yAxis = document.getScannableTrackDocuments().get(1);
-		var exposure = exposurePerPoint();
+
 		var points = 0;
 		switch (document.getModelDocument()) {
 		case TWO_DIMENSION_GRID:
@@ -90,6 +115,20 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 		default:
 			throw new IllegalArgumentException("Unsupported type: " + document.getModelDocument().toString());
 		}
+	}
+
+	private String get3DSummary(double exposure) {
+		var document = parameters.getScanpathDocument();
+
+		var xAxis = getAxisDocument(document, Axis.X);
+		var yAxis = getAxisDocument(document, Axis.Y);
+		var rotAxis = getAxisDocument(document, Axis.THETA);
+		var points = pointsInAxis(xAxis) * pointsInAxis(yAxis) * pointsInAxis(rotAxis);
+		var xStepSize = xAxis.calculatedStep();
+		var yStepSize = yAxis.calculatedStep();
+		var rotStepSize = rotAxis.calculatedStep();
+		return String.format("Points: %d; Step size X: %.2f, Y: %.2f; θ: %.2f%nExposure: %.3f s; Total exposure: %.3f s",
+				points, xStepSize, yStepSize, rotStepSize, exposure, points * exposure);
 	}
 
 	private double exposurePerPoint() {

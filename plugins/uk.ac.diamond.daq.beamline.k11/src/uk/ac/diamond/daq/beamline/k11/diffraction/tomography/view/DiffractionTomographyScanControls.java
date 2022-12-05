@@ -36,8 +36,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import gda.rcp.views.CompositeFactory;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ExposureControls;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ProcessingRequestsControls;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ScanningParametersUtils;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeControls;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.SummaryComposite;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
@@ -63,11 +66,11 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 		var composite = innerComposite(parent, 1, true);
 
 		createNameControl(composite);
-
 		createRotationControls(composite);
-
 		createGridControls(composite);
-
+		createExposureControls(composite);
+		createProcessingSection(composite);
+		createSummary(composite);
 		return composite;
 	}
 
@@ -128,6 +131,23 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 		controls.disableShape(AcquisitionTemplateType.TWO_DIMENSION_LINE);
 		reloadableControls.add(controls);
 
+	}
+
+	private void createExposureControls(Composite parent) {
+		var controls = new ExposureControls();
+		controls.createComposite(parent, SWT.NONE);
+		reloadableControls.add(controls);
+	}
+
+	private void createProcessingSection(Composite parent) {
+		var controls = new ProcessingRequestsControls();
+		controls.createComposite(parent, SWT.NONE);
+		reloadableControls.add(controls);
+	}
+
+	private void createSummary(Composite parent) {
+		var summary = new SummaryComposite();
+		summary.createComposite(parent, SWT.IGNORE);
 	}
 
 	private ScanningParameters getScanningParameters() {
