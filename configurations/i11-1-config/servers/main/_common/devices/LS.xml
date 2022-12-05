@@ -33,6 +33,7 @@
 		<property name="parkPosition" value="-400.0"/>
 		<property name="positionTolerance" value="0.01"/>
 		<property name="zPosition" value="-400.0"/>
+		<property name="detectorPosition" value="50" />
 	</bean>
 	<gda:motor id="ls2x" live-pvName="BL11J-MO-LSLID-01:X:POSN"/>
 	<gda:motor id="ls2y" live-pvName="BL11J-MO-GONIO-02:Y1"/>
@@ -59,5 +60,6 @@
 		<property name="parkPosition" value="-400.0"/>
 		<property name="positionTolerance" value="0.01"/>
 		<property name="zPosition" value="-400.0"/>
+		<property name="detectorPosition" value="50" />
 	</bean>
 </beans>
