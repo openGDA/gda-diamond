@@ -223,16 +223,30 @@ Switching pil3_100k for pilatus3 we lose the roi processors but get the data lin
 ================================================================================
 					Preparing a scan for archiving here
 ================================================================================
-
-cd /dls_sw/i16/software/gda/config/testing-notes/example-eta-scan
+								COMMON
+--------------------------------------------------------------------------------
 module load msmapper/latest
-VISIT=cm31138-14
 SCAN=960660
+--------------------------------------------------------------------------------
+								LIVE
+--------------------------------------------------------------------------------
+DEPLOYMENT=/dls_sw/i16/software/gda
+cd $DEPLOYMENT/config/testing-notes/example-eta-scan
+VISIT=/dls/i16/data/2022/cm31138-14
+--------------------------------------------------------------------------------
+								DUMMY
+--------------------------------------------------------------------------------
+DEPLOYMENT=/scratch/dls_sw/i16/software/gda
+cd $DEPLOYMENT/config/testing-notes/example-eta-scan
+VISIT=$DEPLOYMENT/gda_data_non_live
+--------------------------------------------------------------------------------
+								Analysis
+--------------------------------------------------------------------------------
+ls -tr $VISIT/$SCAN*
+rsync -av --exclude=*/*.tif $VISIT/$SCAN* .
 
-ls -tr /dls/i16/data/2022/$VISIT/$SCAN*
-rsync -av --exclude=*/*.tif /dls/i16/data/2022/$VISIT/$SCAN* .
-nxls -a $SCAN.nxs > $SCAN.nxs.nxlsa
 nexus.tree $SCAN.nxs > $SCAN.nxs.tree
+nxls -a $SCAN.nxs > $SCAN.nxs.nxlsa
 echo $SCAN.nxs.nxlsa $SCAN.nxs.tree
 
 BASELINESCAN=$SCAN
