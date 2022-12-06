@@ -33,13 +33,13 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSelector">
 					<property name="sections">
 						<list>
-							<bean class="uk.ac.diamond.daq.mapping.ui.polarisation.PolarisationSubmitScanSection">
-								<property name="edgeToPhasePosition" ref="edgeToPhasePosition" />
-							</bean>
+							<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />	
 							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.EnergySubmitScanSection">
+							 	<property name="description" value="Energy scan" />
  								<property name="buttonText" value="Submit Energy scan" />
- 								<property name="description" value="Energy scan" />
- 								<property name="energyScannableName" value="energyFocus" />
+ 								<property name="submitScanButtonColour" value="BLUE" />
+ 								<property name="scriptFilePath" value="scanning/submit_energy_scan.py" />
+ 								<property name="outerScannableName" value="energyFocus" />
  							</bean>
 						</list>
 					</property>

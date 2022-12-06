@@ -11,7 +11,7 @@ print("Running submit_xanes_scan.py")
 marshaller_service = OsgiJythonHelper.getService(IMarshallerService)
 
 scanRequest = marshaller_service.unmarshal(scanRequestJson, ScanRequest)
-xanesEdgeParams = marshaller_service.unmarshal(xanesEdgeParamsJson, XanesEdgeParameters)
+xanesEdgeParams = marshaller_service.unmarshal(customParams, XanesEdgeParameters)
 
 run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams)
 
