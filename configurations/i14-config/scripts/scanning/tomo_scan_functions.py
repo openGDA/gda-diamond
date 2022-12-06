@@ -13,7 +13,7 @@ print('Defining submit_tomo_scan()')
 def submit_tomo_scan(dry_run = False):
     marshaller_service = OsgiJythonHelper.getService(IMarshallerService)
     scanRequest = marshaller_service.unmarshal(scanRequestJson, ScanRequest)
-    tomoParams = marshaller_service.unmarshal(tomoParamsJson, TomographyParams)
+    tomoParams = marshaller_service.unmarshal(customParams, TomographyParams)
     if dry_run:
         run_tomo_dry_run(scanRequest, tomoParams)
     else:
