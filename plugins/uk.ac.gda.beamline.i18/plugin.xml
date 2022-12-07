@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="GDA I18 Beamline">
+         <property
+               name="appName"
+               value="GDA I18 Beamline">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i18.StartupService">
+      </startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="uk.ac.gda.exafs.ui.I18SampleParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="true"
+            icon="icons/SampleParametersIcon.png"
+            id="uk.ac.gda.exafs.ui.I18SampleParametersEditor"
+            name="Sample Parameters">
+         <contentTypeBinding
+               contentTypeId="uk.ac.diamond.gda.client.exafs.getI18SampleContent">
+         </contentTypeBinding>
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            describer="uk.ac.gda.exafs.ui.describers.I18SampleParametersDescriber"
+            file-extensions="xml"
+            id="uk.ac.diamond.gda.client.exafs.getI18SampleContent"
+            name="Sample Bean File Content"
+            priority="high">
+      </content-type>
+   </extension>
+   <extension
+         point="uk.ac.common.beans.factory">
+      <bean
+            class="uk.ac.gda.beans.exafs.i18.I18SampleParameters"
+            describer="uk.ac.gda.exafs.ui.describers.I18SampleParametersDescriber">
+      </bean>
+   </extension>
+   <extension
+         point="uk.ac.gda.client.dashboard.objects">
+      <Scannable
+            name="energy"
+            tooltip="Scannable for monitoring the monochromator energy setting">
+      </Scannable>
+      <Scannable
+            name="sc_MicroFocusSampleX"
+            tooltip="Sample Stage X Axis">
+      </Scannable>
+      <Scannable
+            name="sc_MicroFocusSampleY"
+            tooltip="Sample Stage Y axis">
+      </Scannable>
+      <Scannable
+            name="sc_sample_z"
+            tooltip="MicroFocus sample Stage z axis">
+      </Scannable>
+      <Scannable
+            name="sc_sample_thetacoarse"
+            tooltip="MicroFocus sample stage theta coarse">
+      </Scannable>
+   </extension>
+   <extension
+         point="uk.ac.gda.client.preferences">
+      <preference
+            name="gda.client.max.size.cached.points"
+            value="10000">
+      </preference>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="uk.ac.gda.client.microfocus.category"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            id="uk.ac.gda.beamline.i18.MapView"
+            name="MapPlot"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.client.microfocus.category"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            id="uk.ac.gda.beamline.i18.McaView"
+            name="MCA Plot"
+            restorable="true">
+      </view>
+      <category
+            id="uk.ac.gda.beamline.i18.microfocus"
+            name="microfocus">
+      </category>
+      <view
+            category="uk.ac.gda.client.microfocus.category"
+            class="uk.ac.gda.beamline.i18.views.CameraView"
+            id="uk.ac.gda.beamline.i18.cameraView"
+            name="Camera View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="org.eclipse.scanning.event.ui.view.StatusQueueView"
+            id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=uk.ac.diamond.scisoft.analysis.processing.bean.OperationBean;queueName=scisoft.operation.STATUS_QUEUE;topicName=scisoft.operation.STATUS_TOPIC;submissionQueueName=scisoft.operation.SUBMISSION_QUEUE;partName=Processing Queue"
+            name="Processing Queue View"
+            restorable="true">
+      </view>
+       <view
+            allowMultiple="true"
+            class="uk.ac.gda.views.status.ServerStatusView"
+            id="uk.ac.gda.views.status.serverStatusView"
+            name="Beam readiness"
+            restorable="true">
+      </view>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.mapping"
+            icon="icons/map.png"
+            name="Mapping">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.plotting"
+            icon="icons/chart_curve.png"
+            name="Plot">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.synoptic"
+            icon="icons/eye.png"
+            name="Synoptic" >
+      </perspective>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.mapping">
+         <view
+               id="org.dawnsci.mapping.ui.mappeddataview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss" />
+         <view
+               id="org.dawnsci.mapping.ui.mapview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.dawnsci.mapping.ui.mappeddataview" />
+         <view
+               id="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView"
+               ratio="0.58f"
+               relationship="right"
+               relative="org.dawnsci.mapping.ui.mapview" />
+         <view
+               id="uk.ac.gda.client.microfocus.SelectExafsView"
+               relationship="stack"
+               relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView" />
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.dawnsci.mapping.ui.mappeddataview" />
+         <view
+               id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Queue"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview" />
+         <view
+               id="org.dawnsci.mapping.ui.spectrumview"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.dawnsci.mapping.ui.mapview" />
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.plotting">
+         <view
+               id="uk.ac.gda.client.liveplotview"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss" />
+         <view
+               id="uk.ac.gda.client.CommandQueueViewFactory"
+               ratio="0.7f"
+               relationship="bottom"
+               relative="uk.ac.gda.client.liveplotview" />
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.5f"
+               relationship="right"
+               relative="uk.ac.gda.client.CommandQueueViewFactory" />
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.synoptic">
+         <view
+               id="uk.ac.gda.beamline.i18.cameraView"
+               ratio="0.2f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss"
+               moveable="false"
+               closeable="false" />
+         <view
+               id="uk.ac.gda.client.livecontrol.LiveControlsView"
+               ratio="0.5f"
+               relationship="right"
+               relative="uk.ac.gda.beamline.i18.cameraView"
+               moveable="false"
+               closeable="false" />
+         <view
+               id="uk.ac.gda.views.status.serverStatusView"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="uk.ac.gda.client.livecontrol.LiveControlsView"
+               moveable="false"
+               closeable="false" />
+      </perspectiveExtension>
+   </extension>
+
+   <extension
+         point="uk.ac.gda.microfocus.display.detectorfile">
+      <detectorfile
+            path="$gda.config/templates/Xspress_Parameters.xml"></detectorfile>
+      <detectorfile
+            path="$gda.config/templates/Vortex_Parameters.xml">
+      </detectorfile>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:gda.gui.eclipse.editors.scan.exafs.ExafsFolderEditor">
+         <menu
+               icon="icons/page_add.png"
+               label="New">
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyXASCommand"
+                  icon="icons/XasParametersIcon.png"
+                  label="XAS File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyXANESCommand"
+                  icon="icons/XanesParametersIcon.png"
+                  label="XANES File"
+                  style="push">
+            </command>
+             <command
+                  commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
+                  icon="icons/XanesParametersIcon.png"
+                  label="MICROFOCUS File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyDetectorCommand"
+                  icon="icons/DetectorParametersIcon.png"
+                  label="Detector File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyOutputCommand"
+                  icon="icons/OutputParametersIcon.png"
+                  label="Output File"
+                  style="push">
+            </command>
+         </menu>
+         <separator
+               name="uk.ac.gda.beamline.i20.separator1"
+               visible="true">
+         </separator>
+      </menuContribution>
+      <menuContribution
+      		locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+      	 <toolbar
+      	 		id="uk.ac.gda.client.exafs.toolbar1">
+      	 	<command
+      	 		  commandId="uk.ac.gda.client.exafs.resetperspective"
+      	 		  label="Reset perspective"
+      	 		  style="push"
+      	 		  tooltip="Resets the current perspective to its default layout">
+      	 	</command>
+      	 </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Queue Views">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Processing Queue"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=uk.ac.diamond.scisoft.analysis.processing.bean.OperationBean;queueName=scisoft.operation.STATUS_QUEUE;topicName=scisoft.operation.STATUS_TOPIC;submissionQueueName=scisoft.operation.SUBMISSION_QUEUE;partName=Processing Queue">
+               </parameter>
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="popup:gda.gui.eclipse.editors.scan.experimentdefinition.ExperimentRunEditor">
+         <menu
+               icon="icons/page_add.png"
+               label="New">
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyXASCommand"
+                  icon="icons/XasParametersIcon.png"
+                  label="XAS File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyXANESCommand"
+                  icon="icons/XanesParametersIcon.png"
+                  label="XANES File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
+                  icon="icons/XanesParametersIcon.png"
+                  label="Microfocus File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyDetectorCommand"
+                  icon="icons/DetectorParametersIcon.png"
+                  label="Detector File"
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.exafs.CopyOutputCommand"
+                  icon="icons/OutputParametersIcon.png"
+                  label="Output File"
+                  style="push">
+            </command>
+         </menu>
+         <separator
+               name="uk.ac.gda.beamline.i20.separator2"
+               visible="true">
+         </separator>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=uk.ac.gda.client.script">
+         <toolbar
+               id="uk.ac.gda.client.toolbar"
+               label="Live Background Toolbar">
+            <separator
+                  name="uk.ac.diamond.daq.mapping.ui.separator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="uk.ac.diamond.daq.mapping.ui.EnableLiveBackgroundCommand"
+                  icon="icons/camcorder--arrow.png"
+                  label="Live Background"
+                  mode="FORCE_TEXT"
+                  style="toggle"
+                  tooltip="Enable live stream background in mapping view (if available)">
+               <visibleWhen
+                  checkEnabled="true">
+                  <with
+                     variable="activeWorkbenchWindow.activePerspective">
+                     <or>
+                        <equals
+                              value="uk.ac.gda.beamline.i18.perspective.mapping">
+                        </equals>
+                     </or>
+                  </with>
+               </visibleWhen>
+            </command>
+            <separator
+                  name="uk.ac.diamond.daq.mapping.ui.separator2"
+                  visible="true">
+            </separator>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+   		 point="org.eclipse.ui.commands">
+   	  <command
+   	  		defaultHandler="org.eclipse.ui.internal.handlers.ResetPerspectiveHandler"
+   	  		id="uk.ac.gda.client.exafs.resetperspective"
+   	  		name="Reset Perspective">
+   	  </command>
+   </extension>
+   <extension
+         point="uk.ac.gda.microfocus.display.default.detectorfile">
+      <defaultDetectorFile
+            path="$gda.config/templates/Detector_Parameters.xml">
+      </defaultDetectorFile>
+   </extension>
+   <extension
+         point="uk.ac.gda.microfocus.xScannableName">
+      <xscannable
+            name="sc_MicroFocusSampleX">
+      </xscannable>
+   </extension>
+   <extension
+         point="uk.ac.gda.microfocus.yScannableName">
+      <yscannable
+            name="sc_MicroFocusSampleY">
+      </yscannable>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i18.startup.EarlyStartup">
+      </startup>
+   </extension>
+   <extension
+         point="uk.ac.gda.client.experimentdefinition">
+      <experimentobjectmanager
+            class="uk.ac.gda.exafs.ui.data.ScanObjectManager">
+      </experimentobjectmanager>
+      <validator
+            class="gda.exfas.ui.validation.I18Validator">
+      </validator>
+      <templatesLocation
+            folderName="${gda.config}/templates">
+      </templatesLocation>
+   </extension>
+   <extension
+         point="uk.ac.gda.microfocus.trajectory.counterTimerName">
+      <TrajectoryCounterTimerName
+            name="raster_counterTimer01">
+      </TrajectoryCounterTimerName>
+   </extension>
+   <extension
+         point="uk.ac.gda.microfocus.trajectory.xScannableName">
+      <TrajectoryXscannableName
+            name="continuousSampleX">
+      </TrajectoryXscannableName>
+   </extension>
+   <extension
+         point="uk.ac.microfocus.elementlist.refresh">
+      <ElementListViewIDList
+            viewId="uk.ac.gda.client.microfocus.XspressElementListView">
+      </ElementListViewIDList>
+      <ElementListViewIDList
+            viewId="uk.ac.gda.client.microfocus.VortexElementListView">
+      </ElementListViewIDList>
+   </extension>
+  <extension
+         point="uk.ac.gda.richbeans.beantypes">
+      <describer
+            bean="uk.ac.gda.beans.exafs.i18.I18SampleParameters"
+            commandId="uk.ac.gda.client.exafs.CopySampleCommand"
+            contentType="uk.ac.diamond.gda.client.exafs.getI18SampleContent"
+            includeInNew="true"
+            name="I18 Sample"
+            template="Sample_Parameters"
+            type="Sample">
+      </describer> 
+   </extension>
+  <extension
+        point="uk.ac.gda.microfocus.zScannableName">
+     <zscannable
+           name="sc_sample_z">
+     </zscannable>
+  </extension>
+  
+   <extension point="org.eclipse.core.expressions.definitions">
+         <definition id="uk.ac.gda.client.isproduct.i18">
+         <with variable="activeContexts">
+             <iterate ifEmpty="false" operator="or">
+                 <equals value="I18 product"/>
+             </iterate>
+         </with>
+      </definition>
+   </extension>
+
+  <extension
+        point="org.eclipse.ui.handlers">
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.RunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.RunSingleScanOnlyCommand">
+
+        <activeWhen>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.RunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.RunSingleExperimentCommand">
+
+        <activeWhen>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.RunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.RunMultiExperimentCommand">
+
+        <activeWhen>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.QueueAndRunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunSingleScanOnlyCommand">
+
+        <activeWhen>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
+        </activeWhen>
+        
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.QueueAndRunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunSingleExperimentCommand">
+
+        <activeWhen>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.QueueAndRunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunMultiExperimentCommand">
+
+        <activeWhen>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
+        </activeWhen>
+
+     </handler>
+
+  </extension>
+
+  <extension
+        point="org.eclipse.ui.contexts">
+     <context
+           id="I18 product"
+           name="The I18 product context"
+           parentId="org.eclipse.ui.contexts.window">
+     </context>
+  </extension>
+
+  <extension
+        id="offline_product"
+        point="org.eclipse.core.runtime.products">
+     <product
+           application="uk.ac.gda.client.application"
+           name="GDA I18 Beamline Dummy Client">
+        <property
+              name="appName"
+              value="GDA I18 Beamline Dummy Client">
+        </property>
+     </product>
+  </extension>
+
+</plugin>

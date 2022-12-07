@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<util:map id="rateViewNumberFormatMap">
+		<entry key="I0" value="%,.0f" />
+		<entry key="It" value="%,.0f" />
+		<entry key="Iref" value="%,.0f" />
+		<entry key="lnI0It" value="%.6f" />
+		<entry key="lnI0Iref" value="%.6f" />
+		<entry key="FF" value="%,.0f" />
+	</util:map>
+
+	<bean id="ionchamberRates" class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
+		<property name="name" value="ionchamberRates" />
+		<property name="dataProvider" ref="detectorMonitorDataProvider" />
+		<property name="viewDescription" value="Detector rates view for ionchambers" />
+		<property name="collectionTime" value="1.0" />
+		<property name="detectorNames">
+			<list>
+				<value>counterTimer01</value>
+			</list>
+		</property>
+		<property name="numberFormatMap" ref="rateViewNumberFormatMap" />
+	</bean>
+	
+	<bean id="xspress2Rates" class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
+		<property name="name" value="xspress2Rates" />
+		<property name="dataProvider" ref="detectorMonitorDataProvider" />
+		<property name="viewDescription" value="XSpress2 detector rates" />
+		<property name="collectionTime" value="1.0" />
+		<property name="detectorNames">
+			<list>
+				<value>counterTimer01</value>
+				<value>xspress2system</value>
+			</list>
+		</property>
+		<property name="numberFormatMap" ref="rateViewNumberFormatMap" />
+	</bean>
+</beans>

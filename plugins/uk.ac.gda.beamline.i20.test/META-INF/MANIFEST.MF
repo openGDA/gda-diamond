@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Beamline I20 Test
+Bundle-SymbolicName: uk.ac.gda.beamline.i20.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Fragment-Host: uk.ac.gda.beamline.i20
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
+ org.mockito.mockito-core,
+ net.bytebuddy.byte-buddy,
+ net.bytebuddy.byte-buddy-agent,
+ uk.ac.gda.test.helpers;bundle-version="1.0.0",
+ javassist;bundle-version="3.20.0",
+ uk.ac.gda.server.exafs,
+ org.objenesis,
+ org.eclipse.richbeans.widgets;bundle-version="1.0.0",
+ uk.ac.gda.beamline.i20.server;bundle-version="1.0.0",
+ uk.ac.gda.devices.xmap;bundle-version="1.0.0",
+ uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis,
+ com.google.gson
+Import-Package: gda.configuration.properties,
+ gda.device.detector.xspress,
+ gda.observable,
+ org.eclipse.january.dataset,
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
+ uk.ac.gda.util.beans,
+ uk.ac.gda.util.beans.xml
+Automatic-Module-Name: uk.ac.gda.beamline.i20.test

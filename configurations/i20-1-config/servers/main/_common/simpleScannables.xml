@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="ix"/>
+	</bean>
+	<bean id="iy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="iy"/>
+	</bean>
+	
+	<bean id="ix_noisy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="90" />
+		<property name="randomPositionVariation" value="true"/>
+		<property name="randomPositionVariationAmount" value="0.1"/>
+	</bean>
+	<bean id="iy_noisy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="90" />
+		<property name="randomPositionVariation" value="true"/>
+		<property name="randomPositionVariationAmount" value="0.1"/>
+	</bean>
+	
+	<bean id="ix_noisy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ix_noisy_motor" />
+	</bean>	
+	<bean id="iy_noisy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="iy_noisy_motor" />
+	</bean>			
+
+	<bean id="dummy_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="run_scan_end_processing" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>true</value>
+				<value>false</value>
+			</list>
+		</property>
+		<property name="timeToMove" value="0" />
+		<property name="position" value="false" />
+	</bean>
+
+	<bean id="time_utc" class="gda.device.scannable.TimeScannable" >
+		<property name="useUtcMillis" value="true" />
+	</bean>
+</beans> 
+

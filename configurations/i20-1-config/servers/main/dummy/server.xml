@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="wiggler_gap_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="frontend_aperture_motor" class="gda.device.motor.DummyMotor"/>
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/frelon_motors.xml" />	
+	<import resource="file:${gda.config}/servers/main/_common/usermotors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/eh_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/zebra_turboslits.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/zebra_turboslits.xml" />
+
+<!--  Frelon camera - comment out when not testing live frelon in dummy mode -->
+<!-- 	<import resource="file:${gda.config}/servers/main/live/frelon_tango.xml" /> -->
+<!-- 	<import resource="file:${gda.config}/servers/main/live/frelon.xml" /> -->
+
+<!-- 	do this here as it may have object references to earlier XML files -->
+	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
+
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths">
+			<bean class="gda.jython.ScriptPaths">
+				<property name="projects">
+					<list>
+						<bean class="gda.jython.ScriptProject">
+						<property name="path" value="/scratch/users/scripts" />
+						<property name="name" value="Scripts: User" />
+						<property name="type" value="USER" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.config}/scripts" />
+							<property name="name" value="Scripts: Config" />
+							<property name="type" value="CONFIG" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
+							<property name="name" value="Scripts: Core" />
+							<property name="type" value="CORE" />
+						</bean>
+					</list>
+				</property>
+				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+</beans>

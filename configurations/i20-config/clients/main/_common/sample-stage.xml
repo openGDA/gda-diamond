@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+<!-- Synoptic views for XAS and XES sample stages  -->
+	
+<!-- 	Live controls  -->
+ 	<bean id="sample_roll_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="sample_roll" />
+		<property name="displayName" value="Roll" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+
+ 	<bean id="sample_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="sample_pitch" />
+		<property name="displayName" value="Pitch" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+
+ 	<bean id="sample_fine_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="sample_fine_rot" />
+		<property name="displayName" value="Fine rotation" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+
+ 	<bean id="sample_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="sample_x" />
+		<property name="displayName" value="Translation (X)" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+ 	<bean id="sample_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="sample_rot" />
+		<property name="displayName" value="Rotation" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+ 	<bean id="sample_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="sample_z" />
+		<property name="displayName" value="Sample (Z)" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+ 	<bean id="sample_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="sample_y" />
+		<property name="displayName" value="Height (Y)" />
+		<property name="displayNameWidth" value="#{motorWidth}" />
+	</bean>
+	
+
+<!-- Arrow images  -->
+	 <bean id="sample_fine_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/yaw.png" />
+		<property name="busyImageName" value="arrow images/yaw_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>sample_fine_rot</value>
+			</list>
+		</property>
+	</bean>	
+	<bean id="sample_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/yaw.png" />
+		<property name="busyImageName" value="arrow images/yaw_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>sample_rot</value> 
+			</list>
+		</property>
+	</bean>
+	 <bean id="sample_pitch_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/pitch.png" />
+		<property name="busyImageName" value="arrow images/pitch_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>sample_pitch</value>			
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="sample_pitch_arrow_xas" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/pitch.png" />
+		<property name="busyImageName" value="arrow images/pitch_red.png" />
+		<property name="scannablesToObserve">
+			<list>
+				<value>sample_roll</value>			
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="sample_roll_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/roll.png" />
+		<property name="busyImageName" value="arrow images/roll_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>sample_roll</value> 
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="sample_roll_arrow_xas" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/roll.png" />
+		<property name="busyImageName" value="arrow images/roll_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>sample_pitch</value> 
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="sample_x_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/x.png" />
+		<property name="busyImageName" value="arrow images/x_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>sample_x</value> 
+			</list>
+		</property>
+	</bean>	
+	<bean id="sample_y_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/y2.png" />
+		<property name="busyImageName" value="arrow images/y2_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>sample_y</value> 
+			</list>
+		</property>
+	</bean>	
+	<bean id="sample_z_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="arrow images/z.png" />
+		<property name="busyImageName" value="arrow images/z_red.png" />
+		<property name="scannablesToObserve">
+			<list>			
+				<value>sample_z</value> 
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="xray_beam_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="imageName" value="oe images/beam_head.png" />
+	</bean>	
+	<bean id="xray_beam_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="X-ray beam" />
+	</bean>	
+
+	<bean id="xasSampleStageView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
+		<property name="viewName" value="XAS Sample stage"/>
+		<property name="backgroundImage" value="oe images/stage_01.jpg"/>
+		<property name="imageStart" value="200, 150" />
+		<property name="showCoordinates" value="#{showCoordinates}" />
+		<property name="controlsList">
+			<map>
+				<entry key-ref="sample_roll_control" value="520, 190" />
+				<entry key-ref="sample_pitch_control" value="80, 130" />
+				<entry key-ref="sample_rot_control" value="360, 600" />
+				
+				<entry key-ref="sample_x_control" value="540, 340" />
+				<entry key-ref="sample_y_control" value="60, 280" />
+				<entry key-ref="sample_z_control" value="50, 440" />
+				
+				<entry key-ref="sample_roll_arrow_xas" value="250, 150" />
+				<entry key-ref="sample_pitch_arrow_xas" value="390, 210" />
+				<entry key-ref="sample_rot_arrow" value="380, 490" />
+
+				<entry key-ref="sample_x_arrow" value="500, 450" />
+				<entry key-ref="sample_y_arrow" value="220, 280" />
+				<entry key-ref="sample_z_arrow" value="210, 430" />
+				
+				<entry key-ref="xray_beam_arrow" value="310, 110" />
+				<entry key-ref="xray_beam_text" value="310, 90" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="xesSampleStageView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
+		<property name="viewName" value="XES Sample stage"/>
+		<property name="backgroundImage" value="oe images/stage_01.jpg"/>
+		<property name="imageStart" value="200, 150" />
+		<property name="showCoordinates" value="#{showCoordinates}" />
+		<property name="controlsList">
+			<map>
+				<entry key-ref="sample_roll_control" value="80, 130" />
+				<entry key-ref="sample_pitch_control" value="520, 190" />
+				<entry key-ref="sample_rot_control" value="360, 600" />
+				<entry key-ref="sample_fine_rot_control" value="300, -5" />
+				
+				<entry key-ref="sample_x_control" value="540, 340" />
+				<entry key-ref="sample_y_control" value="60, 280" />
+				<entry key-ref="sample_z_control" value="50, 440" />
+				
+				<entry key-ref="sample_roll_arrow" value="250, 150" />
+				<entry key-ref="sample_pitch_arrow" value="390, 210" />
+				<entry key-ref="sample_rot_arrow" value="380, 490" />
+				<entry key-ref="sample_fine_rot_arrow" value="340, 130" />
+				
+				<entry key-ref="sample_x_arrow" value="500, 450" />
+				<entry key-ref="sample_y_arrow" value="220, 280" />
+				<entry key-ref="sample_z_arrow" value="210, 430" />
+				
+				<entry key-ref="xray_beam_arrow" value="490, 110" />
+				<entry key-ref="xray_beam_text" value="490, 90" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

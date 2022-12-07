@@ -1,0 +1,6 @@
+#!/bin/bash
+##This is an example script file to restart da server from a remote client
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+
+ssh  -i ${GDA_CONFIG}/${BEAMLINE}ssh.key root@${BEAMLINE}-xspress0.diamond.ac.uk 

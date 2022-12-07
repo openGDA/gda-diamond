@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="daserver" class="gda.device.detector.DummyDAServer">
+		<property name="host" value="b18-xspress0" /> <!-- check this! -->
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+		<property name="xspressMode">
+			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
+				factory-method="valueOf">
+				<constructor-arg>
+					<value>XSPRESS2_FULL_MCA</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

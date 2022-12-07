@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="optics_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="shutter1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+
+<!-- 	<bean id="pshut" class="gda.device.enumpositioner.DummyEnumPositioner"> -->
+<!-- 		<property name="positions"> -->
+<!-- 			<list> -->
+<!-- 				<value>In</value> -->
+<!-- 				<value>Out</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+	<bean id="shutter2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fast_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="shutterChecker" class="uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker">
+		<property name="shutter" ref="shutter2" />
+	</bean>
+
+</beans>

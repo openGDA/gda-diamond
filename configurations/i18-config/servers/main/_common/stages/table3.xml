@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="t3x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="table_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="t3y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="table_y_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="t3z" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="table_z_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="t3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t3x" />
+				<ref bean="t3y" />
+				<ref bean="t3z" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

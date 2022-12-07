@@ -1,0 +1,69 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- HDF5 file writers -->
+	<bean id="abstract_hdf5_filewriter_nochunking"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter"
+		abstract="true">
+		<property name="filePathTemplate" value="$datadir$/nexus" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="lazyOpen" value="true" />
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="setChunking" value="false" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
+	</bean>
+
+	<bean id="cmos_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="cmos_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="cmos_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
+		<property name="ndFileHDF5" ref="cmos_ndhdf5file" />
+		<property name="fileNameTemplate" value="cmos" />
+	</bean>
+
+	<!-- main objects -->
+	<bean id="cmos_stepscan_collection_strategy"
+		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="cmos_base" />
+		<constructor-arg value="0." />
+	</bean>
+
+	<bean id="cmos" class="gda.device.detector.NXDetector">
+		<property name="name" value="cmos" />
+		<property name="collectionStrategy" ref="cmos_stepscan_collection_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cmos_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cmos_hardwaretriggered_strategy"
+		class="gda.device.detector.addetector.triggering.CMOSMultipleHardwareTriggered">
+		<constructor-arg ref="cmos_base" />
+		<constructor-arg value="1.5" />
+		<property name="generateCallbacks" value="true" />
+	</bean>
+
+	<!-- NXDetector cannot be used on ContinuousScans, but that's OK as the 
+		readout time is so large there would be no gain for use in raster scans -->
+	<bean id="cmos_for_maps" class="gda.device.detector.NXDetector">
+		<property name="name" value="cmos" />
+		<property name="collectionStrategy" ref="cmos_hardwaretriggered_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cmos_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

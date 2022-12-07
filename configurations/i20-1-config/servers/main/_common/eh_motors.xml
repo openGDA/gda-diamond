@@ -1,0 +1,130 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 	alignment stage motors -->
+	<bean id="alignment_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alignment_x_motor" />
+	</bean>
+	<bean id="alignment_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alignment_y_motor" />
+	</bean>
+	<bean id="fast_shutter_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fast_shutter_x_motor" />
+	</bean>
+	<bean id="fast_shutter_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fast_shutter_y_motor" />
+	</bean>
+
+<!-- 	T3 Third stage -->
+	<bean id="stage3_z" class="gda.device.scannable.AirBearingScannableMotor">
+		<property name="motor" ref="stage3_z_motor" />
+		<property name="airBearingScannable" ref="stage3_z_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
+	</bean>
+
+<!-- 	T2 Sample stage -->	
+	<bean id="sample_z" class="gda.device.scannable.AirBearingScannableMotor">
+		<property name="motor" ref="sample_z_motor" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="airBearingScannable" ref="sample_z_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
+	</bean>
+
+<!-- 	T4 sample environment table -->
+	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_x_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_y_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="sample_topx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_topx_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="sample_topy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_topy_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="sample_topz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_topz_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_pitch_motor" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_roll_motor" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	<bean id="sample_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_yaw_motor" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	
+	<!-- T5 -->
+	<bean id="sample_tablex" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_tablex_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="sample_tabley" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_tabley_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+<!-- 	Detector stage -->
+	<bean id="det_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="detector_x_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="det_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="detector_y_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+<!-- 	T1 Detector support stage -->
+	<bean id="det_z" class="gda.device.scannable.AirBearingScannableMotor">
+		<property name="motor" ref="detector_z_motor" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="airBearingScannable" ref="det_z_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
+	</bean>
+
+	<bean id="det_distance" class="gda.device.scannable.DetectorDistance">
+		<property name="detectorZ" ref="det_z" />
+		<property name="sampleZ" ref="sample_z" />
+	</bean>
+
+<!-- 	two theta arm -->
+	<bean id="twotheta" class="gda.device.scannable.AirBearingScannableMotor">
+		<property name="motor" ref="twotheta_motor" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="airBearingScannable" ref="twotheta_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
+	</bean>
+<!--	<bean id="twotheta_mm" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="twotheta_mm_motor" />
+	</bean> -->
+	<bean id="counterbalance" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="counterbalance_motor" />
+	</bean>
+
+<!-- Ionchmaber y position motors 16/2/2018 -->
+	<bean id="ionchamber_i0_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ionchamber_i0_y_motor" />
+		<property name="initialUserUnits" value="mm" />	
+	</bean>
+
+	<bean id="ionchamber_it_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ionchamber_it_y_motor" />
+		<property name="initialUserUnits" value="mm" />	
+	</bean>
+
+</beans>

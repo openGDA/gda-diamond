@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Medipix area detector configuration for live mode -->
+
+	<bean id="medipixBasePv" class="java.lang.String">
+		<constructor-arg value="BL18B-EA-DET-18" />
+	</bean>
+
+	<bean id="medipixCamPort" class="java.lang.String">
+		<constructor-arg value="MPX1.DET" />
+	</bean>
+
+	<bean id="medipixRoiPort" class="java.lang.String">
+		<constructor-arg value="MPX1.roi" />
+	</bean>
+
+	<bean id="medipixBaseRoiPv" class="java.lang.String">
+		<constructor-arg value="#{medipixBasePv}:ROI1:" />
+	</bean>
+
+	<bean id="medipixBaseStatPv" class="java.lang.String">
+		<constructor-arg value="#{medipixBasePv}:STAT1:" />
+	</bean>
+
+	<bean id="legacyTSPvs" class="java.lang.Boolean">
+		<constructor-arg value="false" />
+	</bean>
+
+	<bean id="medipix_adbase"
+		class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{medipixBasePv}:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="medipix_nxcollectionstrategy"
+		class="gda.device.detector.addetector.triggering.MultipleExposureHardwareTriggeredStrategy">
+		<constructor-arg ref="medipix_adbase" />
+		<constructor-arg value="0" />
+		<property name="readAcquisitionTime" value="false" />
+		<property name="collectionTime" value="0.000001" /> 
+	</bean>
+
+	<alias name="medipix_nxcollectionstrategy" alias="medipix_multiple_nxcollectionstrategy"/>
+
+<!-- Plugin chain and NXDetector objects are created in _common/medipix.xml  -->
+
+</beans>

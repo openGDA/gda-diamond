@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="medipixBasePv" class="java.lang.String">
+	  <constructor-arg value="BL18B-EA-DET-18"/>
+	</bean>
+
+	<bean id="pilatusBasePv" class="java.lang.String">
+		<constructor-arg value="BL18B-EA-PILAT-01" />
+	</bean>
+
+	<import resource="../_common/client.xml" />
+<!-- 	<import resource="rga.xml" /> -->
+	
+
+</beans>

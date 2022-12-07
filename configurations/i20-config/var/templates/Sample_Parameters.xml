@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<I20SampleParameters>
+	<shouldValidate>true</shouldValidate>
+	<name>Please set a sample name / file prefix...</name>
+	<description>Please add a description...</description>
+	<sampleWheelPosition>Empty</sampleWheelPosition>
+	<useSampleWheel>false</useSampleWheel>
+	<sampleParameterMotorPosition>
+        <scannableName>sample_x</scannableName>
+        <description>Sample X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_y</scannableName>
+        <description>Sample Y</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_z</scannableName>
+        <description>Sample Z</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_rot</scannableName>
+        <description>Sample Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_fine_rot</scannableName>
+        <description>Sample Fine Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>fluo_det_x</scannableName>
+        <description>Fluo detector X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+</I20SampleParameters>

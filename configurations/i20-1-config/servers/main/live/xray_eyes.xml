@@ -1,0 +1,278 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- ############ D2 ################ -->
+	<!-- AD hardware -->
+
+	<bean id="d2_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL20J-DI-PHDGN-02:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="d2_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire" >
+		<constructor-arg ref="d2_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="d2_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL20J-DI-PHDGN-02:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d2_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d2_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="d2_hdf5"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="d2_ndfilehdf5" />
+		<property name="fileNameTemplate" value="d2_xrayeye" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks
+			is 64 -->
+	</bean>
+
+	<!-- NXDetectors -->
+	<bean id="d2_xrayeye" class="gda.device.detector.NXDetector">
+		<property name="name" value="d2_xrayeye" />
+		<property name="collectionStrategy" ref="d2_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d2_hdf5" />
+<!-- 				<ref bean="d10_stats_plugin" /> -->
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- ############ D3 ################ -->
+	<!-- AD hardware -->
+
+	<bean id="d3_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL20J-DI-PHDGN-03:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="d3_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire" >
+		<constructor-arg ref="d3_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="d3_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL20J-DI-PHDGN-03:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d3_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d3_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="d3_hdf5"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="d3_ndfilehdf5" />
+		<property name="fileNameTemplate" value="d3_xrayeye" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks
+			is 64 -->
+	</bean>
+
+	<!-- NXDetectors -->
+	<bean id="d3_xrayeye" class="gda.device.detector.NXDetector">
+		<property name="name" value="d3_xrayeye" />
+		<property name="collectionStrategy" ref="d3_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d3_hdf5" />
+<!-- 				<ref bean="d10_stats_plugin" /> -->
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- ############ D5 ################ -->
+	<!-- AD hardware -->
+
+	<bean id="d5_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL20J-DI-PHDGN-05:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="d5_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire" >
+		<constructor-arg ref="d5_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="d5_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL20J-DI-PHDGN-05:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d5_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d5_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="d5_hdf5"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="d5_ndfilehdf5" />
+		<property name="fileNameTemplate" value="d5_xrayeye" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks
+			is 64 -->
+	</bean>
+
+	<!-- NXDetectors -->
+	<bean id="d5_xrayeye" class="gda.device.detector.NXDetector">
+		<property name="name" value="d5_xrayeye" />
+		<property name="collectionStrategy" ref="d5_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d5_hdf5" />
+<!-- 				<ref bean="d10_stats_plugin" /> -->
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- ############ D8 ################ -->
+	<!-- AD hardware -->
+
+	<bean id="d8_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL20J-DI-PHDGN-08:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="d8_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire" >
+		<constructor-arg ref="d8_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="d8_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL20J-DI-PHDGN-08:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d8_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d8_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="d8_hdf5"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="d8_ndfilehdf5" />
+		<property name="fileNameTemplate" value="d8_xrayeye" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks
+			is 64 -->
+	</bean>
+
+	<!-- NXDetectors -->
+	<bean id="d8_xrayeye" class="gda.device.detector.NXDetector">
+		<property name="name" value="d8_xrayeye" />
+		<property name="collectionStrategy" ref="d8_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d8_hdf5" />
+<!-- 				<ref bean="d10_stats_plugin" /> -->
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- ############ D10 ################ -->
+
+	<!-- AD hardware -->
+
+	<bean id="d10_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL20J-DI-PHDGN-10:CAM:" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="d10_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire" >
+		<constructor-arg ref="d10_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+
+
+	<!-- NXDetector file writers -->
+
+	<bean id="d10_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL20J-DI-PHDGN-10:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d10_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d10_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="d10_hdf5"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="d10_ndfilehdf5" />
+		<property name="fileNameTemplate" value="d10_xrayeye" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks
+			is 64 -->
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="d10_xrayeye" class="gda.device.detector.NXDetector">
+		<property name="name" value="d10_xrayeye" />
+		<property name="collectionStrategy" ref="d10_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d10_hdf5" />
+<!-- 				<ref bean="d10_stats_plugin" /> -->
+			</list>
+		</property>
+	</bean>
+
+
+<!-- Camera controllers for live stream view  -->
+	<bean id="d2_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="d2_adbase" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+	<bean id="d3_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="d3_adbase" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+	<bean id="d10_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">
+		<constructor-arg ref="d10_adbase" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+</beans>

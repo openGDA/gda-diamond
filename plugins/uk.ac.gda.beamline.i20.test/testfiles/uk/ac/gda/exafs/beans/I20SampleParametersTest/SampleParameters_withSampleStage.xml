@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<I20SampleParameters>
+	<name>Cytochrome</name>
+	<description>Cytochrome preparation #7</description>
+	<description>bla bla bla</description>
+	<sampleWheelPosition>Copper</sampleWheelPosition>
+	<sampleEnvironment>Room Temperature</sampleEnvironment>
+	<sampleposition>
+		<sample_x>3.4</sample_x>
+		<sample_y>6.8</sample_y>
+		<sample_z>2.5</sample_z>
+		<sample_rotation>1.2</sample_rotation>
+		<sample_roll>0.5</sample_roll>
+		<sample_pitch>0.7</sample_pitch>
+		<sample_name>my_sample</sample_name>
+		<sample_description>this is my sample</sample_description>
+		<numberOfRepetitions>3</numberOfRepetitions>
+		<samXEnabled>true</samXEnabled>
+        <samYEnabled>false</samYEnabled>
+        <samZEnabled>true</samZEnabled>
+        <rotEnabled>false</rotEnabled>
+        <rollEnabled>true</rollEnabled>
+        <pitchEnabled>false</pitchEnabled>
+        <fineRotEnabled>true</fineRotEnabled>
+	</sampleposition>
+	<sampleposition>
+		<sample_x>13.4</sample_x>
+		<sample_y>6.8</sample_y>
+		<sample_z>2.5</sample_z>
+		<sample_rotation>1.2</sample_rotation>
+		<sample_roll>0.5</sample_roll>
+		<sample_pitch>0.7</sample_pitch>
+		<sample_name>my_other_sample</sample_name>
+		<sample_description>this is my sample</sample_description>
+		<numberOfRepetitions>2</numberOfRepetitions>
+		<samXEnabled>true</samXEnabled>
+        <samYEnabled>false</samYEnabled>
+        <samZEnabled>true</samZEnabled>
+        <rotEnabled>false</rotEnabled>
+        <rollEnabled>true</rollEnabled>
+        <pitchEnabled>false</pitchEnabled>
+        <fineRotEnabled>true</fineRotEnabled>
+	</sampleposition>
+</I20SampleParameters>

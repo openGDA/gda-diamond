@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#Select the XSPRESS system required
+XSPRESS_NUM_ELEMENTS=64
+#XSPRESS_NUM_ELEMENTS=36
+
+if [ "$XSPRESS_NUM_ELEMENTS" == "64" ]; then
+	DA_SERVER=i20-xspress0
+else
+	DA_SERVER=i20-xspress1
+fi
+
+echo "Checking to make sure da.server for $XSPRESS_NUM_ELEMENTS element detector is running..."
+ping -c 1 $DA_SERVER
+if [ $? -ne 0 ]; then
+	echo "Problem reaching with da.server machine '$DA_SERVER'. Is it running?"
+	exit
+fi
+
+# run the XMAP configuration script
+echo ""
+echo "Configuring the XMAP/Vortex detector before (re)starting GDA servers..."
+/dls_sw/i20/software/gda/bin/vortex_config.sh
+
+echo "(Re)starting DA server process..."
+/dls_sw/i20/software/gda/bin/restart_daserver.sh
+
+echo "Xspress system restarted."

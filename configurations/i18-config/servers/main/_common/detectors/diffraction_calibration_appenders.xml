@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="excalibur_calibration_appender" class="org.eclipse.dawnsci.nexus.appender.NexusNodeCopyAppender" init-method="register">
+		<property name="name" value="excalibur_calibration_appender" />
+		<property name="nodePaths">
+			<set>
+				<value>/entry1</value>
+				<value>/entry1/instrument/detector</value>
+				<value>/entry1/instrument/detector/data</value>
+			</set>
+		</property>
+		<property name="customTargetPerNode">
+			<map>
+				<entry key="/entry1/instrument/detector/data" value="calibration_data/" />
+			</map>
+		</property>
+		<property name="excludedPerNode">
+			<map>
+				<entry key="/entry1">
+					<set>
+						<value>calibration_data</value>
+						<value>instrument</value>
+					</set>
+				</entry>
+				<entry key="/entry1/instrument/detector" value="data" />
+			</map>
+		</property>
+    </bean>
+    
+    <bean id="excalibur_mask_appender" class="org.eclipse.dawnsci.nexus.appender.NexusNodeCopyAppender" init-method="register">
+		<property name="name" value="excalibur_mask_appender" />
+		<property name="nodePaths">
+			<set>
+				<value>/entry/mask/pixel_mask</value>
+			</set>
+		</property>
+		<property name="customTargetPerNode">
+			<map>
+				<entry key="/entry/mask/pixel_mask" value="/" />
+			</map>
+		</property>			
+    </bean>
+    
+    <bean id="excalibur_appender" class="org.eclipse.dawnsci.nexus.appender.CompoundNexusContextAppender" init-method="register">
+    	<constructor-arg>
+	    	<list>
+	    		<ref bean="excalibur_calibration_appender" />
+	    		<ref bean="excalibur_mask_appender" />
+	    	</list>
+    	</constructor-arg>
+    	
+    	<property name="name" ref="diffraction_device_name" /> <!-- Defined in live/dummy configuration, the name of the detector/Malcolm dataset -->
+    </bean>
+
+</beans>

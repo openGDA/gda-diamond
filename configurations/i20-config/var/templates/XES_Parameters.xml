@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XesScanParameters>
+    <shouldValidate>true</shouldValidate>
+    <scanType>1</scanType>   <element>Fe</element>
+    <edge>K</edge>
+    <xesEnergy>2000.0</xesEnergy>
+    <xesInitialEnergy>5700</xesInitialEnergy>
+    <xesFinalEnergy>5900</xesFinalEnergy>
+    <xesStepSize>1.0</xesStepSize>
+    <xesIntegrationTime>1.0</xesIntegrationTime>
+    <monoEnergy>15000.0</monoEnergy>
+    <loopChoice>E0 outer, Ef inner</loopChoice>
+    <monoInitialEnergy>2000.0</monoInitialEnergy>
+    <monoFinalEnergy>15000.0</monoFinalEnergy>
+    <monoStepSize>0.01</monoStepSize>
+    <additionalCrystal0>false</additionalCrystal0>
+    <additionalCrystal1>true</additionalCrystal1>
+    <additionalCrystal2>true</additionalCrystal2>
+    <additionalCrystal3>false</additionalCrystal3> 
+    <offsetsStoreName></offsetsStoreName>   
+</XesScanParameters>

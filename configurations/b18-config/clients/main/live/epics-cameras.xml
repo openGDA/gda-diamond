@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- AD hardware -->
+	<bean id="d2_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-02:STD" />
+	</bean>
+	<bean id="d3_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-03:STD" />
+	</bean>
+	<bean id="d6_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-06:STD" />
+	</bean>
+	<bean id="d7_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-07:STD" />
+	</bean>
+	<bean id="d8_cam_basePv" class="java.lang.String">
+		<constructor-arg value="BL18B-DI-DCAM-08:STD" />
+	</bean>
+
+	<bean id="dcam_02_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_03_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_06_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_07_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcam_08_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+</beans>

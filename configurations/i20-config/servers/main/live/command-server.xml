@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
+
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+	</bean>
+
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="file_registrar" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths">
+			<bean class="gda.jython.ScriptPaths">
+				<property name="projects">
+					<list>
+						<bean class="gda.jython.ScriptProject">
+							 <property name="path" value="/dls_sw/i20/scripts" /> 
+							<property name="name" value="Scripts: User" />
+							<property name="type" value="USER" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.config}/scripts" />
+							<property name="name" value="Scripts: Config" />
+							<property name="type" value="CONFIG" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
+							<property name="name" value="Scripts: Core" />
+							<property name="type" value="CORE" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.install.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
+							<property name="name" value="Scripts: Exafs" />
+							<property name="type" value="CORE" />
+						</bean>
+					</list>
+				</property>
+				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
+			</bean>
+		</property>
+	</bean>
+
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase">
+	</bean>
+
+	<!-- Please create an observer to go with the dashboard. This means that 
+		scannables created with scripts can be observed with the DashboardView -->
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+</beans>

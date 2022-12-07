@@ -1,0 +1,146 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Time Frame Generator -->
+	<bean id="tfg" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="DAServer" />
+	</bean>
+
+	<!-- Scaler channels -->
+	<bean id="CalMemory" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="DAServer" />
+		<property name="width" value="8" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+	<bean id="scalers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>channel3</value>
+				<value>channel4</value>
+				<value>channel5</value>
+				<value>channel6</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="firstDataChannel" value="3" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="counterTimer01" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<!-- <value>Time</value> -->
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="minimumReadoutDelay" value="0" />
+		<property name="numChannelsToRead" value="3" />
+		<property name="outputFormat">
+			<list>
+				<!-- <value>%6.2g</value> -->
+				<value>%6.5g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="counterTimer02_nocorr"
+		class="gda.device.detector.countertimer.TfgXspress2NoCorrection">
+		<property name="extraNames">
+			<list>
+				<value>flu_0</value>
+				<value>flu_1</value>
+				<value>flu_2</value>
+				<value>flu_3</value>
+				<value>flu_4</value>
+				<value>flu_5</value>
+				<value>flu_6</value>
+				<value>flu_7</value>
+				<value>flu_8</value>
+				<value>FF</value>
+			</list>
+		</property>
+		<property name="xspress" ref="xspress2system" />
+		<property name="timer" ref="tfg" />
+		<property name="slave" value="true" />
+	</bean>
+
+	<bean id="counterTimer02_raw" class="gda.device.detector.countertimer.TfgXspress2Raw">
+		<property name="extraNames">
+			<list>
+				<value>flu_0</value>
+				<value>flu_1</value>
+				<value>flu_2</value>
+				<value>flu_3</value>
+				<value>flu_4</value>
+				<value>flu_5</value>
+				<value>flu_6</value>
+				<value>flu_7</value>
+				<value>flu_8</value>
+				<value>FF</value>
+			</list>
+		</property>
+		<property name="xspress" ref="xspress2system" />
+		<property name="timer" ref="tfg" />
+		<property name="slave" value="true" />
+	</bean>
+
+	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress2system" />
+		<property name="scalerName" value="counterTimer01" />
+	</bean>
+
+	<bean id="det1" class="gda.device.detector.DummyBufferedDetector">
+		<property name="inputNames">
+			<list>
+				<value>det1</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="gmsd" class="gda.device.detector.countertimer.TFGStruck">
+		<property name="struck" ref="struckScaler" />
+		<property name="timer" ref="tfg" />
+	</bean>
+
+	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
+		<property name="name" value="detectorMonitorDataProvider" />
+	</bean>
+
+	<bean id="mcaProvider" class="gda.device.detector.FluorescenceDetectorMcaProviderImpl">
+		<property name="name" value="mcaProvider" />
+	</bean>
+
+	<bean id="daServerChecker" class="gda.device.detector.DAServerStatusChecker" >
+		<property name="daServer" ref="DAServer" />
+	</bean>
+</beans>

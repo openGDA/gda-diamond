@@ -1,0 +1,151 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- Moved from live/devices.xml imh 23/9/2016  -->
+	<bean id="ionc1_power_supply" class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
+		<property name="readback" value="BL18B-EA-ISEG-01:V1_ACTUAL" />
+		<property name="voltage" value="BL18B-EA-ISEG-01:SET_V1_DEMAND" />
+		<property name="disable" value="BL18B-EA-ISEG-01:DISABLE:POLL" />
+		<property name="send" value="BL18B-EA-ISEG-01:SET_V1_SET:SEND.PROC" />
+		<property name="start_ramp" value="BL18B-EA-ISEG-01:V1_START" />
+	</bean>
+
+	<bean id="ionc2_power_supply" class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
+		<property name="readback" value="BL18B-EA-ISEG-01:V2_ACTUAL" />
+		<property name="voltage" value="BL18B-EA-ISEG-01:SET_V2_DEMAND" />
+		<property name="disable" value="BL18B-EA-ISEG-01:DISABLE:POLL" />
+		<property name="send" value="BL18B-EA-ISEG-01:SET_V2_SET:SEND.PROC" />
+		<property name="start_ramp" value="BL18B-EA-ISEG-01:V2_START" />
+	</bean>
+
+	<bean id="ionc3_power_supply" class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
+		<property name="readback" value="BL18B-EA-ISEG-02:V1_ACTUAL" />
+		<property name="voltage" value="BL18B-EA-ISEG-02:SET_V1_DEMAND" />
+		<property name="disable" value="BL18B-EA-ISEG-02:DISABLE:POLL" />
+		<property name="send" value="BL18B-EA-ISEG-02:SET_V1_SET:SEND.PROC" />
+		<property name="start_ramp" value="BL18B-EA-ISEG-02:V1_START" />
+	</bean>
+
+	<bean id="ionc_purge_pressure" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:PURGE:P" />
+	</bean>
+	<bean id="ionc_purge_period" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:PURGE:PERIOD" />
+	</bean>
+	<bean id="ionc_purge_timeout" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:PURGE:TIMEOUT" />
+	</bean>
+	<bean id="ionc_gas_fill1_pressure" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:FILL1:P" />
+	</bean>
+	<bean id="ionc_gas_fill1_period" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:FILL1:PERIOD" />
+	</bean>
+	<bean id="ionc_gas_fill1_timeout" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:FILL1:TIMEOUT" />
+	</bean>
+	<bean id="ionc_gas_fill2_pressure" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:FILL2:P" />
+	</bean>
+	<bean id="ionc_gas_fill2_period" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:FILL2:PERIOD" />
+	</bean>
+	<bean id="ionc_gas_fill2_timeout" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:FILL2:TIMEOUT" />
+	</bean>
+	<bean id="ionc_gas_fill_start" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:START" />
+	</bean>
+	<bean id="ionc_gas_select" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:FILL1:GAS" />
+	</bean>
+	<bean id="ionc_control_select" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:CON" />
+	</bean>
+	<bean id="ionc_ion_chamber_select" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC" />
+	</bean>
+	<bean id="ionc_gas_injection_status" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:STS" />
+	</bean>
+	<bean id="ionc_base_pressure" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:PCTRL1:P:RD" />
+	</bean>
+
+	<bean id="ionc1hvstat" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-ISEG-01:V1_START" />
+	</bean>
+	<bean id="ionc2hvstat" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-ISEG-01:V2_START" />
+	</bean>
+	<bean id="ionc3hvstat" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-ISEG-02:V1_START" />
+	</bean>
+
+<!-- Last fill pressures. Added 21/11/2016  -->
+	<bean id="lastfillPressure_ionc1" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc1" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC1:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillPressure_ionc2" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc2" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC2:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillPressure_ionc3" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc3" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC3:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillPressure_ionc4" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc4" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC4:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+<!-- Last fill gas type. Added 21/11/2016  -->
+	<bean id="lastfillGas_ionc1" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc1" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC1:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillGas_ionc2" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc2" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC2:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillGas_ionc3" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc3" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC3:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillGas_ionc4" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc4" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC4:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="ionc1_pressure" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:P2" />
+	</bean>
+	<bean id="ionc2_pressure" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:P3" />
+	</bean>
+	<bean id="ionc3_pressure" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL18B-EA-GIR-01:P4" />
+	</bean>
+
+</beans>

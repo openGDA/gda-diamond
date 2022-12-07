@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- Turbo slit x motor   -->
+	<bean id="turbo_slit_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="name" value="turbo_slit_x_motor" />
+		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:XFINE" />
+	</bean>
+
+<!-- 	shutter using turbo slit. imh 21/4/2017-->
+	<bean id="turbo_slit_shutter" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="name" value="turbo_slit_shutter" />
+		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:XFINE" />
+	</bean>
+
+	<bean id="turbo_slit_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="turbo_slit_x" />
+		<property name="motor" ref="turbo_slit_x_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+<!-- Zebra device -->
+	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebra_device" />
+		<property name="zebraPrefix" value="BL20J-EA-ZEBRA-01:"/>
+		<property name="armPutNoWait" value="true" />
+	</bean>
+
+	<bean id="zebra_device2" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebra_device2" />
+		<property name="zebraPrefix" value="BL20J-EA-ZEBRA-02:"/>
+		<property name="armPutNoWait" value="true" />
+	</bean>
+
+
+	<bean id="trajscan_controller" class="gda.device.trajectoryscancontroller.EpicsTrajectoryScanController">
+		<property name="name" value="trajscan_controller" />
+		<property name="pvBase" value="BL20J-MO-STEP-06:" />
+		<property name="maxPointsPerProfileBuild" value="15000" />
+	</bean>
+
+	<bean id="trajscan_pvbase" class="java.lang.String">
+		<constructor-arg value="BL20J-MO-STEP-06:TC" />
+	</bean>
+
+<!-- Miscellaneous scannables useful for monitoring PVs in synoptic views  -->
+	<bean id="trajBuildStatus" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:ProfileBuildStatus_RBV" />
+	</bean>
+
+	<bean id="trajBuildState" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:ProfileBuildState_RBV" />
+	</bean>
+
+	<bean id="trajBuildMessage" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:ProfileBuildMessage_RBV" />
+	</bean>
+
+	<bean id="trajExecuteStatus" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:ProfileExecuteStatus_RBV" />
+	</bean>
+
+	<bean id="trajExecuteState" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:ProfileExecuteState_RBV" />
+	</bean>
+
+	<bean id="trajExecuteMessage" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:ProfileExecuteMessage_RBV" />
+	</bean>
+
+	<bean id="trajScanPercent" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:TscanPercent_RBV" />
+	</bean>
+
+	<bean id="trajScanCoordSystemMessage" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{trajscan_pvbase}:TscanExtStatus_RBV" />
+	</bean>
+
+	<bean id="zebra1NumCap" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL20J-EA-ZEBRA-01:PC_NUM_CAP" />
+	</bean>
+
+	<bean id="zebra2NumCap" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL20J-EA-ZEBRA-02:PC_NUM_CAP" />
+	</bean>
+
+</beans>

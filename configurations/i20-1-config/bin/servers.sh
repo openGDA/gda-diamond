@@ -1,0 +1,1 @@
+/dls_sw/i20-1/software/gda_versions/gda_8.44/workspace_git/gda-dls-beamlines-xas.git/i20-1/bin/remotestartupscript.sh

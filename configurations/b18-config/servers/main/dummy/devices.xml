@@ -1,0 +1,192 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="oh_shutter" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="expt_shutter" class="gda.device.enumpositioner.DummyValve" />
+	
+	<bean id="D2" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D3" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D7" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D8" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="D9" class="gda.device.enumpositioner.DummyValve" />
+		
+	<bean id="ringCurrent" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="ringEnergy" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="fillMode" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="topup" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="machineModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Shutdown" />
+	</bean>
+
+
+	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor"/>
+
+	<bean id="S1X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S1X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S1Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S1Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="M1B_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1Y2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1Y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="S2X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S2X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S2Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S2Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="A1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Al 1 mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="S3X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S3X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S3Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S3Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="A2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Al 1 mm</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="M2B_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Y2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2YAW_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M2Pitch_motor" class="gda.device.motor.DummyMotor" />
+
+
+	<bean id="HRY1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRY2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRY_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRPITCH_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="i0_position_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="S4X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S4X2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S4Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="S4Y2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="A3" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Al mylar</value>
+				<value>Ti 1 um</value>
+				<value>Cr 1 um</value>
+				<value>Cu 1 um</value>
+				<value>Ge 5 um</value>
+				<value>Zr 5 um</value>
+				<value>Mo 5 um</value>
+				<value>Au 0.1 um / Ag</value> 
+				<value>Fluo screen</value>
+				<value>out</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="IZERO_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="SAM1Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM1ROT_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="TAB1Y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1Y2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1Y3_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1X1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="TAB1X2_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="SAM2X_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM2Y_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM2Z_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="SAM2ROT_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="SAM3Y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="USER1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER3_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER4_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER5_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER6_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER7_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER8_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="HVDTYX_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HVDTYY_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="CRYOX_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="CRYOROT_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="M1PITCHPITCH_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="M1PITCHY_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="HRMPITCHPITCH_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="HRMPITCHY_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="BRAGG_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL1X_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL2P_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL2R_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="XTAL2Y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="GAP_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="test_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="energy_bragg_pv" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="2000" />
+	</bean>
+
+	<bean id="eurotherm" class="gda.device.scannable.TestingEurotherm">
+	</bean>
+
+	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+
+	<bean id="dcm_crystal" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Si(111)</value>
+				<value>Si(113)</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcm_branch" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Bran 1</value>
+				<value>Bran 2</value>
+			</list>
+		</property>
+	</bean>
+
+<!-- Not in live mode, not needed for dummy -->
+<!-- 	<bean id="rgaController" class="gda.device.HidenRGAController"> -->
+<!-- 		<constructor-arg type="java.lang.String" value="ME12G-EA-RGA-01" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="rga" class="gda.device.HidenRGAScannable"> -->
+<!-- 		<property name="controller" ref="rgaController"/> -->
+<!-- 		<property name="configureAtStartup" value="false"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="gda/rga" /> -->
+<!-- 		<property name="service" ref="rga" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.HidenRGA" /> -->
+<!-- 	</bean> -->
+</beans>

@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xspress3Controller"
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
+		<property name="epicsTemplate" value="BL18B-EA-XSP3-01" />
+		<property name="defaultNumberOfChannels" value="4"/>
+		<property name="useNewEpicsInterface" value="true" />
+	</bean>
+	
+<!-- Xspress3X configuration using Xspress4 classes (new IOC has same PVs as Xspress4) -->
+	<bean id="xspress3XControllerME7"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL18B-EA-XSP3X-01" />
+		<property name="numElements" value="7" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+		<property name="pvNameMap">
+			<map>
+				<entry key="ROI_RES_GRADE_BIN" value=":ROI1:BinY" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,182 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="i0_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i0_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i0_stanford_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="i0_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="it_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="it_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="it_stanford_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="it_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
+			</util:list>
+		</property>
+	</bean>
+
+
+	<bean id="iref_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="iref_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA/V</value>
+				<value>nA/V</value>
+				<value>uA/V</value>
+				<value>mA/V</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="iref_stanford_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>1</value>
+				<value>2</value>
+				<value>5</value>
+				<value>10</value>
+				<value>20</value>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>500</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="iref_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="i0_stanford_sensitivity" />
+				<ref bean="i0_stanford_sensitivity_units" />
+				<ref bean="i0_stanford_offset" />
+				<ref bean="i0_stanford_offset_units" />
+				<ref bean="iref_stanford_sensitivity" />
+				<ref bean="iref_stanford_sensitivity_units" />
+				<ref bean="iref_stanford_offset" />
+				<ref bean="iref_stanford_offset_units" />
+				<ref bean="it_stanford_sensitivity" />
+				<ref bean="it_stanford_sensitivity_units" />
+				<ref bean="it_stanford_offset" />
+				<ref bean="it_stanford_offset_units" />
+			</list>
+		</property>
+	</bean>
+
+<!-- Stanford current amplifiers - moved from dummy/scannables.xml imh 23/9/2016  -->
+	<bean id="ionc1_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
+	<bean id="ionc2_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
+	<bean id="ionc3_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
+
+</beans>

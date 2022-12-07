@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<B18SampleParameters name="test1" id="10" value="20.5">
+    <shouldValidate>true</shouldValidate>
+    <name>Please set a sample name...</name>
+    <description>Please add a description...</description>    
+    <stage>none</stage>
+    <temperaturecontrol>smallln2cryostat</temperaturecontrol>
+    <smallln2cryostat>
+        <temperature>80.0</temperature>
+        <tolerance>1.0</tolerance>
+        <time>60.0</time>	
+    </smallln2cryostat>
+</B18SampleParameters>

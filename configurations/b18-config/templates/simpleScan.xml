@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimpleScan>
+    <scannableName>sam2y</scannableName>
+    <fromPos>0.0</fromPos>
+    <toPos>2.0</toPos>
+    <stepSize>1.0</stepSize>
+    <acqTime>0.1</acqTime>
+    <scannables>
+        <scannableName>energy</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>test</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>sam2x</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>sam2y</scannableName>
+    </scannables>
+    <detectors>
+        <enabled>false</enabled>
+        <detectorName>mythen</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+    <detectors>
+        <enabled>false</enabled>
+        <detectorName>xmapMca</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+    <detectors>
+        <enabled>false</enabled>
+        <detectorName>xspress2system</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+    <detectors>
+        <enabled>true</enabled>
+        <detectorName>counterTimer01</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+</SimpleScan>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<gda:motor id="finex" live-pvName="#{T1_PV_BASE}:FINEX"/>
+	<gda:motor id="finey" live-pvName="#{T1_PV_BASE}:FINEY"/>
+	<gda:motor id="fineyaw" live-pvName="#{T1_PV_BASE}:FINEYAW"/>
+
+	
+	<bean id="fineStages" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="finex" />
+				<ref bean="finey" />
+				<ref bean="fineyaw" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths" ref="jython_script_paths" />
+	</bean>
+
+	<bean id="RCPController" class="uk.ac.diamond.daq.server.rcpcontroller.RCPControllerImpl"/>
+	
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<bean id="ExafsController" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<bean id="MicroFocusController" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<!-- We need to define which classes are responsible for beans in the BeanFactory -->
+	<bean class="uk.ac.gda.util.beans.BeansFactory">
+		<property name="classes">
+			<list>
+				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.XesScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
+				<value>uk.ac.gda.beans.exafs.i18.I18SampleParameters</value>
+				<value>uk.ac.gda.beans.exafs.SampleElements</value>
+				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
+				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
+				<value>uk.ac.gda.beans.microfocus.MicroFocusScanParameters</value>
+				<value>uk.ac.gda.beans.vortex.Xspress3Parameters</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- this is used to populate the Elements view in the Microfocus perspective -->
+	<bean id="elementListScriptController" class="gda.jython.scriptcontroller.ScriptControllerBase">
+		<property name="command" value="" />
+		<property name="parametersName" value="" />
+		<property name="importCommand" value="" />
+	</bean>
+
+</beans>

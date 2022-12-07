@@ -1,0 +1,106 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
+	<import resource="spreadsheet-view.xml" />
+	<import resource="detector-rate-views.xml" />
+	
+	<!-- Synoptic GUIs -->
+	<!--  set to 'true' to show mouse coordinates in synoptic views (useful when setting up views) -->
+	<bean id="showCoordinates" class="java.lang.String">
+		<constructor-arg value="true" />
+	</bean>
+	<import resource="xes-spectrometer.xml" />
+	<import resource="xes-stage.xml" />
+	<import resource="sample-stage.xml" />
+	<import resource="xas-table.xml" />
+	<import resource="xes-simulated-positions.xml" />
+	<import resource="hutch-filters.xml" />
+
+	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="gda.commandqueue.Processor" />
+		<property name="service" ref="commandQueueProcessor" />
+	</bean>
+
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="gda.commandqueue.Queue" />
+		<property name="service" ref="commandQueueProcessor" />
+	</bean>
+
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+
+	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
+		<property name="detectorGroupsMap">
+			<map>
+				<entry key="Fluorescence">
+					<list>
+						<value>Silicon</value>
+<!-- 						<value>Germanium</value> -->
+						<value>Xspress3</value>
+						<value>Xspress3X</value>
+						<value>Xspress4</value>
+					</list>
+				</entry>
+
+				<entry key="XES">
+					<list>
+						<value>XES_xmap</value>
+						<value>XES_medipix</value>
+						<value>XES_xspress3</value>
+						<value>XES_xspress3X</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+
+		<property name="detectorTemplateMap">
+			<map>
+				<entry key="xmapMca" value="${gda.config}/var/templates/Vortex_Parameters.xml"/>
+<!-- 				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/> -->
+				<entry key="medipix" value="${gda.config}/var/templates/Medipix_Parameters.xml"/>
+				<entry key="xspress3" value="${gda.config}/var/templates/Xspress3_Parameters.xml" />
+				<entry key="xspress3X" value="${gda.config}/var/templates/Xspress3X_Parameters.xml" />
+				<entry key="xspress4" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="vortexElementConfig" class=" uk.ac.gda.exafs.ui.composites.detectors.internal.FluoDetectorElementConfig">
+		<property name="name" value="vortexElementConfig" />
+		<property name="detectorName" value="vortexDetector" />
+		<property name="elementMap">
+			<map>
+				<entry key="0" value="0" />
+				<entry key="1" value="3" />
+				<entry key="2" value="1" />
+				<entry key="3" value="2" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="vortexViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="name" value="vortexViewFactory" />
+		<property name="detectorName" value="vortexDetector" />
+	</bean>
+
+	<bean id="xspress4ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="name" value="xspress4ViewFactory" />
+		<property name="detectorName" value="xspress4" />
+	</bean>
+
+</beans>

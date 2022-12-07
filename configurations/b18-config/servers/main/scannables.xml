@@ -1,0 +1,658 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd"> 
+
+    <gda:motor id="fluoDist" live-pvName="BL18B-EA-GEDET-01:DIST" />
+    <gda:motor id="vortexDist" live-pvName="BL18B-EA-SIDET-01:DIST" />
+    <gda:motor id="pilatusAngle" live-pvName="BL18B-EA-PILAT-01:DIST" />
+    <gda:motor id="sampleStageX" live-pvName="BL18B-EA-USER-11:LONGX" />
+    <gda:motor id="sampleStageY" live-pvName="BL18B-EA-USER-11:LONGY" />
+    <gda:motor id="frameX" live-pvName="BL18B-EA-USER-11:FRAMEX" />
+    <gda:motor id="frameY" live-pvName="BL18B-EA-USER-11:FRAMEY" />
+    <gda:motor id="gasX" live-pvName="BL18B-EA-USER-07:GASX" />
+    <gda:motor id="gasY" live-pvName="BL18B-EA-USER-07:GASY" />
+    <gda:motor id="sxRot" live-pvName="BL18B-EA-USER-07:ANGLE" />
+    <gda:motor id="sxY" live-pvName="BL18B-EA-USER-07:Y" />
+    <gda:motor id="sam1x" live-pvName="BL18B-EA-SAMPL-01:X" />
+    
+<!-- s5 slit scannables  -->
+	<gda:motor id="s5y2" live-pvName="BL18B-AL-SLITS-05:Y2" /> 
+	<gda:motor id="s5y1" live-pvName="BL18B-AL-SLITS-05:Y1" />
+	<gda:motor id="s5x2" live-pvName="BL18B-AL-SLITS-05:X2" />
+	<gda:motor id="s5x1" live-pvName="BL18B-AL-SLITS-05:X1" />
+
+<!--  Combined scannables to move s5 x and y by centre position and adjust size-->
+<!--  NB : JawGap>0 if firstJaw>secondJaw -->
+
+	<bean id="s5ycentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5y1" />
+		<property name="secondJaw" ref="s5y2" />
+	</bean>
+	<bean id="s5ysize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5y2" />
+		<property name="secondJaw" ref="s5y1" />
+	</bean>
+	<bean id="s5xcentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5x1" />
+		<property name="secondJaw" ref="s5x2" />
+	</bean>
+	<bean id="s5xsize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="tolerance" value="0.001" />
+		<property name="firstJaw" ref="s5x2" />
+		<property name="secondJaw" ref="s5x1" />
+	</bean>
+
+	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="bragg" />
+		<property name="motor" ref="BRAGG_motor" />
+		<property name="protectionLevel" value="3" />
+	</bean>
+	<bean id="xtal1x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="xtal1x" />
+		<property name="motor" ref="XTAL1X_motor" />
+		<property name="protectionLevel" value="3" />
+	</bean>
+	<bean id="xtal2p" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="xtal2p" />
+		<property name="motor" ref="XTAL2P_motor" />
+		<property name="protectionLevel" value="3" />
+	</bean>
+	<bean id="xtal2r" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="xtal2r" />
+		<property name="motor" ref="XTAL2R_motor" />
+		<property name="protectionLevel" value="3" />
+	</bean>
+	<bean id="xtal2y" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="xtal2y" />
+		<property name="motor" ref="XTAL2Y_motor" />
+		<property name="protectionLevel" value="3" />
+	</bean>
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bragg" />
+				<ref bean="xtal1x" />
+				<ref bean="xtal2p" />
+				<ref bean="xtal2r" />
+				<ref bean="xtal2y" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="3" />
+	</bean>
+
+	<bean id="m1b" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1B_motor" />
+	</bean>
+	<bean id="m1y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1Y1_motor" />
+	</bean>
+	<bean id="m1y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1Y2_motor" />
+	</bean>
+	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1pitch_motor" />
+	</bean>
+	<bean id="m1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M1Y_motor" />
+	</bean>
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1b" />
+				<ref bean="m1y" />
+				<ref bean="m1pitch" />
+				<ref bean="m1y1" />
+				<ref bean="m1y2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="m2b" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2B_motor" />
+	</bean>
+	<bean id="m2y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2B_motor" />
+	</bean>
+	<bean id="m2y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2B_motor" />
+	</bean>
+	<bean id="m2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2Y_motor" />
+	</bean>
+	<bean id="m2yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2YAW_motor" />
+	</bean>
+	<bean id="m2pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="M2Pitch_motor" />
+	</bean>
+	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m2b" />
+				<ref bean="m2y1" />
+				<ref bean="m2y2" />
+				<ref bean="m2y" />
+				<ref bean="m2yaw" />
+				<ref bean="m2pitch" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hry1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="HRY1_motor" />
+	</bean>
+	<bean id="hry2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="HRY2_motor" />
+	</bean>
+	<bean id="hry" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="HRY_motor" />
+	</bean>
+	<bean id="hrpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="HRPITCH_motor" />
+	</bean>
+	<bean id="hr" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hry1" />
+				<ref bean="hry2" />
+				<ref bean="hry" />
+				<ref bean="hrpitch" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s1x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1X1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s1x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1X2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s1y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1Y1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s1y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S1Y2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s1xcentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s1x1" />
+		<property name="secondJaw" ref="s1x2" />
+	</bean>
+	<bean id="s1xsize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s1x1" />
+		<property name="secondJaw" ref="s1x2" />
+	</bean>
+	<bean id="s1ycentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s1y1" />
+		<property name="secondJaw" ref="s1y2" />
+	</bean>
+	<bean id="s1ysize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s1y1" />
+		<property name="secondJaw" ref="s1y2" />
+	</bean>
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1xcentre" />
+				<ref bean="s1xsize" />
+				<ref bean="s1ycentre" />
+				<ref bean="s1ysize" />
+				<ref bean="s1x1" />
+				<ref bean="s1x2" />
+				<ref bean="s1y1" />
+				<ref bean="s1y2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s2x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S2X1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s2x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S2X2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s2y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S2Y1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s2y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S2Y2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s2xcentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s2x1" />
+		<property name="secondJaw" ref="s2x2" />
+	</bean>
+	<bean id="s2xsize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s2x1" />
+		<property name="secondJaw" ref="s2x2" />
+	</bean>
+	<bean id="s2ycentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s2y1" />
+		<property name="secondJaw" ref="s2y2" />
+	</bean>
+	<bean id="s2ysize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s2y1" />
+		<property name="secondJaw" ref="s2y2" />
+	</bean>
+	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s2xcentre" />
+				<ref bean="s2xsize" />
+				<ref bean="s2ycentre" />
+				<ref bean="s2ysize" />
+				<ref bean="s2x1" />
+				<ref bean="s2x2" />
+				<ref bean="s2y1" />
+				<ref bean="s2y2" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="s3x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3X1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s3x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3X2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s3y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3Y1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s3y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S3Y2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s3xcentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s3x1" />
+		<property name="secondJaw" ref="s3x2" />
+	</bean>
+	<bean id="s3xsize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s3x1" />
+		<property name="secondJaw" ref="s3x2" />
+	</bean>
+	<bean id="s3ycentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s3y1" />
+		<property name="secondJaw" ref="s3y2" />
+	</bean>
+	<bean id="s3ysize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s3y1" />
+		<property name="secondJaw" ref="s3y2" />
+	</bean>
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3xcentre" />
+				<ref bean="s3xsize" />
+				<ref bean="s3ycentre" />
+				<ref bean="s3ysize" />
+				<ref bean="s3x1" />
+				<ref bean="s3x2" />
+				<ref bean="s3y1" />
+				<ref bean="s3y2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s4x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S4X1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s4x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S4X2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s4y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S4Y1_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s4y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="S4Y2_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+	<bean id="s4xcentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s4x1" />
+		<property name="secondJaw" ref="s4x2" />
+	</bean>
+	<bean id="s4xsize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s4x1" />
+		<property name="secondJaw" ref="s4x2" />
+	</bean>
+	<bean id="s4ycentre" class="gda.device.scannable.TwoJawSlitPosition">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s4y1" />
+		<property name="secondJaw" ref="s4y2" />
+	</bean>
+	<bean id="s4ysize" class="gda.device.scannable.TwoJawSlitGap">
+		<property name="initialUserUnits" value="mm" />
+		<property name="tolerance" value="1" />
+		<property name="firstJaw" ref="s4y1" />
+		<property name="secondJaw" ref="s4y2" />
+	</bean>
+	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4xcentre" />
+				<ref bean="s4xsize" />
+				<ref bean="s4ycentre" />
+				<ref bean="s4ysize" />
+				<ref bean="s4x1" />
+				<ref bean="s4x2" />
+				<ref bean="s4y1" />
+				<ref bean="s4y2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="i0_position" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="i0_position_motor" />
+	</bean>
+
+	<bean id="sam1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SAM1Y_motor" />
+	</bean>
+	<bean id="sam1rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SAM1ROT_motor" />
+	</bean>
+	<bean id="sam1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sam1y" />
+				<ref bean="sam1rot" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sam2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SAM2X_motor" />
+	</bean>
+	<bean id="sam2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SAM2Y_motor" />
+	</bean>
+	<bean id="sam2rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SAM2ROT_motor" />
+	</bean>
+	<bean id="sam2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sam2x" />
+				<ref bean="sam2y" />
+				<ref bean="sam2rot" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hvdtyx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="HVDTYX_motor" />
+	</bean>
+	<bean id="hvdtyy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="HVDTYY_motor" />
+	</bean>
+	<bean id="hvdty" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hvdtyx" />
+				<ref bean="hvdtyy" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cryox" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="CRYOX_motor" />
+	</bean>
+	<bean id="cryorot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="CRYOROT_motor" />
+	</bean>
+	<bean id="cryo" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cryox" />
+				<ref bean="cryorot" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="tab1y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TAB1Y1_motor" />
+	</bean>
+	<bean id="tab1y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TAB1Y2_motor" />
+	</bean>
+	<bean id="tab1y3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TAB1Y3_motor" />
+	</bean>
+	<bean id="tab1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TAB1Y_motor" />
+	</bean>
+	<bean id="tab1x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TAB1X1_motor" />
+	</bean>
+	<bean id="tab1x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="TAB1X2_motor" />
+	</bean>
+	<bean id="tab1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tab1y1" />
+				<ref bean="tab1y2" />
+				<ref bean="tab1y3" />
+				<ref bean="tab1y" />
+				<ref bean="tab1x1" />
+				<ref bean="tab1x2" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="scannable1" class="gda.device.scannable.DummyContinuouslyScannable">
+		<property name="inputNames">
+			<list>
+				<value>scannable1</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hr_coating" class="gda.device.scannable.MirrorCoating" >
+		<property name="mirror" ref="dcm_branch" />
+		<property name="mirrorType" value="HR" />
+	</bean>
+
+	<bean id="oh_coating" class="gda.device.scannable.MirrorCoating" >
+	<property name="mirror" ref="dcm_branch" />
+		<property name="mirrorType" value="OH" />
+	</bean>
+
+	<bean id="hr_inout" class="gda.device.scannable.MirrorInOut" >
+		<property name="mirror" ref="HRY1_motor" />
+	</bean>
+	<bean id="hrgroup" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hry1" />
+				<ref bean="hry2" />
+				<ref bean="hry" />
+				<ref bean="hrpitch" />
+				<ref bean="hr_inout" />
+				<ref bean="hr_coating" />
+			</list>
+		</property>
+	</bean>
+	<bean id="test" class="gda.device.scannable.ScannableMotor" >
+		<property name="motor" ref="test_motor" />
+	</bean>
+
+	<bean id="ionc_gas_injectors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ionc1_gas_injector" />
+				<ref bean="ionc2_gas_injector" />
+				<ref bean="ionc3_gas_injector" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ionc_stanfords" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ionc1_stanford" />
+				<ref bean="ionc2_stanford" />
+				<ref bean="ionc3_stanford" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ln2" class="gda.device.scannable.Ln2Scannable" >
+		<property name="cryo" ref="cryo" />
+	</bean>
+
+	<bean id="user1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER1_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	<bean id="user2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER2_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	<bean id="user3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER3_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	<bean id="user4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER4_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	<bean id="user5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER5_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	<bean id="user6" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER6_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	<bean id="user7" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER7_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+	<bean id="user8" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER8_motor" />
+		<property name="configureAtStartup" value="false"/>
+	</bean>
+
+	<bean id="userstage" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="configureAtStartup" value="false"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="user1" />
+				<ref bean="user2" />
+				<ref bean="user3" />
+				<ref bean="user4" />
+				<ref bean="user5" />
+				<ref bean="user6" />
+				<ref bean="user7" />
+				<ref bean="user8" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="last_gasfill" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="lastfillPressure_ionc1" />
+				<ref bean="lastfillGas_ionc1" />
+				<ref bean="lastfillPressure_ionc2" />
+				<ref bean="lastfillGas_ionc2" />
+				<ref bean="lastfillPressure_ionc3" />
+				<ref bean="lastfillGas_ionc3" />
+				<ref bean="lastfillPressure_ionc4" />
+				<ref bean="lastfillGas_ionc4" />
+			</list>
+		</property>
+	</bean>
+
+<!-- samplewheel names - for use in client; list of available names updated on server using samplewheel.getFilterNames() -->
+	<bean id="samplewheel_names" class="gda.device.enumpositioner.DummyEnumPositioner" >
+		<property name="name" value="samplewheel_names" />
+	</bean>
+
+
+<!-- Mapped positioner for A3 filter with 2 positions : In = "Fluo screen", Out = out" -->
+	<bean id="a3_position_mapper" class="gda.device.enumpositioner.MapBasedEnumValueMapper">
+		<property name="map">
+			<util:map>
+				<entry key="In" value="Fluo screen" />
+				<entry key="Out" value="out" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="a3_mapped_positioner" class="gda.device.enumpositioner.StringMapperBasedEnumPositioner">
+		<property name="mapper" ref="a3_position_mapper" />
+		<property name="monitor" ref="A3" />
+		<property name="control" ref="A3" />
+	</bean>
+
+	<bean id="dummy_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000" />
+	</bean>
+
+	<bean id="dummy_qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="dummy_energy_motor" />
+		<property name="lowerGdaLimits" value="-100000" />
+		<property name="upperGdaLimits" value="100000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

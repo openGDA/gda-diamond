@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="../_common/client.xml" />
+	<import resource="d10.xml" />
+
+	<import resource="cameras.xml" />
+
+	<!--	dashboard objects-->
+	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+	</bean>
+	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+	</bean>
+	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+	</bean>
+
+	<import resource="medipix.xml" />
+
+</beans>

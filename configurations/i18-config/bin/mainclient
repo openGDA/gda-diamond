@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=/dls_sw/i18/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.i18/plugin_customization.ini"
+gda client $*

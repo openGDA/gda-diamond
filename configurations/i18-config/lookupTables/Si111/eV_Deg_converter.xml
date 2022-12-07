@@ -1,0 +1,7 @@
+<JEPQuantityConverter>
+<ExpressionStoT>((asin(1*1977.58/X))*(180.0/(4.0*atan(1.0))))</ExpressionStoT>
+<ExpressionTtoS>1*1977.58/sin(X/(180.0/(4.0*atan(1.0))))</ExpressionTtoS>
+<AcceptableSourceUnits>eV</AcceptableSourceUnits>
+<AcceptableTargetUnits>deg</AcceptableTargetUnits>
+<SourceMinIsTargetMax>false</SourceMinIsTargetMax>
+</JEPQuantityConverter>

@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iother</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserver" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+		<property name="ttlSocket" value="0" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="counterTimer01CollectionStrategy"
+		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
+		<constructor-arg ref="qexafs_counterTimer01" />
+	</bean>
+
+	<bean id="qexafsCounterTimer01" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="qexafsCounterTimer01" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
+		<property name="collectionStrategy" ref="counterTimer01CollectionStrategy" />
+	</bean>
+
+	<bean id="Xspress3FFI0CollectionStrategy"
+		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
+		<constructor-arg ref="qexafs_FFI0_xspress3" />
+	</bean>
+
+	<bean id="qexafsXspress3FFI0" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="qexafsXspress3FFI0" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
+		<property name="collectionStrategy" ref="Xspress3FFI0CollectionStrategy" />
+	</bean>
+
+	<bean id="zebraBraggAngle" class="gda.device.zebra.ZebraScannableMotor">
+		<!-- <property name="name" value="zebraBraggAngle" /> -->
+		<property name="motor" ref="dcm_bragg_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController" />
+		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
+	</bean>
+
+	<bean id="zebraContinuousMoveControllerForQexafs"
+		class="gda.device.zebra.ZebraConstantVelocityMoveControllerForQexafs">
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController" />
+		<property name="sampleShutter" ref="sample_shutter" />
+		<property name="minimumBraggAccelerationDistance" value="0.001" />
+		<property name="minimumScannableMotorAccelerationDistance"
+			value="0.01" />
+	</bean>
+
+	<bean id="zebraBragg" class="gda.device.zebra.ZebraScannableMotor">
+		<!-- <property name="name" value="zebraBragg" /> -->
+		<property name="motor" ref="dcm_energy_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController" />
+		<property name="pcEnc" value="3" />
+		<!-- <property name="scurveTimeToVelocity" value="5"/> --> <!-- read from weight system -->
+	</bean>
+
+	<bean id="zebraBraggEnergy" class="gda.device.zebra.ZebraScannableMotorForQexafs">
+		<property name="name" value="zebraBraggEnergy" />
+		<property name="zebraConstantVelocityMoveControllerForQexafs" ref="zebraContinuousMoveControllerForQexafs" />
+		<property name="zebraScannableMotor" ref="zebraBragg" />
+		<property name="braggScannableMotor" ref="sc_dcm_bragg" />
+		<property name="selector" ref="dcm_crystal" />
+		<property name="delegateConverters">
+		<map>
+			<entry key="Si111" value-ref="eV_Deg_converter_Si111" />
+			<entry key="Si311" value-ref="eV_Deg_converter_Si311" />
+		</map>
+		</property>
+		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
+	</bean>
+
+</beans>

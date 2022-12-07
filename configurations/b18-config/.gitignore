@@ -1,0 +1,8 @@
+/var
+*$py.class
+.cmdHistory.txt
+var
+*.class
+$py.class
+
+

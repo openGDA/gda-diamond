@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EdeScanParameters>
+	<numberOfRepetitions>1</numberOfRepetitions>
+	<group>
+		<label>group1</label>
+		<numberOfScans>1</numberOfScans>
+		<numberOfFrames>1</numberOfFrames>
+		<timePerScan>0.1</timePerScan>
+		<preceedingTimeDelay>0.0</preceedingTimeDelay>
+		<delayBetweenFrames>0.0</delayBetweenFrames>
+	</group>
+	<externalStart>false</externalStart>
+</EdeScanParameters>

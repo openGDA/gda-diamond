@@ -1,0 +1,127 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="stage3_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-03:Z" />
+	</bean>
+
+	<!-- alingment motors -->
+	<bean id="alignment_x_motor" class="gda.device.motor.EpicsMotor"> 
+		<property name="pvName" value="BL20J-MO-STAGE-01:X" />
+	</bean>
+	<bean id="alignment_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-STAGE-01:Y" />
+	</bean>
+	<bean id="fast_shutter_x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="fast_shutter_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-SHTR-01:Y" />
+	</bean>
+
+	<bean id="sample_tablex_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-05:X" />
+	</bean>
+	<bean id="sample_tabley_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-05:Y1" />
+	</bean>
+
+	<bean id="samenv_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:X" />
+	</bean>
+	<bean id="samenv_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:Y" />
+	</bean>	
+	<bean id="samenv_topx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:TOPX" />
+	</bean>
+	<bean id="samenv_topy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:TOPY" />
+	</bean>
+	<bean id="samenv_topz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:TOPZ" />
+	</bean>
+	<bean id="samenv_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:PITCH" />
+	</bean>
+	<bean id="samenv_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:ROLL" />
+	</bean>
+	<bean id="samenv_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:YAW" />
+	</bean>
+
+	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor"/>
+<!-- 	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-MO-TABLE-02:X" /> -->
+<!-- 	</bean> -->
+	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-02:Z" />
+	</bean>
+
+	<bean id="detector_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-DET-01:X" />
+	</bean>
+	<bean id="detector_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-DET-01:Y" />
+	</bean>
+
+<!-- <bean id="detector_z_motor" class="gda.device.motor.DummyMotor"/> -->
+	<bean id="detector_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-01:Z" />
+	</bean>
+ 
+
+	<bean id="twotheta_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-ARM-01:ARC" />
+	</bean>
+<!-- <bean id="twotheta_mm_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-ARM-01:ARC:MM" />
+	</bean>  -->
+	<bean id="counterbalance_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-ARM-01:CBAL" />
+	</bean>
+
+<!--  Air controls for live mode. imh 7/05/2018 -->
+
+	<bean id="stage3_z_air" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20J-MO-TABLE-03:AIR" />
+	</bean>
+	<bean id="sample_z_air" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20J-MO-TABLE-02:AIR" />
+	</bean>
+	<bean id="det_z_air" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20J-MO-TABLE-01:AIR" />
+	</bean>
+	<bean id="twotheta_air" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20J-MO-ARM-01:AIR" />
+	</bean>
+
+	<bean id="stage3_z_air_2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20J-MO-TABLE-03:AIR:RBV" />
+		<property name="pvNameSetPoint" value="BL20J-MO-TABLE-03:AIR" />
+	</bean>
+	<bean id="sample_z_air_2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20J-MO-TABLE-02:AIR:RBV" />
+		<property name="pvNameSetPoint" value="BL20J-MO-TABLE-02:AIR" />
+	</bean>
+	<bean id="det_z_air_2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20J-MO-TABLE-01:AIR:RBV" />
+		<property name="pvNameSetPoint" value="BL20J-MO-TABLE-01:AIRs" />
+	</bean>
+	<bean id="twotheta_air_2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20J-MO-ARM-01:AIR:RBV" />
+		<property name="pvNameSetPoint" value="BL20J-MO-ARM-01:AIR" />
+	</bean>
+
+
+<!-- ionchamber y position motors. 16/2/2018 -->
+	<bean id="ionchamber_i0_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-IONC-01:Y" />
+	</bean>
+
+	<bean id="ionchamber_it_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-IONC-02:Y" />
+	</bean>
+
+	<import resource="file:${gda.config}/servers/main/_common/eh_motors.xml" />
+</beans>

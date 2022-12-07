@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ 	<bean id="Cryojet" class="gda.device.monitor.EpicsMonitor">
+ 		<property name="pvName" value="BL18B-EA-TEMPC-03:STEMP" />
+ 	</bean>
+
+	<bean id="pulsetube" class="gda.device.scannable.PulseTube">
+		<property name="name" value="pulsetube" />
+		<property name="t1_pv" value="BL18B-EA-TEMPC-03:STEMP" />
+		<property name="t2_pv" value="BL18B-EA-TEMPC-03:STEMP2" />
+		<property name="t3_pv" value="BL18B-EA-TEMPC-03:STEMP3" />
+		<property name="target_pv" value="BL18B-EA-TEMPC-03:TTEMP" />
+		<property name="error_pv" value="BL18B-EA-TEMPC-03:TEMP:ERR" />
+		<property name="prop_gain_pv" value="BL18B-EA-TEMPC-03:P" />
+		<property name="int_gain_pv" value="BL18B-EA-TEMPC-03:I" />
+		<property name="der_gain_pv" value="BL18B-EA-TEMPC-03:D" />
+		<property name="gas_flow_pv" value="BL18B-EA-TEMPC-03:GFLOW" />
+		<property name="heater_voltage_pv" value="BL18B-EA-TEMPC-03:HEATERV" />
+		<property name="heater_output_pv" value="BL18B-EA-TEMPC-03:HEATERP" />
+		<property name="heater_mode_pv" value="BL18B-EA-TEMPC-03:ACTIVITY" />
+	</bean>
+	
+	<bean id="pulsetubemeta" class="gda.device.scannable.PulseTubeMeta">
+		<property name="name" value="pulsetubemeta" />
+	</bean>
+	
+	<bean id="samplewheel" class="gda.device.scannable.SampleWheel">
+		<property name="name" value="samplewheel" />
+		<property name="demandPV" value="BL18B-EA-SAMPL-03:ROT.VAL" />
+		<property name="readbackPV" value="BL18B-EA-SAMPL-03:ROT.RBV" />
+		<property name="inPosPV" value="BL18B-EA-SAMPL-03:ROT.DMOV" />
+		<property name="filterBasePV" value="BL18B-EA-SAMPL-03:ROT:POS" />
+		<property name="numberOfFilters" value="36" />
+	</bean>
+
+	<bean id="samplewheel_pos_name" class="gda.device.scannable.PVStringScannable" >
+		<property name="pvName" value="BL18B-EA-SAMPL-03:ROT:POS:DESC" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

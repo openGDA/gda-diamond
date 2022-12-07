@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeResolvedExperimentParameters>
+  <fileNameSuffix>1ms_CuOx_KOH_100pulses_VoltageRange</fileNameSuffix>
+  <sampleDetails></sampleDetails>
+  <useFastShutter>true</useFastShutter>
+  <fastShutterName>fast_shutter</fastShutterName>
+  <generateAsciiData>false</generateAsciiData>
+  <i0AccumulationTime>2.992E-5</i0AccumulationTime>
+  <i0NumAccumulations>0</i0NumAccumulations>
+  <numberOfRepetition>10</numberOfRepetition>
+  <timeBetweenRepetitions>0.0</timeBetweenRepetitions>
+  <detectorName>xh</detectorName>
+  <topupMonitorName>topup</topupMonitorName>
+  <beamShutterScannableName>shutter2</beamShutterScannableName>
+  <itTimingGroups class="vector">
+    <TimingGroup>
+      <label>Group 0</label>
+      <timePerScan>1.683E-5</timePerScan>
+      <numberOfScansPerFrame>1</numberOfScansPerFrame>
+      <timePerFrame>3.4E-5</timePerFrame>
+      <numberOfFrames>9900</numberOfFrames>
+      <preceedingTimeDelay>0.0</preceedingTimeDelay>
+      <delayBetweenFrames>0.0</delayBetweenFrames>
+      <groupTrig>true</groupTrig>
+      <allFramesTrig>false</allFramesTrig>
+      <framesExclFirstTrig>false</framesExclFirstTrig>
+      <scansTrig>false</scansTrig>
+      <groupTrigLemo>0</groupTrigLemo>
+      <allFramesTrigLemo>0</allFramesTrigLemo>
+      <framesExclFirstTrigLemo>0</framesExclFirstTrigLemo>
+      <scansTrigLemo>0</scansTrigLemo>
+      <groupTrigRisingEdge>true</groupTrigRisingEdge>
+      <allFramesTrigRisingEdge>true</allFramesTrigRisingEdge>
+      <framesExclFirstTrigRisingEdge>true</framesExclFirstTrigRisingEdge>
+      <scansTrigRisingEdge>true</scansTrigRisingEdge>
+      <outLemo0>true</outLemo0>
+      <outLemo1>true</outLemo1>
+      <outLemo2>true</outLemo2>
+      <outLemo3>true</outLemo3>
+      <outLemo4>true</outLemo4>
+      <outLemo5>true</outLemo5>
+      <outLemo6>true</outLemo6>
+      <outLemo7>true</outLemo7>
+      <useTopupChecker>false</useTopupChecker>
+    </TimingGroup>
+  </itTimingGroups>
+  <itTriggerOptions>
+    <sampleEnvironment>
+      <TriggerableObject>
+        <triggerDelay>0.0</triggerDelay>
+        <triggerPulseLength>1.0</triggerPulseLength>
+        <triggerOutputPort>USR_OUT_2</triggerOutputPort>
+        <name>Gamry</name>
+      </TriggerableObject>
+    </sampleEnvironment>
+    <detectorDataCollection>
+      <triggerDelay>1.0</triggerDelay>
+      <triggerPulseLength>0.001</triggerPulseLength>
+      <triggerOutputPort>USR_OUT_1</triggerOutputPort>
+      <name>Data collection</name>
+      <numberOfFrames>9900</numberOfFrames>
+      <collectionDuration>0.3366</collectionDuration>
+    </detectorDataCollection>
+    <useCountFrameScalers>false</useCountFrameScalers>
+    <triggerOnRisingEdge>true</triggerOnRisingEdge>
+    <livePauseTtlPort>1</livePauseTtlPort>
+  </itTriggerOptions>
+  <i0ScanPosition class="EdeScanMotorPositions">
+    <type>OUTBEAM</type>
+    <positionMap>
+      <entry>
+        <string>sample_tablex</string>
+        <double>-7.8</double>
+      </entry>
+      <entry>
+        <string>sample_tabley</string>
+        <double>86.2</double>
+      </entry>
+    </positionMap>
+    <motorPositionsDuringScan/>
+    <moveTolerance>0.001</moveTolerance>
+  </i0ScanPosition>
+  <itScanPosition class="EdeScanMotorPositions">
+    <type>INBEAM</type>
+    <positionMap>
+      <entry>
+        <string>sample_tablex</string>
+        <double>50.25</double>
+      </entry>
+      <entry>
+        <string>sample_tabley</string>
+        <double>44.0</double>
+      </entry>
+    </positionMap>
+    <motorPositionsDuringScan/>
+    <moveTolerance>0.001</moveTolerance>
+  </itScanPosition>
+  <doIref>false</doIref>
+  <irefIntegrationTime>0.0</irefIntegrationTime>
+  <i0ForIRefNoOfAccumulations>0</i0ForIRefNoOfAccumulations>
+  <irefNoOfAccumulations>0</irefNoOfAccumulations>
+  <energyCalibrationPolynomial>8762.703 + 843.532 x + 101.361 x^2</energyCalibrationPolynomial>
+  <energyCalibrationReferenceFile>Cu_K.dat</energyCalibrationReferenceFile>
+  <energyCalibrationFile>/dls/i20-1/data/2022/sp30567-1/nexus/46738_Cu_foil_in_cell.nxs</energyCalibrationFile>
+  <hideLemoFields>false</hideLemoFields>
+  <collectMultipleItSpectra>false</collectMultipleItSpectra>
+</TimeResolvedExperimentParameters>

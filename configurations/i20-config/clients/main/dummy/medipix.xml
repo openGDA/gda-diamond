@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
+	<bean id="hostName" class="java.lang.String">
+		<constructor-arg value="#{localhostInetAddress.hostName.split('\.')[0]}" />
+	</bean>
+
+	<!-- AD hardware -->
+	<bean id="medipixBasePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	</bean>
+
+	<import resource="../_common/medipix.xml" />
+
+</beans>

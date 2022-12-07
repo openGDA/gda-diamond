@@ -1,0 +1,110 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="samplewheel_names" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="spreadsheet_view_config" class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetViewConfig">
+		<property name="name" value="spreadsheet_view_config" />
+
+		<!--  list of types for the scan, detector, sample, output parameters -->
+		<property name="parameterTypes" >
+			<list>
+				<value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
+				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+				<value>uk.ac.gda.beans.exafs.b18.B18SampleParameters</value>
+				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
+			</list>
+		</property>
+
+		<property name="parameters">
+			<list>
+				<!-- Output file name -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="File name" />
+					<property name="fullPathToGetter" value="getName" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+
+				<!-- Description -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Description (header)" />
+					<property name="fullPathToGetter" value="getDescription1" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+
+				<!--  Experiment type (transmission or fluorescence) -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Experiment type (i.e. fluorescence/transmission)" />
+					<property name="fullPathToGetter" value="getExperimentType" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.DetectorParameters" />
+					<property name="allowedValues">
+						<list>
+							<value>Transmission</value>
+							<value>Fluorescence</value>
+						</list>
+					</property>
+				</bean>
+
+				<!--  Detector group to be used (Xspress2, Xspress4, Medipix etc) 
+				Selection should match name of one of the detectorGroups in DetectorParameters XML file.
+				-->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Detector selection (Xspress2, XMap etc)" />
+					<property name="fullPathToGetter" value="getFluorescenceParameters.getDetectorType" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.DetectorParameters" />
+					<property name="allowedValues">
+						<list>
+							<value>transmission</value>
+							<value>XMap</value>
+							<value>Xspress2</value>
+							<value>Xspress3</value>
+							<value>Xspress4</value>
+							<value>Medipix</value>
+						</list>
+					</property>
+				</bean>
+
+				<!-- Name of detector configuration file -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Detector configuration file" />
+					<property name="fullPathToGetter" value="getFluorescenceParameters.getConfigFileName" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.DetectorParameters" />
+				</bean>
+
+				<!-- Sample wheel -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Sample wheel" />
+					<property name="fullPathToGetter" value="getSampleWheelParameters.getFilter" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+					<property name="allowedValuesFromEnum" ref="samplewheel_names" />
+				</bean>
+
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Enable sample wheel" />
+					<property name="fullPathToGetter" value="getSampleWheelParameters.isWheelEnabled" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+					<property name="allowedValuesFromBoolean" value="true" />
+				</bean>
+
+				<!-- Don't include user sample stages here (e.g. sam2x, sam2y, user2, user3...); 
+				     spreadsheet view will pick up 'generic sample parameter motors' at runtime from sample parameters.xml file -->
+
+				<!-- 'Before first repetition' script -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Script/command before first repetition" />
+					<property name="fullPathToGetter" value="getBeforeFirstRepetition" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.OutputParameters" />
+				</bean>
+
+				<!-- <bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig"> -->
+				<!-- <property name="description" value="QEXAFS initial energy" /> -->
+				<!-- <property name="fullPathToGetter" value="getInitialEnergy" /> -->
+				<!-- <property name="beanType" value="uk.ac.gda.beans.exafs.QEXAFSParameters" 	/> -->
+				<!-- </bean> -->
+			</list>
+		</property>
+	</bean>
+
+</beans>

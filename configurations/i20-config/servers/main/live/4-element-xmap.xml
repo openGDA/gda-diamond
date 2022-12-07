@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="file:${gda.config}/servers/main/live/xmap_dxp.xml" />
+
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="xmap" ref="xmap_dxp" />
+		<property name="elementOffset" value="1" />
+		<property name="waitAfterCaput" value="true" />
+		<property name="caputSleepTime" value="100" />
+		<property name="stopUpdatesMcaPvRecord" value="true" />
+	</bean>
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
+		<property name="edxdController" ref="edxdcontroller" />
+		<property name="numberOfElements" value="4" />
+	</bean>
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="xmapControllerName" value="xmapcontroller" />
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+				<value>%.6f</value>
+				<value>%.6f</value>
+				<value>%.6f</value>
+			</list>
+		</property>
+		<property name="alwaysRecordRawMCAs" value="true" />
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
+		<property name="tfg" ref="tfg" />
+	</bean>
+
+</beans>

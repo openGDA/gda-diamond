@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
+
+	<import resource="file:${gda.config}/servers/main/_common/server-common.xml" />
+
+	<!-- GDA configuration split up by part type -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/slits-common.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/attenuators.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
+
+	<!-- Move to dummy while mono is not live -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mono.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/dummy/mono.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/_common/mono-common.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/tables-common.xml" />
+
+	<import resource="file:${gda.config}/servers/main/_common/xes-common.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors-common.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress4.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/xspress4.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/xspress3.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/scannables.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/medipix.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/medipix.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/cryo.xml" />
+
+	<!-- Definition of the ascii data format -->
+	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
+
+	<!--should normally be called last -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />
+
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+</beans>

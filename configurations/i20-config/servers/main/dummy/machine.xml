@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!--might be helpful to simulate these -->
+
+	<!--machine and front end -->
+	<bean id="shutter1" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
+	</bean>
+	<bean id="ringCurrent" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="300" />
+	</bean>
+	<bean id="ringEnergy" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="3.00088" />
+	</bean>
+	<bean id="fillMode" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Remote Fill" />
+	</bean>
+	<bean id="wigglerGap_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="wigglerGap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="topup" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="600.0" />
+	</bean>
+	<bean id="absorber" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
+	</bean>
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+		<list>
+				<value>Shutdown</value>
+		</list>
+		</property>
+	</bean>
+</beans>

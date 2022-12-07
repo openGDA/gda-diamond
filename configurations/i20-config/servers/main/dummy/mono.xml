@@ -1,0 +1,97 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ohcoating" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Rhodium</value>
+				<value>Platinum</value>
+				<value>Zero</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="crystalcut" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Si(111)</value>
+				<value>Si(311)</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="bragg1_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="bragg2_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="braggoffset_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="crystal1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="crystal2_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="crystal34_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean> 
+
+	<bean id="jena_crystal1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean> 
+	<bean id="jena_crystal2_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean> 
+	<bean id="jena_crystal34_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean> 
+
+	<bean id="bragg1_cal_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="bragg1_cal_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg1_cal_energy_motor" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	<bean id="bragg1_cal_set_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="bragg1_cal_set_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg1_cal_set_motor" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	<bean id="bragg2_cal_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="bragg2_cal_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg2_cal_energy_motor" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	<bean id="bragg2_cal_set_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="500" />
+	</bean>
+	<bean id="bragg2_cal_set_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg2_cal_set_motor" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+
+	<bean id="crystal1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mRad" />
+		<property name="motor" ref="crystal1_pitch_motor" />
+		<property name="hardwareUnitString" value="mRad" />
+	</bean>
+
+</beans>

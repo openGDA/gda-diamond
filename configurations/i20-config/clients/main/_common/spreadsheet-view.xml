@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="spreadsheet_view_config" class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetViewConfig">
+		<property name="name" value="spreadsheet_view_config" />
+
+		<!--  list of types for the scan, detector, sample, output parameters -->
+		<property name="parameterTypes" >
+			<list>
+				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+				<value>uk.ac.gda.beans.exafs.i20.I20SampleParameters</value>
+				<value>uk.ac.gda.beans.exafs.i20.I20OutputParameters</value>
+			</list>
+		</property>
+
+		<property name="parameters">
+			<list>
+				<!-- Output file name -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="File name" />
+					<property name="fullPathToGetter" value="getName" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
+				</bean>
+
+				<!-- Description -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Description (header)" />
+					<property name="fullPathToGetter" value="getDescription" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
+				</bean>
+
+				<!-- Sample wheel -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Filter wheel" />
+					<property name="fullPathToGetter" value="getSampleWheelPosition" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
+					<property name="allowedValuesFromEnum" ref="filterwheel" />
+				</bean>
+
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Enable filter wheel" />
+					<property name="fullPathToGetter" value="getUseSampleWheel" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
+					<property name="allowedValuesFromBoolean" value="true" />
+				</bean>
+
+				<!-- Don't include user sample stages here (e.g. sam2x, sam2y, user2, user3...); 
+				     spreadsheet view will pick up 'generic sample parameter motors' at runtime from sample parameters.xml file -->
+
+				<!-- 'Before first repetition' script -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Script/command before first repetition" />
+					<property name="fullPathToGetter" value="getBeforeFirstRepetition" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20OutputParameters" />
+				</bean>
+
+				<!-- <bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig"> -->
+				<!-- <property name="description" value="QEXAFS initial energy" /> -->
+				<!-- <property name="fullPathToGetter" value="getInitialEnergy" /> -->
+				<!-- <property name="beanType" value="uk.ac.gda.beans.exafs.QEXAFSParameters" 	/> -->
+				<!-- </bean> -->
+			</list>
+		</property>
+	</bean>
+
+</beans>

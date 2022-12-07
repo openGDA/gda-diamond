@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="struckScaler" class="gda.device.detector.EpicsScaler">
+		<property name="pvName" value="BL18B-EA-DET-01:SCALER" />
+	</bean>
+
+	<bean id="adc" class="gda.device.detector.GeFanuc110BLADC">
+		<property name="samplingRate_pv" value="BL18B-EA-GEADC-01:CLOCKRATE" />
+		<property name="numberOfChannels_pv" value="BL18B-EA-GEADC-01:CHANNELS" />
+		<property name="useSoftwareGate_pv" value="BL18B-EA-GEADC-01:GATEENABLE" />
+		<property name="noSamplesToAvg_pv" value="BL18B-EA-GEADC-01:SAMPLESTOAVERAGE" />
+		<property name="gateChannel_pv" value="BL18B-EA-GEADC-01:GATECHANNEL" />
+		<property name="adcThreshold_pv" value="BL18B-EA-GEADC-01:GATETHRESHOLD" />
+		<property name="enAcq_pv" value="BL18B-EA-GEADC-01:ACQUIRE" />
+		<property name="runtimeDataProblem_pv" value="BL18B-EA-GEADC-01:RUNTIMEPROBLEM_RBV" />
+		<property name="readStatus_pv" value="BL18B-EA-GEADC-01:READSTATUS" />
+		<property name="fifoEmpty_pv" value="BL18B-EA-GEADC-01:STATUSFIFOEMPTY_RBV" />
+		<property name="data_pv" value="BL18B-EA-GEADC-01:RAWDATA_1_RBV.VAL" />
+
+	</bean>
+
+<!-- Mythen config moved to new file mythen.xml.  -->
+<!-- 	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl"> -->
+<!-- 		<property name="detectorID" value="b18-mcs01" /> -->
+<!-- 		<property name="mythenClient"> -->
+<!-- 			<bean class="gda.device.detector.mythen.client.TextClientMythenClient"> -->
+<!-- 				<property name="mythenClientCommand" -->
+<!-- 					value="/dls_sw/b18/software/mythen/MythenSoft/bin/text_client" /> -->
+<!-- 				<property name="host" value="b18-mcs02" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+
+<!-- 		<property name="dataConverter"> -->
+<!-- 			<bean class="gda.device.detector.mythen.data.DataConverter"> -->
+<!-- 				<property name="angularCalibrationParameters"> -->
+<!-- 					<bean -->
+<!-- 						class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters"> -->
+<!-- 						<constructor-arg> -->
+<!-- 							<bean class="java.io.File"> -->
+<!-- 								<constructor-arg> -->
+<!-- 									<value>/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat</value> -->
+<!-- 								</constructor-arg> -->
+<!-- 							</bean> -->
+<!-- 						</constructor-arg> -->
+<!-- 					</bean> -->
+<!-- 				</property> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
+<!-- 		<property name="cirrusHost" value="b18-cirrus01" /> -->
+<!-- 	</bean> -->
+
+	<bean id="counterTimer01_gmsd" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<!-- <value>Time</value> -->
+				<value>I0</value>
+				<value>tey</value>
+				<value>gmsd1</value>
+				<value>gmsd2</value>
+				<value>gmsd3</value>
+				<value>gmsd4</value>
+				<value>gmsd5</value>
+<!-- 				<value>gmsd6</value> -->
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="minimumReadoutDelay" value="0" />
+		<property name="numChannelsToRead" value="8" />
+		<property name="outputFormat">
+			<list>
+				<!-- <value>%6.2g</value> -->
+				<value>%6.5g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+<!-- 				<value>%9d</value> -->
+			</list>
+		</property>
+	</bean>
+
+</beans>
