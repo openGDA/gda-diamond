@@ -58,6 +58,15 @@
       <e4view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i14"
+            class="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView"
+            icon="platform:/plugin/uk.ac.diamond.daq.mapping.ui/icons/gridscan.png"
+            id="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView"
+            name="Standards Scans"
+            restorable="true">
+      </e4view>
+      <e4view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
             icon="platform:/plugin/uk.ac.gda.client/icons/script.png"
             id="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
@@ -98,11 +107,18 @@
                relative="org.dawnsci.mapping.ui.mapview">
          </view>
          <view
-               id="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
+               id="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView"
                minimized="false"
                closeable="false"
                relationship="stack"
                relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView">
+         </view>
+         <view
+               id="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
+               minimized="false"
+               closeable="false"
+               relationship="stack"
+               relative="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView">
          </view>
       </perspectiveExtension>
    </extension>
