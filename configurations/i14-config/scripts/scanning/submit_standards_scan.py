@@ -16,7 +16,7 @@ def split_and_convert_energy_range(energy_range):
 print("Running submit_standards_scan.py")
 
 marshaller_service = OsgiJythonHelper.getService(IMarshallerService)
-scanParams = marshaller_service.unmarshal(standardsScanParamsJson, StandardsScanParams)
+scanParams = marshaller_service.unmarshal(customParams, StandardsScanParams)
 
 energy_ranges = scanParams.getScanPath().split(';')
 path = [split_and_convert_energy_range(i) for i in energy_ranges]
