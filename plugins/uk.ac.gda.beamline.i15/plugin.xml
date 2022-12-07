@@ -138,15 +138,25 @@
                relationship="left"
                relative="org.eclipse.ui.editorss"/>
          <view
-               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"
+               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#EPICS_PVA"
                ratio="0.24f"
                relationship="right"
                relative="org.eclipse.ui.editorss"/>
          <view
-               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#MJPEG"
+               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"
+               ratio="0.24f"
+               relationship="stack"
+               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#EPICS_PVA"/>
+         <view
+               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#EPICS_PVA"
                ratio="0.5f"
                relationship="right"
-               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#MJPEG"/>
+               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#EPICS_PVA"/>
+         <view
+               id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#MJPEG"
+               ratio="0.5f"
+               relationship="stack"
+               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#EPICS_PVA"/>
          <view
                id="uk.ac.gda.client.liveplotview"
                ratio="0.33f"
@@ -244,7 +254,7 @@
       <view
             allowMultiple="true"
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
-            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#EPICS_ARRAY"
+            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_upstream_cam#EPICS_PVA"
             name="Upstream Cam Array View"
             category="uk.ac.gda.beamline.i15.category"
             icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
@@ -262,7 +272,7 @@
       <view
             allowMultiple="true"
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
-            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#EPICS_ARRAY"
+            id="uk.ac.gda.client.live.stream.view.LiveStreamView:LH_downstream_cam#EPICS_PVA"
             name="Downstream Cam Array View"
             category="uk.ac.gda.beamline.i15.category"
             icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
