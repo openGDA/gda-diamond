@@ -112,8 +112,14 @@ public class BeamSelectorComposite implements NamedCompositeFactory {
 			createNewAcquisition();
 			scanControls.reload();
 		}));
-		acquisitionButtonGroup.addRunSelectionListener(widgetSelectedAdapter(event -> getScanningAcquisitionTemporaryHelper().runAcquisition()));
-		acquisitionButtonGroup.addSaveSelectionListener(widgetSelectedAdapter(event -> saveAcquisition()));
+		acquisitionButtonGroup.addRunSelectionListener(widgetSelectedAdapter(event -> {
+			scanControls.resolveScanId();
+			getScanningAcquisitionTemporaryHelper().runAcquisition();
+		}));
+		acquisitionButtonGroup.addSaveSelectionListener(widgetSelectedAdapter(event -> {
+			scanControls.resolveScanId();
+			saveAcquisition();
+		}));
 		return acquisitionButtonGroup;
 	}
 

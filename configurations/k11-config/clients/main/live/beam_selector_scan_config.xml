@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="bs_x_axis" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="kb_cs_x" />
+	</bean>
+	<bean id="bs_y_axis" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="kb_cs_y" />
+	</bean>
+	<bean id="bs_mono_mri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-ML-SCAN-03" />
+	</bean>
+	<bean id="bs_pink_mri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-ML-SCAN-06" />
+	</bean>
+</beans>

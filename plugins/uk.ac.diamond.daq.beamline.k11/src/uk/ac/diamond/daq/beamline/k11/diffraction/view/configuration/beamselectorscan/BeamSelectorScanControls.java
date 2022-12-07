@@ -31,10 +31,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.typed.PojoProperties;
-import org.eclipse.core.databinding.observable.value.SelectObservableValue;
-import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
@@ -63,7 +59,6 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
-import uk.ac.gda.api.acquisition.AcquisitionEngineDocument;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.api.acquisition.parameters.DevicePositionDocument;
 import uk.ac.gda.api.camera.CameraControl;
@@ -88,9 +83,6 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 
 	private Text cycles;
 
-	private Button mono;
-	private Button pink;
-
 	private Text xPosition;
 	private Text yPosition;
 
@@ -98,8 +90,6 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	private DetectorExposureWidget diffractionExposureWidget;
 
 	private ProcessingRequestsControls processingControls;
-
-	private DataBindingContext bindingContext;
 
 	/** caching simply to remove listener when it is replaced */
 	private PointMappingRegion point;
@@ -177,22 +167,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void createImagingBeamControl(Composite parent) {
-
 		var group = createGroup(parent, "Imaging beam");
-
-		space(group);
-
-		mono = new Button(group, SWT.RADIO);
-		mono.setText("Monochromatic");
-
-		space(group);
-
-		pink = new Button(group, SWT.RADIO);
-		pink.setText("Polychromatic");
-
-		var label = new Label(group, SWT.NONE);
-		label.setText("Detector exposure");
-
+		new Label(group, SWT.NONE).setText("Detector exposure");
 		imagingExposureWidget = new DetectorExposureWidget(group, this::setImagingDetectorExposure, this::readImagingDetectorExposure);
 	}
 
@@ -409,15 +385,6 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		return ((GridLayout) composite.getLayout()).numColumns;
 	}
 
-	private void space(Composite composite) {
-		GridDataFactory.swtDefaults().applyTo(new Label(composite, SWT.NONE));
-	}
-
-	@SuppressWarnings("unused")
-	private void emptyCell(Composite composite) {
-		new Label(composite, SWT.NONE);
-	}
-
 	/**
 	 * Set their initial state according to the underlying acquisition
 	 */
@@ -439,22 +406,19 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void initialiseImagingBeam() {
-		if (bindingContext != null) {
-			bindingContext.dispose();
-		}
-
-		bindingContext = new DataBindingContext();
-
-		SelectObservableValue<String> detectorName = new SelectObservableValue<>();
-		detectorName.addOption(config.getMonoImagingScan(), WidgetProperties.buttonSelection().observe(mono));
-		detectorName.addOption(config.getPinkImagingScan(), WidgetProperties.buttonSelection().observe(pink));
-
-		AcquisitionEngineDocument engine = getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
-			.getAcquisition().getAcquisitionEngine();
-
-		bindingContext.bindValue(detectorName, PojoProperties.value("id").observe(engine));
-
 		imagingExposureWidget.updateFromModel(getImagingDetectorExposureFromScan());
+	}
+
+	public void resolveScanId() {
+		Scannable imagingHintScannable = Finder.find(config.getImagingHintScannableName());
+		try {
+			var configuredImagingBranch = imagingHintScannable.getPosition().toString();
+			var malcolmScanId = config.getImagingBeamToMalcolmScanId().get(configuredImagingBranch);
+			getScanningAcquisitionTemporaryHelper().getAcquisitionControllerElseThrow()
+				.getAcquisition().getAcquisitionEngine().setId(malcolmScanId);
+		} catch (DeviceException e) {
+			logger.error("Error resolving Malcolm scan ID for beam selector scan", e);
+		}
 	}
 
 	private void initialiseDiffractionBeam() {
