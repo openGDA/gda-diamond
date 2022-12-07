@@ -129,7 +129,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         gap, polarisation, phase = self.getIDPositions()  # @UnusedVariable
         polarisation_angle = None
         if polarisation in X_RAY_POLARISATIONS[-2:]:
-            polarisation_angle, energy = self.idlamlookup.getEnergyPolarisation(gap, phase if phase > 0 else -phase)
+            polarisation_angle = self.idlamlookup.getEnergyPolarisation(gap, phase if phase > 0 else -phase)[0]
         gap, phase = self.idgapphase(Ep=energy, polar=polarisation_angle, mode=polarisation)
         return gap, polarisation, phase
 
@@ -299,8 +299,11 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             elif isinstance(new_position, numbers.Number):
                 if self.polarisationConstant: #input must be for energy
                     energy = float(new_position) #energy validation is done in getFittingCoefficent() method
-                    polarisation_mode = self.getIDPositions()[1] #get existing polarisation mode
-                    polarisation_angle = None
+                    gap, polarisation_mode, phase = self.getIDPositions() #get existing polarisation mode
+                    if polarisation_mode in X_RAY_POLARISATIONS[:-2]:
+                        polarisation_angle = None
+                    else:
+                        polarisation_angle = self.idlamlookup.getEnergyPolarisation(gap, phase if phase > 0 else -phase)[0]                        
                 if self.energyConstant: #input must be for polarisation angle in Linear Arbitrary mode
                     polarisation_angle = float(new_position)
                     polarisation_mode = self.validatePolarisation(polarisation_angle)
