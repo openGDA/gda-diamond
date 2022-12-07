@@ -24,7 +24,7 @@ if [ ! -n "$BEAMLINE" ]; then
 fi
 
 # Set up path and mode
-export PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-dls-beamlines-xas.git/i18/bin:${PATH}
+export PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/i18-config/bin:${PATH}
 export GDA_MODE=live
 
 # Set up command completion for the gda command

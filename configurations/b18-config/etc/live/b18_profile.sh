@@ -6,5 +6,5 @@ if [ ! -n "$BEAMLINE" ]; then
   exit 1
 fi
 
-export PATH=/dls_sw/b18/software/gda/workspace_git/gda-dls-beamlines-xas.git/b18/bin:${PATH}
+export PATH=/dls_sw/b18/software/gda/workspace_git/gda-diamond.git/configurations/b18-config/bin:${PATH}
 export GDA_MODE=live

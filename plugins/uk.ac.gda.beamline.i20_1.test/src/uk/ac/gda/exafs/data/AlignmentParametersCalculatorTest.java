@@ -76,7 +76,7 @@ public class AlignmentParametersCalculatorTest {
 
 	private static String getScriptDir() {
 		// Get path to i20-1 scripts directory
-		Path scriptsDir = Paths.get("").toAbsolutePath().getParent().resolve("i20-1/scripts");
+		Path scriptsDir = Paths.get("").toAbsolutePath().getParent().getParent().resolve("configurations/i20-1-config/scripts");
 		assertTrue("i20-1 scripts directory not found", Files.exists(scriptsDir));
 		return scriptsDir.toString();
 	}
