@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
+import java.util.stream.Collectors;
+
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -138,10 +140,13 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 		return String.format("Exposure: %.3f s; Total exposure: %.3f s", exposurePerPoint, exposurePerPoint * points);
 	}
 
+	/**
+	 * This assumes sequential triggering of detectors,
+	 * which is true for the K11 collections at this time
+	 */
 	private double exposurePerPoint() {
 		return parameters.getDetectors().stream()
-			.map(DetectorDocument::getExposure)
-			.max(Double::compareTo).orElse(0.0);
+			.collect(Collectors.summingDouble(DetectorDocument::getExposure));
 	}
 
 	private int pointsInAxis(ScannableTrackDocument axis) {
