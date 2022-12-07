@@ -104,7 +104,7 @@
 
 	<bean id="xesStageView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
 		<property name="viewName" value="XES Stage"/>
-		<property name="backgroundImage" value="oe images/xes_main.bmp"/>
+		<property name="backgroundImage" value="oe images/xes_main.png"/>
 		<property name="imageStart" value="50,50" />
 		<property name="showCoordinates" value="#{showCoordinates}" />
 		<property name="controlsList">

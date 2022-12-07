@@ -176,7 +176,7 @@
 
 	<bean id="xesAnalysersView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
 		<property name="viewName" value="XES Crystal Analysers"/>
-		<property name="backgroundImage" value="oe images/xes_analysers2.bmp"/>
+		<property name="backgroundImage" value="oe images/xes_analysers2.png"/>
 		<property name="imageStart" value="10,470" />
 		<property name="showCoordinates" value="#{showCoordinates}" />
 		<property name="controlsList">
