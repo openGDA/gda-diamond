@@ -26,6 +26,27 @@ from diffraction_calibration_appender import DiffractionAppenderManager
 from gdaserver import Xspress3A
 from gdascripts.detectors.initialise_detector import initialise_detector
 
+def xes_dummy_prep(det_y_pos=475.0, xtal_x_pos=1000.0, radius_length=1000.0, det_y_speed=10000, xtal_x_speed=10000, scn_speed=10000):
+    if material() == None:
+        material('Si')
+    det_y.getMotor().setSpeed(det_y_speed)
+    xtal_x.getMotor().setSpeed(xtal_x_speed)
+    
+    # Set positions of some scannables to reasonable positions so that XESBragg calculation has a chance of working
+    for scn in spectrometer.getGroupMembers():
+        scn.getMotor().setSpeed(scn_speed)
+    
+    for crys in crystalsAllowedToMove.getGroupMembers():
+        crys.moveTo("true")
+    
+    pos det_y det_y_pos
+    pos xtal_x xtal_x_pos
+    pos radius radius_length
+    
+    for cut in [cut1, cut2, cut3]:
+        cut.moveTo(1)
+    print("All Moves Complete")
+
 def setup_monitors():
     global topupMonitor
     topupMonitor = TopupChecker()
