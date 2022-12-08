@@ -36,7 +36,6 @@ Import-Package: gda.configuration.properties,
  uk.ac.gda.util.beans.xml
 Export-Package: gda.device.detector,
  uk.ac.gda.beamline.i20.scannable,
- uk.ac.gda.beamline.i20.xesoffset,
  uk.ac.gda.server.exafs.scan,
  uk.ac.gda.server.exafs.scan.iterators,
  uk.ac.gda.server.exafs.scan.preparers
