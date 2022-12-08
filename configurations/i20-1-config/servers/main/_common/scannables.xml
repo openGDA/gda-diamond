@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="alignment_stage" class="gda.device.scannable.AlignmentStageScannable">
+		<constructor-arg ref="alignment_x" />
+		<constructor-arg ref="alignment_y" />
+	</bean>
+
+	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
+		<property name="scannableToBeMonitored" ref="topup" />
+		<property name="tolerance" value="10" />
+		<property name="timeout" value="30" />
+		<property name="waittime" value="5" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="machineModeMonitor" ref="machineModeMonitor" />
+	</bean>
+
+	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
+		<property name="scannable" ref="absorber" />
+		<property name="value" value="Open" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="machineModeMonitor" ref="machineModeMonitor" />
+
+	</bean>
+
+<!--  Scannable for opening, closing shutter during TurboXas scan -->
+	<bean id="openCloseShutterDuringScan" class="gda.device.scannable.ShutterOpenClose">
+		<property name="name" value="openCloseShutterDuringScan" />
+		<property name="shutter" ref="shutter2" />
+	</bean>
+
+	<bean id="dummyTopup" class="gda.device.scannable.DummyTopupScannable" />
+
+<!--  Dummy motors -->
+	<bean id="test_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000" />
+	</bean>
+
+	<bean id="test" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="test_motor" />
+	</bean>
+
+	<bean id="test_motor2" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000" />
+	</bean>
+
+	<bean id="test2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="test_motor2" />
+	</bean>
+
+	<bean id="test_group" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="test" />
+				<ref bean="test2" />
+			</list>
+		</property>
+	</bean>
+
+	<import resource="simpleScannables.xml"/>
+</beans>

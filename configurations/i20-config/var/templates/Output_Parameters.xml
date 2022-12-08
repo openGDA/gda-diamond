@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<I20OutputParameters>
+    <shouldValidate>true</shouldValidate>
+    <asciiFileName>I20</asciiFileName>
+    <asciiDirectory>ascii</asciiDirectory>
+    <nexusDirectory>nexus</nexusDirectory>
+    <extraData>false</extraData>
+    <signalActive>true</signalActive>
+    <metadataActive>false</metadataActive>
+    <vortexSaveRawSpectrum>false</vortexSaveRawSpectrum>
+    <xspressOnlyShowFF>true</xspressOnlyShowFF>
+    <xspressShowDTRawValues>false</xspressShowDTRawValues>
+    <xspressSaveRawSpectrum>false</xspressSaveRawSpectrum>
+</I20OutputParameters>

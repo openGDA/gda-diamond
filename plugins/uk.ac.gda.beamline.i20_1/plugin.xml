@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="GDA I20 EDE">
+         <property
+               name="appName"
+               value="GDA I20 EDE">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+      </product>
+   </extension>
+   
+   <extension
+         point="uk.ac.gda.client.preferences">
+      <preference
+            name="gda.client.max.size.cached.points"
+            value="10000">
+      </preference>
+   </extension>
+   <extension
+         point="uk.ac.gda.client.dashboard.objects">
+      <Scannable
+            name="topup"
+            tooltip="The time before the next topup">
+      </Scannable>
+      <Scannable
+            name="wigglerGap"
+            tooltip="Current wiggler gap">
+      </Scannable>
+      <Scannable
+            name="ringCurrent">
+      </Scannable>
+      <Scannable
+            name="ringEnergy">
+      </Scannable>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i20_1.StartupService">
+      </startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="uk.ac.gda.beamline.i20_1.alignmentviews"
+            name="Data Acquisition - EDE Alignment">
+      </category>
+      <category
+            id="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            name="Data Acquisition - EDE Experiment">
+      </category>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.alignment.ui.BeamlineAlignmentView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/crosshairs.gif"
+            id="uk.ac.gda.exafs.ui.views.beamlinealignmentview"
+            name="Optics"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.alignment.ui.SampleStageMotorsView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.samplestagemotors"
+            name="Sample Stage Motors View"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.alignment.ui.DetectorRoiView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.detectorroiview"
+            name="Detector ROIs View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
+            id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
+            name="Live Mode"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.alignment.ui.AlignmentStageCalibrationView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
+            name="Alignment Stage"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView"
+            name="Single Collection"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionViewWithMapping"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumViewWithMapping"
+            name="Single Collection Mapping"
+            restorable="true">
+      </view>  
+      <view
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            class="uk.ac.gda.exafs.experiment.ui.TimeResolvedExperimentView"
+            id="uk.ac.gda.exafs.ui.views.linearExperimentView"
+            name="Linear experiment"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
+            id="uk.ac.gda.exafs.ui.views.dataplotview"
+            name="Ede experiment plot"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            class="uk.ac.gda.exafs.experiment.ui.CyclicExperimentView"
+            id="uk.ac.gda.exafs.ui.views.cyclicExperimentView"
+            name="Cyclic experiment "
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/Temperature.png"
+            id="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
+            name="Detector Temperatures"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            class="gda.rcp.views.ViewFactoryFinder:turboXasExperimentViewFactory"
+            id="uk.ac.gda.exafs.ui.views.turboXasExperimentView"
+            name="TurboXAS Experiment"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:xspress3ViewFactory"
+            id="uk.ac.gda.exafs.ui.views.xspress3View"
+            name="Xspress3 view"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.client.exafs.category"
+            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:ionchamberRates"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
+            id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
+            name="Ion chamber rates"
+            restorable="true">
+      </view>      
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:shutterSynopticsView"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/cog_go.png"
+            id="uk.ac.gda.beamline.i20_1.shutterSynopticsView"
+            name="Shutter control view"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:scanProcessingSynopticsView"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/cog_go.png"
+            id="uk.ac.gda.beamline.i20_1.scanProcessingSynopticsView"
+            name="Scan processing control view"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:turboXasScanMonitorView"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/cog_go.png"
+            id="uk.ac.gda.beamline.i20_1.turboXasScanMonitorView"
+            name="TurboXAS scan monitor view"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
+            id="uk.ac.gda.beamline.i20_1.AlignmentPerspective"
+            name="Alignment">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.exafs.ui.perspectives.ExperimentPerspective"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/camera.png"
+            id="uk.ac.gda.beamline.i20_1.ExperimentPerspective"
+            name="EDE Experiment">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.exafs.ui.perspectives.TurboXasPerspective"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/ui-slider.png"
+            id="uk.ac.gda.beamline.i20_1.TurboXasPerspective"
+            name="TurboXAS experiment">
+      </perspective>
+   </extension>
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer">
+      </initializer>
+   </extension>
+   
+   <extension
+      name="d10"
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorArrayView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorProfileView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Live View"
+            style="push">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorLiveView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorLiveView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+            label="Zoom To Fit"
+            style="push"
+            tooltip="Zoom To Fit">
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push"
+            tooltip="Set Exposure">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push"
+            tooltip="Set LiveView Scale">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Profile View"
+            style="push"
+            tooltip="Show Profile ">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorProfileView">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Image View"
+            style="push"
+            tooltip="Show Full Image">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorArrayView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.linearExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
+            label="Split Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.linearExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.removegroup"
+            label="Remove Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.cyclicExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
+            label="Split Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.cyclicExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.removegroup"
+            label="Remove Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView">
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.StartTemperaturePlotting"
+            label="Start"
+            style="push">
+      </command>
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.StopTemperaturePlotting"
+            label="Stop"
+            style="push">
+      </command>
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.ExtendTemperaturePlotting"
+            label="Extend"
+            style="push"
+            tooltip="Extend the range of the plot back in time by 2 hours, if possible">
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=showView">
+      <menu
+            id="detectorsMenu"
+            label="Detectors">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Xspress3"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.xspress3View">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Frelon/XH live view"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.DetectorLiveModeView">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=detectorsMenu">
+      <menu
+            label="Views">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Alignment stage"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.alignmentstagecalibration">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Sample stage"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.samplestagemotors">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Detector ROIs"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.detectorroiview">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Ion chamber rates"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Ionchamber filling"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.ionchambers">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
+</extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.gda.exafs.experiment.ui.data.SplitTimingGroupCommandHandler"
+            id="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
+            name="Split Group">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.experiment.ui.data.RemoveTimeGroupCommandHandler"
+            id="uk.ac.gda.exafs.ui.data.experiment.removegroup"
+            name="Remove Group">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.StartPlottingHandler"
+            description="Start live plotting of detector temperature"
+            id="uk.ac.gda.beamline.i20_1.StartTemperaturePlotting"
+            name="Start">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.StopPlottingHandler"
+            description="Stop live plotting of detector temperature"
+            id="uk.ac.gda.beamline.i20_1.StopTemperaturePlotting"
+            name="Stop">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.ExtendPlotHandler"
+            description="Extend the history temperature plot by 2 hours"
+            id="uk.ac.gda.beamline.i20_1.ExtendTemperaturePlotting"
+            name="Extend Plot">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.dawnsci.plotting.api.toolPage">
+      <plotting_tool_page
+            category="org.dawnsci.plotting.tools.category.Science"
+            class="org.dawnsci.plotting.tools.hyper2d.Hyper2DTool"
+            id="org.dawnsci.plotting.tools.hyper2d.Hyper2DTool"
+            label="EDE energy slicing tool">
+      </plotting_tool_page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+   </extension>
+   <extension
+         id="i20_1_dummy_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="GDA I20 EDE">
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+      </product>
+   </extension>
+   <extension
+         id="dummy_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="GDA I20 EDE">
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+         <property
+               name="appName"
+               value="GDA I20 EDE">
+         </property>
+      </product>
+   </extension>
+
+   
+</plugin>

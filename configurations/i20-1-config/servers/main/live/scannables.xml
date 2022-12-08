@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+	</bean>
+
+	<bean id="shutterChecker" class="uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker">
+		<property name="shutter" ref="shutter2" />
+		<property name="pssPVName" value="BL20J-PS-SHTR-02:CON"/>
+	</bean>
+	
+	<bean id="eurotherm" class="gda.device.temperature.EpicsEurotherm903">
+			<property name="inputNames" value="eurotherm" />
+			<property name="eurothermPv" value="BL20J-EA-TEMPC-01:EUROTHERM" />
+			<property name="setpointPv" value="BL20J-EA-TEMPC-01:EUROTHERM:SP" />
+	</bean>
+
+	<bean id="gasRigValve" class="gda.device.enumpositioner.EpicsValve">
+		<property name="name" value="gasRigValve" />
+		<property name="epicsRecordName" value="ME17G-EA-GAS-01:VICI" />
+		<property name="configureAtStartup" value="true" />
+	</bean>
+
+	<bean id="industrialGasRigValve" class="gda.device.enumpositioner.EpicsValve">
+		<property name="name" value="gasRigValve" />
+		<property name="epicsRecordName" value="ME08G-EA-GAS-01:VICI" />
+		<property name="configureAtStartup" value="false" />
+	</bean>
+
+	<bean id="PFR_temp" class="gda.device.scannable.PVScannable">
+		<property name="name" value="PFR_temp" />
+		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:SP" />
+	</bean>
+
+	<!-- readback temperature for PFR -->
+	<bean id="PFR_temp_current" class="gda.device.scannable.PVScannable">
+		<property name="name" value="PFR_temp" />
+		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:PV:RBV" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<import resource="file:${gda.config}/servers/main/_common/scannables.xml" />
+
+</beans>

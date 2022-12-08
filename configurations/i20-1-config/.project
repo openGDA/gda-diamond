@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>i20-1-config</name>
+	<comment></comment>
+	<projects>
+		<project>uk.ac.gda.beamline.i20_1</project>
+		<project>uk.ac.gda.client</project>
+		<project>uk.ac.gda.client.exafs</project>
+		<project>uk.ac.gda.common</project>
+		<project>uk.ac.gda.common.client</project>
+		<project>uk.ac.gda.common.rcp</project>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.dls</project>
+		<project>uk.ac.gda.dls.client</project>
+		<project>uk.ac.gda.epics</project>
+		<project>uk.ac.gda.nexus</project>
+		<project>uk.ac.gda.server.exafs</project>
+		<project>uk.ac.gda.server.exafs.epics</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.dltk.core.scriptbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.python.pydev.pythonNature</nature>
+		<nature>net.sourceforge.shelled.core.nature</nature>
+	</natures>
+</projectDescription>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<bean id="xes_simulated_positions" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+	 	<property name="scannableGroupName" value="dummy_spectrometer" />
+ 		<property name="group" value="Simulated positions" />
+ 		<property name="displayNameWidth" value="200" />
+ 		<property name="numColumns" value="1" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="readOnly" value="true"/>
+ 		<property name="showIncrement" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+	</bean>
+	
+	<bean id="dummy_xes_energy" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="dummy_XESEnergy" />
+		<property name="displayName" value="XES Energy" />
+	</bean>
+	
+	<bean id="dummy_xes_bragg" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="dummy_XESBragg" />
+		<property name="displayName" value="XES Bragg" />
+	</bean>
+	
+	<bean name="xesSimulatedPosition" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="dummy_xes_energy" />		
+				<ref bean="xes_simulated_positions" />		
+				<ref bean="dummy_xes_bragg" />						
+			</list>
+		</property>
+	</bean>
+	
+	
+</beans>

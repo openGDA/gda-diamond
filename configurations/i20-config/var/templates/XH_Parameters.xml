@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XHScanParameters>
+
+    <scannableName>energy</scannableName>
+    
+    <XHRegion>
+        <name>foo</name>
+        <step>1</step>
+        <time>0.01</time>
+        <interval>100</interval>
+    </XHRegion>
+    <XHRegion>
+        <name>bar</name>
+        <step>10</step>
+        <time>1</time>
+        <interval>3600</interval>
+    </XHRegion>
+    
+    
+</XHScanParameters>

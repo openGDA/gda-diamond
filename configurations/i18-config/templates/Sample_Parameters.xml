@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<I18SampleParameters>
+	<name>name</name>
+
+	<scannableConfiguration>
+		<scannableName>t1x</scannableName>
+		<position>0.0</position>
+	</scannableConfiguration>
+	
+	<scannableConfiguration>
+		<scannableName>t1y</scannableName>
+		<position>2.2</position>
+	</scannableConfiguration>
+	
+	<scannableConfiguration>
+		<scannableName>t1z</scannableName>
+		<position>-10</position>
+	</scannableConfiguration>
+	
+	<scannableConfiguration>
+		<scannableName>D7A</scannableName>
+		<position>Gap</position>
+	</scannableConfiguration>
+
+</I18SampleParameters>

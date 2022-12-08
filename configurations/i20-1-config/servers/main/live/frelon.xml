@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<bean id="__limaCCD" class="gda.device.lima.impl.LimaCCDImpl">
+		<property name="tangoDeviceProxy">
+			<bean class="gda.device.TangoDeviceProxy">
+			<constructor-arg ref="limaTangoDevice"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="__frelon" class="gda.device.frelon.impl.FrelonImpl">
+		<property name="tangoDeviceProxy">
+			<bean class="gda.device.TangoDeviceProxy">
+			<constructor-arg ref="frelonTangoDevice"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="frelonDetectorData" class="gda.device.detector.frelon.FrelonCcdDetectorData">
+	</bean>
+
+	<bean id="frelon" class="gda.device.detector.frelon.EdeFrelon">
+		<property name="frelon" ref="__frelon"/>
+		<property name="limaCcd" ref="__limaCCD"/>
+		<property name="detectorData" ref="frelonDetectorData"/>
+		<property name="dropFirstFrame" value="true"/>
+		<property name="upperChannel" value="2047"/>
+		<property name="lowerChannel" value="0"/>
+		<property name="configureAtStartup" value="true" />
+		<property name="checkForExcludedStrips" value="false" />
+	</bean>
+
+	<bean id="ssfrelon" class="gda.device.detector.StepScanEdeDetector">
+		<property name="detector" ref="frelon"/>
+		<property name="timeUnitLength" value="1e-3" />
+	</bean>
+
+	<bean id="frelon_objects" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="limaCCD" value-ref="__limaCCD" />
+				<entry key="frelon" value-ref="__frelon" />
+			</util:map>
+		</property>
+	</bean>
+</beans>
+

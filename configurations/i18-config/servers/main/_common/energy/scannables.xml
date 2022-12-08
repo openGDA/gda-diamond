@@ -1,0 +1,87 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Insertion Device -->
+	<bean id="sc_idgap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="idgap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<!-- Monochromator / DCM Optical Element -->
+	<bean id="sc_dcm_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="motor" ref="dcm_bragg_motor" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+
+	<bean id="sc_energy_motor" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="motor" ref="dcm_energy_motor" />
+	</bean>
+
+	<bean id="sc_dcm_crystal1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="motor" ref="dcm_crystal1_roll_motor" />
+	</bean>
+
+	<bean id="sc_dcm_crystal2_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="motor" ref="dcm_crystal2_roll_motor" />
+	</bean>
+
+	<bean id="sc_dcm_crystal2_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="motor" ref="dcm_crystal2_pitch_motor" />
+	</bean>
+
+	<bean id="sc_dcm_perp" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="dcm_perp_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="sc_DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sc_dcm_bragg" />
+				<ref bean="sc_dcm_crystal1_roll" />
+				<ref bean="sc_dcm_crystal2_pitch" />
+				<ref bean="sc_dcm_perp" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+	
+	<bean id="energy" class="gda.device.scannable.PositionerDeterminedScannable">
+		<constructor-arg ref="dcm_crystal" />
+		<constructor-arg>
+		<map>
+			<entry key="Si111" value-ref="energy_Si111" />
+			<entry key="Si311" value-ref="energy_Si311" />
+			<entry key="White Beam"  value-ref="energy_Si111" />
+			<entry key="Maintenance" value-ref="energy_Si111" />
+		</map>
+		</constructor-arg>
+		<property name="outputFormat" value="%.2f" />
+	</bean>
+	
+	<bean id="energy_nogap" class="gda.device.scannable.PositionerDeterminedScannable">
+		<constructor-arg ref="dcm_crystal" />
+		<constructor-arg>
+		<map>
+			<entry key="Si111" value-ref="energy_nogap_Si111" />
+			<entry key="Si311" value-ref="energy_nogap_Si311" />
+			<entry key="White Beam"  value-ref="energy_nogap_Si111" />
+			<entry key="Maintenance" value-ref="energy_nogap_Si111" />
+		</map>
+		</constructor-arg>
+	</bean>
+
+</beans>

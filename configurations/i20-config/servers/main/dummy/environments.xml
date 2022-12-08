@@ -1,0 +1,97 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<bean id="microreactor" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<bean id="flow0" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow0</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="flow1" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow1</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="flow2" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow2</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="flow3" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow3</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="flow4" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow4</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="flow5" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow5</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="flow6" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow6</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="flow7" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="0" />
+					<property name="upperGdaLimits" value="100" />
+					<property name="inputNames">
+						<list>
+							<value>flow7</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="temperature" class="gda.device.scannable.DummyScannable">
+					<property name="lowerGdaLimits" value="100" />
+					<property name="upperGdaLimits" value="300" />
+					<property name="inputNames">
+						<list>
+							<value>temperature</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

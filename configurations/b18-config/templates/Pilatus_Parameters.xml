@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MythenParameters>
+    <mythenEnergy>10000.0</mythenEnergy>
+    <mythenTime>2.5</mythenTime>
+    <mythenFrames>1</mythenFrames>
+</MythenParameters>

@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsSimplePositioner"> -->
+<!-- 		<property name="pvName" value="BL20I-EA-SHTR-01" /> -->
+<!-- 		<property name="values"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="Open" value="Open" /> -->
+<!-- 				<entry key="Close" value="Close" /> -->
+<!-- 			</map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL20I-EA-SHTR-01" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+		<property name="inputNames">
+			<list>
+				<value>photonshutter</value>
+			</list>
+		</property>
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+</beans>

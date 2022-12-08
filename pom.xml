@@ -99,6 +99,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </modules>
     </profile>
     <profile>
+      <id>b18</id>
+      <modules>
+        <module>features/uk.ac.gda.beamline.b18.feature</module>
+        <module>products/uk.ac.gda.beamline.b18.product</module>
+      </modules>
+    </profile>
+    <profile>
       <id>b21</id>
       <modules>
         <module>features/uk.ac.gda.beamline.b21.feature</module>
@@ -257,6 +264,27 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <modules>
         <module>features/uk.ac.gda.beamline.i16.feature</module>
         <module>products/uk.ac.gda.beamline.i16.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i18</id>
+      <modules>
+        <module>features/uk.ac.gda.beamline.i18.feature</module>
+        <module>products/uk.ac.gda.beamline.i18.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i20</id>
+      <modules>
+        <module>features/uk.ac.gda.beamline.i20.feature</module>
+        <module>products/uk.ac.gda.beamline.i20.product</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>i20-1</id>
+      <modules>
+        <module>features/uk.ac.gda.beamline.i20_1.feature</module>
+        <module>products/uk.ac.gda.beamline.i20_1.product</module>
       </modules>
     </profile>
     <profile>

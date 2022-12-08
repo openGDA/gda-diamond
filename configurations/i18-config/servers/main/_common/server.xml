@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+	
+	<import resource="diagnostics/index.xml" />
+	<import resource="detectors/index.xml" />
+	<import resource="energy/index.xml" />
+	<import resource="mirrors/index.xml" />
+	<import resource="shutters/index.xml" />
+	<import resource="slits/index.xml" />
+	<import resource="stages/index.xml" />
+
+	<import resource="datawriter.xml" />
+	<import resource="logging_script_controller.xml" />
+	<import resource="metadata.xml" />
+	<import resource="solstice.xml" />
+	<import resource="beam_watchdogs_i18.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/unsorted_devices.xml" />
+	<import resource="unsorted_scannables.xml" />
+	
+	<import resource="beam_readiness.xml" />
+
+	<!-- Need to import core.xml last so all other objects are configured before the Jython server -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
+	<import resource="core.xml" />
+	
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+</beans>

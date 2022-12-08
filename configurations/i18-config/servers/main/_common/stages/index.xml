@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="table1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/table1.xml" />
+	
+	<import resource="smaract.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/table3.xml" />
+	<import resource="table3.xml" />
+	<import resource="table3_deprecated.xml" />
+	
+
+</beans>

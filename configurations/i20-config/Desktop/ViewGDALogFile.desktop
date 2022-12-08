@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=View GDA Log File
+Type=Application
+Exec=GDA_ShowLogFile
+TryExec=
+Icon=
+X-GNOME-DocPath=
+Terminal=true
+Name[en_GB]=View GDA Log File
+GenericName[en_GB]=View GDA Log File
+Comment[en_GB]=View GDA Log File

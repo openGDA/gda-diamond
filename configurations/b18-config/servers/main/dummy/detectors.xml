@@ -1,0 +1,111 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
+<!-- 	<bean id="DAServer" class="gda.device.detector.DAServer"> -->
+		<property name="host" value="b18-xspress1" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+				<value>tfg setup-veto veto1-inv 1</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+
+	<bean id="struckScaler" class="gda.device.detector.DummyDetector">
+		<property name="extraNames">
+			<list>
+				<value>chn0</value>
+				<value>chn1</value>
+				<value>chn2</value>
+				<value>chn3</value>
+				<value>chn4</value>
+				<value>chn5</value>
+				<value>chn6</value>
+				<value>chn7</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- <bean id="mythen" class="gda.device.detector.DummyDetector"> -->
+	<!-- <property name="dataDimensions"> -->
+	<!-- <util:list list-class="java.util.ArrayList"> -->
+	<!-- <value>8</value> -->
+	<!-- </util:list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+<!-- Mythen config moved to new file mythen.xml  -->
+<!-- 	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl"> -->
+<!-- 		<property name="detectorID" value="b18-mcs01" /> -->
+<!-- 		<property name="mythenClient"> -->
+<!-- 			<bean class="gda.device.detector.mythen.client.DummyMythenClient"> -->
+<!-- 				<constructor-arg> -->
+<!-- 					<value>1</value> -->
+<!-- 				</constructor-arg> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+
+<!-- 		<property name="dataConverter"> -->
+<!-- 			<bean class="gda.device.detector.mythen.data.DataConverter"> -->
+<!-- 				<property name="angularCalibrationParameters"> -->
+<!-- 					<bean -->
+<!-- 						class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters"> -->
+<!-- 						<constructor-arg> -->
+<!-- 							<bean class="java.io.File"> -->
+<!-- 								<constructor-arg> -->
+<!-- 									<value>${gda.config}/servers/main/calibration.dat</value> -->
+<!-- 								</constructor-arg> -->
+<!-- 							</bean> -->
+<!-- 						</constructor-arg> -->
+<!-- 					</bean> -->
+<!-- 				</property> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+	<!-- 27/02 KrisB - Section below is causing errors -->
+	<bean id="xspress2controller"
+        class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
+        <property name="daServer" ref="DAServer" />
+        <property name="tfg" ref="tfg" />
+        <property name="xspressSystemName" value="xsp1" />
+
+        <property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
+        <property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
+        <property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
+        <property name="fullMCABits" value="12" />
+    </bean>
+
+    <bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector">
+        <property name="controller" ref="xspress2controller" />
+        <property name="configFileName"
+            value="${gda.config}/templates/Xspress_Parameters.xml" />
+        <property name="dtcConfigFileName"
+            value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
+    </bean>
+
+
+	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector"> -->
+	<!-- </bean> -->
+
+</beans>

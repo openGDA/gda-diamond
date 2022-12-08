@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<B18SampleParameters>
+    <shouldValidate>true</shouldValidate>
+    <name>default</name>
+    <description1>default sample description</description1>
+    <description2>default additional comments</description2>
+    <stage>none</stage>
+    <temperaturecontrol>none</temperaturecontrol>
+    <xythetastage>
+        <x>16.0</x>
+        <y>95.0</y>
+        <theta>0.0</theta>
+    </xythetastage>
+    <ln2cryostage>
+        <height>0.0</height>
+        <angle>0.0</angle>
+        <calibAngle>0.0</calibAngle>
+        <calibHeight>0.0</calibHeight>
+        <sampleNumberA>1</sampleNumberA>
+        <sampleNumberB>1</sampleNumberB>
+        <cylinderType>fluo</cylinderType>
+        <manual>false</manual>
+        <editCalibration>false</editCalibration>
+    </ln2cryostage>
+    <sxcryostage>
+        <height>92.26</height>
+        <rot>1.3</rot>
+        <calibHeight>0.0</calibHeight>
+        <sampleNumber>0</sampleNumber>
+        <manual>true</manual>
+    </sxcryostage>
+    <pulsetubecryostat>
+        <temperature1>0.0</temperature1>
+        <temperature2>0.0</temperature2>
+        <pressure>0.0</pressure>
+        <setPoint>0.0</setPoint>
+        <tolerance>0.0</tolerance>
+        <time>0.0</time>
+        <controlFlag>false</controlFlag>
+    </pulsetubecryostat>
+    <furnace>
+        <temperature>295.0</temperature>
+        <tolerance>1.5</tolerance>
+        <time>5.0</time>
+        <controlFlag>false</controlFlag>
+    </furnace>
+    <lakeshore>
+        <temp0>0.0</temp0>
+        <temp1>0.0</temp1>
+        <temp2>0.0</temp2>
+        <temp3>0.0</temp3>
+        <tempSelect0>false</tempSelect0>
+        <tempSelect1>false</tempSelect1>
+        <tempSelect2>false</tempSelect2>
+        <tempSelect3>false</tempSelect3>
+        <setPointSet>0.0</setPointSet>
+        <tolerance>0.0</tolerance>
+        <time>0.0</time>
+        <controlFlag>false</controlFlag>
+    </lakeshore>
+    <samplewheel>
+        <demand>0.0</demand>
+        <manual>false</manual>
+        <wheelEnabled>false</wheelEnabled>
+    </samplewheel>
+    <userstage>
+        <axis2>-6777.263</axis2>
+        <axis4>-1084.382</axis4>
+        <axis5>0.442</axis5>
+        <axis6>-7.634</axis6>
+        <axis7>8.848</axis7>
+        <axis8>13.848</axis8>
+    </userstage>
+    <sampleParameterMotorPosition>
+        <scannableName>sam2x</scannableName>
+        <description>Sam2 X</description>
+        <doMove>false</doMove>
+        <demandPosition>16.0003</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam2y</scannableName>
+        <description>Sam2 Y</description>
+        <doMove>false</doMove>
+        <demandPosition>94.9999</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam2rot</scannableName>
+        <description>Sam2 Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>gasX</scannableName>
+        <description>Gas stage X</description>
+        <doMove>false</doMove>
+        <demandPosition>0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>gasY</scannableName>
+        <description>Gas stage Y</description>
+        <doMove>false</doMove>
+        <demandPosition>0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sxRot</scannableName>
+        <description>Soft x-ray Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sxY</scannableName>
+        <description>Soft x-ray Y</description>
+        <doMove>false</doMove>
+        <demandPosition>0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam1x</scannableName>
+        <description>Sam1 x</description>
+        <doMove>false</doMove>
+        <demandPosition>0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam1y</scannableName>
+        <description>Sam1 y</description>
+        <doMove>false</doMove>
+        <demandPosition>92.2673</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam1rot</scannableName>
+        <description>Sam1 rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>1.30763</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>hvdtyx</scannableName>
+        <description>Heavy duty x</description>
+        <doMove>false</doMove>
+        <demandPosition>-24.0001</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>hvdtyy</scannableName>
+        <description>Heavy duty y</description>
+        <doMove>false</doMove>
+        <demandPosition>3.00001</demandPosition>
+    </sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>sampleStageX</scannableName>
+		<description>Sample stage X</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>sampleStageY</scannableName>
+		<description>Sample stage Y</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>frameX</scannableName>
+		<description>Frame X</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
+		<scannableName>frameY</scannableName>
+		<description>Frame Y</description>
+		<doMove>false</doMove>
+		<demandPosition>0</demandPosition>
+	</sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>fluoDist</scannableName>
+        <description>Ge detector distance</description>
+        <doMove>false</doMove>
+        <demandPosition>-150.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>vortexDist</scannableName>
+        <description>Si detector distance</description>
+        <doMove>false</doMove>
+        <demandPosition>-150.0</demandPosition>
+    </sampleParameterMotorPosition>
+</B18SampleParameters>

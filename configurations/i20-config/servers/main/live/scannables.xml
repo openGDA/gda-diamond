@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
+		<property name="scannableToBeMonitored" ref="topup" />
+		<property name="tolerance" value="10" />
+		<property name="timeout" value="300" />
+		<property name="waittime" value="10" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="machineModeMonitor" ref="machineModeMonitor" />
+	</bean>
+
+	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
+		<property name="scannable" ref="absorber" />
+		<property name="value" value="Open" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="machineModeMonitor" ref="machineModeMonitor" />
+	</bean>
+
+	<bean id="shutterChecker" class="uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker">
+		<property name="shutter" ref="shutter1" />
+		<property name="pssPVName" value="BL20I-PS-IOC-01:M11:LOP"/>
+<!-- 		private static final String[] ehDetectorNames = new String[] { "ionchambers", "xspress2system", "xmapMca", "I1", "FFI0", "FFI1", "FFI0_vortex", "d9_current", "d9_gain" }; -->
+	</bean>
+
+	<bean id="d3_drain_yplus" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:PLUS:I" />
+	</bean>
+
+	<bean id="d3_drain_yminus" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:MINUS:I" />
+	</bean>
+
+	<bean id="sr_x_offset" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:X:OFFSET" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:X:OFFSET_S" />
+	</bean>
+
+	<bean id="sr_x_angle" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:X:ANGLE" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:X:ANGLE_S" />
+	</bean>
+
+	<bean id="sr_y_offset" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:Y:OFFSET" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:Y:OFFSET_S" />
+	</bean>
+
+	<bean id="sr_y_angle" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:Y:ANGLE" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:Y:ANGLE_S" />
+	</bean>
+
+<!-- Eurotherm furnace -->
+	<bean id="eurotherm" class="gda.device.temperature.EpicsEurotherm903">
+			<property name="eurothermPv" value="BL20I-EA-TEMPC-03" />
+			<property name="inputNames" value="eurotherm" />
+	</bean>
+
+</beans>

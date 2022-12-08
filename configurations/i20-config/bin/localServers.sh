@@ -1,0 +1,2 @@
+xport JAVA_HOME=/usr
+/gda_workspaces/master_git/gda-core.git/uk.ac.gda.core/bin/gda servers --datadir /scratch/users/data  --config  /gda_workspaces/master_git/gda-diamond.git/configurations/i20-config --properties --mode=dummy --debug -p 8001 --restart

@@ -1,0 +1,134 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="i0" class="gda.device.scannable.GasInjectionScannablePumpOn">
+    	<property name="chamberName" value="I0" />
+    
+    	<property name="v1pv" value="BL20I-EA-GIR-01:V1:CON" />
+    	<property name="v2pv" value="BL20I-EA-GIR-01:V2:CON" />
+    	<property name="v3pv" value="BL20I-EA-GIR-01:V3:CON" />
+    	<property name="v4pv" value="BL20I-EA-GIR-01:V4:CON" />
+    	<property name="v5pv" value="BL20I-EA-GIR-01:V5:CON" />
+    	
+    	<property name="chamberValvepv" value="BL20I-EA-GIR-01:V6:CON" />
+    	<property name="p1pv" value="BL20I-EA-GIR-01:P1" />
+    	<property name="chamberPressurepv" value="BL20I-EA-GIR-01:P2" />
+    	
+    	<property name="pc1modepv" value="BL20I-EA-GIR-01:PCTRL1:MODE:WR" />
+    	<property name="pc1targetpv" value="BL20I-EA-GIR-01:PCTRL1:SETPOINT:WR" />
+    	<property name="pc1currentpv" value="BL20I-EA-GIR-01:PCTRL1:P:RD" />
+    	
+    	<property name="pc2modepv" value="BL20I-EA-GIR-01:PCTRL2:MODE:WR" />
+    	<property name="pc2targetpv" value="BL20I-EA-GIR-01:PCTRL2:SETPOINT:WR" />
+    	<property name="pc2currentpv" value="BL20I-EA-GIR-01:PCTRL2:P:RD" />
+    	
+    	<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
+    	<property name="statusPV" value="BL20I-EA-GIR-01:STS" />
+    	<property name="pumpPV" value="BL20I-EA-GIR-01:VACP1:CON" />
+    	
+    	<property name="readbackPV" value="BL20I-EA-ISEG-01:V1_ACTUAL" />
+    	<property name="demandPV" value="BL20I-EA-ISEG-01:SET_V1_DEMAND" />
+    	<property name="startRampPV" value="BL20I-EA-ISEG-01:V1_START" />
+	</bean>
+	
+	<bean id="it" class="gda.device.scannable.GasInjectionScannablePumpOn">
+    	<property name="chamberName" value="It" />
+    
+    	<property name="v1pv" value="BL20I-EA-GIR-01:V1:CON" />
+    	<property name="v2pv" value="BL20I-EA-GIR-01:V2:CON" />
+    	<property name="v3pv" value="BL20I-EA-GIR-01:V3:CON" />
+    	<property name="v4pv" value="BL20I-EA-GIR-01:V4:CON" />
+    	<property name="v5pv" value="BL20I-EA-GIR-01:V5:CON" />
+    	
+    	<property name="chamberValvepv" value="BL20I-EA-GIR-01:V7:CON" />
+    	<property name="p1pv" value="BL20I-EA-GIR-01:P1" />
+    	<property name="chamberPressurepv" value="BL20I-EA-GIR-01:P3" />
+    	
+    	<property name="pc1modepv" value="BL20I-EA-GIR-01:PCTRL1:MODE:WR" />
+    	<property name="pc1targetpv" value="BL20I-EA-GIR-01:PCTRL1:SETPOINT:WR" />
+    	<property name="pc1currentpv" value="BL20I-EA-GIR-01:PCTRL1:P:RD" />
+    	
+    	<property name="pc2modepv" value="BL20I-EA-GIR-01:PCTRL2:MODE:WR" />
+    	<property name="pc2targetpv" value="BL20I-EA-GIR-01:PCTRL2:SETPOINT:WR" />
+    	<property name="pc2currentpv" value="BL20I-EA-GIR-01:PCTRL2:P:RD" />
+    	
+    	<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
+    	<property name="statusPV" value="BL20I-EA-GIR-01:STS" />
+    	<property name="pumpPV" value="BL20I-EA-GIR-01:VACP1:CON" />
+    	
+    	<property name="readbackPV" value="BL20I-EA-ISEG-01:V2_ACTUAL" />
+    	<property name="demandPV" value="BL20I-EA-ISEG-01:SET_V2_DEMAND" />
+    	<property name="startRampPV" value="BL20I-EA-ISEG-01:V2_START" />
+	</bean>
+	
+	
+	
+	
+	
+	<bean id="iref" class="gda.device.scannable.GasInjectionScannablePumpOn">
+    	<property name="chamberName" value="Iref" />
+    
+    	<property name="v1pv" value="BL20I-EA-GIR-01:V1:CON" />
+    	<property name="v2pv" value="BL20I-EA-GIR-01:V2:CON" />
+    	<property name="v3pv" value="BL20I-EA-GIR-01:V3:CON" />
+    	<property name="v4pv" value="BL20I-EA-GIR-01:V4:CON" />
+    	<property name="v5pv" value="BL20I-EA-GIR-01:V5:CON" />
+    	
+    	<property name="chamberValvepv" value="BL20I-EA-GIR-01:V8:CON" />
+    	<property name="p1pv" value="BL20I-EA-GIR-01:P1" />
+    	<property name="chamberPressurepv" value="BL20I-EA-GIR-01:P4" />
+    	
+    	<property name="pc1modepv" value="BL20I-EA-GIR-01:PCTRL1:MODE:WR" />
+    	<property name="pc1targetpv" value="BL20I-EA-GIR-01:PCTRL1:SETPOINT:WR" />
+    	<property name="pc1currentpv" value="BL20I-EA-GIR-01:PCTRL1:P:RD" />
+    	
+    	<property name="pc2modepv" value="BL20I-EA-GIR-01:PCTRL2:MODE:WR" />
+    	<property name="pc2targetpv" value="BL20I-EA-GIR-01:PCTRL2:SETPOINT:WR" />
+    	<property name="pc2currentpv" value="BL20I-EA-GIR-01:PCTRL2:P:RD" />
+    	
+    	<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
+    	<property name="statusPV" value="BL20I-EA-GIR-01:STS" />
+    	<property name="pumpPV" value="BL20I-EA-GIR-01:VACP1:CON" />
+    	
+    	<property name="readbackPV" value="BL20I-EA-ISEG-02:V1_ACTUAL" />
+    	<property name="demandPV" value="BL20I-EA-ISEG-02:SET_V1_DEMAND" />
+    	<property name="startRampPV" value="BL20I-EA-ISEG-02:V1_START" />
+	</bean>
+	
+	
+	
+	
+	
+	<bean id="i1" class="gda.device.scannable.GasInjectionScannablePumpOn">
+    	<property name="chamberName" value="I1" />
+    
+    	<property name="v1pv" value="BL20I-EA-GIR-01:V1:CON" />
+    	<property name="v2pv" value="BL20I-EA-GIR-01:V2:CON" />
+    	<property name="v3pv" value="BL20I-EA-GIR-01:V3:CON" />
+    	<property name="v4pv" value="BL20I-EA-GIR-01:V4:CON" />
+    	<property name="v5pv" value="BL20I-EA-GIR-01:V5:CON" />
+    	
+    	<property name="chamberValvepv" value="BL20I-EA-GIR-01:V9:CON" />
+    	<property name="p1pv" value="BL20I-EA-GIR-01:P1" />
+    	<property name="chamberPressurepv" value="BL20I-EA-GIR-01:P5" />
+    	
+    	<property name="pc1modepv" value="BL20I-EA-GIR-01:PCTRL1:MODE:WR" />
+    	<property name="pc1targetpv" value="BL20I-EA-GIR-01:PCTRL1:SETPOINT:WR" />
+    	<property name="pc1currentpv" value="BL20I-EA-GIR-01:PCTRL1:P:RD" />
+    	
+    	<property name="pc2modepv" value="BL20I-EA-GIR-01:PCTRL2:MODE:WR" />
+    	<property name="pc2targetpv" value="BL20I-EA-GIR-01:PCTRL2:SETPOINT:WR" />
+    	<property name="pc2currentpv" value="BL20I-EA-GIR-01:PCTRL2:P:RD" />
+    	
+    	<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
+    	<property name="statusPV" value="BL20I-EA-GIR-01:STS" />
+    	<property name="pumpPV" value="BL20I-EA-GIR-01:VACP1:CON" />
+    	
+    	<property name="readbackPV" value="BL20I-EA-ISEG-02:V2_ACTUAL" />
+    	<property name="demandPV" value="BL20I-EA-ISEG-02:SET_V2_DEMAND" />
+    	<property name="startRampPV" value="BL20I-EA-ISEG-02:V2_START" />
+	</bean>
+
+</beans>

@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- Turbo slit x motor   -->
+	<bean id="turbo_slit_x_motor" class="gda.device.motor.DummyMotor" />
+
+<!-- 	shutter using turbo slit. imh 21/4/2017-->
+	<bean id="turbo_slit_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="name" value="turbo_slit_shutter" />
+	</bean>
+
+	<bean id="turbo_slit_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="turbo_slit_x_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+<!-- Zebra device -->
+	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraDummy" />
+
+	<bean id="zebra_device2" class="gda.device.zebra.controller.impl.ZebraDummy" />
+
+	<bean id="trajscan_controller" class="gda.device.trajectoryscancontroller.DummyTrajectoryScanController">
+		<property name="maxPointsPerProfileBuild" value="1500" />
+	</bean>
+
+</beans>

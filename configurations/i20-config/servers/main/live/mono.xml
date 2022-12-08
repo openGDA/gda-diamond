@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ohcoating" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL20I-OP-VCM-01:MP" />
+	</bean>
+	<bean id="crystalcut" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-OP-QCM-01:XTAL" />
+	</bean>
+
+	<bean id="bragg1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:BRAGG1" />
+	</bean>
+	<bean id="bragg2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:BRAGG2" />
+	</bean>
+	<bean id="braggoffset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:OFFSET" />
+	</bean>
+	<bean id="crystal1_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH:FBMTR" />
+	</bean>
+	<bean id="crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:XTAL2:ROLL:FBMTR" />
+	</bean>
+	<bean id="crystal34_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL:FBMTR" />
+	</bean>
+
+	<bean id="jena_crystal1_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH" />
+	</bean>
+	<bean id="jena_crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:XTAL2:ROLL" />
+	</bean>
+	<bean id="jena_crystal34_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL" />
+	</bean>
+
+	<bean id="bragg1_cal_energy" class="gda.device.scannable.PVScannable">
+		<constructor-arg value="bragg1_cal_energy" />
+		<constructor-arg value="BL20I-OP-QCM-01:BRAGG1:ACTUAL"/>
+	</bean>
+	<bean id="bragg1_cal_set" class="gda.device.scannable.PVScannable">
+		<constructor-arg value="bragg1_cal_energy" />
+		<constructor-arg value="BL20I-OP-QCM-01:CALC:B1OFF.PROC"/>
+	</bean>
+	<bean id="bragg2_cal_energy" class="gda.device.scannable.PVScannable">
+		<constructor-arg value="bragg1_cal_energy" />
+		<constructor-arg value="BL20I-OP-QCM-01:BRAGG2:ACTUAL"/>
+	</bean>
+	<bean id="bragg2_cal_set" class="gda.device.scannable.PVScannable">
+		<constructor-arg value="bragg1_cal_energy" />
+		<constructor-arg value="BL20I-OP-QCM-01:CALC:B2OFF.PROC"/>
+	</bean>
+
+	<bean id="crystal1_pitch" class="uk.ac.gda.beamline.i20.scannable.Crystal1PitchScannable">
+		<property name="protectionLevel" value="1" />
+		<property name="motor" ref="crystal1_pitch_motor" />
+	</bean>
+
+</beans>

@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/cmos.xml" />
+	<import resource="cmos.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/detectors.xml" />
+	<import resource="detectors.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/stanfords.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/qexafs.xml" />
+	<import resource="qexafs.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3.xml" />
+	<import resource="xspress3.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
+	<import resource="xspress3_addetector.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/VMA_addetector.xml" />
+	<import resource="VMA_addetector.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/vma_motions.xml" />
+	<import resource="vma_motions.xml" />
+
+	<!-- name of the device (or dataset name in Malcolm scan) to register diffraction appenders against -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction_device_name.xml" />
+	<import resource="diffraction_calibration_appenders.xml" />
+</beans>

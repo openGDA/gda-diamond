@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="s2xpos_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2xgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2ypos_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2ygap_motor" class="gda.device.motor.DummyMotor" />
+
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<B18SampleParameters>
+    <shouldValidate>true</shouldValidate>
+	<name>Cytochrome</name>
+	<description>Cytochrome preparation #7</description>
+    <stage>none</stage>
+    <temperaturecontrol>ln2cryostat</temperaturecontrol>
+    <ln2cryostat>
+        <temperature>80.0</temperature>
+        <tolerance>1.0</tolerance>
+        <time>60.0</time>
+        <sampleNumber>2</sampleNumber>    	
+        <firstSampleAngle>0</firstSampleAngle>
+        <firstSampleHeight>10.0</firstSampleHeight>
+    </ln2cryostat>
+</B18SampleParameters>

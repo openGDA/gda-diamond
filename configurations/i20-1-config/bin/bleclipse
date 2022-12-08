@@ -1,0 +1,4 @@
+#!/bin/bash
+module load eclipse
+module load git
+eclipse -data /dls_sw/i20-1/software/gda/workspace

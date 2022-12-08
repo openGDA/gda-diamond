@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<I20SampleParameters>
+	<name>Cytochrome</name>
+	<description>Cytochrome preparation #8</description>
+	<description>bla bla bla</description>
+	<sampleWheelPosition>Copper</sampleWheelPosition>
+	<sampleEnvironment>Microreactor</sampleEnvironment>
+	<microreactor>
+		<gas0Rate>20</gas0Rate>
+		<gas1Rate>0</gas1Rate>
+		<gas2Rate>0</gas2Rate>
+		<gas3Rate>20</gas3Rate>
+		<gas4Rate>0</gas4Rate>
+		<gas5Rate>0</gas5Rate>
+		<gas6Rate>0</gas6Rate>
+		<gas7Rate>0</gas7Rate>
+		<temperature>200</temperature>
+		<masses>2,32</masses>
+	</microreactor>
+</I20SampleParameters>

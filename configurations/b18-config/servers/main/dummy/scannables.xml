@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="lakeshore" class="gda.device.scannable.DummyLakeshoreScannable" >
+		<property name="InputNames" value="lakeshore" />
+	</bean>
+	<bean id="pulsetube" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="samplewheel" class="gda.device.scannable.DummySampleWheel">
+		<property name="name" value="samplewheel" />
+		<property name="numberOfFilters" value="36" />
+	</bean>
+
+	<bean id="samplewheel_pos_name" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Filter 1</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="energy" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="energy" />
+		<property name="motor" ref="energy_bragg_pv" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="lowerGdaLimits">
+			<list>
+				<value>2000</value>
+			</list>
+		</property>
+		<property name="upperGdaLimits">
+			<list>
+				<value>35000</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,144 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Time Frame Generator -->
+	<bean id="tfg" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="daserver" />
+	</bean>
+
+	<!-- Scaler channels -->
+	<bean id="CalMemory" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="daserver" />
+		<property name="width" value="8" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+	<bean id="cid" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>right_minus_diode</value>
+				<value>right_plus_diode</value>
+				<value>left_minus_diode</value>
+				<value>left_plus_diode</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="firstDataChannel" value="3" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="counterTimer01" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>liveTime</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iother</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iother</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserver" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+		<property name="ttlSocket" value="1" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="buffered_cid" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>right_minus_diode</value>
+				<value>right_plus_diode</value>
+				<value>left_minus_diode</value>
+				<value>left_plus_diode</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserver" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="firstDataChannel" value="3" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="ttlSocket" value="1" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+			</list>
+		</property>
+		<property name="slave" value="true" />
+	</bean>
+
+	<bean id="seso" class="gda.device.detector.SesoXbpmDetector">
+		<property name="host" value="172.23.118.71" />
+		<property name="port" value="20" />
+	</bean>
+
+</beans>

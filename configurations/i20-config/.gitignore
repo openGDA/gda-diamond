@@ -1,0 +1,14 @@
+# ignore a jythonCache directory anywhere in the project
+jythonCache/
+
+/var/motorPositions
+/var/XasLoggingMessage
+/var/xes_offsets
+/var/.workspace*
+/var/*.xml
+/var/*.tmp
+/var/*.scanbase_numtracker
+/var/*.py
+/var/.tempScript2
+*$py.class
+.cmdHistory.txt

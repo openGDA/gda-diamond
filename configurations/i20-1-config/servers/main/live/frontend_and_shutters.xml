@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="shutter1" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL20J-PS-SHTR-01" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+		<property name="inputNames">
+			<list>
+				<value>shutter1</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="shutter2" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL20J-PS-SHTR-02" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+		<property name="inputNames">
+			<list>
+				<value>shutter1</value>
+			</list>
+		</property>
+		<property name="checkDemandInStatus" value="true" />
+	</bean>
+
+	<bean id="fast_shutter" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="name" value="fast_shutter" />
+		<property name="pvName" value="BL20J-EA-FSHTR-01:Y" />
+	</bean>
+
+	<bean id="fast_shutter_pos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-FSHTR-01:Y" />
+	</bean>
+
+	<bean id="fast_shutter_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fast_shutter_pos_motor" />
+	</bean>
+</beans>

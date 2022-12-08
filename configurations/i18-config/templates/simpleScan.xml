@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimpleScan>
+    <scannableName>s2xpos</scannableName>
+    <fromPos>1.0</fromPos>
+    <toPos>10.0</toPos>
+    <stepSize>0.6</stepSize>
+    <acqTime>1.0</acqTime>
+    <scannables>
+        <scannableName>test</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>energy</scannableName>
+    </scannables>
+    <scannables>
+        <scannableName>s2xpos</scannableName>
+    </scannables>
+    <detectors>
+        <enabled>false</enabled>
+        <detectorName>counterTimer01</detectorName>
+        <detectorDescription></detectorDescription>
+    </detectors>
+</SimpleScan>

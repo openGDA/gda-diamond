@@ -1,0 +1,2 @@
+#! /bin/sh
+exec gnome-terminal --title="I20-1 XH" --window -- bash -c "telnet i20-1-xh1 8921"

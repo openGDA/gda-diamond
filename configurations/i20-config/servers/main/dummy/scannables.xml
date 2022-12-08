@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
+		<property name="scannableToBeMonitored" ref="topup" />
+		<property name="tolerance" value="10" />
+		<property name="timeout" value="60" />
+		<property name="waittime" value="10" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+	</bean>
+
+	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
+		<property name="scannable" ref="absorber" />
+		<property name="value" value="1" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="false" />
+	</bean>
+
+<!-- this is in machine.xml in the live config -->
+	<bean id="shutterChecker" class="uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker">
+		<property name="shutter" ref="shutter1" />
+		<property name="pssPVName" value="BL20I-PS-IOC-01:M11:LOP"/>
+	</bean>
+
+</beans>

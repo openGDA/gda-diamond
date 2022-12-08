@@ -1,0 +1,1 @@
+/dls_sw/i20-1/software/gda_versions/gda_8.44/workspace_git/gda-diamond.git/configurations/i20-1-config/bin/remotestartupscript.sh

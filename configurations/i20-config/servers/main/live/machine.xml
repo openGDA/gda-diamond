@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!--machine and front end -->
+
+<!-- 	<bean id="shutter1" class="gda.device.enumpositioner.DummyValve"> -->
+<!-- 		<property name="position" value="Open" /> -->
+<!-- 	</bean> -->
+	
+	<bean id="shutter1" class="gda.device.enumpositioner.EpicsValveCallback">
+		<property name="epicsRecordName" value="BL20I-PS-SHTR-01" />
+		<property name="outputFormat">
+			<list>
+				<value>%s</value>
+			</list>
+		</property>
+		<property name="inputNames">
+			<list>
+				<value>shutter1</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+	</bean>
+	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+	</bean>
+	<bean id="fillMode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
+	</bean>
+	<bean id="machineMode" class="gda.device.monitor.EpicsTypedMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+		<property name="type" value="0"/>
+	</bean>
+	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+	</bean>
+	<bean id="wigglerGap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR20I-MO-SERVC-01:BLGAPMTR" />
+	</bean>
+	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="wigglerGap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+	</bean>
+	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE20I-RS-ABSB-01:STA" />
+	</bean>
+
+
+</beans>

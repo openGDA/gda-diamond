@@ -1,0 +1,149 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
+		<property name="commentMarker" value="#"/>
+		<property name="header">
+			<list>
+				<bean id="machine" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Diamond Light Source"/>
+				</bean>
+				<bean id="inst" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Instrument: I20-EDE Date: %s"/>
+					<property name="labelValues">
+						<list>
+							<bean id="date" class="gda.device.scannable.TimeScannable"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="ringenergy" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Ring energy: %5.1f GeV"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="ringEnergy"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Initial ring current: %5.1f mA"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="ringCurrent"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="fillingmode" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Filling mode: %s" />
+					<property name="labelValues">
+						<list>
+							<ref bean="fillMode" />
+						</list>
+					</property>
+				</bean>
+				<bean id="wigglergap" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Wiggler gap selected: %5.2f mm" />
+					<property name="labelValues">
+						<list>
+							<ref bean="wiggler_gap" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean id="newLine1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>
+				<bean id="primaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="Primary slits:  vertical gap= %4.3f mm; horizontal gap= %4.3f mm; vertical offset= %4.3f mm; horizontal offset= %4.3f mrad" />
+					<property name="labelValues">
+						<list>
+							<ref bean="s1_vgap" />
+							<ref bean="s1_hgap" />
+							<ref bean="s1_voffset" />
+							<ref bean="s1_hoffset" />
+						</list>
+					</property>
+				</bean>
+				<bean id="secondaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="Secondary slits:  vertical gap= %4.3f mm; horizontal gap= %4.3f mm; vertical offset= %4.3f mm; horizontal offset= %4.3f mm" />
+					<property name="labelValues">
+						<list>
+							<ref bean="s2_vgap" />
+							<ref bean="s2_hgap" />
+							<ref bean="s2_voffset" />
+							<ref bean="s2_hoffset" />
+						</list>
+					</property>
+				</bean>
+				<bean id="newLine2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>				
+				<bean id="me1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="ME1 Coating: %s"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="me1_stripe"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="me2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="ME2: %s; Pitch: %.3f"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="me2_stripe"/>
+							<ref bean="me2_pitch"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="newLine3" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>
+				<bean id="poly_crystal" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Polychromator: theta: %.4f degrees; bend1: %.4f mm ; bend2: %.4f mm ; twist: %.4f mm"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="poly_theta"/>
+							<ref bean="poly_bend1"/>
+							<ref bean="poly_bend2"/>
+							<ref bean="poly_twist"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="twotheta_arm" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="2theta arm: %.4f degrees"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="twotheta"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="newLine4" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>
+				<bean id="filters" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Filters: ATN1: %s; ATN2: %s; ATN3: %s; ATN4: %s; ATN5: %s"/>
+					<property name="labelValues">
+						<list>
+							<ref bean="atn1"/>
+							<ref bean="atn2"/>
+							<ref bean="atn3"/>
+							<ref bean="atn4"/>
+							<ref bean="atn5"/>
+						</list>
+					</property>
+				</bean>
+				<bean id="newLine5" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value=" " />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop" />
+	</bean>
+
+</beans>

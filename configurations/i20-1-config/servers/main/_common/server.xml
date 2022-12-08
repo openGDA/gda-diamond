@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="file:${gda.config}/servers/main/_common/i20-1-common.xml" />
+
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+	</bean>
+	<import resource="commandQueueProcessor.xml"/>
+
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+<!-- 	<bean -->
+<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+<!-- 		<property name="location" -->
+<!-- 			value="file:${gda.config}/properties/${gda.mode}/java.properties" /> -->
+<!-- 	</bean> -->
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+<!-- This is used to broadcast progress information and normalised spectra for display to the UI during linear and cyclic experiments -->
+	<bean id="EDEProgressUpdater" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	
+	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+	
+	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
+		<constructor-arg ref="terminallog_path_provider" />
+	</bean>
+	<bean class="gda.jython.logger.OutputTerminalAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.InputTerminalAdapter">
+		<constructor-arg ref="command_server" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.ScanDataPointAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	<bean class="gda.jython.logger.BatonChangedAdapter">
+		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="terminal_logger"/>
+	</bean>
+	
+</beans>

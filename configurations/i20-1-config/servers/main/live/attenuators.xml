@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL20J-OP-ATTN-01:MP" />
+	</bean>
+	<bean id="atn1motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-ATTN-01:POSN" />
+	</bean>
+	<bean id="atn1_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="atn1motor" />
+	</bean>
+
+	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL20J-OP-ATTN-02:MP" />
+	</bean>
+	<bean id="atn2motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-ATTN-02:POSN" />
+	</bean>
+	<bean id="atn2_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="atn2motor" />
+	</bean>
+
+	<bean id="atn3" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL20J-OP-ATTN-03:MP" />
+	</bean>
+	<bean id="atn3motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-ATTN-03:POSN" />
+	</bean>
+	<bean id="atn3_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="atn3motor" />
+	</bean>
+
+	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL20J-OP-ATTN-04:MP" />
+	</bean>
+	<bean id="atn4motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-ATTN-04:POSN" />
+	</bean>
+	<bean id="atn4_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="atn4motor" />
+	</bean>
+
+	<bean id="atn5" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL20J-OP-ATTN-05:MP" />
+	</bean>
+	<bean id="atn5motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-ATTN-05:POSN" />
+	</bean>
+	<bean id="atn5_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="atn5motor" />
+	</bean>
+
+	<import resource="file:${gda.config}/servers/main/_common/attenuators.xml" />
+
+</beans>

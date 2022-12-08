@@ -1,0 +1,80 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="bragg1" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg1_motor" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<util:list>
+				<value>%.4f</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="bragg2" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="motor" ref="bragg2_motor" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<util:list>
+				<value>%.4f</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="braggoffset" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="braggoffset_motor" />
+		<property name="outputFormat">
+			<util:list>
+				<value>%.4f</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="bragg1WithOffset" class="uk.ac.gda.beamline.i20.scannable.MonoMoveWithOffsetScannable">
+		<constructor-arg value="bragg1WithOffset" />
+		<constructor-arg ref="bragg1" />
+		<constructor-arg ref="braggoffset" />
+		<property name="includeOffsetInPosition" value="false" />
+	</bean>
+
+	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="crystal2_roll_motor" />
+	</bean>
+	<bean id="crystal34_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="crystal34_roll_motor" />
+	</bean>
+
+	<bean id="jena_crystal1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="jena_crystal1_pitch_motor" />
+	</bean>
+	<bean id="jena_crystal2_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="jena_crystal2_roll_motor" />
+	</bean>
+	<bean id="jena_crystal34_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="jena_crystal34_roll_motor" />
+	</bean>
+
+	<bean id="mono" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="crystal1_pitch" />
+				<ref bean="crystal2_roll" />
+				<ref bean="crystal34_roll" />
+				<ref bean="crystalcut" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

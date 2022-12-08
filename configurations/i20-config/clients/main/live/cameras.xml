@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="d3cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d3cam"/>
+		<property name="exposurePV" value="BL20I-DI-PHDGN-03:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-03:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL20I-DI-PHDGN-03:CAM:GAIN" />
+		<property name="acquirePV" value="BL20I-DI-PHDGN-03:CAM:Acquire" />
+		<property name="urlPV" value="BL20I-DI-PHDGN-03:MJPG:MJPG_URL_RBV" />
+	</bean>
+	
+	<bean id="d1cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d1cam"/>
+		<property name="urlPV" value="BL20I-DI-PHDGN-01:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL20I-DI-PHDGN-01:CAM:AcquireTime" />
+		<property name="gainPV" value="BL20I-DI-PHDGN-01:CAM:Gain" />
+		<property name="acquirePV" value="BL20I-DI-PHDGN-01:CAM:Acquire" />
+		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-01:CAM:AcquirePeriod" />
+	</bean>
+	
+	<bean id="d5cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d5cam"/>
+		<property name="urlPV" value="BL20I-DI-PHDGN-05:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL20I-DI-PHDGN-05:CAM:AcquireTime" />
+		<property name="gainPV" value="BL20I-DI-PHDGN-05:CAM:Gain" />
+		<property name="acquirePV" value="BL20I-DI-PHDGN-05:CAM:Acquire" />
+		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-05:CAM:AcquirePeriod" />
+	</bean>
+	
+	<bean id="d6cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d6cam"/>
+		<property name="urlPV" value="BL20I-DI-PHDGN-06:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL20I-DI-PHDGN-06:CAM:AcquireTime" />
+		<property name="gainPV" value="BL20I-DI-PHDGN-06:CAM:Gain" />
+		<property name="acquirePV" value="BL20I-DI-PHDGN-06:CAM:Acquire" />
+		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-06:CAM:AcquirePeriod" />
+	</bean>
+	
+	<bean id="d7cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d7cam"/>
+		<property name="urlPV" value="BL20I-DI-PHDGN-07:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL20I-DI-PHDGN-07:CAM:AcquireTime" />
+		<property name="gainPV" value="BL20I-DI-PHDGN-07:CAM:Gain" />
+		<property name="acquirePV" value="BL20I-DI-PHDGN-07:CAM:Acquire" />
+		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-07:CAM:AcquirePeriod" />
+	</bean>
+	
+	<bean id="d8cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d8cam"/>
+		<property name="urlPV" value="BL20I-DI-PHDGN-08:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL20I-DI-PHDGN-08:CAM:AcquireTime" />
+		<property name="gainPV" value="BL20I-DI-PHDGN-08:CAM:Gain" />
+		<property name="acquirePV" value="BL20I-DI-PHDGN-08:CAM:Acquire" />
+		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-08:CAM:AcquirePeriod" />
+	</bean>
+	
+	<bean id="d10cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d10cam"/>
+		<property name="urlPV" value="BL20I-DI-PHDGN-10:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL20I-DI-PHDGN-10:CAM:AcquireTime" />
+		<property name="gainPV" value="BL20I-DI-PHDGN-10:CAM:Gain" />
+		<property name="acquirePV" value="BL20I-DI-PHDGN-10:CAM:Acquire" />
+		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-10:CAM:AcquirePeriod" />
+	</bean>
+	
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<ref bean= "d1cam"/>
+				<ref bean= "d3cam"/>
+				<ref bean= "d5cam"/>
+				<ref bean= "d6cam"/>
+				<ref bean= "d7cam"/>
+				<ref bean= "d8cam"/>
+				<ref bean= "d10cam"/>
+			</list>
+		</property>
+		<property name="plotViewID" value="uk.ac.diamond.scisoft.analysis.rcp.plotView"/>
+	</bean>
+	
+
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
+	
+</beans>

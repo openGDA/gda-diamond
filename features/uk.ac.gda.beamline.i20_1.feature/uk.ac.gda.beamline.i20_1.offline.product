@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA I20 EDE offline" uid="uk.ac.gda.beamline.i20_1.product.offline" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="9.29.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
+-Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
+-Dgda.core.dir=${project_loc:uk.ac.gda.core/}/../core-config
+-Dgda.config=${project_loc:i20-1-config}
+-Djava.library.path=${project_loc:uk.ac.gda.nexus)/lib/linux-x86_64
+-Dgda.propertiesFile=${project_loc:i20-1-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:i20-1-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/properties/dummyJCALibrary.properties
+-Declipse.pluginCustomization=${project_loc:uk.ac.gda.core/}/../../gda-diamond.git/plugins/uk.ac.gda.beamline.i20_1/plugin_customization.ini
+-Dgda.mode=dummy
+-Dgda.client.jython.automatic.interpreter=1
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Xms512m
+-Xmx4g
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.client" />
+   <launcher>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i20_1.feature"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+   </configurations>
+
+</product>

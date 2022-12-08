@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Beamline B18 Test
+Bundle-SymbolicName: uk.ac.gda.beamline.b18.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Fragment-Host: uk.ac.gda.beamline.b18
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
+ org.mockito.mockito-core,
+ net.bytebuddy.byte-buddy,
+ net.bytebuddy.byte-buddy-agent,
+ org.eclipse.richbeans.xml;bundle-version="1.0.0",
+ org.objenesis,
+ uk.ac.gda.beamline.b18.server,
+ javassist;bundle-version="3.21.0",
+ uk.ac.gda.test.helpers,
+ uk.ac.gda.core
+Automatic-Module-Name: uk.ac.gda.beamline.b18.test
+Import-Package: uk.ac.gda.util.beans.xml

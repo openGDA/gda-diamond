@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+<!-- s1 motors -->
+	<gda:motor id="s1_hgap" live-pvName="FE20I-AL-SLITS-01:X:SIZE"/>           
+	<gda:motor id="s1_vgap" live-pvName="FE20I-AL-SLITS-01:Y:SIZE" />           
+	<gda:motor id="s1_hoffset" live-pvName="FE20I-AL-SLITS-01:X:CENTRE" />           
+	<gda:motor id="s1_voffset" live-pvName="FE20I-AL-SLITS-01:Y:CENTRE" />           
+	<gda:motor id="s1_xa" live-pvName="FE20I-AL-SLITS-01:XA" />           
+	<gda:motor id="s1_xb" live-pvName="FE20I-AL-SLITS-01:XB" />           
+	<gda:motor id="s1_ya" live-pvName="FE20I-AL-SLITS-01:YA" />           
+	<gda:motor id="s1_yb" live-pvName="FE20I-AL-SLITS-01:YB" />           
+	<gda:motor id="s1_xa_mm" live-pvName="FE20I-AL-SLITS-01:XA:MM" />           
+	<gda:motor id="s1_xb_mm" live-pvName="FE20I-AL-SLITS-01:XB:MM" />   
+	<gda:motor id="s1_ya_mm" live-pvName="FE20I-AL-SLITS-01:YA:MM" />           
+	<gda:motor id="s1_yb_mm" live-pvName="FE20I-AL-SLITS-01:YB:MM" />  
+
+<!-- s2 motors -->
+	<gda:motor id="s2_hgap" live-pvName="BL20I-AL-SLITS-02:X:SIZE" />           
+	<gda:motor id="s2_vgap" live-pvName="BL20I-AL-SLITS-02:Y:SIZE" />           
+	<gda:motor id="s2_hoffset" live-pvName="BL20I-AL-SLITS-02:X:CENTRE" />           
+	<gda:motor id="s2_voffset" live-pvName="BL20I-AL-SLITS-02:Y:CENTRE" /> 
+	<gda:motor id="s2_xplus" live-pvName="BL20I-AL-SLITS-02:X:PLUS" />           
+	<gda:motor id="s2_xminus" live-pvName="BL20I-AL-SLITS-02:X:MINUS" />           
+	<gda:motor id="s2_yplus" live-pvName="BL20I-AL-SLITS-02:Y:PLUS" />           
+	<gda:motor id="s2_yminus" live-pvName="BL20I-AL-SLITS-02:Y:MINUS" /> 
+      
+<!-- s3 motors -->
+	<gda:motor id="s3_hgap" live-pvName="BL20I-AL-SLITS-03:X:SIZE" />           
+	<gda:motor id="s3_vgap" live-pvName="BL20I-AL-SLITS-03:Y:SIZE" />           
+	<gda:motor id="s3_hoffset" live-pvName="BL20I-AL-SLITS-03:X:CENTRE" />           
+	<gda:motor id="s3_voffset" live-pvName="BL20I-AL-SLITS-03:Y:CENTRE" /> 
+	<gda:motor id="s3_xplus" live-pvName="BL20I-AL-SLITS-03:X:PLUS" />           
+	<gda:motor id="s3_xminus" live-pvName="BL20I-AL-SLITS-03:X:MINUS" />           
+	<gda:motor id="s3_yplus" live-pvName="BL20I-AL-SLITS-03:Y:PLUS" />           
+	<gda:motor id="s3_yminus" live-pvName="BL20I-AL-SLITS-03:Y:MINUS" /> 
+
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1_hgap" />
+				<ref bean="s1_vgap" />
+				<ref bean="s1_hoffset" />
+				<ref bean="s1_voffset" />
+				<ref bean="s1_xa" />
+				<ref bean="s1_xb" />
+				<ref bean="s1_ya" />
+				<ref bean="s1_yb" />
+				<ref bean="s1_xa_mm" />
+				<ref bean="s1_xb_mm" />
+				<ref bean="s1_ya_mm" />
+				<ref bean="s1_yb_mm" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s2_hgap" />
+				<ref bean="s2_vgap" />
+				<ref bean="s2_hoffset" />
+				<ref bean="s2_voffset" />
+				<ref bean="s2_xplus" />
+				<ref bean="s2_xminus" />
+				<ref bean="s2_yplus" />
+				<ref bean="s2_yminus" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3_hgap" />
+				<ref bean="s3_vgap" />
+				<ref bean="s3_hoffset" />
+				<ref bean="s3_voffset" />
+				<ref bean="s3_xplus" />
+				<ref bean="s3_xminus" />
+				<ref bean="s3_yplus" />
+				<ref bean="s3_yminus" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
