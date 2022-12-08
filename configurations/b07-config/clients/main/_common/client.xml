@@ -25,5 +25,7 @@
 	<import resource="param_values.xml"/>
 	
 	<import resource="plate_registration.xml"/>
+	
+	<import resource="visualization.xml"/>
 
 </beans>

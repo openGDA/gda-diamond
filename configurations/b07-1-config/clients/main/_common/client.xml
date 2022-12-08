@@ -23,5 +23,6 @@
 	</bean>
 	<import resource="live_controls.xml"/>
 	<import resource="dashboard.xml"/>
+	<import resource="visualization.xml"/>
 
 </beans>

@@ -23,28 +23,6 @@
 				<property name="slices" value="1" />
 			</bean>
 		</property>
-		<property name="configurablePhotonEnergyScannable">
-			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
-					<constructor-arg name="scannable" ref="pgm_energy" />
-					<constructor-arg name="scannableDescription" value="Photon Energy" />
-				</bean>
-		</property>
-		<property name="additionalConfigurableScannables">
-			<list>
-				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
-					<constructor-arg name="scannable" ref="s4b_xgapsize" />
-					<constructor-arg name="scannableDescription" value="Exit Slit X Gap Size" />
-				</bean>
-				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
-					<constructor-arg name="scannable" ref="s4b_ygapsize" />
-					<constructor-arg name="scannableDescription" value="Exit Slit Y Gap Size" />
-				</bean>
-				<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
-					<constructor-arg name="scannable" ref="pgm_cff" />
-					<constructor-arg name="scannableDescription" value="PGM CFF" />
-				</bean>
-			</list>
-		</property>
 	</bean>
 	
 </beans>
