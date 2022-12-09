@@ -33,43 +33,54 @@ else:
 class IDLookup4LinearAngleMode():
     def __init__(self, name, lut = lookup_file):
         self.name=name
-        #TODO need to check and fix external process exit on termination so it does not left external process on after GDA stopped.
-        self.lookupPolarEnergy=create_function("reverseLookup",module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], keep=True)
-        #self.lookupPolarEnergy=create_function("reverseLookup",module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], dls_module=True, keep=True)
-        self.lookupPolarEnergyCreatedInScanStart=False
-        self.lookupGapPhase=create_function("forwardLookup", module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], keep=True)
-        #self.lookupGapPhase=create_function("forwardLookup", module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], dls_module=True, keep=True)
-        self.lookupGapPhaseCreatedInScanStart=False
-        self.lut=lut
+        # keep = False means external python process will end after each function call, it takes 1 to 2 seconds. if True, process only takes 0.1 to 0.5 second.
+        self.lookup_polar_energy = create_function("reverseLookup",module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], keep=True)
+        self.lookup_polar_energy_created_in_scan_start = False
+        self.lookup_gap_phase = create_function("forwardLookup", module="Lookup2Dto2D", exe=python_exe, path=[python_path], extra_path=[local_module_path], keep=True)
+        self.lookup_gap_phase_created_in_scan_start = False
+        self.lut = lut
         self.logger = logging.getLogger(self.__class__.__name__)
     
+
+    def parseReturnedString(self, out):
+        out = out.split('\n')
+        out = [ x for x in out if x != ''] #remove the last empty string
+        if len(out) == 1:
+            out = [float(x.strip(',')) for x in out[0].strip(']').strip('[').split(' ') if x.strip() not in ('[', ']', '')]
+        else:
+            #if more then 1 pair returned, use the last pair, see I21-997
+            out = [float(x.strip(',')) for x in out[len(out) - 1].strip(']').strip('[').split(' ') if x.strip() not in ('[', ']', '')]
+        return out
+
     def getEnergyPolarisation(self, gap, phase):
-        out = self.lookupGapPhase(gap, phase, filename = str(self.lut))
+        out = self.lookup_gap_phase(gap, phase, filename = str(self.lut))
         if not out: #sometime nothing is returned from external lookup table, then try again
             sleep(1)
-            out = self.lookupGapPhase(gap, phase, filename = str(self.lut))
+            out = self.lookup_gap_phase(gap, phase, filename = str(self.lut))
         if not out:
             raise LookupError("energy and polarisation lookup from gap %f and phase %f failed to return any value" % (gap, phase))
-        self.logger.debug("getEnergyPolarisation(%f, %f) returns %s, type(out) is %s" % (gap, phase, str(out), type(out)))
-        out = [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        out = str(out) # convert unicode to string
+        self.logger.debug("getEnergyPolarisation(%f, %f) returns %s" % (gap, phase, out))
+        out = self.parseReturnedString(out)
         return out
     
     def getGapPhase(self, energy, polarisation):
-        out = self.lookupPolarEnergy(polarisation, energy, filename=str(self.lut))
+        out = self.lookup_polar_energy(polarisation, energy, filename = str(self.lut))
         if not out: #sometime nothing is returned from external lookup table, then try again
             sleep(1)
-            out = self.lookupPolarEnergy(polarisation, energy, filename=str(self.lut))
+            out = self.lookup_polar_energy(polarisation, energy, filename = str(self.lut))
         if not out:
             raise LookupError("gap and phase lookup from energy %f and polarisation %f failed to return any value" % (energy, polarisation))
-        self.logger.debug("getGapPhase(%f, %f) returns %s, type(out) is %s" % (energy, polarisation, str(out), type(out)))
-        out = [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        out = str(out)
+        self.logger.debug("getGapPhase(%f, %f) returns %s" % (energy, polarisation, out))
+        out = self.parseReturnedString(out)
         return out
     
     def stop(self):
-        if self.lookupPolarEnergyCreatedInScanStart==True:
-            self.lookupPolarEnergy.stop()
-        if self.lookupGapPhaseCreatedInScanStart==True:
-            self.lookupGapPhase.stop()
+        if self.lookup_polar_energy_created_in_scan_start:
+            self.lookup_polar_energy.stop()
+        if self.lookup_gap_phase_created_in_scan_start:
+            self.lookup_gap_phase.stop()
         
 idlam=IDLookup4LinearAngleMode("idlam", lut=lookup_file) 
 
@@ -77,7 +88,6 @@ endtime=time.time()
 print "time taken for Initialisation: %s" % (endtime-starttime)
 
 def main():
-    # print idlam.getGapPhase(778.5350225, 30.0)
     print
     
     print "[gap, phase] -> [polarisation, energy]"
@@ -101,3 +111,9 @@ def main():
 
 if __name__=="__main__":
     main()
+    gap1, phase1 = idlam.getGapPhase(820.092920, -80.034049)
+    gap2, phase2 = idlam.getGapPhase(855, -80.034049)
+    print "speed = ", (gap2 -gap1)/70
+    print idlam.getGapPhase(820, -80)
+    print idlam.getGapPhase(855, -80)
+    
