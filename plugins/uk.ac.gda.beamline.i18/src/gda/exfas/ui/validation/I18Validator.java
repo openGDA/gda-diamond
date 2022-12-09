@@ -59,16 +59,16 @@ public class I18Validator extends ExafsValidator {
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 
 		if (s.getName() == null) {
-			errors.add(new InvalidBeanMessage("Please set a sample name."));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Please set a sample name."));
 		}
 		if (s.getDescription() == null) {
-			errors.add(new InvalidBeanMessage("Please set a sample description."));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Please set a sample description."));
 		}
 
 		if (s.getName().compareTo("name") == 0) {
-			errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Sample Name has not been set in " + bean.getSampleFileName()));
 		} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())) {
-			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName()
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "The given Sample Name in " + bean.getSampleFileName()
 					+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 		}
 		errors.addAll(validateStageAxes(s));
@@ -84,9 +84,7 @@ public class I18Validator extends ExafsValidator {
 				.map(this::getStageWillMoveWarning).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 		if(!msgs.isEmpty()) {
 			String errorMsg = "INFO: Proceeding with this scan will move the stage axes. Do you wish to continue to run the scan?\n"+String.join("", msgs);
-			InvalidBeanMessage bean = new InvalidBeanMessage(errorMsg);
-			bean.setSeverity(WarningType.LOW);
-			errors.add(bean);
+			errors.add(new InvalidBeanMessage(WarningType.LOW, errorMsg));
 		}
 
 		return errors;
