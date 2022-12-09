@@ -1,0 +1,182 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+
+<!-- Dummy enumpositioners to control whether each of the analyser crystals is allowed to move or not  -->
+	<bean id="upper_minus3CrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions" ref="trueFalseList" />
+	</bean>
+	<bean id="upper_minus2CrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions" ref="trueFalseList" />
+	</bean>
+	<bean id="upper_minus1CrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions" ref="trueFalseList" />
+	</bean>
+	<bean id="upper_centreCrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions" ref="trueFalseList" />
+	</bean>
+	<bean id="upper_plus1CrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions" ref="trueFalseList" />
+	</bean>
+	<bean id="upper_plus2CrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions" ref="trueFalseList" />
+	</bean>
+	<bean id="upper_plus3CrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions" ref="trueFalseList" />
+	</bean>
+	
+	<bean id="upper_crystalsAllowedToMove" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="upper_minus3CrystalAllowedToMove" />
+				<ref bean="upper_minus2CrystalAllowedToMove" />
+				<ref bean="upper_minus1CrystalAllowedToMove" />
+				<ref bean="upper_centreCrystalAllowedToMove" />
+				<ref bean="upper_plus1CrystalAllowedToMove" />
+				<ref bean="upper_plus2CrystalAllowedToMove" />
+				<ref bean="upper_plus3CrystalAllowedToMove" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="upper_Minus3Crystal" class="gda.device.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="upper_minus3_x" />
+		<property name="yMotor" ref="upper_minus3_y" />
+		<property name="pitchMotor" ref="upper_minus3_pitch" />
+		<property name="rotMotor" ref="upper_minus3_yaw" />
+		<property name="horizontalIndex" value="-3" />	
+	</bean>
+
+	<bean id="upper_Minus2Crystal" class="gda.device.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="upper_minus2_x" />
+		<property name="yMotor" ref="upper_minus2_y" />
+		<property name="pitchMotor" ref="upper_minus2_pitch" />
+		<property name="rotMotor" ref="upper_minus2_yaw" />
+		<property name="horizontalIndex" value="-2" />	
+	</bean>
+
+	<bean id="upper_Minus1Crystal" class="gda.device.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="upper_minus1_x" />
+		<property name="yMotor" ref="upper_minus1_y" />
+		<property name="pitchMotor" ref="upper_minus1_pitch" />
+		<property name="rotMotor" ref="upper_minus1_yaw" />
+		<property name="horizontalIndex" value="-1" />	
+	</bean>
+
+	<bean id="upper_CentreCrystal" class="gda.device.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="upper_zero_x" />
+		<property name="yMotor" ref="upper_zero_y" />
+		<property name="pitchMotor" ref="upper_zero_pitch" />
+		<property name="rotMotor" ref="upper_zero_yaw" />
+		<property name="horizontalIndex" value="0" />	
+	</bean>
+
+	<bean id="upper_Plus1Crystal" class="gda.device.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="upper_plus1_x" />
+		<property name="yMotor" ref="upper_plus1_y" />
+		<property name="pitchMotor" ref="upper_plus1_pitch" />
+		<property name="rotMotor" ref="upper_plus1_yaw" />
+		<property name="horizontalIndex" value="1" />	
+	</bean>
+
+	<bean id="upper_Plus2Crystal" class="gda.device.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="upper_plus2_x" />
+		<property name="yMotor" ref="upper_plus2_y" />
+		<property name="pitchMotor" ref="upper_plus2_pitch" />
+		<property name="rotMotor" ref="upper_plus2_yaw" />
+		<property name="horizontalIndex" value="2" />	
+	</bean>
+	
+	<bean id="upper_Plus3Crystal" class="gda.device.scannable.XesSpectrometerCrystal" >
+		<property name="xMotor" ref="upper_plus3_x" />
+		<property name="yMotor" ref="upper_plus3_y" />
+		<property name="pitchMotor" ref="upper_plus3_pitch" />
+		<property name="rotMotor" ref="upper_plus3_yaw" />
+		<property name="horizontalIndex" value="3" />	
+	</bean>
+
+	<bean id="upper_spectrometerCrystals" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="upper_Minus3Crystal" />
+				<ref bean="upper_Minus2Crystal" />
+				<ref bean="upper_Minus1Crystal" />
+				<ref bean="upper_CentreCrystal" />
+				<ref bean="upper_Plus1Crystal" />
+				<ref bean="upper_Plus2Crystal" />
+				<ref bean="upper_Plus3Crystal" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="upper_detectorMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="upper_det_x" />
+				<ref bean="upper_det_y" />
+				<ref bean="upper_det_pitch" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Scannables for persisted radius, material, crystal cut values -->
+	<bean id="upper_radius" class="gda.device.scannable.DummyPersistentScannable" />
+	
+	<bean id="XESBraggUpper" class="gda.device.scannable.XesSpectrometerScannable">
+		<property name="radiusScannable" ref="upper_radius" />
+		<property name="detectorGroup" ref="upper_detectorMotors" />
+		<property name="crystalsGroup" ref="upper_spectrometerCrystals" />
+		<property name="crystalsAllowedToMove" ref="upper_crystalsAllowedToMove" />
+		<property name="trajectoryStepSize" value="0.1" />
+		<property name="horizontalCrystalOffset" value="130" />
+		<property name="absoluteXPos" value="true" />
+		<property name="detectorAxisAngle" value="30" />
+	</bean>
+	
+	<bean id="upper_spectrometer_all_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	</bean>
+	
+	<bean id="upper_dummy_spectrometer_all_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	</bean>
+
+	<bean id="upper_cut1" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="positions" ref="crystalCutList" />
+	</bean>
+
+	<bean id="upper_cut2" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="positions" ref="crystalCutList" />
+	</bean>
+
+	<bean id="upper_cut3" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="positions" ref="crystalCutList" />
+	</bean>
+	
+	<bean id="upper_material" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="positions" ref="crystalMaterialList" />
+	</bean>
+
+	<bean id="XESEnergyUpper" class="gda.device.scannable.XESEnergyScannable">
+		<property name="xes" ref="XESBraggUpper" />
+		<property name="cut1" ref="upper_cut1" />
+		<property name="cut2" ref="upper_cut2" />
+		<property name="cut3" ref="upper_cut3" />
+		<property name="material" ref="upper_material" />
+		<property name="userUnits" value="eV" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="XesOffsetsUpper" class="gda.device.scannable.XesOffsets" >
+		<property name="spectrometerGroup" ref="upper_spectrometer_all_scannables" />
+		<property name="xesEnergyScannable" ref="XESEnergyUpper" />
+	</bean>
+
+</beans>

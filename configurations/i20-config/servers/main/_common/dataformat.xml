@@ -213,10 +213,11 @@
 					</property>
 				</bean>
 				<bean id="xes_energy" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="XES energy: %.2f eV" />
+					<property name="label" value="XES energy (upper, lower): %.2f eV , %.2f eV" />
 					<property name="labelValues">
 						<list>
-							<ref bean="XESEnergy" />
+							<ref bean="XESEnergyUpper" />
+							<ref bean="XESEnergyLower" />
 						</list>
 					</property>
 				</bean>
@@ -458,10 +459,11 @@
 					</property>
 				</bean>
 				<bean id="xes_energy_for_xes" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="XES energy: %.2f eV" />
+					<property name="label" value="XES energy (upper, lower): %.2f eV , %.2f eV" />
 					<property name="labelValues">
 						<list>
-							<ref bean="XESEnergy" />
+							<ref bean="XESEnergyUpper" />
+							<ref bean="XESEnergyLower" />
 						</list>
 					</property>
 				</bean>

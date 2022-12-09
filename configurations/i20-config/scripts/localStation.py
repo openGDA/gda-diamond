@@ -48,6 +48,13 @@ run "mono_optimisation.py"
 # Create some functions useful for setting up and controlling the medipix ROIs
 run "medipix_functions.py"
 
+#  Make the spectrometer setup functions available
+run "spectrometer-setup.py"
+
+
+#  Run the detector setup functions
+run "detector-setup.py"
+
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
 # detectorPreparer.setFFI0(FFI0);
@@ -61,7 +68,8 @@ samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
 beamlinePreparer = I20BeamlinePreparer()
 
-xesOffsets=Finder.find("XesOffsets")
+XesOffsetsLower=Finder.find("XesOffsetsLower")
+XesOffsetsUpper=Finder.find("XesOffsetsUpper")
 
 theFactory = XesScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -73,9 +81,9 @@ theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
 theFactory.setScanName("xas")
-theFactory.setAnalyserAngle(XESBragg)
-theFactory.setXes_energy(XESEnergy)
-theFactory.setXesOffsets(xesOffsets)
+theFactory.setAnalyserAngle(XESBraggUpper)
+theFactory.setXes_energy(XESEnergyUpper)
+theFactory.setXesOffsets(XesOffsetsUpper)
 xes = theFactory.createXesScan()
 xes.setTwoDPlotter(xes_2d_plotter)
 
@@ -127,8 +135,10 @@ def machineMode() :
         # in case the machine mode monitor is missing
         return "Shutdown"
     
-
-if LocalProperties.get("gda.mode") == "live":
+if LocalProperties.isDummyModeEnabled() :
+    remove_default([topupChecker])
+    remove_default([absorberChecker])
+else : 
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
@@ -145,45 +155,26 @@ if LocalProperties.get("gda.mode") == "live":
         add_default([topupChecker])
         add_default([absorberChecker])
         add_default([shutterChecker])
-else:
-    remove_default([topupChecker])
-    remove_default([absorberChecker])
 
 # Make sure xes offset start at zero every time
-xesOffsets.removeAll()
-
+XesOffsetsLower.removeAll()
+XesOffsetsUpper.removeAll()
 
 if LocalProperties.get("gda.mode") == "live":
     run "adc_monitor"
     #Don't include 'count_time' in medipix readout values. imh 18/1/2018 
     medipix.getCollectionStrategy().setReadAcquisitionTime(False)
-else :
-    if material() == None:
-        material('Si')
-    det_y.getMotor().setSpeed(10000)
-    xtal_x.getMotor().setSpeed(10000)
-
-    # Set positions of some scannables to reasonable positions so that XESBragg calculation has a chance of working
-    
-    for scn in spectrometer.getGroupMembers() :
-        scn.getMotor().setSpeed(10000)
-
-    for crys in crystalsAllowedToMove.getGroupMembers() :
-        crys.moveTo("true")
-    
-    for cut in [cut1, cut2, cut2] :
-        cut.moveTo(1)
-
-    pos det_y 475.0
-    pos xtal_x 1000.0
-    pos radius 1000.0
-        
+else :        
     # Set ROI plugin base pv name : real detector uses 'ROI1', simulated area detector uses 'ROI:'
     detectorPreparer.setRoiPvName("ROI:")
 
-# Set the speed of the XES simulated position scannables 
-for scn in dummy_spectrometer.getGroupMembers() :
-    scn.getMotor().setSpeed(10000)
+if LocalProperties.isDummyModeEnabled() :
+    setup_dummy_spectrometer(XESEnergyUpper)
+    setup_dummy_spectrometer(XESEnergyLower)
+
+set_initial_crystal_values(XESEnergyLower)
+set_initial_crystal_values(XESEnergyUpper)
+
 
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
 
@@ -230,104 +221,6 @@ def reconnect_daserver_new() :
     DAServer.reconfigure()
     sleep(1)
     mem.clear()
-
-# Set initial values of allowedToMove scannables for XES spectrometer crystals
-for scn in [ minusCrystalAllowedToMove, centreCrystalAllowedToMove, plusCrystalAllowedToMove ] :
-    if scn.getPosition() == None :
-        print "Setting initial value of {0} to true".format(scn.getName())
-        scn.moveTo("true")
-
-for scn in [ cut1, cut2, cut3 ] :
-    if scn.getPosition() == None :
-        print "Setting initial value of {0} to 1".format(scn.getName())
-        scn.moveTo(1)
-
-
-run 'xspress_functions.py'
-
-""" setupXspress3 and setupXSpress4 use functions from xspress_functions.py """
-
-def setupXspress3() :
-    xspress3Controller = xspress3.getController()
-    basePvName = xspress3Controller.getEpicsTemplate()
-    setup_xspress_detector(basePvName)
-    setupResGrades(basePvName, False)
-            
-    detPort = caget(basePvName+":PortName_RBV")
-    set_hdf_input_port(basePvName, detPort)
-    set_sca_input_port(basePvName, 4, detPort)
-    set_hdf5_filetemplate(basePvName)
-
-def setupXspress3X() :
-    basePvName = xspress3X.getController().getBasePv()
-
-    setup_xspress_detector(basePvName)
-    setupResGrades(basePvName, False)
-    detPort = caget(basePvName+":PortName_RBV")
-    set_hdf_input_port(basePvName, detPort)
-    set_sca_input_port(basePvName, 4, detPort)
-    set_hdf5_filetemplate(basePvName)
-         
-def setupXspress4() : 
-    print "Setting up XSpress4 : "
-    
-    #arrayCounter = ":ArrayCounter_RBV" # Old Xspress4 IOC
-    arrayCounter = ":ARR:ArrayCounter_RBV" # New Xspress4 IOC (13April2022)
-    print("Setting Array counter RBV PV to :%s"%(arrayCounter))
-    xspress4.getController().setArrayCounterRbvName(arrayCounter)
-    # Recreate the PVs
-    xspress4.getController().afterPropertiesSet()
-    
-    basename = xspress4.getController().getBasePv()
-    
-    # setupResGrades(basename, True)
-    setup_xspress_detector(basename)  # set the trigger mode, 1 frame of data to set data dimensions
-
-    # Set the default deadtime correction energy if not already non-zero
-    if xspress4.getDtcEnergyKev() == 0 :
-        print "  Setting deadtime correction energy to 10Kev"
-        xspress4.setDtcEnergyKev(10)
-         
-    # # Set to empty string, so that at scan start path is set to current visit directory.
-    xspress4.setFilePath("");
-    set_hdf5_filetemplate(basename)
-
-def setupResGrades(basePvName, collect) :
-    val = 0
-    if collect == True :
-        val = 1
-        
-    if int(caget(basePvName+":COLLECTRESGRADES_RBV")) != val:
-        print "Setting Xspress4 IOC "+basePvName+" to collect Resgrades"
-        CAClient.put(basePvName+":COLLECTRESGRADES", val)
-        Thread.sleep(500)
-    if int(caget(basePvName+":RECONNECT_REQUIRED")) == 1 :
-        print "Reconnecting IOC connection to Xspress detector"
-        CAClient.put(basePvName+":CONNECT", 1)
-        Thread.sleep(2000)
-        print "Finished reconnecting"
-
-def set_hdf5_filetemplate(basePvName):
-    print "Setting hdf filename template"
-    hdf5Values = { "FileTemplate" : "%s%s%d.hdf", "FileWriteMode" : 2}
-    for key in hdf5Values :
-        pv = basePvName + ":HDF5:" + key
-        value = hdf5Values[key]
-        print "  Setting " + pv + " to " + str(value)
-        if isinstance(value, str) :
-            CAClient.putStringAsWaveform(pv, value) 
-        else :
-            CAClient.put(pv, value)
-
-def setupMedipix() :
-    global medipix_basePvName
-    print "Setting up Medipix"
-    collect_software_triggered_frame(medipix_basePvName+":CAM", 1.0)
-    
-run_in_try_catch(setupXspress3)
-run_in_try_catch(setupXspress3X)
-run_in_try_catch(setupXspress4)
-run_in_try_catch(setupMedipix)
 
 run "topup-scannable.py"
 run "energy-transfer-scannable.py"

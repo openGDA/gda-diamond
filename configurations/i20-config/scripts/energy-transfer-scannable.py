@@ -60,7 +60,7 @@ converterRelativeToBragg.setReferenceScannable(bragg1)
 
 energyTransfer = ConvertorScannable();
 energyTransfer.setName("energyTransfer")
-energyTransfer.setOutputFormat(XESEnergy.getOutputFormat())
-energyTransfer.setScannable(XESEnergy)
+energyTransfer.setOutputFormat(XESEnergyLower.getOutputFormat())
+energyTransfer.setScannable(XESEnergyLower)
 energyTransfer.setConvertor(converterRelativeToBragg)
 energyTransfer.configure()

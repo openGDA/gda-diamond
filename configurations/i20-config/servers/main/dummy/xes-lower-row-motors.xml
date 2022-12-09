@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+<!-- Dummy motors for XES lower row analysers  
+(force dummy mode, so they can be used as dummy motors in 'live' mode)-->
+		
+	<gda:motor id="lower_minus3_x" live-class="#dummy" />
+	<gda:motor id="lower_minus3_y" live-class="#dummy" />
+	<gda:motor id="lower_minus3_yaw" live-class="#dummy" />
+	<gda:motor id="lower_minus3_pitch" live-class="#dummy" />
+
+	<gda:motor id="lower_minus2_x" live-class="#dummy" />
+	<gda:motor id="lower_minus2_y" live-class="#dummy" />
+	<gda:motor id="lower_minus2_yaw" live-class="#dummy" />
+	<gda:motor id="lower_minus2_pitch" live-class="#dummy" />
+
+	<gda:motor id="lower_minus1_x" live-class="#dummy" />
+	<gda:motor id="lower_minus1_y" live-class="#dummy" />
+	<gda:motor id="lower_minus1_yaw" live-class="#dummy" />
+	<gda:motor id="lower_minus1_pitch" live-class="#dummy" />
+
+	<gda:motor id="lower_zero_x" live-class="#dummy" />
+	<gda:motor id="lower_zero_y" live-class="#dummy" />
+	<gda:motor id="lower_zero_yaw" live-class="#dummy" />
+	<gda:motor id="lower_zero_pitch" live-class="#dummy" />
+
+	<gda:motor id="lower_plus1_x" live-class="#dummy" />
+	<gda:motor id="lower_plus1_y" live-class="#dummy" />
+	<gda:motor id="lower_plus1_yaw" live-class="#dummy" />
+	<gda:motor id="lower_plus1_pitch" live-class="#dummy" />
+
+	<gda:motor id="lower_plus2_x" live-class="#dummy" />
+	<gda:motor id="lower_plus2_y" live-class="#dummy" />
+	<gda:motor id="lower_plus2_yaw" live-class="#dummy" />
+	<gda:motor id="lower_plus2_pitch" live-class="#dummy" />
+
+	<gda:motor id="lower_plus3_x" live-class="#dummy" />
+	<gda:motor id="lower_plus3_y" live-class="#dummy" />
+	<gda:motor id="lower_plus3_yaw" live-class="#dummy" />
+	<gda:motor id="lower_plus3_pitch" live-class="#dummy" />
+
+	<gda:motor id="lower_det_x" live-class="#dummy" />
+	<gda:motor id="lower_det_y" live-class="#dummy" />
+	<gda:motor id="lower_det_pitch" live-class="#dummy" />
+
+</beans>

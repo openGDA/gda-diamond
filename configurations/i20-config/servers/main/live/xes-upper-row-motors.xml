@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+<!-- Live motors for XES upper row analysers  -->
+
+<!-- upper row = BL20I-EA-XES-01, lower row = BL20I-EA-XES-02  -->
+
+	<bean id="upperSpecBasePv" class="java.lang.String">
+		<constructor-arg value="BL20I-EA-XES-01:" />
+	</bean>
+
+	<gda:motor id="upper_minus3_x" live-pvName="#{upperSpecBasePv}:XTAL:M3:X" />
+	<gda:motor id="upper_minus3_y" live-pvName="#{upperSpecBasePv}:XTAL:M3:Y" />
+	<gda:motor id="upper_minus3_yaw" live-pvName="#{upperSpecBasePv}:XTAL:M3:YAW" />
+	<gda:motor id="upper_minus3_pitch" live-pvName="#{upperSpecBasePv}:XTAL:M3:PITCH" />
+
+	<gda:motor id="upper_minus2_x" live-pvName="#{upperSpecBasePv}:XTAL:M2:X" />
+	<gda:motor id="upper_minus2_y" live-pvName="#{upperSpecBasePv}:XTAL:M2:Y" />
+	<gda:motor id="upper_minus2_yaw" live-pvName="#{upperSpecBasePv}:XTAL:M2:YAW" />
+	<gda:motor id="upper_minus2_pitch" live-pvName="#{upperSpecBasePv}:XTAL:M2:PITCH" />
+
+	<gda:motor id="upper_minus1_x" live-pvName="#{upperSpecBasePv}:XTAL:M1:X" />
+	<gda:motor id="upper_minus1_y" live-pvName="#{upperSpecBasePv}:XTAL:M1:Y" />
+	<gda:motor id="upper_minus1_yaw" live-pvName="#{upperSpecBasePv}:XTAL:M1:YAW" />
+	<gda:motor id="upper_minus1_pitch" live-pvName="#{upperSpecBasePv}:XTAL:M1:PITCH" />
+
+	<gda:motor id="upper_zero_x" live-pvName="#{upperSpecBasePv}:XTAL:C:X" />
+	<gda:motor id="upper_zero_y" live-pvName="#{upperSpecBasePv}:XTAL:C:Y" />
+	<gda:motor id="upper_zero_yaw" live-pvName="#{upperSpecBasePv}:XTAL:C:YAW" />
+	<gda:motor id="upper_zero_pitch" live-pvName="#{upperSpecBasePv}:XTAL:C:PITCH" />
+
+	<gda:motor id="upper_plus1_x" live-pvName="#{upperSpecBasePv}:XTAL:P1:X" />
+	<gda:motor id="upper_plus1_y" live-pvName="#{upperSpecBasePv}:XTAL:P1:Y" />
+	<gda:motor id="upper_plus1_yaw" live-pvName="#{upperSpecBasePv}:XTAL:P1:YAW" />
+	<gda:motor id="upper_plus1_pitch" live-pvName="#{upperSpecBasePv}:XTAL:P1:PITCH" />
+
+	<gda:motor id="upper_plus2_x" live-pvName="#{upperSpecBasePv}:XTAL:P2:X" />
+	<gda:motor id="upper_plus2_y" live-pvName="#{upperSpecBasePv}:XTAL:P2:Y" />
+	<gda:motor id="upper_plus2_yaw" live-pvName="#{upperSpecBasePv}:XTAL:P2:YAW" />
+	<gda:motor id="upper_plus2_pitch" live-pvName="#{upperSpecBasePv}:XTAL:P2:PITCH" />
+
+	<gda:motor id="upper_plus3_x" live-pvName="#{upperSpecBasePv}:XTAL:P3:X" />
+	<gda:motor id="upper_plus3_y" live-pvName="#{upperSpecBasePv}:XTAL:P3:Y" />
+	<gda:motor id="upper_plus3_yaw" live-pvName="#{upperSpecBasePv}:XTAL:P3:YAW" />
+	<gda:motor id="upper_plus3_pitch" live-pvName="#{upperSpecBasePv}:XTAL:P3:PITCH" />
+
+	<gda:motor id="upper_det_x" live-pvName="#{upperSpecBasePv}:DET:X" />
+	<gda:motor id="upper_det_y" live-pvName="#{upperSpecBasePv}:DET:Y" />
+	<gda:motor id="upper_det_pitch" live-pvName="#{upperSpecBasePv}:DET:PITCH" />
+
+</beans>

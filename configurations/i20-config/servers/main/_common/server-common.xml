@@ -87,5 +87,29 @@
 		<property name="rcpController" ref="RCPController" />
 		<property name="openPlotViewAtScanStart" value="true" />
 	</bean>
+
+
+	<util:list id="crystalCutList">
+		<value>0</value>
+		<value>1</value>
+		<value>2</value>
+		<value>3</value>
+		<value>4</value>
+		<value>5</value>
+		<value>6</value>
+		<value>7</value>
+		<value>8</value>
+		<value>9</value>
+	</util:list>
+
+	<util:list id="trueFalseList">
+		<value>true</value>
+		<value>false</value>
+	</util:list>
+
+	<util:list id="crystalMaterialList">
+		<value>Si</value>
+		<value>Ge</value>
+	</util:list>
 	
 </beans>
