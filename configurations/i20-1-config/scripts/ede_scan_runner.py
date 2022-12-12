@@ -1,6 +1,6 @@
 from gda.scan.ede import TimeResolvedExperimentParameters
 
-class FrelonScanRunner:
+class EdeScanRunner:
     def __init__(self):
         self.scanFileName=""
     
@@ -9,21 +9,19 @@ class FrelonScanRunner:
         if len(params) > 0:
             self.scanFileName = str(params[0])
                
-        if os.path.isfile(self.scanFileName) == False :
+        if not os.path.isfile(self.scanFileName) :
             print "Unable to run scan - couldn't find file called '",self.scanFileName,"'"
             return
         
-        print "Running Ede LinearExperiment using settings from xml file : ",self.scanFileName
+        print "Running Ede scan using settings from xml file : ",self.scanFileName
 
         #Load params from xml file
         timeResolvedParams = TimeResolvedExperimentParameters.loadFromFile(str(self.scanFileName))
-        
         # Create time resolved experiment from the params
-        theExperiment = timeResolvedParams.createTimeResolvedExperiment()
-        
+        experiment = timeResolvedParams.createTimeResolvedExperiment()
         # Run the scan
-        theExperiment.runExperiment()
+        experiment.runExperiment()
         
-frelon_scan = FrelonScanRunner()
+ede_scan = EdeScanRunner()
 
-vararg_alias("frelon_scan")
+vararg_alias("ede_scan")

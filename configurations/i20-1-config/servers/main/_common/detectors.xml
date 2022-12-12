@@ -57,6 +57,7 @@
 	<bean id="xspress3FFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress3" />
 		<property name="counterTimer" ref="scaler_for_zebra" />
+		<property name="I0_channel" value="2" />
 	</bean>
 
 	<bean id="buffered_xspress3"

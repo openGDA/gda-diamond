@@ -298,10 +298,19 @@ def openMarCover() :
     print("Mar cover open")
 
 def readoutMar() :
+    print("Reading out Mar...")
     caput(getMarPvString("CAM:Acquire"), 1)
+    sleep(2)
+    waitForDetectorState("Idle")
+    print("Finished reading out")
+
 
 def eraseMar() :
+    print("Erasing Mar...")
     caput(getMarPvString("CAM:Erase"), 1)
+    sleep(2)
+    waitForDetectorState("Idle")
+    print("Finished erasing")
 
 
 from gda.epics import LazyPVFactory
@@ -317,6 +326,11 @@ class lambdaFunction(Predicate):
 def cagetWaitForValue(pvName, value) :
     pvPosition = LazyPVFactory.newReadOnlyDoublePV(pvName);
     pvPosition.waitForValue(lambdaFunction(lambda x : x == value), 60.0)   	
+
+def waitForDetectorState(detectorState, timeout=120.0) :
+    print("Waiting for Mar state : %s"%(detectorState))
+    detStatePv = LazyPVFactory.newReadOnlyStringPV(getMarPvString("CAM:DetectorState_RBV"))
+    detStatePv.waitForValue(lambdaFunction(lambda x : str(x) == str(detectorState)), timeout)       
 
 # Set some reasonable defaults on the TIFF and CAM plugins
 setMarFilePathToVisit("nexus")
