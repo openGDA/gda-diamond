@@ -57,6 +57,7 @@ else:
     from Beamline.MotionsAndDetectors.dcm_enrg import DCMpdq
     dcm_enrg = DCMpdq("dcm_enrg", DummyBeamMonitor(), dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current)
     run("dummy/xanes_scan.py")
+    run("dummy/sparse_xanes_scan.py")
     run("dummy/cross_hairs.py")
     run("dummy/standards_scan.py")
     run("dummy/tomo_scan.py")
