@@ -9,9 +9,9 @@
 				<entry key="GTS">
 					<map>
 						<entry key="X" value="gts_x" />
-						<entry key="Y" value="gts_y" />
 						<entry key="Z" value="gts_z" />
 						<entry key="Theta" value="gts_theta" />
+						<entry key="Y" value="gts_y" />
 					</map>
 				</entry>
 				<entry key="TR6">
