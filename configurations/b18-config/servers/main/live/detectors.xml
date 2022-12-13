@@ -53,10 +53,6 @@
 <!-- 		</property> -->
 <!-- 	</bean> -->
 
-<!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
-<!-- 		<property name="cirrusHost" value="b18-cirrus01" /> -->
-<!-- 	</bean> -->
-
 	<bean id="counterTimer01_gmsd" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>

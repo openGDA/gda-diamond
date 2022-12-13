@@ -104,8 +104,4 @@
             value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
     </bean>
 
-
-	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector"> -->
-	<!-- </bean> -->
-
 </beans>

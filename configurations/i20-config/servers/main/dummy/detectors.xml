@@ -180,10 +180,6 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.CirrusDetector"> -->
-	<!-- <property name="cirrusHost" value="diamrl5244" /> -->
-	<!-- </bean> -->
-
 	<bean id="i0_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
