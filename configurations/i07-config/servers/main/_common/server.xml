@@ -64,6 +64,8 @@
 	<import resource="server_dummies.xml" />
 	<import resource="eh2_scannables.xml" />
 
+	<import resource="solstice_scanning_defaults.xml" />
+
 	<import resource="detectors/dcam2.xml" />
 	<import resource="detectors/dcam3.xml" />
 	<import resource="detectors/dcam4.xml" />
