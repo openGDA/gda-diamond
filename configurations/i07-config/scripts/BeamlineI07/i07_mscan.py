@@ -28,10 +28,13 @@ class DCHklAdapter(HklAdapter):
     def getFourCNames(self):
         return list(_fourc.getGroupMemberNames())
 
-hkl_prov = DCHklAdapter()
-exc.setHklProvider(hkl_prov)
-p2c.setHklProvider(hkl_prov)
-p3c.setHklProvider(hkl_prov)
+try:
+    hkl_prov = DCHklAdapter()
+    exc.setHklProvider(hkl_prov)
+    p2c.setHklProvider(hkl_prov)
+    p3c.setHklProvider(hkl_prov)
+except Exception as e:
+    print("Error setting up hkl providers", e)
 
 # Inject normaliser processor for use in namespace
 excalibur_norm = Finder.find("excalibur_norm")

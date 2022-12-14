@@ -23,7 +23,98 @@
 	<bean id="MalcPlotProcPil3" class="uk.ac.gda.analysis.mscan.PlotProc">
 		<property name="plotName" value="Pilatus 3" />
 	</bean>
+	<bean id="MalcAttenuatorProc" class="uk.ac.gda.analysis.mscan.FilterTransmissionProc">
+		<property name="enabled" value="false" />
+		<property name="transmissionCalc" value="#{ fatt_filters.getCurrentTransmissionFunction() }" />
+	</bean>
 
+	<bean id="excalibur_processing" class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager">
+		<property name="processorMap">
+			<map>
+				<entry>
+					<key>
+						<bean class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager.Config">
+							<constructor-arg index="0" value="0"/>
+							<constructor-arg index="1" value="-attenuation.h5"/>
+							<constructor-arg index="2" value="/attenuation"/>
+							<constructor-arg index="3" value="/uid"/>
+							<constructor-arg index="4" value="EXCALIBUR"/>
+							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
+							<constructor-arg index="6" ><null /></constructor-arg>
+						</bean>
+					</key>
+					<list>
+						<ref bean="MalcAttenuatorProc" />
+					</list>
+				</entry>
+				<entry>
+					<key>
+						<bean class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager.Config">
+							<constructor-arg index="0" value="2"/>
+							<constructor-arg index="1" value="-EXCALIBUR.h5"/>
+							<constructor-arg index="2" value="/data"/>
+							<constructor-arg index="3" value="/uid"/>
+							<constructor-arg index="4" value="EXCALIBUR"/>
+							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
+							<constructor-arg index="6" ><null /></constructor-arg>
+						</bean>
+					</key>
+					<list>
+						<ref bean="MalcRoiProcExc" />
+						<ref bean="MalcPlotProcExc" />
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="pilatus2_processing" class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager">
+		<property name="processorMap">
+			<map>
+				<entry>
+					<key>
+						<bean class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager.Config">
+							<constructor-arg index="0" value="2"/>
+							<constructor-arg index="1" value="-PILATUS.h5"/>
+							<constructor-arg index="2" value="/entry/detector/detector"/>
+							<constructor-arg index="3" value="/entry/NDAttributes/NDArrayUniqueId"/>
+							<constructor-arg index="4" value="PILATUS"/>
+							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
+							<constructor-arg index="6" ><null /></constructor-arg>
+						</bean>
+					</key>
+					<list>
+						<ref bean="MalcRoiProcPil2" />
+						<ref bean="MalcPlotProcPil2" />
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="pilatus3_processing" class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager">
+		<property name="processorMap">
+			<map>
+				<entry>
+					<key>
+						<bean class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager.Config">
+							<constructor-arg index="0" value="2"/>
+							<constructor-arg index="1" value="-PILATUS.h5"/>
+							<constructor-arg index="2" value="/entry/detector/detector"/>
+							<constructor-arg index="3" value="/entry/NDAttributes/NDArrayUniqueId"/>
+							<constructor-arg index="4" value="PILATUS"/>
+							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
+							<constructor-arg index="6" ><null /></constructor-arg>
+						</bean>
+					</key>
+					<list>
+						<ref bean="MalcRoiProcPil3" />
+						<ref bean="MalcPlotProcPil3" />
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
 
 	<!-- scan 1 -->
 	<bean id="malcolm_info_scan01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -39,17 +130,7 @@
 		<property name="model" ref="malcolm_model_scan01" />
 		<property name="deviceInformation" ref="malcolm_info_scan01" />
 		<property name="activated" value="false" />
-		<property name="detFileNameSuffix" value="-EXCALIBUR.h5" />
-		<property name="detFrameEntry" value="/data" />
-		<property name="detUidEntry" value="/uid" />
-		<property name="primaryDataName" value="EXCALIBUR" />
-		<property name="processors">
-			<list>
-				<ref bean="MalcRoiProcExc" />
-				<ref bean="MalcPlotProcExc" />
-			</list>
-		</property>
-
+		<property name="processing" ref="excalibur_processing" />
 	</bean>
 
 	<!-- scan 2 -->
@@ -66,16 +147,7 @@
 		<property name="model" ref="malcolm_model_scan02" />
 		<property name="deviceInformation" ref="malcolm_info_scan02" />
 		<property name="activated" value="false" />
-		<property name="detFileNameSuffix" value="-PILATUS.h5" />
-		<property name="detFrameEntry" value="/entry/detector/detector" />
-		<property name="detUidEntry" value="/entry/NDAttributes/NDArrayUniqueId" />
-		<property name="primaryDataName" value="PILATUS" />
-		<property name="processors">
-			<list>
-				<ref bean="MalcRoiProcPil2" />
-				<ref bean="MalcPlotProcPil2" />
-			</list>
-		</property>
+		<property name="processing" ref="pilatus2_processing" />
 	</bean>
 
 	<!-- scan 3 -->
@@ -380,16 +452,7 @@
 		<property name="model" ref="malcolm_model_scan33" />
 		<property name="deviceInformation" ref="malcolm_info_scan33" />
 		<property name="activated" value="false" />
-		<property name="detFileNameSuffix" value="-PILATUS.h5" />
-		<property name="detFrameEntry" value="/entry/detector/detector" />
-		<property name="detUidEntry" value="/entry/NDAttributes/NDArrayUniqueId" />
-		<property name="primaryDataName" value="PILATUS" />
-		<property name="processors">
-			<list>
-				<ref bean="MalcRoiProcPil3" />
-				<ref bean="MalcPlotProcPil3" />
-			</list>
-		</property>
+		<property name="processing" ref="pilatus3_processing" />
 	</bean>
 
 </beans>
