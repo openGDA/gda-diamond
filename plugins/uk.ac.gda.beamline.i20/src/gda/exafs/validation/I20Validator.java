@@ -33,6 +33,7 @@ import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
+import uk.ac.gda.beans.validation.WarningType;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
@@ -97,9 +98,9 @@ public class I20Validator extends ExafsValidator {
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 
 		if (s.getName().startsWith(DEFAULT_SAMPLE_NAME) || s.getName().isEmpty()){
-			errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Sample Name has not been set in " + bean.getSampleFileName()));
 		} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())){
-			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 		}
 		return errors;
 	}
@@ -118,7 +119,7 @@ public class I20Validator extends ExafsValidator {
 
 		// check the detector type XES has been chosen
 		if (detParams != null && !detParams.getExperimentType().equalsIgnoreCase("xes")) {
-			errors.add(new InvalidBeanMessage("The experiment type in the detector parameters file is "
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "The experiment type in the detector parameters file is "
 					+ detParams.getExperimentType() + " which should be XES"));
 		}
 
@@ -128,7 +129,7 @@ public class I20Validator extends ExafsValidator {
 			double initialE = x.getXesInitialEnergy();
 			double finalE = x.getXesFinalEnergy();
 			if (initialE >= finalE) {
-				errors.add(new InvalidBeanMessage("The initial energy is greater than or equal to the final energy."));
+				errors.add(new InvalidBeanMessage(WarningType.HIGH, "The initial energy is greater than or equal to the final energy."));
 			}
 
 			checkBounds("XES Initial Energy", initialE, 0d, finalE, errors);
@@ -140,7 +141,7 @@ public class I20Validator extends ExafsValidator {
 			double initialE = x.getXesInitialEnergy();
 			double finalE = x.getXesFinalEnergy();
 			if (initialE >= finalE) {
-				errors.add(new InvalidBeanMessage("The initial energy is greater than or equal to the final energy."));
+				errors.add(new InvalidBeanMessage(WarningType.HIGH, "The initial energy is greater than or equal to the final energy."));
 			}
 
 			checkBounds("XES Initial Energy", initialE, 0d, finalE, errors);
@@ -149,7 +150,7 @@ public class I20Validator extends ExafsValidator {
 			initialE = x.getMonoInitialEnergy();
 			finalE = x.getMonoFinalEnergy();
 			if (initialE >= finalE) {
-				errors.add(new InvalidBeanMessage("The initial energy is greater than or equal to the final energy."));
+				errors.add(new InvalidBeanMessage(WarningType.HIGH, "The initial energy is greater than or equal to the final energy."));
 			}
 
 			checkBounds("Mono Initial Energy", initialE, 0d, finalE, errors);
@@ -166,7 +167,7 @@ public class I20Validator extends ExafsValidator {
 					try {
 						energyScanBean = XMLHelpers.getBeanObject(xmlFolderName, x.getScanFileName());
 					} catch (Exception e) {
-						InvalidBeanMessage msg = new InvalidBeanMessage(e.getMessage());
+						InvalidBeanMessage msg = new InvalidBeanMessage(WarningType.HIGH, e.getMessage());
 						errors.add(msg);
 						return errors;
 					}

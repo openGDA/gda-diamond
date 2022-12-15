@@ -27,6 +27,7 @@ import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
+import uk.ac.gda.beans.validation.WarningType;
 
 public class B18Validator extends ExafsValidator {
 
@@ -54,16 +55,16 @@ public class B18Validator extends ExafsValidator {
 		}
 
 		if (s.getName() == null) {
-			errors.add(new InvalidBeanMessage("Please set a sample name."));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Please set a sample name."));
 		}
 		if (s.getDescription1() == null) {
-			errors.add(new InvalidBeanMessage("Please set a sample description."));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Please set a sample description."));
 		}
 
 		if (s.getName().compareTo("default") == 0) {
-			errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Sample Name has not been set in " + bean.getSampleFileName()));
 		} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())) {
-			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName()
+			errors.add(new InvalidBeanMessage(WarningType.HIGH, "The given Sample Name in " + bean.getSampleFileName()
 					+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 		}
 
