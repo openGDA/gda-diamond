@@ -45,13 +45,13 @@ def preview():
     
 def enableRastering():
     from gdaserver import medipix  # @UnresolvedImport
-    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(True)
+    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().getDecoratee().setEnabled(True)
 alias("enableRastering")
 
-def disableRatsering():
+def disableRastering():
     from gdaserver import medipix  # @UnresolvedImport
-    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().setEnable(False)
-alias("disableRatsering")
+    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().getDecoratee().setEnabled(False)
+alias("disableRastering")
   
 if installation.isLive():
     
