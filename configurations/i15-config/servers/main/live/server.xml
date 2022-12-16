@@ -20,6 +20,7 @@
 
 	<import resource="../_common/server.xml"/>
 	<import resource="device/*.xml"/>
+	<import resource="mapping/*.xml" />
 	<import resource="scannable/*.xml"/>
 	<import resource="transient/*.xml"/>
 

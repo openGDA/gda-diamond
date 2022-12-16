@@ -21,6 +21,12 @@
 		<property name="arrayPv" value="BL15I-EA-PILAT-03:ARR" />
 	</bean>
 
+	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="j15_flyscan_sample_viewer">
+		<property name="displayName" value="J Cam 1" />
+		<property name="arrayPv" value="BL15J-DI-CAM-01:ARR" />
+		<property name="sleepTime" value="500" />
+	</bean>
+
 	<bean id="LH_upstream_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="LH_upstream_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
