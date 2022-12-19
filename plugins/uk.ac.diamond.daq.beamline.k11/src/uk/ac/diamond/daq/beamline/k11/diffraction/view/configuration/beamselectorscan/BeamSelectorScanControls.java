@@ -157,8 +157,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void setNumberOfCycles(int points) {
-		getScanningAcquisitionTemporaryHelper().createScannableTrackDocumentHelper()
-			.ifPresent(helper -> helper.updateScannableTrackDocumentsPoints(points));
+		getScanningParameters().getScanpathDocument().getScannableTrackDocuments().iterator().next().setPoints(points);
 		publishEvent(UpdatedProperty.PATH);
 	}
 
