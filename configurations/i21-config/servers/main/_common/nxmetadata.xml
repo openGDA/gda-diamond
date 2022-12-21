@@ -54,7 +54,7 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="polarisation"/>
-					<property name="expression" value="@idscannable.getPosition()[1]"/>
+					<property name="expression" value="@polarisation_wrapper.getPosition()"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="rowPhase"/>

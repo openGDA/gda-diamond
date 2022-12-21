@@ -17,6 +17,7 @@ from org.slf4j import LoggerFactory
 import threading, time
 import installation
 from time import sleep
+from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 
 ID_GAP_END_OFFSET=0.00 # value used to make sure ID gap stops at the same time as PGM Energy
 ID_GAP_SPEED_LOWER_LIMIT = 0.005
@@ -147,7 +148,10 @@ class ContinuousPgmEnergyIDGapMoveController(ConstantVelocityMoveController, Dev
         if installation.isLive():
             self.idpvs['vel'].caput(self._id_gap_speed_orig)
         else:
-            self._id_gap.speed = self._id_gap_speed_orig 
+            self._id_gap.speed = self._id_gap_speed_orig
+            
+        if polarisation in X_RAY_POLARISATIONS[4:-2]:
+            polarisation = polarisation[:2]
             
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
