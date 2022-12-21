@@ -7,7 +7,6 @@
 		<property name="analyser" ref="analyser" />
 		<property name="safeStateAfterScan" value="false" />
 	</bean>
-	
 	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserSeparateIterations">
 		<property name="name" value="analyser" />
 		<property name="controller" ref="analyser_controller" />
@@ -19,6 +18,12 @@
 		<!-- Real value for detectorEnergyWidth will be read from EPICS. This will be used if EPICS can't be accessed. -->
 		<property name="detectorEnergyWidth" value="0.13" />
 		<property name="alignmentTimeout" value="950.0" />
+		<!-- Exported parameter to overwrite default scan region values used in UI-->
+		<property name="defaultRegionUi">
+			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.api.SpecsPhoibosRegion">
+				<property name="slices" value="1" />
+			</bean>
+		</property>
 		<property name="configurablePhotonEnergyScannable">
 			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosConfigurableScannable">
 					<constructor-arg name="scannable" ref="pgm_energy" />
@@ -41,13 +46,6 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
-	
-	<!-- Export analyser so that it will be available on client -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/analyser" />
-		<property name="service" ref="analyser" />
-		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
 	</bean>
 
 	<bean id="analyser_sledge" class="gda.device.scannable.ScannableMotor">
