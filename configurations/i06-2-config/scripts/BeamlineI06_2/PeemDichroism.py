@@ -4,12 +4,11 @@
 
 from gda.analysis import RCPPlotter
 import scisoftpy.plot as dpl
-
-run "scisoft/peem_analysis"
+from Peem.peem_analysis import process_peem, load_peem
 
 pp=RCPPlotter()
-sourceDir = "/dls/i06/tmp/test"
-targetDir = "/dls/i06/tmp/test"
+sourceDir = "/dls/i06-2/tmp/test"
+targetDir = "/dls/i06-2/tmp/test"
 
 #To load image
 #pp.scanForImages("Image Explorer", "/dls/i06/data/2010/cm1895-1/demoImages")
