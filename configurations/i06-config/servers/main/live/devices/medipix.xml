@@ -370,7 +370,7 @@
 						<property name="resetFilterAtStart" value="true"/>
 						<property name="autoReset" value="true"/>
 						<property name="filterType" value="0"/>
-						<property name="numberOfImagesToFilter" value="3"/>
+						<property name="numberOfImagesToFilter" value="2"/>
 						<property name="enableFilter" value="true"/>
 						<property name="enableNumFilter" value="true"/>
 						<property name="decoratee">

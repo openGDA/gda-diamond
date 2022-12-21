@@ -19,9 +19,6 @@
 		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:OBJSTIGMB" />
 		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:OBJSTIGMB:RBV" />
 	</bean>
-	<bean id="fov" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL06I-EA-LEEM-01:FOV:RBV"/>
-	</bean>	
 	<bean id="p3AlignX" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:P3ALIGNX" />
 		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:P3ALIGNX:RBV" />
@@ -30,7 +27,7 @@
 		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:P3ALIGNY" />
 		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:P3ALIGNY:RBV" />
 	</bean>
-	<bean id="TL" class="gda.device.controlpoint.EpicsControlPoint">
+	<bean id="transLens" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:TRANSFER:LENS" />
 		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:TRANSFER:LENS:RBV" />
 	</bean>
@@ -38,5 +35,20 @@
 		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:SAMPLE:TEMP" />
 		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:SAMPLE:TEMP:RBV" />
 	</bean>
+	<bean id="objAlignX" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:OBJALIGNX" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:OBJALIGNX:RBV" />
+	</bean>
+	<bean id="objAlignY" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:OBJALIGNY" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:OBJALIGNY:RBV" />
+	</bean>
+	<bean id="intrimLens" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-EA-LEEM-01:INTERM:LENS" />
+		<property name="pvNameGetPoint" value="BL06I-EA-LEEM-01:INTERM:LENS:RBV" />
+	</bean>
+	<bean id="fov" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-EA-LEEM-01:FOV:RBV"/>
+	</bean>	
 	
 </beans>

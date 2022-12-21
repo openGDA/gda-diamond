@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="stv" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="1.60" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="obj" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="1274.00" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="objStigmA" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="10.71" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="objStigmB" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="11.94" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="p3AlignX" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="-188.20" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="p3AlignY" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="-198.40" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="transLens" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="592.93" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="temp" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="9998.90" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="objAlignX" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="-52.38" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="objAlignY" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="69.15" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="intrimLens" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="1272.76" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%.3f</value>
+			</array>
+		</property>
+	</bean>	
+
+	<bean id="fov" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<value type="double">19.00</value>
+		</property>
+		<property name="lowerLimit" value="5.0" />
+		<property name="upperLimit" value="30.0" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+</beans>

@@ -44,10 +44,12 @@
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ImageMode"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
-								<property name="name" value="bit_depth"/> <!-- there is no bit_depth PV in ADSIM -->
-								<property name="value">
-									<value type="java.lang.Integer">24</value>
-								</property>
+								<property name="name" value="pixel_depth"/> <!-- there is no bit_depth PV in ADSIM -->
+								<property name="value" value="24bit"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="CRW_mode"/> <!-- there is no bit_depth PV in ADSIM -->
+								<property name="value" value="Disabled"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
@@ -157,10 +159,12 @@
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ImageMode"/>
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
-								<property name="name" value="bit_depth"/> <!-- there is no bit_depth PV in ADSIM -->
-								<property name="value">
-									<value type="java.lang.Integer">24</value>
-								</property>
+								<property name="name" value="pixel_depth"/> <!-- there is no bit_depth PV in ADSIM -->
+								<property name="value" value="24bit"/>
+							</bean>
+	 						<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="CRW_mode"/> <!-- there is no bit_depth PV in ADSIM -->
+								<property name="value" value="Disabled"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
