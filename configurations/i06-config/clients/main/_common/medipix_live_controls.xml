@@ -33,7 +33,7 @@
 		<property name="command" value="preview()" />
 		<property name="buttonText" value="Preview" />
 		<property name="group" value="medipix Mode" />
-		<property name="buttonTooltip" value="Display image in preview mode (exposure time 0.1s and number of images 3)"/>
+		<property name="buttonTooltip" value="Display image in preview mode (exposure time 0.1s and number of images 2)"/>
 	</bean>
 
 	<!-- medipix image rotation control -->
