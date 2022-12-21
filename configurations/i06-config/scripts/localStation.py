@@ -38,10 +38,17 @@ alias("picture")
 def preview():
     from time import sleep
     from gdaserver import medipixpreview  # @UnresolvedImport
+    from gda.scan import ScanInformation
+    medipixpreview.getCollectionStrategy().saveState()
     medipixpreview.stop()
     sleep(1)
-    medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None)
+    medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, ScanInformation.EMPTY)
     medipixpreview.collectData()
+    
+def stop_preview():
+    from gdaserver import medipixpreview  # @UnresolvedImport
+    medipixpreview.stop()
+    medipixpreview.getCollectionStrategy().restoreState()
     
 def enableRastering():
     from gdaserver import medipix  # @UnresolvedImport

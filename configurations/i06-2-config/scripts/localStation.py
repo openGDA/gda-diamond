@@ -14,15 +14,27 @@ from i06shared.localStation import *  # @UnusedWildImport
     
 from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens  # @UnusedImport
 
-print("-"*100)
-print("Set 'rotate' and unrotate' commands for medipix detector image")
+def picture(acqTime):
+    scan(t,1,1,1,pcotif,acqTime)  # @UndefinedVariable
 from gda.jython.commands.GeneralCommands import alias
+alias("picture")
 #
+def preview():
+    from time import sleep
+    from gdaserver import medipixpreview  # @UnresolvedImport
+    from gda.scan import ScanInformation
+    medipixpreview.getCollectionStrategy().saveState()
+    medipixpreview.stop()
+    sleep(1)
+    medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, ScanInformation.EMPTY)
+    medipixpreview.collectData()
+    
+def stop_preview():
+    from gdaserver import medipixpreview  # @UnresolvedImport
+    medipixpreview.stop()
+    medipixpreview.getCollectionStrategy().restoreState()
+
 if installation.isLive():
-    def rotate():
-        rot=caget("BL06K-EA-LEEM-01:CALC:ROT:ANGLE")
-        caput("BL06K-EA-DET-01:ROT:Angle",rot)
-    alias("rotate")
     
     def set_medipix_acquire_time(t):
         stopped_by_me=False
@@ -36,7 +48,6 @@ if installation.isLive():
             caput(ACQUIRE_PV,1)
     alias("set_medipix_acquire_time")
     
-  
     try:
         mpxmode=EnumPVScannable("mpxmode", "BL06K-EA-DET-01:CAM:QuadMerlinMode")
         mpxmode.configure()
@@ -52,14 +63,15 @@ if installation.isLive():
         caput('BL06K-EA-DET-01:PROCB:EnableFilter','Enable')
     
     alias("average")
-else:
-    def unrotate():
-        raise RuntimeError("EPICS PV and IOC required!")
-    alias("unrotate")
-    
-    def rotate():
-        raise RuntimeError("EPICS PV and IOC required!")
-    alias("rotate")
+
+LocalProperties.set("run.in.gda", True) # property 'run.in.gda' must be set before import add_pixel_mask, remove_pixel_mas
+from i06shared.metadata.detectorPixelMask import add_pixel_mask, remove_pixel_mask # @UnusedImport
+
+from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
+scan_processor.rootNamespaceDict=globals()  
+import gdascripts
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
+
 
 print("="*100)
 print("end of localStation.py for Beamline I06-2)")
