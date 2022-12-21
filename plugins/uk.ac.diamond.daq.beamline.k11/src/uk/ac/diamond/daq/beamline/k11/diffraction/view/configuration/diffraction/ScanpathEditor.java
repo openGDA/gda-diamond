@@ -41,7 +41,6 @@ import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
-import uk.ac.diamond.daq.mapping.ui.diffraction.model.MutatorType;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -120,12 +119,16 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	protected abstract void modelToControls();
 
 	protected ScannableTrackDocument modifyAxis(ScannableTrackDocument axisToModify, double start, double stop, int points) {
-		return new ScannableTrackDocument.Builder(axisToModify).withStart(start).withStop(stop).withPoints(points).build();
+		var modified = new ScannableTrackDocument(axisToModify);
+		modified.setStart(start);
+		modified.setStop(stop);
+		modified.setPoints(points);
+		return modified;
 	}
 
 	protected void updateAxes(ScannableTrackDocument updatedX, ScannableTrackDocument updatedY) {
 		var updatedAxes = ScanningParametersUtils.updateAxes(getModel(), List.of(updatedX, updatedY));
-		var updatedDocument = new ScanpathDocument(getModel().getModelDocument(), updatedAxes, getModel().getMutators());
+		var updatedDocument = new ScanpathDocument(getModel().getModelDocument(), updatedAxes);
 		updateModel(updatedDocument);
 	}
 
@@ -214,11 +217,11 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	}
 
 	protected boolean isContinuous() {
-		return getModel().getMutators().containsKey(MutatorType.CONTINUOUS.getMscanMutator());
+		return getModel().getScannableTrackDocuments().stream().anyMatch(ScannableTrackDocument::isContinuous);
 	}
 
 	protected boolean isAlternating() {
-		return getModel().getMutators().containsKey(MutatorType.ALTERNATING.getMscanMutator());
+		return getModel().getScannableTrackDocuments().stream().anyMatch(ScannableTrackDocument::isAlternating);
 	}
 
 	@Override

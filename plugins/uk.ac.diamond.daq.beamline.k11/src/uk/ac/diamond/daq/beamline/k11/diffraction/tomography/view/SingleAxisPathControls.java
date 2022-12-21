@@ -72,11 +72,10 @@ public class SingleAxisPathControls implements Reloadable, IObservable {
 
 	private void controlsToModel() {
 		if (handlingReload) return;
-		var updatedModel = new ScannableTrackDocument.Builder(axis.get())
-								.withStart(Double.parseDouble(start.getText()))
-								.withStop(Double.parseDouble(stop.getText()))
-								.withPoints(points.getSelection())
-								.build();
+		var updatedModel = new ScannableTrackDocument(axis.get());
+		updatedModel.setStart(Double.parseDouble(start.getText()));
+		updatedModel.setStop(Double.parseDouble(stop.getText()));
+		updatedModel.setPoints(points.getSelection());
 
 		observableComponent.notifyIObservers(this, updatedModel);
 	}

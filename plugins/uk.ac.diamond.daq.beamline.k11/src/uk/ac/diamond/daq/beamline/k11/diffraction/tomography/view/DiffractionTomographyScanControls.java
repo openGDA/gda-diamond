@@ -116,7 +116,7 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 		if (argument instanceof ScannableTrackDocument rotationAxis) {
 			var oldScanpathDocument = getScanningParameters().getScanpathDocument();
 			var updatedAxes = ScanningParametersUtils.updateAxes(oldScanpathDocument, List.of(rotationAxis));
-			var updatedScanpathDocument = new ScanpathDocument(AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY, updatedAxes, oldScanpathDocument.getMutators());
+			var updatedScanpathDocument = new ScanpathDocument(AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY, updatedAxes);
 			getScanningParameters().setScanpathDocument(updatedScanpathDocument);
 
 			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this, UpdatedProperty.PATH));

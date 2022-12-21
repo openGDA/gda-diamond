@@ -19,20 +19,20 @@
 		<property name="defaultPaths">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="X" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="10" />
-					<constructor-arg name="step" value="10" />
-					<constructor-arg name="points" value="0" />
+					<property name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
+					<property name="axis" value="X" />
+					<property name="start" value="0" />
+					<property name="stop" value="10" />
+					<property name="step" value="10" />
+					<property name="points" value="0" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="Y" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="10" />
-					<constructor-arg name="step" value="10" />
-					<constructor-arg name="points" value="0" />
+					<property name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
+					<property name="axis" value="Y" />
+					<property name="start" value="0" />
+					<property name="stop" value="10" />
+					<property name="step" value="10" />
+					<property name="points" value="0" />
 				</bean>
 			</list>
 		</property>
@@ -76,28 +76,28 @@
 		<property name="defaultPaths">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="X" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="10" />
-					<constructor-arg name="step" value="0" />
-					<constructor-arg name="points" value="5" />
+					<property name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
+					<property name="axis" value="X" />
+					<property name="start" value="0" />
+					<property name="stop" value="10" />
+					<property name="step" value="0" />
+					<property name="points" value="5" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="THETA" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="180" />
-					<constructor-arg name="step" value="0" />
-					<constructor-arg name="points" value="100" />
+					<property name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
+					<property name="axis" value="THETA" />
+					<property name="start" value="0" />
+					<property name="stop" value="180" />
+					<property name="step" value="0" />
+					<property name="points" value="100" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="Y" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="10" />
-					<constructor-arg name="step" value="0" />
-					<constructor-arg name="points" value="5" />
+					<property name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
+					<property name="axis" value="Y" />
+					<property name="start" value="0" />
+					<property name="stop" value="10" />
+					<property name="step" value="0" />
+					<property name="points" value="5" />
 				</bean>
 			</list>
 		</property>
@@ -127,12 +127,12 @@
 		<property name="defaultPaths">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable"><null/></constructor-arg>
-					<constructor-arg name="axis" value="STATIC" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="0" />
-					<constructor-arg name="step" value="0" />
-					<constructor-arg name="points" value="0" /> <!-- force users to explicitly specify this, at K11's request -->
+					<property name="scannable"><null/></property>
+					<property name="axis" value="STATIC" />
+					<property name="start" value="0" />
+					<property name="stop" value="0" />
+					<property name="step" value="0" />
+					<property name="points" value="0" /> <!-- force users to explicitly specify this, at K11's request -->
 				</bean>
 			</list>
 		</property>
@@ -160,12 +160,12 @@
 		<property name="defaultPaths">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
-					<constructor-arg name="axis" value="THETA" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="180" />
-					<constructor-arg name="step" value="0" />
-					<constructor-arg name="points" value="100" />
+					<property name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
+					<property name="axis" value="THETA" />
+					<property name="start" value="0" />
+					<property name="stop" value="180" />
+					<property name="step" value="0" />
+					<property name="points" value="100" />
 				</bean>
 			</list>
 		</property>
@@ -194,12 +194,12 @@
 		<property name="defaultPaths">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<constructor-arg name="scannable"><null/></constructor-arg>
-					<constructor-arg name="axis" value="STATIC" />
-					<constructor-arg name="start" value="0" />
-					<constructor-arg name="stop" value="0" />
-					<constructor-arg name="step" value="0" />
-					<constructor-arg name="points" value="1" />
+					<property name="scannable"><null/></property>
+					<property name="axis" value="STATIC" />
+					<property name="start" value="0" />
+					<property name="stop" value="0" />
+					<property name="step" value="0" />
+					<property name="points" value="1" />
 				</bean>
 			</list>
 		</property>

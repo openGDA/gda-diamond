@@ -18,12 +18,10 @@
 
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import gda.mscan.element.Mutator;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
@@ -53,7 +51,7 @@ public class ScanpathDocumentCache {
 		cache(document);
 		var swapped = scanpathDocuments.computeIfAbsent(shape, s -> defaultDocument(document, shape));
 
-		return new ScanpathDocument(swapped.getModelDocument(), ScanningParametersUtils.updateAxes(document, swapped.getScannableTrackDocuments()), swapped.getMutators());
+		return new ScanpathDocument(swapped.getModelDocument(), ScanningParametersUtils.updateAxes(document, swapped.getScannableTrackDocuments()));
 	}
 
 	private ScanpathDocument defaultDocument(ScanpathDocument document, AcquisitionTemplateType shape) {
@@ -61,23 +59,7 @@ public class ScanpathDocumentCache {
 				createTrack(Axis.X, getXAxisName(document), 0, 5, 5),
 				createTrack(Axis.Y, getYAxisName(document), 0, 5, 5));
 
-		Map<Mutator, List<Number>> mutators = new EnumMap<>(Mutator.class);
-
-		switch (shape) {
-		case TWO_DIMENSION_GRID:
-			mutators.put(Mutator.CONTINUOUS, Collections.emptyList());
-			mutators.put(Mutator.ALTERNATING, Collections.emptyList());
-			break;
-		case TWO_DIMENSION_LINE:
-			mutators.put(Mutator.CONTINUOUS, Collections.emptyList());
-			break;
-		case TWO_DIMENSION_POINT:
-			break;
-		default:
-			throw new IllegalArgumentException("Unsupported type: " + shape.toString());
-		}
-
-		return new ScanpathDocument(shape, tracks, mutators);
+		return new ScanpathDocument(shape, tracks);
 	}
 
 	private String getXAxisName(ScanpathDocument document) {
@@ -95,12 +77,14 @@ public class ScanpathDocumentCache {
 	}
 
 	private ScannableTrackDocument createTrack(Axis axis, String axisName, double start, double stop, int points) {
-		return new ScannableTrackDocument.Builder()
-				.withAxis(axis)
-				.withScannable(axisName)
-				.withStart(start)
-				.withStop(stop)
-				.withPoints(points)
-				.build();
+		var track = new ScannableTrackDocument();
+		track.setAxis(axis);
+		track.setScannable(axisName);
+		track.setStart(start);
+		track.setStop(stop);
+		track.setPoints(points);
+		track.setAlternating(true);
+		track.setContinuous(true);
+		return track;
 	}
 }
