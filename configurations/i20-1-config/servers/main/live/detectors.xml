@@ -15,7 +15,7 @@
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
- 				<value>~config_xh</value> 
+				<!-- <value>~config_xh</value>  -->
 				<!-- <value>~config_xs</value> -->
 				<!-- <value>~cool_xs -20</value> -->
 			</list>

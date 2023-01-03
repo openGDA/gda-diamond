@@ -8,7 +8,7 @@ vararg_alias("cvscan")
 
 run("gdascripts/javajythonutil.py")
 run 'gdascripts/metadata/metadata_commands.py'
-run("frelon_scan_runner.py")
+run("ede_scan_runner.py")
 run("turboxas_scan_runner.py")
 run("frelon-kinetic-roi-settings.py")
 run("frelon-adc-status.py")

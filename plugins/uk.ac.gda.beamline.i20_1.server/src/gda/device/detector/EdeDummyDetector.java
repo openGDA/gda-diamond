@@ -57,6 +57,8 @@ public class EdeDummyDetector extends EdeDetectorBase {
 
 	private Dataset detectorData;
 
+	private boolean averageRows = false;
+
 	public EdeDummyDetector() {
 		detectorData = null;
 		maxPixel = 2048;
@@ -160,6 +162,9 @@ public class EdeDummyDetector extends EdeDetectorBase {
 			}
 			if (shape.length==2 && rowToUse>-1 && rowToUse<shape[0]) {
 				detectorData = dataFromFile.getSlice(new int[]{rowToUse, 0}, new int[]{rowToUse+1, shape[1]}, null).squeeze();
+			} else if (shape.length==2 && averageRows) {
+				logger.info("Averaging frames of data together");
+				detectorData = dataFromFile.sum(0).idivide(shape[0]);
 			} else {
 				detectorData = dataFromFile;
 			}
@@ -330,5 +335,13 @@ public class EdeDummyDetector extends EdeDetectorBase {
 	@Override
 	public int getLastImageAvailable() throws DeviceException {
 		return 0;
+	}
+
+	public boolean isAverageRows() {
+		return averageRows;
+	}
+
+	public void setAverageRows(boolean averageRows) {
+		this.averageRows = averageRows;
 	}
 }

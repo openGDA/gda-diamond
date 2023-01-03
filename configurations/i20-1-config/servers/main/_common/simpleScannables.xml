@@ -43,6 +43,7 @@
 			<list>
 				<value>Open</value>
 				<value>Close</value>
+				<value>Reset</value>
 			</list>
 		</property>
 	</bean>

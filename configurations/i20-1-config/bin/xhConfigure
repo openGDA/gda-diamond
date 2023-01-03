@@ -1,0 +1,4 @@
+#!/bin/bash
+# Send XH the command to configure it. 
+# This should only be run *once*, after DAserver has started up, before data can be collected
+echo "~config_xh" | nc i20-1-xh1.diamond.ac.uk 1972
