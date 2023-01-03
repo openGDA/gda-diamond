@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<util:list id="diffractionChildNodes" value-type="org.eclipse.scanning.device.MetadataField">
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="m1_material" />
+			<property name="value" value="Pt strip" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="m2_material" />
+			<property name="value" value="Cr strip" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="spot_size" />
+			<property name="value" value="25um x 25um" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="energy" />
+			<property name="value" value="30" />
+			<property name="units" value="keV" />
+		</bean>
+	</util:list>
+	
+	<util:list id="imagingChildNodes" value-type="org.eclipse.scanning.device.MetadataField">
+		<bean class="org.eclipse.scanning.device.ScannableField">
+			<property name="name" value="setting" />
+			<property name="scannableName" value="imaging_hint_positioner" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="type" />
+			<property name="value" value="Pink Low Angle" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="m3_material" />
+			<property name="value" value="Cr strip" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="m4_material" />
+			<property name="value" value="Si strip" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="filter" />
+			<property name="value" value="2mm Al" />
+		</bean>
+		<bean class="org.eclipse.scanning.device.ScalarField">
+			<property name="name" value="nominal_energy" />
+			<property name="value" value="20" />
+			<property name="units" value="keV" />
+		</bean>
+	</util:list>
+	
+</beans>

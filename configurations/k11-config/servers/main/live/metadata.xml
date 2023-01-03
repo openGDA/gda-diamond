@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<util:list id="diffractionChildNodes" value-type="org.eclipse.scanning.device.MetadataField">
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="m1_material" />
+			<property name="pvName" value="BL11K-BL-SET-02:DIFFR:M1:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="m2_material" />
+			<property name="pvName" value="BL11K-BL-SET-02:DIFFR:M2:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="spot_size" />
+			<property name="pvName" value="BL11K-BL-SET-02:DIFFR:SPOT:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="energy" />
+			<property name="pvName" value="BL11K-BL-SET-02:DIFFR:ENERGY:SET" />
+			<property name="units" value="keV" />
+		</bean>
+	</util:list>
+	
+	<util:list id="imagingChildNodes" value-type="org.eclipse.scanning.device.MetadataField">
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="setting" />
+			<property name="pvName" value="BL11K-BL-SET-01:IMG:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="type" />
+			<property name="pvName" value="BL11K-BL-SET-01:IMG:TYPE:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="m3_material" />
+			<property name="pvName" value="BL11K-BL-SET-01:IMG:M3:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="m4_material" />
+			<property name="pvName" value="BL11K-BL-SET-01:IMG:M4:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="filter" />
+			<property name="pvName" value="BL11K-BL-SET-01:IMG:FILTER:SET:SELECT" />
+		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="nominal_energy" />
+			<property name="pvName" value="BL11K-BL-SET-01:IMG:ENERGY:SET" />
+			<property name="units" value="keV" />
+		</bean>
+	</util:list>
+
+</beans>
