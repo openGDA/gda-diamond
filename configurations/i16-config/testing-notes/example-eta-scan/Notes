@@ -257,3 +257,45 @@ kdiff3 $BASELINESCAN.nxs.nxlsa $SCAN.nxs.nxlsa
 Once analysis is done, the original .nxs file and scan files folder can be removed.
 
 ================================================================================
+
+# Example position to keep baseline tests consistent.
+
+>>> pos euler [0, 90, 12.5345, 0, 100, 0]
+Move completed: euler : phi: -0.00000 chi:  90.00000 eta: 12.5345 mu:  0.00000 delta: 100.00000 gam: 0.00000
+
+pos euler [0,        90,      12.5345, 0,      100,     0]
+pos euler [354.7350, 97.3830, 34.8052, 0.0000, 69.6103, 0.0000]
+pos euler [55.3542,  98.9454, 34.8052, 0.0000, 69.6103, 0.0000]
+
+
+cd /dls_sw/i16/logs
+kdiff3 gda-server-20221206.worked.log gda-server-20221206.192123-failed.log
+
+
+
+# Example positions for testing moving multiple axes at once
+
+>>> simkphi([-0.5,0.5,7])
+euler would move to:
+      phi :  354.7350
+      chi :   97.3830
+      eta :   34.8052
+       mu :    0.0000
+    delta :   69.6103
+      gam :    0.0000
+   kphi :   67.4505
+  kappa : -157.3785
+ ktheta :  107.5207
+
+>>> simkphi([-0.5,-0.5,7])
+euler would move to:
+      phi :   55.3542
+      chi :   98.9454
+      eta :   34.8052
+       mu :    0.0000
+    delta :   69.6103
+      gam :    0.0000
+   kphi :  134.3197
+  kappa : -165.7108
+ ktheta :  113.7707
+
