@@ -583,5 +583,33 @@
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
 		<property name="name" value="metashop" />
 	</bean>
+	
+		<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+        <property name="additionalDeviceNames">
+		<set>
+	        <value>Diffraction</value>
+	        <value>Imaging</value>
+		</set>
+        </property>
+	</bean>
+	
+	<bean id="diffractionConfigPvs" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="Diffraction" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXnote"/>
+		<property name="collectionName" value="configuration_summary" />
+		<property name="childNodes" ref="diffractionChildNodes" />
+	</bean>
+	
+	<bean id="imagingConfigNote" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="Imaging" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXnote"/>
+		<property name="collectionName" value="configuration_summary" />
+		<property name="childNodes" ref="imagingChildNodes" />
+	</bean>
+	
+	<!-- Diffraction and imaging child nodes have mode-specific definitions: -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/metadata.xml" />
 
 </beans>
