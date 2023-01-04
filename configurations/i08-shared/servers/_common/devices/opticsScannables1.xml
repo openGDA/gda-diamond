@@ -45,16 +45,6 @@
 		</property>
 	</bean>
 
-	<bean id="phase_group" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="phase_top" />
-				<ref bean="phase_bottom" />
-				<ref bean="phase" />
-			</list>
-		</property>
-	</bean>
-
 	<!-- Frontend: Customized Aperture -->
 	<bean id="bda_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
