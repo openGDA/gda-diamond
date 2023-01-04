@@ -90,6 +90,13 @@ public abstract class HardwareDisplayComposite {
 
 		// size of widget below which scroll bars get added
 		scrolledComposite.setMinSize(widgetSize);
+
+		// Dispose of the background image
+		parent.addDisposeListener(e -> {
+			if (backgroundImage != null) {
+				backgroundImage.dispose();
+			}
+		});
 	}
 
 	public void setFocus() {
@@ -171,6 +178,9 @@ public abstract class HardwareDisplayComposite {
 				// to avoid having the background image tiled.
 				Rectangle size = parent.getBounds();
 				if (size.width > 0 && size.height > 0) {
+					if (parent.getBackgroundImage() != null) {
+						parent.getBackgroundImage().dispose();
+					}
 					Image paddedImage = getPaddedImage(backgroundImage, new Point(size.width, size.height), imageStart);
 					parent.setBackgroundImage(paddedImage);
 				}

@@ -21,9 +21,11 @@ package uk.ac.gda.ui.views.synoptic;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -138,7 +140,13 @@ public class SynopticView extends ViewPart {
 			this.parent = parent;
 			super.setViewName(viewConfig.getViewName());
 			if (!StringUtils.isEmpty(viewConfig.getBackgroundImage())) {
-				super.setBackgroundImage(getImageFromPlugin(viewConfig.getBackgroundImage()), viewConfig.getImageStart());
+				Image img = getImageFromPlugin(viewConfig.getBackgroundImage());
+				int xsize = (int) (img.getBounds().width*viewConfig.getImageScaleFactor());
+				int ysize = (int) (img.getBounds().height*viewConfig.getImageScaleFactor());
+				Image img2 = new Image(Display.getDefault(), img.getImageData().scaledTo(xsize, ysize));
+				parent.addDisposeListener(d -> img2.dispose());
+				img.dispose();
+				super.setBackgroundImage(img2, viewConfig.getImageStart());
 			}
 			parent.setBackgroundMode(SWT.INHERIT_FORCE);
 

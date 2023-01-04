@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
@@ -29,7 +30,9 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +63,9 @@ class HighlightImageLabel implements IObserver {
 	private Image busyImage;
 
 	/** Highlight colour used to modify normalImage to create busyImage (default = red)*/
-	private RGB highlightColor = new RGB(255,0,0);
+	private int swtHighLightColor = SWT.COLOR_RED;
+
+	private volatile boolean updateInProgress = false;
 
 
 	public HighlightImageLabel(final Composite parent) {
@@ -90,19 +95,32 @@ class HighlightImageLabel implements IObserver {
 		nameLabel = new Label(parent, SWT.NONE);
 		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 
-		// remove this class from each scannable's observers
-		nameLabel.addDisposeListener(l -> {
+		// Add dipose listener to tidy up after the widget is disposed :
+		parent.addDisposeListener(l -> {
+
+			// remove this class from each scannable's observers
 			scannablesToMonitor.forEach(scn -> scn.deleteIObserver(this));
+
+			// Dispose of the images
+			if (busyImage != null) {
+				busyImage.dispose();
+			}
+			if (normalImage != null) {
+				normalImage.dispose();
+			}
 		});
 	}
 
 	/** Create busyImage from normalImage by making a copy of it and changing all black pixels to highlightColor */
 	public void makeHighLightImage() {
+		// Get RGB colour from SWT colour number
+		RGB rgbColour = Display.getDefault().getSystemColor(swtHighLightColor).getRGB();
 
 		ImageData imageData = (ImageData) normalImage.getImageData().clone();
-		int highlightPixel = imageData.palette.getPixel(highlightColor);
+		int highlightPixel = imageData.palette.getPixel(rgbColour);
 		int blackPixel = imageData.palette.getPixel(new RGB(0,0,0));
 
+		// Change colour of the black pixels to the highlight colour
 		for(int i=0; i<imageData.width; i++) {
 			for(int j=0; j<imageData.height; j++) {
 				int val = imageData.getPixel(i, j);
@@ -114,12 +132,9 @@ class HighlightImageLabel implements IObserver {
 		busyImage = new Image(parent.getDisplay(), imageData);
 	}
 
+
 	public void setImage(Image image) {
 		this.normalImage = image;
-		setLabelImage(normalImage);
-	}
-
-	public void setLabelImage() {
 		setLabelImage(normalImage);
 	}
 
@@ -128,14 +143,14 @@ class HighlightImageLabel implements IObserver {
 	 * @param image
 	 */
 	public void setLabelImage(final Image image) {
-		if (!parent.isDisposed()) {
-			parent.getDisplay().syncExec(() -> {
-				logger.trace("Update label image");
-				if (!nameLabel.isDisposed()) {
-					nameLabel.setImage(image);
-				}
-			});
+		if (parent.isDisposed() || nameLabel.isDisposed()) {
+			return;
 		}
+
+		runInGuithread(() -> {
+			logger.trace("Update label image");
+			nameLabel.setImage(image);
+		});
 	}
 
 	/** Wait for scannable to finishe being busy, update between busy and idle label images */
@@ -146,28 +161,42 @@ class HighlightImageLabel implements IObserver {
 		updateInProgress = true;
 		logger.trace("LineLabel update called ");
 		try {
-			setLabelImage(busyImage);
+			updateLabelAndImage();
 			do {
 				logger.trace("Wait while {} is busy", scn.getName());
 				Thread.sleep(250);
 			} while (scn.isBusy() );
 			logger.trace("Scannable movement finished");
-			setLabelImage(normalImage);
 
 		} catch (InterruptedException | DeviceException e) {
 			logger.warn("Problem waiting for {} to finish moving", scn.getName(), e);
+		} finally {
+			updateInProgress = false;
+			updateLabelAndImage();
 		}
-		updateInProgress = false;
 	}
 
-	private volatile boolean updateInProgress = false;
+	private void updateLabelAndImage() {
+		if (parent.isDisposed() || nameLabel.isDisposed()) {
+			return;
+		}
+		Image image = updateInProgress ? busyImage : normalImage;
+		int swtColour = updateInProgress ? swtHighLightColor : SWT.COLOR_BLACK;
+		runInGuithread(() -> {
+			Color textColor = Display.getDefault().getSystemColor(swtColour);
+			logger.trace("Update label image");
+			nameLabel.setImage(image);
+			nameLabel.setForeground(textColor);
+		});
+
+	}
 
 	@Override
 	public void update(Object source, Object arg) {
 		if (updateInProgress)
 			return;
-		if (source instanceof Scannable) {
-			Async.execute(() -> updateLabelWaitForScannable((Scannable)source));
+		if (source instanceof Scannable src) {
+			Async.execute(() -> updateLabelWaitForScannable(src));
 		}
 	}
 
@@ -185,5 +214,13 @@ class HighlightImageLabel implements IObserver {
 
 	public Control getControl() {
 		return nameLabel;
+	}
+
+	public void setHighLightColour(int swtColour) {
+		swtHighLightColor = swtColour;
+	}
+
+	private void runInGuithread(Runnable runnable) {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(runnable);
 	}
 }

@@ -25,8 +25,10 @@ import java.util.List;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,8 +78,61 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 		composite.setBackgroundMode(SWT.INHERIT_FORCE);
 
 		// Create LiveControl object for each scannable in the group
+		String[] groupMemberNames = scannableGroup.getGroupMemberNames();
 		List<LiveControl> liveControls = new ArrayList<>();
-		for(String name : scannableGroup.getGroupMemberNames()) {
+		if (groupMembersAreGroups(groupMemberNames[0]) ){
+
+			// Parent container for all the widgets
+			composite.setLayout(new GridLayout(1, false));
+
+			for(int i=0; i<groupMemberNames.length; i++) {
+
+				// Get the group name from the descriptions
+				String groupLabel = descriptions.get(i%descriptions.size());
+
+				// Find the ScannableGroup object, so we can get the list of scannables it contains
+				IScannableGroup grp = Finder.findOptionalOfType(groupMemberNames[i], IScannableGroup.class).orElseThrow();
+
+				var liveControlsForGroup = createControlsForGroup(grp.getGroupMemberNames(), Collections.emptyList(), groupLabel);
+				setControls(liveControlsForGroup);
+
+				// Create group to put the widgets in
+				Group container = new Group(composite, SWT.NONE);
+				container.setText(groupLabel);
+
+				// Creat the controls
+				super.createControl(container);
+
+				liveControls.addAll(liveControlsForGroup);
+			}
+		} else {
+			liveControls = createControlsForGroup(groupMemberNames, descriptions, getGroup());
+			setControls(liveControls);
+			// Make new composite for all the widgets to go into
+			final Composite container = createContainer(composite);
+
+			super.createControl(container);
+		}
+
+	}
+
+	private Composite createContainer(Composite parent) {
+		final Composite container = new Composite(parent, SWT.NONE);
+		if (widgetWidth > 0 && !(parent.getLayout() instanceof RowLayout)) {
+			GridDataFactory.fillDefaults().hint(widgetWidth, SWT.DEFAULT).applyTo(container);
+		} else {
+			container.setLayout(new FillLayout());
+		}
+		return container;
+	}
+
+	private boolean groupMembersAreGroups(String name) {
+		return Finder.findOptionalOfType(name, IScannableGroup.class).isPresent();
+	}
+
+	private List<LiveControl> createControlsForGroup(String[] namesOfScannables, List<String> labels, String groupLabel) {
+		List<LiveControl> liveControls = new ArrayList<>();
+		for(String name : namesOfScannables) {
 			int itemIndex = liveControls.size();
 			Boolean isReadOnlyFromList = null;
 			if (!readOnlyList.isEmpty()) {
@@ -87,8 +142,8 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 
 			// set the display name from the description
 			String description = null;
-			if (!descriptions.isEmpty()) {
-				description = descriptions.get(itemIndex%descriptions.size());
+			if (!labels.isEmpty()) {
+				description = labels.get(itemIndex%labels.size());
 			}
 
 			var control = new ScannablePositionerControl();
@@ -105,22 +160,13 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 			if (description != null) {
 				control.setDisplayName(description);
 			}
+			control.setGroup(groupLabel);
 
 
 			liveControls.add(control);
 		}
-		setControls(liveControls);
-
-		// Make new composite for all the widgets to go into
-		final Composite container = new Composite(composite, SWT.NONE);
-		if (widgetWidth > 0 && !(composite.getLayout() instanceof RowLayout)) {
-			GridDataFactory.fillDefaults().hint(widgetWidth, SWT.DEFAULT).applyTo(container);
-		} else {
-			container.setLayout(new FillLayout());
-		}
-		super.createControl(container);
+		return liveControls;
 	}
-
 	public Boolean getShowIncrement() {
 		return showIncrement;
 	}

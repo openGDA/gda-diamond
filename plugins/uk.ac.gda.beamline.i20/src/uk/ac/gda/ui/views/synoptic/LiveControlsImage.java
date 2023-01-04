@@ -20,11 +20,13 @@ package uk.ac.gda.ui.views.synoptic;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ public class LiveControlsImage extends LiveControlBase {
 	private String busyImageName = "";
 	private List<Scannable> scannablesToObserve = Collections.emptyList();
 	private String labelText = "";
+	private int highlightColour = SWT.COLOR_RED;
 
 	@Override
 	public void createControl(Composite composite) {
@@ -62,6 +65,8 @@ public class LiveControlsImage extends LiveControlBase {
 		if (!StringUtils.isEmpty(labelText)) {
 			imageLabel.setLabelText(labelText);
 		}
+
+		imageLabel.setHighLightColour(highlightColour);
 
 		// Make the label listen to scannable events
 		scannablesToObserve.forEach(imageLabel::addScannableToMonitor);
@@ -89,6 +94,18 @@ public class LiveControlsImage extends LiveControlBase {
 		this.labelText = labelText;
 	}
 
+	/**
+	 * Set the colour to be used to highlight the text/image
+	 * when one of the scannables being observed is busy.
+	 *
+	 * This should be one of the SWT color values ({@link SWT#COLOR_RED}, {@link SWT#COLOR_BLUE} etc)
+	 *
+	 * @param highlightColour
+	 */
+	public void setHighlightColour(int highlightColour) {
+		this.highlightColour = highlightColour;
+	}
+
 	public void setScannablesToObserve(List<String> scannableNames) {
 		scannablesToObserve = new ArrayList<>();
 		for(String name : scannableNames) {
@@ -96,6 +113,10 @@ public class LiveControlsImage extends LiveControlBase {
 					.ifPresentOrElse(scn -> scannablesToObserve.add(scn),
 					() -> logger.warn("Could not add {} to list of scannables to observe - scannable not found", name));
 		}
+	}
+
+	public void setScannableToObserve(String scannableNames) {
+		setScannablesToObserve(Arrays.asList(scannableNames));
 	}
 
 }
