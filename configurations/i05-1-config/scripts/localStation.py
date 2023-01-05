@@ -65,6 +65,9 @@ from gdascripts.archiver.archiver import archive
 alias('archive')
 archiver = Finder.find("archiver")
 
+print "Adding ring_current as a default_scannable"
+add_default(ring_current)
+
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
     # Run the beamline staff scripts
     print "==================================================================="
