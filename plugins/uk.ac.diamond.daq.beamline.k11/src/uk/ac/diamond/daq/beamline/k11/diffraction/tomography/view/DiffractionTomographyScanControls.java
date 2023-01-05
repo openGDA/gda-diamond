@@ -40,6 +40,7 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ProcessingRequestsControls;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ScanningParametersUtils;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeControls;
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeDescriptor;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.SummaryComposite;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
@@ -125,10 +126,8 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 
 	private void createGridControls(Composite parent) {
 
-		var controls = new ShapeControls(this::getScanningParameters);
+		var controls = new ShapeControls(this::getScanningParameters, List.of(ShapeDescriptor.RECTANGLE));
 		controls.createComposite(parent, 0);
-		controls.disableShape(AcquisitionTemplateType.TWO_DIMENSION_POINT);
-		controls.disableShape(AcquisitionTemplateType.TWO_DIMENSION_LINE);
 		reloadableControls.add(controls);
 
 	}

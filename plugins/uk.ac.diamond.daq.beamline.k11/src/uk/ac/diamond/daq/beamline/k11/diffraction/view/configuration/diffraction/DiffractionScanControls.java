@@ -85,7 +85,8 @@ public class DiffractionScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void createShapeControls(Composite parent) {
-		var controls = new ShapeControls(this::getScanningParameters);
+		var shapes = List.of(ShapeDescriptor.POINT, ShapeDescriptor.LINE, ShapeDescriptor.RECTANGLE);
+		var controls = new ShapeControls(this::getScanningParameters, shapes);
 		controls.createComposite(parent, SWT.NONE);
 		reloadableControls.add(controls);
 	}
