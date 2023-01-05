@@ -19,9 +19,6 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
 import java.beans.PropertyChangeListener;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 import org.eclipse.scanning.api.points.models.BoundingLine;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
@@ -35,9 +32,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
-import gda.mscan.element.Mutator;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -104,11 +99,12 @@ public class LineScanpathEditor extends ScanpathEditor {
 	private void handleMutatorSelection(SelectionEvent event) {
 
 		var button = (Button) event.getSource();
+		var continuous = button.getSelection();
 
-		Map<Mutator, List<Number>> mutatorMap = button.getSelection() ?
-				Map.of(Mutator.CONTINUOUS, Collections.emptyList()) : Collections.emptyMap();
+		getXAxis().setContinuous(continuous);
+		getYAxis().setContinuous(continuous);
 
-		updateModel(updateScanpathDocumentMutators(mutatorMap));
+		updateModel(getModel());
 
 	}
 
@@ -210,9 +206,5 @@ public class LineScanpathEditor extends ScanpathEditor {
 		} finally {
 			handlingMappingUpdate = false;
 		}
-	}
-
-	private ScanpathDocument updateScanpathDocumentMutators(Map<Mutator, List<Number>> mutatorMap) {
-		return new ScanpathDocument(getModel().getModelDocument(), getModel().getScannableTrackDocuments(), mutatorMap);
 	}
 }

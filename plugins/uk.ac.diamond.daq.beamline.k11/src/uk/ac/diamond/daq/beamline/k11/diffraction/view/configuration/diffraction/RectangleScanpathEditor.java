@@ -19,10 +19,6 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
 import java.beans.PropertyChangeListener;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 
 import org.eclipse.scanning.api.points.models.BoundingBox;
 import org.eclipse.scanning.api.points.models.IMapPathModel;
@@ -38,7 +34,6 @@ import org.eclipse.swt.widgets.Text;
 
 import gda.mscan.element.Mutator;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -116,12 +111,26 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 
 	private void handleMutatorSelection(SelectionEvent event) {
 		var button = (Button) event.getSource();
+		var selection = button.getSelection();
+
 		var mutator = (Mutator) button.getData();
-		if (button.getSelection()) {
-			updateModel(addMutator(mutator));
-		} else {
-			updateModel(removeMutator(mutator));
+		if (mutator == Mutator.CONTINUOUS) {
+			setContinuous(selection);
+		} else if (mutator == Mutator.ALTERNATING) {
+			setAlternating(selection);
 		}
+
+		updateModel(getModel());
+	}
+
+	private void setContinuous(boolean continuous) {
+		getXAxis().setContinuous(continuous);
+		getYAxis().setContinuous(continuous);
+	}
+
+	private void setAlternating(boolean alternating) {
+		getXAxis().setAlternating(alternating);
+		getYAxis().setAlternating(alternating);
 	}
 
 	@Override
@@ -227,37 +236,6 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 		} finally {
 			handlingMappingUpdate = false;
 		}
-	}
-
-	private ScanpathDocument addMutator(Mutator mutator) {
-		Map<Mutator, List<Number>> mutatorMap = new EnumMap<>(Mutator.class);
-		mutatorMap.put(mutator, Collections.emptyList());
-
-		// Checks whether current map of mutators had another mutator selected and adds it
-		if (getModel().getMutators().size() > 0) {
-			mutatorMap.put(getCurrentMutator(mutator), Collections.emptyList());
-		}
-
-		return new ScanpathDocument(getModel().getModelDocument(), getModel().getScannableTrackDocuments(), mutatorMap);
-	}
-
-	private ScanpathDocument removeMutator(Mutator mutator) {
-		Map<Mutator, List<Number>> mutatorMap = new EnumMap<>(Mutator.class);
-
-		// Checks whether current map of mutators had another mutator selected and adds it
-		if (getModel().getMutators().size() > 1) {
-			mutatorMap.put(getCurrentMutator(mutator), Collections.emptyList());
-		}
-
-		return new ScanpathDocument(getModel().getModelDocument(), getModel().getScannableTrackDocuments(), mutatorMap);
-	}
-
-	private Mutator getCurrentMutator(Mutator mutator) {
-		return getModel().getMutators().entrySet().stream()
-				.filter(e -> !e.getKey().equals(mutator))
-				.map(Map.Entry::getKey)
-				.findFirst()
-				.orElseThrow(() -> new IllegalStateException("Mutator not found"));
 	}
 
 	private double getxRange() {
