@@ -66,7 +66,7 @@ leem_transferlens = EpicsLEEMPVClass('leem_transferlens', "BL06K-EA-LEEM-01:TRAN
 leem_temp = EpicsLEEMPVClass('leem_temp',"BL06K-EA-LEEM-01:SAMPLE:TEMP", "BL06K-EA-LEEM-01:SAMPLE:TEMP:RBV", "C", formatstring="%.2f")
 leem_objAlignX = EpicsLEEMPVClass('leem_objAlignX', "BL06K-EA-LEEM-01:OBJALIGNX", "BL06K-EA-LEEM-01:OBJALIGNX:RBV", "mA", formatstring="%.3f")
 leem_objAlignY = EpicsLEEMPVClass('leem_objAlignY', "BL06K-EA-LEEM-01:OBJALIGNY", "BL06K-EA-LEEM-01:OBJALIGNY:RBV", "mA", formatstring="%.3f")
-leem_rot = EpicsLEEMPVClass('leem_rot',"", "BL06K-EA-LEEM-01:IMAGE:ROT:RBV", "deg", formatstring="%.4f", readonly=True)
+leem_rot = EpicsLEEMPVClass('leem_rot',"", "BL06K-EA-LEEM-01:CALC:ROT:ANGLE", "deg", formatstring="%.4f", readonly=True)
 leem_intermlens = EpicsLEEMPVClass('leem_intermlens', "BL06K-EA-LEEM-01:INTERM:LENS", "BL06K-EA-LEEM-01:INTERM:LENS:RBV", "mA", formatstring="%.3f")
 leem_FOV_A = EpicsLEEMPVClass('leem_FOV_A',"", "BL06K-EA-LEEM-01:FOV:RBV", "um", formatstring="%.2f", readonly=True)
 leem_FOV_B = EpicsLEEMPVClass('leem_FOV_B',"", "BL06K-EA-LEEM-01:FOVB:RBV", "um", formatstring="%.2f", readonly=True)
