@@ -67,6 +67,8 @@
 	<import resource="patch_panel.xml"/>
 	
 	<!-- beam to endstation status -->
+	<import resource="ring.xml"/>
+	<import resource="front_end.xml"/>
 	<import resource="beam_to_endstation.xml"/>
 
 	<!-- do not remove anything below here -->
