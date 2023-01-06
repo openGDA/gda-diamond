@@ -35,6 +35,20 @@
 	<bean id="sm52b_zp_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-EA-SM-52:ZP" />
 	</bean>
+	
+	<!-- angular motors -->
+	
+	<bean id="sm52b_phi_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:PHI" />
+	</bean>
+	
+	<bean id="sm52b_omega_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:OMEGA" />
+	</bean>
+	
+	<bean id="sm52b_kappa_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:KAPPA" />
+	</bean>
 
 	
 </beans>
