@@ -20,6 +20,9 @@ package uk.ac.gda.ui.views.synoptic;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -27,9 +30,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,87 +42,75 @@ public class SynopticView extends ViewPart {
 	public static final String ID = "uk.ac.gda.ui.views.synoptic.SynopticView";
 	private static final Logger logger = LoggerFactory.getLogger(SynopticView.class);
 
-	private String className = ""; //Full name of class with composite to be opened
+	private String viewConfigName = ""; //Full name of class with composite to be opened
 
-	private HardwareDisplayComposite viewComposite;
 
 	public SynopticView() {
 		super();
 	}
 
-	private Class<?extends HardwareDisplayComposite> getClassMatchingName(String classIdToFind) throws ClassNotFoundException {
-		Class<?> clazz = Class.forName(classIdToFind);
-		if (clazz != null && HardwareDisplayComposite.class.isAssignableFrom(clazz)) {
-			return (Class<? extends HardwareDisplayComposite>) clazz;
-		}
-		return null;
-	}
-
 	@Override
 	public void createPartControl(Composite parent) {
-		String fullClassName = getViewSite().getSecondaryId();
-		if (!className.isEmpty()) {
-			fullClassName = className;
+		String configName = getViewSite().getSecondaryId();
+		if (!viewConfigName.isEmpty()) {
+			configName = viewConfigName;
 		}
-
-		var viewConfig = Finder.findOptionalOfType(fullClassName, SynopticViewConfiguration.class);
+		if (StringUtils.isEmpty(configName)) {
+			selectFromList(parent);
+			return;
+		}
+		var viewConfig = Finder.findOptionalOfType(configName, SynopticViewConfiguration.class);
 		if (viewConfig.isPresent()) {
 			logger.info("Creating synoptic view from client configuration {}", viewConfig.get().getName());
 			createPartControl(parent, viewConfig.get());
 			return;
 		}
 
-		try {
-			Class<? extends HardwareDisplayComposite> classFromName = getClassMatchingName(fullClassName);
-			if (classFromName == null) {
-				throw new Exception("Could not create class with name " + fullClassName);
-			}
-			// Constructor parameter types : parent composite, swt options :
-			Class<? extends HardwareDisplayComposite>[] constructorParamTypes = new Class[] { Composite.class, int.class };
-			// Create new instance of class, passing the constructor params :
-			Object obj = classFromName.getDeclaredConstructor(constructorParamTypes).newInstance(parent, SWT.NONE);
-			viewComposite = (HardwareDisplayComposite) obj;
-		} catch (Exception e) {
-			logger.error("Problem occured when trying to create view for id {}", fullClassName, e);
-			MessageDialog.openWarning(parent.getShell(), "Problem opening syntopic view", "Problem occured when tring to create view for "+fullClassName);
+	}
 
+	private void selectFromList(Composite parent) {
+		var findables = Finder.getFindablesOfType(SynopticViewConfiguration.class);
+		if (findables.isEmpty()) {
+			MessageDialog.openWarning(parent.getShell(),"No Synoptic views available", "No Synoptic views are available to display");
+			return;
 		}
 
-		// Set label used in tab for view
-		if (viewComposite != null) {
-			setPartName(viewComposite.getViewName());
+		ListDialog listDialog = new ListDialog(parent.getShell());
+		listDialog.setTitle("Select Synoptic view to open");
+		listDialog.setContentProvider(new ArrayContentProvider());
+		// Label provider returns the name of the view
+		listDialog.setLabelProvider(LabelProvider.createTextProvider(obj -> {
+			if (obj instanceof SynopticViewConfiguration viewConfig) {
+				return viewConfig.getViewName();
+			}
+			return "";
+		}));
+
+		listDialog.setInput(findables.values());
+		listDialog.setBlockOnOpen(true);
+		if (listDialog.open() == Window.OK) {
+			Object[] res = listDialog.getResult();
+			if (res != null && res.length > 0 && res[0] instanceof SynopticViewConfiguration config) {
+				logger.info("Synoptic view selected : {} ({})", config.getViewName(), config.getName());
+				createPartControl(parent, config);
+			}
 		}
 	}
 
 	@Override
 	public void setFocus() {
-		if (viewComposite != null) {
-			viewComposite.setFocus();
-		}
 	}
 
 	/**
-	 * Utility function to open the named 'Synoptic view', catching any PartInitException thrown.
-	 * @param className fully qualified name of class of view to open
+	 * Set the name of the client side SynopticViewConfiguration object to be used to generate the view
+	 *
+	 * @param viewConfigName
 	 */
-	public static void openView(String className) {
-		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SynopticView.ID, className, IWorkbenchPage.VIEW_ACTIVATE);
-		} catch (PartInitException e1) {
-			logger.error("Problem opening Synoptic view with name {}", className, e1);
-		}
+	public void setViewConfigName(String viewConfigName) {
+		this.viewConfigName = viewConfigName;
 	}
 
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String classId) {
-		this.className = classId;
-	}
-
-
-	public void createPartControl(Composite parent, SynopticViewConfiguration viewConfig) {
+	private void createPartControl(Composite parent, SynopticViewConfiguration viewConfig) {
 		setPartName(viewConfig.getViewName());
 		SynopticGuiComposite composite = new SynopticGuiComposite();
 		composite.setViewConfig(viewConfig);
@@ -176,6 +165,4 @@ public class SynopticView extends ViewPart {
 			}
 		}
 	}
-
-
 }

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="upper_highlight_colour" class="java.lang.String">
+		<constructor-arg value="5" />
+	</bean>
+
+	<bean id="xray_direction_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="X-ray beam" />
+	</bean>	
+
+<!-- Labels for lower analysers  -->
+	<bean id="lower_cryst_m3_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-3" />
+		<property name="scannablesToObserve" value="lower_Minus3Crystal" />
+	</bean>	
+
+	<bean id="lower_cryst_m2_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-2" />
+		<property name="scannablesToObserve" value="lower_Minus2Crystal" />
+	</bean>	
+	
+	<bean id="lower_cryst_m1_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-1" />
+		<property name="scannablesToObserve" value="lower_Minus1Crystal" />
+	</bean>	
+
+	<bean id="lower_cryst_c_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="0" />
+		<property name="scannablesToObserve" value="lower_CentreCrystal" />
+	</bean>	
+
+	<bean id="lower_cryst_p1_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+1" />
+		<property name="scannablesToObserve" value="lower_Plus1Crystal" />
+	</bean>	
+
+	<bean id="lower_cryst_p2_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+2" />
+		<property name="scannablesToObserve" value="lower_Plus2Crystal" />
+	</bean>	
+
+	<bean id="lower_cryst_p3_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+3" />
+		<property name="scannablesToObserve" value="lower_Plus3Crystal" />
+	</bean>	
+
+<!-- Labels for lupper analysers  -->
+
+	<bean id="upper_cryst_m3_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-3" />
+		<property name="highlightColour" value="#{upper_highlight_colour}" />
+		<property name="scannablesToObserve" value="upper_Minus3Crystal" />
+	</bean>	
+
+	<bean id="upper_cryst_m2_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-2" />
+		<property name="highlightColour" value="#{upper_highlight_colour}" />
+		<property name="scannablesToObserve" value="upper_Minus2Crystal" />
+	</bean>	
+
+	<bean id="upper_cryst_m1_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-1" />
+		<property name="highlightColour" value="#{upper_highlight_colour}" />
+		<property name="scannablesToObserve" value="upper_Minus1Crystal" />
+	</bean>	
+
+	<bean id="upper_cryst_c_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="0" />
+		<property name="highlightColour" value="#{upper_highlight_colour}" />
+		<property name="scannablesToObserve" value="upper_CentreCrystal" />
+	</bean>	
+
+	<bean id="upper_cryst_p1_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+1" />
+		<property name="highlightColour" value="#{upper_highlight_colour}" />
+		<property name="scannablesToObserve" value="upper_Plus1Crystal" />
+	</bean>	
+
+	<bean id="upper_cryst_p2_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+2" />
+		<property name="highlightColour" value="#{upper_highlight_colour}" />
+		<property name="scannablesToObserve" value="upper_Plus2Crystal" />
+	</bean>	
+
+	<bean id="upper_cryst_p3_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+3" />
+		<property name="highlightColour" value="#{upper_highlight_colour}" />
+		<property name="scannablesToObserve" value="upper_Plus3Crystal" />
+	</bean>	
+
+<!-- Energy and bragg angle controls from lower and upper rows of spectrometer  -->
+
+ 	<bean id="XESLowerEnergy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESEnergyLower" />
+		<property name="displayNameWidth" value="50" />
+	</bean>
+ 	<bean id="XESLowerBragg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESBraggLower" />
+ 		<property name="displayNameWidth" value="50" />
+	</bean>
+
+ 	<bean id="XESUpperEnergy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESEnergyUpper" />
+		<property name="displayNameWidth" value="50" />
+	</bean>
+ 	<bean id="XESUpperBragg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESBraggUpper" />
+ 		<property name="displayNameWidth" value="50" />
+	</bean>
+
+	<bean id="spectrometerRowsPicture" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
+		<property name="viewName" value="XES spectrometer view"/>
+		<property name="backgroundImage" value="oe images/spectrometer-rows-picture.png"/>
+		<property name="imageStart" value="0,0" />
+		<property name="imageScaleFactor" value="0.75" />
+		<property name="showCoordinates" value="#{showCoordinates}" />
+		<property name="controlsList">
+			<map>
+				<entry key-ref="xray_direction_text" value="100 340" />
+
+				<entry key-ref="lower_cryst_m3_text" value="310 450" />
+				<entry key-ref="lower_cryst_m2_text" value="375 460" />
+				<entry key-ref="lower_cryst_m1_text" value="430 470" />
+				<entry key-ref="lower_cryst_c_text"  value="480 480" />
+				<entry key-ref="lower_cryst_p1_text" value="515 490" />
+				<entry key-ref="lower_cryst_p2_text" value="545 500" />
+				<entry key-ref="lower_cryst_p3_text" value="575 520" />
+
+				<entry key-ref="upper_cryst_m3_text" value="300 350" />
+				<entry key-ref="upper_cryst_m2_text" value="365 355" />
+				<entry key-ref="upper_cryst_m1_text" value="420 360" />
+				<entry key-ref="upper_cryst_c_text"  value="470 370" />
+				<entry key-ref="upper_cryst_p1_text" value="505 385" />
+				<entry key-ref="upper_cryst_p2_text" value="535 400" />
+				<entry key-ref="upper_cryst_p3_text" value="565 420" />
+
+				<entry key-ref="XESUpperEnergy_control" value="700 290" />
+				<entry key-ref="XESUpperBragg_control"  value="870 290" />
+
+				<entry key-ref="XESLowerEnergy_control" value="700 480" />
+				<entry key-ref="XESLowerBragg_control"  value="870 480" />
+
+			</map>
+		</property>
+	</bean>
+	
+</beans>
