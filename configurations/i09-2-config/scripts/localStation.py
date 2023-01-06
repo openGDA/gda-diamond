@@ -21,6 +21,7 @@ from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import Extr
 from gda.util import PropertyUtils
 import sys
 from java.lang import System
+import installation
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
@@ -201,6 +202,15 @@ jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscanna
 jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
+
+from detector.iseg_instances import dldv, mcp_b, DLD_start, DLD_stop  # @UnusedImport
+
+def clear_accumulated_data():
+    if installation.isLive():
+        caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
+    else:
+        print("Clear accumulated data")
+    
 print
 print "=================================================================================================================";
 print "Initialisation script complete."
