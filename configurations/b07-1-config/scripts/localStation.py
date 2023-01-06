@@ -47,6 +47,9 @@ from scannables.rga24 import rga24, rga24AR, rga24CF3, rga24CH2, rga24CH3, rga24
 
 from scannables.PLV1000 import plv1, plv2  # @UnusedImport
 
+#check beam scannables
+from scannables.checkbeanscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
+
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
 from metadata.metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
