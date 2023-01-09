@@ -38,7 +38,6 @@ import org.eclipse.swt.widgets.Text;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ExposureControls;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ProcessingRequestsControls;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ScanningParametersUtils;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeControls;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeDescriptor;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.SummaryComposite;
@@ -48,8 +47,7 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningAcquisition;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanningParametersUtils;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
@@ -70,8 +68,8 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 		createRotationControls(composite);
 		createGridControls(composite);
 		createExposureControls(composite);
-		createProcessingSection(composite);
 		createSummary(composite);
+		createProcessingSection(composite);
 		return composite;
 	}
 
@@ -108,18 +106,12 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 	}
 
 	private ScannableTrackDocument getRotationAxis() {
-		return getScanningParameters().getScanpathDocument().getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equals(Axis.THETA))
-				.findFirst().orElseThrow();
+		return ScanningParametersUtils.getAxis(getScanningParameters().getScanpathDocument(), Axis.THETA);
 	}
 
 	private void rotationAxisUpdated(@SuppressWarnings("unused") Object source, Object argument) {
 		if (argument instanceof ScannableTrackDocument rotationAxis) {
-			var oldScanpathDocument = getScanningParameters().getScanpathDocument();
-			var updatedAxes = ScanningParametersUtils.updateAxes(oldScanpathDocument, List.of(rotationAxis));
-			var updatedScanpathDocument = new ScanpathDocument(AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY, updatedAxes);
-			getScanningParameters().setScanpathDocument(updatedScanpathDocument);
-
+			ScanningParametersUtils.updateAxis(getScanningParameters().getScanpathDocument(), rotationAxis);
 			SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this, UpdatedProperty.PATH));
 		}
 	}

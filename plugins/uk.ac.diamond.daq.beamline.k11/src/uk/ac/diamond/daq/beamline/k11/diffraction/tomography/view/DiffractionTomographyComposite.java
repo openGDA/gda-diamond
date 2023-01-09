@@ -37,7 +37,7 @@ import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionKeys;
 import uk.ac.gda.api.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.api.acquisition.AcquisitionSubType;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.AcquisitionControllerException;
@@ -48,7 +48,7 @@ import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
 
 public class DiffractionTomographyComposite implements NamedCompositeFactory {
 
-	private static final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.DIFFRACTION_TOMOGRAPHY, AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY);
+	private static final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.DIFFRACTION_TOMOGRAPHY, TrajectoryShape.TWO_DIMENSION_GRID);
 	private static final Logger logger = LoggerFactory.getLogger(DiffractionTomographyComposite.class);
 
 	private final Supplier<Composite> buttonsCompositeSupplier;

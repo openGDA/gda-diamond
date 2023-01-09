@@ -16,24 +16,33 @@
 		<property name="detectors">
 			<list><value>PILATUS</value></list>
 		</property>
-		<property name="defaultPaths">
+		<property name="defaultTrajectories">
 			<list>
+			<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory">
+				<constructor-arg name="axes">
+				<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<property name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
 					<property name="axis" value="X" />
 					<property name="start" value="0" />
 					<property name="stop" value="10" />
-					<property name="step" value="10" />
-					<property name="points" value="0" />
+					<property name="points" value="10" />
+					<property name="continuous" value="true" />
+					<property name="alternating" value="true" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<property name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
 					<property name="axis" value="Y" />
 					<property name="start" value="0" />
 					<property name="stop" value="10" />
-					<property name="step" value="10" />
-					<property name="points" value="0" />
+					<property name="points" value="10" />
+					<property name="continuous" value="true" />
+					<property name="alternating" value="true" />
 				</bean>
+				</list>
+				</constructor-arg>
+				<constructor-arg name="shape" value="TWO_DIMENSION_GRID" />
+			</bean>
 			</list>
 		</property>
 		<property name="processingProperties">
@@ -56,11 +65,6 @@
 		</property>
 	</bean>
 	
-	<!-- FIXME -->
-	<bean id="diffractionTomographyMalcolmMri" class="java.lang.String" factory-method="valueOf">
-		<constructor-arg ref="diffractionMalcolmMri" />
-	</bean>
-	
 	<bean id="diffractionTomographyTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
 		<property name="type" value="DIFFRACTION" />
 		<property name="subType" value="DIFFRACTION_TOMOGRAPHY" />
@@ -73,15 +77,32 @@
 		<property name="detectors">
 			<list><value>PILATUS</value></list>
 		</property>
-		<property name="defaultPaths">
+		<property name="defaultTrajectories">
 			<list>
+			<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory">
+				<constructor-arg>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<property name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
+					<property name="axis" value="Y" />
+					<property name="start" value="0" />
+					<property name="stop" value="10" />
+					<property name="points" value="10" />
+					<property name="continuous" value="true" />
+					<property name="alternating" value="true" />
+				</bean>
+				</constructor-arg>
+			</bean>
+			<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory">
+				<constructor-arg name="axes">
+				<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<property name="scannable" ref="diffractionXScannable" /> <!-- mode-specific -->
 					<property name="axis" value="X" />
 					<property name="start" value="0" />
 					<property name="stop" value="10" />
-					<property name="step" value="0" />
-					<property name="points" value="5" />
+					<property name="points" value="10" />
+					<property name="continuous" value="true" />
+					<property name="alternating" value="true" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<property name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
@@ -90,17 +111,16 @@
 					<property name="stop" value="180" />
 					<property name="step" value="0" />
 					<property name="points" value="100" />
+					<property name="continuous" value="true" />
+					<property name="alternating" value="true" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
-					<property name="scannable" ref="diffractionYScannable" /> <!-- mode-specific -->
-					<property name="axis" value="Y" />
-					<property name="start" value="0" />
-					<property name="stop" value="10" />
-					<property name="step" value="0" />
-					<property name="points" value="5" />
-				</bean>
+				</list>
+				</constructor-arg>
+				<constructor-arg name="shape" value="TWO_DIMENSION_GRID" />
+			</bean>
 			</list>
 		</property>
+
 		<property name="startPosition">
 			<list>
 				<ref bean="shutter_open" />
@@ -124,8 +144,11 @@
 				<value>PCO_CAMERA</value>
 			</list>
 		</property>		
-		<property name="defaultPaths">
+		<property name="defaultTrajectories">
 			<list>
+			<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory">
+				<constructor-arg name="axes">
+				<list>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<property name="scannable"><null/></property>
 					<property name="axis" value="STATIC" />
@@ -134,6 +157,10 @@
 					<property name="step" value="0" />
 					<property name="points" value="0" /> <!-- force users to explicitly specify this, at K11's request -->
 				</bean>
+				</list>
+				</constructor-arg>
+				<constructor-arg name="shape" value="STATIC_POINT" />
+			</bean>
 			</list>
 		</property>
 		
@@ -157,16 +184,20 @@
 		<property name="detectors">
 			<list><value>PCO_CAMERA</value></list>
 		</property>
-		<property name="defaultPaths">
+		<property name="defaultTrajectories">
 			<list>
+			<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory">
+				<constructor-arg>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<property name="scannable" ref="tomographyThetaScannable" /> <!-- mode-specific -->
 					<property name="axis" value="THETA" />
 					<property name="start" value="0" />
 					<property name="stop" value="180" />
-					<property name="step" value="0" />
-					<property name="points" value="100" />
+					<property name="points" value="0" /> <!-- force users to explicitly specify this, at K11's request -->
+					<property name="continuous" value="true" />
 				</bean>
+				</constructor-arg>
+			</bean>
 			</list>
 		</property>
 		
@@ -191,8 +222,10 @@
 		<property name="detectors">
 			<list><value>PCO_CAMERA</value></list>
 		</property>
-		<property name="defaultPaths">
+		<property name="defaultTrajectories">
 			<list>
+			<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory">
+				<constructor-arg>
 				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
 					<property name="scannable"><null/></property>
 					<property name="axis" value="STATIC" />
@@ -201,6 +234,8 @@
 					<property name="step" value="0" />
 					<property name="points" value="1" />
 				</bean>
+				</constructor-arg>
+			</bean>
 			</list>
 		</property>
 		

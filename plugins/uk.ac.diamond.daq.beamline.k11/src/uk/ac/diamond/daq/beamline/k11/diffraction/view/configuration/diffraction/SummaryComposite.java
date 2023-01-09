@@ -32,8 +32,7 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
@@ -74,62 +73,45 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 	}
 
 	private String getSummary() {
-		var axes = parameters.getScanpathDocument().getScannableTrackDocuments().size();
+		var trajectories = parameters.getScanpathDocument().getTrajectories();
+		var points = trajectories.stream().map(this::points).reduce(1, (t1, t2) -> t1 * t2);
+		var step = trajectories.stream().map(this::stepSize)
+				.filter(result -> !result.isBlank()).collect(Collectors.joining());
 
-		return switch (axes) {
-			case 1 -> get1DSummary();
-			case 2 -> get2DSummary();
-			case 3 -> get3DSummary();
-			default -> String.format("Unexpected number of axes (%d)!", axes);
+		var summaryBuilder = new StringBuilder();
+		summaryBuilder.append("Points: ").append(points).append("; ");
+		if (!step.isBlank()) {
+			summaryBuilder.append("Step size: ").append(step).append(";\n");
+		}
+		summaryBuilder.append(getExposureSummary(points));
+		return summaryBuilder.toString();
+	}
+
+	private int points(Trajectory trajectory) {
+		return switch (trajectory.getShape()) {
+			case TWO_DIMENSION_POINT -> 1;
+			case ONE_DIMENSION_LINE, TWO_DIMENSION_LINE, STATIC_POINT -> pointsInAxis(trajectory.getAxes().get(0));
+			case TWO_DIMENSION_GRID -> pointsInAxis(trajectory.getAxes().get(0)) * pointsInAxis(trajectory.getAxes().get(1));
+			default -> throw new IllegalArgumentException("Unrecognised shape: " + trajectory.getShape());
 		};
 	}
 
-	private ScannableTrackDocument getAxisDocument(ScanpathDocument scan, Axis axis) {
-		return scan.getScannableTrackDocuments().stream()
-			.filter(doc -> doc.getAxis().equals(axis))
-			.findFirst().orElseThrow();
+	private String stepSize(Trajectory trajectory) {
+		return switch (trajectory.getShape()) {
+			case ONE_DIMENSION_LINE -> oneDLineStepSize(trajectory.getAxes().get(0));
+			case TWO_DIMENSION_LINE -> {
+				var x = trajectory.getAxes().get(0);
+				var y = trajectory.getAxes().get(1);
+				yield String.valueOf(Math.sqrt(Math.pow(x.calculatedStep(), 2) + Math.pow(y.calculatedStep(), 2)));
+			}
+			case TWO_DIMENSION_GRID -> trajectory.getAxes().stream().map(this::oneDLineStepSize).collect(Collectors.joining(","));
+			case STATIC_POINT, TWO_DIMENSION_POINT -> "";
+			default -> throw new IllegalArgumentException("Unrecognised shape: " + trajectory.getShape());
+		};
 	}
 
-	private String get1DSummary() {
-		var points = pointsInAxis(parameters.getScanpathDocument().getScannableTrackDocuments().get(0));
-		return String.format("Points: %d; %s", points, getExposureSummary(points));
-	}
-
-	private String get2DSummary() {
-		var document = parameters.getScanpathDocument();
-		var xAxis = document.getScannableTrackDocuments().get(0);
-		var yAxis = document.getScannableTrackDocuments().get(1);
-
-		var points = 0;
-		switch (document.getModelDocument()) {
-		case TWO_DIMENSION_GRID:
-			points = pointsInAxis(xAxis) * pointsInAxis(yAxis);
-			var xStepSize = xAxis.calculatedStep();
-			var yStepSize = yAxis.calculatedStep();
-			return String.format("Points: %d; Step size X: %.2f, Y: %.2f;%n%s", points, xStepSize, yStepSize, getExposureSummary(points));
-		case TWO_DIMENSION_LINE:
-			points = pointsInAxis(xAxis);
-			var stepSize = Math.sqrt((xAxis.calculatedStep() * xAxis.calculatedStep()) + (yAxis.calculatedStep() * yAxis.calculatedStep()));
-			return String.format("Points: %d; Step size: %.2f;%n%s", points, stepSize, getExposureSummary(points));
-		case TWO_DIMENSION_POINT:
-			return String.format("Points: 1; %s", getExposureSummary(1));
-		default:
-			throw new IllegalArgumentException("Unsupported type: " + document.getModelDocument().toString());
-		}
-	}
-
-	private String get3DSummary() {
-		var document = parameters.getScanpathDocument();
-
-		var xAxis = getAxisDocument(document, Axis.X);
-		var yAxis = getAxisDocument(document, Axis.Y);
-		var rotAxis = getAxisDocument(document, Axis.THETA);
-		var points = pointsInAxis(xAxis) * pointsInAxis(yAxis) * pointsInAxis(rotAxis);
-		var xStepSize = xAxis.calculatedStep();
-		var yStepSize = yAxis.calculatedStep();
-		var rotStepSize = rotAxis.calculatedStep();
-		return String.format("Points: %d; Step size X: %.2f, Y: %.2f; θ: %.2f%n%s",
-				points, xStepSize, yStepSize, rotStepSize, getExposureSummary(points));
+	private String oneDLineStepSize(ScannableTrackDocument line) {
+		return String.format("%s: %.2f", line.getAxis(), line.calculatedStep());
 	}
 
 	private String getExposureSummary(int points) {
