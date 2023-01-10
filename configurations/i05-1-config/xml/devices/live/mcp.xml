@@ -99,5 +99,15 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="mcp_total" class="gda.device.detector.NXDetector">
+		<property name="name" value="mcp_total" />
+		<property name="collectionStrategy" ref="mcpCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mcpRoiStats" />
+			</list>
+		</property>
+	</bean>
 
 </beans>
