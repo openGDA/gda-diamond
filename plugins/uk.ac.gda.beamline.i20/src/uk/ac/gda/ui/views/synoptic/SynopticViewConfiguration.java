@@ -37,6 +37,8 @@ public class SynopticViewConfiguration extends FindableBase {
 	private Map<LiveControl, Point> controls = new HashMap<>();
 	private String backgroundImage = "";
 	private Point imageStart = new Point(0,0);
+	private double imageScaleFactor = 1.0;
+
 	private String viewName = "";
 	private boolean showCoordinates = false;
 
@@ -91,6 +93,14 @@ public class SynopticViewConfiguration extends FindableBase {
 
 	public Point getImageStart() {
 		return imageStart;
+	}
+
+	public double getImageScaleFactor() {
+		return imageScaleFactor;
+	}
+
+	public void setImageScaleFactor(double imageScaleFactor) {
+		this.imageScaleFactor = imageScaleFactor;
 	}
 
 	public boolean isShowCoordinates() {

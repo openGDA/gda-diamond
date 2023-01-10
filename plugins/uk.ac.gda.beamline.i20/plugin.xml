@@ -481,9 +481,14 @@
             name="XES Plot">
       </perspective>
       <perspective
-            class="uk.ac.gda.ui.views.synoptic.SynopticPerspective"
-            id="uk.ac.gda.beamline.i20.SynopticPerspective"
-            name="Synoptic views">
+            class="uk.ac.gda.ui.views.synoptic.SynopticPerspective:xes_lower_perspective_config"
+            id="uk.ac.gda.beamline.i20.SynopticPerspective.xes_lower_perspective_config"
+            name="Synoptic views (lower)">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.ui.views.synoptic.SynopticPerspective:xes_upper_perspective_config"
+            id="uk.ac.gda.beamline.i20.SynopticPerspective.xes_upper_perspective_config"
+            name="Synoptic views (upper)">
       </perspective>
    </extension>  
    <extension
@@ -526,15 +531,6 @@
              label="Synoptic views">
           <command
                 commandId="org.eclipse.ui.views.showView"
-                label="XES stage"
-                style="push">
-             <parameter
-                   name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesStageView">
-             </parameter>
-          </command>
-          <command
-                commandId="org.eclipse.ui.views.showView"
                 label="XAS sample stage view"
                 style="push">
              <parameter
@@ -562,47 +558,11 @@
           </command>
           <command
                 commandId="org.eclipse.ui.views.showView"
-                label="XES Crystal Analysers"
-                style="push">
-             <parameter
-                   name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesAnalysersView">
-             </parameter>
-          </command>
-          <command
-                commandId="org.eclipse.ui.views.showView"
                 label="ATN5 filters"
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
                    value="uk.ac.gda.ui.views.synoptic.hutchFilterView">
-             </parameter>
-          </command>
-          <command
-                commandId="org.eclipse.ui.views.showView"
-                label="XES Calibration View"
-                style="push">
-             <parameter
-                   name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.xesCalibrationView">
-             </parameter>
-          </command>
-          <command
-                commandId="org.eclipse.ui.views.showView"
-                label="XES Offsets View"
-                style="push">
-             <parameter
-                   name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.xesOffsetView">
-             </parameter>
-          </command>
-          <command
-                commandId="org.eclipse.ui.views.showView"
-                label="XES Simulated Positions View"
-                style="push">
-             <parameter
-                   name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.xesSimulatedPositionsView">
              </parameter>
           </command>
        </menu>
@@ -708,45 +668,15 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xesAnalysersView"
-            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesAnalysersView"
-            name="XES Crystal Analyser view"
-            restorable="true">
-      </view>
-       <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesCalibrationView"
-            id="uk.ac.gda.ui.views.synoptic.xesCalibrationView"
-            name="XES Calibration view"
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:spectrometerRowsPicture"
+            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.spectrometerRowsPicture"
+            name="XES lower upper stage view"
             restorable="true">
       </view>
       <view
             class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:hutchFiltersView"
             id="uk.ac.gda.ui.views.synoptic.hutchFilterView"
             name="ATN5 view"
-            restorable="true">
-      </view>
-      <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:xesStageView"
-            id="uk.ac.gda.ui.views.synoptic.SynopticViewFactory.xesStageView"
-            name="XES Stage view"
-            restorable="true">
-      </view>
-      <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesCalibrationView"
-            id="uk.ac.gda.ui.views.synoptic.xesCalibrationView"
-            name="XES Calibration View"
-            restorable="true">
-      </view>
-      <view
-            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesOffsetsView"
-            id="uk.ac.gda.ui.views.synoptic.xesOffsetView"
-            name="XES Offsets View"
-            restorable="true">
-      </view>
-      <view
-            class="uk.ac.gda.client.livecontrol.LiveControlsViewFactory:xesSimulatedPosition"
-            id="uk.ac.gda.ui.views.synoptic.xesSimulatedPositionsView"
-            name="XES Simulated Positions View"
             restorable="true">
       </view>
  </extension>

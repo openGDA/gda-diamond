@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+		
+<!-- Setup for upper XES crystal analysers Synoptic view  -->
+
+ 	<bean id="upper_crystal_cut1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="upper_cut1" />
+		<property name="displayName" value="H" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="upper_crystal_cut2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="upper_cut2" />
+		<property name="displayName" value="K" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+	
+	<bean id="upper_crystal_cut3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="upper_cut3" />
+		<property name="displayName" value="L" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="upper_crystal_material_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="upper_material" />
+		<property name="displayName" value="Material" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="upper_radius_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="upper_radius" />
+		<property name="displayName" value="Radius" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+ 		<property name="showIncrement" value="false" />
+  		<property name="displayNameWidth" value="#{crystalCutLabelWidth}" />
+	</bean>
+
+	<bean id="upper_crystal_cut_controls" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Upper analyser crystal cuts" />
+ 		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="upper_crystal_material_control" />
+				<ref bean="upper_crystal_cut1_control" />
+				<ref bean="upper_crystal_cut2_control" />
+				<ref bean="upper_crystal_cut3_control" />
+				<ref bean="upper_radius_control" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="upper_crystal_moveable_controls" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="upper_crystalsAllowedToMove" />
+ 		<property name="group" value="Upper Analyser crystals to move" />
+ 		<property name="displayNameWidth" value="90" />
+ 		<property name="numColumns" value="1" />
+ 		<property name="showStop" value="false"/>
+ 		<property name="horizontalLayout" value="true" />
+		<property name="descriptions">
+			<list>
+				<value>Crystal -3</value>
+				<value>Crystal -2</value>
+				<value>Crystal -1</value>
+				<value>Crystal 0</value>
+				<value>Crystal +1</value>
+				<value>Crystal +2</value>
+				<value>Crystal +3</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="upper_crystal_material_controls" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Upper analysers material controls" />
+		<property name="controls">
+			<list>
+				<ref bean="upper_crystal_cut_controls" />
+				<ref bean="upper_crystal_moveable_controls" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="upper_detector_controls" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Upper detector controls" />
+		<property name="controls">
+			<list>
+				 <bean id="upper_detector_group" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+			 		<property name="scannableGroupName" value="upper_detectorMotors" />
+			 		<property name="group" value="Upper detector motors" />
+			 		<property name="numColumns" value="1" />
+			 		<property name="horizontalLayout" value="true" />
+			 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	 <bean id="all_upper_crystal_live_controls" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="upper_spectrometerCrystals" />
+ 		<property name="horizontalLayout" value="true" />
+  		<property name="numColumns" value="2" />
+ 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
+ 		<property name="descriptions">
+			<list>
+				<value>Analyser crystal -3</value>
+				<value>Analyser crystal -2</value>
+				<value>Analyser crystal -1</value>
+				<value>Analyser crystal 0</value>
+				<value>Analyser crystal +1</value>
+				<value>Analyser crystal +2</value>
+				<value>Analyser crystal +3</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="all_upper_crystal_controls" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Upper analyser controls" />
+		<property name="controls">
+			<list>
+				<ref bean="all_upper_crystal_live_controls" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="upper_offsets_controlset" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Upper analyser offsets" />
+		<property name="controls">
+			<list>
+				<bean name="upper_offsets_view" class="uk.ac.gda.ui.views.synoptic.XesOffsetsView">
+					<property name="offsetObjectName" value="XesOffsetsUpper" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="upper_simulated_positions_controlset" class="uk.ac.gda.client.livecontrol.ControlSet">
+		 <property name="viewName" value="Upper analyser simulated positions" />
+		<property name="controls">
+			<list>
+				<bean name="upper_simulated_positions" class="uk.ac.gda.ui.views.synoptic.XesSimulatedPositionsView">
+					<property name="xesEnergyScannableName" value="XESEnergyUpper" />
+				</bean>	
+			</list>
+		</property>
+	</bean>
+
+	<bean name="upper_calibration_controlset" class="uk.ac.gda.client.livecontrol.ControlSet">
+		 <property name="viewName" value="XES upper offset calibration" />
+		<property name="controls">
+			<list>
+				<bean name="upper_simulated_positions" class="uk.ac.gda.ui.views.synoptic.XesCalibrationView">
+					<property name="offsetObjectName" value="XesOffsetsUpper" />
+				</bean>	
+			</list>
+		</property>
+	</bean>
+
+	<bean name="xes_upper_perspective_config" class="uk.ac.gda.ui.views.synoptic.SynopticPerspectiveConfiguration">
+		<property name="simulatedPositionsView" value="upper_simulated_positions_controlset" />	
+		<property name="spectrometerPicture" value="spectrometerRowsPicture" />
+		<property name="materialControls" value="upper_crystal_material_controls" />
+		<property name="allCrystalControls" value="all_upper_crystal_controls" />
+		<property name="detectorControls" value="upper_detector_controls" />
+		<property name="calibrationControls" value="upper_calibration_controlset" />
+		<property name="offsetView" value="upper_offsets_controlset" />
+	</bean>
+
+</beans>
