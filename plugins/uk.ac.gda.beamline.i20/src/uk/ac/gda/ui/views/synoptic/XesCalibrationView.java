@@ -19,7 +19,6 @@
 package uk.ac.gda.ui.views.synoptic;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -28,6 +27,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -39,19 +39,17 @@ import gda.device.Scannable;
 import gda.device.scannable.ScannableUtils;
 import gda.exafs.xes.IXesOffsets;
 import gda.factory.Finder;
+import uk.ac.gda.client.livecontrol.LiveControlBase;
 import uk.ac.gda.client.livecontrol.ScannablePositionerControl;
 
-public class XesCalibrationView extends HardwareDisplayComposite {
+public class XesCalibrationView extends LiveControlBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(XesCalibrationView.class);
 
+	private String offsetObjectName = "";
 	private IXesOffsets offsets;
-	private Scannable energyScannable;
 	private Text loadedOffsetFileTextbox;
 
-	public XesCalibrationView(Composite parent, int style) {
-		super(parent, style, new GridLayout(1,false));
-	}
 
 	private Label addLabel(Composite parent, String labelText) {
 		Label label = new Label(parent, SWT.NONE);
@@ -67,27 +65,23 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 		return button;
 	}
 
-	private void setupScannables() {
-		Map<String, IXesOffsets> offsetObject = Finder.getFindablesOfType(IXesOffsets.class);
-		if (!offsetObject.isEmpty()) {
-			offsets = offsetObject.values().iterator().next();
-			logger.debug("Using XesOffsets object {}", offsets.getName());
-			energyScannable = Finder.find(offsets.getXesEnergyScannableName());
-		}
+	private void showWarningDialog(String title, String message) {
+		MessageDialog.openWarning(Display.getCurrent().getActiveShell(), title, message);
+
 	}
 	private void showViewCreationMessageProblem(String message) {
-		MessageDialog.openWarning(parent.getShell(), "Cannot open XES calibration view", "Cannot open XES calibration view : "+message);
+		showWarningDialog("Cannot open XES calibration view", "Cannot open XES calibration view : "+message);
 	}
 
 	@Override
-	protected void createControls(Composite parent) throws Exception {
-		setViewName("XES calibration view");
-
-		setupScannables();
+	public void createControl(Composite parent) {
+		offsets = Finder.find(offsetObjectName);
 		if (offsets == null) {
 			showViewCreationMessageProblem("required XesOffset object not found on server.");
 			return;
 		}
+		Scannable energyScannable = Finder.find(offsets.getXesEnergyScannableName());
+
 		if (energyScannable == null) {
 			showViewCreationMessageProblem("energy scannable "+offsets.getXesEnergyScannableName()+" could not be found.");
 			return;
@@ -96,18 +90,30 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 		Composite comp = new Group(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(4, false));
 
+		// Set the parent background to match these widgets
+		parent.getParent().setBackground(comp.getBackground());
+
 		// First row : XES energy control, expected energy and calibrate button
 		ScannablePositionerControl posControl = new ScannablePositionerControl();
 		posControl.setHorizontalLayout(true);
 		posControl.setScannableName(energyScannable.getName());
-		posControl.setDisplayName("XES energy");
+		posControl.setDisplayName(energyScannable.getName());
 
 		// XES energy control goes in its own composite
 		Composite energyComp = new Composite(comp, SWT.NONE);
 		energyComp.setLayout(new FillLayout());
 		posControl.createControl(energyComp);
 
-		String[] energyPos = ScannableUtils.getFormattedCurrentPositionArray(energyScannable);
+		// Make sure the positioner control has default background colour behaviour
+		// (i.e. white background in Text widget rather than grey)
+		energyComp.setBackgroundMode(SWT.INHERIT_DEFAULT);
+
+		String[] energyPos = new String[] {"0"};
+		try {
+			energyPos = ScannableUtils.getFormattedCurrentPositionArray(energyScannable);
+		} catch (DeviceException e) {
+			logger.error("Problem getting energy from {}", energyScannable.getName(), e);
+		}
 
 		addLabel(comp, "Expected energy");
 
@@ -150,11 +156,11 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 			offsets.applyFromLive(energy);
 		} catch (NumberFormatException e) {
 			String message = "Could not run offset calculation - expected energy " + expectedEnergy	+ " is not recognised as a number";
-			MessageDialog.openWarning(parent.getShell(), "Problem starting offset calculation", message);
+			showWarningDialog("Problem starting offset calculation", message);
 		} catch (DeviceException | IOException e) {
 			logger.error("Problem running XES offset calculation", e);
 			String message = "Problem running calibration : " + e.getMessage() + ".\nSee log panel for more details";
-			MessageDialog.openWarning(parent.getShell(), "Problem running offset calculation", message);
+			showWarningDialog("Problem running offset calculation", message);
 		}
 	}
 
@@ -164,24 +170,28 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 			loadedOffsetFileTextbox.setText(filename);
 		} catch (IOException e) {
 			logger.error("Problem loading offsets from file {}", filename, e);
-			MessageDialog.openWarning(parent.getShell(), "Problem loading offsets from file", "Problem loading offsets from file : "+e.getMessage());
+			showWarningDialog("Problem loading offsets from file", "Problem loading offsets from file : "+e.getMessage());
 		}
 	}
 
 	private void saveToFile(String filename) {
 		if (filename == null || filename.isEmpty()) {
-			MessageDialog.openWarning(parent.getShell(), "Problem saving offsets to file", "File name to save offsets to is empty.");
+			showWarningDialog( "Problem saving offsets to file", "File name to save offsets to is empty.");
 			return;
 		}
 		try {
 			offsets.saveAs(filename);
 		} catch (IOException e) {
 			logger.error("Problem saving offsets to file {}", filename, e);
-			MessageDialog.openWarning(parent.getShell(), "Problem saving to file", "Problem saving offsets to file : "+e.getMessage()+".\nSee log panel for more information");
+			showWarningDialog("Problem saving to file", "Problem saving offsets to file : "+e.getMessage()+".\nSee log panel for more information");
 		}
 	}
 
 	private void removeOffsets() {
 		offsets.removeAll();
+	}
+
+	public void setOffsetObjectName(String offsetObjectName) {
+		this.offsetObjectName = offsetObjectName;
 	}
 }
