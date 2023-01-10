@@ -29,7 +29,7 @@
 	<import resource="controls/membrane.xml" />
 	<import resource="stage_controls.xml"/>
 
-	<import resource="mapping.xml"/>
+	<import resource="mapping/*.xml"/>
 
 	<!-- If we leave these in the common client config, then GDA fails to start if the Test Zebra box is turned off
 	<import resource="../../../servers/main/common/device/zebraTestAreaDetector.xml"/>
