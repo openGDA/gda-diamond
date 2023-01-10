@@ -4,6 +4,7 @@ I16-389 Run standard test scripts after any change to GDA
 
 scan x (1 5 11)
 pos pil 1 # Can't be run before first scan
+# Pilatus troubleshooting guide at https://confluence.diamond.ac.uk/x/pvEDCQ
 help ub
 ub
 lastub

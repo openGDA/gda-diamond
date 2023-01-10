@@ -1,0 +1,100 @@
+================================================================================
+			I16-629 Convert I16 from locationMap to new metadata
+================================================================================
+The `scancn eta` tests assume `pos eta 12.5345` beforehand.
+
+Scan command: scancn eta 0.02 31 pil 1 roi2
+
+Scan		Configuration	Dummy	nxlsa	Notes
+			NDW	DWE	LF	T	/Live			
+----------- --- --- --	-	-----	-----	------------------------------------
+960660		NDW	DWE	LF		Live	Good	Baseline
+960661		NDW	DWE	LF	T	Live	-DWE	Moved incident_energy locMap>template
+960662		NDW	DWE	LF		Live	Good	Baseline, post test check
+----------- --- --- --	-	-----	-----	------------------------------------
+960671		NDW	DWE	LF		Live	Good	Moved kdelta from locationMap to PositionerTransformationsAppender
+960672		NDW	DWE	LF		Live	Good	Changed name kdelta to delta
+960673		NDW	DWE	LF		Live	Good	Restored locationMap kdelta, removed locationMap kgam
+960674		NDW	DWE	LF		Live	Good	Baseline, post test check
+----------- --- --- --	-	-----	-----	------------------------------------
+	NDW	NexusDataWriter				NSD	NexusScanDataWriter
+	DWE	DataWriterExtender			T	Template
+	LF	Link Files					Trunc	Truncated
+
+	See bottom of ./Notes file for: Preparing a scan for archiving here
+
+================================================================================
+
+--------------------------------------------------------------------------------
+Moved kdelta from locationMap to PositionerTransformationsAppender
+--------------------------------------------------------------------------------
+
+Using:
+
+	<bean id="kdelta_transform" class="org.eclipse.scanning.device.PositionerTransformationsAppender">
+		<property name="name" value="kdelta" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="axisName" value="kdelta" />
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/transformations/gamma" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+
+Removed:
+    entry1/instrument/transformations/delta: (31,) units=deg
+                                             @axis='1'
+                                             @depends_on='entry1/instrument/transformations/gamma'
+                                             @local_name='kdelta.kdelta'
+                                             @target='/entry1/instrument/transformations/delta'
+                                             @transformation_type='rotation'
+                                             @vector=array([0., 1., 0.])
+...
+    entry1/pil3_100k/delta: (31,) units=deg
+                            @axis='1'
+                            @depends_on='entry1/instrument/transformations/gamma'
+                            @local_name='kdelta.kdelta'
+                            @target='/entry1/instrument/transformations/delta'
+                            @transformation_type='rotation'
+                            @vector=array([0., 1., 0.])
+...
+    entry1/roi2/delta: (31,) units=deg
+                       @axis='1'
+                       @depends_on='entry1/instrument/transformations/gamma'
+                       @local_name='kdelta.kdelta'
+                       @target='/entry1/instrument/transformations/delta'
+                       @transformation_type='rotation'
+                       @vector=array([0., 1., 0.])
+
+Added:
+    entry1/instrument/kdelta:NXpositioner/
+    entry1/instrument/kdelta/kdelta: (31,)
+                                     @axis='1'
+                                     @local_name='kdelta.kdelta'
+                                     @target='/entry1/instrument/kdelta/kdelta'
+...
+    entry1/pil3_100k/kdelta: (31,)
+                             @axis='1'
+                             @local_name='kdelta.kdelta'
+                             @target='/entry1/instrument/kdelta/kdelta'
+...
+    entry1/roi2/kdelta: (31,)
+                        @axis='1'
+                        @local_name='kdelta.kdelta'
+                        @target='/entry1/instrument/kdelta/kdelta'
+--------------------------------------------------------------------------------
+
+================================================================================
+

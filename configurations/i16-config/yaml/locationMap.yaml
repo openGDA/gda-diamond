@@ -1,0 +1,6 @@
+entry1/:
+  sample/:
+    NX_class@: NXsample
+      beam\:
+      NX_class@: NXbeam
+        incident_energy: /entry1/instrument/scannables/en/value
