@@ -2,6 +2,7 @@ from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
 from gda.factory import Finder
 from gda.device.detector.nexusprocessor.roistats import RegionOfInterest
+import json
 
 """
 This is a scannable intended to be added metadata for the purpose
@@ -40,7 +41,7 @@ class RoiMetaDatFileDevice(ScannableBase):
 
 	def getPosition(self):
 		if self.scanIncludesDetectorOfInterest():
-			return str({r.getName(): {"x": r.getX(), "y": r.getY(), "width": r.getWidth(), "height": r.getHeight()} for r in RegionOfInterest.getRoisForPlot(self.plot_name)})
+			return json.dumps({r.getName(): {"x": r.getX(), "y": r.getY(), "width": r.getWidth(), "height": r.getHeight()} for r in RegionOfInterest.getRoisForPlot(self.plot_name)})
 		else:
 			return "N/A"
 

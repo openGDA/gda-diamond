@@ -8,6 +8,11 @@
 		<property name="collectionStrategy" ref="excalibur_single_strategy" />
 	</bean>
 
+	<bean id="excalibur_atten" class="uk.ac.gda.devices.odin.OdinDetector">
+		<property name="controller" ref="excalibur_controller" />
+		<property name="collectionStrategy" ref="excalibur_attenuator_strategy" />
+	</bean>
+
 	<bean id="excalibur_multi" class="uk.ac.gda.devices.odin.OdinDetector">
 		<property name="controller" ref="excalibur_controller" />
 		<property name="collectionStrategy" ref="excalibur_multiple_strategy" />
@@ -15,6 +20,13 @@
 
 	<bean id="excalibur_single_strategy" class="uk.ac.gda.devices.odin.OdinSingleFileStrategy">
 		<constructor-arg index="0" ref="excalibur_controller"/>
+	</bean>
+
+	<bean id="excalibur_attenuator_strategy" class="uk.ac.gda.devices.odin.OdinAttenuatorStrategy">
+		<constructor-arg index="0" ref="excalibur_controller"/>
+		<constructor-arg index="1" value="BL07I-OP-FILT-01:"/>
+		<property name="fastExpTime" value="0.1" />
+		<property name="numOfFastFrames" value="20" />
 	</bean>
 
 	<bean id="excalibur_multiple_strategy" class="uk.ac.gda.devices.odin.OdinMultipleFileStrategy">
@@ -74,6 +86,7 @@
 		<property name="detector" ref="excalibur" />
 		<property name="processor" ref="excalibur_swmr_standard" />
 	</bean>
+
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
 		id="exv">
