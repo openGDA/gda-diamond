@@ -1140,5 +1140,6 @@
 
 	<bean id="fatt_filters" class="gda.device.scannable.FastAttenuatorFilters">
 		<property name="basePv" value="BL07I-OP-FILT-01" />
+		<property name="histogramThresholdsBasePv" value="BL07I-EA-EXCBR-01:OD:SUM:Histogram" />
 	</bean>
 </beans>
