@@ -105,6 +105,8 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 
 				liveControls.addAll(liveControlsForGroup);
 			}
+			setControls(liveControls);
+
 		} else {
 			liveControls = createControlsForGroup(groupMemberNames, descriptions, getGroup());
 			setControls(liveControls);
@@ -217,5 +219,26 @@ public class LiveControlsScannableGroup extends LiveControlGroup {
 	 */
 	public void setDescriptions(List<String> descriptions) {
 		this.descriptions = new ArrayList<>(descriptions);
+	}
+
+
+	/**
+	 * Toggle states of showIncrement, showStop and layout flags when toggle
+	 * button in view toolbar are pressed
+	 */
+
+	@Override
+	public void toggleIncrementControlDisplay() {
+		showIncrement = !showIncrement;
+	}
+
+	@Override
+	public void toggleShowStopButton() {
+		showStop = !showStop;
+	}
+
+	@Override
+	public void toggleLayoutControl() {
+		horizontalLayout = !horizontalLayout;
 	}
 }
