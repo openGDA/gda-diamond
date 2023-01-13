@@ -7,6 +7,20 @@
 
     <bean id="DAServer" class="gda.device.detector.DummyDAServer"/>
 
+    <!-- This is a hack to replicate what is done in scripts on the live beamline -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingBean" >
+        <property name="targetObject" ref="energy" />
+        <property name="targetMethod" value="addScannables" />
+        <property name="arguments" >
+            <list>
+                <bean id="calibrated_id" class="gda.device.scannable.DummyScannable" />
+                <bean id="calibrated_offset" class="gda.device.scannable.DummyScannable" />
+                <bean id="pilthres" class="gda.device.scannable.DummyScannable" />
+                <bean id="pilthresWAXS_L" class="gda.device.scannable.DummyScannable" />
+            </list>
+        </property>
+    </bean>
+
     <beans profile="saxs">
         <bean id="SaxsMemory" class="gda.device.memory.Gdscaler">
             <property name="daServerName" value="DAServer" />
