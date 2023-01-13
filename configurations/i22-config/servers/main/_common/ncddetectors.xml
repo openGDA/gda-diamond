@@ -8,7 +8,7 @@
         http://www.diamond.ac.uk/schema/gda/gda
         http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-    <bean class="gda.device.timer.Etfg" id="Tfg">
+    <bean id="Tfg" class="gda.device.timer.Etfg">
         <property name="daServerName" value="DAServer"/>
         <property name="showArmed" value="true"/>
     </bean>
@@ -18,54 +18,54 @@
         <property name="channel" value="2" />
     </bean>
 
-    <bean class="gda.device.memory.Scaler" id="CalibMemory">
+    <bean id="CalibMemory" class="gda.device.memory.Scaler">
         <property name="daServerName" value="DAServer"/>
         <property name="width" value="9"/>
         <property name="height" value="1"/>
         <property name="openCommand" value="tfg open-cc"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector" id="Scalers">
+    <bean id="Scalers" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
         <property name="detectorType" value="CALIB"/>
         <property name="memory" ref="CalibMemory"/>
         <property name="transposedData" value="true"/>
     </bean>
 
-    <bean class="gda.device.memory.GdhistTimes" id="TimesMemory">
+    <bean id="TimesMemory" class="gda.device.memory.GdhistTimes">
         <property name="daServerName" value="DAServer"/>
         <property name="width" value="8"/>
         <property name="height" value="1"/>
         <property name="openCommand" value="module open 'tfg_times' header"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector" id="TfgTimes">
+    <bean id="TfgTimes" class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector">
         <property name="detectorType" value="TIMES"/>
         <property name="memory" ref="TimesMemory"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" id="ncdlistener">
+    <bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
         <property name="ncdDetector" ref="ncddetectors"/>
         <property name="energyScannable" ref="energy"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.scannable.EnergyScannable" id="energy">
+    <bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
         <property name="bragg" ref="dcm_energy"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset" id="sao1">
+    <bean id="sao1" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
         <property name="offset" value="0"/>
         <property name="scaling" value="1"/>
         <property name="description" value="no scaling or offset"/>
     </bean>
 
-    <bean name="scanStartFastShutterAction" class="uk.ac.gda.server.ncd.actions.TfgIdleStateChange">
+    <bean id="scanStartFastShutterAction" class="uk.ac.gda.server.ncd.actions.TfgIdleStateChange">
         <property name="state" value="0" />
         <property name="channel" value="2" />
         <property name="tfg" ref="Tfg" />
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem" id="ncddetectors">
+    <bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
         <property name="timer" ref="Tfg"/>
         <property name="scanStartActions">
             <list>
@@ -180,7 +180,7 @@
         </bean>
     </beans>
     <beans profile="ionchamber">
-        <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="IonChamber">
+        <bean id="IonChamber" class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
             <property name="detectorType" value="CALIB"/>
             <property name="memory" ref="CalibMemory"/>
             <property name="units" value="counts"/>
