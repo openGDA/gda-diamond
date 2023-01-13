@@ -32,21 +32,21 @@
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcExc" />
-		<property name="enable" value="false" />
+		<property name="enabled" value="false" />
 	</bean>
 	<bean class="uk.ac.gda.analysis.mscan.NormProc"
 		id="MalcNormProcPil2">
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcPil2" />
-		<property name="enable" value="false" />
+		<property name="enabled" value="false" />
 	</bean>
 	<bean class="uk.ac.gda.analysis.mscan.NormProc"
 		id="MalcNormProcPil3">
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcPil3" />
-		<property name="enable" value="false" />
+		<property name="enabled" value="false" />
 	</bean>
 
 	<bean id="excalibur_processing" class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager">
