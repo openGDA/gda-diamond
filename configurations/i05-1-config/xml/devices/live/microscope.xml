@@ -1,6 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder properties-ref="microscopePVs"/>
+
+	<bean id="micCamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="${mic}:CAM:" />
+	</bean>
+
+	<bean id="micCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="micCamBase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="micHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="fileNameTemplate" value="mic"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="${mic}:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="mic_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/micRoi" />
+	    <property name="service" ref="mic_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
+
+	<bean id="mic_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="mic_RoiStats1" />
+		<property name="baseRoiPVName" value="${mic}:ROI1:" />
+		<property name="baseStatsPVName" value="${mic}:STAT1:" />
+		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="mic_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="mic_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="mic_RoiStats2" />
+		<property name="baseRoiPVName" value="${mic}:ROI2:" />
+		<property name="baseStatsPVName" value="${mic}:STAT2:" />
+		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="mic_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="mic_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="mic_RoiStats3" />
+		<property name="baseRoiPVName" value="${mic}:ROI3:" />
+		<property name="baseStatsPVName" value="${mic}:STAT3:" />
+		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="mic_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="mic_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="mic_RoiStats4" />
+		<property name="baseRoiPVName" value="${mic}:ROI4:" />
+		<property name="baseStatsPVName" value="${mic}:STAT4:" />
+		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="mic_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="mic_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="mic_RoiStats5" />
+		<property name="baseRoiPVName" value="${mic}:ROI5:" />
+		<property name="baseStatsPVName" value="${mic}:STAT5:" />
+		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="mic_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="mic_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="mic_RoiStats6" />
+		<property name="baseRoiPVName" value="${mic}:ROI6:" />
+		<property name="baseStatsPVName" value="${mic}:STAT6:" />
+		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="mic_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>	
+	</bean>
+
+ 	<bean id="mic" class="gda.device.detector.NXDetector">
+		<property name="name" value="mic" />
+		<property name="collectionStrategy" ref="micCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mic_RoiStats1" />
+				<ref bean="mic_RoiStats2" />
+				<ref bean="mic_RoiStats3" />
+				<ref bean="mic_RoiStats4" />
+				<ref bean="mic_RoiStats5" />
+				<ref bean="mic_RoiStats6" />
+				<ref bean="micHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
@@ -29,4 +212,5 @@
 		<property name="useNameAsExtraName" value="true" />
 	</bean>
 
-</beans>
+</beans> -->
+
