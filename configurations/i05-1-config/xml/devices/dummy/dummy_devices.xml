@@ -35,5 +35,7 @@
 
 	<import resource="mcp.xml" />
 	<import resource="keithley.xml" />
+	
+	<import resource="microscope_pv.xml"/>
 
 </beans>
