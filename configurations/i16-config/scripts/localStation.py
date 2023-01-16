@@ -1519,6 +1519,9 @@ class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
 	def waitWhileBusy(self):
 		return
 
+	def stop(self):
+		return
+
 def asyncMonitor(scannable):
 	return AsyncMonitor(scannable)
 
@@ -1527,7 +1530,6 @@ alias(asyncMonitor)
 class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
 
 	def __init__(self, scannable, targetPosition):
-
 		super(AsyncScannable, self).__init__(scannable)
 		self.targetPosition = targetPosition
 
@@ -1544,6 +1546,9 @@ class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
 		super(AsyncScannable, self).atCommandFailure()
 
 	def waitWhileBusy(self):
+		return
+
+	def stop(self):
 		return
 
 def asyncScannable(scannable, targetPosition):
