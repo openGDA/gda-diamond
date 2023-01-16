@@ -92,7 +92,7 @@ global x2000, x2003
 global delta
 global energy, simple_energy, gam
 global x1
-global _bpm1, _bpm1_for_snaps
+global _bpm1, _bpm1_for_snaps, _bpm1_no_screen, _bpm1_for_snaps_no_screen
 global _cam1, _cam1_for_snaps
 global _camd3, _camd3_for_snaps
 global _camd4, _camd4_for_snaps
@@ -1203,6 +1203,7 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 
 try:
 	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _bpm1, _bpm1_for_snaps, panel_name_rcp='BPM')
+	bpm_no_screen, bpm_no_screen_peak2d, bpm_no_screen_max2d = wrappedDetector("bpm", _bpm1_no_screen, _bpm1_no_screen_for_snaps, panel_name_rcp='BPM')
 	cam1, cam1_peak2d, cam1_max2d = wrappedDetector("cam1", _cam1, _cam1_for_snaps, panel_name_rcp='Plot 2')
 	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
 	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
