@@ -1510,6 +1510,46 @@ if USE_CRYO_GEOMETRY:
 	except:
 		localStation_exception("testing meta_ls() when USE_CRYO_GEOMETRY = True, /i16-config/servers/main/_common/nxmetadata.xml is probably configured for kphi not cryophi.")
 
+# Define a function which turns any scannable into one which doesn't pause the
+# scan if it's moving.
+from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
+
+class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
+
+	def waitWhileBusy(self):
+		return
+
+def asyncMonitor(scannable):
+	return AsyncMonitor(scannable)
+
+alias(asyncMonitor)
+
+class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
+
+	def __init__(self, scannable, targetPosition):
+
+		super(AsyncScannable, self).__init__(scannable)
+		self.targetPosition = targetPosition
+
+	def atScanStart(self):
+		self.asynchronousMoveTo(self.targetPosition)
+		super(AsyncScannable, self).atScanStart()
+
+	def atScanEnd(self):
+		self.stop()
+		super(AsyncScannable, self).atScanEnd()
+
+	def atCommandFailure(self):
+		self.stop()
+		super(AsyncScannable, self).atCommandFailure()
+
+	def waitWhileBusy(self):
+		return
+
+def asyncScannable(scannable, targetPosition):
+	return AsyncScannable(scannable, targetPosition)
+
+alias(asyncScannable)
 ###Default Scannables###
 try:
 	if USE_CRYO_GEOMETRY:
@@ -1777,47 +1817,6 @@ except:
 
 # Define offset between pilatus detector and analyser crystal
 do.pil = 8.8
-
-# Define a function which turns any scannable into one which doesn't pause the
-# scan if it's moving.
-from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
-
-class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
-
-	def waitWhileBusy(self):
-		return
-
-def asyncMonitor(scannable):
-	return AsyncMonitor(scannable)
-
-alias(asyncMonitor)
-
-class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
-
-	def __init__(self, scannable, targetPosition):
-
-		super(AsyncScannable, self).__init__(scannable)
-		self.targetPosition = targetPosition
-
-	def atScanStart(self):
-		self.asynchronousMoveTo(self.targetPosition)
-		super(AsyncScannable, self).atScanStart()
-
-	def atScanEnd(self):
-		self.stop()
-		super(AsyncScannable, self).atScanEnd()
-
-	def atCommandFailure(self):
-		self.stop()
-		super(AsyncScannable, self).atCommandFailure()
-
-	def waitWhileBusy(self):
-		return
-
-def asyncScannable(scannable, targetPosition):
-	return AsyncScannable(scannable, targetPosition)
-
-alias(asyncScannable)
 
 # Setting the standard metadata scannables & protecting all defined scannables should be last
 meta_std()
