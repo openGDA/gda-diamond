@@ -1556,9 +1556,10 @@ try:
 		default_scannable_names = ["cryophi"]
 	else:
 		default_scannable_names = ["kphi"]
-	default_scannable_names += ["kap", "kth", "kmu", "kdelta", "kgam", "delta_axis_offset"]
+	default_scannable_names += ["kap", "kth", "kmu", "kdelta", "kgam"]
 	for scannable_name in default_scannable_names:
-		add_default(jythonNameMap[scannable_name])
+		add_default(asyncMonitor(jythonNameMap[scannable_name]))
+	add_default(jythonNameMap["delta_axis_offset"])
 except:
 	localStation_exception("setting default scannables")
 
