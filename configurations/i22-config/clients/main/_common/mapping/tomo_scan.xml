@@ -10,14 +10,14 @@
 	<bean id="i22-tomo-setup-bean" class="uk.ac.diamond.daq.mapping.api.TensorTomoScanBean">
 		<property name="angle1Model">
 			<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-				<constructor-arg name="name" value="hfm_pitch"/>
+				<constructor-arg name="name" value="tomo_azi"/>
 				<constructor-arg name="model"><null /></constructor-arg>
 				<constructor-arg name="includeInScan" value="true"/>
 			</bean>
 		</property>
 		<property name="angle2Model">
 			<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-				<constructor-arg name="name" value="hfm_yaw"/>
+				<constructor-arg name="name" value="tomo_alt"/>
 				<constructor-arg name="model"><null /></constructor-arg>
 				<constructor-arg name="includeInScan" value="true"/>
 			</bean>
