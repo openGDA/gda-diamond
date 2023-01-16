@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2021 Diamond Light Source Ltd.
+ * Copyright © 2023 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,34 +16,38 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
+package uk.ac.diamond.daq.beamline.k11.diffraction.tomography.view;
 
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ScanpathEditor;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.constants.RegionConstants;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 
-public class PointScanpathEditor extends ScanpathEditor {
+/**
+ * Centres point around centre of rotation
+ */
+public class CORCentredPointEditor extends ScanpathEditor {
 
-	private Text xStartText;
-	private Text yStartText;
+	private Text yPosition;
 
 	private PointMappingRegion point;
+
 	private PropertyChangeListener regionMoveListener = change -> {
 		if (change.getPropertyName().equals(RegionConstants.UPDATE_COMPLETE)) {
 			handleRegionMove();
 		}
 	};
+
+	private CentreOfRotationLocator corLocator;
 
 	private boolean handlingDocumentUpdate;
 
@@ -53,14 +57,21 @@ public class PointScanpathEditor extends ScanpathEditor {
 
 		var composite = ClientSWTElements.composite(mainComposite, 2);
 
-		new Label(composite, SWT.NONE).setText("X Position");
-		new Label(composite, SWT.NONE).setText("Y Position");
-		xStartText = createTextControls(composite);
-		yStartText = createTextControls(composite);
+		space(composite);
+		ClientSWTElements.label(composite, "Y Position");
+
+		space(composite);
+		yPosition = createTextControls(composite);
 
 		modelToControls();
 
+		corLocator = new CentreOfRotationLocator(composite.getShell());
+
 		return composite;
+	}
+
+	private void space(Composite composite) {
+		ClientSWTElements.label(composite, "");
 	}
 
 	@Override
@@ -68,10 +79,11 @@ public class PointScanpathEditor extends ScanpathEditor {
 		if (handlingDocumentUpdate) return;
 		try {
 			handlingDocumentUpdate = true;
-			double xAxis = Double.parseDouble(xStartText.getText());
-			double yAxis = Double.parseDouble(yStartText.getText());
 
-			updatePoint(xAxis, yAxis);
+			var x = corLocator.getCentreOfRotation();
+			var y = Double.parseDouble(yPosition.getText());
+
+			updatePoint(x, y);
 		} finally {
 			handlingDocumentUpdate = false;
 		}
@@ -82,45 +94,29 @@ public class PointScanpathEditor extends ScanpathEditor {
 		if (handlingDocumentUpdate) return;
 		try {
 			handlingDocumentUpdate = true;
-			xStartText.setText(DECIMAL_FORMAT.format(getXCoordinate()));
-			yStartText.setText(DECIMAL_FORMAT.format(getYCoordinate()));
+			var y = getYAxis().getStart();
+			yPosition.setText(DECIMAL_FORMAT.format(y));
 		} finally {
 			handlingDocumentUpdate = false;
 		}
 	}
 
 	@Override
-	public void dispose() {
-		if (point != null) {
-			point.removePropertyChangeListener(regionMoveListener);
-		}
-		super.dispose();
-	}
-
-	@Override
 	protected IMappingScanRegionShape modelToMappingRegion() {
 		var region = new PointMappingRegion();
-		region.setxPosition(getXCoordinate());
-		region.setyPosition(getYCoordinate());
+		region.setxPosition(getXAxis().getStart());
+		region.setyPosition(getYAxis().getStart());
 		return region;
 	}
 
 	@Override
 	protected IMapPathModel modelToMappingPath() {
 		var path = new TwoAxisPointSingleModel();
-		path.setX(getXCoordinate());
-		path.setY(getYCoordinate());
+		path.setX(getXAxis().getStart());
+		path.setY(getYAxis().getStart());
 		path.setContinuous(false);
 		path.setAlternating(false);
 		return path;
-	}
-
-	private double getXCoordinate() {
-		return getXAxis().getStart();
-	}
-
-	private double getYCoordinate() {
-		return getYAxis().getStart();
 	}
 
 	@Override
@@ -139,9 +135,12 @@ public class PointScanpathEditor extends ScanpathEditor {
 		if (handlingMappingUpdate) return;
 		try {
 			handlingMappingUpdate = true;
-			var xAxis = point.getxPosition();
-			var yAxis = point.getyPosition();
-			updatePoint(xAxis, yAxis);
+			var x = corLocator.getCentreOfRotation();
+			var y = point.getyPosition();
+
+			point.centre(x, y);
+
+			updatePoint(x, y);
 		} finally {
 			handlingMappingUpdate = false;
 		}
@@ -151,5 +150,4 @@ public class PointScanpathEditor extends ScanpathEditor {
 		updateAxes(modifyAxis(getXAxis(), xAxis, xAxis, 1),
 				   modifyAxis(getYAxis(), yAxis, yAxis, 1));
 	}
-
 }

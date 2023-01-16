@@ -40,8 +40,8 @@ import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanningParametersUtils;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanningParametersUtils;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
@@ -90,8 +90,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	}
 
 	protected Text createTextControls(Composite parent) {
-		Text text = new Text(parent, SWT.BORDER);
-		STRETCH.applyTo(text);
+		Text text = ClientSWTElements.numericTextBox(parent);
 		text.addModifyListener(e -> controlsToModel());
 		return text;
 	}

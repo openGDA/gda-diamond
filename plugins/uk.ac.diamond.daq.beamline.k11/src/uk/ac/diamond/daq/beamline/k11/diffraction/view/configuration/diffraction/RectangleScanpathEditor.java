@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Text;
 
 import gda.mscan.element.Mutator;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.constants.RegionConstants;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -52,10 +53,15 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 	private Button continuousButton;
 	private Button alternatingButton;
 
-	CentredRectangleMappingRegion rectangle;
-	private PropertyChangeListener regionMoveListener = change -> handleRegionMove();
+	protected CentredRectangleMappingRegion rectangle;
 
-	private boolean handlingDocumentUpdate;
+	private PropertyChangeListener regionMoveListener = change -> {
+		if (change.getPropertyName().equals(RegionConstants.UPDATE_COMPLETE)) {
+			handleRegionMove();
+		}
+	};
+
+	protected boolean handlingDocumentUpdate;
 
 	@Override
 	public Composite createEditorPart(Composite parent) {
@@ -72,10 +78,7 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 	private void createRegionControls(Composite parent) {
 		Composite composite = ClientSWTElements.composite(parent, 2);
 
-		new Label(composite, SWT.NONE).setText("X Start");
-		new Label(composite, SWT.NONE).setText("X Stop");
-		xStartText = createTextControls(composite);
-		xStopText = createTextControls(composite);
+		createXControls(composite);
 
 		new Label(composite, SWT.NONE).setText("Y Start");
 		new Label(composite, SWT.NONE).setText("Y Stop");
@@ -86,6 +89,13 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 		new Label(composite, SWT.NONE).setText("Y Points");
 		xPointsSpinner = createSpinner(composite);
 		yPointsSpinner = createSpinner(composite);
+	}
+
+	protected void createXControls(Composite composite) {
+		new Label(composite, SWT.NONE).setText("X Start");
+		new Label(composite, SWT.NONE).setText("X Stop");
+		xStartText = createTextControls(composite);
+		xStopText = createTextControls(composite);
 	}
 
 	private void createMutatorsControls(Composite parent) {
@@ -133,14 +143,27 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 		getYAxis().setAlternating(alternating);
 	}
 
+	protected double xStart() {
+		return Double.parseDouble(xStartText.getText());
+	}
+
+	protected double xStop() {
+		return Double.parseDouble(xStopText.getText());
+	}
+
+	protected void updateXControls() {
+		xStartText.setText(DECIMAL_FORMAT.format(getXAxis().getStart()));
+		xStopText.setText(DECIMAL_FORMAT.format(getXAxis().getStop()));
+	}
+
 	@Override
 	protected void controlsToModel(){
 		if (handlingDocumentUpdate) return;
 		try {
 			handlingDocumentUpdate = true;
-			double xStart = Double.parseDouble(xStartText.getText());
+			double xStart = xStart();
 			double yStart = Double.parseDouble(yStartText.getText());
-			double xStop = Double.parseDouble(xStopText.getText());
+			double xStop = xStop();
 			double yStop = Double.parseDouble(yStopText.getText());
 			int xPoints = Integer.parseInt(xPointsSpinner.getText());
 			int yPoints = Integer.parseInt(yPointsSpinner.getText());
@@ -158,9 +181,8 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 		if (handlingDocumentUpdate) return;
 		try {
 			handlingDocumentUpdate = true;
-			xStartText.setText(DECIMAL_FORMAT.format(getXAxis().getStart()));
+			updateXControls();
 			yStartText.setText(DECIMAL_FORMAT.format(getYAxis().getStart()));
-			xStopText.setText(DECIMAL_FORMAT.format(getXAxis().getStop()));
 			yStopText.setText(DECIMAL_FORMAT.format(getYAxis().getStop()));
 			xPointsSpinner.setSelection(getXAxis().getPoints());
 			yPointsSpinner.setSelection(getYAxis().getPoints());
@@ -220,7 +242,7 @@ public class RectangleScanpathEditor extends ScanpathEditor {
 		}
 	}
 
-	private void handleRegionMove() {
+	protected void handleRegionMove() {
 		if (handlingMappingUpdate) return;
 		try {
 			handlingMappingUpdate = true;
