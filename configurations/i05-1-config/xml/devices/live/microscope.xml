@@ -10,7 +10,7 @@
 	<context:property-placeholder properties-ref="microscopePVs"/>
 
 	<bean id="micCamBase" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="${mic}:CAM:" />
+		<property name="prefix" value="BL05J-DI-PHDGN-11:DCAM:CAM:" />
 	</bean>
 
 	<bean id="micCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
@@ -38,7 +38,7 @@
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
 				<property name="ndFileImpl">
 					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="${mic}:HDF5:" />
+						<property name="prefix" value="BL05J-DI-PHDGN-11:DCAM:HDF5:" />
 						<property name="resetToInitialValues" value="false" />
 					</bean>
 				</property>
@@ -68,9 +68,9 @@
 
 	<bean id="mic_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="mic_RoiStats1" />
-		<property name="baseRoiPVName" value="${mic}:ROI1:" />
-		<property name="baseStatsPVName" value="${mic}:STAT1:" />
-		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="baseRoiPVName" value="BL05J-DI-PHDGN-11:DCAM:ROI1:" />
+		<property name="baseStatsPVName" value="BL05J-DI-PHDGN-11:DCAM:STAT1:" />
+		<property name="roiInputNdArrayPort" value="Mic.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -84,9 +84,9 @@
 
 	<bean id="mic_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="mic_RoiStats2" />
-		<property name="baseRoiPVName" value="${mic}:ROI2:" />
-		<property name="baseStatsPVName" value="${mic}:STAT2:" />
-		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="baseRoiPVName" value="BL05J-DI-PHDGN-11:DCAM:ROI2:" />
+		<property name="baseStatsPVName" value="BL05J-DI-PHDGN-11:DCAM:STAT2:" />
+		<property name="roiInputNdArrayPort" value="Mic.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -100,9 +100,9 @@
 
 	<bean id="mic_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="mic_RoiStats3" />
-		<property name="baseRoiPVName" value="${mic}:ROI3:" />
-		<property name="baseStatsPVName" value="${mic}:STAT3:" />
-		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="baseRoiPVName" value="BL05J-DI-PHDGN-11:DCAM:ROI3:" />
+		<property name="baseStatsPVName" value="BL05J-DI-PHDGN-11:DCAM:STAT3:" />
+		<property name="roiInputNdArrayPort" value="Mic.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -116,9 +116,9 @@
 
 	<bean id="mic_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="mic_RoiStats4" />
-		<property name="baseRoiPVName" value="${mic}:ROI4:" />
-		<property name="baseStatsPVName" value="${mic}:STAT4:" />
-		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="baseRoiPVName" value="BL05J-DI-PHDGN-11:DCAM:ROI4:" />
+		<property name="baseStatsPVName" value="BL05J-DI-PHDGN-11:DCAM:STAT4:" />
+		<property name="roiInputNdArrayPort" value="Mic.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -132,9 +132,9 @@
 
 	<bean id="mic_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="mic_RoiStats5" />
-		<property name="baseRoiPVName" value="${mic}:ROI5:" />
-		<property name="baseStatsPVName" value="${mic}:STAT5:" />
-		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="baseRoiPVName" value="BL05J-DI-PHDGN-11:DCAM:ROI5:" />
+		<property name="baseStatsPVName" value="BL05J-DI-PHDGN-11:DCAM:STAT5:" />
+		<property name="roiInputNdArrayPort" value="Mic.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -148,9 +148,9 @@
 
 	<bean id="mic_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="mic_RoiStats6" />
-		<property name="baseRoiPVName" value="${mic}:ROI6:" />
-		<property name="baseStatsPVName" value="${mic}:STAT6:" />
-		<property name="roiInputNdArrayPort" value="${mic_roi_inparr_port}" />
+		<property name="baseRoiPVName" value="BL05J-DI-PHDGN-11:DCAM:ROI6:" />
+		<property name="baseStatsPVName" value="BL05J-DI-PHDGN-11:DCAM:STAT6:" />
+		<property name="roiInputNdArrayPort" value="Mic.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">

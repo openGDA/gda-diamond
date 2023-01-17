@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<util:properties id="microscopePVs">
-	    <prop key="mic">BL05J-PHDGN-11:DCAM</prop>
+	    <prop key="mic">BL05J-DI-PHDGN-11:DCAM</prop>
 	    <prop key="mic_roi_inparr_port">Mic.DCAM.CAM</prop>	    
 	</util:properties>
 
