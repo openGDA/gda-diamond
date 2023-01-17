@@ -203,7 +203,7 @@ jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
 
-from detector.iseg_instances import dldv, mcp_b, DLD_start, DLD_stop  # @UnusedImport
+from detector.iseg_instances import dldv, mcp_b, sample_bias, int_spec, DLD_start, DLD_stop  # @UnusedImport
 
 def clear_accumulated_data():
     if installation.isLive():

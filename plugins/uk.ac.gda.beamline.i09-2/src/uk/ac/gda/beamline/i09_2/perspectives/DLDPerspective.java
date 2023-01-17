@@ -58,8 +58,8 @@ public class DLDPerspective implements IPerspectiveFactory {
 		statusFolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 
 		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.3, STATUS_FOLDER); //$NON-NLS-1$
-		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY:dld_accumimagexy#EPICS_ARRAY");
-		detectorPlotFolder.addPlaceholder("uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY:dld_liveimagexy#EPICS_ARRAY");
+		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY:dld_liveimagexy#EPICS_ARRAY");
+		detectorPlotFolder.addPlaceholder("uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY:dld_accumimagexy#EPICS_ARRAY");
 		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
 		detectorPlotFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
 
