@@ -8,7 +8,7 @@
 	
 	<bean id="excalibur_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	
-<!-- 	<bean id="eiger_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" /> -->
+	<bean id="eiger_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="sample_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
