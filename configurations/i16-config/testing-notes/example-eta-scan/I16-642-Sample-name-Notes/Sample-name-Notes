@@ -8,7 +8,7 @@ Scan		Configuration	Dummy	nxlsa	Notes
 			NDW	DWE	LF	T	/Live			
 ----------- --- --- --	-	-----	-----	------------------------------------
 2023010024	NDW	DWE	LF		Dummy	Failed	NDW Baseline, full path in nxs but with leading / stripped off
-			NSD				Dummy	Good?	NSD Baseline
+2023010138	NSD				Dummy	Good	NSD Baseline
 			NSD				Dummy	Good?	
 			NDW	DWE	LF		Dummy	Good?	NDW Split config	Verified match
 ----------- --- --- --	-	-----	-----	------------------------------------
