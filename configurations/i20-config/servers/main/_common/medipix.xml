@@ -102,7 +102,7 @@
 			<util:map>
 				<entry key="plugins_plotserver_roi" value-ref="plugins_plotserver_roi" />
 				<entry key="plugins_mutable_roi" value-ref="plugins_mutable_roi" />
-				<entry key="medipix_basePvName" value="#{medipixBasePv}" />
+				<entry key="basePvName" value="#{medipixBasePv}" />
 			</util:map>
 		</property>
 	</bean>

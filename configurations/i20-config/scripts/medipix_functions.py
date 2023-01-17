@@ -14,29 +14,45 @@ def setMedipixExposureAndStart(exposureTime) :
     adbase.setImageMode(continuousModeIndex);
     adbase.startAcquiring();
 
-# Find the the 2 'additional plugin' lists : one to  use ROI from plotserver and one to use mutable ROI
-def setupMedipixPlugins() :
-    global plugins_plotserver_roi
-    global plugins_mutable_roi
-    global medipix_roi
-    global medipix_basePvName
+def getPluginsFromFindableObjectHolder(detectorObject):
+    return Finder.find(detectorObject.getName()+"_plugins")
 
+# Retrieve the NXdetector mutableROI plugin list for a medipix detector : 
+def getMedipixMutableRoiPlugins(detectorObject):
+    medipix_plugins = getPluginsFromFindableObjectHolder(detectorObject)
+    return medipix_plugins.get("plugins_mutable_roi")
+
+# Retrieve the NXdetector  plotserver ROI plugin list : 
+def getMedipixPlotserverRoiPlugins(detectorObject):
+    medipix_plugins = getPluginsFromFindableObjectHolder(detectorObject)
+    return medipix_plugins.get("plugins_plotserver_roi")
+
+# Retrieve the basePv name for a Medipix detector : 
+def getMedipixBasePvName(detectorObject):
+    medipix_plugins = getPluginsFromFindableObjectHolder(detectorObject)
+    return medipix_plugins.get("basePvName")
+
+def getMedipixMutableRoi(detectorObject):
+    return Finder.find(detectorObject.getName()+"_roi")
+
+
+# Find the the 2 'additional plugin' lists : one to  use ROI from plotserver and one to use mutable ROI
+def setupMedipixPlugins(detectorObject=medipix) :
+
+    medipixNamePrefix = detectorObject.getName()
+    
     #  Get the findable map containing the additional plugin lists
-    medipix_plugins = Finder.find("medipix_plugins")
+    medipix_plugins = Finder.find(medipixNamePrefix+"_plugins")
 
     # Get the two plugin lists
     plugins_plotserver_roi = medipix_plugins.get("plugins_plotserver_roi")
-    plugins_mutable_roi = medipix_plugins.get("plugins_mutable_roi")
-    
-    # get the mutable roi used by plugins_mutable_roi
-    medipix_roi = Finder.find("medipix_roi")
+    medipix_basePvName = medipix_plugins.get("basePvName")
 
     # Set the initial plugin list on the detector
     medipix.setAdditionalPluginList(plugins_plotserver_roi)
     
     #set array input port and callbacks for ARR plugin (so live stream works correctly)
     try :
-        medipix_basePvName = medipix_plugins.get("medipix_basePvName")
         CAClient.put(medipix_basePvName+":ARR:EnableCallbacks", 1)
         CAClient.put(medipix_basePvName+":ARR:MinCallbackTime", 0)
         
@@ -46,31 +62,38 @@ def setupMedipixPlugins() :
     except (Exception, java.lang.Throwable) as err:
         print "Problem setting callbacks and array port for medipix :ARR plugin", err
 
-def setUseMedipixRoiFromGui(tf):
-    global plugins_plotserver_roi
-    global plugins_mutable_roi
+def setUseMedipixRoiFromGui(tf, detectorObject=medipix):
+    plugins_plotserver_roi = getMedipixPlotserverRoiPlugins(detectorObject)
+    plugins_mutable_roi = getMedipixMutableRoiPlugins(detectorObject)
+
     if tf :
         print "Using Medipix ROI from GUI"
-        medipix.setAdditionalPluginList(plugins_plotserver_roi)
+        detectorObject.setAdditionalPluginList(plugins_plotserver_roi)
     else :
         print "Using Medipix ROI from Jython"
-        medipix.setAdditionalPluginList(plugins_mutable_roi)
+        detectorObject.setAdditionalPluginList(plugins_mutable_roi)
 
-def setMedipixRoi(xstart, ystart, xsize, ysize) :
+def setMedipixRoi(xstart, ystart, xsize, ysize, detectorObject=medipix) :
     print "Setting medipix Jython ROI"
-    global medipix_roi
+    medipix_roi = getMedipixMutableRoi(detectorObject)
+
     medipix_roi.setXstart(xstart)
     medipix_roi.setYstart(ystart)
     medipix_roi.setXsize(xsize)
     medipix_roi.setYsize(ysize)
     showMedipixRoi()
 
-def showMedipixRoi() :
-    global medipix_roi
+def showMedipixRoi(detectorObject=medipix) :
+    medipix_roi = getMedipixMutableRoi(detectorObject.getName())
     print "Medipix Jython ROI : start = (%d, %d), size = (%d, %d)"%(medipix_roi.getXstart(), medipix_roi.getYstart(),  medipix_roi.getXsize(), medipix_roi.getYsize())
 
 
-setupMedipixPlugins()
+setupMedipixPlugins(medipix)
+setupMedipixPlugins(medipix2)
+
+medipix_roi = getMedipixMutableRoi(medipix)
+medipix2_roi = getMedipixMutableRoi(medipix2)
+
 print "Set Medipix to use ROI from GUI : 'setUseMedipixRoiFromGui(True)'. Set to False to use ROI from Jython"
 print "Set Medipix Jython ROI : 'setMedipixRoi(xstart, xsize, ystart, ysize)'"
 print "Show Medipix Jython ROI : showMedipixRoi()"

@@ -175,6 +175,8 @@
 		</property>
 	</bean>
 
+<!-- XesOffsets sets the scannables in spectrometerGroup using list of scannables returned by 
+	XesSpectrometerScannable#getScannables() (via XESEnergyScannable#getXes()) -->
 	<bean id="XesOffsetsLower" class="gda.device.scannable.XesOffsets" >
 		<property name="spectrometerGroup" ref="lower_spectrometer_all_scannables" />
 		<property name="xesEnergyScannable" ref="XESEnergyLower" />

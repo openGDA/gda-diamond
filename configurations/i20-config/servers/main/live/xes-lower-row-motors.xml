@@ -11,7 +11,7 @@
 <!-- upper row = BL20I-EA-XES-01, lower row = BL20I-EA-XES-02  -->
 
 	<bean id="lowerSpecBasePv" class="java.lang.String">
-		<constructor-arg value="BL20I-EA-XES-02:" />
+		<constructor-arg value="BL20I-EA-XES-02" />
 	</bean>
 
 	<gda:motor id="lower_minus3_x" live-pvName="#{lowerSpecBasePv}:XTAL:M3:X" />

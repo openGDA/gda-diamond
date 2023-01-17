@@ -51,7 +51,6 @@ run "medipix_functions.py"
 #  Make the spectrometer setup functions available
 run "spectrometer-setup.py"
 
-
 #  Run the detector setup functions
 run "detector-setup.py"
 
@@ -60,9 +59,9 @@ detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets
 # detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 detectorPreparer.setFFI1(FFI1)
-detectorPreparer.setPluginsForMutableRoi(plugins_mutable_roi)
+detectorPreparer.setPluginsForMutableRoi(getMedipixMutableRoiPlugins(medipix))
 detectorPreparer.setMutableRoi(medipix_roi)
-detectorPreparer.setMedipixDefaultBasePvName(medipix_basePvName)
+detectorPreparer.setMedipixDefaultBasePvName(getMedipixBasePvName(medipix))
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
