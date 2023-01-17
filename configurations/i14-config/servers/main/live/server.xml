@@ -5,6 +5,7 @@
 
 	<import resource="file:${gda.config}/servers/main/live/detectors/sample_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/live/detectors/malcolm.xml" />
+	<import resource="file:${gda.config}/servers/main/live/detectors/eiger.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
