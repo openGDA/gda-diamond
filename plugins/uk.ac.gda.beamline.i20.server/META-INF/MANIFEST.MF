@@ -26,7 +26,8 @@ Require-Bundle: uk.ac.gda.core,
  uk.ac.gda.devices.xspress3,
  uk.ac.gda.api,
  org.apache.commons.configuration,
- uk.ac.diamond.daq.persistence
+ uk.ac.diamond.daq.persistence,
+ uk.ac.gda.nexus
 Import-Package: gda.configuration.properties,
  gda.observable,
  org.apache.commons.io,
