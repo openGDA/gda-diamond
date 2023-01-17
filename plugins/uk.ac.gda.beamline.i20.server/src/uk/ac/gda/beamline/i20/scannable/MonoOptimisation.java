@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.i20.scannable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -46,7 +47,6 @@ import gda.factory.FindableBase;
 import gda.jython.InterfaceProvider;
 import gda.scan.ConcurrentScan;
 import gda.scan.ScanPlotSettings;
-import uk.ac.diamond.scisoft.analysis.fitting.Fitter;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
 
 
@@ -70,17 +70,15 @@ public class MonoOptimisation extends FindableBase {
 	private Scannable braggScannable;
 
 	// Parameters controlling range and number of steps used for offset optimisation scan
-	private double offsetStart, offsetEnd;
+	private double offsetStart;
+	private double offsetEnd;
 	private int offsetNumPoints;
 	private double collectionTime; // used for detectors
 
 	private Gaussian fittedGaussianLowEnergy, fittedGaussianHighEnergy;
 	private double lowEnergy, highEnergy;
 
-	/** If true, then curve fitting during optimisation will use a small number of points either side of peak detector value*/
-	private boolean fitToPeakPointsOnly;
-	/** Number of points either side of peak detector value to use when fitting*/
-	private int peakPointRange;
+	private CurveFitting curveFitter = new CurveFitting();
 
 	/** If true, then new scans from optimisation will be selected automatically when they are added to the plot view*/
 	private boolean selectNewScansInPlotView;
@@ -92,6 +90,15 @@ public class MonoOptimisation extends FindableBase {
 
 	private EnumPositioner photonShutter;
 
+	private DAServer daServerForTfg;
+
+	/** Normal output on Veto 0 */
+	private static final String NORMAL_VETO_OUTPUT_COMMAND = "tfg alternate-veto veto0-normal";
+
+	/** No output on Veto0 : 'Veto0 is given by DC level from veto0-inv-bit' (not set, never used in scan -> no veto signal!) */
+	private static final String NO_VETO_OUTPUT_COMMAND = "tfg alternate-veto veto0-dc";
+
+
 	public MonoOptimisation(Scannable scannableToMove, Scannable scannableToMonitor) {
 		collectionTime = 1.0;
 		offsetStart = -10;
@@ -100,9 +107,6 @@ public class MonoOptimisation extends FindableBase {
 		allowOptimisation = true;
 		this.scannableToMove = scannableToMove;
 		this.scannableToMonitor = scannableToMonitor;
-
-		fitToPeakPointsOnly = false;
-		peakPointRange = 4;
 
 		selectNewScansInPlotView = true;
 		setName(scannableToMove.getName()+"Optimiser");
@@ -129,8 +133,8 @@ public class MonoOptimisation extends FindableBase {
 		this.highEnergy = lowEnergy;
 
 		// Try to setup the offset parameters for the scannable
-		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
-			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
+		if (bragg instanceof MonoMoveWithOffsetScannable monoWithOffset) {
+			configureOffsetParameters(monoWithOffset);
 		}
 	}
 
@@ -149,7 +153,7 @@ public class MonoOptimisation extends FindableBase {
 			return;
 		}
 
-		logger.info("Running optimisation for energies "+lowEnergy+" and "+highEnergy);
+		logger.info("Running optimisation for energies {} and {}", lowEnergy, highEnergy);
 
 		fittedGaussianHighEnergy = runAndFitOffsetScan(bragg, highEnergy);
 		this.highEnergy = highEnergy;
@@ -158,8 +162,8 @@ public class MonoOptimisation extends FindableBase {
 		this.lowEnergy = lowEnergy;
 
 		// Try to setup the offset parameters for the scannable
-		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
-			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
+		if (bragg instanceof MonoMoveWithOffsetScannable monoWithOffset) {
+			configureOffsetParameters(monoWithOffset);
 		}
 	}
 
@@ -174,7 +178,7 @@ public class MonoOptimisation extends FindableBase {
 		moveEnergyScannable(bragg, energy);
 		String filename = runOffsetScan();
 		Dataset data = loadDataFromNexusFile(filename);
-		return findPeakOutput(data);
+		return curveFitter.findPeakOutput(data);
 	}
 
 	/**
@@ -185,14 +189,13 @@ public class MonoOptimisation extends FindableBase {
 	 * @throws DeviceException
 	 */
 	private void moveEnergyScannable(Scannable energyScannable, Object energy) throws DeviceException {
-		if (energyScannable instanceof MonoMoveWithOffsetScannable) {
-			((MonoMoveWithOffsetScannable) energyScannable).getBragg().moveTo(energy);
+		if (energyScannable instanceof MonoMoveWithOffsetScannable monoWithOffset) {
+			monoWithOffset.getBragg().moveTo(energy);
 		} else {
 			energyScannable.moveTo(energy);
 		}
 	}
 
-	private DAServer daServerForTfg;
 	public void setDaServer(DAServer daServerForTfg) {
 		this.daServerForTfg = daServerForTfg;
 	}
@@ -201,10 +204,6 @@ public class MonoOptimisation extends FindableBase {
 		return daServerForTfg;
 	}
 
-	/** Normal output on Veto 0 */
-	private static String NORMAL_VETO_OUTPUT_COMMAND = "tfg alternate-veto veto0-normal";
-	/** No output on Veto0 : 'Veto0 is given by DC level from veto0-inv-bit' (not set, never used in scan -> no veto signal!) */
-	private static String NO_VETO_OUTPUT_COMMAND = "tfg alternate-veto veto0-dc";
 
 	/**
 	 * Send DAServer commands to switch between normal and no veto output
@@ -229,16 +228,16 @@ public class MonoOptimisation extends FindableBase {
 	}
 
 	public void optimiseManual(Scannable bragg, double braggEnergy) throws DeviceException {
-		if (allowOptimisation==false) {
+		if (!allowOptimisation) {
 			logger.info("allowOptimisation flag set to false - skipping optimisation.");
 			return;
 		}
 
 		logger.info("Running manual optimisation for single energy {}", braggEnergy);
 
-		if ( scannableToMonitor instanceof TFGCounterTimer) {
-			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
-			((TFGCounterTimer) scannableToMonitor).setCollectionTime(collectionTime);
+		if (scannableToMonitor instanceof TFGCounterTimer tfg) {
+			tfg.clearFrameSets();
+			tfg.setCollectionTime(collectionTime);
 			// maybe set the frame times here as well ( with .setTimes( [collectionTime, collectionTime, ...] );
 		}
 
@@ -246,13 +245,13 @@ public class MonoOptimisation extends FindableBase {
 		setProduceVetoOutput(false);
 
 		Dataset combinedData = doManualScan();
-		fittedGaussianLowEnergy = findPeakOutput(combinedData);
+		fittedGaussianLowEnergy = curveFitter.findPeakOutput(combinedData);
 		this.lowEnergy = braggEnergy;
 		this.highEnergy = braggEnergy;
 
 		// Try to setup the offset parameters for the scannable
-		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
-			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
+		if (bragg instanceof MonoMoveWithOffsetScannable monoWithOffset) {
+			configureOffsetParameters(monoWithOffset);
 		}
 
 		// Switch veto output back on
@@ -278,16 +277,14 @@ public class MonoOptimisation extends FindableBase {
 			throw new Exception(message);
 		}
 
-		double offsetStepsize = (offsetEnd - offsetStart)/(offsetNumPoints -1);
+		double offsetStepsize = (offsetEnd - offsetStart) / (offsetNumPoints - 1);
 
-		Object []scanParamsBaseList = new Object[] {scannableToMove, offsetStart, offsetEnd, offsetStepsize, scannableToMonitor};
-		List<Object> scanParamsList = new ArrayList<Object>();
+		List<Object> scanParamsBaseList = Arrays.asList(scannableToMove, offsetStart, offsetEnd, offsetStepsize, scannableToMonitor);
+		List<Object> scanParamsList = new ArrayList<>();
 
-		for( Object param : scanParamsBaseList ) {
-			scanParamsList.add(param);
-		}
+		scanParamsList.addAll(scanParamsBaseList);
 
-		if ( scannableToMonitor instanceof DetectorBase ) {
+		if (scannableToMonitor instanceof DetectorBase) {
 			scanParamsList.add(collectionTime);
 		}
 		return scanParamsList;
@@ -300,13 +297,13 @@ public class MonoOptimisation extends FindableBase {
 	 */
 	private String runOffsetScan() throws Exception {
 
-		if ( scannableToMonitor instanceof TFGCounterTimer) {
-			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
+		if (scannableToMonitor instanceof TFGCounterTimer tfg) {
+			tfg.clearFrameSets();
 			// maybe set the frame times here as well ( with .setTimes( [collectionTime, collectionTime, ...] );
 		}
 		saveTfgSettings();
-		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent) {
-			((TfgScalerWithDarkCurrent)scannableToMonitor).setDarkCurrentRequired(false);
+		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent tfgWithDarkCurrent) {
+			tfgWithDarkCurrent.setDarkCurrentRequired(false);
 		}
 
 		// Try to open shutter before starting the scan
@@ -316,7 +313,7 @@ public class MonoOptimisation extends FindableBase {
 		scan.setSendUpdateEvents(true);
 
 		// Adjust plot settings so that new data is not automatically selected for plotting in Scan Plot view
-		if ( !selectNewScansInPlotView ) {
+		if (!selectNewScansInPlotView) {
 			ScanPlotSettings scanPlotSettings = new ScanPlotSettings();
 			scanPlotSettings.setYAxesShown(new String[] {});
 			scan.setScanPlotSettings(scanPlotSettings);
@@ -365,7 +362,7 @@ public class MonoOptimisation extends FindableBase {
 		Dataset positionData = (Dataset) getDataFromFile(filename, "/entry1/instrument/"+scannableToMove.getName());
 
 		int numRows = detectorData.getSize();
-		Dataset combinedData = DatasetFactory.zeros(detectorData.getSize(), 2); //  DatasetFactory.create(detectorData.getSize(), 2);
+		Dataset combinedData = DatasetFactory.zeros(detectorData.getSize(), 2);
 		for(int i = 0; i<numRows; i++) {
 			combinedData.set(positionData.getObject(i), i, 0);
 			combinedData.set(detectorData.getObject(i), i, 1);
@@ -375,85 +372,7 @@ public class MonoOptimisation extends FindableBase {
 	}
 
 	/**
-	 * Extract dataset containing values near to the peak value in column of dataset
-	 * @param dataFromFile
-	 * @Param peakRange number of rows either side of peak in column 2 to extract
-	 * @return Dataset with several rows of data near peak detector value
-	 */
-	private Dataset extractDataNearPeak(Dataset dataFromFile, int peakRange) {
-		int maxPosIndex = dataFromFile.maxPos()[0]; // this array seems backwards, why is max index for column 2 not in index 0?
-		int numDatapoints = dataFromFile.getShape()[0];
-		int numColumns = dataFromFile.getShape()[1];
-		int startIndex = Math.max(maxPosIndex - peakRange, 0);
-
-		int endIndex = Math.min(maxPosIndex + peakRange+1, numDatapoints);
-		return dataFromFile.getSlice(new int[] {startIndex, 0}, new int[]{endIndex, numColumns}, null).squeeze();
-	}
-
-	private Dataset getColumnFromDataSet(Dataset dataset, int columnIndex) {
-		int numRows = dataset.getShape()[0];
-		return dataset.getSlice(new int[]{0, columnIndex}, new int[]{numRows, columnIndex+1}, null).squeeze();
-	}
-
-	/**
-	 * Find peak position in x, y profile by fitting a Gaussian to it
-	 * @param dataToFit (column 0 = x values, column 1 = y values)
-	 * @return Gaussian object of 'best fit' parameters
-	 */
-	public Gaussian findPeakOutput(Dataset dataToFit) {
-
-		logger.debug("Attempting to fit Gaussian to data.");
-
-		//  If only fitting to peak points of the data replace data with subset
-		if ( fitToPeakPointsOnly) {
-			dataToFit = extractDataNearPeak(dataToFit, peakPointRange);
-		}
-
-		// Extract x, y data as separate datasets
-		Dataset positionData = getColumnFromDataSet(dataToFit, 0);
-		Dataset detectorData = getColumnFromDataSet(dataToFit, 1);
-
-		// Normalised detector data
-		Dataset normDetectorData = getNormalisedDataset(detectorData);
-
-		// Create Gaussian to use for fitting
-		double centre = positionData.getDouble(positionData.getSize() / 2);
-		Gaussian fitFunc = new Gaussian(centre, 1, 1);
-		// restrict horizontal fit range to match range of x values
-		fitFunc.getParameter(0).setLimits(positionData.min().doubleValue(), positionData.max().doubleValue());
-
-		try {
-			Fitter.ApacheNelderMeadFit(new Dataset[] {positionData}, normDetectorData, fitFunc);
-			logger.debug("Curve fitting completed sucessfully.");
-		} catch( Exception exception) {
-			// If fitting fails for some reason, just use position of the peak value
-			logger.debug("Curve fitting failed, using maximum detector value for peak position instead.");
-			int maxPosIndex = normDetectorData.maxPos()[0];
-			double peakPos = positionData.getDouble(maxPosIndex);
-			fitFunc.setParameterValues(peakPos, 1.0, 1.0);
-		}
-		logger.debug("Fitted peak position = {}", fitFunc.getPosition());
-		return fitFunc;
-	}
-
-	/**
-	 * Return normalised version of dataset (i.e. rescaled to cover range  [0, 1] )
-	 * @param data
-	 * @return dataset
-	 */
-	private Dataset getNormalisedDataset(Dataset data) {
-		// Make a copy of the dataset
-		Dataset dataset = DatasetFactory.createFromObject(data);
-		double maxVal = dataset.max().doubleValue();
-		double minVal = dataset.min().doubleValue();
-		double range = maxVal - minVal;
-		dataset.isubtract(minVal);
-		dataset.imultiply(1.0/range);
-		return dataset;
-	}
-
-	/**
-	 * Scan bragg offset without using normal scanning mechanisim (so it can be run in the middle of a scan)
+	 * Scan bragg offset without using normal scanning mechanism (so it can be run in the middle of a scan)
 	 * @return Dataset of position and detector values.
 	 * @throws DeviceException
 	 * @throws InterruptedException
@@ -493,7 +412,7 @@ public class MonoOptimisation extends FindableBase {
 
 		// Check that start, end fitted offsets are in range of offset scan. If not, don't apply the new parameters
 		// to the scannable since something probably went wrong with fitting
-		if ( offsetStartFitted < offsetStart || offsetEndFitted > offsetEnd) {
+		if (offsetStartFitted < offsetStart || offsetEndFitted > offsetEnd) {
 			logger.warn("Fitted offset start or end values ({}, {}) are out of range of offset scan {} ... {} eV!"+
 						"Not applying offset settings to {}.",
 					offsetStartFitted, offsetEndFitted, offsetStart, offsetEnd, braggWithOffset.getName());
@@ -501,7 +420,7 @@ public class MonoOptimisation extends FindableBase {
 		}
 
 		double offsetGradient = 0.0;
-		if (highEnergy>lowEnergy) {
+		if (highEnergy > lowEnergy) {
 			offsetGradient = (offsetEndFitted - offsetStartFitted)/(highEnergy - lowEnergy);
 		}
 		logger.info("Setting bragg offset parameters : start offset = {}, start energy = {}, offset gradient = {}", offsetStartFitted, lowEnergy, offsetGradient);
@@ -575,19 +494,19 @@ public class MonoOptimisation extends FindableBase {
 	}
 
 	public void setFitToPeakPointsOnly(boolean b) {
-		fitToPeakPointsOnly = b;
+		curveFitter.setFitToPeakPointsOnly(b);
 	}
 
 	public boolean getFitToPeakPointsOnly() {
-		return fitToPeakPointsOnly;
+		return curveFitter.isFitToPeakPointsOnly();
 	}
 
 	public int getPeakPointRange() {
-		return peakPointRange;
+		return curveFitter.getPeakPointRange();
 	}
 
 	public void setPeakPointRange(int peakPointRange) {
-		this.peakPointRange = peakPointRange;
+		curveFitter.setPeakPointRange(peakPointRange);
 	}
 
 	/**
@@ -603,8 +522,7 @@ public class MonoOptimisation extends FindableBase {
 	private static Double[] readoutDetector(Scannable scannable) throws DeviceException {
 		Object readout = null;
 		try {
-			if (scannable instanceof Detector) {
-				Detector detector = (Detector) scannable;
+			if (scannable instanceof Detector detector) {
 				detector.collectData();
 				detector.waitWhileBusy();
 				readout = detector.readout();
@@ -634,7 +552,9 @@ public class MonoOptimisation extends FindableBase {
 	 * @since 31/8/2016
 	 */
 	public static double goldenSectionSearch(Scannable scannableToMove, Scannable scannableToMonitor, double minPos, double maxPos, double tolerance) throws DeviceException, InterruptedException {
-		final double goldenR = 0.61803399, goldenC = 1.0 - goldenR; // Golden ratios
+		// Golden ratios
+		final double goldenR = 0.61803399;
+		final double goldenC = 1.0 - goldenR; 
 
 		double midPos = minPos + 0.5*(maxPos-minPos);
 
@@ -724,8 +644,7 @@ public class MonoOptimisation extends FindableBase {
 	 * Save Tfg time frame and dark current collection settings
 	 */
 	private void saveTfgSettings() {
-		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent) {
-			TfgScalerWithDarkCurrent tfg = (TfgScalerWithDarkCurrent) scannableToMonitor;
+		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent tfg) {
 			logger.info("Saving dark current collection settings from Tfg {}", tfg.getName());
 			tfgDarkCurrentCollectionTime = tfg.getDarkCurrentCollectionTime();
 			tfgDarkCurrentRequired = tfg.isDarkCurrentRequired();
@@ -737,8 +656,7 @@ public class MonoOptimisation extends FindableBase {
 	 * @throws DeviceException
 	 */
 	private void applySavedTfgSettings() {
-		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent) {
-			TfgScalerWithDarkCurrent tfg = (TfgScalerWithDarkCurrent) scannableToMonitor;
+		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent tfg) {
 			logger.info("Applying saved time dark current collection settings to Tfg {}", tfg.getName());
 			tfg.setDarkCurrentCollectionTime(tfgDarkCurrentCollectionTime);
 			tfg.setDarkCurrentRequired(tfgDarkCurrentRequired);
@@ -755,7 +673,7 @@ public class MonoOptimisation extends FindableBase {
 			logger.info("Moving {} to {} position", photonShutter, shutterPosition);
 			photonShutter.moveTo(shutterPosition);
 		} else {
-			logger.warn("Not moving photon shutter to {} position - no photon shutter object has been set");
+			logger.warn("Not moving photon shutter to {} position - no photon shutter object has been set", shutterPosition);
 		}
 	}
 
