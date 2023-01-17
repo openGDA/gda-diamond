@@ -1,0 +1,100 @@
+2023010024.nxs:
+/
+    entry1:NXentry/
+    entry1/before_scan:NXcollection/
+    entry1/before_scan/PPR:NXcollection/
+    entry1/before_scan/PPR/ppchi=0.0
+    entry1/before_scan/PPR/pppiezo1=0.0
+    entry1/before_scan/PPR/pppiezo2=0.0
+    entry1/before_scan/PPR/ppth1=0.0
+    entry1/before_scan/PPR/ppth2=0.0
+    entry1/before_scan/PPR/ppz1=0.0
+    entry1/before_scan/PPR/ppz2=0.0
+    entry1/before_scan/delta_offset:NXcollection/
+    entry1/before_scan/delta_offset/delta_offset=0.0
+    entry1/before_scan/dettrans:NXcollection/
+    entry1/before_scan/dettrans/dettrans=0.0
+    entry1/before_scan/mrwolf:NXcollection/
+    entry1/before_scan/mrwolf/Day=17
+    entry1/before_scan/mrwolf/Hours=21
+    entry1/before_scan/mrwolf/Minutes=24
+    entry1/before_scan/mrwolf/Month=1
+    entry1/before_scan/mrwolf/Seconds=21
+    entry1/before_scan/mrwolf/Year=2023
+    entry1/before_scan/p2:NXcollection/
+    entry1/before_scan/p2/p2rot=0.0
+    entry1/before_scan/p2/p2x1=0.0
+    entry1/before_scan/p2/p2y1=0.0
+    entry1/before_scan/p2/p2zbot=0.0
+    entry1/before_scan/p2/p2ztop=0.0
+    entry1/before_scan/ppchi:NXcollection/
+    entry1/before_scan/ppchi/ppchi=0.0
+    entry1/before_scan/ppchitemp:NXcollection/
+    entry1/before_scan/ppchitemp/ppchitemp=0.0
+    entry1/before_scan/pppitch:NXcollection/
+    entry1/before_scan/pppitch/pppitch=0.0
+    entry1/before_scan/ppth1:NXcollection/
+    entry1/before_scan/ppth1/ppth1=0.0
+    entry1/before_scan/ppth1temp:NXcollection/
+    entry1/before_scan/ppth1temp/ppth1temp=0.0
+    entry1/before_scan/ppth2:NXcollection/
+    entry1/before_scan/ppth2/ppth2=0.0
+    entry1/before_scan/ppth2temp:NXcollection/
+    entry1/before_scan/ppth2temp/ppth2temp=0.0
+    entry1/before_scan/ppx:NXcollection/
+    entry1/before_scan/ppx/ppx=0.0
+    entry1/before_scan/ppy:NXcollection/
+    entry1/before_scan/ppy/ppy=0.0
+    entry1/before_scan/ppyaw:NXcollection/
+    entry1/before_scan/ppyaw/ppyaw=0.0
+    entry1/before_scan/ppz1:NXcollection/
+    entry1/before_scan/ppz1/ppz1=0.0
+    entry1/before_scan/ppz1temp:NXcollection/
+    entry1/before_scan/ppz1temp/ppz1temp=0.0
+    entry1/before_scan/ppz2:NXcollection/
+    entry1/before_scan/ppz2/ppz2=0.0
+    entry1/before_scan/ppz2temp:NXcollection/
+    entry1/before_scan/ppz2temp/ppz2temp=0.0
+    entry1/before_scan/s7xgap:NXcollection/
+    entry1/before_scan/s7xgap/s7xgap=0.0
+    entry1/before_scan/s7xtrans:NXcollection/
+    entry1/before_scan/s7xtrans/s7xtrans=0.0
+    entry1/before_scan/s7ygap:NXcollection/
+    entry1/before_scan/s7ygap/s7ygap=0.0
+    entry1/before_scan/s7ytrans:NXcollection/
+    entry1/before_scan/s7ytrans/s7ytrans=0.0
+    entry1/before_scan/ubMeta:NXcollection/
+    entry1/before_scan/ubMeta/value='{"name": null, "crystal": null, "reflist": {}, "orientlist": {}, "tau": 0, "sigma": 0, "reference": {"n_hkl_configured": "[1.0, 0.0, 0.0]", "n_phi_configured": null}, "surface": {"n_hkl_configured": null, "n_phi_configured": "[0.0, 0.0, 1.0]"}, "u": null, "ub": null, "or0": null, "or1": null}'
+    entry1/definition='NXmx'
+    entry1/end_time='2023-01-17T21:24:56.175Z'
+    entry1/entry_identifier='2023010024'
+    entry1/features: (3,)
+    entry1/instrument:NXinstrument/
+    entry1/instrument/atime:NXpositioner/
+    entry1/instrument/atime/TimeSec: (31,)
+                                     @local_name='atime.TimeSec'
+                                     @target='/entry1/instrument/atime/TimeSec'
+    entry1/instrument/atimetwo:NXpositioner/
+    entry1/instrument/atimetwo/TimeFromEpoch: (31,)
+                                              @local_name='atimetwo.TimeFromEpoch'
+                                              @target='/entry1/instrument/atimetwo/TimeFromEpoch'
+    entry1/instrument/eta:NXpositioner/
+    entry1/instrument/eta/eta: (31,)
+                               @axis='1'
+                               @label='1'
+                               @local_name='eta.eta'
+                               @primary='1'
+                               @target='/entry1/instrument/eta/eta'
+    entry1/instrument/eta/soft_limit_max: (1,)
+    entry1/instrument/eta/soft_limit_min: (1,)
+    entry1/instrument/ic1monitor:NXpositioner/
+    entry1/instrument/ic1monitor/ic1monitor: (31,)
+                                             @local_name='ic1monitor.ic1monitor'
+                                             @target='/entry1/instrument/ic1monitor/ic1monitor'
+    entry1/instrument/name='i16'
+    entry1/instrument/pil3_100k:NXdetector/
+    entry1/instrument/pil3_100k/calibration_date='2022-07-15 10:54:08'
+    entry1/instrument/pil3_100k/calibration_scan_number=942247
+    entry1/instrument/pil3_100k/count_time: (31,)
+                                            @local_name='pil3_100k.count_time'
+                                            @target='/entry1/instrument/pil3_100k/count_time'
