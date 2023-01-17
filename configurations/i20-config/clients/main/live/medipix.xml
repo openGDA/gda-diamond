@@ -6,6 +6,11 @@
 	<bean id="medipixBasePv" class="java.lang.String">
 	  <constructor-arg value="BL20I-EA-DET-05"/>
 	</bean>
+
+	<bean id="medipix2BasePv" class="java.lang.String">
+	  <constructor-arg value="BL20I-EA-DET-07"/>
+	</bean>
+
 	<import resource="../_common/medipix.xml" />
 
 </beans>

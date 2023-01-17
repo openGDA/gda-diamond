@@ -14,6 +14,10 @@
 		<constructor-arg value="#{hostName}-AD-SIM-01" />
 	</bean>
 
+	<bean id="medipix2BasePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	</bean>
+
 	<import resource="../_common/medipix.xml" />
 
 </beans>
