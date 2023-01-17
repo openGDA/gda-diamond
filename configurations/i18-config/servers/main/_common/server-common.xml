@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd
+           http://www.diamond.ac.uk/schema/gda/gda 
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="xes_2d_plotter" class="gda.device.scannable.TwoDScanPlotter" >
+		<property name="plotViewname" value="2d XES Scan plot" />
+		<property name="rcpController" ref="RCPController" />
+		<property name="openPlotViewAtScanStart" value="true" />
+	</bean>
+
+	<util:list id="crystalCutList">
+		<value>0</value>
+		<value>1</value>
+		<value>2</value>
+		<value>3</value>
+		<value>4</value>
+		<value>5</value>
+		<value>6</value>
+		<value>7</value>
+		<value>8</value>
+		<value>9</value>
+	</util:list>
+
+	<util:list id="trueFalseList">
+		<value>true</value>
+		<value>false</value>
+	</util:list>
+
+	<util:list id="crystalMaterialList">
+		<value>Si</value>
+		<value>Ge</value>
+	</util:list>
+	
+</beans>

@@ -22,5 +22,18 @@
 	<import resource="live_controls.xml"/>
 	<import resource="stream_views.xml" />
 	<import resource="mapping_stage.xml" />
+	
+	<bean id="showCoordinates" class="java.lang.String">
+		<constructor-arg value="true" />
+	</bean>
+	<bean id="motorLabelWidth" class="java.lang.String">
+		<constructor-arg value="150" />
+	</bean>
+	<bean id="crystalCutLabelWidth" class="java.lang.String">
+		<constructor-arg value="70" />
+	</bean>
+	
+	<import resource="xes-spectrometer.xml" />
+	<import resource="xes-view.xml" />
 
 </beans>

@@ -2,7 +2,7 @@ from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
-from uk.ac.gda.server.exafs.scan import XasScanFactory
+from uk.ac.gda.server.exafs.scan import XasScanFactory, XesScanFactory
 from uk.ac.gda.client.microfocus.scan import MapSelector, MapFactory
 
 from gda.configuration.properties import LocalProperties
@@ -33,8 +33,9 @@ def xes_dummy_prep(det_y_pos=475.0, xtal_x_pos=1000.0, radius_length=1000.0, det
     xtal_x.getMotor().setSpeed(xtal_x_speed)
     
     # Set positions of some scannables to reasonable positions so that XESBragg calculation has a chance of working
-    for scn in spectrometer.getGroupMembers():
-        scn.getMotor().setSpeed(scn_speed)
+    for scn in spectrometer_all_scannables.getGroupMembers():
+        if str(scn.getName())!='radius':
+            scn.getMotor().setSpeed(scn_speed)
     
     for crys in crystalsAllowedToMove.getGroupMembers():
         crys.moveTo("true")
@@ -93,6 +94,8 @@ def setup_factories():
     theFactory.setMetashop(Finder.find("metashop"));
     theFactory.setIncludeSampleNameInNexusName(True);
     theFactory.setScanName("energyScan")
+    
+    
     global xas
     xas = theFactory.createEnergyScan();
     xanes = xas
@@ -246,5 +249,12 @@ def setup():
     excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
     print("\n...initialisation complete!")
     print_useful_info()
+    
+    
+    #  Make the spectrometer setup functions available
+    run "spectrometer-setup.py"
+    if LocalProperties.isDummyModeEnabled() :
+        setup_dummy_spectrometer(XESEnergy)
+    set_initial_crystal_values(XESEnergy)
 
 setup()
