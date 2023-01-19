@@ -14,6 +14,11 @@ import sys, traceback
 import math
 import re
 
+from gdascripts.parameters import beamline_parameters
+jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+_title=jythonNameMap['_title']
+_sample=jythonNameMap['_sample']
+
 #Copied from Python documentation since Jython does have this yet (added to Python in 2.6)
 def cartesian_product(*args, **kwds):
     pools = map(tuple, args) * kwds.get('repeat', 1)
@@ -22,21 +27,6 @@ def cartesian_product(*args, **kwds):
         result = [ x + [y] for x in result for y in pool ]
     for prod in result:
         yield tuple(prod)
-
-SAMPLE_NAME = 'Default Sample'
-NEXUS_TITLE = 'Scan of sample with GDA'
-
-def sample(sampleName = None):
-    global SAMPLE_NAME
-    if not sampleName == None:
-        SAMPLE_NAME = sampleName
-    return SAMPLE_NAME
-
-def title(title = None):
-    global NEXUS_TITLE
-    if not title == None:
-        NEXUS_TITLE = title
-    return NEXUS_TITLE
 
 def set_diffcalc_instance(diffcalc):
     global DIFFCALC
@@ -619,7 +609,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         try:
             entry = nFile.getGroup("/entry1", False)
             metadataGroup = nFile.getGroup("/entry1/before_scan", False)
-            self.writeTitle(nFile, entry, NEXUS_TITLE)
+            self.writeTitle(nFile, entry, _title.getPosition())
             if DIFFCALC is not None:
                 crystalInfo = None
                 if DIFFCALC.ub.ub.ubcalc._state.name is None:
@@ -648,7 +638,7 @@ class I16NexusExtender(DataWriterExtenderBase):
             beam = nFile.getGroup("/entry1/sample/beam", False)
             self.writeIncidentWavelength(nFile, beam)
             sampleDependsOn = "/entry1/sample/transformations/" + ("cryophi" if USE_CRYO_GEOMETRY else "phi")
-            self.writeSample(nFile, sample, SAMPLE_NAME, sampleDependsOn)
+            self.writeSample(nFile, sample, _sample.getPosition(), sampleDependsOn)
             instrument = nFile.getGroup("/entry1/instrument", False)
             self.writeDynamicDetectors(nFile, instrument, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/offsetdelta")
             self.writeDefinition(nFile, entry, "NXmx")

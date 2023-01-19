@@ -9,7 +9,7 @@ Scan		Configuration	Dummy	nxlsa	Notes
 ----------- --- --- --	-	-----	-----	------------------------------------
 2023010024	NDW	DWE	LF		Dummy	Failed	NDW Baseline, full path in nxs but with leading / stripped off
 2023010138	NSD				Dummy	Good	NSD Baseline
-			NSD				Dummy	Good?	
+2023010141	NSD				Dummy	Good	Sample and Title added
 			NDW	DWE	LF		Dummy	Good?	NDW Split config	Verified match
 ----------- --- --- --	-	-----	-----	------------------------------------
 	NDW	NexusDataWriter				NSD	NexusScanDataWriter

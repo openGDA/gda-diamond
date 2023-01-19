@@ -1,4 +1,4 @@
-from datawriting.i16_nexus_extender2 import I16NexusExtender, title, sample, set_diffcalc_instance, use_cryo
+from datawriting.i16_nexus_extender2 import I16NexusExtender, set_diffcalc_instance, use_cryo
 from gda.configuration.properties import LocalProperties
 from gda.data.scan.datawriter import DefaultDataWriterFactory, NexusDataWriterConfiguration
 
@@ -6,9 +6,6 @@ set_diffcalc_instance(diffcalc if USE_DIFFCALC else None)
 use_cryo(USE_CRYO_GEOMETRY)
 
 #PDW.returnPathAsImageNumberOnly = True
-
-alias title
-alias sample
 
 Energy = en
 

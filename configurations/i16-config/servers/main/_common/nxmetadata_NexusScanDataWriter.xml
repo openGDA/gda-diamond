@@ -54,6 +54,24 @@
 		<property name="name" value="userNexusDevice" />
 	</bean>
 
+	<bean id="metadata" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="metadata" />
+		<property name="category" value="NX_ENTRY"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="title_old"/>
+					<property name="scannableName" value="_title"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="sample_name"/>
+					<property name="scannableName" value="_sample"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="sourceNexusDevice" />
 		<property name="insertionDeviceName" value="idNexusDevice" />
@@ -66,6 +84,7 @@
 		<property name="additionalDeviceNames">
 			<set>
 				<value>before_scan</value>
+				<value>metadata</value>
 			</set>
 		</property>
 	</bean>
