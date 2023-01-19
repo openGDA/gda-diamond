@@ -73,14 +73,33 @@
 		</property>
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
-		<property name="initialFileName" value="dld" />
+		<property name="initialFileName" value="DLD" />
 		<property name="initialFileTemplate" value="%s%s.hdf5" />
 	</bean>
 	<bean id="dld_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL09K-EA-D-01:HDF1:" />
 		<property name="file" ref="dld_ndfile" />
+		<property name="attrByDimPVsAvailable" value="false"/>
+		<property name="swmrModePVsAvailable" value="false"/>
 	</bean>
 
+	<bean id="dld_tiffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL09K-EA-D-01:TIFF1:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-D-01:TIFF1:" />
+				<property name="initialArrayPort" value="DEV1" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="DLD" />
+		<property name="initialFileTemplate" value="%s%s_%05d.tif" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
 	
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="dld_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
@@ -89,25 +108,46 @@
 		<property name="service" ref="dld_roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
-	<bean id="dld_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="dld_RoiStats1" />
+	
+	<bean id="mcp_roi"
+		class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="1200" />
+		<property name="ysize" value="1200" />
+	</bean>
+	
+	<bean id="dldImageStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="dldImageStats" />
 		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI1:" />
 		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats1:" />
 		<property name="roiInputNdArrayPort" value="DEV1" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="dld_roi" />
-	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
-	        </bean>
-	    </property>
-		<property name="legacyTSpvs" value="false"/>
+		<property name="roiProvider" ref="mcp_roi" />
+		<property name="legacyTSpvs" value="true"/>
 	</bean>
+
+<!-- 	<bean id="dld_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="dld_RoiStats1" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI1:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats1:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DEV1" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 		<property name="roiProvider"> -->
+<!-- 	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer"> -->
+<!-- 	            <property name="liveStreamRoiProvider" ref="dld_roi" /> -->
+<!-- 	            <property name="index" value="0" /> -->
+<!-- 	        </bean> -->
+<!-- 	    </property> -->
+<!-- 		<property name="legacyTSpvs" value="false"/> -->
+<!-- 	</bean> -->
+
 	<bean id="dld_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="dld_RoiStats2" />
-		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI2" />
-		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats2" />
+		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI2:" />
+		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats2:" />
 		<property name="roiInputNdArrayPort" value="DEV1" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -121,8 +161,8 @@
 	</bean>
 	<bean id="dld_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="dld_RoiStats3" />
-		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI3" />
-		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats3" />
+		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI3:" />
+		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats3:" />
 		<property name="roiInputNdArrayPort" value="DEV1" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -136,8 +176,8 @@
 	</bean>
 	<bean id="dld_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="dld_RoiStats4" />
-		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI4" />
-		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats4" />
+		<property name="baseRoiPVName" value="BL09K-EA-D-01:ROI4:" />
+		<property name="baseStatsPVName" value="BL09K-EA-D-01:Stats4:" />
 		<property name="roiInputNdArrayPort" value="DEV1" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />

@@ -13,13 +13,12 @@ import installation
 from threading import Thread
 
 ISEG_DEVICE = "BL09K-EA-PSU-01:0"
-
+VOLTAGE_RAMP_SPEED = 1.0 #%/s*Vnom
 #end points
-VOLTAGE_RAMP_SPEED = "VoltageRampSpeed"
-VOLTAGE_SET = "VoltageSet"
-CONTROL_SET_ON = "Control:setOn"
-IS_VOLTAGE_RAMP = "isVoltageRamp"
-VOLTAGE_MEASURE = "VoltageMeasure"
+VOLTAGE_RAMP_SPEED_PV = "VoltageRampSpeed"
+VOLTAGE_SET_PV = "VoltageSet"
+CONTROL_SET_ON_PV = "Control:setOn"
+VOLTAGE_MEASURE_PV = "VoltageMeasure"
 
 class ISegVoltageControl(ScannableMotionBase):
     '''
@@ -27,7 +26,7 @@ class ISegVoltageControl(ScannableMotionBase):
     '''
 
 
-    def __init__(self, name, module_number, channel_number, pv_root = "BL09K-EA-PSU-01:0"):
+    def __init__(self, name, module_number, channel_number, pv_root = ISEG_DEVICE, tolerance = 0.1, ramp_speed = VOLTAGE_RAMP_SPEED):
         '''
         create a scannable for a give iSeg module channel
         @param name: name of the scannable
@@ -40,6 +39,12 @@ class ISegVoltageControl(ScannableMotionBase):
         self.moduleNum =  module_number
         self.channelNum = channel_number
         self.pvRoot = pv_root
+        self.busywaittime = 0.0
+        self.target = 0.0
+        self.target_tolerance = tolerance
+        self.saved_ramp_speed = None
+        self.ramp_speed = ramp_speed
+
         
     def configure(self):
         ''' create channel access clients, but not connect to PVs.
@@ -47,27 +52,18 @@ class ISegVoltageControl(ScannableMotionBase):
         if self.isConfigured():
             return
         if installation.isLive():
-            self.rampspeedCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + VOLTAGE_RAMP_SPEED)
-            self.setCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + VOLTAGE_SET)
-            self.controlCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + CONTROL_SET_ON)
-            self.isRampCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + IS_VOLTAGE_RAMP)        
-            self.readCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + VOLTAGE_MEASURE)
-        self.setConfigured(True)
-                
-    def atScanStart(self):
-        if installation.isLive():
-            if not self.rampspeedCli.isConfigured():
-                self.rampspeedCli.configured()
-            if not self.setCli.isConfigured():
-                self.setCli.configured()
-            if not self.controlCli.isConfigured():
-                self.controlCli.configured()
-            if not self.isRampCli.isConfigured():
-                self.isRampCli.configured()
-            if not self.readCli.isConfigured():
-                self.readCli.configured()
+            self.rampspeedCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + VOLTAGE_RAMP_SPEED_PV)
+            self.setCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + VOLTAGE_SET_PV)
+            self.controlCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + CONTROL_SET_ON_PV)
+            self.readCli = CAClient(self.pvRoot + ":" + str(self.moduleNum) + ":" + str(self.channelNum) + ":" + VOLTAGE_MEASURE_PV)
 
-    def atScanEnd(self):
+            self.rampspeedCli.configure();sleep(0.1)
+            self.setCli.configure();sleep(0.1)
+            self.controlCli.configure();sleep(0.1)
+            self.readCli.configure();sleep(0.1)
+        self.setConfigured(True)
+    
+    def deconfigure(self):
         if installation.isLive():
             if self.rampspeedCli.isConfigured():
                 self.rampspeedCli.clearup()
@@ -75,26 +71,29 @@ class ISegVoltageControl(ScannableMotionBase):
                 self.setCli.clearup()
             if self.controlCli.isConfigured():
                 self.controlCli.clearup()
-            if self.isRampCli.isConfigured():
-                self.isRampCli.clearup()()
             if self.readCli.isConfigured():
                 self.readCli.clearup()
+                
+    def atScanStart(self):
+        self.saved_ramp_speed = float(self.rampspeedCli.caget())
+        self.on()
+        self.rampspeedCli.caput(self.ramp_speed)
 
+    def atScanEnd(self):
+        self.off()
+        if self.saved_ramp_speed:
+            self.rampspeedCli.caput(self.saved_ramp_speed)
+    
     def rawGetPosition(self):
         if installation.isLive():
-            if not self.readCli.isConfigured():
-                self.readCli.configure()
-            output=float(self.readCli.caget())
-            return output
+            return float(self.readCli.caget())
         else:
             return self.current_position
         
     def rawAsynchronousMoveTo(self,new_position):
         if installation.isLive():
-            if not self.setCli.isConfigured():
-                self.setCli.configure()
-            self.setCli.caput(float(new_position))
-            sleep(0.1)
+            self.target = float(new_position)
+            self.setCli.caput(self.target)
         else:
             self.target = float(new_position)            
             new_thread = Thread(target = self._task)
@@ -103,12 +102,12 @@ class ISegVoltageControl(ScannableMotionBase):
     def isBusy(self):
         if installation.isLive():
             try:
-                if not self.isRampCli.isConfigured():
-                    self.isRampCli.configure()
-                self.status=self.isRampCli.caget()
-                return int(self.status) == 1
+                if abs(float(self.readCli.caget()) - self.target) > self.target_tolerance:
+                    return True
+                else:
+                    return False
             except:
-                print("problem get ramping status")
+                print("problem read Voltage Measure from EPICS")
                 return 0
         else:
             return self.current_position != self.target
@@ -129,12 +128,10 @@ class ISegVoltageControl(ScannableMotionBase):
         self.current_position = self.target
            
 
-    def setRampSpeed(self, speed = 1):
+    def setRampSpeed(self, speed = VOLTAGE_RAMP_SPEED):
         '''set voltage ramp speed for the module
         '''
         if installation.isLive():
-            if not self.rampspeedCli.isConfigured():
-                self.rampspeedCli.configure()
             self.rampspeedCli.caput(float(speed))
         else:
             self.rampspeed = speed
@@ -143,8 +140,6 @@ class ISegVoltageControl(ScannableMotionBase):
         '''switch on the control
         '''
         if installation.isLive():
-            if not self.controlCli.isConfigured():
-                self.controlCli.configure()
             self.controlCli.caput(1)
         else:
             print("voltage control is on")
@@ -153,8 +148,6 @@ class ISegVoltageControl(ScannableMotionBase):
         '''switch off the control
         '''
         if installation.isLive():
-            if not self.controlCli.isConfigured():
-                self.controlCli.configure()
             self.controlCli.caput(0)
         else:
             print("voltage control is off")

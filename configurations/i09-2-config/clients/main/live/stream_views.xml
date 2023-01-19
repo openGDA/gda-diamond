@@ -20,16 +20,16 @@
 	</bean>
 
 	<import resource="../_common/dld_controls.xml"/>
-	<bean id="dld_liveimagexy" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY"/>
-		<property name="displayName" value="DLD Live Image XY" />
-		<property name="arrayPv" value="BL09K-EA-D-01:LiveImageXY" />
-		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
-	</bean>
 	<bean id="dld_accumimagexy" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY"/>
 		<property name="displayName" value="DLD Accum Image XY" />
 		<property name="arrayPv" value="BL09K-EA-D-01:AccumImageXY" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+	</bean>
+	<bean id="dld_liveimagexy" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY"/>
+		<property name="displayName" value="DLD Live Image XY" />
+		<property name="arrayPv" value="BL09K-EA-D-01:LiveImageXY" />
 		<property name="roiProvider" ref="dld_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="topUi">
@@ -55,11 +55,11 @@
 		</property>
 		<property name="bottomUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.EpicsNDArrayStreamView">
-				<property name="camConfig" ref="dld_liveimagexy"/>
+				<property name="camConfig" ref="dld_accumimagexy"/>
 				<property name="streamType" value="EPICS_ARRAY"/>
 				<property name="xSizeHint" value="300"/>
 				<property name="ySizeHint" value="400"/>
-				<property name="plotName" value="Live Image XY"/>
+				<property name="plotName" value="Accumulated Image XY"/>
 			</bean>
 		</property>
 	</bean>	

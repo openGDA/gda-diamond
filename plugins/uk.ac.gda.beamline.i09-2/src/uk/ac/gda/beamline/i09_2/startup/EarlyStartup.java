@@ -46,7 +46,7 @@ public class EarlyStartup implements IStartup {
 							ToolPageView.FIXED_VIEW_ID,"org.dawnsci.plotting.histogram.histogram_tool_page_2", IWorkbenchPage.VIEW_CREATE);
 					// ensure the Live Stream View has focus so the tool page views above are linked to this image
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
-							"uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY", "dld_accumimagexy#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
+							"uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY", "dld_liveimagexy#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
 				} catch (PartInitException e) {
 					logger.warn("showView calls failed in {}", getClass().getName());
 				}
