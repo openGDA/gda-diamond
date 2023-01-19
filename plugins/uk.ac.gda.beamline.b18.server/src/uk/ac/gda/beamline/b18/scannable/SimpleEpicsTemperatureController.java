@@ -26,7 +26,6 @@ import gda.epics.LazyPVFactory;
 import gda.epics.PV;
 import gda.epics.ReadOnlyPV;
 import gda.factory.FactoryException;
-import gda.util.PollerEvent;
 
 public class SimpleEpicsTemperatureController extends TemperatureBase {
 
@@ -106,7 +105,7 @@ public class SimpleEpicsTemperatureController extends TemperatureBase {
 	}
 
 	@Override
-	public void pollDone(PollerEvent pe) {
+	public void temperatureUpdate() {
 		throw new UnsupportedOperationException("Polling is not supported");
 	}
 
