@@ -67,6 +67,7 @@ print "		 To plot image: dnp.plot.image(data)"
 try_execfile("BeamlineI07/useMotors.py", "Motor Support")
 
 fs = fastshutter
+ffs = fastshutter_fatt
 
 try_execfile("BeamlineI07/useFilters.py", "FilterSet Support")
 
