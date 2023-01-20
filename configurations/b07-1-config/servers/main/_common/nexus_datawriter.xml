@@ -119,6 +119,14 @@
 				<value>SR570_33_filter_highpass</value>
 				<value>SR570_33_filter_lowpass</value>
 				<value>SR570_33_gain_mode</value>
+				<value>SR570_34_sensitivity</value>
+				<value>SR570_34_sensitivity_units</value>
+				<value>SR570_34_bias_voltage_status</value>
+				<value>SR570_34_bias_voltage</value>
+				<value>SR570_34_filter_type</value>
+				<value>SR570_34_filter_highpass</value>
+				<value>SR570_34_filter_lowpass</value>
+				<value>SR570_34_gain_mode</value>
 				<value>SR830_sensitivity</value>
 				<value>SR830_time_constant</value>
 				<value>SR830_channel_one</value>
