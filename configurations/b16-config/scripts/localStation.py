@@ -405,11 +405,14 @@ if installation.isLive():
 	dcmpiezo=pd_setPvAndWait.SetPvAndWait("dcmpiezo","BL16B-OP-DCM-01:FB:DAC:02", 0.2)
 	dcmpiezo.setOutputFormat(['%.4f'])
 
-
 	bi = SelectableCollectionOfScannables('bi', [ct7, ai13, ai1])#@UndefinedVariable
 	#monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmPitch, .145, .16, 0.0002, bi, .5) #@UndefinedVariable
-	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 0.0, 9.0, 0.1, ai1, .2) #@UndefinedVariable
+	monotuner=Tuner('monotuner', MaxPositionAndValue(), Scan, dcmpiezo, 0.1, 9.5, 0.1, ai1, .1) #@UndefinedVariable
 	monotuner.use_backlash_correction = True
+
+def tunemono(): 
+	monotuner.tune()
+	inc dcmpiezo -0.25
 
 ###############################################################################
 ###                                 A3 XIA Filters                          ###
