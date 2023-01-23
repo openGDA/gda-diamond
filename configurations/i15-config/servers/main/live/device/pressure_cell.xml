@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    profile="pressure_cell"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="pressure_cell_controller" class="uk.ac.gda.devices.pressurecell.controller.epics.EpicsPressureCellController" >
+            <property name="name" value="pressure_cell_controller" />
+            <property name="rootPv" value="BL22I-EA-HPXC-01" />
+            <property name="v3" ref="v3" />
+            <property name="v5" ref="v5" />
+            <property name="v6" ref="v6" />
+    </bean>
+
+    <bean id="pressure_data_controller" class="uk.ac.gda.devices.pressurecell.controller.epics.EpicsPressureDataController" >
+            <property name="basePV" value="BL22I-EA-HPXC-01" />
+             <property name="fileWriter" ref="pressure_hdf" />
+    </bean>
+
+    <bean id="v3" class="uk.ac.gda.devices.pressurecell.controller.epics.EpicsPressureValve" >
+            <property name="name" value="v3" />
+            <property name="rootPv" value="BL22I-EA-HPXC-01:V3" />
+    </bean>
+    <bean id="v5" class="uk.ac.gda.devices.pressurecell.controller.epics.EpicsArmablePressureValve" >
+            <property name="name" value="v5" />
+            <property name="rootPv" value="BL22I-EA-HPXC-01:V5" />
+    </bean>
+    <bean id="v6" class="uk.ac.gda.devices.pressurecell.controller.epics.EpicsArmablePressureValve" >
+            <property name="name" value="v6" />
+            <property name="rootPv" value="BL22I-EA-HPXC-01:V6" />
+    </bean>
+
+    <bean id="pressure_hdf" class="uk.ac.gda.server.ncd.epics.NDFileHDF5Impl">
+            <property name="basePVName" value="BL22I-EA-HPXC-01:FILE:"/>
+            <property name="numRowChunks" value="5"/>
+            <property name="framesPerChunk" value="1"/>
+            <property name="columnsPerChunk" value="1"/>
+            <property name="chunkAlignment" value="0"/>
+            <property name="file">
+                    <bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+                            <property name="basePVName" value="BL22I-EA-HPXC-01:FILE:"/>
+                            <property name="initialAutoIncrement" value="0"/>
+                            <property name="initialAutoSave" value="0"/>
+                            <property name="initialWriteMode" value="0"/>
+                            <property name="initialNumCapture" value="1"/>
+                            <property name="initialFileName" value="helloworld"/>
+                            <property name="initialFileTemplate" value="%s/%s-%d.h5"/>
+                            <property name="pluginBase">
+                                    <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                                            <property name="basePVName" value="BL22I-EA-HPXC-01:FILE:"/>
+                                    </bean>
+                            </property>
+                    </bean>
+            </property>
+    </bean>
+</beans>
+
