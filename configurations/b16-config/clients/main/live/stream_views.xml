@@ -245,6 +245,36 @@
 		<property name="bottomUi" ref="balor_histogramBottomUI" />
 	</bean>
 
+	<bean id="zyla_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="zyla_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="zyla_histogramTopUI" />
+	</bean>
+	<bean id="zyla_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="zyla_camera_control" />
+	</bean>
+	<bean id="zyla_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="zyla_controlsUI" />
+				<ref bean="zyla_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="zyla_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Andor Zyla" />
+		<property name="pvAccessPv" value="BL16B-EA-ANDOR-16:PVA:ARRAY" />
+		<property name="sleepTime" value="5" />
+		<property name="topUi" ref="zyla_topUI" />
+		<property name="bottomUi" ref="zyla_histogramBottomUI" />
+	</bean>
+
 	<bean id="eiger_histogramTopUI"
 		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
 	</bean>
