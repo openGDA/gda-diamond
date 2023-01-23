@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+<!-- Live motors for XES  row analysers  -->
+
+<!-- upper row = BL20I-EA-XES-01,  row = BL20I-EA-XES-02  -->
+
+	<bean id="SpecBasePv" class="java.lang.String">
+		<constructor-arg value="BL18I-EA-XES-02:" />
+	</bean>
+
+	<gda:motor id="minus1_x" live-pvName="#{SpecBasePv}:XTAL:M1:X" />
+	<gda:motor id="minus1_y" live-pvName="#{SpecBasePv}:XTAL:M1:Y" />
+	<gda:motor id="minus1_yaw" live-pvName="#{SpecBasePv}:XTAL:M1:YAW" />
+	<gda:motor id="minus1_pitch" live-pvName="#{SpecBasePv}:XTAL:M1:PITCH" />
+
+	<gda:motor id="centre_x" live-pvName="#{SpecBasePv}:XTAL:C:X" />
+	<gda:motor id="centre_y" live-pvName="#{SpecBasePv}:XTAL:C:Y" />
+	<gda:motor id="centre_yaw" live-pvName="#{SpecBasePv}:XTAL:C:YAW" />
+	<gda:motor id="centre_pitch" live-pvName="#{SpecBasePv}:XTAL:C:PITCH" />
+
+	<gda:motor id="plus1_x" live-pvName="#{SpecBasePv}:XTAL:P1:X" />
+	<gda:motor id="plus1_y" live-pvName="#{SpecBasePv}:XTAL:P1:Y" />
+	<gda:motor id="plus1_yaw" live-pvName="#{SpecBasePv}:XTAL:P1:YAW" />
+	<gda:motor id="plus1_pitch" live-pvName="#{SpecBasePv}:XTAL:P1:PITCH" />
+
+	<gda:motor id="det_x" live-pvName="#{SpecBasePv}:DET:X" />
+	<gda:motor id="det_y" live-pvName="#{SpecBasePv}:DET:Y" />
+	<gda:motor id="det_pitch" live-pvName="#{SpecBasePv}:DET:PITCH" />
+
+</beans>

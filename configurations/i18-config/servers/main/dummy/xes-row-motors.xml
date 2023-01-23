@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+<!-- Dummy motors for XES lower row analysers  
+(force dummy mode, so they can be used as dummy motors in 'live' mode)-->
+
+	<gda:motor id="minus1_x" live-class="#dummy" />
+	<gda:motor id="minus1_y" live-class="#dummy" />
+	<gda:motor id="minus1_yaw" live-class="#dummy" />
+	<gda:motor id="minus1_pitch" live-class="#dummy" />
+
+	<gda:motor id="centre_x" live-class="#dummy" />
+	<gda:motor id="centre_y" live-class="#dummy" />
+	<gda:motor id="centre_yaw" live-class="#dummy" />
+	<gda:motor id="centre_pitch" live-class="#dummy" />
+
+	<gda:motor id="plus1_x" live-class="#dummy" />
+	<gda:motor id="plus1_y" live-class="#dummy" />
+	<gda:motor id="plus1_yaw" live-class="#dummy" />
+	<gda:motor id="plus1_pitch" live-class="#dummy" />
+
+	<gda:motor id="det_x" live-class="#dummy" />
+	<gda:motor id="det_y" live-class="#dummy" />
+	<gda:motor id="det_pitch" live-class="#dummy" />
+	
+	<gda:motor id="xtal_x" live-pvName="#dummy" />
+	<gda:motor id="spec_rot" live-pvName="#dummy" />
+	<gda:motor id="det_slit" live-pvName="#dummy" />
+	<gda:motor id="xes_slits" live-pvName="#dummy" />
+
+</beans>

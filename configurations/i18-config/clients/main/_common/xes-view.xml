@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xray_direction_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="X-ray beam" />
+	</bean>	
+
+<!-- Labels for  analysers  -->
+	<bean id="cryst_m1_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="-1" />
+		<property name="scannablesToObserve" value="Minus1Crystal" />
+	</bean>	
+
+	<bean id="cryst_c_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="0" />
+		<property name="scannablesToObserve" value="CentralCrystal" />
+	</bean>	
+
+	<bean id="cryst_p1_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
+		<property name="labelText" value="+1" />
+		<property name="scannablesToObserve" value="Plus1Crystal" />
+	</bean>	
+
+<!-- Energy and bragg angle controls from rows of spectrometer  -->
+
+ 	<bean id="XESEnergy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESEnergy" />
+		<property name="displayNameWidth" value="50" />
+	</bean>
+ 	<bean id="XESBragg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="XESBragg" />
+ 		<property name="displayNameWidth" value="50" />
+	</bean>
+
+	<bean id="spectrometerRowsPicture" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
+		<property name="viewName" value="XES spectrometer view"/>
+		<property name="backgroundImage" value="gda-diamond.git/plugins/uk.ac.gda.beamline.i20/oe images/xes_analysers3.png"/>
+		<property name="imageStart" value="90,400" />
+		<property name="imageScaleFactor" value="1.0" />
+		<property name="showCoordinates" value="#{showCoordinates}" />
+		<property name="controlsList">
+			<map>
+				<entry key-ref="xray_direction_text" value="100 370" />
+				<entry key-ref="cryst_m1_text" value="325 425" />
+				<entry key-ref="cryst_c_text" value="400 440" />
+				<entry key-ref="cryst_p1_text" value="460 460" />
+
+				<entry key-ref="XESEnergy_control" value="630 380" />
+				<entry key-ref="XESBragg_control"  value="800 380" />
+				
+				<entry key-ref="all_crystal_live_controls" value="0 0"/>
+				<entry key-ref="crystal_cut_controls" value="630 550" />
+				<entry key-ref="crystal_moveable_controls" value="820 550" />
+			</map>
+		</property>
+	</bean>
+	
+</beans>

@@ -92,6 +92,13 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+          allowMultiple="true"
+          class="uk.ac.gda.ui.views.synoptic.SynopticView"
+          id="uk.ac.gda.ui.views.synoptic.SynopticView"
+          name="Synoptic View"
+          restorable="true">
+      </view>
+      <view
             category="uk.ac.gda.client.microfocus.category"
             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
             id="uk.ac.gda.beamline.i18.MapView"
@@ -151,6 +158,11 @@
             id="uk.ac.gda.beamline.i18.perspective.synoptic"
             icon="icons/eye.png"
             name="Synoptic" >
+      </perspective>
+      <perspective
+            class="uk.ac.gda.ui.views.synoptic.SynopticPerspective:xes_perspective_config"
+            id="uk.ac.gda.beamline.i18.SynopticPerspective.xes_perspective_config"
+            name="Synoptic views">
       </perspective>
    </extension>
 
