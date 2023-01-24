@@ -11,6 +11,8 @@
 		<property name="controller" ref="xspress3MiniController" />
 		<property name="writeHDF5Files" value="false" />
 		<property name="maxNumberOfRois" value="1" />
+		<property name="useParentClassMethods" value="false" />
+		
 	</bean>
 
 </beans>
