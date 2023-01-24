@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd"
+    profile="pressure_cell">
+
+    <bean id="pressure_cell" class="uk.ac.gda.devices.pressurecell.PressureCell" >
+        <property name="inputNames" value="pressure" />
+        <property name="controller" ref="pressure_cell_controller" />
+    </bean>
+
+    <bean id="pressure_cell_controller"
+            class="uk.ac.gda.devices.pressurecell.controller.dummy.DummyPressureCellController">
+        <property name="name" value="pressure_cell_controller" />
+        <property name="v3" ref="pressure_v3" />
+        <property name="v5" ref="pressure_v5" />
+        <property name="v6" ref="pressure_v6" />
+    </bean>
+
+    <bean id="pressure_v3"
+            class="uk.ac.gda.devices.pressurecell.controller.dummy.DummyPressureValve">
+        <property name="name" value="v3" />
+    </bean>
+
+    <bean id="pressure_v5"
+            class="uk.ac.gda.devices.pressurecell.controller.dummy.DummyArmablePressureValve">
+        <property name="name" value="v5" />
+    </bean>
+    <bean id="pressure_v6"
+            class="uk.ac.gda.devices.pressurecell.controller.dummy.DummyArmablePressureValve">
+        <property name="name" value="v6" />
+    </bean>
+</beans>
