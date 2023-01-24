@@ -31,11 +31,13 @@
 	<bean id="kb_cs_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="kb_cs_x_motor" />
 		<property name="userUnits" value="" />
+		<property name="level" value="3" />
 	</bean>
 	
 	<bean id="kb_cs_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="kb_cs_y_motor" />
 		<property name="userUnits" value="" />
+		<property name="level" value="4" />
 	</bean>
 
 </beans>
