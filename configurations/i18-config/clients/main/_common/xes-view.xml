@@ -54,6 +54,7 @@
 				<entry key-ref="all_crystal_live_controls" value="0 0"/>
 				<entry key-ref="crystal_cut_controls" value="630 550" />
 				<entry key-ref="crystal_moveable_controls" value="820 550" />
+				<entry key-ref="detector_group" value="0 810" />
 			</map>
 		</property>
 	</bean>
