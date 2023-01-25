@@ -52,7 +52,7 @@
 						</bean>
 						<bean class="gda.jython.ScriptProject">
 							<property name="path"
-								value="${gda.install.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
+								value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.server.exafs/scripts" />
 							<property name="name" value="Scripts: Exafs" />
 							<property name="type" value="CORE" />
 						</bean>
