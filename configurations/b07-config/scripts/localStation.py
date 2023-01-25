@@ -92,6 +92,7 @@ meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_
 for each in meta_data_list:
     meta_add(each)
 
+from scan.miscan import miscan  # @UnusedImport
 
 print("-"*100)
 
