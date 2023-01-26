@@ -77,20 +77,13 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean name="detector_controls" class="uk.ac.gda.client.livecontrol.ControlSet">
-		<property name="viewName" value="Detector controls" />
-		<property name="controls">
-			<list>
-				<bean id="detector_group" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
-			 		<property name="scannableGroupName" value="detectorMotors" />
-			 		<property name="group" value="Detector motors" />
-			 		<property name="numColumns" value="1" />
-			 		<property name="horizontalLayout" value="true" />
-			 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
-				</bean>
-			</list>
-		</property>
+	
+	<bean id="detector_group" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
+ 		<property name="scannableGroupName" value="detectorMotors" />
+ 		<property name="group" value="Detector motors" />
+ 		<property name="numColumns" value="1" />
+ 		<property name="horizontalLayout" value="true" />
+ 		<property name="displayNameWidth" value="#{motorLabelWidth}" />
 	</bean>
 
 	 <bean id="all_crystal_live_controls" class="uk.ac.gda.ui.views.synoptic.LiveControlsScannableGroup">
@@ -143,7 +136,6 @@
 	<bean name="xes_perspective_config" class="uk.ac.gda.ui.views.synoptic.SynopticPerspectiveConfiguration">
 		<property name="simulatedPositionsView" value="simulated_positions_controlset" />	
 		<property name="spectrometerPicture" value="spectrometerRowsPicture" />
-		<property name="detectorControls" value="detector_controls" />
 		<property name="calibrationControls" value="calibration_controlset" />
 		<property name="offsetView" value="offsets_controlset" />
 	</bean>

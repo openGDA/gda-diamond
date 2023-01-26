@@ -162,7 +162,8 @@
       <perspective
             class="uk.ac.gda.ui.views.synoptic.SynopticPerspective:xes_perspective_config"
             id="uk.ac.gda.beamline.i18.SynopticPerspective.xes_perspective_config"
-            name="Synoptic views">
+            icon="icons/camera.png"
+            name="Synoptic Views">
       </perspective>
    </extension>
 
