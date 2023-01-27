@@ -24,7 +24,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.propertiesFile=${project_loc:i08-1-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i08-1-config}/properties/dummy/JCALibrary.properties
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.instance.dir=${project_loc:i08-1-config}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}

@@ -13,7 +13,6 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.install.workspace.loc=/dls_sw/i18/software/gda
 -Dgda.install.git.loc=/dls_sw/i18/software/gda_git
 -Dgda.config=/dls_sw/i18/software/gda/config
 -Djava.library.path=/dls_sw/i18/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64

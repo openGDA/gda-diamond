@@ -16,7 +16,6 @@
 -Dgda.instance.dir=/dls_sw/b18/software/gda/workspace_git/config
 -Dgda.facility.dir=/dls_sw/b18/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/b18/software/gda/workspace_git/gda-core.git/core-config
--Dgda.install.workspace.loc=/dls_sw/b18/software/gda
 -Dgda.install.git.loc=/dls_sw/b18/software/gda/workspace_git
 -Dgda.config=/dls_sw/b18/software/gda/config
 -Djava.library.path=/dls_sw/b18/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64

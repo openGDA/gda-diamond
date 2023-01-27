@@ -11,8 +11,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.install.workspace.loc=/dls_sw/i20/software/gda
--Dgda.install.git.loc=/dls_sw/i20/software/gda_git
+      <vmArgs>-Dgda.install.git.loc=/dls_sw/i20/software/gda_git
 -Dgda.instance.dir=/dls_sw/i20/software/gda/config
 -Dgda.core.dir=/dls_sw/i20/software/gda_git/gda-core.git/core-config
 -Dgda.config=/dls_sw/i20/software/gda/config

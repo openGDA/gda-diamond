@@ -19,7 +19,6 @@
 -Dgda.group.dir=${project_loc:i06-shared}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
--Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Declipse.pluginCustomization=${project_loc:i06-2-config}/pluginCustomization.ini
 -Dgda.config=${project_loc:i06-2-config}
