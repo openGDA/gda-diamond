@@ -3,9 +3,10 @@ import gda
 from gda.util import ElogEntry
 from gda.data.metadata import GDAMetadataProvider
 from gda.jython import InterfaceProvider
+from gda.configuration.properties import LocalProperties
 
 def _valid_visit(visit):
-    visit_drectory = InterfaceProvider.getPathConstructor().createFromProperty(InterfaceProvider.getPathConstructor().getDefaultPropertyName(), {"visit": visit})
+    visit_drectory = InterfaceProvider.getPathConstructor().createFromProperty(LocalProperties.GDA_VISIT_DIR, {"visit": visit})
     return os.path.exists(visit_drectory) and os.path.isdir(visit_drectory)
 
 def setTitle(title):
