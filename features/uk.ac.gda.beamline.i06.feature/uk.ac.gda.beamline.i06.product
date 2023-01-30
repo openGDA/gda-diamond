@@ -28,7 +28,6 @@ http://www.opengda.org
 -Dgda.group.dir=/dls_sw/i06/software/gda/i06-shared
 -Declipse.pluginCustomization=/dls_sw/i06/software/gda/workspace_git/gda-diamond.git/configurations/i06-config/pluginCustomization.ini
 -Dgda.install.git.loc=/dls_sw/i06/software/gda/workspace_git
--Dgda.install.workspace.loc=/dls_sw/i06/software/gda/workspace
 -Dgda.data=/dls/i06/data
 -Dgda.var=/dls_sw/i06/software/gda_versions/var
 -Dgda.logs.dir=/dls_sw/i06/logs

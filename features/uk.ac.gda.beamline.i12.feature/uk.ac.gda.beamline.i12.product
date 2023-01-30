@@ -20,8 +20,7 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
+      <vmArgs>-Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.config=${project_loc:i12-config}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}

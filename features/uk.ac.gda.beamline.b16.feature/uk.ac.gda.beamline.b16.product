@@ -15,7 +15,6 @@
       </programArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.root=${project_loc:uk.ac.gda.core}/../                        -Dgda.config=${project_loc:b16-config}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git       -Dgda.logs.dir=${workspace_loc}/../logs
 -Dgda.instance.dir=${project_loc:b16-config}                          -Dgda.facility.dir=${project_loc:dls-config}

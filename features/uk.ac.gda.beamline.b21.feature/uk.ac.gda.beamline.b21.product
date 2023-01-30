@@ -26,7 +26,6 @@
 -Xmx4g
 -XX:-UseCompressedOops
 -Dorg.dawb.editor.h5.use.default=false
--Dgda.install.workspace.loc=${workspace_loc}
 -Declipse.pluginCustomization=${workspace_loc:b21-config}/clients/pluginCustomization.ini
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts

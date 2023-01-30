@@ -18,7 +18,6 @@
 -Dgda.facility.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-core.git/core-config
 -Dgda.install.git.loc=/dls_sw/i10/software/gda/workspace_git
--Dgda.install.workspace.loc=/dls_sw/i10/software/gda/workspace
 -Dgda.config=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config
 -Dgda.mode=live
 -Dgda.propertiesFile=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/properties/live/live_instance_java.properties

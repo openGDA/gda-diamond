@@ -16,7 +16,6 @@
 -Declipse.pluginCustomization=${project_loc:i16-config}/clients/main/_common/pluginCustomization.ini
 -Dgda.mode=live
 -Djacorb.config.dir=${project_loc:i16-config}/properties/live/jacorb
--Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.instance.dir=${project_loc:i16-config}
 -Dgda.facility.dir=${project_loc:dls-config}
