@@ -15,6 +15,7 @@
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
@@ -23,12 +24,5 @@
 	</bean>
 	<import resource="live_controls.xml"/>
 	<import resource="dashboard.xml"/>
-
-	<!-- Commented out by default as it requires bundles which currently live in gda-incubation -->
-	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
-		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
 
 </beans>
