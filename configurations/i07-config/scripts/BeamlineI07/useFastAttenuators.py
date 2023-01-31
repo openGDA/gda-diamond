@@ -36,9 +36,19 @@ def autofoff():
     fatt.manualMode()
     print("Automatic attenuation disabled for exr, exv and exc")
 
+def exc_fast_exp_time(time=None):
+    if time==None:
+        print("exc_fast_exp_time : " + excalibur_atten.getCollectionStrategy().getFastExpTime())
+    elif time<=0:
+        raise ValueError("exc_fast_exp_time must be positive.")
+    else:
+        excalibur_atten.getCollectionStrategy().setFastExpTime(time)
+
 # Default to off
 autofoff()
 
 alias(att)
 alias(autofon)
 alias(autofoff)
+alias(exc_fast_exp_time)
+
