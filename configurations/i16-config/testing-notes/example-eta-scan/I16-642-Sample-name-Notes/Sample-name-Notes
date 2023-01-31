@@ -10,13 +10,17 @@ Scan		Configuration	Dummy	nxlsa	Notes
 2023010024	NDW	DWE	LF		Dummy	Failed	NDW Baseline, full path in nxs but with leading / stripped off
 2023010138	NSD				Dummy	Good	NSD Baseline
 2023010141	NSD				Dummy	Good	Sample and Title added
-			NDW	DWE	LF		Dummy	Good?	NDW Split config	Verified match
+2023010157	NDW	DWE	LF		Dummy	Failed	NDW Regression test passed
 ----------- --- --- --	-	-----	-----	------------------------------------
 	NDW	NexusDataWriter				NSD	NexusScanDataWriter
 	DWE	DataWriterExtender			T	Template
 	LF	Link Files					Trunc	Truncated
 
 	See bottom of ./Notes file for: Preparing a scan for archiving here
+
+    Note that the failed nxlsa runs appear to be related to similated area
+    detector handling of relative/absolutioe paths, preventing nxlsa from
+    finding the pilatus data file.
 
 ================================================================================
 
