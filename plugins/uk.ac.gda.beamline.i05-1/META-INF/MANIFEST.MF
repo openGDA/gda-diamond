@@ -20,7 +20,6 @@ Bundle-Vendor: Diamond Light Source
 Import-Package: gda.observable,
  org.eclipse.core.filesystem,
  org.slf4j;version="[1.7.2,2.0.0)"
-Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework, 
- uk.ac.gda.api,
+Eclipse-RegisterBuddy: uk.ac.gda.api,
  uk.ac.gda.core
 Automatic-Module-Name: uk.ac.gda.beamline.i05-1

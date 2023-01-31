@@ -26,5 +26,4 @@ Import-Package: gda.configuration.properties,
  org.springframework.beans.factory;version="4.0.6.RELEASE"
 Export-Package: gda.device.scannable,
  uk.ac.gda.server.exafs.scan.preparers
-Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.i18.controls

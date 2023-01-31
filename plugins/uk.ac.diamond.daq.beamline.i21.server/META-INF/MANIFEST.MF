@@ -15,4 +15,3 @@ Import-Package: gda.observable,
  org.slf4j,
  org.springframework.beans.factory;version="4.0.6.RELEASE"
 Export-Package: uk.ac.diamond.daq.beamline.i21.server
-Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
