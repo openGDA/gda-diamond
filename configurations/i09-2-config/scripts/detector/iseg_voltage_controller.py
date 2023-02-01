@@ -76,11 +76,9 @@ class ISegVoltageControl(ScannableMotionBase):
                 
     def atScanStart(self):
         self.saved_ramp_speed = float(self.rampspeedCli.caget())
-        self.on()
         self.rampspeedCli.caput(self.ramp_speed)
 
     def atScanEnd(self):
-        self.off()
         if self.saved_ramp_speed:
             self.rampspeedCli.caput(self.saved_ramp_speed)
     
