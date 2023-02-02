@@ -56,6 +56,9 @@
 	<!-- Fluorescence detector -->
 	<import resource="xspress3Mini.xml" />
 	
+	<!-- Keithley amplifier as a detector -->
+	<import resource="keithley.xml" />
+	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
