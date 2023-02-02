@@ -107,9 +107,8 @@ def miscan(*args):
         else:
             newargs.append(arg)
         i=i+1
-        if isinstance(arg, SpecsPhoibosAnalyserSeparateIterations):
-            newargs.append(args[i]) # analyser does not set time
-        elif isinstance(arg,  NXDetector):
+
+        if isinstance(arg,  NXDetector) and not isinstance(arg, SpecsPhoibosAnalyserSeparateIterations):
             decoratee = arg.getCollectionStrategy().getDecoratee()
             if isinstance(decoratee, ImageModeDecorator):
                 if i<len(args)-1: # more than 2 arguments following detector
@@ -123,7 +122,8 @@ def miscan(*args):
                 elif i==len(args)-1: #followed by only one argument - must be exposure time
                     decoratee.setNumberOfImagesPerCollection(1)
             else: #exposure time is the last one in the scan command
-                newargs.append(args[i]) 
+                newargs.append(args[i])
+            i = i + 1
         elif isinstance(arg, Xspress3MiniSingleChannelDetector):
             from detector.Xspress3MiniSetup import proc4xspress3_setup_ports, proc4xspress3_num_frames
             proc4xspress3_setup_ports()
@@ -138,9 +138,9 @@ def miscan(*args):
             elif i==len(args)-1: #followed by only one argument - must be exposure time
                 proc4xspress3_num_frames(1)
             else: #exposure time is the last one in the scan command
-                newargs.append(args[i]) 
-        i=i+1
-                
+                newargs.append(args[i])
+            i = i + 1 
+            
     scan([e for e in newargs])
 
     if PRINTTIME: print("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
