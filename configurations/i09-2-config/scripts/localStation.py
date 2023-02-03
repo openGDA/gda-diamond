@@ -4,7 +4,6 @@
 # updated 5/1/2017
 import os
 from gda.factory import Finder
-import java
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 from gda.jython.commands import GeneralCommands
@@ -20,7 +19,6 @@ from analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
 from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import ExtractPeakParameters
 from gda.util import PropertyUtils
 import sys
-from java.lang import System
 import installation
 
 print "=================================================================================================================";
@@ -35,6 +33,7 @@ print "    scansReturnToOriginalPositions=1, return to its start position;"
 scansReturnToOriginalPositions=0;
 print
 
+from java.lang import System  # @UnresolvedImport
 _epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda-epics.git/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
 sys.path.append(_epicsScriptLibraryDir)
 
@@ -203,14 +202,12 @@ jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
 
-from detector.iseg_instances import dldv, mcp_b, sample_bias, int_spec, DLD_start, DLD_stop  # @UnusedImport
+if installation.isLive():
+    from detector.iseg_instances import dldv, mcp_b, sample_bias, int_spec, DLD_start, DLD_stop  # @UnusedImport
 
-def clear_accumulated_data():
-    if installation.isLive():
-        caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
-    else:
-        print("Clear accumulated data")
-    
+
+from scan.miscan import miscan, clear_accumulated_data  # @UnusedImport
+   
 print
 print "=================================================================================================================";
 print "Initialisation script complete."

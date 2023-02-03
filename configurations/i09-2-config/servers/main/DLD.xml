@@ -38,8 +38,8 @@
 		<property name="storeAttr" value="true" />
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
-		<property name="attrByDimSupported" value="true" />
-		<property name="attrByDim" value="true" />
+		<property name="attrByDimSupported" value="false" />
+		<property name="attrByDim" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="SwmrModeEnabled" value="false"/>
 	</bean>
@@ -54,8 +54,6 @@
 <!-- 				<ref bean="dld_RoiStats3" /> -->
 <!-- 				<ref bean="dld_RoiStats4" /> -->
 				<ref bean="dldHdf5Filewriter"/>
-<!-- 				<ref bean="liveimagexy_adarrayplugin"/> -->
-<!-- 				<ref bean="accumimagexy_adarrayplugin"/> -->
 			</list>
 		</property>
 	</bean>
@@ -91,8 +89,6 @@
 <!-- 				<ref bean="dld_RoiStats3" /> -->
 <!-- 				<ref bean="dld_RoiStats4" /> -->
 				<ref bean="dldTiffFileWriter" />
-<!-- 				<ref bean="liveimagexy_adarrayplugin"/> -->
-<!-- 				<ref bean="accumimagexy_adarrayplugin"/> -->
 			</list>
 		</property>
 	</bean>

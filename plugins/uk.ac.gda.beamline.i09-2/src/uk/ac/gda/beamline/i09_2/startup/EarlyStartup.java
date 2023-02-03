@@ -18,7 +18,6 @@
 
 package uk.ac.gda.beamline.i09_2.startup;
 
-import org.dawnsci.plotting.views.ToolPageView;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbenchPage;
@@ -39,14 +38,11 @@ public class EarlyStartup implements IStartup {
 			@Override
 			public void run() {
 				try {
-					// workaround to make tool page view title shown up and its content not empty without the need to click on them
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
-							ToolPageView.FIXED_VIEW_ID,"org.dawb.workbench.plotting.tools.region.editor", IWorkbenchPage.VIEW_CREATE);
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
-							ToolPageView.FIXED_VIEW_ID,"org.dawnsci.plotting.histogram.histogram_tool_page_2", IWorkbenchPage.VIEW_CREATE);
 					// ensure the Live Stream View has focus so the tool page views above are linked to this image
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
 							"uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY", "dld_liveimagexy#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
+							"uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY", "dld_accumimagexy#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
 				} catch (PartInitException e) {
 					logger.warn("showView calls failed in {}", getClass().getName());
 				}

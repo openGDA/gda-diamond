@@ -46,6 +46,7 @@
 	
 	<import resource="dummy_endstation.xml" />
 	<import resource="DLD.xml"/>
+	<import resource="DLD_SUMMED.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

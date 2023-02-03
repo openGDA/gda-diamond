@@ -68,22 +68,6 @@
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i09-2.dld.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
@@ -151,22 +135,6 @@
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i09-2.dld.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
                commandId="uk.ac.gda.client.live.stream.controls.startcommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
@@ -181,6 +149,10 @@
                   </equals>
                </with>
             </visibleWhen>
+            <parameter
+                  name="uk.ac.gda.client.live.stream.controls.start.PVname"
+                  value="BL09K-EA-D-01:cam1:Acquire">
+            </parameter>
          </command>
          <command
                commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
@@ -197,6 +169,10 @@
                   </equals>
                </with>
             </visibleWhen>
+            <parameter
+                  name="uk.ac.gda.client.live.stream.controls.stop.PVname"
+                  value="BL09K-EA-D-01:cam1:Acquire">
+            </parameter>
          </command>
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
@@ -208,7 +184,7 @@
                <with
                      variable="activePartId">
                   <equals
-                        value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY">
+                        value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY">
                   </equals>
                </with>
             </visibleWhen>

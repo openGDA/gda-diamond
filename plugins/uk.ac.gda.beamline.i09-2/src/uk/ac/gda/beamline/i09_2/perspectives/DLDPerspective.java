@@ -28,6 +28,7 @@ public class DLDPerspective implements IPerspectiveFactory {
 	private static final String STATUS_FOLDER = "statusFolder";
 	private static final String PLOT_1D_FOLDER = "Plot1DFolder";
 	private static final String PLOT_2D_FOLDER = "Plot2DFolder";
+	private static final String ACCUM_PLOT_FOLDER = "accumulatedPlotFolder";
 
 	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.client.navigator";
 	private static final String STATUS_VIEW_ID = "uk.ac.gda.beamline.i09-2.statusView";
@@ -59,20 +60,20 @@ public class DLDPerspective implements IPerspectiveFactory {
 
 		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.3, STATUS_FOLDER); //$NON-NLS-1$
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY:dld_liveimagexy#EPICS_ARRAY");
-		detectorPlotFolder.addPlaceholder("uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY:dld_accumimagexy#EPICS_ARRAY");
 		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
 		detectorPlotFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
 
 		IFolderLayout toolpageFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.LEFT, (float)0.4, PLOT_2D_FOLDER); //$NON-NLS-1$
-		toolpageFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
+		toolpageFolder.addPlaceholder(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
 		toolpageFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
 		toolpageFolder.addPlaceholder(SnapshotView.ID);
 		toolpageFolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
 		toolpageFolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
 
 		IFolderLayout liveControlFolder=layout.createFolder(LIVE_CONTROL_FOLDER, IPageLayout.BOTTOM, (float)0.6, TOOLPAGE_FOLDER); //$NON-NLS-1$
-		liveControlFolder.addView(LiveControlsView.ID + ":controlSet");
-		liveControlFolder.addView("uk.ac.gda.rcp.views.dashboardView");
+		liveControlFolder.addView(LiveControlsView.ID + ":dld_count_rate");
+		liveControlFolder.addView(LiveControlsView.ID + ":pgm_control_set");
+		liveControlFolder.addPlaceholder("uk.ac.gda.rcp.views.dashboardView");
 		liveControlFolder.addPlaceholder(LiveControlsView.ID + ":*");
 		liveControlFolder.addPlaceholder(LiveControlsView.ID);
 		liveControlFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
@@ -87,6 +88,9 @@ public class DLDPerspective implements IPerspectiveFactory {
         terminalfolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
         terminalfolder.addPlaceholder(NewSearchUI.SEARCH_VIEW_ID);
         terminalfolder.addPlaceholder(IPageLayout.ID_BOOKMARKS);
+
+		IFolderLayout accumPlotFolder=layout.createFolder(ACCUM_PLOT_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
+		accumPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY:dld_accumimagexy#EPICS_ARRAY");
 	}
 
 	private void defineActions(IPageLayout layout) {
