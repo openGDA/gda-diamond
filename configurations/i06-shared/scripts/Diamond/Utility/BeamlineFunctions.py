@@ -33,6 +33,7 @@ class BeamlineFunctionClass(object):
 			'i04': 'BLI04',
 			'i06': 'BLI06',
 			'i06-1': 'BLI06-1',
+			'i06-2': 'BLI06-2',
 			'i07': 'BLI07',
 			'i11': 'BLI11',
 			'i16': 'BLB16',
@@ -274,7 +275,7 @@ class BeamlineFunctionClass(object):
 		logID=self.elogID; #The logbook ID, such as BLI07
 		logGroupID= logID + "-USER";
 		# Since GroupIDs are limited to 10 characters, I06-1 had to be a special case:
-		if logID == "BLI06-1":
+		if logID in ["BLI06-1", "BLI06-2"]:
 			logGroupID= logID + "-UE";
 		try:
 			ElogEntry(logTitle, logUserID, visit, logID, logGroupID).addHtml(logContent).post()
