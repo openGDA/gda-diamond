@@ -23,10 +23,8 @@ import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.SocketImpl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.daq.util.logging.deprecation.DeprecationLogger;
 
 /**
  * Provides a series of methods for accessing Unix functions. Mostly the starting and stopping of processes for Protein
@@ -36,10 +34,12 @@ import gda.configuration.properties.LocalProperties;
  * <p>
  * A C file exists as the basis for this library and a series of corresponding makefiles. These exist in the GDA
  * directory heirarchy under gda.util.
+ *
+ * @deprecated Native code to be removed in GDA 9.31
  */
-
+@Deprecated(forRemoval = true, since = "GDA 9.29")
 public class Unix {
-	private static final Logger logger = LoggerFactory.getLogger(Unix.class);
+	private static final DeprecationLogger logger = DeprecationLogger.getLogger(Unix.class);
 
 	/**
 	 *
@@ -53,6 +53,7 @@ public class Unix {
 	private static boolean enabled = LocalProperties.check("gda.util.unix.enabled", true);
 
 	static {
+		logger.warn("Deprecated class loaded, this will be removed in GDA 9.31");
 		try {
 			String osName = (System.getProperty("os.name")).toLowerCase();
 
@@ -64,6 +65,10 @@ public class Unix {
 		} catch (Throwable e) {
 			logger.error("Error initialising Unix - check JavaToUnix.so library is correct", e);
 		}
+	}
+
+	public Unix() {
+		logger.deprecatedClass("GDA 9.31", "non-native code");
 	}
 
 	/**
