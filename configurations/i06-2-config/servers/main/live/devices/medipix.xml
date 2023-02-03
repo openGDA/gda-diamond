@@ -366,7 +366,7 @@
 												<property name="restoreAcquireTime" value="true"/>
 												<property name="restoreAcquirePeriod" value="true"/>
 												<property name="acquirePeriodExpression" value="#acquireTime + 0.005"/>
-												<property name="decoratee" ref="kbRasteringPeriod_delayed"/>
+												<property name="decoratee" ref="softstatrstop"/>
 											</bean>
 										</property>
 									</bean>
