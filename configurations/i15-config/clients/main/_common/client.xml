@@ -47,9 +47,4 @@
 	<import resource="pil3AreaDetector.xml" />
 
 	<import resource="pslAreaDetector.xml" />
-
-	<!-- End of local imports -->
-
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 </beans>

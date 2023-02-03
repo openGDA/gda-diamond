@@ -12,9 +12,6 @@
 		</property>
 </bean>
 
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
 	<import resource="spreadsheet-view.xml" />
 	<import resource="detector-rate-views.xml" />
 	<import resource="live_controls.xml" />

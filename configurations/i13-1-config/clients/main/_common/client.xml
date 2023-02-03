@@ -25,9 +25,6 @@
 
 	<import resource="file:${gda.config}/devices/_common/cameraScaleProviders.xml" />
 
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 </beans>
