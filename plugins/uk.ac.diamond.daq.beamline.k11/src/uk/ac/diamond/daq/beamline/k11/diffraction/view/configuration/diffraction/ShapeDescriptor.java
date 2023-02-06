@@ -21,43 +21,16 @@ package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffractio
 import java.util.function.Supplier;
 
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
-import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
-import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
-import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.ui.tool.images.ClientImages;
 
-public enum ShapeDescriptor {
-	POINT(TrajectoryShape.TWO_DIMENSION_POINT, ClientImages.POINT, new PointMappingRegion(), PointScanpathEditor::new),
-	LINE(TrajectoryShape.TWO_DIMENSION_LINE, ClientImages.LINE, new LineMappingRegion(), LineScanpathEditor::new),
-	RECTANGLE(TrajectoryShape.TWO_DIMENSION_GRID, ClientImages.CENTERED_RECTAGLE, new CentredRectangleMappingRegion(), RectangleScanpathEditor::new);
+public interface ShapeDescriptor {
 
-	private TrajectoryShape shape;
-	private ClientImages icon;
-	private IMappingScanRegionShape mappingRegion;
-	private Supplier<ScanpathEditor> editor;
+	TrajectoryShape shape();
 
-	ShapeDescriptor(TrajectoryShape shape, ClientImages icon, IMappingScanRegionShape mappingRegion, Supplier<ScanpathEditor> editor) {
-		this.shape = shape;
-		this.icon = icon;
-		this.mappingRegion = mappingRegion;
-		this.editor = editor;
-	}
+	ClientImages icon();
 
-	public TrajectoryShape shape() {
-		return shape;
-	}
+	IMappingScanRegionShape mappingRegion();
 
-	public ClientImages icon() {
-		return icon;
-	}
-
-	public IMappingScanRegionShape mappingRegion() {
-		return mappingRegion;
-	}
-
-	public Supplier<ScanpathEditor> editor() {
-		return editor;
-	}
-
+	Supplier<ScanpathEditor> editor();
 }

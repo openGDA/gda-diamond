@@ -32,7 +32,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
+import uk.ac.diamond.daq.mapping.api.ILineMappingRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.api.constants.RegionConstants;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
 import uk.ac.gda.ui.tool.ClientSWTElements;
@@ -49,8 +51,13 @@ public class LineScanpathEditor extends ScanpathEditor {
 	private Button stepButton;
 	private Button continuousButton;
 
-	private LineMappingRegion line;
-	private PropertyChangeListener regionMoveListener = change -> handleRegionMove();
+	protected ILineMappingRegion line;
+
+	private PropertyChangeListener regionMoveListener = change -> {
+		if (change.getPropertyName().equals(RegionConstants.UPDATE_COMPLETE)) {
+			handleRegionMove();
+		}
+	};
 
 	private boolean handlingDocumentUpdate;
 
@@ -70,6 +77,11 @@ public class LineScanpathEditor extends ScanpathEditor {
 	private void createRegionControls(Composite parent) {
 		Composite composite = ClientSWTElements.composite(parent, 2);
 
+		createShapeControls(composite);
+		createPathControls(composite);
+	}
+
+	protected void createShapeControls(Composite composite) {
 		new Label(composite, SWT.NONE).setText("X Start");
 		new Label(composite, SWT.NONE).setText("X Stop");
 		xStartText = createTextControls(composite);
@@ -79,10 +91,11 @@ public class LineScanpathEditor extends ScanpathEditor {
 		new Label(composite, SWT.NONE).setText("Y Stop");
 		yStartText = createTextControls(composite);
 		yStopText = createTextControls( composite);
+	}
 
+	private void createPathControls(Composite composite) {
 		new Label(composite, SWT.NONE).setText("Points");
 		pointsSpinner = createSpinner(composite);
-
 	}
 
 	private void createMutatorsControls(Composite parent) {
@@ -114,17 +127,28 @@ public class LineScanpathEditor extends ScanpathEditor {
 		if (handlingDocumentUpdate) return;
 		try {
 			handlingDocumentUpdate = true;
-			double xStart = Double.parseDouble(xStartText.getText());
-			double yStart = Double.parseDouble(yStartText.getText());
-			double xStop = Double.parseDouble(xStopText.getText());
-			double yStop = Double.parseDouble(yStopText.getText());
 			int numberPoints = Integer.parseInt(pointsSpinner.getText());
-			updateAxes(modifyAxis(getXAxis(), xStart, xStop, numberPoints),
-					   modifyAxis(getYAxis(), yStart, yStop, numberPoints));
+			updateAxes(modifyAxis(getXAxis(), xStart(), xStop(), numberPoints),
+					   modifyAxis(getYAxis(), yStart(), yStop(), numberPoints));
 		} finally {
 			handlingDocumentUpdate = false;
 		}
+	}
 
+	protected double xStart() {
+		return Double.parseDouble(xStartText.getText());
+	}
+
+	protected double xStop() {
+		return Double.parseDouble(xStopText.getText());
+	}
+
+	protected double yStart() {
+		return Double.parseDouble(yStartText.getText());
+	}
+
+	protected double yStop() {
+		return Double.parseDouble(yStopText.getText());
 	}
 
 	@Override
@@ -132,22 +156,30 @@ public class LineScanpathEditor extends ScanpathEditor {
 		if (handlingDocumentUpdate) return;
 		try {
 			handlingDocumentUpdate = true;
-			xStartText.setText(DECIMAL_FORMAT.format(getXAxis().getStart()));
-			yStartText.setText(DECIMAL_FORMAT.format(getYAxis().getStart()));
-			xStopText.setText(DECIMAL_FORMAT.format(getXAxis().getStop()));
-			yStopText.setText(DECIMAL_FORMAT.format(getYAxis().getStop()));
-			pointsSpinner.setSelection(getXAxis().getPoints());
-			stepButton.setSelection(!isContinuous());
-			continuousButton.setSelection(isContinuous());
+			modelToControlsShape();
+			modelToControlsPath();
 		} finally {
 			handlingDocumentUpdate = false;
 		}
 	}
 
+	protected void modelToControlsShape() {
+		xStartText.setText(DECIMAL_FORMAT.format(getXAxis().getStart()));
+		yStartText.setText(DECIMAL_FORMAT.format(getYAxis().getStart()));
+		xStopText.setText(DECIMAL_FORMAT.format(getXAxis().getStop()));
+		yStopText.setText(DECIMAL_FORMAT.format(getYAxis().getStop()));
+	}
+
+	private void modelToControlsPath() {
+		pointsSpinner.setSelection(getXAxis().getPoints());
+		stepButton.setSelection(!isContinuous());
+		continuousButton.setSelection(isContinuous());
+	}
+
 	@Override
 	public void dispose() {
 		if (line != null) {
-			line.removePropertyChangeListener(regionMoveListener);
+			line.removePropertyChangeListener(getRegionModifiedListener());
 		}
 		super.dispose();
 	}
@@ -185,14 +217,14 @@ public class LineScanpathEditor extends ScanpathEditor {
 		var updatedRegion = state.scanRegionShape();
 		if (updatedRegion instanceof LineMappingRegion newLine) {
 			if (this.line != null) {
-				this.line.removePropertyChangeListener(regionMoveListener);
+				this.line.removePropertyChangeListener(getRegionModifiedListener());
 			}
-			newLine.addPropertyChangeListener(regionMoveListener);
+			newLine.addPropertyChangeListener(getRegionModifiedListener());
 			this.line = newLine;
 		}
 	}
 
-	private void handleRegionMove() {
+	protected void handleRegionMove() {
 		if (handlingMappingUpdate) return;
 		try {
 			handlingMappingUpdate = true;
@@ -206,5 +238,9 @@ public class LineScanpathEditor extends ScanpathEditor {
 		} finally {
 			handlingMappingUpdate = false;
 		}
+	}
+
+	public PropertyChangeListener getRegionModifiedListener() {
+		return regionMoveListener;
 	}
 }

@@ -39,7 +39,6 @@ import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ExposureControls;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ProcessingRequestsControls;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeControls;
-import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeDescriptor;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.SummaryComposite;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
@@ -118,7 +117,7 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 
 	private void createGridControls(Composite parent) {
 
-		var controls = new ShapeControls(this::getScanningParameters, List.of(ShapeDescriptor.RECTANGLE));
+		var controls = new ShapeControls(this::getScanningParameters, List.of(DiffractionTomographyShapeDescriptor.POINT, DiffractionTomographyShapeDescriptor.SNAPPED_LINE, DiffractionTomographyShapeDescriptor.RECTANGLE));
 		controls.createComposite(parent, 0);
 		reloadableControls.add(controls);
 
