@@ -38,16 +38,16 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ShapeSelectionButtons.ShapeSelectionEvent.SelectionType;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.ui.tool.images.ClientImages;
 
 public class ShapeSelectionButtons {
 
-	public record ShapeSelectionEvent(SelectionType type, AcquisitionTemplateType selection, Optional<AcquisitionTemplateType> previousSelection) {
+	public record ShapeSelectionEvent(SelectionType type, TrajectoryShape selection, Optional<TrajectoryShape> previousSelection) {
 		enum SelectionType { REDRAW, SHAPE_CHANGE }
 	}
 
-	private Map<ToolItem, AcquisitionTemplateType> buttonToShape = new HashMap<>();
+	private Map<ToolItem, TrajectoryShape> buttonToShape = new HashMap<>();
 	private Set<Consumer<ShapeSelectionEvent>> listeners = new CopyOnWriteArraySet<>();
 
 	private Optional<ToolItem> previousSelection = Optional.empty();
@@ -72,7 +72,7 @@ public class ShapeSelectionButtons {
 		listeners.add(listener);
 	}
 
-	public void setSelection(AcquisitionTemplateType shape) {
+	public void setSelection(TrajectoryShape shape) {
 		buttonToShape.keySet().forEach(button -> button.setSelection(false));
 
 		ToolItem button = buttonToShape.entrySet().stream()
@@ -86,7 +86,11 @@ public class ShapeSelectionButtons {
 		button.notifyListeners(SWT.Selection, selectionEvent);
 	}
 
-	private void addShape(ToolBar toolBar, AcquisitionTemplateType shape, ClientImages image) {
+	public Optional<TrajectoryShape> getSelection() {
+		return getSelectedButton().map(buttonToShape::get);
+	}
+
+	private void addShape(ToolBar toolBar, TrajectoryShape shape, ClientImages image) {
 		var button = new ToolItem(toolBar, SWT.RADIO);
 		var icon = getImage(image);
 		button.setImage(icon);

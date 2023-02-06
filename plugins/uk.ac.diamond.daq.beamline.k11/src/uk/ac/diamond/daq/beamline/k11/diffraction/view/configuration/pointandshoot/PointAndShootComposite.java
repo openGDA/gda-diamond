@@ -35,7 +35,7 @@ import uk.ac.diamond.daq.beamline.k11.pointandshoot.PointAndShootController;
 import uk.ac.gda.api.acquisition.AcquisitionKeys;
 import uk.ac.gda.api.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.api.acquisition.AcquisitionSubType;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.ButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.GDAClientRestException;
@@ -47,7 +47,7 @@ import uk.ac.gda.ui.tool.selectable.Lockable;
 
 public class PointAndShootComposite extends DiffractionComposite {
 
-	private static final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.STANDARD, AcquisitionTemplateType.TWO_DIMENSION_POINT);
+	private static final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.STANDARD, TrajectoryShape.TWO_DIMENSION_POINT);
 
 	private Composite parent;
 	private PointAndShootController pointAndShootController;

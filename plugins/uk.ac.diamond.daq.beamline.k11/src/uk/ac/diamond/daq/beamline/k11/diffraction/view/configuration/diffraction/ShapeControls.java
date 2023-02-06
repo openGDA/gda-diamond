@@ -35,9 +35,12 @@ import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanningParametersUtils;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 
@@ -49,7 +52,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 	private ShapeSelectionButtons buttons;
 
-	private ScanpathDocumentCache scanpathDocumentCache;
+	private ScannableTrackDocumentCache axesCache;
 
 	private RegionAndPathController mappingController;
 
@@ -61,7 +64,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	public ShapeControls(Supplier<ScanningParameters> scanningParameters, List<ShapeDescriptor> shapes) {
 		this.scanningParameters = scanningParameters;
 		this.shapes = shapes;
-		this.scanpathDocumentCache = new ScanpathDocumentCache();
+		this.axesCache = new ScannableTrackDocumentCache(getAxes());
 	}
 
 	@Override
@@ -89,6 +92,11 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 		composite.addDisposeListener(disposeEvent -> dispose());
 		return composite;
+	}
+
+	private List<ScannableTrackDocument> getAxes() {
+		var scan = scanningParameters.get().getScanpathDocument();
+		return List.of(ScanningParametersUtils.getAxis(scan, Axis.X), ScanningParametersUtils.getAxis(scan, Axis.Y));
 	}
 
 	private void handleShapeSelectionEvent(ShapeSelectionEvent event) {
@@ -123,29 +131,47 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	}
 
 	private void updateSelectionFromDocument() {
-		var shape = getInnerScanShape();
+		var shape = getShape();
 		buttons.setSelection(shape);
 	}
 
-	private AcquisitionTemplateType getInnerScanShape() {
-		var shape = scanningParameters.get().getScanpathDocument().getModelDocument();
+	private TrajectoryShape getShape() {
+		var scan = scanningParameters.get().getScanpathDocument();
+		var innerScan = scan.getTrajectories().get(0);
 
-		if (shape == AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY) {
-			// I can't handle the outer dimension, so I'll assume you want a grid
-			shape = AcquisitionTemplateType.TWO_DIMENSION_GRID;
+		if (shapes.stream().anyMatch(descriptor -> descriptor.shape().equals(innerScan.getShape()))) {
+			return innerScan.getShape();
+		} else {
+			/* TODO review this carefully.
+			 * This would be the case for Diffraction Tomography.
+			 * What do we need to happen here?
+			 * See K11-1738, K11-1739 */
+			return TrajectoryShape.TWO_DIMENSION_GRID;
 		}
 
-		return shape;
 	}
 
 	/**
 	 * Callback for button selection
 	 */
 	private void updateControls(ShapeSelectionEvent event) {
+		// cache axes relating to previous shape
+		event.previousSelection().ifPresent(previousSelection -> axesCache.cache(previousSelection, getAxes()));
+
+		// retrieve axes relating to this shape
 		var shape = event.selection();
-		var oldPath = scanningParameters.get().getScanpathDocument();
-		var document = scanpathDocumentCache.cacheAndChangeShape(oldPath, shape);
-		scanningParameters.get().setScanpathDocument(document);
+		var scan = scanningParameters.get().getScanpathDocument();
+
+		// mutate scan in place with new axes
+		ScanningParametersUtils.updateAxes(scan, axesCache.retrieve(shape));
+
+		// update shape in trajectory, if both axes are in trajectory
+		var oldTrajectory = scan.getTrajectories().stream()
+								.filter(trajectory -> trajectory.getAxes().stream().anyMatch(scannable -> scannable.getAxis().equals(Axis.X)))
+								.filter(trajectory -> trajectory.getAxes().stream().anyMatch(scannable -> scannable.getAxis().equals(Axis.Y)))
+								.findFirst();
+
+		oldTrajectory.ifPresent(trajectory -> ScanningParametersUtils.updateTrajectoryShape(scan, trajectory, shape));
 
 		if (scanpathEditor != null) {
 			scanpathEditor.dispose();
@@ -153,12 +179,12 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 		scanpathEditor = getDescriptor(event.selection()).editor().get();
 		scanpathEditor.addIObserver(this::updateScanpathDocument);
-		scanpathEditor.setModel(document);
+		scanpathEditor.setModel(scan);
 		scanpathEditor.createEditorPart(controls);
 		publishUpdate();
 	}
 
-	private ShapeDescriptor getDescriptor(AcquisitionTemplateType shape) {
+	private ShapeDescriptor getDescriptor(TrajectoryShape shape) {
 		return shapes.stream().filter(descriptor -> descriptor.shape().equals(shape)).findFirst().orElseThrow();
 	}
 
@@ -168,7 +194,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	private void updateScanpathDocument(Object source, Object argument) {
 		if (source.equals(scanpathEditor) && argument instanceof ScanpathDocument document) {
 			scanningParameters.get().setScanpathDocument(document);
-			scanpathDocumentCache.cache(document);
+			buttons.getSelection().ifPresent(shape -> axesCache.cache(shape, getAxes()));
 			publishUpdate();
 		}
 	}
@@ -179,7 +205,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 	@Override
 	public void reload() {
-		scanpathDocumentCache.cache(scanningParameters.get().getScanpathDocument());
+		buttons.getSelection().ifPresent(shape -> axesCache.cache(shape, getAxes()));
 		updateSelectionFromDocument();
 	}
 

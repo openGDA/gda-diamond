@@ -24,6 +24,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import org.eclipse.scanning.api.points.models.IMapPathModel;
 import org.eclipse.scanning.device.ui.AbstractModelEditor;
@@ -39,6 +40,7 @@ import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanningParametersUtils;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
@@ -127,9 +129,8 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	}
 
 	protected void updateAxes(ScannableTrackDocument updatedX, ScannableTrackDocument updatedY) {
-		var updatedAxes = ScanningParametersUtils.updateAxes(getModel(), List.of(updatedX, updatedY));
-		var updatedDocument = new ScanpathDocument(getModel().getModelDocument(), updatedAxes);
-		updateModel(updatedDocument);
+		ScanningParametersUtils.updateAxes(getModel(), List.of(updatedX, updatedY));
+		updateModel(getModel());
 	}
 
 	protected void updateModel(ScanpathDocument scanpathDocument) {
@@ -201,9 +202,7 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	 * corresponding to the x axis
 	 */
 	protected ScannableTrackDocument getXAxis() {
-		return getModel().getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equals(Axis.X))
-				.findFirst().orElseThrow();
+		return ScanningParametersUtils.getAxis(getModel(), Axis.X);
 	}
 
 	/**
@@ -211,17 +210,15 @@ public abstract class ScanpathEditor extends AbstractModelEditor<ScanpathDocumen
 	 * corresponding to the y axis
 	 */
 	protected ScannableTrackDocument getYAxis() {
-		return getModel().getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equals(Axis.Y))
-				.findFirst().orElseThrow();
+		return ScanningParametersUtils.getAxis(getModel(), Axis.Y);
 	}
 
 	protected boolean isContinuous() {
-		return getModel().getScannableTrackDocuments().stream().anyMatch(ScannableTrackDocument::isContinuous);
+		return Stream.of(getXAxis(), getYAxis()).anyMatch(ScannableTrackDocument::isContinuous);
 	}
 
 	protected boolean isAlternating() {
-		return getModel().getScannableTrackDocuments().stream().anyMatch(ScannableTrackDocument::isAlternating);
+		return Stream.of(getXAxis(), getYAxis()).anyMatch(ScannableTrackDocument::isAlternating);
 	}
 
 	@Override

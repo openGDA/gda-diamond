@@ -24,27 +24,27 @@ import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.region.LineMappingRegion;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.ui.tool.images.ClientImages;
 
 public enum ShapeDescriptor {
-	POINT(AcquisitionTemplateType.TWO_DIMENSION_POINT, ClientImages.POINT, new PointMappingRegion(), PointScanpathEditor::new),
-	LINE(AcquisitionTemplateType.TWO_DIMENSION_LINE, ClientImages.LINE, new LineMappingRegion(), LineScanpathEditor::new),
-	RECTANGLE(AcquisitionTemplateType.TWO_DIMENSION_GRID, ClientImages.CENTERED_RECTAGLE, new CentredRectangleMappingRegion(), RectangleScanpathEditor::new);
+	POINT(TrajectoryShape.TWO_DIMENSION_POINT, ClientImages.POINT, new PointMappingRegion(), PointScanpathEditor::new),
+	LINE(TrajectoryShape.TWO_DIMENSION_LINE, ClientImages.LINE, new LineMappingRegion(), LineScanpathEditor::new),
+	RECTANGLE(TrajectoryShape.TWO_DIMENSION_GRID, ClientImages.CENTERED_RECTAGLE, new CentredRectangleMappingRegion(), RectangleScanpathEditor::new);
 
-	private AcquisitionTemplateType shape;
+	private TrajectoryShape shape;
 	private ClientImages icon;
 	private IMappingScanRegionShape mappingRegion;
 	private Supplier<ScanpathEditor> editor;
 
-	ShapeDescriptor(AcquisitionTemplateType shape, ClientImages icon, IMappingScanRegionShape mappingRegion, Supplier<ScanpathEditor> editor) {
+	ShapeDescriptor(TrajectoryShape shape, ClientImages icon, IMappingScanRegionShape mappingRegion, Supplier<ScanpathEditor> editor) {
 		this.shape = shape;
 		this.icon = icon;
 		this.mappingRegion = mappingRegion;
 		this.editor = editor;
 	}
 
-	public AcquisitionTemplateType shape() {
+	public TrajectoryShape shape() {
 		return shape;
 	}
 

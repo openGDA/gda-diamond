@@ -37,7 +37,7 @@ import uk.ac.diamond.daq.mapping.ui.controller.ScanningAcquisitionController;
 import uk.ac.gda.api.acquisition.AcquisitionKeys;
 import uk.ac.gda.api.acquisition.AcquisitionPropertyType;
 import uk.ac.gda.api.acquisition.AcquisitionSubType;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.AcquisitionCompositeButtonGroupFactoryBuilder;
 import uk.ac.gda.client.exception.AcquisitionControllerException;
@@ -51,7 +51,7 @@ public class DiffractionComposite implements NamedCompositeFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(DiffractionComposite.class);
 	private final Supplier<Composite> buttonsCompositeSupplier;
-	private static final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.STANDARD, AcquisitionTemplateType.TWO_DIMENSION_POINT);
+	private static final AcquisitionKeys key = new AcquisitionKeys(AcquisitionPropertyType.DIFFRACTION, AcquisitionSubType.STANDARD, TrajectoryShape.TWO_DIMENSION_POINT);
 
 	private DiffractionScanControls scanControls;
 

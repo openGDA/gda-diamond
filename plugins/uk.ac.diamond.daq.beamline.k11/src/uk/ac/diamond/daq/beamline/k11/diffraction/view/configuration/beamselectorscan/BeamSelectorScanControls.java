@@ -56,6 +56,7 @@ import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent;
 import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEvent.UpdatedProperty;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.region.PointMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
@@ -122,8 +123,8 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 		separator(twoColumnComposite);
 		createDiffractionBeamControl(twoColumnComposite);
 
-		createProcessingSection(composite);
 		createSummary(composite);
+		createProcessingSection(composite);
 
 		initialiseControls();
 
@@ -157,8 +158,12 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void setNumberOfCycles(int points) {
-		getScanningParameters().getScanpathDocument().getScannableTrackDocuments().iterator().next().setPoints(points);
+		getAxis().setPoints(points);
 		publishEvent(UpdatedProperty.PATH);
+	}
+
+	private ScannableTrackDocument getAxis() {
+		return getScanningParameters().getScanpathDocument().getTrajectories().get(0).getAxes().get(0);
 	}
 
 	private void publishEvent(UpdatedProperty updatedProperty) {
@@ -400,8 +405,7 @@ class BeamSelectorScanControls implements CompositeFactory, Reloadable {
 	}
 
 	private void initialiseCycles() {
-		cycles.setText(String.valueOf(getScanningAcquisitionTemporaryHelper().getScannableTrackDocuments().iterator().next().getPoints()));
-
+		cycles.setText(String.valueOf(getAxis().getPoints()));
 	}
 
 	private void initialiseImagingBeam() {

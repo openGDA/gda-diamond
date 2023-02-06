@@ -31,7 +31,9 @@ import gda.rcp.views.Browser;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanningParametersUtils;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
+import uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientMessagesUtility;
 import uk.ac.gda.ui.tool.browser.IComparableStyledLabelProvider;
@@ -55,32 +57,33 @@ class DetailsLabelProvider extends LabelProvider implements IComparableStyledLab
 		return new StyledString(message);
 	}
 
-	private String getDetailsSummary(ScanpathDocument scanpathDocument) {
-		return switch (scanpathDocument.getModelDocument()) {
-			case DIFFRACTION_TOMOGRAPHY -> getThreeDimensionalGridDetails(scanpathDocument);
-			case TWO_DIMENSION_GRID -> getGridDetails(scanpathDocument);
-			case TWO_DIMENSION_LINE -> getLineDetails(scanpathDocument);
-			case TWO_DIMENSION_POINT -> getPointDetails(scanpathDocument);
-			case STATIC_POINT -> getBeamSelectorScanDetails(scanpathDocument);
+	private String getDetailsSummary(ScanpathDocument scan) {
+		var trajectories = scan.getTrajectories();
+		return switch (trajectories.size()) {
+			case 2 -> getThreeDimensionalGridDetails(scan);
+			case 1 ->
+				switch (trajectories.get(0).getShape()) {
+					case STATIC_POINT -> getBeamSelectorScanDetails(trajectories.get(0));
+					case TWO_DIMENSION_GRID -> getGridDetails(trajectories.get(0));
+					case TWO_DIMENSION_LINE -> getLineDetails(trajectories.get(0));
+					case TWO_DIMENSION_POINT -> getPointDetails(trajectories.get(0));
+					default -> "Details unavailable";
+				};
+
 			default -> "Details unavailable";
 		};
 	}
 
-	private String getThreeDimensionalGridDetails(ScanpathDocument scanpathDocument) {
-		var x = getAxis(Axis.X, scanpathDocument);
-		var y = getAxis(Axis.Y, scanpathDocument);
-		var theta = getAxis(Axis.THETA, scanpathDocument);
+	private String getThreeDimensionalGridDetails(ScanpathDocument scan) {
+		var x = ScanningParametersUtils.getAxis(scan, Axis.X);
+		var y = ScanningParametersUtils.getAxis(scan, Axis.Y);
+		var theta = ScanningParametersUtils.getAxis(scan, Axis.THETA);
 		return String.format("%d (X) x %d (Y) x %d (θ) points", x.getPoints(), y.getPoints(), theta.getPoints());
 	}
 
-	private ScannableTrackDocument getAxis(Axis axis, ScanpathDocument document) {
-		return document.getScannableTrackDocuments().stream()
-				.filter(doc -> doc.getAxis().equals(axis)).findFirst().orElseThrow();
-	}
-
-	private String getGridDetails(ScanpathDocument scanpathDocument) {
-		ScannableTrackDocument track1 = scanpathDocument.getScannableTrackDocuments().get(0);
-		ScannableTrackDocument track2 = scanpathDocument.getScannableTrackDocuments().get(1);
+	private String getGridDetails(Trajectory trajectory) {
+		ScannableTrackDocument track1 = trajectory.getAxes().get(0);
+		ScannableTrackDocument track2 = trajectory.getAxes().get(1);
 		String axes = getAxesString(track1, track2);
 		return String.format("%s%d x %d points; (%.1f, %.1f) to (%.1f, %.1f)",
 				axes,
@@ -89,9 +92,9 @@ class DetailsLabelProvider extends LabelProvider implements IComparableStyledLab
 				track1.getStop(), track2.getStop());
 	}
 
-	private String getLineDetails(ScanpathDocument scanpathDocument) {
-		ScannableTrackDocument track1 = scanpathDocument.getScannableTrackDocuments().get(0);
-		ScannableTrackDocument track2 = scanpathDocument.getScannableTrackDocuments().get(1);
+	private String getLineDetails(Trajectory trajectory) {
+		ScannableTrackDocument track1 = trajectory.getAxes().get(0);
+		ScannableTrackDocument track2 = trajectory.getAxes().get(1);
 		String axes = getAxesString(track1, track2);
 		return String.format("%s%d points; (%.1f, %.1f) to (%.1f, %.1f)",
 				axes,
@@ -100,17 +103,17 @@ class DetailsLabelProvider extends LabelProvider implements IComparableStyledLab
 				track1.getStop(), track2.getStop());
 	}
 
-	private String getPointDetails(ScanpathDocument scanpathDocument) {
-		ScannableTrackDocument track1 = scanpathDocument.getScannableTrackDocuments().get(0);
-		ScannableTrackDocument track2 = scanpathDocument.getScannableTrackDocuments().get(1);
+	private String getPointDetails(Trajectory trajectory) {
+		ScannableTrackDocument track1 = trajectory.getAxes().get(0);
+		ScannableTrackDocument track2 = trajectory.getAxes().get(1);
 		String axes = getAxesString(track1, track2);
 		return String.format("%s(%.1f, %.1f)",
 				axes,
 				track1.getStart(), track2.getStart());
 	}
 
-	private String getBeamSelectorScanDetails(ScanpathDocument scanpathDocument) {
-		return String.format("%d points", scanpathDocument.getScannableTrackDocuments().get(0).getPoints());
+	private String getBeamSelectorScanDetails(Trajectory trajectory) {
+		return String.format("%d points", trajectory.getAxes().get(0).getPoints());
 	}
 
 	private String getAxesString(ScannableTrackDocument track1, ScannableTrackDocument track2) {
@@ -132,8 +135,8 @@ class DetailsLabelProvider extends LabelProvider implements IComparableStyledLab
 				ScanningParameters first = ScanningAcquisitionBrowserBase.getAcquisitionParameters(element1);
 				ScanningParameters second = ScanningAcquisitionBrowserBase.getAcquisitionParameters(element2);
 
-				return direction * (first.getScanpathDocument().getScannableTrackDocuments().get(0).getPoints()
-						< second.getScanpathDocument().getScannableTrackDocuments().get(0).getPoints() ? 1 : -1);
+				return direction * (first.getScanpathDocument().getTrajectories().get(0).getAxes().get(0).getPoints()
+						< second.getScanpathDocument().getTrajectories().get(0).getAxes().get(0).getPoints() ? 1 : -1);
 			}
 		};
 	}

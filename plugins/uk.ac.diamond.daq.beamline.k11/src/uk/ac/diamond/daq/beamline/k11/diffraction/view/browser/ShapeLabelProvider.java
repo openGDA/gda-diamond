@@ -22,7 +22,6 @@ import static uk.ac.gda.ui.tool.browser.ScanningAcquisitionBrowserBase.getAcquis
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Optional;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -34,8 +33,7 @@ import org.eclipse.swt.graphics.Image;
 
 import gda.rcp.views.Browser;
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
-import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanpathDocument;
-import uk.ac.gda.api.acquisition.AcquisitionTemplateType;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 import uk.ac.gda.ui.tool.browser.IComparableStyledLabelProvider;
 import uk.ac.gda.ui.tool.images.ClientImages;
@@ -47,14 +45,17 @@ import uk.ac.gda.ui.tool.images.ClientImages;
  */
 class ShapeLabelProvider extends LabelProvider implements IComparableStyledLabelProvider {
 
-	private static final Map<AcquisitionTemplateType, ClientImages> ICONS = new EnumMap<>(AcquisitionTemplateType.class);
+	private static final Map<TrajectoryShape, ClientImages> ICONS = new EnumMap<>(TrajectoryShape.class);
+
+	public ShapeLabelProvider() {
+		System.out.println("ShapeLabelProvider created :-)");
+	}
 
 	static {
-		ICONS.put(AcquisitionTemplateType.TWO_DIMENSION_POINT, ClientImages.POINT);
-		ICONS.put(AcquisitionTemplateType.TWO_DIMENSION_LINE, ClientImages.LINE);
-		ICONS.put(AcquisitionTemplateType.TWO_DIMENSION_GRID, ClientImages.CENTERED_RECTAGLE);
-		ICONS.put(AcquisitionTemplateType.STATIC_POINT, ClientImages.BEAM_SELECTOR);
-		ICONS.put(AcquisitionTemplateType.DIFFRACTION_TOMOGRAPHY, ClientImages.CUBE);
+		ICONS.put(TrajectoryShape.TWO_DIMENSION_POINT, ClientImages.POINT);
+		ICONS.put(TrajectoryShape.TWO_DIMENSION_LINE, ClientImages.LINE);
+		ICONS.put(TrajectoryShape.TWO_DIMENSION_GRID, ClientImages.CENTERED_RECTAGLE);
+		ICONS.put(TrajectoryShape.STATIC_POINT, ClientImages.BEAM_SELECTOR);
 	}
 
 	/**
@@ -62,13 +63,14 @@ class ShapeLabelProvider extends LabelProvider implements IComparableStyledLabel
 	 */
 	@Override
 	public Image getImage(Object element) {
-		ClientImages clientimage = Optional.ofNullable(getAcquisitionParameters(element))
-			.map(ScanningParameters::getScanpathDocument)
-			.map(ScanpathDocument::getModelDocument)
-			.map(ICONS::get)
-			.orElseGet(() -> ClientImages.NO_IMAGE);
+		var trajectories = getAcquisitionParameters(element).getScanpathDocument().getTrajectories();
+		ClientImages icon = switch (trajectories.size()) {
+			case 1 -> ICONS.getOrDefault(trajectories.get(0).getShape(), ClientImages.NO_IMAGE);
+			case 2 -> ClientImages.CUBE;
+			default -> ClientImages.NO_IMAGE;
+		};
 
-		return ClientSWTElements.getImage(clientimage);
+		return ClientSWTElements.getImage(icon);
 	}
 
 	/**
@@ -84,8 +86,8 @@ class ShapeLabelProvider extends LabelProvider implements IComparableStyledLabel
 		return new ViewerComparator() {
 			@Override
 			public int compare(Viewer viewer, Object element1, Object element2) {
-				AcquisitionTemplateType first = getAcquisitionParameters(element1).getScanpathDocument().getModelDocument();
-				AcquisitionTemplateType second = getAcquisitionParameters(element2).getScanpathDocument().getModelDocument();
+				TrajectoryShape first = getAcquisitionParameters(element1).getScanpathDocument().getTrajectories().get(0).getShape();
+				TrajectoryShape second = getAcquisitionParameters(element2).getScanpathDocument().getTrajectories().get(0).getShape();
 
 				int direction = ((TreeViewer) viewer).getTree().getSortDirection() == SWT.UP ? 1 : -1;
 				return direction * (first.ordinal() < second.ordinal() ? 1 : -1);
