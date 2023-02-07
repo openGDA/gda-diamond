@@ -8,8 +8,6 @@
 
     <context:property-placeholder/>
 
-    <bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
     <bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
         <property name="clientFileAnnouncerName" value="client_file_announcer"/>
     </bean>

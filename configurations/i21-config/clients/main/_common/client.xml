@@ -19,7 +19,4 @@
 	<!-- mapping perspective -->
 	<import resource="../../../../../../gda-core.git/core-config/clients/_common/mapping_view.xml"/>
 	<import resource="mapping.xml"/>
-
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 </beans>

@@ -12,9 +12,6 @@
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
 
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
 	<!-- =========================================================== -->
 	<!-- 	mode-specific files -->
 	<!-- =========================================================== -->

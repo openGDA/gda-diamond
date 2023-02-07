@@ -91,7 +91,4 @@
 		</property>
 	</bean>
  -->
-
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 </beans>

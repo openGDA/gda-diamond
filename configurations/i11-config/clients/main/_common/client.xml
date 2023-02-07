@@ -14,9 +14,6 @@
 <!-- import server objects required in GUI -->
 	<context:property-placeholder />
 
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
 	<bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
 		<property name="clientFileAnnouncerName" value="client_file_announcer"/>
 	</bean>

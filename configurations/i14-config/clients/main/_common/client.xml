@@ -40,8 +40,4 @@
 	<import resource="file:${gda.config}/clients/main/_common/detector_cover.xml" />
 
 	<import resource="file://${gda.facility.dir}/clients/_common/serverFileListener.xml" />
-
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
 </beans>
