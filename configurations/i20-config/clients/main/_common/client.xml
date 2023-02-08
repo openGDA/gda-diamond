@@ -14,6 +14,7 @@
 
 	<import resource="spreadsheet-view.xml" />
 	<import resource="detector-rate-views.xml" />
+	<import resource="camera-streams.xml" />
 	
 	<!-- Synoptic GUIs -->
 	<!--  set to 'true' to show mouse coordinates in synoptic views (useful when setting up views) -->

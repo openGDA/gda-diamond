@@ -135,7 +135,7 @@
 		<property name="trajectoryStepSize" value="0.1" />
 		<property name="horizontalCrystalOffset" value="130" />
 		<property name="absoluteXPos" value="true" />
-		<property name="detectorAxisAngle" value="30" />
+		<property name="detectorAxisAngle" value="-20" />
 		<property name="upperRow" value="true" />
 	</bean>
 	
